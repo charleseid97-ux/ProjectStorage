@@ -1,0 +1,62 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId"
+                controller="StrengthsAndWeaknessesManagerCtrl"  access="global">
+    
+    <aura:attribute name="parentObjectId" type="String" access="global"/>
+    <aura:attribute name="currentObjectId" type="String" access="global"/>
+    <aura:attribute name="parentRecordId" type="String" access="global"/>
+    <aura:attribute name="sObjectType" type="String" access="global"/>
+    <aura:attribute name="strengths" type="String" access="global"/>
+    <aura:attribute name="mode" type="String" access="global"/>
+    <aura:attribute name="customObjectManagement" type="String" access="global"/>
+    <aura:attribute name="viewCustomObjectManagement" type="Boolean" access="global"/>
+    <aura:attribute name="strengthsAndWeaknesses" type="Object" access="global"/>
+    <aura:attribute name="message" type="String" access="global"/>
+    <aura:attribute name="headerLabel" type="String" access="global" default="New Strength"/>
+    <aura:attribute name="objInfo" type="case" default="{sobjectType : 'Strengths_and_Weaknesses__c'}" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <aura:if isTrue="{!v.viewCustomObjectManagement}">
+        
+        <!--###### MODAL BOX Start From Here ######--> 
+        <div role="dialog" tabindex="-1" aria-labelledby="header99" class="slds-modal slds-fade-in-open ">
+            <div class="slds-modal__container">
+                <!-- ###### MODAL BOX HEADER Part Start From Here ######-->
+                <div class="slds-modal__header">
+                    <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" onclick="{!c.closeComponent}">
+                        X
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="header99" class="slds-text-heading--medium">{!v.headerLabel}</h2>
+                </div>
+                <!--###### MODAL BOX BODY Part Start From Here ######-->
+                
+                <div class="slds-modal__content slds-p-around--medium">
+                    <span style="color : red">{!v.message}</span>
+                    <div class="slds-grid slds-wrap">
+                        
+                        <div class="slds-col slds-size_1-of-1"  style="padding : 3px">
+                            <ui:inputselect aura:id="strengthType" required="true" label="Strength Type" value="{!v.strengthsAndWeaknesses.Strength_Type__c}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1"  style="padding : 3px">
+                            <ui:inputTextArea aura:id="strength" required="true" label="Strength"  value="{!v.strengthsAndWeaknesses.Strength__c}" rows="5"/>
+                        </div>
+                        
+                        <div class="slds-col slds-size_3-of-4">
+                        </div>
+                        <div class="slds-col slds-size_1-of-4" style="margin-top: 20px;">
+                            <lightning:button label="Cancel" onclick="{!c.closeComponent}"/>
+                            <lightning:button variant="brand" label="Save" onclick="{!c.saveComponent}"/>
+                        </div>
+                    </div>
+                </div>
+                <!--###### MODAL BOX FOOTER Part Start From Here ######-->
+                
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open"></div>
+        <!--###### MODAL BOX Part END Here ######--> 
+        
+    </aura:if>
+    
+</aura:component>

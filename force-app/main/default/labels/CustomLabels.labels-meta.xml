@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>ADD_TO_EVENT_CAMPAIGN</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ADD TO EVENT CAMPAIGN</shortDescription>
+        <value>Campaign</value>
+    </labels>
+    <labels>
+        <fullName>ADD_TO_EVENT_ERROR</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ADD TO EVENT ERROR</shortDescription>
+        <value>An error occured while creating the members.</value>
+    </labels>
+    <labels>
+        <fullName>ADD_TO_EVENT_KEEP_STATUS</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ADD TO EVENT KEEP STATUS</shortDescription>
+        <value>Keep Status if member exists</value>
+    </labels>
+    <labels>
+        <fullName>ADD_TO_EVENT_SELECT_AT_LEAST</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ADD TO EVENT SELECT AT LEAST</shortDescription>
+        <value>Select at least one record and try again.</value>
+    </labels>
+    <labels>
+        <fullName>ADD_TO_EVENT_SELECT_CATEG</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ADD TO EVENT SELECT CATEG</shortDescription>
+        <value>Please select a value</value>
+    </labels>
+    <labels>
+        <fullName>ADD_TO_EVENT_SUCCESS</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ADD TO EVENT SUCCESS</shortDescription>
+        <value>Campaign members has been created successfully.</value>
+    </labels>
+    <labels>
+        <fullName>ADD_TO_EVENT_TITLE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ADD TO EVENT TITLE</shortDescription>
+        <value>Choose Campaign and Category</value>
+    </labels>
+    <labels>
+        <fullName>AddingAlertsPerType</fullName>
+        <categories>Alerts</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AddingAlertsPerType</shortDescription>
+        <value>Subscribing to all shares per alert types</value>
+    </labels>
+    <labels>
+        <fullName>AddingAllAlerts</fullName>
+        <categories>Alerts</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AddingAllAlerts</shortDescription>
+        <value>Subscribing to all alerts. Please wait...</value>
+    </labels>
+    <labels>
+        <fullName>CAMPAIGN_MEMBER_TEMPLATE_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CAMPAIGN_MEMBER_TEMPLATE_URL</shortDescription>
+        <value>https://carmignac-crm.my.salesforce.com/sfc/p/58000000ZABI/a/1i00000110Zq/ZZjI2Nfk_e9MNmnLdWLYGZDHCsCz5qBEjsn.27b1Tz0</value>
+    </labels>
+    <labels>
+        <fullName>CPGN_Add_To_Campaign</fullName>
+        <categories>CPGN, Campaign, Add2Campaign</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CPGN_Add_To_Campaign</shortDescription>
+        <value>Add to Campaign</value>
+    </labels>
+    <labels>
+        <fullName>CPGN_Campaign</fullName>
+        <categories>CPGN, Campaign, Add2Campaign</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CPGN_Campaign</shortDescription>
+        <value>Campaign</value>
+    </labels>
+    <labels>
+        <fullName>CPGN_Cancel</fullName>
+        <categories>CPGN, Campaign, Add2Campaign</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CPGN_Cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>CPGN_Category</fullName>
+        <categories>CPGN, Campaign, Add2Campaign</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CPGN_Category</shortDescription>
+        <value>Category</value>
+    </labels>
+    <labels>
+        <fullName>CPGN_Keep_Existing_Status</fullName>
+        <categories>CPGN, Campaign, Add2Campaign</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CPGN_Keep_Existing_Status</shortDescription>
+        <value>Keep Status if member exists</value>
+    </labels>
+    <labels>
+        <fullName>CPGN_Member_Status</fullName>
+        <categories>CPGN, Campaign, Add2Campaign</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CPGN_Member_Status</shortDescription>
+        <value>Member Status</value>
+    </labels>
+    <labels>
+        <fullName>CPGN_Name_Start_With</fullName>
+        <categories>CPGN, Campaign, Add2Campaign</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CPGN_Name_Start_With</shortDescription>
+        <value>Campaign Name starts with (one char at least)</value>
+    </labels>
+    <labels>
+        <fullName>CPGN_Pick_Campaign_And_Category</fullName>
+        <categories>CPGN, Campaign, Add2Campaign</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CPGN_Pick_Campaign_And_Category</shortDescription>
+        <value>Pick Campaign and Category</value>
+    </labels>
+    <labels>
+        <fullName>CPGN_Selected_contact</fullName>
+        <categories>CPGN, Campaign, Add2Campaign</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CPGN_Selected_contact</shortDescription>
+        <value>Selected Record(s)</value>
+    </labels>
+    <labels>
+        <fullName>CarmignacAssetsRecordTypeID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Carmignac Assets Record Type ID</shortDescription>
+        <value>01258000000ce6f</value>
+    </labels>
+    <labels>
+        <fullName>CarmignacEntity</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Used in AgreementUtil Class method getallLegalEntities</shortDescription>
+        <value>Carmignac Entity</value>
+    </labels>
+    <labels>
+        <fullName>Compliance_Clearing_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Compliance Clearing Error Message</shortDescription>
+        <value>You must tick a Compliance Clearing.</value>
+    </labels>
+    <labels>
+        <fullName>ContactNotSycned</fullName>
+        <categories>Alerts</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ContactNotSynced</shortDescription>
+        <value>Error! Record is not validated or not properly synced. You are being redirected to record page.</value>
+    </labels>
+    <labels>
+        <fullName>DeleteAllAlerts</fullName>
+        <categories>Alerts</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DeleteAllAlerts</shortDescription>
+        <value>Deleting all alerts. Please wait...</value>
+    </labels>
+    <labels>
+        <fullName>DeletingAlertsPerType</fullName>
+        <categories>Alerts</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DeletingAlertsPerType</shortDescription>
+        <value>Deleting all shares per alert types</value>
+    </labels>
+    <labels>
+        <fullName>Due_Diligence_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Due Diligence Error Message</shortDescription>
+        <value>You must complete KYD Due Diligence Oversight before IS can approve</value>
+    </labels>
+    <labels>
+        <fullName>ErrorNotSync</fullName>
+        <categories>Alerts</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ErrorNotSync</shortDescription>
+        <value>Record has not yet been synced with website.</value>
+    </labels>
+    <labels>
+        <fullName>ErrorNotSyncRedirect</fullName>
+        <categories>Alerts</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ErrorNotSyncRedirect</shortDescription>
+        <value>Error! Please sync record before resetting password. You are being redirected to record. Please wait...</value>
+    </labels>
+    <labels>
+        <fullName>Error_Country_Webcommunication</fullName>
+        <categories>Errors</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error Country - Webcommunication</shortDescription>
+        <value>Contact&apos;s website country does not correspond to share class selected countries. Please update the share class field.</value>
+    </labels>
+    <labels>
+        <fullName>KYCDocStatus</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>used in VFC01_KYCDocuments</shortDescription>
+        <value>Uploaded</value>
+    </labels>
+    <labels>
+        <fullName>KYC_Action</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>KYC Action</shortDescription>
+        <value>Action</value>
+    </labels>
+    <labels>
+        <fullName>KYC_Date_of_Birth</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>KYC Date of Birth</shortDescription>
+        <value>Date of Birth</value>
+    </labels>
+    <labels>
+        <fullName>KYC_First_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>KYC First Name</shortDescription>
+        <value>First Name</value>
+    </labels>
+    <labels>
+        <fullName>KYC_Last_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>KYC Last Name</shortDescription>
+        <value>Last Name</value>
+    </labels>
+    <labels>
+        <fullName>KYC_Role</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>KYC Role</shortDescription>
+        <value>Role</value>
+    </labels>
+    <labels>
+        <fullName>KYDocStatusPending</fullName>
+        <categories>Used in VFC01_KYDocuments</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>KYDocStatusPending</shortDescription>
+        <value>Pending</value>
+    </labels>
+    <labels>
+        <fullName>KYDocStatusReceived</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>KYDocStatusReceived</shortDescription>
+        <value>Received</value>
+    </labels>
+    <labels>
+        <fullName>RedirectAlerts</fullName>
+        <categories>Alerts</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RedirectAlerts</shortDescription>
+        <value>Please wait, you are being redirected... Please refresh the record page once it is loaded to see the changes.</value>
+    </labels>
+    <labels>
+        <fullName>ResetingPassword</fullName>
+        <categories>Alerts</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ResetingPassword</shortDescription>
+        <value>Resetting ProSpace Password. Please wait...</value>
+    </labels>
+    <labels>
+        <fullName>Risk_level_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Risk level Error Message</shortDescription>
+        <value>You must select a Risk Level.</value>
+    </labels>
+    <labels>
+        <fullName>SyncingToWebsite</fullName>
+        <categories>Alerts</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SyncingToWebsite</shortDescription>
+        <value>Syncing to Website. Please wait...</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Error_Apex</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Error_Apex</shortDescription>
+        <value>Apex error</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Error_JavaScriptResources</fullName>
+        <categories>TImeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Error_JavaScriptResources</shortDescription>
+        <value>Unable to load JavaScript resources</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Error_NoDataHeader</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Error_NoDataHeader</shortDescription>
+        <value>No data to display</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Error_NoDataSubHeader</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Error_NoDataSubHeader</shortDescription>
+        <value>Related records show up here on an interactive timeline. Check your filter or create a record.</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Error_Setup</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Error_Setup</shortDescription>
+        <value>Setup error</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Error_Unhandled</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Error_Unhandled</shortDescription>
+        <value>Houston..we&apos;ve had a problem</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Label_Apply</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Label_Apply</shortDescription>
+        <value>Apply</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Label_Cancel</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Label_Cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Label_Date_Range_Legend</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Label_Date_Range_Legend</shortDescription>
+        <value>Date Range</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Label_Days</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Label_Days</shortDescription>
+        <value>day(s)</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Label_Files</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Label_Files</shortDescription>
+        <value>Files | Notes</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Label_Filter_All_Types</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Label_Filter_All_Types</shortDescription>
+        <value>All Types</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Label_Filter_Type_Legend</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Label_Filter_Type_Legend</shortDescription>
+        <value>Types to Show</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Label_Filters</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Label_Filters</shortDescription>
+        <value>Filters</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Label_Items</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Label_Items</shortDescription>
+        <value>item(s)</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Label_Showing</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Label_Showing</shortDescription>
+        <value>Showing:</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Navigation_Toast_Body</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Navigation_Toast_Body</shortDescription>
+        <value>Records of type &apos;{0}&apos; are not supported.</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Navigation_Toast_Header</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Navigation_Toast_Header</shortDescription>
+        <value>Navigation Not Permitted</value>
+    </labels>
+    <labels>
+        <fullName>UnknownCompetitorAssetsRecordTypeID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Unknown Competitor Assets Record Type ID</shortDescription>
+        <value>01258000000ce6h</value>
+    </labels>
+    <labels>
+        <fullName>VR01_AGREEMENT_ROLE_UNIQUENESS</fullName>
+        <categories>Validation</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>VR01_AGREEMENT_ROLE_UNIQUENESS</shortDescription>
+        <value>This role already exist for this legal entity and agreement</value>
+    </labels>
+    <labels>
+        <fullName>Validate_Agreement_Roles_Error_message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Validate Agreement Roles Error message</shortDescription>
+        <value>You must validate Agreement Roles.</value>
+    </labels>
+    <labels>
+        <fullName>WTPccAddresses</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>WTPccAddresses</shortDescription>
+        <value>datasolutions@carmignac.com</value>
+    </labels>
+    <labels>
+        <fullName>WebsiteProspaceId</fullName>
+        <categories>Salesforce ID</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>WebsiteProspaceId</shortDescription>
+        <value>00558000002Fj01AAC</value>
+    </labels>
+    <labels>
+        <fullName>Website_Recordtype_Name</fullName>
+        <categories>RecordtypeName</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Website Recordtype Name</shortDescription>
+        <value>Website Lead</value>
+    </labels>
+    <labels>
+        <fullName>Website_Sync_Failed</fullName>
+        <categories>Alerts</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Website Sync Failed</shortDescription>
+        <value>Synced failed. Please fill in all the website fields.</value>
+    </labels>
+</CustomLabels>

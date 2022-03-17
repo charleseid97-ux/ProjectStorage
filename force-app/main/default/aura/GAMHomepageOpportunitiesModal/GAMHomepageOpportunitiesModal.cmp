@@ -1,0 +1,36 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,flexipage:availableForAllPageTypes,force:appHostable,lightning:actionOverride,force:hasRecordId" access="global" >
+
+    <aura:attribute name="GAMId" type="string" description="Id of the GAM" />
+    <aura:attribute name="GAMAccount" type="Account" description="GAM Account" />
+    <aura:attribute name="GAMAccountName" type="String" description="GAM Account Name" />
+    <aura:attribute name="viewOpportunitiesComponent" type="Boolean" access="global"/>
+
+    
+    <aura:if isTrue="{!v.viewOpportunitiesComponent}">
+    <!--###### MODAL BOX Start From Here ######--> 
+    <div role="dialog" tabindex="-1" aria-labelledby="header99" class="slds-modal slds-fade-in-open ">
+        <div class="slds-modal__container" style="min-width:800px;">
+            <div class="slds-modal__header">
+                <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" onclick="{!c.closeComponent}">
+                    X
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <h1 id="header99" class="slds-text-heading--medium">{!v.GAMAccount.Name} Aggregated Open Opportunities</h1>
+            </div>
+
+            <div class="slds-modal__content slds-p-around--large">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_1-of-1">
+                        <c:OpenOpportunitiesInAccHierarchy organisationId="{!v.GAMId}" />
+                    </div>
+                </div>
+            </div>
+            <div class="slds-modal__footer">
+                <lightning:button label="Close" onclick="{!c.closeComponent}"/>
+            </div>
+        </div>
+    </div>
+    
+    <div class="slds-backdrop slds-backdrop--open"></div>
+    </aura:if>
+</aura:component>

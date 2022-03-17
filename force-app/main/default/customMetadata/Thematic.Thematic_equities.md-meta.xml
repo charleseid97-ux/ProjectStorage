@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Thematic equities</label>
+    <protected>false</protected>
+    <values>
+        <field>Thematic__c</field>
+        <value xsi:type="xsd:string">Thematic equities</value>
+    </values>
+    <values>
+        <field>Thematic_values__c</field>
+        <value xsi:type="xsd:string">actions-thematiques;thematic-equities;renta-variable-tematica;azioni-tematiche;thematische-aktien;thematische-aandelen;carmignac-investissement;grandchildren;family-governed;david-older;strategie-actions;equity-strategy;estrategia-de-renta-variable;strategia-azionaria;aktienstrategie;aandelenstrategie;thematic-equities</value>
+    </values>
+</CustomMetadata>

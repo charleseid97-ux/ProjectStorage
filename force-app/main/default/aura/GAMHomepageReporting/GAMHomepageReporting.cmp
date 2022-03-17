@@ -1,0 +1,51 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId,force:hasSObjectName"             
+                controller="GAMHomepageCtrl" access="global">
+
+    <aura:attribute name="recordId" type="String" access="global" default="" />
+    <aura:attribute name="GAMId" type="String" access="global" default="" />
+    <aura:attribute name="GAMAccount" type="Account" access="global"/>    
+    <aura:attribute name="description" type="String" access="global"/>
+
+    <aura:attribute name="taxiImage" type="String" access="global" default="/resource/GAMHomepageIcons/Taxi_Report_icon_100x100_Black.png"/>
+    <aura:attribute name="mgmtImage" type="String" access="global" default="/resource/GAMHomepageIcons/Management_reports_icon_100x100_Black.png"/>
+    <aura:attribute name="dailyImage" type="String" access="global" default="/resource/GAMHomepageIcons/Daily_reports_icon_100x100_Black.png"/>
+
+    <aura:attribute name="processComponent" type="String" access="global"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <!-- you need to change ** to - - without space if you remove comment on section
+    {!v.processComponent}
+
+    <div class="slds-card_boundary slds-card forceRelatedListCardDesktop slds-scrollable">
+        <div style="padding : 1em;">
+            <label class="slds-text-heading**small slds-truncate slds-m-right**xx-small" style="margin-left : 0.75em"><b>Reporting</b></label>
+            <div style="width:100%;text-align:center;height:20px;">{!v.description}</div>
+        </div>
+        <div class="slds-scrollable">
+            <div class="slds-grid slds-wrap slds-scrollable">
+                    <div class="slds-col**padded slds-size**1-of-1 slds-medium-size**1-of-2 slds-large-size**1-of-3" style="text-align:center;">
+                        <lightning:card >
+                            <a onclick="#" onmouseover="{!c.showTaxiDescription}" onmouseout="{!c.hideDescription}" ><img src="{!v.taxiImage}" style="height:100px;" />
+                            <br/>
+                            <div class="slds-text-heading**medium">Taxi Report</div></a>
+                        </lightning:card>
+                    </div>
+                    <div class="slds-col**padded slds-size**1-of-1 slds-medium-size**1-of-2 slds-large-size**1-of-3" style="text-align:center;">
+                        <lightning:card >
+                            <a onclick="#" onmouseover="{!c.showMGMTDescription}" onmouseout="{!c.hideDescription}" ><img src="{!v.mgmtImage}" style="height:100px;" />
+                            <br/>
+                            <div class="slds-text-heading**medium">Management Reports</div></a>
+                        </lightning:card>
+                    </div>
+                    <div class="slds-col**padded slds-size**1-of-1 slds-medium-size**1-of-2 slds-large-size**1-of-3" style="text-align:center;">
+                        <lightning:card >
+                            <a onclick="#" onmouseover="{!c.showDailyDescription}" onmouseout="{!c.hideDescription}" ><img src="{!v.dailyImage}" style="height:100px;" />
+                            <br/>
+                            <div class="slds-text-heading**medium">Daily Reports</div></a>
+                        </lightning:card>
+                    </div>
+            </div>
+        </div>
+    </div> -->
+</aura:component>

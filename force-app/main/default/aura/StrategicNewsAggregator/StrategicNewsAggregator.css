@@ -1,0 +1,11 @@
+.THIS .slds-transition-hide{
+ padding: 0.0rem;
+ opacity: 0;
+ max-height: 0;
+ transition: opacity 0.5s linear, max-height 0.5s linear, padding 0.5s linear;
+}
+
+.THIS .slds-transition-show{
+ transition: opacity 0.5s linear, max-height 0.5s linear, padding 0.5s linear;
+ height: auto;
+}

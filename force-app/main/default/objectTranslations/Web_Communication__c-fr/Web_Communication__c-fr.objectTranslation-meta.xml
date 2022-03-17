@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Prospace Alert</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Prospace Alerts</value>
+    </caseValues>
+    <gender>Neuter</gender>
+    <layouts>
+        <layout>Web Communication Layout</layout>
+        <sections>
+            <label></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Product Details</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Technical</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Web_Comm_VR01_Nav_Mandatory_Fields</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Web_Comm_VR02_CheckProspaceStatus</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Web_Comm_VR03_InvalidSite</name>
+    </validationRules>
+    <webLinks>
+        <label></label>
+        <name>Add_all</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>Delete_all</name>
+    </webLinks>
+</CustomObjectTranslation>

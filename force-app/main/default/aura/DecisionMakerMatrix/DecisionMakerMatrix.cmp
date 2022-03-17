@@ -1,0 +1,50 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId,force:hasSObjectName"             
+                controller="DecisionMakerCtrl" access="global">
+
+    <aura:attribute name="objInfo" type="case" default="{sobjectType : 'Contact'}"/>
+    <aura:attribute name="recordId" type="String" access="global"/>
+    <aura:attribute name="origRecordId" type="String" access="global"/>
+    <aura:attribute name="matrixTable" type="String" />
+    <aura:attribute name="hierarchyAccounts" type="List" access="global"/>
+    <aura:attribute name="contactList" type="List" access="global"/>
+    <aura:attribute name="contactTableMap" type="Map" access="global"/>
+    <aura:attribute name="influenceLevelMap" type="Map" access="global"/>
+    <aura:attribute name="recommendLevelMap" type="Map" access="global"/>
+    <aura:attribute name="companyDropdown" type="Boolean" access="global" default="true"/>
+    <aura:attribute name="viewFull" type="Boolean" access="global" default="false"/>
+    
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+        <div class="slds-scrollable" style="width:100%">
+            <div class="slds-grid slds-wrap slds-scrollable">
+                <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1">
+                    <c:DecisionMakerDownloadPDFButton recordId="{!v.recordId}" viewFull="{!v.viewFull}" />
+                </div>
+                <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--2-of-3">
+                    <strong>Relationship Decision Maker Matrix</strong><br/>
+                    The 'Conductor of the Orchestra' matrix helps us to better understand our relationships &amp; touchpoints across GAMs, Groups and regions.<br/>
+                    <strong>How to populate the Matrix?</strong><br/>
+                    By completing the Relationship Matrix Contact Information Section on a CONTACT page the matrix is automatically updated.<br/><br/>
+                </div>
+                <aura:if isTrue="{!v.companyDropdown}">
+                    <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-3">
+                        <lightning:select label="Select a different Company from the Hierarchy" name="a_opt" aura:id="a_opt" onchange="{!c.changeCompany}">
+                            <aura:iteration items="{!v.hierarchyAccounts}" var="account">
+                                <option value="{!account.Id}">{!account.Name}</option>
+                            </aura:iteration>
+                        </lightning:select>
+                        <br/>
+                        <aura:if isTrue="{!v.recordId == v.origRecordId}" >
+		                    <lightning:input type="checkbox" checked="{!v.viewFull}" label="View all Contacts in Hierarchy" onchange="{!c.renderToggle}" />
+                        </aura:if>
+                    </div>
+                </aura:if>
+                <div class="slds-scrollable forceBaseListView forceRelatedListPreviewGrid" data-aura-rendered-by="3133:0" data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                    <br/>
+                    <aura:unescapedHtml value="{!v.matrixTable}"/>
+                </div>
+            </div>
+        </div>
+    
+</aura:component>

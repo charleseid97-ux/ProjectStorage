@@ -1,0 +1,99 @@
+<aura:component implements="force:hasRecordId,force:appHostable,force:hasSObjectName,flexipage:availableForAllPageTypes,force:lightningQuickActionWithoutHeader"
+                controller="ContactUtil"
+				access="global">			
+				 
+	<aura:attribute name="currentOwner" type="Object" access="global"/>
+	<aura:attribute name="currentOwnerRegions" type="String" access="global"/>
+    <aura:attribute name="contactOwner" type="Object" access="global"/>
+
+    <aura:attribute name="contact" type="Contact"/>
+	<aura:attribute name="userRegions" type="String" access="global"/>
+    <aura:attribute name="newOwner" type="User" access="global"/>
+
+    <aura:attribute name="autoApproveChange" type="Boolean" default="false" access="global" />
+
+	<aura:attribute name="currentRecord" type="Object" access="global"/>
+    <aura:attribute name="viewChangeOwnershipComponent" type="Boolean" default="true" access="global"/>
+    
+    <aura:attribute name="message" type="String" access="global"/>
+	<aura:attribute name="errorManager" type="boolean" default="false" access="global"/>
+    
+    <!-- holds up the sObject -->
+    <aura:attribute name="currentSObject" type="String" default="{!v.sObjectName}"/>  
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:handler name="change" value="{!v.contactOwner}" action="{!c.changeContactOwner}"/>
+    
+    <aura:if isTrue="{!v.viewChangeOwnershipComponent}"> 
+        <div class="slds-container--center slds-container--large">
+            <article class="slds-card">
+                <aura:if isTrue="{!v.contact.Proposed_Contact_Owner__c}">
+                	There is a Pending Change Owner.
+               	</aura:if>
+                <aura:if isTrue="{! !v.contact.Proposed_Contact_Owner__c}">
+                <div class="slds-page-header">
+                    <div class="slds-grid">
+                        <div class="slds-col slds-has-flexi-truncate">
+                            <div class="slds-media slds-no-space slds-grow">
+                                <div class="slds-media__figure">
+                                    <span class="slds-icon_container slds-icon-custom-custom18" title="description of icon when needed">
+                                        <lightning:icon iconName="standard:contact" size="large" alternativeText="Move Contact"/>
+                                    </span>
+                                </div> 
+                                <div class="slds-media__body">
+                                    <p class="slds-text-title_caps slds-line-height_reset">Change Contact Owner</p>
+                                    <h1 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate" title="{!v.contact.Name}">{!v.contact.Name}</h1>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Buttons -->
+                        <div class="slds-col slds-no-flex slds-grid slds-align-top">
+                            <lightning:buttonGroup >
+    
+                                <lightning:button label="Save" onclick="{!c.save}" />
+    
+                            </lightning:buttonGroup>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form slds-form_stacked">
+                    <div aura:id="sameBDRText" class="hierarchyText slds-transition-hide" style="background-color: #a094ed;">
+                        <div class="slds-text-color_inverse">
+                            <div class="slds-text-body_small">
+                                Approval not required. The record will be updated immediately.
+                            </div>
+                        </div>
+                    </div>	
+                    <div aura:id="differentBDRText" class="hierarchyText slds-transition-hide" style="background-color: #a094ed;">
+                        <div class="slds-text-color_inverse">
+                            <div class="slds-text-body_small">
+                                Approval required before the record will be updated.
+                            </div>
+                        </div>
+                    </div>
+                    <h2 class="slds-text-heading--small">Select the new Contact Owner of {!v.contact.Name}.</h2>
+                    <br/>
+                    If the new Contact Owner belongs to a different Business Development Region this request will need approval from both HOCs.
+                    
+                    <div class="slds-large-size--1-of-1" style="padding : 1em;">
+                    <c:strike_lookup aura:id="userLookup"
+                                     label="New Owner"
+                                     object="User"
+                                     searchField="Name"
+                                     placeholder="Select a User"
+                                     iconName="standard:user"
+                                     order="Name"
+                                     limit="5"
+                                     loadingMessage="Loading..."
+                                     errorMessage="Invalid input"
+                                     value="{!v.contactOwner.Id}"
+                                     isNameSOSL="true"/>
+                        
+                    </div>
+                </div>
+                </aura:if>
+            </article>
+        </div>
+    </aura:if>
+</aura:component>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Agreement_End_Date_NOT_required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+NOT(ISPICKVAL( Status__c,&apos;Expired&apos;)),
+NOT(ISPICKVAL( Status__c, &apos;Terminated&apos;)),
+Permanent_Agreement__c == true,
+NOT(ISBLANK(ExpirationDate__c)),
+NOT($User.BypassValidationRules__c)
+)</errorConditionFormula>
+    <errorDisplayField>ExpirationDate__c</errorDisplayField>
+    <errorMessage>You must set an End Date only when the Agreement is not Permanent</errorMessage>
+</ValidationRule>

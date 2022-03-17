@@ -1,0 +1,146 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,flexipage:availableForAllPageTypes,force:appHostable,lightning:actionOverride,force:hasRecordId" access="global" 
+                controller="AccountUtil">
+	<aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="company" type="Account"/>
+    <aura:attribute name="ProcessStep" type="Integer" default="1" />
+    <aura:attribute name="recordError" type="String"/>
+    <aura:attribute name="relatedContacts" type="List"/>
+    <aura:attribute name="deactivateAllContacts" type="Boolean" default="true" />
+    <aura:attribute name="deactivateAllRelationships" type="Boolean" default="true" />
+
+    <aura:attribute name="hasContacts" type="Boolean" default="false" />
+    <aura:attribute name="hasRelated" type="Boolean" default="false" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/> 
+    
+    <!-- Outer container for component -->
+    <div class="slds-container--center slds-container--large">
+        <article class="slds-card">
+            
+            <!-- Display Lightning Data Service errors, if any -->
+            <aura:if isTrue="{!not(empty(v.recordError))}">
+                <div class="recordError">
+                    <ui:message title="Error" severity="error" closable="true">
+                        {!v.recordError}
+                    </ui:message>
+                </div>
+            </aura:if>
+            
+            <!-- Header section -->
+            <div class="slds-page-header">
+                <div class="slds-grid">
+                    <div class="slds-col slds-has-flexi-truncate">
+                        <div class="slds-media slds-no-space slds-grow">
+                            <div class="slds-media__figure">
+                                <span class="slds-icon_container slds-icon-custom-custom18" title="description of icon when needed">
+                                    <lightning:icon iconName="standard:contact" size="large" alternativeText="Move Contact"/>
+                                </span>
+                            </div>
+                            <div class="slds-media__body">
+                                <p class="slds-text-title_caps slds-line-height_reset">Manage {!v.company.Name}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Buttons -->
+                    <div class="slds-col slds-no-flex slds-grid slds-align-top">
+                        <aura:renderIf isTrue="{!v.ProcessStep==1}">
+                            <lightning:buttonGroup >
+                                <lightning:button label="Cancel" onclick="{!c.cancelDeactivate}"/>
+                            </lightning:buttonGroup>
+                        </aura:renderIf>
+                    </div>
+                </div>
+            </div>
+            
+            <aura:renderIf isTrue="{!v.ProcessStep==1}">
+
+                <div class="slds-form slds-form_stacked">
+                    <div class="slds-section slds-is-open">
+                        <div aria-hidden="false" class="slds-section__content">
+                            <p>
+                                <div class="slds-text-heading_small">Convert Company to Prospect</div>
+                                Company will remain active and all linked Contacts will remain intact.<br/><br/>
+                                <lightning:button label="Convert to Prospect" variant="brand" onclick="{!c.convertProspect}" type="submit"/><br/><br/>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slds-form slds-form_stacked">
+                    <div class="slds-section slds-is-open">	
+                        <div aria-hidden="false" class="slds-section__content">
+                            <p>
+                                <div class="slds-text-heading_small">Deactivate Company</div>
+                                Company and all Employee and external Contacts relationships will be deactivated.<br/><br/>
+                                <lightning:button label="Deactivate Company" variant="brand" onclick="{!c.deactivateCompany}" type="submit"/>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!--
+	            <aura:renderIf isTrue="{!v.hasContacts}">
+                <div class="slds-form slds-form_stacked">
+                    <div class="slds-section slds-is-open">
+                        <div aria-hidden="false" class="slds-section__content">
+                            <p>
+                                <lightning:input type="checkbox" label='Would you like to deactivate all Contacts working for this Company?' checked="{!v.deactivateAllContacts}"/>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="slds-section slds-is-open">
+                        <div aria-hidden="false" class="slds-section__content">
+                            <p>
+                                The following Contacts are set as employees:
+                                <ul class="slds-list- -dotted">
+                                <aura:iteration items="{!v.company.Contacts}" var="contact" >
+                                    <li>{!contact.Name}</li>
+                                </aura:iteration>
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                </aura:renderIf>
+
+	            <aura:renderIf isTrue="{!v.hasRelated}">
+                <div class="slds-form slds-form_stacked">
+                    <div class="slds-section slds-is-open">
+                        <div aria-hidden="false" class="slds-section__content">
+                            <p>
+                                <lightning:input type="checkbox" label='Would you like to remove all Contact Relationships?' checked="{!v.deactivateAllRelationships}"/>
+                                Note: This will not deactivate the Contacts.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="slds-section slds-is-open">
+                        <div aria-hidden="false" class="slds-section__content">
+                            <p>
+                                The following Contacts have a relationship:
+                                <ul class="slds-list- -dotted">
+                                <aura:iteration items="{!v.relatedContacts}" var="relContact" >
+                                    <li>{!relContact.Contact.Name}</li>
+                                </aura:iteration>
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                </aura:renderIf>
+                
+                <aura:renderIf isTrue="{!v.hasContacts==false}">
+                    <aura:renderIf isTrue="{!v.hasRelated==false}">
+                        <br/><br/>
+                        There are no Employee Contacts or Related Contacts associated with this Company to Deactivate.
+                    </aura:renderIf>
+                </aura:renderIf>
+				-->
+			
+            </aura:renderIf>
+            
+            <aura:renderIf isTrue="{!v.ProcessStep==2}">
+                <div style="width:100%;text-align:center;font-size:16px;"><img id="clientTier" src="/resource/HierarchyLoading" style="width:50%;"/></div>
+            </aura:renderIf>
+        </article>
+    </div>
+    
+</aura:component>

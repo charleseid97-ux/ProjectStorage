@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Easy Log</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Easy Log</value>
+    </caseValues>
+    <gender>Neuter</gender>
+    <layouts>
+        <layout>Easy Log Layout</layout>
+        <sections>
+            <label></label>
+            <section>Administration Information</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Administration Result</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Description</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Priority</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Result</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>BugLog_VR001_TestCommentMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Closed_Date_mandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Expected_date_must_be_greater_than_to</name>
+    </validationRules>
+</CustomObjectTranslation>

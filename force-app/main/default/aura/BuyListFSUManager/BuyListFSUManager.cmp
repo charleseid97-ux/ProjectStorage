@@ -1,0 +1,184 @@
+<aura:component implements="force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes" 
+                controller="FundSelectionUtil" access="global">
+    
+	<aura:attribute name="componentPage" type="String" default="tasklist" access="global"/>
+    <aura:attribute name="productList" type="Product__c[]" access="global"/>
+	<aura:attribute type="List" name="selectedProducts" default="[]" />
+    
+    <aura:attribute name="newFSU" type="Account" access="global"/>    
+
+    <aura:attribute name="parentObjectId" type="String" access="global"/>
+    <aura:attribute name="currentObjectId" type="String" access="global"/>
+	<aura:attribute name="parentRecordId" type="String" access="global"/>
+    <aura:attribute name="sObjectType" type="String" access="global"/>
+    <aura:attribute name="mode" type="String" access="global"/>
+    <aura:attribute name="customObjectManagement" type="String" access="global"/>
+    <aura:attribute name="viewCustomObjectManagement" type="Boolean" access="global"/>
+    <aura:attribute name="message" type="String" access="global"/>
+   	<aura:attribute name="objInfo" type="case" default="{sobjectType : 'Account'}" />
+    <aura:attribute name="fsuDisplay" type="Object" access="global" />
+    <aura:attribute name="today" type="Date" default=""/>
+    <aura:attribute name="headerLabel" type="String" access="global" default="Configure FSU"/>
+    <aura:attribute name="currentUserId" type="Id" default="{!$SObjectType.CurrentUser.Id}"/>
+    <aura:attribute name="foundFSUGroup" type="Boolean" default="false"/>
+    <aura:attribute name="createFSUGroup" type="Boolean" default="false"/>
+    <aura:attribute name="pOverride" type="Boolean"/>
+        
+    <aura:attribute name="processStep" type="Integer" default="0"/>
+        
+	<aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:if isTrue="{!v.viewCustomObjectManagement}">
+        
+        <!--###### MODAL BOX Start From Here ######--> 
+        <div role="dialog" tabindex="-1" aria-labelledby="header99" class="slds-modal slds-fade-in-open ">
+            <div class="slds-modal__container" style="min-width:800px;width:800px;">
+                <!-- ###### MODAL BOX HEADER Part Start From Here ######-->
+                <div class="slds-modal__header">
+                    <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" onclick="{!c.cancelNewFSU}">
+                        X
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="header99" class="slds-text-heading--medium">{!v.headerLabel}</h2>
+                </div>
+                <!--###### MODAL BOX BODY Part Start From Here ######-->
+                <div class="slds-modal__content slds-p-around--large">
+                    <span style="color : red">{!v.message}</span>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_1-of-1"  style="padding : 3px">
+                            <div class="slds-scrollable forceBaseListView forceRelatedListPreviewGrid" data-aura-rendered-by="3133:0" data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                                <div class="slds-grid slds-wrap">
+                                    
+                                    <!--Step 0-->
+                                    <aura:if isTrue="{!v.processStep==0}">
+                                        <div class="slds-col slds-size_1-of-1"  style="padding : 3px;">
+	                                        Please select whether you would like to configure an existing FSU or set up a new one
+                                        </div>
+                                        
+                                        <div class="slds-col slds-size_1-of-2"  style="padding : 10px;" align="right">
+                                            <lightning:button label="Existing FSU" onclick="{!c.existingFSU}" class="bigBTN"/>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2"  style="padding : 10px">
+                                            <lightning:button label="New FSU" onclick="{!c.newFSU}" class="bigBTN"/>
+                                        </div>
+                                        
+                                    </aura:if>
+                                    <!--Step 0.5-->
+                                    <aura:if isTrue="{!v.processStep==0.5}">
+                                        <div class="slds-col slds-size_1-of-1"  style="padding : 3px;">
+	                                        Please search for the FSU you would like to configure
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2" style="padding : 10px">
+                                            <div>
+                                                <span aura:id="FSUError" id="FSUError" style="display:inline;" class="slds-required slds-hide">
+                                                    Please select an FSU
+                                                </span>&nbsp; <br/>
+                                            </div>
+                                            <c:strike_lookup aura:id="parentId"
+                                                             label="FSU"
+                                                             object="Account"
+                                                             required="true"
+                                                             searchField="Name"
+                                                             placeholder="Select an FSU"
+                                                             iconName="standard:account"
+                                                             order="Name"
+                                                             limit="5"
+                                                             loadingMessage="Loading..."
+                                                             errorMessage="Invalid input"
+                                                             value="{!v.newFSU.Id}"
+                                                             filter="RecordType.Name='Fund Selection Unit'"/>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2"></div>
+                                        <div class="slds-col slds-size_1-of-2"></div>
+                                        <div class="slds-col slds-size_1-of-2" style="margin-top: 20px;text-align:right;">
+                                            <lightning:button label="Cancel" onclick="{!c.cancelNewFSU}"/>
+                                            <lightning:button variant="brand" label="Next" onclick="{!c.selectProducts}"/>
+                                        </div>
+                                    </aura:if>
+                                    
+                                    <!--Step 1-->
+                                    <aura:if isTrue="{!v.processStep==1}">
+                                        <div class="slds-col slds-size_1-of-1"  style="padding : 3px;">
+	                                        Enter the following information for your new FSU
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2"  style="padding : 10px">
+                                            <div>
+                                                <span aura:id="NError" id="NError" style="display:inline;" class="slds-required slds-hide">
+                                                    Please enter an FSU Name
+                                                </span>&nbsp; <br/>
+                                            </div>
+                                            <ui:inputText aura:id="name" label="FSU Name" value="{!v.fsuDisplay.Name}" />
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2"  style="padding : 10px">
+                                            <div>
+                                                <span aura:id="BRError" id="BRError" style="display:inline;" class="slds-required slds-hide">
+                                                    Please select a Business Region
+                                                </span>&nbsp;<br/>
+                                            </div>
+                                            <ui:inputSelect aura:id="businessRegion" label="Business Development Region" value="{!v.fsuDisplay.BusinessDevelopmentRegion__c }" change="{!c.checkRegion}"/>
+                                        </div>
+                                        
+                                        <aura:if isTrue="{!v.foundFSUGroup}">
+                                            <div class="slds-col slds-size_1-of-1" style="padding : 10px">
+                                                We suggest the following Parent Company based on the Business Development Region you selected.<br/>
+                                                If this is not where you would like to save this FSU or if this is an External FSU then you can remove or change the value.
+                                            </div>
+                                        </aura:if>
+                                        <aura:if isTrue="{!v.foundFSUGroup || v.pOverride}">
+                                            <div class="slds-col slds-size_1-of-2" style="padding : 10px">
+                                                <c:strike_lookup aura:id="parentId"
+                                                                 label="Parent Company"
+                                                                 object="Account"
+                                                                 searchField="Name"
+                                                                 placeholder="Select a Parent Company"
+                                                                 iconName="standard:account"
+                                                                 order="Name"
+                                                                 limit="5"
+                                                                 loadingMessage="Loading..."
+                                                                 errorMessage="Invalid input"
+                                                                 value="{!v.fsuDisplay.parentId}"/>
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-2"></div>
+                                        </aura:if>
+                                        <aura:if isTrue="{!v.createFSUGroup}">
+                                            <div class="slds-col slds-size_1-of-1">
+                                                <aura:if isTrue="{!v.pOverride!=true}">
+                                                    We couldn't find a Category based on the Region you selected so we will create one for you automatically.<br/>
+                                                    Or you can tick this box to select a Parent Company manually.<br/><br/>
+                                                </aura:if>
+                                                <ui:inputCheckbox aura:id="parentOverride" class="filterCheckbox" label="Override Parent" value="{!v.pOverride}" change="{!c.parentOverride}"/>
+                                            </div>
+                                        </aura:if>
+                                        <div class="slds-col slds-size_1-of-2"></div>
+                                        <div class="slds-col slds-size_1-of-2" style="margin-top: 20px;text-align:right;">
+                                            <lightning:button label="Cancel" onclick="{!c.cancelNewFSU}"/>
+                                            <lightning:button variant="brand" label="Next" onclick="{!c.saveNewFSU}"/>
+                                        </div>
+                                    </aura:if>
+                                    <!--Step 2-->
+                                    <aura:if isTrue="{!v.processStep==2}">
+                                        <div class="slds-text-heading_medium">{!v.newFSU.Name}</div><br/><br/>
+                                        <div class="slds-col slds-size_1-of-1">Select the Products you would like to create Buy List records for :<br/><br/></div>
+                                        <aura:iteration items="{!v.productList}" var="product">
+                                            <div class="slds-col slds-size_1-of-3"><lightning:input type="checkbox" aura:id="selProds" class="filterCheckbox" label="{!product.Name}" value="{!product.Id}" onchange="{!c.callCheckboxMethod}"/></div>
+                                        </aura:iteration>
+                                        <br/>
+                                        <div class="slds-col slds-size_1-of-1"></div>
+                                        <div class="slds-col slds-size_1-of-2"></div>
+                                        <div class="slds-col slds-size_1-of-2" style="margin-top: 20px;text-align:right;">
+                                            <lightning:button label="Cancel" onclick="{!c.cancelNewFSU}"/>
+                                            <lightning:button variant="brand" label="Create" onclick="{!c.createBuyList}"/>
+                                        </div>
+                                    </aura:if>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open"></div>
+        <!--###### MODAL BOX Part END Here ######--> 
+    </aura:if>
+    
+</aura:component>

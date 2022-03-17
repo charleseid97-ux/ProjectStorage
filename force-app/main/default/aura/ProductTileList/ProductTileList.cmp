@@ -1,0 +1,62 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId,force:hasSObjectName" 
+                controller="ProductSelectionCtrl" access="global">
+    
+    <aura:registerEvent name="ProductModalOpen" type="c:ProductSelectorInitialModal" />
+    <aura:registerEvent name="ProductSelectedModalOpen" type="c:ProductSelectorTileSelectedModal"/>
+    
+    <!-- Need to be able to register the event that will be triggerred to add the Product Selected to the Dynamic List --> 
+    <aura:registerEvent name="ProductSelectedAddToDynamicList" type="c:ProductSelectorTileSelectedAddToDynamicListOppEvt"/>
+    
+    <aura:attribute name="products" type="Product__c[]"/>
+    <aura:attribute name="selectedProductId" type="String"/>
+    <aura:attribute name="asset_classes" type="Product__c[]"/>
+    <aura:attribute name="sub_asset_classes" type="Product__c[]"/>
+    <aura:attribute name="strategies" type="Product__c[]"/> 
+    <aura:attribute name="filterObject" type="Object" />
+    <aura:attribute name="pageSize" type="integer" default="18"/>
+    <aura:attribute name="page" type="integer"/>
+    <aura:attribute name="pages" type="integer"/>
+    <aura:attribute name="total" type="integer"/>   
+    <aura:attribute name="openModalTrue" type="Boolean"/>
+    <aura:attribute name="productSelectedName" type="String"/>
+    <aura:attribute name="productSelectedId" type="String"/>
+    <aura:attribute name="sObjectName" type="String"/>
+    <aura:attribute name="OppId" type="String"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <aura:handler event="c:ProductFilterChange" action="{!c.productFilterChangeHandler}"/>
+    <!-- event that recieves the product Id from an onlcik action on the ProductTile cmp -->
+    <aura:handler event="c:ProductGetProdIdEvent" action="{!c.confirmSelectedProduct}"/>
+    
+    <aura:handler event="c:ProductSelectorPassSObjectNameEvt" action="{!c.setSObjectName}"/>
+    
+    <aura:handler name="change" value="{!v.asset_classes}" action="{!c.onAssetClassFilterChange}"/>
+    <aura:handler name="change" value="{!v.sub_asset_classes}" action="{!c.onSubAssetClassFilterChange}"/>
+    <!--aura:handler name="change" value="{!v.strategies}" action="{!c.onStrategyFilterChange}"/-->
+    <aura:handler name="change" value="{!v.openModalTrue}" action="{!c.onModalInitialization}"/>
+    <aura:handler event="force:refreshView" action="{!c.onModalInitialization}" /> 
+
+    <lightning:layout >
+        <lightning:layoutItem >
+            <lightning:icon iconName="standard:product" size="small" class="popup-icon" />
+        </lightning:layoutItem>
+        <h2 class="slds-card__header-title">
+            <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Outer Card Header">
+                <span class="slds-text-heading_small">Filter Results</span>
+            </a>
+        </h2>
+    </lightning:layout>             
+    <div>
+        <ul aura:id="list" class="slds-grid slds-grid--pull slds-wrap">
+            
+            <aura:iteration items="{!v.products}" var="product" indexVar="index">
+                <c:ProductTile product="{#product}" index="{#index}"/>
+            </aura:iteration>
+            
+        </ul>	        
+        <c:Paginator page="{!v.page}" pages="{!v.pages}" total="{!v.total}" label="products"
+                     previousPage="{!c.onPreviousPage}" nextPage="{!c.onNextPage}"/>
+    </div>
+
+</aura:component>

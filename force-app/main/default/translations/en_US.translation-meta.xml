@@ -1,0 +1,3140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Translations xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customApplications>
+        <label><!-- Carmignac --></label>
+        <name>Carmignac</name>
+    </customApplications>
+    <customApplications>
+        <label><!-- Lightning --></label>
+        <name>CarmignacMenu</name>
+    </customApplications>
+    <customApplications>
+        <label><!-- Carmignac --></label>
+        <name>Carmignac_Lightning</name>
+    </customApplications>
+    <customApplications>
+        <label><!-- Legal &amp; Compliance --></label>
+        <name>Compliance</name>
+    </customApplications>
+    <customApplications>
+        <label><!-- Investor Services --></label>
+        <name>Investor_Services</name>
+    </customApplications>
+    <customApplications>
+        <label><!-- Market Intelligence --></label>
+        <name>Market_Intelligence</name>
+    </customApplications>
+    <customApplications>
+        <label><!-- Marketing App --></label>
+        <name>Marketing_App</name>
+    </customApplications>
+    <customApplications>
+        <label><!-- Marketing Carmignac --></label>
+        <name>Marketing_Carmignac</name>
+    </customApplications>
+    <customApplications>
+        <label><!-- Project-M --></label>
+        <name>ProjectM</name>
+    </customApplications>
+    <customLabels>
+        <label><!-- Campaign Status Defaults Future Error Suppress --></label>
+        <name>AAKCS__Campaign_Status_Defaults_Future_Error_Suppress</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ADD TO EVENT CAMPAIGN --></label>
+        <name>ADD_TO_EVENT_CAMPAIGN</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ADD TO EVENT ERROR --></label>
+        <name>ADD_TO_EVENT_ERROR</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ADD TO EVENT KEEP STATUS --></label>
+        <name>ADD_TO_EVENT_KEEP_STATUS</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ADD TO EVENT SELECT AT LEAST --></label>
+        <name>ADD_TO_EVENT_SELECT_AT_LEAST</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ADD TO EVENT SELECT CATEG --></label>
+        <name>ADD_TO_EVENT_SELECT_CATEG</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ADD TO EVENT SUCCESS --></label>
+        <name>ADD_TO_EVENT_SUCCESS</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ADD TO EVENT TITLE --></label>
+        <name>ADD_TO_EVENT_TITLE</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AddingAlertsPerType --></label>
+        <name>AddingAlertsPerType</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AddingAllAlerts --></label>
+        <name>AddingAllAlerts</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Add --></label>
+        <name>BrightTALK__Add</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Aggregate Viewing Duration --></label>
+        <name>BrightTALK__AggregateViewingDuration</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Campaign Display Name --></label>
+        <name>BrightTALK__CampaignDisplayName</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Campaign ID --></label>
+        <name>BrightTALK__CampaignID</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Lead Context --></label>
+        <name>BrightTALK__CampaignLeadContext</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Lead Type --></label>
+        <name>BrightTALK__CampaignLeadType</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Campaign Reference --></label>
+        <name>BrightTALK__CampaignReference</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Channel Survey Response Field Mappings --></label>
+        <name>BrightTALK__ChannelSurveyResponseFieldMappings</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Title for Configuration Page --></label>
+        <name>BrightTALK__Configuration</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Context Name --></label>
+        <name>BrightTALK__ContextName</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Message for user scheduling BrightTALK retrieval job --></label>
+        <name>BrightTALK__DataAccessWarning</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Enter the API credentials for your BrightTALK Channel. --></label>
+        <name>BrightTALK__EnterCredentials</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- A field which already has a mapping --></label>
+        <name>BrightTALK__ErrorAlreadyMapped</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Field not found --></label>
+        <name>BrightTALK__ErrorFieldNotFound</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Field which must be mapped to --></label>
+        <name>BrightTALK__ErrorMustBeMapped</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Intent Lead Score --></label>
+        <name>BrightTALK__IntentLeadScore</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- The value of the Company field on the lead object if required and not mapped to --></label>
+        <name>BrightTALK__LeadCompanyNotProvided</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- LeadContext --></label>
+        <name>BrightTALK__LeadContext</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- LeadEngagementScore --></label>
+        <name>BrightTALK__LeadEngagementScore</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- LeadReferral --></label>
+        <name>BrightTALK__LeadReferral</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- The value entered in the lead source field for newly created leads --></label>
+        <name>BrightTALK__LeadSourceValue</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- LeadTimeZone --></label>
+        <name>BrightTALK__LeadTimeZone</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- LeadType --></label>
+        <name>BrightTALK__LeadType</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- LeadUTMCampaign --></label>
+        <name>BrightTALK__LeadUTMCampaign</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- LeadUTMContent --></label>
+        <name>BrightTALK__LeadUTMContent</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- LeadUTMMedium --></label>
+        <name>BrightTALK__LeadUTMMedium</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- LeadUTMSource --></label>
+        <name>BrightTALK__LeadUTMSource</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- LeadUTMTerm --></label>
+        <name>BrightTALK__LeadUTMTerm</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Reporting Id --></label>
+        <name>BrightTALK__ReportingId</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip for Reporting Id field --></label>
+        <name>BrightTALK__ReportingIdTooltip</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Retrieve Channels --></label>
+        <name>BrightTALK__RetrieveChannels</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Always --></label>
+        <name>BrightTALK__UpdateStrategyAlways</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Only if BrightTALK field is not blank --></label>
+        <name>BrightTALK__UpdateStrategyOverwrite</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Only if Salesforce field is blank --></label>
+        <name>BrightTALK__UpdateStrategyPopulate</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Company --></label>
+        <name>BrightTALK__UserCompanyName</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Company size (employees) --></label>
+        <name>BrightTALK__UserCompanySize</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Country --></label>
+        <name>BrightTALK__UserCountry</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Email --></label>
+        <name>BrightTALK__UserEmail</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- UserFieldCuntryStateAlpha2 --></label>
+        <name>BrightTALK__UserFieldCuntryStateAlpha2</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- UserFieldDefault --></label>
+        <name>BrightTALK__UserFieldCuntryStateDefault</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- UserFieldCuntryStateFullISO --></label>
+        <name>BrightTALK__UserFieldCuntryStateFullISO</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- User Field Mappings --></label>
+        <name>BrightTALK__UserFieldMappings</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Header of User fields on field mapping page --></label>
+        <name>BrightTALK__UserFieldName</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- First name --></label>
+        <name>BrightTALK__UserFirstName</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Industry --></label>
+        <name>BrightTALK__UserIndustry</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Job title --></label>
+        <name>BrightTALK__UserJobTitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Last name --></label>
+        <name>BrightTALK__UserLastName</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Level --></label>
+        <name>BrightTALK__UserLevel</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Telephone --></label>
+        <name>BrightTALK__UserPhone</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Question Answered? --></label>
+        <name>BrightTALK__UserQuestionAnswered</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Question Text --></label>
+        <name>BrightTALK__UserQuestionText</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- State/Province --></label>
+        <name>BrightTALK__UserStateProvince</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- View --></label>
+        <name>BrightTALK__View</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Warning regarding API field lengths --></label>
+        <name>BrightTALK__WarningFieldLength</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CAMPAIGN_MEMBER_TEMPLATE_URL --></label>
+        <name>CAMPAIGN_MEMBER_TEMPLATE_URL</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CPGN_Add_To_Campaign --></label>
+        <name>CPGN_Add_To_Campaign</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CPGN_Campaign --></label>
+        <name>CPGN_Campaign</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CPGN_Cancel --></label>
+        <name>CPGN_Cancel</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CPGN_Category --></label>
+        <name>CPGN_Category</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CPGN_Keep_Existing_Status --></label>
+        <name>CPGN_Keep_Existing_Status</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CPGN_Member_Status --></label>
+        <name>CPGN_Member_Status</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CPGN_Name_Start_With --></label>
+        <name>CPGN_Name_Start_With</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CPGN_Pick_Campaign_And_Category --></label>
+        <name>CPGN_Pick_Campaign_And_Category</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CPGN_Selected_contact --></label>
+        <name>CPGN_Selected_contact</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Carmignac Assets Record Type ID --></label>
+        <name>CarmignacAssetsRecordTypeID</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Used in AgreementUtil Class method getallLegalEntities --></label>
+        <name>CarmignacEntity</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Compliance Clearing Error Message --></label>
+        <name>Compliance_Clearing_Error_Message</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ContactNotSynced --></label>
+        <name>ContactNotSycned</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AccessToken --></label>
+        <name>CventEvents__AccessToken</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AccessTokenAlreadyInUse --></label>
+        <name>CventEvents__AccessTokenAlreadyInUse</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AccessTokenChangeConfirmationHeader --></label>
+        <name>CventEvents__AccessTokenChangeConfirmationHeader</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AccountConfigurationRequestFailed --></label>
+        <name>CventEvents__AccountConfigurationRequestFailed</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ActionIsNotAllowedBecauseEventRequiresNomination --></label>
+        <name>CventEvents__ActionIsNotAllowedBecauseEventRequiresNomination</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ActionIsNotAllowedBecauseOfAttendeeStatus --></label>
+        <name>CventEvents__ActionIsNotAllowedBecauseOfAttendeeStatus</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ActionIsNotAllowedBecauseOfEventStatus --></label>
+        <name>CventEvents__ActionIsNotAllowedBecauseOfEventStatus</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Activate --></label>
+        <name>CventEvents__Activate</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Active --></label>
+        <name>CventEvents__Active</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ActualCampaignMembersToInvite --></label>
+        <name>CventEvents__ActualCampaignMembersToInvite</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AdCondition --></label>
+        <name>CventEvents__AddCondition</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AddEntity --></label>
+        <name>CventEvents__AddEntity</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AddField --></label>
+        <name>CventEvents__AddField</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AddFieldsMappingInstruction --></label>
+        <name>CventEvents__AddFieldsMappingInstruction</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AddFieldsMatchingInstruction --></label>
+        <name>CventEvents__AddFieldsMatchingInstruction</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AddInvitationList --></label>
+        <name>CventEvents__AddInvitationList</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AddMapping --></label>
+        <name>CventEvents__AddMapping</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AddValue --></label>
+        <name>CventEvents__AddValue</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AllUsers --></label>
+        <name>CventEvents__AllUsers</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AllowedToInviteCampaignMembers --></label>
+        <name>CventEvents__AllowedToInviteCampaignMembers</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- And --></label>
+        <name>CventEvents__And</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AppPostInstallConfiguration --></label>
+        <name>CventEvents__AppPostInstallConfiguration</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ApplicationConfiguration --></label>
+        <name>CventEvents__ApplicationConfiguration</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ApplyFilter --></label>
+        <name>CventEvents__ApplyFilter</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ApprovalProcess --></label>
+        <name>CventEvents__ApprovalProcess</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ApprovalProcessSubtitle --></label>
+        <name>CventEvents__ApprovalProcessSubtitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Approve --></label>
+        <name>CventEvents__Approve</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- April --></label>
+        <name>CventEvents__April</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Archived --></label>
+        <name>CventEvents__Archived</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AssignToSpecificUser --></label>
+        <name>CventEvents__AssignToSpecificUser</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Info message shown when user initiates data or metadata sync on demand --></label>
+        <name>CventEvents__AsyncOperationInfoMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AttendeeActivitiesFeatureActivationText --></label>
+        <name>CventEvents__AttendeeActivitiesFeatureActivationText</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AttendeeActivitiesFeatureDeactivationText --></label>
+        <name>CventEvents__AttendeeActivitiesFeatureDeactivationText</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AttendeeAlreadyRegisteredUsingWebsite --></label>
+        <name>CventEvents__AttendeeAlreadyRegisteredUsingWebsite</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AttendeeDataSync --></label>
+        <name>CventEvents__AttendeeDataSync</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AttendeeRefreshSettingsInfo --></label>
+        <name>CventEvents__AttendeeRefreshSettingsInfo</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AttendeeStatusMappingValidation --></label>
+        <name>CventEvents__AttendeeStatusMappingValidation</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AttendeeSyncErrorMessage --></label>
+        <name>CventEvents__AttendeeSyncErrorMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AttendeeTempsPurgeProcessError --></label>
+        <name>CventEvents__AttendeeTempsPurgeProcessError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AttendeesPurgeProcessError --></label>
+        <name>CventEvents__AttendeesPurgeProcessError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- August --></label>
+        <name>CventEvents__August</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AuthorizeMetadataApi --></label>
+        <name>CventEvents__AuthorizeMetadataApi</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AuthorizeMetadataApiInstruction --></label>
+        <name>CventEvents__AuthorizeMetadataApiInstruction</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AvailableFields --></label>
+        <name>CventEvents__AvailableFields</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- BlankPicklistValuePlaceholder --></label>
+        <name>CventEvents__BlankPicklistValuePlaceholder</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- BrowserPopupBlocked --></label>
+        <name>CventEvents__BrowserPopupBlocked</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- BulkApproveRejectCommentNote --></label>
+        <name>CventEvents__BulkApproveRejectCommentNote</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- BulkInvitationLimit --></label>
+        <name>CventEvents__BulkInvitationLimit</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- BulkNominationCommentNote --></label>
+        <name>CventEvents__BulkNominationCommentNote</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CampaignMembersDefaultImportValueMessage --></label>
+        <name>CventEvents__CampaignMembersDefaultImportValueMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CampaignMembersDisplayRange --></label>
+        <name>CventEvents__CampaignMembersDisplayRange</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CampaignsDefaultImportValueMessage --></label>
+        <name>CventEvents__CampaignsDefaultImportValueMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Cancel --></label>
+        <name>CventEvents__Cancel</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ChangesHaveBeenSaved --></label>
+        <name>CventEvents__ChangesHaveBeenSaved</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ChooseDatetimeToSyncEvents --></label>
+        <name>CventEvents__ChooseDatetimeToSyncDataFrom</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Close --></label>
+        <name>CventEvents__Close</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Condition --></label>
+        <name>CventEvents__Condition</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ConditionValueMustNotBeEmpty --></label>
+        <name>CventEvents__ConditionValueMustNotBeEmpty</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Conditions --></label>
+        <name>CventEvents__Conditions</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ConditionsLogic --></label>
+        <name>CventEvents__ConditionsLogic</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Configuration --></label>
+        <name>CventEvents__Configuration</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ConfigurationTabSubtitle --></label>
+        <name>CventEvents__ConfigurationTabSubtitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ConfirmDeleteApplicationModalText --></label>
+        <name>CventEvents__ConfirmDeleteApplicationModalText</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ConfirmDeleteEntity --></label>
+        <name>CventEvents__ConfirmDeleteEntity</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ConnectWithCvent --></label>
+        <name>CventEvents__ConnectWithCvent</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ConnectedAppCreationError --></label>
+        <name>CventEvents__ConnectedAppCreationError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ConnectedAppDeletionError --></label>
+        <name>CventEvents__ConnectedAppDeletionError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ConnectedAppValidationError --></label>
+        <name>CventEvents__ConnectedAppValidationError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ConnectionHasNotBeenEstablished --></label>
+        <name>CventEvents__ConnectionHasNotBeenEstablished</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ConnectionPausedMessage --></label>
+        <name>CventEvents__ConnectionPausedMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ConnectionResumedMessage --></label>
+        <name>CventEvents__ConnectionResumedMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ConnectionStatus_Connected --></label>
+        <name>CventEvents__ConnectionStatus_Connected</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ConnectionStatus_Expired --></label>
+        <name>CventEvents__ConnectionStatus_Expired</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ConnectionStatus_Inactive --></label>
+        <name>CventEvents__ConnectionStatus_Inactive</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ConnectionWithCventNotEstablished --></label>
+        <name>CventEvents__ConnectionWithCventNotEstablished</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Connections --></label>
+        <name>CventEvents__Connections</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CopyEntity --></label>
+        <name>CventEvents__CopyEntity</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CreateConnectedApp --></label>
+        <name>CventEvents__CreateConnectedApp</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CreateConnectedAppInstruction --></label>
+        <name>CventEvents__CreateConnectedAppInstruction</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Custom Setting not found error message --></label>
+        <name>CventEvents__CustomSettingNotFound</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CventContactLabel --></label>
+        <name>CventEvents__CventContactLabel</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CventCustomFieldsFeatureIsDisabled --></label>
+        <name>CventEvents__CventCustomFieldsFeatureIsDisabled</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CventCustomPicklistValidationError --></label>
+        <name>CventEvents__CventCustomPicklistValidationError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- DataRefreshFrequency --></label>
+        <name>CventEvents__DataRefreshFrequency</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- DataRefreshFrequencySubtitle --></label>
+        <name>CventEvents__DataRefreshFrequencySubtitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- DataRefreshFrequencySubtitle_PE --></label>
+        <name>CventEvents__DataRefreshFrequencySubtitle_PE</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- DataRefreshFrequency_PE --></label>
+        <name>CventEvents__DataRefreshFrequency_PE</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Days --></label>
+        <name>CventEvents__Days</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Deactivate --></label>
+        <name>CventEvents__Deactivate</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- December --></label>
+        <name>CventEvents__December</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- DefaultImportValueMessage --></label>
+        <name>CventEvents__DefaultImportValueMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- DeleteEntity --></label>
+        <name>CventEvents__DeleteEntity</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Delete event configurations error message --></label>
+        <name>CventEvents__DeleteEventConfigurationsError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Deleted --></label>
+        <name>CventEvents__Deleted</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- DisplayRange --></label>
+        <name>CventEvents__DisplayRange</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- DoNotPurgeEventsFromSF --></label>
+        <name>CventEvents__DoNotPurgeEventsFromSF</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- DoNotPurgeLogsFromSF --></label>
+        <name>CventEvents__DoNotPurgeLogsFromSF</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- DoNotSyncAttendeesWithCvent --></label>
+        <name>CventEvents__DoNotSyncAttendeesWithCvent</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- DoNotSyncEventsWithCvent --></label>
+        <name>CventEvents__DoNotSyncEventsWithCvent</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- DuplicateFound --></label>
+        <name>CventEvents__DuplicateFound</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- DuplicatedFiltersWithinLevel --></label>
+        <name>CventEvents__DuplicatedFiltersWithinLevel</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Edit --></label>
+        <name>CventEvents__Edit</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EditEntity --></label>
+        <name>CventEvents__EditEntity</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Else --></label>
+        <name>CventEvents__Else</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Empty event statuses while purge events set to true --></label>
+        <name>CventEvents__EmptyEventStatuses</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Error --></label>
+        <name>CventEvents__Error</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventConditionsExplanation --></label>
+        <name>CventEvents__EventConditionsExplanation</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventDataSync --></label>
+        <name>CventEvents__EventDataSync</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventFilteringRuleCriticalError --></label>
+        <name>CventEvents__EventFilteringRuleCriticalError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventFilteringTabSubtitle --></label>
+        <name>CventEvents__EventFilteringTabSubtitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventFilteringTabTitle --></label>
+        <name>CventEvents__EventFilteringTabTitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Event purge settings are not configured --></label>
+        <name>CventEvents__EventPurgeSettingsAreNotConfigured</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventRefreshSettingsInfo --></label>
+        <name>CventEvents__EventRefreshSettingsInfo</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventStubCanNotBeManuallyChanged --></label>
+        <name>CventEvents__EventStubCanNotBeManuallyChanged</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventsPurgeProcessError --></label>
+        <name>CventEvents__EventsPurgeProcessError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FailedAttendeeInvitation --></label>
+        <name>CventEvents__FailedAttendeeInvitation</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Failed to invite attendees --></label>
+        <name>CventEvents__FailedInvitationLogMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Failed to invite attendees --></label>
+        <name>CventEvents__FailedInvitationLogReasons</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FailedToCreateOpportunities --></label>
+        <name>CventEvents__FailedToCreateOpportunities</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FeatureActivationTitle --></label>
+        <name>CventEvents__FeatureActivationTitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FeatureDeactivationTitle --></label>
+        <name>CventEvents__FeatureDeactivationTitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FeatureDescription_AttendeeActivities --></label>
+        <name>CventEvents__FeatureDescription_AttendeeActivities</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FeatureDescription_CventCustomFields --></label>
+        <name>CventEvents__FeatureDescription_CventCustomFields</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FeatureDescription_PersonAccounts --></label>
+        <name>CventEvents__FeatureDescription_PersonAccounts</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FeatureDescription_RecordTypes --></label>
+        <name>CventEvents__FeatureDescription_RecordTypes</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FeatureTitle_AttendeeActivities --></label>
+        <name>CventEvents__FeatureTitle_AttendeeActivities</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FeatureTitle_CventCustomFields --></label>
+        <name>CventEvents__FeatureTitle_CventCustomFields</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FeatureTitle_PersonAccounts --></label>
+        <name>CventEvents__FeatureTitle_PersonAccounts</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FeatureTitle_RecordTypes --></label>
+        <name>CventEvents__FeatureTitle_RecordTypes</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- February --></label>
+        <name>CventEvents__February</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FieldDoesNotExist --></label>
+        <name>CventEvents__FieldDoesNotExist</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FieldTokenNotFound --></label>
+        <name>CventEvents__FieldTokenNotFound</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FieldsMapping --></label>
+        <name>CventEvents__FieldsMapping</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FieldsMappingSettings --></label>
+        <name>CventEvents__FieldsMappingSettings</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FieldsMappingSettingsSubtitle --></label>
+        <name>CventEvents__FieldsMappingSettingsSubtitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FieldsMatching --></label>
+        <name>CventEvents__FieldsMatching</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FieldsMatchingSubtitle --></label>
+        <name>CventEvents__FieldsMatchingSubtitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FifthLevel --></label>
+        <name>CventEvents__FifthLevel</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Filter --></label>
+        <name>CventEvents__Filter</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Filters --></label>
+        <name>CventEvents__Filters</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FirstLevel --></label>
+        <name>CventEvents__FirstLevel</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlLabel_AccountLookup --></label>
+        <name>CventEvents__FormControlLabel_AccountLookup</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlLabel_Action --></label>
+        <name>CventEvents__FormControlLabel_Action</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlLabel_ApplyTo --></label>
+        <name>CventEvents__FormControlLabel_ApplyTo</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlLabel_AutomaticInvitation --></label>
+        <name>CventEvents__FormControlLabel_AutomaticInvitation</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlLabel_AutomaticInvitationPlural --></label>
+        <name>CventEvents__FormControlLabel_AutomaticInvitationPlural</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlLabel_CampaignSource --></label>
+        <name>CventEvents__FormControlLabel_CampaignSource</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlLabel_IHavePermsToAddInvList --></label>
+        <name>CventEvents__FormControlLabel_IHavePermsToAddInvList</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlLabel_IHavePermsToInvite --></label>
+        <name>CventEvents__FormControlLabel_IHavePermsToInvite</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlLabel_IsNominationCommentRequired --></label>
+        <name>CventEvents__FormControlLabel_IsNominationCommentRequired</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlLabel_NoMatchAssignmentRule --></label>
+        <name>CventEvents__FormControlLabel_NoMatchAssignmentRule</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlLabel_NominationCommentTemplate --></label>
+        <name>CventEvents__FormControlLabel_NominationCommentTemplate</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlLabel_Select --></label>
+        <name>CventEvents__FormControlLabel_Select</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlLabel_SelectEnvironment --></label>
+        <name>CventEvents__FormControlLabel_SelectEnvironment</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlLabel_SelectInvitationEmail --></label>
+        <name>CventEvents__FormControlLabel_SelectInvitationEmail</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlLabel_SelectInvitationList --></label>
+        <name>CventEvents__FormControlLabel_SelectInvitationList</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlLabel_ShowAsEmailSender --></label>
+        <name>CventEvents__FormControlLabel_ShowAsEmailSender</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlLabel_UserLookup --></label>
+        <name>CventEvents__FormControlLabel_UserLookup</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlPlaceholder_EnterAccessToken --></label>
+        <name>CventEvents__FormControlPlaceholder_EnterAccessToken</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlPlaceholder_EnterNumber --></label>
+        <name>CventEvents__FormControlPlaceholder_EnterNumber</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlPlaceholder_EnterValue --></label>
+        <name>CventEvents__FormControlPlaceholder_EnterValue</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlPlaceholder_Search --></label>
+        <name>CventEvents__FormControlPlaceholder_Search</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlPlaceholder_SearchByName --></label>
+        <name>CventEvents__FormControlPlaceholder_SearchByName</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlPlaceholder_SelectAction --></label>
+        <name>CventEvents__FormControlPlaceholder_SelectAction</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlPlaceholder_SelectDate --></label>
+        <name>CventEvents__FormControlPlaceholder_SelectDate</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlPlaceholder_SelectEnvironment --></label>
+        <name>CventEvents__FormControlPlaceholder_SelectEnvironment</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlPlaceholder_SelectField --></label>
+        <name>CventEvents__FormControlPlaceholder_SelectField</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlPlaceholder_SelectObject --></label>
+        <name>CventEvents__FormControlPlaceholder_SelectObject</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlPlaceholder_SelectOperator --></label>
+        <name>CventEvents__FormControlPlaceholder_SelectOperator</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlPlaceholder_SelectValue --></label>
+        <name>CventEvents__FormControlPlaceholder_SelectValue</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlValidation_CurrencyFormat --></label>
+        <name>CventEvents__FormControlValidation_CurrencyFormat</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlValidation_CurrencyPrecision --></label>
+        <name>CventEvents__FormControlValidation_CurrencyPrecision</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlValidation_CurrencyScale --></label>
+        <name>CventEvents__FormControlValidation_CurrencyScale</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlValidation_EmailFormat --></label>
+        <name>CventEvents__FormControlValidation_EmailFormat</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlValidation_EnterAccessToken --></label>
+        <name>CventEvents__FormControlValidation_EnterAccessToken</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlValidation_RangeValue --></label>
+        <name>CventEvents__FormControlValidation_RangeValue</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlValidation_RequiredAccount --></label>
+        <name>CventEvents__FormControlValidation_RequiredAccount</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlValidation_RequiredAction --></label>
+        <name>CventEvents__FormControlValidation_RequiredAction</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlValidation_RequiredUser --></label>
+        <name>CventEvents__FormControlValidation_RequiredUser</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlValidation_RequiredValue --></label>
+        <name>CventEvents__FormControlValidation_RequiredValue</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlValidation_SelectEnvironment --></label>
+        <name>CventEvents__FormControlValidation_SelectEnvironment</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlValidation_Time12Format --></label>
+        <name>CventEvents__FormControlValidation_Time12Format</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlValidation_UrlFormat --></label>
+        <name>CventEvents__FormControlValidation_UrlFormat</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlValidation_ValueFormat --></label>
+        <name>CventEvents__FormControlValidation_ValueFormat</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FourthLevel --></label>
+        <name>CventEvents__FourthLevel</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Fri --></label>
+        <name>CventEvents__Fri</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Groups --></label>
+        <name>CventEvents__Groups</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Hours --></label>
+        <name>CventEvents__Hours</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- If --></label>
+        <name>CventEvents__If</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Inactive --></label>
+        <name>CventEvents__Inactive</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- InactiveNominationApproverLogMessage --></label>
+        <name>CventEvents__InactiveNominationApproverLogMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- InactiveNominationApproverMessage --></label>
+        <name>CventEvents__InactiveNominationApproverMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- IncludeAttendeeActivityData --></label>
+        <name>CventEvents__IncludeAttendeeActivityData</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- IncompleteMatchingRulesErrorMessage --></label>
+        <name>CventEvents__IncompleteMatchingRulesErrorMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Information --></label>
+        <name>CventEvents__Information</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- InputComment --></label>
+        <name>CventEvents__InputComment</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- InsertCampaignMemberStatusesError --></label>
+        <name>CventEvents__InsertCampaignMemberStatusesError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- InsertOpportunitiesError --></label>
+        <name>CventEvents__InsertOpportunitiesError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- InsertOpportunityContactRolesError --></label>
+        <name>CventEvents__InsertOpportunityContactRolesError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- InsertTagValidationError --></label>
+        <name>CventEvents__InsertTagValidationError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- InsertTasksError --></label>
+        <name>CventEvents__InsertTasksError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- InsufficientPrivilege --></label>
+        <name>CventEvents__InsufficientPrivilege</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- InternalError --></label>
+        <name>CventEvents__InternalError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- InvalidAccessToken --></label>
+        <name>CventEvents__InvalidAccessToken</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Event purge settings contains invalid event status(es) --></label>
+        <name>CventEvents__InvalidEventPurgeStatuses</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- InvalidLogExpirationPeriod --></label>
+        <name>CventEvents__InvalidLogExpirationPeriod</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Invalid purge setting status message --></label>
+        <name>CventEvents__InvalidPurgeSettingStatus</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- InvitationConfirmationMessage --></label>
+        <name>CventEvents__InvitationConfirmationMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- InvitationIsNotAllowedMessage --></label>
+        <name>CventEvents__InvitationIsNotAllowedMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- InvitationRequestFailed --></label>
+        <name>CventEvents__InvitationRequestFailed</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Invite --></label>
+        <name>CventEvents__Invite</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- January --></label>
+        <name>CventEvents__January</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- JobsSchedulingIsNotSupported --></label>
+        <name>CventEvents__JobsSchedulingIsNotSupported</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- July --></label>
+        <name>CventEvents__July</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- June --></label>
+        <name>CventEvents__June</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- LastTimePurgedAt --></label>
+        <name>CventEvents__LastTimePurgedAt</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- LastTimeSyncedAt --></label>
+        <name>CventEvents__LastTimeSyncedAt</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Level --></label>
+        <name>CventEvents__Level</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Link --></label>
+        <name>CventEvents__Link</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- LinkEventsSubtitle --></label>
+        <name>CventEvents__LinkEventsSubtitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_AccountName --></label>
+        <name>CventEvents__ListColumn_AccountName</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_AttendeeActivityType --></label>
+        <name>CventEvents__ListColumn_AttendeeActivityType</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_AttendeeField --></label>
+        <name>CventEvents__ListColumn_AttendeeField</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_AttendeeStatus --></label>
+        <name>CventEvents__ListColumn_AttendeeStatus</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_CampaignMemberStatus --></label>
+        <name>CventEvents__ListColumn_CampaignMemberStatus</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_Company --></label>
+        <name>CventEvents__ListColumn_Company</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_ConfigurationTitle --></label>
+        <name>CventEvents__ListColumn_ConfigurationTitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_ConfigurationTrigger --></label>
+        <name>CventEvents__ListColumn_ConfigurationTrigger</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_ConfirmationNumber --></label>
+        <name>CventEvents__ListColumn_ConfirmationNumber</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_ConnectedBy --></label>
+        <name>CventEvents__ListColumn_ConnectedBy</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_ConnectedDate --></label>
+        <name>CventEvents__ListColumn_ConnectedDate</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_CventContactField --></label>
+        <name>CventEvents__ListColumn_CventContactField</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_CventFieldDataType --></label>
+        <name>CventEvents__ListColumn_CventFieldDataType</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_DefaultValue --></label>
+        <name>CventEvents__ListColumn_DefaultValue</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_Description --></label>
+        <name>CventEvents__ListColumn_Description</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_Email --></label>
+        <name>CventEvents__ListColumn_Email</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_EndDate --></label>
+        <name>CventEvents__ListColumn_EndDate</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_Environment --></label>
+        <name>CventEvents__ListColumn_Environment</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_EventEndDate --></label>
+        <name>CventEvents__ListColumn_EventEndDate</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_EventStartDate --></label>
+        <name>CventEvents__ListColumn_EventStartDate</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_EventStatus --></label>
+        <name>CventEvents__ListColumn_EventStatus</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_EventTitle --></label>
+        <name>CventEvents__ListColumn_EventTitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_Field --></label>
+        <name>CventEvents__ListColumn_Field</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_FilterName --></label>
+        <name>CventEvents__ListColumn_FilterName</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_Name --></label>
+        <name>CventEvents__ListColumn_Name</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_Object --></label>
+        <name>CventEvents__ListColumn_Object</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_Operator --></label>
+        <name>CventEvents__ListColumn_Operator</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_OpportunityName --></label>
+        <name>CventEvents__ListColumn_OpportunityName</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_Phone --></label>
+        <name>CventEvents__ListColumn_Phone</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_SFFieldDataType --></label>
+        <name>CventEvents__ListColumn_SFFieldDataType</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_SFObjectField --></label>
+        <name>CventEvents__ListColumn_SFObjectField</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_SalesforceObject --></label>
+        <name>CventEvents__ListColumn_SalesforceObject</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_SessionCampaign --></label>
+        <name>CventEvents__ListColumn_SessionCampaign</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_SessionCode --></label>
+        <name>CventEvents__ListColumn_SessionCode</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_SessionField --></label>
+        <name>CventEvents__ListColumn_SessionField</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_SessionName --></label>
+        <name>CventEvents__ListColumn_SessionName</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_StartDate --></label>
+        <name>CventEvents__ListColumn_StartDate</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_Status --></label>
+        <name>CventEvents__ListColumn_Status</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_TaskSubject --></label>
+        <name>CventEvents__ListColumn_TaskSubject</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_Type --></label>
+        <name>CventEvents__ListColumn_Type</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_Value --></label>
+        <name>CventEvents__ListColumn_Value</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- LogsPurgeOperationError --></label>
+        <name>CventEvents__LogsPurgeOperationError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ManageSessionCampaigns --></label>
+        <name>CventEvents__ManageSessionCampaigns</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- MapCampaignMemberToCventAttendeeFields --></label>
+        <name>CventEvents__MapCampaignMemberToCventAttendeeFields</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- MapCampaignToCventSessionFields --></label>
+        <name>CventEvents__MapCampaignToCventSessionFields</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- MapContactToCventContactFields --></label>
+        <name>CventEvents__MapContactToCventContactFields</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- MapLeadToCventContactFields --></label>
+        <name>CventEvents__MapLeadToCventContactFields</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- MapPersonAccountToCventContactFields --></label>
+        <name>CventEvents__MapPersonAccountToCventContactFields</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- March --></label>
+        <name>CventEvents__March</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- MatchingRules --></label>
+        <name>CventEvents__MatchingRules</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- MatchingRulesSubtitle --></label>
+        <name>CventEvents__MatchingRulesSubtitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- May --></label>
+        <name>CventEvents__May</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- MetadataApiSuccessfullyAuthorized --></label>
+        <name>CventEvents__MetadataApiSuccessfullyAuthorized</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- MetadataRequestFailed --></label>
+        <name>CventEvents__MetadataRequestFailed</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- MetadataSync --></label>
+        <name>CventEvents__MetadataSync</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- MetadataUpdateAutomation --></label>
+        <name>CventEvents__MetadataUpdateAutomation</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- MetadataUpdateAutomationDescription --></label>
+        <name>CventEvents__MetadataUpdateAutomationDescription</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Minutes --></label>
+        <name>CventEvents__Minutes</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Validation message for missing email on Contact/Lead --></label>
+        <name>CventEvents__MissingEmailError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- MissingNominationCommentError --></label>
+        <name>CventEvents__MissingNominationCommentError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- MobileApp_ActionIsNotAvailable --></label>
+        <name>CventEvents__MobileApp_ActionIsNotAvailable</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- MobileApp_CventAdminTabIsNotAvailableDescription --></label>
+        <name>CventEvents__MobileApp_CventAdminTabIsNotAvailableDescription</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- MobileApp_CventAdminTabIsNotAvailableTitle --></label>
+        <name>CventEvents__MobileApp_CventAdminTabIsNotAvailableTitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ModifyCancel --></label>
+        <name>CventEvents__ModifyCancel</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ModifyCancelRegistration --></label>
+        <name>CventEvents__ModifyCancelRegistration</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Mon --></label>
+        <name>CventEvents__Mon</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- MoreActions --></label>
+        <name>CventEvents__MoreActions</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- MultipleCventFieldsToTheSameSfFieldError --></label>
+        <name>CventEvents__MultipleCventFieldsToTheSameSfFieldError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- MultipleMatch --></label>
+        <name>CventEvents__MultipleMatch</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- MultipleSfFieldsToTheSameCventFieldError --></label>
+        <name>CventEvents__MultipleSfFieldsToTheSameCventFieldError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NewCventAccountConfirmationText --></label>
+        <name>CventEvents__NewCventAccountConfirmationText</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NewCventConfigurationConfirmationText --></label>
+        <name>CventEvents__NewCventConfigurationConfirmationText</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Next --></label>
+        <name>CventEvents__Next</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NextMonth --></label>
+        <name>CventEvents__NextMonth</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- No --></label>
+        <name>CventEvents__No</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NoActionCventContactRecordMessage --></label>
+        <name>CventEvents__NoActionCventContactRecordMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NoCampaignMembersToInvite --></label>
+        <name>CventEvents__NoCampaignMembersToInvite</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NoEventFilterConditionsCreated --></label>
+        <name>CventEvents__NoEventFilterConditionsCreated</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NoEventsAvailable --></label>
+        <name>CventEvents__NoEventsAvailable</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NoFieldMapped --></label>
+        <name>CventEvents__NoFieldMapped</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NoFieldsSelected --></label>
+        <name>CventEvents__NoFieldsSelected</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NoLinkedToCampaignEvent --></label>
+        <name>CventEvents__NoLinkedToCampaignEvent</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NoMatch --></label>
+        <name>CventEvents__NoMatch</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NoMatchingFieldsFound --></label>
+        <name>CventEvents__NoMatchingFieldsFound</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NoMoreAvailableFields --></label>
+        <name>CventEvents__NoMoreAvailableFields</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NoRecordMatchingSettingsErrorMessage --></label>
+        <name>CventEvents__NoRecordMatchingSettingsErrorMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NoRecordTypesAvailable --></label>
+        <name>CventEvents__NoRecordTypesAvailable</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NoRecordsCreated --></label>
+        <name>CventEvents__NoRecordsCreated</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NoRecordsFound --></label>
+        <name>CventEvents__NoRecordsFound</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NoRecordsSelected --></label>
+        <name>CventEvents__NoRecordsSelected</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NoResultsFound --></label>
+        <name>CventEvents__NoResultsFound</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Nominate --></label>
+        <name>CventEvents__Nominate</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NominationApproval --></label>
+        <name>CventEvents__NominationApproval</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NominationApproverUpdateError --></label>
+        <name>CventEvents__NominationApproverUpdateError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NominationApproverValidationError --></label>
+        <name>CventEvents__NominationApproverValidationError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NominationCommentsSectionSubtitle --></label>
+        <name>CventEvents__NominationCommentsSectionSubtitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NominationCommentsSectionTitle --></label>
+        <name>CventEvents__NominationCommentsSectionTitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NominationProcess --></label>
+        <name>CventEvents__NominationProcess</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NominationProcessConfigurationError --></label>
+        <name>CventEvents__NominationProcessConfigurationError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NominationRejection --></label>
+        <name>CventEvents__NominationRejection</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NominationRequest --></label>
+        <name>CventEvents__NominationRequest</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NominationRequestFields --></label>
+        <name>CventEvents__NominationRequestFields</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NominationRequestFieldsSubtitle --></label>
+        <name>CventEvents__NominationRequestFieldsSubtitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NominationRequestSubmitted --></label>
+        <name>CventEvents__NominationRequestSubmitted</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NominationUpdateError --></label>
+        <name>CventEvents__NominationUpdateError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Nominations Bulk Approve --></label>
+        <name>CventEvents__NominationsBulkApprove</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Nominations Bulk Reject --></label>
+        <name>CventEvents__NominationsBulkReject</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NotAPersonAccountError --></label>
+        <name>CventEvents__NotAPersonAccountError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Note --></label>
+        <name>CventEvents__Note</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- November --></label>
+        <name>CventEvents__November</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OAuthGenericError --></label>
+        <name>CventEvents__OAuthGenericError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OAuthReAuthorizationRequired --></label>
+        <name>CventEvents__OAuthReAuthorizationRequired</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OAuthTokenRefreshError --></label>
+        <name>CventEvents__OAuthTokenRefreshError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- October --></label>
+        <name>CventEvents__October</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OneUser --></label>
+        <name>CventEvents__OneUser</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OperatorContains --></label>
+        <name>CventEvents__OperatorContains</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OperatorDoesNotContain --></label>
+        <name>CventEvents__OperatorDoesNotContain</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OperatorEquals --></label>
+        <name>CventEvents__OperatorEquals</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OperatorGreaterOrEqualThan --></label>
+        <name>CventEvents__OperatorGreaterOrEqualThan</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OperatorGreaterThan --></label>
+        <name>CventEvents__OperatorGreaterThan</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OperatorIn --></label>
+        <name>CventEvents__OperatorIn</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OperatorIncludesAll --></label>
+        <name>CventEvents__OperatorIncludesAll</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OperatorIncludesAny --></label>
+        <name>CventEvents__OperatorIncludesAny</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OperatorLessOrEqualThan --></label>
+        <name>CventEvents__OperatorLessOrEqualThan</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OperatorLessThan --></label>
+        <name>CventEvents__OperatorLessThan</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OperatorNotEquals --></label>
+        <name>CventEvents__OperatorNotEquals</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OperatorNotIn --></label>
+        <name>CventEvents__OperatorNotIn</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Opportunities --></label>
+        <name>CventEvents__Opportunities</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OpportunitiesAreNotCreatedForLeadsNote --></label>
+        <name>CventEvents__OpportunitiesAreNotCreatedForLeadsNote</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OpportunitiesSubtitle --></label>
+        <name>CventEvents__OpportunitiesSubtitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Opportunity --></label>
+        <name>CventEvents__Opportunity</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OpportunityConfiguration --></label>
+        <name>CventEvents__OpportunityConfiguration</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OpportunityConfigurationError --></label>
+        <name>CventEvents__OpportunityConfigurationError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OpportunityConfigurations --></label>
+        <name>CventEvents__OpportunityConfigurations</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Or --></label>
+        <name>CventEvents__Or</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Invitation was partially successful --></label>
+        <name>CventEvents__PartialAttendeeInvitation</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PermissionSetDeletionError --></label>
+        <name>CventEvents__PermissionSetDeletionError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PersonAccount --></label>
+        <name>CventEvents__PersonAccount</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PersonAccounts --></label>
+        <name>CventEvents__PersonAccounts</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PersonAccountsFeatureActivationText --></label>
+        <name>CventEvents__PersonAccountsFeatureActivationText</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PersonAccountsFeatureDeactivationText --></label>
+        <name>CventEvents__PersonAccountsFeatureDeactivationText</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PreventAttendeeSyncMessage --></label>
+        <name>CventEvents__PreventAttendeeSyncMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PreventEventSyncMessage --></label>
+        <name>CventEvents__PreventEventSyncMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PreventEventsPurgeMessage --></label>
+        <name>CventEvents__PreventEventsPurgeMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PreventMetadataSyncMessage --></label>
+        <name>CventEvents__PreventMetadataSyncMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PreventOrphanAttendeesPurgeMessage --></label>
+        <name>CventEvents__PreventOrphanAttendeesPurgeMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PreventTokenChangeMessage --></label>
+        <name>CventEvents__PreventTokenChangeMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PreviousMonth --></label>
+        <name>CventEvents__PreviousMonth</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PurgeAfter --></label>
+        <name>CventEvents__PurgeAfter</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PurgeCriteria --></label>
+        <name>CventEvents__PurgeCriteria</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PurgeCriteriaSubtitle --></label>
+        <name>CventEvents__PurgeCriteriaSubtitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PurgeEventsFromSF --></label>
+        <name>CventEvents__PurgeEventsFromSF</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PurgeEventsFromSF_PE --></label>
+        <name>CventEvents__PurgeEventsFromSF_PE</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PurgeLogsFromSF --></label>
+        <name>CventEvents__PurgeLogsFromSF</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PurgeLogsFromSF_PE --></label>
+        <name>CventEvents__PurgeLogsFromSF_PE</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PurgeNow --></label>
+        <name>CventEvents__PurgeNow</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecordDetails --></label>
+        <name>CventEvents__RecordDetails</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecordMatchingCriteria --></label>
+        <name>CventEvents__RecordMatchingCriteria</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecordMatchingRulesError --></label>
+        <name>CventEvents__RecordMatchingRulesError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecordMatching_AssignToMatchedAccount --></label>
+        <name>CventEvents__RecordMatching_AssignToMatchedAccount</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecordMatching_AssignToSpecificAccount --></label>
+        <name>CventEvents__RecordMatching_AssignToSpecificAccount</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecordMatching_CreateContact --></label>
+        <name>CventEvents__RecordMatching_CreateContact</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecordMatching_CreateLead --></label>
+        <name>CventEvents__RecordMatching_CreateLead</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecordMatching_CreatePersonAccount --></label>
+        <name>CventEvents__RecordMatching_CreatePersonAccount</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecordMatching_DoNotAssignToAccount --></label>
+        <name>CventEvents__RecordMatching_DoNotAssignToAccount</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecordMatching_NoAction --></label>
+        <name>CventEvents__RecordMatching_NoAction</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecordMatching_OnlyUpdateMatchedAttendee --></label>
+        <name>CventEvents__RecordMatching_OnlyUpdateMatchedAttendee</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecordMatching_UpdateMatchedRecord --></label>
+        <name>CventEvents__RecordMatching_UpdateMatchedRecord</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecordMatching_UpdateTheMostRecentRecord --></label>
+        <name>CventEvents__RecordMatching_UpdateTheMostRecentRecord</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecordMatching_UseLeadAssignmentRules --></label>
+        <name>CventEvents__RecordMatching_UseLeadAssignmentRules</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecordNotFound --></label>
+        <name>CventEvents__RecordNotFound</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecordNotFoundFor --></label>
+        <name>CventEvents__RecordNotFoundFor</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecordTypeDoesNotExist --></label>
+        <name>CventEvents__RecordTypeDoesNotExist</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecordTypeIsInactive --></label>
+        <name>CventEvents__RecordTypeIsInactive</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecordTypeMatchingSettingsError --></label>
+        <name>CventEvents__RecordTypeMatchingSettingsError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecordTypesFeatureDeactivationText --></label>
+        <name>CventEvents__RecordTypesFeatureDeactivationText</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecordTypesForMatchingLabel --></label>
+        <name>CventEvents__RecordTypesForMatchingLabel</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecordTypesNewRecordsLabel --></label>
+        <name>CventEvents__RecordTypesNewRecordsLabel</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecordTypesSectionSubtitle --></label>
+        <name>CventEvents__RecordTypesSectionSubtitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecordTypesSectionTitle --></label>
+        <name>CventEvents__RecordTypesSectionTitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RefreshSettingsInfo_PE --></label>
+        <name>CventEvents__RefreshSettingsInfo_PE</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Register --></label>
+        <name>CventEvents__Register</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Reject --></label>
+        <name>CventEvents__Reject</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Remove --></label>
+        <name>CventEvents__Remove</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RemoveApplicationConfigurationWarning --></label>
+        <name>CventEvents__RemoveApplicationConfigurationWarning</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RemoveApplicationInstruction --></label>
+        <name>CventEvents__RemoveApplicationInstruction</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RemoveConfiguration --></label>
+        <name>CventEvents__RemoveConfiguration</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Requester --></label>
+        <name>CventEvents__Requester</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RequiredTogether --></label>
+        <name>CventEvents__RequiredTogether</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ResetApplicationConfiguration --></label>
+        <name>CventEvents__ResetApplicationConfiguration</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Sat --></label>
+        <name>CventEvents__Sat</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Save --></label>
+        <name>CventEvents__Save</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SearchThroughAllRecordTypes --></label>
+        <name>CventEvents__SearchThroughAllRecordTypes</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SearchThroughSelectedRecordTypes --></label>
+        <name>CventEvents__SearchThroughSelectedRecordTypes</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SecondLevel --></label>
+        <name>CventEvents__SecondLevel</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Select --></label>
+        <name>CventEvents__Select</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SelectAtLeastOneNomination --></label>
+        <name>CventEvents__SelectAtLeastOneNomination</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SelectConfigurationTrigger --></label>
+        <name>CventEvents__SelectConfigurationTrigger</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SelectEventStatuses --></label>
+        <name>CventEvents__SelectEventStatuses</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SelectOpportunityCreationScenario --></label>
+        <name>CventEvents__SelectOpportunityCreationScenario</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SelectTaskCreationScenario --></label>
+        <name>CventEvents__SelectTaskCreationScenario</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Selected --></label>
+        <name>CventEvents__Selected</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SelectedFields --></label>
+        <name>CventEvents__SelectedFields</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SendInvitations --></label>
+        <name>CventEvents__SendInvitations</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- September --></label>
+        <name>CventEvents__September</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SessionDoesNotExist --></label>
+        <name>CventEvents__SessionDoesNotExist</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SessionNotFound --></label>
+        <name>CventEvents__SessionNotFound</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SessionStatusMapping --></label>
+        <name>CventEvents__SessionStatusMapping</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SessionStatusMappingIsNotConfigured --></label>
+        <name>CventEvents__SessionStatusMappingIsNotConfigured</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Sessions --></label>
+        <name>CventEvents__Sessions</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SetAccountFieldsMatching --></label>
+        <name>CventEvents__SetAccountFieldsMatching</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SetRefreshFrequency --></label>
+        <name>CventEvents__SetRefreshFrequency</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ShareEventsWith --></label>
+        <name>CventEvents__ShareEventsWith</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ShareEventsWithExplanation --></label>
+        <name>CventEvents__ShareEventsWithExplanation</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ShowLess --></label>
+        <name>CventEvents__ShowLess</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ShowMore --></label>
+        <name>CventEvents__ShowMore</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SingleMatch --></label>
+        <name>CventEvents__SingleMatch</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SkipThisLevel --></label>
+        <name>CventEvents__SkipThisLevel</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- StartSync --></label>
+        <name>CventEvents__StartSync</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- StatusMapping --></label>
+        <name>CventEvents__StatusMapping</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- StatusMappingSubtitle --></label>
+        <name>CventEvents__StatusMappingSubtitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- StatusMappingSubtitleNote --></label>
+        <name>CventEvents__StatusMappingSubtitleNote</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Success --></label>
+        <name>CventEvents__Success</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SuccessfulAttendeeInvitation --></label>
+        <name>CventEvents__SuccessfulAttendeeInvitation</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SuccessfulSessionsSync --></label>
+        <name>CventEvents__SuccessfulSessionsSync</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Successfully approved/rejected --></label>
+        <name>CventEvents__SuccessfullyApprovedRejected</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Successfully bulk approved/rejected --></label>
+        <name>CventEvents__SuccessfullyApprovedRejectedBulk</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SuccessfullyConnected --></label>
+        <name>CventEvents__SuccessfullyConnected</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Sun --></label>
+        <name>CventEvents__Sun</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SyncAttendeesWithCvent --></label>
+        <name>CventEvents__SyncAttendeesWithCvent</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SyncErrorEventNotFound --></label>
+        <name>CventEvents__SyncErrorEventNotFound</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SyncErrorMessage --></label>
+        <name>CventEvents__SyncErrorMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SyncEventsWithCvent --></label>
+        <name>CventEvents__SyncEventsWithCvent</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SyncInProgress --></label>
+        <name>CventEvents__SyncInProgress</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SyncNSessions --></label>
+        <name>CventEvents__SyncNSessions</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SyncSessions --></label>
+        <name>CventEvents__SyncSessions</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SyncWithPastDate --></label>
+        <name>CventEvents__SyncWithPastDate</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- TagSelectorHeader --></label>
+        <name>CventEvents__TagSelectorHeader</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Task --></label>
+        <name>CventEvents__Task</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- TaskConfiguration --></label>
+        <name>CventEvents__TaskConfiguration</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- TaskConfigurationError --></label>
+        <name>CventEvents__TaskConfigurationError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- TaskConfigurations --></label>
+        <name>CventEvents__TaskConfigurations</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tasks --></label>
+        <name>CventEvents__Tasks</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- TasksSubtitle --></label>
+        <name>CventEvents__TasksSubtitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Terminal approval process status can&apos;t be changed --></label>
+        <name>CventEvents__TerminalApprovalProcessStatusCanNotBeChanged</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Nominations are already in terminal status --></label>
+        <name>CventEvents__TerminalApprovalProcessStatusCanNotBeChangedBulk</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Then --></label>
+        <name>CventEvents__Then</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ThirdLevel --></label>
+        <name>CventEvents__ThirdLevel</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Thu --></label>
+        <name>CventEvents__Thu</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Toast_UnexpectedErrorOccurred --></label>
+        <name>CventEvents__Toast_UnexpectedErrorOccurred</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- TokenIsTooLong --></label>
+        <name>CventEvents__TokenIsTooLong</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- TooManyRecords --></label>
+        <name>CventEvents__TooManyRecords</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Error message to show when there is more than 30 rules updated at once --></label>
+        <name>CventEvents__TooManyUpdatedRulesMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_AddFieldsMatching --></label>
+        <name>CventEvents__Tooltip_AddFieldsMatching</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_AssignToMatchedAccountAction --></label>
+        <name>CventEvents__Tooltip_AssignToMatchedAccountAction</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_AssignToSpecificAccountAction --></label>
+        <name>CventEvents__Tooltip_AssignToSpecificAccountAction</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_AssignToSpecificUserAction --></label>
+        <name>CventEvents__Tooltip_AssignToSpecificUserAction</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_ClearInputToUseTags --></label>
+        <name>CventEvents__Tooltip_ClearInputToUseTags</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_ConditionsLogic --></label>
+        <name>CventEvents__Tooltip_ConditionsLogic</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_ConnectionPaused --></label>
+        <name>CventEvents__Tooltip_ConnectionPaused</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_CreateContactAction --></label>
+        <name>CventEvents__Tooltip_CreateContactAction</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_CreateLeadAction --></label>
+        <name>CventEvents__Tooltip_CreateLeadAction</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_CreatePersonAccountAction --></label>
+        <name>CventEvents__Tooltip_CreatePersonAccountAction</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_CventContactTagSelector --></label>
+        <name>CventEvents__Tooltip_CventContactTagSelector</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_DoNotAssignToAccountAction --></label>
+        <name>CventEvents__Tooltip_DoNotAssignToAccountAction</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_FieldMappingsTagSelector --></label>
+        <name>CventEvents__Tooltip_FieldMappingsTagSelector</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_FieldPicklistOption --></label>
+        <name>CventEvents__Tooltip_FieldPicklistOption</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_InapplicableFieldMapping --></label>
+        <name>CventEvents__Tooltip_InapplicableFieldMapping</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_InvalidAccessToken --></label>
+        <name>CventEvents__Tooltip_InvalidAccessToken</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_NoAction --></label>
+        <name>CventEvents__Tooltip_NoAction</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_NoFieldsAvailableForMapping --></label>
+        <name>CventEvents__Tooltip_NoFieldsAvailableForMapping</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_NominationApproverAccountOwner --></label>
+        <name>CventEvents__Tooltip_NominationApproverAccountOwner</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_PurgeEventsWarning --></label>
+        <name>CventEvents__Tooltip_PurgeEventsWarning</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_PurgeEventsWarning_PE --></label>
+        <name>CventEvents__Tooltip_PurgeEventsWarning_PE</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_PurgeLogsWarning --></label>
+        <name>CventEvents__Tooltip_PurgeLogsWarning</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_PurgeLogsWarning_PE --></label>
+        <name>CventEvents__Tooltip_PurgeLogsWarning_PE</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_PurgeProcessBatchInfo --></label>
+        <name>CventEvents__Tooltip_PurgeProcessBatchInfo</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_PurgeProcessError --></label>
+        <name>CventEvents__Tooltip_PurgeProcessError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_RunPurgeImmediately --></label>
+        <name>CventEvents__Tooltip_RunPurgeImmediately</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_SavePurgeSettings --></label>
+        <name>CventEvents__Tooltip_SavePurgeSettings</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_SelectActiveRecords --></label>
+        <name>CventEvents__Tooltip_SelectActiveRecords</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_SelectInactiveRecords --></label>
+        <name>CventEvents__Tooltip_SelectInactiveRecords</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_SelectMatchSettingsActions --></label>
+        <name>CventEvents__Tooltip_SelectMatchSettingsActions</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_TaskConfigurationRelateToCampaignRule --></label>
+        <name>CventEvents__Tooltip_TaskConfigurationRelateToCampaignRule</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_UpdateAttendeeOnlyAction --></label>
+        <name>CventEvents__Tooltip_UpdateAttendeeOnlyAction</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_UpdateMatchedRecordAction --></label>
+        <name>CventEvents__Tooltip_UpdateMatchedRecordAction</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_UpdateRecentRecordAction --></label>
+        <name>CventEvents__Tooltip_UpdateRecentRecordAction</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_UpsertSessionCampaignMembers --></label>
+        <name>CventEvents__Tooltip_UpsertSessionCampaignMembers</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_UseLeadAssignmentRulesAction --></label>
+        <name>CventEvents__Tooltip_UseLeadAssignmentRulesAction</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tue --></label>
+        <name>CventEvents__Tue</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Unlink --></label>
+        <name>CventEvents__Unlink</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- UnlinkEvents --></label>
+        <name>CventEvents__UnlinkEvents</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- UnlinkEventsConfirmationDescription --></label>
+        <name>CventEvents__UnlinkEventsConfirmationDescription</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- UnlinkNSessions --></label>
+        <name>CventEvents__UnlinkNSessions</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- UnlinkSession --></label>
+        <name>CventEvents__UnlinkSession</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- UnlinkSessionConfirmationText --></label>
+        <name>CventEvents__UnlinkSessionConfirmationText</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- UnlinkSessionInformationText --></label>
+        <name>CventEvents__UnlinkSessionInformationText</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- UnlinkSessionsConfirmationText --></label>
+        <name>CventEvents__UnlinkSessionsConfirmationText</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- UnsupportedFieldType --></label>
+        <name>CventEvents__UnsupportedFieldType</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Update --></label>
+        <name>CventEvents__Update</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Update attendee status error message --></label>
+        <name>CventEvents__UpdateAttendeeStatusError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Update event permissions error message --></label>
+        <name>CventEvents__UpdateEventPermissionsError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- UpdateMetadata --></label>
+        <name>CventEvents__UpdateMetadata</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- UpdateMetadataError --></label>
+        <name>CventEvents__UpdateMetadataError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- UpdateMetadataSuccessMessage --></label>
+        <name>CventEvents__UpdateMetadataSuccessMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- UpsertAttendeeActivitiesError --></label>
+        <name>CventEvents__UpsertAttendeeActivitiesError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- UpsertCampaignMembersError --></label>
+        <name>CventEvents__UpsertCampaignMembersError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Upsert event configurations error message --></label>
+        <name>CventEvents__UpsertEventConfigurationsError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- UpsertEventsError --></label>
+        <name>CventEvents__UpsertEventsError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- UpsertSessionCampaignMembersConfirmationText --></label>
+        <name>CventEvents__UpsertSessionCampaignMembersConfirmationText</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- UpsertCampaignMembersError --></label>
+        <name>CventEvents__UpsertSessionCampaignsError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- UseDefaultRecordType --></label>
+        <name>CventEvents__UseDefaultRecordType</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- UseSelectedRecordType --></label>
+        <name>CventEvents__UseSelectedRecordType</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Users --></label>
+        <name>CventEvents__Users</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ValueListEmpty --></label>
+        <name>CventEvents__ValueListEmpty</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Value is Required --></label>
+        <name>CventEvents__ValueRequired</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ValuesRequired --></label>
+        <name>CventEvents__ValuesRequired</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Warning --></label>
+        <name>CventEvents__Warning</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Wed --></label>
+        <name>CventEvents__Wed</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- WhereClauseIsTooLong --></label>
+        <name>CventEvents__WhereClauseIsTooLong</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Yes --></label>
+        <name>CventEvents__Yes</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- YouAreNotTheApprover --></label>
+        <name>CventEvents__YouAreNotTheApprover</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- You&apos;re not the approver for bulk approve/reject --></label>
+        <name>CventEvents__YouAreNotTheApproverBulk</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- DeleteAllAlerts --></label>
+        <name>DeleteAllAlerts</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- DeletingAlertsPerType --></label>
+        <name>DeletingAlertsPerType</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Due Diligence Error Message --></label>
+        <name>Due_Diligence_Error_Message</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ErrorNotSync --></label>
+        <name>ErrorNotSync</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ErrorNotSyncRedirect --></label>
+        <name>ErrorNotSyncRedirect</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Error Country - Webcommunication --></label>
+        <name>Error_Country_Webcommunication</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- used in VFC01_KYCDocuments --></label>
+        <name>KYCDocStatus</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- KYC Action --></label>
+        <name>KYC_Action</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- KYC Date of Birth --></label>
+        <name>KYC_Date_of_Birth</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- KYC First Name --></label>
+        <name>KYC_First_Name</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- KYC Last Name --></label>
+        <name>KYC_Last_Name</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- KYC Role --></label>
+        <name>KYC_Role</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- KYDocStatusPending --></label>
+        <name>KYDocStatusPending</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- KYDocStatusReceived --></label>
+        <name>KYDocStatusReceived</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RedirectAlerts --></label>
+        <name>RedirectAlerts</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ResetingPassword --></label>
+        <name>ResetingPassword</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Risk level Error Message --></label>
+        <name>Risk_level_Error_Message</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SyncingToWebsite --></label>
+        <name>SyncingToWebsite</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Timeline_Error_Apex --></label>
+        <name>Timeline_Error_Apex</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Timeline_Error_JavaScriptResources --></label>
+        <name>Timeline_Error_JavaScriptResources</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Timeline_Error_NoDataHeader --></label>
+        <name>Timeline_Error_NoDataHeader</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Timeline_Error_NoDataSubHeader --></label>
+        <name>Timeline_Error_NoDataSubHeader</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Timeline_Error_Setup --></label>
+        <name>Timeline_Error_Setup</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Timeline_Error_Unhandled --></label>
+        <name>Timeline_Error_Unhandled</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Timeline_Label_Apply --></label>
+        <name>Timeline_Label_Apply</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Timeline_Label_Cancel --></label>
+        <name>Timeline_Label_Cancel</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Timeline_Label_Date_Range_Legend --></label>
+        <name>Timeline_Label_Date_Range_Legend</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Timeline_Label_Days --></label>
+        <name>Timeline_Label_Days</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Timeline_Label_Files --></label>
+        <name>Timeline_Label_Files</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Timeline_Label_Filter_All_Types --></label>
+        <name>Timeline_Label_Filter_All_Types</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Timeline_Label_Filter_Type_Legend --></label>
+        <name>Timeline_Label_Filter_Type_Legend</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Timeline_Label_Filters --></label>
+        <name>Timeline_Label_Filters</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Timeline_Label_Items --></label>
+        <name>Timeline_Label_Items</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Timeline_Label_Showing --></label>
+        <name>Timeline_Label_Showing</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Timeline_Navigation_Toast_Body --></label>
+        <name>Timeline_Navigation_Toast_Body</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Timeline_Navigation_Toast_Header --></label>
+        <name>Timeline_Navigation_Toast_Header</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Unknown Competitor Assets Record Type ID --></label>
+        <name>UnknownCompetitorAssetsRecordTypeID</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- VR01_AGREEMENT_ROLE_UNIQUENESS --></label>
+        <name>VR01_AGREEMENT_ROLE_UNIQUENESS</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Validate Agreement Roles Error message --></label>
+        <name>Validate_Agreement_Roles_Error_message</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- WTPccAddresses --></label>
+        <name>WTPccAddresses</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- WebsiteProspaceId --></label>
+        <name>WebsiteProspaceId</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Website Recordtype Name --></label>
+        <name>Website_Recordtype_Name</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Website Sync Failed --></label>
+        <name>Website_Sync_Failed</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Pardot Production Api Base Url --></label>
+        <name>pi__Pardot_Production_Api_Base_Url</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Pardot Production Api Base Url --></label>
+        <name>pi__Pardot_Production_Base_Url</name>
+    </customLabels>
+    <customTabs>
+        <label><!-- AUM &amp; NET FLOWS --></label>
+        <name>AUM_NET_FLOWS</name>
+    </customTabs>
+    <customTabs>
+        <label><!-- Opportunity Dashboard --></label>
+        <name>Opportunity_Dashboard</name>
+    </customTabs>
+    <customTabs>
+        <label><!-- Strategies --></label>
+        <name>Strategies</name>
+    </customTabs>
+    <customTabs>
+        <label><!-- WEBSITE ANALYTICS --></label>
+        <name>WEBSITE_ANALYTICS</name>
+    </customTabs>
+    <flowDefinitions>
+        <flows/>
+        <fullName>AccountPB004PopulateBusinessDevelopmentRegion</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>AccountPB005UpdateStrategicNewsGAM</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>AccountPB006UpdateRelationshipStatusGAM</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>AccountPB007UpdateProductStatusGAM</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>AccountPB008CreateCarmignacDistributorAsset</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>AccountPlan_PB001_NotifyOwnerUpdate</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>AccountPlan_PB002_NotifyOwnerUpdate</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>AccountPlan_PB003_NotifyOwnerUpdate</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>AccountPlan_PB004_NotifyOwnerUpdate</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Account_PB009_ChangeOwnerApproval</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Account_PB009_PushOpportunityGAM</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>ActivityPB001UpdateActivityTypeCustomField</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Agreement_PB002_PostAChatterAndFlagOwner</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Agreement_PB003_ForeignGrid</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Agreement_PB006_Notification_By_Country</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>BuyList_Update_Global_Status_at_Local</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>CampaignMemberToDelete</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>CampaignMemberToDeleteLead</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>CampaignMember_PO006</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Campaign_PB001_Createtasktargetconfirmed</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Campaign_PB002_Send_notification_when_newsletter_under_construction</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Campaign_PB004_NurturingAssignment</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Campaign_PB005_Status</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Campaign_PB006_Approved</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Campaign_PB007_Clone</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>CaseProduct</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>CategoryEvent_PB001_Createdefaultrecord</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>ComSub_PB001_CreateaRecord</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>ContactPB004UpdateProSpaceinfo</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Contact_GDPR_externally_requested</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Contact_PB001b_Iterate_update_count</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Contact_PB005_UpdateCampaignMembership</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Contact_PB006_UpdateContactSource</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Contact_PB008_ChangeOwnerMgmt</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Contact_PB009_IdentifyBRsOnCompany</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Contact_PB009_UpdateLastInteractionInfoOnCompany</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Contact_PB010_UpdateLastInteractionMeetings_Calls</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Contact_PB011_UpdateLastInteractionMeetings</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Contact_PB012_DeleteCampaignMember_OnUpdateStatus</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Due_Diligence_PB001_Notification_DD_Team</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>EVENT_PB001_CreateEventFollowUp</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>GAM_PB001_CreateGroup</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Lead_PB001_UpdateCampaignMembership</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Lead_PB002_Notification</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Lead_PB005_UpdateSubscriberOptoutToCampaignMember</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Lead_PB006_DeleteCampaignMember_OnUpdateStatus</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Lead_PB006_Update_Website_information</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Lead_PB008_UpdateProSpaceStatus</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Legal_Entity_PB001_Notification_Investor_Services_User</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>MultiContact_PB001_CreateaComSub</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <choices>
+                <name>getRiskFromAgreement</name>
+            </choices>
+            <screens>
+                <fields>
+                    <name>Collective_Funds_with_legal_personality</name>
+                </fields>
+                <fields>
+                    <name>EntityType</name>
+                </fields>
+                <fields>
+                    <name>KYD_Responsible</name>
+                </fields>
+                <fields>
+                    <name>KYD_Responsible_Details</name>
+                </fields>
+                <fields>
+                    <name>Risk</name>
+                </fields>
+                <name>Create_New_KYD_Checklist</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>ErrorCreateKYDOverisght</name>
+                </fields>
+                <name>ErrorCreateKYDDiligence</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>FlowCreateKYDDocError</name>
+                </fields>
+                <name>ErrorCreateKYDDoc</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>ErrorAgreement</name>
+                </fields>
+                <name>ErrorUpdateAgreement</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>ErrorMessage</name>
+                </fields>
+                <name>Error_Message</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>MessageInfo</name>
+                </fields>
+                <name>Message</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>Warning</name>
+                </fields>
+                <name>Warning_Msg</name>
+            </screens>
+        </flows>
+        <fullName>New_KYD_Due_Diligence_Oversight</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Opportunity_PB003_PushToAnnoucement</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Opportunity_PB004_AutomateChatter</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <textTemplates>
+                <name>BodyMessage</name>
+            </textTemplates>
+            <textTemplates>
+                <name>BodySN</name>
+            </textTemplates>
+        </flows>
+        <fullName>Post_to_Chatter_Strategic_News</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>ProductStatusPB001PushToGlobalAccount</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>RTFL01_ACC_Update_Distributor_Type</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>RelatedPartyContact_PB01_Actions</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>RelationshipStatusPB003ChatterPostProductStatus</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>RelationshipStatusPB004ChatterPostPricingStatus</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>RelationshipStatusPB005ChatterPostPeopleStatus</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>RelationshipStatusProductStatus_PushToGlobalAccount</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>RelationshipStatus_PB002_ChatterPostOverallRelationship</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>ShareClass_PB001_ClosureDate</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>StrategicNewsBP001PushToGlobalAccount</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>StrategicNews_SN001_PostChatter</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Ticket_PB001_AssignedTo_User</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>Ticket_PB002_Reported_By_User</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>UserStoty_PB001_US_AssignedTo_User</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>WorkTogether_PB002_AssignToQeueu</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>WorkTogether_PB004_WorkInProgress</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>WorkTogether_PB006_CompanyDD</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>WorkTogether_PB010_CaseClosed</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>WorkTogether_PB011_UpdateMultiContact</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>WorkTogether_PB013_RFP_Awaiting_Client_Feedback</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>WorkTogether_PB014_DD_Update_Opportunity</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>WorkTogether_PB015_DS_Update_Report_Validity</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>WorkTogether_PB11_CreateOnSiteDD</fullName>
+    </flowDefinitions>
+    <quickActions>
+        <label><!-- Follow Up --></label>
+        <name>Follow_Up</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- LogACall --></label>
+        <name>LogACall</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewAccount --></label>
+        <name>NewAccount</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewCase --></label>
+        <name>NewCase</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Create New Contact --></label>
+        <name>NewContact</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- New Event --></label>
+        <name>NewEvent</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewGroup --></label>
+        <name>NewGroup</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewLead --></label>
+        <name>NewLead</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewOpportunity --></label>
+        <name>NewOpportunity</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- New Task --></label>
+        <name>NewTask</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- New Meeting Note --></label>
+        <name>New_Meeting_Note</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- SendEmail --></label>
+        <name>SendEmail</name>
+    </quickActions>
+</Translations>

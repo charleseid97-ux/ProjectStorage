@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Company</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Companies</value>
+    </caseValues>
+    <layouts>
+        <layout>Account - Distributor Layout</layout>
+        <sections>
+            <label></label>
+            <section>AUM &amp; NET FLOWS</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Description</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Details</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Distributor AUM Exposure</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Last interactions</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Relationship Management</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Tiering and Segmentation</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Account - Global Account Layout</layout>
+        <sections>
+            <label></label>
+            <section>AUM &amp; NET FLOWS</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Address Information</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Description</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Last Interactions</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Account - Global Account Layout Admin</layout>
+        <sections>
+            <label></label>
+            <section>AUM &amp; NET FLOWS</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Description</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Last interactions</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Account - Prospect Layout</layout>
+        <sections>
+            <label></label>
+            <section>Description</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Details</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Last interactions</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Segmentation</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Account - Third Party Layout</layout>
+        <sections>
+            <label></label>
+            <section>Additional Information</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Last interactions</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Fund Selection Unit</layout>
+        <sections>
+            <label></label>
+            <section>Description</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Details</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Last interactions</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label></label>
+        <name>Child_Account</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>Deactivate_Company</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>GAM_Hierarchy_Builder</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>GAM_Homepage</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>New_Meeting_Note</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>Opportunity_Dashboard</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>Social</name>
+    </quickActions>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

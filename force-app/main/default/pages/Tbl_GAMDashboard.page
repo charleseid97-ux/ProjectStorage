@@ -1,0 +1,18 @@
+<apex:page standardController="Account" extensions="MyAccountController">
+<apex:canvasApp applicationName="Sparkler_Connector"
+    height="600"
+    width="700"
+    parameters="
+{
+    'ts.name':'{!IF(CONTAINS(TableauLogin,'CARMIGNAC\TBL_'),'NOLICENCEREPORT/NoAccessDashboardSmall','GAM-AUMANDNETFLOWS-NEWRELEASE/GAMDashboard')}',    
+    'ts.height':'550',   
+    'ts.width':'700',
+    'ts.javascriptLib':'{!webSite}/javascripts/api/viz_v1.js',
+    'ts.hostUrl':'{!webSite}/',
+    'ts.tabs':'{!IF(CONTAINS(TableauLogin,'CARMIGNAC\TBL_'),'no','yes')}',
+    'ts.toolbar':'{!IF(CONTAINS(TableauLogin,'CARMIGNAC\TBL_'),'no','yes')}',
+    'ts.trustedTicket.signedIdentity':'{!signedIdentity}',
+    'ts.filter':'Lev5_Code={!Account.TECH_CompanyTechSUNID__c}'
+}" />
+
+</apex:page>

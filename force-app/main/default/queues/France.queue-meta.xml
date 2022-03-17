@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesSendEmailToMembers>false</doesSendEmailToMembers>
+    <name>France</name>
+    <queueMembers>
+        <users>
+            <user>felix.reyes-crm@carmignac.com</user>
+            <user>frederique.bertrand-crm@carmignac.com</user>
+            <user>helene.simon-crm@carmignac.com</user>
+            <user>stephane.lawtime-crm@carmignac.com</user>
+            <user>stephanie.brayer-crm@carmignac.com</user>
+            <user>virginie.rodrigues-crm@carmignac.com</user>
+        </users>
+    </queueMembers>
+    <queueSobject>
+        <sobjectType>Lead</sobjectType>
+    </queueSobject>
+</Queue>

@@ -1,0 +1,83 @@
+<aura:component implements="force:lightningQuickAction,flexipage:availableForAllPageTypes,force:appHostable,lightning:actionOverride,force:hasRecordId" access="global" >
+    
+    <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-size_1-of-1 "  style="font-weight:bold;">
+            Placement Agreement
+        </div>
+        <div class="slds-col slds-size_1-of-1 "  style="padding-bottom:10px;">
+            Non-qualified distributors (i.e. Life insurance, Mandate (GSM), Swiss qualified investors (IFA, Fam. office))
+        </div>
+
+        <div class="slds-col slds-size_1-of-1 "  style="font-weight:bold;">
+            Distribution Agreement
+        </div>
+        <div class="slds-col slds-size_1-of-1 "  style="padding-bottom:10px;">
+            Qualified distributors in registered countries for UCITS distribution
+        </div>
+
+        <div class="slds-col slds-size_1-of-1 "  style="font-weight:bold;">
+            Private Placement Agreement
+        </div>
+        <div class="slds-col slds-size_1-of-1 "  style="padding-bottom:10px;">
+            For countries without local funds registration (i.e. Chile, Singapore) and for Alternative Investment Funds (i.e. CIL)
+        </div>
+
+        <div class="slds-col slds-size_1-of-1 "  style="font-weight:bold;">
+            US Offshore Agreement
+        </div>
+        <div class="slds-col slds-size_1-of-1 "  style="padding-bottom:10px;">
+            Dedicated to Latam through US broker dealers
+        </div>
+
+        <div class="slds-col slds-size_1-of-1 "  style="font-weight:bold;">
+            Platform Master Agreement
+        </div>
+        <div class="slds-col slds-size_1-of-1 "  style="padding-bottom:10px;">
+            Allfunds, Fundchannel, MFEX
+        </div>
+
+        <div class="slds-col slds-size_1-of-1 "  style="font-weight:bold;">
+            Sub-intermediary agreement via platform
+        </div>
+        <div class="slds-col slds-size_1-of-1 "  style="padding-bottom:10px;">
+            Examples: MFEX_Boursorama ; ALLFUNDS_Santander…
+        </div>
+
+        <div class="slds-col slds-size_1-of-1 "  style="font-weight:bold;">
+            French IFA Agreement (CGP)
+        </div>
+        <div class="slds-col slds-size_1-of-1 "  style="padding-bottom:10px;">
+            CIF Agreement
+        </div>
+
+        <div class="slds-col slds-size_1-of-1 "  style="font-weight:bold;">
+            Only Clearing Platform Agreement
+        </div>
+        <div class="slds-col slds-size_1-of-1 "  style="padding-bottom:10px;">
+            Pershing, APEX
+        </div>
+                
+        <div class="slds-col slds-size_1-of-1 "  style="font-weight:bold;">
+            Direct Investor
+        </div>
+        <div class="slds-col slds-size_1-of-1 "  style="padding-bottom:10px;">
+            Entity or retail person invetsing for his / her own behalf. Example Institutional investing for its treasury
+        </div>
+
+        <div class="slds-col slds-size_1-of-1 "  style="font-weight:bold;">
+            UK intermediaries (none platform)
+        </div>
+        <div class="slds-col slds-size_1-of-1 "  style="padding-bottom:10px;">
+            IFAs, WM
+        </div>
+
+        <div class="slds-col slds-size_1-of-1 "  style="font-weight:bold;">
+            Technical
+        </div>
+        <div class="slds-col slds-size_1-of-1 "  style="padding-bottom:10px;">
+            MIFID and Reconciliation Code IN scope
+        </div>
+
+    </div>
+    
+</aura:component>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TECH_Agreement_CodeType__c</fullName>
+    <description>Pick list use to map role with the Agreement Code type</description>
+    <externalId>false</externalId>
+    <label>Agreement Code Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Distribution Agreement</fullName>
+                <default>false</default>
+                <label>Distribution Agreement</label>
+            </value>
+            <value>
+                <fullName>French IFA Agreement</fullName>
+                <default>false</default>
+                <label>French IFA Agreement</label>
+            </value>
+            <value>
+                <fullName>Swiss IFA Agreement</fullName>
+                <default>false</default>
+                <label>Swiss IFA Agreement</label>
+            </value>
+            <value>
+                <fullName>Execution only Platform Agreement</fullName>
+                <default>false</default>
+                <label>Execution only Platform Agreement</label>
+            </value>
+            <value>
+                <fullName>Placement Agreement</fullName>
+                <default>false</default>
+                <label>Placement Agreement</label>
+            </value>
+            <value>
+                <fullName>Platform Master Agreement</fullName>
+                <default>false</default>
+                <label>Platform Master Agreement</label>
+            </value>
+            <value>
+                <fullName>Private Placement Agreement</fullName>
+                <default>false</default>
+                <label>Private Placement Agreement</label>
+            </value>
+            <value>
+                <fullName>OEIC Distribution Agreement</fullName>
+                <default>false</default>
+                <label>OEIC Distribution Agreement</label>
+            </value>
+            <value>
+                <fullName>UK Execution only Platform Agreement</fullName>
+                <default>false</default>
+                <label>UK Execution only Platform Agreement</label>
+            </value>
+            <value>
+                <fullName>Sub-distributor via Platforms</fullName>
+                <default>false</default>
+                <label>Sub-distributor via Platforms</label>
+            </value>
+            <value>
+                <fullName>Direct Investor</fullName>
+                <default>false</default>
+                <label>Direct Investor</label>
+            </value>
+            <value>
+                <fullName>End Investor</fullName>
+                <default>false</default>
+                <label>End Investor</label>
+            </value>
+            <value>
+                <fullName>Consultant</fullName>
+                <default>false</default>
+                <label>Consultant</label>
+            </value>
+            <value>
+                <fullName>Direct Investor without Agreement</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Direct Investor without Agreement</label>
+            </value>
+            <value>
+                <fullName>French IFA Agreement (CGP)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>French IFA Agreement (CGP)</label>
+            </value>
+            <value>
+                <fullName>Only Clearing Platform Agreement</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Only Clearing Platform Agreement</label>
+            </value>
+            <value>
+                <fullName>UK intermediaries (none platform)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>UK intermediaries (none platform)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

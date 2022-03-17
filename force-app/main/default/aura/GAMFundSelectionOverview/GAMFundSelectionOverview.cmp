@@ -1,0 +1,63 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId,force:hasSObjectName"             
+                controller="FundSelectionUtil" access="global">
+    
+    <aura:attribute name="productList" type="Product__c[]" access="global"/>    
+    <aura:attribute name="FSUList" type="Object[]" access="global"/>
+	<aura:attribute name="isCoveredList" type="String[]" access="global"/>
+
+    <aura:attribute name="customFSUManagement" type="Boolean" access="global"/>
+    <aura:attribute name="creationComponent" type="String" access="global"/>
+
+    <aura:attribute name="accIdOveride" type="String" access="global"/>
+	
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/> 
+    <aura:handler event="force:refreshView" action="{!c.init}" />
+
+    <aura:if isTrue="{!v.customFSUManagement}">
+        {!v.creationComponent}
+    </aura:if>
+
+    <div class="slds-card_boundary slds-card forceRelatedListCardDesktop slds-scrollable" style="overflow:hidden;">
+        <div style="padding : 1em;">
+            <lightning:icon iconName="custom:custom41" size="small" alternativeText="Object"/> <label class="slds-text-heading--small slds-truncate slds-m-right--xx-small" style="margin-left : 0.75em"><b>FSU - Product Coverage</b></label>
+            <lightning:button label="Configure FSU" onclick="{! c.newFSUProcess }" class="right-align"/>
+        </div>
+        <div class="slds-scrollable">
+            <div class="slds-grid slds-wrap slds-scrollable">
+                <div class="slds-scrollable forceBaseListView forceRelatedListPreviewGrid" data-aura-rendered-by="3133:0" data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                    <table id="myTable2" class="slds-scrollable forceRecordLayout slds-table slds-no-row-hover slds-table_cell-buffer slds-table_fixed-layout uiVirtualDataGrid--default uiVirtualDataGrid list" data-aura-class="uiVirtualDataGrid--default uiVirtualDataGrid">
+                        <thead>
+                            <tr class="headerRow">
+                                <th width="100px">Strategy</th>
+                                <aura:iteration items="{!v.FSUList}" var="FSU" indexVar="index">
+                                    <!--<th class=" descending zen-deemphasize" scope="col" width="200px"  style="text-align:center;" ><a href="{!'/'+FSU.cId}">{!FSU.cLabel}</a></th>-->
+                                    <th class=" descending zen-deemphasize" scope="col" width="200px"  style="text-align:center;" ><a href="javascript:void(0);" onclick="{!c.sortTable}" data-value="{!index}">{!FSU.cLabel}</a></th>
+                                </aura:iteration>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{!v.productList}" var="product">
+                                <tr scope="row" class="dataRow">
+                                    <th>
+                                        {!product.Name} <lightning:helptext content="{!product.Product_Name__c}" />
+                                    </th>
+                                    <aura:iteration items="{!v.FSUList}" var="FSU">
+                                        <td style="text-align:center;">
+                                            <c:auraIfContains items="{!v.isCoveredList}" element="{!product.Name+'-'+FSU.cLabel}">
+                                                <img id="clientTier" src="/resource/GreenTick" style="width:20px;"/>
+                                            </c:auraIfContains>
+                                            <c:auraIfNotContains items="{!v.isCoveredList}" element="{!product.Name+'-'+FSU.cLabel}">
+                                                <img id="clientTier" src="/resource/RedCross" style="width:20px;"/>
+                                            </c:auraIfNotContains>
+                                        </td>
+                                    </aura:iteration>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</aura:component>

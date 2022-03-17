@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Strategic_News_Send_email_if_SN_created_on_GAM_or_LAM</fullName>
+        <ccEmails>professionalclients@carmignac.com</ccEmails>
+        <ccEmails>workgroup.strategicclientcommittee@carmignac.com</ccEmails>
+        <ccEmails>portfolioadvisors@carmignac.com</ccEmails>
+        <ccEmails>marketing2@carmignac.com</ccEmails>
+        <ccEmails>distributionanddigital.technology@carmignac.com</ccEmails>
+        <description>Strategic News - Send email if SN created on GAM or LAM</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>HeadOfCountries</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>benoit.nansot-crm@carmignac.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>CarmignacGlobalAccountAlerts/Strategic_News_Email_Alert</template>
+    </alerts>
+    <rules>
+        <fullName>StrategicNews_BuyLIstTask</fullName>
+        <actions>
+            <name>Buy_List_needs_to_be_updated</name>
+            <type>Task</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>StrategicNews__c.Subtype__c</field>
+            <operation>equals</operation>
+            <value>Short listed / Selected,Push,Buy,Review,Hold,Sell</value>
+        </criteriaItems>
+        <description>Create Task to update Buy List from Strategic News</description>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>StrategicNews_SendEmail</fullName>
+        <actions>
+            <name>Strategic_News_Send_email_if_SN_created_on_GAM_or_LAM</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>StrategicNews__c.Title__c</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <description>Send email alert to diffusion lists each time a Strategic News is created.</description>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <tasks>
+        <fullName>Buy_List_needs_to_be_updated</fullName>
+        <assignedToType>owner</assignedToType>
+        <description>A Product Placement Strategic News has been sent and the Buy List needs to be updated.</description>
+        <dueDateOffset>7</dueDateOffset>
+        <notifyAssignee>false</notifyAssignee>
+        <priority>High</priority>
+        <protected>false</protected>
+        <status>To Do</status>
+        <subject>Buy List needs to be updated</subject>
+    </tasks>
+</Workflow>

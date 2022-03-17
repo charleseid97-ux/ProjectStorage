@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>My_Termination_Requests</fullName>
+    <columns>NAME</columns>
+    <columns>ConventionName__c</columns>
+    <columns>Amendment_Approval_Status__c</columns>
+    <columns>Agreement_Termination_Status__c</columns>
+    <columns>Status__c</columns>
+    <columns>Business_Region__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Agreement_Termination_Status__c</field>
+        <operation>equals</operation>
+        <value>HOC Approval,Top Mgmt Approval,Legal Approval</value>
+    </filters>
+    <label>My Termination Requests</label>
+</ListView>

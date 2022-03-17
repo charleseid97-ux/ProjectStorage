@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MasterConvention__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Master Agreement</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Convention__c.Agreement_Type__c</field>
+            <operation>equals</operation>
+            <value>Master</value>
+        </filterItems>
+        <isOptional>true</isOptional>
+    </lookupFilter>
+    <referenceTo>Convention__c</referenceTo>
+    <relationshipLabel>Agreements</relationshipLabel>
+    <relationshipName>SubConventions</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

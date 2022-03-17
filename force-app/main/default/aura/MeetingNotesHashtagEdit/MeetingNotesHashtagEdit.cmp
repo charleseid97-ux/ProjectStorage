@@ -1,0 +1,22 @@
+<aura:component controller="MeetingNotesHashtagEditController" access="global">
+	<aura:attribute name="fieldData" type="String" default=""/>
+	<aura:attribute name="previousData" type="String" default=""/>
+	<aura:attribute name="allTags" type="List"/>
+    <aura:attribute name="filteredTags" type="List"/>
+    <aura:attribute name="currentTag" type="String" default=""/>
+    <aura:attribute name="writingTag" type="Boolean" default="false"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <div onkeypress="{!c.keyCheck}" onkeydown="{!c.keyCheckDown}">
+        <lightning:inputRichText aura:id="textInput" placeholder="Type to enter notes" value="{!v.fieldData}"/>
+    </div>
+
+    <div aura:id="tagDropdown" class="cts-tag-panel slds-has-focus cts-hidden">
+        <ul class="dropdown__list slds-list_horizontal">
+            <aura:iteration items="{!v.filteredTags}" var="item">
+                <li class="slds-dropdown__item" onclick="{!c.completeTag}"><a><span class="slds-truncate">{!item}</span></a></li>
+            </aura:iteration>
+        </ul>
+    </div>
+</aura:component>

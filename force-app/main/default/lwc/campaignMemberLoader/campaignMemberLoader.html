@@ -1,0 +1,63 @@
+<template>
+    <div style="text-align: center;">
+        <lightning-file-upload record-id=""
+                               label="Upload Members CSV"
+                               name="fileUploader"
+                               accept={acceptedFormats}
+                               onuploadfinished={handleUploadFinished}
+                               onclick={handleUploadFileClicked}>
+        </lightning-file-upload>
+        <br>
+        <br>
+        <a href={templateURL}
+           target="_blank">
+            <lightning-button label='Download Template'>
+            </lightning-button>
+        </a>
+        <span if:true={displayProcessingMessage}
+              style="color: #00AB66">
+            <br>
+            <br>
+            <br>
+            <b>{processingMessage}</b>
+            <br>
+            <b>{checkEmailMessage}</b>
+        </span>
+    </div>
+    <c-modal is-visible-modal={isVisiblePreviewModal}
+             onconfirm={insertRecords}
+             onclose={hidePreviewModal}
+             close-button-label='Cancel'
+             is-disabled-confirm={loading}
+             is-disabled-close={loading}>
+        <H2 slot="header">Import Preview</H2>
+        <div slot="body">
+            <lightning-input if:true={displayHeaderToggle}
+                             type="toggle"
+                             label="First row is a header"
+                             onchange={toggleHeader}
+                             max-length=1>
+            </lightning-input>
+            <div style="display: inline-block">
+                <span>Fields separator: </span>
+            </div>
+            <lightning-input if:true={displaySeparatorInput}
+                             class="import-preview-field-separator"
+                             type="text"
+                             label=""
+                             max-length='1'
+                             variant="label-inline"
+                             value={fieldsSeparator}
+                             onchange={updateFieldSeparator}>
+            </lightning-input>
+            <div style="height: 300px">
+                <lightning-datatable key-field="col1"
+                                     data={previewData}
+                                     columns={columns}
+                                     hide-checkbox-column>
+                </lightning-datatable>
+            </div>
+            <lightning-spinner if:true={loading}></lightning-spinner>
+        </div>
+    </c-modal>
+</template>

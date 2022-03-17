@@ -1,0 +1,45 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,flexipage:availableForAllPageTypes,force:appHostable,lightning:actionOverride,force:hasRecordId" access="global" >
+
+    <aura:attribute name="GAMId" type="string" description="API name of the UP" />
+    <aura:attribute name="GAMName" type="string" description="Name of the UP" />
+    <aura:attribute name="GAMTier" type="string" description="Tier of the UP" />
+    <aura:attribute name="clientTierImage" type="string" description="Tier of the UP" />
+    <aura:attribute name="viewTieringComponent" type="Boolean" access="global"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/> 
+
+    <aura:if isTrue="{!v.viewTieringComponent}">
+    <!--###### MODAL BOX Start From Here ######--> 
+    <div role="dialog" tabindex="-1" aria-labelledby="header99" class="slds-modal slds-fade-in-open ">
+        <div class="slds-modal__container">
+            <div class="slds-modal__header">
+                <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" onclick="{!c.closeComponent}">
+                    X
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <h1 id="header99" class="slds-text-heading--medium">{!v.GAMName} Tiering - {!v.GAMTier} <img id="clientTier" src="{!v.clientTierImage}" class="headImage"  /></h1>
+            </div>
+
+            <div class="slds-modal__content slds-p-around--large">
+                <span style="color : red">{!v.message}</span>
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_1-of-1"  style="padding : 3px">
+                        <div class="slds-scrollable forceBaseListView forceRelatedListPreviewGrid" data-aura-rendered-by="3133:0" data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                            <div class="slds-grid slds-wrap">
+                                
+                                <iframe width="100%" height="100%" src="/resource/AccountTierOverview" class="iFrameContainer"/>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-modal__footer">
+                <lightning:button label="Close" onclick="{!c.closeComponent}"/>
+            </div>
+        </div>
+    </div>
+    
+    <div class="slds-backdrop slds-backdrop--open"></div>
+    </aura:if>
+</aura:component>

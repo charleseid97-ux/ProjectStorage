@@ -1,0 +1,52 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId,force:hasSObjectName"             
+                controller="GAMHomepageCtrl" access="global">
+	
+    <aura:attribute name="recordId" type="String" access="global" default="" />
+    <aura:attribute name="GAMId" type="String" access="global" default="" />
+    <aura:attribute name="GAMAccount" type="Account" access="global"/>    
+    <aura:attribute name="FullBuyListFileId" type="String" access="global"/>
+    <aura:attribute name="description" type="String" access="global"/>
+
+    <aura:attribute name="globalImage" type="String" access="global" default="/resource/GAMHomepageIcons/GlobalLocal_Buy_List_icon_100x100_Green.png"/>
+    <aura:attribute name="processImage" type="String" access="global" default="/resource/GAMHomepageIcons/FS_Process_Overview_icon_100x100_Green.png"/>
+    <aura:attribute name="buyListImage" type="String" access="global" default="/resource/GAMHomepageIcons/Full_Clients_Buy_List_icon_100x100_Green.png"/>
+
+    <aura:attribute name="processComponent" type="String" access="global"/>
+
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/> 
+    
+    {!v.processComponent}
+
+    <div class="slds-card_boundary slds-card forceRelatedListCardDesktop slds-scrollable">
+        <div style="padding : 1em;">
+            <label class="slds-text-heading--small slds-truncate slds-m-right--xx-small" style="margin-left : 0.75em"><b>FS Process &amp; Buy List</b></label>
+            <div style="width:100%;text-align:center;height:20px;">{!v.description}</div>
+        </div>
+        <div class="slds-scrollable">
+            <div class="slds-grid slds-wrap slds-scrollable">
+                    <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-3" style="text-align:center;">
+                        <lightning:card >
+                            <a onclick="{!c.loadGlobalLocalReport}" onmouseover="{!c.showGlobalDescription}" onmouseout="{!c.hideDescription}" ><img src="{!v.globalImage}" style="height:100px;" />
+                            <br/>
+                                <div class="slds-text-heading--medium">Global &amp; Local Buy List</div></a>
+                        </lightning:card>
+                    </div>
+                    <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-3" style="text-align:center;">
+                        <lightning:card >
+                            <a onclick="{!c.loadProcessComponent}" onmouseover="{!c.showProcessDescription}" onmouseout="{!c.hideDescription}" ><img src="{!v.processImage}" style="height:100px;" />
+                            <br/>
+                            <div class="slds-text-heading--medium">FSU Product Coverage</div></a>
+                        </lightning:card>
+                    </div>
+                    <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-3" style="text-align:center;">
+                        <lightning:card >
+                            <a onclick="{!c.loadFullBuyListComponent}" onmouseover="{!c.showBuyListDescription}" onmouseout="{!c.hideDescription}" ><img src="{!v.buyListImage}" style="height:100px;" />
+                            <br/>
+                            <div class="slds-text-heading--medium">Full Client’s Buy List</div></a>
+                        </lightning:card>
+                    </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

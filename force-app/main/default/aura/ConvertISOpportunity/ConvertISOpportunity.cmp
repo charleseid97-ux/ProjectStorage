@@ -1,0 +1,75 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,flexipage:availableForAllPageTypes,force:appHostable,lightning:actionOverride,force:hasRecordId" access="global" controller="OpportunityCtrl">
+	
+    <aura:attribute name="recordId" type="string" description="RecordId of the opportunity" />
+    <aura:attribute name="opportunity" type="Opportunity" access="global"/>
+    <aura:attribute name="interestedPartners" type="List" access="global"/>
+    <aura:attribute name="conversionStep" type="Integer" default="0"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <!--  this tag sets modal width -->
+    <aura:html tag="style">
+        .slds-modal__container {
+         min-width: 800px;
+        }
+    </aura:html>  
+    <div class="slds-container--center slds-container--large">
+        
+        <c:ToastErrorHandler aura:id="toastErrorHandler" />
+        
+        <article class="slds-card">
+            
+            <div class="slds-page-header">
+                <div class="slds-grid">
+                    
+                    <div class="slds-col slds-has-flexi-truncate">
+                        <div class="slds-media slds-no-space slds-grow">
+                            <div class="slds-media__figure">
+                                <span class="slds-icon_container slds-icon-standard-account" title="description of icon when needed">
+                                    <lightning:icon iconName="standard:account" size="large" alternativeText="Account Plans"/>
+                                </span>
+                            </div>
+                            <div class="slds-media__body">
+                                <p class="slds-text-title_caps slds-line-height_reset">Convert IS Pre-Pipeline</p>
+                                <h1 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate" title="{!v.opportunity.Name}">{!v.opportunity.Name}</h1>
+                            </div>
+                        </div>
+                    </div>
+                    
+                   
+                </div>
+            </div>
+            <aura:renderIf isTrue="{!v.conversionStep==0}">
+                <div class="slds-section slds-is-open apDetails" id="apDetails" aura:id="apDetails">
+                    <aura:if isTrue="{! or(v.opportunity.Solution_Validation__c == 'Rejected', v.opportunity.IsClosed)}" >
+                        <br/><br/>
+                        This Pre-Pipeline IS Opportunity has been rejected or closed by the Investment Solution team and cannot be converted.<br/><br/>
+                        Please contact the Investment Solution team if you believe this is an error.
+                    </aura:if>
+                    <aura:if isTrue="{! and(v.opportunity.Solution_Validation__c != 'Rejected', not(v.opportunity.IsClosed))}" >
+                        <h3 class="slds-section__title slds-theme_shade">
+                            <span class="slds-truncate slds-p-horizontal_small" title="Section Title">Select which Interested Partner to convert</span>
+                        </h3>
+                        <div aria-hidden="false" class="slds-section__content">
+                            <p>
+                                <table class="slds-scrollable forceRecordLayout slds-table slds-no-row-hover slds-table_cell-buffer slds-table_fixed-layout uiVirtualDataGrid--default uiVirtualDataGrid list" data-aura-class="uiVirtualDataGrid--default uiVirtualDataGrid">
+                                    <tbody>
+                                        <aura:iteration items="{!v.interestedPartners}" var="ip">
+                                            <tr scope="row" class="dataRow">
+                                                <th scope="row" class="dataCell">{!ip.Company__r.Name}</th>
+                                                <th><lightning:button label="Convert" onclick="{!c.convertOpp}" value="{!ip.Id}" /></th>
+                                            </tr>
+                                        </aura:iteration>
+                                    </tbody>
+                                </table>
+                            </p>
+                        </div>
+                    </aura:if>
+                </div>
+            </aura:renderIf>
+			<aura:renderIf isTrue="{!v.conversionStep==1}">
+                <div style="width:100%;text-align:center;font-size:16px;"><br/>Converting...<br/><img src="/resource/HierarchyLoading" style="width:50%;"/></div>
+            </aura:renderIf>
+        </article>
+    </div>
+</aura:component>

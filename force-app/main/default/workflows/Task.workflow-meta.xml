@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>EmailAlertTaskAssignedDone</fullName>
+        <description>Email alert Task assigned is Done</description>
+        <protected>false</protected>
+        <recipients>
+            <type>creator</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>CarmignacAlerts/AlertsAssignedTasksDone</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>Task_UpDateCompletionDate</fullName>
+        <field>CompletionDate__c</field>
+        <formula>TODAY()</formula>
+        <name>Task_UpDateCompletionDate</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Task_WF001_UpdateAssignedTask</fullName>
+        <actions>
+            <name>EmailAlertTaskAssignedDone</name>
+            <type>Alert</type>
+        </actions>
+        <active>false</active>
+        <formula>AND(     CreatedById  &lt;&gt;  OwnerId ,     ISPICKVAL( Status , &quot;Done&quot;),     $User.BypassValidationRules__c = false )</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Task_WF002_UpdateCompletionDate</fullName>
+        <actions>
+            <name>Task_UpDateCompletionDate</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Task.Status</field>
+            <operation>equals</operation>
+            <value>Done</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>User.BypassWorkflowRules__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
+        <description>Automatically populate Completion Date field with day&apos;s date of task completion</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+</Workflow>

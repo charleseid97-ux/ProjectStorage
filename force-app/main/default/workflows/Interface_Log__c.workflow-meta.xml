@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>InterfaceLog_Notify_CmpMbr</fullName>
+        <description>InterfaceLog Notify Cmp Member</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>felix.reyes-crm@carmignac.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>noor.goolamnabee@jlconsulting.fr</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>DefaultWorkflowUser</senderType>
+        <template>CarmignacAlerts/InterfaceLog_CmpMember</template>
+    </alerts>
+    <alerts>
+        <fullName>InterfaceLog_Notify_Error500</fullName>
+        <description>InterfaceLog Notify Error500</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>felix.reyes-crm@carmignac.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>noor.goolamnabee@jlconsulting.fr</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>DefaultWorkflowUser</senderType>
+        <template>CarmignacAlerts/InterfaceLog_error500</template>
+    </alerts>
+    <rules>
+        <fullName>InterfaceLog_WF01_NotifyError500</fullName>
+        <actions>
+            <name>InterfaceLog_Notify_Error500</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Interface_Log__c.Error__c</field>
+            <operation>contains</operation>
+            <value>Response getStatusCode: 5</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Interface_Log__c.Interface_Name__c</field>
+            <operation>contains</operation>
+            <value>Etouches</value>
+        </criteriaItems>
+        <description>Notify user and support that an internal server error of type 5xx (500,501,etc) occurred with eTouches interface</description>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>InterfaceLog_WF02_NotifyErrorCmpMbr</fullName>
+        <actions>
+            <name>InterfaceLog_Notify_CmpMbr</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Interface_Log__c.Interface_Name__c</field>
+            <operation>equals</operation>
+            <value>SM016_CampaignMemberTriggerHandler callCreateSubscribereTouches</value>
+        </criteriaItems>
+        <description>Notify user and support that an error occurred while sending a campaing member to eTouches</description>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+</Workflow>

@@ -1,0 +1,66 @@
+<!--
+ - Created by Noor on 1/19/2021.
+ -->
+
+<aura:component description="AccountPlanFundArchitecture" implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId,force:hasSObjectName"
+                controller="AccountPlanCtrl" access="global">
+
+    <aura:attribute name="buyListDetailVal" type="String" default="" access="global"/>
+    <aura:attribute name="buttonStatementES" type="String" access="global"/>
+    <aura:attribute name="editTrueES" type="boolean" default="true" access="global"/>
+    <aura:attribute name="saveOpenES" type="boolean" default="false"/>
+    <aura:attribute name="textFieldDisabledES" type="boolean" default="true"/>
+    <aura:attribute name="companyNameVal" type="String" default="" access="global"/>
+
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+
+    <div class="slds-grid slds-gutters">
+        <div class="slds-col--padded slds-size--1-of-1">
+            <lightning:card >
+                <span>
+                    <div  class="slds-card_boundary slds-card slds-card_boundary forceRelatedListCardDesktop">
+                        <article class="slds-card">
+                            <div class="slds-card__header slds-grid">
+                                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                    <lightning:icon iconName="custom:custom41" size="small" alternativeText="Object"/>
+                                    <label class="slds-text-heading--small slds-truncate slds-m-right--xx-small" style="margin-left : 0.75em"></label>
+                                    <div class="slds-media__body">
+                                        <h1 class="slds-card__header-title">
+                                            <span class="slds-text-heading_small">
+                                                <b>
+                                                    3RD PARTY FUND ARCHITECTURE (OPEN/GUIDED/CLOSED) / What is the impact of GUIDED ARCHITECTURE at '{!v.companyNameVal}' and what is the level of independence from the Buy List?
+                                                    <lightning:helptext content="IMPACT OF GUIDED ARCHITECTURE (BUY LIST, STRATEGIC PARTNERSHIP, SERVICE LEVEL AGREEMENT, OTHER). HOW BUY LIST IS DRIVING THE FLOWS" />
+                                                </b>
+                                            </span>
+                                        </h1>
+                                    </div>
+                                    <div class="slds-no-flex">
+                                        <aura:if isTrue="{!v.saveOpenES}">
+                                            <lightning:button variant="success" label="Save 3RD PARTY FUND" title="Save Buy List Detail" onclick="{!c.saveBuyListDetail}" />
+                                        </aura:if>
+                                        <aura:if isTrue="{!(!v.saveOpenES)}">
+                                            <lightning:button label="{!v.buttonStatementES}" title="{!v.buttonStatementES}" onclick="{!c.editBuyListDetail}" />
+                                        </aura:if>
+                                    </div>
+                                </header>
+                            </div>
+                            <footer class="slds-card__footer">
+
+                                <div class="slds-card__body slds-card__body_inner">
+                                    <div class="row">
+                                        <lightning:textarea name="inputES" readonly="{!v.editTrueES}" disabled="{!v.textFieldDisabledES}" value="{!v.buyListDetailVal}" />
+                                    </div>
+                                </div>
+
+                            </footer>
+                        </article>
+                    </div>
+
+        		</span>
+            </lightning:card>
+        </div>
+    </div>
+
+
+</aura:component>

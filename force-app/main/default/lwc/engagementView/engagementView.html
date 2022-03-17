@@ -1,0 +1,22 @@
+<template>
+    <lightning-layout vertical-align="stretch" multiple-rows="true" class="x-large">
+
+        <lightning-button variant="brand" label="All" onclick={clickGlobal}>
+        </lightning-button>&nbsp;
+        <lightning-button variant="brand" label="Interactions By Product" onclick={clickInteractionsByProduct}>
+        </lightning-button>&nbsp;
+
+        <br><br><br>
+        <lightning-layout-item flexibility="auto" size="12" padding="around-small" class="custom-box">
+            <template if:true={showGlobal}>
+                <c-snap-engagement-view record-id={recordId} clicked-button={clickedButton}></c-snap-engagement-view>
+            </template>
+
+            <template if:true={showInteractionsByProduct}>
+                <c-product-by-asset record-id={recordId} clicked-button={clickedButton}>
+                </c-product-by-asset>
+            </template>
+            
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

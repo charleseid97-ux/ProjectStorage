@@ -1,0 +1,95 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId,force:hasSObjectName"             
+                controller="StrategicNewsCtrl" access="global">
+    
+    <aura:attribute name="objInfo" type="case" default="{sobjectType : 'StrategicNews__c'}"/>
+    <aura:attribute name="recordId" type="String" access="global"/>
+    <aura:attribute name="strategicNewsList" type="List" access="global"/>
+    <aura:attribute name="hierarchyAccountIds" type="List" access="global"/>
+    <aura:attribute name="TypeMap" type="Map" access="global"/>
+    <aura:attribute name="currentType" type="String" default="All" access="global"/>
+    <!-- attribute list ok selected Strategique News -->
+    <aura:attribute type="List" name="selectedSN" default="[]" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <div class="slds-scrollable" style="width:100%">
+        <div class="slds-grid slds-wrap slds-scrollable">
+            <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-3">
+                <lightning:select label="Type" name="a_opt" aura:id="a_opt" onchange="{!c.changeSNType}">
+                    <option value="All">All</option>
+                    <aura:iteration items="{!v.TypeMap}" var="snT">
+                        <option value="{!snT}">{!snT}</option>
+                    </aura:iteration>
+                </lightning:select>
+                <br/>
+            </div>
+            <div class="slds-scrollable forceBaseListView forceRelatedListPreviewGrid" data-aura-rendered-by="3133:0" data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                <div  class="slds-card_boundary slds-card slds-card_boundary forceRelatedListCardDesktop">
+                    <article class="slds-card">
+                        <div class="slds-card__header slds-grid">
+                            <header class="slds-media slds-media_center slds-has-flexi-truncate">  
+                                <lightning:icon iconName="custom:custom62" size="small" alternativeText="Strategic News"/>
+                                <label class="slds-text-heading--small slds-truncate slds-m-right--xx-small" style="margin-left : 0.75em"></label>               
+                                <div class="slds-media__body">
+                                    <h1 class="slds-card__header-title">
+                                        <span class="slds-text-heading_small">
+                                            <b>
+                                                Strategic News - {!v.currentType}
+                                            </b>
+                                        </span>                       
+                                    </h1>
+                                </div>
+                                
+                                <!-- Buttons Download PDF-->
+                                <div class="slds-col slds-no-flex slds-grid slds-align-top">
+                                    <lightning:buttonGroup >
+                                    <div style="padding-top:5px;padding-right:5px;">Select the tickboxes down the right to </div>
+                                        <lightning:button variant="brand" label="Download PDF" onclick="{! c.onGeneratePDF }" />
+                                    </lightning:buttonGroup>
+                                    <c:StrategicNewsAggregatorPDF aura:id='SNADownloadPDF'/> 
+                                </div>
+                                
+                            </header>
+                        </div>
+                        <table class="slds-table slds-table_bordered slds-table_striped slds-table_cell-buffer slds-table_fixed-layout">
+                            <thead>
+                                <tr class="slds-text-heading_label">
+                                    <th scope="col"><div class="slds-truncate" title="Name">Company</div></th>
+                                    <th scope="col"><div class="slds-truncate" title="Type">Type</div></th>
+                                    <th scope="col"><div class="slds-truncate" title="Sub Type">Sub Type</div></th>
+                                    <th scope="col"><div class="slds-truncate" title="Name">Date</div></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Use the Apex model and controller to fetch server side data -->
+                                <aura:iteration items="{!v.strategicNewsList}" var="sn">
+                                    <tr>
+                                        <td colspan="3" style="background-color:white;border-top:0px;border-bottom:0px;"><div class="slds-truncate" title="{!sn.Title__c}"><a href="{!'/one/one.app?#/sObject/'+ sn.Id}">{!sn.Title__c}</a></div></td>
+                                        <td style="background-color:white;border-top:0px;border-bottom:0px;text-align:right;"><div class="slds-truncate" title="{!sn.Title__c}"><lightning:button label="expand" variant="base" onclick="{!c.expandNews}" title="expand" aura:id="{!'BT'+sn.Id}"  value="{!sn.Id}"/>
+                                            <lightning:input type="checkbox" aura:id="{!sn.Id}" value="{!sn.Id}" onchange="{! c.callCheckboxMethod }" /></div></td>
+                                        
+                                    </tr>
+                                    <tr>
+                                        <td style="background-color:white;border-top:0px;border-bottom:0px"><div class="slds-truncate" title="{!sn.Company__c.Name}"><a href="{!'/one/one.app?#/sObject/'+ sn.Company__c}">{!sn.Company__r.Name}</a></div></td>
+                                        <td style="background-color:white;border-top:0px;border-bottom:0px"><div class="slds-truncate" title="{!sn.Type__c}">{!sn.Type__c}</div></td>
+                                        <td style="background-color:white;border-top:0px;border-bottom:0px"><div class="slds-truncate" title="{!sn.Subtype__c}">{!sn.Subtype__c}</div></td>
+                                        <td style="background-color:white;border-top:0px;border-bottom:0px"><div class="slds-truncate" title="{!sn.CreatedDate}"><lightning:formattedDateTime value="{!sn.CreatedDate}"/></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" style="background-color:white;border-top:0px;">
+                                            <div id="{!'SN'+sn.Id}" class="slds-transition-hide">
+                                                <ui:outputText value="{!sn.StrategicNews__c}"/>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </aura:iteration>
+                            </tbody>
+                        </table>
+                    </article>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    
+</aura:component>

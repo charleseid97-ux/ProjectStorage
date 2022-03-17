@@ -1,0 +1,83 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId"
+                controller="ContactEngagementUtil"
+                access="global">
+    
+    <aura:attribute name="metricResult" default="" type="Object"/>
+    <aura:attribute name="CIText" default="" type="String"/>
+    <aura:attribute name="MAText" default="" type="String"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="force:refreshView" action="{!c.doInit}" />
+
+    <lightning:card variant="Narrow" class="lightningCardOverflow" >
+        <div class="slds-text-align_left" >
+            <img id="clientTier" src="{!v.personaImage}" style="height:90px;margin-top:-13px;float:left;margin-right:10px;"/>
+            <div style="padding-left:10px;">
+                <aura:if isTrue="{!v.metricResult.TotalFI > 0}" >
+                    <br/>
+	                <div>Product by Asset Class interest based on <strong>{!v.metricResult.TotalFI}</strong> website views from the last <strong>90 days</strong></div>
+                    <br/>
+                    <div class="breakdownHolder">
+                        <aura:if isTrue="{! v.metricResult.TotalDiversified > 0}">
+	                        <div style="{! 'width:' + v.metricResult.TotalDiversifiedPerc + '%;' }" class="engagementSection diversifiedSection"></div>
+                        </aura:if>
+                        <aura:if isTrue="{! v.metricResult.TotalEquity > 0}">
+    	                    <div style="{! 'width:' + v.metricResult.TotalEquityPerc + '%;' }" class="engagementSection equitySection"></div>
+                        </aura:if>
+                        <aura:if isTrue="{! v.metricResult.TotalFixedIncome > 0}">
+                            <div style="{! 'width:' + v.metricResult.TotalFixedIncomePerc + '%;' }" class="engagementSection fixedIncomeSection"></div>
+                        </aura:if>
+                        <aura:if isTrue="{! v.metricResult.TotalProfiled > 0}">
+                            <div style="{! 'width:' + v.metricResult.TotalProfiledPerc + '%;' }" class="engagementSection profiledSection"></div>
+                        </aura:if>
+                    </div>
+                        <div class="keyContainer"><div class="engagementSection diversifiedSection"></div> Diversified ({!v.metricResult.TotalDiversified})</div>
+                        <div class="keyContainer"><div class="engagementSection equitySection"></div> Equity ({!v.metricResult.TotalEquity})</div>
+                        <div class="keyContainer"><div class="engagementSection fixedIncomeSection"></div> Fixed Income ({!v.metricResult.TotalFixedIncome})</div>
+                        <div class="keyContainer"><div class="engagementSection profiledSection"></div> Profiled ({!v.metricResult.TotalProfiled})</div>
+                    <br clear="all"/>
+                </aura:if>
+                <aura:if isTrue="{!v.metricResult.TotalFI == 0}" >
+                    <br/>
+                    <strong>There is no recent Fund Interest Activity for this Contact</strong>
+                </aura:if>
+                <br/>
+
+                <aura:if isTrue="{!v.metricResult.TotalCI > 0}" >
+                    <br/>
+					<div>Content Consumption metrics based on <strong>{!v.metricResult.TotalCI}</strong> website views from the last <strong>90 days</strong></div>
+                    <div style="width:100%;text-align:center;height:25px;font-weight:bold;">&nbsp;{!v.CIText}</div>
+                    <div onmouseover="{!c.showQRCIText}" onmouseout="{!c.hideCIText}" style="padding-right:10px;float:left;width:16.6%;"><img src="{!'/resource/EngagementIcons/Icons/quarterly-report.gif'}" style="height:35px;align:absmiddle;" /> ({!v.metricResult.TotalQuarterlyReport})</div>
+                    <div onmouseover="{!c.showFNCIText}" onmouseout="{!c.hideCIText}" style="padding-right:10px;float:left;width:16.6%;"><img src="{!'/resource/EngagementIcons/Icons/flash-note.gif'}" style="height:35px;align:absmiddle;" /> ({!v.metricResult.TotalFlashNote})</div>
+                    <div onmouseover="{!c.showVCIText}" onmouseout="{!c.hideCIText}" style="padding-right:10px;float:left;width:16.6%;"><img src="{!'/resource/EngagementIcons/Icons/video.gif'}" style="height:35px;align:absmiddle;" /> ({!v.metricResult.TotalVideo})</div>
+                    <div onmouseover="{!c.showFFCIText}" onmouseout="{!c.hideCIText}" style="padding-right:10px;float:left;width:16.6%;"><img src="{!'/resource/EngagementIcons/Icons/funds-in-focus.gif'}" style="height:35px;align:absmiddle;" /> ({!v.metricResult.TotalFundsFocus})</div>
+                    <div onmouseover="{!c.showCNCIText}" onmouseout="{!c.hideCIText}" style="padding-right:10px;float:left;width:16.6%;"><img src="{!'/resource/EngagementIcons/Icons/carmignac-note.gif'}" style="height:35px;align:absmiddle;" /> ({!v.metricResult.TotalCarmignacNote})</div>
+                    <div onmouseover="{!c.showPSCIText}" onmouseout="{!c.hideCIText}" style="padding-right:10px;float:left;width:16.6%;"><img src="{!'/resource/EngagementIcons/Icons/pro-space.gif'}" style="height:35px;align:absmiddle;" /> ({!v.metricResult.TotalProSpace})</div>
+                    <br clear="all"/>
+                    <br clear="all"/>
+                </aura:if>
+                <aura:if isTrue="{!v.metricResult.TotalCI == 0}" >
+                    <br/>
+                    <strong>There is no recent Content Consumption for this Contact</strong>
+                </aura:if>
+                <br/>
+                
+                <aura:if isTrue="{!v.metricResult.TotalMKT > 0}" >
+                    <br/>
+					<div>Marketing Activity metrics based on <strong>{!v.metricResult.TotalMKT}</strong> touch points from the last <strong>90 days</strong></div>
+                    <div style="width:100%;text-align:center;height:25px;font-weight:bold;">&nbsp;{!v.MAText}</div>
+                    <div onmouseover="{!c.showNMAText}" onmouseout="{!c.hideMAText}" style="padding-right:10px;float:left;width:16.6%;"><img src="{!'/resource/EngagementIcons/Icons/newsletter.gif'}" style="height:35px;align:absmiddle;" /> ({!v.metricResult.TotalEmails})</div>
+                    <div onmouseover="{!c.showEMAText}" onmouseout="{!c.hideMAText}" style="padding-right:10px;float:left;width:16.6%;"><img src="{!'/resource/EngagementIcons/Icons/event.gif'}" style="height:35px;align:absmiddle;" /> ({!v.metricResult.TotalEvents})</div>
+                    <div onmouseover="{!c.showWMAText}" onmouseout="{!c.hideMAText}" style="padding-right:10px;float:left;width:16.6%;"><img src="{!'/resource/EngagementIcons/Icons/webinar.gif'}" style="height:35px;align:absmiddle;" /> ({!v.metricResult.TotalWebinars})</div>
+                    <br clear="all"/>
+                </aura:if>
+                <aura:if isTrue="{!v.metricResult.TotalMKT == 0}" >
+                    <br/>
+                    <strong>There is no recent Marketing Activity for this Contact</strong>
+                </aura:if>
+                <br/><br/>
+                Last updated : {!v.metricResult.LastModified}
+            </div>
+        </div>
+    </lightning:card>
+</aura:component>

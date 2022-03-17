@@ -1,0 +1,10 @@
+<aura:event type="APPLICATION" description="Event template" >
+    <aura:attribute name="searchKey" type="String"/>
+    <aura:attribute name="assetClass" type="String"/>
+    <aura:attribute name="subAssetClass" type="String"/>
+    <aura:attribute name="macroStrategy" type="String"/>
+    <aura:attribute name="strategy" type="String"/>
+    <aura:attribute name="sri" type="Boolean"/>
+    <aura:attribute name="oeic" type="Boolean"/>
+ 
+</aura:event>

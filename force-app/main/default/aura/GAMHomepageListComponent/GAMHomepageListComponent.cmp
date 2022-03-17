@@ -1,0 +1,34 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId,force:hasSObjectName"             
+                controller="GAMHomepageCtrl" access="global">
+    <aura:attribute name="GAMListT0" type="List" access="global" />
+    <aura:attribute name="GAMListT1" type="List" access="global" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/> 
+    
+    <div class="slds-card_boundary slds-card forceRelatedListCardDesktop slds-scrollable">
+        <div style="padding : 1em;">
+            <label class="slds-text-heading--small slds-truncate slds-m-right--xx-small" style="margin-left : 0.75em;"><b>Tier 0 GAM &amp; KAM</b></label>
+        </div>
+        <div class="slds-scrollable">
+            <div class="slds-grid slds-wrap slds-scrollable">
+                <aura:iteration items="{!v.GAMListT0}" var="gam">
+                    <div class="slds-col--padded slds-size--5-of-10 slds-medium-size--2-of-10 slds-large-size--1-of-10" style="text-align:center;vertical-align:middle;height:100%;">
+                        <div class="alignHelper"><a onclick="{!c.viewGAMHomepage}" data-value="{!gam.Id}"><img src="{!'/resource/CompanyLogos/'+gam.Company__r.Name+'.jpeg'}" /></a></div>
+                    </div>
+                </aura:iteration>
+            </div>
+        </div>
+        <div style="padding : 1em;">
+            <label class="slds-text-heading--small slds-truncate slds-m-right--xx-small" style="margin-left : 0.75em;"><b>Tier 1 GAM</b></label>
+        </div>
+        <div class="slds-scrollable">
+            <div class="slds-grid slds-wrap slds-scrollable">
+                <aura:iteration items="{!v.GAMListT1}" var="gam">
+                    <div class="slds-col--padded slds-size--5-of-10 slds-medium-size--2-of-10 slds-large-size--1-of-10" style="text-align:center;vertical-align:middle;height:100%;">
+                        <div class="alignHelper"><a onclick="{!c.viewGAMHomepage}" data-value="{!gam.Id}"><img src="{!'/resource/CompanyLogos/'+gam.Company__r.Name+'.jpeg'}" /></a></div>
+                    </div>
+                </aura:iteration>
+            </div>
+        </div>
+    </div>
+</aura:component>

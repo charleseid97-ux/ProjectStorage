@@ -1,0 +1,7 @@
+<aura:component >
+    <aura:method name="handleResponse" action="{!c.handleResponse}">
+        <aura:attribute name="response" type="Object" />
+        <aura:attribute name="successHandler" type="Object" />
+        <aura:attribute name="errorHandler" type="Object" />
+    </aura:method>
+</aura:component>

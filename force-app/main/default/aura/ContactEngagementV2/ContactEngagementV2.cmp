@@ -1,0 +1,394 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId"
+        controller="ContactEngagementUtil"
+        access="global">
+
+<aura:attribute name="engagementScreen" type="Integer" description="determines which level to display" default="1"/>
+<aura:attribute name="metricResult" default="" type="Object"/>
+
+<aura:attribute name="digitalInteractions" type="List" />
+<aura:attribute name="CIText" default="" type="String"/>
+<aura:attribute name="MAText" default="" type="String"/>
+
+<aura:attribute name="currentType" default="" type="String"/>
+<aura:attribute name="currentSection" default="" type="String"/>
+<aura:attribute name="currentTheme" default="all" type="String"/>
+
+
+<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+<aura:handler event="force:refreshView" action="{!c.doInit}" />
+
+<lightning:card variant="Narrow" class="lightningCardOverflow" >
+<div class="slds-text-align_left" >
+<aura:if isTrue="{!and(v.currentSection == 'content', v.engagementScreen!=1)}">
+<div style="padding-left:10px;">
+        
+        <aura:if isTrue="{!v.currentTheme == 'All'}">
+            <lightning:button variant="brand-outline" label="All" onclick="{!c.filterResults}" value="All"  />
+        </aura:if>
+        <aura:if isTrue="{!v.currentTheme != 'All'}">
+            <lightning:button variant="base" label="All" onclick="{!c.filterResults}" value="All"  />
+        </aura:if>
+
+        <aura:if isTrue="{!v.currentTheme == 'Letter from Edouard Carmignac'}">
+            <lightning:button variant="brand-outline" label="{!'Letter from Edouard Carmignac (' + v.metricResult.TotalEd +')'}" onclick="{!c.filterResults}" value="Letter from Edouard Carmignac"  />
+        </aura:if>
+        <aura:if isTrue="{!v.currentTheme != 'Letter from Edouard Carmignac'}">
+            <lightning:button variant="base" label="{!'Letter from Edouard Carmignac (' + v.metricResult.TotalEd +')'}" onclick="{!c.filterResults}" value="Letter from Edouard Carmignac"  />
+        </aura:if>
+        
+        <aura:if isTrue="{!v.currentTheme == 'Market Analysis'}">
+            <lightning:button variant="brand-outline" label="{!'Market Analysis (' + v.metricResult.totalMA +')'}" onclick="{!c.filterResults}" value="Market Analysis"  />
+        </aura:if>
+        <aura:if isTrue="{!v.currentTheme != 'Market Analysis'}">
+            <lightning:button variant="base" label="{!'Market Analysis (' + v.metricResult.totalMA +')'}" onclick="{!c.filterResults}" value="Market Analysis"  />
+        </aura:if>
+
+        <aura:if isTrue="{!v.currentTheme == 'Patrimoine Strategy'}">
+            <lightning:button variant="brand-outline" label="{!'Patrimoine Strategy (' + v.metricResult.totalPA +')'}" onclick="{!c.filterResults}" value="Patrimoine Strategy"  />
+        </aura:if>
+        <aura:if isTrue="{!v.currentTheme != 'Patrimoine Strategy'}">
+            <lightning:button variant="base" label="{!'Patrimoine Strategy (' + v.metricResult.totalPA +')'}" onclick="{!c.filterResults}" value="Patrimoine Strategy"  />
+        </aura:if>
+
+        <aura:if isTrue="{!v.currentTheme == 'Fixed Income Strategy'}">
+            <lightning:button variant="brand-outline" label="{!'Fixed Income Strategy (' + v.metricResult.totalFIS +')'}" onclick="{!c.filterResults}" value="Fixed Income Strategy"  />
+        </aura:if>
+        <aura:if isTrue="{!v.currentTheme != 'Fixed Income Strategy'}">
+            <lightning:button variant="base" label="{!'Fixed Income Strategy (' + v.metricResult.totalFIS +')'}" onclick="{!c.filterResults}" value="Fixed Income Strategy"  />
+        </aura:if>
+
+        <aura:if isTrue="{!v.currentTheme == 'Thematic equities'}">
+            <lightning:button variant="brand-outline" label="{!'Thematic equities (' + v.metricResult.totalThematicE +')'}" onclick="{!c.filterResults}" value="Thematic equities"  />
+        </aura:if>
+        <aura:if isTrue="{!v.currentTheme != 'Thematic equities'}">
+            <lightning:button variant="base" label="{!'Thematic equities (' + v.metricResult.totalThematicE +')'}" onclick="{!c.filterResults}" value="Thematic equities"  />
+        </aura:if>
+
+        <aura:if isTrue="{!v.currentTheme == 'Emerging equities'}">
+            <lightning:button variant="brand-outline" label="{!'Emerging equities (' + v.metricResult.totalEmergingE +')'}" onclick="{!c.filterResults}" value="Emerging equities"  />
+        </aura:if>
+        <aura:if isTrue="{!v.currentTheme != 'Emerging equities'}">
+            <lightning:button variant="base" label="{!'Emerging equities (' + v.metricResult.totalEmergingE +')'}" onclick="{!c.filterResults}" value="Emerging equities"  />
+        </aura:if>
+
+        <aura:if isTrue="{!v.currentTheme == 'European equities'}">
+            <lightning:button variant="brand-outline" label="{!'European equities (' + v.metricResult.totalEuropeanE +')'}" onclick="{!c.filterResults}" value="European equities"  />
+        </aura:if>
+        <aura:if isTrue="{!v.currentTheme != 'European equities'}">
+            <lightning:button variant="base" label="{!'European equities (' + v.metricResult.totalEuropeanE +')'}" onclick="{!c.filterResults}" value="European equities"  />
+        </aura:if>
+
+        <aura:if isTrue="{!v.currentTheme == 'Sustainable investing'}">
+            <lightning:button variant="brand-outline" label="{!'Sustainable investing (' + v.metricResult.totalSI +')'}" onclick="{!c.filterResults}" value="Sustainable investing"  />
+        </aura:if>
+        <aura:if isTrue="{!v.currentTheme != 'Sustainable investing'}">
+            <lightning:button variant="base" label="{!'Sustainable investing (' + v.metricResult.totalSI +')'}" onclick="{!c.filterResults}" value="Sustainable investing"  />
+        </aura:if>
+
+        <aura:if isTrue="{!v.currentTheme == 'Long-Short Strategy'}">
+            <lightning:button variant="brand-outline" label="{!'Long-Short Strategy (' + v.metricResult.totalLSS +')'}" onclick="{!c.filterResults}" value="Long-Short Strategy"  />
+        </aura:if>
+        <aura:if isTrue="{!v.currentTheme != 'Long-Short Strategy'}">
+            <lightning:button variant="base" label="{!'Long-Short Strategy (' + v.metricResult.totalLSS +')'}" onclick="{!c.filterResults}" value="Long-Short Strategy"  />
+        </aura:if>
+        
+</div>
+</aura:if>            
+    <br/>
+    <aura:renderIf isTrue="{!v.engagementScreen==1}">
+        <div style="padding-left:10px;">
+            <aura:if isTrue="{!v.metricResult.TotalFI > 0}" >
+                <div>Product by Asset Class interest based on <strong>{!v.metricResult.TotalFI}</strong> website views from the last <strong>90 days</strong></div>
+                <br/>
+                <div class="breakdownHolder">
+                    <aura:if isTrue="{! v.metricResult.TotalDiversified > 0}">
+                        <div style="{! 'width:' + v.metricResult.TotalDiversifiedPerc + '%;' }" class="engagementSection diversifiedSection"></div>
+                    </aura:if>
+                    <aura:if isTrue="{! v.metricResult.TotalEquity > 0}">
+                        <div style="{! 'width:' + v.metricResult.TotalEquityPerc + '%;' }" class="engagementSection equitySection"></div>
+                    </aura:if>
+                    <aura:if isTrue="{! v.metricResult.TotalFixedIncome > 0}">
+                        <div style="{! 'width:' + v.metricResult.TotalFixedIncomePerc + '%;' }" class="engagementSection fixedIncomeSection"></div>
+                    </aura:if>
+                    <aura:if isTrue="{! v.metricResult.TotalProfiled > 0}">
+                        <div style="{! 'width:' + v.metricResult.TotalProfiledPerc + '%;' }" class="engagementSection profiledSection"></div>
+                    </aura:if>
+                </div>
+                <div class="keyContainer"><div class="engagementSection diversifiedSection"></div> <lightning:button variant="base" label="{!'Diversified (' + v.metricResult.TotalDiversified +')'}" onclick="{!c.drillDownProduct}" value="Diversified"  /></div>
+                <div class="keyContainer"><div class="engagementSection equitySection"></div> <lightning:button variant="base" label="{!'Equity (' + v.metricResult.TotalEquity +')'}" onclick="{!c.drillDownProduct}" value="Equity"  /></div>
+                <div class="keyContainer"><div class="engagementSection fixedIncomeSection"></div> <lightning:button variant="base" label="{!'Fixed Income (' + v.metricResult.TotalFixedIncome +')'}" onclick="{!c.drillDownProduct}" value="FixedIncome"  /></div>
+                <div class="keyContainer"><div class="engagementSection profiledSection"></div> <lightning:button variant="base" label="{!'Profiled (' + v.metricResult.TotalProfiled +')'}" onclick="{!c.drillDownProduct}" value="Profiled"  /></div>
+                <br clear="all"/>
+            </aura:if>
+            <aura:if isTrue="{!v.metricResult.TotalFI == 0}" >
+                <br/>
+                <strong>There is no recent Fund Interest Activity for this Contact</strong>
+            </aura:if>
+            <br/>
+            
+            <aura:if isTrue="{!v.metricResult.TotalCI > 0}" >
+                <br/>
+                <div>Content Consumption metrics based on <strong>{!v.metricResult.TotalCI}</strong> website views from the last <strong>90 days</strong></div>
+                <div style="width:100%;text-align:center;height:25px;font-weight:bold;">&nbsp;{!v.CIText}</div>
+                <div style="padding-right:10px;float:left;width:16.6%;"><img src="{!'/resource/EngagementIcons/Icons/quarterly-report.gif'}" style="height:35px;align:absmiddle;" /> <lightning:button variant="base" label="{!'Quarterly Report (' + v.metricResult.TotalQuarterlyReport +')'}" onclick="{!c.drillDownContent}" value="QuarterlyReport"  /></div>
+                <div style="padding-right:10px;float:left;width:16.6%;"><img src="{!'/resource/EngagementIcons/Icons/carmignac-ed.gif'}" style="height:35px;align:absmiddle;" /> <lightning:button variant="base" label="{!'Letter Edouard (' + v.metricResult.TotalEd +')'}" onclick="{!c.drillDownContent}" value="Letter from Edouard Carmignac"  /></div>
+                <div style="padding-right:10px;float:left;width:16.6%;"><img src="{!'/resource/EngagementIcons/Icons/flash-note.gif'}" style="height:35px;align:absmiddle;" /> <lightning:button variant="base" label="{!'Flash Note (' + v.metricResult.TotalFlashNote +')'}" onclick="{!c.drillDownContent}" value="FlashNote"  /></div>
+                <div style="padding-right:10px;float:left;width:16.6%;"><img src="{!'/resource/EngagementIcons/Icons/video.gif'}" style="height:35px;align:absmiddle;" /> <lightning:button variant="base" label="{!'Video (' + v.metricResult.TotalVideo +')'}" onclick="{!c.drillDownContent}" value="Video"  /></div>
+                <div style="padding-right:10px;float:left;width:16.6%;"><img src="{!'/resource/EngagementIcons/Icons/funds-in-focus.gif'}" style="height:35px;align:absmiddle;" /> <lightning:button variant="base" label="{!'Funds Focus (' + v.metricResult.TotalFundsFocus +')'}" onclick="{!c.drillDownContent}" value="FundsFocus"  /></div>
+                <div style="padding-right:10px;float:left;width:16.6%;"><img src="{!'/resource/EngagementIcons/Icons/carmignac-note.gif'}" style="height:35px;align:absmiddle;" /> <lightning:button variant="base" label="{!'Carmignac Note (' + v.metricResult.TotalCarmignacNote +')'}" onclick="{!c.drillDownContent}" value="CarmignacNote"  /></div>
+                <div style="padding-right:10px;float:left;width:16.6%;"><img src="{!'/resource/EngagementIcons/Icons/pro-space.gif'}" style="height:35px;align:absmiddle;" /> <lightning:button variant="base" label="{!'ProSpace (' + v.metricResult.TotalProSpace +')'}" onclick="{!c.drillDownContent}" value="ProSpace"  /></div>
+                <br clear="all"/>
+                <br clear="all"/>
+            </aura:if>
+            <aura:if isTrue="{!v.metricResult.TotalCI == 0}" >
+                <br/>
+                <strong>There is no recent Content Consumption for this Contact</strong>
+            </aura:if>
+            <br/>
+            
+            <aura:if isTrue="{!v.metricResult.TotalMKT > 0}" >
+                <br/>
+                <div>Marketing Activity metrics based on <strong>{!v.metricResult.TotalMKT}</strong> touch points from the last <strong>90 days</strong></div>
+                <div style="width:100%;text-align:center;height:25px;font-weight:bold;">&nbsp;{!v.MAText}</div>
+                <div style="padding-right:10px;float:left;width:16.6%;"><img src="{!'/resource/EngagementIcons/Icons/newsletter.gif'}" style="height:35px;align:absmiddle;" /> <lightning:button variant="base" label="{!'Email (' + v.metricResult.TotalEmails +')'}" onclick="{!c.drillDownMarketing}" value="Email"  /></div>
+                <div style="padding-right:10px;float:left;width:16.6%;"><img src="{!'/resource/EngagementIcons/Icons/event.gif'}" style="height:35px;align:absmiddle;" /> <lightning:button variant="base" label="{!'Event (' + v.metricResult.TotalEvents +')'}" onclick="{!c.drillDownMarketing}" value="Event"  /></div>
+                <div style="padding-right:10px;float:left;width:16.6%;"><img src="{!'/resource/EngagementIcons/Icons/webinar.gif'}" style="height:35px;align:absmiddle;" /> <lightning:button variant="base" label="{!'Webinar (' + v.metricResult.TotalWebinars +')'}" onclick="{!c.drillDownMarketing}" value="Webinar"  /></div>
+                <br clear="all"/>
+            </aura:if>
+            <aura:if isTrue="{!v.metricResult.TotalMKT == 0}" >
+                <br/>
+                <strong>There is no recent Marketing Activity for this Contact</strong>
+            </aura:if>
+            <br/><br/>
+            Last updated : {!v.metricResult.LastModified}
+        </div>
+    </aura:renderIf>
+    
+    <aura:renderIf isTrue="{!v.engagementScreen!=1}">
+    
+        <lightning:button variant="neutral" label="Back to Dashboard" onclick="{!c.engagementMain}"  />
+        
+        <aura:if isTrue="{!v.currentSection == 'product'}">
+            <lightning:button variant="brand-outline" label="{!'Products by Asset Class (' + v.metricResult.TotalFI +')'}" onclick="{!c.drillDownProduct}" value="Diversified"  />
+        </aura:if>
+        <aura:if isTrue="{!v.currentSection != 'product'}">
+            <lightning:button variant="neutral" label="{!'Products by Asset Class (' + v.metricResult.TotalFI +')'}" onclick="{!c.drillDownProduct}" value="Diversified"  />
+        </aura:if>
+
+        <aura:if isTrue="{!v.currentSection == 'content'}">
+            <lightning:button variant="brand-outline" label="{!'Content Consumption (' + v.metricResult.TotalCI +')'}" onclick="{!c.drillDownContent}" value="QuarterlyReport"  />
+        </aura:if>
+        <aura:if isTrue="{!v.currentSection != 'content'}">
+            <lightning:button variant="neutral" label="{!'Content Consumption (' + v.metricResult.TotalCI +')'}" onclick="{!c.drillDownContent}" value="QuarterlyReport"  />
+        </aura:if>
+
+        <aura:if isTrue="{!v.currentSection == 'marketing'}">
+            <lightning:button variant="brand-outline" label="{!'Marketing Activity (' + v.metricResult.TotalMKT +')'}" onclick="{!c.drillDownMarketing}" value="Email"  />
+        </aura:if>
+        <aura:if isTrue="{!v.currentSection != 'marketing'}">
+            <lightning:button variant="neutral" label="{!'Marketing Activity (' + v.metricResult.TotalMKT +')'}" onclick="{!c.drillDownMarketing}" value="Email"  />
+        </aura:if>
+        <br/>
+        <br/>
+    </aura:renderIf>
+    
+    <aura:renderIf isTrue="{!v.engagementScreen==2}">
+        <div>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-4">
+                    
+                    <div class="keyContainerV2" style="{! (v.currentType=='Diversified' ? 'background-color:#ddd;border-top:1px solid #777;' : 'border-top:1px solid #777;')}"><div class="engagementSection diversifiedSection"></div> <lightning:button variant="base" label="{!'Diversified (' + v.metricResult.TotalDiversified +')'}" onclick="{!c.drillDownProduct}" value="Diversified"  /></div>
+                    <div class="keyContainerV2" style="{! (v.currentType=='Equity' ? 'background-color:#ddd;' : '')}"><div class="engagementSection equitySection"></div> <lightning:button variant="base" label="{!'Equity (' + v.metricResult.TotalEquity +')'}" onclick="{!c.drillDownProduct}" value="Equity"  /></div>
+                    <div class="keyContainerV2" style="{! (v.currentType=='FixedIncome' ? 'background-color:#ddd;' : '')}"><div class="engagementSection fixedIncomeSection"></div> <lightning:button variant="base" label="{!'Fixed Income (' + v.metricResult.TotalFixedIncome +')'}" onclick="{!c.drillDownProduct}" value="FixedIncome"  /></div>
+                    <div class="keyContainerV2" style="{! (v.currentType=='Profiled' ? 'background-color:#ddd;' : '')}"><div class="engagementSection profiledSection"></div> <lightning:button variant="base" label="{!'Profiled (' + v.metricResult.TotalProfiled +')'}" onclick="{!c.drillDownProduct}" value="Profiled"  /></div>
+                    
+                </div>
+                <div class="slds-col slds-size_3-of-4"  >
+        <div class="breakdownHolder">
+            <aura:if isTrue="{! v.metricResult.TotalDiversified > 0}">
+                <div style="{! 'width:' + v.metricResult.TotalDiversifiedPerc + '%;opacity:' + (v.currentType=='Diversified' ? '1;' : '0.5;') }" class="engagementSection diversifiedSection"></div>
+            </aura:if>
+            <aura:if isTrue="{! v.metricResult.TotalEquity > 0}">
+                <div style="{! 'width:' + v.metricResult.TotalEquityPerc + '%;opacity:' + (v.currentType=='Equity' ? '1;' : '0.5;') }" class="engagementSection equitySection"></div>
+            </aura:if>
+            <aura:if isTrue="{! v.metricResult.TotalFixedIncome > 0}">
+                <div style="{! 'width:' + v.metricResult.TotalFixedIncomePerc + '%;opacity:' + (v.currentType=='FixedIncome' ? '1;' : '0.5;') }" class="engagementSection fixedIncomeSection"></div>
+            </aura:if>
+            <aura:if isTrue="{! v.metricResult.TotalProfiled > 0}">
+                <div style="{! 'width:' + v.metricResult.TotalProfiledPerc + '%;opacity:' + (v.currentType=='Profiled' ? '1;' : '0.5;') }" class="engagementSection profiledSection"></div>
+            </aura:if>
+        </div>
+        <br/>
+                    
+                    <div  class="slds-card_boundary slds-card slds-card_boundary forceRelatedListCardDesktop">
+                        <article class="slds-card">
+                            <div class="slds-card__header slds-grid">
+                                <header class="slds-media slds-media_center slds-has-flexi-truncate">  
+                                    <lightning:icon iconName="standard:feed" size="small" alternativeText="{!v.currentType + ' Interactions'}"/>
+                                    <label class="slds-text-heading--small slds-truncate slds-m-right--xx-small" style="margin-left : 0.75em"></label>               
+                                    <div class="slds-media__body">
+                                        <h1 class="slds-card__header-title">
+                                            <span class="slds-text-heading_small">
+                                                <b>
+                                                    {!v.currentType} Interactions
+                                                </b>
+                                            </span>                       
+                                        </h1>
+                                    </div>
+                                </header>
+                            </div>
+
+                                <table class="slds-table slds-table_bordered slds-table_striped slds-table_cell-buffer slds-table_fixed-layout">
+                                    <thead>
+                                        <tr class="slds-text-heading_label">
+                                            <th scope="col"><div class="slds-truncate" title="Name">Content Name</div></th>
+                                            <th scope="col" style="max-width:100px;width:150px;"><div class="slds-truncate" title="Name">Product</div></th>
+                                            <th scope="col"><div class="slds-truncate" title="Name">URL</div></th>
+                                            <th scope="col" style="max-width:100px;width:150px;"><div class="slds-truncate" title="Name">Date</div></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Use the Apex model and controller to fetch server side data -->
+                                        <aura:iteration items="{!v.digitalInteractions}" var="di">
+                                            <tr>
+                                                <td><div class="slds-truncate" title="{!di.Content_Item_Name__c}">{!di.Content_Item_Name__c}</div></td>
+                                                <td><div class="slds-truncate"><a href="{!'/one/one.app?#/sObject/'+ di.Product__r.Id}">{!di.Product__r.Name}</a></div></td>
+                                                <td><div class="slds-truncate"><a href="{!di.URL__c}">{!di.URL__c}</a></div></td>
+                                                <td><div class="slds-truncate"><lightning:formattedDateTime value="{!di.Date_of_Interaction__c}" /></div></td>
+                                            </tr>
+                                        </aura:iteration>
+                                        <aura:if isTrue="{! v.digitalInteractions.length == 0}"><tr><td colspan="4" style="padding-top:10px;padding-bottom:10px;font-weight:bold;text-align:center;">No Interactions to display</td></tr></aura:if>
+                                    </tbody>
+                                </table>
+                        </article>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </aura:renderIf>
+
+    <aura:renderIf isTrue="{!v.engagementScreen==3}">
+        <div>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-4">
+                    
+                    <div class="keyContainerV2" style="{! (v.currentType=='QuarterlyReport' ? 'background-color:#ddd;border-top:1px solid #777;' : 'border-top:1px solid #777;')}"><div style="width:31px;padding:2px;float:left;"><img src="{!'/resource/EngagementIcons/Icons/quarterly-report.gif'}" style="height:28px;align:absmiddle;" /></div> <lightning:button variant="base" label="{!'Quarterly Reports (' + v.metricResult.TotalQuarterlyReport +')'}" onclick="{!c.drillDownContent}" value="QuarterlyReport"  /></div>
+                    <div class="keyContainerV2" style="{! (v.currentTheme=='Letter from Edouard Carmignac' ? 'background-color:#ddd;' : '')}"><div style="width:31px;padding:2px;float:left;"><img src="{!'/resource/EngagementIcons/Icons/carmignac-ed.gif'}" style="height:28px;align:absmiddle;" /></div> <lightning:button variant="base" label="{!'Letter Edouard  (' + v.metricResult.TotalEd  +')'}" onclick="{!c.drillDownContent}" value="Letter from Edouard Carmignac"  /></div>
+                    <div class="keyContainerV2" style="{! (v.currentType=='FlashNote' ? 'background-color:#ddd;' : '')}"><div style="width:31px;padding:2px;float:left;"><img src="{!'/resource/EngagementIcons/Icons/flash-note.gif'}" style="height:28px;align:absmiddle;" /></div> <lightning:button variant="base" label="{!'Flash Notes  (' + v.metricResult.TotalFlashNote  +')'}" onclick="{!c.drillDownContent}" value="FlashNote"  /></div>
+                    <div class="keyContainerV2" style="{! (v.currentType=='Video' ? 'background-color:#ddd;' : '')}"><div style="width:31px;padding:2px;float:left;"><img src="{!'/resource/EngagementIcons/Icons/video.gif'}" style="height:28px;align:absmiddle;" /></div> <lightning:button variant="base" label="{!'Videos (' + v.metricResult.TotalVideo +')'}" onclick="{!c.drillDownContent}" value="Video"  /></div>
+                    <div class="keyContainerV2" style="{! (v.currentType=='FundsFocus' ? 'background-color:#ddd;' : '')}"><div style="width:31px;padding:2px;float:left;"><img src="{!'/resource/EngagementIcons/Icons/funds-in-focus.gif'}" style="height:28px;align:absmiddle;" /></div> <lightning:button variant="base" label="{!'Funds Focus (' + v.metricResult.TotalFundsFocus +')'}" onclick="{!c.drillDownContent}" value="FundsFocus"  /></div>
+                    <div class="keyContainerV2" style="{! (v.currentType=='CarmignacNote' ? 'background-color:#ddd;' : '')}"><div style="width:31px;padding:2px;float:left;"><img src="{!'/resource/EngagementIcons/Icons/carmignac-note.gif'}" style="height:28px;align:absmiddle;" /></div> <lightning:button variant="base" label="{!'Carmignac Notes (' + v.metricResult.TotalCarmignacNote +')'}" onclick="{!c.drillDownContent}" value="CarmignacNote"  /></div>
+                    <div class="keyContainerV2" style="{! (v.currentType=='ProSpace' ? 'background-color:#ddd;' : '')}"><div style="width:31px;padding:2px;float:left;"><img src="{!'/resource/EngagementIcons/Icons/pro-space.gif'}" style="height:28px;align:absmiddle;" /></div> <lightning:button variant="base" label="{!'ProSpace (' + v.metricResult.TotalProSpace +')'}" onclick="{!c.drillDownContent}" value="ProSpace"  /></div>
+                    
+                </div>
+                <div class="slds-col slds-size_3-of-4"  >
+                    
+                    <div  class="slds-card_boundary slds-card slds-card_boundary forceRelatedListCardDesktop">
+                        <article class="slds-card">
+                            <div class="slds-card__header slds-grid">
+                                <header class="slds-media slds-media_center slds-has-flexi-truncate">  
+                                    <lightning:icon iconName="standard:feed" size="small" alternativeText="{!v.currentType + ' Interactions'}"/>
+                                    <label class="slds-text-heading--small slds-truncate slds-m-right--xx-small" style="margin-left : 0.75em"></label>               
+                                    <div class="slds-media__body">
+                                        <h1 class="slds-card__header-title">
+                                            <span class="slds-text-heading_small">
+                                                <b>
+                                                    {!v.currentType} Interactions
+                                                </b>
+                                            </span>                       
+                                        </h1>
+                                    </div>
+                                </header>
+                            </div>
+
+                                <table class="slds-table slds-table_bordered slds-table_striped slds-table_cell-buffer slds-table_fixed-layout">
+                                    <thead>
+                                        <tr class="slds-text-heading_label">
+                                            <th scope="col"><div class="slds-truncate" title="Name">Content Name</div></th>
+                                            <th scope="col"><div class="slds-truncate" title="Name">URL</div></th>
+                                            <th scope="col" style="max-width:100px;width:150px;"><div class="slds-truncate" title="Name">Date</div></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Use the Apex model and controller to fetch server side data -->
+                                        <aura:iteration items="{!v.digitalInteractions}" var="di">
+                                            <tr>
+                                                <td><div class="slds-truncate" title="{!di.Content_Item_Name__c}">{!di.Content_Item_Name__c}</div></td>
+                                                <td><div class="slds-truncate"><a href="{!di.URL__c}">{!di.URL__c}</a></div></td>
+                                                <td><div class="slds-truncate"><lightning:formattedDateTime value="{!di.Date_of_Interaction__c}" /></div></td>
+                                            </tr>
+                                        </aura:iteration>
+                                        <aura:if isTrue="{! v.digitalInteractions.length == 0}"><tr><td colspan="3" style="padding-top:10px;padding-bottom:10px;font-weight:bold;text-align:center;">No Interactions to display</td></tr></aura:if>
+                                    </tbody>
+                                </table>
+                        </article>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </aura:renderIf>
+    <aura:renderIf isTrue="{!v.engagementScreen==4}">
+        <div>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-4">
+                    
+                    <div class="keyContainerV2" style="{! (v.currentType=='Email' ? 'background-color:#ddd;border-top:1px solid #777;' : 'border-top:1px solid #777;')}"><div style="width:31px;padding:2px;float:left;"><img src="{!'/resource/EngagementIcons/Icons/newsletter.gif'}" style="height:28px;align:absmiddle;" /></div> <lightning:button variant="base" label="{!'Email (' + v.metricResult.TotalEmails +')'}" onclick="{!c.drillDownMarketing}" value="Email"  /></div>
+                    <div class="keyContainerV2" style="{! (v.currentType=='Event' ? 'background-color:#ddd;' : '')}"><div style="width:31px;padding:2px;float:left;"><img src="{!'/resource/EngagementIcons/Icons/event.gif'}" style="height:28px;align:absmiddle;" /></div> <lightning:button variant="base" label="{!'Event (' + v.metricResult.TotalEvents +')'}" onclick="{!c.drillDownMarketing}" value="Event"  /></div>
+                    <div class="keyContainerV2" style="{! (v.currentType=='Webinar' ? 'background-color:#ddd;' : '')}"><div style="width:31px;padding:2px;float:left;"><img src="{!'/resource/EngagementIcons/Icons/webinar.gif'}" style="height:28px;align:absmiddle;" /></div> <lightning:button variant="base" label="{!'Webinar (' + v.metricResult.TotalWebinars +')'}" onclick="{!c.drillDownMarketing}" value="Webinar"  /></div>
+                    
+                </div>
+                <div class="slds-col slds-size_3-of-4"  >
+                    
+                    <div  class="slds-card_boundary slds-card slds-card_boundary forceRelatedListCardDesktop">
+                        <article class="slds-card">
+                            <div class="slds-card__header slds-grid">
+                                <header class="slds-media slds-media_center slds-has-flexi-truncate">  
+                                    <lightning:icon iconName="standard:feed" size="small" alternativeText="{!v.currentType + ' Interactions'}"/>
+                                    <label class="slds-text-heading--small slds-truncate slds-m-right--xx-small" style="margin-left : 0.75em"></label>               
+                                    <div class="slds-media__body">
+                                        <h1 class="slds-card__header-title">
+                                            <span class="slds-text-heading_small">
+                                                <b>
+                                                    {!v.currentType} Interactions
+                                                </b>
+                                            </span>                       
+                                        </h1>
+                                    </div>
+                                </header>
+                            </div>
+
+                                <table class="slds-table slds-table_bordered slds-table_striped slds-table_cell-buffer slds-table_fixed-layout">
+                                    <thead>
+                                        <tr class="slds-text-heading_label">
+                                            <th scope="col"><div class="slds-truncate" title="Name">Content Name</div></th>
+                                            <th scope="col"><div class="slds-truncate" title="Name">URL</div></th>
+                                            <th scope="col" style="max-width:100px;width:150px;"><div class="slds-truncate" title="Name">Date</div></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Use the Apex model and controller to fetch server side data -->
+                                        <aura:iteration items="{!v.digitalInteractions}" var="di">
+                                            <tr>
+                                                <td><div class="slds-truncate" title="{!di.Content_Item_Name__c}">{!di.Content_Item_Name__c}</div></td>
+                                                <td><div class="slds-truncate"><a href="{!di.URL__c}">{!di.URL__c}</a></div></td>
+                                                <td><div class="slds-truncate"><lightning:formattedDateTime value="{!di.Date_of_Interaction__c}" /></div></td>
+                                            </tr>
+                                        </aura:iteration>
+                                        <aura:if isTrue="{! v.digitalInteractions.length == 0}"><tr><td colspan="3" style="padding-top:10px;padding-bottom:10px;font-weight:bold;text-align:center;">No Interactions to display</td></tr></aura:if>
+                                    </tbody>
+                                </table>
+                        </article>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </aura:renderIf>
+</div>
+</lightning:card>
+</aura:component>

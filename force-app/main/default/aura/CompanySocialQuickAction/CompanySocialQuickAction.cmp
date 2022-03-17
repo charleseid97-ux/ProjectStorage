@@ -1,0 +1,50 @@
+<aura:component implements="force:lightningQuickAction,flexipage:availableForAllPageTypes,force:appHostable,lightning:actionOverride,force:hasRecordId" access="global" 
+                controller="AccountUtil">
+    
+    <aura:attribute name="recordId" type="string" description="RecordId of the GAM." />
+    <aura:attribute name="account" type="Account" description="This Account" />
+    <aura:attribute name="accountName" type="String" description="Account Name" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+        
+        <article class="slds-card">
+                        
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_1-of-3">
+                        <div class="slds-scrollable forceBaseListView forceRelatedListPreviewGrid" data-aura-rendered-by="3133:0" data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                            <div class="slds-grid slds-wrap centerCell">
+                                <a href="{!'http://www.google.com/search?q='+v.accountName}" target="_blank">
+                                    <img src="/resource/socialIcons/google.jpg" style="height:100px;" />
+		                            <br/>
+                                    <div class="slds-text-heading--medium">Google Search</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <div class="slds-scrollable forceBaseListView forceRelatedListPreviewGrid" data-aura-rendered-by="3133:0" data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                            <div class="slds-grid slds-wrap centerCell">
+                                <a href="{!'https://www.linkedin.com/search/results/companies/?keywords='+v.accountName}" target="_blank">
+                                    <img src="/resource/socialIcons/linkedin.png" style="height:100px;" />
+		                            <br/>
+                                    <div class="slds-text-heading--medium">LinkedIn</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <div class="slds-scrollable forceBaseListView forceRelatedListPreviewGrid" data-aura-rendered-by="3133:0" data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                            <div class="slds-grid slds-wrap centerCell">
+                                <a href="{!'https://twitter.com/search?l=&amp;q='+v.accountName}" target="_blank">
+                                    <img src="/resource/socialIcons/twitter.png" style="height:100px;" />
+		                            <br/>
+                                    <div class="slds-text-heading--medium">Twitter</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+        </article>
+</aura:component>

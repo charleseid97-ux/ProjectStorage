@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>RelashionshipStatus_PushToGlobalAccount</fullName>
+        <description>Relashionship Status_PushToGlobalAccount</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>HeadOfCountries</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>CarmignacGlobalAccountAlerts/RelashionshipStatus_EmailAlert</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>RelationshipStatusOverallDate</fullName>
+        <field>OverallRelationshipStatusLastUpdate__c</field>
+        <formula>TODAY()</formula>
+        <name>Relationship Status_OverallDate</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>RelationshipStatusPeopleDate</fullName>
+        <description>RelationshipStatusPeopleDate</description>
+        <field>PeopleRelationshipStatusLastUpdate__c</field>
+        <formula>TODAY()</formula>
+        <name>Relationship Status_PeopleDate</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>RelationshipStatusProductDate</fullName>
+        <description>Relationship Status_ProductDate</description>
+        <field>ProductRelationshipStatusLastUpdate__c</field>
+        <formula>TODAY()</formula>
+        <name>Relationship Status_ProductDate</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Relationship_Status_PricingDate</fullName>
+        <field>PricingRelationshipStatusLastUpdate__c</field>
+        <formula>TODAY()</formula>
+        <name>Relationship Status_PricingDate</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Relationship Status WF001 OverallRelationshipStatusLastUpdate</fullName>
+        <actions>
+            <name>RelationshipStatusOverallDate</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <formula>AND(       OR(ISCHANGED( CommentsOverallRelationship__c ),          ISCHANGED( OverallRelationship__c)          ),       NOT($User.BypassWorkflowRules__c)     )</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Relationship Status WF002 ProductRelationshipStatusLastUpdate</fullName>
+        <actions>
+            <name>RelationshipStatusProductDate</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>ProductRelationshipStatusLastUpdate</description>
+        <formula>AND(       OR(ISCHANGED(  CommentsProductRelationship__c ),          ISCHANGED(  Product__c )          ),       NOT($User.BypassWorkflowRules__c)     )</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Relationship Status WF003 PricingRelationshipStatusLastUpdate</fullName>
+        <actions>
+            <name>Relationship_Status_PricingDate</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>PricingRelationshipStatusLastUpdate</description>
+        <formula>AND(       OR(ISCHANGED(   CommentsPricingRelationship__c ),          ISCHANGED(   Pricing__c )          ),       NOT($User.BypassWorkflowRules__c)     )</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Relationship Status WF004 PeopleRelationshipStatusLastUpdate</fullName>
+        <actions>
+            <name>RelationshipStatusPeopleDate</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>PeopleRelationshipStatusLastUpdate</description>
+        <formula>AND(       OR(ISCHANGED(  CommentsPeopleRelationship__c  ),          ISCHANGED(  People__c )          ),       NOT($User.BypassWorkflowRules__c)     )</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+</Workflow>

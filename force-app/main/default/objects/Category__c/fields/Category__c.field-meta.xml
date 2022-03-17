@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Category__c</fullName>
+    <externalId>false</externalId>
+    <label>Category</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Quaterly Report / Bulletin Trim</fullName>
+                <default>false</default>
+                <label>Quaterly Report / Bulletin Trim</label>
+            </value>
+            <value>
+                <fullName>UK - External Event</fullName>
+                <default>false</default>
+                <label>UK - External Event</label>
+            </value>
+            <value>
+                <fullName>LUX -@ Invitation Séminaires</fullName>
+                <default>false</default>
+                <label>LUX -@ Invitation Séminaires</label>
+            </value>
+            <value>
+                <fullName>Greeting Postcards - by POST</fullName>
+                <default>false</default>
+                <label>Greeting Postcards - by POST</label>
+            </value>
+            <value>
+                <fullName>Bright Talk contact</fullName>
+                <default>false</default>
+                <label>Bright Talk contact</label>
+            </value>
+            <value>
+                <fullName>DE - External Event</fullName>
+                <default>false</default>
+                <label>DE - External Event</label>
+            </value>
+            <value>
+                <fullName>DE-Christmas Card</fullName>
+                <default>false</default>
+                <label>DE-Christmas Card</label>
+            </value>
+            <value>
+                <fullName>DE-Christmas Gift</fullName>
+                <default>false</default>
+                <label>DE-Christmas Gift</label>
+            </value>
+            <value>
+                <fullName>DE-Moleskine</fullName>
+                <default>false</default>
+                <label>DE-Moleskine</label>
+            </value>
+            <value>
+                <fullName>Fund Selectors day</fullName>
+                <default>false</default>
+                <label>Fund Selectors day</label>
+            </value>
+            <value>
+                <fullName>Gifts - Cadeaux</fullName>
+                <default>false</default>
+                <label>Gifts - Cadeaux</label>
+            </value>
+            <value>
+                <fullName>Interest in Fondation events</fullName>
+                <default>false</default>
+                <label>Interest in Fondation events</label>
+            </value>
+            <value>
+                <fullName>Investors Thematic Lunch - Déjeuner Thématique</fullName>
+                <default>false</default>
+                <label>Investors Thematic Lunch - Déjeuner Thématique</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

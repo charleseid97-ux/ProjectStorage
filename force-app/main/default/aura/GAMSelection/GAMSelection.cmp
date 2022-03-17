@@ -1,0 +1,18 @@
+<aura:component controller="GAMHierarchyUtil" implements="lightning:actionOverride">
+
+	<aura:attribute name="nextStepOptions" type="List" />
+    <aura:attribute name="GAM" type="sObject" />
+    
+	<aura:handler name="init" value="{!this}" action="{!c.init}" />
+    
+
+		<article class="slds-card">
+	        <div class="slds-p-around_medium" >
+			    <div class="slds-form slds-form_stacked GAMnoteText">
+					
+                    You are about to begin building the Hierarchy for {!v.GAM.Name}
+							
+				</div>
+			</div>
+		</article>
+</aura:component>

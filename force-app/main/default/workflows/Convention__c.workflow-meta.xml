@@ -1,0 +1,1675 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>AgreementExpiration_BP_BE</fullName>
+        <description>AgreementExpiration_BP_BE</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>BelgiumCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Expired</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementExpiration_BP_CH</fullName>
+        <description>AgreementExpiration_BP_CH</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>SwitzerlandCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Expired</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementExpiration_BP_DA</fullName>
+        <description>AgreementExpiration_BP_DA</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>GermanyCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Expired</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementExpiration_BP_ES</fullName>
+        <description>AgreementExpiration_BP_ES</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>SpainCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Expired</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementExpiration_BP_FR</fullName>
+        <description>AgreementExpiration_BP_FR</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>FranceCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Expired</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementExpiration_BP_IN</fullName>
+        <description>AgreementExpiration_BP_IN</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>InternationalCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Expired</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementExpiration_BP_IT</fullName>
+        <description>AgreementExpiration_BP_IT</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>ItalyCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Expired</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementExpiration_BP_LA</fullName>
+        <description>AgreementExpiration_BP_LA</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>LATAMCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Expired</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementExpiration_BP_LU_NL</fullName>
+        <description>AgreementExpiration_BP_LU_NL</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>LuxembourgNetherlandsCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Expired</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementExpiration_BP_NO</fullName>
+        <description>AgreementExpiration_BP_NO</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>NordicsCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Expired</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementExpiration_BP_UK</fullName>
+        <description>AgreementExpiration_BP_UK</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>UKCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Expired</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementFutureExpiration_BP_BE</fullName>
+        <description>AgreementFutureExpiration_BP_BE</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>BelgiumCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_will_Expire</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementFutureExpiration_BP_CH</fullName>
+        <description>AgreementFutureExpiration_BP_CH</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>SwitzerlandCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_will_Expire</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementFutureExpiration_BP_DA</fullName>
+        <description>AgreementFutureExpiration_BP_DA</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>GermanyCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_will_Expire</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementFutureExpiration_BP_ES</fullName>
+        <description>AgreementFutureExpiration_BP_ES</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>SpainCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_will_Expire</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementFutureExpiration_BP_FR</fullName>
+        <description>AgreementFutureExpiration_BP_FR</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>FranceCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_will_Expire</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementFutureExpiration_BP_IN</fullName>
+        <description>AgreementFutureExpiration_BP_IN</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>InternationalCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_will_Expire</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementFutureExpiration_BP_IT</fullName>
+        <description>AgreementFutureExpiration_BP_IT</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>ItalyCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_will_Expire</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementFutureExpiration_BP_LA</fullName>
+        <description>AgreementFutureExpiration_BP_LA</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>LATAMCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_will_Expire</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementFutureExpiration_BP_LU_NL</fullName>
+        <description>AgreementFutureExpiration_BP_LU_NL</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>LuxembourgNetherlandsCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_will_Expire</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementFutureExpiration_BP_NO</fullName>
+        <description>AgreementFutureExpiration_BP_NO</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>NordicsCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_will_Expire</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementFutureExpiration_BP_UK</fullName>
+        <description>AgreementFutureExpiration_BP_UK</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>UKCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_will_Expire</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Amendment_Approval_Rejected_CRM</fullName>
+        <description>Agreement Amendment Approval Rejected - CRM</description>
+        <protected>false</protected>
+        <recipients>
+            <field>CRM_Team_Email_Address__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Amendment_Approval_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Amendment_Approval_Rejected_HOC</fullName>
+        <description>Agreement Amendment Approval Rejected - HOC</description>
+        <protected>false</protected>
+        <recipients>
+            <field>HOC_Email_Address__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Amendment_Approval_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Amendment_Approval_Rejected_IS</fullName>
+        <description>Agreement Amendment Approval Rejected - IS</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Amendment_Approval_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Amendment_Approval_Rejected_Legal</fullName>
+        <description>Agreement Amendment Approval Rejected - Legal</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Legal</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Amendment_Approval_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Amendment_Approval_Stage_Change_CRM</fullName>
+        <description>Agreement Amendment Approval Stage Change - CRM</description>
+        <protected>false</protected>
+        <recipients>
+            <field>CRM_Team_Email_Address__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Amendment_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Amendment_Approval_Stage_Change_Finance</fullName>
+        <ccEmails>financeaccounting@carmignac.com</ccEmails>
+        <description>Agreement Amendment Approval Stage Change - Finance</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Finance</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Amendment_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Amendment_Approval_Stage_Change_HOC</fullName>
+        <description>Agreement Amendment Approval Stage Change - HOC</description>
+        <protected>false</protected>
+        <recipients>
+            <field>HOC_Email_Address__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Amendment_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Amendment_Approval_Stage_Change_IS</fullName>
+        <description>Agreement Amendment Approval Stage Change - IS</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Amendment_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Amendment_Approval_Stage_Change_Legal</fullName>
+        <description>Agreement Amendment Approval Stage Change - Legal</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Legal</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Amendment_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Approval_Rejected_CRM</fullName>
+        <description>Agreement Approval Rejected - CRM</description>
+        <protected>false</protected>
+        <recipients>
+            <field>CRM_Team_Email_Address__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Request_Approval_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Approval_Rejected_HOC</fullName>
+        <description>Agreement Approval Rejected - HOC</description>
+        <protected>false</protected>
+        <recipients>
+            <field>HOC_Email_Address__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Request_Approval_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Approval_Rejected_HoS</fullName>
+        <description>Agreement Approval Rejected - HoS</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Head_of_Sales</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Request_Approval_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Approval_Rejected_IS</fullName>
+        <description>Agreement Approval Rejected - IS</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Request_Approval_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Approval_Rejected_Legal</fullName>
+        <description>Agreement Approval Rejected - Legal</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Legal</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Request_Approval_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Approval_Stage_Change</fullName>
+        <description>Agreement Approval Stage Change</description>
+        <protected>false</protected>
+        <recipients>
+            <field>CRM_Team_Email_Address__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Approval_Stage_Change_CRM</fullName>
+        <description>Agreement Approval Stage Change - CRM</description>
+        <protected>false</protected>
+        <recipients>
+            <field>CRM_Team_Email_Address__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Request_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Approval_Stage_Change_Compliance</fullName>
+        <description>Agreement Approval Stage Change - Compliance</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Compliance</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Request_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Approval_Stage_Change_Finance</fullName>
+        <ccEmails>financeaccounting@carmignac.com</ccEmails>
+        <description>Agreement Approval Stage Change - Finance</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Finance</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Request_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Approval_Stage_Change_HOC</fullName>
+        <description>Agreement Approval Stage Change - HOC</description>
+        <protected>false</protected>
+        <recipients>
+            <field>HOC_Email_Address__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Request_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Approval_Stage_Change_HoS</fullName>
+        <description>Agreement Approval Stage Change - HoS</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Head_of_Sales</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Request_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Approval_Stage_Change_IS</fullName>
+        <description>Agreement Approval Stage Change - IS</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Request_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Approval_Stage_Change_Legal</fullName>
+        <description>Agreement Approval Stage Change - Legal</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Legal</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Request_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Ending_Email_Alert</fullName>
+        <description>Agreement Ending Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Finance</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Ending_Notification</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Legal_Notification</fullName>
+        <description>Agreement Legal Notification</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Legal</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Legal_Notification</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Notify_Risk_Assessment_change</fullName>
+        <ccEmails>complianceinternalcontrol.generalsecretary@carmignac.com</ccEmails>
+        <description>Agreement Notify Risk Assessment change</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Head_of_Sales</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Legal</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>CarmignacAlerts/Agreement_Risk_Assessment_changed</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Renewal_Approval_Rejected_CRM</fullName>
+        <description>Agreement Renewal Approval Rejected - CRM</description>
+        <protected>false</protected>
+        <recipients>
+            <field>CRM_Team_Email_Address__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Renewal_Approval_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Renewal_Approval_Rejected_HOC</fullName>
+        <description>Agreement Renewal Approval Rejected - HOC</description>
+        <protected>false</protected>
+        <recipients>
+            <field>HOC_Email_Address__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Renewal_Approval_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Renewal_Approval_Rejected_IS</fullName>
+        <description>Agreement Renewal Approval Rejected - IS</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Renewal_Approval_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Renewal_Approval_Rejected_Legal</fullName>
+        <description>Agreement Renewal Approval Rejected - Legal</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Legal</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Renewal_Approval_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Renewal_Approval_Stage_Change_CRM</fullName>
+        <description>Agreement Renewal Approval Stage Change - CRM</description>
+        <protected>false</protected>
+        <recipients>
+            <field>CRM_Team_Email_Address__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Renewal_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Renewal_Approval_Stage_Change_Finance</fullName>
+        <ccEmails>financeaccounting@carmignac.com</ccEmails>
+        <description>Agreement Renewal Approval Stage Change - Finance</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Finance</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Renewal_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Renewal_Approval_Stage_Change_HOC</fullName>
+        <description>Agreement Renewal Approval Stage Change - HOC</description>
+        <protected>false</protected>
+        <recipients>
+            <field>HOC_Email_Address__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Renewal_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Renewal_Approval_Stage_Change_IS</fullName>
+        <description>Agreement Renewal Approval Stage Change - IS</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Renewal_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Renewal_Approval_Stage_Change_Legal</fullName>
+        <description>Agreement Renewal Approval Stage Change - Legal</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Legal</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Renewal_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Renewal_with_GRID_Approval_Rejected_CRM</fullName>
+        <description>Agreement Renewal with GRID Approval Rejected - CRM</description>
+        <protected>false</protected>
+        <recipients>
+            <field>CRM_Team_Email_Address__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Renewal_with_GRID_Approval_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Renewal_with_GRID_Approval_Rejected_HOC</fullName>
+        <description>Agreement Renewal with GRID Approval Rejected - HOC</description>
+        <protected>false</protected>
+        <recipients>
+            <field>HOC_Email_Address__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Renewal_with_GRID_Approval_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Renewal_with_GRID_Approval_Rejected_IS</fullName>
+        <description>Agreement Renewal with GRID Approval Rejected - IS</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Renewal_with_GRID_Approval_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Renewal_with_GRID_Approval_Rejected_Legal</fullName>
+        <description>Agreement Renewal with GRID Approval Rejected - Legal</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Legal</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Renewal_with_GRID_Approval_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Renewal_with_GRID_Approval_Stage_Change_CRM</fullName>
+        <description>Agreement Renewal with GRID Approval Stage Change - CRM</description>
+        <protected>false</protected>
+        <recipients>
+            <field>CRM_Team_Email_Address__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Renewal_with_GRID_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Renewal_with_GRID_Approval_Stage_Change_Finance</fullName>
+        <ccEmails>financeaccounting@carmignac.com</ccEmails>
+        <description>Agreement Renewal with GRID Approval Stage Change - Finance</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Finance</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Renewal_with_GRID_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Renewal_with_GRID_Approval_Stage_Change_HOC</fullName>
+        <description>Agreement Renewal with GRID Approval Stage Change - HOC</description>
+        <protected>false</protected>
+        <recipients>
+            <field>HOC_Email_Address__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Renewal_with_GRID_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Renewal_with_GRID_Approval_Stage_Change_IS</fullName>
+        <description>Agreement Renewal with GRID Approval Stage Change - IS</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Renewal_with_GRID_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Renewal_with_GRID_Approval_Stage_Change_Legal</fullName>
+        <description>Agreement Renewal with GRID Approval Stage Change - Legal</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Legal</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Renewal_with_GRID_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Termination_Approval_Rejected_CRM</fullName>
+        <description>Agreement Termination Approval Rejected - CRM</description>
+        <protected>false</protected>
+        <recipients>
+            <field>CRM_Team_Email_Address__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Termination_Approval_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Termination_Approval_Rejected_HOC</fullName>
+        <description>Agreement Termination Approval Rejected - HOC</description>
+        <protected>false</protected>
+        <recipients>
+            <field>HOC_Email_Address__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Termination_Approval_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Termination_Approval_Rejected_HOS</fullName>
+        <description>Agreement Termination Approval Rejected - HOS</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Head_of_Sales</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Termination_Approval_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Termination_Approval_Rejected_IS</fullName>
+        <description>Agreement Termination Approval Rejected - IS</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Termination_Approval_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Termination_Approval_Rejected_Legal</fullName>
+        <description>Agreement Termination Approval Rejected - Legal</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Legal</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Termination_Approval_Rejected</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Termination_Approval_Stage_Change_CRM</fullName>
+        <description>Agreement Termination Approval Stage Change - CRM</description>
+        <protected>false</protected>
+        <recipients>
+            <field>CRM_Team_Email_Address__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Termination_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Termination_Approval_Stage_Change_Compliance</fullName>
+        <description>Agreement Termination Approval Stage Change - Compliance</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Compliance</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Termination_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Termination_Approval_Stage_Change_Finance</fullName>
+        <ccEmails>financeaccounting@carmignac.com</ccEmails>
+        <description>Agreement Termination Approval Stage Change - Finance</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Finance</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Termination_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Termination_Approval_Stage_Change_HOC</fullName>
+        <description>Agreement Termination Approval Stage Change - HOC</description>
+        <protected>false</protected>
+        <recipients>
+            <field>HOC_Email_Address__c</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Termination_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Termination_Approval_Stage_Change_IS</fullName>
+        <description>Agreement Termination Approval Stage Change - IS</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Termination_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Termination_Approval_Stage_Change_Legal</fullName>
+        <description>Agreement Termination Approval Stage Change - Legal</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Legal</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Termination_Approval_Change</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>AgreementStatus</fullName>
+        <field>Status__c</field>
+        <literalValue>Aborted</literalValue>
+        <name>AgreementStatus</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>AgreementStatusNotRejected</fullName>
+        <description>Field to Update if not rejected.</description>
+        <field>Status__c</field>
+        <literalValue>In Negotiation</literalValue>
+        <name>AgreementStatusNotRejected</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Amendment_Approval_Complete</fullName>
+        <field>Amendment_Approval_Status__c</field>
+        <literalValue>Approved</literalValue>
+        <name>Agreement Amendment Approval Complete</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Amendment_Approval_Rejected</fullName>
+        <field>Amendment_Approval_Status__c</field>
+        <literalValue>Approval Rejected</literalValue>
+        <name>Agreement Amendment Approval Rejected</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Amendment_CRM_Approval</fullName>
+        <field>Amendment_Approval_Status__c</field>
+        <literalValue>CRM Approval</literalValue>
+        <name>Agreement Amendment CRM Approval</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Amendment_HOC_Approval</fullName>
+        <field>Amendment_Approval_Status__c</field>
+        <literalValue>HOC Approval</literalValue>
+        <name>Agreement Amendment HOC Approval</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Amendment_IS_Approval</fullName>
+        <field>Amendment_Approval_Status__c</field>
+        <literalValue>Investor Services Approval</literalValue>
+        <name>Agreement Amendment IS Approval</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Amendment_Legal_Approval</fullName>
+        <field>Amendment_Approval_Status__c</field>
+        <literalValue>Legal Approval</literalValue>
+        <name>Agreement Amendment Legal Approval</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Amendment_Top_Mgmt_Approval</fullName>
+        <field>Amendment_Approval_Status__c</field>
+        <literalValue>Top Management Approval</literalValue>
+        <name>Agreement Amendment Top Mgmt Approval</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Approval_Complete</fullName>
+        <field>Approval_Status__c</field>
+        <literalValue>Approval Complete</literalValue>
+        <name>Agreement Approval Complete</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Approval_Compliance</fullName>
+        <field>Approval_Status__c</field>
+        <literalValue>Compliance Approval</literalValue>
+        <name>Agreement Approval Compliance</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Approval_DCO_Approval</fullName>
+        <field>Approval_Status__c</field>
+        <literalValue>DCO Approval</literalValue>
+        <name>Agreement Approval DCO Approval</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Approval_GHOS</fullName>
+        <field>Approval_Status__c</field>
+        <literalValue>Global Head of Sales Approval</literalValue>
+        <name>Agreement Approval GHOS</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Approval_HOC</fullName>
+        <field>Approval_Status__c</field>
+        <literalValue>HOC Approval</literalValue>
+        <name>Agreement Approval HOC</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Approval_IS</fullName>
+        <field>Approval_Status__c</field>
+        <literalValue>DCO Approval</literalValue>
+        <name>Agreement Approval IS</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Approval_Rejected</fullName>
+        <field>Approval_Status__c</field>
+        <literalValue>Approval Rejected</literalValue>
+        <name>Agreement Approval Rejected</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Approval_Reset</fullName>
+        <field>Approval_Status__c</field>
+        <literalValue>Pre-Approval</literalValue>
+        <name>Agreement Approval Reset</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Approval_Submission</fullName>
+        <field>Approval_Status__c</field>
+        <literalValue>Submission</literalValue>
+        <name>Agreement Approval Submission</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Approved_Rule_Record_Type</fullName>
+        <description>Record Type Update to convert a a Request to an Approved Agreement</description>
+        <field>RecordTypeId</field>
+        <lookupValue>Agreement</lookupValue>
+        <lookupValueType>RecordType</lookupValueType>
+        <name>Agreement - Approved Rule - Record Type</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_ConventionExternalID</fullName>
+        <description>Copy Name (Agreement Code) in Convention External ID</description>
+        <field>TECH_ConventionExternalID__c</field>
+        <formula>Name</formula>
+        <name>Agreement ConventionExternalID</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Intermediary_Approved</fullName>
+        <description>Record Type Update to convert an Intermediary Request to an Approved Agreement</description>
+        <field>RecordTypeId</field>
+        <lookupValue>Agreement</lookupValue>
+        <lookupValueType>RecordType</lookupValueType>
+        <name>Agreement - Intermediary Approved</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Investor_Update_Record_Type</fullName>
+        <field>RecordTypeId</field>
+        <lookupValue>Investor_without_Agreement_Request_Full</lookupValue>
+        <lookupValueType>RecordType</lookupValueType>
+        <name>Agreement Investor - Update Record Type</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Investor_w_o_Agr_Approved</fullName>
+        <description>Record Type Update to convert an Investor without Agreement Request to an Approved Agreement</description>
+        <field>RecordTypeId</field>
+        <lookupValue>Institutional_Agreement</lookupValue>
+        <lookupValueType>RecordType</lookupValueType>
+        <name>Agreement - Investor w/o Agr Approved</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Set_Agreement_Status_Expired</fullName>
+        <description>Set the Agreement Status to Expired</description>
+        <field>Status__c</field>
+        <literalValue>Expired</literalValue>
+        <name>Agreement - Set Agreement Status Expired</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Set_Grid_Request_Approved</fullName>
+        <field>Grid_Request_Approved__c</field>
+        <literalValue>1</literalValue>
+        <name>Agreement - Set Grid Request Approved</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Set_IS_Approved_false</fullName>
+        <field>IS_Approved__c</field>
+        <literalValue>0</literalValue>
+        <name>Agreement Set IS Approved false</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Set_IS_Approved_true</fullName>
+        <field>IS_Approved__c</field>
+        <literalValue>1</literalValue>
+        <name>Agreement Set IS Approved true</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Set_Termination_Approved</fullName>
+        <field>Agreement_Termination_Approved__c</field>
+        <literalValue>1</literalValue>
+        <name>Agreement - Set Termination Approved</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Status_Pending_Termination</fullName>
+        <description>change status of an agreement to Pending Termination when top management approves termination request.</description>
+        <field>Status__c</field>
+        <literalValue>Pending Termination</literalValue>
+        <name>Agreement Status Pending Termination</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Status_Rejected</fullName>
+        <description>Agreement Status Rejected</description>
+        <field>Status__c</field>
+        <literalValue>Rejected</literalValue>
+        <name>Agreement Status Rejected</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Status_Terminated</fullName>
+        <description>Set the Agreement Status to Terminated</description>
+        <field>Status__c</field>
+        <literalValue>Terminated</literalValue>
+        <name>Agreement Status Terminated</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Termination_Approved</fullName>
+        <field>Agreement_Termination_Status__c</field>
+        <literalValue>Approved</literalValue>
+        <name>Agreement Termination Approved</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Termination_HOC_Approval</fullName>
+        <field>Agreement_Termination_Status__c</field>
+        <literalValue>HOC Approval</literalValue>
+        <name>Agreement Termination HOC Approval</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Termination_Legal_Approval</fullName>
+        <field>Agreement_Termination_Status__c</field>
+        <literalValue>Legal Approval</literalValue>
+        <name>Agreement Termination Legal Approval</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Termination_Rejected</fullName>
+        <field>Agreement_Termination_Status__c</field>
+        <literalValue>Approval Rejected</literalValue>
+        <name>Agreement Termination Rejected</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Termination_Top_Mgmt_Approval</fullName>
+        <field>Agreement_Termination_Status__c</field>
+        <literalValue>Top Mgmt Approval</literalValue>
+        <name>Agreement Termination Top Mgmt Approval</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Update_Record_Type</fullName>
+        <field>RecordTypeId</field>
+        <lookupValue>Request_Agreement_Full</lookupValue>
+        <lookupValueType>RecordType</lookupValueType>
+        <name>Agreement - Update Record Type</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Business_Region</fullName>
+        <field>TECH_Business_Region__c</field>
+        <formula>TEXT(Company__r.BusinessDevelopmentRegion__c)</formula>
+        <name>Business Region</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Subdistributor_A_Update_Record_Type</fullName>
+        <field>RecordTypeId</field>
+        <lookupValue>Sub_distributor_Agreement_Request_Full</lookupValue>
+        <lookupValueType>RecordType</lookupValueType>
+        <name>Sub-distributor A - Update Record Type</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Subdistributor_Agreement</fullName>
+        <description>Record Type Update to convert an Sub-distributor Request to an Approved Agreement</description>
+        <field>RecordTypeId</field>
+        <lookupValue>Sub_distributor_Agreement</lookupValue>
+        <lookupValueType>RecordType</lookupValueType>
+        <name>Sub-distributor Agreement</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>UpdateBusinessRegion</fullName>
+        <field>TECH_Business_Region__c</field>
+        <formula>TEXT( Company__r.BusinessDevelopmentRegion__c )</formula>
+        <name>UpdateBusinessRegion</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Agreement - Convention External ID</fullName>
+        <actions>
+            <name>Agreement_ConventionExternalID</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>Copy Agreement Code in TECH_ConventionExternalID if updated</description>
+        <formula>ISCHANGED(Name)</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Agreement Approval Status Rejected</fullName>
+        <actions>
+            <name>AgreementStatusNotRejected</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <booleanFilter>1 AND 2</booleanFilter>
+        <criteriaItems>
+            <field>Convention__c.Approval_Status__c</field>
+            <operation>notEqual</operation>
+            <value>Approval Rejected</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Convention__c.Status__c</field>
+            <operation>equals</operation>
+            <value>Rejected</value>
+        </criteriaItems>
+        <description>Change status Rejected if approval submited.</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Agreement Ending Rule</fullName>
+        <active>true</active>
+        <criteriaItems>
+            <field>Convention__c.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Agreement</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Convention__c.ExpirationDate__c</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <description>Rule to fire 60 days before an Agreement Ends</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Agreement_Ending_Email_Alert</name>
+                <type>Alert</type>
+            </actions>
+            <offsetFromField>Convention__c.ExpirationDate__c</offsetFromField>
+            <timeLength>-60</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>Agreement IS Approved email sends</fullName>
+        <actions>
+            <name>Agreement_Approval_Stage_Change_CRM</name>
+            <type>Alert</type>
+        </actions>
+        <actions>
+            <name>Agreement_Approval_Stage_Change_Compliance</name>
+            <type>Alert</type>
+        </actions>
+        <actions>
+            <name>Agreement_Approval_Stage_Change_HoS</name>
+            <type>Alert</type>
+        </actions>
+        <actions>
+            <name>Agreement_Approval_Stage_Change_Legal</name>
+            <type>Alert</type>
+        </actions>
+        <actions>
+            <name>Agreement_Legal_Notification</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Convention__c.IS_Approved__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Convention__c.Approval_Status__c</field>
+            <operation>equals</operation>
+            <value>Compliance Approval,Global Head of Sales Approval</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Agreement Risk Assessment changed rule</fullName>
+        <actions>
+            <name>Agreement_Notify_Risk_Assessment_change</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <description>Rule to fire when the Risk Assessment is changed on an Agreement</description>
+        <formula>ISCHANGED(Preliminary_Risk_Assesment__c)</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Agreement Rule - Approval Status Changed</fullName>
+        <actions>
+            <name>Agreement_Approval_Stage_Change</name>
+            <type>Alert</type>
+        </actions>
+        <actions>
+            <name>Agreement_Approval_Stage_Change_CRM</name>
+            <type>Alert</type>
+        </actions>
+        <active>false</active>
+        <description>Rule to fire when the Approval status of an Agreement Changes</description>
+        <formula>ISCHANGED( Approval_Status__c )</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Agreement Rule - End Date Greater Than Today</fullName>
+        <active>false</active>
+        <formula>ExpirationDate__c &gt; Today()</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Agreement_Status_Terminated</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <offsetFromField>Convention__c.ExpirationDate__c</offsetFromField>
+            <timeLength>0</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>Agreement Rule - End Date Less Equal Today</fullName>
+        <actions>
+            <name>Agreement_Status_Terminated</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>false</active>
+        <formula>ExpirationDate__c &lt;= Today()</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Agreement Rule - End Date Reached</fullName>
+        <active>true</active>
+        <criteriaItems>
+            <field>Convention__c.Status__c</field>
+            <operation>notEqual</operation>
+            <value>In Negotiation,Expired,Terminated</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Convention__c.ExpirationDate__c</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <description>Rule to fire when the Agreement reaches the end date</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Agreement_Set_Agreement_Status_Expired</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <offsetFromField>Convention__c.ExpirationDate__c</offsetFromField>
+            <timeLength>1</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>Agreement Rule - Grid Start Greater Than Today</fullName>
+        <active>true</active>
+        <formula>AND(   ISPICKVAL(Amendment_Approval_Status__c, &apos;Approved&apos;),   Grid_Request_Start_Date__c &gt; Today() )</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Agreement_Set_Grid_Request_Approved</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <offsetFromField>Convention__c.Grid_Request_Start_Date__c</offsetFromField>
+            <timeLength>0</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>Agreement Rule - Grid Start Less Equal Today</fullName>
+        <actions>
+            <name>Agreement_Set_Grid_Request_Approved</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <formula>AND(   ISPICKVAL(Amendment_Approval_Status__c, &apos;Approved&apos;),   Grid_Request_Start_Date__c &lt;= Today() )</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Agreement Rule - Update Record Type</fullName>
+        <actions>
+            <name>Agreement_Update_Record_Type</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Convention__c.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Intermediary Agreement Request</value>
+        </criteriaItems>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>Agreement Set Approval Status Compliance</fullName>
+        <actions>
+            <name>Agreement_Approval_Compliance</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <booleanFilter>1 AND (2 OR 3) AND 4</booleanFilter>
+        <criteriaItems>
+            <field>Convention__c.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Intermediary Agreement Request Full,Sub-distributor via Platforms Request Full</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Convention__c.Preliminary_Risk_Assesment__c</field>
+            <operation>equals</operation>
+            <value>High,Medium</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Convention__c.Preliminary_Risk_Assesment__c</field>
+            <operation>equals</operation>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Convention__c.IS_Approved__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <description>Set the Agreement Set Approval Status to Compliance</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Agreement Set Approval Status HoS</fullName>
+        <actions>
+            <name>Agreement_Approval_GHOS</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Convention__c.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Intermediary Agreement Request Full</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Convention__c.Preliminary_Risk_Assesment__c</field>
+            <operation>equals</operation>
+            <value>Low</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Convention__c.IS_Approved__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <description>Set the Agreement Approval Status to HoS</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Agreement_StatusRejectedMoreThan3Months</fullName>
+        <active>true</active>
+        <criteriaItems>
+            <field>Convention__c.Approval_Status__c</field>
+            <operation>equals</operation>
+            <value>Approval Rejected</value>
+        </criteriaItems>
+        <description>Fire 3 months after an Agreement rejected, changes automatically Status to ABORTED</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>AgreementStatus</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <offsetFromField>Convention__c.TECH_DateOfReject__c</offsetFromField>
+            <timeLength>91</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>Agreement_WF001_BusinessRegion</fullName>
+        <actions>
+            <name>UpdateBusinessRegion</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>false</active>
+        <description>Copy Business Region from company to related agreement</description>
+        <formula>true</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Investor w%2Fo Agreement Rule - Update Record Type</fullName>
+        <actions>
+            <name>Agreement_Investor_Update_Record_Type</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Convention__c.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Investor without Agreement Request</value>
+        </criteriaItems>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>Sub-distributor Agreement Rule - Update Record Type</fullName>
+        <actions>
+            <name>Subdistributor_A_Update_Record_Type</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Convention__c.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Sub-distributor via Platforms Request</value>
+        </criteriaItems>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+</Workflow>

@@ -1,0 +1,121 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId"
+                 access="global" controller="AccountPlanCtrl">
+    
+    <aura:attribute name="parentObjectId" type="String" access="global"/>
+    <aura:attribute name="currentObjectId" type="String" access="global"/>
+    <aura:attribute name="parentRecordId" type="String" access="global"/>
+    <aura:attribute name="sObjectType" type="String" access="global"/>
+    <aura:attribute name="mode" type="String" access="global"/>
+    <aura:attribute name="customObjectManagement" type="String" access="global"/>
+    <aura:attribute name="viewCustomObjectManagement" type="Boolean" access="global"/>
+    <aura:attribute name="Objective" type="Account_Plan_Objective__c" access="global"/>
+    <aura:attribute name="companyLinks" type="Account_Plan_Objective_Company__c[]" description="The Objective Company sObjects" access="global"/>
+    <aura:attribute name="message" type="String" access="global"/>
+    <aura:attribute name="headerLabel" type="String" access="global" default="New Account Plan Objective"/>
+    <aura:attribute name="objInfo" type="case" default="{sobjectType : 'Account_Plan_Objective__c'}" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <aura:handler name="change" value="{!v.companyLinks}" action="{!c.load}"/>
+    
+    <aura:if isTrue="{!v.viewCustomObjectManagement}">
+        
+        <!--###### MODAL BOX Start From Here ######--> 
+        <div role="dialog" tabindex="-1" aria-labelledby="header99" class="slds-modal slds-fade-in-open ">
+            <div class="slds-modal__container" style="min-width:800px;">
+                <!-- ###### MODAL BOX HEADER Part Start From Here ######-->
+                <div class="slds-modal__header">
+                    <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" onclick="{!c.closeComponent}">
+                        X
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="header99" class="slds-text-heading--medium">{!v.headerLabel}</h2>
+                </div>
+                <!--###### MODAL BOX BODY Part Start From Here ######-->
+                
+                <div class="slds-modal__content slds-p-around--medium">
+                    <span style="color : red">{!v.message}</span>
+                    <div class="slds-grid slds-wrap">
+                        
+                        <div class="slds-col slds-size_1-of-1"  style="padding : 3px">
+                            <h3 class="slds-section__title slds-theme_shade">
+                                <span class="slds-truncate slds-p-horizontal_small" title="Section Title">Information</span>
+                            </h3>
+                        </div>
+
+                        <div class="slds-col slds-size_1-of-2"  style="padding : 3px">
+                            <lightning:input type="text" label="Account Plan Objective Name" required="true" value="{!v.Objective.Name}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2"  style="padding : 3px">
+                            <c:strike_lookup aura:id="accountLookup"
+                                             required="true"
+                                             label="Account Plan"
+                                             object="Account_Plan__c"
+                                             searchField="Name"
+                                             placeholder="Select an Account Plan"
+                                             iconName="standard:account"
+                                             order="Name"
+                                             limit="5"
+                                             loadingMessage="Loading..."
+                                             errorMessage="Invalid input"
+                                             value="{!v.Objective.Account_Plan__c}"/>
+                        </div>
+
+                        <div class="slds-col slds-size_1-of-2"  style="padding : 3px">
+                            <ui:inputSelect aura:id="typeId" required="true" label="Objective Type" value="{!v.Objective.Objective_Type__c}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2"  style="padding : 3px">
+                            <ui:inputDate aura:id="dueDate" label="Due Date" displayDatePicker="true" value="{!v.Objective.Due_Date__c}" />
+                        </div>
+
+                        <div class="slds-col slds-size_1-of-2"  style="padding : 3px">
+                            <ui:inputSelect aura:id="priorityId" required="true" label="Priority" value="{!v.Objective.Priority__c}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2"  style="padding : 3px">
+                        </div>
+                        
+                        <div class="slds-col slds-size_1-of-1"  style="padding : 3px">
+                            <h3 class="slds-section__title slds-theme_shade">
+                                <span class="slds-truncate slds-p-horizontal_small" title="Section Title">Companies</span>
+                            </h3>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1"  style="padding : 3px">
+                            <c:strike_multiLookup aura:id="apLookup" 
+                                                  label="Optional Companies"
+                                                  object="Account"
+                                                  searchField="Name"
+                                                  placeholder="Select companies"
+                                                  iconName="standard:account"
+                                                  order="Name"
+                                                  limit="5"
+                                                  loadingMessage="Loading..."
+                                                  errorMessage="Invalid input"/>
+                            <br/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1"  style="padding : 3px">
+                            <h3 class="slds-section__title slds-theme_shade">
+                                <span class="slds-truncate slds-p-horizontal_small" title="Section Title">Objective Detail</span>
+                            </h3>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1"  style="padding : 3px">
+                        	<ui:inputTextArea aura:id="objectiveDetails" label="Objective Details" value="{!v.Objective.Objective_Details__c}" />
+                        </div>
+
+                        <div class="slds-col slds-size_3-of-4">
+                        </div>
+                        <div class="slds-col slds-size_1-of-4" style="margin-top: 20px;text-align:right;">
+                            <lightning:button label="Cancel" onclick="{!c.closeComponent}"/>
+                            <lightning:button variant="brand" label="Save" onclick="{!c.saveComponent}"/>
+                        </div>
+                    </div>
+                </div>
+                <!--###### MODAL BOX FOOTER Part Start From Here ######-->
+                
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open"></div>
+        <!--###### MODAL BOX Part END Here ######--> 
+        
+    </aura:if>
+    
+</aura:component>

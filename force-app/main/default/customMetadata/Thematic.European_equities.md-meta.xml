@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>European equities</label>
+    <protected>false</protected>
+    <values>
+        <field>Thematic__c</field>
+        <value xsi:type="xsd:string">European equities</value>
+    </values>
+    <values>
+        <field>Thematic_values__c</field>
+        <value xsi:type="xsd:string">europe;european-equities;europa;renta-variable-europea;mercati-azionari-europei;europea;europaeische-aktien;europese-aandelen;grande-europe;european-leaders;euro-entrepreneurs;mark-denham;european-equities</value>
+    </values>
+</CustomMetadata>

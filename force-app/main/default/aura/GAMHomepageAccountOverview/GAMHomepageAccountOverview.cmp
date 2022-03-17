@@ -1,0 +1,87 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId,force:hasSObjectName"             
+                controller="GAMHomepageCtrl" access="global">
+	
+    <aura:attribute name="recordId" type="String" access="global" default="" />
+    <aura:attribute name="GAMId" type="String" access="global" default="" />
+    <aura:attribute name="GAMAccount" type="Account" access="global"/>
+    <aura:attribute name="KCFileId" type="String" access="global"/>
+    <aura:attribute name="OrgFileId" type="String" access="global"/>
+    <aura:attribute name="TierFileId" type="String" access="global"/>
+    <aura:attribute name="AccPlanId" type="String" access="global" default=""/>
+    <aura:attribute name="description" type="String" access="global"/>
+
+    <aura:attribute name="hierarchyImage" type="String" access="global" default="/resource/GAMHomepageIcons/Hierarchy_icon_100x100_Green.png"/>
+    <aura:attribute name="organigramImage" type="String" access="global" default="/resource/GAMHomepageIcons/Organigram_icon_100x100_Green.png"/>
+    <aura:attribute name="tieringImage" type="String" access="global" default="/resource/GAMHomepageIcons/Tiering_icon_100x100_Green.png"/>
+    <aura:attribute name="planImage" type="String" access="global" default="/resource/GAMHomepageIcons/Account_Plan_icon_100x100_Green.png"/>
+    <aura:attribute name="keyContactsImage" type="String" access="global" default="/resource/GAMHomepageIcons/Key_contacts_icon_100x100_Green.png"/>
+    <aura:attribute name="socialImage" type="String" access="global" default="/resource/GAMHomepageIcons/Social_Medias_icon_Black_100x100_Green.png"/>
+
+    <aura:attribute name="hierarchyComponent" type="String" access="global"/>
+    <aura:attribute name="tieringComponent" type="String" access="global"/>
+    <aura:attribute name="kCComponent" type="String" access="global"/>
+    <aura:attribute name="socialComponent" type="String" access="global"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/> 
+    
+    {!v.hierarchyComponent}
+    {!v.tieringComponent}
+    {!v.kCComponent}
+    {!v.socialComponent}
+    
+    <div class="slds-card_boundary slds-card forceRelatedListCardDesktop slds-scrollable">
+        <div style="padding : 1em;">
+            <label class="slds-text-heading--small slds-truncate slds-m-right--xx-small" style="margin-left : 0.75em"><b>Account Overview</b></label>
+            <div style="width:100%;text-align:center;height:20px;">{!v.description}</div>
+        </div>
+        <div class="slds-scrollable">
+            <div class="slds-grid slds-wrap slds-scrollable">
+                    <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--2-of-6 slds-large-size--1-of-6" style="text-align:center;">
+                        <lightning:card >
+                            <a onclick="{!c.loadHierarchyComponent}" onmouseover="{!c.showHierarchyDescription}" onmouseout="{!c.hideDescription}" ><img src="{!v.hierarchyImage}" style="height:100px;" />
+                            <br/>
+                            <div class="slds-text-heading--medium">Hierarchy</div></a>
+                        </lightning:card>
+                    </div>
+                    <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--2-of-6 slds-large-size--1-of-6" style="text-align:center;">
+                        <lightning:card >
+                            <a onclick="{!c.loadOrganigramComponent}" onmouseover="{!c.showOrganigramDescription}" onmouseout="{!c.hideDescription}" ><img src="{!v.organigramImage}" style="height:100px;" />
+                            <br/>
+                            <div class="slds-text-heading--medium">Organigram</div></a> 
+                        </lightning:card>
+                    </div>
+                    <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--2-of-6 slds-large-size--1-of-6" style="text-align:center;">
+                        <lightning:card >
+                            <a onclick="{!c.loadTieringComponent}" onmouseover="{!c.showTieringDescription}" onmouseout="{!c.hideDescription}"><img src="{!v.tieringImage}" style="height:100px;" />
+                            <br/>
+                            <div class="slds-text-heading--medium">Tiering</div></a>
+                        </lightning:card>
+                    </div>
+                    <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--2-of-6 slds-large-size--1-of-6" style="text-align:center;">
+                        <lightning:card >
+                            <aura:if isTrue="{! v.AccPlanId!=''}">
+	                            <a href="{!'/'+v.AccPlanId}" onmouseover="{!c.showPlanDescription}" onmouseout="{!c.hideDescription}"><img src="{!v.planImage}" style="height:100px;" /><br/><div class="slds-text-heading--medium">Account Plan</div></a>
+                            </aura:if>
+                            <aura:if isTrue="{! v.AccPlanId==''}">
+    	                        <a onclick="{!c.loadAccountPlan}" onmouseover="{!c.showPlanDescription}" onmouseout="{!c.hideDescription}"><img src="{!v.planImage}" style="height:100px;" /><br/><div class="slds-text-heading--medium">Account Plan</div></a>
+                            </aura:if>
+                        </lightning:card>
+                    </div>
+                    <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--2-of-6 slds-large-size--1-of-6" style="text-align:center;">
+                        <lightning:card >
+                            <a onclick="{!c.loadKeyContactsComponent}" onmouseover="{!c.showKeyContactDescription}" onmouseout="{!c.hideDescription}"><img src="{!v.keyContactsImage}" style="height:100px;" />
+                            <br/>
+                            <div class="slds-text-heading--medium">Key Contacts</div></a>
+                        </lightning:card>
+                    </div>
+                    <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--2-of-6 slds-large-size--1-of-6" style="text-align:center;">
+                        <lightning:card >
+                            <a onclick="{!c.loadSocialComponent}" onmouseover="{!c.showSocialDescription}" onmouseout="{!c.hideDescription}"><img src="{!v.socialImage}" style="height:100px;" />
+                            <br/>
+                            <div class="slds-text-heading--medium">Social Media</div></a>
+                        </lightning:card>
+                    </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

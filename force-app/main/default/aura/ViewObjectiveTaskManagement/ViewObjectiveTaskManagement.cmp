@@ -1,0 +1,272 @@
+<aura:component implements="force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes" 
+                controller="AccountPlanCtrl" access="global">
+    
+	<aura:attribute name="componentPage" type="String" default="tasklist" access="global"/>
+
+    <aura:attribute name="parentObjectId" type="String" access="global"/>
+    <aura:attribute name="currentObjectId" type="String" access="global"/>
+    <aura:attribute name="currentTaskId" type="String" access="global"/>
+	<aura:attribute name="parentRecordId" type="String" access="global"/>
+    <aura:attribute name="sObjectType" type="String" access="global"/>
+	<aura:attribute name="objectives" type="String" access="global"/>
+    <aura:attribute name="mode" type="String" access="global"/>
+    <aura:attribute name="customObjectManagement" type="String" access="global"/>
+    <aura:attribute name="viewCustomObjectManagement" type="Boolean" access="global"/>
+    <aura:attribute name="objective" type="Object" access="global"/>
+    <aura:attribute name="recordError" type="String" access="global"/>
+   	<aura:attribute name="objInfo" type="case" default="{sobjectType : 'Task'}" />
+    <aura:attribute name="taskList" type="List" access="global" />
+    <aura:attribute name="taskDisplay" type="Object" access="global" />
+    <aura:attribute name="today" type="Date" default=""/>
+    <aura:attribute name="currentUserId" type="Id" default="{!$SObjectType.CurrentUser.Id}"/>
+    
+	<aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:if isTrue="{!v.viewCustomObjectManagement}">
+        
+        <!--###### MODAL BOX Start From Here ######--> 
+        <div role="dialog" tabindex="-1" aria-labelledby="header99" class="slds-modal slds-fade-in-open ">
+            <div class="slds-modal__container">
+                <!-- ###### MODAL BOX HEADER Part Start From Here ######-->
+                <div class="slds-modal__header">
+                    <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" onclick="{!c.closeComponent}">
+                        X
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="header99" class="slds-text-heading--medium">{!v.objective.Name}</h2>
+                </div>
+                <!--###### MODAL BOX BODY Part Start From Here ######-->
+                
+                <aura:if isTrue="{!v.componentPage == 'tasklist'}" >
+                <div class="slds-modal__content slds-p-around--large">
+                    <span style="color : red">{!v.message}</span>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_1-of-1"  style="text-align:right;">
+	                        <!--<lightning:button label="New Task" onclick="{!c.newTask}" />-->
+	                        <lightning:button label="New Action" onclick="{!c.newTaskCustom}" />
+                        </div>
+                        <div class="slds-col slds-size_1-of-1"  style="padding : 3px">
+                            <div class="slds-scrollable forceBaseListView forceRelatedListPreviewGrid" data-aura-rendered-by="3133:0" data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                                <table class="slds-scrollable forceRecordLayout slds-table slds-no-row-hover slds-table_cell-buffer slds-table_fixed-layout uiVirtualDataGrid--default uiVirtualDataGrid list" data-aura-class="uiVirtualDataGrid--default uiVirtualDataGrid">
+                                    <thead>
+                                        <tr class="headerRow">
+                                        	<th class=" descending zen-deemphasize" scope="col" >Action</th>
+                                        	<th class=" descending zen-deemphasize" scope="col" >Type</th>
+                                        	<th class=" descending zen-deemphasize" scope="col" >Due</th>
+                                        	<th class=" descending zen-deemphasize" scope="col" >Status</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                            		<tbody>
+                                        <aura:iteration items="{!v.taskList}" var="task">
+                                        <tr scope="row" class="{!'dataRow rowHighlight-'+task.Status}">
+                                            <th scope="row" class="dataCell">{!task.Subject}</th>
+                                            <th scope="row" class="dataCell">{!task.Type}</th>
+                                            <th scope="row" class="dataCell">{!task.ActivityDate}</th>
+                                            <th scope="row" class="dataCell">{!task.Status}</th>
+                                            <th scope="row" class="dataCell" style="text-align:right;"><lightning:button label="{!task.Status == 'Done' ? 'View' : 'Edit'}" onclick="{!c.viewTaskCtrl}" value="{!task.Id}" /></th>
+                                        </tr>
+                                        </aura:iteration>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_3-of-4"></div>
+                        <div class="slds-col slds-size_1-of-4" style="margin-top: 20px;text-align:right;">
+                            <lightning:button label="Close" onclick="{!c.closeComponent}"/>
+                        </div>
+                    </div>
+                </div>
+                <!--###### MODAL BOX FOOTER Part Start From Here ######-->
+                </aura:if>
+                <aura:if isTrue="{!v.componentPage == 'newtask'}" >
+                    <div class="slds-modal__content slds-p-around--large">
+
+                    <!-- Display Lightning Data Service errors, if any -->
+                    <aura:if isTrue="{!not(empty(v.recordError))}">
+                        <div class="recordError">
+                            <ui:message title="Error" severity="error" closable="true">
+                                {!v.recordError}
+                            </ui:message>
+                        </div>
+                    </aura:if>
+                        
+                     <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_1-of-1"  style="padding : 3px">
+                            <div class="slds-scrollable forceBaseListView forceRelatedListPreviewGrid" data-aura-rendered-by="3133:0" data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                                 <div class="slds-grid slds-wrap">
+                        
+                                     <h4 id="header101" class="slds-text-heading--small">Create a new Action for this Objective.</h4>
+                                     <div class="slds-col slds-size_1-of-1"  style="padding : 3px">
+                                         <ui:inputText aura:id="subject" required="true" label="Action Name" value="{!v.taskDisplay.Subject}" />
+                                     </div>
+                                     
+                                     <div class="slds-col slds-size_1-of-2"  style="padding : 3px">
+                                         <c:strike_lookup aura:id="userLookup"
+                                             label="Assigned To"
+                                             object="User"
+                                             searchField="Name"
+                                             placeholder="Select an option"
+                                             iconName="standard:user"
+                                             order="Name"
+                                             limit="5"
+                                             loadingMessage="Loading..."
+                                             errorMessage="Invalid input"
+                                             value="{!v.taskDisplay.OwnerId}"/>
+                                     </div>
+                                     
+                                     <div class="slds-col slds-size_1-of-2"  style="padding : 3px">
+                                         <ui:inputDate aura:id="dueDate" label="Due Date" required="true" displayDatePicker="true" value="{!v.taskDisplay.ActivityDate}" />
+                                     </div>
+                                     
+                                     <div class="slds-col slds-size_1-of-2"  style="padding : 3px">
+                                         <ui:inputSelect aura:id="taskType" required="true" label="Type" value="{!v.taskDisplay.Type}"/>
+                                     </div>
+                                     <div class="slds-col slds-size_1-of-2"  style="padding : 3px">
+                                         <ui:inputSelect aura:id="taskPriority" required="true" label="Priority" value="{!v.taskDisplay.Priority}"/>
+                                     </div>
+                                     <div class="slds-col slds-size_1-of-2"  style="padding : 3px">
+                                         <ui:inputSelect aura:id="taskStatus" required="true" label="Status" value="{!v.taskDisplay.Status}"/>
+                                     </div>
+                                    
+                                     <div class="slds-col slds-size_1-of-1"  style="padding : 3px">
+                                         <ui:inputTextArea aura:id="description" label="Description" value="{!v.taskDisplay.Description}" />
+                                     </div>
+                                     
+                                     <div class="slds-col slds-size_3-of-4"></div>
+                                     <div class="slds-col slds-size_1-of-4" style="margin-top: 20px;">
+                                         <lightning:button label="Cancel" onclick="{!c.cancelNewTask}"/>
+                                         <lightning:button variant="brand" label="Save" onclick="{!c.saveThisTask}"/>
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </aura:if>
+                <aura:if isTrue="{!v.componentPage == 'edittask'}" >
+                    <div class="slds-modal__content slds-p-around--large">
+                    
+                    <!-- Display Lightning Data Service errors, if any -->
+                    <aura:if isTrue="{!not(empty(v.recordError))}">
+                        <div class="recordError">
+                            <ui:message title="Error" severity="error" closable="true">
+                                {!v.recordError}
+                            </ui:message>
+                        </div>
+                    </aura:if>
+                    
+                        <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_1-of-1"  style="padding : 3px">
+                            <div class="slds-scrollable forceBaseListView forceRelatedListPreviewGrid" data-aura-rendered-by="3133:0" data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                                 <div class="slds-grid slds-wrap">
+                        
+                                     <h4 id="header101" class="slds-text-heading--small">Edit Action for this Objective.</h4>
+                                     <div class="slds-col slds-size_1-of-1"  style="padding : 3px">
+                                         <ui:inputText aura:id="subject" required="true" label="Action Name" value="{!v.taskDisplay.Subject}" />
+                                     </div>
+                                     
+                                     <div class="slds-col slds-size_1-of-2"  style="padding : 3px">
+                                         <c:strike_lookup aura:id="userLookup"
+                                             label="Assigned To"
+                                             object="User"
+                                             searchField="Name"
+                                             placeholder="Select an option"
+                                             iconName="standard:user"
+                                             order="Name"
+                                             limit="5"
+                                             loadingMessage="Loading..."
+                                             errorMessage="Invalid input"
+                                             value="{!v.taskDisplay.OwnerId}"/>
+                                     </div>
+                                     
+                                     <div class="slds-col slds-size_1-of-2"  style="padding : 3px">
+                                         <ui:inputDate aura:id="dueDate" label="Due Date" displayDatePicker="true" value="{!v.taskDisplay.ActivityDate}" />
+                                     </div>
+                                     
+                                     <div class="slds-col slds-size_1-of-2"  style="padding : 3px">
+                                         <ui:inputSelect aura:id="taskType" required="true" label="Type" value="{!v.taskDisplay.Type}"/>
+                                     </div>
+                                     <div class="slds-col slds-size_1-of-2"  style="padding : 3px">
+                                         <ui:inputSelect aura:id="taskPriority" required="true" label="Priority" value="{!v.taskDisplay.Priority}"/>
+                                     </div>
+                                     <div class="slds-col slds-size_1-of-2"  style="padding : 3px">
+                                         <ui:inputSelect aura:id="taskStatus" required="true" label="Status" value="{!v.taskDisplay.Status}"/>
+                                     </div>
+                                    
+                                     <div class="slds-col slds-size_1-of-1"  style="padding : 3px">
+                                         <ui:inputTextArea aura:id="description" label="Description" value="{!v.taskDisplay.Description}" />
+                                     </div>
+                                     
+                                     <div class="slds-col slds-size_1-of-1" style="margin-top: 20px;text-align:right;">
+                                         <lightning:button label="Cancel" onclick="{!c.cancelNewTask}"/>
+                                         <aura:if isTrue="{!v.taskDisplay.Status != 'Done'}" >
+                                             <lightning:button variant="destructive" label="Delete" onclick="{!c.deleteTaskCtrl}" type="submit"/>
+                                         </aura:if>
+                                         <lightning:button variant="brand" label="Save" onclick="{!c.saveThisTask}"/>
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </aura:if>
+                <aura:if isTrue="{!v.componentPage == 'viewtask'}" >
+                    <div class="slds-modal__content slds-p-around--large">
+                    <span style="color : red">{!v.message}</span>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_1-of-1"  style="padding : 3px">
+                            <div class="slds-scrollable forceBaseListView forceRelatedListPreviewGrid" data-aura-rendered-by="3133:0" data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                                <div class="slds-grid slds-wrap">
+                                    
+                                    <div class="slds-col slds-size_1-of-1"  style="padding : 3px">
+                                        <h4 id="header102" class="slds-text-heading--small">{!v.taskDisplay.Subject}</h4>
+                                    </div>
+                                    
+                                    <div class="slds-col slds-size_1-of-2"  style="padding : 3px">
+                                        <label class="slds-form-element__label" for="vOwner" id="inline-text-label">Owner</label>
+                                        <ui:outputText aura:id="vOwner" value="{!v.taskDisplay.Owner.Name}"/>
+                                    </div>
+                                    
+                                    <div class="slds-col slds-size_1-of-2"  style="padding : 3px">
+                                        <label class="slds-form-element__label" for="vActivityDate" id="inline-text-label">Due Date</label>
+                                        <ui:outputText aura:id="vActivityDate" value="{!v.taskDisplay.ActivityDate}" />
+                                    </div>
+                                    
+                                    <div class="slds-col slds-size_1-of-2"  style="padding : 3px">
+                                        <label class="slds-form-element__label" for="vTaskType" id="inline-text-label">Type</label>
+                                        <ui:outputText aura:id="vTaskType" value="{!v.taskDisplay.Type}" />
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2"  style="padding : 3px">
+                                        <label class="slds-form-element__label" for="vPriority" id="inline-text-label">Priority</label>
+                                        <ui:outputText aura:id="vPriority" value="{!v.taskDisplay.Priority}" />
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2"  style="padding : 3px">
+                                        <label class="slds-form-element__label" for="vStatus" id="inline-text-label">Status</label>
+                                        <ui:outputText aura:id="vStatus" value="{!v.taskDisplay.Status}" />
+                                    </div>
+                                    
+                                    <div class="slds-col slds-size_1-of-1"  style="padding : 3px">
+                                        <ui:inputTextArea aura:id="vDescription" label="Description" value="{!v.taskDisplay.Description}" />
+                                    </div>
+                                    
+                                    <div class="slds-col slds-size_1-of-2"></div>
+                                    <div class="slds-col slds-size_1-of-2" style="margin-top: 20px;text-align:right;">
+                                        <lightning:button label="Cancel" onclick="{!c.cancelNewTask}"/>
+                                        <aura:if isTrue="{!v.taskDisplay.Status != 'Done'}" >
+                                            <lightning:button variant="destructive" label="Delete" onclick="{!c.deleteTaskCtrl}" type="submit"/>
+                                        </aura:if>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </aura:if>
+                
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open"></div>
+        <!--###### MODAL BOX Part END Here ######--> 
+    </aura:if>
+    
+</aura:component>

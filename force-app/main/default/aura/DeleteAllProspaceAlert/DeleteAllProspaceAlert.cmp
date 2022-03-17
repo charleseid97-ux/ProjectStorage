@@ -1,0 +1,100 @@
+<aura:component controller="SM029_DeleteAllAlertsLTController" implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId" access="global">
+    
+    <aura:attribute name="recordId" type="String" access="GLOBAL" default="{!v.recordId}"/>
+    <aura:attribute  name="options" type="List" />
+    <aura:attribute  name="optionsPub" type="List" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.initPickList}"/>
+    <aura:attribute name="value" type="List"/>
+    <aura:attribute name="valuePub" type="List"/>
+    
+    
+    
+    <!-- PAGE HEADER -->
+    <div class="selection">
+        <lightning:layout class="slds-page-header slds-page-header--object-home">
+            <lightning:layoutItem>
+                <lightning:icon iconName="custom:custom14" alternativeText="Commodities"/>
+            </lightning:layoutItem>
+            
+            <lightning:layoutItem padding="horizontal-small">
+                <div class="page-section page-header">
+                    <h1 class="slds-text-heading--label">{!$Label.c.DeletingAlertsPerType}</h1>
+                    <h2 class="slds-text-heading--medium"></h2>
+                </div>
+            </lightning:layoutItem>
+        </lightning:layout>
+        <!-- FORM -->
+        
+        
+        <lightning:layout> 
+            <lightning:layoutItem padding="around-small" size="12">
+                <div  aria-labelledby="newexpenseform">
+                    <!-- BOXED AREA -->
+                    <fieldset class="slds-box slds-theme--default ">
+                        
+                        <form class="slds-form--stacked">
+                            <div class="slds-grid slds-gutters">
+                                
+                                <div class="slds-col slds-size_1-of-3">
+                                    
+                                    <lightning:checkboxGroup name="List of Alert Type"
+                                                             label="Nav Alerts"
+                                                             options="{! v.options }"
+                                                             value="{! v.value }"
+                                                             onchange="{! c.handleChange }"
+                                                             required="true" />
+                                    
+                                </div>
+                                <div class="slds-col slds-size_1-of-3">
+                                    <lightning:checkboxGroup name="List of Alert Type"
+                                                             label="Publications"
+                                                             options="{! v.optionsPub }"
+                                                             value="{! v.valuePub }"
+                                                             onchange="{! c.handleChange }"
+                                                             required="true" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- BUTTON SECTION -->
+                                <lightning:button label="Cancel"
+                                                  class="slds-m-top--medium"
+                                                  variant="brand"
+                                                  onclick="{!c.handleCancel}"/>
+                                
+                                <lightning:button label="Delete"
+                                                  class="slds-m-top--medium"
+                                                  variant="brand"
+                                                  disabled="true"
+                                                  aura:id="buttonAdd"
+                                                  onclick="{!c.delAllAlerts}"/>
+                            </div>
+                            
+                        </form>
+                        
+                    </fieldset>
+                </div>
+                
+            </lightning:layoutItem>
+            
+        </lightning:layout>
+    </div> 
+    
+    
+    
+    <div class="loadcomplete">
+        
+        <ui:message title="Success" severity="confirm" closable="false">
+            {!$Label.c.RedirectAlerts} 
+        </ui:message> 
+    </div>
+    
+    
+    
+    
+    <div class="loading" style="width:50%;text-align:center;font-size:16px;">
+        <h1 class="slds-text-heading--label">{!$Label.c.DeletingAlertsPerType}</h1>
+        <img src="/resource/HierarchyLoading" style="width:50%;"/>
+    </div>
+    
+</aura:component>

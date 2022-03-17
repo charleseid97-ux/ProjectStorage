@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>AXA60</fullName>
+        <default>false</default>
+        <label>Axa Selection</label>
+    </customValue>
+    <customValue>
+        <fullName>CCC</fullName>
+        <default>false</default>
+        <label>Capital Cube</label>
+    </customValue>
+    <customValue>
+        <fullName>CCNE</fullName>
+        <default>false</default>
+        <label>China New Economy</label>
+    </customValue>
+    <customValue>
+        <fullName>CC</fullName>
+        <default>false</default>
+        <label>Commodities</label>
+    </customValue>
+    <customValue>
+        <fullName>CCT</fullName>
+        <default>false</default>
+        <label>Court Terme</label>
+    </customValue>
+    <customValue>
+        <fullName>CSEM</fullName>
+        <default>false</default>
+        <label>Credit Suisse Carmignac Emerging Markets Multi-Asset Fund</label>
+    </customValue>
+    <customValue>
+        <fullName>CE</fullName>
+        <default>false</default>
+        <label>Emergents</label>
+    </customValue>
+    <customValue>
+        <fullName>CED</fullName>
+        <default>false</default>
+        <label>Emerging Discovery</label>
+    </customValue>
+    <customValue>
+        <fullName>UKCE</fullName>
+        <default>false</default>
+        <label>Emerging Markets</label>
+    </customValue>
+    <customValue>
+        <fullName>CEMP</fullName>
+        <default>false</default>
+        <label>Emerging Patrimoine</label>
+    </customValue>
+    <customValue>
+        <fullName>CEE</fullName>
+        <default>false</default>
+        <label>Euro-Entrepreneurs</label>
+    </customValue>
+    <customValue>
+        <fullName>UKCEL</fullName>
+        <default>false</default>
+        <label>European Leaders</label>
+    </customValue>
+    <customValue>
+        <fullName>CFG</fullName>
+        <default>false</default>
+        <label>Family Governed</label>
+    </customValue>
+    <customValue>
+        <fullName>CFA24</fullName>
+        <default>false</default>
+        <label>Flexible Allocation 2024</label>
+    </customValue>
+    <customValue>
+        <fullName>CAGR</fullName>
+        <default>false</default>
+        <label>Global Absolute Return</label>
+    </customValue>
+    <customValue>
+        <fullName>CGC</fullName>
+        <default>false</default>
+        <label>Grandchildren</label>
+    </customValue>
+    <customValue>
+        <fullName>CGE</fullName>
+        <default>false</default>
+        <label>Grande Europe</label>
+    </customValue>
+    <customValue>
+        <fullName>CI</fullName>
+        <default>false</default>
+        <label>Investissement</label>
+    </customValue>
+    <customValue>
+        <fullName>CIL</fullName>
+        <default>false</default>
+        <label>Investissement Latitude</label>
+    </customValue>
+    <customValue>
+        <fullName>CLCEMS</fullName>
+        <default>false</default>
+        <label>Large Cap Emerging Markets Strategy</label>
+    </customValue>
+    <customValue>
+        <fullName>CLSEE</fullName>
+        <default>false</default>
+        <label>Long-Short European Equities</label>
+    </customValue>
+    <customValue>
+        <fullName>CLSGE</fullName>
+        <default>false</default>
+        <label>Long-Short Global Equities</label>
+    </customValue>
+    <customValue>
+        <fullName>MFP</fullName>
+        <default>false</default>
+        <label>Mapfre</label>
+    </customValue>
+    <customValue>
+        <fullName>CP</fullName>
+        <default>false</default>
+        <label>Patrimoine</label>
+    </customValue>
+    <customValue>
+        <fullName>CPE</fullName>
+        <default>false</default>
+        <label>Patrimoine Europe</label>
+    </customValue>
+    <customValue>
+        <fullName>CPRs</fullName>
+        <default>false</default>
+        <label>Profil Réactif</label>
+    </customValue>
+    <customValue>
+        <fullName>CS</fullName>
+        <default>false</default>
+        <label>Sécurité</label>
+    </customValue>
+    <customValue>
+        <fullName>CCR</fullName>
+        <default>false</default>
+        <label>Unconstrained Credit</label>
+    </customValue>
+    <customValue>
+        <fullName>CUEFI</fullName>
+        <default>false</default>
+        <label>Unconstrained Euro Fixed Income</label>
+    </customValue>
+    <customValue>
+        <fullName>CUGB</fullName>
+        <default>false</default>
+        <label>Unconstrained Global Bond</label>
+    </customValue>
+    <customValue>
+        <fullName>PILODYN</fullName>
+        <default>false</default>
+        <label>Gestion Pilotée Dynamique</label>
+    </customValue>
+    <customValue>
+        <fullName>PILOEQU</fullName>
+        <default>false</default>
+        <label>Gestion Pilotée Equilibrée</label>
+    </customValue>
+    <customValue>
+        <fullName>PILOPRU</fullName>
+        <default>false</default>
+        <label>Gestion Pilotée Prudente</label>
+    </customValue>
+    <customValue>
+        <fullName>PILOFLEX</fullName>
+        <default>false</default>
+        <label>Gestion Pilotée Flexible</label>
+    </customValue>
+    <customValue>
+        <fullName>CC25</fullName>
+        <default>false</default>
+        <label>Crédit 2025</label>
+    </customValue>
+    <customValue>
+        <fullName>CEMD</fullName>
+        <default>false</default>
+        <label>Unconstrained Emerging Markets Debt</label>
+    </customValue>
+    <customValue>
+        <fullName>Euro-Investissement</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Euro-Investissement</label>
+    </customValue>
+    <customValue>
+        <fullName>Innovation</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Innovation</label>
+    </customValue>
+    <customValue>
+        <fullName>UFFGE</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>UFF Grande Europe 0-100</label>
+    </customValue>
+    <customValue>
+        <fullName>CMN</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Market Neutral</label>
+    </customValue>
+    <customValue>
+        <fullName>Not Applicable</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Not Applicable</label>
+    </customValue>
+    <customValue>
+        <fullName>CGCN</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>China</label>
+    </customValue>
+    <customValue>
+        <fullName>CARA</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Active Risk Allocation</label>
+    </customValue>
+    <customValue>
+        <fullName>Cross Asset Opportunities</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Cross Asset Opportunities</label>
+    </customValue>
+    <customValue>
+        <fullName>Infotech</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Infotech</label>
+    </customValue>
+    <masterLabel>Strategy</masterLabel>
+    <sorted>true</sorted>
+</GlobalValueSet>

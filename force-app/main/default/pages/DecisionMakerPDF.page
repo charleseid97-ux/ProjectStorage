@@ -1,0 +1,79 @@
+<!--
+
+* @description renders Meeting note details and related records as pdf
+-->
+<apex:page controller="DecisionMakerPDFController" showHeader="false"  applyHtmlTag="false">
+    <head>       
+        <!--Styles for the pdf rendering-->
+        <style>
+            @page
+            {
+            size:landscape;
+            }
+            h1{
+                font-size: 18px;
+            	margin-bottom:0px;
+            	padding-bottom:0px;
+            	color : black;
+            }
+            h2{
+                font-size: 14px;
+            	margin-bottom:0px;
+            	padding-bottom:0px;
+            	color : black;
+            }
+
+            body{
+            	font-family:SansSerif;
+            	color: white;
+	            font-size:11px;
+            }
+            .matrixCell {
+            	height:60px;
+            	background-color:rgb(245, 232, 123);
+            	border-top:1px solid white;
+            	border-right:1px solid white;
+            }
+            
+            .matrixColour74, .matrixColour76, .matrixColour77, .matrixColour78, .matrixColour79,
+            .matrixColour83, .matrixColour84, .matrixColour86, .matrixColour87, .matrixColour88, .matrixColour89,
+            .matrixColour92, .matrixColour93, .matrixColour94, .matrixColour96, .matrixColour97, .matrixColour98, .matrixColour99{
+            	background-color:rgb(233, 91, 82);
+            }
+            
+            .matrixColour16, .matrixColour17, .matrixColour18, .matrixColour19,
+            .matrixColour27, .matrixColour28, .matrixColour29,
+            .matrixColour38, .matrixColour39,
+            .matrixColour49 {
+            	background-color:rgb(177, 204, 102);
+            }
+            
+            .matrixColour15, .matrixColour25, .matrixColour35, .matrixColour45, .matrixColour55, .matrixColour65, .matrixColour75, .matrixColour85, .matrixColour95, .matrixColour105,
+            .matrixColour51, .matrixColour52, .matrixColour53, .matrixColour54, .matrixColour56, .matrixColour57, .matrixColour58, .matrixColour59, .matrixColour510 {
+            	background-color:rgb(98, 117, 138);
+            	color: white;
+            }
+            
+            .matrixRow:hover {
+            	background-color:none;
+            }
+
+        </style>
+    </head> 
+    
+    <body>     
+        <!--variable to store subdomain-->
+        <apex:variable value="{!myDomainName}" var="baseURL"/>
+        
+        <!-- All the contents-->
+        <div>
+            <h1>
+                {!accountName} Decision Maker Matrix
+            </h1>
+            <h2>
+                View all Contacts in Hierarchy = {!viewFull}
+            </h2>
+            <apex:outputText value="{!matrixTable}" escape="false" />
+        </div>
+    </body>
+</apex:page>

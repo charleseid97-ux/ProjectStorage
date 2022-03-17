@@ -1,0 +1,6 @@
+<!-- Application Event -->
+<aura:event type="APPLICATION" description="Fired when a Product Tile is selected">
+	<aura:attribute name="openModalTileSelected" type="Boolean" description=" sets the ProductTileSelectedModal isOpen attribute to true"/>
+    <aura:attribute name="prodName" type="String" description=" Name of Selected Product"/>
+    <aura:attribute name="prodId" type="String" description=" Id of Selected Product"/>
+</aura:event>

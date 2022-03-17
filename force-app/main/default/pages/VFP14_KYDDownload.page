@@ -1,0 +1,3 @@
+<apex:page extensions="KYD_Download" sidebar="false" showHeader="false" standardController="KYD_Document__c">
+    <embed type="application/pdf" src="data:application/pdf;base64,{!pdf}" style="width: 100%; height: 100vh; display: inline-block" />
+</apex:page>

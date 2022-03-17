@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Agreement_Lock_terminated_record</fullName>
+    <active>true</active>
+    <description>When the status is terminated, the agreement cannot be updated</description>
+    <errorConditionFormula>AND(
+    NOT($User.BypassValidationRules__c),		
+    NOT($Setup.BypassSpecificValidationRule__c.Agreement_Lock_terminated_record__c),
+    ISPICKVAL(PRIORVALUE(Status__c), &apos;Terminated&apos;)
+)</errorConditionFormula>
+    <errorMessage>This agreement is terminated and cannot be modified.</errorMessage>
+</ValidationRule>

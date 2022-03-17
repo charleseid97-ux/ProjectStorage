@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Marketing_Activity</fullName>
+    <active>true</active>
+    <description>To capture Event, Webinar and Newsletter related engagement data</description>
+    <label>Marketing Activity</label>
+    <picklistValues>
+        <picklist>Thematic__c</picklist>
+        <values>
+            <fullName>Emerging equities</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>European equities</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fixed Income Strategy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Letter from Edouard Carmignac</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Long-Short Strategy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Market Analysis</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>N%2FA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Patrimoine Strategy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sustainable investing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Thematic equities</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type__c</picklist>
+        <values>
+            <fullName>N%2FA</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

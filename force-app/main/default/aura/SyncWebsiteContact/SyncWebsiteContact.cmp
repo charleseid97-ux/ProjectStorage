@@ -1,0 +1,15 @@
+<aura:component controller="SM026_SyncWebsiteContactLTController" implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId" access="global">
+    
+    <aura:attribute name="recordId" type="Id" />
+    
+    <ui:message title="ProSpace Syncing" severity="info" closable="false">
+        {!$Label.c.SyncingToWebsite}
+    </ui:message> 
+    
+    <aura:handler name="init" value="{!this}" action="{!c.syncContactToWebsite}"/>
+
+    <div style="width:100%;text-align:center;font-size:16px;">
+        <img src="/resource/HierarchyLoading" style="width:50%;"/>
+    </div>
+    
+</aura:component>

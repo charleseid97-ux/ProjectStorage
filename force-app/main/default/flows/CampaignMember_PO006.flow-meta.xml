@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <processMetadataValues>
+            <name>postTargetUserType</name>
+            <value>
+                <stringValue>REFERENCE</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>textJson</name>
+            <value>
+                <stringValue>{&quot;mentions&quot;:[],&quot;message&quot;:&quot;hi @[{![CampaignMember].Campaign.CRM_User__r.Id}],\n\nPlease note that {![CampaignMember].FirstName} {![CampaignMember].LastName} from {![CampaignMember].CompanyOrAccount}, has canceled his participation to the event {![CampaignMember].Campaign.Name} scheduled on the {![CampaignMember].Campaign.Event_Local_Start_Time__c}. \n\nFor more information, visit the concerned Campaign Member form at : \nhttps://carmignac-crm.lightning.force.com/lightning/r/CampaignMember/{![CampaignMember].Id}/view\n\nRegards,&quot;}</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>myRule_1_A1</name>
+        <label>Post to CRM user</label>
+        <locationX>100</locationX>
+        <locationY>200</locationY>
+        <actionName>chatterPost</actionName>
+        <actionType>chatterPost</actionType>
+        <connector>
+            <targetReference>myRule_1_A2</targetReference>
+        </connector>
+        <inputParameters>
+            <name>text</name>
+            <value>
+                <stringValue>hi @[{!myVariable_current.Campaign.CRM_User__r.Id}],
+
+Please note that {!myVariable_current.FirstName} {!myVariable_current.LastName} from {!myVariable_current.CompanyOrAccount}, has canceled his participation to the event {!myVariable_current.Campaign.Name} scheduled on the {!myVariable_current.Campaign.Event_Local_Start_Time__c}. 
+
+For more information, visit the concerned Campaign Member form at : 
+https://carmignac-crm.lightning.force.com/lightning/r/CampaignMember/{!myVariable_current.Id}/view
+
+Regards,</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>type</name>
+            <value>
+                <stringValue>USER</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>subjectNameOrId</name>
+            <value>
+                <elementReference>myVariable_current.Campaign.CRM_User__r.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <processMetadataValues>
+            <name>postTarget</name>
+            <value>
+                <stringValue>Felix REYES</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>postTargetUserType</name>
+            <value>
+                <stringValue>USER</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>textJson</name>
+            <value>
+                <stringValue>{&quot;mentions&quot;:[],&quot;message&quot;:&quot;hi,\n\nPlease note that {![CampaignMember].FirstName} {![CampaignMember].LastName} from {![CampaignMember].CompanyOrAccount}, has canceled his participation to the event {![CampaignMember].Campaign.Name} scheduled on the {![CampaignMember].Campaign.Event_Local_Start_Time__c}. \n\nFor more information, visit the concerned Campaign Member form at : \nhttps://carmignac-crm.lightning.force.com/lightning/r/CampaignMember/{![CampaignMember].Id}/view\n\nRegards,&quot;}</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>myRule_1_A2</name>
+        <label>Post to SF Admin</label>
+        <locationX>100</locationX>
+        <locationY>300</locationY>
+        <actionName>chatterPost</actionName>
+        <actionType>chatterPost</actionType>
+        <inputParameters>
+            <name>text</name>
+            <value>
+                <stringValue>hi,
+
+Please note that {!myVariable_current.FirstName} {!myVariable_current.LastName} from {!myVariable_current.CompanyOrAccount}, has canceled his participation to the event {!myVariable_current.Campaign.Name} scheduled on the {!myVariable_current.Campaign.Event_Local_Start_Time__c}. 
+
+For more information, visit the concerned Campaign Member form at : 
+https://carmignac-crm.lightning.force.com/lightning/r/CampaignMember/{!myVariable_current.Id}/view
+
+Regards,</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>type</name>
+            <value>
+                <stringValue>USER</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>subjectNameOrId</name>
+            <value>
+                <stringValue>00558000002FtlsAAC</stringValue>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <apiVersion>49.0</apiVersion>
+    <assignments>
+        <name>myVariable_waitStartTimeAssignment</name>
+        <label>myVariable_waitStartTimeAssignment</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>myVariable_waitStartTimeVariable</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Flow.CurrentDateTime</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>myDecision</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <processMetadataValues>
+            <name>index</name>
+            <value>
+                <numberValue>0.0</numberValue>
+            </value>
+        </processMetadataValues>
+        <name>myDecision</name>
+        <label>myDecision</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_1</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_1</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_1_A1</targetReference>
+            </connector>
+            <label>Status is Cancelled</label>
+        </rules>
+    </decisions>
+    <description>Sends a message to Event team if a Campaign member cancels</description>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND(ISCHANGED([CampaignMember].Status), ISPICKVAL( [CampaignMember].Status, &quot;Cancelled&quot;),!$User.BypassProcessBuilders__c ) </stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_1</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(ISCHANGED({!myVariable_current.Status}), ISPICKVAL( {!myVariable_current.Status}, &quot;Cancelled&quot;),!{!$User.BypassProcessBuilders__c} )</expression>
+    </formulas>
+    <interviewLabel>CampaignMember_PO006-1_InterviewLabel</interviewLabel>
+    <label>CampaignMember_PB006_AlertIfCancellation</label>
+    <processMetadataValues>
+        <name>ObjectType</name>
+        <value>
+            <stringValue>CampaignMember</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>ObjectVariable</name>
+        <value>
+            <elementReference>myVariable_current</elementReference>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OldObjectVariable</name>
+        <value>
+            <elementReference>myVariable_old</elementReference>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>TriggerType</name>
+        <value>
+            <stringValue>onAllChanges</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Workflow</processType>
+    <startElementReference>myVariable_waitStartTimeAssignment</startElementReference>
+    <status>Active</status>
+    <variables>
+        <name>myVariable_current</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>CampaignMember</objectType>
+    </variables>
+    <variables>
+        <name>myVariable_old</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>CampaignMember</objectType>
+    </variables>
+    <variables>
+        <name>myVariable_waitStartTimeVariable</name>
+        <dataType>DateTime</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <elementReference>$Flow.CurrentDateTime</elementReference>
+        </value>
+    </variables>
+</Flow>

@@ -1,0 +1,36 @@
+<apex:page standardController="Web_Communication__c" showHeader="false" sidebar="false" recordSetVar="selCon" extensions="VFC11_AddAllProSpaceAlerts">
+    <apex:includeLightning />    
+    <apex:includeScript value="/lightning/lightning.out.js" />
+    
+    <div id="LightningComponentid" />    
+    <script>
+    var contactId = "{!currentRecId}";
+    
+    $Lightning.use("c:DeleteAllProspaceAlertsContainer", function() {
+        $Lightning.createComponent("c:DeleteAllProspaceAlert",
+                                   {"recordId" : contactId},
+                                   "lightning",
+                                   //sforce.one.navigateToSObject(contactId);                        
+                                   function(cmp) {
+                                       console.log('Display Lightning component in visualforce page');
+
+                                   });
+    });
+    </script>
+    
+    <style>
+        .slds-scope .slds-modal__container {
+        padding: 0rem 0;
+        }
+    </style>
+    <div class="demo-only" style="height: 400px;">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-modal__content slds-p-around_medium" id="lightning">
+                    
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+</apex:page>

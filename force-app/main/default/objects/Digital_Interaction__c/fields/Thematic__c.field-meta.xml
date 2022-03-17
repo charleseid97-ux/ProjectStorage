@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Thematic__c</fullName>
+    <externalId>false</externalId>
+    <label>Thematic</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Letter from Edouard Carmignac</fullName>
+                <default>false</default>
+                <label>Letter from Edouard Carmignac</label>
+            </value>
+            <value>
+                <fullName>Market Analysis</fullName>
+                <default>false</default>
+                <label>Market Analysis</label>
+            </value>
+            <value>
+                <fullName>Patrimoine Strategy</fullName>
+                <default>false</default>
+                <label>Patrimoine Strategy</label>
+            </value>
+            <value>
+                <fullName>Fixed Income Strategy</fullName>
+                <default>false</default>
+                <label>Fixed Income Strategy</label>
+            </value>
+            <value>
+                <fullName>Thematic equities</fullName>
+                <default>false</default>
+                <label>Thematic equities</label>
+            </value>
+            <value>
+                <fullName>Emerging equities</fullName>
+                <default>false</default>
+                <label>Emerging equities</label>
+            </value>
+            <value>
+                <fullName>European equities</fullName>
+                <default>false</default>
+                <label>European equities</label>
+            </value>
+            <value>
+                <fullName>Sustainable investing</fullName>
+                <default>false</default>
+                <label>Sustainable investing</label>
+            </value>
+            <value>
+                <fullName>Long-Short Strategy</fullName>
+                <default>false</default>
+                <label>Long-Short Strategy</label>
+            </value>
+            <value>
+                <fullName>N/A</fullName>
+                <default>false</default>
+                <label>N/A</label>
+            </value>
+            <value>
+                <fullName>Eds Note</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Eds Note</label>
+            </value>
+            <value>
+                <fullName>Some Theme</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Some Theme</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

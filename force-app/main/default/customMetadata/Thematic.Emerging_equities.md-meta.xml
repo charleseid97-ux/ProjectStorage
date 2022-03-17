@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Emerging equities</label>
+    <protected>false</protected>
+    <values>
+        <field>Thematic__c</field>
+        <value xsi:type="xsd:string">Emerging equities</value>
+    </values>
+    <values>
+        <field>Thematic_values__c</field>
+        <value xsi:type="xsd:string">actions-emergentes;marches-emergents;marches-frontieres;emerging-equities;emerging-markets;frontier-markets;renta-variable-emergente;mercados-emergentes;mercados-frontera;azioni-emergenti;mercati-emergenti;mercati-di-frontiera;schwellenlanderaktien;schwellenlaender;frontiermaerkte;opkomende-aandelen;opkomende-markten;niche-mark;grensmarkten;emergents;emerging-discovery;emerging-patrimoine;xavier-hovasse;emerging-equities</value>
+    </values>
+</CustomMetadata>

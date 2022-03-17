@@ -1,0 +1,71 @@
+.THIS .breakdownHolder{
+    height: 30px;
+    width: 100%;
+    background-color: #eeeeee;
+    border: 1px solid #777777; 
+}
+
+.THIS .engagementSection {
+    float:left;
+    height:100%;
+    border-right:1px solid #777777;
+    text-align:center;padding-top:5px;
+}
+
+.THIS .emailsSection {
+    background-color:rgb(211, 166, 146);
+}
+
+.THIS .eventsSection {
+    background-color:rgb(206, 214, 219);
+}
+
+.THIS .webinarsSection {
+    background-color:rgb(171, 194, 237);
+}
+
+.THIS .diversifiedSection {
+    background-color:rgb(160, 190, 151);
+}
+
+.THIS .equitySection {
+    background-color:rgb(187, 134, 127);
+}
+
+.THIS .fixedIncomeSection {
+    background-color:rgb(136, 148, 181);
+}
+
+.THIS .profiledSection {
+    background-color:rgb(254, 212, 122);
+}
+
+.THIS .keyContainer {
+    padding-top:5px;
+    padding-right:10px;
+    float: left;
+}
+
+.THIS .keyContainer div {
+    width:20px;
+    height:20px;
+    margin-right:5px;
+    border-right:0px;
+}
+
+.THIS .keyContainerV2 {
+    padding-top:0px;
+    padding-bottom:0px;
+    padding-right:10px;
+    border-bottom:1px solid #777;
+    border-right:1px solid #777;
+    border-left:1px solid #777;
+    width: 200px;
+}
+
+.THIS .keyContainerV2 div {
+    width:20px;
+    height:32px;
+    margin-right:5px;
+    border-right:0px;
+}

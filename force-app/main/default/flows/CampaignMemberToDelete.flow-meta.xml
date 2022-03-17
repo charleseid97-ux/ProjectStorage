@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>49.0</apiVersion>
+    <decisions>
+        <name>CheckIfCampaignMemberCollectionIsNull</name>
+        <label>CheckIfCampaignMemberCollectionIsNull</label>
+        <locationX>629</locationX>
+        <locationY>256</locationY>
+        <defaultConnector>
+            <targetReference>Delete_Campaign_Member</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>[Default Outcome]</defaultConnectorLabel>
+        <rules>
+            <name>IsNull</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>CollectionObjectCampaignMember</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>IsNull</label>
+        </rules>
+    </decisions>
+    <description>Delete All Campaign Members of Contact when Contact status is Deactivated and Campaign Status not equal to Closed.
+Update: Assign null if not found
+Update: Check if campaign member collection is null</description>
+    <interviewLabel>CampaignMemberToDelete {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>CampaignMemberToDeleteV13</label>
+    <processType>AutoLaunchedFlow</processType>
+    <recordDeletes>
+        <name>Delete_Campaign_Member</name>
+        <label>Delete Campaign Member</label>
+        <locationX>814</locationX>
+        <locationY>523</locationY>
+        <inputReference>CollectionObjectCampaignMember</inputReference>
+    </recordDeletes>
+    <recordLookups>
+        <name>Lookup_Caimpaign_Members</name>
+        <label>Lookup Caimpaign Members</label>
+        <locationX>816</locationX>
+        <locationY>42</locationY>
+        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>CheckIfCampaignMemberCollectionIsNull</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>ContactId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>contactID</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>TECH_IS_MEMBER_TO_BE_DELETED__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>CampaignMember</object>
+        <outputReference>CollectionObjectCampaignMember</outputReference>
+    </recordLookups>
+    <startElementReference>Lookup_Caimpaign_Members</startElementReference>
+    <status>Active</status>
+    <variables>
+        <name>campaignMemberObjectVariable</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>CampaignMember</objectType>
+    </variables>
+    <variables>
+        <name>campaignStatutToDelete</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue></stringValue>
+        </value>
+    </variables>
+    <variables>
+        <name>CollectionObjectCampaignMember</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>CampaignMember</objectType>
+    </variables>
+    <variables>
+        <description>The Contact ID</description>
+        <name>contactID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <stringValue></stringValue>
+        </value>
+    </variables>
+</Flow>

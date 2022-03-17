@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>KYD Due Diligence Oversight</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>KYD Due Diligence Oversights</value>
+    </caseValues>
+    <layouts>
+        <layout>KYD Due Diligence Oversight Layout</layout>
+        <sections>
+            <label></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Documents&apos; Summary</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Risk</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

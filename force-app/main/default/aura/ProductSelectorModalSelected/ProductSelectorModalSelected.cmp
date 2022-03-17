@@ -1,0 +1,57 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId"            
+                    access="global" >
+    
+      <!--use boolean attribute for Store true/false value,
+        make default to "false" so modal box are not display on the load of component. 
+        --> 
+    <aura:attribute name="isOpen" type="boolean" default="false"/>
+    <aura:attribute name="confirmProductSelection" type="boolean" default="false"/>  
+    <aura:attribute name="selectedProdName" type="String" />
+    <aura:attribute name="selectedProdId" type="String" />
+    
+    <!-- event that is recieved by this cmp post Product Tile selection that notifies the dialogue box to open -->
+    <aura:handler event="c:ProductSelectorTileSelectedModal" action="{!c.openModel}"/>
+    
+    <!-- event that is registered and needs to be fired back to the ProductTileList cmp, confirming the Product Tile Selection --> 
+    <aura:registerEvent name="ProductSelectedConfirmation" type="c:ProductTileSelectedUserConfirmationEvent"/>
+    
+    
+    <!--POSSIBLY USE LATER<aura:registerEvent name="ReOpenProductTileList" type="c:ProductSelectorReOpenCOSTilesEvt"/>-->
+    
+    <!--Use "slds-m-around- -xx-large" class to add standard Large padding to the component--> 
+    <div class="slds-m-around--xx-large">
+        <!--Use aura:if tag to display Model Box, on the bese of conditions. [isOpen boolean attribute] -->   
+        <aura:if isTrue="{!v.isOpen}">
+            
+            <!--###### MODAL BOX Start From Here ######--> 
+            <div role="dialog" tabindex="-1" aria-labelledby="header99" class="slds-modal slds-fade-in-open ">
+                <div class="slds-modal__container">
+                    <!-- ###### MODAL BOX HEADER Part Start From Here ######-->
+                    <div class="slds-modal__header">
+                        <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" onclick="{!c.closeModel}">
+                            X
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        
+                    </div>
+                    <!--###### MODAL BOX BODY Part Start From Here ######-->
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <p><b>The Product that you have selected is 
+                             <span class="slds-text-link">{#v.selectedProdName}.</span>
+                            	Confirm Product Selection if you would like to continue.
+                            </b>
+                        </p>
+                    </div>
+                    <!--###### MODAL BOX FOOTER Part Start From Here ######-->
+                    <div class="slds-modal__footer">
+                        <button class="slds-button slds-button--neutral" onclick="{!c.closeModel}" >Cancel</button>
+                        <button class="slds-button slds-button--brand" onclick="{!c.confirmSelection}">Confirm Product Selection</button>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div>
+            <!--###### MODAL BOX Part END Here ######-->
+            
+        </aura:if>
+    </div>
+</aura:component>

@@ -1,0 +1,7 @@
+<!-- Application Event -->
+<aura:event type="APPLICATION" description="Fired when a User has selected Save after having selected the corresponding Products">
+	<aura:attribute name="selectedProducts" type="Work_Together_Process_Product__c[]" description="Products that have been selected"/>
+    <aura:attribute name="deleteProductList" type="Work_Together_Process_Product__c[]" description="Products that are to be deleted"/>
+    <aura:attribute name="selectedShares" type="Id[]" description="Shares"/>
+    <aura:attribute name="wtpId" type="Id" description="WTP Id"/>
+</aura:event>

@@ -1,0 +1,104 @@
+<aura:component controller="VFC04_AddToEventController" implements="force:lightningQuickActionWithoutHeader,force:hasRecordId,flexipage:availableForAllPageTypes,force:hasSObjectName" access="global">
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="recordId" type="String" access="GLOBAL" default="{!v.recordId}"/>
+    <aura:attribute name="options" type="Category_Event__c[]" /> 
+    <aura:attribute name="memberOptions" type="List" />
+    <aura:attribute name="selectedLookUpRecord" type="sObject" default="{}"/>
+    <aura:attribute name="selectedValueStatus" type="String" default="Invited"/>
+    <aura:attribute name="sobjecttype" type="String" access="GLOBAL" default="{!v.sObjectName}"/>
+    <aura:attribute name="contacts" type="SObject[]" />
+    
+    <aura:handler name="change" value="{!v.selectedLookUpRecord}" action="{!c.initPickList}"/>
+    <!-- PAGE HEADER -->
+    <lightning:layout class="slds-page-header slds-page-header--object-home">
+        <lightning:layoutItem>
+            <lightning:icon iconName="standard:campaign" alternativeText="Commodities"/>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="horizontal-small">
+            <div class="page-section page-header">
+                <h1 class="slds-text-heading--label">{!$Label.c.ADD_TO_EVENT_TITLE}</h1>
+                <h2 class="slds-text-heading--medium"></h2>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <!-- / PAGE HEADER -->
+    
+    <!-- CAMPAIGN FORM -->
+    <lightning:layout>
+        <lightning:layoutItem padding="around-small" size="12">
+            <div aria-labelledby="newexpenseform">
+                <!-- BOXED AREA -->
+                <fieldset class="slds-box slds-theme--default ">
+                    
+                    <form class="slds-form--stacked">          
+                        <div class="row">
+                            <!-- CAMPAIGN AUTOCOMPLETE LOOKUP -->
+                            <c:customLookup objectAPIName="Campaign" IconName="standard:campaign" selectedRecord="{!v.selectedLookUpRecord}" label="{!$Label.c.ADD_TO_EVENT_CAMPAIGN}"/> 
+                            
+                            <!-- CATEGORY PICKLIST populate upon campaign selection -->
+                            <lightning:select aura:id="category" value="{!v.options[0].Id}"  name="select" label="Category" required="true" messageWhenValueMissing="{!$Label.c.ADD_TO_EVENT_SELECT_CATEG}">
+                                <aura:iteration items="{!v.options}" var="item">
+                                    <option value="{!item.Id}" text="{!item.Name}"></option>
+                                </aura:iteration>
+                            </lightning:select>
+                            
+                            <!-- MEMBER STATUS PICKLIST populate upon campaign selection -->
+                            <lightning:select aura:id="memberStatus" value="{!v.selectedValueStatus}" name="memberStatus" label="Member status" required="true" messageWhenValueMissing="{!$Label.c.ADD_TO_EVENT_SELECT_CATEG}">
+                            <!--lightning:select aura:id="memberStatus" value="Invited" name="select" label="Member status" required="true" messageWhenValueMissing="{!$Label.c.ADD_TO_EVENT_SELECT_CATEG}"-->
+                                <aura:iteration items="{!v.memberOptions}" var="item">                                    
+                                    <option value="{!item}"  text="{!item}" />                                                                      	 
+                                </aura:iteration>
+                            </lightning:select>
+                            <!-- ui:inputCheckbox aura:id="memberExist" label="{!$Label.c.ADD_TO_EVENT_KEEP_STATUS}" /-->
+                            
+                        </div>
+                        <div class="row">
+                            <!-- BUTTON SECTION -->
+                            <lightning:button label="Cancel" 
+                                              class="slds-m-top--medium"
+                                              variant="brand"
+                                              onclick="{!c.handleCancel}"/>
+                            
+                            <lightning:button label="Add to Campaign" 
+                                              class="slds-m-top--medium"
+                                              variant="brand"
+                                              disabled="true"
+                                              aura:id="buttonAdd"
+                                              onclick="{!c.addCampaignEvent}"/>
+                        </div>
+                    </form>
+                </fieldset>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <!-- END CAMPAIGN FORM -->
+    
+    <!-- SELECTED CONTACT/LEAD -->
+    
+    <lightning:layout >
+        <lightning:layoutItem padding="around-small" size="12">
+            <fieldset class="slds-box slds-theme--default ">
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th class="slds-text-title_caps" scope="col">
+                                <div class="slds-truncate" title="Opportunity Name">Selected list of {!v.sobjecttype}/s </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:iteration items="{!v.contacts}" var="item">
+                            <tr class="slds-hint-parent">
+                                <td data-label="Contact name">
+                                    <div class="slds-truncate" title="Cloudhub">{!item.Salutation}&nbsp;{!item.Name}</div>
+                                </td>
+                            </tr>
+                        </aura:iteration>
+                    </tbody>
+                </table>
+            </fieldset>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <!-- END SELECTED CONTACT/LEAD -->
+</aura:component>

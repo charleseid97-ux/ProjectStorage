@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Not Applicable</fullName>
+        <default>false</default>
+        <label>Not Applicable</label>
+    </customValue>
+    <customValue>
+        <fullName>Yearly</fullName>
+        <default>false</default>
+        <label>Yearly</label>
+    </customValue>
+    <customValue>
+        <fullName>Quarterly</fullName>
+        <default>false</default>
+        <label>Quarterly</label>
+    </customValue>
+    <customValue>
+        <fullName>Bi-Yearly</fullName>
+        <default>false</default>
+        <label>Bi-Yearly</label>
+    </customValue>
+    <customValue>
+        <fullName>Monthly</fullName>
+        <default>false</default>
+        <label>Monthly</label>
+    </customValue>
+    <masterLabel>Distribution Frequency</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

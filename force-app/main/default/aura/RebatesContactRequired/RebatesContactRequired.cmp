@@ -1,0 +1,9 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes"
+                access="global">
+    
+        <div class="slds-text-align_left" style="width:100%;background-color:orange" >
+            <div style="padding-left:10px;">
+                <div class="slds-text-heading--small bold"><strong>Warning : Rebate Contact information is missing</strong></div>
+            </div>
+        </div>
+</aura:component>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Patrimoine Strategy</label>
+    <protected>false</protected>
+    <values>
+        <field>Thematic__c</field>
+        <value xsi:type="xsd:string">Patrimoine Strategy</value>
+    </values>
+    <values>
+        <field>Thematic_values__c</field>
+        <value xsi:type="xsd:string">strategie-patrimoine;patrimoine-strategy;estrategia-de-patrimoine;strategia-patrimoine;patrimoine-strategie;patrimoniale-strategie;patrimoine;patrimoine-europe;rose-ouahba;patrimoine-strategy</value>
+    </values>
+</CustomMetadata>

@@ -1,0 +1,32 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global">
+    
+    <aura:attribute name="objectType" type="String" default="Any" access="public" />
+    <aura:registerEvent name="ProductChange" type="c:ProductFilterChange" />
+    
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <lightning:layout >
+        <lightning:layoutItem >
+            <lightning:icon iconName="utility:feed" size="small" class="popup-icon" />
+        </lightning:layoutItem>
+        <h2 class="slds-card__header-title head-bottomPad">
+            <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Outer Card Header">
+                <span class="slds-text-heading_small">Product Selector Filters</span>
+            </a>
+        </h2>
+    </lightning:layout> 
+
+    <c:ProductSearchBar aura:id="searchBar" onchange="{!c.searchKeyChangeHandler}" />
+    
+    <c:ProductAssetClassSelector aura:id="assetClassSel" onchange="{!c.assetClassChangeHandler}" />                                        
+
+    <c:ProductSubAssetClassSelector aura:id="subAssetClassSel" onchange="{!c.subAssetClassChangeHandler}" />
+    
+    <br/>
+    <ui:inputCheckbox aura:id="sriChkBx" class="filterCheckbox" label="SRI?" change="{!c.sriChangeHandler}"/>
+    <br/>
+    <ui:inputCheckbox aura:id="oeicChkBx" class="filterCheckbox" label="OEIC Funds?" change="{!c.oeicChangeHandler}"/>
+
+    
+</aura:component>

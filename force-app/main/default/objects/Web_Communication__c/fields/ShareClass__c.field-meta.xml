@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ShareClass__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Share Class</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>$Source.Fund__c</field>
+            <operation>equals</operation>
+            <valueField>Share_Class__c.Fund__c</valueField>
+        </filterItems>
+        <filterItems>
+            <field>Share_Class__c.Validity__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </filterItems>
+        <filterItems>
+            <field>$Source.AlertType__c</field>
+            <operation>notEqual</operation>
+            <value>Carmignac, Video, Letter, Flash, Report</value>
+        </filterItems>
+        <isOptional>true</isOptional>
+    </lookupFilter>
+    <referenceTo>Share_Class__c</referenceTo>
+    <relationshipLabel>Prospace Alerts</relationshipLabel>
+    <relationshipName>WebCommunications</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

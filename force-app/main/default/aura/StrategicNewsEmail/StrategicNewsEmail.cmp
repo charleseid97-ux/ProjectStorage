@@ -1,0 +1,18 @@
+<aura:component implements="force:hasRecordId,flexipage:availableForAllPageTypes" controller="strategicNewsSendPDF">
+	<h2 class="header">Select users to email</h2>
+    <lightning:input type="email" name="email1" value="abc@domain.com" label="" aura:id="emailAddress" class="slds-hide"/>
+    <c:strike_multiLookup label="Users" 
+                         object="User" 
+                         searchField="Name"
+                         subtitleField="Email"
+                         helpText="Select Users to email" 
+                         placeholder="Select Users"
+                         iconName="standard:user"
+                         order="Name"
+                         limit="5"
+                         aura:id="Users" />
+    
+   	<div class="slds-p-around_medium slds-align_absolute-center slds-m-top_x-small" >
+    	<lightning:button variant="brand" label="Send" title="Send" onclick="{! c.handleSendClick }" aura:id="sendButton"/>
+    </div>
+</aura:component>

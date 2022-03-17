@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Inform_Marketing_user_that_the_template_is_rejected_by_the_BD_CRM</fullName>
+        <description>Send email rejected to marketing user</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Assigned_to__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Campaign_Approval_rejected_by_CRM_BD</template>
+    </alerts>
+    <alerts>
+        <fullName>New_Newsletter_created</fullName>
+        <description>New Newsletter created</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Marketing_for_Newsletters</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/New_newsletter_notification</template>
+    </alerts>
+    <alerts>
+        <fullName>Send_approved_email</fullName>
+        <description>Send approved email</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Assigned_to__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Campaign_approved_leslie</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>Campaign_Active</fullName>
+        <description>set the value of campaign as active</description>
+        <field>IsActive</field>
+        <literalValue>1</literalValue>
+        <name>Campaign_Active</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Campaign_AutoEndDateTime</fullName>
+        <description>Use with Campaign_WF001 : Auto update End Date and Time with Start Date and Time</description>
+        <field>End_Date_Time__c</field>
+        <formula>Start_Date_Time__c</formula>
+        <name>Campaign_AutoEndDateTime</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Campaign_UpdateCampaignIsActive</fullName>
+        <description>Deactivate campaign (put IsActive to false)</description>
+        <field>IsActive</field>
+        <literalValue>0</literalValue>
+        <name>Campaign_UpdateCampaignIsActive</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>InitContactListConfirmedCheckbox</fullName>
+        <description>Used to set to uncheck the field Contact List Confirmed checkbox. Covers use case when cloning an already validated campaign</description>
+        <field>contact_list_confirmed__c</field>
+        <literalValue>0</literalValue>
+        <name>InitContactListConfirmedCheckbox</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>InitNewsletterApprovedCheckbox</fullName>
+        <description>Sets to unchecked the Newsletter Approved checkbox (field update designed to cover use case of cloning an existing and validated newsletter campaign)</description>
+        <field>Newsletter_approved__c</field>
+        <literalValue>0</literalValue>
+        <name>InitNewsletterApprovedCheckbox</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>MAJ_Status_Template_under_construction</fullName>
+        <field>Status</field>
+        <literalValue>Template under construction</literalValue>
+        <name>MAJ Status Template under construction</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>MAJ_Status_accepted_by_compliance</fullName>
+        <field>Status</field>
+        <literalValue>Ready to be sent</literalValue>
+        <name>MAJ Status accepted by compliance</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>MAJ_Status_si_Compliance_Ok</fullName>
+        <field>Status</field>
+        <literalValue>Ready to be sent</literalValue>
+        <name>MAJ Status si Compliance Ok</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>MAJ_Template_approved_checkbox</fullName>
+        <field>Newsletter_approved__c</field>
+        <literalValue>1</literalValue>
+        <name>MAJ Template approved checkbox</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>MAJ_status_template_approved</fullName>
+        <field>Status</field>
+        <literalValue>Template approved</literalValue>
+        <name>MAJ status template approved</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>MAJ_status_template_to_be_adjusted</fullName>
+        <field>Status</field>
+        <literalValue>Template to be adjusted</literalValue>
+        <name>MAJ status template to be adjusted</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Set_Campaign_to_Activte</fullName>
+        <field>IsActive</field>
+        <literalValue>1</literalValue>
+        <name>Set Campaign to Activte</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Date_of_Approval</fullName>
+        <field>Date_Approved__c</field>
+        <formula>NOW()</formula>
+        <name>Update Date of Approval</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Unactive_Campaign</fullName>
+        <field>IsActive</field>
+        <literalValue>0</literalValue>
+        <name>Update Unactive Campaign</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_sales_review</fullName>
+        <field>Status</field>
+        <literalValue>Template finished</literalValue>
+        <name>Update Status Under CRM Approval</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_status_campaign</fullName>
+        <field>Status</field>
+        <literalValue>Ready to be sent</literalValue>
+        <name>Update status campaign</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_status_campaign_waiting_complianc</fullName>
+        <description>Update the campaign status to &quot;Waiting Compliance Approval&quot;</description>
+        <field>Status</field>
+        <literalValue>Waiting compliance approval</literalValue>
+        <name>Update status campaign waiting complianc</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_target_list_confirmed</fullName>
+        <field>contact_list_confirmed__c</field>
+        <literalValue>1</literalValue>
+        <name>Update target list confirmed</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_target_list_confirmed_2</fullName>
+        <field>contact_list_confirmed__c</field>
+        <literalValue>1</literalValue>
+        <name>Update target list confirmed 2</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Validate_status</fullName>
+        <field>Status</field>
+        <literalValue>Compliance validation</literalValue>
+        <name>MAJ status</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Auto-Activate Newsletter Campaigns</fullName>
+        <actions>
+            <name>Set_Campaign_to_Activte</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <formula>RecordType.Name = &apos;Newsletters&apos;</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Campaign_WF001_AutoEndDate</fullName>
+        <actions>
+            <name>Campaign_AutoEndDateTime</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>Automatically put end date time same as start date time (only for Newsletter)</description>
+        <formula>OR(
+AND(
+ischanged( Start_Date_Time__c ),
+RecordType.Name = &apos;Newsletters&apos;
+),
+AND(
+isnew(),
+RecordType.Name = &apos;Newsletters&apos;)
+)</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Campaign_WF002_IsActive</fullName>
+        <actions>
+            <name>Campaign_Active</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>InitContactListConfirmedCheckbox</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>InitNewsletterApprovedCheckbox</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Campaign.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Newsletters</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>User.BypassWorkflowRules__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
+        <description>Always put campaign as active when created</description>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>Campaign_WF003_NewsletterInactiveafter60days</fullName>
+        <actions>
+            <name>Update_Unactive_Campaign</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>false</active>
+        <criteriaItems>
+            <field>Campaign.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Newsletters</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>User.BypassWorkflowRules__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
+        <description>60 days after the end date and time, the campaign is unactive (unactive is use for Pardot + Report)</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <offsetFromField>Campaign.End_Date_Time__c</offsetFromField>
+            <timeLength>60</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>Record Time of Compliance Approval for Newsletters</fullName>
+        <actions>
+            <name>Update_Date_of_Approval</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <formula>Approved_by_Compliance__c = TRUE</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+</Workflow>

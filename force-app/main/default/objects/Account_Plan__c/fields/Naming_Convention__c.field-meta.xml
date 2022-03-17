@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Naming_Convention__c</fullName>
+    <defaultValue>&quot;Please follow the relevant rules below :&quot;+ BR() +
+&quot;For Tier 0 GAMs (example BNP) : AP_T0_BNP_GAM_2020&quot; + BR() +
+&quot;For Tier 0 KAMs (example BELFIUS): AP_T0_BELFIUS_KAM_2020&quot; + BR() +
+&quot;Generic Naming Convention : AP_T#_COMPANY NAME_2020&quot;+ BR()+
+&quot;Generic Naming Convention for companies without Tier : AP_COMPANY NAME_2020&quot;</defaultValue>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <label>Naming Convention</label>
+    <length>32768</length>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

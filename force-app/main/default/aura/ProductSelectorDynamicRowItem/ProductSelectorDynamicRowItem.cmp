@@ -1,0 +1,29 @@
+<aura:component >    
+    <!-- Aura Attribute for store single Product Instance
+         And Store Index of Particular Instance --> 
+    <aura:attribute name="productInstance" type="Product__c"/>
+    <aura:attribute name="rowIndex" type="String"/>
+    
+    <!-- Register 2 Lightning Event for handle add or Delete rows on Parent Component  --> 
+    <aura:registerEvent name="DeleteRowEvt" type="c:ProductSelectorDeleteRowEvt"/> 
+   
+    
+    <!-- Table Row -->   
+    <tr class="slds-text-title_caps">
+        <!--<td> 
+            {!v.rowIndex + 1}
+        </td>-->
+        <td>
+            <ui:outputText value="{!v.productInstance.Product__r.Name}"/>
+        </td>
+        <td>
+            <ui:outputText value="{!v.productInstance.Product__r.RecordType.Name}"/>
+        </td>
+        <td>
+            <a onclick="{!c.removeRow}">
+                <lightning:icon variant="error" iconName="utility:delete" class="slds-icon slds-icon_small" size="small" alternativeText="icon"/>
+                <span class="slds-assistive-text">Delete Icon</span>
+            </a>
+        </td> 
+    </tr>
+</aura:component>

@@ -1,0 +1,21 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId,force:hasSObjectName"             
+                access="global">
+    <aura:attribute name="viewComponent" type="String" access="global"/>
+    <aura:attribute name="viewComponentBlock" type="String" access="global"/>
+    
+    <aura:handler name="closeDownloadOverlay" event="c:AccountPlanPDFCloseDownloadEvent" action="{!c.closeDownload}"/>
+    
+    <aura:attribute name="recordId" type="String" access="global"/>
+    
+    <div class="slds-grid slds-gutters">
+        <div class="slds-col--padded slds-size--1-of-1">
+            <div class="slds-no-flex" style="float:right;">
+                <lightning:button variant="success" label="Download PDF" title="Download PDF" onclick="{!c.launchDownload}" />
+            </div>
+        </div>
+    </div>
+    <aura:if isTrue="{!v.viewComponentBlock}" >
+        {!v.viewComponent}
+    </aura:if>
+
+</aura:component>

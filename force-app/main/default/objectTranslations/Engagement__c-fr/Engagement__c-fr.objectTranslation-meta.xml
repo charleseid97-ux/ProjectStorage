@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Engagement</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Engagements</value>
+    </caseValues>
+    <gender>Feminine</gender>
+    <layouts>
+        <layout>Engagement Layout</layout>
+        <sections>
+            <label></label>
+            <section>Content Interest</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Fund Interest</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Future Dev</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Marketing Activity</section>
+        </sections>
+    </layouts>
+    <startsWith>Vowel</startsWith>
+</CustomObjectTranslation>

@@ -1,0 +1,117 @@
+<aura:component >
+    <aura:attribute name="meetingNote" type="Meeting_Note__c"/>
+    <aura:attribute name="meetingNoteLinks" type="Meeting_Link__c[]" description="The Meeting Link sObjects" />
+    <aura:attribute name="externalContactLinked" type="Boolean" default="false"/>
+    <aura:attribute name="organisationLinked" type="Boolean" default="false"/>
+    <aura:attribute name="opportunityLinked" type="Boolean" default="false"/>
+    <aura:attribute name="productLinked" type="Boolean" default="false"/>
+    <aura:attribute name="campaignLinked" type="Boolean" default="false" />
+    <aura:attribute name="notesEntered" type="Boolean" default="false"/>       
+    <aura:handler name="change" value="{!v.meetingNoteLinks}" action="{!c.init}"/>
+    <aura:registerevent name="contactCompanyFired" type="c:MeetingNoteContactCompanyEvent"></aura:registerevent>
+    <div class="slds-container--center slds-container--large"> 
+        <article class="slds-card">
+            <div class="slds-p-around_medium" >
+                <div class="slds-form slds-form_stacked">
+                    <div class="slds-align_absolute-center">
+                        <div class="overview-container" >
+                            <div class="overview-progress" >
+                                <c:strike_progressMeter aura:id="meetingNoteProgressMeter" 
+                                                        variant="ring"
+                                                        color="steelblue"
+                                                        hideCompleted="true"
+                                                        total="100"
+                                                        />
+                            </div>
+                            <br clear="all"/>
+                            <ul>
+                                <li>
+                                    <div class="slds-clearfix">
+                                        <div class="slds-clearfix">
+                                            <div class="slds-float_left">
+                                                <p>Notes entered</p>
+                                            </div>
+                                            <div class="slds-float_right">
+                                                <div class="slds-text-align_right">
+                                                    <p>
+                                                        <aura:renderIf isTrue="{!v.notesEntered}">
+                                                            <lightning:icon class="icon-fix" iconName="action:approval" size="xx-small" alternativeText="Indicates approval"/>
+                                                            <aura:set attribute="else">
+                                                                <lightning:icon class="icon-fix" iconName="action:close" size="xx-small" alternativeText="Indicates approval"/>
+                                                            </aura:set>
+                                                        </aura:renderIf>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>                                    
+                                    <div class="slds-clearfix">
+                                        <div class="slds-clearfix">
+                                            <div class="slds-float_left">
+                                                <p>Contacts added</p>
+                                            </div>
+                                            <div class="slds-float_right">
+                                                <p>
+                                                    <aura:renderIf isTrue="{!v.externalContactLinked}">                
+                                                        <lightning:icon class="icon-fix" iconName="action:approval" size="xx-small" alternativeText="Indicates approval" />
+                                                        <aura:set attribute="else">
+                                                            <lightning:icon class="icon-fix" iconName="action:close" size="xx-small" alternativeText="Indicates approval"/>
+                                                        </aura:set>              
+                                                    </aura:renderIf>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="slds-clearfix">
+                                        <div class="slds-clearfix">
+                                            <div class="slds-float_left">
+                                                <p>Organisations added</p>
+                                            </div>
+                                            <div class="slds-float_right">
+                                                <div class="slds-text-align_right">
+                                                    <p>
+                                                        <aura:renderIf isTrue="{!v.organisationLinked}">
+                                                            <lightning:icon class="icon-fix" iconName="action:approval" size="xx-small" alternativeText="Indicates approval"/>
+                                                            <aura:set attribute="else">
+                                                                <lightning:icon class="icon-fix" iconName="action:close" size="xx-small" alternativeText="Indicates approval"/>
+                                                            </aura:set>
+                                                        </aura:renderIf>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>                                
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="slds-clearfix">
+                                        <div class="slds-clearfix">
+                                            <div class="slds-float_left">
+                                                <p>Opportunities, products or <br /> campaigns entered</p>
+                                            </div>
+                                            <div class="slds-float_right">
+                                                <div class="slds-text-align_right">
+                                                    <p>
+                                                        <aura:renderIf isTrue="{!v.opportunityLinked || v.productLinked || v.campaignLinked}">
+                                                            <lightning:icon class="icon-fix" iconName="action:approval" size="xx-small" alternativeText="Indicates approval"/>
+                                                            <aura:set attribute="else">
+                                                                <lightning:icon class="icon-fix" iconName="action:close" size="xx-small" alternativeText="Indicates approval"/>
+                                                            </aura:set>                                          
+                                                        </aura:renderIf>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>                                  
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</aura:component>

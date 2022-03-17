@@ -1,0 +1,6 @@
+<!-- Application Event -->
+<aura:event type="APPLICATION" description="Fired when the ProductTileList is initialised">
+	<aura:attribute name="openModal" type="Boolean" description=" sets the Modal isOpen attribute to true"/>
+    <aura:attribute name="oppId" type="String" description=" current Opp id"/>
+    <aura:attribute name="sObjectName" type="String" description=" current SObject Name"/>
+</aura:event>

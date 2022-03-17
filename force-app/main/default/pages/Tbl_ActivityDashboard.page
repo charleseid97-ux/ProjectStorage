@@ -1,0 +1,18 @@
+<apex:page controller="MyTableauController" showheader="false">
+<center>
+<apex:canvasApp applicationName="Sparkler_Connector"
+    height="2000px"
+    width="812px"
+    parameters="
+{
+    'ts.name':'{!IF(CONTAINS(TableauLogin,'CARMIGNAC\TBL_'),'NOLICENCEREPORT/NoAccessDashboardA4','Salesforce-Activites_15717257033500/Salesforce-Activities')}',
+    'ts.width':'100%',
+    'ts.height':'100%',   
+    'ts.javascriptLib':'{!webSite}/javascripts/api/viz_v1.js',
+    'ts.hostUrl':'{!webSite}',
+    'ts.tabs':'{!IF(CONTAINS(TableauLogin,'CARMIGNAC\TBL_'),'no','yes')}',
+    'ts.toolbar':'{!IF(CONTAINS(TableauLogin,'CARMIGNAC\TBL_'),'no','yes')}',
+    'ts.trustedTicket.signedIdentity':'{!signedIdentity}'
+}" />
+</center>
+</apex:page>

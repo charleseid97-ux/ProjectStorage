@@ -1,0 +1,7 @@
+<!-- Application Event -->
+<aura:event type="APPLICATION" description="Fired when a Product Tile is selected and when the sObjectName === 'Case'">
+    <aura:attribute name="prodName" type="String" description=" Name of Selected Product"/>
+    <aura:attribute name="prodId" type="String" description="Id of Selected Product"/>
+    <aura:attribute name="prodRecordType" type="String" description=" RecordType"/>
+ 
+</aura:event>

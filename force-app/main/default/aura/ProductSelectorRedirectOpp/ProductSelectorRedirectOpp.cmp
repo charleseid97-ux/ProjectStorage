@@ -1,0 +1,9 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickActionWithoutHeader,force:hasRecordId" >
+    <aura:attribute name="currentOppId" type="String" default="Opportunity"/>
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="sObjectName" type="String" default="false"/>
+    
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    Redirecting to Products
+</aura:component>

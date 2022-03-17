@@ -1,0 +1,78 @@
+<apex:page standardController="Contact" action="{!getSelectedValues}" recordSetVar="setSelectedValues" extensions="VFC04_AddToEventController" tabStyle="Contact"  > 
+    <apex:includeLightning />
+    <apex:slds />
+    <style>
+        .close-btn{text-align: right;color: white;font-size: 20px;padding: 0.5%;cursor: pointer;}
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <apex:includeScript value="/lightning/lightning.out.js"/>
+        <script>
+        var myUserContext = "{!$User.UITheme}";
+    var sContactIds = "{!sContactIds}";
+    
+    var postEventToOneApp = function(name, params, fallbackAction) {
+        if (SfdcApp && SfdcApp.projectOneNavigator && SfdcApp.projectOneNavigator.fireContainerEvent) {
+            // Not officially supported by Salesforce
+            SfdcApp.projectOneNavigator.fireContainerEvent(name, params);
+        } else if (fallbackAction) {
+            // Fallback if no Salesforce support of fireContainerEvent
+            fallbackAction();
+        }
+    };
+    
+    $Lightning.use("c:AddToEventApp", function() {
+        $Lightning.createComponent("c:AddToEvent",{"sobjecttype" : "Contact", "recordId" : sContactIds},"lightning",function(cmp){
+            $('.close-btn').click(function(){
+                if (sforce && sforce.one) {
+                    // VF page in S1 or Lightning Exp
+                    sforce.one.navigateToObjectHome('Contact');
+                } else {
+                    window.location = '{!URLFOR($Action.Contact.Tab, $ObjectType.Contact)}';
+                }
+            });
+            $A.eventService.addHandler({
+                event: 'force:closeQuickAction',
+                handler: function(event) {
+                    if (sforce && sforce.one) {
+                        // VF page in S1 or Lightning Exp
+                        sforce.one.navigateToObjectHome('Contact');
+                    } else {
+                        // VF page in Classic
+                        // Ugg! We need an if branch for each possible object type.
+                        // Is there a better way of doing this?
+                        if (event.$params$.scope === 'Contact') {
+                            window.location = '{!URLFOR($Action.Contact.Tab, $ObjectType.Contact)}';
+                        }
+                    }
+                }
+            });
+            $A.eventService.addHandler({
+                event: 'force:showToast',
+                handler: function(event) {
+                    postEventToOneApp('force:showToast', event.$params$, function() {
+                        alert(event.$params$.message);
+                    });
+                }
+            });
+        });
+    });
+    
+    </script>
+    <style>
+        .slds-scope .slds-modal__container {
+        padding: 0rem 0;
+        }
+    </style>
+    <div class="demo-only" style="height: 640px;">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <span class="close-btn">X</span>
+                <div class="slds-modal__content slds-p-around_medium" id="lightning">
+                    
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+    
+</apex:page>

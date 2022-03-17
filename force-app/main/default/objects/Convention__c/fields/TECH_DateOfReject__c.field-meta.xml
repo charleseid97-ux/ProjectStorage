@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TECH_DateOfReject__c</fullName>
+    <description>set  Today date for PB</description>
+    <externalId>false</externalId>
+    <formula>IF((TEXT(Approval_Status__c) = &quot;Approval Rejected&quot;), TODAY(), Null)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>TECH_DateOfReject</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

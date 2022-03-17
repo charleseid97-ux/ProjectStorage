@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Convention__c</entityName>
+    <fieldName>Status__c</fieldName>
+    <masterLabel>Sub_Dist_Via_Platforms_Status_Workflow</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Company__c</fieldNames>
+        <fieldNames>Grid_Request__c</fieldNames>
+        <fieldNames>Renewal_Request_End_Date__c</fieldNames>
+        <fieldNames>Termination_Description__c</fieldNames>
+        <fieldNames>Cancellation_Date__c</fieldNames>
+        <info>&lt;p&gt;Agreement with an &lt;b&gt;&lt;u&gt;Expired &lt;/u&gt;&lt;/b&gt;Status indicates that the Grid End Date have been reached:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Update the Status &lt;u&gt;submitting &lt;/u&gt;one of the following request&lt;/li&gt;&lt;li&gt;Request &lt;u&gt;Grid Renewa&lt;/u&gt;l&lt;ol&gt;&lt;li&gt;Select the relevant Grid in the Grid Request field&lt;/li&gt;&lt;li&gt;Complete the Grid Request Start Date field&lt;/li&gt;&lt;/ol&gt;&lt;/li&gt;&lt;li&gt;&lt;u&gt;Request Renewal&lt;/u&gt;&lt;ol&gt;&lt;li&gt;Select the new End Date in the Renewal Request End Date field&lt;/li&gt;&lt;/ol&gt;&lt;/li&gt;&lt;li&gt;Request a &lt;u&gt;Termination &lt;/u&gt;(Closure of the Agreement)&lt;ol&gt;&lt;li&gt;Complete the Termination Description Field (Mandatory for CRMs)&lt;/li&gt;&lt;li&gt;Select the Cancellation Date if you know it (Mandatory for Legal / Optional for CRMs)&lt;/li&gt;&lt;/ol&gt;&lt;/li&gt;&lt;li&gt;Click on &lt;b&gt;&lt;i&gt;Submit for Approva&lt;/i&gt;&lt;/b&gt;l button to finalize it + Include in the text box any relevant additional information&lt;/li&gt;&lt;li&gt;&lt;b&gt;&lt;i&gt;Recall &lt;/i&gt;&lt;/b&gt;the request if you need to do any change to the initial request&lt;/li&gt;&lt;/ol&gt;</info>
+        <picklistValueName>Expired</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Code_Type__c</fieldNames>
+        <fieldNames>Company__c</fieldNames>
+        <fieldNames>Grid__c</fieldNames>
+        <fieldNames>EffectiveDate__c</fieldNames>
+        <info>&lt;p&gt;Agreement with an &lt;b&gt;&lt;u&gt;In Negotiation&lt;/u&gt;&lt;/b&gt; Status indicates that the approval is being processed by internal teams (i.e. KYC due diligence, etc.)&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;u&gt;Agreement &lt;/u&gt;should be linked to a &lt;u&gt;Company&lt;/u&gt;&lt;/li&gt;&lt;li&gt;&lt;u&gt;Legal Entity&lt;/u&gt; should be created in the system and it should be &lt;u&gt;linked &lt;/u&gt;to the relevant &lt;u&gt;Company&lt;/u&gt;&lt;/li&gt;&lt;li&gt;&lt;u&gt;Agreement Roles&lt;/u&gt; should contained the Legal Entities and the relevant roles (cf. check the Counterparties Mapping in case of question)&lt;/li&gt;&lt;li&gt;Rebates Section should be completed:&lt;ol&gt;&lt;li&gt;An &lt;u&gt;Effective Date &lt;/u&gt;must be selected&lt;ol&gt;&lt;li&gt;If the Agreement is Permanent, the Grid End Date should be empty&lt;/li&gt;&lt;li&gt;If the Agreement is NOT Permanent, the relevant date should be detailed in the Grid End Date&lt;/li&gt;&lt;/ol&gt;&lt;/li&gt;&lt;/ol&gt;&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
+        <picklistValueName>In Negotiation</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Company__c</fieldNames>
+        <fieldNames>Status__c</fieldNames>
+        <fieldNames>Grid_Request_Start_Date__c</fieldNames>
+        <fieldNames>Renewal_Request_End_Date__c</fieldNames>
+        <fieldNames>Termination_Description__c</fieldNames>
+        <info>&lt;p&gt;Agreement with a &lt;b&gt;&lt;u&gt;Rejected &lt;/u&gt;&lt;/b&gt;Status indicates that the approval has been rejected:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Update the relevant information and &lt;u&gt;re-submit&lt;/u&gt; your request&lt;/li&gt;&lt;li&gt;Click on &lt;b&gt;&lt;i&gt;Submit for Approval&lt;/i&gt;&lt;/b&gt; button to finalize it + Include in the text box any relevant additional information&lt;/li&gt;&lt;li&gt;&lt;b&gt;&lt;i&gt;Recall &lt;/i&gt;&lt;/b&gt;the request if you need to do any change to the initial request&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Below the request you can submit:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Request &lt;u&gt;Grid Renewal&lt;/u&gt;&lt;ol&gt;&lt;li&gt;Select the relevant Grid in the Grid Request field&lt;/li&gt;&lt;li&gt;Complete the Grid Request Start Date field&lt;/li&gt;&lt;/ol&gt;&lt;/li&gt;&lt;li&gt;&lt;u&gt;Request Renewal&lt;/u&gt;&lt;ol&gt;&lt;li&gt;Select the new End Date in the Renewal Request Date field&lt;/li&gt;&lt;/ol&gt;&lt;/li&gt;&lt;li&gt;&lt;u&gt;Request a Termination&lt;/u&gt; (Closure of the Agreement)&lt;ol&gt;&lt;li&gt;Complete the Termination Description Field (Mandatory)&lt;/li&gt;&lt;li&gt;Select the Cancellation date if you know it (&lt;span style=&quot;font-size: 13px;&quot;&gt;Mandatory for Legal / Optional for CRMs)&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;&lt;/li&gt;&lt;/ol&gt;</info>
+        <picklistValueName>Rejected</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Code_Type__c</fieldNames>
+        <fieldNames>Company__c</fieldNames>
+        <fieldNames>Grid__c</fieldNames>
+        <fieldNames>SignedDate__c</fieldNames>
+        <info>&lt;p&gt;Agreement with a &lt;b&gt;&lt;u&gt;Signed &lt;/u&gt;&lt;/b&gt;Status indicates that the contract has been signed by both parties: Client Counterparty and Carmignac:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;The &lt;u&gt;Agreement &lt;/u&gt;should have the relevant &lt;u&gt;Code, Name &amp;amp; Company&lt;/u&gt;&lt;/li&gt;&lt;li&gt;&lt;u&gt;Agreement Roles&lt;/u&gt; should be validated&lt;/li&gt;&lt;li&gt;&lt;u&gt;Rebates Section&lt;/u&gt; should be completed&lt;/li&gt;&lt;li&gt;The &lt;u&gt;Signature Date&lt;/u&gt; - indicating the day of signature of the Agreement by both parties - must be specified in the Signed Date field&lt;/li&gt;&lt;/ol&gt;</info>
+        <picklistValueName>Signed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Code_Type__c</fieldNames>
+        <fieldNames>Company__c</fieldNames>
+        <fieldNames>Status__c</fieldNames>
+        <fieldNames>ExpirationDate__c</fieldNames>
+        <fieldNames>Cancellation_Date__c</fieldNames>
+        <info>&lt;p&gt;&lt;span style=&quot;font-size: 13px;&quot;&gt;Agreement with a &lt;/span&gt;&lt;b style=&quot;font-size: 13px;&quot;&gt;&lt;u&gt;Terminated&lt;/u&gt;&lt;/b&gt;&lt;span style=&quot;font-size: 13px;&quot;&gt; Status indicates that the contract have been closure.&lt;/span&gt;&lt;/p&gt;</info>
+        <picklistValueName>Terminated</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Sub_distributor_Agreement</recordTypeName>
+</PathAssistant>

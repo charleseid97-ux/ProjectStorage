@@ -1,0 +1,22 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId"
+                controller="ContactUtil"
+                access="global">
+    
+    <aura:attribute name="personaImage" default="" type="String"/>
+    <aura:attribute name="personaName" default="" type="String"/>
+    <aura:attribute name="personaDetail" default="" type="String"/>
+    <aura:attribute name="personaExists" type="Boolean" default="false"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="force:refreshView" action="{!c.doInit}" />
+
+    <lightning:card variant="Narrow" class="lightningCardOverflow" >
+        <div class="slds-text-align_left" >
+            <img id="clientTier" src="{!v.personaImage}" style="height:90px;margin-top:-13px;float:left;margin-right:10px;"/>
+            <div style="padding-left:10px;">
+                <div class="slds-text-heading--small bold"><strong>{!v.personaName}</strong></div>
+                <div>{!v.personaDetail}</div>
+            </div>
+        </div>
+    </lightning:card>
+</aura:component>

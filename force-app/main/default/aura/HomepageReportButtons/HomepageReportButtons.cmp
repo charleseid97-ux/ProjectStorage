@@ -1,0 +1,44 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId" access="global">
+
+    <lightning:card class="lightningCardOverflow" >
+
+        <div class="slds-grid slds-grid_vertical-align-center slds-grid_align-space" >
+            <div class="slds-col" style="padding : 25px;">
+                <span><a href="https://efl-prd.carmignac.com/#/views/Tableofcontents/DashboardCatalog-ProfessionalClients" target="_blank"><img src="/resource/HomeIcons/dashboardCatalogs.png" style="height:50px;"/></a></span>
+            </div>
+        </div>
+
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-5"  style="padding : 3px;text-align:center; width: 25%;">
+                <!--<div>Click here for <lightning:button label="Opportunity Dashboard" onclick="{!c.openOppDash}" class="sfbtn btnC" /></div>-->
+                <a href="https://efl-prd.carmignac.com/#/views/Salesforce-HomePage/OPPORTUNITYDASHBOARD?:iid=3" target="_blank"><img src="/resource/HomeIcons/opp-dashboards.png" style="height:200px; width: 250px;"/></a>
+            </div>
+            <div class="slds-col slds-size_1-of-5"  style="padding : 3px;text-align:center; width: 25%;">
+                <!--<div>Click here for <lightning:button label="Opportunity Dashboard" onclick="{!c.openOppDash}" class="sfbtn btnC" /></div>-->
+                <a href="https://efl-prd.carmignac.com/#/views/Salesforce-Opportunitiesslides/KeyDistributorsofOpenOpportunitiesbyRegion?:iid=1" target="_blank"><img src="/resource/HomeIcons/opp-slides.png" style="height:200px; width: 250px;"/></a>
+            </div>
+            <div class="slds-col slds-size_1-of-5"  style="padding : 3px;text-align:center; width: 25%;">
+                <a href="https://efl-prd.carmignac.com/#/views/Salesforce-OpportunityTrendOverview2021Q4/GlobalOverview" target="_blank"><img src="/resource/HomeIcons/opp-trends.png" style="height:200px; width: 250px;"/></a>
+            </div>
+            <div class="slds-col slds-size_1-of-5"  style="padding : 3px;text-align:center; width: 25%;">
+                <a href="https://efl-prd.carmignac.com/#/views/Salesforce-WinLossReasons/WinLossReasons?:iid=1" target="_blank"><img src="/resource/HomeIcons/opp-wins-loss.png" style="height:200px; width: 250px;"/></a>
+            </div>
+        </div>
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-5"  style="padding : 3px;text-align:center; width: 25%;">
+                <a href="https://efl-prd.carmignac.com/#/views/Salesforce-BuyList/BuyListCurrentStatus" target="_blank"><img src="/resource/HomeIcons/buy-list-reports.png" style="height:200px; width: 250px;"/></a>
+                <!--<div>Click here for <lightning:button label="Buy List Report" onclick="{!c.openBuyListReport}" class="sfbtn btnB" /></div>-->
+            </div>
+            <div class="slds-col slds-size_1-of-5"  style="padding : 3px;text-align:center; width: 25%;">
+                <a href="https://efl-prd.carmignac.com/#/views/Salesforce-Activites_15717257033500/Salesforce-Activities?:iid=1" target="_blank" style="cursor:pointer;cursor:hand;"><img src="/resource/HomeIcons/activity-dashboards.png" style="height:200px; width: 250px;"/></a>
+                <!--<div>Click here for <lightning:button label="Activity Dashboard" onclick="{!c.openActDash}" class="sfbtn btnA" /></div>-->
+            </div>
+            <div class="slds-col slds-size_1-of-5"  style="padding : 3px;text-align:center; width: 25%;">
+                <a href="https://efl-prd.carmignac.com/#/views/Salesforce-StrategicNews/StrategicNewsI_" target="_blank"><img src="/resource/HomeIcons/news-dashboard.png" style="height:200px; width: 250px;"/></a>
+            </div>
+            <div class="slds-col slds-size_1-of-5"  style="padding : 3px;text-align:center; width: 25%;">
+                <a href="https://efl-prd.carmignac.com/#/views/DataDeliveryProductionDashboard/WTPbase" target="_blank"><img src="/resource/HomeIcons/datasolution.png" style="height:200px; width: 250px;"/></a>
+            </div>
+        </div>
+    </lightning:card>
+</aura:component>

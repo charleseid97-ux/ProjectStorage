@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Agreement</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Agreements</value>
+    </caseValues>
+    <fieldSets>
+        <label></label>
+        <name>HierarchyAgreement</name>
+    </fieldSets>
+    <gender>Masculine</gender>
+    <layouts>
+        <layout>Convention Layout</layout>
+        <sections>
+            <label></label>
+            <section>Contact Information</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Details</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Segmentation</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Intermediary Agreement Layout</layout>
+        <sections>
+            <label></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Distributor</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Grid Amendment Request</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Reallocation / IS Contact</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Rebate/ IS Contact</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Rebates</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Regulatory checks (Investor Services &amp; Compliance)</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Renewal Request</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Termination Request</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Intermediary Agreement Request Full Layout</layout>
+        <sections>
+            <label></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Reallocation / IS Contact</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Rebate/ IS Contact</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Rebates</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Regulatory checks (Investor Services &amp; Compliance)</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Request</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Intermediary Agreement Request Layout</layout>
+        <sections>
+            <label></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Rebates</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Request</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Investor without Agreement Layout</layout>
+        <sections>
+            <label></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Hidden Fields in PRD</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Regulatory checks (Investor Services &amp; Compliance)</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Request</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Investor without Agreement Request Full Layout</layout>
+        <sections>
+            <label></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Regulatory checks (Investor Services &amp; Compliance)</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Request</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Investor without Agreement Request Layout</layout>
+        <sections>
+            <label></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Request</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Sub-distributor Agreement Layout</layout>
+        <sections>
+            <label></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Distributor</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Grid Amendment Request</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Reallocation / IS Contact</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Rebate/ IS Contact</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Rebates</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Regulatory checks (Investor Services &amp; Compliance)</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Renewal Request</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Termination Request</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Sub-distributor Agreement Request Full Layout</layout>
+        <sections>
+            <label></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Reallocation / IS Contact</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Rebate/ IS Contact</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Rebates</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Regulatory checks (Investor Services &amp; Compliance)</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Request</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Sub-distributor Agreement Request Layout</layout>
+        <sections>
+            <label></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Rebates</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Request</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Technical Request Layout</layout>
+        <sections>
+            <label></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label></label>
+        <name>Code_Type_Definitions</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>NewAgreementRole</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>New_KYD_Due_Diligence</name>
+    </quickActions>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>Agreement</name>
+    </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>Institutional_Agreement</name>
+    </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>Investor_without_Agreement_Request</name>
+    </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>Investor_without_Agreement_Request_Full</name>
+    </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>Request_Agreement</name>
+    </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>Request_Agreement_Full</name>
+    </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>Sub_distributor_Agreement</name>
+    </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>Sub_distributor_Agreement_Request</name>
+    </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>Sub_distributor_Agreement_Request_Full</name>
+    </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>Technical_Agreement</name>
+    </recordTypes>
+    <startsWith>Vowel</startsWith>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Agreement_Cancellation_Date_required</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Agreement_Code_Type_locked_to_Legal_edit</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Agreement_Code_locked_to_IS_edit</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Agreement_Effective_Date_before_End_Date</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Agreement_End_Date_NOT_required</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Agreement_End_Date_required</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Agreement_Grid_End_GT_Start</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Agreement_Grid_Request_Date_Mandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Agreement_Lock_terminated_record</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Agreement_Master_Agreement_for_Sub_Dist</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Agreement_No_Master_Agreement_for_Type</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Agreement_Risk_Mandatory_for_IS</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Agreement_Signature_Date_for_Signed</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Agreement_Signature_before_Effective</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Agreement_TerminatedDateRequired</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Agreement_VR001_OwnerUpdateNotAllowed</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Agreement_no_Cancellation_if_Terminated</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Termination_Description_Mandatory</name>
+    </validationRules>
+    <webLinks>
+        <label></label>
+        <name>AUMFlowReport</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>TransactionsReport</name>
+    </webLinks>
+</CustomObjectTranslation>

@@ -1,0 +1,10 @@
+.THIS .alignHelper {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.THIS .alignHelper img {
+    vertical-align: middle;
+    max-width: 80px;
+}

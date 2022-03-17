@@ -1,0 +1,79 @@
+<aura:component controller="MeetingNoteCtrlLtng" implements="lightning:actionOverride,force:hasRecordId">
+
+    <aura:attribute name="meetingNote" type="Meeting_Note__c" default="{ 'sobjectType': 'Meeting_Note__c','Name': 'New Meeting Note', 'Next_Steps__c': 'Follow Up Meeting', 'Date__c' : ''}"/>
+	<aura:attribute name="ExistingOwner" type="User" default="{ 'sobjectType': 'User','FirstName': ''}" />
+	<aura:attribute name="meetingNoteId" type="String" />
+	<aura:attribute name="EventId" type="String" />
+	
+	<aura:attribute name="record" type="Object"/>
+    <aura:attribute name="mNote" type="Object"/>
+    <aura:attribute name="recordError" type="String"/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="meetingTypeForPurposeVisibility" type="String"/>
+	
+	<aura:handler name="change" value="{!v.meetingNote.Id}" action="{!c.init}"/>
+	<aura:handler name="change" value="{!v.meetingNote}" action="{!c.changeLookup}"/>
+    
+    <force:recordData aura:id="recordLoader"
+      recordId="{!v.meetingNoteId}"
+      fields="Id,Name,Meeting_Type__c, Purpose__c,Investment_Solution__c,Brand__c,Macro__c"
+      targetRecord="{!v.record}"
+      targetFields="{!v.mNote}"
+      mode="EDIT"
+      targetError="{!v.recordError}"
+      recordUpdated="{!c.handleRecordUpdated}"
+      />
+	<aura:handler name="render" value="{!this}" action="{!c.init}" />
+    
+    
+	<aura:dependency resource="markup://force:navigateToURL" type="EVENT"/>
+
+		<article class="slds-card">
+			<!-- Display Lightning Data Service errors, if any -->
+		    <aura:if isTrue="{!not(empty(v.recordError))}">
+		    	<div class="recordError">
+		        	<ui:message title="Error" severity="error" closable="true">
+		            	{!v.recordError}
+		            </ui:message>
+		        </div>
+		    </aura:if>
+	        <div class="slds-p-around_medium" >
+			    <div class="slds-form slds-form_stacked">
+
+					<c:strike_lookup aura:id="ownerLookup" 
+									 label="Owner"
+									 object="User"
+									 searchField="Name"
+									 placeholder="Select Owner"
+                              		 order="Name"
+                              		 limit="5"
+                              		 loadingMessage="Loading..."
+                              		 errorMessage="Invalid input"/>
+
+					<lightning:input aura:id="title" type="text" name="Title" label="Title" value="{!v.meetingNote.Name}" required="true"/>
+					
+                    <!-- Rich text with hashtag detection -->
+                    <c:MeetingNotesHashtagEdit aura:id="notes" fieldData="{!v.meetingNote.Note__c}"/>
+
+					<lightning:input aura:id="date" type="date" name="Date" label="Date" value="{!v.meetingNote.Date__c}" required="true"/>
+                    
+					<lightning:recordEditForm aura:id="recordEditForm" recordId="{!v.meetingNote.Id}" objectApiName="Meeting_Note__c">
+						<lightning:inputField aura:id="MeetingType" fieldName="Meeting_Type__c" required="true" onchange="{!c.setMeetingTypeForPurposeVisibility}"/>
+						<div aura:id="meetingTypeError" id="meetingTypeError" class="slds-hide">
+                        	<span class="slds-required">Please enter a Meeting Type</span> <br/>
+                        </div>
+                        <lightning:inputField aura:id="Purpose" fieldName="Purpose__c" disabled="false" required="true" onchange="{!c.setMeetingPurposeErrorVisbility}"/>
+                        <div aura:id="meetingPurposeError" id="meetingPurposeError" class="slds-hide">
+                            <span class="slds-required">Please enter a Purpose</span> <br/>
+                        </div>
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-3"><lightning:inputField aura:id="IS" fieldName="Investment_Solution__c" disabled="false"/></div>
+                            <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-3"><lightning:inputField aura:id="Brand" fieldName="Brand__c" disabled="false" /></div>
+                            <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-3"><lightning:inputField aura:id="Macro" fieldName="Macro__c" disabled="false" /></div>
+                        </div>
+					</lightning:recordEditForm>
+
+                    </div>
+               </div>
+		</article>
+</aura:component>

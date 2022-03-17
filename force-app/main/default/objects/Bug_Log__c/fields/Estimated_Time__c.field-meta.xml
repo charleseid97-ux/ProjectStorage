@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Estimated_Time__c</fullName>
+    <description>Give an approximate estimated time consumption of resolving the issue</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Give an approximate estimated time consumption of resolving the issue</inlineHelpText>
+    <label>Estimated Time</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Less than 2H</fullName>
+                <default>false</default>
+                <label>Less than 2H</label>
+            </value>
+            <value>
+                <fullName>2H to 0,5 Day</fullName>
+                <default>false</default>
+                <label>2H to 0,5 Day</label>
+            </value>
+            <value>
+                <fullName>0,5 Day to 1 Day</fullName>
+                <default>false</default>
+                <label>0,5 Day to 1 Day</label>
+            </value>
+            <value>
+                <fullName>More than 1 Day</fullName>
+                <default>false</default>
+                <label>More than 1 Day</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

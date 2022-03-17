@@ -1,0 +1,23 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasSObjectName" access="global" >
+
+  	<aura:registerEvent name="onchange" type="c:ProductValueChange"/>
+    
+    
+    <aura:attribute name="objectType" type="String"/>
+    <aura:attribute name="placeHolder" type="String"/>
+    
+    
+    <aura:handler name="change" value="{!v.objectType}" action="{!c.changePlaceHolderText}"/>
+
+    <div>
+        <lightning:layout verticalAlign="center" class="bar">
+            <lightning:layoutItem flexibility="grow">
+                <input aura:id="searchInput" type="text" class="slds-input" placeholder="{!v.placeHolder}" onkeypress="{!c.keypressHandler}" />
+            </lightning:layoutItem>
+            <lightning:layoutItem >
+                <lightning:buttonIcon iconName="utility:close" variant="bare" onclick="{!c.clearHandler}" />
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+    
+</aura:component>

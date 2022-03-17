@@ -1,0 +1,384 @@
+/**
+* @author: Saad Lozzi
+* @date : 19/04/2021
+* @description : This apex batch verifies the accuracy
+* of the last interaction dateTime in Account and the 
+* Last Meeting & Call and Last Event Attendance in contact
+* -- History
+* -- Date        Name        Version  Remarks
+* -- -----------  ----------  -------  ---------------------------------------
+*/
+global class BATCH012_LastInteraction implements Database.Batchable<SObject>
+{
+    private static final String QUERY_LEAD = '' +
+            'SELECT ' +
+            '   Id, ' +
+            '   CreatedDate, ' +
+            '   Last_Interaction__c ' +
+            ' FROM ' +
+            '       Lead';
+
+    private class DateType
+    {
+        Datetime lastDate;
+        String type;
+    }
+
+    private class AccountInfos
+    {
+        String fullName;
+        String corporateTitle;
+        Datetime lastInteraction;
+    }
+
+    String query;
+
+    public BATCH012_LastInteraction(String aQuery)
+    {
+        query = aQuery;
+    }
+
+    public Database.QueryLocator start(Database.BatchableContext BC)
+    {
+        Database.QueryLocator queryLocator = Database.getQueryLocator(query);
+
+        return queryLocator;
+    }
+
+    public void execute(Database.BatchableContext BC, List<Contact> scope)
+    {
+        // Create a set of contact Ids
+        Set<Id> contactIds = getSet(scope);
+
+        // Meeting & Call max date
+        Map<Id, DateType> contactToEventMaxDate = eventMaxDate(contactIds);
+
+        // Meeting Link max date
+        Map<Id, DateType> contactToMLMaxDate = meetingLinkMaxDate(contactIds);
+
+        // Last Event Attendance max date
+        Map<Id, DateType> contactToCampaignMaxDate = campaignMaxDate(contactIds);
+
+        List<Contact> contactsToUpdate = contactsToUpdate(scope,
+                contactToEventMaxDate,
+                contactToCampaignMaxDate,
+                contactToMLMaxDate);
+
+        Database.update(contactsToUpdate, false);
+
+        Map<Id, List<Contact>> accountIdToContacts = getAccountIdToContactsMap(scope);
+
+        Map<Id, AccountInfos> accountIdToLastInteractionMap = getAccountIdToLastInteractionMap(accountIdToContacts);
+
+        List<Account> accountToUpdate = accountToUpdate(accountIdToLastInteractionMap);
+
+        Database.update(accountToUpdate, false);
+    }
+
+    public void finish(Database.BatchableContext BC)
+    {
+        String query =  'SELECT '+
+                            'Id, '+
+                            'CreatedDate, '+
+                            'Last_interaction_with_contact__c '+
+                        'FROM '+
+                            'Account '+
+                        'WHERE '+
+                            'Id NOT IN (SELECT AccountId FROM Contact)';
+
+        BATCH014_UnrelatedAccsLastInteraction batch = new BATCH014_UnrelatedAccsLastInteraction(query);
+        Database.executeBatch(batch);
+    }
+
+    // this method return contact Id => his last event and type
+    private Map<Id, DateType> eventMaxDate(Set<Id> contactIds)
+    {
+        Map<Id, DateType> contactToEventMaxDate = new Map<Id, DateType>();
+        // gets the events related to selected contacts
+        List<Event> relatedEvents =
+        [
+                SELECT
+                        Id,
+                        CreatedDate,
+                        EndDateTime,
+                        WhatId,
+                        WhoId,
+                        Type
+                FROM
+                        Event
+                WHERE
+                        WhoId IN :contactIds
+                ORDER BY
+                        EndDateTime DESC
+        ];
+        // calculates the last event date
+        for (Event aEvent : relatedEvents)
+        {
+            DateType dateType = new DateType();
+            dateType.lastDate = aEvent.EndDateTime;
+            dateType.type = aEvent.Type;
+
+            if (!contactToEventMaxDate.containsKey(aEvent.WhoId))
+            {
+                contactToEventMaxDate.put(aEvent.WhoId, dateType);
+            }
+        }
+        return contactToEventMaxDate;
+    }
+
+    // this method return contact Id => his last meeting Link
+    private Map<Id, DateType> meetingLinkMaxDate(Set<Id> contactIds)
+    {
+        Map<Id, DateType> contactToMLMaxDate = new Map<Id, DateType>();
+        // gets the events related to selected contacts
+        List<Meeting_Link__c> relatedMeetingLinks =
+        [
+                SELECT
+                        Id,
+                        Date__c,
+                        Contact__c,
+                        CreatedDate
+                FROM
+                        Meeting_Link__c
+                WHERE
+                        Contact__c IN :contactIds
+                ORDER BY
+                        Date__c DESC
+        ];
+
+        // calculates the last event date
+        for (Meeting_Link__c meetingLink : relatedMeetingLinks)
+        {
+            DateType dateType = new DateType();
+            dateType.lastDate = meetingLink.Date__c;
+
+            if (!contactToMLMaxDate.containsKey(meetingLink.Contact__c))
+            {
+                contactToMLMaxDate.put(meetingLink.Contact__c, dateType);
+            }
+        }
+        return contactToMLMaxDate;
+    }
+
+    // this method return contact Id => Last Campaign where he attended
+    private Map<Id, DateType> campaignMaxDate(Set<Id> contactIds)
+    {
+        Map<Id, DateType> contactToCampaignMaxDate = new Map<Id, DateType>();
+        // gets all the campaignMembers related to the contacts
+        List<CampaignMember> relatedCampaignMembers =
+        [
+                SELECT
+                        Id,
+                        ContactId,
+                        CreatedDate,
+                        Campaign.End_Date_Time__c,
+                        Campaign.Type,
+                        Status,
+                        Type
+                FROM
+                        CampaignMember
+                WHERE
+                        ContactId IN :contactIds
+                AND
+                        Status = 'Attended'
+                ORDER BY
+                        Campaign.End_Date_Time__c
+        ];
+
+
+        // calculates the last campaign date (where attended)
+        for (CampaignMember aCampaignMember : relatedCampaignMembers)
+        {
+            DateType dateType = new DateType();
+            dateType.lastDate = aCampaignMember.Campaign.End_Date_Time__c;
+            dateType.type = aCampaignMember.Campaign.Type;
+
+            if (!contactToCampaignMaxDate.containsKey(aCampaignMember.ContactId))
+            {
+                contactToCampaignMaxDate.put(aCampaignMember.ContactId, dateType);
+            }
+        }
+        return contactToCampaignMaxDate;
+    }
+
+    private Set<Id> getSet(List<SObject> input)
+    {
+        Set<Id> output = new Set<Id>();
+
+        for (SObject anObject : input)
+        {
+            output.add(anObject.Id);
+        }
+
+        return output;
+    }
+
+    private List<Contact> contactsToUpdate(List<Contact> contacts,
+            Map<Id, DateType> contactToEventMaxDate,
+            Map<Id, DateType> contactToCampaignMaxDate,
+            Map<Id, DateType> contactToMLMaxDate
+    )
+    {
+        List<Contact> contactsToUpdate = new List<Contact>();
+
+        for (Contact aContact : contacts)
+        {
+            Boolean toAdd = false;
+
+            if (aContact.Last_Meeting_Call__c < contactToMLMaxDate.get(aContact.Id)?.lastDate || aContact.Last_Meeting_Call__c == null)
+            {
+                aContact.Last_Meeting_Call__c = contactToMLMaxDate.get(aContact.Id)?.lastDate;
+                toAdd = true;
+            }
+            if (aContact.Last_Meeting_Call__c < contactToEventMaxDate.get(aContact.Id)?.lastDate || aContact.Last_Meeting_Call__c == null)
+            {
+                aContact.Last_Meeting_Call__c = contactToEventMaxDate.get(aContact.Id)?.lastDate;
+                aContact.Last_Meeting_Call_type__c = contactToEventMaxDate.get(aContact.Id)?.type;
+                toAdd = true;
+            }
+
+            if (aContact.Last_Event_attendance__c < contactToCampaignMaxDate.get(aContact.Id)?.lastDate || aContact.Last_Event_attendance__c == null)
+            {
+                aContact.Last_Event_attendance__c = contactToCampaignMaxDate.get(aContact.Id)?.lastDate;
+                aContact.Last_Event_attendance_Type__c = contactToCampaignMaxDate.get(aContact.Id)?.type;
+                toAdd = true;
+            }
+            if(aContact.Last_Meeting_Call__c > System.now())
+            {
+                aContact.Last_Meeting_Call__c = System.now();
+            }
+            if(aContact.Last_Event_attendance__c > System.now())
+            {
+                aContact.Last_Event_attendance__c = System.now();
+            }
+            if (toAdd)contactsToUpdate.add(aContact);
+        }
+        return contactsToUpdate;
+    }
+
+    private Map<Id, List<Contact>> getAccountIdToContactsMap(List<Contact> contacts)
+    {
+        Map<Id, List<Contact>> accountToContactsMap = new Map<Id, List<Contact>>();
+
+        for (Contact aContact : contacts)
+        {
+            if (accountToContactsMap.get(aContact.AccountId) == null)
+            {
+                accountToContactsMap.put(aContact.AccountId, new List<Contact>
+                {
+                        aContact
+                });
+            }
+            else
+            {
+                accountToContactsMap.get(aContact.AccountId).add(aContact);
+            }
+        }
+
+        return accountToContactsMap;
+    }
+
+    private Map<Id, AccountInfos> getAccountIdToLastInteractionMap(Map<Id, List<Contact>> accountToContactsMap)
+    {
+        Map<Id, AccountInfos> accountIdToLastInteraction = new Map<Id, AccountInfos>();
+
+        Datetime lastInteractionAccount;
+
+        AccountInfos accInfos = new AccountInfos();
+
+        for (List<Contact> contacts : accountToContactsMap.values())
+        {
+            Datetime lastInteractionContact;
+
+            for (Contact aContact : contacts)
+            {
+                if(lastInteractionContact == null)
+                {
+                    lastInteractionContact = aContact.CreatedDate;
+                }
+                if (aContact.Last_Meeting_Call__c != null && lastInteractionContact < aContact.Last_Meeting_Call__c)
+                {
+                    lastInteractionContact = aContact.Last_Meeting_Call__c;
+                }
+                if (aContact.Last_Event_attendance__c != null && lastInteractionContact < aContact.Last_Event_attendance__c)
+                {
+                    lastInteractionContact = aContact.Last_Event_attendance__c;
+                }
+
+                if (aContact.Last_Newsletter_sent__c != null && lastInteractionContact < aContact.Last_Newsletter_sent__c)
+                {
+                    lastInteractionContact = aContact.Last_Newsletter_sent__c;
+                }
+
+
+                if (lastInteractionAccount == null || lastInteractionAccount < lastInteractionContact)
+                {
+                    accInfos.lastInteraction = lastInteractionContact;
+
+                    accInfos.corporateTitle = aContact.CorporateTitle__c;
+
+                    accInfos.fullName = aContact.First_Last_name__c;
+                }
+            }
+            accountIdToLastInteraction.put(contacts[0].AccountId, accInfos);
+        }
+
+        return accountIdToLastInteraction;
+    }
+
+    private List<Account> accountToUpdate(Map<Id, AccountInfos> accountIdToLastInteraction)
+    {
+        List<Account> accounts =
+        [
+                SELECT
+                        Id,
+                        CreatedDate,
+                        Last_Contact_involved__c,
+                        Last_interaction_with_contact__c,
+                        Last_contact_interaction_Corporate_Title__c
+                FROM
+                        Account
+                WHERE
+                        Id IN :accountIdToLastInteraction.keySet()
+        ];
+
+        for (Account anAccount : accounts)
+        {
+            anAccount.Last_interaction_with_contact__c = accountIdToLastInteraction.get(anAccount.Id)?.lastInteraction;
+
+            anAccount.Last_Contact_involved__c = accountIdToLastInteraction.get(anAccount.Id)?.fullName;
+
+            anAccount.Last_contact_interaction_Corporate_Title__c = accountIdToLastInteraction.get(anAccount.Id)?.corporateTitle;
+        }
+
+        return accounts;
+    }
+
+    private List<Account> unrelatedAccounts()
+    {
+        List<Account> accountsToUpdate = new List<Account>();
+
+        List<Account> accountsWithoutContact = [
+                SELECT
+                        Id,
+                        CreatedDate,
+                        Last_interaction_with_contact__c
+                FROM
+                        Account
+                WHERE
+                        Id NOT IN (SELECT AccountId FROM Contact)
+        ];
+
+        for(Account anAccount : accountsWithoutContact)
+        {
+            if(anAccount.Last_interaction_with_contact__c == null ||
+                    anAccount.Last_interaction_with_contact__c < anAccount.CreatedDate)
+            {
+                anAccount.Last_interaction_with_contact__c = anAccount.CreatedDate;
+                accountsToUpdate.add(anAccount);
+            }
+        }
+
+        return accountsToUpdate;
+    }
+}

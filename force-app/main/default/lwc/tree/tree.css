@@ -1,0 +1,4 @@
+.slds-tree-container, .slds-tree_container {
+    min-width: 9rem;
+    max-width: var(--sds-c-tree-sizing-max-width, 100%);
+}

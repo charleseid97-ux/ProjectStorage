@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fieldUpdates>
+        <fullName>UpdateCommunicationTypeWebsite</fullName>
+        <description>Update Communication Website if TechCommWebsiteID is not null</description>
+        <field>Type_of_communication__c</field>
+        <literalValue>Alert Website</literalValue>
+        <name>UpdateCommunicationTypeWebsite</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Communication_WF001_UpdatetypeofcommunicationWebsite</fullName>
+        <actions>
+            <name>UpdateCommunicationTypeWebsite</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Communication__c.TECH_CommunicationWebsiteId__c</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <criteriaItems>
+            <field>User.BypassWorkflowRules__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
+        <description>Fills in communication type with website value if a communication website Id is present.
+Gives distinction between website alerts and other communication subscriptions</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+</Workflow>

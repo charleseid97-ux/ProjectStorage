@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Strategy</label>
+    <lookupFilter>
+        <active>true</active>
+        <booleanFilter>(1 OR (2 AND 3)) AND 4 AND 5</booleanFilter>
+        <filterItems>
+            <field>Product__c.RecordType.Name</field>
+            <operation>equals</operation>
+            <value>Strategy</value>
+        </filterItems>
+        <filterItems>
+            <field>Product__c.RecordType.Name</field>
+            <operation>equals</operation>
+            <value>Fund</value>
+        </filterItems>
+        <filterItems>
+            <field>Product__c.Legal_Status__c</field>
+            <operation>equals</operation>
+            <value>OEIC</value>
+        </filterItems>
+        <filterItems>
+            <field>Product__c.Dedicated_Fund__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </filterItems>
+        <filterItems>
+            <field>Product__c.Validity__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Product__c</referenceTo>
+    <relationshipLabel>Buy List Items</relationshipLabel>
+    <relationshipName>Product_Statuses</relationshipName>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

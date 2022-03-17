@@ -1,0 +1,8 @@
+.THIS .slds-badge {
+    vertical-align: baseline;
+    line-height: 1.5rem;
+}
+
+.THIS .slds-badge + .slds-badge {
+    margin-left: 0;
+}

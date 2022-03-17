@@ -1,0 +1,384 @@
+<!--
+
+* @description renders Meeting note details and related records as pdf
+-->
+<apex:page controller="AccountPlanPDFController" showHeader="false"  applyHtmlTag="false">
+    <head>       
+        <!--Styles for the pdf rendering-->
+        <style>
+            body{
+            	font-family:SansSerif;
+            }
+            h1{           
+                color: rgb(121,145,123);
+                font-size: 18px;
+            	margin-bottom:0px;
+            	padding-bottom:0px;
+            }
+            h1 a {
+	            color: rgb(121,145,123);
+            	font-size:14px;
+            }
+            p{
+            	margin-top:0px;
+            	padding-top:0px;
+            	font-size : 14px;
+            }
+            h2{
+                color: #8c8c8c;
+                font-size: 15px;  
+            }
+            
+            table, th, td {
+                border-collapse: collapse;
+                border-bottom: 1px solid #cccccc;
+                page-break-inside: avoid;
+                font-size: 14px;
+            }
+            .table_header{
+                background-color: rgb(121,145,123);
+                color: white;
+                font-weight:bold;
+            }
+            ul{
+                margin:0px; 
+                padding-left:30px;
+            }
+            .subHead {
+	            background-color:#f1f1f1;
+            	border-bottom:1px solid #b1b1b1;
+            }
+            .obj {
+	            background-color:#e1f2de;
+            }
+            .tsk {
+	            background-color:#e1def1;
+            }
+            .cmp {
+	            background-color:#def0f0;
+            }
+            table {
+            	border-right:1px solid #b1b1b1;
+            	border-left:1px solid #b1b1b1;
+            }
+            .col1 {
+            	width:30%;
+            }
+
+        </style>
+    </head> 
+    
+    <body>     
+        <!--variable to store subdomain-->
+        <apex:variable value="{!myDomainName}" var="baseURL"/>
+        
+        <!-- All the contents-->
+        <div>
+            <h1>
+                {!accountPlan.Name} - <a href="{!baseURL}.lightning.force.com/{!accountPlan.Id}">view</a>
+            </h1>
+            <p>
+                {!accountPlan.Company__r.Name}
+            </p>
+            <p>
+                Revenue Potential : {!accountPlan.Revenue_Potential__c}
+            </p>
+            <h2>
+                <img src="/resource/SLDSATS/SLDSATS/assets/icons/custom/custom61_60.png" style="background-color:rgb(229,122,122);border-radius: 4px;valign:absmiddle;" width="20px" /> Executive Summary / Who is {!accountPlan.Company__r.Name}? What you need to know!
+            </h2>
+            <!--First table with meeting note heard fields-->
+            <p>
+                <table style="width:100%">
+                    <tr>
+                        <td>
+                            <apex:outputText value="{!accountPlan.Executive_Summary__c}" escape="false"/>
+                        </td>
+                    </tr>
+                </table>
+            </p>
+
+            <h2>
+                <img src="/resource/SLDSATS/SLDSATS/assets/icons/custom/custom41_60.png" style="background-color:rgb(229,122,122);border-radius: 4px;valign:absmiddle;" width="20px" /> 3RD PARTY FUND ARCHITECTURE (OPEN/GUIDED/CLOSED) / What is the impact of GUIDED ARCHITECTURE at '{!accountPlan.Company__r.Name}' and what is the level of independence from the Buy List?
+            </h2>
+            <!--First table with meeting note heard fields-->
+            <p>
+            <table style="width:100%">
+                <tr>
+                    <td>
+                        <apex:outputText value="{!accountPlan.Third_Party_Fund_Architecture__c}" escape="false"/>
+                    </td>
+                </tr>
+            </table>
+            </p>
+        
+            <!--Table with list of Strengths--> 
+            <p>
+                <table style="width:100%">
+                    <tr>
+                        <th colspan="2">
+                            <img src="/resource/SLDSATS/SLDSATS/assets/icons/custom/custom91_60.png" style="background-color:rgb(182,126,106);border-radius: 4px;" width="20px" /> Strengths 
+                        </th>
+                    </tr>
+                    <tr>
+                    	<td class="subHead col1">Strength Type</td>
+                    	<td class="subHead">Strength</td>
+                    </tr>
+                        
+                    <apex:repeat value="{!accountPlan.Strengths_And_Weaknesses__r}" var="strength">
+                        <tr style="display:{!IF( ISNULL(strength.Strength__c) , 'None', '')}">
+                            <td>
+                                {!strength.Strength_Type__c}  
+                            </td>
+                            <td>
+                                {!strength.Strength__c}
+                            </td>
+                        </tr>
+                    </apex:repeat> 
+                </table>  
+            </p>
+            <!--Table with list of Weaknesses--> 
+            <p>
+                
+                <table style="width:100%">
+                    <tr>
+                        <th colspan="2">
+                            <img src="/resource/SLDSATS/SLDSATS/assets/icons/custom/custom80_60.png" style="background-color:rgb(112,154,208);border-radius: 4px;" width="20px" /> Weaknesses
+                        </th>
+                    </tr>
+                    <tr>
+                    	<td class="subHead col1">Weakness Type</td>
+                    	<td class="subHead">Weakness</td>
+                    </tr>
+                    <apex:repeat value="{!accountPlan.Strengths_And_Weaknesses__r}" var="weakness">
+                        <tr style="display:{!IF( ISNULL(weakness.Weakness__c) , 'None', '')}">
+                            <td>
+                                {!weakness.Weakness_Type__c}  
+                            </td>
+                            <td>
+                                {!weakness.Weakness__c}  
+                            </td>
+                        </tr>
+                    </apex:repeat> 
+                </table>  
+            </p>
+            <!--Table with list of Weaknesses--> 
+            <p>
+                <table style="width:100%">
+                    <tr>
+                        <th colspan="4">
+                            <img src="/resource/SLDSATS/SLDSATS/assets/icons/standard/opportunity_60.png" style="background-color:rgb(243,186,107);border-radius: 4px;" width="20px" /> Open Opportunities
+                        </th>
+                    </tr>
+                    <tr>
+                    	<td class="subHead">Name</td>
+                    	<td class="subHead">Type</td>
+                    	<td class="subHead">Stage</td>
+                    	<td class="subHead">Company</td>
+                    </tr>
+                    <apex:repeat value="{!openOpportunities}" var="openOpp">
+                        <tr style="display:{!IF( ISNULL(openOpp.Name) , 'None', '')}">
+                            <td>
+                                {!openOpp.Name}  
+                            </td>
+                            <td>
+                                {!openOpp.RecordType.Name}  
+                            </td>
+                            <td>
+                                {!openOpp.StageName}  
+                            </td>
+                            <td>
+                                {!openOpp.Account.Name}  
+                            </td>
+                        </tr>
+                    </apex:repeat> 
+                </table>  
+            </p>
+            <!--Table with list of Threats--> 
+            <p>
+                <table style="width:100%">
+                    <tr>
+                        <th colspan="2">
+                            <img src="/resource/SLDSATS/SLDSATS/assets/icons/custom/custom33_60.png" style="background-color:rgb(163,204,108);border-radius: 4px;" width="20px" /> Threats
+                        </th>
+                    </tr>
+                    <tr>
+                    	<td class="subHead col1">Threat Type</td>
+                    	<td class="subHead">Threat</td>
+                    </tr>
+                    <apex:repeat value="{!accountPlan.Threats__r}" var="threat">
+                        <tr colspan="2" style="display:{!IF( ISNULL(threat.Threat__c) , 'None', '')}">
+                            <td>
+                                {!threat.Threat_Type__c}  
+                            </td>
+                            <td>
+                                {!threat.Threat__c}  
+                            </td>
+                        </tr>
+                    </apex:repeat> 
+                </table>  
+            </p>
+
+            <!--Table with list of Objectives--> 
+            <p>
+                <table style="width:100%">
+                    <tr>
+                        <th colspan="5">
+                            <img src="/resource/SLDSATS/SLDSATS/assets/icons/standard/task_60.png" style="background-color:rgb(108,188,125);border-radius: 4px;valign:absmiddle;" width="20px" /> Objectives and Actions
+                        </th>
+                    </tr>
+				</table>	 
+
+                <apex:repeat value="{!objectives}" var="obj">
+                    <table style="width:100%">
+                        <tr>
+                            <td style="border:1px solid #cccccc;background-color:#fcfcfc;">
+                                <table style="width:100%">
+                                    <tr>
+                                        <td class="subHead obj" width="30%">Name</td>
+                                        <td class="subHead obj" width="15%">Objective Type</td>
+                                        <td class="subHead obj" width="10%">Priority</td>
+                                        <td class="subHead obj" width="15%">Due Date</td>
+                                    </tr>
+                                    <tr style="display:{!IF( ISNULL(obj.Name) , 'None', '')}">
+                                        <td>
+                                            {!obj.Name}  
+                                        </td>
+                                        <td>
+                                            {!obj.Objective_Type__c}  
+                                        </td>
+                                        <td>
+                                            {!obj.Priority__c}
+                                        </td>
+                                        <td>
+                                            <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                                                <apex:param value="{!obj.Due_Date__c}" /> 
+                                            </apex:outputText>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <apex:outPutPanel rendered="{!obj.Account_Plan_Objective_Companies__r.size>0}">
+                                    
+                                    <table style="width:95%;margin:20px;margin-top:5px;margin-bottom:10px;">
+                                        <tr>
+                                            <td class="subHead cmp">Company Name</td>
+                                        </tr>
+                                        <apex:repeat var="comp" value="{!obj.Account_Plan_Objective_Companies__r}">
+                                            <tr>
+                                                <td><apex:outputText value="{!comp.Company__r.Name}"/></td>
+                                            </tr>
+                                        </apex:repeat>
+                                    </table>
+                                </apex:outPutPanel>
+                                <apex:outPutPanel rendered="{!obj.Tasks.size>0}">
+                                    
+                                    <table style="width:95%;margin:20px;margin-top:5px;margin-bottom:10px;">
+                                        <tr>
+                                            <td class="subHead tsk">Task Subject</td>
+                                            <td class="subHead tsk">Status</td>
+                                            <td class="subHead tsk">Due Date</td>
+                                        </tr>
+                                        <apex:repeat var="task" value="{!obj.Tasks}">
+                                            <tr>
+                                                <td><apex:outputText value="{!task.Subject}"/></td>
+                                                <td><apex:outputText value="{!task.Status}"/></td>
+                                                <td>
+                                                    <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                                                        <apex:param value="{!task.ActivityDate}" /> 
+                                                    </apex:outputText>
+                                                </td>
+                                            </tr>
+                                        </apex:repeat>
+                                    </table>
+                                </apex:outPutPanel>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <br/>
+                </apex:repeat> 
+                </p>
+
+            <!--Table with list of Objectives-->
+            <p>
+            <table style="width:100%">
+                <tr>
+                    <th colspan="5">
+                        <img src="/resource/SLDSATS/SLDSATS/assets/icons/standard/task_60.png" style="background-color:rgb(108,188,125);border-radius: 4px;valign:absmiddle;" width="20px" /> Objectives Completed Last Year
+                    </th>
+                </tr>
+            </table>
+
+            <apex:repeat value="{!previous_objectives}" var="obj">
+                <table style="width:100%">
+                    <tr>
+                        <td style="border:1px solid #cccccc;background-color:#fcfcfc;">
+                            <table style="width:100%">
+                                <tr>
+                                    <td class="subHead obj" width="30%">Name</td>
+                                    <td class="subHead obj" width="15%">Objective Type</td>
+                                    <td class="subHead obj" width="10%">Priority</td>
+                                    <td class="subHead obj" width="15%">Due Date</td>
+                                </tr>
+                                <tr style="display:{!IF( ISNULL(obj.Name) , 'None', '')}">
+                                    <td>
+                                        {!obj.Name}
+                                    </td>
+                                    <td>
+                                        {!obj.Objective_Type__c}
+                                    </td>
+                                    <td>
+                                        {!obj.Priority__c}
+                                    </td>
+                                    <td>
+                                        <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                                            <apex:param value="{!obj.Due_Date__c}" />
+                                        </apex:outputText>
+                                    </td>
+                                </tr>
+                            </table>
+                            <apex:outPutPanel rendered="{!obj.Account_Plan_Objective_Companies__r.size>0}">
+
+                                <table style="width:95%;margin:20px;margin-top:5px;margin-bottom:10px;">
+                                    <tr>
+                                        <td class="subHead cmp">Company Name</td>
+                                    </tr>
+                                    <apex:repeat var="comp" value="{!obj.Account_Plan_Objective_Companies__r}">
+                                        <tr>
+                                            <td><apex:outputText value="{!comp.Company__r.Name}"/></td>
+                                        </tr>
+                                    </apex:repeat>
+                                </table>
+                            </apex:outPutPanel>
+                            <apex:outPutPanel rendered="{!obj.Tasks.size>0}">
+
+                                <table style="width:95%;margin:20px;margin-top:5px;margin-bottom:10px;">
+                                    <tr>
+                                        <td class="subHead tsk">Task Subject</td>
+                                        <td class="subHead tsk">Status</td>
+                                        <td class="subHead tsk">Due Date</td>
+                                    </tr>
+                                    <apex:repeat var="task" value="{!obj.Tasks}">
+                                        <tr>
+                                            <td><apex:outputText value="{!task.Subject}"/></td>
+                                            <td><apex:outputText value="{!task.Status}"/></td>
+                                            <td>
+                                                <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                                                    <apex:param value="{!task.ActivityDate}" />
+                                                </apex:outputText>
+                                            </td>
+                                        </tr>
+                                    </apex:repeat>
+                                </table>
+                            </apex:outPutPanel>
+                        </td>
+                    </tr>
+                </table>
+
+                <br/>
+            </apex:repeat>
+            </p>
+            
+            
+        </div>
+    </body>
+</apex:page>

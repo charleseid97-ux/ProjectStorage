@@ -1,0 +1,83 @@
+<apex:page standardController="Contact" recordSetVar="setContact" extensions="CPGN_AddToCampaignConMass_VFCE" >
+    
+    <apex:pageMessages />
+    <apex:form >
+        <apex:pageBlock mode="edit">
+            
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!Cancel}" value="{!$Label.CPGN_Cancel}"/>
+                <apex:commandButton action="{!AddToCampaign}" value="{!$Label.CPGN_Add_To_Campaign}"/>
+            </apex:pageBlockButtons>
+            
+            <apex:pageBlockSection columns="3" title="{!$Label.CPGN_Pick_Campaign_And_Category}">
+                
+                <apex:pageblockSectionItem >
+                    <apex:outputLabel value="{!$Label.CPGN_Name_Start_With}"/>
+                </apex:pageblockSectionItem>        
+                <apex:pageblockSectionItem >
+                    <apex:inputText value="{!sCampaignNameFilter}">
+                        <apex:actionSupport event="onchange" action="{!searchCampaign}" reRender="id-campaignlist,id-categoryevent,id-memberstatus"/>
+                    </apex:inputText>
+                </apex:pageblockSectionItem>        
+                <apex:pageblockSectionItem >
+                    <apex:outputLabel value=""/>
+                </apex:pageblockSectionItem>        
+                
+                <apex:pageblockSectionItem >
+                    <apex:outputLabel value="{!$Label.CPGN_Campaign}"/>
+                </apex:pageblockSectionItem>        
+                <apex:pageblockSectionItem >                
+                    <apex:selectList size="1" value="{!sCampaignId}" id="id-campaignlist">
+                        <apex:selectOptions value="{!listCampaignName}"/>
+                        <apex:actionSupport event="onchange" reRender="id-categoryevent,id-memberstatus"/>
+                    </apex:selectList>                
+                </apex:pageblockSectionItem>
+                <apex:pageblockSectionItem >
+                    <apex:outputLabel value=""/>
+                </apex:pageblockSectionItem>        
+                
+                <apex:pageblockSectionItem >
+                    <apex:outputLabel value="{!$Label.CPGN_Category}"/>
+                </apex:pageblockSectionItem>            
+                <apex:pageblockSectionItem >
+                    <apex:selectList size="1" value="{!sCategoryEventId}" id="id-categoryevent">
+                        <apex:selectOptions value="{!listCategoryEvent}" />
+                    </apex:selectList>
+                </apex:pageblockSectionItem>            
+                <apex:pageblockSectionItem >
+                    <apex:outputLabel value=""/>
+                </apex:pageblockSectionItem>        
+                
+                <apex:pageblockSectionItem >
+                    <apex:outputLabel value="{!$Label.CPGN_Member_Status}"/>
+                </apex:pageblockSectionItem>            
+                <apex:pageblockSectionItem >
+                    <apex:selectList size="1" value="{!sCampaignMemberStatus}" id="id-memberstatus">
+                        <apex:selectOptions value="{!listCampaignMemberStatus}"/>
+                    </apex:selectList>
+                </apex:pageblockSectionItem>            
+                <apex:pageblockSectionItem >
+                    <apex:outputLabel value=""/>
+                </apex:pageblockSectionItem>        
+                
+                
+                <apex:pageblockSectionItem >
+                    <apex:outputLabel value="{!$Label.CPGN_Keep_Existing_Status}"/>
+                </apex:pageblockSectionItem>            
+                <apex:pageblockSectionItem >
+                    <apex:inputCheckbox value="{!bKeepExistingStatus}"/>
+                </apex:pageblockSectionItem>            
+                <apex:pageblockSectionItem >
+                    <apex:outputLabel value=""/>
+                </apex:pageblockSectionItem>        
+                
+            </apex:pageBlockSection>        
+            
+            <apex:pageBlockSection columns="2" title="{!$Label.CPGN_Selected_contact}: {!SelectedListSize}">
+                <apex:pageBlockTable value="{!selected}" var="rowContact">
+                    <apex:column value="{!rowContact.name}"/>
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>        
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

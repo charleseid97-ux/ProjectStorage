@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Asset_Class</fullName>
+    <active>true</active>
+    <description>The highest level of the investment product offer: Equity, Fixed Income, Alternative and Multi-Asset</description>
+    <label>Asset Class</label>
+    <picklistValues>
+        <picklist>Investment_Style__c</picklist>
+        <values>
+            <fullName>BOUP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUVE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TOUP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TOWN</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Legal_Status__c</picklist>
+        <values>
+            <fullName>AIF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FCP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OEIC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Others</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SICAV</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

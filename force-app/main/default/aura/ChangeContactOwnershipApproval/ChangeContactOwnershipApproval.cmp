@@ -1,0 +1,88 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId"
+                controller="ContactUtil"
+                access="global">
+    
+    <aura:attribute name="recordId" default="" type="String"/>
+    <aura:attribute name="contact" default="" type="Object"/>
+	<aura:attribute name="currentOwner" type="Object" access="global"/>
+
+    <aura:attribute name="currentHOCs" type="User[]" access="global"/>
+    <aura:attribute name="proposedHOCs" type="User[]" access="global"/>
+    
+    <aura:attribute name="CurrHOCIdsForAccess" type="String[]" access="global"/>
+    <aura:attribute name="PropHOCIdsForAccess" type="String[]" access="global"/>
+    
+    <aura:attribute name="currentUserView" type="Boolean" access="global"/>
+    <aura:attribute name="currentUserAccess" type="Boolean" access="global"/>
+    <aura:attribute name="currentUserCurrAccess" type="Boolean" access="global"/>
+    <aura:attribute name="currentUserPropAccess" type="Boolean" access="global"/>
+    <aura:attribute name="currentUserId" type="String" access="global"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+        <lightning:card variant="Narrow" title="Contact Owner Change HOC Approval" iconName="standard:contact" >
+
+            <div class="slds-scrollable">
+	            <div class="slds-grid slds-wrap slds-scrollable">
+                    <aura:If isTrue="{!v.currentUserAccess}">
+                        <!--Start HOC-->
+                        <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1">
+                            <h3 class="slds-text-heading--small">Your approval is required to update the Contact Owner from <b>{!v.currentOwner.Name}</b> to <b>{!v.contact.Proposed_Contact_Owner__r.Name}</b></h3>
+                            <br/>
+                        </div>
+                        <aura:if isTrue="{! !v.contact.Proposed_HOC_approval__c}" >
+                            <aura:if isTrue="{! v.currentUserPropAccess}" >
+                                <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1">
+                                    Proposed HOC Approval
+                                </div>
+                                <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2">
+                                    <lightning:button label="Approve" variant="success" onclick="{!c.approveProposedCtrl}" />
+                                </div>
+                                <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2">
+                                    <lightning:button label="Reject" variant="destructive" onclick="{!c.rejectChange}" />
+                                </div>
+                                <br/>
+                                <br/>
+                            </aura:if>
+                        </aura:if>
+                        <aura:if isTrue="{! !v.contact.Current_HOC_approval__c}" >
+	                        <aura:if isTrue="{! v.currentUserCurrAccess}" >
+                                <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1">
+                                    Current HOC Approval
+                                </div>
+                                <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2">
+                                    <lightning:button label="Approve" variant="success" onclick="{!c.approveCurrentCtrl}" />
+                                </div>
+                                <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2">
+                                    <lightning:button label="Reject" variant="destructive" onclick="{!c.rejectChange}" />
+                                </div>
+                            </aura:if>
+                        </aura:if>
+                        <!--End HOC-->
+                    </aura:If>
+                    <aura:If isTrue="{!v.currentUserView}">
+                        <!--Start Normal-->
+                        <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1">
+                            <h3 class="slds-text-heading--small" style="background-color:#f7f7ff;border:1px solid #b2b2ff;padding:3px;">Approval Pending</h3>
+                            <aura:if isTrue="{! !v.contact.Current_HOC_approval__c}" >
+                                <br/>
+                                <b>Sign-off required by Current HOC:</b><br/>
+                                <aura:iteration items="{!v.currentHOCs}" var="choc">
+                                    {!choc.Name+', '}
+                                </aura:iteration>
+                                <br/>
+                            </aura:if>
+                            <aura:if isTrue="{! !v.contact.Proposed_HOC_approval__c}" >
+                                <br/>
+                                <b>Sign-off required by Proposed HOC:</b><br/>
+                                <aura:iteration items="{!v.proposedHOCs}" var="phoc">
+                                    {!phoc.Name+', '}
+                                </aura:iteration>
+                            </aura:if>
+                        </div>
+                        <!--End Normal-->
+                    </aura:If>
+                </div>
+            </div>
+
+        </lightning:card>
+</aura:component>

@@ -1,0 +1,34 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction" 
+                controller="ProductSelectionCtrl" access="global">
+    
+    <aura:attribute name="OppRecordId" type="String"/>
+    <aura:attribute name="currentSObject" type="String"/>
+    
+    <!-- Need to pass the sObjectName to the ProductTileList -->
+    <aura:registerEvent name="passSObjectNameEvt" type="c:ProductSelectorPassSObjectNameEvt"/>
+    
+    <aura:handler event="c:ProductSelectorSaveListToOpp" action="{!c.saveProductToOpp}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <div class="slds-grid slds-gutters">
+        <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--2-of-6 slds-large-size--3-of-12">
+            <lightning:card >
+                <span><c:ProductFilter/></span>
+            </lightning:card>
+        </div>
+        <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--4-of-6 slds-large-size--5-of-12">
+            <lightning:card>
+            	<span><c:ProductTileList/></span>
+            </lightning:card>
+        </div>
+        <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--4-of-12">
+            <lightning:card>
+            	<span><c:ProductSelectorDynamicRow aura:id="ProductsDynamicList"/></span>
+            </lightning:card>
+        </div>
+    </div>
+    
+    
+    <c:ProductSelectorModalSelected/>
+    
+</aura:component>

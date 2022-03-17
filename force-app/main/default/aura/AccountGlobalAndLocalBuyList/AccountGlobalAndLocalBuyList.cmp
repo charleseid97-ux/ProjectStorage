@@ -1,0 +1,171 @@
+<aura:component controller="GlobalBuyListCtrl"
+                implements="flexipage:availableForRecordHome,flexipage:availableForAllPageTypes,force:hasRecordId,force:appHostable,force:lightningQuickAction,force:hasSObjectName">
+    
+    <aura:attribute name="title" type="String" access="global"/>
+    <aura:attribute name="objectName" type="String" access="global" default="Product_Status__c"/>
+    <aura:attribute name="parentId" type="String" access="global"/>
+    <aura:attribute name="sObjectType" type="String" default="{!v.sObjectName}" access="global"/>
+    <aura:attribute name="recordId" type="Id" access="global"/>
+    <aura:attribute name="VFRecordId" type="Id" default="" access="global"/>
+    <aura:attribute name="dataResult" type="List" access="global"/>
+    <aura:attribute name="dataDisplay" type="List" access="global"/>
+    <aura:attribute name="columnsResult" type="List" access="global"/>
+    <aura:attribute name="sortedBy" type="String" access="global"/>
+    <aura:attribute name="sortedDirection" type="String" access="global"/>
+    <aura:attribute name="textSearch" type="String" access="global"/>
+    <aura:attribute name="typeFieldSource" type="String" access="global"/>
+    <aura:attribute name="preview" type="Boolean" access="global" default="true"/>
+    <aura:attribute name="dataFormatter" type="List" access="global"/>
+    <aura:attribute name="editAccess" type="List" access="global"/>
+    <aura:attribute name="deleteAccess" type="List" access="global"/>
+    <aura:attribute name="hasEdit" type="Boolean" access="global"/>
+    <aura:attribute name="hasDelete" type="Boolean" access="global"/>
+    <aura:attribute name="hasNew" type="Boolean" access="global"/>
+    <aura:attribute name="noGlobalList" type="Boolean" access="global" default="false"/>
+    <aura:attribute name="newLabel" type="String" access="global"/>
+    <aura:attribute name="maxItemDisplay" type="Integer" access="global"/>
+    <aura:attribute name="viewAll" type="Boolean" default="true" access="global"/>
+    <aura:attribute name="nameFieldToLink" type="String" access="global"/>
+    <aura:attribute name="errorCheck" type="Boolean" access="global"/>
+    <aura:attribute name="parentObjectId" type="String" access="global"/>
+    <aura:attribute name="recordIdOverride" type="String" access="global"/>
+    
+    <aura:attribute name="callback" type="String" access="global"/>
+    
+    <aura:attribute name="customCreationManagement" type="Boolean" access="global"/>
+    <aura:attribute name="creationComponent" type="String" access="global"/>
+    <aura:attribute name="creationComponentName" type="String" access="global"/>
+
+    <aura:attribute name="customViewManagement" type="Boolean" access="global"/>
+    <aura:attribute name="viewComponent" type="String" access="global"/>
+    <aura:attribute name="customIEditManagement" type="Boolean" access="global"/>
+    <aura:attribute name="independantEditComponent" type="String" access="global"/>
+    <aura:attribute name="viewComponentName" type="String" access="global"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    
+    <aura:handler event="force:showToast" action="{!c.init}"/>
+
+    <div  class="slds-card_boundary slds-card forceRelatedListCardDesktop slds-scrollable">
+        <div style="padding : 1em;">
+            <lightning:icon iconName="custom:custom41" size="small" alternativeText="Object"/> <label class="slds-text-heading--small slds-truncate slds-m-right--xx-small" style="margin-left : 0.75em"><b>{!v.title}&nbsp; <aura:if isTrue="{!v.VFRecordId == ''}">({!v.dataResult.length})</aura:if></b></label>
+            <aura:if isTrue="{!v.noGlobalList}">
+                <aura:if isTrue="{!v.hasNew}">
+                    <lightning:button label="{!v.newLabel}" onclick="{! c.newRecord }" class="right-align"/>
+                </aura:if>
+            </aura:if>
+        </div>
+        <aura:if isTrue="{!v.preview == false}">
+            
+            <!--###### MODAL BOX Start From Here ######--> 
+            <div role="dialog" tabindex="-1" aria-labelledby="header99" class="slds-modal slds-fade-in-open ">
+                <div class="slds-modal__container" style="min-width:900px;width:900px;">
+                    <!-- ###### MODAL BOX HEADER Part Start From Here ######-->
+                    <div class="slds-modal__header">
+                        <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" onclick="{!c.showPreview}">
+                            X
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="header99" class="slds-text-heading--medium">{!v.title} All data</h2>
+                    </div>
+                    <!--###### MODAL BOX BODY Part Start From Here ######-->
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <ui:inputText label="Search" value="{!v.textSearch}" keyup="{!c.filterData}" class="search-text" updateOn="keyup"/>
+                        
+                        
+                        <lightning:datatable data="{!v.dataDisplay}" 
+                                             columns="{!v.columnsResult}" 
+                                             keyField="id"
+                                             onsort="{! c.updateColumnSorting}" 
+                                             sortedDirection="{! v.sortedDirection }"
+                                             sortedBy="{! v.sortedBy }"
+                                             hideCheckboxColumn="true"
+                                             onrowaction="{!c.handleRowAction}"
+                                             />
+                        
+                        <hr/>
+                    </div>
+                    <!--###### MODAL BOX FOOTER Part Start From Here ######-->
+                    <div class="slds-modal__footer">
+                        <button class="slds-button slds-button--brand" onclick="{!c.showPreview}">Close</button>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div>
+            <!--###### MODAL BOX Part END Here ######--> 
+        </aura:if>
+        
+        <aura:if isTrue="{!v.customCreationManagement}">
+       	{!v.creationComponent}
+        </aura:if>
+        <aura:if isTrue="{!v.customViewManagement}">
+       	{!v.viewComponent}
+        </aura:if>
+       	{!v.independantEditComponent}
+        
+        <aura:if isTrue="{!and(v.columnsResult.length != 0, v.dataResult.length != 0)}">
+            <div class="slds-scrollable">
+                <div class="slds-grid slds-wrap slds-scrollable">
+                    
+                    <div class="slds-scrollable forceBaseListView forceRelatedListPreviewGrid" data-aura-rendered-by="3133:0" data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                        <table class="slds-scrollable forceRecordLayout slds-table slds-no-row-hover slds-table_cell-buffer slds-table_fixed-layout uiVirtualDataGrid--default uiVirtualDataGrid list" data-aura-class="uiVirtualDataGrid--default uiVirtualDataGrid">
+                            <thead>
+                            <aura:iteration items="{!v.dataFormatter}" var="recordTableTopRow" end="1" >
+                                <tr class="headerRow">
+                                <aura:iteration items="{!recordTableTopRow.data}" var="fieldLabels">
+                                    <th class=" descending zen-deemphasize" scope="col" >{!fieldLabels.label}</th>
+                                </aura:iteration>
+                                    <th style="text-align:right;width:120px;"></th>
+                                </tr>
+                   			</aura:iteration>
+                            </thead>
+                            <tbody>
+							<aura:iteration items="{!v.dataFormatter}" var="record" >
+                                <tr scope="row" class="dataRow">
+                                <aura:iteration items="{!record.data}" var="field">
+                                    <th scope="row" class="dataCell">
+                                        <aura:if isTrue="{!field.type == 'number'}">
+                                            <ui:outputNumber value="{!field.value}" format=".00"/>
+                                        </aura:if>
+                                        <aura:if isTrue="{!field.type == 'date'}">
+                                            <ui:outputDate value="{!field.value}"/>
+                                        </aura:if>
+                                        <aura:if isTrue="{!field.type == 'currency'}">
+                                            <ui:outputCurrency aura:id="curr" value="{!field.value}" currencySymbol="EUR "/>
+                                        </aura:if>
+                                        <aura:if isTrue="{!field.type == 'url'}">
+                                            <ui:outputURL value="{!field.link}" label="{!field.value}"/>
+                                        </aura:if>
+                                        <aura:if isTrue="{!field.type == 'boolean'}">
+                                            <ui:outputCheckbox value="{!!field.value}"/>
+                                        </aura:if>
+                                        <aura:if isTrue="{!field.type == 'text'}">
+                                            <p  class="slds-truncate" title="{!field.value}">{!field.value}</p>
+                                        </aura:if> 
+                                    </th>
+                                </aura:iteration>
+                                    <th scope="row" class="dataCell" style="text-align:right;">
+                                        <aura:if isTrue="{!record.Status == 'N/A'}" >
+                                        	<!--lightning:button label="Delete" onclick="{!c.customDel}" title="Delete" value="{!record.Id}"/-->
+                                        	<lightning:button label="Edit" onclick="{!c.customEdit}" title="Edit" value="{!record.Id}"/>
+                                        </aura:if>
+                                        <aura:if isTrue="{!record.Status != 'N/A'}" >
+                                            <lightning:button label="Set Local" onclick="{!c.customView}" title="View" value="{!record.Id}"/>
+                                        </aura:if>
+                                    </th>
+                     			</tr>
+			                </aura:iteration>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </aura:if>
+                <!--aura:if isTrue="{!v.viewAll == true}"-->
+                <div class="slds-card__footer">
+                    <a href="javascript:void(0)" onclick="{!c.showTable}">View All</a>
+                </div>
+                <!--/aura:if-->
+    </div>
+</aura:component>

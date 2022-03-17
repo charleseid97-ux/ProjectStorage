@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>CampaignMember_Email_to_notify_opt_out_status</fullName>
+        <description>CampaignMember_Email to notify opt-out status</description>
+        <protected>false</protected>
+        <recipients>
+            <type>creator</type>
+        </recipients>
+        <recipients>
+            <recipient>felix.reyes-crm@carmignac.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>CarmignacAlerts/Campaign_Member_Opt_out_notification</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>Update_Event_Optout_at_creation</fullName>
+        <description>Update Event Optout at creation if the user is other than eTouches</description>
+        <field>Subscriber__c</field>
+        <literalValue>1</literalValue>
+        <name>Update Event Optout at creation</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>CampaignMember_WF001_EventOptOutNotification</fullName>
+        <actions>
+            <name>CampaignMember_Email_to_notify_opt_out_status</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>CampaignMember.Subscriber__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>User.BypassWorkflowRules__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Campaign.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Events</value>
+        </criteriaItems>
+        <description>Email sent to the user who added a contact or lead as campaign member, when this contact or lead has an &quot;etouches event opt-out&quot; status</description>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>CampaignMember_WF002_EventOptOutatCreation</fullName>
+        <actions>
+            <name>Update_Event_Optout_at_creation</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <booleanFilter>(1 OR 2) AND 3</booleanFilter>
+        <criteriaItems>
+            <field>Contact.Subscriber__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Lead.HasOptedOutOfEmail</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>User.Username</field>
+            <operation>notContain</operation>
+            <value>etouches</value>
+        </criteriaItems>
+        <description>This workflow intend to reproduce the value of the Opt Out field from Contact or Lead into Campaign Member</description>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+</Workflow>

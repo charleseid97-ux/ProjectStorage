@@ -1,0 +1,19 @@
+<design:component >
+    <design:attribute name="title" label="Title" description="Define Title" />
+    <design:attribute name="parentId" label="Parent Name" description="Define parent Name" />
+    <design:attribute name="recordIdOverride" label="Record Id Override" description="Override the record Id" />
+    <design:attribute name="hasEdit" label="Edit option" description="You can edit Item" />
+    <design:attribute name="hasDelete" label="Delete option" description="You can delete Item" />
+    <design:attribute name="hasNew" label="New option" description="You can add new Item" />
+    <design:attribute name="newLabel" label="New Label" description="New Label" />
+    <design:attribute name="maxItemDisplay" label="Max Item display" description="Max Item display" />
+    
+    <design:attribute name="customCreationManagement" label="Custom Creation Manager"/>
+    <design:attribute name="creationComponentName" label="Creation Component Name"/>
+
+    <design:attribute name="customViewManagement" label="Custom View Button"/>
+    <design:attribute name="viewComponentName" label="View Component Name"/>
+
+    <design:attribute name="viewAll" label="Render View All?" default="true"/>
+
+</design:component>

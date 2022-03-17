@@ -1,0 +1,17 @@
+.THIS .headImage {
+    height:50px;
+    width:40px;
+    margin-left:20px;
+    vertical-align: bottom;
+}
+
+.THIS .iFrameContainer {
+    margin-top:0px;
+    padding-top:0px;
+    border:1px solid gray;
+    min-height:400px;
+}
+
+.THIS .slds-modal__container {
+    min-width:900px;
+}

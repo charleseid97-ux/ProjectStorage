@@ -1,0 +1,5 @@
+<aura:event type="APPLICATION" description="Event template" >
+	<aura:attribute name="prodId" type="String" description=" the Strings which refer to the productId"/>
+    <aura:attribute name="prodName" type="String" description=" the Strings which refer to the selected product Name"/>
+    <aura:attribute name="prodRecordType" type="String" description=" the Strings which refer to the selected product RecordType"/>   
+</aura:event>

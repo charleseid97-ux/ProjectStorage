@@ -1,0 +1,7 @@
+<aura:component implements="lightning:actionOverride,force:hasRecordId,force:hasSObjectName,force:lightningQuickActionWithoutHeader">
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <c:MeetingNotesContainer recordId="{!v.recordId}"/>   
+	
+</aura:component>

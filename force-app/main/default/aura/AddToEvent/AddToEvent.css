@@ -1,0 +1,9 @@
+.THIS input[type=checkbox] {
+    display: block;
+    width: 1rem;
+    height: 1rem;
+    border: 1px solid rgb(221, 219, 218);
+    border-radius: .125rem;
+    background: rgb(255, 255, 255);
+    transition: .5s ease all;
+}

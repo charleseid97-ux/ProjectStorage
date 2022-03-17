@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fieldUpdates>
+        <fullName>Check_TECH_DD_Feedback</fullName>
+        <field>TECH_DD_Filled__c</field>
+        <literalValue>1</literalValue>
+        <name>Check TECH DD Feedback</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Opportunity_Update_Standard_Amount</fullName>
+        <description>Update standard Amount field with Potential 12M custom field</description>
+        <field>Amount</field>
+        <formula>abc__c</formula>
+        <name>Opportunity_Update_Standard_Amount</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Close_date</fullName>
+        <field>CloseDate</field>
+        <formula>Today() + 30</formula>
+        <name>Update Close date</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Opportunity Close Reminder</fullName>
+        <active>true</active>
+        <criteriaItems>
+            <field>Opportunity.IsClosed</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
+        <description>Rule to set reminder when Opportunity is nearing close date</description>
+        <triggerType>onCreateOnly</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Opportunity_Closing_Task</name>
+                <type>Task</type>
+            </actions>
+            <offsetFromField>Opportunity.CloseDate</offsetFromField>
+            <timeLength>-28</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>Opportunity_WF001_Fill in Amount</fullName>
+        <actions>
+            <name>Opportunity_Update_Standard_Amount</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Opportunity.abc__c</field>
+            <operation>notEqual</operation>
+            <value>EUR 0</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>User.BypassWorkflowRules__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
+        <description>Fill in standard Amount field with expected 12M field</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Opportunity_WF002_CheckIfFeedbackFilled</fullName>
+        <actions>
+            <name>Check_TECH_DD_Feedback</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Opportunity.Due_Diligence_Feedback__c</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <criteriaItems>
+            <field>User.BypassWorkflowRules__c</field>
+            <operation>notEqual</operation>
+            <value>True</value>
+        </criteriaItems>
+        <description>Checks TECH Feedback filled in if text is present in DD Feedback on opportunity. Else unchecked</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>test update close date</fullName>
+        <actions>
+            <name>Update_Close_date</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>false</active>
+        <criteriaItems>
+            <field>Opportunity.StageName</field>
+            <operation>equals</operation>
+            <value>New opportunity</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>User.BypassWorkflowRules__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <tasks>
+        <fullName>Opportunity_Closing_Task</fullName>
+        <assignedToType>owner</assignedToType>
+        <description>An Opportunity is closing in 4 weeks and needs attention. 
+Please review and update the Opportunity information attached to this task as required.</description>
+        <dueDateOffset>0</dueDateOffset>
+        <notifyAssignee>false</notifyAssignee>
+        <priority>Normal</priority>
+        <protected>false</protected>
+        <status>To Do</status>
+        <subject>Opportunity Closing Task</subject>
+    </tasks>
+</Workflow>

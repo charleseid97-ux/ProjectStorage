@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <layouts>
+        <layout>Asset Retention Opportunity</layout>
+        <sections>
+            <label></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Details</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Product</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>System Information</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Win Loss Reporting</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Buy List Placement Opportunity</layout>
+        <sections>
+            <label></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Details</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Product</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>System Information</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Win Loss Reporting</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Buy List Preservation Opportunity</layout>
+        <sections>
+            <label></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Details</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Product</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>System Information</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Win Loss Reporting</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Distribution Agreement Opportunity</layout>
+        <sections>
+            <label></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Details</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>System Information</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Win Loss Reporting</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Investment Solution Opportunity</layout>
+        <sections>
+            <label></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Details</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Investment Solution Details Section</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Product</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>System Information</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Win Loss Reporting</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Investment Solution Pre-Pipeline Opportunity</layout>
+        <sections>
+            <label></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Details</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Investment Solution Details Section</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Product</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>System Information</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Opportunity Layout</layout>
+        <sections>
+            <label></label>
+            <section>Carmignac Offer</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Win Loss Reporting</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Opportunity Layout 2</layout>
+        <sections>
+            <label></label>
+            <section>Carmignac Offer</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Win Loss Reporting</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Sizeable Inflow Opportunity</layout>
+        <sections>
+            <label></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Details</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Product</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>System Information</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Win Loss Reporting</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label></label>
+        <name>Convert_Opportunity</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>New_Meeting_Note</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>Plan_Meeting_Call</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>Select_Products</name>
+    </quickActions>
+    <workflowTasks>
+        <description></description>
+        <name>Opportunity_Closing_Task</name>
+        <subject></subject>
+    </workflowTasks>
+</CustomObjectTranslation>

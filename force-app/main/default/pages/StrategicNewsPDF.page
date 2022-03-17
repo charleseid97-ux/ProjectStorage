@@ -1,0 +1,104 @@
+<apex:page controller="StrategicNewsPDFController" showHeader="false"  applyHtmlTag="false">
+    <head>       
+        <!--Styles for the pdf rendering-->
+        <style>
+            body{
+            }
+            h1{           
+            color: rgb(121,145,123);
+            font-size: 18px;
+            margin-bottom:0px;
+            padding-bottom:0px;
+            }
+            h1 a {
+            color: rgb(121,145,123);
+            font-size:14px;
+            }
+            p{
+            margin-top:0px;
+            padding-top:0px;
+            font-size : 14px;
+            }
+            h2{
+            color: #8c8c8c;
+            font-size: 15px;  
+            }
+            
+            table, th, td {
+            border-collapse: collapse;
+            border-bottom: 1px solid #cccccc;
+            page-break-inside: avoid;
+            font-size: 14px;
+            }
+            .table_header{
+            background-color: rgb(121,145,123);
+            color: white;
+            font-weight:bold;
+            }
+            ul{
+            margin:0px; 
+            padding-left:30px;
+            }
+            .subHead {
+            background-color:#f1f1f1;
+            border-bottom:1px solid #b1b1b1;
+            }
+            .obj {
+            background-color:#e1f2de;
+            }
+            .tsk {
+            background-color:#e1def1;
+            }
+            .cmp {
+            background-color:#def0f0;
+            }
+            table {
+            border-right:1px solid #b1b1b1;
+            border-left:1px solid #b1b1b1;
+            }
+            .col1 {
+            width:30%;
+            }
+            
+        </style>
+    </head> 
+    <body>
+        <center>
+            <h1>{!accountName}</h1>
+            
+            <apex:panelGrid columns="1" width="100%">
+                
+                <apex:outputText value="{!NOW()}"></apex:outputText>
+            </apex:panelGrid>
+        </center>
+        <!--variable to store subdomain-->
+        <apex:variable value="{!myDomainName}" var="baseURL"/>
+        
+        <!-- All the contents-->
+        <div>
+            <apex:repeat value="{!strategicNews}" var="SN">
+                <h1 style="text-transform:uppercase;">
+                    Strategic News - {!SN.Type__c} - {!SN.Subtype__c} 
+                </h1>
+                <p>
+                    {!SN.Company__r.Name}
+                </p>
+                <p style="font-weight:bold;">
+                    {!SN.Title__c}
+                </p>
+                <p>
+                    <table style="width:100%">
+                        <tr>
+                            <td>
+                                <apex:outputText value="{!SUBSTITUTE(SUBSTITUTE(JSENCODE(SN.StrategicNews__c),'\\n','<br/>'),'\\r','')}" style="white-space:pre;" escape="false"/>
+                                <br/><br/>
+                                <a href="{!baseURL}.lightning.force.com/{!SN.Id}">Read more by clicking here</a><br/><br/>
+                            </td>
+                        </tr>
+                    </table>
+                </p>
+            </apex:repeat>
+        
+        </div>
+    </body>
+</apex:page>

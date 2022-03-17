@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Strategies</fullName>
+    <columns>NAME</columns>
+    <columns>Product_Name__c</columns>
+    <columns>Validity__c</columns>
+    <columns>Dedicated_Fund__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Product__c.Strategy</value>
+    </filters>
+    <filters>
+        <field>Validity__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>Dedicated_Fund__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <label>All Strategies</label>
+</ListView>

@@ -1,0 +1,45 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId"            
+                controller="ProductSelectionCtrl" access="global">
+
+    
+    <!--use boolean attribute for Store true/false value,
+        make default to "false" so modal box does not display on the load of component. 
+        --> 
+    
+    
+    <aura:handler event="c:ProductSelectorInitialModalOppEvt" action="{!c.openModel}"/>
+    
+    <aura:attribute name="isOpen" type="boolean" default="false"/>
+    <aura:attribute name="currentOppId" type="String" default="false"/>
+    <aura:attribute name="sObjectName" type="String" default="false"/>
+    
+    <!--Use "slds-m-around- -xx-large" class to add standard Large padding to the component--> 
+    <div class="slds-m-around--xx-large">
+        <!--Use aura:if tag to display Model Box, on the bese of conditions. [isOpen boolean attribute] -->
+        <aura:if isTrue="{!v.isOpen}">
+            
+            <!--###### MODAL BOX Start From Here ######--> 
+            <div role="dialog" tabindex="-1" aria-labelledby="header99" class="slds-modal slds-fade-in-open ">
+                <div class="slds-modal__container">
+                    <!-- ###### MODAL BOX HEADER Part Start From Here ######-->
+                    <div class="slds-modal__header">   
+                    </div>
+                    <!--###### MODAL BOX BODY Part Start From Here ######-->
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <p><b>This Opportunity does not have any Products linked to it. You will be navigated to the Product Selector Screen to link a Product(s).
+                            </b>
+                        </p>
+                    </div>
+                    <!--###### MODAL BOX FOOTER Part Start From Here ######-->
+                    <div class="slds-modal__footer">
+                        <button class="slds-button slds-button--brand" onclick="{!c.selectProduct}" >Select Product(s)</button>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div>
+            <!--###### MODAL BOX Part END Here ######-->
+            
+        </aura:if>
+    </div>
+</aura:component>

@@ -1,0 +1,37 @@
+.THIS {
+    
+}
+
+.THIS .hid {
+    display: none;
+}
+
+.THIS span.nocontrol {
+    opacity: 0;
+}
+
+.THIS span.control {
+    cursor: pointer;
+}
+
+.THIS ul.hid {
+    margin-left: 2em !important;
+}
+
+.THIS .ats ul li {
+    padding: 0.25em !important;
+}
+
+.THIS .atsIcon {
+    vertical-align: middle;
+}
+
+
+.THIS .hierarchyHighlightHover {
+    background-color: #f2f2f2 !important;
+}
+
+.THIS .currentRecord {
+    background-color: #e6f2ff !important;
+    font-weight:bold;
+}

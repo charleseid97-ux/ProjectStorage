@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Share_Closure_12_Days_Notification</fullName>
+        <ccEmails>mmassema@carmignac.com</ccEmails>
+        <description>ShareClass Closure Notification</description>
+        <protected>false</protected>
+        <recipients>
+            <type>creator</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Share_Closure_12_Days_Notification</template>
+    </alerts>
+    <alerts>
+        <fullName>Share_Closure_7_Days_Notification</fullName>
+        <ccEmails>mmassema@carmignac.com</ccEmails>
+        <description>ShareClass Closure Notification</description>
+        <protected>false</protected>
+        <recipients>
+            <type>creator</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Share_Closure_7_Days_Notification</template>
+    </alerts>
+</Workflow>

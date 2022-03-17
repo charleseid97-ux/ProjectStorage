@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Account_NoSegmentationRelated</fullName>
+        <description>Account_NoSegmentationRelated</description>
+        <protected>false</protected>
+        <recipients>
+            <type>accountOwner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>CarmignacAccount/Account_NoSegmentation</template>
+    </alerts>
+    <alerts>
+        <fullName>Company_Update_New_BD_Region_or_Sub_Type</fullName>
+        <description>Company Update - New BD Region or Sub Type</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>CarmignacAccount/Company_Updated</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>Account_ThirdPartyCompetitor</fullName>
+        <description>Updates Competitor field to &quot;Yes&quot;</description>
+        <field>Competitor__c</field>
+        <literalValue>Yes</literalValue>
+        <name>Account_ThirdPartyCompetitor</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Account_ThirdPartyNOTCompetitor</fullName>
+        <field>Competitor__c</field>
+        <literalValue>No</literalValue>
+        <name>Account_ThirdPartyNOTCompetitor</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Account_UpdateClientAUMDeclaratioNDate</fullName>
+        <description>Update Client AUM Declaration Date to the day&apos;s date</description>
+        <field>DistributorAUMDeclarationDate__c</field>
+        <formula>TODAY()</formula>
+        <name>Account_UpdateClientAUMDeclaratioNDate</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Set_Hierarchy_Updated_False</fullName>
+        <field>Hierarchy_Updated__c</field>
+        <literalValue>0</literalValue>
+        <name>Set Hierarchy Updated False</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Set_Hierarchy_Updated_True</fullName>
+        <field>Hierarchy_Updated__c</field>
+        <literalValue>1</literalValue>
+        <name>Set Hierarchy Updated True</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Approval_Status</fullName>
+        <description>Update the approval status to Approval Required</description>
+        <field>Approval_Status__c</field>
+        <literalValue>Approval required</literalValue>
+        <name>Update Approval Status</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Account Rule - BD or Sub Type updated</fullName>
+        <actions>
+            <name>Company_Update_New_BD_Region_or_Sub_Type</name>
+            <type>Alert</type>
+        </actions>
+        <actions>
+            <name>Set_Hierarchy_Updated_False</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <formula>AND(
+OR( ISCHANGED( BusinessDevelopmentRegion__c ) , ISCHANGED( Sub_Type__c ) , ISCHANGED(  ParentId  ) ),
+  $Profile.Id  &lt;&gt; &quot;00e58000000s3v6&quot;)</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Account Rule - Parent Company updated</fullName>
+        <actions>
+            <name>Set_Hierarchy_Updated_True</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <formula>ISCHANGED( ParentId )</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Account_WF001_ThirdPartyCompetitor</fullName>
+        <actions>
+            <name>Account_ThirdPartyCompetitor</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Account.Type</field>
+            <operation>equals</operation>
+            <value>Competitor</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>User.BypassWorkflowRules__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Account.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Third Party</value>
+        </criteriaItems>
+        <description>When Third Party Type is &quot;Competitor&quot;, the picklist field &quot;Competitor&quot; is flagged on Yes</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Account_WF003_ClientAUMDeclerationDate</fullName>
+        <actions>
+            <name>Account_UpdateClientAUMDeclaratioNDate</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>Fill in Client AUM Declaration Date field when Client Asset is entered or modificated</description>
+        <formula>AND(OR( AND(ISNEW(), NOT(ISNULL( VALUE(DistributorAsset__c )))), ISCHANGED(DistributorAsset__c )),  $User.BypassWorkflowRules__c = false)</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Account_WF004_ThirdPartyNOTCompetitor</fullName>
+        <actions>
+            <name>Account_ThirdPartyNOTCompetitor</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Account.Type</field>
+            <operation>notEqual</operation>
+            <value>Competitor</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>User.BypassWorkflowRules__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Account.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Third Party</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Account_WF005_UpdateChgOwnerApprovalStatus</fullName>
+        <actions>
+            <name>Update_Approval_Status</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>Set the approval status into &quot;Approval Required&quot; when the Proposed Owneris filled in</description>
+        <formula>ISNULL( Proposed_Business_Developer__c ) = false</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+</Workflow>

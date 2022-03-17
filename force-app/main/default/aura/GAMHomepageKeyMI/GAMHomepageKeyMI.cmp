@@ -1,0 +1,82 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId,force:hasSObjectName"             
+                controller="GAMHomepageCtrl" access="global">
+	
+    <aura:attribute name="recordId" type="String" access="global" default="" />
+    <aura:attribute name="GAMId" type="String" access="global" default="" />
+    <aura:attribute name="GAMAccount" type="Account" access="global"/>
+    <aura:attribute name="description" type="String" access="global"/>
+
+    <aura:attribute name="collaborationImage" type="String" access="global" default="/resource/GAMHomepageIcons/Collaboration_icon_100x100_Green.png"/>
+    <aura:attribute name="activityImage" type="String" access="global" default="/resource/GAMHomepageIcons/Activity_icon_100x100_Green.png"/>
+    <aura:attribute name="opportunityImage" type="String" access="global" default="/resource/GAMHomepageIcons/Opportunity_icon_100x100_Green.png"/>
+    <aura:attribute name="opportunity2Image" type="String" access="global" default="/resource/GAMHomepageIcons/Opportunity_icon_100x100_Green.png"/>
+    <aura:attribute name="aumImage" type="String" access="global" default="/resource/GAMHomepageIcons/AuMFlows_icon_100x100_Green.png"/>
+    <aura:attribute name="isImage" type="String" access="global" default="/resource/GAMHomepageIcons/Investment_Solutions_icon_100x100_Black.png"/>
+
+    <aura:attribute name="AUMComponent" type="String" access="global"/>
+    <aura:attribute name="OppDashComponent" type="String" access="global"/>
+    <aura:attribute name="opportunitiesComponent" type="String" access="global"/>
+    <aura:attribute name="strategicNewsComponent" type="String" access="global"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    {!v.AUMComponent}
+    {!v.OppDashComponent}
+    {!v.opportunitiesComponent}
+    {!v.strategicNewsComponent}
+
+    <div class="slds-card_boundary slds-card forceRelatedListCardDesktop slds-scrollable">
+        <div style="padding : 1em;">
+            <label class="slds-text-heading--small slds-truncate slds-m-right--xx-small" style="margin-left : 0.75em"><b>Key Management Information</b></label>
+            <div style="width:100%;text-align:center;height:20px;">{!v.description}</div>
+        </div>
+        <div class="slds-scrollable">
+            <div class="slds-grid slds-wrap slds-scrollable">
+                    <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--2-of-6 slds-large-size--1-of-6" style="text-align:center;">
+                        <lightning:card >
+                            <a onclick="{!c.loadStrategicNewsComponent}" onmouseover="{!c.showCollaborationDescription}" onmouseout="{!c.hideDescription}" ><img src="{!v.collaborationImage}" style="height:100px;" />
+                            <br/>
+                            <div class="slds-text-heading--medium">Strategic News</div></a>
+                        </lightning:card>
+                    </div>
+                    <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--2-of-6 slds-large-size--1-of-6" style="text-align:center;">
+                        <lightning:card >
+                            <a onclick="{!c.loadActivityComponent}" onmouseover="{!c.showActivityDescription}" onmouseout="{!c.hideDescription}" ><img src="{!v.activityImage}" style="height:100px;" />
+                            <br/>
+                            <div class="slds-text-heading--medium">Activity Dashboard</div></a>
+                        </lightning:card>
+                    </div>
+                    <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--2-of-6 slds-large-size--1-of-6" style="text-align:center;">
+                        <lightning:card >
+                            <a onclick="{!c.loadOpportunitiesComponent}" onmouseover="{!c.showOpportunityDescription}" onmouseout="{!c.hideDescription}" ><img src="{!v.opportunityImage}" style="height:100px;" />
+                            <br/>
+                            <div class="slds-text-heading--medium">Open Opportunities</div></a>
+                        </lightning:card>
+                    </div>
+                
+                    <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--2-of-6 slds-large-size--1-of-6" style="text-align:center;">
+                        <lightning:card >
+                            <a onclick="{!c.loadOpportunityDashComponent}" onmouseover="{!c.showOpportunityDashDescription}" onmouseout="{!c.hideDescription}" ><img src="{!v.opportunity2Image}" style="height:100px;" />
+                            <br/>
+                            <div class="slds-text-heading--medium">Opportunity Dashboard</div></a>
+                        </lightning:card>
+                    </div>
+				
+                    <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--2-of-6 slds-large-size--1-of-6" style="text-align:center;">
+                        <lightning:card >
+                            <a onclick="{!c.loadAUMComponent}" onmouseover="{!c.showAUMDescription}" onmouseout="{!c.hideDescription}" ><img src="{!v.aumImage}" style="height:100px;" />
+                            <br/>
+                            <div class="slds-text-heading--medium">AuM &amp; Flows</div></a>
+                        </lightning:card>
+                    </div>
+                    <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--2-of-6 slds-large-size--1-of-6" style="text-align:center;">
+                        <lightning:card >
+                            <a onclick="{!c.loadReport}" onmouseover="{!c.showISDescription}" onmouseout="{!c.hideDescription}" ><img src="{!v.isImage}" style="height:100px;" />
+                            <br/>
+                            <div class="slds-text-heading--medium">Investment Solutions</div></a>
+                        </lightning:card>
+                    </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

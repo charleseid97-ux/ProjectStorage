@@ -1,0 +1,50 @@
+.THIS .slds-avatar--large{
+    padding:0;
+    height: 4.5rem;
+    width: 4rem;
+    font-size: 1.5rem;
+    font-weight: 400; 
+}
+
+.THIS .slds-app-launcher__tile-figure{
+    padding: 0;
+}
+
+
+
+.THIS .Money.Market{
+    background-color: #B949E2;
+}
+
+.THIS .Alternative{
+    background-color: #7d76bc;
+}
+
+.THIS .Fixed.Income {
+    background-color: #CFD05C;
+}
+
+.THIS .Multi-Asset {
+    background-color: #F77E75;
+}
+
+.THIS .Equity {
+    background-color: #E9AF67;
+}
+
+
+.THIS .Balanced {
+    background-color: #93bc74;
+}
+
+.THIS .Fund {
+    background-color: #659AD5;
+}
+
+.THIS .Convertible.Bonds {
+    background-color: #5AB0D2;
+}
+
+.THIS .Alternatives.Other {
+    background-color: #2CD1BB;
+}

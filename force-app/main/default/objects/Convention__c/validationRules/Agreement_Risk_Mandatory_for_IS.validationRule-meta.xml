@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Agreement_Risk_Mandatory_for_IS</fullName>
+    <active>true</active>
+    <description>IS must enter a Risk Assessment during Approval</description>
+    <errorConditionFormula>AND(
+  ISPICKVAL( Approval_Status__c , &quot;Investor Services Approval&quot;),
+  ISPICKVAL(  Preliminary_Risk_Assesment__c  , &quot;&quot;),
+  NOT($User.BypassValidationRules__c)
+)</errorConditionFormula>
+    <errorDisplayField>Preliminary_Risk_Assesment__c</errorDisplayField>
+    <errorMessage>You must select a Preliminary Risk Assessment</errorMessage>
+</ValidationRule>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PrioritySeverity__c</fullName>
+    <description>Select your priority : 
+Minor = Nice to have, not urgent
+Major = Has to be resolved quickly
+Blocking = Urgent / Blocking to do my work
+(depending of the issue, administration can change the level of priority)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Select your priority : 
+Minor = Nice to have, not urgent
+Major = Has to be resolved quickly
+Blocking = Urgent / Blocking to do my work
+(depending of the issue, administration can change the level of priority)</inlineHelpText>
+    <label>Priority / Severity</label>
+    <required>true</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Minor</fullName>
+                <default>true</default>
+                <label>Minor</label>
+            </value>
+            <value>
+                <fullName>Major</fullName>
+                <default>false</default>
+                <label>Major</label>
+            </value>
+            <value>
+                <fullName>Blocking</fullName>
+                <default>false</default>
+                <label>Blocking</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

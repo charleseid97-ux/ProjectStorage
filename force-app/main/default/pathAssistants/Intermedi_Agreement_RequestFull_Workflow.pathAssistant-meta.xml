@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Convention__c</entityName>
+    <fieldName>Approval_Status__c</fieldName>
+    <masterLabel>Intermedi_Agreement_RequestFull_Workflow</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Code_Type__c</fieldNames>
+        <fieldNames>Company__c</fieldNames>
+        <fieldNames>ConventionName__c</fieldNames>
+        <fieldNames>Status__c</fieldNames>
+        <fieldNames>Grid__c</fieldNames>
+        <info>&lt;p&gt;Legal Team will finalize the Agreement:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Review &lt;u&gt;Agreement Code, Name and Company&lt;/u&gt;&lt;/li&gt;&lt;li&gt;Validate Agreement &lt;u&gt;Roles&lt;/u&gt;&lt;/li&gt;&lt;li&gt;Enter &lt;u&gt;Signature Date&lt;/u&gt;&lt;/li&gt;&lt;li&gt;Update Status to &lt;u&gt;&amp;#39;Signed&amp;#39;&lt;/u&gt;&lt;/li&gt;&lt;/ol&gt;</info>
+        <picklistValueName>Approval Complete</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Code_Type__c</fieldNames>
+        <fieldNames>Company__c</fieldNames>
+        <fieldNames>Grid__c</fieldNames>
+        <fieldNames>EffectiveDate__c</fieldNames>
+        <fieldNames>Preliminary_Risk_Assesment__c</fieldNames>
+        <info>&lt;p&gt;If your approval has been rejected, please follow the next steps:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Update the relevant information and re-submit your request&lt;/li&gt;&lt;li&gt;Click on &lt;b&gt;&lt;u&gt;Submit for Approval&lt;/u&gt;&lt;/b&gt; button to finalize it + Include in the text box any relevant additional information&lt;/li&gt;&lt;li&gt;&lt;b&gt;&lt;i&gt;Recall &lt;/i&gt;&lt;/b&gt;the request if you need to do any change to the initial request&lt;/li&gt;&lt;/ol&gt;</info>
+        <picklistValueName>Approval Rejected</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Company__c</fieldNames>
+        <fieldNames>Code_Type__c</fieldNames>
+        <fieldNames>Preliminary_Risk_Assesment__c</fieldNames>
+        <fieldNames>Compliance_Clearing__c</fieldNames>
+        <info>&lt;p&gt;Verify if the Agreement Request is accurate and complete. Please note that Compliance will verify ONLY the Agreements with a MEDIUM or HIGH Risk Level&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Review&lt;u&gt; Agreement Code, Name and Company&lt;/u&gt;&lt;/li&gt;&lt;li&gt;Check &lt;u&gt;Code Type&lt;/u&gt;&lt;/li&gt;&lt;li&gt;Verify Agreement &lt;u&gt;Roles&lt;/u&gt;&lt;/li&gt;&lt;li&gt;Complete the Regulatory Checks Section&lt;/li&gt;&lt;li&gt;Tick Compliance Clearing if the counterparty meets KYC / KYD / ALM requirements&lt;/li&gt;&lt;li&gt;Click on &lt;b&gt;&lt;u&gt;Approve &lt;/u&gt;&lt;/b&gt;to approve and send the request to Global Head of Sales + Include any additional details in the text box&lt;/li&gt;&lt;li&gt;Click on &lt;b&gt;&lt;i&gt;Reject &lt;/i&gt;&lt;/b&gt;to reject the request and demand any change to be completed by Investor Services + Include any additional details in the text box&lt;/li&gt;&lt;/ol&gt;</info>
+        <picklistValueName>Compliance Approval</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Code_Type__c</fieldNames>
+        <fieldNames>Company__c</fieldNames>
+        <fieldNames>Grid__c</fieldNames>
+        <fieldNames>Preliminary_Risk_Assesment__c</fieldNames>
+        <info>&lt;p&gt;Verify if the Agreement Request is accurate and complete:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Review &lt;u&gt;Agreement Request, Company and Grid level&lt;/u&gt;&lt;/li&gt;&lt;li&gt;Click on &lt;b&gt;&lt;u&gt;Approve &lt;/u&gt;&lt;/b&gt;to approve and send the request to Legal Team + Include any additional details in the text box&lt;/li&gt;&lt;li&gt;Click on &lt;b&gt;&lt;i&gt;Reject &lt;/i&gt;&lt;/b&gt;to reject the request and demand any change to be completed by Compliance + Include any additional details in the text box&lt;/li&gt;&lt;/ol&gt;</info>
+        <picklistValueName>Global Head of Sales Approval</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Code_Type__c</fieldNames>
+        <fieldNames>Company__c</fieldNames>
+        <fieldNames>Status__c</fieldNames>
+        <fieldNames>Grid__c</fieldNames>
+        <fieldNames>EffectiveDate__c</fieldNames>
+        <info>&lt;p&gt;Verify if the information of the Agreement Request is accurate and complete:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Check &lt;u&gt;Code Type&lt;/u&gt; (i.e. Distribution Agreement, Placement Agreement, etc.)&lt;/li&gt;&lt;li&gt;Review that the &lt;u&gt;Company &lt;/u&gt;is accurate&lt;/li&gt;&lt;li&gt;Review &lt;u&gt;Grid Section&lt;/u&gt;: Grid, Effective Date, Permanent Agreement &amp;amp; Grid End Date&lt;/li&gt;&lt;li&gt;Click on &lt;b&gt;&lt;u&gt;Approve &lt;/u&gt;&lt;/b&gt;to approve and send the request to Investor Services + Include any additional details in the text box&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-family: Calibri, sans-serif; font-size: 11pt;&quot;&gt;Click on &lt;/span&gt;&lt;b style=&quot;font-family: Calibri, sans-serif; font-size: 11pt;&quot;&gt;&lt;i&gt;Reject &lt;/i&gt;&lt;/b&gt;&lt;span style=&quot;font-family: Calibri, sans-serif; font-size: 11pt;&quot;&gt;to reject the request and demand any change to be completed by CRM + Include any additional details in the text box&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;</info>
+        <picklistValueName>HOC Approval</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Code_Type__c</fieldNames>
+        <fieldNames>Company__c</fieldNames>
+        <fieldNames>Status__c</fieldNames>
+        <fieldNames>Grid__c</fieldNames>
+        <fieldNames>EffectiveDate__c</fieldNames>
+        <info>&lt;p&gt;Make sure the Agreement Request is completed:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;u&gt;Agreement &lt;/u&gt;should be linked to a &lt;u&gt;Company&lt;/u&gt;&lt;/li&gt;&lt;li&gt;&lt;u&gt;Legal Entity&lt;/u&gt; should be created in the system and it should be &lt;u&gt;linked &lt;/u&gt;to the relevant &lt;u&gt;Company&lt;/u&gt;&lt;/li&gt;&lt;li&gt;&lt;u&gt;Agreement Roles&lt;/u&gt; should contained the &lt;u&gt;Legal Entities&lt;/u&gt; and the relevant roles (cf. check the Counterparties Mapping in case of question)&lt;/li&gt;&lt;li&gt;Rebates Section:&lt;ol&gt;&lt;li&gt;Check with Investor Services and Legal Team the relevant Grid to be applied&lt;/li&gt;&lt;li&gt;An &lt;u&gt;Effective Date&lt;/u&gt; must be selected&lt;ol&gt;&lt;li&gt;If the Agreement is permanent: tick the box + do NOT select a Grid End Date&lt;/li&gt;&lt;li&gt;If the Agreement is NOT permanent: untick the box + select the relevant Grid End Date&lt;/li&gt;&lt;/ol&gt;&lt;/li&gt;&lt;/ol&gt;&lt;/li&gt;&lt;li&gt;Click on &lt;b&gt;&lt;u&gt;Submit for Approval&lt;/u&gt;&lt;/b&gt; button to finalize it + Include in the text box any relevant additional information&lt;/li&gt;&lt;li&gt;&lt;b&gt;&lt;i&gt;Recall &lt;/i&gt;&lt;/b&gt;the request if you need to do any change to the initial request&lt;/li&gt;&lt;/ol&gt;</info>
+        <picklistValueName>Pre-Approval</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Request_Agreement_Full</recordTypeName>
+</PathAssistant>

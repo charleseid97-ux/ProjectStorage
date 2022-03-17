@@ -1,0 +1,17 @@
+<apex:page standardController="Share_Class__c" extensions="MyShareclassController">
+<apex:canvasApp applicationName="Sparkler_Connector"
+    height="1200"
+    width="1200"
+    parameters="
+{
+    'ts.name':'{!IF(CONTAINS(TableauLogin,'CARMIGNAC\TBL_'),'NOLICENCEREPORT/NoAccessDashboardSmall','RegistrationMapping_0/RegistrationMappingOverview')}',
+    'ts.height':'1000',   
+    'ts.width':'1000',
+    'ts.javascriptLib':'{!webSite}/javascripts/api/viz_v1.js',
+    'ts.hostUrl':'{!webSite}/',
+    'ts.tabs':'{!IF(CONTAINS(TableauLogin,'CARMIGNAC\TBL_'),'no','yes')}',
+    'ts.toolbar':'{!IF(CONTAINS(TableauLogin,'CARMIGNAC\TBL_'),'no','yes')}',
+    'ts.trustedTicket.signedIdentity':'{!signedIdentity}',
+    'ts.filter':'InputParameter={!Share_Class__c.ISIN_Code__c}'
+}" />
+</apex:page>

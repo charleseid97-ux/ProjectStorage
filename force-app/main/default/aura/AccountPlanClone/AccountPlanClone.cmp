@@ -1,0 +1,124 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,flexipage:availableForAllPageTypes,force:appHostable,lightning:actionOverride,force:hasRecordId" access="global" controller="AccountPlanCtrl">
+	
+    <aura:attribute name="recordId" type="string" description="RecordId of the account plan." />
+    <aura:attribute name="accountPlan" type="Account_Plan__c" access="global"/>
+    <aura:attribute name="accountPlanItems" type="Object" access="global"/>
+    <aura:attribute name="accountPlanObjectives" type="List" access="global"/>
+    <aura:attribute type="List" name="selectedObjectives" default="[]" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <!--  this tag sets modal width -->
+    <aura:html tag="style">
+        .slds-modal__container {
+         min-width: 800px;
+        }
+    </aura:html>  
+    <div class="slds-container--center slds-container--large">
+        
+        <c:ToastErrorHandler aura:id="toastErrorHandler" />
+        
+        <article class="slds-card">
+            
+            <div class="slds-page-header">
+                <div class="slds-grid">
+                    
+                    <div class="slds-col slds-has-flexi-truncate">
+                        <div class="slds-media slds-no-space slds-grow">
+                            <div class="slds-media__figure">
+                                <span class="slds-icon_container slds-icon-standard-account" title="description of icon when needed">
+                                    <lightning:icon iconName="standard:account" size="large" alternativeText="Account Plans"/>
+                                </span>
+                            </div>
+                            <div class="slds-media__body">
+                                <p class="slds-text-title_caps slds-line-height_reset">Clone Account Plan</p>
+                                <h1 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate" title="{!v.accountPlan.Name}">{!v.accountPlan.Name}</h1>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="slds-col slds-no-flex slds-grid slds-align-top">
+                        <aura:if isTrue="{!v.accountPlan.Name == v.accountPlanItems.Name}">
+                            <div class="recordError">
+                                <ui:message title="Warning" severity="error" closable="false">
+                                    Please update the Name
+                                </ui:message>
+                            </div>
+                        </aura:if>
+                        <aura:if isTrue="{!v.accountPlan.Name != v.accountPlanItems.Name}">
+                            <lightning:buttonGroup >
+                                
+                                <lightning:button label="Clone" onclick="{!c.cloneAccountPlan}" />
+                                
+                            </lightning:buttonGroup>
+                        </aura:if>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="slds-section slds-is-open apDetails" id="apDetails" aura:id="apDetails">
+                <h3 class="slds-section__title slds-theme_shade">
+                    <span class="slds-truncate slds-p-horizontal_small" title="Section Title">Enter the new Account Plan Name</span>
+                </h3>
+                <div aria-hidden="false" class="slds-section__content">
+                    <p>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col--padded slds-size--1-of-3 slds-medium-size--1-of-3">
+                                <lightning:input type="text" aura:id="Name" label="Account Plan Name" value="{!v.accountPlanItems.Name}" required="true"/>
+                            </div>                                
+                        </div>
+                    </p>
+                </div>
+            </div>
+                            
+            <div class="slds-section slds-is-open apDetails" id="apDetails" aura:id="apDetails">
+                <h3 class="slds-section__title slds-theme_shade">
+                    <span class="slds-truncate slds-p-horizontal_small" title="Section Title">Select which items you would like to copy over</span>
+                </h3>
+                <div aria-hidden="false" class="slds-section__content">
+                    <p>
+                        Which SWOT items would you like to copy?
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col--padded slds-size--1-of-3 slds-medium-size--1-of-3">
+                                <lightning:input type="checkbox" aura:id="Strengths" label="Strengths" checked="{!v.accountPlanItems.Strengths}"/>
+                            </div>                                
+                            <div class="slds-col--padded slds-size--1-of-3 slds-medium-size--1-of-3">
+                                <lightning:input type="checkbox" aura:id="Weaknesses" label="Weaknesses" checked="{!v.accountPlanItems.Weaknesses}"/>
+                            </div>                                
+                            <div class="slds-col--padded slds-size--1-of-3 slds-medium-size--1-of-3">
+                                <lightning:input type="checkbox" aura:id="Threats" label="Threats" checked="{!v.accountPlanItems.Threats}"/>
+                            </div>
+
+                        </div>
+                    </p>
+                </div>
+                <br/>
+                <div aria-hidden="false" class="slds-section__content">
+                    <p>
+                        Which Objectives would you like to copy? All open tasks will be included.
+                        <table class="slds-scrollable forceRecordLayout slds-table slds-no-row-hover slds-table_cell-buffer slds-table_fixed-layout uiVirtualDataGrid--default uiVirtualDataGrid list" data-aura-class="uiVirtualDataGrid--default uiVirtualDataGrid">
+                            <thead>
+                                <tr class="headerRow">
+                                    <th class=" descending zen-deemphasize" scope="col" >Objective</th>
+                                    <th class=" descending zen-deemphasize" scope="col" >Type</th>
+                                    <th class=" descending zen-deemphasize" scope="col" >Priority</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <aura:iteration items="{!v.accountPlanObjectives}" var="task">
+                                    <tr scope="row" class="{!'dataRow rowHighlight-'+task.Status}">
+                                        <th><lightning:input type="checkbox" aura:id="selObjs" class="filterCheckbox" label="{!task.Name}" value="{!task.Id}" onchange="{!c.callCheckboxMethod}"/></th>
+                                        <th scope="row" class="dataCell">{!task.Objective_Type__c}</th>
+                                        <th scope="row" class="dataCell">{!task.Priority__c}</th>
+                                    </tr>
+                                </aura:iteration>
+                            </tbody>
+                        </table>
+                    </p>
+                </div>
+            </div>
+            
+        </article>
+    </div>
+</aura:component>

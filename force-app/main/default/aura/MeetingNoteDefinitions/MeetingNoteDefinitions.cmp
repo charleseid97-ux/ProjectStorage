@@ -1,0 +1,102 @@
+<aura:component implements="force:lightningQuickAction,flexipage:availableForAllPageTypes,force:appHostable,lightning:actionOverride,force:hasRecordId" access="global" >
+    
+    <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-size_5-of-5 "  style="padding : 3px;font-weight:bold;font-size:16px;">Meeting Types</div>
+        <div class="slds-col slds-size_2-of-5 "  style="padding : 3px;font-weight:bold;">
+            Client meeting 
+        </div>
+        <div class="slds-col slds-size_3-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+            Normal day-to-day sales job (physical meeting)
+        </div>
+
+        <div class="slds-col slds-size_2-of-5 "  style="padding : 3px;font-weight:bold;">
+            Client phone call / conference call
+        </div>
+        <div class="slds-col slds-size_3-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+            Normal day-to-day sales job (call)
+        </div>
+
+        <div class="slds-col slds-size_2-of-5 "  style="padding : 3px;font-weight:bold;">
+            Event/Conference Definition
+        </div>
+        <div class="slds-col slds-size_3-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+            Special sales activity which requires resources or service (speaker, slides, event organization…)
+        </div>
+
+        
+        <br/>
+        <br/>
+        <div class="slds-col slds-size_5-of-5 "  style="padding : 3px;font-weight:bold;font-size:16px;">Purposes</div>
+        <div class="slds-col slds-size_2-of-5 "  style="padding : 3px;font-weight:bold;">
+            Due Diligence
+        </div>
+        <div class="slds-col slds-size_3-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+            Comprehensive appraisal of Carmignac undertaken by a client or prospective buyer, especially to establish its assets and liabilities
+        </div>
+
+        <div class="slds-col slds-size_2-of-5 "  style="padding : 3px;font-weight:bold;">
+            Exclusive Event
+        </div>
+        <div class="slds-col slds-size_3-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+            100% on behalf of Carmignac, all-inclusive reception with professional content
+        </div>
+
+        <div class="slds-col slds-size_2-of-5 "  style="padding : 3px;font-weight:bold;">
+            Incentive 
+        </div>
+        <div class="slds-col slds-size_3-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+            100% on behalf of Carmignac, 100% entertainment
+        </div>
+
+        <div class="slds-col slds-size_2-of-5 "  style="padding : 3px;font-weight:bold;">
+            Investment Professional Presentation
+        </div>
+        <div class="slds-col slds-size_3-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+            100% on behalf of Carmignac Featuring a FM, MIC or Product Specialist
+        </div>
+
+        <div class="slds-col slds-size_2-of-5 "  style="padding : 3px;font-weight:bold;">
+            Partnership  
+        </div>
+        <div class="slds-col slds-size_3-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+            Co-organized with a partner
+        </div>
+
+        <div class="slds-col slds-size_2-of-5 "  style="padding : 3px;font-weight:bold;">
+            Quarterly Meeting
+        </div>
+        <div class="slds-col slds-size_3-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+            100% on behalf of Carmignac Quarterly market review  featuring EC and several MIC/FMs
+        </div>
+
+        <div class="slds-col slds-size_2-of-5 "  style="padding : 3px;font-weight:bold;">
+            Sales Presentation
+        </div>
+        <div class="slds-col slds-size_3-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+            100% on behalf of Carmignac Featuring a Sales person
+        </div>
+
+        <div class="slds-col slds-size_2-of-5 "  style="padding : 3px;font-weight:bold;">
+            Sponsorship
+        </div>
+        <div class="slds-col slds-size_3-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+            Financial participation to a meeting organized by a third party
+        </div>
+
+        <div class="slds-col slds-size_2-of-5 "  style="padding : 3px;font-weight:bold;">
+            Training with partners 
+        </div>
+        <div class="slds-col slds-size_3-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+            Relationship strengthening effort to provide specific training on a product or any other thematic to a partners network
+        </div>
+
+        <div class="slds-col slds-size_2-of-5 "  style="padding : 3px;font-weight:bold;">
+            Relationship Management
+        </div>
+        <div class="slds-col slds-size_3-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+            Meeting with relationship management purposes and not sales purposes (e.g.pitch)
+        </div>
+
+    </div>
+    
+</aura:component>

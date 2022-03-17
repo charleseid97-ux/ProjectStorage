@@ -1,0 +1,259 @@
+<!--
+* @description renders Meeting note details and related records as pdf
+-->
+<apex:page controller="MeetingNotePDFController" showHeader="false"  applyHtmlTag="false">
+    <head>       
+        
+        <!--Styles for the pdf rendering-->
+        <style>
+            body
+                {
+                    font-family:SansSerif;
+                }
+            
+            h1 
+                {           
+                    color: #336699;
+                    font-size: 25px;
+                }
+            
+            h2
+                {
+                    color: #8c8c8c;
+                    font-size: 22px;  
+                }
+            
+            table, th, td 
+                {
+                    border: 0.02em solid black;
+                    border-collapse: collapse;
+                    padding-left: 10px;
+                    page-break-inside: avoid;
+                }
+            
+            .table_header
+                {
+                    background-color: #336699;
+                    color: white;
+                    font-weight:bold;
+                }
+            ul
+                {
+                    margin:0px; 
+                    padding-left:30px;
+                }
+
+        </style>
+    </head> 
+    
+    <body>     
+        <!--variable to store subdomain-->
+        <apex:variable value="{!myDomainName}" var="baseURL"/>
+        
+        <!-- All the contents-->
+        <div>
+            
+            <!--Alpha logo from static resources-->
+            <p>
+                <!--<apex:image url="{!$Resource.Alpha_Logo}" width="39%" height="25%"/>-->
+            </p>           
+            
+            <h1>
+                Meeting Notes Summary   
+            </h1>
+                      
+            <h2>
+                Meeting Subject: {!meetingNote.Name}  <br/>   
+                Meeting Date: 
+                <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                    <apex:param value="{!meetingNote.Date__c}" /> 
+                </apex:outputText>
+                <br/>
+                <br/>
+                Last Generated On&nbsp;  
+                <apex:outputText value="{0, date, medium}">
+                    <apex:param value="{!TODAY()}" />
+                </apex:outputText>
+            </h2>                
+        
+            <!--First table with meeting note heard fields-->
+            <p>
+                <table style="width:100%">
+                    <tr class="table_header">
+                        <th colspan="3">
+                            Meeting Categorization
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            Type
+                        </td>
+                        <td colspan="2">
+                            {!meetingNote.Meeting_Type__c}  
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Purpose
+                        </td>
+                        <td colspan="2">
+                            {!meetingNote.Purpose__c}   
+                        </td>
+                    </tr>
+                </table>    
+            </p>
+        
+            <!--Table with list of organisations related to meeting note-->        
+            <p>
+                <table style="width:100%">
+                    <tr class="table_header">
+                        <th colspan="3">
+                            Attending Organisation(s) 
+                        </th>
+                    </tr>
+                        
+                        <apex:repeat value="{!meetingNote.Meeting_Links__r}" var="meetingLink">
+                            
+                            <tr colspan="3" style="display:{!IF( ISNULL(meetingLink.Account__c) , 'None', '')}">
+                                
+                                <td>
+                                    <li>
+                                        {!meetingLink.Account__r.Name}  
+                                    </li>  
+                                </td>
+                            </tr>
+                                 
+                        </apex:repeat> 
+                          
+                </table>  
+            </p>
+            
+            <!--table with list of external contacts related to meeting note-->
+            <p>
+                <table style="width:100%">
+                    <tr class="table_header">
+                        <th colspan="3">
+                            Client / Prospect Attendee(s) 
+                        </th>
+                    </tr>                       
+                        <apex:repeat value="{!meetingNote.Meeting_Links__r}" var="meetingLink">                            
+                            <tr colspan="3" style="display:{!IF( ISNULL(meetingLink.Contact__c) , 'None', '')}">                               
+                                <td>
+                                    <li>
+                                        {!meetingLink.Contact__r.Name}  
+                                    </li>  
+                                </td>
+                            </tr>                           
+                        </apex:repeat>                      
+                </table>       
+            </p>
+            
+            <!--table with list of internal contacts related to meeting note-->
+            <p>
+                <table style="width:100%">
+                    <tr class="table_header">
+                        <th colspan="3">
+                            Carmignac Attendee(s) 
+                        </th>
+                    </tr>                       
+                        <apex:repeat value="{!meetingNote.Meeting_Links__r}" var="meetingLink">                            
+                            <tr colspan="3" style="display:{!IF( ISNULL(meetingLink.Employee__c) , 'None', '')}">                                
+                                <td>
+                                    <li>
+                                        {!meetingLink.Employee__r.Name} 
+                                    </li>  
+                                </td>
+                            </tr>                           
+                        </apex:repeat>                      
+                </table>       
+            </p>
+
+
+            <!--Notes from the meeting note-->
+            <p>
+                <table style="width:100%">
+                    <tr class="table_header">
+                        <th colspan="3">
+                            Notes 
+                        </th>
+                    </tr>                                                      
+                    <tr colspan="3">                    
+                        <td>                          
+                            <apex:outputText value="{!meetingNote.Note__c}" escape="false"/>  
+                        </td> 
+                    </tr>                                           
+                </table>       
+            </p>
+            
+            <!--List of other related records to the meeting note 
+
+                (Opportunity, Product, Campaign, Cases -->
+            <p>
+                <table style="width:100%">
+                    
+                    <tr class="table_header">
+                        <th colspan="2">
+                            Related Records 
+                        </th>
+                        <th colspan="1">
+                            Relationship Type 
+                        </th>                        
+                    </tr>                                                                        
+                    
+                    <apex:repeat value="{!meetingNote.Meeting_Links__r}" var="meetingLink" >                    
+                        <tr style="display:{!IF( ISNULL(meetingLink.Opportunity__c) , 'None', '')}">                            
+                            <td colspan="2">
+                               <a href="{!baseURL}.lightning.force.com/{!meetingLink.Opportunity__c}">
+                                    {!meetingLink.Opportunity__r.Name}
+                                </a>    
+                            </td>
+                            <td colspan="1">
+                                Opportunity 
+                            </td>
+                        </tr>                           
+                    </apex:repeat>  
+                    
+                    <apex:repeat value="{!meetingNote.Meeting_Links__r}" var="meetingLink" >                    
+                        <tr style="display:{!IF( ISNULL(meetingLink.Product__c) , 'None', '')}">                            
+                            <td colspan="2">
+                                <a href="{!baseURL}.lightning.force.com/{!meetingLink.Product__c}">
+                                    {!meetingLink.Product__r.Name}
+                                </a>
+                            </td>
+                            <td colspan="1">
+                                Product 
+                            </td>
+                        </tr>                           
+                    </apex:repeat> 
+                    
+                    <apex:repeat value="{!meetingNote.Meeting_Links__r}" var="meetingLink" >                    
+                        <tr style="display:{!IF( ISNULL(meetingLink.Campaign__c) , 'None', '')}">                            
+                            <td colspan="2">
+                                <a href="{!baseURL}.lightning.force.com/{!meetingLink.Campaign__c}">
+                                    {!meetingLink.Campaign__r.Name}
+                                </a>
+                            </td>
+                            <td colspan="1">
+                                Campaign
+                            </td>
+                        </tr>                           
+                    </apex:repeat> 
+                    
+                    <apex:repeat value="{!meetingNote.Meeting_Links__r}" var="meetingLink" >                    
+                        <tr style="display:{!IF( ISNULL(meetingLink.Case__c) , 'None', '')}">                            
+                            <td colspan="2">
+                                <a href="{!baseURL}.lightning.force.com/{!meetingLink.Case__c}">
+                                    {!meetingLink.Case__r.Subject}
+                                </a>
+                            </td>
+                            <td colspan="1">
+                                Case
+                            </td>
+                        </tr>                           
+                    </apex:repeat> 
+                    
+                </table>       
+            </p>
+        </div>
+    </body>
+</apex:page>

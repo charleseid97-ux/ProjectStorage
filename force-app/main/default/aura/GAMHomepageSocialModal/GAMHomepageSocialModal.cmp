@@ -1,0 +1,67 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,flexipage:availableForAllPageTypes,force:appHostable,lightning:actionOverride,force:hasRecordId" access="global" >
+
+    <aura:attribute name="GAMId" type="string" description="Id of the GAM" />
+    <aura:attribute name="GAMAccount" type="Account" description="GAM Account" />
+    <aura:attribute name="GAMAccountName" type="String" description="GAM Account Name" />
+    <aura:attribute name="viewSocialComponent" type="Boolean" access="global"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <aura:if isTrue="{!v.viewSocialComponent}">
+    <!--###### MODAL BOX Start From Here ######--> 
+    <div role="dialog" tabindex="-1" aria-labelledby="header99" class="slds-modal slds-fade-in-open ">
+        <div class="slds-modal__container" style="min-width:800px;">
+            <div class="slds-modal__header">
+                <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" onclick="{!c.closeComponent}">
+                    X
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <h1 id="header99" class="slds-text-heading--medium">{!v.GAMAccount.Name} Social</h1>
+            </div>
+
+            <div class="slds-modal__content slds-p-around--large">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_1-of-3">
+                        <div class="slds-scrollable forceBaseListView forceRelatedListPreviewGrid" data-aura-rendered-by="3133:0" data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                            <div class="slds-grid slds-wrap centerCell">
+                                <a href="{!'http://www.google.com/search?q='+v.GAMAccountName}" target="_blank">
+                                    <img src="/resource/socialIcons/google.jpg" style="height:100px;" />
+		                            <br/>
+                                    <div class="slds-text-heading--medium">Google Search</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <div class="slds-scrollable forceBaseListView forceRelatedListPreviewGrid" data-aura-rendered-by="3133:0" data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                            <div class="slds-grid slds-wrap centerCell">
+                                <a href="{!'https://www.linkedin.com/search/results/companies/?keywords='+v.GAMAccountName}" target="_blank">
+                                    <img src="/resource/socialIcons/linkedin.png" style="height:100px;" />
+		                            <br/>
+                                    <div class="slds-text-heading--medium">LinkedIn</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <div class="slds-scrollable forceBaseListView forceRelatedListPreviewGrid" data-aura-rendered-by="3133:0" data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                            <div class="slds-grid slds-wrap centerCell">
+                                <a href="{!'https://twitter.com/search?l=&amp;q='+v.GAMAccountName}" target="_blank">
+                                    <img src="/resource/socialIcons/twitter.png" style="height:100px;" />
+		                            <br/>
+                                    <div class="slds-text-heading--medium">Twitter</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-modal__footer">
+                <lightning:button label="Close" onclick="{!c.closeComponent}"/>
+            </div>
+        </div>
+    </div>
+    
+    <div class="slds-backdrop slds-backdrop--open"></div>
+    </aura:if>
+</aura:component>

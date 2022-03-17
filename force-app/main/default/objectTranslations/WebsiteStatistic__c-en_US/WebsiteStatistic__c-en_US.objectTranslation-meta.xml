@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Website Statistic</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Website Statistics</value>
+    </caseValues>
+    <layouts>
+        <layout>Website Statistic Layout</layout>
+        <sections>
+            <label></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Page type</section>
+        </sections>
+    </layouts>
+    <nameFieldLabel></nameFieldLabel>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

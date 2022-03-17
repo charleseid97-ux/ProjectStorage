@@ -1,0 +1,119 @@
+<aura:component >
+
+    <aura:attribute name="meetingNoteLinks" type="Meeting_Link__c[]" description="The Meeting Link sObjects" />
+    <aura:attribute name="productLevelOptions" type="list" default="[
+        {'label': 'All', 'value': 'All'},
+        {'label': 'Asset Class', 'value': 'Asset_Class'},
+        {'label': 'Sub Asset Class', 'value': 'Sub_Asset_Class'},
+        {'label': 'Strategy', 'value': 'Strategy'},
+        {'label': 'Fund', 'value': 'Fund'},
+        {'label': 'Services', 'value': 'Services'}
+        ]"/>
+
+    <aura:handler name="change" value="{!v.meetingNoteLinks}" action="{!c.init}"/>
+    
+    <div class="slds-container--center slds-container--large"> 
+        <article class="slds-card">
+            <div class="slds-p-around_medium" >
+                <div class="slds-form slds-form_stacked">
+
+                    <c:strike_multiLookup aura:id="accountLookup" 
+                                          label="Organisations Attended"
+                                          object="Account"
+                                          searchField="Name"
+                                          subtitleField="Type"
+                                          placeholder="Select organisations"
+                                          iconName="standard:account"
+                                          order="Name"
+                                          limit="50"
+                                          loadingMessage="Loading..."
+                                          errorMessage="Invalid input"/>
+                    
+                    <c:strike_multiLookup aura:id="contactLookup" 
+                                          label=" Contacts Attended"
+                                          object="Contact"
+                                          searchField="Name"
+                                          subtitleField="Account.Name"
+                                          placeholder="Select contacts"
+                                          iconName="standard:contact"
+                                          filter="recordtype.developername != 'Internal_Carmignac_Contact' AND recordtype.developername != 'Inactive_External_Contact'"
+                                          limit="50"
+                                          loadingMessage="Loading..."
+                                          errorMessage="Invalid input"
+                                          isNameSOSL="false"/>
+                    
+                    <c:strike_multiLookup aura:id="internalContactLookup" 
+                                          label="Employees Attended"
+                                          object="Contact"
+                                          searchField="Name"
+                                          placeholder="Select employee contacts"
+                                          iconName="standard:user"
+                                          filter="recordtype.developername ='Internal_Carmignac_Contact'"
+                                          limit="5"
+                                          loadingMessage="Loading..."
+                                          errorMessage="Invalid input"/>
+                    
+                    <c:strike_multiLookup aura:id="opportunityLookup" 
+                                          label="Opportunities Discussed"
+                                          object="Opportunity"
+                                          searchField="Name"
+                                          subtitleField="StageName"
+                                          placeholder="Select opportunities"
+                                          iconName="standard:opportunity"
+                                          order="Name"
+                                          limit="5"
+                                          loadingMessage="Loading..."
+                                          errorMessage="Invalid input"/>
+
+					<c:strike_multiLookup aura:id="caseLookup" 
+                                          label="Work Together Processes Discussed"
+                                          object="Case"
+                                          searchField="Subject"
+                                          placeholder="Select process"
+                                          iconName="standard:case"
+                                          order="Subject"
+                                          limit="5"
+                                          loadingMessage="Loading..."
+                                          errorMessage="Invalid input"/>
+                    
+                    <!--lightning:combobox name="productLevel"
+                                        aura:id="productLevel"
+                                        label="Product Search Level" 
+                                        value="All" 
+                                        placeholder="Select product level to perfom search on" 
+                                        options="{! v.productLevelOptions }" 
+                                        onchange="{! c.handleProductLevelChange  }"/-->
+                    
+                    <c:alpha_multiLookup aura:id="productLookup" 
+                                         label=" Products Discussed"
+                                         object="Product__c"
+                                         searchField="Name"
+                                         subtitleField="RecordType.Name"
+                                         placeholder="Select products"
+                                         iconName="custom:custom5"
+                                         modifier="Meeting_Link__c.Interest_Level__c"
+                                         modifierStyle="iconList"
+                                         modifierOptions="{High: 'utility:like',
+                                                           Medium: 'utility:dash',
+                                                           Low: 'utility:dislike'}"
+                                         order="Name"
+                                         limit="10"
+                                         loadingMessage="Loading..."
+                                         errorMessage="Invalid input"/>
+                                         
+                    <c:strike_multiLookup aura:id="campaignLookup" 
+                                          label="Related Campaigns"
+                                          object="Campaign"
+                                          searchField="Name"
+                                          subtitleField="Status"
+                                          placeholder="Select campaigns"
+                                          iconName="standard:campaign"
+                                          order="Name"
+                                          limit="5"
+                                          loadingMessage="Loading..."
+                                          errorMessage="Invalid input"/>
+                </div>
+            </div>
+        </article>
+    </div>
+</aura:component>

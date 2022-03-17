@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Cvent User</description>
+    <label>Cvent - Team Set Group</label>
+    <permissionSets>CventCustomFieldsPermissions</permissionSets>
+    <permissionSets>CventEvents__CampaignManagement</permissionSets>
+    <permissionSets>CventEvents__EventManagementInvitation</permissionSets>
+    <permissionSets>CventEvents__EventManagementNomination</permissionSets>
+    <permissionSets>CventEvents__EventManagementRegistration</permissionSets>
+    <permissionSets>CventEvents__SalesUser</permissionSets>
+    <permissionSets>Cvent_Events</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>

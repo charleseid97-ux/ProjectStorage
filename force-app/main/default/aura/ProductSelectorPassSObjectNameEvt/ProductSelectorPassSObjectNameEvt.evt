@@ -1,0 +1,5 @@
+<!-- Application Event -->
+<aura:event type="APPLICATION" description="Fired when the ProductSelector cmp is inistialized for the main purpose of passing the sObjectName attribute to the ProductTile List cmp">
+    <aura:attribute name="sObjectName" type="String" description=" current sObject Name"/>
+    <aura:attribute name="recordId" type="String" description=" current recordId "/>
+</aura:event>

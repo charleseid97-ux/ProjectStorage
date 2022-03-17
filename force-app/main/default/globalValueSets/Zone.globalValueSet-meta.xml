@@ -1,0 +1,1355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>FR - DOM/TOM</fullName>
+        <default>false</default>
+        <label>FR - DOM/TOM</label>
+    </customValue>
+    <customValue>
+        <fullName>FR - NORD EST</fullName>
+        <default>false</default>
+        <label>FR - NORD EST</label>
+    </customValue>
+    <customValue>
+        <fullName>FR - NORD OUEST</fullName>
+        <default>false</default>
+        <label>FR - NORD OUEST</label>
+    </customValue>
+    <customValue>
+        <fullName>FR - not set</fullName>
+        <default>false</default>
+        <label>FR - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>FR - PARIS</fullName>
+        <default>false</default>
+        <label>FR - PARIS</label>
+    </customValue>
+    <customValue>
+        <fullName>FR - SUD EST</fullName>
+        <default>false</default>
+        <label>FR - SUD EST</label>
+    </customValue>
+    <customValue>
+        <fullName>FR - SUD OUEST</fullName>
+        <default>false</default>
+        <label>FR - SUD OUEST</label>
+    </customValue>
+    <customValue>
+        <fullName>SI - not set</fullName>
+        <default>false</default>
+        <label>SI - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>TN - not set</fullName>
+        <default>false</default>
+        <label>TN - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>TR - not set</fullName>
+        <default>false</default>
+        <label>TR - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>UA - not set</fullName>
+        <default>false</default>
+        <label>UA - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>AE - not set</fullName>
+        <default>false</default>
+        <label>AE - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>Belgium</fullName>
+        <default>false</default>
+        <label>Belgium</label>
+    </customValue>
+    <customValue>
+        <fullName>Germany</fullName>
+        <default>false</default>
+        <label>Germany</label>
+    </customValue>
+    <customValue>
+        <fullName>Italy</fullName>
+        <default>false</default>
+        <label>Italy</label>
+    </customValue>
+    <customValue>
+        <fullName>Lux</fullName>
+        <default>false</default>
+        <label>Lux</label>
+    </customValue>
+    <customValue>
+        <fullName>LUXEMBOURG</fullName>
+        <default>false</default>
+        <label>LUXEMBOURG</label>
+    </customValue>
+    <customValue>
+        <fullName>Netherland</fullName>
+        <default>false</default>
+        <label>Netherland</label>
+    </customValue>
+    <customValue>
+        <fullName>none</fullName>
+        <default>false</default>
+        <label>none</label>
+    </customValue>
+    <customValue>
+        <fullName>Spain</fullName>
+        <default>false</default>
+        <label>Spain</label>
+    </customValue>
+    <customValue>
+        <fullName>Switzerland</fullName>
+        <default>false</default>
+        <label>Switzerland</label>
+    </customValue>
+    <customValue>
+        <fullName>Mumbai</fullName>
+        <default>false</default>
+        <label>Mumbai</label>
+    </customValue>
+    <customValue>
+        <fullName>NZ - not set</fullName>
+        <default>false</default>
+        <label>NZ - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>PE - Not set</fullName>
+        <default>false</default>
+        <label>PE - Not set</label>
+    </customValue>
+    <customValue>
+        <fullName>PA - Not set</fullName>
+        <default>false</default>
+        <label>PA - Not set</label>
+    </customValue>
+    <customValue>
+        <fullName>UY - not set</fullName>
+        <default>false</default>
+        <label>UY - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>CR - Not set</fullName>
+        <default>false</default>
+        <label>CR - Not set</label>
+    </customValue>
+    <customValue>
+        <fullName>DO - Not set</fullName>
+        <default>false</default>
+        <label>DO - Not set</label>
+    </customValue>
+    <customValue>
+        <fullName>VE - Not set</fullName>
+        <default>false</default>
+        <label>VE - Not set</label>
+    </customValue>
+    <customValue>
+        <fullName>MX - Not set</fullName>
+        <default>false</default>
+        <label>MX - Not set</label>
+    </customValue>
+    <customValue>
+        <fullName>HN - Not set</fullName>
+        <default>false</default>
+        <label>HN - Not set</label>
+    </customValue>
+    <customValue>
+        <fullName>SV - Not set</fullName>
+        <default>false</default>
+        <label>SV - Not set</label>
+    </customValue>
+    <customValue>
+        <fullName>LATAM - not set</fullName>
+        <default>false</default>
+        <label>LATAM - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>SC - Not set</fullName>
+        <default>false</default>
+        <label>SC - Not set</label>
+    </customValue>
+    <customValue>
+        <fullName>WAL - Not set</fullName>
+        <default>false</default>
+        <label>WAL - Not set</label>
+    </customValue>
+    <customValue>
+        <fullName>Bermuda</fullName>
+        <default>false</default>
+        <label>Bermuda</label>
+    </customValue>
+    <customValue>
+        <fullName>St Kitts and Nevis</fullName>
+        <default>false</default>
+        <label>St Kitts and Nevis</label>
+    </customValue>
+    <customValue>
+        <fullName>EC - Not Set</fullName>
+        <default>false</default>
+        <label>EC - Not Set</label>
+    </customValue>
+    <customValue>
+        <fullName>BB - Not Set</fullName>
+        <default>false</default>
+        <label>BB - Not Set</label>
+    </customValue>
+    <customValue>
+        <fullName>AG - Not Set</fullName>
+        <default>false</default>
+        <label>AG - Not Set</label>
+    </customValue>
+    <customValue>
+        <fullName>LU - Luxembourg</fullName>
+        <default>false</default>
+        <label>LU - Luxembourg</label>
+    </customValue>
+    <customValue>
+        <fullName>LU - Munsbach</fullName>
+        <default>false</default>
+        <label>LU - Munsbach</label>
+    </customValue>
+    <customValue>
+        <fullName>LU - not set</fullName>
+        <default>false</default>
+        <label>LU - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>LU - Shuttrange</fullName>
+        <default>false</default>
+        <label>LU - Shuttrange</label>
+    </customValue>
+    <customValue>
+        <fullName>RU - Caucaz</fullName>
+        <default>false</default>
+        <label>RU - Caucaz</label>
+    </customValue>
+    <customValue>
+        <fullName>RU - Siberia</fullName>
+        <default>false</default>
+        <label>RU - Siberia</label>
+    </customValue>
+    <customValue>
+        <fullName>RU - Ukraine</fullName>
+        <default>false</default>
+        <label>RU - Ukraine</label>
+    </customValue>
+    <customValue>
+        <fullName>DE - Baden-Württemberg</fullName>
+        <default>false</default>
+        <label>DE - Baden-Württemberg</label>
+    </customValue>
+    <customValue>
+        <fullName>DE - Bayern</fullName>
+        <default>false</default>
+        <label>DE - Bayern</label>
+    </customValue>
+    <customValue>
+        <fullName>DE - Berlin</fullName>
+        <default>false</default>
+        <label>DE - Berlin</label>
+    </customValue>
+    <customValue>
+        <fullName>DE - Brandenburg</fullName>
+        <default>false</default>
+        <label>DE - Brandenburg</label>
+    </customValue>
+    <customValue>
+        <fullName>DE - Bremen</fullName>
+        <default>false</default>
+        <label>DE - Bremen</label>
+    </customValue>
+    <customValue>
+        <fullName>DE - Hamburg</fullName>
+        <default>false</default>
+        <label>DE - Hamburg</label>
+    </customValue>
+    <customValue>
+        <fullName>DE - Hessen</fullName>
+        <default>false</default>
+        <label>DE - Hessen</label>
+    </customValue>
+    <customValue>
+        <fullName>DE - LUXEMBOURG</fullName>
+        <default>false</default>
+        <label>DE - LUXEMBOURG</label>
+    </customValue>
+    <customValue>
+        <fullName>DE - Mecklenburg-Vorpommern</fullName>
+        <default>false</default>
+        <label>DE - Mecklenburg-Vorpommern</label>
+    </customValue>
+    <customValue>
+        <fullName>DE - Niedersachsen</fullName>
+        <default>false</default>
+        <label>DE - Niedersachsen</label>
+    </customValue>
+    <customValue>
+        <fullName>DE - Nordrhein-Westfalen</fullName>
+        <default>false</default>
+        <label>DE - Nordrhein-Westfalen</label>
+    </customValue>
+    <customValue>
+        <fullName>DE - not set</fullName>
+        <default>false</default>
+        <label>DE - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>DE - Rheinland-Pfalz</fullName>
+        <default>false</default>
+        <label>DE - Rheinland-Pfalz</label>
+    </customValue>
+    <customValue>
+        <fullName>DE - Saarland</fullName>
+        <default>false</default>
+        <label>DE - Saarland</label>
+    </customValue>
+    <customValue>
+        <fullName>DE - Sachsen</fullName>
+        <default>false</default>
+        <label>DE - Sachsen</label>
+    </customValue>
+    <customValue>
+        <fullName>DE - Sachsen-Anhalt</fullName>
+        <default>false</default>
+        <label>DE - Sachsen-Anhalt</label>
+    </customValue>
+    <customValue>
+        <fullName>DE - Schleswig-Holstein</fullName>
+        <default>false</default>
+        <label>DE - Schleswig-Holstein</label>
+    </customValue>
+    <customValue>
+        <fullName>DE - Thüringen</fullName>
+        <default>false</default>
+        <label>DE - Thüringen</label>
+    </customValue>
+    <customValue>
+        <fullName>BE - not set</fullName>
+        <default>false</default>
+        <label>BE - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>CH - Basel</fullName>
+        <default>false</default>
+        <label>CH - Basel</label>
+    </customValue>
+    <customValue>
+        <fullName>CH - Bern</fullName>
+        <default>false</default>
+        <label>CH - Bern</label>
+    </customValue>
+    <customValue>
+        <fullName>CH - Geneve</fullName>
+        <default>false</default>
+        <label>CH - Geneve</label>
+    </customValue>
+    <customValue>
+        <fullName>CH - Lugano</fullName>
+        <default>false</default>
+        <label>CH - Lugano</label>
+    </customValue>
+    <customValue>
+        <fullName>CH - not set</fullName>
+        <default>false</default>
+        <label>CH - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>CH - Zurich</fullName>
+        <default>false</default>
+        <label>CH - Zurich</label>
+    </customValue>
+    <customValue>
+        <fullName>Alava-Araba 01</fullName>
+        <default>false</default>
+        <label>Alava-Araba 01</label>
+    </customValue>
+    <customValue>
+        <fullName>Albacete 02</fullName>
+        <default>false</default>
+        <label>Albacete 02</label>
+    </customValue>
+    <customValue>
+        <fullName>Alicante 03</fullName>
+        <default>false</default>
+        <label>Alicante 03</label>
+    </customValue>
+    <customValue>
+        <fullName>Almeria 04</fullName>
+        <default>false</default>
+        <label>Almeria 04</label>
+    </customValue>
+    <customValue>
+        <fullName>Asturias 33</fullName>
+        <default>false</default>
+        <label>Asturias 33</label>
+    </customValue>
+    <customValue>
+        <fullName>Avila 05</fullName>
+        <default>false</default>
+        <label>Avila 05</label>
+    </customValue>
+    <customValue>
+        <fullName>Badajoz 06</fullName>
+        <default>false</default>
+        <label>Badajoz 06</label>
+    </customValue>
+    <customValue>
+        <fullName>Baleares/Illes Baleares 07</fullName>
+        <default>false</default>
+        <label>Baleares/Illes Baleares 07</label>
+    </customValue>
+    <customValue>
+        <fullName>Barcelona 08</fullName>
+        <default>false</default>
+        <label>Barcelona 08</label>
+    </customValue>
+    <customValue>
+        <fullName>Burgos 09</fullName>
+        <default>false</default>
+        <label>Burgos 09</label>
+    </customValue>
+    <customValue>
+        <fullName>Caceres 10</fullName>
+        <default>false</default>
+        <label>Caceres 10</label>
+    </customValue>
+    <customValue>
+        <fullName>Cadiz 11</fullName>
+        <default>false</default>
+        <label>Cadiz 11</label>
+    </customValue>
+    <customValue>
+        <fullName>Cantabria 39</fullName>
+        <default>false</default>
+        <label>Cantabria 39</label>
+    </customValue>
+    <customValue>
+        <fullName>Castellon 12</fullName>
+        <default>false</default>
+        <label>Castellon 12</label>
+    </customValue>
+    <customValue>
+        <fullName>Ciudad real 13</fullName>
+        <default>false</default>
+        <label>Ciudad real 13</label>
+    </customValue>
+    <customValue>
+        <fullName>Cordoba 14</fullName>
+        <default>false</default>
+        <label>Cordoba 14</label>
+    </customValue>
+    <customValue>
+        <fullName>Cuenca 16</fullName>
+        <default>false</default>
+        <label>Cuenca 16</label>
+    </customValue>
+    <customValue>
+        <fullName>ES - not set</fullName>
+        <default>false</default>
+        <label>ES - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>Gerona/Girona 17</fullName>
+        <default>false</default>
+        <label>Gerona/Girona 17</label>
+    </customValue>
+    <customValue>
+        <fullName>Granada 18</fullName>
+        <default>false</default>
+        <label>Granada 18</label>
+    </customValue>
+    <customValue>
+        <fullName>Guadalajara 19</fullName>
+        <default>false</default>
+        <label>Guadalajara 19</label>
+    </customValue>
+    <customValue>
+        <fullName>Guipuzcoa/Gipuzkoa 20</fullName>
+        <default>false</default>
+        <label>Guipuzcoa/Gipuzkoa 20</label>
+    </customValue>
+    <customValue>
+        <fullName>Huelva 21</fullName>
+        <default>false</default>
+        <label>Huelva 21</label>
+    </customValue>
+    <customValue>
+        <fullName>Huesca 22</fullName>
+        <default>false</default>
+        <label>Huesca 22</label>
+    </customValue>
+    <customValue>
+        <fullName>Jaen 23</fullName>
+        <default>false</default>
+        <label>Jaen 23</label>
+    </customValue>
+    <customValue>
+        <fullName>La Coruna/A Coruna 15</fullName>
+        <default>false</default>
+        <label>La Coruna/A Coruna 15</label>
+    </customValue>
+    <customValue>
+        <fullName>La Rioja 26</fullName>
+        <default>false</default>
+        <label>La Rioja 26</label>
+    </customValue>
+    <customValue>
+        <fullName>Las Palmas 35</fullName>
+        <default>false</default>
+        <label>Las Palmas 35</label>
+    </customValue>
+    <customValue>
+        <fullName>Leon 24</fullName>
+        <default>false</default>
+        <label>Leon 24</label>
+    </customValue>
+    <customValue>
+        <fullName>Lerida/Lleida 25</fullName>
+        <default>false</default>
+        <label>Lerida/Lleida 25</label>
+    </customValue>
+    <customValue>
+        <fullName>Lugo 27</fullName>
+        <default>false</default>
+        <label>Lugo 27</label>
+    </customValue>
+    <customValue>
+        <fullName>Madrid 28</fullName>
+        <default>false</default>
+        <label>Madrid 28</label>
+    </customValue>
+    <customValue>
+        <fullName>Malaga 29</fullName>
+        <default>false</default>
+        <label>Malaga 29</label>
+    </customValue>
+    <customValue>
+        <fullName>Murcia 30</fullName>
+        <default>false</default>
+        <label>Murcia 30</label>
+    </customValue>
+    <customValue>
+        <fullName>Navarra 31</fullName>
+        <default>false</default>
+        <label>Navarra 31</label>
+    </customValue>
+    <customValue>
+        <fullName>Orense/Ourense 32</fullName>
+        <default>false</default>
+        <label>Orense/Ourense 32</label>
+    </customValue>
+    <customValue>
+        <fullName>Palencia 34</fullName>
+        <default>false</default>
+        <label>Palencia 34</label>
+    </customValue>
+    <customValue>
+        <fullName>Pontevreda 36</fullName>
+        <default>false</default>
+        <label>Pontevreda 36</label>
+    </customValue>
+    <customValue>
+        <fullName>S.C. Tenerife 38</fullName>
+        <default>false</default>
+        <label>S.C. Tenerife 38</label>
+    </customValue>
+    <customValue>
+        <fullName>Salamanca 37</fullName>
+        <default>false</default>
+        <label>Salamanca 37</label>
+    </customValue>
+    <customValue>
+        <fullName>Segovia 40</fullName>
+        <default>false</default>
+        <label>Segovia 40</label>
+    </customValue>
+    <customValue>
+        <fullName>Sevilla 41</fullName>
+        <default>false</default>
+        <label>Sevilla 41</label>
+    </customValue>
+    <customValue>
+        <fullName>Soria 42</fullName>
+        <default>false</default>
+        <label>Soria 42</label>
+    </customValue>
+    <customValue>
+        <fullName>Tarragonia 43</fullName>
+        <default>false</default>
+        <label>Tarragonia 43</label>
+    </customValue>
+    <customValue>
+        <fullName>Teruel 44</fullName>
+        <default>false</default>
+        <label>Teruel 44</label>
+    </customValue>
+    <customValue>
+        <fullName>Toledo 45</fullName>
+        <default>false</default>
+        <label>Toledo 45</label>
+    </customValue>
+    <customValue>
+        <fullName>Valencia 46</fullName>
+        <default>false</default>
+        <label>Valencia 46</label>
+    </customValue>
+    <customValue>
+        <fullName>Valladolid 47</fullName>
+        <default>false</default>
+        <label>Valladolid 47</label>
+    </customValue>
+    <customValue>
+        <fullName>Vizcaya/Bizkaia 48</fullName>
+        <default>false</default>
+        <label>Vizcaya/Bizkaia 48</label>
+    </customValue>
+    <customValue>
+        <fullName>Zamora 49</fullName>
+        <default>false</default>
+        <label>Zamora 49</label>
+    </customValue>
+    <customValue>
+        <fullName>Zaragoza 50</fullName>
+        <default>false</default>
+        <label>Zaragoza 50</label>
+    </customValue>
+    <customValue>
+        <fullName>Abruzzo</fullName>
+        <default>false</default>
+        <label>Abruzzo</label>
+    </customValue>
+    <customValue>
+        <fullName>Basilicata</fullName>
+        <default>false</default>
+        <label>Basilicata</label>
+    </customValue>
+    <customValue>
+        <fullName>Calabria</fullName>
+        <default>false</default>
+        <label>Calabria</label>
+    </customValue>
+    <customValue>
+        <fullName>Campania</fullName>
+        <default>false</default>
+        <label>Campania</label>
+    </customValue>
+    <customValue>
+        <fullName>Emilia-Romagna</fullName>
+        <default>false</default>
+        <label>Emilia-Romagna</label>
+    </customValue>
+    <customValue>
+        <fullName>Friuli-Venezia Giulia</fullName>
+        <default>false</default>
+        <label>Friuli-Venezia Giulia</label>
+    </customValue>
+    <customValue>
+        <fullName>IT - Ireland</fullName>
+        <default>false</default>
+        <label>IT - Ireland</label>
+    </customValue>
+    <customValue>
+        <fullName>IT - Luxembourg</fullName>
+        <default>false</default>
+        <label>IT - Luxembourg</label>
+    </customValue>
+    <customValue>
+        <fullName>IT - not set</fullName>
+        <default>false</default>
+        <label>IT - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>IT/CH - Lugano</fullName>
+        <default>false</default>
+        <label>IT/CH - Lugano</label>
+    </customValue>
+    <customValue>
+        <fullName>Lazio</fullName>
+        <default>false</default>
+        <label>Lazio</label>
+    </customValue>
+    <customValue>
+        <fullName>Liguria</fullName>
+        <default>false</default>
+        <label>Liguria</label>
+    </customValue>
+    <customValue>
+        <fullName>Lombardia</fullName>
+        <default>false</default>
+        <label>Lombardia</label>
+    </customValue>
+    <customValue>
+        <fullName>Marche</fullName>
+        <default>false</default>
+        <label>Marche</label>
+    </customValue>
+    <customValue>
+        <fullName>Molise</fullName>
+        <default>false</default>
+        <label>Molise</label>
+    </customValue>
+    <customValue>
+        <fullName>Piemonte</fullName>
+        <default>false</default>
+        <label>Piemonte</label>
+    </customValue>
+    <customValue>
+        <fullName>Puglia</fullName>
+        <default>false</default>
+        <label>Puglia</label>
+    </customValue>
+    <customValue>
+        <fullName>Sardegna</fullName>
+        <default>false</default>
+        <label>Sardegna</label>
+    </customValue>
+    <customValue>
+        <fullName>Sicilia</fullName>
+        <default>false</default>
+        <label>Sicilia</label>
+    </customValue>
+    <customValue>
+        <fullName>Toscana</fullName>
+        <default>false</default>
+        <label>Toscana</label>
+    </customValue>
+    <customValue>
+        <fullName>Trentino-Alto Adige</fullName>
+        <default>false</default>
+        <label>Trentino-Alto Adige</label>
+    </customValue>
+    <customValue>
+        <fullName>Umbria</fullName>
+        <default>false</default>
+        <label>Umbria</label>
+    </customValue>
+    <customValue>
+        <fullName>Valle d&apos;Aosta</fullName>
+        <default>false</default>
+        <label>Valle d&apos;Aosta</label>
+    </customValue>
+    <customValue>
+        <fullName>Veneto</fullName>
+        <default>false</default>
+        <label>Veneto</label>
+    </customValue>
+    <customValue>
+        <fullName>GB - Channel Islands</fullName>
+        <default>false</default>
+        <label>GB - Channel Islands</label>
+    </customValue>
+    <customValue>
+        <fullName>GB - East Midlands</fullName>
+        <default>false</default>
+        <label>GB - East Midlands</label>
+    </customValue>
+    <customValue>
+        <fullName>GB - East of England</fullName>
+        <default>false</default>
+        <label>GB - East of England</label>
+    </customValue>
+    <customValue>
+        <fullName>GB - London</fullName>
+        <default>false</default>
+        <label>GB - London</label>
+    </customValue>
+    <customValue>
+        <fullName>GB - North East</fullName>
+        <default>false</default>
+        <label>GB - North East</label>
+    </customValue>
+    <customValue>
+        <fullName>GB - North West</fullName>
+        <default>false</default>
+        <label>GB - North West</label>
+    </customValue>
+    <customValue>
+        <fullName>GB - Northern Ireland</fullName>
+        <default>false</default>
+        <label>GB - Northern Ireland</label>
+    </customValue>
+    <customValue>
+        <fullName>GB - not set</fullName>
+        <default>false</default>
+        <label>GB - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>GB - Republic of Ireland</fullName>
+        <default>false</default>
+        <label>GB - Republic of Ireland</label>
+    </customValue>
+    <customValue>
+        <fullName>GB - Scotland</fullName>
+        <default>false</default>
+        <label>GB - Scotland</label>
+    </customValue>
+    <customValue>
+        <fullName>GB - South East</fullName>
+        <default>false</default>
+        <label>GB - South East</label>
+    </customValue>
+    <customValue>
+        <fullName>GB - South West</fullName>
+        <default>false</default>
+        <label>GB - South West</label>
+    </customValue>
+    <customValue>
+        <fullName>GB - Wales</fullName>
+        <default>false</default>
+        <label>GB - Wales</label>
+    </customValue>
+    <customValue>
+        <fullName>GB - West Midlands</fullName>
+        <default>false</default>
+        <label>GB - West Midlands</label>
+    </customValue>
+    <customValue>
+        <fullName>GB - Yorkshire</fullName>
+        <default>false</default>
+        <label>GB - Yorkshire</label>
+    </customValue>
+    <customValue>
+        <fullName>SE - not set</fullName>
+        <default>false</default>
+        <label>SE - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>IE - not set</fullName>
+        <default>false</default>
+        <label>IE - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>AD - not set</fullName>
+        <default>false</default>
+        <label>AD - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>AT - not set</fullName>
+        <default>false</default>
+        <label>AT - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>DR - not set</fullName>
+        <default>false</default>
+        <label>DR - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>LI - not set</fullName>
+        <default>false</default>
+        <label>LI - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>LI - Vaduz</fullName>
+        <default>false</default>
+        <label>LI - Vaduz</label>
+    </customValue>
+    <customValue>
+        <fullName>DK - not set</fullName>
+        <default>false</default>
+        <label>DK - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>SG - not set</fullName>
+        <default>false</default>
+        <label>SG - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>GH - not set</fullName>
+        <default>false</default>
+        <label>GH - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>CL - not set</fullName>
+        <default>false</default>
+        <label>CL - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>SM - not set</fullName>
+        <default>false</default>
+        <label>SM - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>MU - not set</fullName>
+        <default>false</default>
+        <label>MU - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>HK - not set</fullName>
+        <default>false</default>
+        <label>HK - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>NL - not set</fullName>
+        <default>false</default>
+        <label>NL - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>FI - not set</fullName>
+        <default>false</default>
+        <label>FI - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>CA - not set</fullName>
+        <default>false</default>
+        <label>CA - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>PT - not set</fullName>
+        <default>false</default>
+        <label>PT - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>MC - not set</fullName>
+        <default>false</default>
+        <label>MC - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>KITCHEN</fullName>
+        <default>false</default>
+        <label>KITCHEN</label>
+    </customValue>
+    <customValue>
+        <fullName>OFFICE</fullName>
+        <default>false</default>
+        <label>OFFICE</label>
+    </customValue>
+    <customValue>
+        <fullName>CG FRA - not set</fullName>
+        <default>false</default>
+        <label>CG FRA - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>bh - not set</fullName>
+        <default>false</default>
+        <label>bh - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>chl - not set</fullName>
+        <default>false</default>
+        <label>chl - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>br - not set</fullName>
+        <default>false</default>
+        <label>br - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>Gibnraltar-Not Set</fullName>
+        <default>false</default>
+        <label>Gibnraltar-Not Set</label>
+    </customValue>
+    <customValue>
+        <fullName>Not yet</fullName>
+        <default>false</default>
+        <label>Not yet</label>
+    </customValue>
+    <customValue>
+        <fullName>Budapest</fullName>
+        <default>false</default>
+        <label>Budapest</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Alabama</fullName>
+        <default>false</default>
+        <label>US - Alabama</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Alaska</fullName>
+        <default>false</default>
+        <label>US - Alaska</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Arizona</fullName>
+        <default>false</default>
+        <label>US - Arizona</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Arkansas</fullName>
+        <default>false</default>
+        <label>US - Arkansas</label>
+    </customValue>
+    <customValue>
+        <fullName>US - California</fullName>
+        <default>false</default>
+        <label>US - California</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Colorado</fullName>
+        <default>false</default>
+        <label>US - Colorado</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Connecticut</fullName>
+        <default>false</default>
+        <label>US - Connecticut</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Delaware</fullName>
+        <default>false</default>
+        <label>US - Delaware</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Florida</fullName>
+        <default>false</default>
+        <label>US - Florida</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Georgia</fullName>
+        <default>false</default>
+        <label>US - Georgia</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Hawaii</fullName>
+        <default>false</default>
+        <label>US - Hawaii</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Idaho</fullName>
+        <default>false</default>
+        <label>US - Idaho</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Illinois</fullName>
+        <default>false</default>
+        <label>US - Illinois</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Indiana</fullName>
+        <default>false</default>
+        <label>US - Indiana</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Iowa</fullName>
+        <default>false</default>
+        <label>US - Iowa</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Kansas</fullName>
+        <default>false</default>
+        <label>US - Kansas</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Kentucky</fullName>
+        <default>false</default>
+        <label>US - Kentucky</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Louisiana</fullName>
+        <default>false</default>
+        <label>US - Louisiana</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Maine</fullName>
+        <default>false</default>
+        <label>US - Maine</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Maryland</fullName>
+        <default>false</default>
+        <label>US - Maryland</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Massachusetts</fullName>
+        <default>false</default>
+        <label>US - Massachusetts</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Michigan</fullName>
+        <default>false</default>
+        <label>US - Michigan</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Minnesota</fullName>
+        <default>false</default>
+        <label>US - Minnesota</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Mississippi</fullName>
+        <default>false</default>
+        <label>US - Mississippi</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Missouri</fullName>
+        <default>false</default>
+        <label>US - Missouri</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Montana</fullName>
+        <default>false</default>
+        <label>US - Montana</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Nebraska</fullName>
+        <default>false</default>
+        <label>US - Nebraska</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Nevada</fullName>
+        <default>false</default>
+        <label>US - Nevada</label>
+    </customValue>
+    <customValue>
+        <fullName>US - New Hampshire</fullName>
+        <default>false</default>
+        <label>US - New Hampshire</label>
+    </customValue>
+    <customValue>
+        <fullName>US - New Jersey</fullName>
+        <default>false</default>
+        <label>US - New Jersey</label>
+    </customValue>
+    <customValue>
+        <fullName>US - New Mexico</fullName>
+        <default>false</default>
+        <label>US - New Mexico</label>
+    </customValue>
+    <customValue>
+        <fullName>US - New York</fullName>
+        <default>false</default>
+        <label>US - New York</label>
+    </customValue>
+    <customValue>
+        <fullName>US - North Carolina</fullName>
+        <default>false</default>
+        <label>US - North Carolina</label>
+    </customValue>
+    <customValue>
+        <fullName>US - North Dakota</fullName>
+        <default>false</default>
+        <label>US - North Dakota</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Ohio</fullName>
+        <default>false</default>
+        <label>US - Ohio</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Oklahoma</fullName>
+        <default>false</default>
+        <label>US - Oklahoma</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Oregon</fullName>
+        <default>false</default>
+        <label>US - Oregon</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Pennsylvania</fullName>
+        <default>false</default>
+        <label>US - Pennsylvania</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Rhode Island</fullName>
+        <default>false</default>
+        <label>US - Rhode Island</label>
+    </customValue>
+    <customValue>
+        <fullName>US - South Carolina</fullName>
+        <default>false</default>
+        <label>US - South Carolina</label>
+    </customValue>
+    <customValue>
+        <fullName>US - South Dakota</fullName>
+        <default>false</default>
+        <label>US - South Dakota</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Tennessee</fullName>
+        <default>false</default>
+        <label>US - Tennessee</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Texas</fullName>
+        <default>false</default>
+        <label>US - Texas</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Utah</fullName>
+        <default>false</default>
+        <label>US - Utah</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Vermont</fullName>
+        <default>false</default>
+        <label>US - Vermont</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Virginia</fullName>
+        <default>false</default>
+        <label>US - Virginia</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Washington</fullName>
+        <default>false</default>
+        <label>US - Washington</label>
+    </customValue>
+    <customValue>
+        <fullName>US - West Virginia</fullName>
+        <default>false</default>
+        <label>US - West Virginia</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Wisconsin</fullName>
+        <default>false</default>
+        <label>US - Wisconsin</label>
+    </customValue>
+    <customValue>
+        <fullName>US - Wyoming</fullName>
+        <default>false</default>
+        <label>US - Wyoming</label>
+    </customValue>
+    <customValue>
+        <fullName>Bru - not set</fullName>
+        <default>false</default>
+        <label>Bru - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>ZA - not set</fullName>
+        <default>false</default>
+        <label>ZA - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>AF - not set</fullName>
+        <default>false</default>
+        <label>AF - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>Not - Set</fullName>
+        <default>false</default>
+        <label>Not - Set</label>
+    </customValue>
+    <customValue>
+        <fullName>DZ - not set</fullName>
+        <default>false</default>
+        <label>DZ - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>AR - not set</fullName>
+        <default>false</default>
+        <label>AR - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>AU - not set</fullName>
+        <default>false</default>
+        <label>AU - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>RO - Dobrogea</fullName>
+        <default>false</default>
+        <label>RO - Dobrogea</label>
+    </customValue>
+    <customValue>
+        <fullName>RO - Moldova</fullName>
+        <default>false</default>
+        <label>RO - Moldova</label>
+    </customValue>
+    <customValue>
+        <fullName>RO - Oltenia</fullName>
+        <default>false</default>
+        <label>RO - Oltenia</label>
+    </customValue>
+    <customValue>
+        <fullName>RO - Transilvania</fullName>
+        <default>false</default>
+        <label>RO - Transilvania</label>
+    </customValue>
+    <customValue>
+        <fullName>BY - not set</fullName>
+        <default>false</default>
+        <label>BY - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>BO - not set</fullName>
+        <default>false</default>
+        <label>BO - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>BG - not set</fullName>
+        <default>false</default>
+        <label>BG - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>CO - not set</fullName>
+        <default>false</default>
+        <label>CO - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>HR - not set</fullName>
+        <default>false</default>
+        <label>HR - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>CY - not set</fullName>
+        <default>false</default>
+        <label>CY - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>CZ - not set</fullName>
+        <default>false</default>
+        <label>CZ - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>EE - not set</fullName>
+        <default>false</default>
+        <label>EE - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>IS - not set</fullName>
+        <default>false</default>
+        <label>IS - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>KW - not set</fullName>
+        <default>false</default>
+        <label>KW - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>LV - not set</fullName>
+        <default>false</default>
+        <label>LV - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>LB - not set</fullName>
+        <default>false</default>
+        <label>LB - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>LT - not set</fullName>
+        <default>false</default>
+        <label>LT - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>MA - not set</fullName>
+        <default>false</default>
+        <label>MA - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>NO - not set</fullName>
+        <default>false</default>
+        <label>NO - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>PL - not set</fullName>
+        <default>false</default>
+        <label>PL - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>QA - not set</fullName>
+        <default>false</default>
+        <label>QA - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>SA - not set</fullName>
+        <default>false</default>
+        <label>SA - not set</label>
+    </customValue>
+    <customValue>
+        <fullName>SK - not set</fullName>
+        <default>false</default>
+        <label>SK - not set</label>
+    </customValue>
+    <masterLabel>Zone</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

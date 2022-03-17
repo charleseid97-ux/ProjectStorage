@@ -1,0 +1,10 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId" access="global">
+        
+    <lightning:card variant="Narrow" class="lightningCardOverflow" >
+        <div class="slds-text-align_left" >
+            <div style="padding-left:10px;text-align:center">
+                <div><lightning:button label="Salesforce Handbook" onclick="{!c.openHandbook}" class="sfbtn" /></div>
+            </div>
+        </div>
+    </lightning:card>
+</aura:component>

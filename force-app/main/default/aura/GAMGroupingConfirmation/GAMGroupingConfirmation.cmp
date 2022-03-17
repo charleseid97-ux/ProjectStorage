@@ -1,0 +1,18 @@
+<aura:component controller="GAMHierarchyUtil" implements="lightning:actionOverride">
+
+	<aura:attribute name="nextStepOptions" type="List" />
+    <aura:attribute name="GAM" type="sObject" />
+    <aura:attribute name="GAMId" type="String" />
+    
+		<article class="slds-card">
+	        <div class="slds-p-around_medium" >
+			    <div class="slds-form slds-form_stacked GAMnoteText">
+                    The following Hierarchy has been generated based on sub Account data.<br/>
+                    If this looks incorrect click 'Delete Groupings' otherwise click 'Build Hierarchy'<br/><br/>
+                    
+                    <c:AlphaLightningAccountHierarchy GAMId="{!v.GAMId}"/>
+                    
+				</div>
+			</div>
+		</article>
+</aura:component>

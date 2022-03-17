@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Queue_Business_region</fullName>
+    <columns>MasterLabel</columns>
+    <columns>Business_region__c</columns>
+    <columns>Queue__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>Queue Business region</label>
+    <language>en_US</language>
+</ListView>

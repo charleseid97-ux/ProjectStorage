@@ -1,0 +1,393 @@
+@isTest
+public class CalloutLegalEntity_TEST{
+    static Legal_Entity__c getTestLegalEntity(){
+        Legal_Entity__c le = new Legal_Entity__c(Name = 'Test', LEI__c = '5067007V6269EHOP3295');
+        insert le;
+        return le;
+    }
+    
+    public static testmethod void doTest() {
+        Legal_Entity__c le = getTestLegalEntity();
+        testGLEIF(le);
+        testUME(le);
+        List<JSONLegalEntityUME2Apex> jApexUME = UTIL_LegalEntity.getDistributors('/api/v2/network/distributors/');
+        JSONScoreUME2Apex jApexScore = UTIL_LegalEntity.getScore('/api/v2/network/distributors/');
+        JSONLegalEntity2Apex jApexGLEIF = UTIL_LegalEntity.getLegalEntity(le.LEI__c);
+        CalloutLegalEntity.processRecords(le.LEI__c);
+    }
+    
+    public static void testGLEIF(Legal_Entity__c le) {
+        String jsonStrGLEIF = '{'+
+            '   \"meta\":{'+
+            '      \"pagination\":{'+
+            '         \"currentPage\":1,'+
+            '         \"perPage\":15,'+
+            '         \"from\":1,'+
+            '         \"to\":1,'+
+            '         \"total\":1,'+
+            '         \"lastPage\":1'+
+            '      }'+
+            '   },'+
+            '   \"links\":{'+
+            '      \"first\":\"https:\\/\\/api.gleif.org\\/api\\/v1\\/lei-records?filter%5Blei%5D=5067007V6269EHOP3295&page%5Bnumber%5D=1&page%5Bsize%5D=15\",'+
+            '      \"last\":\"https:\\/\\/api.gleif.org\\/api\\/v1\\/lei-records?filter%5Blei%5D=5067007V6269EHOP3295&page%5Bnumber%5D=1&page%5Bsize%5D=15\"'+
+            '   },'+
+            '   \"data\":['+
+            '      {'+
+            '         \"type\":\"lei-records\",'+
+            '         \"id\":\"5067007V6269EHOP3295\",'+
+            '         \"attributes\":{'+
+            '            \"lei\":\"5067007V6269EHOP3295\",'+
+            '            \"entity\":{'+
+            '               \"legalName\":{'+
+            '                  \"name\":\"1875 Finance SA\",'+
+            '                  \"language\":\"DE\"'+
+            '               },'+
+            '               \"otherNames\":['+
+            ''+
+            '               ],'+
+            '               \"transliteratedOtherNames\":['+
+            ''+
+            '               ],'+
+            '               \"legalAddress\":{'+
+            '                  \"language\":\"DE\",'+
+            '                  \"addressLines\":['+
+            '                     \"rue XXXI-D\\u00e9cembre 40\"'+
+            '                  ],'+
+            '                  \"addressNumber\":null,'+
+            '                  \"addressNumberWithinBuilding\":null,'+
+            '                  \"mailRouting\":null,'+
+            '                  \"city\":\"Gen\\u00e8ve\",'+
+            '                  \"region\":\"CH-GE\",'+
+            '                  \"country\":\"CH\",'+
+            '                  \"postalCode\":\"1207\"'+
+            '               },'+
+            '               \"headquartersAddress\":{'+
+            '                  \"language\":\"DE\",'+
+            '                  \"addressLines\":['+
+            '                     \"rue XXXI-D\\u00e9cembre 40\"'+
+            '                  ],'+
+            '                  \"addressNumber\":null,'+
+            '                  \"addressNumberWithinBuilding\":null,'+
+            '                  \"mailRouting\":null,'+
+            '                  \"city\":\"Gen\\u00e8ve\",'+
+            '                  \"region\":\"CH-GE\",'+
+            '                  \"country\":\"CH\",'+
+            '                  \"postalCode\":\"1207\"'+
+            '               },'+
+            '               \"registeredAt\":{'+
+            '                  \"id\":\"RA000548\",'+
+            '                  \"other\":null'+
+            '               },'+
+            '               \"registeredAs\":\"CHE112734090\",'+
+            '               \"jurisdiction\":\"CH\",'+
+            '               \"category\":null,'+
+            '               \"legalForm\":{'+
+            '                  \"id\":\"MVII\",'+
+            '                  \"other\":null'+
+            '               },'+
+            '               \"associatedEntity\":{'+
+            '                  \"lei\":null,'+
+            '                  \"name\":null'+
+            '               },'+
+            '               \"status\":\"ACTIVE\",'+
+            '               \"expiration\":{'+
+            '                  \"date\":null,'+
+            '                  \"reason\":null'+
+            '               },'+
+            '               \"successorEntity\":{'+
+            '                  \"lei\":null,'+
+            '                  \"name\":null'+
+            '               },'+
+            '               \"otherAddresses\":['+
+            ''+
+            '               ]'+
+            '            },'+
+            '            \"registration\":{'+
+            '               \"initialRegistrationDate\":\"2017-12-15T13:13:52Z\",'+
+            '               \"lastUpdateDate\":\"2020-03-24T17:08:58Z\",'+
+            '               \"status\":\"ISSUED\",'+
+            '               \"nextRenewalDate\":\"2020-12-18T16:15:49Z\",'+
+            '               \"managingLou\":\"506700LOLO7M6V0E4247\",'+
+            '               \"corroborationLevel\":\"FULLY_CORROBORATED\",'+
+            '               \"validatedAt\":{'+
+            '                  \"id\":\"RA000548\",'+
+            '                  \"other\":null'+
+            '               },'+
+            '               \"validatedAs\":\"CHE112734090\"'+
+            '            },'+
+            '            \"bic\":['+
+            '               \"FNECCHG1XXX\"'+
+            '            ]'+
+            '         },'+
+            '         \"relationships\":{'+
+            '            \"managing-lou\":{'+
+            '               \"links\":{'+
+            '                  \"related\":\"https:\\/\\/api.gleif.org\\/api\\/v1\\/lei-records\\/5067007V6269EHOP3295\\/managing-lou\"'+
+            '               }'+
+            '            },'+
+            '            \"lei-issuer\":{'+
+            '               \"links\":{'+
+            '                  \"related\":\"https:\\/\\/api.gleif.org\\/api\\/v1\\/lei-records\\/5067007V6269EHOP3295\\/lei-issuer\"'+
+            '               }'+
+            '            },'+
+            '            \"direct-parent\":{'+
+            '               \"links\":{'+
+            '                  \"reporting-exception\":\"https:\\/\\/api.gleif.org\\/api\\/v1\\/lei-records\\/5067007V6269EHOP3295\\/direct-parent-reporting-exception\"'+
+            '               }'+
+            '            },'+
+            '            \"ultimate-parent\":{'+
+            '               \"links\":{'+
+            '                  \"reporting-exception\":\"https:\\/\\/api.gleif.org\\/api\\/v1\\/lei-records\\/5067007V6269EHOP3295\\/ultimate-parent-reporting-exception\"'+
+            '               }'+
+            '            }'+
+            '         },'+
+            '         \"links\":{'+
+            '            \"self\":\"https:\\/\\/api.gleif.org\\/api\\/v1\\/lei-records\\/5067007V6269EHOP3295\"'+
+            '         }'+
+            '      }'+
+            '   ]'+
+            '}';
+        
+        SingleRequestMock fakeGLEIFResp = new SingleRequestMock(200, 'OK', jsonStrGLEIF, null);
+        Test.setMock(HttpCalloutMock.class, fakeGLEIFResp);
+        UTIL_LegalEntity.callGLEIF(le.LEI__c); 
+        System.assert(true);
+    }
+    
+    public static String testUME(Legal_Entity__c le) {
+        String jsonUMEStr = '[{'+
+            '        \"networkIndex\": \"1\",'+
+            '        \"company\": {'+
+            '            \"guid\": \"d34eb867-0a6e-4c1a-8f80-cfd90e83c45f\",'+
+            '            \"lei\": \"815600EB9E6DCD050385\",'+
+            '            \"status\": \"ACTIVE\",'+
+            '            \"isBranch\": false,'+
+            '            \"companyName\": \"\\\"BANCA PASSADORE & C. - SOCIETA\' PER AZIONI\\\"\",'+
+            '            \"companyType\": \"DISTRIBUTOR\",'+
+            '            \"country\": {'+
+            '                \"name\": \"Italy\",'+
+            '                \"code\": \"IT\"'+
+            '            },'+
+            '            \"streetAddress\": \"Via Ettore Vernazza, 27, 16121 Genova GE, Italy\",'+
+            '            \"googleAddress\": {'+
+            '                \"address_components\": ['+
+            '                    {'+
+            '                        \"long_name\": \"27\",'+
+            '                        \"short_name\": \"27\",'+
+            '                        \"types\": ['+
+            '                            \"street_number\"'+
+            '                        ]'+
+            '                    },'+
+            '                    {'+
+            '                        \"long_name\": \"Via Ettore Vernazza\",'+
+            '                        \"short_name\": \"Via Ettore Vernazza\",'+
+            '                        \"types\": ['+
+            '                            \"route\"'+
+            '                        ]'+
+            '                    },'+
+            '                    {'+
+            '                        \"long_name\": \"Genova\",'+
+            '                        \"short_name\": \"Genova\",'+
+            '                        \"types\": ['+
+            '                            \"locality\",'+
+            '                            \"political\"'+
+            '                        ]'+
+            '                    },'+
+            '                    {'+
+            '                        \"long_name\": \"Genova\",'+
+            '                        \"short_name\": \"Genova\",'+
+            '                        \"types\": ['+
+            '                            \"administrative_area_level_3\",'+
+            '                            \"political\"'+
+            '                        ]'+
+            '                    },'+
+            '                    {'+
+            '                        \"long_name\": \"Città Metropolitana di Genova\",'+
+            '                        \"short_name\": \"GE\",'+
+            '                        \"types\": ['+
+            '                            \"administrative_area_level_2\",'+
+            '                            \"political\"'+
+            '                        ]'+
+            '                    },'+
+            '                    {'+
+            '                        \"long_name\": \"Liguria\",'+
+            '                        \"short_name\": \"Liguria\",'+
+            '                        \"types\": ['+
+            '                            \"administrative_area_level_1\",'+
+            '                            \"political\"'+
+            '                        ]'+
+            '                    },'+
+            '                    {'+
+            '                        \"long_name\": \"Italy\",'+
+            '                        \"short_name\": \"IT\",'+
+            '                        \"types\": ['+
+            '                            \"country\",'+
+            '                            \"political\"'+
+            '                        ]'+
+            '                    },'+
+            '                    {'+
+            '                        \"long_name\": \"16121\",'+
+            '                        \"short_name\": \"16121\",'+
+            '                        \"types\": ['+
+            '                            \"postal_code\"'+
+            '                        ]'+
+            '                    }'+
+            '                ],'+
+            '                \"formatted_address\": \"Via Ettore Vernazza, 27, 16121 Genova GE, Italy\",'+
+            '                \"geometry\": {'+
+            '                    \"location\": {'+
+            '                        \"lat\": \"44.4075149\",'+
+            '                        \"lng\": \"8.9358244\"'+
+            '                    },'+
+            '                    \"location_type\": \"ROOFTOP\",'+
+            '                    \"viewport\": {'+
+            '                        \"northeast\": {'+
+            '                            \"lat\": \"44.4088638802915\",'+
+            '                            \"lng\": \"8.937173380291503\"'+
+            '                        },'+
+            '                        \"southwest\": {'+
+            '                            \"lat\": \"44.4061659197085\",'+
+            '                            \"lng\": \"8.934475419708498\"'+
+            '                        }'+
+            '                    }'+
+            '                },'+
+            '                \"place_id\": \"ChIJV-3yBuhD0xIRxg1lhmlPEh8\",'+
+            '                \"plus_code\": {'+
+            '                    \"compound_code\": \"CW5P+28 Genoa, Metropolitan City of Genoa, Italy\",'+
+            '                    \"global_code\": \"8FPCCW5P+28\"'+
+            '                },'+
+            '                \"types\": ['+
+            '                    \"street_address\"'+
+            '                ]'+
+            '            },'+
+            '            \"lat\": 44.4075149,'+
+            '            \"lon\": 8.9358244,'+
+            '            \"website\": \"www.bancapassadore.it\",'+
+            '            \"profile\": {'+
+            '                \"_8bc829c9_e788_4782_a933_4db29b6f51df\": \"s.p.a.\",'+
+            '                \"_02d82ac6_9e4a_4468_80b4_bed0f773c5ab\": \"1947-01-26T23:00:00.000Z\",'+
+            '                \"_6621f5ed_b5d7_4cb8_aa0c_715bc271f01d\": \"none\",'+
+            '                \"_02556f51_9701_458b_a536_f8c8251fe0be\": \"_0to10\",'+
+            '                \"_4bbe86e9_1df4_4471_8531_b174de3d2ce7\": {'+
+            '                    \"_adv\": \"true\",'+
+            '                    \"_exe\": \"true\",'+
+            '                    \"_rec_tra_ord\": \"true\",'+
+            '                    \"_exe_ord_beh_cli\": \"true\"'+
+            '                },'+
+            '                \"_476f96c5_25d0_4e29_bf92_aeaafcdec78c\": {'+
+            '                    \"_ret_pri_ban\": \"true\",'+
+            '                    \"_wea_man\": \"true\",'+
+            '                    \"_cus\": \"true\"'+
+            '                },'+
+            '                \"_7cce5b98_2673_416a_9b64_9d805d6fd302\": {'+
+            '                    \"_ban_off_bas\": \"true\"'+
+            '                },'+
+            '                \"_6a831ddf_34be_4174_80f5_26b6cb20fb26\": \"all bank transactions\",'+
+            '                \"_dbb71b06_e991_47de_a238_5daaec813188\": \"Banca d\'Italia / Consob\",'+
+            '                \"_5c04a549_1c88_454a_ba3d_af1b25768f5f\": \"_ffi\",'+
+            '                \"_0b8b1aba_4e43_4389_a138_31f598d4f028\": \"Yes\",'+
+            '                \"_75ecbd38_c059_426d_9e8a_39abb36c6528\": {'+
+            '                    \"_0\": \"true\",'+
+            '                    \"_1\": \"true\",'+
+            '                    \"_2\": \"true\",'+
+            '                    \"_3\": \"true\"'+
+            '                },'+
+            '                \"_c1826731_b118_46f4_bfab_a9b15f57f851\": \"_5\",'+
+            '                \"_f97cf9df_91f0_47c0_8e46_e599df3c240f\": \"_more_20\",'+
+            '                \"_c32faa86_952c_4ba0_bb74_7a0bca2ad21e\": {'+
+            '                    \"_eur\": \"true\"'+
+            '                },'+
+            '                \"_7a2340fb_1f4f_4561_9219_2480eb6b0173\": {'+
+            '                    \"_eur\": \"true\"'+
+            '                },'+
+            '                \"_bdc826bd_2e55_4be5_ab4e_e3aa0314656f\": {'+
+            '                    \"_ret_non_pro\": \"true\",'+
+            '                    \"_ins\": \"true\"'+
+            '                },'+
+            '                \"_130fb1b7_e74e_40aa_8bdd_3c1f4d04cdfa\": \"_80_to_100\",'+
+            '                \"_223a67a3_358d_4824_800b_b7a60198cec0\": \"www.bancapassadore.it\"'+
+            '            }'+
+            '        },'+
+            '        \"contact\": {'+
+            '            \"guid\": \"c1899602-01f3-4a99-87b4-51ce5e573be1\",'+
+            '            \"firstName\": \"Giampiero\",'+
+            '            \"lastName\": \"Negro\",'+
+            '            \"email\": \"giampiero.negro@bancapassadore.it\",'+
+            '            \"phoneNumbers\": ['+
+            '                {'+
+            '                    \"numberType\": \"work\",'+
+            '                    \"phoneNo\": \"010-5393330\"'+
+            '                }'+
+            '            ],'+
+            '            \"userStatus\": 2'+
+            '        },'+
+            '        \"scoring\": {'+
+            '            \"sectionScores\": ['+
+            '                0.0,'+
+            '                100.0,'+
+            '                0.0,'+
+            '                0.0,'+
+            '                19.986390314440403,'+
+            '                0.0,'+
+            '                0.0'+
+            '            ],'+
+            '            \"baseScore\": 27.99795854716606,'+
+            '            \"countryRiskFactor\": 1.0,'+
+            '            \"totalScore\": 27.99795854716606,'+
+            '            \"nShowStoppers\": 0,'+
+            '            \"questionnaireExpirationInfo\": {'+
+            '                \"questStatus\": \"expired\",'+
+            '                \"ddqSubmitted\": \"2018-10-31T16:42:54+0000\",'+
+            '                \"questExpirationDate\": \"2019-10-31T16:42:54+0000\"'+
+            '            },'+
+            '            \"questionaryDescriptor\": {'+
+            '                \"guid\": \"5805da82-3748-4b4f-8dd6-c32a7d4abf8d\",'+
+            '                \"status\": \"ACTIVE\",'+
+            '                \"timestamp\": \"2020-01-24T18:58:51+0000\"'+
+            '            }'+
+            '        },'+
+            '        \"pctAnswered\": 0.5576923076923077,'+
+            '        \"pctValidated\": 0.1282051282051282,'+
+            '        \"status\": \"R\",'+
+            '        \"umeRequest\": {'+
+            '            \"guid\": \"5cf1e6f1-997c-4224-abdb-c569885d7cb8\",'+
+            '            \"submissionDate\": \"2019-12-11T13:23:11+0000\",'+
+            '            \"resource\": {'+
+            '                \"type\": \"BR\",'+
+            '                \"guid\": \"d34eb867-0a6e-4c1a-8f80-cfd90e83c45f\"'+
+            '            },'+
+            '            \"requestStatus\": 1,'+
+            '            \"answerDate\": \"2019-12-11T13:32:32+0000\",'+
+            '            \"status\": \"(B)\",'+
+            '            \"answerUser\": {'+
+            '                \"guid\": \"1c2cb386-05d8-4e98-9a66-df4a2625a25c\",'+
+            '                \"firstName\": \"Rolf\",'+
+            '                \"lastName\": \"Bachner\",'+
+            '                \"email\": \"rolf.bachner@ume.solutions\",'+
+            '                \"phoneNumbers\": ['+
+            '                    {'+
+            '                        \"numberType\": \"mobile\",'+
+            '                        \"phoneNo\": \"+352 621 167 181\"'+
+            '                    },'+
+            '                    {'+
+            '                        \"numberType\": \"work\",'+
+            '                        \"phoneNo\": \"+352 288 127 40\"'+
+            '                    }'+
+            '                ],'+
+            '                \"userStatus\": 2'+
+            '            },'+
+            '            \"notCancellable\": false'+
+            '        },'+
+            '        \"nNonansweredFollowups\": \"0\",'+
+            '        \"brid\": \"adff36a9-4e07-4f52-a99a-37803284ba89\"'+
+            '    }]';
+        
+        SingleRequestMock fakeUMEResp = new SingleRequestMock(200, 'OK', jsonUMEStr, null);
+        Test.setMock(HttpCalloutMock.class, fakeUMEResp);
+        UTIL_LegalEntity.callUME(le.LEI__c);
+        System.assert(true);
+        
+        return jsonUMEStr;
+    }
+}

@@ -1,0 +1,35 @@
+.THIS .matrixCell {
+    height:60px;
+    width: 100%;
+    /*background-color:#f6f943;*/
+    background-color:rgb(245, 232, 123);
+    border-top:1px solid white;
+    border-right:1px solid white;
+    font-size:12px;
+}
+
+/*Red*/
+.THIS .matrixColour74, .THIS .matrixColour76, .THIS .matrixColour77, .THIS .matrixColour78, .THIS .matrixColour79,
+.THIS .matrixColour83, .THIS .matrixColour84, .THIS .matrixColour86, .THIS .matrixColour87, .THIS .matrixColour88, .THIS .matrixColour89,
+.THIS .matrixColour92, .THIS .matrixColour93, .THIS .matrixColour94, .THIS .matrixColour96, .THIS .matrixColour97, .THIS .matrixColour98, .THIS .matrixColour99{
+    background-color:rgb(233, 91, 82);
+}
+
+/*Green*/
+.THIS .matrixColour16, .THIS .matrixColour17, .THIS .matrixColour18, .THIS .matrixColour19,
+.THIS .matrixColour27, .THIS .matrixColour28, .THIS .matrixColour29,
+.THIS .matrixColour38, .THIS .matrixColour39,
+.THIS .matrixColour49 {
+    background-color:rgb(177, 204, 102);
+}
+
+/*Gray*/
+.THIS .matrixColour15, .THIS .matrixColour25, .THIS .matrixColour35, .THIS .matrixColour45, .THIS .matrixColour55, .THIS .matrixColour65, .THIS .matrixColour75, .THIS .matrixColour85, .THIS .matrixColour95, .THIS .matrixColour105,
+.THIS .matrixColour51, .THIS .matrixColour52, .THIS .matrixColour53, .THIS .matrixColour54, .THIS .matrixColour56, .THIS .matrixColour57, .THIS .matrixColour58, .THIS .matrixColour59, .THIS .matrixColour510 {
+    background-color:rgb(98, 117, 138);
+    color: white;
+}
+
+.THIS .matrixRow:hover {
+    background-color:none;
+}

@@ -1,0 +1,55 @@
+<aura:component implements="force:lightningQuickAction,flexipage:availableForAllPageTypes,force:appHostable,lightning:actionOverride,force:hasRecordId" access="global" >
+    
+    <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-size_2-of-5 "  style="padding : 3px;font-weight:bold;">
+            KEY PEOPLE CHANGE 
+        </div>
+        <div class="slds-col slds-size_3-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+            Strategic news highlighting personnel changes in the client’s org (i.e. nomination of a new CEO)
+        </div>
+
+        <div class="slds-col slds-size_2-of-5 "  style="padding : 3px;font-weight:bold;">
+            COMPANY RE-ORGANISATION
+        </div>
+        <div class="slds-col slds-size_3-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+            Strategic news informing of changes in the client’s structure (i.e. FSU move from a country A to a country B)
+        </div>
+
+        <div class="slds-col slds-size_2-of-5 "  style="padding : 3px;font-weight:bold;">
+			PRODUCT/ BUY LIST
+        </div>
+        <div class="slds-col slds-size_3-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+			Strategic news informing of an important update on a product or on a client’s buy list (i.e. upgrade of the product status in an existing buy list)
+        </div>
+
+        <div class="slds-col slds-size_2-of-5 "  style="padding : 3px;font-weight:bold;">
+			INVESTMENT SOLUTIONS
+        </div>
+        <div class="slds-col slds-size_3-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+			Strategic news to update on an Investment Solution (i.e. new/update on product partnership)
+        </div>
+
+        <div class="slds-col slds-size_2-of-5 "  style="padding : 3px;font-weight:bold;">
+			AGREEMENT &amp; NEGOTIATION
+        </div>
+        <div class="slds-col slds-size_3-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+			Strategic news impacting the economic business relationship (i.e. distributor agreement, fee negotiation)
+        </div>
+
+        <div class="slds-col slds-size_2-of-5 "  style="padding : 3px;font-weight:bold;">
+			MERGERS &amp; ACQUISITIONS
+        </div>
+        <div class="slds-col slds-size_3-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+			Strategic news on a merge/acquisitions between companies
+        </div>
+
+        <div class="slds-col slds-size_2-of-5 "  style="padding : 3px;font-weight:bold;">
+			MEETING
+        </div>
+        <div class="slds-col slds-size_3-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+			Strategic news informing of an important meeting with key stakeholders (i.e. top management, etc..)
+        </div>
+
+    </div>
+    
+</aura:component>

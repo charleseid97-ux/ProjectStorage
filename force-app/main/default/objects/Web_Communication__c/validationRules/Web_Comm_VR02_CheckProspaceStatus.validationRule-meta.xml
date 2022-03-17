@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Web_Comm_VR02_CheckProspaceStatus</fullName>
+    <active>true</active>
+    <description>The related lead/ contact associated with the alert should have prospace status validated.</description>
+    <errorConditionFormula>AND(!$User.BypassValidationRules__c,
+IF(ISNEW(),
+IF(ISBLANK(Contact__c), 
+			NOT(ISPICKVAL(Lead__r.Prospace_Status__c, &apos;Validated&apos;)),
+		    NOT(ISPICKVAL(Contact__r.Prospace_Status__c, &apos;Validated&apos;))
+		),
+			false))</errorConditionFormula>
+    <errorMessage>Related Lead/ Contact should be validated before creating alerts.</errorMessage>
+</ValidationRule>

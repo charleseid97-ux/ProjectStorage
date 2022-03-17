@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Legal Entity</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Legal Entities</value>
+    </caseValues>
+    <layouts>
+        <layout>Legal Entitie Layout</layout>
+        <sections>
+            <label></label>
+            <section>Address Information</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Legal Entity Information</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Registration Information</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>System Information</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Legal_Entity_Identifier_VR</name>
+    </validationRules>
+</CustomObjectTranslation>

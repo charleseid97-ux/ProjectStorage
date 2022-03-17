@@ -1,0 +1,92 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,flexipage:availableForAllPageTypes,force:appHostable,lightning:actionOverride,force:hasRecordId" access="global" 
+                controller="GAMHierarchyUtil">
+    
+    <aura:attribute name="recordId" type="string" description="RecordId of the GAM." />
+    <aura:attribute name="GAM" type="Account" description="The GAM sObject" />
+    <aura:attribute name="GAMSubAccounts" type="Account[]" description="The GAM child accounts" />
+
+    <aura:attribute name="GAMGroupMap" type="Map" description="Map of GAM Grouping Account Names and Ids" />
+    <aura:attribute name="GAMGroupNames" type="List" description="List of GAM Grouping Account Names" />
+
+    <aura:attribute name="GAMProcessStep" type="Integer" description="determines what stage in the process you are at " default="1"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <div class="slds-container--center slds-container--large">
+        
+        <article class="slds-card">
+            
+            <div class="slds-page-header">
+                <div class="slds-grid">
+                    
+                    <div class="slds-col slds-has-flexi-truncate">
+                        <div class="slds-media slds-no-space slds-grow">
+                            <div class="slds-media__figure">
+                                <span class="slds-icon_container slds-icon-custom-custom18" title="description of icon when needed">
+                                    <lightning:icon iconName="standard:account" size="large" alternativeText="GAM"/>
+                                </span>
+                            </div>
+                            <div class="slds-media__body">
+                                <p class="slds-text-title_caps slds-line-height_reset">Hierarchy Builder</p>
+                                <h1 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate" title="{!v.meetingNote.Name}">{!v.meetingNote.Name}</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-no-flex slds-grid slds-align-top">
+                        <lightning:buttonGroup >
+                            
+                            <aura:renderIf isTrue="{!v.GAMProcessStep==1}">
+	                            <lightning:button label="Cancel" onclick="{!c.cancel}" /> 
+                                <lightning:button label="Build Groups" onclick="{!c.buildGroupsCtrl}" />
+                                <lightning:button label="Override Delete Groups" onclick="{!c.overrideDeleteGroupsCtrl}" />
+                            </aura:renderIf>
+
+                            <aura:renderIf isTrue="{!v.GAMProcessStep==2}">
+	                            <lightning:button label="Delete Groupings" onclick="{!c.deleteGroupingsCtrl}" />
+                                <lightning:button label="Build Hierarchy" onclick="{!c.buildHierarchyCtrl}" />
+                            </aura:renderIf>
+                            
+                            <aura:renderIf isTrue="{!v.GAMProcessStep==3}">
+                                <lightning:button label="Complete" onclick="{!c.cancel}" />
+                            </aura:renderIf>
+
+                            <aura:renderIf isTrue="{!v.GAMProcessStep==4}">
+                                <lightning:button label="Complete" onclick="{!c.cancel}" />
+                            </aura:renderIf>
+                            
+                        </lightning:buttonGroup>
+                    </div>
+                </div>
+            </div>
+            
+            <aura:renderIf isTrue="{!v.GAMProcessStep==1}">
+                <c:GAMSelection aura:id="GAMSelect" GAM="{!v.GAM}" />
+            </aura:renderIf>
+            
+            <aura:renderIf isTrue="{!v.GAMProcessStep==2}">
+                <c:GAMGroupingConfirmation aura:id="GAMGrouping" GAMId="{!v.GAM.Id}" GAM="{!v.GAM}" />
+            </aura:renderIf>   
+            
+            <aura:renderIf isTrue="{!v.GAMProcessStep==3}">
+                <article class="slds-card">
+                    <div class="slds-p-around_medium" >
+                        <div class="slds-form slds-form_stacked" style="font-size:14px;">Hierarchy successfully built</div>
+                    </div>
+                </article>
+            </aura:renderIf>  
+            
+            <aura:renderIf isTrue="{!v.GAMProcessStep==4}">
+                <c:GAMGroupingDelete aura:id="GAMGroupingDelete" GAM="{!v.GAM}" GAMGroupNames="{!v.GAMGroupNames}" />
+            </aura:renderIf>
+            
+            <aura:renderIf isTrue="{!v.GAMProcessStep==5}">
+                <div style="width:100%;text-align:center;font-size:16px;"><img id="clientTier" src="/resource/HierarchyLoading" style="width:50%;"/></div>
+            </aura:renderIf>
+
+            <aura:renderIf isTrue="{!v.GAMProcessStep==6}">
+                <div style="width:100%;text-align:center;font-size:16px;">deleted</div>
+            </aura:renderIf>
+            
+        </article>
+    </div>
+</aura:component>

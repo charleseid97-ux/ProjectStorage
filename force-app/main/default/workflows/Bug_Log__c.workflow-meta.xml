@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>BugLog_HasBeenRetestAnsweredEmailAlert</fullName>
+        <description>Bug Log_HasBeenRe-test/AnsweredEmailAlert</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>CarmignacBugLogs/Buglog_Retest_Answered</template>
+    </alerts>
+    <alerts>
+        <fullName>BugLog_NewBugCreated</fullName>
+        <description>Bug Log_NewBugCreated</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>CSC_Bug_Team</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>CarmignacBugLogs/BugLogs_NewBugLog</template>
+    </alerts>
+    <alerts>
+        <fullName>BugLogsUserAnswered</fullName>
+        <description>BugLogs_UserAnswered</description>
+        <protected>false</protected>
+        <recipients>
+            <field>AssignedTo__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>CarmignacBugLogs/BugLogs_UserAnswered</template>
+    </alerts>
+    <alerts>
+        <fullName>BugLogs_LogAssignedToUser</fullName>
+        <description>BugLogs_LogAssignedToUser</description>
+        <protected>false</protected>
+        <recipients>
+            <field>AssignedTo__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>CarmignacBugLogs/BugLogs_LogAssignedToUser</template>
+    </alerts>
+    <alerts>
+        <fullName>Easy_Log_Alert_1_to_Alpha_Admin_log_created</fullName>
+        <description>Easy Log : Alert 1 to Alpha = log created</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>abderrahmane.tria-crm@carmignac.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>brett.pearson-crm@alphafmc.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>valentina.salgado-crm@carmignac.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Carmignac_Easy_Log_Email_Alerts/Easy_Log_Email_sent_to_Admin_after_a_record_is_saved_by_user</template>
+    </alerts>
+    <alerts>
+        <fullName>Easy_Log_Alert_1_to_DS_Admin_log_created</fullName>
+        <description>Easy Log : Alert 1 to DS Admin = log created</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>audrey.cornier.external-crm@carmignac.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>felix.reyes-crm@carmignac.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>lisa.tanguy-crm@carmignac.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>vanessa.dreux-crm@carmignac.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Carmignac_Easy_Log_Email_Alerts/Easy_Log_Email_sent_to_Admin_after_a_record_is_saved_by_user</template>
+    </alerts>
+    <alerts>
+        <fullName>Easy_Log_Alert_1_to_Mkt_Admin_log_created</fullName>
+        <description>Easy Log : Alert 1 to Mkt Admin = log created</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>seb.prod@carmignac.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>stephane.lawtime-crm@carmignac.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>vanessa.moris-crm@carmignac.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Carmignac_Easy_Log_Email_Alerts/Easy_Log_Email_sent_to_Admin_after_a_record_is_saved_by_user</template>
+    </alerts>
+    <alerts>
+        <fullName>Easy_Log_Alert_2_to_Admin_when_Bug_Assigned</fullName>
+        <description>Easy Log: Alert 2 to Admin when Bug Assigned</description>
+        <protected>false</protected>
+        <recipients>
+            <field>AssignedTo__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Carmignac_Easy_Log_Email_Alerts/Easy_Log_Email_sent_to_Admin_Log_Assigned</template>
+    </alerts>
+    <alerts>
+        <fullName>Easy_Log_Alert_Email_1_sent_to_User_when_a_record_is_created</fullName>
+        <description>Easy Log : Alert Email 1 sent to User when a record is created</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Carmignac_Easy_Log_Email_Alerts/Easy_Log_Email_sent_to_User_when_a_record_is_created</template>
+    </alerts>
+    <alerts>
+        <fullName>Easy_Log_Alert_Email_2_sent_to_User_when_the_Status_is_updated</fullName>
+        <description>Easy Log : Alert Email 2 sent to User when the Status is updated</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Carmignac_Easy_Log_Email_Alerts/Easy_Log_Email_sent_to_User_if_Status_changed</template>
+    </alerts>
+    <alerts>
+        <fullName>Easy_Log_Alert_Email_4_sent_to_User_when_Case_is_closed</fullName>
+        <description>Easy Log : Alert Email 4 sent to User when Case is closed</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Carmignac_Easy_Log_Email_Alerts/Easy_Log_Email_sent_to_User_if_Status_Closed</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>BugLogsUpdateCloseDate</fullName>
+        <description>Update the Close Date field by Today date</description>
+        <field>CloseDate__c</field>
+        <formula>TODAY()</formula>
+        <name>BugLogs_UpdateCloseDate</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Bug_Log_UpdateResultKOStatusPending</fullName>
+        <field>Status__c</field>
+        <literalValue>Pending CSC</literalValue>
+        <name>Bug Log_UpdateResultKOStatusPending</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>BuglogsUpdateStatusClosed</fullName>
+        <field>Status__c</field>
+        <literalValue>Closed</literalValue>
+        <name>BugLogs_UpdateStatusClosed</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Close_date</fullName>
+        <description>&quot;Close Date &quot; filed is automatically filled with the &quot;Last Modification Date&quot; when the status of a case goes to close</description>
+        <field>CloseDate__c</field>
+        <formula>DATEVALUE (LastModifiedDate)</formula>
+        <name>Close date</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>BugLogs_WF001_StatusKO</fullName>
+        <actions>
+            <name>Bug_Log_UpdateResultKOStatusPending</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>false</active>
+        <criteriaItems>
+            <field>Bug_Log__c.RetestResult__c</field>
+            <operation>equals</operation>
+            <value>KO</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>User.BypassWorkflowRules__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>BugLogs_WF002_StatusOK</fullName>
+        <actions>
+            <name>BugLogsUpdateCloseDate</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>BuglogsUpdateStatusClosed</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>false</active>
+        <criteriaItems>
+            <field>Bug_Log__c.RetestResult__c</field>
+            <operation>equals</operation>
+            <value>OK</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>User.BypassWorkflowRules__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>BugLogs_WF003_RestestSendAlert</fullName>
+        <actions>
+            <name>BugLog_HasBeenRetestAnsweredEmailAlert</name>
+            <type>Alert</type>
+        </actions>
+        <active>false</active>
+        <criteriaItems>
+            <field>Bug_Log__c.Status__c</field>
+            <operation>equals</operation>
+            <value>Re-test /Answered</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>User.BypassWorkflowRules__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>BugLogs_WF004_NewBugLog</fullName>
+        <actions>
+            <name>BugLog_NewBugCreated</name>
+            <type>Alert</type>
+        </actions>
+        <active>false</active>
+        <criteriaItems>
+            <field>Bug_Log__c.CreatedDate</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <criteriaItems>
+            <field>User.BypassWorkflowRules__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
+        <description>Email sent to CSC Team when a new bug is logged</description>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>BugLogs_WF005_UserAnswererd</fullName>
+        <actions>
+            <name>BugLogsUserAnswered</name>
+            <type>Alert</type>
+        </actions>
+        <active>false</active>
+        <description>Send an email notification to the &quot;Assigned To&quot; admin when user answered</description>
+        <formula>AND(NOT($User.BypassWorkflowRules__c), ISCHANGED( ReTestDetail__c ))</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>BugLogs_WF006_BugAssignedToUser</fullName>
+        <actions>
+            <name>BugLogs_LogAssignedToUser</name>
+            <type>Alert</type>
+        </actions>
+        <active>false</active>
+        <description>Send an email alert to notice the user that a new log has been assigned to him</description>
+        <formula>AND( NOT($User.BypassWorkflowRules__c), OR(    AND(        ISNEW(),        NOT(ISNULL(AssignedTo__c )),        $User.Id  &lt;&gt;  AssignedTo__r.Id),    AND(        $User.Id  &lt;&gt;  AssignedTo__r.Id ,        ISCHANGED( AssignedTo__c ))    ))</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Easy Log %3A Alert 1 Send email to Alpha Team</fullName>
+        <actions>
+            <name>Easy_Log_Alert_1_to_Alpha_Admin_log_created</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Bug_Log__c.Status__c</field>
+            <operation>equals</operation>
+            <value>Open</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Bug_Log__c.App__c</field>
+            <operation>equals</operation>
+            <value>Salesforce</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Bug_Log__c.Type__c</field>
+            <operation>equals</operation>
+            <value>Evolution/Suggestion</value>
+        </criteriaItems>
+        <description>An email is sent to Alpha Team after a log has been created</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Easy Log %3A Alert 1 Send email to DS Team</fullName>
+        <actions>
+            <name>Easy_Log_Alert_1_to_DS_Admin_log_created</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <booleanFilter>1 AND 2</booleanFilter>
+        <criteriaItems>
+            <field>Bug_Log__c.Status__c</field>
+            <operation>equals</operation>
+            <value>Open</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Bug_Log__c.App__c</field>
+            <operation>contains</operation>
+            <value>Salesforce,Schedule,etouches,Prospace,Pyramid Sales&amp;Marketing,Tableau Software</value>
+        </criteriaItems>
+        <description>An email is sent to DS Team after a log has been created</description>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>Easy Log %3A Alert 1 Send email to MKT Team</fullName>
+        <actions>
+            <name>Easy_Log_Alert_1_to_Mkt_Admin_log_created</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <booleanFilter>1 AND 2</booleanFilter>
+        <criteriaItems>
+            <field>Bug_Log__c.Status__c</field>
+            <operation>equals</operation>
+            <value>Open</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Bug_Log__c.App__c</field>
+            <operation>contains</operation>
+            <value>Schedule,etouches,Pardot</value>
+        </criteriaItems>
+        <description>An email is sent to MKT Team after a log has been created</description>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>Easy Log %3A Alert 1 Send email to Users</fullName>
+        <actions>
+            <name>Easy_Log_Alert_Email_1_sent_to_User_when_a_record_is_created</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Bug_Log__c.Type__c</field>
+            <operation>contains</operation>
+            <value>Bug,Support,Information/Question,Evolution/Suggestion</value>
+        </criteriaItems>
+        <description>1st email sent to user to recap their request</description>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>Easy Log %3A Alert 2 Send Status changed email to Users</fullName>
+        <actions>
+            <name>Easy_Log_Alert_Email_2_sent_to_User_when_the_Status_is_updated</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <booleanFilter>1</booleanFilter>
+        <criteriaItems>
+            <field>Bug_Log__c.Status__c</field>
+            <operation>contains</operation>
+            <value>Ongoing,Pending</value>
+        </criteriaItems>
+        <description>2nd email sent to user to inform him about any change of the status expect Open and Closed</description>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Easy Log %3A Alert 2 Send emaill Admin when Bug Assigned to</fullName>
+        <actions>
+            <name>Easy_Log_Alert_2_to_Admin_when_Bug_Assigned</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <description>Send an email alert to notice the user that a new log has been assigned to him</description>
+        <formula>ISCHANGED( AssignedTo__c )</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Easy Log %3A Alert 4 Send emaill Users when Bug closed</fullName>
+        <actions>
+            <name>Easy_Log_Alert_Email_4_sent_to_User_when_Case_is_closed</name>
+            <type>Alert</type>
+        </actions>
+        <actions>
+            <name>Close_date</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Bug_Log__c.Status__c</field>
+            <operation>equals</operation>
+            <value>Closed</value>
+        </criteriaItems>
+        <description>Send an email alert to notice the user that is Bug/log is now closed</description>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+</Workflow>

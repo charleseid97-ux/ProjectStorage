@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fieldUpdates>
+        <fullName>Follow_up_completed</fullName>
+        <description>Update the &apos;follow up completed&apos; checkbox</description>
+        <field>Follow_up_completed__c</field>
+        <literalValue>1</literalValue>
+        <name>Follow up completed</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Follow_up_date</fullName>
+        <description>Fill the field follow up date with today&apos;s date when the follow up is completed.</description>
+        <field>Follow_Up_date__c</field>
+        <formula>TODAY()</formula>
+        <name>Follow up date</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Follow_up_empty</fullName>
+        <description>Empty the follow up field if it is done before the activity</description>
+        <field>Description</field>
+        <name>Follow up empty</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Null</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Follow_up_empty2</fullName>
+        <field>Description</field>
+        <name>Follow up empty</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Event_WF001_Follow up completed</fullName>
+        <actions>
+            <name>Follow_up_completed</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>Follow_up_date</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>When the follow up is completed, the field &quot;follow up date&quot; and the &quot;follow up completed&quot; checkbox are updated.</description>
+        <formula>AND( NOT($User.BypassWorkflowRules__c) ,
+OR(
+NOT ISBLANK(  Description ),
+NOT ISBLANK( Meeting_Note__c )
+))</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Event_WF002_Follow Up Control</fullName>
+        <actions>
+            <name>Follow_up_empty2</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>false</active>
+        <criteriaItems>
+            <field>Event.Follow_up_time__c</field>
+            <operation>lessThan</operation>
+            <value>0</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>User.BypassWorkflowRules__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
+        <description>Forbids the user from creating a follow up before the event is done</description>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+</Workflow>

@@ -1,0 +1,19 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId,force:hasSObjectName"             
+                controller="ProductSelectionCtrl" access="global">
+    
+    <aura:method name="launchFromVF" action="{!c.openUpdateModal}" access="global"/> 
+    
+    <aura:attribute name="vfSObject" type="String"/>
+   	<aura:attribute name="vfRecordId" type="String"/>
+   	<aura:attribute name="productSelectorOpen" type="boolean" default="false"/>
+   
+    <!-- Opportunity event -->
+    <aura:registerEvent name="ProductInitialModalOpenOpportunity" type="c:ProductSelectorInitialModalOppEvt" />
+    
+    <!-- Listener needs to assess whether the specific SObject (RFP or Opportunity) has  a Product Selector linked -->	
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <!-- For Opportunity-to-Product(s) linkage -->
+    <c:ProductSelectorInitialModalOpp/>
+       
+</aura:component>

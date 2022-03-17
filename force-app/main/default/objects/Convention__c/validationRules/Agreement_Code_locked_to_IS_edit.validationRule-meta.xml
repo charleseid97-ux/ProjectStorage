@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Agreement_Code_locked_to_IS_edit</fullName>
+    <active>true</active>
+    <description>Only IS can edit Agreement Code</description>
+    <errorConditionFormula>AND(
+  ISCHANGED( Name ),  
+  NOT($Profile.Name = &apos;System Administrator&apos;),
+		NOT($Profile.Name = &apos;Carmignac - System Administrator&apos;),
+  NOT($Profile.Name = &apos;Carmignac - Investor Services&apos;),
+  NOT($User.BypassValidationRules__c)
+)</errorConditionFormula>
+    <errorDisplayField>Name</errorDisplayField>
+    <errorMessage>Only Investor Services can edit an Agreement Code</errorMessage>
+</ValidationRule>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <layouts>
+        <layout>Generic Layout Lead</layout>
+        <sections>
+            <label></label>
+            <section>Communication Preferences</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Disqualification information</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Pardot</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Pardot activities</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Source</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Lead Layout</layout>
+        <sections>
+            <label></label>
+            <section>Pardot</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Source</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Website Information</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Lead Layout ProSpace</layout>
+        <sections>
+            <label></label>
+            <section>Communication Preferences</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Disqualification information</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Pardot</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Pardot activities</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Source</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Website Information</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label></label>
+        <name>Add_To_Event_detail</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>Reset_Website_Password</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>Source_Definitions</name>
+    </quickActions>
+    <quickActions>
+        <label></label>
+        <name>Sync_Website_Lead</name>
+    </quickActions>
+</CustomObjectTranslation>

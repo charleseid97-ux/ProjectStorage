@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>SR001OpenToAllUser</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Open read &amp; write for all users when Strategic is not related to GAM</description>
+        <label>SR001_OpenToAllUser</label>
+        <sharedTo>
+            <allInternalUsers></allInternalUsers>
+        </sharedTo>
+        <booleanFilter>(1 AND 2) OR 3</booleanFilter>
+        <criteriaItems>
+            <field>RelatedToGAM__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Type__c</field>
+            <operation>notEqual</operation>
+            <value>AGREEMENT &amp; NEGOTIATION</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RelatedToGAM__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>SR002OpenToHoCs</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Open visibility &amp; write to HoCs when Type = AGREEMENT &amp; PRICING and &quot;Related to GAM&quot; = True</description>
+        <label>SR002_OpenToHoCs</label>
+        <sharedTo>
+            <group>HeadOfCountries</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RelatedToGAM__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Type__c</field>
+            <operation>equals</operation>
+            <value>AGREEMENT &amp; NEGOTIATION</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>

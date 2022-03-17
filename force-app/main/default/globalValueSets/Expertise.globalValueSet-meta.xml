@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>EMEQ</fullName>
+        <default>false</default>
+        <label>Emerging Market</label>
+    </customValue>
+    <customValue>
+        <fullName>FIXI</fullName>
+        <default>false</default>
+        <label>Fixed Income</label>
+    </customValue>
+    <customValue>
+        <fullName>GLEQ</fullName>
+        <default>false</default>
+        <label>Global Equity</label>
+    </customValue>
+    <customValue>
+        <fullName>ESG1</fullName>
+        <default>false</default>
+        <label>ESG</label>
+    </customValue>
+    <customValue>
+        <fullName>GLMA</fullName>
+        <default>false</default>
+        <label>Global Macro</label>
+    </customValue>
+    <customValue>
+        <fullName>EUEQ</fullName>
+        <default>false</default>
+        <label>Europe</label>
+    </customValue>
+    <customValue>
+        <fullName>QUAT</fullName>
+        <default>false</default>
+        <label>Quantitative</label>
+    </customValue>
+    <customValue>
+        <fullName>INSO</fullName>
+        <default>false</default>
+        <label>Investment Solutions</label>
+    </customValue>
+    <customValue>
+        <fullName>Multi-Strategy</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Multi-Strategy</label>
+    </customValue>
+    <masterLabel>Expertise</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

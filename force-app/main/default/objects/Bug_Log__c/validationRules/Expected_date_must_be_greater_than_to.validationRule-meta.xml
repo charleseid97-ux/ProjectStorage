@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Expected_date_must_be_greater_than_to</fullName>
+    <active>true</active>
+    <description>Expected_date_must_be_greater_than_to</description>
+    <errorConditionFormula>AND(
+    OR( 
+        ISNEW(), 
+        ISCHANGED(Expected_Date__c) 
+    ), 
+    Expected_Date__c &lt; DATEVALUE(CreatedDate), NOT($User.BypassValidationRules__c)
+)</errorConditionFormula>
+    <errorDisplayField>Expected_Date__c</errorDisplayField>
+    <errorMessage>Sorry, we are not able to resolve a Log for before Today ;-) 
+Please change the date</errorMessage>
+</ValidationRule>

@@ -1,0 +1,83 @@
+<aura:component implements="force:lightningQuickAction,flexipage:availableForAllPageTypes,force:appHostable,lightning:actionOverride,force:hasRecordId" access="global" >
+    
+    <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-size_1-of-5 "  style="padding : 3px;font-weight:bold;">
+            Brightalk
+        </div>
+        <div class="slds-col slds-size_4-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+            Contact information obtained through registration to a Brightalk
+        </div>
+
+        <div class="slds-col slds-size_1-of-5 "  style="padding : 3px;font-weight:bold;">
+            Business Card
+        </div>
+        <div class="slds-col slds-size_4-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+            Contact information obtained via physical business card exchange
+        </div>
+
+        <div class="slds-col slds-size_1-of-5 "  style="padding : 3px;font-weight:bold;">
+            CNS Webinar
+        </div>
+        <div class="slds-col slds-size_4-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+            Contact information obtained via registration to a webinar (German only)
+        </div>
+
+        <div class="slds-col slds-size_1-of-5 "  style="padding : 3px;font-weight:bold;">
+            DOOR
+        </div>
+        <div class="slds-col slds-size_4-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+            Contact information obtained via the RFP DOOR platform
+        </div>
+
+        <div class="slds-col slds-size_1-of-5"  style="padding : 3px;font-weight:bold;">
+            Event
+        </div>
+        <div class="slds-col slds-size_4-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+            Contact information obtained via an internal/external event (subscription to an event, event lists, etc…)
+        </div>
+
+        <div class="slds-col slds-size_1-of-5 "  style="padding : 3px;font-weight:bold;">
+            Enquiry
+        </div>
+        <div class="slds-col slds-size_4-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+            Contact information obtained via a direct telephone or email contact
+        </div>
+
+        <div class="slds-col slds-size_1-of-5 "  style="padding : 3px;font-weight:bold;">
+            Press and Media
+        </div>
+        <div class="slds-col slds-size_4-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+            Contact information obtained through Press and Media contact
+        </div>
+
+        <div class="slds-col slds-size_1-of-5 "  style="padding : 3px;font-weight:bold;">
+            Purchased List
+        </div>
+        <div class="slds-col slds-size_4-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+            Contact information obtained via a purchased list
+        </div>
+
+        <div class="slds-col slds-size_1-of-5 "  style="padding : 3px;font-weight:bold;">
+            Referral
+        </div>
+        <div class="slds-col slds-size_4-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+            Contact information obtained via the recommendation of existing contact
+        </div>
+
+        <div class="slds-col slds-size_1-of-5 "  style="padding : 3px;font-weight:bold;">
+            Social Media
+        </div>
+        <div class="slds-col slds-size_4-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+            Contact information obtained via Social Media (eg LinkedIn)
+        </div>
+
+        <div class="slds-col slds-size_1-of-5 "  style="padding : 3px;font-weight:bold;">
+            Website
+        </div>
+        <div class="slds-col slds-size_4-of-5 "  style="padding : 3px;padding-left:0px;padding-right:0px;">
+            Contact information obtained via the website
+        </div>
+
+    </div>
+    
+</aura:component>

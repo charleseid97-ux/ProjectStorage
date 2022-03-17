@@ -1,0 +1,6 @@
+<!-- Application Event -->
+<aura:event type="APPLICATION" description="Fired when the Product Listener component recgonizes that no Product(s) are attached to the Opportunity">
+	<aura:attribute name="openModal" type="Boolean" description=" sets the Modal isOpen attribute to true"/>
+    <aura:attribute name="OppId" type="String" description=" current Opportunity id"/>
+    <aura:attribute name="sObjectName" type="String" description=" current sObject Name"/>
+</aura:event>

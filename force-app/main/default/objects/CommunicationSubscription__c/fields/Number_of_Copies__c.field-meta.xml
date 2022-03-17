@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Number_of_Copies__c</fullName>
+    <defaultValue>0</defaultValue>
+    <description>Field dedicated to keep track on paper copies to send to customer.
+For digital communication, value is 0 or null.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Please type here number of paper copies required for this communication.
+Applies only for paper copy. For digital communication, keep default value.</inlineHelpText>
+    <label>Number of Copies</label>
+    <precision>4</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

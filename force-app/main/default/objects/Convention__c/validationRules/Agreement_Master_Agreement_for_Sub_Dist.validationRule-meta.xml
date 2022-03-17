@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Agreement_Master_Agreement_for_Sub_Dist</fullName>
+    <active>true</active>
+    <description>Master Agreement must be set for a Sub Distributor Code Type</description>
+    <errorConditionFormula>AND(
+  ISPICKVAL( Code_Type__c , &apos;Sub-intermediary Agreement via platform&apos;),
+  ISBLANK( MasterConvention__c ),
+  NOT($User.BypassValidationRules__c)
+)</errorConditionFormula>
+    <errorDisplayField>MasterConvention__c</errorDisplayField>
+    <errorMessage>You must select a Master Agreement for this Code Type</errorMessage>
+</ValidationRule>

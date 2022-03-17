@@ -1,0 +1,5 @@
+<!-- Application Event -->
+<aura:event type="APPLICATION" description="Fired when a User has selected Save after having selected the corresponding Products">
+	<aura:attribute name="selectedProducts" type="Opportunity_Product__c[]" description="Products that have been selected"/>
+    <aura:attribute name="deleteProductList" type="Opportunity_Product__c[]" description="Products that are to be deleted"/>
+</aura:event>

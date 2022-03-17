@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Meeting&amp;Call</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Meetings&amp;Calls</value>
+    </caseValues>
+    <layouts>
+        <layout>Event Layout</layout>
+        <sections>
+            <label></label>
+            <section>Historic Meeting Report</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Next Step</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Related To</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label></label>
+        <name>New_Meeting_NoteLEX</name>
+    </quickActions>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

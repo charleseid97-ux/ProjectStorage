@@ -1,0 +1,5 @@
+<!-- Application Event -->
+<aura:event type="APPLICATION" description="Fired when a Product Selection has been confirmed by the user">
+	<aura:attribute name="confirmProductTileSelected" type="Boolean"/>
+    <aura:attribute name="confirmProdId" type="String"/>
+</aura:event>

@@ -1,0 +1,5 @@
+<aura:component implements="lightning:actionOverride,force:hasRecordId,force:hasSObjectName,force:lightningQuickActionWithoutHeader">
+
+    <c:MeetingNotesContainer fromId="{!v.recordId}"/>   
+	
+</aura:component>

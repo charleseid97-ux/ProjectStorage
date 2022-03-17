@@ -1,0 +1,19 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId,force:hasSObjectName"             
+                controller="ProductSelectionCtrl" access="global">
+    
+    <aura:method name="launchFromVF" action="{!c.openUpdateModal}" access="global"/> 
+    
+    <aura:attribute name="vfSObject" type="String"/>
+   	<aura:attribute name="vfRecordId" type="String"/>
+   	<aura:attribute name="productSelectorOpen" type="boolean" default="false"/>
+   
+    <!-- WTP event -->
+    <aura:registerEvent name="ProductInitialModalOpenWTP" type="c:ProductSelectorInitialModalWTPEvt" />
+    
+    <!-- Listener needs to assess whether the specific SObject (WTP) has  a Product Selector linked -->	
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <!-- For WTP-to-Product(s) linkage -->
+    <c:ProductSelectorInitialModalWTP/>
+       
+</aura:component>

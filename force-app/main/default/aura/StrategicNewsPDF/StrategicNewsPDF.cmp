@@ -1,0 +1,21 @@
+<!--
+
+* @description used in 'Create PDF' quick action from the Account Plan records detail page
+				redirects to visualforce page AccountPlanPDF which renders as PDF
+-->
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId" controller="StrategicNewsPDFController">
+    
+    <!--attribute the get the record Id from the lightning record detail page-->
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="fileName" type="String" default="StrategicNews.pdf"/>
+    
+    <aura:registerEvent name="closeDownloadOverlay" type="c:StrategicNewsPDFCloseDownloadEvent"/>
+    
+    <a aura:id="theDlTag" class="slds-hide" download="{!v.fileName}">Hidden</a>
+    
+    <!--handler to call the doInit method while initialization-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <lightning:spinner size="large"/>
+    
+</aura:component>

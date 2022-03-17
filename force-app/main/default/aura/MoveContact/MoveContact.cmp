@@ -1,0 +1,253 @@
+<!--
+Contact Mover/Former Employment component for use as Contact Quick Action
+
+Author: Mike Egar
+Version: 1.0.0
+Date: 22/01/2017
+-->
+
+<aura:component implements="flexipage:availableForAllPageTypes,force:appHostable,lightning:actionOverride,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global" controller="MoveContactCtrlLtng">
+    
+    <!-- Internal -->
+    <aura:attribute name="moveToInactiveContacts" type="boolean" default="false"/>
+    <aura:attribute name="isSameHierarchy" type="boolean" default="false"/>
+    <aura:attribute name="toAccountId" type="string" default=""/>
+    <aura:attribute name="dateLeft" type="date"/>
+    <aura:attribute name="corporateTitleOptions" type="List"/>
+    <aura:attribute name="jobFunctionOptions" type="List"/>
+    <aura:attribute name="jobTitleOptions" type="List"/>
+    <aura:attribute name="newContact" type="Contact" default="{'Id':null, 'Business_Card_Title__c':'','Phone':'', 'Email':'', 'JobTitle__c':'', 'CorporateTitle__c': '', 'JobFunction__c' : '', 'MobilePhone':'', 'Use_Company_Address__c':false, 'HasOptedOutOfEmail':false, 'Subscriber__c':false}}" />
+    <aura:attribute name="record" type="Object"/>
+    <aura:attribute name="contact" type="Contact"/>
+    <aura:attribute name="recordError" type="String"/>
+    <aura:attribute name="listAgr" type="List" access="global"/>
+    
+    <!-- Event registration and handlers -->
+    <aura:handler name="change" value="{!v.toAccountId}" action="{!c.toAccountIdChange}"/>
+    <aura:handler name="change" value="{!v.moveToInactiveContacts}" action="{!c.inactiveContactsChange}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <!-- Lightning Data Services to show existing Contact data -->
+    <force:recordData aura:id="recordLoader"
+                      recordId="{!v.recordId}"
+                      fields="Id,Name,Business_Card_Title__c,Phone,Email,JobTitle__c,CorporateTitle__c,JobFunction__c,MobilePhone,AccountId,HasOptedOutOfEmail,Subscriber__c"
+                      targetRecord="{!v.record}"
+                      targetFields="{!v.contact}"
+                      targetError="{!v.recordError}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      />
+    
+    <!-- Outer container for component -->
+    <div class="slds-container--center slds-container--large">
+        <article class="slds-card">
+            
+            <!-- Generic error handler for Action callbacks -->
+            <c:ToastErrorHandler aura:id="toastErrorHandler" />
+            
+            <!-- Display Lightning Data Service errors, if any -->
+            <aura:if isTrue="{!not(empty(v.recordError))}">
+                <div class="recordError">
+                    <ui:message title="Error" severity="error" closable="true">
+                        {!v.recordError}
+                    </ui:message>
+                </div>
+            </aura:if>
+            
+            <!-- Header section -->
+            <div class="slds-page-header">
+                <div class="slds-grid">
+                    <div class="slds-col slds-has-flexi-truncate">
+                        <div class="slds-media slds-no-space slds-grow">
+                            <div class="slds-media__figure">
+                                <span class="slds-icon_container slds-icon-custom-custom18" title="description of icon when needed">
+                                    <lightning:icon iconName="standard:contact" size="large" alternativeText="Move Contact"/>
+                                </span>
+                            </div>
+                            <div class="slds-media__body">
+                                <p class="slds-text-title_caps slds-line-height_reset">Move Contact</p>
+                                <h1 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate" title="{!v.contact.Name}">{!v.contact.Name}</h1>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Buttons -->
+                    <div class="slds-col slds-no-flex slds-grid slds-align-top">
+                        <lightning:buttonGroup >
+                            
+                            <lightning:button label="Save" onclick="{!c.save}" />
+                            
+                        </lightning:buttonGroup>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Data form -->
+            <div class="slds-form slds-form_stacked">
+                
+                <!-- Destination section -->
+                <div class="slds-section slds-is-open">
+                    <h3 class="slds-section__title slds-theme_shade">
+                        <span class="slds-truncate slds-p-horizontal_small" title="Section Title">Deactivate/Archive this Contact</span>
+                    </h3>
+                    <div aria-hidden="false" class="slds-section__content">
+                        <p>
+                            <lightning:input type="checkbox" label='Move to "Holding Company for Inactive Contacts"?' checked="{!v.moveToInactiveContacts}"/>
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- container for elements that are hidden if move to inactive contacts is selected -->
+                <div class="moveToActiveDiv slds-transition-show" aura:id="moveToActiveDiv">
+                    
+                    <!-- Target Account section -->
+                    <div class="slds-section slds-is-open newAccount"  id="newAccount" aura:id="newAccount">
+                        <h3 class="slds-section__title slds-theme_shade">
+                            <span class="slds-truncate slds-p-horizontal_small" title="Section Title">New Company</span>
+                        </h3>
+                        <div aria-hidden="false" class="slds-section__content">
+                            <p>
+                                <div aura:id="sameHierarchyText" class="hierarchyText slds-transition-hide" style="background-color: #a094ed;">
+                                    <div class="slds-text-color_inverse">
+                                        <div class="slds-text-body_small">
+                                            The contact is moving to a company in the same hierarchy. A Former Employment record will not be created.
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div aura:id="differentHierarchyText" class="hierarchyText slds-transition-hide" style="background-color: #a094ed;">
+                                    <div class="slds-text-color_inverse">
+                                        <div class="slds-text-body_small">
+                                            The contact is moving to a company in a different hierarchy. A Former Employment record will be created.
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <c:strike_lookup aura:id="orgLookup"
+                                                 label="Company Name"
+                                                 object="Account"
+                                                 searchField="Name"
+                                                 placeholder="Select an option"
+                                                 iconName="standard:account"
+                                                 subtitleField="BillingCountry"
+                                                 order="Name"
+                                                 filter="RecordType.Name!='Grouping Entity'"
+                                                 limit="100"
+                                                 loadingMessage="Loading..."
+                                                 errorMessage="Invalid input"
+                                                 value="{!v.toAccountId}"/>
+                                
+                                <lightning:input aura:id="useCompanyAddress" type="checkbox" label="Use Company Address" checked="{!v.newContact.Use_Company_Address__c}"/>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- New Contact details section -->
+                    <div class="slds-section slds-is-open contactDetails" id="contactDetails" aura:id="contactDetails">
+                        <h3 class="slds-section__title slds-theme_shade">
+                            <span class="slds-truncate slds-p-horizontal_small" title="Section Title">Please enter New Contact Details</span>
+                        </h3>
+                        <div aria-hidden="false" class="slds-section__content">
+                            <p>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-2">
+                                        
+                                        <lightning:input type="Email" aura:id="emailrequired" label="Email" value="{!v.newContact.Email}" required="true"/>
+
+                                        <lightning:input type="Tel" label="Phone" value="{!v.newContact.Phone}"/>
+                                        
+                                        <lightning:input type="Tel" label="Mobile" value="{!v.newContact.MobilePhone}"/>
+                                        
+                                        <lightning:input type="text" label="Business Card Title" value="{!v.newContact.Business_Card_Title__c}"/>
+                                        
+                                    </div>
+                                    <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-2">
+                                        
+                                        <lightning:select name="corporateTitle" label="Corporate Title"  aura:id="corporateTitle" value="{!v.newContact.CorporateTitle__c}">
+                                            <option value="" text=""></option>
+                                            <aura:iteration items="{!v.corporateTitleOptions}" var="item">
+                                                <option value="{!item.value}" text="{!item.label}" selected="{!item.selected}"></option>
+                                            </aura:iteration>
+                                        </lightning:select>
+                                        
+                                        <lightning:select name="jobFunction" label="Job Function"  aura:id="jobFunction" value="{!v.newContact.JobFunction__c}">
+                                            <option value="" text=""></option>
+                                            <aura:iteration items="{!v.jobFunctionOptions}" var="item">
+                                                <option value="{!item.value}" text="{!item.label}" selected="{!item.selected}"></option>
+                                            </aura:iteration>
+                                        </lightning:select>
+                                        
+                                        <lightning:select name="jobTitle" label="Job Title"  aura:id="jobTitle" value="{!v.newContact.JobTitle__c}">
+                                            <option value="" text=""></option>
+                                            <aura:iteration items="{!v.jobTitleOptions}" var="item">
+                                                <option value="{!item.value}" text="{!item.label}" selected="{!item.selected}"></option>
+                                            </aura:iteration>
+                                        </lightning:select>
+                                        
+                                    </div>
+                                </div>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Preferences for Active contact -->
+                    <div class="slds-section slds-is-open" id="commPrefs" aura:id="commPrefs">
+                        <h3 class="slds-section__title slds-theme_shade">
+                            <span class="slds-truncate slds-p-horizontal_small" title="Section Title">Please update the Communication Preferences</span>
+                        </h3>
+                        <div aria-hidden="false" class="slds-section__content">
+                            <p>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-2">
+                                        <lightning:input type="checkbox" aura:id="optEmail" label="Email Opt Out" checked="{!v.newContact.HasOptedOutOfEmail}"/>
+                                    </div>
+                                    <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-2">
+                                        <lightning:input type="checkbox" aura:id="optEvent" label="Event Opt Out" checked="{!v.newContact.Subscriber__c}"/>
+                                    </div>
+                                </div>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Existing Contact details section -->
+                <div class="slds-section slds-is-open">
+                    <h3 class="slds-section__title slds-theme_shade">
+                        <span class="slds-truncate slds-p-horizontal_small" title="Section Title">Current Contact Details</span>
+                    </h3>
+                    <div aria-hidden="false" class="slds-section__content">
+                        <p>
+                            <lightning:recordViewForm recordId="{!v.recordId}" objectApiName="Contact">
+                                
+                                <div class="slds-box slds-theme_default">
+                                    <div class="slds-grid slds-wrap">
+                                        
+                                        <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-2">
+                                            
+                                            <lightning:outputField fieldName="Email"/>
+                                            <lightning:outputField fieldName="Phone"/>
+                                            <lightning:outputField fieldName="MobilePhone"/>
+                                            <lightning:outputField fieldName="Business_Card_Title__c"/>
+                                            
+                                        </div>
+                                        <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-2">
+                                            
+                                            <lightning:outputField fieldName="AccountId"/>
+                                            <lightning:outputField fieldName="CorporateTitle__c"/>
+                                            <lightning:outputField fieldName="JobFunction__c"/>
+                                            <lightning:outputField fieldName="JobTitle__c"/>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </lightning:recordViewForm>
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- End Data form -->	
+            </div>
+            
+            <!-- End outer containers -->	
+        </article>
+    </div>
+</aura:component>

@@ -1,0 +1,4 @@
+<!-- Application Event -->
+<aura:event type="APPLICATION" description="Fired when a Search has been completed">
+	<aura:attribute name="subAssetClassTypes" type="Product__c[]" description=" the Strings which refer to unique Sub Asset Classes List"/>   
+</aura:event>

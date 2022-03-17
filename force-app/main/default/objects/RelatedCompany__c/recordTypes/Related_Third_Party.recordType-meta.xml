@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Related_Third_Party</fullName>
+    <active>true</active>
+    <label>Related Third Party</label>
+    <picklistValues>
+        <picklist>Role__c</picklist>
+        <values>
+            <fullName>Association</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Centralising Agent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Competitor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Compliance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Consultant</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Corporate Actions</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Correspondent Bank %28IT%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Custodian</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>External FSU</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>General Legal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Intermediary Bank</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Legal Agreements</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Press %2F Media %2F Communication</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rebate Platform</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Regulator</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Research %2F Data</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Service Provider</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tax</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>StrategicNews__c</fullName>
+    <defaultValue>&quot;Source of News:&quot; &amp; br() &amp; 
+
+
+&quot;Attendees:&quot; &amp; br() &amp; 
+
+
+&quot;Comment:&quot; &amp; br() &amp; 
+
+
+&quot;Next Steps:&quot;</defaultValue>
+    <encryptionScheme>ProbabilisticEncryption</encryptionScheme>
+    <externalId>false</externalId>
+    <label>Strategic News</label>
+    <length>32768</length>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>25</visibleLines>
+</CustomField>

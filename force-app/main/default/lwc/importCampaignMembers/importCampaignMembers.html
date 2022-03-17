@@ -1,0 +1,15 @@
+<template>
+    <Button class="slds-button slds-button_brand loader-button"
+            title="Import members..."
+            onclick={displayImportModal}>
+        Import members...
+    </Button>
+    <c-modal is-visible-modal={isVisibleImportModal}
+             onclose={hideImportModal}
+             is-visible-confirm={isVisibleConfirm}>
+        <H2 slot="header">Import Campaign Members</H2>
+        <c-campaign-member-loader slot="body"
+                                  campaign-id={recordId}>
+        </c-campaign-member-loader>
+    </c-modal>
+</template>

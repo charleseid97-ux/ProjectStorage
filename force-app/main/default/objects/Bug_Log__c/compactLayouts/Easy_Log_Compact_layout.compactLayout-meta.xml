@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Easy_Log_Compact_layout</fullName>
+    <fields>Name</fields>
+    <fields>CreatedById</fields>
+    <fields>OwnerId</fields>
+    <fields>Type__c</fields>
+    <fields>Priority_Severity_status__c</fields>
+    <fields>AssignedTo__c</fields>
+    <label>Easy Log Compact layout</label>
+</CompactLayout>

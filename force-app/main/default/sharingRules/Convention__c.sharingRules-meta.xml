@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>Region_Belgium</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share agreements records associated to business region Belgium with public group Belgium</description>
+        <label>Region Belgium</label>
+        <sharedTo>
+            <group>Belgium</group>
+        </sharedTo>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <criteriaItems>
+            <field>TECH_Business_Region__c</field>
+            <operation>equals</operation>
+            <value>BP_BE</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>TECH_All_concerned_Business_Regions__c</field>
+            <operation>contains</operation>
+            <value>BP_BE</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Region_France</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share agreements records associated to business region France with public group France</description>
+        <label>Region France</label>
+        <sharedTo>
+            <group>France</group>
+        </sharedTo>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <criteriaItems>
+            <field>TECH_Business_Region__c</field>
+            <operation>equals</operation>
+            <value>BP_FR</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>TECH_All_concerned_Business_Regions__c</field>
+            <operation>contains</operation>
+            <value>BP_FR</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Region_Germany</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share agreements records associated to business region Germany with public group Germany</description>
+        <label>Region Germany</label>
+        <sharedTo>
+            <group>Germany</group>
+        </sharedTo>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <criteriaItems>
+            <field>TECH_Business_Region__c</field>
+            <operation>equals</operation>
+            <value>BP_DA</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>TECH_All_concerned_Business_Regions__c</field>
+            <operation>contains</operation>
+            <value>BP_DA</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Region_International</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share agreements records associated to business region International with public group International</description>
+        <label>Region International</label>
+        <sharedTo>
+            <group>International</group>
+        </sharedTo>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <criteriaItems>
+            <field>TECH_Business_Region__c</field>
+            <operation>equals</operation>
+            <value>BP_IN</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>TECH_All_concerned_Business_Regions__c</field>
+            <operation>contains</operation>
+            <value>BP_IN</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Region_Italy</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share agreements records associated to business region Italy with public group Italy</description>
+        <label>Region Italy</label>
+        <sharedTo>
+            <group>Italy</group>
+        </sharedTo>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <criteriaItems>
+            <field>TECH_Business_Region__c</field>
+            <operation>equals</operation>
+            <value>BP_IT</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>TECH_All_concerned_Business_Regions__c</field>
+            <operation>contains</operation>
+            <value>BP_IT</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Region_Japan</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share agreements records associated to business region Japan with public group Japan</description>
+        <label>Region Japan</label>
+        <sharedTo>
+            <group>International</group>
+        </sharedTo>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <criteriaItems>
+            <field>TECH_Business_Region__c</field>
+            <operation>equals</operation>
+            <value>BP_JP</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>TECH_All_concerned_Business_Regions__c</field>
+            <operation>contains</operation>
+            <value>BP_JP</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Region_LATAM</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share agreements records associated to business region LATAM with public group LATAM</description>
+        <label>Region LATAM</label>
+        <sharedTo>
+            <group>LATAM</group>
+        </sharedTo>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <criteriaItems>
+            <field>TECH_Business_Region__c</field>
+            <operation>equals</operation>
+            <value>BP_LA</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>TECH_All_concerned_Business_Regions__c</field>
+            <operation>contains</operation>
+            <value>BP_LA</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Region_Luxembourg</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share agreements records associated to business region Luxembourg with public group Luxembourg</description>
+        <label>Region Luxembourg</label>
+        <sharedTo>
+            <group>Luxembourg</group>
+        </sharedTo>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <criteriaItems>
+            <field>TECH_Business_Region__c</field>
+            <operation>equals</operation>
+            <value>BP_LU</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>TECH_All_concerned_Business_Regions__c</field>
+            <operation>contains</operation>
+            <value>BP_LU</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Region_Netherlands</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share agreements records associated to business region Netherlands with public group Netherlands</description>
+        <label>Region Netherlands</label>
+        <sharedTo>
+            <group>Netherlands</group>
+        </sharedTo>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <criteriaItems>
+            <field>TECH_Business_Region__c</field>
+            <operation>equals</operation>
+            <value>BP_NL</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>TECH_All_concerned_Business_Regions__c</field>
+            <operation>contains</operation>
+            <value>BP_NL</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Region_Nordics</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share agreements records associated to business region Nordics with public group Nordics</description>
+        <label>Region Nordics</label>
+        <sharedTo>
+            <group>Nordics</group>
+        </sharedTo>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <criteriaItems>
+            <field>TECH_Business_Region__c</field>
+            <operation>equals</operation>
+            <value>BP_NO</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>TECH_All_concerned_Business_Regions__c</field>
+            <operation>contains</operation>
+            <value>BP_NO</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Region_Spain</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share agreements records associated to business region Spain with public group Spain</description>
+        <label>Region Spain</label>
+        <sharedTo>
+            <group>Spain</group>
+        </sharedTo>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <criteriaItems>
+            <field>TECH_Business_Region__c</field>
+            <operation>equals</operation>
+            <value>BP_ES</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>TECH_All_concerned_Business_Regions__c</field>
+            <operation>contains</operation>
+            <value>BP_ES</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Region_Switzerland</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share agreements records associated to business region Switzerland with public group Switzerland</description>
+        <label>Region Switzerland</label>
+        <sharedTo>
+            <group>Switzerland</group>
+        </sharedTo>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <criteriaItems>
+            <field>TECH_Business_Region__c</field>
+            <operation>equals</operation>
+            <value>BP_CH</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>TECH_All_concerned_Business_Regions__c</field>
+            <operation>contains</operation>
+            <value>BP_CH</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Region_Taiwan</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share agreements records associated to business region Taiwan with public group Taiwan</description>
+        <label>Region Taiwan</label>
+        <sharedTo>
+            <group>International</group>
+        </sharedTo>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <criteriaItems>
+            <field>TECH_Business_Region__c</field>
+            <operation>equals</operation>
+            <value>BP_TW</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>TECH_All_concerned_Business_Regions__c</field>
+            <operation>contains</operation>
+            <value>BP_TW</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Region_United_Kingdom</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share agreements records associated to business region United Kingdom with public group United Kingdom</description>
+        <label>Region United Kingdom</label>
+        <sharedTo>
+            <group>UnitedKingdom</group>
+        </sharedTo>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <criteriaItems>
+            <field>TECH_Business_Region__c</field>
+            <operation>equals</operation>
+            <value>BP_UK</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>TECH_All_concerned_Business_Regions__c</field>
+            <operation>contains</operation>
+            <value>BP_UK</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Share_With_International</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Share With International</label>
+        <sharedTo>
+            <role>InternationalHeadofCountry</role>
+        </sharedTo>
+        <booleanFilter>1 OR 2 OR 3 OR 4</booleanFilter>
+        <criteriaItems>
+            <field>TECH_Business_Region__c</field>
+            <operation>equals</operation>
+            <value>BP_LA</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>TECH_Business_Region__c</field>
+            <operation>equals</operation>
+            <value>BP_NO</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>TECH_Business_Region__c</field>
+            <operation>equals</operation>
+            <value>BP_TW</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>TECH_Business_Region__c</field>
+            <operation>equals</operation>
+            <value>BP_JP</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>false</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>

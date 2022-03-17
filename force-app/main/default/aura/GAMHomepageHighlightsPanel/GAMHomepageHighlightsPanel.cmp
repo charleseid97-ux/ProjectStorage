@@ -1,0 +1,95 @@
+<aura:component implements="force:hasRecordId,force:appHostable,force:hasSObjectName,flexipage:availableForAllPageTypes"
+                controller="GAMHomepageCtrl"
+				access="global">
+
+    <aura:attribute name="recordId" type="String" access="global"/>
+   	<aura:attribute name="GAMHomepage" type="Object" access="global"/>
+    <aura:attribute name="GAMAUM" type="String" default="0" />
+   	<aura:attribute name="GAMAccount" type="Object" access="global"/>
+   	<aura:attribute name="GAMNewsItem" type="Object" access="global"/>
+   	<aura:attribute name="GAMNewsItemDate" type="Object" access="global"/>
+ 
+    <ltng:require scripts="/resource/JQuery172, /resource/numeral/adamwdraper-Numeral-js-7487acb/numeral.js, /resource/momentJS" afterScriptsLoaded="{!c.init}" />
+    <!--aura:handler name="init" value="{!this}" action="{!c.init}"/-->
+    
+    <article class="slds-card">
+        
+        <div class="slds-page-header">
+            
+            <div class="slds-grid slds-col slds-has-flexi-truncate slds-media--center">
+                <div class="profilePicWrapper slds-media slds-no-space" >
+                    <div class="slds-media__figure slds-icon forceEntityIcon" style="background-color: #7F8DE1">
+                        <span class="uiImage">
+                            <lightning:icon iconName="standard:account" size="medium" alternativeText="GAM Homepage"/>
+                        </span>
+                    </div>
+                </div>
+                <div class="slds-media__body">
+                    <h1 class="slds-page-header__title slds-m-right--small slds-truncate slds-align-middle">
+                        <span class="uiOutputText" data-aura-class="uiOutputText">{!v.GAMHomepage.Name+ ' - '+ v.GAMAccount.Client_Tier__c}</span>
+                    </h1>
+                </div>
+            </div>
+            
+            <!-- Buttons -->
+            <div class="slds-col slds-no-flex slds-grid slds-align-top">
+                <lightning:buttonGroup >
+                    
+                    <!--<lightning:button label="Save" onclick="{!c.save}" />-->
+                    
+                </lightning:buttonGroup>
+            </div>
+            <ul class="slds-form slds-form_stacked slds-grid slds-page-header__detail-row" role="list">
+                <li class="slds-page-header__detail-block forceHighlightsDesktopListRecordItem" role="listitem" >
+                    <div class="slds-form-element slds-form-element_readonly slds-hint-parent" >
+                        <span class="slds-form-element__label slds-truncate" title="Company">Company</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static slds-truncate">
+                                <div class="outputLookupContainer forceOutputLookupWithPreview" >
+                                	<a class=" textUnderline outputLookupLink slds-truncate forceOutputLookup" href="{!'/lightning/r/'+v.GAMAccount.Id+'/view'}" target="_blank">{!v.GAMAccount.Name}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="slds-page-header__detail-block forceHighlightsDesktopListRecordItem" role="listitem" >
+                    <div class="slds-form-element slds-form-element_readonly slds-hint-parent" >
+                        <span class="slds-form-element__label slds-truncate" title="Company">AUM</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static slds-truncate">
+                                <div class="outputLookupContainer forceOutputLookupWithPreview" >
+                                	{!v.GAMAUM}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="slds-page-header__detail-block forceHighlightsDesktopListRecordItem" role="listitem" >
+                    <div class="slds-form-element slds-form-element_readonly slds-hint-parent" >
+                        <span class="slds-form-element__label slds-truncate" title="Company">Owner</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static slds-truncate">
+                                <div class="outputLookupContainer forceOutputLookupWithPreview" >
+                                	{!v.GAMAccount.Owner.Name}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="slds-page-header__detail-block forceHighlightsDesktopListRecordItem fullWidthLI" role="listitem" style="max-width:50%;background-color:#f2f2f2;border:1px solid #5a8069;">
+                    <div class="slds-form-element slds-form-element_readonly slds-hint-parent" >
+                        <span class="slds-form-element__label slds-truncate" title="Company">Latest Strategic News Item - {!v.GAMNewsItemDate}</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static slds-truncate">
+                                <div class="outputLookupContainer forceOutputLookupWithPreview" >
+                                    <a href="{!'/lightning/r/'+v.GAMNewsItem.Id+'/view'}">{!v.GAMNewsItem.Type__c + ' - ' + v.GAMNewsItem.ShortSubjectDescription__c + ' - ' + v.GAMNewsItem.CreatedBy.FirstName + ' ' + v.GAMNewsItem.CreatedBy.LastName}</a><br/>
+                                    - <a href="{!'/lightning/r/Account/'+v.GAMNewsItem.Company__c+'/view'}" target="_blank">{!v.GAMNewsItem.Company__r.Name}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>            
+        </div>
+    </article>
+</aura:component>

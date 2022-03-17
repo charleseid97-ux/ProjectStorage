@@ -1,0 +1,132 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:appHostable,lightning:actionOverride,force:hasRecordId" access="global" controller="MeetingNoteCtrlLtng">
+    
+    <aura:attribute name="fromId" type="string" description="RecordId of linked sObject."/>
+    <aura:attribute name="recordId" type="string" description="RecordId of the meeting note." />
+    <aura:attribute name="newRecordId" type="string" description="RecordId of the newly created meeting note." />
+    <aura:attribute name="meetingNote" type="Meeting_Note__c" description="The Meeting Note sObject."
+                    default="{ 'sobjectType': 'Meeting_Note__c',
+                    'Name': 'New Meeting Note'}" />    
+    <aura:attribute name="meetingNotePrefix" type="String" description="Stores the 3 digit Meeting Note prefix" />
+    <aura:attribute name="meetingNoteLinks" type="Meeting_Link__c[]" description="The Meeting Links sObjects." />
+    <aura:attribute name="meetingNoteStep" type="Integer" description="determines what stage in the process you are at " default="-1"/>
+    <aura:attribute name="validationStep" type="Integer" description="determines what stage has validation errors" default="-1"/>
+    <aura:attribute name="needsContactCompany" type="Boolean" description="is a Contact or Company still required" default="false"/>
+    <aura:attribute name="message" type="String" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:handler name="strike_evt_chevron" event="c:strike_evt" action="{!c.handlePathEvent}"/>
+    <aura:handler name="contactCompanyFired" event="c:MeetingNoteContactCompanyEvent" action="{!c.handleContactCompanyEvent}"></aura:handler>
+    
+<!--  this tag sets modal width -->
+<aura:html tag="style">
+    .slds-modal__container {
+     min-width: 800px;
+    }
+</aura:html>  
+    <div class="slds-container--center slds-container--large">
+        
+        <c:ToastErrorHandler aura:id="toastErrorHandler" />
+        
+        <article class="slds-card">
+            
+            <div class="slds-page-header">
+                <div class="slds-grid">
+                    
+                    <div class="slds-col slds-has-flexi-truncate">
+                        <div class="slds-media slds-no-space slds-grow">
+                            <div class="slds-media__figure">
+                                <span class="slds-icon_container slds-icon-custom-custom18" title="description of icon when needed">
+                                    <lightning:icon iconName="custom:custom18" size="large" alternativeText="Meeting Notes"/>
+                                </span>
+                            </div>
+                            <div class="slds-media__body">
+                                <p class="slds-text-title_caps slds-line-height_reset">Meeting Note</p>
+                                <h1 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate" title="{!v.meetingNote.Name}">{!v.meetingNote.Name}</h1>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="slds-col slds-no-flex slds-grid slds-align-top">
+                        <lightning:buttonGroup >
+                            
+                            <lightning:button label="Cancel" onclick="{!c.cancel}" />
+                            
+                            <!-- 
+                            <aura:renderIf isTrue="{!v.meetingNoteStep!=1}">
+                                <lightning:button label="Previous Step" onclick="{!c.previousStep}"/>
+                            </aura:renderIf>
+                            
+                            <aura:renderIf isTrue="{!v.meetingNoteStep!=3}">
+                                <lightning:button label="Next" onclick="{!c.nextStep}" />
+                            </aura:renderIf>
+                            
+                             -->
+                             
+                             
+                            <aura:renderIf isTrue="{!v.meetingNoteStep==2}">
+                                <aura:renderIf isTrue="{!v.needsContactCompany!=true}">
+                                    <lightning:button label="Save" onclick="{!c.createMeetingNote}" />
+                                </aura:renderIf>
+                            </aura:renderIf>
+                            
+                        </lightning:buttonGroup>
+                    </div>
+                </div>
+            </div>
+            
+            <!--  
+            <c:MeetingNoteProgressIndicator currentStep="{!'step' + v.meetingNoteStep}"/>
+            -->
+            
+            <aura:renderIf isTrue="{!v.meetingNoteStep!=-1}">
+            <c:strike_path aura:id="path" 
+                stageNames="Detail, Related, Overview"
+                activeChevron="0"
+                advanceButton="false"
+                advanceButtonNextLabel="Mark Stage as Completed"
+                advanceButtonSelectLabel="Mark as Current Stage"
+                advanceButtonCompletedLabel="Process Completed"
+                displayMode="linear"
+                disableBackwardNavOnComplete="false"
+                disableForwardNavOnIncomplete="false"
+                forceProcessFlow="false"
+                collapseExpandButton="false"
+                error="false"/>
+            </aura:renderIf>
+            
+            <aura:renderIf isTrue="{!v.meetingNoteStep==0}">
+                <c:MeetingNotesDetailPanel aura:id="detailPane" meetingNote="{!v.meetingNote}" ExistingOwner="{!v.ExistingOwner}" meetingNoteId="{!v.recordId}" EventId="{!v.fromId}" />
+            </aura:renderIf>
+            
+            <aura:renderIf isTrue="{!v.meetingNoteStep==1}">
+                <c:MeetingNoteLinksRelatedList aura:id="relatedList" meetingNoteLinks="{!v.meetingNoteLinks}" />
+            </aura:renderIf>   
+            
+            <aura:renderIf isTrue="{!v.meetingNoteStep==2}">
+                <aura:renderIf isTrue="{!v.needsContactCompany}">
+                    <div class="recordError">
+                        <ui:message title="Warning" severity="warning" closable="true">
+                            You need to add a Contact or Company before you can save
+                        </ui:message>
+                    </div>
+                </aura:renderIf>
+                <c:MeetingNoteOverview aura:id="overview" meetingNote="{!v.meetingNote}" meetingNoteLinks="{!v.meetingNoteLinks}"/>
+            </aura:renderIf>  
+            
+            <aura:renderIf isTrue="{!v.meetingNoteStep==-1}">
+                <div style="width:100%;text-align:center;font-size:16px;"><br/><br/>Loading Meeting Note...<br/><img src="/resource/HierarchyLoading" style="width:50%;"/></div>
+            </aura:renderIf>
+
+            <aura:renderIf isTrue="{!v.meetingNoteStep==-2}">
+                <div style="width:100%;text-align:center;font-size:16px;"><br/><br/>Saving Meeting Note...<br/><img src="/resource/HierarchyLoading" style="width:50%;"/></div>
+            </aura:renderIf>
+
+            <aura:renderIf isTrue="{!v.meetingNoteStep==-3}">
+                <div style="width:100%;font-size:16px;color:red;"><br/><br/>An error occurred...<br/><br/></div>
+                <div style="width:100%;">{!v.message}<br/><br/>If possible please try adjust the data and save again.</div>
+            </aura:renderIf>
+
+            
+        </article>
+    </div>
+</aura:component>

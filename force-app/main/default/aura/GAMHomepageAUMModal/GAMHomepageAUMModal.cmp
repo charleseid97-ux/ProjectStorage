@@ -1,0 +1,40 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,flexipage:availableForAllPageTypes,force:appHostable,lightning:actionOverride,force:hasRecordId" access="global" >
+
+    <aura:attribute name="GAMId" type="string" description="Id of the GAM" />
+    <aura:attribute name="viewAUMComponent" type="Boolean" access="global"/>
+
+    <aura:if isTrue="{!v.viewAUMComponent}">
+    <!--###### MODAL BOX Start From Here ######--> 
+    <div role="dialog" tabindex="-1" aria-labelledby="header99" class="slds-modal slds-fade-in-open ">
+        <div class="slds-modal__container" style="min-width:800px;">
+            <div class="slds-modal__header">
+                <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" onclick="{!c.closeComponent}">
+                    X
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <h1 id="header99" class="slds-text-heading--medium">{!v.GAMName} AuM &amp; Flows</h1>
+            </div>
+
+            <div class="slds-modal__content slds-p-around--large">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_1-of-1"  style="padding : 3px">
+                        <div class="slds-scrollable forceBaseListView forceRelatedListPreviewGrid" data-aura-rendered-by="3133:0" data-aura-class="forceBaseListView forceRelatedListPreviewGrid">
+                            <div class="slds-grid slds-wrap">
+                                
+					            <iframe src="{! '/apex/Tbl_GAMDashboard?Id=' + v.GAMId }" width="100%" height="500px;" frameBorder="0"/>
+                                <!--<img src="/resource/tempTableau" style="width:100%;" />-->
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-modal__footer">
+                <lightning:button label="Close" onclick="{!c.closeComponent}"/>
+            </div>
+        </div>
+    </div>
+    
+    <div class="slds-backdrop slds-backdrop--open"></div>
+    </aura:if>
+</aura:component>

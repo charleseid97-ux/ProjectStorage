@@ -1,0 +1,3 @@
+<apex:page standardController="KYD_Document__c" recordSetVar="doc" action="{!updateStatusToPending}" extensions="VFC01_KYDocuments">
+<apex:slds />
+</apex:page>

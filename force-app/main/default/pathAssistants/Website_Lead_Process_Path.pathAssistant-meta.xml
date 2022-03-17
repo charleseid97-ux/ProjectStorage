@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Lead</entityName>
+    <fieldName>Status</fieldName>
+    <masterLabel>Website Lead Process Path</masterLabel>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;&lt;span style=&quot;font-family: Calibri; font-size: 11pt;&quot;&gt;A prospace account has been created in the website but the user is not relevant for the business&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;span style=&quot;font-family: Calibri; font-size: 11pt;&quot;&gt;Sales teams disqualify the lead.&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;span style=&quot;font-family: Calibri; font-size: 11pt;&quot;&gt;The prospace account is &lt;/span&gt;&lt;b style=&quot;font-family: Calibri; font-size: 11pt;&quot;&gt;suppressed.&lt;/b&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;span style=&quot;font-family: Calibri; font-size: 11pt;&quot;&gt;The lead is opt out from all Carmignac campaigns and communications.&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Disqualified</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;&lt;span style=&quot;font-family: Calibri; font-size: 11pt;&quot;&gt;The prospace user is relevant enough to be converted from a lead into a contact.&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Qualified</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;&lt;span style=&quot;font-family: Calibri; font-size: 11pt;&quot;&gt;A prospace account has been created in the website and the user seems relevant for the business, but Sales need more time to convert the lead.&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;span style=&quot;font-family: Calibri; font-size: 11pt;&quot;&gt;Sales teams qualifies the lead with the status « validated prospace ».&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;span style=&quot;font-family: Calibri; font-size: 11pt;&quot;&gt;Salesteams can follow up with dashboards.&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Validated Prospace</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Website_Lead</recordTypeName>
+</PathAssistant>
