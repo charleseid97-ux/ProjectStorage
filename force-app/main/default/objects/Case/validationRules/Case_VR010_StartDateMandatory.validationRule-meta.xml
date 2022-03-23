@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_VR010_StartDateMandatory</fullName>
+    <active>true</active>
+    <description>Start Date is mandatory at &quot;In Service&quot; stage.</description>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+AND(
+RecordType.DeveloperName = &quot;Client_delivery_request&quot;,
+OR(
+ISPICKVAL(Type,&quot;Client Delivery&quot;),
+ISPICKVAL(Type,&quot;Solvency&quot;)
+),
+ISPICKVAL(Status, &quot;In Service&quot;),
+TEXT(Start_Date__c) =&quot;&quot;
+)
+)</errorConditionFormula>
+    <errorMessage>Start Date is missing on this request. Please add one before changing to &quot;In Service&quot; Status</errorMessage>
+</ValidationRule>

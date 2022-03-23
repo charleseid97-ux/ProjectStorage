@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>abc__c</fullName>
+    <externalId>false</externalId>
+    <label>Potential 12 M</label>
+    <summarizedField>Carmignac_Opportunity_Product__c.abc__c</summarizedField>
+    <summaryForeignKey>Carmignac_Opportunity_Product__c.Opportunity__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

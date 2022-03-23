@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TECH_Source__c</fullName>
+    <externalId>false</externalId>
+    <label>TECH_Source</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>BrightTalk</fullName>
+                <default>false</default>
+                <label>BrightTalk</label>
+            </value>
+            <value>
+                <fullName>Business Card</fullName>
+                <default>false</default>
+                <label>Business Card</label>
+            </value>
+            <value>
+                <fullName>CSN Webinar</fullName>
+                <default>false</default>
+                <label>CSN Webinar</label>
+            </value>
+            <value>
+                <fullName>CVENT</fullName>
+                <default>false</default>
+                <label>CVENT</label>
+            </value>
+            <value>
+                <fullName>DOOR</fullName>
+                <default>false</default>
+                <label>DOOR</label>
+            </value>
+            <value>
+                <fullName>Event</fullName>
+                <default>false</default>
+                <label>Event</label>
+            </value>
+            <value>
+                <fullName>Inquiry	Phone</fullName>
+                <default>false</default>
+                <label>Inquiry	Phone</label>
+            </value>
+            <value>
+                <fullName>Press &amp; Media</fullName>
+                <default>false</default>
+                <label>Press &amp; Media</label>
+            </value>
+            <value>
+                <fullName>Purchased List</fullName>
+                <default>false</default>
+                <label>Purchased List</label>
+            </value>
+            <value>
+                <fullName>Referral</fullName>
+                <default>false</default>
+                <label>Referral</label>
+            </value>
+            <value>
+                <fullName>Social Media</fullName>
+                <default>false</default>
+                <label>Social Media</label>
+            </value>
+            <value>
+                <fullName>Website</fullName>
+                <default>false</default>
+                <label>Website</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

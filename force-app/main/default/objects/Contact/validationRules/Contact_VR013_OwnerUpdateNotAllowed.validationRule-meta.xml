@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_VR013_OwnerUpdateNotAllowed</fullName>
+    <active>false</active>
+    <description>Prevent user from changing ownership of a contact if not creator of contact</description>
+    <errorConditionFormula>AND( 
+ISCHANGED( ContactOwner__c ),
+ISBLANK( Proposed_Contact_Owner__c )=true,
+NOT($User.ProfileId = &apos;00e58000000s3v6&apos;), 
+NOT($User.ProfileId = &apos;00e58000000z6UE&apos;), 
+NOT($User.ProfileId = &apos;00e58000000z6UC&apos;), 
+NOT(ISCHANGED(Approval_Status__c)),!$User.BypassValidationRules__c)</errorConditionFormula>
+    <errorMessage>You are not allowed to direct change contact owner. To do so, please fill in &quot;Proposed Contact Owner&quot; field</errorMessage>
+</ValidationRule>

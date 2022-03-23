@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Event_Live</fullName>
+    <columns>CAMPAIGN.NAME</columns>
+    <columns>CAMPAIGN.STATUS</columns>
+    <columns>CRM_User__c</columns>
+    <columns>Sales_Team__c</columns>
+    <columns>City__c</columns>
+    <columns>Event_Local_Start_Time__c</columns>
+    <columns>Event_Local_End_Time__c</columns>
+    <columns>CAMPAIGN.CAMPAIGN_TYPE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CAMPAIGN.RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Campaign.Event_and_Meeting</value>
+    </filters>
+    <filters>
+        <field>CAMPAIGN.STATUS</field>
+        <operation>equals</operation>
+        <value>Pre-Event,Live</value>
+    </filters>
+    <label>Event Live</label>
+</ListView>

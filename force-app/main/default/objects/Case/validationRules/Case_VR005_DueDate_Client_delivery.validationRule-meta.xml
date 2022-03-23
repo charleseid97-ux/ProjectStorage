@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_VR005_DueDate_Client_delivery</fullName>
+    <active>true</active>
+    <description>Due Date must be in the future</description>
+    <errorConditionFormula>AND(
+				NOT($User.BypassValidationRules__c), 
+    ISNEW(), 
+				RecordType.DeveloperName = &apos;Client_delivery_request&apos;,
+    Due_date__c &lt; TODAY() +21
+)</errorConditionFormula>
+    <errorDisplayField>Due_date__c</errorDisplayField>
+    <errorMessage>You cannot enter a Due Date that is less than 21 days for Data Solution and Solvency Request</errorMessage>
+</ValidationRule>

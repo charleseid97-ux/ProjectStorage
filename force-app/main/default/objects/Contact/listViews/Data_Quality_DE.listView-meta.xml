@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Data_Quality_DE</fullName>
+    <columns>FULL_NAME</columns>
+    <columns>PersonalEmail__c</columns>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>Business_Card_Title__c</columns>
+    <columns>JobTitle__c</columns>
+    <columns>JobFunction__c</columns>
+    <columns>InfluenceLevel__c</columns>
+    <columns>CorporateTitle__c</columns>
+    <columns>ContactOwner__c</columns>
+    <columns>Proposed_Contact_Owner__c</columns>
+    <columns>Contact_Status_Logo__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CONTACT.RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Contact.Contact_DistributionContact</value>
+    </filters>
+    <filters>
+        <field>ACCOUNT.NAME</field>
+        <operation>equals</operation>
+        <value>Data Quality Ongoing DE</value>
+    </filters>
+    <filters>
+        <field>ContactStatus__c</field>
+        <operation>equals</operation>
+        <value>true</value>
+    </filters>
+    <label>Data Quality DE</label>
+    <language>en_US</language>
+</ListView>

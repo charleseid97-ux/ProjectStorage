@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Campaign_VR007_Mustassigntotochanegstatu</fullName>
+    <active>true</active>
+    <description>You need to assign to a marketing user before to set the status &quot;under construction&quot;</description>
+    <errorConditionFormula>AND(
+ ISBLANK( Assigned_to__c ) ,
+  ISPICKVAL(  Status , &quot;Under Construction&quot;), NOT($User.BypassValidationRules__c)
+)</errorConditionFormula>
+    <errorDisplayField>Assigned_to__c</errorDisplayField>
+    <errorMessage>Please choose a marketing user to &quot;Assigned to&quot; in order for this user to receive all notifications about the approval process (approved or rejected)</errorMessage>
+</ValidationRule>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_VR012_TrialStatusMandatory</fullName>
+    <active>false</active>
+    <description>Trial status is mandatory if Website Role is Prospace Temp</description>
+    <errorConditionFormula>AND(NOT($User.BypassValidationRules__c),AND(ispickval( WebsiteRole__c ,&quot;5&quot;),isblank(Text(TrialStatus__c))))</errorConditionFormula>
+    <errorDisplayField>TrialStatus__c</errorDisplayField>
+    <errorMessage>Website Role is set to ProSpace Temp. Trial Status is mandatory</errorMessage>
+</ValidationRule>

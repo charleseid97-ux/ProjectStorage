@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TECH_CompanyTechSUNID__c</fullName>
+    <description>The company technical Id in the old CRM</description>
+    <displayFormat>{0}</displayFormat>
+    <externalId>false</externalId>
+    <label>TECHCompanyTechSUNID</label>
+    <trackHistory>false</trackHistory>
+    <type>AutoNumber</type>
+</CustomField>

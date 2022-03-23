@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fund__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Fund</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Product__c.RecordType.DeveloperName</field>
+            <operation>equals</operation>
+            <value>Fund</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Product__c</referenceTo>
+    <relationshipLabel>Work Together Processes</relationshipLabel>
+    <relationshipName>Work_Together_Processes</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

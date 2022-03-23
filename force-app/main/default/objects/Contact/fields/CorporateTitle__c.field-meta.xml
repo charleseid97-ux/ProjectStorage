@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CorporateTitle__c</fullName>
+    <externalId>false</externalId>
+    <label>Corporate Title</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>Assistant</fullName>
+                <default>false</default>
+                <label>Assistant</label>
+            </value>
+            <value>
+                <fullName>Assistant Vice President</fullName>
+                <default>false</default>
+                <label>Assistant Vice President</label>
+            </value>
+            <value>
+                <fullName>Associate</fullName>
+                <default>false</default>
+                <label>Associate</label>
+            </value>
+            <value>
+                <fullName>Board Member</fullName>
+                <default>false</default>
+                <label>Board Member</label>
+            </value>
+            <value>
+                <fullName>CEO</fullName>
+                <default>false</default>
+                <label>CEO</label>
+            </value>
+            <value>
+                <fullName>CFO</fullName>
+                <default>false</default>
+                <label>CFO</label>
+            </value>
+            <value>
+                <fullName>Chairman</fullName>
+                <default>false</default>
+                <label>Chairman</label>
+            </value>
+            <value>
+                <fullName>CIO</fullName>
+                <default>false</default>
+                <label>CIO</label>
+            </value>
+            <value>
+                <fullName>Director</fullName>
+                <default>false</default>
+                <label>Director</label>
+            </value>
+            <value>
+                <fullName>Executive Vice President</fullName>
+                <default>false</default>
+                <label>Executive Vice President</label>
+            </value>
+            <value>
+                <fullName>Manager</fullName>
+                <default>false</default>
+                <label>Manager</label>
+            </value>
+            <value>
+                <fullName>Managing Director</fullName>
+                <default>false</default>
+                <label>Managing Director</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Partner</fullName>
+                <default>false</default>
+                <label>Partner</label>
+            </value>
+            <value>
+                <fullName>President</fullName>
+                <default>false</default>
+                <label>President</label>
+            </value>
+            <value>
+                <fullName>Senior Vice President</fullName>
+                <default>false</default>
+                <label>Senior Vice President</label>
+            </value>
+            <value>
+                <fullName>Vice Chairmain</fullName>
+                <default>false</default>
+                <label>Vice Chairman</label>
+            </value>
+            <value>
+                <fullName>Vice President</fullName>
+                <default>false</default>
+                <label>Vice President</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

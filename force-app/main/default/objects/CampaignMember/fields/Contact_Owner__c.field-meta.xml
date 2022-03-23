@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_Owner__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(ISBLANK( Lead.FirstName ) ,  Contact.ContactOwner__c  ,   IF( ISBLANK(Lead.Owner:User.FirstName) ,  Lead.Owner:Queue.QueueName ,    Lead.Owner:User.FirstName + &quot; &quot; + Lead.Owner:User.LastName  ) )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Contact Owner</label>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

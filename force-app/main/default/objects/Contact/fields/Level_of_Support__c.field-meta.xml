@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Level_of_Support__c</fullName>
+    <externalId>false</externalId>
+    <label>Level of Support</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Will Recommend You</fullName>
+                <default>false</default>
+                <label>Will Recommend You</label>
+            </value>
+            <value>
+                <fullName>Strong Supporter</fullName>
+                <default>false</default>
+                <label>Strong Supporter</label>
+            </value>
+            <value>
+                <fullName>Supporter of Yours</fullName>
+                <default>false</default>
+                <label>Supporter of Yours</label>
+            </value>
+            <value>
+                <fullName>Interested in You</fullName>
+                <default>false</default>
+                <label>Interested in You</label>
+            </value>
+            <value>
+                <fullName>Sees You Same as Everyone Else</fullName>
+                <default>false</default>
+                <label>Sees You Same as Everyone Else</label>
+            </value>
+            <value>
+                <fullName>Mildly Negative</fullName>
+                <default>false</default>
+                <label>Mildly Negative</label>
+            </value>
+            <value>
+                <fullName>Strongly for Competition</fullName>
+                <default>false</default>
+                <label>Strongly for Competition</label>
+            </value>
+            <value>
+                <fullName>Will Recommend Competition</fullName>
+                <default>false</default>
+                <label>Will Recommend Competition</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

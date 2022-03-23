@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Campaign_Compact_Layout_custom</fullName>
+    <fields>Name</fields>
+    <fields>RecordTypeId</fields>
+    <fields>Type</fields>
+    <fields>Status</fields>
+    <fields>Event_Local_Start_Time__c</fields>
+    <fields>Event_Local_End_Time__c</fields>
+    <label>Campaign Compact Layout custom</label>
+</CompactLayout>

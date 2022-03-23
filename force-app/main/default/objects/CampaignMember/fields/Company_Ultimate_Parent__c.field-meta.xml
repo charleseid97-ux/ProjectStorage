@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Company_Ultimate_Parent__c</fullName>
+    <description>For Campaign Members link to Contacts, this field returns the value of the realted Company&apos;s ultimate parent.</description>
+    <externalId>false</externalId>
+    <formula>Contact.Account.Ultimate_Parent__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Company&apos;s Ultimate Parent</label>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

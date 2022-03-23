@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_VR009_Phone_Prefered_Method</fullName>
+    <active>true</active>
+    <description>The Phone number is mandatory if it&apos;s selected as the prefered method of contact</description>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+AND(
+ISPICKVAL(PreferredMethodOfContact__c, &quot;Phone&quot;),
+AND(
+ISBLANK(Phone),
+ISBLANK(MobilePhone)
+)
+)
+)</errorConditionFormula>
+    <errorMessage>As the Phone is the Prefered Method of Contact, at least one Phone should be filled</errorMessage>
+</ValidationRule>

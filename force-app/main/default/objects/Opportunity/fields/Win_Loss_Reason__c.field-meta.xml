@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Win_Loss_Reason__c</fullName>
+    <externalId>false</externalId>
+    <label>Generic Win/Loss Reason</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Asset Allocation / Demand Change</fullName>
+                <default>false</default>
+                <label>Asset Allocation / Demand Change</label>
+            </value>
+            <value>
+                <fullName>Brand</fullName>
+                <default>false</default>
+                <label>Brand</label>
+            </value>
+            <value>
+                <fullName>Capacity Constraints (Buy Side)</fullName>
+                <default>false</default>
+                <label>Capacity Constraints (Buy Side)</label>
+            </value>
+            <value>
+                <fullName>Capacity Constraints (Sell Side)</fullName>
+                <default>false</default>
+                <label>Capacity Constraints (Sell Side)</label>
+            </value>
+            <value>
+                <fullName>Competitor Better Fit</fullName>
+                <default>false</default>
+                <label>Competitor Better Fit</label>
+            </value>
+            <value>
+                <fullName>Consultant Influenced Decision</fullName>
+                <default>false</default>
+                <label>Consultant Influenced Decision</label>
+            </value>
+            <value>
+                <fullName>Due Diligence Quality</fullName>
+                <default>false</default>
+                <label>Due Diligence Quality</label>
+            </value>
+            <value>
+                <fullName>Fund Selection Team Change</fullName>
+                <default>false</default>
+                <label>Fund Selection Team Change</label>
+            </value>
+            <value>
+                <fullName>In-house Policy Change (Buy Side)</fullName>
+                <default>false</default>
+                <label>In-house Policy Change (Buy Side)</label>
+            </value>
+            <value>
+                <fullName>Platform onboarding</fullName>
+                <default>false</default>
+                <label>Platform onboarding</label>
+            </value>
+            <value>
+                <fullName>Regulatory</fullName>
+                <default>false</default>
+                <label>Regulatory</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

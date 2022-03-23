@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>x2Asset_Retention_Opportunity</fullName>
+    <active>true</active>
+    <businessProcess>Asset Retention Process</businessProcess>
+    <description>Opportunity to retain a specific amount of money that has been identified as being at risk</description>
+    <label>2. Asset Retention Opportunity</label>
+    <picklistValues>
+        <picklist>DB_Competitor__c</picklist>
+        <values>
+            <fullName>Competitor A</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Competitor B</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Competitor C</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Expertise_picklist__c</picklist>
+        <values>
+            <fullName>EMEQ</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ESG1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EUEQ</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FIXI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GLEQ</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GLMA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>INSO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUAT</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>ForecastCategoryName</picklist>
+        <values>
+            <fullName>Best Case</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Commit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Omitted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pipeline</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Fund_Selection_List_Opportunity__c</picklist>
+        <values>
+            <fullName>Advisory List %28global%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Advisory List %28local%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Buy List %28general%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DPM List %28global%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DPM List %28local%29</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>IS_Team_Stance__c</picklist>
+        <values>
+            <fullName>Currently involved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>On Hold %2F Need more Input</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Waiting for feedback</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>LeadSource</picklist>
+        <values>
+            <fullName>BrightTalk</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Business Card</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CSN Webinar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DOOR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Event</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone Inquiry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Press %26 Media</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Purchased List</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Referral</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Social Media</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Website</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Loss_Reason__c</picklist>
+        <values>
+            <fullName>Lost to Competitor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No Budget %2F Lost Funding</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No Decision %2F Non-Responsive</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Price</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Product_Win_Loss_Sub_Reason__c</picklist>
+        <values>
+            <fullName>Asset Allocation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Benchmark</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Buy %2F Sell Discipline</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cash Management</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Credit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Currency Management</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Derivates</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ESG Approach</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fee Structure</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Flexibility</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fund Category</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fund Manager Tenure</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fund Size</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Idea Generation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Investment Style</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Investment Team Size %2F Capabilities</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Modified Duration</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Net Equity Exposure</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Net Fixed Income Exposure</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Opportunity Closed with Generic Reason</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Performance Fee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rates</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Relative Performance 1y</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Relative Performance 3y</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Relative Performance 5y</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Risk Management Process</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Risk Ratios</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Share Class</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stock Selection</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stop Loss Procedures</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Total Return 1y</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Total Return 3y</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Total Return 5y</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Track Record</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Turnover</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yield to Maturity %2F Worst %28YTM %2F YTW%29</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Secondary_Win_Loss_Reason__c</picklist>
+        <values>
+            <fullName>Alpha Generation Drivers</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Investment Process</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non-Product Reason</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Performance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Product Features</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Solution_Validation__c</picklist>
+        <values>
+            <fullName>Empty</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GHOS OK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GHOS OK High Priority</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IS OK HOC OK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IS Team OK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Waiting for GHOS Validation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Waiting for HOC</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Thought__c</picklist>
+        <values>
+            <fullName>RETI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RIMA</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type</picklist>
+        <values>
+            <fullName>Asset Development</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Asset Retention</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mandate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Product Push</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Win_Loss_Reason__c</picklist>
+        <values>
+            <fullName>Asset Allocation %2F Demand Change</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Brand</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Capacity Constraints %28Buy Side%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Capacity Constraints %28Sell Side%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Competitor Better Fit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Consultant Influenced Decision</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Due Diligence Quality</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fund Selection Team Change</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In-house Policy Change %28Buy Side%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Platform onboarding</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Regulatory</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SubSource__c</fullName>
+    <externalId>false</externalId>
+    <label>Sub Source</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Source__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>LinkedIn</fullName>
+                <default>false</default>
+                <label>LinkedIn</label>
+            </value>
+            <value>
+                <fullName>Viadeo</fullName>
+                <default>false</default>
+                <label>Viadeo</label>
+            </value>
+            <value>
+                <fullName>Facebook</fullName>
+                <default>false</default>
+                <label>Facebook</label>
+            </value>
+            <value>
+                <fullName>Twitter</fullName>
+                <default>false</default>
+                <label>Twitter</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Web self-registration</fullName>
+                <default>false</default>
+                <label>Web self-registration</label>
+            </value>
+            <value>
+                <fullName>Website contact us</fullName>
+                <default>false</default>
+                <label>Website contact us</label>
+            </value>
+            <value>
+                <fullName>Website banner</fullName>
+                <default>false</default>
+                <label>Website banner</label>
+            </value>
+            <value>
+                <fullName>Phone Inquiry</fullName>
+                <default>false</default>
+                <label>Phone Inquiry</label>
+            </value>
+            <value>
+                <fullName>Email Inquiry</fullName>
+                <default>false</default>
+                <label>Email Inquiry</label>
+            </value>
+            <value>
+                <fullName>EFPA</fullName>
+                <default>false</default>
+                <label>EFPA</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Phone Inquiry</controllingFieldValue>
+            <valueName>Phone Inquiry</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Phone Inquiry</controllingFieldValue>
+            <valueName>Email Inquiry</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Event</controllingFieldValue>
+            <valueName>EFPA</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Social Media</controllingFieldValue>
+            <valueName>LinkedIn</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Social Media</controllingFieldValue>
+            <valueName>Viadeo</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Social Media</controllingFieldValue>
+            <valueName>Facebook</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Social Media</controllingFieldValue>
+            <valueName>Twitter</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Social Media</controllingFieldValue>
+            <valueName>Other</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Website</controllingFieldValue>
+            <valueName>Web self-registration</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Website</controllingFieldValue>
+            <valueName>Website contact us</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Website</controllingFieldValue>
+            <valueName>Website banner</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Germany_Website_leads_to_validate</fullName>
+    <columns>FULL_NAME</columns>
+    <columns>LEAD.EMAIL</columns>
+    <columns>LEAD.COMPANY</columns>
+    <columns>LEAD.STATE_CODE</columns>
+    <columns>LEAD.STATUS</columns>
+    <columns>Lead_Status_Logo__c</columns>
+    <columns>LEAD.UNREAD</columns>
+    <columns>LEAD.CREATED_DATE</columns>
+    <columns>CORE.USERS.ALIAS</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>WebsiteCountry__c</field>
+        <operation>equals</operation>
+        <value>AT,DE</value>
+    </filters>
+    <filters>
+        <field>LEAD.STATUS</field>
+        <operation>equals</operation>
+        <value>Pending Qualification</value>
+    </filters>
+    <filters>
+        <field>LEAD.RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Lead.Website_Lead</value>
+    </filters>
+    <label>Germany - Website Leads To Qualify</label>
+    <sharedTo>
+        <group>Germany</group>
+        <roleAndSubordinates>GermanyHeadofCountry</roleAndSubordinates>
+    </sharedTo>
+</ListView>

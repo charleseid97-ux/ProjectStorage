@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reason_for_disqualification__c</fullName>
+    <externalId>false</externalId>
+    <label>Reason for disqualification</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Not interested in Carmignac Funds</fullName>
+                <default>false</default>
+                <label>Not interested in Carmignac Funds</label>
+            </value>
+            <value>
+                <fullName>Not relevant for Carmignac</fullName>
+                <default>false</default>
+                <label>Not relevant for Carmignac</label>
+            </value>
+            <value>
+                <fullName>Disqualified from nurturing</fullName>
+                <default>false</default>
+                <label>Disqualified from nurturing</label>
+            </value>
+            <value>
+                <fullName>Lead Opt Out</fullName>
+                <default>false</default>
+                <label>Lead Opt Out</label>
+            </value>
+            <value>
+                <fullName>Competitor</fullName>
+                <default>false</default>
+                <label>Competitor</label>
+            </value>
+            <value>
+                <fullName>Student</fullName>
+                <default>false</default>
+                <label>Student</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

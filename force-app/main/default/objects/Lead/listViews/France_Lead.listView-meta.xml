@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>France_Lead</fullName>
+    <columns>FULL_NAME</columns>
+    <columns>LEAD.COMPANY</columns>
+    <columns>LEAD.EMAIL</columns>
+    <columns>Country__c</columns>
+    <columns>LEAD.CREATED_DATE</columns>
+    <columns>LEAD.LEAD_SOURCE</columns>
+    <columns>LEAD.STATUS</columns>
+    <columns>Lead_Status_Logo__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>LEAD.COUNTRY_CODE</field>
+        <operation>equals</operation>
+        <value>FR</value>
+    </filters>
+    <filters>
+        <field>CORE.USERS.ALIAS</field>
+        <operation>equals</operation>
+        <value>France</value>
+    </filters>
+    <filters>
+        <field>LEAD.STATUS</field>
+        <operation>equals</operation>
+        <value>In a nurturing program,Under Sales Qualification,Pending Qualification</value>
+    </filters>
+    <label>France - All Active Leads</label>
+    <sharedTo>
+        <roleAndSubordinates>FranceHeadofCountry</roleAndSubordinates>
+    </sharedTo>
+</ListView>

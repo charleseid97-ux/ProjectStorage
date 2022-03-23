@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_VR003_VermillonIDMandatory</fullName>
+    <active>false</active>
+    <description>NDA Mandatory to closed</description>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+RecordType.DeveloperName = &quot;Client_delivery_request&quot;, 
+CONTAINS (&quot;Data Solution:Solvency&quot;,TEXT(Type)),
+ISPICKVAL(Status, &quot;In Service&quot;),
+Vermillon_Report_ID__c =&quot;&quot;
+)</errorConditionFormula>
+    <errorDisplayField>Vermillon_Report_ID__c</errorDisplayField>
+    <errorMessage>You need to fill in Vermillon Record ID on this Work Together Process before it can be closed. If you don&apos;t have this ID, please request this ID to Client Delivery Team.</errorMessage>
+</ValidationRule>

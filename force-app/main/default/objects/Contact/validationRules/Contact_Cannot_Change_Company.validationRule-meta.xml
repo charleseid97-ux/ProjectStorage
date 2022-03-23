@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_Cannot_Change_Company</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND( 
+Bypass_Apex__c = false,
+$User.BypassValidationRules__c = false,
+NOT(ISNEW()),
+ISCHANGED(AccountId), 
+NOT(ISBLANK(PRIORVALUE(AccountId))),
+/* Configure BypassSpecificValidationRule */
+NOT($Setup.BypassSpecificValidationRule__c.ContactCannotChangeCompany__c) 
+)</errorConditionFormula>
+    <errorDisplayField>AccountId</errorDisplayField>
+    <errorMessage>You cannot update the Company field. Please use the Move Contact button at the top right of the page.</errorMessage>
+</ValidationRule>

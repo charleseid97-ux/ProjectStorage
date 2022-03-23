@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Request_exhaustivity__c</fullName>
+    <description>Exhaustivity of the request</description>
+    <externalId>false</externalId>
+    <label>Request Detail</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Light - 3 slides (max 3-4 days deadline)</fullName>
+                <default>false</default>
+                <label>Light - 3 slides (max 3-4 days deadline)</label>
+            </value>
+            <value>
+                <fullName>Medium - 6/7 slides (max 2 weeks deadline)</fullName>
+                <default>false</default>
+                <label>Medium - 6/7 slides (max 2 weeks deadline)</label>
+            </value>
+            <value>
+                <fullName>Exhaustive - &gt;10 slides (max 3 weeks deadline)</fullName>
+                <default>false</default>
+                <label>Exhaustive - &gt;10 slides (max 3 weeks deadline)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

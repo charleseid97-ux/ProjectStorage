@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_VR012_MandatoryCaseProduct</fullName>
+    <active>true</active>
+    <description>Blocked user to  update record status to &quot;In service&quot; if no product is present</description>
+    <errorConditionFormula>AND(
+!$User.BypassValidationRules__c,
+AND(
+RecordType.DeveloperName = &quot;Client_delivery_request&quot;,
+OR(
+ISPICKVAL(Type,&quot;Client Delivery&quot;),
+ISPICKVAL(Type,&quot;Solvency&quot;)
+),
+ISPICKVAL(Status,&apos;In Service&apos;),
+ISCHANGED(Status),
+Total_Products__c = 0 
+)
+)</errorConditionFormula>
+    <errorMessage>Please insert at least one Product case record</errorMessage>
+</ValidationRule>

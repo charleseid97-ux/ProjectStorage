@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Result_ReasonMandatoryClosingOpp</fullName>
+    <active>true</active>
+    <description>Result Reason Explanation Mandatory when Closing Opp ortunity</description>
+    <errorConditionFormula>AND (
+IsClosed,
+Result_Reason_Explanation__c =&quot;&quot;,
+$RecordType.Name != &apos;5. Pre-Pipeline IS Opportunity&apos;,
+$User.BypassValidationRules__c = false
+)</errorConditionFormula>
+    <errorDisplayField>Result_Reason_Explanation__c</errorDisplayField>
+    <errorMessage>You must give an Explanation when closing an opportunity.</errorMessage>
+</ValidationRule>

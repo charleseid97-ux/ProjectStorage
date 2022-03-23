@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cannot_edit_Primary_Local_FSU_Name</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (
+ISCHANGED(Name),
+Primary_Local_FSU__c,
+NOT($User.BypassValidationRules__c)
+)</errorConditionFormula>
+    <errorDisplayField>Name</errorDisplayField>
+    <errorMessage>You cannot rename this FSU. It is the default FSU for Independent Buy Lists</errorMessage>
+</ValidationRule>

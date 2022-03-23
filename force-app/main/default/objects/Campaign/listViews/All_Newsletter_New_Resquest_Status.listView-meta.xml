@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Newsletter_New_Resquest_Status</fullName>
+    <columns>CAMPAIGN.NAME</columns>
+    <columns>CAMPAIGN.RECORDTYPE</columns>
+    <columns>CAMPAIGN.STATUS</columns>
+    <columns>CAMPAIGN.CAMPAIGN_TYPE</columns>
+    <columns>Event_Local_Start_Time__c</columns>
+    <columns>CORE.USERS.ALIAS</columns>
+    <columns>CAMPAIGN.CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CAMPAIGN.RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Campaign.Newsletters</value>
+    </filters>
+    <filters>
+        <field>CAMPAIGN.STATUS</field>
+        <operation>equals</operation>
+        <value>New</value>
+    </filters>
+    <label>All Newsletter New Resquest Status</label>
+</ListView>

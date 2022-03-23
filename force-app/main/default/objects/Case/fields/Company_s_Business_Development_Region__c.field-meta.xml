@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Company_s_Business_Development_Region__c</fullName>
+    <description>Business development region from the company</description>
+    <externalId>false</externalId>
+    <formula>TEXT(Account.BusinessDevelopmentRegion__c)</formula>
+    <label>Company&apos;s Business Development Region</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

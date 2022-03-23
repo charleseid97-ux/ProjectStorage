@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SupportDepartment__c</fullName>
+    <externalId>false</externalId>
+    <label>Support Department</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Investor Services</fullName>
+                <default>false</default>
+                <label>Investor Services</label>
+            </value>
+            <value>
+                <fullName>Legal</fullName>
+                <default>false</default>
+                <label>Legal</label>
+            </value>
+            <value>
+                <fullName>Rebate &amp; Legal</fullName>
+                <default>false</default>
+                <label>Rebate &amp; Legal</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

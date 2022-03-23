@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SumOfCompetitorAssets__c</fullName>
+    <externalId>false</externalId>
+    <label>Sum Of Competitor Assets</label>
+    <summarizedField>DistributorAsset__c.CompetitorAsset__c</summarizedField>
+    <summaryFilterItems>
+        <field>DistributorAsset__c.RecordTypeId</field>
+        <operation>equals</operation>
+        <value>Competitor Assets</value>
+    </summaryFilterItems>
+    <summaryForeignKey>DistributorAsset__c.Distributor__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

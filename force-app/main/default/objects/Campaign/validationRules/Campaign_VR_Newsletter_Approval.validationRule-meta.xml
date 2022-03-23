@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Campaign_VR_Newsletter_Approval</fullName>
+    <active>true</active>
+    <description>Validation rule only allowing members of the Compliance team members to approve Newsletter emails</description>
+    <errorConditionFormula>AND($Profile.Name !=&apos;Carmignac - Legal and Compliance&apos;, Approved_by_Compliance__c = TRUE,ISCHANGED( Approved_by_Compliance__c ))</errorConditionFormula>
+    <errorDisplayField>Approved_by_Compliance__c</errorDisplayField>
+    <errorMessage>Only members of the Compliance team can approve Newsletter Emails. Please contact Compliance through Chatter if you require approval for your Newsletter</errorMessage>
+</ValidationRule>

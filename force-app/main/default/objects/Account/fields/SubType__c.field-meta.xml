@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SubType__c</fullName>
+    <externalId>false</externalId>
+    <label>Sub Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <controllingField>Type</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Journalist</fullName>
+                <default>false</default>
+                <label>Journalist</label>
+            </value>
+            <value>
+                <fullName>Content Manager</fullName>
+                <default>false</default>
+                <label>Content Manager</label>
+            </value>
+            <value>
+                <fullName>PR Agency</fullName>
+                <default>false</default>
+                <label>PR Agency</label>
+            </value>
+            <value>
+                <fullName>Media Agency</fullName>
+                <default>false</default>
+                <label>Media Agency</label>
+            </value>
+            <value>
+                <fullName>Media Sales</fullName>
+                <default>false</default>
+                <label>Media Sales</label>
+            </value>
+            <value>
+                <fullName>ATPOS Partnership</fullName>
+                <default>false</default>
+                <label>ATPOS Partnership</label>
+            </value>
+            <value>
+                <fullName>Research Provider</fullName>
+                <default>false</default>
+                <label>Research Provider</label>
+            </value>
+            <value>
+                <fullName>Rating Agency</fullName>
+                <default>false</default>
+                <label>Rating Agency</label>
+            </value>
+            <value>
+                <fullName>Consultant (Non-INSTI)</fullName>
+                <default>false</default>
+                <label>Consultant (Non-INSTI)</label>
+            </value>
+            <value>
+                <fullName>Data Service</fullName>
+                <default>false</default>
+                <label>Data Service</label>
+            </value>
+            <value>
+                <fullName>Translator</fullName>
+                <default>false</default>
+                <label>Translator</label>
+            </value>
+            <value>
+                <fullName>Printing</fullName>
+                <default>false</default>
+                <label>Printing</label>
+            </value>
+            <value>
+                <fullName>Event Organization</fullName>
+                <default>false</default>
+                <label>Event Organization</label>
+            </value>
+            <value>
+                <fullName>Custodian</fullName>
+                <default>false</default>
+                <label>Custodian</label>
+            </value>
+            <value>
+                <fullName>Reporting</fullName>
+                <default>false</default>
+                <label>Reporting</label>
+            </value>
+            <value>
+                <fullName>Data Management</fullName>
+                <default>false</default>
+                <label>Data Management</label>
+            </value>
+            <value>
+                <fullName>Rebates</fullName>
+                <default>false</default>
+                <label>Rebate Platform</label>
+            </value>
+            <value>
+                <fullName>Corporate Actions</fullName>
+                <default>false</default>
+                <label>Corporate Actions</label>
+            </value>
+            <value>
+                <fullName>Centralising Agent</fullName>
+                <default>false</default>
+                <label>Centralising Agent</label>
+            </value>
+            <value>
+                <fullName>Correspondent Bank (IT)</fullName>
+                <default>false</default>
+                <label>Correspondent Bank (IT)</label>
+            </value>
+            <value>
+                <fullName>General Legal</fullName>
+                <default>false</default>
+                <label>General Legal</label>
+            </value>
+            <value>
+                <fullName>Legal Agreements</fullName>
+                <default>false</default>
+                <label>Legal Agreements</label>
+            </value>
+            <value>
+                <fullName>Compliance</fullName>
+                <default>false</default>
+                <label>Compliance</label>
+            </value>
+            <value>
+                <fullName>Tax</fullName>
+                <default>false</default>
+                <label>Tax</label>
+            </value>
+            <value>
+                <fullName>Regulator</fullName>
+                <default>false</default>
+                <label>Regulator</label>
+            </value>
+            <value>
+                <fullName>Association</fullName>
+                <default>false</default>
+                <label>Association</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>IFA</fullName>
+                <default>false</default>
+                <label>IFA</label>
+            </value>
+            <value>
+                <fullName>Intermediary Bank</fullName>
+                <default>false</default>
+                <label>Intermediary Bank</label>
+            </value>
+            <value>
+                <fullName>Consultant</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Consultant</label>
+            </value>
+            <value>
+                <fullName>N/A</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>N/A</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Press / Media / Communication</controllingFieldValue>
+            <valueName>Journalist</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Press / Media / Communication</controllingFieldValue>
+            <valueName>Content Manager</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Press / Media / Communication</controllingFieldValue>
+            <valueName>PR Agency</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Press / Media / Communication</controllingFieldValue>
+            <valueName>Media Agency</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Press / Media / Communication</controllingFieldValue>
+            <valueName>Media Sales</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Press / Media / Communication</controllingFieldValue>
+            <valueName>ATPOS Partnership</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Press / Media / Communication</controllingFieldValue>
+            <controllingFieldValue>Research / Consultant / Data</controllingFieldValue>
+            <controllingFieldValue>Service Provider</controllingFieldValue>
+            <controllingFieldValue>Investor Services</controllingFieldValue>
+            <controllingFieldValue>Legal</controllingFieldValue>
+            <valueName>Other</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Research / Consultant / Data</controllingFieldValue>
+            <valueName>Research Provider</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Research / Consultant / Data</controllingFieldValue>
+            <valueName>Rating Agency</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Research / Consultant / Data</controllingFieldValue>
+            <valueName>Consultant (Non-INSTI)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Research / Consultant / Data</controllingFieldValue>
+            <valueName>Data Service</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service Provider</controllingFieldValue>
+            <valueName>Translator</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service Provider</controllingFieldValue>
+            <valueName>Printing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service Provider</controllingFieldValue>
+            <valueName>Event Organization</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service Provider</controllingFieldValue>
+            <valueName>Reporting</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Service Provider</controllingFieldValue>
+            <valueName>Data Management</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Investor Services</controllingFieldValue>
+            <valueName>Custodian</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Investor Services</controllingFieldValue>
+            <valueName>Rebates</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Investor Services</controllingFieldValue>
+            <valueName>Corporate Actions</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Investor Services</controllingFieldValue>
+            <valueName>Centralising Agent</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Investor Services</controllingFieldValue>
+            <valueName>Correspondent Bank (IT)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Investor Services</controllingFieldValue>
+            <valueName>Intermediary Bank</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Legal</controllingFieldValue>
+            <controllingFieldValue>Association</controllingFieldValue>
+            <valueName>General Legal</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Legal</controllingFieldValue>
+            <valueName>Legal Agreements</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Legal</controllingFieldValue>
+            <valueName>Compliance</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Legal</controllingFieldValue>
+            <valueName>Tax</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Legal</controllingFieldValue>
+            <valueName>Regulator</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Association</controllingFieldValue>
+            <valueName>IFA</valueName>
+        </valueSettings>
+    </valueSet>
+    <visibleLines>5</visibleLines>
+</CustomField>

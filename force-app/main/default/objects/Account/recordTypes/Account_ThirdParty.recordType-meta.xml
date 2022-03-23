@@ -1,0 +1,705 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_ThirdParty</fullName>
+    <active>true</active>
+    <compactLayoutAssignment>ThirdPartyCompactLayout</compactLayoutAssignment>
+    <description>Legal entity involved in the business development process, which is neither a prospect nor a distributor</description>
+    <label>Third Party</label>
+    <picklistValues>
+        <picklist>AccountSource</picklist>
+        <values>
+            <fullName>BrightTalk</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CSN Webinar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DOOR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Purchased List</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Approval_Status__c</picklist>
+        <values>
+            <fullName>Approval required</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>BusinessDevelopmentRegion__c</picklist>
+        <values>
+            <fullName>BP_BE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BP_CH</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BP_DA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BP_ES</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BP_FR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BP_IN</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BP_IT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BP_JP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BP_LA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BP_LU</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BP_NL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BP_NO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BP_TW</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BP_UK</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Client_Tier__c</picklist>
+        <values>
+            <fullName>Bronze %28Tier 4%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Gold %28Tier 2%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Platinum %28Tier 1%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Silver %28Tier 3%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Titanium %28Tier 0%29</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>CompanyStatus__c</picklist>
+        <values>
+            <fullName>Active</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Inactive</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Competitor__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Distributor_Type__c</picklist>
+        <values>
+            <fullName>Bank</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Consultant</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IFA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Insurance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other Institutions</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other Wealth Managers</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Platform</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Proprietary Desk</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Single Family Office</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Third Party</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Final_Distribution__c</picklist>
+        <values>
+            <fullName>Institutional</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Retail</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wholesale</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>In__c</picklist>
+        <values>
+            <fullName>Institutional</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Retail</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wholesale</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Industry</picklist>
+        <values>
+            <fullName>Banking</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Insurances</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Investment_Vehicle_Type__c</picklist>
+        <values>
+            <fullName>CG Advisory %28FoF%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CG Advisory %28Unit Link%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CG Dedicated Share Class</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CG Feeder</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CG Mandate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CG Structured Product</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CG Sub-Advised</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FCPE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FoF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Structured Product</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unit Link</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Investment_vehicle__c</picklist>
+        <values>
+            <fullName>CG Investment Solution Platform - Co-Branding</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>External Vehicle</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>N%2FA</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>LegalForm__c</picklist>
+        <values>
+            <fullName>AB %28Aktiebolag%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AG %28Aktiengesellschaft%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BV %28Besloten Vennootschap%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>E%2EU%2ER%2EL%2E %28Entreprise Unipersonnelle à Responsabilité Limitée%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GmbH %28Gesellschaft mit beschränkter Haftung%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>INC %28Incorporated%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Individual Person</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LLC %28Limited Liability Company%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LP %28Limited Partnership%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LTD %28Limited Company%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NV %28Naamloze Vennootschap%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PLC %28Public Limited Company%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SA %28Société Anonyme%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SARL %28Société Anonyme à Responsabilité Limitée%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SE %28Societas Europaea%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SECA %28Société en Commandite par Actions%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SPA %28Società per Azioni%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SRL %28Società a Responsabilità Limitata%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Trust Company</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>匿名組合 TK %28Tokumei Kumiai%29 Anonymous Partnership</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>有限公司 %28Limited Company%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>株式会社 KK %28Kabushiki Kaisha%29 Stock Company</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>股份有限公司 %28Public Limited Company or Corporation%29</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Ownership</picklist>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Private</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Public</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Subsidiary</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Rating</picklist>
+        <values>
+            <fullName>Chaud</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Froid</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tiède</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>SubType__c</picklist>
+        <values>
+            <fullName>ATPOS Partnership</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Association</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Centralising Agent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Compliance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Consultant %28Non-INSTI%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Content Manager</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Corporate Actions</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Correspondent Bank %28IT%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Custodian</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Data Management</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Data Service</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Event Organization</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>General Legal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IFA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Intermediary Bank</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Journalist</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Legal Agreements</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Media Agency</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Media Sales</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PR Agency</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Printing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rating Agency</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rebates</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Regulator</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reporting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Research Provider</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tax</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Translator</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Sub_Type__c</picklist>
+        <values>
+            <fullName>Asset Manager</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bank</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Banking Network</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Broker%2FDealer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Broker%2FDealer Firm</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Charity</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Consultant</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Corporate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Discretionary Portfolio Manager</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EAFI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Endowment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Execution %26 Advisory Platform</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Execution-Only Platform</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FoF Manager</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Foundation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IFA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IFA Network</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Independent Wealth Manager</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Insurance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Insurance - Unit Link</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Insurance Network</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Multi-Family Office</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Online Bank</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pension Fund</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Private Banking</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RIA %28registered investment advisor%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Retail Banking</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Single Family Office</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sovereign Wealth Fund</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Third Party</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type</picklist>
+        <values>
+            <fullName>Association</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Competitor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Investor Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Legal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Press %2F Media %2F Communication</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Research %2F Consultant %2F Data</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Service Provider</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>potential__c</picklist>
+        <values>
+            <fullName>High</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Low</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medium</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>
