@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_Strategy__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Product</label>
+    <lookupFilter>
+        <active>true</active>
+        <booleanFilter>(1 OR (2 AND 3)) AND 4</booleanFilter>
+        <filterItems>
+            <field>Product__c.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Strategy</value>
+        </filterItems>
+        <filterItems>
+            <field>Product__c.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Fund</value>
+        </filterItems>
+        <filterItems>
+            <field>Product__c.Legal_Status__c</field>
+            <operation>equals</operation>
+            <value>OEIC</value>
+        </filterItems>
+        <filterItems>
+            <field>Product__c.Validity__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Product__c</referenceTo>
+    <relationshipLabel>Opportunities</relationshipLabel>
+    <relationshipName>Opportunities</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

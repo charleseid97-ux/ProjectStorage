@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Proposed_Owner_Mandatory_for_CRM</fullName>
+    <active>false</active>
+    <description>CRM Users must enter the Proposed Owner field</description>
+    <errorConditionFormula>AND (
+  $Profile.Name = &apos;Carmignac - CRM&apos;,
+  ISBLANK(Proposed_Contact_Owner__c),
+  NOT($User.BypassValidationRules__c)
+)</errorConditionFormula>
+    <errorDisplayField>Proposed_Contact_Owner__c</errorDisplayField>
+    <errorMessage>CRM Users must select a Proposed Contact Owner</errorMessage>
+</ValidationRule>

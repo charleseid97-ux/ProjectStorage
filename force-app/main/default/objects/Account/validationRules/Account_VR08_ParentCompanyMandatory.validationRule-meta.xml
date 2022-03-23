@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_VR08_ParentCompanyMandatory</fullName>
+    <active>true</active>
+    <description>Parent Company must be completed for the Company if it is linked to a GAM. 
+If the Company is directly linked to the GAM Parent Company should be the GAM itself.</description>
+    <errorConditionFormula>AND(NOT($User.BypassValidationRules__c),AND(NOT(ISBLANK(GAM__c))) ,AND ( 
+ISBLANK( ParentId ), 
+OR (RecordType.Name = &quot;Distributor&quot;, RecordType.Name = &quot;Prospect&quot;, RecordType.Name = &quot;Third Party&quot;) ))</errorConditionFormula>
+    <errorDisplayField>ParentId</errorDisplayField>
+    <errorMessage>Please select a Parent Company in order to complete the attachment to the GAM.
+(The GAM itself if the Company is directly linked to the GAM)</errorMessage>
+</ValidationRule>

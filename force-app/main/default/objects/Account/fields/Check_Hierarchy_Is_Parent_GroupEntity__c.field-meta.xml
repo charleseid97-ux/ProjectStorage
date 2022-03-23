@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Check_Hierarchy_Is_Parent_GroupEntity__c</fullName>
+    <description>Returns 1 if the parent company is a grouping entity</description>
+    <externalId>false</externalId>
+    <formula>if( Parent.RecordTypeId = &apos;0121i000000g5nQ&apos;,1,0)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Check Hierarchy Is Parent GroupEntity</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

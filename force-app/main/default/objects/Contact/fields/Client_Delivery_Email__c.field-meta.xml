@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Client_Delivery_Email__c</fullName>
+    <description>You must inform directly the Data Solution Team about any modification of this recipient email for sending existing report. In case of a new request, please create a request through Work Together Process object in Salesforce</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>You must inform directly the Data Solution Team about any modification of this recipient email for sending report. In case of a new request, please create a request through Work Together Process object in Salesforce</inlineHelpText>
+    <label>Data Solution Email</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Email</type>
+    <unique>false</unique>
+</CustomField>

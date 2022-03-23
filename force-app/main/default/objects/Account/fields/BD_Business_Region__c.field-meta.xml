@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>BD_Business_Region__c</fullName>
+    <description>Business Region of Business Developer (owner). Taken from user information</description>
+    <externalId>false</externalId>
+    <formula>Owner.TECH_TextBusinessDevelopmentRegions__c</formula>
+    <label>BD Business Region</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

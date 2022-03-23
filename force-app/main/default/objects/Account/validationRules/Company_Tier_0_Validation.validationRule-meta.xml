@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Company_Tier_0_Validation</fullName>
+    <active>true</active>
+    <description>Only System Administrators can change a Company to or from Tier 0</description>
+    <errorConditionFormula>AND (
+  OR(
+    ISPICKVAL(Client_Tier__c,&quot;Titanium (Tier 0)&quot;), 
+    AND(
+      ISCHANGED(Client_Tier__c), 
+      ISPICKVAL(PRIORVALUE(Client_Tier__c),&quot;Titanium (Tier 0)&quot;)
+    )
+  ),
+  NOT(OR($User.ProfileId = &apos;00e58000000s3v6&apos;, $User.ProfileId =&apos;00e58000000z6UE&apos;)),
+  NOT($User.BypassValidationRules__c)
+)</errorConditionFormula>
+    <errorDisplayField>Client_Tier__c</errorDisplayField>
+    <errorMessage>Only System Administrators can change a Company TO or FROM Tier 0. 
+Please contact a System Admin for this update.</errorMessage>
+</ValidationRule>

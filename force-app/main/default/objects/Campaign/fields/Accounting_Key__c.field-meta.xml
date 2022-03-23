@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Accounting_Key__c</fullName>
+    <description>Concatenates Event Type and City of the event in order to create a functional Key for the accounting team</description>
+    <externalId>false</externalId>
+    <formula>UPPER(text( Type ))&amp;&quot; - &quot;&amp;UPPER( 
+
+SUBSTITUTE( 
+SUBSTITUTE( 
+SUBSTITUTE( 
+SUBSTITUTE( City__c, &quot;ñ&quot;, &quot;N&quot;), &quot;á&quot;, &quot;A&quot;), &quot;í&quot;, &quot;I&quot;), &quot;ü&quot;, &quot;U&quot;) 
+
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Accounting Key</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Company_Status_Logo__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(ISPICKVAL(CompanyStatus__c,&quot;Active&quot;),IMAGE(&quot;/resource/StatusLogos/ActiveLogo.png&quot;,&quot;Active&quot;,30,50),IMAGE(&quot;/resource/StatusLogos/InactiveLogo.png&quot;,&quot;Deactivated&quot;,30,50))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Company Status Logo</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

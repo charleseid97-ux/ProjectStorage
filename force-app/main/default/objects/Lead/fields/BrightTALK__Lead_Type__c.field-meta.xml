@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>BrightTALK__Lead_Type__c</fullName>
+    <deprecated>false</deprecated>
+    <externalId>false</externalId>
+    <label>Lead Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>content</fullName>
+                <default>false</default>
+                <label>content</label>
+            </value>
+            <value>
+                <fullName>keyword</fullName>
+                <default>false</default>
+                <label>keyword</label>
+            </value>
+            <value>
+                <fullName>summit</fullName>
+                <default>false</default>
+                <label>summit</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

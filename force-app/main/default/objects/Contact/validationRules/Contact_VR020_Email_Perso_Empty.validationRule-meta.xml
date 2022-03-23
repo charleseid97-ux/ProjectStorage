@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_VR020_Email_Perso_Empty</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND((Event_Email__c = &apos;Personal Email Empty&apos;),!$User.BypassValidationRules__c)</errorConditionFormula>
+    <errorMessage>Personal email is empty, please choose another email in the communication preferences section.</errorMessage>
+</ValidationRule>

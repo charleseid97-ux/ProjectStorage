@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_VR02_CountryMandatory</fullName>
+    <active>false</active>
+    <description>Enforce the user to inform the country when creating a new contact</description>
+    <errorConditionFormula>AND ( 
+RecordType.DeveloperName = &quot;Contact_DistributionContact&quot;, 
+ISBLANK(  MailingCountry  ), 
+$User.BypassValidationRules__c = false )</errorConditionFormula>
+    <errorDisplayField>MailingCountry</errorDisplayField>
+    <errorMessage>Please inform a country for the contact</errorMessage>
+</ValidationRule>

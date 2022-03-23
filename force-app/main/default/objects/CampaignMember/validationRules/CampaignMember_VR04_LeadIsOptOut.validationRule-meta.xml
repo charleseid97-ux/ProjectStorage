@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CampaignMember_VR04_LeadIsOptOut</fullName>
+    <active>false</active>
+    <description>A lead opt out can&apos;t be added to a campaign</description>
+    <errorConditionFormula>AND(NOT(OR($Profile.Name = &apos;Carmignac - Interface Etouches&apos;,$Profile.Name = &apos;Carmignac - Interface&apos;)),!$User.BypassValidationRules__c, Lead.HasOptedOutOfEmail = true)</errorConditionFormula>
+    <errorMessage>This lead can&apos;t be added to the campaign because it is Opt Out.</errorMessage>
+</ValidationRule>

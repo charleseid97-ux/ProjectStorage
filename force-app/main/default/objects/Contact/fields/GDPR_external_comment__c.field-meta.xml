@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>GDPR_external_comment__c</fullName>
+    <externalId>false</externalId>
+    <formula>&apos;If you receive a request from lead/contact for PERSONAL DATA DELETION, please tick the above box and forward the request e-mail to the Data Protection Officer (DPO) - dpo@carmignac.com. For further details, please refer to the 1.2.2. REQUESTS FOR PERSONAL DATA DELETION of the GDPR guide at https://home.carmignac.com/departments/Legal/RGPDDonneesPersoDataPrivacy/Forms/AllItems.aspx or contact Data Protection Officer (DPO) at dpo@carmignac.com&apos;</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>GDPR external comment</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

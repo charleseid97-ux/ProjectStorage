@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>GDPR_flag_comment__c</fullName>
+    <externalId>false</externalId>
+    <formula>&apos;This tick box is related to the monthly GDPR FLAG FOR DELETION PROCESS. If this lead/contact LAST INTERACTION date is greater than 5 years, the box will be automatically ticked and the deletion will be proceed at the end of the quarter. The LAST INTERACTION field is based on the latest date set from three other processes in Salesforce: Meeting Call, Event and Newsletter. If you are still in contact with the lead/contact by a means that is not tracked in Salesforce, you must contact the DPO by the end of the quarter. For further details, please refer to the 1.4. GDPR FLAG FOR DELETION PROCESS section of the GDPR guide at https://home.carmignac.com/departments/Legal/RGPDDonneesPersoDataPrivacy/Forms/AllItems.aspx or contact Data Protection Officer (DPO) at dpo@carmignac.com&apos;</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>GDPR flag comment</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

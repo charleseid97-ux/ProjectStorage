@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Active_date</fullName>
+    <active>true</active>
+    <description>Allows the relationship to be active only when the ending date is</description>
+    <errorConditionFormula>AND(EndDate - TODAY() &lt; 0, IsActive, NOT($User.BypassValidationRules__c) )</errorConditionFormula>
+    <errorDisplayField>IsActive</errorDisplayField>
+    <errorMessage>Contact Relationship can&apos;t be active because the End Date is passed</errorMessage>
+</ValidationRule>

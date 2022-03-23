@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RFP_Definitions__c</fullName>
+    <defaultValue>&quot;RFP: Request For Proposal &quot; + BR() + 
+&quot;RFI: Request For Information &quot; + BR() + 
+&quot;DDQ Initial. Due Diligence Questionnaire (Initial): Recommendation &amp; Buy Lists, Platform additions, …&quot;+ BR() + 
+&quot;DDQ Follow up. Due Diligence Questionnaire (Follow Up): Follow up questions from a recently submitted DDQ&quot;+ BR() + 
+&quot;DDQ Recurring. Due Diligence Questionnaire (Recurring): Existing client, ongoing, regular DD monitoring &quot;</defaultValue>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <label>RFP Definitions</label>
+    <length>131072</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>10</visibleLines>
+</CustomField>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_WinLoss_Mandatory_on_Closing_Opp</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (
+IsClosed,
+ISBLANK(TEXT( Product_Win_Loss_Sub_Reason__c )),
+$RecordType.Name != &apos;5. Pre-Pipeline IS Opportunity&apos;,
+$User.BypassValidationRules__c = false
+)</errorConditionFormula>
+    <errorDisplayField>Product_Win_Loss_Sub_Reason__c</errorDisplayField>
+    <errorMessage>You must select a Product Win/Loss Reason when closing an Opportunity.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_VR001_NDAMandatory</fullName>
+    <active>true</active>
+    <description>NDA Mandatory to closed</description>
+    <errorConditionFormula>AND(NOT($User.BypassValidationRules__c),AND(  RecordType.DeveloperName = &quot;Client_delivery_request&quot;, ISPICKVAL( Type , &quot;Solvency&quot;),  NDA_signed__c =False, ISPICKVAL(Status, &quot;In Service&quot;)))</errorConditionFormula>
+    <errorDisplayField>NDA_signed__c</errorDisplayField>
+    <errorMessage>You need to have a NDA signed in order to closed the work together process</errorMessage>
+</ValidationRule>

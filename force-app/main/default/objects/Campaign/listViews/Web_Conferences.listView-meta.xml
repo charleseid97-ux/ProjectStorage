@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Web_Conferences</fullName>
+    <columns>CAMPAIGN.NAME</columns>
+    <columns>Event_Local_Start_Time__c</columns>
+    <columns>CAMPAIGN.STATUS</columns>
+    <columns>Language__c</columns>
+    <columns>Sales_Team__c</columns>
+    <columns>CORE.USERS.LAST_NAME</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CAMPAIGN.NAME</field>
+        <operation>contains</operation>
+        <value>Bright,Web</value>
+    </filters>
+    <filters>
+        <field>CAMPAIGN.NAME</field>
+        <operation>notContain</operation>
+        <value>Test</value>
+    </filters>
+    <label>Web Conferences</label>
+</ListView>

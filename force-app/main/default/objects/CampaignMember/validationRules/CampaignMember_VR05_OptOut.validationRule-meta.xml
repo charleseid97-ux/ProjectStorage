@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CampaignMember_VR05_OptOut</fullName>
+    <active>false</active>
+    <description>Prevent User to create a campaign member with Contact/Lead that is opt out</description>
+    <errorConditionFormula>AND(
+				!$User.BypassValidationRules__c,
+				ISNEW(),
+     OR(
+								AND(TECH_ParentEventOptOut__c, Campaign.RecordTypeId = &apos;01258000000cjmr&apos;),
+								AND(TECH_ParentNewsletterOptOut__c, Campaign.RecordTypeId = &apos;01258000000cjms&apos;)
+					) 
+)</errorConditionFormula>
+    <errorMessage>You can not add a member opt out to this campaign.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_VR010_Email_Prefered_Method</fullName>
+    <active>true</active>
+    <description>The Email number is mandatory if it&apos;s selected as the prefered method of contact</description>
+    <errorConditionFormula>AND( 
+ISPICKVAL( PreferredMethodOfContact__c, &quot;Email&quot;), 
+ISBLANK( Email ), 
+ISBLANK( PersonalEmail__c ), 
+ISBLANK( TeamEmail__c ), 
+NOT($User.BypassValidationRules__c)
+)</errorConditionFormula>
+    <errorDisplayField>Email</errorDisplayField>
+    <errorMessage>As the Email is the Prefered Method of Contact, at least one Email should be filled</errorMessage>
+</ValidationRule>

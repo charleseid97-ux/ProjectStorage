@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lead_Status_Logo__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(ISPICKVAL(Status,&quot;Disqualified&quot;),IMAGE(&quot;https://carmignac-crm--c.eu6.content.force.com/servlet/servlet.FileDownload?file=01558000003bWE2&quot;,&quot;Disqualified&quot;,30,30), 
+IF(ISPICKVAL(Status,&quot;Qualified&quot;),(IMAGE(&quot;https://carmignac-crm--c.eu6.content.force.com/servlet/servlet.FileDownload?file=01558000003bWDn&quot;,&quot;Qualified&quot;,30,30)), 
+IMAGE(&quot;https://carmignac-crm--c.eu6.content.force.com/servlet/servlet.FileDownload?file=01558000003bWER&quot;,&quot;In progress&quot;,30,30)))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Lead Status Logo</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Has_client_specific_template__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>If Yes, please finish to create the request then join the template in attachment.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>If Yes, please finish to create the request then join the template in attachment.</inlineHelpText>
+    <label>Has client specific template ?</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

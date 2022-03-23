@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Opportunity_VR01_RestrictProductList</fullName>
+    <active>false</active>
+    <description>Restrict product available if expertise &quot;Investment Solution&quot; is chosen as expertise</description>
+    <errorConditionFormula>AND(NOT($User.BypassValidationRules__c),AND(INCLUDES( Expertise_picklist__c ,&quot;Investment Solutions&quot;),
+OR( INCLUDES(Product2__c ,&quot;AXA Selection CC&quot;), INCLUDES(Product2__c,&quot;Darta&quot;),INCLUDES(Product2__c,&quot;Inversis&quot;),INCLUDES(Product2__c,&quot;Mapfre JA&quot;),INCLUDES(Product2__c,&quot;Mediolanum CGSS&quot;),INCLUDES(Product2__c,&quot;Nomura&quot;),INCLUDES(Product2__c,&quot;Sagis&quot;),INCLUDES(Product2__c,&quot;Salix&quot;),INCLUDES(Product2__c,&quot;UFF GE&quot;),INCLUDES(Product2__c,&quot;ALM ES I&quot;),INCLUDES(Product2__c,&quot;ALM ES CPE&quot;),INCLUDES(Product2__c,&quot;Avenir Sélection Patrimoine&quot;),INCLUDES(Product2__c,&quot;Eres &amp; Carmignac Patrimoine&quot;),INCLUDES(Product2__c,&quot;Eres Carmignac Equilibre&quot;),INCLUDES(Product2__c,&quot;MACSF CP&quot;),INCLUDES(Product2__c,&quot;Multimanagers Actions Internationales – C&quot;),INCLUDES(Product2__c,&quot;Multimanagers Equilibre – CP&quot;))))</errorConditionFormula>
+    <errorMessage>Some products you selected can not be chosen if expertise &quot;Investment Solution&quot; is chosen as Expertise.</errorMessage>
+</ValidationRule>

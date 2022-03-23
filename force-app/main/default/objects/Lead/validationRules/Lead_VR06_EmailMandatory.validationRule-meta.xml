@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lead_VR06_EmailMandatory</fullName>
+    <active>true</active>
+    <description>Need to fill one email address for lead conversion</description>
+    <errorConditionFormula>AND(NOT($User.BypassValidationRules__c),AND( Email = &quot;&quot;,    PersonalEmail__c  = &quot;&quot;))</errorConditionFormula>
+    <errorMessage>Please fill in at least one email (professional or personal) or you will not be able to convert this lead</errorMessage>
+</ValidationRule>

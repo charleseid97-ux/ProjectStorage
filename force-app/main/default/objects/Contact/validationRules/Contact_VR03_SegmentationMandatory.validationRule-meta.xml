@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_VR03_SegmentationMandatory</fullName>
+    <active>false</active>
+    <description>Unable users to create contact record for an account with no segmentation</description>
+    <errorConditionFormula>AND(
+OR( Account.RecordType.DeveloperName = &quot;Account_Prospect&quot; , Account.RecordType.DeveloperName = &quot;Account_Distributor&quot; ),
+Account.00N5800000BO6UC = 0 ,
+ $User.BypassValidationRules__c = false)</errorConditionFormula>
+    <errorMessage>Please create a Segmentation before creating contacts for this client</errorMessage>
+</ValidationRule>
