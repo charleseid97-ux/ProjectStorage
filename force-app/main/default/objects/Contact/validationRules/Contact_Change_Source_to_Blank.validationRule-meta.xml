@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_Change_Source_to_Blank</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+ISCHANGED(Source__c),
+ISPICKVAL(Source__c,&apos;&apos;), 
+  OR( RecordType.Name = &apos;Distribution Contact&apos;, 
+    RecordType.Name = &apos;Support Contact&apos;, 
+    RecordType.Name = &apos;Third Party Contact&apos; 
+  ),
+NOT($User.BypassValidationRules__c)
+)</errorConditionFormula>
+    <errorDisplayField>Source__c</errorDisplayField>
+    <errorMessage>You cannot update Source to a Blank value</errorMessage>
+</ValidationRule>

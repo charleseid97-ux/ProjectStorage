@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_VR05_OwnerUpdateNotAllowed</fullName>
+    <active>false</active>
+    <description>Prevent the user to change ownership outside their business development region</description>
+    <errorConditionFormula>AND( 
+ISCHANGED( OwnerId ), 
+ISBLANK( $User.BusinessDevelopmentRegions__c )=false, 
+NOT(CONTAINS($User.TECH_TextBusinessDevelopmentRegions__c , Owner.TECH_TextBusinessDevelopmentRegions__c)), 
+$User.BypassValidationRules__c = false, 
+NOT($User.ProfileId = &apos;00e58000000s3v6&apos;), 
+NOT($User.ProfileId = &apos;00e58000000z6UE&apos;), 
+NOT($User.ProfileId = &apos;00e58000000z6UC&apos;) 
+)</errorConditionFormula>
+    <errorMessage>You are not authorized to change ownership of Companys from other business regions. Get support from Distribution and Digital team.</errorMessage>
+</ValidationRule>

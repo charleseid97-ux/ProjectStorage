@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AM_Contacts_List</fullName>
+    <columns>FULL_NAME</columns>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>JobTitle__c</columns>
+    <columns>CONTACT.ADDRESS2_CITY</columns>
+    <columns>Country__c</columns>
+    <columns>ContactOwner__c</columns>
+    <columns>Contact_Status_Logo__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>ContactStatus__c</field>
+        <operation>equals</operation>
+        <value>true</value>
+    </filters>
+    <filters>
+        <field>CORE.USERS.LAST_NAME</field>
+        <operation>equals</operation>
+        <value>MARTIN</value>
+    </filters>
+    <label>AM Contacts List</label>
+    <sharedTo>
+        <group>Switzerland</group>
+    </sharedTo>
+</ListView>

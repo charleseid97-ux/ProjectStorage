@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>JobFunction__c</fullName>
+    <externalId>false</externalId>
+    <label>Job Function</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Advisory</fullName>
+                <default>false</default>
+                <label>Advisory</label>
+            </value>
+            <value>
+                <fullName>Administration</fullName>
+                <default>false</default>
+                <label>Administration</label>
+            </value>
+            <value>
+                <fullName>Analysis &amp; Research</fullName>
+                <default>false</default>
+                <label>Analysis &amp; Research</label>
+            </value>
+            <value>
+                <fullName>Asset Management</fullName>
+                <default>false</default>
+                <label>Asset Management</label>
+            </value>
+            <value>
+                <fullName>Fund Partnership Development</fullName>
+                <default>false</default>
+                <label>Fund Partnership Development</label>
+            </value>
+            <value>
+                <fullName>HNW</fullName>
+                <default>false</default>
+                <label>HNW</label>
+            </value>
+            <value>
+                <fullName>Investment Banking</fullName>
+                <default>false</default>
+                <label>Investment Banking</label>
+            </value>
+            <value>
+                <fullName>Investment Management</fullName>
+                <default>false</default>
+                <label>Investment Management</label>
+            </value>
+            <value>
+                <fullName>Investment Products</fullName>
+                <default>false</default>
+                <label>Investment Products</label>
+            </value>
+            <value>
+                <fullName>Marketing</fullName>
+                <default>false</default>
+                <label>Marketing</label>
+            </value>
+            <value>
+                <fullName>Private Banking</fullName>
+                <default>false</default>
+                <label>Private Banking</label>
+            </value>
+            <value>
+                <fullName>Product Management &amp; Development</fullName>
+                <default>false</default>
+                <label>Product Management &amp; Development</label>
+            </value>
+            <value>
+                <fullName>Sales &amp; Distribution</fullName>
+                <default>false</default>
+                <label>Sales &amp; Distribution</label>
+            </value>
+            <value>
+                <fullName>Treasury</fullName>
+                <default>false</default>
+                <label>Treasury</label>
+            </value>
+            <value>
+                <fullName>Wealth Management</fullName>
+                <default>false</default>
+                <label>Wealth Management</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

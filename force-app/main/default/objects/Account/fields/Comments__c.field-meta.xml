@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Comments__c</fullName>
+    <encryptionScheme>ProbabilisticEncryption</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>Please fill information to manage Contact/Lead details only and avoid (1) sensitive data (political/religious beliefs, union membership, medical information, racial/ethnic origin, sexual orientation); (2) any assessment of behaviour and (3) value judgment</inlineHelpText>
+    <label>Comments</label>
+    <length>32768</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>LongTextArea</type>
+    <visibleLines>25</visibleLines>
+</CustomField>

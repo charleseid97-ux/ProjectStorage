@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Add_to_Events</fullName>
+    <availability>online</availability>
+    <description>OLEMAIRE  17/4/24 Change to &quot;Add to Events&quot;
+17/4/12 Custom mass add to campaign button. At this time mass button can only call VFP. Note the button will not appear on Recently Viewed list view only one saved List View.</description>
+    <displayType>massActionButton</displayType>
+    <height>600</height>
+    <linkType>page</linkType>
+    <masterLabel>Add to Events</masterLabel>
+    <openType>sidebar</openType>
+    <page>CPGN_AddToCampaignConMass_VFP</page>
+    <protected>false</protected>
+    <requireRowSelection>true</requireRowSelection>
+</WebLink>

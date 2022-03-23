@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_VR03_CountryMandatory</fullName>
+    <active>false</active>
+    <description>Mailing Country is mandatory</description>
+    <errorConditionFormula>AND(NOT($User.BypassValidationRules__c),
+AND ( 
+ISBLANK( BillingCountry ), 
+$User.BypassValidationRules__c = false, 
+OR (RecordType.Name = &quot;Distributor&quot;, RecordType.Name  = &quot;Prospect&quot;, RecordType.Name = &quot;Third Party&quot;) ))</errorConditionFormula>
+    <errorMessage>Please inform at least the main country code for the company</errorMessage>
+</ValidationRule>

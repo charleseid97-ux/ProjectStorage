@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_Licence_32_Only_for_DE_Contacts</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+INCLUDES(SupportFunction__c, &apos;§32 KWG|Asset Allocator (DE)&apos;),
+NOT( ISPICKVAL(Account.BusinessDevelopmentRegion__c, &apos;BP_DA&apos;))
+)</errorConditionFormula>
+    <errorDisplayField>SupportFunction__c</errorDisplayField>
+    <errorMessage>Only Contacts working for German Companies can have this value selected</errorMessage>
+</ValidationRule>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Distributor_Sub_Type__c</fullName>
+    <description>This field traces the segmentation from Contact&apos;s main Company</description>
+    <externalId>false</externalId>
+    <formula>Contact.Distributor_Sub_Type_formula__c</formula>
+    <label>Distributor Sub Type</label>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Alldistributors</fullName>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>ACCOUNT.RECORDTYPE</columns>
+    <columns>BusinessDevelopmentRegion__c</columns>
+    <columns>ACCOUNT.ADDRESS1_COUNTRY_CODE</columns>
+    <columns>CORE.USERS.FIRST_NAME</columns>
+    <columns>CORE.USERS.LAST_NAME</columns>
+    <columns>CORE.USERS.ALIAS</columns>
+    <columns>ACCOUNT.CREATED_DATE</columns>
+    <columns>ACCOUNT.LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>BusinessDevelopmentRegion__c</field>
+        <operation>equals</operation>
+        <value>BP_FR</value>
+    </filters>
+    <filters>
+        <field>Distributor_Type__c</field>
+        <operation>equals</operation>
+        <value>Bank,Insurance</value>
+    </filters>
+    <label>All Distributors</label>
+</ListView>

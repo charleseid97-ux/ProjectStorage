@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Check_Hierarchy_Parent_Segmentation__c</fullName>
+    <description>For those records belonging to a hierarchy, it returns 1 when the parent company includes the segmentation&apos;s Sub-Type.</description>
+    <externalId>false</externalId>
+    <formula>if(
+
+AND(
+
+NOT( ISNULL(Parent.Name) ),
+NOT( Ultimate_Parent__c  =  Name ),
+Parent.RecordTypeId  = &apos;0121i000000g5nQ&apos;,/*Grouping Entity*/
+
+OR(
+
+/*All segmentations except Bank and IFA*/
+AND(
+CONTAINS(  Parent.Name ,TEXT(Sub_Type__c)),
+TEXT(Sub_Type__c) &lt;&gt; &apos;Bank&apos;,
+TEXT(Sub_Type__c) &lt;&gt; &apos;IFA&apos;),
+
+
+/*IFA*/ 
+AND( 
+CONTAINS( Parent.Name ,&apos;IFA&apos;), 
+NOT(CONTAINS( Parent.Name ,&apos;Network&apos;)), 
+TEXT(Sub_Type__c) = &apos;IFA&apos;), 
+
+
+/*Bank*/ 
+AND( 
+CONTAINS( Parent.Name ,&apos;Bank&apos;), 
+NOT(CONTAINS( Parent.Name ,&apos;Network&apos;)), 
+NOT(CONTAINS( Parent.Name ,&apos;Private&apos;)), 
+NOT(CONTAINS( Parent.Name ,&apos;Retail&apos;)), 
+TEXT(Sub_Type__c) = &apos;Bank&apos;) 
+
+
+)/* End of OR*/ 
+) /* End of AND*/
+,1,0) /* End of IF*/</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Check Hierarchy Parent Segmentation</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

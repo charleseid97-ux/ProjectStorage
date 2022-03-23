@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Campaign_VR02_MandatoryPilars</fullName>
+    <active>false</active>
+    <description>At least 1 pilar has to be selected on the campaign (brand, thought leadership, expertise or product)</description>
+    <errorConditionFormula>AND(NOT($User.BypassValidationRules__c),AND(NOT(OR( Brand__c , Thought_Leadership__c , Expertise__c , Product__c )),  RecordType.Name = &quot;Newsletters&quot;))</errorConditionFormula>
+    <errorMessage>You must select at least one pilar (Brand, Thought Leadership, Expertise, Product)</errorMessage>
+</ValidationRule>

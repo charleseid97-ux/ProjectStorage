@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Level_of_Influence__c</fullName>
+    <externalId>false</externalId>
+    <label>Level of Influence</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Hardly Influences Decision</fullName>
+                <default>false</default>
+                <label>Hardly Influences Decision</label>
+            </value>
+            <value>
+                <fullName>Slight Influence</fullName>
+                <default>false</default>
+                <label>Slight Influence</label>
+            </value>
+            <value>
+                <fullName>Influences Decision</fullName>
+                <default>false</default>
+                <label>Influences Decision</label>
+            </value>
+            <value>
+                <fullName>Strong Influencer</fullName>
+                <default>false</default>
+                <label>Strong Influencer</label>
+            </value>
+            <value>
+                <fullName>Minor Decision Maker</fullName>
+                <default>false</default>
+                <label>Minor Decision Maker</label>
+            </value>
+            <value>
+                <fullName>A Decision Maker</fullName>
+                <default>false</default>
+                <label>A Decision Maker</label>
+            </value>
+            <value>
+                <fullName>Major Decision Maker</fullName>
+                <default>false</default>
+                <label>Major Decision Maker</label>
+            </value>
+            <value>
+                <fullName>Only Decision Maker</fullName>
+                <default>false</default>
+                <label>Only Decision Maker</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

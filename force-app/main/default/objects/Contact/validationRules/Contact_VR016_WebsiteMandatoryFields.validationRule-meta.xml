@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_VR016_WebsiteMandatoryFields</fullName>
+    <active>false</active>
+    <description>If website role is different from No Profile, the fields Website First Name, Website Last Name, Website Login, Website Company, Website Country and Website Language are mandatory</description>
+    <errorConditionFormula>AND( 
+NOT(ISBLANK(TEXT( WebsiteRole__c ))), 
+NOT(ISPICKVAL(WebsiteRole__c,&apos;1&apos; )) 
+, 
+AND( 
+OR( 
+ISBLANK( FirstNameWebsite__c ), 
+ISBLANK( LastNameWebsite__c ), 
+ISBLANK(WebsiteCompany__c),
+ISBLANK( WebsiteLogin__c ), 
+ISBLANK(TEXT( WebsiteCountry__c)), 
+ISBLANK(TEXT( WebsiteLanguage__c )) 
+)), 
+NOT($User.ProfileId = &apos;00e58000000z9hS&apos;), 
+NOT($User.ProfileId = &apos;00e58000000z6UE&apos;), 
+NOT($User.ProfileId = &apos;00e58000000z6UC&apos;), 
+NOT($User.ProfileId = &apos;00e58000000s3v6&apos;) 
+, 
+$User.BypassValidationRules__c = false 
+)</errorConditionFormula>
+    <errorMessage>The fields Website First Name, Website Last Name, Website Login, Website Company, Website Country, Website Language are mandatory if website role is different from No Profile</errorMessage>
+</ValidationRule>

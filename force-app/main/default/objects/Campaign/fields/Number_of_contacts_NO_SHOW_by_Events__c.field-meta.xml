@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Number_of_contacts_NO_SHOW_by_Events__c</fullName>
+    <description>NOSHOW_By_Events</description>
+    <externalId>false</externalId>
+    <inlineHelpText>NOSHOW_By_Events</inlineHelpText>
+    <label>Number of contacts NO SHOW by Events</label>
+    <summaryFilterItems>
+        <field>CampaignMember.Status</field>
+        <operation>equals</operation>
+        <value>No Show</value>
+    </summaryFilterItems>
+    <summaryForeignKey>CampaignMember.CampaignId</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Campaign_VR01_EndDateTimeStartDateTime</fullName>
+    <active>true</active>
+    <description>The End Date and Time could not be less than the Start Date &amp; Time</description>
+    <errorConditionFormula>AND(NOT($User.BypassValidationRules__c),NOT(ISBLANK(Event_Local_End_Time__c)),DATETIMEVALUE(LEFT(Event_Local_End_Time__c,4) +&quot;-&quot;+ MID(Event_Local_End_Time__c,6,2)+&quot;-&quot;+MID(Event_Local_End_Time__c,9,2)+&quot; &quot;+
+ RIGHT(Event_Local_End_Time__c,5)+&quot;:00&quot;) &lt; DATETIMEVALUE(LEFT(Event_Local_Start_Time__c,4) +&quot;-&quot;+ MID(Event_Local_Start_Time__c,6,2)+&quot;-&quot;+MID(Event_Local_Start_Time__c,9,3)+&quot; &quot;+
+ RIGHT(Event_Local_Start_Time__c,5)+&quot;:00&quot;))</errorConditionFormula>
+    <errorMessage>Please enter a valid &quot;End Date &amp; Time&quot;: the end date should be after the start date</errorMessage>
+</ValidationRule>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Event_VR02_ContactNameMandatory</fullName>
+    <active>false</active>
+    <description>At least one contact/lead name is mandatory for Meetings &amp; Calls for profiles different from Administrator and interface</description>
+    <errorConditionFormula>AND( 
+NOT($User.BypassValidationRules__c),
+ISBLANK( WhoId ), 
+NOT(ispickval(Type,&apos;Call&apos;)), 
+NOT($User.ProfileId =&apos;00e58000000z6UE&apos;), 
+NOT($User.ProfileId =&apos;00e58000000s3v6&apos;), 
+NOT($User.ProfileId =&apos;00e58000000z9gq&apos;), 
+NOT($User.ProfileId =&apos;00e58000000z6UC&apos;), 
+NOT($User.ProfileId =&apos;00e58000000z9hS&apos;) 
+)</errorConditionFormula>
+    <errorMessage>Please select a contact or lead related to this Meeting &amp; Call record</errorMessage>
+</ValidationRule>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Third_Parties</fullName>
+    <columns>FULL_NAME</columns>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>CONTACT.RECORDTYPE</columns>
+    <columns>JobTitle__c</columns>
+    <columns>CONTACT.PHONE1</columns>
+    <columns>Country__c</columns>
+    <columns>CONTACT.EMAIL</columns>
+    <columns>ContactOwner__c</columns>
+    <columns>CONTACT.LAST_UPDATE</columns>
+    <columns>Contact_Status_Logo__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CONTACT.RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Contact.Contact_ThirdPartyContact</value>
+    </filters>
+    <filters>
+        <field>ContactStatus__c</field>
+        <operation>equals</operation>
+        <value>true</value>
+    </filters>
+    <label>All Third Parties</label>
+    <language>en_US</language>
+</ListView>

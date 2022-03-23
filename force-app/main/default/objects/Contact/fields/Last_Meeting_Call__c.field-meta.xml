@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Last_Meeting_Call__c</fullName>
+    <defaultValue>DATETIMEVALUE(&quot;1900-01-01 12:00:00&quot;)</defaultValue>
+    <description>Field used to retrieve last interaction (meeting or call) registered on the contact. Filled-in by process builder when meeting &amp; call is registered with end date</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>Date and Time of the last : Call or Meeting (End date)</inlineHelpText>
+    <label>Last Meeting &amp; Call</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>DateTime</type>
+</CustomField>

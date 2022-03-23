@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_VR07_LimitValidationHOC2</fullName>
+    <active>false</active>
+    <description>OLD Ownership change process - Limit the action on checkbox &quot;Proposed HOC validation&quot; to User with position HOC</description>
+    <errorConditionFormula>AND( 
+ischanged(Proposed_HOC_approval__c ) 
+, 
+OR( 
+NOT(ispickval($User.Position__c, &apos;Head of Country&apos;)), 
+NOT(CONTAINS( $User.TECH_TextBusinessDevelopmentRegions__c , Proposed_BD_Business_Region__c)) 
+), $User.BypassValidationRules__c = false)</errorConditionFormula>
+    <errorDisplayField>Proposed_HOC_approval__c</errorDisplayField>
+    <errorMessage>This box is intended for the Head of Country from the proposed business region</errorMessage>
+</ValidationRule>

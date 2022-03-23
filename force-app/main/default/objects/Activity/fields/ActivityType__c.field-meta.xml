@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ActivityType__c</fullName>
+    <externalId>false</externalId>
+    <label>Activity Type</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Call</fullName>
+                <default>false</default>
+                <label>Call</label>
+            </value>
+            <value>
+                <fullName>Individual meeting</fullName>
+                <default>false</default>
+                <label>Individual meeting</label>
+            </value>
+            <value>
+                <fullName>One to many meeting</fullName>
+                <default>false</default>
+                <label>One to many meeting</label>
+            </value>
+            <value>
+                <fullName>Meeting</fullName>
+                <default>false</default>
+                <label>Meeting</label>
+            </value>
+            <value>
+                <fullName>Email</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Email</label>
+            </value>
+            <value>
+                <fullName>Letter</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Letter</label>
+            </value>
+            <value>
+                <fullName>Senior Management Meeting</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Senior Management Meeting</label>
+            </value>
+            <value>
+                <fullName>Strategic Meeting</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Strategic Meeting</label>
+            </value>
+            <value>
+                <fullName>To Do Action</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>To Do Action</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

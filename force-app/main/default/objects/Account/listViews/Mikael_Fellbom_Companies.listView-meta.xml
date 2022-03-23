@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Mikael_Fellbom_Companies</fullName>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>CORE.USERS.ALIAS</columns>
+    <columns>BusinessDevelopmentRegion__c</columns>
+    <columns>All_Concerned_Business_Regions__c</columns>
+    <columns>AUMToDate__c</columns>
+    <columns>GAM__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CORE.USERS.ALIAS</field>
+        <operation>contains</operation>
+        <value>fellb</value>
+    </filters>
+    <filters>
+        <field>GAM__c</field>
+        <operation>notEqual</operation>
+    </filters>
+    <filters>
+        <field>ACCOUNT.RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Account.Account_Distributor</value>
+    </filters>
+    <label>Mikael Fellbom Companies</label>
+</ListView>

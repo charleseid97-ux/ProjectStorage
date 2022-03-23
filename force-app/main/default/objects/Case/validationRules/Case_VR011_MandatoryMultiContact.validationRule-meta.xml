@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_VR011_MandatoryMultiContact</fullName>
+    <active>true</active>
+    <description>Blocked user to save update record status to In service if no account is present</description>
+    <errorConditionFormula>AND(
+!$User.BypassValidationRules__c,
+ISBLANK(Platform__c),
+AND(
+RecordType.DeveloperName = &quot;Client_delivery_request&quot;,
+OR(
+ISPICKVAL(Type,&quot;Client Delivery&quot;),
+ISPICKVAL(Type,&quot;Solvency&quot;)
+),
+ISPICKVAL(Status, &apos;In Service&apos;),
+ISCHANGED(Status),
+Total_Multi_Contacts__c = 0
+)
+)</errorConditionFormula>
+    <errorMessage>Please insert at least one Multi Contact record</errorMessage>
+</ValidationRule>

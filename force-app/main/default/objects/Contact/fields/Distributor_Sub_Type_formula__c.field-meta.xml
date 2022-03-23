@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Distributor_Sub_Type_formula__c</fullName>
+    <description>Formula which retrieves Distributor Sub Type of the direct Company related to the Contact</description>
+    <externalId>false</externalId>
+    <formula>TEXT( Account.Sub_Type__c )</formula>
+    <inlineHelpText>Distributor Sub Type of Contact&apos;s Company (direct Company)</inlineHelpText>
+    <label>Distributor Sub Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

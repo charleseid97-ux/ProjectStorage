@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_VR01_OneEmailMandatory</fullName>
+    <active>true</active>
+    <description>Enforce the user to inform at least one email field on distribution contact creation</description>
+    <errorConditionFormula>AND ( 
+RecordType.DeveloperName   = &quot;Contact_DistributionContact&quot;,
+ISBLANK( PersonalEmail__c ),
+ISBLANK( Email ),
+ISBLANK( TeamEmail__c ), 
+$User.BypassValidationRules__c = false )</errorConditionFormula>
+    <errorMessage>Please inform at least one email address</errorMessage>
+</ValidationRule>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CampaignMember_VR02_LimitCMStatusTemp</fullName>
+    <active>false</active>
+    <description>Restriction to all users to campaign member status = Invited</description>
+    <errorConditionFormula>OR(
+AND(
+$User.BypassValidationRules__c=False,
+Campaign.Etouches_invitation__c = True,
+OR(
+ISPICKVAL(Status,&apos;Invited&apos;),
+ISPICKVAL(Status,&apos;Inactive&apos;),
+ISPICKVAL(Status,&apos;Confirmed&apos;),
+ISPICKVAL(Status,&apos;Declined&apos;),
+ISPICKVAL(Status,&apos;Incomplete&apos;),
+ISPICKVAL(Status,&apos;Cancelled&apos;),
+ISPICKVAL(Status,&apos;Attended&apos;),
+ISPICKVAL(Status,&apos;No Show&apos;),
+ISPICKVAL(Status,&apos;Activated&apos;),
+ISPICKVAL(Status,&apos;Waitlist&apos;),
+ISPICKVAL(Status,&apos;Responded&apos;),
+ISPICKVAL(Status,&apos;Clicked&apos;),
+ISPICKVAL(Status,&apos;Sent&apos;),
+ISPICKVAL(Status,&apos;Unsubscribed&apos;),
+ISPICKVAL(Status,&apos;In Progress&apos;)
+), 
+ISCHANGED(Status),
+NOT($Profile.Id =&apos;00e58000000z9hS&apos;), 
+NOT($Profile.Id =&apos;00e58000000z6UE&apos;), 
+NOT($Profile.Id =&apos;00e58000000z6UC&apos;),
+NOT($Profile.Id =&apos;00e58000000s3v6&apos;),
+NOT($Profile.Id =&apos;00e580000015D9d&apos;)
+),
+AND(
+$User.BypassValidationRules__c=False,
+Campaign.Etouches_invitation__c = True,
+OR(
+ISPICKVAL(Status,&apos;Inactive&apos;),
+ISPICKVAL(Status,&apos;Confirmed&apos;),
+ISPICKVAL(Status,&apos;Declined&apos;),
+ISPICKVAL(Status,&apos;Incomplete&apos;),
+ISPICKVAL(Status,&apos;Cancelled&apos;),
+ISPICKVAL(Status,&apos;Attended&apos;),
+ISPICKVAL(Status,&apos;No Show&apos;),
+ISPICKVAL(Status,&apos;Activated&apos;),
+ISPICKVAL(Status,&apos;Waitlist&apos;),
+ISPICKVAL(Status,&apos;Responded&apos;),
+ISPICKVAL(Status,&apos;Clicked&apos;),
+ISPICKVAL(Status,&apos;Sent&apos;),
+ISPICKVAL(Status,&apos;Unsubscribed&apos;),
+ISPICKVAL(Status,&apos;In Progress&apos;)
+),
+ISNEW(),
+NOT($Profile.Id =&apos;00e58000000z9hS&apos;), 
+NOT($Profile.Id =&apos;00e58000000z6UE&apos;), 
+NOT($Profile.Id =&apos;00e58000000z6UC&apos;),
+NOT($Profile.Id =&apos;00e58000000s3v6&apos;),
+NOT($Profile.Id =&apos;00e580000015D9d&apos;)
+)
+)</errorConditionFormula>
+    <errorMessage>WARNING : Please be aware that the status of campaign members is managed by Aventri so you are only able to add contacts with the status INVITED. For any update, you have to go to Aventri.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ESG_Interest_Level__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>Define the level of ESG interest in the Questionnaire</inlineHelpText>
+    <label>ESG Interest Level</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>ESG focused questionnaire</fullName>
+                <default>false</default>
+                <label>ESG focused questionnaire</label>
+            </value>
+            <value>
+                <fullName>Strong emphasis on ESG</fullName>
+                <default>false</default>
+                <label>Strong emphasis on ESG</label>
+            </value>
+            <value>
+                <fullName>Some ESG questions</fullName>
+                <default>false</default>
+                <label>Some ESG questions</label>
+            </value>
+            <value>
+                <fullName>No specific ESG requirements</fullName>
+                <default>false</default>
+                <label>No specific ESG requirements</label>
+            </value>
+            <value>
+                <fullName>Undefined</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Undefined</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

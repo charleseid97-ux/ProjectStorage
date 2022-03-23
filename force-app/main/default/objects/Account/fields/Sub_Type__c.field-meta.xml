@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sub_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Sub-Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Distributor_Type__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Execution-Only Platform</fullName>
+                <default>false</default>
+                <label>Execution-Only Platform</label>
+            </value>
+            <value>
+                <fullName>Execution &amp; Advisory Platform</fullName>
+                <default>false</default>
+                <label>Execution &amp; Advisory Platform</label>
+            </value>
+            <value>
+                <fullName>IFA</fullName>
+                <default>false</default>
+                <label>IFA</label>
+            </value>
+            <value>
+                <fullName>IFA Network</fullName>
+                <default>false</default>
+                <label>IFA Network</label>
+            </value>
+            <value>
+                <fullName>EAFI</fullName>
+                <default>false</default>
+                <label>EAFI</label>
+            </value>
+            <value>
+                <fullName>Bank</fullName>
+                <default>false</default>
+                <label>Bank</label>
+            </value>
+            <value>
+                <fullName>Banking Network</fullName>
+                <default>false</default>
+                <label>Banking Network</label>
+            </value>
+            <value>
+                <fullName>Private Banking</fullName>
+                <default>false</default>
+                <label>Private Banking</label>
+            </value>
+            <value>
+                <fullName>Retail Banking</fullName>
+                <default>false</default>
+                <label>Retail Banking</label>
+            </value>
+            <value>
+                <fullName>Online Bank</fullName>
+                <default>false</default>
+                <label>Online Bank</label>
+            </value>
+            <value>
+                <fullName>Broker/Dealer</fullName>
+                <default>false</default>
+                <label>Broker/Dealer</label>
+            </value>
+            <value>
+                <fullName>Insurance Network</fullName>
+                <default>false</default>
+                <label>Insurance Network</label>
+            </value>
+            <value>
+                <fullName>Insurance - Unit Link</fullName>
+                <default>false</default>
+                <label>Insurance - Unit Link</label>
+            </value>
+            <value>
+                <fullName>Independent Wealth Manager</fullName>
+                <default>false</default>
+                <label>Independent Wealth Manager</label>
+            </value>
+            <value>
+                <fullName>Asset Manager</fullName>
+                <default>false</default>
+                <label>Asset Manager</label>
+            </value>
+            <value>
+                <fullName>FoF Manager</fullName>
+                <default>false</default>
+                <label>FoF Manager</label>
+            </value>
+            <value>
+                <fullName>Discretionary Portfolio Manager</fullName>
+                <default>false</default>
+                <label>Discretionary Portfolio Manager</label>
+            </value>
+            <value>
+                <fullName>RIA (registered investment advisor)</fullName>
+                <default>false</default>
+                <label>RIA (registered investment advisor)</label>
+            </value>
+            <value>
+                <fullName>Multi-Family Office</fullName>
+                <default>false</default>
+                <label>Multi-Family Office</label>
+            </value>
+            <value>
+                <fullName>Broker/Dealer Firm</fullName>
+                <default>false</default>
+                <label>Broker/Dealer Firm</label>
+            </value>
+            <value>
+                <fullName>Corporate</fullName>
+                <default>false</default>
+                <label>Corporate</label>
+            </value>
+            <value>
+                <fullName>Insurance</fullName>
+                <default>false</default>
+                <label>Insurance</label>
+            </value>
+            <value>
+                <fullName>Single Family Office</fullName>
+                <default>false</default>
+                <label>Single Family Office</label>
+            </value>
+            <value>
+                <fullName>Pension Fund</fullName>
+                <default>false</default>
+                <label>Pension Fund</label>
+            </value>
+            <value>
+                <fullName>Sovereign Wealth Fund</fullName>
+                <default>false</default>
+                <label>Sovereign Wealth Fund</label>
+            </value>
+            <value>
+                <fullName>Foundation</fullName>
+                <default>false</default>
+                <label>Foundation</label>
+            </value>
+            <value>
+                <fullName>Endowment</fullName>
+                <default>false</default>
+                <label>Endowment</label>
+            </value>
+            <value>
+                <fullName>Charity</fullName>
+                <default>false</default>
+                <label>Charity</label>
+            </value>
+            <value>
+                <fullName>Consultant</fullName>
+                <default>false</default>
+                <label>Consultant</label>
+            </value>
+            <value>
+                <fullName>Fund Selection Unit</fullName>
+                <default>false</default>
+                <label>Fund Selection Unit</label>
+            </value>
+            <value>
+                <fullName>Third Party</fullName>
+                <default>false</default>
+                <label>Third Party</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Click to select value</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Click to select value</label>
+            </value>
+            <value>
+                <fullName>Consultant (non-Insti</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Consultant (non-Insti</label>
+            </value>
+            <value>
+                <fullName>Data Service</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Data Service</label>
+            </value>
+            <value>
+                <fullName>Family office</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Family office</label>
+            </value>
+            <value>
+                <fullName>Platform</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Platform</label>
+            </value>
+            <value>
+                <fullName>Press</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Press</label>
+            </value>
+            <value>
+                <fullName>Rating agency</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Rating agency</label>
+            </value>
+            <value>
+                <fullName>Research Provider</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Research Provider</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Third Party</controllingFieldValue>
+            <valueName>Third Party</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Platform</controllingFieldValue>
+            <valueName>Execution-Only Platform</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Platform</controllingFieldValue>
+            <valueName>Execution &amp; Advisory Platform</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IFA</controllingFieldValue>
+            <valueName>IFA</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IFA</controllingFieldValue>
+            <valueName>IFA Network</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IFA</controllingFieldValue>
+            <valueName>EAFI</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Bank</controllingFieldValue>
+            <controllingFieldValue>Proprietary Desk</controllingFieldValue>
+            <valueName>Bank</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Bank</controllingFieldValue>
+            <valueName>Banking Network</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Bank</controllingFieldValue>
+            <valueName>Private Banking</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Bank</controllingFieldValue>
+            <valueName>Retail Banking</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Bank</controllingFieldValue>
+            <valueName>Online Bank</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Bank</controllingFieldValue>
+            <valueName>Broker/Dealer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Insurance</controllingFieldValue>
+            <valueName>Insurance Network</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Insurance</controllingFieldValue>
+            <valueName>Insurance - Unit Link</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Wealth Managers</controllingFieldValue>
+            <valueName>Independent Wealth Manager</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Wealth Managers</controllingFieldValue>
+            <valueName>Asset Manager</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Wealth Managers</controllingFieldValue>
+            <valueName>FoF Manager</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Wealth Managers</controllingFieldValue>
+            <valueName>Discretionary Portfolio Manager</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Wealth Managers</controllingFieldValue>
+            <valueName>RIA (registered investment advisor)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Wealth Managers</controllingFieldValue>
+            <valueName>Multi-Family Office</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Wealth Managers</controllingFieldValue>
+            <valueName>Broker/Dealer Firm</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Proprietary Desk</controllingFieldValue>
+            <valueName>Corporate</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Proprietary Desk</controllingFieldValue>
+            <valueName>Insurance</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Single Family Office</controllingFieldValue>
+            <valueName>Single Family Office</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Institutions</controllingFieldValue>
+            <valueName>Pension Fund</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Institutions</controllingFieldValue>
+            <valueName>Sovereign Wealth Fund</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Institutions</controllingFieldValue>
+            <valueName>Foundation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Institutions</controllingFieldValue>
+            <valueName>Endowment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Institutions</controllingFieldValue>
+            <valueName>Charity</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other Institutions</controllingFieldValue>
+            <valueName>Other</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Consultant</controllingFieldValue>
+            <valueName>Consultant</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Fund Selection Unit</controllingFieldValue>
+            <valueName>Fund Selection Unit</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

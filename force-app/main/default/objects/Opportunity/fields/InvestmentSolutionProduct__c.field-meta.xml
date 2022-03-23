@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>InvestmentSolutionProduct__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Products only for Investment Solution opportunities.</description>
+    <externalId>false</externalId>
+    <label>Investment Solution Product</label>
+    <lookupFilter>
+        <active>true</active>
+        <errorMessage>You have to choose a product of the type Dummy Products.</errorMessage>
+        <filterItems>
+            <field>Product__c.RecordType.Name</field>
+            <operation>equals</operation>
+            <value>Dummy Products</value>
+        </filterItems>
+        <filterItems>
+            <field>Product__c.Validity__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Product__c</referenceTo>
+    <relationshipLabel>Opportunities (Investment Solution Product)</relationshipLabel>
+    <relationshipName>OpportunitiesIS</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

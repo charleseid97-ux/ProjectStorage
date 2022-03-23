@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Job_Title__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF( 
+ISBLANK( Lead.FirstName ) , 
+TEXT(Contact.JobTitle__c), 
+IF( 
+CONTAINS(Campaign.Owner.TECH_TextBusinessDevelopmentRegions__c, &apos;BP_ES&apos;), 
+&apos;Lead&apos;, 
+Lead.Business_Card_Title__c 
+) 
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Job Title</label>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

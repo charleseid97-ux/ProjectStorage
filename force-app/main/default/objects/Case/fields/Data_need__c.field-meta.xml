@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Data_need__c</fullName>
+    <externalId>false</externalId>
+    <label>Please select the data need</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Holdings</fullName>
+                <default>false</default>
+                <label>Holdings</label>
+            </value>
+            <value>
+                <fullName>Breakdown sector</fullName>
+                <default>false</default>
+                <label>Breakdown sector</label>
+            </value>
+            <value>
+                <fullName>Breakdown country</fullName>
+                <default>false</default>
+                <label>Breakdown country</label>
+            </value>
+            <value>
+                <fullName>Top 10</fullName>
+                <default>false</default>
+                <label>Top 10</label>
+            </value>
+            <value>
+                <fullName>Bond data</fullName>
+                <default>false</default>
+                <label>Bond data</label>
+            </value>
+            <value>
+                <fullName>Equity Exposure</fullName>
+                <default>false</default>
+                <label>Equity Exposure</label>
+            </value>
+            <value>
+                <fullName>Statistics</fullName>
+                <default>false</default>
+                <label>Statistics</label>
+            </value>
+            <value>
+                <fullName>Performances</fullName>
+                <default>false</default>
+                <label>Performances</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>EPT</fullName>
+                <default>false</default>
+                <label>EPT</label>
+            </value>
+            <value>
+                <fullName>CEPT</fullName>
+                <default>false</default>
+                <label>CEPT</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>9</visibleLines>
+</CustomField>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Last_Event_attendance_elapsed_time__c</fullName>
+    <description>Calculates elapsed time between now and last Event attendance (Business Days without National Day Off)</description>
+    <externalId>false</externalId>
+    <formula>(5 * ( FLOOR( ( Today() - DATE( 1900, 1, 8) ) / 7 ) ) + MIN( 5, MOD( Today() - DATE( 1900, 1, 8), 7 ) ) ) 
+- 
+(5 * ( FLOOR( (DATEVALUE(Last_Event_attendance__c) - DATE( 1900, 1, 8) ) / 7 ) ) + MIN( 5, MOD( DATEVALUE(Last_Event_attendance__c) - DATE( 1900, 1, 8), 7 ) ) )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Elapsed time (Days) since last attendance to an event (Business Days without National Day Off)</inlineHelpText>
+    <label>Last Event attendance elapsed time</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>
