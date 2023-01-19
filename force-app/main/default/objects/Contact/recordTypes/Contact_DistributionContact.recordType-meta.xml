@@ -1218,6 +1218,10 @@
             <fullName>QUAT</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Thematics</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>FaxIndicator__c</picklist>
@@ -4455,6 +4459,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>CAELS</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>CAGR</fullName>
             <default>false</default>
         </values>
@@ -4468,6 +4476,10 @@
         </values>
         <values>
             <fullName>CC25</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CC27</fullName>
             <default>false</default>
         </values>
         <values>
@@ -4519,6 +4531,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>CGA</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>CGC</fullName>
             <default>false</default>
         </values>
@@ -4548,6 +4564,10 @@
         </values>
         <values>
             <fullName>CLSGE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>COO</fullName>
             <default>false</default>
         </values>
         <values>
@@ -4604,6 +4624,10 @@
         </values>
         <values>
             <fullName>GSMMEDIO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LSEE</fullName>
             <default>false</default>
         </values>
         <values>
@@ -4710,6 +4734,10 @@
             <fullName>UKCP</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>UKMPS</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Prospace_Status__c</picklist>
@@ -4773,6 +4801,10 @@
         </values>
         <values>
             <fullName>Technology</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Thematics</fullName>
             <default>false</default>
         </values>
         <values>
@@ -5146,6 +5178,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Hedge Fund Conderence</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Phone Inquiry</fullName>
             <default>false</default>
         </values>
@@ -5260,6 +5296,10 @@
         </values>
         <values>
             <fullName>Rebates</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Regional Website Contact</fullName>
             <default>false</default>
         </values>
         <values>

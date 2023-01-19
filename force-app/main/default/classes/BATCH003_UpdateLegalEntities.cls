@@ -44,6 +44,11 @@ global with sharing class BATCH003_UpdateLegalEntities implements Database.Batch
             String lLei = string.join(lstOfLei,','); 
             // Get All Legal Entities from lei.info
             JSONLegalEntity2Apex allDatas = UTIL_LegalEntity.getLegalEntity(lLei);
+
+            if(String.isBlank(lLei))
+            {
+                continue;
+            }
             
             for(JSONLegalEntity2Apex.data data: allDatas.data) {
                 if (data != null)

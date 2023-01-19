@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type_of_Request__c</fullName>
+    <externalId>false</externalId>
+    <label>Type of Request</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Performance Attribution (StatPro)</fullName>
+                <default>false</default>
+                <label>Performance Attribution (StatPro)</label>
+            </value>
+            <value>
+                <fullName>Performance Attribution (UBS Delta)</fullName>
+                <default>false</default>
+                <label>Performance Attribution (UBS Delta)</label>
+            </value>
+            <value>
+                <fullName>Funds / Benchmark Performance</fullName>
+                <default>false</default>
+                <label>Funds / Benchmark Performance</label>
+            </value>
+            <value>
+                <fullName>Portfolio Indicators / Statistics</fullName>
+                <default>false</default>
+                <label>Portfolio Indicators / Statistics</label>
+            </value>
+            <value>
+                <fullName>Portfolio Turnover</fullName>
+                <default>false</default>
+                <label>Portfolio Turnover</label>
+            </value>
+            <value>
+                <fullName>PC&amp;A Report</fullName>
+                <default>false</default>
+                <label>PC&amp;A Report</label>
+            </value>
+            <value>
+                <fullName>Allocation</fullName>
+                <default>false</default>
+                <label>Allocation</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

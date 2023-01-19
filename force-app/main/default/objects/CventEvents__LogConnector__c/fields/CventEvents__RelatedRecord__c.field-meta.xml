@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CventEvents__RelatedRecord__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Hyperlink to the related record.</description>
+    <externalId>false</externalId>
+    <formula>HYPERLINK(&apos;/&apos; + CventEvents__RelatedRecordId__c, IF( ISBLANK(CventEvents__RelatedRecordName__c) , CventEvents__RelatedRecordType__c, CventEvents__RelatedRecordType__c + &apos;: &apos; + CventEvents__RelatedRecordName__c))</formula>
+    <label>Related Record</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

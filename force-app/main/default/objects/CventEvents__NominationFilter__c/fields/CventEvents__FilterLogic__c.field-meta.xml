@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CventEvents__FilterLogic__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Indicates what filter logic should be applied to the conditions.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Indicates what filter logic should be applied to the conditions.</inlineHelpText>
+    <label>Filter Logic</label>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>AND</fullName>
+                <default>false</default>
+                <label>AND</label>
+            </value>
+            <value>
+                <fullName>OR</fullName>
+                <default>false</default>
+                <label>OR</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -4,14 +4,18 @@
     <columns>FULL_NAME</columns>
     <columns>CORE.USERS.ALIAS</columns>
     <columns>CORE.USERS.USERNAME</columns>
-    <columns>CORE.USERS.LAST_LOGIN</columns>
     <columns>CORE.USER_ROLE.NAME</columns>
     <columns>CORE.USERS.ACTIVE</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>CORE.PROFILE.NAME</field>
+        <operation>contains</operation>
+        <value>System Admin</value>
+    </filters>
+    <filters>
+        <field>CORE.USERS.ACTIVE</field>
         <operation>equals</operation>
-        <value>System Administrator</value>
+        <value>1</value>
     </filters>
     <label>Admin Users</label>
 </ListView>

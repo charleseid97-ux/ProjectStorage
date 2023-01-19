@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CventEvents__ContactAssignmentRule__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Indicates the Contact assignment rule for the Opportunity Contact Role.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Indicates the Contact assignment rule for the Opportunity Contact Role.</inlineHelpText>
+    <label>Contact Assignment Rule</label>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Assign to Attendee&apos;s Contact</fullName>
+                <default>false</default>
+                <label>Assign to Attendee&apos;s Contact</label>
+            </value>
+            <value>
+                <fullName>Assign to specific Contact</fullName>
+                <default>false</default>
+                <label>Assign to specific Contact</label>
+            </value>
+            <value>
+                <fullName>Do not create a contact role</fullName>
+                <default>false</default>
+                <label>Do not create a contact role</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>fpro__Run_Status__c</fullName>
+    <businessOwnerUser>coullon.thomas-crm@carmignac.com</businessOwnerUser>
+    <businessStatus>DeprecateCandidate</businessStatus>
+    <complianceGroup>PII;HIPAA;GDPR</complianceGroup>
+    <deprecated>false</deprecated>
+    <description>Keep track of analysis results (used in VF page to check the status of results viewed by user)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Keep track of analysis results (used in VF page to check the status of results viewed by user)</inlineHelpText>
+    <label>Run Status</label>
+    <required>false</required>
+    <securityClassification>Public</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Run Started</fullName>
+                <default>false</default>
+                <label>Run Started</label>
+            </value>
+            <value>
+                <fullName>Results Viewed</fullName>
+                <default>false</default>
+                <label>Results Viewed</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

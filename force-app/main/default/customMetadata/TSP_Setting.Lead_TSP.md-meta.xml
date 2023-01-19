@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Lead TSP</label>
+    <protected>false</protected>
+    <values>
+        <field>Emails_To_Notify__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Excluded_Profiles__c</field>
+        <value xsi:type="xsd:string">Carmignac - Interface;System Administrator;Carmignac - System Administrator;Carmignac - CRM;Carmignac - Interface Etouches;BrightTalk;B2BMA Integration User</value>
+    </values>
+    <values>
+        <field>Excluded_Queues__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Object__c</field>
+        <value xsi:type="xsd:string">Lead</value>
+    </values>
+    <values>
+        <field>Records_Limit__c</field>
+        <value xsi:type="xsd:double">500.0</value>
+    </values>
+</CustomMetadata>

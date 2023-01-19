@@ -27,8 +27,8 @@
 
 
         console.log('SLI <> ', RFPId);
-
-        saveProductsEvent.setParams({
+		//TO UNCOMMMENT
+       saveProductsEvent.setParams({
             "selectedProducts" : productList,
             "deleteProductList" : deleteProductList,
             "selectedShares": shareList,
@@ -62,5 +62,14 @@
     {
         component.set("v.selectedShares", event.getParam('value'));
         console.log('SLI >>> ', JSON.stringify(event.getParam('value')));
-    }
+    },
+    // START : JLC MODIFICATION  : All Products Selection Handler method  : 14/06/2022
+    handleAllProductsSelection : function(component,event,helper){
+        //Upon user confirmation, the list will be populated with all products
+        if (confirm("All Products will be added to the list.") == true) {
+            helper.loadAllProducts(component,event,helper);
+        }
+    },
+    // END : JLC MODIFICATION : 14/06/2022
+
 })

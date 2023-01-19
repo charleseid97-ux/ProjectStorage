@@ -13,6 +13,10 @@
         <valueSetName>Product</valueSetName>
         <valueSettings>
             <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>CAELS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>checked</controllingFieldValue>
             <valueName>CAGR</valueName>
         </valueSettings>
         <valueSettings>
@@ -29,11 +33,19 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>CC27</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>checked</controllingFieldValue>
             <valueName>CCC</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>checked</controllingFieldValue>
             <valueName>CCNE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>COO</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>checked</controllingFieldValue>
@@ -66,6 +78,10 @@
         <valueSettings>
             <controllingFieldValue>checked</controllingFieldValue>
             <valueName>CFG</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>CGA</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>checked</controllingFieldValue>
@@ -133,6 +149,10 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>LSEE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>checked</controllingFieldValue>
             <valueName>PE</valueName>
         </valueSettings>
         <valueSettings>
@@ -186,6 +206,10 @@
         <valueSettings>
             <controllingFieldValue>checked</controllingFieldValue>
             <valueName>UKCP</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>UKMPS</valueName>
         </valueSettings>
     </valueSet>
     <visibleLines>4</visibleLines>

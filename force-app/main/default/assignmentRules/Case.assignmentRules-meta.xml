@@ -68,6 +68,21 @@
                 <value>New</value>
             </criteriaItems>
         </ruleEntry>
+        <ruleEntry>
+            <assignedTo>Performance_Management</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Performance Management Request</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Status</field>
+                <operation>equals</operation>
+                <value>New</value>
+            </criteriaItems>
+            <template>Work_Together_Process/WTP_New_assignment_notification</template>
+        </ruleEntry>
     </assignmentRule>
     <assignmentRule>
         <fullName>Client delivery rule</fullName>

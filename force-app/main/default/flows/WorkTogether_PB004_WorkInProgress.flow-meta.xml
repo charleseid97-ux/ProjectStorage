@@ -13,6 +13,7 @@
         <locationY>300</locationY>
         <actionName>Case.WorkTogether_AssignedTo</actionName>
         <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -36,6 +37,7 @@
         <connector>
             <targetReference>myRule_3_A3</targetReference>
         </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>text</name>
             <value>
@@ -74,6 +76,7 @@ Kind Regards,
         <connector>
             <targetReference>myRule_5_A3</targetReference>
         </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>text</name>
             <value>
@@ -109,6 +112,7 @@ Kind Regards,
         <locationY>400</locationY>
         <actionName>Case.WorkTogether_MI_AssignedTo</actionName>
         <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -117,22 +121,6 @@ Kind Regards,
         </inputParameters>
     </actionCalls>
     <apiVersion>49.0</apiVersion>
-    <assignments>
-        <name>myVariable_waitStartTimeAssignment</name>
-        <label>myVariable_waitStartTimeAssignment</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <assignmentItems>
-            <assignToReference>myVariable_waitStartTimeVariable</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Flow.CurrentDateTime</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>myDecision</targetReference>
-        </connector>
-    </assignments>
     <decisions>
         <processMetadataValues>
             <name>index</name>
@@ -250,12 +238,12 @@ Kind Regards,
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>AND(ISCHANGED([Case].Assigned_To__c), CONTAINS([Case].RecordType.Name, &quot;Market&quot;), !ISBLANK([Case].Assigned_To__c), NOT(ISPICKVAL([Case].Status , &quot;Completed&quot;)), !$User.BypassProcessBuilders__c)</stringValue>
+                <stringValue>AND(ISCHANGED([Case].Assigned_To__c), [Case].RecordType.DeveloperName = &quot;RFP&quot;, !ISBLANK([Case].Assigned_To__c), NOT(ISPICKVAL([Case].Status , &quot;Completed&quot;)), !$User.BypassProcessBuilders__c)</stringValue>
             </value>
         </processMetadataValues>
         <name>formula_myRule_5</name>
         <dataType>Boolean</dataType>
-        <expression>AND(ISCHANGED({!myVariable_current.Assigned_To__c}), CONTAINS({!myVariable_current.RecordType.Name}, &quot;Market&quot;), !ISBLANK({!myVariable_current.Assigned_To__c}), NOT(ISPICKVAL({!myVariable_current.Status} , &quot;Completed&quot;)), !{!$User.BypassProcessBuilders__c})</expression>
+        <expression>AND(ISCHANGED({!myVariable_current.Assigned_To__c}), {!myVariable_current.RecordType.DeveloperName} = &quot;RFP&quot;, !ISBLANK({!myVariable_current.Assigned_To__c}), NOT(ISPICKVAL({!myVariable_current.Status} , &quot;Completed&quot;)), !{!$User.BypassProcessBuilders__c})</expression>
     </formulas>
     <interviewLabel>WorkTogether_PB004_WorkInProgress-23_InterviewLabel</interviewLabel>
     <label>WorkTogether_PB004_AssignTo</label>
@@ -771,7 +759,7 @@ Kind Regards,
         </inputAssignments>
         <object>Case</object>
     </recordUpdates>
-    <startElementReference>myVariable_waitStartTimeAssignment</startElementReference>
+    <startElementReference>myDecision</startElementReference>
     <status>Active</status>
     <variables>
         <name>myVariable_current</name>
@@ -788,15 +776,5 @@ Kind Regards,
         <isInput>true</isInput>
         <isOutput>false</isOutput>
         <objectType>Case</objectType>
-    </variables>
-    <variables>
-        <name>myVariable_waitStartTimeVariable</name>
-        <dataType>DateTime</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <value>
-            <elementReference>$Flow.CurrentDateTime</elementReference>
-        </value>
     </variables>
 </Flow>

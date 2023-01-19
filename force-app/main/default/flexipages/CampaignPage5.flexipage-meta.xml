@@ -20,6 +20,7 @@
                     <value>3</value>
                 </componentInstanceProperties>
                 <componentName>force:highlightsPanel</componentName>
+                <identifier>force_highlightsPanel</identifier>
             </componentInstance>
         </itemInstances>
         <name>header</name>
@@ -41,6 +42,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListContainer</componentName>
+                <identifier>force_relatedListContainer</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-4f1f1e10-8ee2-4d5d-8381-02a2d3bc3783</name>
@@ -50,6 +52,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>force:detailPanel</componentName>
+                <identifier>force_detailPanel</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-c3da2040-2606-497f-b23c-92bf513b96fe</name>
@@ -71,6 +74,7 @@
                     <value>Standard.Tab.relatedLists</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>relatedListsTab</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -84,6 +88,7 @@
                     <value>Standard.Tab.detail</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>detailTab</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-6ce09334-3d4c-4677-ae87-30ad52fdbcd1</name>
@@ -105,6 +110,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListContainer</componentName>
+                <identifier>force_relatedListContainer2</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-xxzkruozpuo</name>
@@ -114,6 +120,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>force:detailPanel</componentName>
+                <identifier>force_detailPanel2</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-13gbx739kwy</name>
@@ -123,6 +130,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>CventEvents:campaignManagementSettingsTab</componentName>
+                <identifier>CventEvents_campaignManagementSettingsTab</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-itabjkbh34c</name>
@@ -132,6 +140,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>CventEvents:campaignManagementTab</componentName>
+                <identifier>CventEvents_campaignManagementTab</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-jlmswjljp9g</name>
@@ -153,6 +162,7 @@
                     <value>Standard.Tab.relatedLists</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>relatedListsTab2</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -166,6 +176,7 @@
                     <value>Standard.Tab.detail</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>detailTab2</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -179,6 +190,7 @@
                     <value>Linked Cvent Events</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -192,6 +204,7 @@
                     <value>Send invitation</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab2</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-nbqrin4ult</name>
@@ -205,6 +218,7 @@
                     <value>Facet-6ce09334-3d4c-4677-ae87-30ad52fdbcd1</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!$Permission.CustomPermission.CventEvents__CampaignManagementPermission}</leftValue>
@@ -221,6 +235,7 @@
                     <value>Facet-nbqrin4ult</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset2</identifier>
                 <visibilityRule>
                     <criteria>
                         <leftValue>{!$Permission.CustomPermission.CventEvents__CampaignManagementPermission}</leftValue>
@@ -237,6 +252,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>forceChatter:recordFeedContainer</componentName>
+                <identifier>forceChatter_recordFeedContainer</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-2b451108-d3ff-4dac-8bf3-1d9b484e60f6</name>
@@ -246,6 +262,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>runtime_sales_activities:activityPanel</componentName>
+                <identifier>runtime_sales_activities_activityPanel</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-6827c445-92ce-4b3a-b3eb-9113eeee5666</name>
@@ -267,6 +284,7 @@
                     <value>Standard.Tab.collaborate</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>collaborateTab</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -280,6 +298,7 @@
                     <value>Standard.Tab.detail</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>detailTab3</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-0cb5818c-b198-4061-b724-6be6646cd1bf</name>
@@ -293,6 +312,7 @@
                     <value>Facet-0cb5818c-b198-4061-b724-6be6646cd1bf</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset3</identifier>
             </componentInstance>
         </itemInstances>
         <name>sidebar</name>

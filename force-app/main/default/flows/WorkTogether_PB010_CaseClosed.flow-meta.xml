@@ -13,6 +13,7 @@
         <locationY>200</locationY>
         <actionName>Case.Closed_WTP_DA</actionName>
         <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -33,6 +34,7 @@
         <locationY>200</locationY>
         <actionName>Case.Closed_WTP_IN</actionName>
         <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -53,6 +55,7 @@
         <locationY>200</locationY>
         <actionName>Case.Closed_WTP_IT</actionName>
         <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -73,6 +76,7 @@
         <locationY>200</locationY>
         <actionName>Case.Closed_WTP_LA</actionName>
         <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -93,6 +97,7 @@
         <locationY>200</locationY>
         <actionName>Case.Closed_WTP_LU</actionName>
         <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -113,49 +118,9 @@
         <locationY>200</locationY>
         <actionName>Case.WorkTogether_RFP_Closed</actionName>
         <actionType>emailAlert</actionType>
-        <connector>
-            <targetReference>myRule_1_A2</targetReference>
-        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
-            <value>
-                <elementReference>myVariable_current.Id</elementReference>
-            </value>
-        </inputParameters>
-    </actionCalls>
-    <actionCalls>
-        <processMetadataValues>
-            <name>textJson</name>
-            <value>
-                <stringValue>{&quot;mentions&quot;:[],&quot;message&quot;:&quot;Hi @[{![Case].CreatedBy.Id}]\n\nThe {![Case].RecordType.Name} for {![Case].Account.Name} that you created on {![Case].CreatedDate} is now completed.\n\nPlease check our feedback direcly on the request form as well as for any files that we might have added.\n\nFeel free to answer to this post if you have any comments.\n\nKind regards,\n{![Case].LastModifiedBy.FirstName}&quot;}</stringValue>
-            </value>
-        </processMetadataValues>
-        <name>myRule_1_A2</name>
-        <label>Notify created by</label>
-        <locationX>100</locationX>
-        <locationY>300</locationY>
-        <actionName>chatterPost</actionName>
-        <actionType>chatterPost</actionType>
-        <inputParameters>
-            <name>text</name>
-            <value>
-                <stringValue>Hi @[{!myVariable_current.CreatedBy.Id}]
-
-The {!myVariable_current.RecordType.Name} for {!myVariable_current.Account.Name} that you created on {!myVariable_current.CreatedDate} is now completed.
-
-Please check our feedback direcly on the request form as well as for any files that we might have added.
-
-Feel free to answer to this post if you have any comments.
-
-Kind regards,
-{!myVariable_current.LastModifiedBy.FirstName}</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>type</name>
-        </inputParameters>
-        <inputParameters>
-            <name>subjectNameOrId</name>
             <value>
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
@@ -174,6 +139,7 @@ Kind regards,
         <locationY>200</locationY>
         <actionName>Case.Closed_WTP_NL</actionName>
         <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -194,6 +160,7 @@ Kind regards,
         <locationY>200</locationY>
         <actionName>Case.Closed_WTP_NO</actionName>
         <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -214,6 +181,7 @@ Kind regards,
         <locationY>200</locationY>
         <actionName>Case.Closed_WTP_ES</actionName>
         <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -234,6 +202,7 @@ Kind regards,
         <locationY>200</locationY>
         <actionName>Case.Closed_WTP_CH</actionName>
         <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -254,6 +223,7 @@ Kind regards,
         <locationY>200</locationY>
         <actionName>Case.Closed_WTP_UK</actionName>
         <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -274,6 +244,7 @@ Kind regards,
         <locationY>200</locationY>
         <actionName>Case.Closed_WTP_IN</actionName>
         <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -294,6 +265,7 @@ Kind regards,
         <locationY>200</locationY>
         <actionName>Case.Closed_WTP_IN</actionName>
         <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -317,46 +289,9 @@ Kind regards,
         <connector>
             <targetReference>myRule_3_A2</targetReference>
         </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
-            <value>
-                <elementReference>myVariable_current.Id</elementReference>
-            </value>
-        </inputParameters>
-    </actionCalls>
-    <actionCalls>
-        <processMetadataValues>
-            <name>textJson</name>
-            <value>
-                <stringValue>{&quot;mentions&quot;:[],&quot;message&quot;:&quot;Hi @[{![Case].CreatedBy.Id}]\n\nThe {![Case].RecordType.Name} for {![Case].Account.Name} that you created on {![Case].CreatedDate} is now completed.\n\nPlease check our feedback direcly on the request form as well as for any files that we might have added.\n\nFeel free to answer to this post if you have any comments.\n\nKind regards,\n{![Case].LastModifiedBy.FirstName}&quot;}</stringValue>
-            </value>
-        </processMetadataValues>
-        <name>myRule_3_A3</name>
-        <label>Notify created by</label>
-        <locationX>300</locationX>
-        <locationY>400</locationY>
-        <actionName>chatterPost</actionName>
-        <actionType>chatterPost</actionType>
-        <inputParameters>
-            <name>text</name>
-            <value>
-                <stringValue>Hi @[{!myVariable_current.CreatedBy.Id}]
-
-The {!myVariable_current.RecordType.Name} for {!myVariable_current.Account.Name} that you created on {!myVariable_current.CreatedDate} is now completed.
-
-Please check our feedback direcly on the request form as well as for any files that we might have added.
-
-Feel free to answer to this post if you have any comments.
-
-Kind regards,
-{!myVariable_current.LastModifiedBy.FirstName}</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>type</name>
-        </inputParameters>
-        <inputParameters>
-            <name>subjectNameOrId</name>
             <value>
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
@@ -375,49 +310,9 @@ Kind regards,
         <locationY>200</locationY>
         <actionName>Case.WorkTogether_MI_Closed</actionName>
         <actionType>emailAlert</actionType>
-        <connector>
-            <targetReference>myRule_5_A2</targetReference>
-        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
-            <value>
-                <elementReference>myVariable_current.Id</elementReference>
-            </value>
-        </inputParameters>
-    </actionCalls>
-    <actionCalls>
-        <processMetadataValues>
-            <name>textJson</name>
-            <value>
-                <stringValue>{&quot;mentions&quot;:[],&quot;message&quot;:&quot;Hi @[{![Case].CreatedBy.Id}]\n\nThe {![Case].RecordType.Name} for {![Case].Account.Name} that you created on {![Case].CreatedDate} is now completed.\n\nPlease check our feedback direcly on the request form as well as for any files that we might have added.\n\nFeel free to answer to this post if you have any comments.\n\nKind regards,\n{![Case].LastModifiedBy.FirstName}&quot;}</stringValue>
-            </value>
-        </processMetadataValues>
-        <name>myRule_5_A2</name>
-        <label>Notify created by</label>
-        <locationX>500</locationX>
-        <locationY>300</locationY>
-        <actionName>chatterPost</actionName>
-        <actionType>chatterPost</actionType>
-        <inputParameters>
-            <name>text</name>
-            <value>
-                <stringValue>Hi @[{!myVariable_current.CreatedBy.Id}]
-
-The {!myVariable_current.RecordType.Name} for {!myVariable_current.Account.Name} that you created on {!myVariable_current.CreatedDate} is now completed.
-
-Please check our feedback direcly on the request form as well as for any files that we might have added.
-
-Feel free to answer to this post if you have any comments.
-
-Kind regards,
-{!myVariable_current.LastModifiedBy.FirstName}</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>type</name>
-        </inputParameters>
-        <inputParameters>
-            <name>subjectNameOrId</name>
             <value>
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
@@ -436,63 +331,11 @@ Kind regards,
         <locationY>200</locationY>
         <actionName>Case.Closed_WTP</actionName>
         <actionType>emailAlert</actionType>
-        <connector>
-            <targetReference>myRule_7_A2</targetReference>
-        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
                 <elementReference>myVariable_current.Id</elementReference>
-            </value>
-        </inputParameters>
-    </actionCalls>
-    <actionCalls>
-        <processMetadataValues>
-            <name>postTarget</name>
-            <value>
-                <stringValue>RFP Team</stringValue>
-            </value>
-        </processMetadataValues>
-        <processMetadataValues>
-            <name>textJson</name>
-            <value>
-                <stringValue>{&quot;mentions&quot;:[],&quot;message&quot;:&quot;The {![Case].RecordType.Name} from the Company : {![Case].Account.Name} was closed.\n\nThe Organisator&apos;s feedback : \n{![Case].Coordinator_Feedback__c}\n\nThe Client&apos;s feedback :\n{![Case].Contact_Owner_Feedback__c}\n\nMain Takeaway :\n{![Case].Main_Takeaway__c}\n\nTo access the full information in Salesforce, please click on the link below : \nhttps://carmignac-crm.lightning.force.com/one/one.app#/sObject/{![Case].Id}/view?a:t=1489402138647&quot;}</stringValue>
-            </value>
-        </processMetadataValues>
-        <name>myRule_7_A2</name>
-        <label>Post Chatter</label>
-        <locationX>700</locationX>
-        <locationY>300</locationY>
-        <actionName>chatterPost</actionName>
-        <actionType>chatterPost</actionType>
-        <inputParameters>
-            <name>text</name>
-            <value>
-                <stringValue>The {!myVariable_current.RecordType.Name} from the Company : {!myVariable_current.Account.Name} was closed.
-
-The Organisator&apos;s feedback : 
-{!myVariable_current.Coordinator_Feedback__c}
-
-The Client&apos;s feedback :
-{!myVariable_current.Contact_Owner_Feedback__c}
-
-Main Takeaway :
-{!myVariable_current.Main_Takeaway__c}
-
-To access the full information in Salesforce, please click on the link below : 
-https://carmignac-crm.lightning.force.com/one/one.app#/sObject/{!myVariable_current.Id}/view?a:t=1489402138647</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>type</name>
-            <value>
-                <stringValue>GROUP</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>subjectNameOrId</name>
-            <value>
-                <stringValue>0F9580000005rP4CAI</stringValue>
             </value>
         </inputParameters>
     </actionCalls>
@@ -509,6 +352,7 @@ https://carmignac-crm.lightning.force.com/one/one.app#/sObject/{!myVariable_curr
         <locationY>200</locationY>
         <actionName>Case.Closed_WTP_BE</actionName>
         <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -517,22 +361,6 @@ https://carmignac-crm.lightning.force.com/one/one.app#/sObject/{!myVariable_curr
         </inputParameters>
     </actionCalls>
     <apiVersion>49.0</apiVersion>
-    <assignments>
-        <name>myVariable_waitStartTimeAssignment</name>
-        <label>myVariable_waitStartTimeAssignment</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <assignmentItems>
-            <assignToReference>myVariable_waitStartTimeVariable</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Flow.CurrentDateTime</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>myDecision</targetReference>
-        </connector>
-    </assignments>
     <decisions>
         <processMetadataValues>
             <name>index</name>
@@ -1216,12 +1044,12 @@ https://carmignac-crm.lightning.force.com/one/one.app#/sObject/{!myVariable_curr
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Closed&quot;), CONTAINS([Case].RecordType.Name, &quot;Market&quot;), !$User.BypassProcessBuilders__c)</stringValue>
+                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Closed&quot;), [Case].RecordType.DeveloperName = &quot;RFP&quot;, !$User.BypassProcessBuilders__c)</stringValue>
             </value>
         </processMetadataValues>
         <name>formula_myRule_5</name>
         <dataType>Boolean</dataType>
-        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Closed&quot;), CONTAINS({!myVariable_current.RecordType.Name}, &quot;Market&quot;), !{!$User.BypassProcessBuilders__c})</expression>
+        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Closed&quot;), {!myVariable_current.RecordType.DeveloperName} = &quot;RFP&quot;, !{!$User.BypassProcessBuilders__c})</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
@@ -1245,7 +1073,7 @@ https://carmignac-crm.lightning.force.com/one/one.app#/sObject/{!myVariable_curr
         <dataType>Boolean</dataType>
         <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Closed&quot;), ({!myVariable_current.RecordType.Name} = &quot;Due Diligence Request&quot;), ISCHANGED({!myVariable_current.Status}), ({!myVariable_current.Company_s_Business_Development_Region__c} = &quot;BP_BE&quot;), !{!$User.BypassProcessBuilders__c})</expression>
     </formulas>
-    <interviewLabel>WorkTogether_PB010_CaseClosed-16_InterviewLabel</interviewLabel>
+    <interviewLabel>WorkTogether_PB010_CaseClosed-17_InterviewLabel</interviewLabel>
     <label>WorkTogether_PB010_Closed</label>
     <processMetadataValues>
         <name>ObjectType</name>
@@ -1301,9 +1129,6 @@ https://carmignac-crm.lightning.force.com/one/one.app#/sObject/{!myVariable_curr
         <label>Update record tasks</label>
         <locationX>300</locationX>
         <locationY>300</locationY>
-        <connector>
-            <targetReference>myRule_3_A3</targetReference>
-        </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <processMetadataValues>
@@ -1356,7 +1181,7 @@ https://carmignac-crm.lightning.force.com/one/one.app#/sObject/{!myVariable_curr
         </inputAssignments>
         <object>Task</object>
     </recordUpdates>
-    <startElementReference>myVariable_waitStartTimeAssignment</startElementReference>
+    <startElementReference>myDecision</startElementReference>
     <status>Active</status>
     <variables>
         <name>myVariable_current</name>
@@ -1373,15 +1198,5 @@ https://carmignac-crm.lightning.force.com/one/one.app#/sObject/{!myVariable_curr
         <isInput>true</isInput>
         <isOutput>false</isOutput>
         <objectType>Case</objectType>
-    </variables>
-    <variables>
-        <name>myVariable_waitStartTimeVariable</name>
-        <dataType>DateTime</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <value>
-            <elementReference>$Flow.CurrentDateTime</elementReference>
-        </value>
     </variables>
 </Flow>

@@ -6,13 +6,18 @@
     <columns>ACCOUNT.NAME</columns>
     <columns>CASES.STATUS</columns>
     <columns>CASES.TYPE</columns>
-    <columns>CASES.CREATED_DATE_DATE_ONLY</columns>
+    <columns>CASES.CREATED_DATE</columns>
     <columns>CASES.LAST_UPDATE_DATE_ONLY</columns>
     <filterScope>Queue</filterScope>
     <filters>
         <field>CASES.TYPE</field>
         <operation>notEqual</operation>
         <value>Priips</value>
+    </filters>
+    <filters>
+        <field>CASES.STATUS</field>
+        <operation>equals</operation>
+        <value>New,Work in progress</value>
     </filters>
     <label>Data Solution Team</label>
     <queue>Client_delivery_team</queue>

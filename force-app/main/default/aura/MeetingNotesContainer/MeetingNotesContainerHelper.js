@@ -116,6 +116,7 @@
         var opportunityLookup = relatedList.find('opportunityLookup');
         var campaignLookup = relatedList.find('campaignLookup');
 		var caseLookup = relatedList.find('caseLookup');
+		var eventNoteLookup = relatedList.find('eventNoteLookup');
 
         meetingNote.Meeting_Links__r = [];
 
@@ -126,6 +127,7 @@
         this.getSelectedMeetingLinks(opportunityLookup, 'Opportunity__c', meetingNote);
         this.getSelectedMeetingLinks(campaignLookup, 'Campaign__c', meetingNote);
 		this.getSelectedMeetingLinks(caseLookup, 'Case__c', meetingNote);
+		this.getSelectedMeetingLinks(eventNoteLookup, 'Event_Note__c', meetingNote);
     },
 
     getSelectedMeetingLinks : function(lookup, lookupField, meetingNote, modifier) {

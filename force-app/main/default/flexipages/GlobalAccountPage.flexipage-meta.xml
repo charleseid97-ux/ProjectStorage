@@ -4,11 +4,13 @@
         <itemInstances>
             <componentInstance>
                 <componentName>force:highlightsPanel</componentName>
+                <identifier>force_highlightsPanel</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>HierarchyAccountLightning</componentName>
+                <identifier>HierarchyAccountLightning</identifier>
             </componentInstance>
         </itemInstances>
         <name>header</name>
@@ -18,11 +20,13 @@
         <itemInstances>
             <componentInstance>
                 <componentName>force:relatedListContainer</componentName>
+                <identifier>force_relatedListContainer</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>force:detailPanel</componentName>
+                <identifier>force_detailPanel</identifier>
             </componentInstance>
         </itemInstances>
         <name>facet-3014319d-007b-4589-986e-632fa4233c8e</name>
@@ -32,6 +36,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>force:detailPanel</componentName>
+                <identifier>force_detailPanel2</identifier>
             </componentInstance>
         </itemInstances>
         <name>facet-25e5e6f3-96d3-4d1d-ab3d-b0820353c47b</name>
@@ -41,6 +46,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>HierarchyAccountLightning</componentName>
+                <identifier>HierarchyAccountLightning2</identifier>
             </componentInstance>
         </itemInstances>
         <name>facet-c043c5ac-d5e6-4eda-928d-613562631d63</name>
@@ -62,6 +68,7 @@
                     <value>Standard.Tab.relatedLists</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>relatedListsTab</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -75,6 +82,7 @@
                     <value>Standard.Tab.detail</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>detailTab</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -88,6 +96,7 @@
                     <value>Hierarchy</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab</identifier>
             </componentInstance>
         </itemInstances>
         <name>facet-e3f1cc16-e9c3-4fae-8309-3883a1ba86a8</name>
@@ -101,6 +110,7 @@
                     <value>facet-e3f1cc16-e9c3-4fae-8309-3883a1ba86a8</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset2</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -118,6 +128,7 @@
                     <value>AccountHierarchyPage</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:visualforcePage</componentName>
+                <identifier>flexipage_visualforcePage</identifier>
             </componentInstance>
         </itemInstances>
         <name>main</name>
@@ -127,6 +138,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>runtime_sales_activities:activityPanel</componentName>
+                <identifier>runtime_sales_activities_activityPanel</identifier>
             </componentInstance>
         </itemInstances>
         <name>facet-9a6e1411-8fe2-4562-97c6-5dae1155761e</name>
@@ -136,6 +148,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>forceChatter:recordFeedContainer</componentName>
+                <identifier>forceChatter_recordFeedContainer</identifier>
             </componentInstance>
         </itemInstances>
         <name>facet-9b2983f6-4a02-43bc-bb31-a4c052d570df</name>
@@ -157,6 +170,7 @@
                     <value>Standard.Tab.relatedLists</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>relatedListsTab2</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -170,6 +184,7 @@
                     <value>Standard.Tab.collaborate</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>collaborateTab</identifier>
             </componentInstance>
         </itemInstances>
         <name>facet-f5ff9a44-0655-4c94-94e9-208e996bc1b0</name>
@@ -183,6 +198,7 @@
                     <value>facet-f5ff9a44-0655-4c94-94e9-208e996bc1b0</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset</identifier>
             </componentInstance>
         </itemInstances>
         <name>sidebar</name>

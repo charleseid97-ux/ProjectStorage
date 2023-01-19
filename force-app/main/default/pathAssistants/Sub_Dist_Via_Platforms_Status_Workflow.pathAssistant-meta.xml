@@ -5,15 +5,6 @@
     <fieldName>Status__c</fieldName>
     <masterLabel>Sub_Dist_Via_Platforms_Status_Workflow</masterLabel>
     <pathAssistantSteps>
-        <fieldNames>Company__c</fieldNames>
-        <fieldNames>Grid_Request__c</fieldNames>
-        <fieldNames>Renewal_Request_End_Date__c</fieldNames>
-        <fieldNames>Termination_Description__c</fieldNames>
-        <fieldNames>Cancellation_Date__c</fieldNames>
-        <info>&lt;p&gt;Agreement with an &lt;b&gt;&lt;u&gt;Expired &lt;/u&gt;&lt;/b&gt;Status indicates that the Grid End Date have been reached:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Update the Status &lt;u&gt;submitting &lt;/u&gt;one of the following request&lt;/li&gt;&lt;li&gt;Request &lt;u&gt;Grid Renewa&lt;/u&gt;l&lt;ol&gt;&lt;li&gt;Select the relevant Grid in the Grid Request field&lt;/li&gt;&lt;li&gt;Complete the Grid Request Start Date field&lt;/li&gt;&lt;/ol&gt;&lt;/li&gt;&lt;li&gt;&lt;u&gt;Request Renewal&lt;/u&gt;&lt;ol&gt;&lt;li&gt;Select the new End Date in the Renewal Request End Date field&lt;/li&gt;&lt;/ol&gt;&lt;/li&gt;&lt;li&gt;Request a &lt;u&gt;Termination &lt;/u&gt;(Closure of the Agreement)&lt;ol&gt;&lt;li&gt;Complete the Termination Description Field (Mandatory for CRMs)&lt;/li&gt;&lt;li&gt;Select the Cancellation Date if you know it (Mandatory for Legal / Optional for CRMs)&lt;/li&gt;&lt;/ol&gt;&lt;/li&gt;&lt;li&gt;Click on &lt;b&gt;&lt;i&gt;Submit for Approva&lt;/i&gt;&lt;/b&gt;l button to finalize it + Include in the text box any relevant additional information&lt;/li&gt;&lt;li&gt;&lt;b&gt;&lt;i&gt;Recall &lt;/i&gt;&lt;/b&gt;the request if you need to do any change to the initial request&lt;/li&gt;&lt;/ol&gt;</info>
-        <picklistValueName>Expired</picklistValueName>
-    </pathAssistantSteps>
-    <pathAssistantSteps>
         <fieldNames>Code_Type__c</fieldNames>
         <fieldNames>Company__c</fieldNames>
         <fieldNames>Grid__c</fieldNames>

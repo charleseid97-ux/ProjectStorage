@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>fpro__Alerts__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Field alerts to display to user</description>
+    <externalId>false</externalId>
+    <formula>IF(NOT(ISBLANK(fpro__NamespacePrefix__c)), &quot;MANAGED: This is a managed field, and cannot be controlled.&quot; &amp; BR() &amp; BR() &amp; &quot;&quot;, &quot;&quot;) 
++
+IF(fpro__References_Profile_Visibility_Count__c = 0, &quot;DEPRECATE: This field is not visible to any profile.&quot; &amp; BR() &amp; BR() &amp; &quot;&quot;, &quot;&quot;)
++
+IF(fpro__Is_Deleted__c, &quot;DELETED: This field has been deleted from the org.&quot; &amp; BR() &amp; BR() &amp; &quot;&quot;, &quot;&quot;)
++
+IF(ISBLANK(fpro__Description__c), &quot;MISSING: Description is missing.&quot; &amp; BR() &amp; BR() &amp; &quot;&quot;, &quot;&quot;) 
++
+IF(ISBLANK(fpro__Inline_Help_Text__c), &quot;MISSING: Inline Help Text is missing.&quot; &amp; BR() &amp; BR() &amp; &quot;&quot;, &quot;&quot;) 
++
+IF(ISBLANK(fpro__Compliance_Categorization__c), &quot;MISSING: Compliance Categorization is missing.&quot; &amp; BR() &amp; BR() &amp; &quot;&quot;, &quot;&quot;) 
++
+IF(ISBLANK(fpro__Data_Owner__c), &quot;MISSING: Data Owner is missing.&quot;, &quot;&quot;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Field alerts to display to user</inlineHelpText>
+    <label>Alerts</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

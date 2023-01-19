@@ -20,7 +20,7 @@ private class AccountTriggerHandler_TEST {
         testAcc.Final_Distribution__c = 'Retail';
         insert testAcc;
 
-        Grid__c franceGrid = new Grid__c(Name='France S5');
+        Grid__c franceGrid = new Grid__c(Name='France S5', ActiveGrid__c=True);
         insert franceGrid;
 
         insert(  new Convention__c(Name='tmpName', Grid__c = franceGrid.Id, Company__c = testAcc.Id,

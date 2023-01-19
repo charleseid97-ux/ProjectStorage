@@ -21,7 +21,7 @@ global class BATCH018_CountLegalEntCompany implements Database.Batchable<Aggrega
         for (SObject sObj : scope) {
             AggregateResult ar = (AggregateResult) sObj;
             Integer numberOfLegalEntity = (Integer) ar.get('expr0');
-            if(numberOfLegalEntity > 1) companyToUpdateList.add(new Account(Id = (Id) ar.get('Company__c'), Number_Of_Legal_Entities__c = numberOfLegalEntity));
+            companyToUpdateList.add(new Account(Id = (Id) ar.get('Company__c'), Number_Of_Legal_Entities__c = numberOfLegalEntity));
         }
 
         //Update the Company List

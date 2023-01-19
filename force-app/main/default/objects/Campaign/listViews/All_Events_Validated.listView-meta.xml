@@ -21,5 +21,10 @@
         <operation>notEqual</operation>
         <value>Cancelled</value>
     </filters>
+    <filters>
+        <field>CAMPAIGN.RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Campaign.Event_and_Meeting</value>
+    </filters>
     <label>All Event campaign</label>
 </ListView>

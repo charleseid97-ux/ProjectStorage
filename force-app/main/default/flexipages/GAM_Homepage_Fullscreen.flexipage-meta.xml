@@ -4,6 +4,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>GAMHomepageHighlightsPanel</componentName>
+                <identifier>GAMHomepageHighlightsPanel</identifier>
             </componentInstance>
         </itemInstances>
         <name>header</name>
@@ -13,21 +14,25 @@
         <itemInstances>
             <componentInstance>
                 <componentName>GAMHomepageAccountOverview</componentName>
+                <identifier>GAMHomepageAccountOverview</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>GAMHomepageKeyMI</componentName>
+                <identifier>GAMHomepageKeyMI</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>GAMHomepageFSUProcess</componentName>
+                <identifier>GAMHomepageFSUProcess</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>GAMHomepageReporting</componentName>
+                <identifier>GAMHomepageReporting</identifier>
             </componentInstance>
         </itemInstances>
         <name>main</name>

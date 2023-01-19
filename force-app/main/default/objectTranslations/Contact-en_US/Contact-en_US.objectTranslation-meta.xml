@@ -16,6 +16,10 @@
         </sections>
         <sections>
             <label></label>
+            <section>Custom scoring</section>
+        </sections>
+        <sections>
+            <label></label>
             <section>GDPR - Personal Data Section</section>
         </sections>
         <sections>
@@ -64,6 +68,10 @@
         <sections>
             <label></label>
             <section>Contact Details</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Custom scoring</section>
         </sections>
         <sections>
             <label></label>
@@ -168,6 +176,10 @@
         <layout>Contact Layout</layout>
         <sections>
             <label></label>
+            <section>Custom Scoring</section>
+        </sections>
+        <sections>
+            <label></label>
             <section>Last Interactions</section>
         </sections>
     </layouts>
@@ -211,4 +223,201 @@
         <label></label>
         <name>Sync_Website_Contact</name>
     </quickActions>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>Contact_DistributionContact</name>
+    </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>Contact_SupportContact</name>
+    </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>Contact_ThirdPartyContact</name>
+    </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>Inactive_External_Contact</name>
+    </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>Internal_Carmignac_Contact</name>
+    </recordTypes>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Contact_Cannot_Change_Company</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Contact_Cannot_update_Proposed_Owner</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Contact_Change_Source_to_Blank</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Contact_Licence_32_Only_for_DE_Contacts</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Contact_Mandatory_Source_on_Create</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Contact_VR008_Fax_Prefered_Method</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Contact_VR009_Phone_Prefered_Method</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Contact_VR010_Email_Prefered_Method</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Contact_VR011_Reports_To</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Contact_VR012_TrialStatusMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Contact_VR013_OwnerUpdateNotAllowed</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Contact_VR014_AssetClassFocusMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Contact_VR015_WebsiteCreationDateMandato</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Contact_VR016_WebsiteMandatoryFields</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Contact_VR017_LimitValidationHOC</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Contact_VR018_LimitValidationHOC2</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Contact_VR019_Email_Pro_Empty</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Contact_VR01_OneEmailMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Contact_VR020_Email_Perso_Empty</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Contact_VR02_CountryMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Contact_VR03_SegmentationMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Contact_VR04_MobileNumberFormat</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Contact_VR05_PhoneNumberFormat</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Contact_VR06_OtherPhoneNumberFormat</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Contact_VR07_FaxNumberFormat</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Non_Edit_MOIS_Contact</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Proposed_Owner_Mandatory_for_CRM</name>
+    </validationRules>
+    <webLinks>
+        <label></label>
+        <name>Add_To_Event_list</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>Add_to_Events</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>CventEvents__InviteContactToEvent</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>CventEvents__ModifyCancelContactToEvent</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>CventEvents__NominateContactToEvent</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>CventEvents__RegisterContactToEvent</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>GoogleMaps</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>GoogleSearch</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>Linkedin</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>Mass_Delete_Records</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>ProSpace_Reset</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>Reset_Password</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>pi__Send_Pardot_Email</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>pi__Send_Pardot_Emails</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>pi__Send_Single_Pardot_Email</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>pi__Send_to_Prospect_Insight</name>
+    </webLinks>
 </CustomObjectTranslation>

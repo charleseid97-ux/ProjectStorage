@@ -106,7 +106,10 @@ global class BATCH004_InsertLegalEntitiesUME implements Database.Batchable<Strin
                     if (scoring !=null){
                         dd.BaseScore__c = scoring.baseScore;
                         dd.Overall_Total_Risk_Score__c = scoring.totalScore;
-                        dd.Country_Risk_Factor__c = scoring.countryRiskFactor*100;
+                        if(scoring.countryRiskFactor != null)
+                        {
+                            dd.Country_Risk_Factor__c = scoring.countryRiskFactor*100;
+                        }
                         if (pume !=null){
                             dd.Overall_Qualification__c = pume.OverallQualification__c;
                             dd.Status__c = pume.StatusAssessment__c;

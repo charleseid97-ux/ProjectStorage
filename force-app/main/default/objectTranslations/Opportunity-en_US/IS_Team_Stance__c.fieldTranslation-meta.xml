@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label></label>
+    <name>IS_Team_Stance__c</name>
+    <picklistValues>
+        <masterLabel>Currently involved</masterLabel>
+        <translation></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>On Hold / Need more Input</masterLabel>
+        <translation></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Waiting for feedback</masterLabel>
+        <translation></translation>
+    </picklistValues>
+</CustomFieldTranslation>

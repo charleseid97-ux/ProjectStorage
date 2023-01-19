@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_VR018_DelayReasonMandatory</fullName>
+    <active>true</active>
+    <description>When request has a Past due date and if the value of field &apos;Status&apos; is Work in Progress or changed to Completed or Rejected, the field &apos;Delay reason&quot; shouldn&apos;t be null</description>
+    <errorConditionFormula>AND(				
+NOT($User.BypassValidationRules__c),
+RecordType.DeveloperName = &apos;Data_Performance_Management_Request&apos;,
+ISPICKVAL( Delay_reason__c, &apos;&apos;),
+OR(
+AND(
+ISPICKVAL(Status,&apos;Work in progress&apos;),
+Due_date__c &lt; TODAY()
+)
+,
+								AND(
+ISPICKVAL(Status,&apos;Rejected&apos;),
+	Due_date__c &lt; TODAY(),
+ISCHANGED(Status)),
+				
+AND(
+				ISPICKVAL(Status,&apos;Completed&apos;),				
+	Due_date__c &lt; TODAY(),
+ISCHANGED(Status))
+)
+)</errorConditionFormula>
+    <errorDisplayField>Delay_reason__c</errorDisplayField>
+    <errorMessage>Please enter a Delay reason when the request has a past due date</errorMessage>
+</ValidationRule>

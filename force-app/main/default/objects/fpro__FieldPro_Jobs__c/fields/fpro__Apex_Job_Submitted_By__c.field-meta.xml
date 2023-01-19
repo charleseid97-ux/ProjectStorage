@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>fpro__Apex_Job_Submitted_By__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Name of the user who submitted the apex job.</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>Name of the user who submitted the apex job.</inlineHelpText>
+    <label>Apex Job Submitted_By</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

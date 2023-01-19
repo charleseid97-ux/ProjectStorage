@@ -278,6 +278,86 @@
         <value>Received</value>
     </labels>
     <labels>
+        <fullName>PreferenceCenter_Contact_Not_Sync</fullName>
+        <categories>Preference Center</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreferenceCenter_Contact_Not_Sync</shortDescription>
+        <value>Contact is NOT Synchronized.</value>
+    </labels>
+    <labels>
+        <fullName>PreferenceCenter_Duplicate_Subscription_Msg</fullName>
+        <categories>Preference Center</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreferenceCenter_Duplicate_Subscription_Msg</shortDescription>
+        <value>This subscription already exists.</value>
+    </labels>
+    <labels>
+        <fullName>PreferenceCenter_General_Error_Msg</fullName>
+        <categories>Preference Center</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreferenceCenter_General_Error_Msg</shortDescription>
+        <value>Error Occurred. Please contact your Admin.</value>
+    </labels>
+    <labels>
+        <fullName>PreferenceCenter_Subscription_Creation_Msg</fullName>
+        <categories>Preference Center</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreferenceCenter_Subscription_Creation_Msg</shortDescription>
+        <value>Subscription has been added successfully.</value>
+    </labels>
+    <labels>
+        <fullName>PreferenceCenter_Subscription_Deletion_Msg</fullName>
+        <categories>Preference Center</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreferenceCenter_Subscription_Deletion_Msg</shortDescription>
+        <value>Subscription has been removed successfully.</value>
+    </labels>
+    <labels>
+        <fullName>PreferenceCenter_Subscription_Update_Msg</fullName>
+        <categories>Preference Center</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreferenceCenter_Subscription_Update_Msg</shortDescription>
+        <value>Subscription has been updated successfully.</value>
+    </labels>
+    <labels>
+        <fullName>PreferenceCenter_Subscriptions_Creation_Confirmation_Msg</fullName>
+        <categories>Preference Center</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreferenceCenter_Subscriptions_Creation_Confirmation_Msg</shortDescription>
+        <value>Do you want to add all subscriptions?</value>
+    </labels>
+    <labels>
+        <fullName>PreferenceCenter_Subscriptions_Creation_Msg</fullName>
+        <categories>Preference Center</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreferenceCenter_Subscriptions_Creation_Msg</shortDescription>
+        <value>Subscriptions for all the Fund/Shares have been added successfully.</value>
+    </labels>
+    <labels>
+        <fullName>PreferenceCenter_Subscriptions_Deletion_Confirmation_Msg</fullName>
+        <categories>Preference Center</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreferenceCenter_Subscriptions_Deletion_Confirmation_Msg</shortDescription>
+        <value>Do you want to remove all subscriptions?</value>
+    </labels>
+    <labels>
+        <fullName>PreferenceCenter_Subscriptions_Deletion_Msg</fullName>
+        <categories>Preference Center</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreferenceCenter_Subscriptions_Deletion_Msg</shortDescription>
+        <value>Subscriptions for all the Fund/Shares have been removed successfully.</value>
+    </labels>
+    <labels>
         <fullName>RedirectAlerts</fullName>
         <categories>Alerts</categories>
         <language>en_US</language>
@@ -299,6 +379,13 @@
         <protected>false</protected>
         <shortDescription>Risk level Error Message</shortDescription>
         <value>You must select a Risk Level.</value>
+    </labels>
+    <labels>
+        <fullName>SESSIONS_LIMIT</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SESSIONS LIMIT</shortDescription>
+        <value>10</value>
     </labels>
     <labels>
         <fullName>SyncingToWebsite</fullName>

@@ -10,6 +10,16 @@
         <senderType>CurrentUser</senderType>
         <template>CarmignacAlerts/AlertsAssignedTasksDone</template>
     </alerts>
+    <alerts>
+        <fullName>Task_Notification_WTP_DPM</fullName>
+        <description>Task Notification WTP DPM</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/WTP_DPM_Task_notification</template>
+    </alerts>
     <fieldUpdates>
         <fullName>Task_UpDateCompletionDate</fullName>
         <field>CompletionDate__c</field>

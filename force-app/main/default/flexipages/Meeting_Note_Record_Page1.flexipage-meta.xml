@@ -16,6 +16,7 @@
                     <value>3</value>
                 </componentInstanceProperties>
                 <componentName>force:highlightsPanel</componentName>
+                <identifier>force_highlightsPanel</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -26,16 +27,19 @@
         <itemInstances>
             <componentInstance>
                 <componentName>MeetingNotePDFDownloadButton</componentName>
+                <identifier>MeetingNotePDFDownloadButton</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>MeetingNotesHashtagView</componentName>
+                <identifier>MeetingNotesHashtagView</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>force:detailPanel</componentName>
+                <identifier>force_detailPanel</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -46,6 +50,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>MeetingNoteEmail</componentName>
+                <identifier>MeetingNoteEmail</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -63,6 +68,7 @@
                     <value>false</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:visualforcePage</componentName>
+                <identifier>flexipage_visualforcePage</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-8e6a2a7b-5340-4e49-8641-605e6cb6c3c2</name>
@@ -84,6 +90,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListContainer</componentName>
+                <identifier>force_relatedListContainer</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -106,6 +113,7 @@
                     <value>Standard.Tab.detail</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>detailTab</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -119,6 +127,7 @@
                     <value>Email Meeting Note</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -132,6 +141,7 @@
                     <value>Standard.Tab.relatedLists</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>relatedListsTab</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -146,11 +156,13 @@
                     <value>maintabs</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>runtime_sales_activities:activityPanel</componentName>
+                <identifier>runtime_sales_activities_activityPanel</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -204,6 +216,7 @@
                     <value>Account__c != &apos;&apos;</value>
                 </componentInstanceProperties>
                 <componentName>GenericRelatedList</componentName>
+                <identifier>GenericRelatedList</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -252,6 +265,7 @@
                     <value>Contact__c != &apos;&apos;</value>
                 </componentInstanceProperties>
                 <componentName>GenericRelatedList</componentName>
+                <identifier>GenericRelatedList2</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -300,6 +314,7 @@
                     <value>Employee__c != &apos;&apos;</value>
                 </componentInstanceProperties>
                 <componentName>GenericRelatedList</componentName>
+                <identifier>GenericRelatedList3</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -348,6 +363,7 @@
                     <value>Opportunity__c != &apos;&apos;</value>
                 </componentInstanceProperties>
                 <componentName>GenericRelatedList</componentName>
+                <identifier>GenericRelatedList4</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -396,6 +412,7 @@
                     <value>Case__c != &apos;&apos;</value>
                 </componentInstanceProperties>
                 <componentName>GenericRelatedList</componentName>
+                <identifier>GenericRelatedList5</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -444,6 +461,7 @@
                     <value>Product__c!=&apos;&apos;</value>
                 </componentInstanceProperties>
                 <componentName>GenericRelatedList</componentName>
+                <identifier>GenericRelatedList6</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -492,6 +510,7 @@
                     <value>Campaign__c != &apos;&apos;</value>
                 </componentInstanceProperties>
                 <componentName>GenericRelatedList</componentName>
+                <identifier>GenericRelatedList7</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>

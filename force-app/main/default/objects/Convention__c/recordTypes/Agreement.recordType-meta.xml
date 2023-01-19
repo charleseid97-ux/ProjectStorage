@@ -1061,10 +1061,6 @@
     <picklistValues>
         <picklist>Status__c</picklist>
         <values>
-            <fullName>Expired</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>In Negotiation</fullName>
             <default>true</default>
         </values>

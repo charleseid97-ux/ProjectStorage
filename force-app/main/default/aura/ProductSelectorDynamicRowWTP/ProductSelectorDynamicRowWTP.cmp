@@ -25,17 +25,36 @@
     <aura:attribute name="currentWTPId" type="String"/>
 
     <aura:attribute name="selectedShares" type="Id[]"/>
-
     <!--Header Part-->
     <lightning:layout >
         <lightning:layoutItem >
             <lightning:icon iconName="standard:product" size="small" class="popup-icon" />
         </lightning:layoutItem>
-        <h2 class="slds-card__header-title head-bottomPad">
+       <!-- <h2 class="slds-card__header-title head-bottomPad">
             <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Outer Card Header">
                 <span class="slds-text-heading_small">Selected Products</span>
             </a>
-        </h2>
+        </h2>--> 
+        <!--START : JLC : 10/6/2022 : MODIFICATION : Adding the Save Button in the upper header for easier accessibility -->
+        <div class="slds-grid slds-wrap" style="position:relative;width:100%;margin-left:-10px;">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_8-of-12 slds-float_left">
+                <h2 class="slds-card__header-title head-bottomPad">
+                    <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Outer Card Header">
+                        <span class="slds-text-heading_small">Selected Products</span>
+                    </a>
+                </h2>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                
+                <!--Save Button which is call Save js function on click --> 
+                <div class="slds-float_right head-bottomPad">
+                    <!-- JLC : All Products selection  : 14/06/2022 -->
+                    <lightning:button variant="brand" label="Add All Products" title="Add All Products" onclick="{!c.handleAllProductsSelection}" />
+                    <button class="slds-button slds-button_brand button-leftMargin" onclick="{!c.Save}">Save</button>
+                </div>
+            </div>
+        </div>
+        <!--EMD : JLC : MODIFICATION : 10/6/2022 --> 
     </lightning:layout>
     
     <!--Table Part-->           

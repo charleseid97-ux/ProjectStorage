@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CventEvents__CloseDateRule__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Indicates the logic of population the Opportunity Close Date field.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Indicates the logic of population the Opportunity Close Date field.</inlineHelpText>
+    <label>Close Date Rule</label>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Specific Date</fullName>
+                <default>false</default>
+                <label>Specific Date</label>
+            </value>
+            <value>
+                <fullName>A certain number of days after the object is created</fullName>
+                <default>false</default>
+                <label>A certain number of days after the object is created</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

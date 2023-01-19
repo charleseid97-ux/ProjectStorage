@@ -58,7 +58,7 @@ public without sharing class AgreementRelatedContact_SM01 {
                         Agreement_Type__c,
                         PrimaryReallocationContact__c,
                         (SELECT Id, Contact__r.Email, Contact__r.TeamEmail__c, Primary_Rebate_Contact__c, Role__c FROM ConventionRelatedContacts__r where Role__c = :roleType),
-                        (SELECT Id, Name FROM SubConventions__r)
+                        (SELECT Id, Name FROM SubConventions__r where Status__c != 'Terminated')
                 FROM Convention__c
                 WHERE Id IN :agreementIds
         ]);

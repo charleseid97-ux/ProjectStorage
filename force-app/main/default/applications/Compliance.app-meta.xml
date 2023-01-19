@@ -9,6 +9,7 @@
     <formFactors>Large</formFactors>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <label>Legal &amp; Compliance</label>
     <navType>Standard</navType>
     <profileActionOverrides>
@@ -712,6 +713,7 @@
     <tabs>standard-report</tabs>
     <tabs>Bug_Log__c</tabs>
     <tabs>Data_Solutions_Report_Type__c</tabs>
+    <tabs>Salesforce_update__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Compliance_UtilityBar</utilityBar>
 </CustomApplication>

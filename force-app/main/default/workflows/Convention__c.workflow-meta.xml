@@ -839,6 +839,7 @@
     </alerts>
     <alerts>
         <fullName>Agreement_Termination_Approval_Rejected_IS</fullName>
+        <ccEmails>DCO.AML-KYD@carmignac.com</ccEmails>
         <description>Agreement Termination Approval Rejected - IS</description>
         <protected>false</protected>
         <recipients>
@@ -925,6 +926,14 @@
         </recipients>
         <senderType>CurrentUser</senderType>
         <template>Agreements/Agreement_Termination_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Pending_for_approval_Notification</fullName>
+        <ccEmails>DCO.AML-KYD@carmignac.com</ccEmails>
+        <description>Pending Approval Notification-DCO.AML-KYD</description>
+        <protected>false</protected>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Termination_Pending_Approval</template>
     </alerts>
     <fieldUpdates>
         <fullName>AgreementStatus</fullName>

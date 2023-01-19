@@ -33,6 +33,7 @@ trigger CaseProductUpdate on Case_Product__c (before update, before insert) {
             //We first search the shareClassISINMAP using the Id of the linked share class. This will return the ISIN from the map.
             //Then we search for the Carmignac Product Id using the Share Class ISIN - and set the Id to the field.
             oa.Carmignac_Product__c = carmignacProductISINMAP.get(shareClassISINMAP.get(oa.Share_Class__c));
+            oa.ShareClass__c = oa.Share_Class__c + '' + oa.Work_Together_Process__c;
         }
 	}    
 }

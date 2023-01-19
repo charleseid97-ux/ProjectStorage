@@ -26,14 +26,34 @@
         <label>Axa Selection</label>
     </customValue>
     <customValue>
+        <fullName>CAELS</fullName>
+        <default>false</default>
+        <label>CAELS</label>
+    </customValue>
+    <customValue>
         <fullName>CAGR</fullName>
         <default>false</default>
         <label>CAGR</label>
     </customValue>
     <customValue>
-        <fullName>CGG</fullName>
+        <fullName>CAT</fullName>
         <default>false</default>
-        <label>CGG</label>
+        <label>CAT</label>
+    </customValue>
+    <customValue>
+        <fullName>CC</fullName>
+        <default>false</default>
+        <label>CC</label>
+    </customValue>
+    <customValue>
+        <fullName>CC25</fullName>
+        <default>false</default>
+        <label>CC25</label>
+    </customValue>
+    <customValue>
+        <fullName>CC27</fullName>
+        <default>false</default>
+        <label>CC27</label>
     </customValue>
     <customValue>
         <fullName>CCC</fullName>
@@ -44,6 +64,11 @@
         <fullName>CCNE</fullName>
         <default>false</default>
         <label>CCNE</label>
+    </customValue>
+    <customValue>
+        <fullName>COO</fullName>
+        <default>false</default>
+        <label>CCO</label>
     </customValue>
     <customValue>
         <fullName>CCR</fullName>
@@ -71,6 +96,11 @@
         <label>CEE</label>
     </customValue>
     <customValue>
+        <fullName>CEMD</fullName>
+        <default>false</default>
+        <label>CEMD</label>
+    </customValue>
+    <customValue>
         <fullName>CEMP</fullName>
         <default>false</default>
         <label>CEMP</label>
@@ -81,9 +111,19 @@
         <label>CFA24</label>
     </customValue>
     <customValue>
+        <fullName>CFB</fullName>
+        <default>false</default>
+        <label>CFB</label>
+    </customValue>
+    <customValue>
         <fullName>CFG</fullName>
         <default>false</default>
         <label>CFG</label>
+    </customValue>
+    <customValue>
+        <fullName>CGA</fullName>
+        <default>false</default>
+        <label>CGA</label>
     </customValue>
     <customValue>
         <fullName>CGC</fullName>
@@ -94,6 +134,16 @@
         <fullName>CGE</fullName>
         <default>false</default>
         <label>CGE</label>
+    </customValue>
+    <customValue>
+        <fullName>CGG</fullName>
+        <default>false</default>
+        <label>CGG</label>
+    </customValue>
+    <customValue>
+        <fullName>CHX</fullName>
+        <default>false</default>
+        <label>CHX</label>
     </customValue>
     <customValue>
         <fullName>CI</fullName>
@@ -196,6 +246,11 @@
         <label>Inversis Big Battle</label>
     </customValue>
     <customValue>
+        <fullName>LSEE</fullName>
+        <default>false</default>
+        <label>LSEE</label>
+    </customValue>
+    <customValue>
         <fullName>MACP</fullName>
         <default>false</default>
         <label>MACSF CP</label>
@@ -224,6 +279,11 @@
         <fullName>NOM</fullName>
         <default>false</default>
         <label>Nomura</label>
+    </customValue>
+    <customValue>
+        <fullName>PCNE</fullName>
+        <default>false</default>
+        <label>PCNE</label>
     </customValue>
     <customValue>
         <fullName>PE</fullName>
@@ -296,56 +356,19 @@
         <label>UKCGB</label>
     </customValue>
     <customValue>
-        <fullName>UKCP</fullName>
-        <default>false</default>
-        <label>UKCP</label>
-    </customValue>
-    <customValue>
         <fullName>UKCGEC</fullName>
         <default>false</default>
         <label>UKCGEC</label>
     </customValue>
     <customValue>
-        <fullName>CC25</fullName>
+        <fullName>UKCP</fullName>
         <default>false</default>
-        <label>CC25</label>
+        <label>UKCP</label>
     </customValue>
     <customValue>
-        <fullName>CC</fullName>
+        <fullName>UKMPS</fullName>
         <default>false</default>
-        <label>CC</label>
-    </customValue>
-    <customValue>
-        <fullName>CAT</fullName>
-        <default>false</default>
-        <label>CAT</label>
-    </customValue>
-    <customValue>
-        <fullName>CFB</fullName>
-        <default>false</default>
-        <label>CFB</label>
-    </customValue>
-    <customValue>
-        <fullName>PCNE</fullName>
-        <default>false</default>
-        <label>PCNE</label>
-    </customValue>
-    <customValue>
-        <fullName>CEMD</fullName>
-        <default>false</default>
-        <label>CEMD</label>
-    </customValue>
-    <customValue>
-        <fullName>CARA</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>CARA</label>
-    </customValue>
-    <customValue>
-        <fullName>UFF Grande Europe 0-100</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>UFF Grande Europe 0-100</label>
+        <label>UKMPS</label>
     </customValue>
     <customValue>
         <fullName>UFFGE</fullName>
@@ -354,10 +377,22 @@
         <label>UFF Grande Europe 0-100</label>
     </customValue>
     <customValue>
+        <fullName>CARA</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>CARA</label>
+    </customValue>
+    <customValue>
         <fullName>CC+</fullName>
         <default>false</default>
         <isActive>false</isActive>
         <label>CC+</label>
+    </customValue>
+    <customValue>
+        <fullName>UFF Grande Europe 0-100</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>UFF Grande Europe 0-100</label>
     </customValue>
     <masterLabel>Product</masterLabel>
     <sorted>true</sorted>

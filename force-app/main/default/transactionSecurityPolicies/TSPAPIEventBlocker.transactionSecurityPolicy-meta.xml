@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TransactionSecurityPolicy xmlns="http://soap.sforce.com/2006/04/metadata">
+    <action>
+        <block>true</block>
+        <endSession>false</endSession>
+        <freezeUser>false</freezeUser>
+        <notifications>
+            <inApp>true</inApp>
+            <sendEmail>true</sendEmail>
+            <user>coullon.thomas-crm@carmignac.com</user>
+        </notifications>
+        <twoFactorAuthentication>false</twoFactorAuthentication>
+    </action>
+    <active>true</active>
+    <apexClass>TSP_Blocker</apexClass>
+    <blockMessage>The operation you requested isn&apos;t allowed due to Carmignac security policies. 
+
+Contact your Salesforce administrator (Technology_sales_marketing@carmignac.com) and CISO (okeles.meet@carmignac.com) for more information about security policies.</blockMessage>
+    <customEmailContent>&lt;p&gt;One of Carmignac transaction security policies was triggered on Salesforce&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Policy Name: {{policy.MasterLabel}}&lt;/p&gt;&lt;p&gt;Event responsible for triggering this policy:&lt;/p&gt;&lt;p&gt;{{policy.EventName}} on {{event.QueriedEntities}} object associated with user {{event.Username}} at {{event.EventDate}}.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Triggered query : {{event.Query}}&lt;/p&gt;&lt;p&gt;Number of records: {{event.RowsProcessed}}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Please note that this query has been blocked&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;For more context about this event, refer to these event fields:&lt;/p&gt;&lt;p&gt;Org ID: {{policy.OrganizationId}}&lt;/p&gt;&lt;p&gt;User ID:{{event.UserId}}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Regards,&lt;/p&gt;</customEmailContent>
+    <description>This TSP blocks API call on Account, Opportunity and Case objects on more than 500 records
+Manage excluded profiles on TSP Setting through Custom Metadata Types</description>
+    <developerName>TSPAPIEventBlocker</developerName>
+    <eventName>ApiEvent</eventName>
+    <masterLabel>TSP APIEvent Blocker</masterLabel>
+    <type>CustomApexPolicy</type>
+</TransactionSecurityPolicy>

@@ -140,7 +140,7 @@
         <customButtons>Update_Status_Received</customButtons>
         <fields>NAME</fields>
         <fields>Mandatory__c</fields>
-        <fields>DocumentDescription__c</fields>
+        <fields>DescriptionShort__c</fields>
         <fields>DocumentFormat__c</fields>
         <fields>Status__c</fields>
         <relatedList>KYD_Document__c.KYD_Due_Diligence_Oversight__c</relatedList>
@@ -167,7 +167,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h1X000002QIG5</masterLabel>
+        <masterLabel>00h1i000001V5tx</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

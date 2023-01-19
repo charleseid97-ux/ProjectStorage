@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fieldSets>
+        <label></label>
+        <name>HierarchyOpps</name>
+    </fieldSets>
     <layouts>
         <layout>Asset Retention Opportunity</layout>
         <sections>
@@ -227,6 +231,89 @@
         <label></label>
         <name>Select_Products</name>
     </quickActions>
+    <recordTypes>
+        <label></label>
+        <name>Generic_Opportunity</name>
+    </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>x1Sizeable_Inflow_Opportunity</name>
+    </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>x2Asset_Retention_Opportunity</name>
+    </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>x3Buy_List_Placement_Status_Upgrade_Opportunity</name>
+    </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>x4Buy_List_Preservation_Opportunity</name>
+    </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>x5Investment_Solution_Opportunity</name>
+    </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>x5_Pre_Pipeline_IS_Opportunity</name>
+    </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>x6Distribution_Agreement_Opportunity</name>
+    </recordTypes>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Opportunity_VR01_RestrictProductList</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Positive_Opportunity_Amount</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Product_WinLoss_Mandatory_on_Closing_Opp</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Result_ReasonMandatoryClosingOpp</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>WinLoss_Mandatory_on_Closing_Opportunity</name>
+    </validationRules>
+    <webLinks>
+        <label></label>
+        <name>Dashboard</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>Easy_Drill__View_Hierarchy</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>Mass_Delete_Records</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>Opportunity_Dashboard</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>pi__Send_Pardot_Emails</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>pi__Send_Single_Pardot_Email</name>
+    </webLinks>
     <workflowTasks>
         <description></description>
         <name>Opportunity_Closing_Task</name>

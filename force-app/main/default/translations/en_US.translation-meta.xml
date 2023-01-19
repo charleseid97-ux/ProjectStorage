@@ -21,7 +21,7 @@
         <name>Investor_Services</name>
     </customApplications>
     <customApplications>
-        <label><!-- Market Intelligence --></label>
+        <label><!-- Business Intelligence --></label>
         <name>Market_Intelligence</name>
     </customApplications>
     <customApplications>
@@ -369,6 +369,10 @@
         <name>CventEvents__ActionIsNotAllowedBecauseEventRequiresNomination</name>
     </customLabels>
     <customLabels>
+        <label><!-- ActionIsNotAllowedBecauseOfAttendeeAbsence --></label>
+        <name>CventEvents__ActionIsNotAllowedBecauseOfAttendeeAbsence</name>
+    </customLabels>
+    <customLabels>
         <label><!-- ActionIsNotAllowedBecauseOfAttendeeStatus --></label>
         <name>CventEvents__ActionIsNotAllowedBecauseOfAttendeeStatus</name>
     </customLabels>
@@ -387,6 +391,10 @@
     <customLabels>
         <label><!-- ActualCampaignMembersToInvite --></label>
         <name>CventEvents__ActualCampaignMembersToInvite</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Add --></label>
+        <name>CventEvents__Add</name>
     </customLabels>
     <customLabels>
         <label><!-- AdCondition --></label>
@@ -417,12 +425,28 @@
         <name>CventEvents__AddMapping</name>
     </customLabels>
     <customLabels>
+        <label><!-- AddMappingInstruction --></label>
+        <name>CventEvents__AddMappingInstruction</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AddObject --></label>
+        <name>CventEvents__AddObject</name>
+    </customLabels>
+    <customLabels>
         <label><!-- AddValue --></label>
         <name>CventEvents__AddValue</name>
     </customLabels>
     <customLabels>
         <label><!-- AllUsers --></label>
         <name>CventEvents__AllUsers</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AllowMetadataApiAccess --></label>
+        <name>CventEvents__AllowMetadataApiAccess</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- AllowMetadataApiAccessDescription --></label>
+        <name>CventEvents__AllowMetadataApiAccessDescription</name>
     </customLabels>
     <customLabels>
         <label><!-- AllowedToInviteCampaignMembers --></label>
@@ -481,6 +505,10 @@
         <name>CventEvents__AttendeeActivitiesFeatureDeactivationText</name>
     </customLabels>
     <customLabels>
+        <label><!-- AttendeeActivityTypeMappingValidation --></label>
+        <name>CventEvents__AttendeeActivityTypeMappingValidation</name>
+    </customLabels>
+    <customLabels>
         <label><!-- AttendeeAlreadyRegisteredUsingWebsite --></label>
         <name>CventEvents__AttendeeAlreadyRegisteredUsingWebsite</name>
     </customLabels>
@@ -525,6 +553,10 @@
         <name>CventEvents__AvailableFields</name>
     </customLabels>
     <customLabels>
+        <label><!-- Back --></label>
+        <name>CventEvents__Back</name>
+    </customLabels>
+    <customLabels>
         <label><!-- BlankPicklistValuePlaceholder --></label>
         <name>CventEvents__BlankPicklistValuePlaceholder</name>
     </customLabels>
@@ -545,6 +577,14 @@
         <name>CventEvents__BulkNominationCommentNote</name>
     </customLabels>
     <customLabels>
+        <label><!-- CampaignMemberStatusDoesNotExist --></label>
+        <name>CventEvents__CampaignMemberStatusDoesNotExist</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CampaignMemberStatusMappingValidation --></label>
+        <name>CventEvents__CampaignMemberStatusMappingValidation</name>
+    </customLabels>
+    <customLabels>
         <label><!-- CampaignMembersDefaultImportValueMessage --></label>
         <name>CventEvents__CampaignMembersDefaultImportValueMessage</name>
     </customLabels>
@@ -557,12 +597,56 @@
         <name>CventEvents__CampaignsDefaultImportValueMessage</name>
     </customLabels>
     <customLabels>
+        <label><!-- Campaigns_CreateStatusConfirmationText --></label>
+        <name>CventEvents__Campaigns_CreateStatusConfirmationText</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Campaigns_CreateStatusPlaceholder --></label>
+        <name>CventEvents__Campaigns_CreateStatusPlaceholder</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Campaigns_CreateStatusTitle --></label>
+        <name>CventEvents__Campaigns_CreateStatusTitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CampaignsTabTitle --></label>
+        <name>CventEvents__Campaigns_TabTitle</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Cancel --></label>
         <name>CventEvents__Cancel</name>
     </customLabels>
     <customLabels>
+        <label><!-- CancelNomination --></label>
+        <name>CventEvents__CancelNomination</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CancelNomination_BulkConfirmationText --></label>
+        <name>CventEvents__CancelNomination_BulkConfirmationText</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CancelNomination_ConfirmationText --></label>
+        <name>CventEvents__CancelNomination_ConfirmationText</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PartialCancelNominationConfirmTextBulk --></label>
+        <name>CventEvents__CancelNomination_PartialSuccessConfirmationText</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CancelNominations --></label>
+        <name>CventEvents__CancelNominations</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Change --></label>
+        <name>CventEvents__Change</name>
+    </customLabels>
+    <customLabels>
         <label><!-- ChangesHaveBeenSaved --></label>
         <name>CventEvents__ChangesHaveBeenSaved</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ChatterNotifications --></label>
+        <name>CventEvents__ChatterNotifications</name>
     </customLabels>
     <customLabels>
         <label><!-- ChooseDatetimeToSyncEvents --></label>
@@ -575,6 +659,50 @@
     <customLabels>
         <label><!-- Condition --></label>
         <name>CventEvents__Condition</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ConditionRequirements --></label>
+        <name>CventEvents__ConditionRequirements</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ConditionRequirements_And --></label>
+        <name>CventEvents__ConditionRequirements_And</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ConditionRequirements_BlankConditionExpressionError --></label>
+        <name>CventEvents__ConditionRequirements_BlankConditionExpressionError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ConditionRequirements_ConditionLogic --></label>
+        <name>CventEvents__ConditionRequirements_ConditionLogic</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ConditionRequirements_ConditionLogicTooltip --></label>
+        <name>CventEvents__ConditionRequirements_ConditionLogicTooltip</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ConditionRequirements_CriteriaNotReferencedError --></label>
+        <name>CventEvents__ConditionRequirements_CriteriaNotReferencedError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ConditionRequirements_Custom --></label>
+        <name>CventEvents__ConditionRequirements_Custom</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ConditionRequirements_InvalidSpellingError --></label>
+        <name>CventEvents__ConditionRequirements_InvalidSpellingError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ConditionRequirements_OperatorsAmbiguityError --></label>
+        <name>CventEvents__ConditionRequirements_OperatorsAmbiguityError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ConditionRequirements_Or --></label>
+        <name>CventEvents__ConditionRequirements_Or</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ConditionRequirements_UndefinedCriteriaReferenceError --></label>
+        <name>CventEvents__ConditionRequirements_UndefinedCriteriaReferenceError</name>
     </customLabels>
     <customLabels>
         <label><!-- ConditionValueMustNotBeEmpty --></label>
@@ -653,8 +781,16 @@
         <name>CventEvents__Connections</name>
     </customLabels>
     <customLabels>
+        <label><!-- ContactMetadataRequestFailed --></label>
+        <name>CventEvents__ContactMetadataRequestFailed</name>
+    </customLabels>
+    <customLabels>
         <label><!-- CopyEntity --></label>
         <name>CventEvents__CopyEntity</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Create --></label>
+        <name>CventEvents__Create</name>
     </customLabels>
     <customLabels>
         <label><!-- CreateConnectedApp --></label>
@@ -663,6 +799,46 @@
     <customLabels>
         <label><!-- CreateConnectedAppInstruction --></label>
         <name>CventEvents__CreateConnectedAppInstruction</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CreateField --></label>
+        <name>CventEvents__CreateField</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CreateFieldConfirmationText --></label>
+        <name>CventEvents__CreateFieldConfirmationText</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CreateFieldErrorMessage --></label>
+        <name>CventEvents__CreateFieldErrorMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CreateFieldSuccessMessage --></label>
+        <name>CventEvents__CreateFieldSuccessMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CustomFieldTypeChangeConfigurationValidationError --></label>
+        <name>CventEvents__CustomFieldTypeChangeConfigurationValidationError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CustomFieldTypeChangeHeader --></label>
+        <name>CventEvents__CustomFieldTypeChangeHeader</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CustomFieldTypeChangeSuccessMessage --></label>
+        <name>CventEvents__CustomFieldTypeChangeSuccessMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CustomFieldTypeChangeToLongTextAreaConfirmation --></label>
+        <name>CventEvents__CustomFieldTypeChangeToLongTextAreaConfirmation</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CustomFieldTypeChangeToTextConfirmation --></label>
+        <name>CventEvents__CustomFieldTypeChangeToTextConfirmation</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- CustomFieldTypeChangeValidationError --></label>
+        <name>CventEvents__CustomFieldTypeChangeValidationError</name>
     </customLabels>
     <customLabels>
         <label><!-- Custom Setting not found error message --></label>
@@ -681,6 +857,10 @@
         <name>CventEvents__CventCustomPicklistValidationError</name>
     </customLabels>
     <customLabels>
+        <label><!-- Daily --></label>
+        <name>CventEvents__Daily</name>
+    </customLabels>
+    <customLabels>
         <label><!-- DataRefreshFrequency --></label>
         <name>CventEvents__DataRefreshFrequency</name>
     </customLabels>
@@ -697,6 +877,22 @@
         <name>CventEvents__DataRefreshFrequency_PE</name>
     </customLabels>
     <customLabels>
+        <label><!-- DataTransferBatchRespondentsUpdateError --></label>
+        <name>CventEvents__DataTransferBatchRespondentsUpdateError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- DataTransferFilterConfigurationError --></label>
+        <name>CventEvents__DataTransferFilterConfigurationError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- DataTransferMappingConfigurationError --></label>
+        <name>CventEvents__DataTransferMappingConfigurationError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Day --></label>
+        <name>CventEvents__Day</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Days --></label>
         <name>CventEvents__Days</name>
     </customLabels>
@@ -711,6 +907,10 @@
     <customLabels>
         <label><!-- DefaultImportValueMessage --></label>
         <name>CventEvents__DefaultImportValueMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Delete --></label>
+        <name>CventEvents__Delete</name>
     </customLabels>
     <customLabels>
         <label><!-- DeleteEntity --></label>
@@ -737,12 +937,20 @@
         <name>CventEvents__DoNotPurgeLogsFromSF</name>
     </customLabels>
     <customLabels>
+        <label><!-- DoNotSend --></label>
+        <name>CventEvents__DoNotSend</name>
+    </customLabels>
+    <customLabels>
         <label><!-- DoNotSyncAttendeesWithCvent --></label>
         <name>CventEvents__DoNotSyncAttendeesWithCvent</name>
     </customLabels>
     <customLabels>
         <label><!-- DoNotSyncEventsWithCvent --></label>
         <name>CventEvents__DoNotSyncEventsWithCvent</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- DoNotSyncRespondentsWithCvent --></label>
+        <name>CventEvents__DoNotSyncRespondentsWithCvent</name>
     </customLabels>
     <customLabels>
         <label><!-- DuplicateFound --></label>
@@ -765,12 +973,84 @@
         <name>CventEvents__Else</name>
     </customLabels>
     <customLabels>
+        <label><!-- EmailNotifications --></label>
+        <name>CventEvents__EmailNotifications</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EmptyDefaultValueForStaticMappingError --></label>
+        <name>CventEvents__EmptyDefaultValueForStaticMappingError</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Empty event statuses while purge events set to true --></label>
         <name>CventEvents__EmptyEventStatuses</name>
     </customLabels>
     <customLabels>
         <label><!-- Error --></label>
         <name>CventEvents__Error</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventCampaignsDefaultImportValueMessage --></label>
+        <name>CventEvents__EventCampaignsDefaultImportValueMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventCampaigns_CampaignFieldsMapping --></label>
+        <name>CventEvents__EventCampaigns_CampaignFieldsMapping</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventCampaigns_CampaignFieldsMappingDescription --></label>
+        <name>CventEvents__EventCampaigns_CampaignFieldsMappingDescription</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventCampaigns_CampaignMemberFieldsMapping --></label>
+        <name>CventEvents__EventCampaigns_CampaignMemberFieldsMapping</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventCampaigns_CampaignMemberStatusMapping --></label>
+        <name>CventEvents__EventCampaigns_CampaignMemberStatusMapping</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventCampaigns_CampaignMemberStatusMappingDescription --></label>
+        <name>CventEvents__EventCampaigns_CampaignMemberStatusMappingDescription</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventCampaigns_CreateCampaigns --></label>
+        <name>CventEvents__EventCampaigns_CreateCampaigns</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventCampaigns_CreateNewHeadline --></label>
+        <name>CventEvents__EventCampaigns_CreateNewHeadline</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventCampaigns_DoNotCreateCampaigns --></label>
+        <name>CventEvents__EventCampaigns_DoNotCreateCampaigns</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventCampaigns_DoNotUpdateCampaigns --></label>
+        <name>CventEvents__EventCampaigns_DoNotUpdateCampaigns</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventCampaigns_ReadOnlyStatusMapping --></label>
+        <name>CventEvents__EventCampaigns_ReadOnlyStatusMapping</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventCampaigns_ReadOnlyStatusMappingTooltip --></label>
+        <name>CventEvents__EventCampaigns_ReadOnlyStatusMappingTooltip</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventCampaignsSectionSubtitle --></label>
+        <name>CventEvents__EventCampaigns_SectionSubtitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventCampaignsSectionTitle --></label>
+        <name>CventEvents__EventCampaigns_SectionTitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventCampaigns_UpdateCampaigns --></label>
+        <name>CventEvents__EventCampaigns_UpdateCampaigns</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventCampaigns_UpdateExistingHeadline --></label>
+        <name>CventEvents__EventCampaigns_UpdateExistingHeadline</name>
     </customLabels>
     <customLabels>
         <label><!-- EventConditionsExplanation --></label>
@@ -793,8 +1073,48 @@
         <name>CventEvents__EventFilteringTabTitle</name>
     </customLabels>
     <customLabels>
+        <label><!-- EventIntegrationFeatureActivationText --></label>
+        <name>CventEvents__EventIntegrationFeatureActivationText</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventIntegrationFeatureDeactivationText --></label>
+        <name>CventEvents__EventIntegrationFeatureDeactivationText</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventIntegration_FieldMappingDefaultValueTooltip --></label>
+        <name>CventEvents__EventIntegration_FieldMappingDefaultValueTooltip</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventIntegration_UpdateMatchedRecordActionTooltip --></label>
+        <name>CventEvents__EventIntegration_UpdateMatchedRecordActionTooltip</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventIntegration_UpdateRecentRecordActionTooltip --></label>
+        <name>CventEvents__EventIntegration_UpdateRecentRecordActionTooltip</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventMetadataRequestFailed --></label>
+        <name>CventEvents__EventMetadataRequestFailed</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Event purge settings are not configured --></label>
         <name>CventEvents__EventPurgeSettingsAreNotConfigured</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventQuestions_Note --></label>
+        <name>CventEvents__EventQuestions_Note</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventQuestions_Subtitle --></label>
+        <name>CventEvents__EventQuestions_Subtitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventQuestions_TableDescription --></label>
+        <name>CventEvents__EventQuestions_TableDescription</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- EventQuestions_Title --></label>
+        <name>CventEvents__EventQuestions_Title</name>
     </customLabels>
     <customLabels>
         <label><!-- EventRefreshSettingsInfo --></label>
@@ -841,12 +1161,20 @@
         <name>CventEvents__FeatureDescription_CventCustomFields</name>
     </customLabels>
     <customLabels>
+        <label><!-- FeatureDescription_EventIntegration --></label>
+        <name>CventEvents__FeatureDescription_EventIntegration</name>
+    </customLabels>
+    <customLabels>
         <label><!-- FeatureDescription_PersonAccounts --></label>
         <name>CventEvents__FeatureDescription_PersonAccounts</name>
     </customLabels>
     <customLabels>
         <label><!-- FeatureDescription_RecordTypes --></label>
         <name>CventEvents__FeatureDescription_RecordTypes</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FeatureDescription_SurveyIntegration --></label>
+        <name>CventEvents__FeatureDescription_SurveyIntegration</name>
     </customLabels>
     <customLabels>
         <label><!-- FeatureTitle_AttendeeActivities --></label>
@@ -857,12 +1185,20 @@
         <name>CventEvents__FeatureTitle_CventCustomFields</name>
     </customLabels>
     <customLabels>
+        <label><!-- FeatureTitle_EventIntegration --></label>
+        <name>CventEvents__FeatureTitle_EventIntegration</name>
+    </customLabels>
+    <customLabels>
         <label><!-- FeatureTitle_PersonAccounts --></label>
         <name>CventEvents__FeatureTitle_PersonAccounts</name>
     </customLabels>
     <customLabels>
         <label><!-- FeatureTitle_RecordTypes --></label>
         <name>CventEvents__FeatureTitle_RecordTypes</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FeatureTitle_SurveyIntegration --></label>
+        <name>CventEvents__FeatureTitle_SurveyIntegration</name>
     </customLabels>
     <customLabels>
         <label><!-- February --></label>
@@ -873,8 +1209,48 @@
         <name>CventEvents__FieldDoesNotExist</name>
     </customLabels>
     <customLabels>
+        <label><!-- FieldMappingDefaultValueTooltip --></label>
+        <name>CventEvents__FieldMappingDefaultValueTooltip</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FieldMapping_SyncDirectionBothWays --></label>
+        <name>CventEvents__FieldMapping_SyncDirectionBothWays</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FieldMapping_SyncDirectionToCvent --></label>
+        <name>CventEvents__FieldMapping_SyncDirectionToCvent</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FieldMapping_SyncDirectionToSF --></label>
+        <name>CventEvents__FieldMapping_SyncDirectionToSF</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FieldMatchingDuplicationError --></label>
+        <name>CventEvents__FieldMatchingDuplicationError</name>
+    </customLabels>
+    <customLabels>
         <label><!-- FieldTokenNotFound --></label>
         <name>CventEvents__FieldTokenNotFound</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FieldType_DateTime --></label>
+        <name>CventEvents__FieldType_DateTime</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FieldType_LongTextArea --></label>
+        <name>CventEvents__FieldType_LongTextArea</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FieldType_MultiPicklist --></label>
+        <name>CventEvents__FieldType_MultiPicklist</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FieldType_Picklist --></label>
+        <name>CventEvents__FieldType_Picklist</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FieldType_Text --></label>
+        <name>CventEvents__FieldType_Text</name>
     </customLabels>
     <customLabels>
         <label><!-- FieldsMapping --></label>
@@ -887,6 +1263,10 @@
     <customLabels>
         <label><!-- FieldsMappingSettingsSubtitle --></label>
         <name>CventEvents__FieldsMappingSettingsSubtitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FieldsMapping_StaticValueOptionLabel --></label>
+        <name>CventEvents__FieldsMapping_StaticValueOptionLabel</name>
     </customLabels>
     <customLabels>
         <label><!-- FieldsMatching --></label>
@@ -957,6 +1337,10 @@
         <name>CventEvents__FormControlLabel_NominationCommentTemplate</name>
     </customLabels>
     <customLabels>
+        <label><!-- FormControlLabel_QueueLookup --></label>
+        <name>CventEvents__FormControlLabel_QueueLookup</name>
+    </customLabels>
+    <customLabels>
         <label><!-- FormControlLabel_Select --></label>
         <name>CventEvents__FormControlLabel_Select</name>
     </customLabels>
@@ -983,6 +1367,10 @@
     <customLabels>
         <label><!-- FormControlPlaceholder_EnterAccessToken --></label>
         <name>CventEvents__FormControlPlaceholder_EnterAccessToken</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- FormControlPlaceholder_EnterFieldLabel --></label>
+        <name>CventEvents__FormControlPlaceholder_EnterFieldLabel</name>
     </customLabels>
     <customLabels>
         <label><!-- FormControlPlaceholder_EnterNumber --></label>
@@ -1061,6 +1449,10 @@
         <name>CventEvents__FormControlValidation_RequiredAction</name>
     </customLabels>
     <customLabels>
+        <label><!-- FormControlValidation_RequiredQueue --></label>
+        <name>CventEvents__FormControlValidation_RequiredQueue</name>
+    </customLabels>
+    <customLabels>
         <label><!-- FormControlValidation_RequiredUser --></label>
         <name>CventEvents__FormControlValidation_RequiredUser</name>
     </customLabels>
@@ -1089,8 +1481,16 @@
         <name>CventEvents__FourthLevel</name>
     </customLabels>
     <customLabels>
+        <label><!-- Frequency --></label>
+        <name>CventEvents__Frequency</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Fri --></label>
         <name>CventEvents__Fri</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Friday --></label>
+        <name>CventEvents__Friday</name>
     </customLabels>
     <customLabels>
         <label><!-- Groups --></label>
@@ -1103,6 +1503,10 @@
     <customLabels>
         <label><!-- If --></label>
         <name>CventEvents__If</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Immediately --></label>
+        <name>CventEvents__Immediately</name>
     </customLabels>
     <customLabels>
         <label><!-- Inactive --></label>
@@ -1193,6 +1597,10 @@
         <name>CventEvents__Invite</name>
     </customLabels>
     <customLabels>
+        <label><!-- ItemsSelected --></label>
+        <name>CventEvents__ItemsSelected</name>
+    </customLabels>
+    <customLabels>
         <label><!-- January --></label>
         <name>CventEvents__January</name>
     </customLabels>
@@ -1231,6 +1639,10 @@
     <customLabels>
         <label><!-- ListColumn_AccountName --></label>
         <name>CventEvents__ListColumn_AccountName</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_AnswerType --></label>
+        <name>CventEvents__ListColumn_AnswerType</name>
     </customLabels>
     <customLabels>
         <label><!-- ListColumn_AttendeeActivityType --></label>
@@ -1273,12 +1685,28 @@
         <name>CventEvents__ListColumn_ConnectedDate</name>
     </customLabels>
     <customLabels>
+        <label><!-- ListColumn_CreatedBy --></label>
+        <name>CventEvents__ListColumn_CreatedBy</name>
+    </customLabels>
+    <customLabels>
         <label><!-- ListColumn_CventContactField --></label>
         <name>CventEvents__ListColumn_CventContactField</name>
     </customLabels>
     <customLabels>
+        <label><!-- ListColumn_CventEventField --></label>
+        <name>CventEvents__ListColumn_CventEventField</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_CventField --></label>
+        <name>CventEvents__ListColumn_CventField</name>
+    </customLabels>
+    <customLabels>
         <label><!-- ListColumn_CventFieldDataType --></label>
         <name>CventEvents__ListColumn_CventFieldDataType</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_DataFlow --></label>
+        <name>CventEvents__ListColumn_DataFlow</name>
     </customLabels>
     <customLabels>
         <label><!-- ListColumn_DefaultValue --></label>
@@ -1321,6 +1749,14 @@
         <name>CventEvents__ListColumn_Field</name>
     </customLabels>
     <customLabels>
+        <label><!-- ListColumn_FieldOrQuestion --></label>
+        <name>CventEvents__ListColumn_FieldOrQuestion</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_FieldOrQuestionTag --></label>
+        <name>CventEvents__ListColumn_FieldOrQuestionTag</name>
+    </customLabels>
+    <customLabels>
         <label><!-- ListColumn_FilterName --></label>
         <name>CventEvents__ListColumn_FilterName</name>
     </customLabels>
@@ -1343,6 +1779,14 @@
     <customLabels>
         <label><!-- ListColumn_Phone --></label>
         <name>CventEvents__ListColumn_Phone</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_Question --></label>
+        <name>CventEvents__ListColumn_Question</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_QuestionTag --></label>
+        <name>CventEvents__ListColumn_QuestionTag</name>
     </customLabels>
     <customLabels>
         <label><!-- ListColumn_SFFieldDataType --></label>
@@ -1379,6 +1823,14 @@
     <customLabels>
         <label><!-- ListColumn_Status --></label>
         <name>CventEvents__ListColumn_Status</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_SurveyTitle --></label>
+        <name>CventEvents__ListColumn_SurveyTitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- ListColumn_TagDescription --></label>
+        <name>CventEvents__ListColumn_TagDescription</name>
     </customLabels>
     <customLabels>
         <label><!-- ListColumn_TaskSubject --></label>
@@ -1481,6 +1933,18 @@
         <name>CventEvents__MobileApp_CventAdminTabIsNotAvailableTitle</name>
     </customLabels>
     <customLabels>
+        <label><!-- MobileApp_NotAvailableTitle --></label>
+        <name>CventEvents__MobileApp_NotAvailableTitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- MobileApp_SurveyProgramCreationIsNotAvailableDescription --></label>
+        <name>CventEvents__MobileApp_SurveyProgramCreationIsNotAvailableDescription</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- MobileApp_SurveyProgramEditionIsNotAvailableDescription --></label>
+        <name>CventEvents__MobileApp_SurveyProgramEditionIsNotAvailableDescription</name>
+    </customLabels>
+    <customLabels>
         <label><!-- ModifyCancel --></label>
         <name>CventEvents__ModifyCancel</name>
     </customLabels>
@@ -1491,6 +1955,10 @@
     <customLabels>
         <label><!-- Mon --></label>
         <name>CventEvents__Mon</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Monday --></label>
+        <name>CventEvents__Monday</name>
     </customLabels>
     <customLabels>
         <label><!-- MoreActions --></label>
@@ -1505,8 +1973,16 @@
         <name>CventEvents__MultipleMatch</name>
     </customLabels>
     <customLabels>
+        <label><!-- MultipleQuestionTagsToTheSameSfFieldError --></label>
+        <name>CventEvents__MultipleQuestionTagsToTheSameSfFieldError</name>
+    </customLabels>
+    <customLabels>
         <label><!-- MultipleSfFieldsToTheSameCventFieldError --></label>
         <name>CventEvents__MultipleSfFieldsToTheSameCventFieldError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- MultipleSfFieldsToTheSameQuestionTagError --></label>
+        <name>CventEvents__MultipleSfFieldsToTheSameQuestionTagError</name>
     </customLabels>
     <customLabels>
         <label><!-- NewCventAccountConfirmationText --></label>
@@ -1531,6 +2007,10 @@
     <customLabels>
         <label><!-- NoActionCventContactRecordMessage --></label>
         <name>CventEvents__NoActionCventContactRecordMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NoActiveProgramsRespondentSyncMessage --></label>
+        <name>CventEvents__NoActiveProgramsRespondentSyncMessage</name>
     </customLabels>
     <customLabels>
         <label><!-- NoCampaignMembersToInvite --></label>
@@ -1567,6 +2047,10 @@
     <customLabels>
         <label><!-- NoMoreAvailableFields --></label>
         <name>CventEvents__NoMoreAvailableFields</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NoOptionsAvailable --></label>
+        <name>CventEvents__NoOptionsAvailable</name>
     </customLabels>
     <customLabels>
         <label><!-- NoRecordMatchingSettingsErrorMessage --></label>
@@ -1609,12 +2093,24 @@
         <name>CventEvents__NominationApproverValidationError</name>
     </customLabels>
     <customLabels>
+        <label><!-- NominationApprovers --></label>
+        <name>CventEvents__NominationApprovers</name>
+    </customLabels>
+    <customLabels>
         <label><!-- NominationCommentsSectionSubtitle --></label>
         <name>CventEvents__NominationCommentsSectionSubtitle</name>
     </customLabels>
     <customLabels>
         <label><!-- NominationCommentsSectionTitle --></label>
         <name>CventEvents__NominationCommentsSectionTitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NominationNotificationsSectionSubtitle --></label>
+        <name>CventEvents__NominationNotificationsSectionSubtitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- NominationNotificationsSectionTitle --></label>
+        <name>CventEvents__NominationNotificationsSectionTitle</name>
     </customLabels>
     <customLabels>
         <label><!-- NominationProcess --></label>
@@ -1645,12 +2141,20 @@
         <name>CventEvents__NominationRequestSubmitted</name>
     </customLabels>
     <customLabels>
+        <label><!-- NominationRequesters --></label>
+        <name>CventEvents__NominationRequesters</name>
+    </customLabels>
+    <customLabels>
         <label><!-- NominationUpdateError --></label>
         <name>CventEvents__NominationUpdateError</name>
     </customLabels>
     <customLabels>
         <label><!-- Nominations Bulk Approve --></label>
         <name>CventEvents__NominationsBulkApprove</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Nominations Bulk Cancel --></label>
+        <name>CventEvents__NominationsBulkCancel</name>
     </customLabels>
     <customLabels>
         <label><!-- Nominations Bulk Reject --></label>
@@ -1761,6 +2265,18 @@
         <name>CventEvents__OpportunityConfigurationError</name>
     </customLabels>
     <customLabels>
+        <label><!-- OpportunityConfiguration_ActionTypeCreateNew --></label>
+        <name>CventEvents__OpportunityConfiguration_ActionTypeCreateNew</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OpportunityConfiguration_ActionTypeDescription --></label>
+        <name>CventEvents__OpportunityConfiguration_ActionTypeDescription</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- OpportunityConfiguration_ActionTypeUpdateExisting --></label>
+        <name>CventEvents__OpportunityConfiguration_ActionTypeUpdateExisting</name>
+    </customLabels>
+    <customLabels>
         <label><!-- OpportunityConfigurations --></label>
         <name>CventEvents__OpportunityConfigurations</name>
     </customLabels>
@@ -1797,6 +2313,10 @@
         <name>CventEvents__PreventAttendeeSyncMessage</name>
     </customLabels>
     <customLabels>
+        <label><!-- PreventDataPurgeMessage --></label>
+        <name>CventEvents__PreventDataPurgeMessage</name>
+    </customLabels>
+    <customLabels>
         <label><!-- PreventEventSyncMessage --></label>
         <name>CventEvents__PreventEventSyncMessage</name>
     </customLabels>
@@ -1809,8 +2329,16 @@
         <name>CventEvents__PreventMetadataSyncMessage</name>
     </customLabels>
     <customLabels>
+        <label><!-- PreventMetadataUpdateMessage --></label>
+        <name>CventEvents__PreventMetadataUpdateMessage</name>
+    </customLabels>
+    <customLabels>
         <label><!-- PreventOrphanAttendeesPurgeMessage --></label>
         <name>CventEvents__PreventOrphanAttendeesPurgeMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PreventRespondentSyncMessage --></label>
+        <name>CventEvents__PreventRespondentSyncMessage</name>
     </customLabels>
     <customLabels>
         <label><!-- PreventTokenChangeMessage --></label>
@@ -1853,6 +2381,58 @@
         <name>CventEvents__PurgeNow</name>
     </customLabels>
     <customLabels>
+        <label><!-- QuestionTagDoesNotExist --></label>
+        <name>CventEvents__QuestionTagDoesNotExist</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- QuestionTagRequestFailed --></label>
+        <name>CventEvents__QuestionTagRequestFailed</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecommendedEventsRequestFailed --></label>
+        <name>CventEvents__RecommendedEventsRequestFailed</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecommendedEvents_InsufficientDataMessage --></label>
+        <name>CventEvents__RecommendedEvents_InsufficientDataMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecommendedEvents_LicenseIsNotSupportedMessage --></label>
+        <name>CventEvents__RecommendedEvents_LicenseIsNotSupportedMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecommendedEvents_Location --></label>
+        <name>CventEvents__RecommendedEvents_Location</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecommendedEvents_NoActionsAvailable --></label>
+        <name>CventEvents__RecommendedEvents_NoActionsAvailable</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecommendedEvents_NoEventsFound --></label>
+        <name>CventEvents__RecommendedEvents_NoEventsFound</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecommendedEvents_NoEventsFoundDescription --></label>
+        <name>CventEvents__RecommendedEvents_NoEventsFoundDescription</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecommendedEvents_ObjectIsNotSupportedMessage --></label>
+        <name>CventEvents__RecommendedEvents_ObjectIsNotSupportedMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecommendedEvents_Title --></label>
+        <name>CventEvents__RecommendedEvents_Title</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecommendedEvents_Tooltip --></label>
+        <name>CventEvents__RecommendedEvents_Tooltip</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecommendedEvents_UnableToGetRecommendations --></label>
+        <name>CventEvents__RecommendedEvents_UnableToGetRecommendations</name>
+    </customLabels>
+    <customLabels>
         <label><!-- RecordDetails --></label>
         <name>CventEvents__RecordDetails</name>
     </customLabels>
@@ -1871,6 +2451,10 @@
     <customLabels>
         <label><!-- RecordMatching_AssignToSpecificAccount --></label>
         <name>CventEvents__RecordMatching_AssignToSpecificAccount</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecordMatching_AssignToSpecificQueue --></label>
+        <name>CventEvents__RecordMatching_AssignToSpecificQueue</name>
     </customLabels>
     <customLabels>
         <label><!-- RecordMatching_CreateContact --></label>
@@ -1895,6 +2479,14 @@
     <customLabels>
         <label><!-- RecordMatching_OnlyUpdateMatchedAttendee --></label>
         <name>CventEvents__RecordMatching_OnlyUpdateMatchedAttendee</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecordMatching_OnlyUpdateMatchedAttendeeOrRespondent --></label>
+        <name>CventEvents__RecordMatching_OnlyUpdateMatchedAttendeeOrRespondent</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RecordMatching_OnlyUpdateMatchedRespondent --></label>
+        <name>CventEvents__RecordMatching_OnlyUpdateMatchedRespondent</name>
     </customLabels>
     <customLabels>
         <label><!-- RecordMatching_UpdateMatchedRecord --></label>
@@ -1989,12 +2581,64 @@
         <name>CventEvents__ResetApplicationConfiguration</name>
     </customLabels>
     <customLabels>
+        <label><!-- RespondentDataSync --></label>
+        <name>CventEvents__RespondentDataSync</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RespondentRefreshSettingsInfo --></label>
+        <name>CventEvents__RespondentRefreshSettingsInfo</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RespondentSyncErrorMessage --></label>
+        <name>CventEvents__RespondentSyncErrorMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RespondentTempsPurgeProcessError --></label>
+        <name>CventEvents__RespondentTempsPurgeProcessError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RespondentsPurgeProcessError --></label>
+        <name>CventEvents__RespondentsPurgeProcessError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Restore --></label>
+        <name>CventEvents__Restore</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RestoreDefaultStatusMappingConfirmation --></label>
+        <name>CventEvents__RestoreDefaultStatusMappingConfirmation</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RestoreDefaultStatusMapping_Tooltip --></label>
+        <name>CventEvents__RestoreDefaultStatusMapping_Tooltip</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- RestoreDefaults --></label>
+        <name>CventEvents__RestoreDefaults</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Retrieve --></label>
+        <name>CventEvents__Retrieve</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SObjectDoesNotExist --></label>
+        <name>CventEvents__SObjectDoesNotExist</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Sat --></label>
         <name>CventEvents__Sat</name>
     </customLabels>
     <customLabels>
+        <label><!-- Saturday --></label>
+        <name>CventEvents__Saturday</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Save --></label>
         <name>CventEvents__Save</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SearchField --></label>
+        <name>CventEvents__SearchField</name>
     </customLabels>
     <customLabels>
         <label><!-- SearchThroughAllRecordTypes --></label>
@@ -2041,6 +2685,10 @@
         <name>CventEvents__SelectedFields</name>
     </customLabels>
     <customLabels>
+        <label><!-- Send --></label>
+        <name>CventEvents__Send</name>
+    </customLabels>
+    <customLabels>
         <label><!-- SendInvitations --></label>
         <name>CventEvents__SendInvitations</name>
     </customLabels>
@@ -2049,12 +2697,36 @@
         <name>CventEvents__September</name>
     </customLabels>
     <customLabels>
+        <label><!-- SessionCampaignsDefaultImportValueMessage --></label>
+        <name>CventEvents__SessionCampaignsDefaultImportValueMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SessionCampaigns_CampaignMemberStatusMapping --></label>
+        <name>CventEvents__SessionCampaigns_CampaignMemberStatusMapping</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SessionCampaigns_CampaignMemberStatusMappingDescription --></label>
+        <name>CventEvents__SessionCampaigns_CampaignMemberStatusMappingDescription</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SessionCampaigns_SectionSubtitle --></label>
+        <name>CventEvents__SessionCampaigns_SectionSubtitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SessionCampaigns_SectionTitle --></label>
+        <name>CventEvents__SessionCampaigns_SectionTitle</name>
+    </customLabels>
+    <customLabels>
         <label><!-- SessionDoesNotExist --></label>
         <name>CventEvents__SessionDoesNotExist</name>
     </customLabels>
     <customLabels>
         <label><!-- SessionNotFound --></label>
         <name>CventEvents__SessionNotFound</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SessionRequestFailed --></label>
+        <name>CventEvents__SessionRequestFailed</name>
     </customLabels>
     <customLabels>
         <label><!-- SessionStatusMapping --></label>
@@ -2101,6 +2773,10 @@
         <name>CventEvents__SkipThisLevel</name>
     </customLabels>
     <customLabels>
+        <label><!-- SomethingWentWrong --></label>
+        <name>CventEvents__SomethingWentWrong</name>
+    </customLabels>
+    <customLabels>
         <label><!-- StartSync --></label>
         <name>CventEvents__StartSync</name>
     </customLabels>
@@ -2117,12 +2793,20 @@
         <name>CventEvents__StatusMappingSubtitleNote</name>
     </customLabels>
     <customLabels>
+        <label><!-- SubstitutedAttendeesUpdateError --></label>
+        <name>CventEvents__SubstitutedAttendeesUpdateError</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Success --></label>
         <name>CventEvents__Success</name>
     </customLabels>
     <customLabels>
         <label><!-- SuccessfulAttendeeInvitation --></label>
         <name>CventEvents__SuccessfulAttendeeInvitation</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SuccessfulNominationBulkAction --></label>
+        <name>CventEvents__SuccessfulNominationBulkAction</name>
     </customLabels>
     <customLabels>
         <label><!-- SuccessfulSessionsSync --></label>
@@ -2145,6 +2829,246 @@
         <name>CventEvents__Sun</name>
     </customLabels>
     <customLabels>
+        <label><!-- Sunday --></label>
+        <name>CventEvents__Sunday</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyDetailsRequestFailed --></label>
+        <name>CventEvents__SurveyDetailsRequestFailed</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyIntegrationFeatureActivationText --></label>
+        <name>CventEvents__SurveyIntegrationFeatureActivationText</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyIntegrationFeatureDeactivationText --></label>
+        <name>CventEvents__SurveyIntegrationFeatureDeactivationText</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyIntegration_FieldMappingDefaultValueTooltip --></label>
+        <name>CventEvents__SurveyIntegration_FieldMappingDefaultValueTooltip</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyIntegration_UpdateMatchedRecordActionTooltip --></label>
+        <name>CventEvents__SurveyIntegration_UpdateMatchedRecordActionTooltip</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyIntegration_UpdateRecentRecordActionTooltip --></label>
+        <name>CventEvents__SurveyIntegration_UpdateRecentRecordActionTooltip</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_ActivationConfirmation --></label>
+        <name>CventEvents__SurveyProgram_ActivationConfirmation</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_ActivationSuccessMessage --></label>
+        <name>CventEvents__SurveyProgram_ActivationSuccessMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_AddObjectDescription --></label>
+        <name>CventEvents__SurveyProgram_AddObjectDescription</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_AvailableQuestions --></label>
+        <name>CventEvents__SurveyProgram_AvailableQuestions</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_ContactMappingDefaultValueTooltip --></label>
+        <name>CventEvents__SurveyProgram_ContactMappingDefaultValueTooltip</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_CreationSuccessMessage --></label>
+        <name>CventEvents__SurveyProgram_CreationSuccessMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_DataSyncStatusCheckError --></label>
+        <name>CventEvents__SurveyProgram_DataSyncStatusCheckError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_DataTransfer --></label>
+        <name>CventEvents__SurveyProgram_DataTransfer</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_DataTransferCreateNewOption --></label>
+        <name>CventEvents__SurveyProgram_DataTransferCreateNewOption</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_DataTransferCreateNewOptionDescription --></label>
+        <name>CventEvents__SurveyProgram_DataTransferCreateNewOptionDescription</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_DataTransferEmptyPlaceholder --></label>
+        <name>CventEvents__SurveyProgram_DataTransferEmptyPlaceholder</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_DataTransferFieldMapping --></label>
+        <name>CventEvents__SurveyProgram_DataTransferFieldMapping</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_DataTransferFiltersReadOnlySubtitle --></label>
+        <name>CventEvents__SurveyProgram_DataTransferFiltersReadOnlySubtitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_DataTransferFiltersSubtitle --></label>
+        <name>CventEvents__SurveyProgram_DataTransferFiltersSubtitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_DataTransferInstruction --></label>
+        <name>CventEvents__SurveyProgram_DataTransferInstruction</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_DataTransferMappingReadOnlySubtitle --></label>
+        <name>CventEvents__SurveyProgram_DataTransferMappingReadOnlySubtitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_DataTransferMappingSubtitle --></label>
+        <name>CventEvents__SurveyProgram_DataTransferMappingSubtitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_DataTransferUpdateExistingOption --></label>
+        <name>CventEvents__SurveyProgram_DataTransferUpdateExistingOption</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_DataTransferUpdateExistingOptionDescription --></label>
+        <name>CventEvents__SurveyProgram_DataTransferUpdateExistingOptionDescription</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_DeactivationConfirmation --></label>
+        <name>CventEvents__SurveyProgram_DeactivationConfirmation</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_DeactivationSuccessMessage --></label>
+        <name>CventEvents__SurveyProgram_DeactivationSuccessMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_DeleteActiveSurveyError --></label>
+        <name>CventEvents__SurveyProgram_DeleteActiveSurveyError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_DeleteDeletedSurveyError --></label>
+        <name>CventEvents__SurveyProgram_DeleteDeletedSurveyError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_DeleteProgramTitle --></label>
+        <name>CventEvents__SurveyProgram_DeleteProgramTitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_DeletedSurveyStatusChangeError --></label>
+        <name>CventEvents__SurveyProgram_DeletedSurveyStatusChangeError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_DisabledSurveyTooltip --></label>
+        <name>CventEvents__SurveyProgram_DisabledSurveyTooltip</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_EditProgramTitle --></label>
+        <name>CventEvents__SurveyProgram_EditProgramTitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_EventProgramAlreadyExistMessage --></label>
+        <name>CventEvents__SurveyProgram_EventProgramAlreadyExistMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_InlineEditingNowtAllowedMessage --></label>
+        <name>CventEvents__SurveyProgram_InlineEditingNowtAllowedMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_NewProgramTitle --></label>
+        <name>CventEvents__SurveyProgram_NewProgramTitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_ProgramDeletionConfirmation --></label>
+        <name>CventEvents__SurveyProgram_ProgramDeletionConfirmation</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_ProgramDetails --></label>
+        <name>CventEvents__SurveyProgram_ProgramDetails</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_QuestionTags --></label>
+        <name>CventEvents__SurveyProgram_QuestionTags</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_QuestionTagsSelectionDescription --></label>
+        <name>CventEvents__SurveyProgram_QuestionTagsSelectionDescription</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_QuestionsDescription --></label>
+        <name>CventEvents__SurveyProgram_QuestionsDescription</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_ReadOnlyDataTransferEmptyPlaceholder --></label>
+        <name>CventEvents__SurveyProgram_ReadOnlyDataTransferEmptyPlaceholder</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_RespondentMappingDefaultValueTooltip --></label>
+        <name>CventEvents__SurveyProgram_RespondentMappingDefaultValueTooltip</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_SelectedQuestions --></label>
+        <name>CventEvents__SurveyProgram_SelectedQuestions</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_StatusChangeTitle --></label>
+        <name>CventEvents__SurveyProgram_StatusChangeTitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_SurveyListEmptyPlaceholder --></label>
+        <name>CventEvents__SurveyProgram_SurveyListEmptyPlaceholder</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_SurveyQuestions --></label>
+        <name>CventEvents__SurveyProgram_SurveyQuestions</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_SurveySelection --></label>
+        <name>CventEvents__SurveyProgram_SurveySelection</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_SurveySelectionDescription --></label>
+        <name>CventEvents__SurveyProgram_SurveySelectionDescription</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_UnableToSelectDeletedQuestionError --></label>
+        <name>CventEvents__SurveyProgram_UnableToSelectDeletedQuestionError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgram_UpdateSuccessMessage --></label>
+        <name>CventEvents__SurveyProgram_UpdateSuccessMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyProgramsPurgeProcessError --></label>
+        <name>CventEvents__SurveyProgramsPurgeProcessError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyQuestionRequestFailed --></label>
+        <name>CventEvents__SurveyQuestionRequestFailed</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyQuestion_DeleteActiveEventQuestionError --></label>
+        <name>CventEvents__SurveyQuestion_DeleteActiveEventQuestionError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyQuestion_DeleteActiveStandaloneQuestionError --></label>
+        <name>CventEvents__SurveyQuestion_DeleteActiveStandaloneQuestionError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyQuestion_DeleteDeletedQuestionError --></label>
+        <name>CventEvents__SurveyQuestion_DeleteDeletedQuestionError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyQuestion_QuestionDeletionConfirmation --></label>
+        <name>CventEvents__SurveyQuestion_QuestionDeletionConfirmation</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyQuestion_QuestionDeletionTitle --></label>
+        <name>CventEvents__SurveyQuestion_QuestionDeletionTitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SurveyRequestFailed --></label>
+        <name>CventEvents__SurveyRequestFailed</name>
+    </customLabels>
+    <customLabels>
         <label><!-- SyncAttendeesWithCvent --></label>
         <name>CventEvents__SyncAttendeesWithCvent</name>
     </customLabels>
@@ -2155,6 +3079,10 @@
     <customLabels>
         <label><!-- SyncErrorMessage --></label>
         <name>CventEvents__SyncErrorMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SyncErrorSurveyProgramNotFound --></label>
+        <name>CventEvents__SyncErrorSurveyProgramNotFound</name>
     </customLabels>
     <customLabels>
         <label><!-- SyncEventsWithCvent --></label>
@@ -2169,12 +3097,20 @@
         <name>CventEvents__SyncNSessions</name>
     </customLabels>
     <customLabels>
+        <label><!-- SyncRespondentsWithCvent --></label>
+        <name>CventEvents__SyncRespondentsWithCvent</name>
+    </customLabels>
+    <customLabels>
         <label><!-- SyncSessions --></label>
         <name>CventEvents__SyncSessions</name>
     </customLabels>
     <customLabels>
         <label><!-- SyncWithPastDate --></label>
         <name>CventEvents__SyncWithPastDate</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tag --></label>
+        <name>CventEvents__Tag</name>
     </customLabels>
     <customLabels>
         <label><!-- TagSelectorHeader --></label>
@@ -2225,6 +3161,14 @@
         <name>CventEvents__Thu</name>
     </customLabels>
     <customLabels>
+        <label><!-- Thursday --></label>
+        <name>CventEvents__Thursday</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Time --></label>
+        <name>CventEvents__Time</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Toast_UnexpectedErrorOccurred --></label>
         <name>CventEvents__Toast_UnexpectedErrorOccurred</name>
     </customLabels>
@@ -2253,8 +3197,16 @@
         <name>CventEvents__Tooltip_AssignToSpecificAccountAction</name>
     </customLabels>
     <customLabels>
+        <label><!-- Tooltip_AssignToSpecificQueueAction --></label>
+        <name>CventEvents__Tooltip_AssignToSpecificQueueAction</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Tooltip_AssignToSpecificUserAction --></label>
         <name>CventEvents__Tooltip_AssignToSpecificUserAction</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_ChatterNominationNotifications --></label>
+        <name>CventEvents__Tooltip_ChatterNominationNotifications</name>
     </customLabels>
     <customLabels>
         <label><!-- Tooltip_ClearInputToUseTags --></label>
@@ -2295,6 +3247,10 @@
     <customLabels>
         <label><!-- Tooltip_FieldPicklistOption --></label>
         <name>CventEvents__Tooltip_FieldPicklistOption</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_FieldsMappingStaticValueOption --></label>
+        <name>CventEvents__Tooltip_FieldsMappingStaticValueOption</name>
     </customLabels>
     <customLabels>
         <label><!-- Tooltip_InapplicableFieldMapping --></label>
@@ -2369,12 +3325,20 @@
         <name>CventEvents__Tooltip_UpdateAttendeeOnlyAction</name>
     </customLabels>
     <customLabels>
+        <label><!-- Tooltip_UpdateAttendeeOrRespondentOnlyAction --></label>
+        <name>CventEvents__Tooltip_UpdateAttendeeOrRespondentOnlyAction</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Tooltip_UpdateMatchedRecordAction --></label>
         <name>CventEvents__Tooltip_UpdateMatchedRecordAction</name>
     </customLabels>
     <customLabels>
         <label><!-- Tooltip_UpdateRecentRecordAction --></label>
         <name>CventEvents__Tooltip_UpdateRecentRecordAction</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tooltip_UpdateRespondentOnlyAction --></label>
+        <name>CventEvents__Tooltip_UpdateRespondentOnlyAction</name>
     </customLabels>
     <customLabels>
         <label><!-- Tooltip_UpsertSessionCampaignMembers --></label>
@@ -2387,6 +3351,14 @@
     <customLabels>
         <label><!-- Tue --></label>
         <name>CventEvents__Tue</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Tuesday --></label>
+        <name>CventEvents__Tuesday</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- UnableToRestoreDefaultStatusMapping_Tooltip --></label>
+        <name>CventEvents__UnableToRestoreDefaultStatusMapping_Tooltip</name>
     </customLabels>
     <customLabels>
         <label><!-- Unlink --></label>
@@ -2437,6 +3409,10 @@
         <name>CventEvents__UpdateEventPermissionsError</name>
     </customLabels>
     <customLabels>
+        <label><!-- UpdateMatchedRecordActionTooltip --></label>
+        <name>CventEvents__UpdateMatchedRecordActionTooltip</name>
+    </customLabels>
+    <customLabels>
         <label><!-- UpdateMetadata --></label>
         <name>CventEvents__UpdateMetadata</name>
     </customLabels>
@@ -2445,8 +3421,20 @@
         <name>CventEvents__UpdateMetadataError</name>
     </customLabels>
     <customLabels>
+        <label><!-- UpdateMetadataInfoMessage --></label>
+        <name>CventEvents__UpdateMetadataInfoMessage</name>
+    </customLabels>
+    <customLabels>
         <label><!-- UpdateMetadataSuccessMessage --></label>
         <name>CventEvents__UpdateMetadataSuccessMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- UpdatePicklistValuesErrorMessage --></label>
+        <name>CventEvents__UpdatePicklistValuesErrorMessage</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- UpdateRecentRecordActionTooltip --></label>
+        <name>CventEvents__UpdateRecentRecordActionTooltip</name>
     </customLabels>
     <customLabels>
         <label><!-- UpsertAttendeeActivitiesError --></label>
@@ -2471,6 +3459,10 @@
     <customLabels>
         <label><!-- UpsertCampaignMembersError --></label>
         <name>CventEvents__UpsertSessionCampaignsError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- UpsertSurveyAnswersError --></label>
+        <name>CventEvents__UpsertSurveyAnswersError</name>
     </customLabels>
     <customLabels>
         <label><!-- UseDefaultRecordType --></label>
@@ -2505,6 +3497,14 @@
         <name>CventEvents__Wed</name>
     </customLabels>
     <customLabels>
+        <label><!-- Wednesday --></label>
+        <name>CventEvents__Wednesday</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- Weekly --></label>
+        <name>CventEvents__Weekly</name>
+    </customLabels>
+    <customLabels>
         <label><!-- WhereClauseIsTooLong --></label>
         <name>CventEvents__WhereClauseIsTooLong</name>
     </customLabels>
@@ -2519,6 +3519,14 @@
     <customLabels>
         <label><!-- You&apos;re not the approver for bulk approve/reject --></label>
         <name>CventEvents__YouAreNotTheApproverBulk</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- YouAreNotTheRequester --></label>
+        <name>CventEvents__YouAreNotTheRequester</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- YouAreNotTheRequesterBulk --></label>
+        <name>CventEvents__YouAreNotTheRequesterBulk</name>
     </customLabels>
     <customLabels>
         <label><!-- DeleteAllAlerts --></label>
@@ -2577,6 +3585,66 @@
         <name>KYDocStatusReceived</name>
     </customLabels>
     <customLabels>
+        <label><!-- PreferenceCenter_Contact_Not_Sync --></label>
+        <name>PreferenceCenter_Contact_Not_Sync</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PreferenceCenter_Duplicate_Subscription_Msg --></label>
+        <name>PreferenceCenter_Duplicate_Subscription_Msg</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PreferenceCenter_General_Error_Msg --></label>
+        <name>PreferenceCenter_General_Error_Msg</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PreferenceCenter_Subscription_Creation_Msg --></label>
+        <name>PreferenceCenter_Subscription_Creation_Msg</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PreferenceCenter_Subscription_Deletion_Msg --></label>
+        <name>PreferenceCenter_Subscription_Deletion_Msg</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PreferenceCenter_Subscription_Update_Msg --></label>
+        <name>PreferenceCenter_Subscription_Update_Msg</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PreferenceCenter_Subscriptions_Creation_Confirmation_Msg --></label>
+        <name>PreferenceCenter_Subscriptions_Creation_Confirmation_Msg</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PreferenceCenter_Subscriptions_Creation_Msg --></label>
+        <name>PreferenceCenter_Subscriptions_Creation_Msg</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PreferenceCenter_Subscriptions_Deletion_Confirmation_Msg --></label>
+        <name>PreferenceCenter_Subscriptions_Deletion_Confirmation_Msg</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- PreferenceCenter_Subscriptions_Deletion_Msg --></label>
+        <name>PreferenceCenter_Subscriptions_Deletion_Msg</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- dmlmanager_errorMessage_insufficientAccessField --></label>
+        <name>Profile2PermSet__dmlmanager_errorMessage_insufficientAccessField</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- symph dmlmanager errormessage insufficientAccessObject --></label>
+        <name>Profile2PermSet__dmlmanager_errorMessage_insufficientAccessObject</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- dmlmanager_errorMessage_unknownField --></label>
+        <name>Profile2PermSet__dmlmanager_errorMessage_unknownField</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- dmlmanager_errorMessage_unknownObject --></label>
+        <name>Profile2PermSet__dmlmanager_errorMessage_unknownObject</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- dmlmanager_errormessage_unknownaccess --></label>
+        <name>Profile2PermSet__dmlmanager_errormessage_unknownaccess</name>
+    </customLabels>
+    <customLabels>
         <label><!-- RedirectAlerts --></label>
         <name>RedirectAlerts</name>
     </customLabels>
@@ -2587,6 +3655,10 @@
     <customLabels>
         <label><!-- Risk level Error Message --></label>
         <name>Risk_level_Error_Message</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- SESSIONS LIMIT --></label>
+        <name>SESSIONS_LIMIT</name>
     </customLabels>
     <customLabels>
         <label><!-- SyncingToWebsite --></label>
@@ -2693,6 +3765,82 @@
         <name>Website_Sync_Failed</name>
     </customLabels>
     <customLabels>
+        <label><!-- fpro_AppExchangeLink --></label>
+        <name>fpro__fpro_AppExchangeLink</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- fpro_AppMoreResults --></label>
+        <name>fpro__fpro_AppMoreResults</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- fpro_FieldProDef --></label>
+        <name>fpro__fpro_FieldProDef</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- fpro_FieldScoreDef --></label>
+        <name>fpro__fpro_FieldScoreDef</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- fpro_FieldScoreNoteOld --></label>
+        <name>fpro__fpro_FieldScoreNoteOld</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- fpro_FieldScoreNoteUsageMissing --></label>
+        <name>fpro__fpro_FieldScoreNoteUsageMissing</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- fpro_FieldScoreNoteUsageNoRecs --></label>
+        <name>fpro__fpro_FieldScoreNoteUsageNoRecs</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- fpro_ObjectRunServiceWarning --></label>
+        <name>fpro__fpro_ObjectRunServiceWarning</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- fpro_RunServiceError --></label>
+        <name>fpro__fpro_RunServiceError</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- fpro_RunServiceSuccess --></label>
+        <name>fpro__fpro_RunServiceSuccess</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- fpro_ServiceMcdDef --></label>
+        <name>fpro__fpro_ServiceMcdDef</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- fpro_ServiceMcdMissing --></label>
+        <name>fpro__fpro_ServiceMcdMissing</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- fpro_ServiceMcdNoteOld --></label>
+        <name>fpro__fpro_ServiceMcdNoteOld</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- fpro_ServiceUsageDef --></label>
+        <name>fpro__fpro_ServiceUsageDef</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- fpro_ServiceUsageMissing --></label>
+        <name>fpro__fpro_ServiceUsageMissing</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- fpro_ServiceUsageNoteNoRecs --></label>
+        <name>fpro__fpro_ServiceUsageNoteNoRecs</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- fpro_ServiceUsageNoteOld --></label>
+        <name>fpro__fpro_ServiceUsageNoteOld</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- fpro_ServicesRunning --></label>
+        <name>fpro__fpro_ServicesRunning</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- fpro_SupportEmail --></label>
+        <name>fpro__fpro_SupportEmail</name>
+    </customLabels>
+    <customLabels>
         <label><!-- Pardot Production Api Base Url --></label>
         <name>pi__Pardot_Production_Api_Base_Url</name>
     </customLabels>
@@ -2707,6 +3855,10 @@
     <customTabs>
         <label><!-- Opportunity Dashboard --></label>
         <name>Opportunity_Dashboard</name>
+    </customTabs>
+    <customTabs>
+        <label><!-- Salesforce Support Page --></label>
+        <name>Salesforce_Support_Page</name>
     </customTabs>
     <customTabs>
         <label><!-- Strategies --></label>
@@ -2873,6 +4025,64 @@
         <fullName>Contact_PB012_DeleteCampaignMember_OnUpdateStatus</fullName>
     </flowDefinitions>
     <flowDefinitions>
+        <flows>
+            <screens>
+                <fields>
+                    <inputParameters>
+                        <name>fieldApiName</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>label</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>objectApiName</name>
+                        <value/>
+                    </inputParameters>
+                    <name>BusinessDeveloper</name>
+                </fields>
+                <fields>
+                    <name>Note_Title</name>
+                </fields>
+                <fields>
+                    <name>Product</name>
+                </fields>
+                <fields>
+                    <name>SelectMembers</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>disabled</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>label</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>messageToggleActive</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>messageToggleInactive</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>value</name>
+                        <value/>
+                    </inputParameters>
+                    <name>SelectSpecificMembers</name>
+                </fields>
+                <fields>
+                    <name>el_0</name>
+                </fields>
+                <name>Create_Event_Note</name>
+            </screens>
+        </flows>
+        <fullName>Create_Event_Note</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
         <flows/>
         <fullName>Due_Diligence_PB001_Notification_DD_Team</fullName>
     </flowDefinitions>
@@ -2883,6 +4093,172 @@
     <flowDefinitions>
         <flows/>
         <fullName>GAM_PB001_CreateGroup</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <screens>
+                <fields>
+                    <name>DataSolution</name>
+                </fields>
+                <fields>
+                    <name>Event</name>
+                </fields>
+                <fields>
+                    <name>Events</name>
+                </fields>
+                <fields>
+                    <name>Goals</name>
+                </fields>
+                <fields>
+                    <name>HomeDashboards_Section1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>HomeDashboards_Section1_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>HomeDashboards_Section1_Column2</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>HomeDashboards_Section1_Column3</name>
+                </fields>
+                <fields>
+                    <name>HomeDashboards_Section2</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>HomeDashboards_Section2_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>HomeDashboards_Section2_Column2</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>HomeDashboards_Section2_Column3</name>
+                </fields>
+                <fields>
+                    <name>HomeDashboards_Section3</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>HomeDashboards_Section3_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>HomeDashboards_Section3_Column2</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>HomeDashboards_Section3_Column3</name>
+                </fields>
+                <fields>
+                    <name>HomeDashboards_Section4</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>HomeDashboards_Section4_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>HomeDashboards_Section4_Column2</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>HomeDashboards_Section4_Column3</name>
+                </fields>
+                <fields>
+                    <name>HomeDashboards_Section5</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>HomeDashboards_Section5_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>HomeDashboards_Section5_Column2</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>HomeDashboards_Section5_Column3</name>
+                </fields>
+                <fields>
+                    <name>OpportunityOverview</name>
+                </fields>
+                <fields>
+                    <name>OpportunityTrends</name>
+                </fields>
+                <fields>
+                    <name>buylist</name>
+                </fields>
+                <fields>
+                    <name>dashboards</name>
+                </fields>
+                <fields>
+                    <name>trends</name>
+                </fields>
+                <fields>
+                    <name>winloss</name>
+                </fields>
+                <name>HomeDashboards</name>
+            </screens>
+        </flows>
+        <fullName>HomePageDashboards</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <textTemplates>
+                <name>EmailTemplate</name>
+            </textTemplates>
+        </flows>
+        <fullName>KYDDueDiligenceOversightReviewReminder</fullName>
     </flowDefinitions>
     <flowDefinitions>
         <flows/>
@@ -3007,6 +4383,10 @@
     </flowDefinitions>
     <flowDefinitions>
         <flows/>
+        <fullName>RTFL01_WTP_Create_task_before_due_date</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
         <fullName>RelatedPartyContact_PB01_Actions</fullName>
     </flowDefinitions>
     <flowDefinitions>
@@ -3042,6 +4422,133 @@
         <fullName>StrategicNews_SN001_PostChatter</fullName>
     </flowDefinitions>
     <flowDefinitions>
+        <flows>
+            <screens>
+                <fields>
+                    <name>Copy_1_of_Allocation</name>
+                </fields>
+                <fields>
+                    <name>Copy_1_of_FundsBenchmarkPerformance</name>
+                </fields>
+                <fields>
+                    <name>Copy_1_of_PC_AReport</name>
+                </fields>
+                <fields>
+                    <name>Copy_1_of_PerformanceAttribution</name>
+                </fields>
+                <fields>
+                    <name>Copy_1_of_PerformanceAttributionUBS</name>
+                </fields>
+                <fields>
+                    <name>Copy_1_of_PortfolioIndicatorsStatistics</name>
+                </fields>
+                <fields>
+                    <name>Copy_1_of_PortfolioTurnover</name>
+                </fields>
+                <fields>
+                    <name>Copy_1_of_TableauLink</name>
+                </fields>
+                <fields>
+                    <name>Copy_1_of_Tableau_Link_Section1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Copy_1_of_Tableau_Link_Section1_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Copy_1_of_Tableau_Link_Section1_Column2</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Copy_1_of_Tableau_Link_Section1_Column3</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Copy_1_of_Tableau_Link_Section1_Column4</name>
+                </fields>
+                <name>Copy_1_of_Tableau_Link</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>Type_of_request</name>
+                </fields>
+                <name>Provide_the_Type_of_request</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>Allocation</name>
+                </fields>
+                <fields>
+                    <name>FundsBenchmarkPerformance</name>
+                </fields>
+                <fields>
+                    <name>PC_AReport</name>
+                </fields>
+                <fields>
+                    <name>PerformanceAttribution</name>
+                </fields>
+                <fields>
+                    <name>PerformanceAttributionUBS</name>
+                </fields>
+                <fields>
+                    <name>PortfolioIndicatorsStatistics</name>
+                </fields>
+                <fields>
+                    <name>PortfolioTurnover</name>
+                </fields>
+                <fields>
+                    <name>TableauLink</name>
+                </fields>
+                <fields>
+                    <name>Tableau_Link_Section1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Tableau_Link_Section1_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Tableau_Link_Section1_Column2</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Tableau_Link_Section1_Column3</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Tableau_Link_Section1_Column4</name>
+                </fields>
+                <name>Tableau_Link</name>
+            </screens>
+        </flows>
+        <fullName>Tableau_Link_Display</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
         <flows/>
         <fullName>Ticket_PB001_AssignedTo_User</fullName>
     </flowDefinitions>
@@ -3050,8 +4557,127 @@
         <fullName>Ticket_PB002_Reported_By_User</fullName>
     </flowDefinitions>
     <flowDefinitions>
+        <flows>
+            <screens>
+                <fields>
+                    <name>Agreements</name>
+                </fields>
+                <fields>
+                    <name>Campaigns</name>
+                </fields>
+                <fields>
+                    <name>Compagnies</name>
+                </fields>
+                <fields>
+                    <name>Contacts</name>
+                </fields>
+                <fields>
+                    <name>EventMeetingNotes</name>
+                </fields>
+                <fields>
+                    <name>HowTo</name>
+                </fields>
+                <fields>
+                    <name>Leads</name>
+                </fields>
+                <fields>
+                    <name>Training_Videos_Section1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Training_Videos_Section1_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Training_Videos_Section1_Column2</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Training_Videos_Section1_Column3</name>
+                </fields>
+                <fields>
+                    <name>Training_Videos_Section2</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Training_Videos_Section2_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Training_Videos_Section2_Column2</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Training_Videos_Section2_Column3</name>
+                </fields>
+                <fields>
+                    <name>Training_Videos_Section3</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Training_Videos_Section3_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Training_Videos_Section3_Column2</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Training_Videos_Section3_Column3</name>
+                </fields>
+                <fields>
+                    <name>WTP</name>
+                </fields>
+                <fields>
+                    <name>reporting</name>
+                </fields>
+                <name>Training_Videos</name>
+            </screens>
+        </flows>
+        <fullName>Training_Videos_Screen</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
         <flows/>
         <fullName>UserStoty_PB001_US_AssignedTo_User</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>WTP_DMP8task_email_alert</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>WTP_DMP_Status_Notification</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows/>
+        <fullName>WTP_DMP_Task</fullName>
     </flowDefinitions>
     <flowDefinitions>
         <flows/>
@@ -3089,6 +4715,91 @@
         <flows/>
         <fullName>WorkTogether_PB11_CreateOnSiteDD</fullName>
     </flowDefinitions>
+    <prompts>
+        <name>NewWTPPerformanceManagementInAppGuidance</name>
+        <promptVersions>
+            <name>New WTP Performance Management In-App Guidance Step 6</name>
+            <stepNumber>6</stepNumber>
+        </promptVersions>
+        <promptVersions>
+            <name>New WTP Performance Management In-App Guidance Step 7</name>
+            <stepNumber>7</stepNumber>
+        </promptVersions>
+        <promptVersions>
+            <name>New WTP Performance Management In-App Guidance Step 8</name>
+            <stepNumber>8</stepNumber>
+        </promptVersions>
+        <promptVersions>
+            <name>New WTP Performance Management In-App Guidance Step 9</name>
+            <stepNumber>9</stepNumber>
+        </promptVersions>
+        <promptVersions>
+            <name>New WTP Performance Management In-App Guidance Step 10</name>
+            <stepNumber>10</stepNumber>
+        </promptVersions>
+        <promptVersions>
+            <name>New WTP Performance Management In-App Guidance Step 1</name>
+            <stepNumber>1</stepNumber>
+        </promptVersions>
+        <promptVersions>
+            <name>New WTP Performance Management In-App Guidance Step 2</name>
+            <stepNumber>2</stepNumber>
+        </promptVersions>
+        <promptVersions>
+            <name>New WTP Performance Management In-App Guidance Step 3</name>
+            <stepNumber>3</stepNumber>
+        </promptVersions>
+        <promptVersions>
+            <name>New WTP Performance Management In-App Guidance Step 4</name>
+            <stepNumber>4</stepNumber>
+        </promptVersions>
+        <promptVersions>
+            <name>New WTP Performance Management In-App Guidance Step 5</name>
+            <stepNumber>5</stepNumber>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>SalesforceSupportPageInAppGuidance</name>
+        <promptVersions>
+            <name>Salesforce Support Page In App Guidance Step 1</name>
+            <stepNumber>1</stepNumber>
+        </promptVersions>
+        <promptVersions>
+            <name>Salesforce Support Page In App Guidance Step 2</name>
+            <stepNumber>2</stepNumber>
+        </promptVersions>
+        <promptVersions>
+            <name>Salesforce Support Page In App Guidance Step 3</name>
+            <stepNumber>3</stepNumber>
+        </promptVersions>
+        <promptVersions>
+            <name>Salesforce Support Page In App Guidance Step 4</name>
+            <stepNumber>4</stepNumber>
+        </promptVersions>
+        <promptVersions>
+            <name>Salesforce Support Page In App Guidance Step 6</name>
+            <stepNumber>6</stepNumber>
+        </promptVersions>
+        <promptVersions>
+            <name>Salesforce Support Page In App Guidance Step 5</name>
+            <stepNumber>5</stepNumber>
+        </promptVersions>
+    </prompts>
+    <prompts>
+        <name>NewContactPageInAppguidance</name>
+        <promptVersions>
+            <name>New Contact Page In-App guidance Step 1</name>
+            <stepNumber>1</stepNumber>
+        </promptVersions>
+        <promptVersions>
+            <name>New Contact Page In-App guidance Step 2</name>
+            <stepNumber>2</stepNumber>
+        </promptVersions>
+        <promptVersions>
+            <name>New Contact Page In-App guidance Step 3</name>
+            <stepNumber>3</stepNumber>
+        </promptVersions>
+    </prompts>
     <quickActions>
         <label><!-- Follow Up --></label>
         <name>Follow_Up</name>
@@ -3137,4 +4848,1686 @@
         <label><!-- SendEmail --></label>
         <name>SendEmail</name>
     </quickActions>
+    <reportTypes>
+        <description><!-- Accounts with Relationship Status (custom) --></description>
+        <label><!-- Accounts with Relationship Status (custom) --></label>
+        <name>Accounts_with_Relationship_Status</name>
+        <sections>
+            <label><!-- Accounts --></label>
+            <name>Accounts</name>
+        </sections>
+        <sections>
+            <label><!-- Companies --></label>
+            <name>Companies</name>
+        </sections>
+        <sections>
+            <label><!-- Relationship Status --></label>
+            <name>Relationship Status</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Activities --></description>
+        <label><!-- Activities --></label>
+        <name>Activities</name>
+        <sections>
+            <label><!-- Activities --></label>
+            <name>Activities</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Activities With Contacts --></description>
+        <label><!-- Activities With Contacts --></label>
+        <name>Activities_With_Contacts</name>
+        <sections>
+            <label><!-- Accounts --></label>
+            <name>Accounts</name>
+        </sections>
+        <sections>
+            <label><!-- Activities --></label>
+            <name>Activities</name>
+        </sections>
+        <sections>
+            <label><!-- Companies --></label>
+            <name>Companies</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Activities with Campaigns --></description>
+        <label><!-- Activities with Campaigns --></label>
+        <name>Activities_with_Campaigns</name>
+        <sections>
+            <label><!-- Activities --></label>
+            <name>Activities</name>
+        </sections>
+        <sections>
+            <label><!-- Campaigns --></label>
+            <name>Campaigns</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Activities with contact and users --></description>
+        <label><!-- Activities with contact and users --></label>
+        <name>Activities_with_contact_and_users</name>
+        <sections>
+            <label><!-- Activities --></label>
+            <name>Activities</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Activities with contact information --></description>
+        <label><!-- Activities with contact information --></label>
+        <name>Activities_with_contact_information</name>
+        <sections>
+            <label><!-- Activities --></label>
+            <name>Activities</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Agreement - Approval History --></description>
+        <label><!-- Agreement - Approval History --></label>
+        <name>Agreement_Approval_History</name>
+        <sections>
+            <label><!-- Process Instance --></label>
+            <name>Process Instance</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Agreement By Company --></description>
+        <label><!-- Agreement By Company --></label>
+        <name>Agreement_By_Company</name>
+        <sections>
+            <label><!-- Accounts --></label>
+            <name>Accounts</name>
+        </sections>
+        <sections>
+            <label><!-- Agreement Related Contacts --></label>
+            <name>Agreement Related Contacts</name>
+        </sections>
+        <sections>
+            <label><!-- Agreements --></label>
+            <name>Agreements</name>
+        </sections>
+        <sections>
+            <label><!-- Companies --></label>
+            <name>Companies</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Agreement - Legal Entity --></description>
+        <label><!-- Agreement - Legal Entity --></label>
+        <name>Agreement_Legal_Entity</name>
+        <sections>
+            <label><!-- Legal Entities --></label>
+            <name>Legal Entities</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Agreement Roles Custom --></description>
+        <label><!-- Agreement Roles Custom --></label>
+        <name>Agreement_Roles_Custom</name>
+        <sections>
+            <label><!-- Agreements Roles --></label>
+            <name>Agreements Roles</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Agreement and Master Agreement --></description>
+        <label><!-- Agreement and Master Agreement --></label>
+        <name>Agreement_and_Master_Agreement</name>
+        <sections>
+            <label><!-- Agreements --></label>
+            <name>Agreements</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Agreement &amp; contacts --></description>
+        <label><!-- Agreement &amp; contacts --></label>
+        <name>Agreement_contacts</name>
+        <sections>
+            <label><!-- Agreement Related Contacts --></label>
+            <name>Agreement Related Contacts</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Agreement with or without children --></description>
+        <label><!-- Agreement with or without children --></label>
+        <name>Agreement_with_or_without_children</name>
+        <sections>
+            <label><!-- Agreements --></label>
+            <name>Agreements</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Agreements &amp; Companies &amp; Contacts --></description>
+        <label><!-- Agreements &amp; Companies &amp; Contacts --></label>
+        <name>Agreements_Companies_Contacts</name>
+        <sections>
+            <label><!-- Accounts --></label>
+            <name>Accounts</name>
+        </sections>
+        <sections>
+            <label><!-- Agreements --></label>
+            <name>Agreements</name>
+        </sections>
+        <sections>
+            <label><!-- Companies --></label>
+            <name>Companies</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Agreements with or without Documents --></description>
+        <label><!-- Agreements with or without Documents --></label>
+        <name>Agreements_without_documents</name>
+        <sections>
+            <label><!-- Agreement Documents --></label>
+            <name>Agreement Documents</name>
+        </sections>
+        <sections>
+            <label><!-- Agreements --></label>
+            <name>Agreements</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Bounce_Report --></description>
+        <label><!-- Bounce_Report --></label>
+        <name>Bounce_Report</name>
+        <sections>
+            <label><!-- Campaign History --></label>
+            <name>Campaign History</name>
+        </sections>
+        <sections>
+            <label><!-- Contacts --></label>
+            <name>Contacts</name>
+        </sections>
+        <sections>
+            <label><!-- List Emails --></label>
+            <name>List Emails</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Bounce_Report_2 --></description>
+        <label><!-- Bounce_Report_2 --></label>
+        <name>Bounce_Report_2</name>
+        <sections>
+            <label><!-- Campaign History --></label>
+            <name>Campaign History</name>
+        </sections>
+        <sections>
+            <label><!-- Contacts --></label>
+            <name>Contacts</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Buy List --></description>
+        <label><!-- Buy List --></label>
+        <name>Buy_List</name>
+        <sections>
+            <label><!-- Buy List Items --></label>
+            <name>Buy List Items</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Buy List Items with Companies --></description>
+        <label><!-- Buy List Items with Companies --></label>
+        <name>Buy_List_Items_with_Companies</name>
+        <sections>
+            <label><!-- Accounts --></label>
+            <name>Accounts</name>
+        </sections>
+        <sections>
+            <label><!-- Buy List Items (Company) --></label>
+            <name>Buy List Items (Company)</name>
+        </sections>
+        <sections>
+            <label><!-- Companies --></label>
+            <name>Companies</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Campaign Members &amp; activities --></description>
+        <label><!-- Campaign Members &amp; activities --></label>
+        <name>Campaign_Members_activities</name>
+        <sections>
+            <label><!-- Activities --></label>
+            <name>Activities</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Campaign with Campaign members and Leads --></description>
+        <label><!-- Campaign with Campaign members and Leads --></label>
+        <name>Campaign_with_Campaign_members_and_Leads</name>
+        <sections>
+            <label><!-- Campaign Members --></label>
+            <name>Campaign Members</name>
+        </sections>
+        <sections>
+            <label><!-- Campaigns --></label>
+            <name>Campaigns</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Campaign with Speakers --></description>
+        <label><!-- Campaign with Speakers --></label>
+        <name>Campaign_with_Speakers</name>
+        <sections>
+            <label><!-- Campaigns --></label>
+            <name>Campaigns</name>
+        </sections>
+        <sections>
+            <label><!-- Speakers --></label>
+            <name>Speakers</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Campaign with more info on the contact --></description>
+        <label><!-- Campaign with more info on the contact --></label>
+        <name>Campaign_with_contact_more_info</name>
+        <sections>
+            <label><!-- Campaigns --></label>
+            <name>Campaigns</name>
+        </sections>
+        <sections>
+            <label><!-- Contact --></label>
+            <name>Contact</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Campaigns and related activities --></description>
+        <label><!-- Campaigns and related activities --></label>
+        <name>CampaignsAndRelatedActivities</name>
+        <sections>
+            <label><!-- Campaigns --></label>
+            <name>Campaigns</name>
+        </sections>
+        <sections>
+            <label><!-- Related meeting &amp; calls --></label>
+            <name>Related meeting &amp; calls</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Campaigns_Speakers --></description>
+        <label><!-- Campaigns_Speakers --></label>
+        <name>Campaigns_Speakers</name>
+        <sections>
+            <label><!-- Campaigns --></label>
+            <name>Campaigns</name>
+        </sections>
+        <sections>
+            <label><!-- Speakers --></label>
+            <name>Speakers</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Campaigns &amp; members --></description>
+        <label><!-- Campaigns &amp; members --></label>
+        <name>Campaigns_members</name>
+        <sections>
+            <label><!-- Activities --></label>
+            <name>Activities</name>
+        </sections>
+        <sections>
+            <label><!-- Campaigns --></label>
+            <name>Campaigns</name>
+        </sections>
+        <sections>
+            <label><!-- Contacts --></label>
+            <name>Contacts</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Carmignac Campaigns --></description>
+        <label><!-- Carmignac Campaigns --></label>
+        <name>Campaigns_with_campaign_members_custom</name>
+        <sections>
+            <label><!-- Campaign Members --></label>
+            <name>Campaign Members</name>
+        </sections>
+        <sections>
+            <label><!-- Campaigns --></label>
+            <name>Campaigns</name>
+        </sections>
+        <sections>
+            <label><!-- Info Users --></label>
+            <name>Info Users</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Campaigns with campaign members simplified --></description>
+        <label><!-- Campaigns with campaign members simplified --></label>
+        <name>Campaigns_with_campaign_members_custom2</name>
+        <sections>
+            <label><!-- Campaign 2 --></label>
+            <name>Campaign 2</name>
+        </sections>
+        <sections>
+            <label><!-- Campaign Members --></label>
+            <name>Campaign Members</name>
+        </sections>
+        <sections>
+            <label><!-- Info Users --></label>
+            <name>Info Users</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Campaigns with campaign members spe --></description>
+        <label><!-- Campaigns with campaign members spe --></label>
+        <name>Campaigns_with_campaign_members_spe</name>
+        <sections>
+            <label><!-- Campaign Members --></label>
+            <name>Campaign Members</name>
+        </sections>
+        <sections>
+            <label><!-- Campaigns --></label>
+            <name>Campaigns</name>
+        </sections>
+        <sections>
+            <label><!-- Info Users --></label>
+            <name>Info Users</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Contacts &amp; Companies (Simplified) --></description>
+        <label><!-- Contacts &amp; Companies (Simplified) --></label>
+        <name>CompaniesWithContactsCustom</name>
+        <sections>
+            <label><!-- Accounts --></label>
+            <name>Accounts</name>
+        </sections>
+        <sections>
+            <label><!-- Companies --></label>
+            <name>Companies</name>
+        </sections>
+        <sections>
+            <label><!-- Contacts --></label>
+            <name>Contacts</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Companies, Contacts with activities --></description>
+        <label><!-- Companies, Contacts with activities --></label>
+        <name>Companies_Contacts_with_activities</name>
+        <sections>
+            <label><!-- Accounts --></label>
+            <name>Accounts</name>
+        </sections>
+        <sections>
+            <label><!-- Activities --></label>
+            <name>Activities</name>
+        </sections>
+        <sections>
+            <label><!-- Companies --></label>
+            <name>Companies</name>
+        </sections>
+        <sections>
+            <label><!-- Contacts --></label>
+            <name>Contacts</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Companies Hierarchy --></description>
+        <label><!-- Companies Hierarchy --></label>
+        <name>Companies_Hierarchy</name>
+        <sections>
+            <label><!-- Accounts --></label>
+            <name>Accounts</name>
+        </sections>
+        <sections>
+            <label><!-- Companies --></label>
+            <name>Companies</name>
+        </sections>
+        <sections>
+            <label><!-- Contacts --></label>
+            <name>Contacts</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Companies With or Without Activities --></description>
+        <label><!-- Companies With or Without Activities --></label>
+        <name>Companies_With_or_Without_Activities</name>
+        <sections>
+            <label><!-- Accounts --></label>
+            <name>Accounts</name>
+        </sections>
+        <sections>
+            <label><!-- Activities --></label>
+            <name>Activities</name>
+        </sections>
+        <sections>
+            <label><!-- Companies --></label>
+            <name>Companies</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Companies and Contacts with Activity --></description>
+        <label><!-- Companies and Contacts with Activity --></label>
+        <name>Companies_and_Contacts_with_Activity</name>
+        <sections>
+            <label><!-- Accounts --></label>
+            <name>Accounts</name>
+        </sections>
+        <sections>
+            <label><!-- Activities --></label>
+            <name>Activities</name>
+        </sections>
+        <sections>
+            <label><!-- Companies --></label>
+            <name>Companies</name>
+        </sections>
+        <sections>
+            <label><!-- Contacts --></label>
+            <name>Contacts</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Companies with Agreements with Transactions --></description>
+        <label><!-- Companies with Agreements with Transactions --></label>
+        <name>Companies_with_Agreements_with_Transactions</name>
+        <sections>
+            <label><!-- Agreements --></label>
+            <name>Agreements</name>
+        </sections>
+        <sections>
+            <label><!-- Companies --></label>
+            <name>Companies</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Companies with Conventions with Transactions --></description>
+        <label><!-- Companies with Conventions with Transactions --></label>
+        <name>Companies_with_Conventions_with_Transactions</name>
+        <sections>
+            <label><!-- Agreements --></label>
+            <name>Agreements</name>
+        </sections>
+        <sections>
+            <label><!-- Companies --></label>
+            <name>Companies</name>
+        </sections>
+        <sections>
+            <label><!-- Conventions --></label>
+            <name>Conventions</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Companies with Legal Entities --></description>
+        <label><!-- Companies with Legal Entities --></label>
+        <name>Companies_with_Legal_Entities</name>
+        <sections>
+            <label><!-- Accounts --></label>
+            <name>Accounts</name>
+        </sections>
+        <sections>
+            <label><!-- Legal Entities --></label>
+            <name>Legal Entities</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Companies with Meeting Notes --></description>
+        <label><!-- Companies with Meeting Notes --></label>
+        <name>Companies_with_Meeting_Notes</name>
+        <sections>
+            <label><!-- Companies --></label>
+            <name>Companies</name>
+        </sections>
+        <sections>
+            <label><!-- Company --></label>
+            <name>Company</name>
+        </sections>
+        <sections>
+            <label><!-- Meeting Notes --></label>
+            <name>Meeting Notes</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Companies with or without Agreements --></description>
+        <label><!-- Companies with or without Agreements --></label>
+        <name>Companies_with_or_without_Agreements</name>
+        <sections>
+            <label><!-- Accounts --></label>
+            <name>Accounts</name>
+        </sections>
+        <sections>
+            <label><!-- Agreements --></label>
+            <name>Agreements</name>
+        </sections>
+        <sections>
+            <label><!-- Companies --></label>
+            <name>Companies</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Companies with strategic news --></description>
+        <label><!-- Companies with strategic news --></label>
+        <name>Companies_with_strategic_news</name>
+        <sections>
+            <label><!-- Accounts --></label>
+            <name>Accounts</name>
+        </sections>
+        <sections>
+            <label><!-- Companies --></label>
+            <name>Companies</name>
+        </sections>
+        <sections>
+            <label><!-- Strategic News --></label>
+            <name>Strategic News</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Company - Agreement - Legal Entity --></description>
+        <label><!-- Company - Agreement - Legal Entity --></label>
+        <name>Company_Agreement_Legal_Entity</name>
+        <sections>
+            <label><!-- Accounts --></label>
+            <name>Accounts</name>
+        </sections>
+        <sections>
+            <label><!-- Companies --></label>
+            <name>Companies</name>
+        </sections>
+        <sections>
+            <label><!-- Legal Entities --></label>
+            <name>Legal Entities</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Company - Legale Entity - Agreement Roles --></description>
+        <label><!-- Company - Legale Entity - Agreement Roles --></label>
+        <name>Company_Legale_Entity_Agreement_Roles</name>
+        <sections>
+            <label><!-- Accounts --></label>
+            <name>Accounts</name>
+        </sections>
+        <sections>
+            <label><!-- Agreement Roles --></label>
+            <name>Agreement Roles</name>
+        </sections>
+        <sections>
+            <label><!-- Agreements --></label>
+            <name>Agreements</name>
+        </sections>
+        <sections>
+            <label><!-- Agreements Roles --></label>
+            <name>Agreements Roles</name>
+        </sections>
+        <sections>
+            <label><!-- Companies --></label>
+            <name>Companies</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Contact + User --></description>
+        <label><!-- Contact + User --></label>
+        <name>Contact_User</name>
+        <sections>
+            <label><!-- Accounts --></label>
+            <name>Accounts</name>
+        </sections>
+        <sections>
+            <label><!-- Companies --></label>
+            <name>Companies</name>
+        </sections>
+        <sections>
+            <label><!-- Contacts --></label>
+            <name>Contacts</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Contacts&amp;Companies with Activities --></description>
+        <label><!-- Contacts&amp;Companies with Activities --></label>
+        <name>Contacts_Companies_with_Activities</name>
+        <sections>
+            <label><!-- Account Relationships --></label>
+            <name>Account Relationships</name>
+        </sections>
+        <sections>
+            <label><!-- Activities --></label>
+            <name>Activities</name>
+        </sections>
+        <sections>
+            <label><!-- Companies --></label>
+            <name>Companies</name>
+        </sections>
+        <sections>
+            <label><!-- Contacts --></label>
+            <name>Contacts</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Contacts and related agreements --></description>
+        <label><!-- Contacts and related agreements --></label>
+        <name>Contacts_and_related_agreements</name>
+        <sections>
+            <label><!-- Agreement --></label>
+            <name>Agreement</name>
+        </sections>
+        <sections>
+            <label><!-- Agreement Related Contacts --></label>
+            <name>Agreement Related Contacts</name>
+        </sections>
+        <sections>
+            <label><!-- Contact --></label>
+            <name>Contact</name>
+        </sections>
+        <sections>
+            <label><!-- Contacts --></label>
+            <name>Contacts</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Contacts and related companies with third parties --></description>
+        <label><!-- Contacts and related companies with third parties --></label>
+        <name>Contacts_and_related_companies</name>
+        <sections>
+            <label><!-- Companies --></label>
+            <name>Companies</name>
+        </sections>
+        <sections>
+            <label><!-- Contacts --></label>
+            <name>Contacts</name>
+        </sections>
+        <sections>
+            <label><!-- Related Third Parties --></label>
+            <name>Related Third Parties</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Contacts with Account Contact Relationship --></description>
+        <label><!-- Contacts with Account Contact Relationship --></label>
+        <name>Contacts_with_Account_Relationship</name>
+        <sections>
+            <label><!-- Account Relationships --></label>
+            <name>Account Relationships</name>
+        </sections>
+        <sections>
+            <label><!-- Contacts --></label>
+            <name>Contacts</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Contacts with Activities --></description>
+        <label><!-- Contacts with Activities --></label>
+        <name>Contacts_with_Activities</name>
+        <sections>
+            <label><!-- Activities --></label>
+            <name>Activities</name>
+        </sections>
+        <sections>
+            <label><!-- Contacts --></label>
+            <name>Contacts</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Contacts with BrightTALK Activity --></description>
+        <label><!-- Contacts with BrightTALK Activity --></label>
+        <name>Contacts_with_BrightTALK_Activitytest</name>
+        <sections>
+            <label><!-- Accounts --></label>
+            <name>Accounts</name>
+        </sections>
+        <sections>
+            <label><!-- BrightTALK Subscriber Activities --></label>
+            <name>BrightTALK Subscriber Activities</name>
+        </sections>
+        <sections>
+            <label><!-- BrightTALK Webcast --></label>
+            <name>BrightTALK Webcast</name>
+        </sections>
+        <sections>
+            <label><!-- Companies --></label>
+            <name>Companies</name>
+        </sections>
+        <sections>
+            <label><!-- Contacts --></label>
+            <name>Contacts</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Contacts with BrightTALK Subscriber Activities --></description>
+        <label><!-- Contacts with BrightTALK Subscriber Activities --></label>
+        <name>Contacts_with_BrightTALK_Subscriber_Activities</name>
+        <sections>
+            <label><!-- BrightTALK Subscriber Activities --></label>
+            <name>BrightTALK Subscriber Activities</name>
+        </sections>
+        <sections>
+            <label><!-- Contacts --></label>
+            <name>Contacts</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Contacts with Campaign Members --></description>
+        <label><!-- Contacts with Campaign Members --></label>
+        <name>Contacts_with_Campaign_Members</name>
+        <sections>
+            <label><!-- Campaign History --></label>
+            <name>Campaign History</name>
+        </sections>
+        <sections>
+            <label><!-- Contact --></label>
+            <name>Contact</name>
+        </sections>
+        <sections>
+            <label><!-- Contacts --></label>
+            <name>Contacts</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Contacts with Employment History --></description>
+        <label><!-- Contacts with Employment History --></label>
+        <name>Contacts_with_Employment_History</name>
+        <sections>
+            <label><!-- Contacts --></label>
+            <name>Contacts</name>
+        </sections>
+        <sections>
+            <label><!-- Employment History --></label>
+            <name>Employment History</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Contacts with/out Activities --></description>
+        <label><!-- Contacts with/out Activities --></label>
+        <name>Contacts_with_out_Activities</name>
+        <sections>
+            <label><!-- Activities --></label>
+            <name>Activities</name>
+        </sections>
+        <sections>
+            <label><!-- Contacts --></label>
+            <name>Contacts</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Contacts without Companies --></description>
+        <label><!-- Contacts without Companies --></label>
+        <name>Contacts_without_companies</name>
+        <sections>
+            <label><!-- Account Relationships --></label>
+            <name>Account Relationships</name>
+        </sections>
+        <sections>
+            <label><!-- Contacts --></label>
+            <name>Contacts</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Contacts with Activities (Custom) --></description>
+        <label><!-- Contacts with Activities (Custom) --></label>
+        <name>ContactswithActivitiesCustom</name>
+        <sections>
+            <label><!-- Activities --></label>
+            <name>Activities</name>
+        </sections>
+        <sections>
+            <label><!-- Contacts --></label>
+            <name>Contacts</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Conventions &amp; Transactions &amp; Company (Custom) --></description>
+        <label><!-- Conventions &amp; Transactions &amp; Company (Custom) --></label>
+        <name>ConventionsTransactionsCompanyCustom</name>
+        <sections>
+            <label><!-- Agreements --></label>
+            <name>Agreements</name>
+        </sections>
+        <sections>
+            <label><!-- Conventions --></label>
+            <name>Conventions</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Dashboard governance --></description>
+        <label><!-- Dashboard governance --></label>
+        <name>Dashboard_governance</name>
+        <sections>
+            <label><!-- Dashboard Components --></label>
+            <name>Dashboard Components</name>
+        </sections>
+        <sections>
+            <label><!-- Reports --></label>
+            <name>Reports</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Dashboard last run --></description>
+        <label><!-- Dashboard last run --></label>
+        <name>Dashboard_last_run</name>
+        <sections>
+            <label><!-- Dashboard Components --></label>
+            <name>Dashboard Components</name>
+        </sections>
+        <sections>
+            <label><!-- Dashboards --></label>
+            <name>Dashboards</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- DuplicateRecordSet --></description>
+        <label><!-- DuplicateRecordSet --></label>
+        <name>DuplicateRecordSet</name>
+        <sections>
+            <label><!-- Duplicate Record Items --></label>
+            <name>Duplicate Record Items</name>
+        </sections>
+        <sections>
+            <label><!-- Duplicate Record Sets --></label>
+            <name>Duplicate Record Sets</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Duplicate on Lead --></description>
+        <label><!-- Duplicate on Lead --></label>
+        <name>Duplicate_on_Lead</name>
+        <sections>
+            <label><!-- Duplicate Record Items --></label>
+            <name>Duplicate Record Items</name>
+        </sections>
+        <sections>
+            <label><!-- Leads --></label>
+            <name>Leads</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Duplicates Contacts --></description>
+        <label><!-- Duplicates Contacts --></label>
+        <name>Duplicates_Contacts</name>
+        <sections>
+            <label><!-- Contacts --></label>
+            <name>Contacts</name>
+        </sections>
+        <sections>
+            <label><!-- Duplicate Record Items --></label>
+            <name>Duplicate Record Items</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Duplicates on Contacts --></description>
+        <label><!-- Duplicates on Contacts --></label>
+        <name>Duplicates_on_Contacts</name>
+        <sections>
+            <label><!-- Contacts --></label>
+            <name>Contacts</name>
+        </sections>
+        <sections>
+            <label><!-- Duplicate Record Items --></label>
+            <name>Duplicate Record Items</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Easy Log and Users --></description>
+        <label><!-- Easy Log and Users --></label>
+        <name>Easy_Log_and_Users</name>
+        <sections>
+            <label><!-- Easy Log --></label>
+            <name>Easy Log</name>
+        </sections>
+        <sections>
+            <label><!-- Users --></label>
+            <name>Users</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Events and Campaigns --></description>
+        <label><!-- Events and Campaigns --></label>
+        <name>Events_and_Campaigns</name>
+        <sections>
+            <label><!-- Activities --></label>
+            <name>Activities</name>
+        </sections>
+        <sections>
+            <label><!-- Campaigns --></label>
+            <name>Campaigns</name>
+        </sections>
+        <sections>
+            <label><!-- Related meeting &amp; calls --></label>
+            <name>Related meeting &amp; calls</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- GAM --></description>
+        <label><!-- GAM --></label>
+        <name>GAM</name>
+        <sections>
+            <label><!-- Accounts --></label>
+            <name>Accounts</name>
+        </sections>
+        <sections>
+            <label><!-- Companies --></label>
+            <name>Companies</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- KYD Documents --></description>
+        <label><!-- KYD Documents --></label>
+        <name>KYD_Documents</name>
+        <sections>
+            <label><!-- KYD Document Items --></label>
+            <name>KYD Document Items</name>
+        </sections>
+        <sections>
+            <label><!-- KYD Documents --></label>
+            <name>KYD Documents</name>
+        </sections>
+        <sections>
+            <label><!-- KYD Due Diligence Oversights --></label>
+            <name>KYD Due Diligence Oversights</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Leads with BrightTALK Activity --></description>
+        <label><!-- Leads with BrightTALK Activity --></label>
+        <name>Leads_with_BrightTALK_Activity</name>
+        <sections>
+            <label><!-- BrightTALK Subscriber Activities --></label>
+            <name>BrightTALK Subscriber Activities</name>
+        </sections>
+        <sections>
+            <label><!-- BrightTALK Webcast --></label>
+            <name>BrightTALK Webcast</name>
+        </sections>
+        <sections>
+            <label><!-- Leads --></label>
+            <name>Leads</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Leads with BrightTALK Subscriber Activities --></description>
+        <label><!-- Leads with BrightTALK Subscriber Activities --></label>
+        <name>Leads_with_BrightTALK_Subscriber_Activities</name>
+        <sections>
+            <label><!-- BrightTALK Subscriber Activities --></label>
+            <name>BrightTALK Subscriber Activities</name>
+        </sections>
+        <sections>
+            <label><!-- Leads --></label>
+            <name>Leads</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Leads with duplicate --></description>
+        <label><!-- Leads with duplicate --></label>
+        <name>Leads_with_duplicate</name>
+        <sections>
+            <label><!-- Duplicate Record Items --></label>
+            <name>Duplicate Record Items</name>
+        </sections>
+        <sections>
+            <label><!-- Duplicate Record Sets --></label>
+            <name>Duplicate Record Sets</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Legal Entities with KYC Entity --></description>
+        <label><!-- Legal Entities with KYC Entity --></label>
+        <name>Legal_Entities_with_KYC</name>
+        <sections>
+            <label><!-- KYC Related Parties Entity (Legal Entity) --></label>
+            <name>KYC Related Parties Entity (Legal Entity)</name>
+        </sections>
+        <sections>
+            <label><!-- Legal Entities --></label>
+            <name>Legal Entities</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Legal Entities with KYC Entity Individuals --></description>
+        <label><!-- Legal Entities with KYC Entity Individuals --></label>
+        <name>Legal_Entities_with_KYC_Individuals</name>
+        <sections>
+            <label><!-- KYC Related Parties Individuals --></label>
+            <name>KYC Related Parties Individuals</name>
+        </sections>
+        <sections>
+            <label><!-- Legal Entities --></label>
+            <name>Legal Entities</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- List Emails --></description>
+        <label><!-- List Emails --></label>
+        <name>List_Emails</name>
+        <sections>
+            <label><!-- List Email Sent Results --></label>
+            <name>List Email Sent Results</name>
+        </sections>
+        <sections>
+            <label><!-- List Emails --></label>
+            <name>List Emails</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Meeting Links --></description>
+        <label><!-- Meeting Links --></label>
+        <name>Meeting_Links</name>
+        <sections>
+            <label><!-- Meeting Links --></label>
+            <name>Meeting Links</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Meeting Notes per country --></description>
+        <label><!-- Meeting Notes per country --></label>
+        <name>Meeting_Notes_per_country</name>
+        <sections>
+            <label><!-- Activities --></label>
+            <name>Activities</name>
+        </sections>
+        <sections>
+            <label><!-- Meeting Notes --></label>
+            <name>Meeting Notes</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Meeting Notes with Meeting Links --></description>
+        <label><!-- Meeting Notes with Meeting Links --></label>
+        <name>Meeting_Notes_with_Meeting_Links</name>
+        <sections>
+            <label><!-- Meeting Links --></label>
+            <name>Meeting Links</name>
+        </sections>
+        <sections>
+            <label><!-- Meeting Notes --></label>
+            <name>Meeting Notes</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Meeting and call reports --></description>
+        <label><!-- Meeting and call reports --></label>
+        <name>Meeting_and_call_reports</name>
+        <sections>
+            <label><!-- Activities --></label>
+            <name>Activities</name>
+        </sections>
+        <sections>
+            <label><!-- Contact --></label>
+            <name>Contact</name>
+        </sections>
+        <sections>
+            <label><!-- Meeting Note --></label>
+            <name>Meeting Note</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Multi Contacts + WTP + Products --></description>
+        <label><!-- Multi Contacts + WTP + Products --></label>
+        <name>Multi_Contacts_WTP_Products</name>
+        <sections>
+            <label><!-- Multi Contacts --></label>
+            <name>Multi Contacts</name>
+        </sections>
+        <sections>
+            <label><!-- Work Together Processes --></label>
+            <name>Work Together Processes</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- New WTP With Products --></description>
+        <label><!-- New WTP With Products --></label>
+        <name>New_WTP_With_Products</name>
+        <sections>
+            <label><!-- Cases --></label>
+            <name>Cases</name>
+        </sections>
+        <sections>
+            <label><!-- Funds &amp; Strategy --></label>
+            <name>Funds &amp; Strategy</name>
+        </sections>
+        <sections>
+            <label><!-- Work Together Processes --></label>
+            <name>Work Together Processes</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- New Wtp With Contacts --></description>
+        <label><!-- New Wtp With Contacts --></label>
+        <name>New_Wtp_With_Contacts</name>
+        <sections>
+            <label><!-- Cases --></label>
+            <name>Cases</name>
+        </sections>
+        <sections>
+            <label><!-- Multi Contacts --></label>
+            <name>Multi Contacts</name>
+        </sections>
+        <sections>
+            <label><!-- Work Together Processes --></label>
+            <name>Work Together Processes</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Opportunities with Carmignac Products --></description>
+        <label><!-- Opportunities with Carmignac Products --></label>
+        <name>Opportunities_with_Carmignac_Products</name>
+        <sections>
+            <label><!-- Carmignac Opportunity Products --></label>
+            <name>Carmignac Opportunity Products</name>
+        </sections>
+        <sections>
+            <label><!-- Opportunities --></label>
+            <name>Opportunities</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Opportunities with DD --></description>
+        <label><!-- Opportunities with DD --></label>
+        <name>Opportunities_with_DD</name>
+        <sections>
+            <label><!-- Opportunities --></label>
+            <name>Opportunities</name>
+        </sections>
+        <sections>
+            <label><!-- Work Together Processes --></label>
+            <name>Work Together Processes</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Opportunities with Work Together Processes --></description>
+        <label><!-- Opportunities with Work Together Processes --></label>
+        <name>Opportunities_with_Work_Together_Processes</name>
+        <sections>
+            <label><!-- Opportunities --></label>
+            <name>Opportunities</name>
+        </sections>
+        <sections>
+            <label><!-- Work Together Processes --></label>
+            <name>Work Together Processes</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Opportunities with campaigns --></description>
+        <label><!-- Opportunities with campaigns --></label>
+        <name>Opportunities_with_campaigns</name>
+        <sections>
+            <label><!-- Campaign History --></label>
+            <name>Campaign History</name>
+        </sections>
+        <sections>
+            <label><!-- Contact Roles --></label>
+            <name>Contact Roles</name>
+        </sections>
+        <sections>
+            <label><!-- Opportunities --></label>
+            <name>Opportunities</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Pardot Emails --></description>
+        <label><!-- Pardot Emails --></label>
+        <name>Pardot_Emails</name>
+        <sections>
+            <label><!-- List Emails --></label>
+            <name>List Emails</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Product Cycle --></description>
+        <label><!-- Product Cycle --></label>
+        <name>Product_Cycle</name>
+        <sections>
+            <label><!-- Product Cycle --></label>
+            <name>Product Cycle</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Product Status report type --></description>
+        <label><!-- Product Status report type --></label>
+        <name>Product_Status_report_type</name>
+        <sections>
+            <label><!-- Product Status --></label>
+            <name>Product Status</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Products - Fund - Strategy --></description>
+        <label><!-- Products - Fund - Strategy --></label>
+        <name>Products_Fund_Strategy</name>
+        <sections>
+            <label><!-- Funds --></label>
+            <name>Funds</name>
+        </sections>
+        <sections>
+            <label><!-- Products --></label>
+            <name>Products</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Products with Buy List --></description>
+        <label><!-- Products with Buy List --></label>
+        <name>Products_with_Buy_List</name>
+        <sections>
+            <label><!-- Buy List Items --></label>
+            <name>Buy List Items</name>
+        </sections>
+        <sections>
+            <label><!-- Products --></label>
+            <name>Products</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Related Companies --></description>
+        <label><!-- Related Companies --></label>
+        <name>Related_Companies</name>
+        <sections>
+            <label><!-- Account Relationships --></label>
+            <name>Account Relationships</name>
+        </sections>
+        <sections>
+            <label><!-- Accounts --></label>
+            <name>Accounts</name>
+        </sections>
+        <sections>
+            <label><!-- Companies --></label>
+            <name>Companies</name>
+        </sections>
+        <sections>
+            <label><!-- Contacts --></label>
+            <name>Contacts</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Relationship Status --></description>
+        <label><!-- Relationship Status --></label>
+        <name>RelationshipStatus</name>
+        <sections>
+            <label><!-- Relationship Status --></label>
+            <name>Relationship Status</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Release - Sprint - US --></description>
+        <label><!-- Release - Sprint - US --></label>
+        <name>Release_Sprint_US</name>
+        <sections>
+            <label><!-- Release --></label>
+            <name>Release</name>
+        </sections>
+        <sections>
+            <label><!-- Sprints --></label>
+            <name>Sprints</name>
+        </sections>
+        <sections>
+            <label><!-- User Storys --></label>
+            <name>User Storys</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Reports with dashboards --></description>
+        <label><!-- Reports with dashboards --></label>
+        <name>Reports_with_dashboards</name>
+        <sections>
+            <label><!-- Dashboard Components --></label>
+            <name>Dashboard Components</name>
+        </sections>
+        <sections>
+            <label><!-- Reports --></label>
+            <name>Reports</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Sales Activity - Meeting and Call --></description>
+        <label><!-- Sales Activity - Meeting and Call --></label>
+        <name>Sales_Activity_Meeting_and_Call</name>
+        <sections>
+            <label><!-- Activities --></label>
+            <name>Activities</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Strategic News --></description>
+        <label><!-- Strategic News --></label>
+        <name>StrategicNews</name>
+        <sections>
+            <label><!-- Strategic News --></label>
+            <name>Strategic News</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Strategic Accounts Campaigns --></description>
+        <label><!-- Strategic Accounts Campaigns --></label>
+        <name>Strategic_Accounts_Campaigns</name>
+        <sections>
+            <label><!-- Campaigns --></label>
+            <name>Campaigns</name>
+        </sections>
+        <sections>
+            <label><!-- Specific filters --></label>
+            <name>Specific filters</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Strategic news report type --></description>
+        <label><!-- Strategic news report type --></label>
+        <name>Strategic_news_report</name>
+        <sections>
+            <label><!-- Strategic News --></label>
+            <name>Strategic News</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Tasks - Strategic News --></description>
+        <label><!-- Tasks - Strategic News --></label>
+        <name>Tasks_Strategic_News</name>
+        <sections>
+            <label><!-- Activities --></label>
+            <name>Activities</name>
+        </sections>
+        <sections>
+            <label><!-- Strategic News --></label>
+            <name>Strategic News</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Test Case Feed --></description>
+        <label><!-- Test Case Feed --></label>
+        <name>Test_Case_Feed</name>
+        <sections>
+            <label><!-- Case Feed --></label>
+            <name>Case Feed</name>
+        </sections>
+        <sections>
+            <label><!-- Cases --></label>
+            <name>Cases</name>
+        </sections>
+        <sections>
+            <label><!-- Work Together Processes --></label>
+            <name>Work Together Processes</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Test Easy Log --></description>
+        <label><!-- Test Easy Log --></label>
+        <name>Test_Easy_Log</name>
+        <sections>
+            <label><!-- Easy Log --></label>
+            <name>Easy Log</name>
+        </sections>
+        <sections>
+            <label><!-- Users --></label>
+            <name>Users</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Topics --></description>
+        <label><!-- Topics --></label>
+        <name>Topics</name>
+        <sections>
+            <label><!-- Topic Assignments --></label>
+            <name>Topic Assignments</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- User Storys - Sprint --></description>
+        <label><!-- User Storys - Sprint --></label>
+        <name>User_Storys_Sprint</name>
+        <sections>
+            <label><!-- Sprints --></label>
+            <name>Sprints</name>
+        </sections>
+        <sections>
+            <label><!-- User Storys --></label>
+            <name>User Storys</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- WTP &amp; Companies &amp; Funds --></description>
+        <label><!-- WTP &amp; Companies &amp; Funds --></label>
+        <name>WTP_Companies_Funds</name>
+        <sections>
+            <label><!-- Accounts --></label>
+            <name>Accounts</name>
+        </sections>
+        <sections>
+            <label><!-- Cases --></label>
+            <name>Cases</name>
+        </sections>
+        <sections>
+            <label><!-- Companies --></label>
+            <name>Companies</name>
+        </sections>
+        <sections>
+            <label><!-- Work Together Processes --></label>
+            <name>Work Together Processes</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- WTP + Contact + Product --></description>
+        <label><!-- WTP + Contact + Product --></label>
+        <name>WTP_Contact_Product</name>
+        <sections>
+            <label><!-- Cases --></label>
+            <name>Cases</name>
+        </sections>
+        <sections>
+            <label><!-- Contacts --></label>
+            <name>Contacts</name>
+        </sections>
+        <sections>
+            <label><!-- Funds &amp; Strategy --></label>
+            <name>Funds &amp; Strategy</name>
+        </sections>
+        <sections>
+            <label><!-- Work Together Processes --></label>
+            <name>Work Together Processes</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- WTP&amp;Funds --></description>
+        <label><!-- WTP&amp;Funds --></label>
+        <name>WTP_Funds</name>
+        <sections>
+            <label><!-- Cases --></label>
+            <name>Cases</name>
+        </sections>
+        <sections>
+            <label><!-- Work Together Process Products --></label>
+            <name>Work Together Process Products</name>
+        </sections>
+        <sections>
+            <label><!-- Work Together Processes --></label>
+            <name>Work Together Processes</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- WTP + Multi contact --></description>
+        <label><!-- WTP + Multi contact --></label>
+        <name>WTP_MC</name>
+        <sections>
+            <label><!-- Cases --></label>
+            <name>Cases</name>
+        </sections>
+        <sections>
+            <label><!-- Multi Contact --></label>
+            <name>Multi Contact</name>
+        </sections>
+        <sections>
+            <label><!-- Work Together Processes --></label>
+            <name>Work Together Processes</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- WTP with WTP Products --></description>
+        <label><!-- WTP with WTP Products --></label>
+        <name>WTP_New</name>
+        <sections>
+            <label><!-- Cases --></label>
+            <name>Cases</name>
+        </sections>
+        <sections>
+            <label><!-- Work Together Process Products --></label>
+            <name>Work Together Process Products</name>
+        </sections>
+        <sections>
+            <label><!-- Work Together Processes --></label>
+            <name>Work Together Processes</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- WTP + Contact + Agreement --></description>
+        <label><!-- WTP + Contact + Agreement --></label>
+        <name>WTP_Product_Aum</name>
+        <sections>
+            <label><!-- Agreement Related Contacts --></label>
+            <name>Agreement Related Contacts</name>
+        </sections>
+        <sections>
+            <label><!-- Cases --></label>
+            <name>Cases</name>
+        </sections>
+        <sections>
+            <label><!-- Contacts --></label>
+            <name>Contacts</name>
+        </sections>
+        <sections>
+            <label><!-- Work Together Processes --></label>
+            <name>Work Together Processes</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- WTP Products --></description>
+        <label><!-- WTP Products --></label>
+        <name>WTP_Products</name>
+        <sections>
+            <label><!-- Work Together Process Products --></label>
+            <name>Work Together Process Products</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- WTP withORwithout Products --></description>
+        <label><!-- WTP withORwithout Products --></label>
+        <name>WTP_withORwithout_Products</name>
+        <sections>
+            <label><!-- Products --></label>
+            <name>Products</name>
+        </sections>
+        <sections>
+            <label><!-- Work Together Processes --></label>
+            <name>Work Together Processes</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- WTP with Contacts V2 --></description>
+        <label><!-- WTP with Contacts V2 --></label>
+        <name>WTP_with_Contacts</name>
+        <sections>
+            <label><!-- Cases --></label>
+            <name>Cases</name>
+        </sections>
+        <sections>
+            <label><!-- Work Together Processes --></label>
+            <name>Work Together Processes</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Work Together Process with Carmignac products --></description>
+        <label><!-- Work Together Process with Carmignac products --></label>
+        <name>WTP_with_products</name>
+        <sections>
+            <label><!-- Cases --></label>
+            <name>Cases</name>
+        </sections>
+        <sections>
+            <label><!-- Funds &amp; Share Class --></label>
+            <name>Funds &amp; Share Class</name>
+        </sections>
+        <sections>
+            <label><!-- Work Together Processes --></label>
+            <name>Work Together Processes</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Work Together Processes Custom --></description>
+        <label><!-- Work Together Processes Custom --></label>
+        <name>Work_Together_Processes_Custom</name>
+        <sections>
+            <label><!-- Work Together Processes --></label>
+            <name>Work Together Processes</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Work Together with Opporuunity --></description>
+        <label><!-- Work Together with Opporuunity --></label>
+        <name>Work_Together_with_Opporunity</name>
+        <sections>
+            <label><!-- Opportunities --></label>
+            <name>Opportunities</name>
+        </sections>
+        <sections>
+            <label><!-- Work Together Processes --></label>
+            <name>Work Together Processes</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Work Together with Opporuunity COPY --></description>
+        <label><!-- Work Together with Opporuunity COPY --></label>
+        <name>Work_Together_with_Opporuunity_COPY</name>
+        <sections>
+            <label><!-- Opportunities --></label>
+            <name>Opportunities</name>
+        </sections>
+        <sections>
+            <label><!-- Work Together Processes --></label>
+            <name>Work Together Processes</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- lt --></description>
+        <label><!-- lt --></label>
+        <name>lt</name>
+        <sections>
+            <label><!-- Accounts --></label>
+            <name>Accounts</name>
+        </sections>
+        <sections>
+            <label><!-- Companies --></label>
+            <name>Companies</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Screen Flows --></description>
+        <label><!-- Screen Flows --></label>
+        <name>screen_flows_prebuilt_crt</name>
+        <sections>
+            <label><!-- Flow Interview Log Entries --></label>
+            <name>Flow Interview Log Entries</name>
+        </sections>
+        <sections>
+            <label><!-- Flow Interview Logs --></label>
+            <name>Flow Interview Logs</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- testGCA --></description>
+        <label><!-- testGCA --></label>
+        <name>testGCA</name>
+        <sections>
+            <label><!-- Accounts --></label>
+            <name>Accounts</name>
+        </sections>
+        <sections>
+            <label><!-- Activities --></label>
+            <name>Activities</name>
+        </sections>
+        <sections>
+            <label><!-- Contacts --></label>
+            <name>Contacts</name>
+        </sections>
+        <sections>
+            <label><!-- Opportunities --></label>
+            <name>Opportunities</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- testlisa --></description>
+        <label><!-- testlisa --></label>
+        <name>testlisa</name>
+        <sections>
+            <label><!-- Dashboard Feed --></label>
+            <name>Dashboard Feed</name>
+        </sections>
+        <sections>
+            <label><!-- Dashboards --></label>
+            <name>Dashboards</name>
+        </sections>
+    </reportTypes>
 </Translations>

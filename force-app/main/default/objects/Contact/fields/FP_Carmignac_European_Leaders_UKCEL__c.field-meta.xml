@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FP_Carmignac_European_Leaders_UKCEL__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Interest European Equities</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Interest European Equities</inlineHelpText>
+    <label>FP Carmignac European Leaders (UKCEL)</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

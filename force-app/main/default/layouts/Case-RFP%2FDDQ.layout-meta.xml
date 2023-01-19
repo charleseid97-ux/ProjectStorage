@@ -14,6 +14,10 @@
                 <behavior>Readonly</behavior>
                 <field>Company_s_Business_Development_Region__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Reason_for_reject__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

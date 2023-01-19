@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CventEvents__EventCompactLayout</fullName>
+    <fields>Name</fields>
+    <fields>CventEvents__pkg_Title__c</fields>
+    <fields>CventEvents__pkg_Status__c</fields>
+    <fields>CventEvents__pkg_Location__c</fields>
+    <fields>CventEvents__pkg_StartDate__c</fields>
+    <fields>CventEvents__pkg_StartTime__c</fields>
+    <fields>CventEvents__pkg_TimeZone__c</fields>
+    <label>Cvent Event Compact Layout</label>
+</CompactLayout>

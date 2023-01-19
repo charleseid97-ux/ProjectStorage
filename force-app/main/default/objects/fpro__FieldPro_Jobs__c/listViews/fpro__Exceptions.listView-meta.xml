@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>fpro__Exceptions</fullName>
+    <columns>NAME</columns>
+    <columns>fpro__Apex_Job_ExtendedStatus__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>fpro__Object_Name__c</field>
+        <operation>equals</operation>
+        <value>Exceptions</value>
+    </filters>
+    <label>Exceptions</label>
+</ListView>

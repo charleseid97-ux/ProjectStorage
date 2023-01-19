@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Updates</fullName>
+    <active>true</active>
+    <label>Updates</label>
+    <picklistValues>
+        <picklist>Topic__c</picklist>
+        <values>
+            <fullName>Agreements</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Campaigns</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Companies</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Contact</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Event %2F Meeting Notes</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Leads</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reports %26 Dashboards</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WTP</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

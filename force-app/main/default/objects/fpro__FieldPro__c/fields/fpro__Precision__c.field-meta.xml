@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>fpro__Precision__c</fullName>
+    <deprecated>false</deprecated>
+    <description>The precision for number values. Precision is the number of digits in a number. For example, the number 256.99 has a precision of 5.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The precision for number values. Precision is the number of digits in a number. For example, the number 256.99 has a precision of 5.</inlineHelpText>
+    <label>Precision</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

@@ -4,10 +4,10 @@
 
 import { LightningElement, api } from 'lwc';
 import {ShowToastEvent} from 'lightning/platformShowToastEvent';
-import uploadFileContent from '@salesforce/apex/KYD_UploadController.uploadFileContent';
+import uploadFileContent from '@salesforce/apex/KYD_UploadController.uploadFileContents';
 export default class FileUploadLWC extends LightningElement {
     @api recordId;
-    uploadedFileId;
+    uploadedFileIds = [];
     error;
     get acceptedFormats() {
         return ['.pdf', '.png','.jpg','.jpeg'];
@@ -20,11 +20,11 @@ export default class FileUploadLWC extends LightningElement {
         console.log('NGO record Id : '+this.recordId);
         for(let i = 0; i < uploadedFiles.length; i++) {
             uploadedFileNames += uploadedFiles[i].name + ', ';
-            this.uploadedFileId = uploadedFiles[i].documentId;
-            console.log('NGO uploadedFiles[i].documentId : '+uploadedFiles[i].documentId);
+            this.uploadedFileIds.push(uploadedFiles[i].documentId);
+            console.log('NGO uploadedFiles : '+this.uploadedFileIds);
         }
 
-        uploadFileContent({fileId :this.uploadedFileId, recordId:this.recordId})
+        uploadFileContent({fileIds :this.uploadedFileIds, recordId:this.recordId})
         .then(result => {
             console.log('NGO result : '+result);
             this.dispatchEvent(
@@ -34,6 +34,7 @@ export default class FileUploadLWC extends LightningElement {
                             variant: 'success',
                         }),
                     );
+                    location.reload();
         })
         .catch(error => {
             this.error = error;
@@ -41,7 +42,7 @@ export default class FileUploadLWC extends LightningElement {
             this.dispatchEvent(
                         new ShowToastEvent({
                             title: 'Failed',
-                            message: ' Upload failed, please contact your Salesforce Administrator. ',
+                            message: ' Upload failed, please contact your Salesforce Administrator. Error : ' + error,
                             variant: 'error',
                         }),
                     );

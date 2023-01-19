@@ -430,7 +430,7 @@ User u = DM023_User.getListByIds(UserIdList).get(0);
                 , PersonalEmail__c = PersonalEmail
                 , TeamEmail__c = TeamEmail
                 , Title = 'Maitre'
-                
+                , Source__c = 'Web'
             );
         return contact;
     }
@@ -531,7 +531,7 @@ User u = DM023_User.getListByIds(UserIdList).get(0);
                 , TeamEmail__c = TeamEmail
                 , Title = 'Maitre'
                 , Website_Reset_Password__c = true
-                
+                , Source__c = 'Website'
             );
         return contact;
     }
@@ -629,11 +629,11 @@ User u = DM023_User.getListByIds(UserIdList).get(0);
     {       
         Case cworkto = new Case 
             (
-                recordtypeId = ObjectUtil.getRecordTypeId('Case', 'Data Solution and Solvency Request'),
+                recordtypeId = ObjectUtil.getRecordTypeId('Case', 'Data Solution Request'),
                 Type = 'Data Solution',
                 Status = 'New',
                 Origin = 'Email',
-                Due_date__c = date.today(),
+                Due_date__c = date.today().addDays(21),
                 //DUE DATE
                 // REPORT FREQ
                 Report_frequency__c = 'Weekly',
@@ -659,8 +659,41 @@ User u = DM023_User.getListByIds(UserIdList).get(0);
                 End_Date_Time__c= Date.today().addDays(1)
             );
         return camp1;
-    }    
-    
+    }
+
+    public static Campaign getCampaignNewsletter() {
+        Campaign camp1 = new Campaign
+            (
+            recordtypeId = RecordTypeUtil.getRecordTypeIdByDeveloperName(Campaign.SObjectType, 'Newsletters'),
+            CRM_User__c = TestFactory.getStandardCarmignacUser().Id,
+            Description = 'Test',
+            Name = 'TestCampaign',
+
+            Newsletter_Country__c = 'France;Italy',
+                    Language__c = 'FR;IT'
+            );
+        return camp1;
+    }
+/*
+    public static NDA__c getNDA()
+    {
+        return getNDA('NDA_Classic');
+    }
+
+    public static NDA__c getNDA(String recordType)
+    {
+        Id rt = RecordTypeUtil.getRecordTypeIdByDeveloperName(NDA__c.SObjectType, recordType);
+        NDA__c nda = new NDA__c(
+                Stage__c = 'To update',
+                Signatory__c = 'CGL',
+                Purpose__c = 'Regulatory',
+                Type__c = 'CRR',
+                TypeOfDataToSend__c = 'Other',
+                RecordTypeId = rt
+        );
+        return nda;
+    }
+*/
     public static Campaign getSimpleCampaignEventsEtouhchesNotSend()
     {
         //

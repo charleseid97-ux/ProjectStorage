@@ -4,7 +4,7 @@
     <active>true</active>
     <businessProcess>Market Watch process</businessProcess>
     <description>All that is related to fund competitive positioning and comparisons with peers, buy lists or portfolios analysis, etc.</description>
-    <label>Market Intelligence Request</label>
+    <label>Business Intelligence Request</label>
     <picklistValues>
         <picklist>Data_need__c</picklist>
         <values>
@@ -41,6 +41,37 @@
         </values>
         <values>
             <fullName>Top 10</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Delay_reason__c</picklist>
+        <values>
+            <fullName>Data insufficiency</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IT issues</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Information insufficiency</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other teams dependency</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reduced Team</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Request complexity</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Short deadline</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -331,6 +362,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>NDA_Type__c</picklist>
+        <values>
+            <fullName>Close ended</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Open ended</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Nature_of_the_Request__c</picklist>
         <values>
             <fullName>Asset Retention</fullName>
@@ -406,6 +448,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Rejected__c</picklist>
+        <values>
+            <fullName>No data available</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not the right service</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Report_frequency__c</picklist>
         <values>
             <fullName>Annually</fullName>
@@ -422,6 +475,25 @@
         <values>
             <fullName>Weekly</fullName>
             <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Request_Handled__c</picklist>
+        <values>
+            <fullName>Awaiting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Data Already Available</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
         </values>
     </picklistValues>
     <picklistValues>
@@ -459,6 +531,29 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Requester_Department__c</picklist>
+        <values>
+            <fullName>Data Solution Team</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MI Team</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Performance Management</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Product Marketing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RFP Team</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Type</picklist>
         <values>
             <fullName>Buy List%2FPortfolio analysis</fullName>
@@ -473,11 +568,42 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Composite Risk%2Freturn only %28Quick win%29</fullName>
+            <fullName>Composite Analysis</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type_of_Request__c</picklist>
+        <values>
+            <fullName>Allocation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Funds %2F Benchmark Performance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PC%26A Report</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Performance Attribution %28StatPro%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Performance Attribution %28UBS Delta%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Portfolio Indicators %2F Statistics</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Portfolio Turnover</fullName>
             <default>false</default>
         </values>
     </picklistValues>

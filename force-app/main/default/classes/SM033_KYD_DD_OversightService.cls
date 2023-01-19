@@ -14,7 +14,13 @@ public with sharing class SM033_KYD_DD_OversightService {
         List<KYD_Due_Diligence_Oversight__c> kydDDs = new List<KYD_Due_Diligence_Oversight__c>();
 
         for(KYD_Due_Diligence_Oversight__c kydDD : newItems.values())
-            if(kydDD.Final_Risk__c != null && kydDD.Final_Risk__c != oldItems.get(kydDD.Id).Final_Risk__c) kydDDs.add(kydDD);
+        {
+            if(kydDD.Final_Risk__c != null && kydDD.Final_Risk__c != oldItems.get(kydDD.Id).Final_Risk__c
+                    || (kydDD.KYD_Responsible__c == 'RELIANCE' && kydDD.Preliminary_Risk__c != oldItems.get(kydDD.Id).Preliminary_Risk__c))
+            {
+                kydDDs.add(kydDD);
+            }
+        }
 
         System.debug('//NGO updateKYDDocumentsLevel kydDD '+kydDDs);
         if(!kydDDs.isEmpty()) upsert getDocumentList(kydDDs) ExternalId__c;
@@ -46,7 +52,7 @@ public with sharing class SM033_KYD_DD_OversightService {
         List<KYD_Document__c> documents = new List<KYD_Document__c>();
         System.debug('//NGO getDocumentList '+kydDDs);
         for(KYC_Document_Configuration__c configuration : [SELECT Id,EntityType__c,CollectiveFunds_personality__c,  KYD_Responsible__c,
-                                                            RiskLevel__c, Name, Description__c, Mandatory__c, Format__c 
+                                                            RiskLevel__c, Name, Description__c, Mandatory__c, Format__c, DescriptionShort__c, Divers__c
                                                             FROM KYC_Document_Configuration__c LIMIT 50000])
             for(KYD_Due_Diligence_Oversight__c kydOversight : kydDDs)
                 if(isSameKey(kydOversight, configuration)) documents.add(createKYD(configuration, kydOversight));
@@ -63,11 +69,16 @@ public with sharing class SM033_KYD_DD_OversightService {
      */
     private static KYD_Document__c createKYD(KYC_Document_Configuration__c kycDocumentConfiguration, KYD_Due_Diligence_Oversight__c kyd) {
         KYD_Document__c document = new KYD_Document__c();
+        document.Name = kycDocumentConfiguration.Name;
+        document.DescriptionShort__c = kycDocumentConfiguration.DescriptionShort__c;
+        document.Divers__c = kycDocumentConfiguration.Divers__c;
         document.KYD_Due_Diligence_Oversight__c = kyd.Id;
         document.ExternalId__c = kyd.Id +'_'+kycDocumentConfiguration.Name;
         document.DocumentDescription__c = kycDocumentConfiguration.Description__c;
         document.Mandatory__c = kycDocumentConfiguration.Mandatory__c;
         document.DocumentFormat__c = kycDocumentConfiguration.Format__c;
+        document.KYD_Document_Configuration__c = kycDocumentConfiguration.Id;
+        document.LegalEntity__c = kyd.LegalEntity__c;
         return document;
     }
 
@@ -80,9 +91,9 @@ public with sharing class SM033_KYD_DD_OversightService {
      */
     private static boolean isSameKey(KYD_Due_Diligence_Oversight__c kyd, KYC_Document_Configuration__c conf) {
         //Key EntityType, KYD_Responsible, RiskLevel, CollectiveFunds_personality__c
-        return kyd.EntityType__c.equals(conf.EntityType__c) && 
-                kyd.KYD_Responsible__c.equals(conf.KYD_Responsible__c) && 
-                 kyd.Final_Risk__c.equals(conf.RiskLevel__c) &&
+        return kyd.EntityType__c?.equals(conf.EntityType__c) && 
+                kyd.KYD_Responsible__c?.equals(conf.KYD_Responsible__c) && 
+                 (kyd.Final_Risk__c != null && kyd.Final_Risk__c?.equals(conf.RiskLevel__c)) &&
                   kyd.CollectiveFunds_personality__c == conf.CollectiveFunds_personality__c;
     }
 

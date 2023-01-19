@@ -9,6 +9,7 @@
     <formFactors>Large</formFactors>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <label>Marketing Carmignac</label>
     <navType>Standard</navType>
     <profileActionOverrides>
@@ -864,6 +865,7 @@
     <tabs>Meeting_Note__c</tabs>
     <tabs>Opportunity_Dashboard</tabs>
     <tabs>Data_Solutions_Report_Type__c</tabs>
+    <tabs>Salesforce_update__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Marketing_Carmignac_UtilityBar1</utilityBar>
 </CustomApplication>

@@ -15,13 +15,29 @@
 public class KYD_FileService
 {
     private class KYDException extends Exception {}
+    
+    public class ResponseInfo
+    {
+        public Id kydId;
+        public String path;
+        public String documentId;
+        
+        public ResponseInfo(Id kydId, String path, String documentId)
+        {
+            this.kydId = kydId;
+            this.path = path;
+            this.documentId = documentId;
+        }
+    }
+    
+    public static String accessToken;
 
     private static final Elysee_Oauth_Parameters__c ELYSEE_OAUTH_PARAMS = Elysee_Oauth_Parameters__c.getInstance();
     private static final Elysee_Filesystem__c ELYSEE_FILESYSTEM_PARAMS = Elysee_Filesystem__c.getInstance();
 
     private static final String ACCESS_TOKEN_KEY = 'access_token';
 
-    public void uploadFile(String localDocumentId, String kydDocumentId)
+    public ResponseInfo uploadFile(String localDocumentId, String kydDocumentId)
     {
         KYD_Document__c              kydDocument                 = fetchKydDocument(kydDocumentId);
         Legal_Entity__c              legalEntity                 = fetchLegalEntity(kydDocument.LegalEntity__c);
@@ -35,8 +51,10 @@ public class KYD_FileService
         KYD_FileInsertResponse     fileInsertResponse     = pushFile(filePayload, fileName);
         KYD_MetadataInsertResponse metadataInsertResponse = pushFileMetadata(kydDocument, fileName, fileSize, fileInsertResponse.path);
 
-
-        updateKydDocument(kydDocumentId, fileInsertResponse.path, metadataInsertResponse.documentId);
+		return new ResponseInfo(kydDocumentId, fileInsertResponse.path, metadataInsertResponse.documentId);
+        
+        //insertKydDocumentItem(kydDocumentId, fileInsertResponse.path, metadataInsertResponse.documentId);
+        //updateKydDocument(kydDocumentId, fileInsertResponse.path, metadataInsertResponse.documentId);
     }
 
     /**
@@ -46,6 +64,11 @@ public class KYD_FileService
      */
     public String OAuth()
     {
+        if(accessToken != null)
+        {
+            return accessToken;
+        }
+        
         HttpRequest request = new HttpRequest();
 
         request.setEndpoint(ELYSEE_OAUTH_PARAMS.Endpoint__c);
@@ -74,7 +97,9 @@ public class KYD_FileService
             throw new KYDException('File system\' Access Token not received.');
         }
 
-        return (String)payload.get(ACCESS_TOKEN_KEY);
+        accessToken = (String)payload.get(ACCESS_TOKEN_KEY);
+        
+		return accessToken;
     }
 
     // region Queries & DML
@@ -149,6 +174,17 @@ public class KYD_FileService
                 External_Repository_Id__c = remoteFilePath,
                 Status__c = 'Uploaded',
                 GED_Document_Id__c = remoteDocumentId
+        );
+    }
+
+    private void insertKydDocumentItem(Id kydDocumentId, String remoteFilePath, String remoteDocumentId)
+    {
+        insert new KYD_Document_Item__c(
+                KYD_Document__c = kydDocumentId,
+                GED_Document_Id__c = remoteDocumentId,
+                Status__c = 'Uploaded',
+                External_Repository_Id__c = remoteFilePath,
+            	Name = remoteFilePath.substring((Integer) remoteFilePath.lastIndexOf('/') + 1) 
         );
     }
 

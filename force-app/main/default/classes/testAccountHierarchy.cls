@@ -5,10 +5,10 @@ private class testAccountHierarchy{
 
         AccountHierarchyTestData.createTestHierarchy();
 
-        Account topAccount      = [ Select id, name from account where name = 'HierarchyTest0' limit 1 ];
-        Account middleAccount   = [ Select id, parentID, name from account where name = 'HierarchyTest4' limit 1 ];
-        Account bottomAccount   = [ Select id, parentID, name from account where name = 'HierarchyTest9' limit 1 ];
-        Account[] accountList   = [ Select id, parentID, name from account where name like 'HierarchyTest%' ];
+        Account topAccount      = [ Select id, name from account where name = 'NullthHierarchyTest0' limit 1 ];
+        Account middleAccount   = [ Select id, parentID, name from account where name = 'FifthHierarchyTest4' limit 1 ];
+        Account bottomAccount   = [ Select id, parentID, name from account where name = 'TenthHierarchyTest9' limit 1 ];
+        Account[] accountList   = [ Select id, parentID, name from account where name like '%HierarchyTest%' ];
 
         test.startTest();
         

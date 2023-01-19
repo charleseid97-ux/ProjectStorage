@@ -16,7 +16,7 @@
             <name>Update_External_ID</name>
             <type>FieldUpdate</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <formula>NOT(ISBLANK(Share_Class__c))</formula>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
     </rules>

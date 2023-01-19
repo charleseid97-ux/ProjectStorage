@@ -253,7 +253,7 @@ public without sharing class SM034_AgreementService {
         Map<Id, Grid__c> gridMap = new Map<Id, Grid__c>([SELECT Id, Name FROM Grid__c WHERE Id IN: gridIds]);
 
         if(mConvIds_withSubAgreements.size() > 0){
-            List<Convention__c> lConventionToUpdate = new List<Convention__c>([SELECT Primary_Rebate_Contact__c, Convention__c FROM Convention__c WHERE MasterConvention__c IN :mConvIds_withSubAgreements.keySet()]);
+            List<Convention__c> lConventionToUpdate = new List<Convention__c>([SELECT Primary_Rebate_Contact__c, Convention__c FROM Convention__c WHERE MasterConvention__c IN :mConvIds_withSubAgreements.keySet() AND Status__c != 'Terminated']);
             if(lConventionToUpdate.size() > 0){
                 for(Convention__c Conv : lConventionToUpdate) {
                     Convention__c a = mConvIds_withSubAgreements.get(Conv.id);
@@ -395,13 +395,13 @@ public without sharing class SM034_AgreementService {
                 if (approvedAction(agr, oldAgreement, 'Compliance Approval', 'DCO Approval')) validateRequestComplianceApproval(agr);
             }
             when 'Agreement Amendment Legal Approval' {
-                if (!isAgreementRoleValidated(agr)) agr.Name.addError(System.label.Validate_Agreement_Roles_Error_message);
+                if (!isAgreementRoleValidated(agr, oldAgreement)) agr.Name.addError(System.label.Validate_Agreement_Roles_Error_message);
             }
             when 'Agreement Renewal Legal Approval' {
-                if (!isAgreementRoleValidated(agr)) agr.Name.addError(System.label.Validate_Agreement_Roles_Error_message);
+                if (!isAgreementRoleValidated(agr, oldAgreement)) agr.Name.addError(System.label.Validate_Agreement_Roles_Error_message);
             }
             when 'Agreement Renewal with GRID Legal Approval' {
-                if (!isAgreementRoleValidated(agr)) agr.Name.addError(System.label.Validate_Agreement_Roles_Error_message);
+                if (!isAgreementRoleValidated(agr, oldAgreement)) agr.Name.addError(System.label.Validate_Agreement_Roles_Error_message);
             }
             when else {
             }
@@ -427,9 +427,9 @@ public without sharing class SM034_AgreementService {
         return approvalStep;
     }
 
-    public static boolean isAgreementRoleValidated(Convention__c agr) {
+     public static boolean isAgreementRoleValidated(Convention__c agr, Convention__c oldAgr) {
 
-        return agr.NumberOfUnvalidatedAgreementRole__c == 0;
+        return agr.NumberOfUnvalidatedAgreementRole__c != oldAgr.NumberOfUnvalidatedAgreementRole__c || agr.NumberOfUnvalidatedAgreementRole__c == 0;
     }
 
     /**
@@ -454,7 +454,8 @@ public without sharing class SM034_AgreementService {
      */
     public static void validateRequestISApprovalRiskLevel(Convention__c agr) {
 
-        if (String.isBlank(agr.Preliminary_Risk_Assesment__c)) agr.Preliminary_Risk_Assesment__c.addError(System.Label.Risk_level_Error_Message);
+        if (String.isBlank(agr.Preliminary_Risk_Assesment__c) &&
+           agr.KYD_DD_Oversight_Status__c != 'Completed') agr.Preliminary_Risk_Assesment__c.addError(System.Label.Risk_level_Error_Message);
     }
 
 

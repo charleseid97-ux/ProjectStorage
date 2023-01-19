@@ -16,6 +16,7 @@
                     <value>false</value>
                 </componentInstanceProperties>
                 <componentName>force:highlightsPanel</componentName>
+                <identifier>force_highlightsPanel</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -90,6 +91,7 @@
                     <value>Strength__c != null</value>
                 </componentInstanceProperties>
                 <componentName>GenericRelatedList</componentName>
+                <identifier>GenericRelatedList</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-5a2d592c-1be3-4a34-9eee-f015c57c43c0</name>
@@ -163,6 +165,7 @@
                     <value>Weakness__c != null</value>
                 </componentInstanceProperties>
                 <componentName>GenericRelatedList</componentName>
+                <identifier>GenericRelatedList2</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-428fdc86-c0d5-4183-a6fe-2a57f8764117</name>
@@ -172,6 +175,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>OpenOpportunitiesInAccHierarchy</componentName>
+                <identifier>OpenOpportunitiesInAccHierarchy</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-546b4b3b-954a-435d-868b-77cb3d27e092</name>
@@ -241,6 +245,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>GenericRelatedList</componentName>
+                <identifier>GenericRelatedList3</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-gfehxkb6gjl</name>
@@ -262,6 +267,7 @@
                     <value>S</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -275,6 +281,7 @@
                     <value>W</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab2</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -288,6 +295,7 @@
                     <value>O</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab3</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -301,6 +309,7 @@
                     <value>T</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab4</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-684c33ea-2be7-4877-bb9f-4a285d4e0026</name>
@@ -310,21 +319,25 @@
         <itemInstances>
             <componentInstance>
                 <componentName>AccountPlanPDFDownloadButton</componentName>
+                <identifier>AccountPlanPDFDownloadButton</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>force:detailPanel</componentName>
+                <identifier>force_detailPanel</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>AccountPlanRevenueAndPlanManager</componentName>
+                <identifier>AccountPlanRevenueAndPlanManager</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>AccountPlanFundArchitecture</componentName>
+                <identifier>AccountPlanFundArchitecture</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -334,6 +347,7 @@
                     <value>Facet-684c33ea-2be7-4877-bb9f-4a285d4e0026</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -411,6 +425,7 @@
                     <value>ViewObjectiveTaskManagement</value>
                 </componentInstanceProperties>
                 <componentName>GenericRelatedList</componentName>
+                <identifier>GenericRelatedList4</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -468,6 +483,7 @@
                     <value>ViewObjectiveTaskManagement</value>
                 </componentInstanceProperties>
                 <componentName>GenericRelatedList</componentName>
+                <identifier>GenericRelatedList5</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -478,6 +494,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>historyAccountPlan</componentName>
+                <identifier>historyAccountPlan</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-ad2f339a-04e7-4940-b77f-affa118c94ae</name>
@@ -499,6 +516,7 @@
                     <value>Standard.Tab.detail</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>detailTab</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -512,6 +530,7 @@
                     <value>Account Plan History</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab5</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -526,6 +545,7 @@
                     <value>maintabs</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset2</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>

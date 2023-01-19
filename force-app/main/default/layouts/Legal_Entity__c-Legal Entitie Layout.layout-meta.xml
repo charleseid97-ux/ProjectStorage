@@ -12,7 +12,7 @@
                 <field>Name</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>LEI__c</field>
             </layoutItems>
             <layoutItems>
@@ -26,6 +26,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Website__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>LEI_Internal__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -48,6 +52,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Parent_Legal_Entity__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Legal_Entity_Name_Checked__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>

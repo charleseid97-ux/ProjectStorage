@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_VR015_Level_Hierarchies</fullName>
+    <active>true</active>
+    <description>AND(!$User.BypassValidationRules__c,
+					  NOT(ISBLANK(Parent.ParentId ) )
+					)</description>
+    <errorConditionFormula>AND(!$User.BypassValidationRules__c,
+NOT(ISBLANK(Parent.ParentId ) )
+)</errorConditionFormula>
+    <errorDisplayField>ParentId</errorDisplayField>
+    <errorMessage>You cannot have more than 1 level of hierarchy in the work together process</errorMessage>
+</ValidationRule>

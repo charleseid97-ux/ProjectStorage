@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CventEvents__AccountAssignmentRule__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Indicates the Account assignment rule for the Opportunity.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Indicates the Account assignment rule for the Opportunity.</inlineHelpText>
+    <label>Account Assignment Rule</label>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Assign to Contact&apos;s Account</fullName>
+                <default>false</default>
+                <label>Assign to Contact&apos;s Account</label>
+            </value>
+            <value>
+                <fullName>Assign to specific Account</fullName>
+                <default>false</default>
+                <label>Assign to specific Account</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

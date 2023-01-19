@@ -224,6 +224,10 @@
                 <behavior>Readonly</behavior>
                 <field>FinalRisk__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>CACEIS_Reliance__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>

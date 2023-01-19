@@ -16,7 +16,7 @@ public with sharing class AccountHierarchyTestData{
 		
 		//Create my Parent Account 
 		testUtils.createAccounts( 1 , fieldsToCheck );
- 		testUtils.testAccList[0].Name = 'HierarchyTest0';
+ 		testUtils.testAccList[0].Name = 'NullthHierarchyTest0';
  		testUtils.updateAccountList( fieldsToCheck );
  		
  		Account parentAccount = testUtils.testAccList[0];
@@ -26,16 +26,19 @@ public with sharing class AccountHierarchyTestData{
         // Create 10 sub accounts
     	testUtils.createAccounts( 10 , fieldsToCheck );
     	Integer i = 0;
+        List<String> names = new List<String>{'First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth', 'Seventh', 'Eight', 'Ninth', 'Tenth'};
         for ( Account accAux : testUtils.testAccList ){ //Now i need change the names
-        	accAux.Name = 'HierarchyTest' + String.valueOf( i );
+        	accAux.Name = names[i] + 'HierarchyTest' + String.valueOf(i);
+            accAux.BillingCountry = 'France';
+            accAux.BusinessDevelopmentRegion__c = 'BP_FR';
             i++;
         }
         testUtils.updateAccountList( fieldsToCheck );        
         
-        List<Account> accountList = [ Select Id, parentID, name from account where name like 'HierarchyTest%' ORDER BY Name limit 10 ];
+        List<Account> accountList = [ Select Id, parentID, name from account where name like '%HierarchyTest%' ORDER BY Name limit 10 ];
                 
         for ( Integer x = 0; x < accountList.size(); x++ ){
-            if ( accountList[x].name != 'HierarchyTest0' ){
+            if ( accountList[x].name != 'NullthHierarchyTest0' ){
                 accountList[x].parentID = parentID;
                 parentID = accountList[x].Id; 
             }
@@ -46,17 +49,17 @@ public with sharing class AccountHierarchyTestData{
         testUtils.updateAccountList( fieldsToCheck );
 
 		// Create 10 sub accounts
-		Account subTreeParent = [ Select id, parentID, name from account where name = 'HierarchyTest4' limit 10 ];
+		Account subTreeParent = [ Select id, parentID, name from account where name = 'FourthHierarchyTest3' limit 1 ];
         parentID = subTreeParent.Id;
         testUtils.createAccounts( 10, fieldsToCheck );
     	 
 		i = 0;
 		for ( Account accAux : testUtils.testAccList ){ //Now i need change the names
-        	accAux.Name = 'HierarchyTest' + '4.' + String.valueOf( i );
+        	accAux.Name = 'FourthHierarchyTest' + '4.' + String.valueOf( i ) + names[i];
         }
 		testUtils.updateAccountList( fieldsToCheck );
 
-        List<Account> subAccountsList = [ Select Id, parentID, Name from Account where Name like 'HierarchyTest4%' limit 10  ];
+        List<Account> subAccountsList = [ Select Id, parentID, Name from Account where Name like 'FourthHierarchyTest4%' limit 10  ];
         for ( Integer z = 1; z < subAccountsList.size(); z++ ){
             subAccountsList[z].parentID = parentID;
             parentID = accountList[z].Id; 

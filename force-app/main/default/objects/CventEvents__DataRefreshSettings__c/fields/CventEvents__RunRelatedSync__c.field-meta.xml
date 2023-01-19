@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CventEvents__RunRelatedSync__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Indicates whether the need to run the related sync right after the main sync took place.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Indicates whether the need to run the related sync right after the main sync took place.</inlineHelpText>
+    <label>Run Related Sync</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

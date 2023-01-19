@@ -34,6 +34,10 @@
                 <behavior>Edit</behavior>
                 <field>Requester__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Reason_for_reject__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>OneColumn</style>
     </layoutSections>

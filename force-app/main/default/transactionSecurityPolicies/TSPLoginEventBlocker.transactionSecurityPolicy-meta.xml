@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TransactionSecurityPolicy xmlns="http://soap.sforce.com/2006/04/metadata">
+    <action>
+        <block>true</block>
+        <endSession>false</endSession>
+        <freezeUser>false</freezeUser>
+        <notifications>
+            <inApp>true</inApp>
+            <sendEmail>true</sendEmail>
+            <user>coullon.thomas-crm@carmignac.com</user>
+        </notifications>
+        <twoFactorAuthentication>false</twoFactorAuthentication>
+    </action>
+    <active>false</active>
+    <apexClass>TSP_Manager</apexClass>
+    <description>This TSP prevent to get log on Salesforce with more than 10 current sessions</description>
+    <developerName>TSPLoginEventBlocker</developerName>
+    <eventName>LoginEvent</eventName>
+    <masterLabel>TSP LoginEvent Blocker</masterLabel>
+    <type>CustomApexPolicy</type>
+</TransactionSecurityPolicy>

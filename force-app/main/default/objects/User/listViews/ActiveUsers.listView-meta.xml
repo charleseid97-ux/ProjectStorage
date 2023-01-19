@@ -10,6 +10,7 @@
     <columns>CORE.PROFILE.NAME</columns>
     <columns>CORE.USERS.DEPARTMENT</columns>
     <columns>CORE.USERS.COUNTRY_CODE</columns>
+    <columns>LAST_UPDATE</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>CORE.USERS.ACTIVE</field>

@@ -4,12 +4,15 @@ global class SCH_LastInteraction_Full implements Schedulable
         {
             String query = 
             'SELECT ' +
-            '   Id, ' +
+            '   Id,' +
+            '   LastModifiedDate, ' +
             '   AccountId, CreatedDate, ' +
             '   CorporateTitle__c, ' +
             '   First_Last_name__c, ' +
             '   Last_Meeting_Call__c, ' +
-            '   Last_Newsletter_sent__c, ' +
+            '   Last_Newsletter_sent__c,' +
+            '   Last_Newsletter_Sent_Type__c,' +
+            '   Last_Newsletter_Opened__c, ' +
             '   Last_Event_attendance__c, ' +
             '   Last_Event_attendance_Type__c ' +
             '   FROM ' +

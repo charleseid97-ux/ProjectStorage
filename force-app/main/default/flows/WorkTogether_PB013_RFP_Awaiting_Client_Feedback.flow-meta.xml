@@ -13,6 +13,7 @@
         <locationY>200</locationY>
         <actionName>Case.WorkTogether_RFP_Awaiting</actionName>
         <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -21,22 +22,6 @@
         </inputParameters>
     </actionCalls>
     <apiVersion>49.0</apiVersion>
-    <assignments>
-        <name>myVariable_waitStartTimeAssignment</name>
-        <label>myVariable_waitStartTimeAssignment</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <assignmentItems>
-            <assignToReference>myVariable_waitStartTimeVariable</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Flow.CurrentDateTime</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>myDecision</targetReference>
-        </connector>
-    </assignments>
     <decisions>
         <processMetadataValues>
             <name>index</name>
@@ -70,14 +55,14 @@
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>AND(OR(CONTAINS([Case].RecordType.Name, &quot;RFP&quot;), CONTAINS([Case].RecordType.Name, &quot;Market&quot;)), AND(ISPICKVAL([Case].Status , &quot;Awaiting Client&apos;s Feedback&quot;), ISCHANGED([Case].Status)), !$User.BypassProcessBuilders__c)</stringValue>
+                <stringValue>AND(OR(CONTAINS([Case].RecordType.Name, &quot;RFP&quot;), [Case].RecordType.DeveloperName = &quot;RFP&quot;), AND(ISPICKVAL([Case].Status , &quot;Awaiting Client&apos;s Feedback&quot;), ISCHANGED([Case].Status)), !$User.BypassProcessBuilders__c)</stringValue>
             </value>
         </processMetadataValues>
         <name>formula_myRule_1</name>
         <dataType>Boolean</dataType>
-        <expression>AND(OR(CONTAINS({!myVariable_current.RecordType.Name}, &quot;RFP&quot;), CONTAINS({!myVariable_current.RecordType.Name}, &quot;Market&quot;)), AND(ISPICKVAL({!myVariable_current.Status} , &quot;Awaiting Client&apos;s Feedback&quot;), ISCHANGED({!myVariable_current.Status})), !{!$User.BypassProcessBuilders__c})</expression>
+        <expression>AND(OR(CONTAINS({!myVariable_current.RecordType.Name}, &quot;RFP&quot;), {!myVariable_current.RecordType.DeveloperName} = &quot;RFP&quot;), AND(ISPICKVAL({!myVariable_current.Status} , &quot;Awaiting Client&apos;s Feedback&quot;), ISCHANGED({!myVariable_current.Status})), !{!$User.BypassProcessBuilders__c})</expression>
     </formulas>
-    <interviewLabel>WorkTogether_PB013_RFP_Awaiting_Client_Feedback-4_InterviewLabel</interviewLabel>
+    <interviewLabel>WorkTogether_PB013_RFP_Awaiting_Client_Feedback-6_InterviewLabel</interviewLabel>
     <label>WorkTogether_PB013_RFP_Awaiting_Client_Feedback</label>
     <processMetadataValues>
         <name>ObjectType</name>
@@ -104,7 +89,7 @@
         </value>
     </processMetadataValues>
     <processType>Workflow</processType>
-    <startElementReference>myVariable_waitStartTimeAssignment</startElementReference>
+    <startElementReference>myDecision</startElementReference>
     <status>Active</status>
     <variables>
         <name>myVariable_current</name>
@@ -121,15 +106,5 @@
         <isInput>true</isInput>
         <isOutput>false</isOutput>
         <objectType>Case</objectType>
-    </variables>
-    <variables>
-        <name>myVariable_waitStartTimeVariable</name>
-        <dataType>DateTime</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <value>
-            <elementReference>$Flow.CurrentDateTime</elementReference>
-        </value>
     </variables>
 </Flow>

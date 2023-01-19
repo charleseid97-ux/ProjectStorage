@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Prompt xmlns="http://soap.sforce.com/2006/04/metadata">
+    <masterLabel>New WTP Performance Management In-App Guidance</masterLabel>
+    <promptVersions>
+        <body>&lt;p&gt;Welcome to the Performance Management WTP record page.&lt;/p&gt;&lt;p&gt;Let us walk you through this page. &lt;/p&gt;&lt;p&gt;Click next to find out more.&lt;/p&gt;</body>
+        <customApplication>Carmignac_Lightning</customApplication>
+        <delayDays>1</delayDays>
+        <description>This In-App guidance was made to provide details on the Performance Management request process.</description>
+        <dismissButtonLabel>Skip</dismissButtonLabel>
+        <displayPosition>TopCenter</displayPosition>
+        <displayType>FloatingPanel</displayType>
+        <endDate>2022-11-04</endDate>
+        <isPublished>true</isPublished>
+        <masterLabel>New WTP Performance Management In-App Guidance Step 1</masterLabel>
+        <publishedDate>2022-10-19</publishedDate>
+        <shouldDisplayActionButton>false</shouldDisplayActionButton>
+        <shouldIgnoreGlobalDelay>true</shouldIgnoreGlobalDelay>
+        <startDate>2022-10-21</startDate>
+        <stepNumber>1</stepNumber>
+        <targetPageKey1>Case</targetPageKey1>
+        <targetPageKey2>list</targetPageKey2>
+        <targetPageType>standard__objectPage</targetPageType>
+        <timesToDisplay>3</timesToDisplay>
+        <title>Welcome to the WTP process</title>
+        <userAccess>Everyone</userAccess>
+        <userProfileAccess>Everyone</userProfileAccess>
+        <versionNumber>1</versionNumber>
+    </promptVersions>
+    <promptVersions>
+        <body>&lt;p&gt;In order to create a WTP Performance Management, click on the arrow, then  &quot;New Work Together Process&quot; &lt;/p&gt;&lt;p&gt;Select the record type &quot;Performance Management Request&quot;&lt;/p&gt;</body>
+        <customApplication>Carmignac_Lightning</customApplication>
+        <dismissButtonLabel>Skip</dismissButtonLabel>
+        <displayType>Targeted</displayType>
+        <isPublished>false</isPublished>
+        <masterLabel>New WTP Performance Management In-App Guidance Step 2</masterLabel>
+        <referenceElementContext>{&quot;scope&quot;:{&quot;attributes&quot;:{&quot;id&quot;:&quot;sfdc:TabDefinition.standard-Case&quot;}},&quot;version&quot;:2}</referenceElementContext>
+        <shouldDisplayActionButton>false</shouldDisplayActionButton>
+        <shouldIgnoreGlobalDelay>false</shouldIgnoreGlobalDelay>
+        <stepNumber>2</stepNumber>
+        <targetPageKey1>home</targetPageKey1>
+        <targetPageType>standard__namedPage</targetPageType>
+        <title>Create a New Request</title>
+        <userAccess>Everyone</userAccess>
+        <userProfileAccess>Everyone</userProfileAccess>
+        <versionNumber>1</versionNumber>
+    </promptVersions>
+    <promptVersions>
+        <body>&lt;p&gt;Note that the fields with a &lt;strong&gt;red asterisks&lt;/strong&gt; are &lt;strong&gt;mandatory.&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;Ensure you fill in the &lt;u&gt;Requester Department &lt;/u&gt;&amp;amp; use the&lt;u&gt; Requester&lt;/u&gt; field if you are working on this request with someone else.&lt;/p&gt;</body>
+        <customApplication>Carmignac_Lightning</customApplication>
+        <dismissButtonLabel>Skip</dismissButtonLabel>
+        <displayPosition>MiddleCenter</displayPosition>
+        <displayType>FloatingPanel</displayType>
+        <isPublished>false</isPublished>
+        <masterLabel>New WTP Performance Management In-App Guidance Step 3</masterLabel>
+        <shouldDisplayActionButton>false</shouldDisplayActionButton>
+        <shouldIgnoreGlobalDelay>false</shouldIgnoreGlobalDelay>
+        <stepNumber>3</stepNumber>
+        <targetPageKey1>Case</targetPageKey1>
+        <targetPageKey2>new</targetPageKey2>
+        <targetPageKey3>{&quot;navigationLocation&quot;:&quot;LIST_VIEW&quot;,&quot;nooverride&quot;:&quot;1&quot;,&quot;useRecordTypeCheck&quot;:&quot;1&quot;,&quot;onRecordTypeSelection&quot;:false}</targetPageKey3>
+        <targetPageType>standard__objectPage</targetPageType>
+        <title>Fill-in the request</title>
+        <userAccess>Everyone</userAccess>
+        <userProfileAccess>Everyone</userProfileAccess>
+        <versionNumber>1</versionNumber>
+    </promptVersions>
+    <promptVersions>
+        <body>&lt;p&gt;&lt;strong&gt;List view&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;You can filter all related request:&lt;/p&gt;&lt;p&gt;- All Performance management requests&lt;/p&gt;&lt;p&gt;- New Performance management request&lt;/p&gt;&lt;p&gt;- Completed Performance management&lt;/p&gt;&lt;p&gt;Select the New request list to treat them.&lt;/p&gt;</body>
+        <customApplication>Carmignac_Lightning</customApplication>
+        <dismissButtonLabel>Skip</dismissButtonLabel>
+        <displayType>Targeted</displayType>
+        <isPublished>false</isPublished>
+        <masterLabel>New WTP Performance Management In-App Guidance Step 4</masterLabel>
+        <referenceElementContext>{&quot;scope&quot;:{&quot;attributes&quot;:{&quot;id&quot;:&quot;50e27b43761f49d99bf31a503ed4e21a&quot;}},&quot;version&quot;:2}</referenceElementContext>
+        <shouldDisplayActionButton>false</shouldDisplayActionButton>
+        <shouldIgnoreGlobalDelay>false</shouldIgnoreGlobalDelay>
+        <stepNumber>4</stepNumber>
+        <targetPageKey1>Case</targetPageKey1>
+        <targetPageKey2>list</targetPageKey2>
+        <targetPageType>standard__objectPage</targetPageType>
+        <title>Treat a request</title>
+        <userAccess>Everyone</userAccess>
+        <userProfileAccess>Everyone</userProfileAccess>
+        <versionNumber>1</versionNumber>
+    </promptVersions>
+    <promptVersions>
+        <body>&lt;p&gt;To &lt;strong&gt;access and modify a record,&lt;/strong&gt; you can either:&lt;/p&gt;&lt;p&gt;- Click on the arrow, then &apos;Edit&apos;&lt;/p&gt;&lt;p&gt;or&lt;/p&gt;&lt;p&gt;- Click on the the hyper link of the WTP number on the left hand side.&lt;/p&gt;</body>
+        <customApplication>Carmignac_Lightning</customApplication>
+        <dismissButtonLabel>Skip</dismissButtonLabel>
+        <displayType>Targeted</displayType>
+        <isPublished>false</isPublished>
+        <masterLabel>New WTP Performance Management In-App Guidance Step 5</masterLabel>
+        <referenceElementContext>{&quot;scope&quot;:{&quot;attributes&quot;:{&quot;id&quot;:&quot;d3d97191b9714f2388cd2ad681fdc4ed&quot;}},&quot;version&quot;:2}</referenceElementContext>
+        <shouldDisplayActionButton>false</shouldDisplayActionButton>
+        <shouldIgnoreGlobalDelay>false</shouldIgnoreGlobalDelay>
+        <stepNumber>5</stepNumber>
+        <targetPageKey1>Case</targetPageKey1>
+        <targetPageKey2>list</targetPageKey2>
+        <targetPageType>standard__objectPage</targetPageType>
+        <title>Select a record</title>
+        <userAccess>Everyone</userAccess>
+        <userProfileAccess>Everyone</userProfileAccess>
+        <versionNumber>1</versionNumber>
+    </promptVersions>
+    <promptVersions>
+        <body>&lt;p&gt;Click on the&amp;nbsp;&lt;u&gt;Arrow&amp;nbsp;&lt;/u&gt;at the left hand side to see&amp;nbsp;&lt;strong&gt;relevant fields&lt;/strong&gt;&amp;nbsp;and&amp;nbsp;&lt;strong&gt;guidance&amp;nbsp;&lt;/strong&gt;for each stage.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Click on&amp;nbsp;&lt;u&gt;&apos;Mark Status as Complete&apos;&lt;/u&gt;&amp;nbsp;to move the record at the&amp;nbsp;&lt;strong&gt;next stage.&lt;/strong&gt;&lt;/p&gt;</body>
+        <customApplication>Carmignac_Lightning</customApplication>
+        <dismissButtonLabel>Skip</dismissButtonLabel>
+        <displayType>Targeted</displayType>
+        <isPublished>false</isPublished>
+        <masterLabel>New WTP Performance Management In-App Guidance Step 6</masterLabel>
+        <referenceElementContext>{&quot;scope&quot;:{&quot;attributes&quot;:{&quot;id&quot;:&quot;runtime_sales_pathassistant_pathAssistant&quot;}},&quot;version&quot;:2}</referenceElementContext>
+        <shouldDisplayActionButton>false</shouldDisplayActionButton>
+        <shouldIgnoreGlobalDelay>false</shouldIgnoreGlobalDelay>
+        <stepNumber>6</stepNumber>
+        <targetPageKey1>Case</targetPageKey1>
+        <targetPageKey2>view</targetPageKey2>
+        <targetPageType>standard__recordPage</targetPageType>
+        <targetRecordType>Case.Data_Performance_Management_Request</targetRecordType>
+        <title>Path</title>
+        <userAccess>Everyone</userAccess>
+        <userProfileAccess>Everyone</userProfileAccess>
+        <versionNumber>1</versionNumber>
+    </promptVersions>
+    <promptVersions>
+        <body>&lt;p&gt;Find out if there already is&lt;u&gt; available Data &lt;/u&gt;depending on the &lt;strong&gt;Type of Request.&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;﻿&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;Click &lt;strong&gt;on the icons &lt;/strong&gt;to be directed to &lt;u&gt;Tableau or Sharepoint &lt;/u&gt;data.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Click&lt;strong&gt; Show All Links &lt;/strong&gt;to see all data.&lt;/p&gt;</body>
+        <customApplication>Carmignac_Lightning</customApplication>
+        <dismissButtonLabel>Skip</dismissButtonLabel>
+        <displayType>Targeted</displayType>
+        <isPublished>false</isPublished>
+        <masterLabel>New WTP Performance Management In-App Guidance Step 7</masterLabel>
+        <referenceElementContext>{&quot;scope&quot;:{&quot;attributes&quot;:{&quot;id&quot;:&quot;flowruntime_interview&quot;}},&quot;version&quot;:2}</referenceElementContext>
+        <shouldDisplayActionButton>false</shouldDisplayActionButton>
+        <shouldIgnoreGlobalDelay>false</shouldIgnoreGlobalDelay>
+        <stepNumber>7</stepNumber>
+        <targetPageKey1>Case</targetPageKey1>
+        <targetPageKey2>view</targetPageKey2>
+        <targetPageType>standard__recordPage</targetPageType>
+        <targetRecordType>Case.Data_Performance_Management_Request</targetRecordType>
+        <title>Existing Data</title>
+        <userAccess>Everyone</userAccess>
+        <userProfileAccess>Everyone</userProfileAccess>
+        <versionNumber>1</versionNumber>
+    </promptVersions>
+    <promptVersions>
+        <body>&lt;p&gt;You can find here the exhaustive list of fields of the record.&lt;/p&gt;&lt;p&gt;Click on the arrows next to the sections titles to hide of display the fields.&lt;/p&gt;</body>
+        <customApplication>Carmignac_Lightning</customApplication>
+        <dismissButtonLabel>Skip</dismissButtonLabel>
+        <displayType>Targeted</displayType>
+        <isPublished>false</isPublished>
+        <masterLabel>New WTP Performance Management In-App Guidance Step 8</masterLabel>
+        <referenceElementContext>{&quot;scope&quot;:{&quot;attributes&quot;:{&quot;id&quot;:&quot;flexipage_tabset&quot;}},&quot;version&quot;:2}</referenceElementContext>
+        <shouldDisplayActionButton>false</shouldDisplayActionButton>
+        <shouldIgnoreGlobalDelay>false</shouldIgnoreGlobalDelay>
+        <stepNumber>8</stepNumber>
+        <targetPageKey1>Case</targetPageKey1>
+        <targetPageKey2>view</targetPageKey2>
+        <targetPageType>standard__recordPage</targetPageType>
+        <targetRecordType>Case.Data_Performance_Management_Request</targetRecordType>
+        <title>Record Detail</title>
+        <userAccess>Everyone</userAccess>
+        <userProfileAccess>Everyone</userProfileAccess>
+        <versionNumber>1</versionNumber>
+    </promptVersions>
+    <promptVersions>
+        <body>&lt;p&gt;The&lt;strong&gt; Activities &lt;/strong&gt;section displays all the &lt;u&gt;Tasks assigned&lt;/u&gt; to the record.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Click on &lt;strong&gt;Upload files&lt;/strong&gt;. Once done you can modify its &lt;u&gt;description&lt;/u&gt;.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Notes&lt;/strong&gt; on the record can be &lt;u&gt;added and shared &lt;/u&gt;here.&lt;/p&gt;</body>
+        <customApplication>Carmignac_Lightning</customApplication>
+        <dismissButtonLabel>Skip</dismissButtonLabel>
+        <displayType>Targeted</displayType>
+        <isPublished>false</isPublished>
+        <masterLabel>New WTP Performance Management In-App Guidance Step 9</masterLabel>
+        <referenceElementContext>{&quot;scope&quot;:{&quot;attributes&quot;:{&quot;id&quot;:&quot;flexipage_tabset2&quot;}},&quot;version&quot;:2}</referenceElementContext>
+        <shouldDisplayActionButton>false</shouldDisplayActionButton>
+        <shouldIgnoreGlobalDelay>false</shouldIgnoreGlobalDelay>
+        <stepNumber>9</stepNumber>
+        <targetPageKey1>Case</targetPageKey1>
+        <targetPageKey2>view</targetPageKey2>
+        <targetPageType>standard__recordPage</targetPageType>
+        <targetRecordType>Case.Data_Performance_Management_Request</targetRecordType>
+        <title>Related List</title>
+        <userAccess>Everyone</userAccess>
+        <userProfileAccess>Everyone</userProfileAccess>
+        <versionNumber>1</versionNumber>
+    </promptVersions>
+    <promptVersions>
+        <body>&lt;p&gt;You can find a detailed training video &lt;a href=&quot;https://carmignac-crm--c.eu19.content.force.com/sfc/servlet.shepherd/document/download/0691i00000S1UfcAAF?operationContext=S1&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(42, 98, 63);&quot;&gt;&lt;strong&gt;&lt;u&gt;HERE&lt;/u&gt;&lt;/strong&gt;&lt;/a&gt; or on the Salesforce Support Page.&lt;/p&gt;</body>
+        <displayType>DockedComposer</displayType>
+        <header>Training material</header>
+        <isPublished>false</isPublished>
+        <masterLabel>New WTP Performance Management In-App Guidance Step 10</masterLabel>
+        <shouldDisplayActionButton>false</shouldDisplayActionButton>
+        <shouldIgnoreGlobalDelay>false</shouldIgnoreGlobalDelay>
+        <stepNumber>10</stepNumber>
+        <targetPageKey1>Case</targetPageKey1>
+        <targetPageKey2>view</targetPageKey2>
+        <targetPageType>standard__recordPage</targetPageType>
+        <targetRecordType>Case.Data_Performance_Management_Request</targetRecordType>
+        <title>Training Video</title>
+        <userAccess>Everyone</userAccess>
+        <userProfileAccess>Everyone</userProfileAccess>
+        <versionNumber>1</versionNumber>
+    </promptVersions>
+</Prompt>

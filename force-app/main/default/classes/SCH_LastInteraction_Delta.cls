@@ -10,6 +10,8 @@ global class SCH_LastInteraction_Delta implements Schedulable
             '   First_Last_name__c, ' +
             '   Last_Meeting_Call__c, ' +
             '   Last_Newsletter_sent__c, ' +
+            '   Last_Newsletter_Sent_Type__c,' +
+            '   Last_Newsletter_Opened__c, ' +
             '   Last_Event_attendance__c, ' +
             '   Last_Event_attendance_Type__c ' +
             '   FROM ' +

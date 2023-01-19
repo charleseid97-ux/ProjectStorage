@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Campaign_VR08_Description_Field</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+					!$User.BypassValidationRules__c,
+					 RecordType.DeveloperName = &apos;Newsletters&apos;,
+					 LEN(Description) &gt; 60
+)</errorConditionFormula>
+    <errorDisplayField>Description</errorDisplayField>
+    <errorMessage>The Description cannot be more than 60 characters</errorMessage>
+</ValidationRule>

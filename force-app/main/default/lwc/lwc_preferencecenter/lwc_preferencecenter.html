@@ -1,0 +1,353 @@
+<!-- 
+    Author : Noor Goolamnabee 
+    Created Date : 07/07/2022
+    Description :  Preference Center /  Communication Preference
+    Referenced In : Contact's Record Page under Preference Center Tab
+    APEX Controller : PreferenceCenterController
+-->
+<template>
+    <!-- START : Prospace Alert Section----------------------------------------------------------- -->
+    <lightning-card title="Prospace Alerts">
+        <template if:true={isAlertTypesArrayInitialized}>
+            <!--START : Choose All Toggle Button -->
+            <div class="slds-form-element slds-p-around_x-small" slot="actions">
+                <label class="slds-checkbox_toggle slds-grid">
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_7-of-12 slds-text-align_right">
+                        <span class="slds-form-element__label slds-m-bottom_none">Choose All</span>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_5-of-12">
+                        <lightning-input type="toggle" message-toggle-active="" message-toggle-inactive="" label=""
+                            name="chooseAllToggle" onchange={selectAllAlertTypes} checked={isChooseAllToggleSelected}>
+                        </lightning-input>
+                    </div>
+                </label>
+            </div>
+            <!--END : Choose All Toggle Button -->
+            <!-- START : Alert Types Section----------------------------------------------------------- -->
+            <div class="slds-grid slds-wrap slds-p-top_small slds-p-bottom_medium">
+                <!-- START : Nav and Reports Toggle Buttons -------------------------------- -->
+                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                    <div class=" slds-text-heading_label">Nav & Reports</div>
+                    <template for:each={alertTypesArr} for:item="alert_type">
+                        <template if:false={alert_type.alertTypeIsPublished}>
+                            <div key={alert_type.alertTypeId} class="slds-form-element slds-p-around_x-small">
+                                <label class="slds-checkbox_toggle slds-grid">
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_7-of-12 slds-text-align_right">
+                                        <!-- START : Existing Prospace Alert Indication Icon Button -->
+                                        <template if:true={alert_type.prospaceAlertCreated}>
+                                            <span class="slds-form-element__label slds-p-bottom_xx-small">
+                                                <lightning-button-icon icon-name="utility:edit" size="small"
+                                                    name={alert_type.alertTypeName} value={alert_type.alertTypeId}
+                                                    variant="bare" alternative-text="Open Pop-Up" title="Open Pop-Up"
+                                                    onclick={openModalPopUpExisting}
+                                                    tooltip="Prospace Alerts already exist. Click here to View.">
+                                                </lightning-button-icon>
+                                            </span>
+                                        </template>
+                                        <!-- END : Existing Prospace Alert Indication Icon Button -->
+                                        <span
+                                            class="slds-form-element__label slds-m-bottom_none">{alert_type.alertTypeName}</span>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_5-of-12"
+                                        data-class="nav_and_reports_container">
+                                        <lightning-input type="toggle" message-toggle-active="" message-toggle-inactive=""
+                                            label="" name={alert_type.alertTypeName} value={alert_type.alertTypeId}
+                                            onchange={openModalPopUp} checked={alert_type.prospaceAlertCreated}>
+                                        </lightning-input>
+                                    </div>
+                                </label>
+                            </div>
+                        </template>
+                    </template>
+                </div>
+                <!-- END : Nav and Reports Toggle Buttons -------------------------------- -->
+                <!-- START : Publication Toggle Buttons ---------------------------------- -->
+                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                    <div class="slds-text-heading_label">Publication</div>
+                    <template for:each={alertTypesArr} for:item="alert_type">
+                        <template if:true={alert_type.alertTypeIsPublished}>
+                            <div key={alert_type.alertTypeId} class="slds-form-element slds-p-around_x-small">
+                                <label class="slds-checkbox_toggle slds-grid">
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_7-of-12 slds-text-align_right">
+                                        <span
+                                            class="slds-form-element__label slds-m-bottom_none">{alert_type.alertTypeName}</span>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_5-of-12"
+                                        data-class="publisher_container">
+                                        <lightning-input type="toggle" message-toggle-active="" message-toggle-inactive=""
+                                            label="" name={alert_type.alertTypeName} value={alert_type.alertTypeId}
+                                            onchange={openModalPopUp} checked={alert_type.prospaceAlertCreated}>
+                                        </lightning-input>
+                                    </div>
+                                </label>
+                            </div>
+                        </template>
+                    </template>
+                </div>
+                <!-- END : Publication Toggle Buttons ---------------------------------- -->
+            </div>
+            <template if:true={isChooseAllLoading}>
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </template>
+            <!-- END : Alert Types Section----------------------------------------------------------- -->
+        </template>
+        <template if:false={isAlertTypesArrayInitialized}>
+            <div class="slds-text-heading_medium slds-align_absolute-center" style="color:#747474;">
+                {customLabelsReference.contactNotSynchronizedMSG}
+            </div>
+        </template>
+    </lightning-card>
+
+    <!-- EMD : Prospace Alert Section------------------------------------------------------------- -->
+    <!-- START : Marketing Emails Section----------------------------------------------------------- -->
+    <lightning-card title="Marketing Emails">
+        <!--START : Opt out from all emails Toggle Button -->
+        <div class="slds-form-element slds-p-around_x-small" slot="actions">
+            <label class="slds-checkbox_toggle slds-grid">
+                <div class="slds-col slds-size_1-of-1 slds-large-size_7-of-12 slds-text-align_right">
+                    <span class="slds-form-element__label slds-m-bottom_none">Opt out from all emails</span>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-large-size_5-of-12">
+                    <template if:true={wiredContacts.data}>
+                        <template for:each={wiredContacts.data} for:item="contact">
+                            <lightning-input key={contact.Id} type="toggle" message-toggle-active="" message-toggle-inactive="" label=""
+                                name="optOutOfAllEmailsToggle" onchange={optOutOfAllEmails} checked={contact.HasOptedOutOfEmail}></lightning-input>
+                        </template>
+                    </template>
+                </div>
+                </label>
+            <template if:true={isOptOutLoading}>
+                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+            </template>
+        </div>
+        <!--END : Opt out from all emails Toggle Button -->
+        <div class="slds-p-top_small slds-p-bottom_medium">
+            <div class="slds-grid slds-wrap">
+                <!-- START : Communication Type Section --------------------------------------------------------------- -->
+                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                    <div class=" slds-text-heading_label">Communication Types</div>
+                    <template if:true={isCommunicationTypeLoading}>
+                        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                    </template>
+                    <template if:false={isCommunicationTypeLoading}>
+                        <template for:each={communicationTypesArr} for:item="communication_type">
+                            <div key={communication_type} class="slds-form-element slds-p-around_x-small">
+                                <label class="slds-checkbox_toggle slds-grid">
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_7-of-12 slds-text-align_right">
+                                        <span class="slds-form-element__label slds-m-bottom_none">{communication_type.checkboxLabel}</span>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_5-of-12">
+                                        <lightning-input type="toggle" message-toggle-active="" message-toggle-inactive="" label=""
+                                            name={communication_type.checkboxAPI} onchange={amendCommunicationType}
+                                            checked={communication_type.checkboxValue}>
+                                        </lightning-input>
+                                    </div>
+                                </label>
+                            </div>
+                        </template>
+                    </template>
+                </div>
+                <!-- END : Communication Type --------------------------------------------------- -->
+                <!-- START : Interests Section -------------------------------------------------- -->
+                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                    <div class=" slds-text-heading_label">Interests</div>
+                    <template if:true={isMainInterestLoading}>
+                        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                    </template>
+                    <template if:false={isMainInterestLoading}>
+                        <template for:each={interestsMainsArr} for:item="interest">
+                            <div key={interest} class="slds-form-element slds-p-around_x-small">
+                                <label class="slds-checkbox_toggle slds-grid">
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_7-of-12 slds-text-align_right">
+                                        <template if:true={interest.isSubInterests}>
+                                            <span class="slds-form-element__label slds-p-bottom_xx-small">
+                                                <lightning-button-icon icon-name="utility:edit" size="small" name="interestsEdit"
+                                                    value={interest.checkboxAPI} variant="bare" alternative-text="Open Pop-Up"
+                                                    title="Open Pop-Up" onclick={openModalPopUpExisting}
+                                                    tooltip="Interests have been created. Click here to View.">
+                                                </lightning-button-icon>
+                                            </span>
+                                        </template>
+                                        <span class="slds-form-element__label slds-m-bottom_none">{interest.checkboxLabel}</span>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_5-of-12">
+                                        <lightning-input type="toggle" message-toggle-active="" message-toggle-inactive="" label=""
+                                            name={interest.checkboxAPI} aria-label={interest.checkboxLabel} onchange={openInterestModal}
+                                            checked={interest.checkboxValue}>
+                                        </lightning-input>
+                                    </div>
+                                </label>
+                            </div>
+                        </template>
+                    </template>
+                </div>
+                <!-- END : Interests Section -------------------------------------------------- -->
+            </div>
+        </div>
+    </lightning-card>
+    <!-- END : Marketing Emails Section ----------------------------------------------------------- -->
+
+    <!--START : MODAL Section-->
+    <template if:true={isModalDisplayed}>
+        <section role="dialog" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse">
+                    <lightning-icon class="white-icon" icon-name="utility:close" alternative-text="Cancel and Close"
+                        title="Cancel and Close" onclick={closeModalPopUp}></lightning-icon>
+                    <span class="slds-assistive-text">Cancel and close</span>
+                </button>
+                <div class="slds-modal__header">
+                    <h1 class="slds-modal__title slds-hyphenate">{modalTitle}</h1>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium" style="height:500px;overflow-x:scroll;">
+                    <template if:false={isInterestDisplayed}>
+                        <!-- START : Share Classes and Funds Record Edit Form --------------- -->
+                        <lightning-record-edit-form object-api-name="Web_Communication__c">
+                            <div class="slds-grid slds-wrap">
+                                <div data-id="fund_input_container"
+                                    class="slds-col slds-size_1-of-1 slds-large-size_4-of-12 slds-p-around_xx-small">
+                                    <lightning-input-field field-name="Fund__c"> </lightning-input-field>
+                                </div>
+                                <div data-id="shareclass_input_container"
+                                    class="slds-col slds-size_1-of-1 slds-large-size_6-of-12 slds-p-around_xx-small"
+                                    onclick={setFundValueForFilterCriteria}>
+                                    <!--<lightning-input-field field-name="ShareClass__c"> </lightning-input-field>-->
+                                    <c-lwc_lookupfield_filtercriteria referenced_object_api="Web_Communication__c"
+                                        lookup_origin_object_api="Share_Class__c" lookup_field_api="ShareClass__c"
+                                        subheader_field="ISIN_Code__c" dependent_query="AND Fund__c ="
+                                        dependent_value={fundIdToCascadeDown} record_id={recordId}
+                                        empty_lookupfield={clearShareClassLookup} icon_name="custom:custom64">
+                                    </c-lwc_lookupfield_filtercriteria>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 slds-large-size_2-of-12 slds-p-around_xx-small">
+                                    <div class="slds-m-top_large">
+                                        <lightning-button-icon icon-name="utility:add" variant="brand"
+                                            alternative-text="Add Share Class" onclick={addProspaceAlert}>
+                                        </lightning-button-icon>
+                                    </div>
+                                </div>
+                            </div>
+                        </lightning-record-edit-form>
+                            <template if:true={isSpinnerLoading}>
+                                <div class="spinnerContainer">
+                                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                                </div>
+                            </template>
+                            <!-- END : Share Classes and Funds Record Edit Form --------------- -->
+                            <!-- START : Share Classes and Funds Added Section ---------------- -->
+                            <template if:false={isSpinnerLoading}>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_12-of-12 slds-p-around_xx-small">
+                                        <template if:false={isEmptyState}>
+                                            <!-- START : Lightning Datatable for Share Classes and Funds -->
+                                            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                                                <thead>
+                                                    <tr class="slds-line-height_reset">
+                                                        <th scope="col" style="width:2.25rem"></th>
+                                                        <th scope="col">
+                                                            <div class="slds-truncate" title="Funds">Funds</div>
+                                                        </th>
+                                                        <th scope="col">
+                                                            <div class="slds-truncate" title="Share Class">Share Classes
+                                                            </div>
+                                                        </th>
+                                                        <th scope="col">
+                                                            <div class="slds-truncate" title="Share Class ISIN Code">Share Class ISIN Code</div>
+                                                        </th>
+                                                        <th scope="col" style="width:2.25rem"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="tbodyContainer">
+                                                    <template for:each={newProspaceAlertsArr} for:item="each_object">
+                                                        <tr key={each_object.Id} class="slds-hint-parent">
+                                                            <td>
+                                                                <lightning-button-icon value={each_object.Id} icon-name="utility:dash"
+                                                                    variant="border" alternative-text="Remove Share Class" size="x-small"
+                                                                    onclick={removeProspaceAlert}>
+                                                                </lightning-button-icon>
+                                                            </td>
+                                                            <td>
+                                                                <div class="slds-truncate" title={each_object.FundName}>
+                                                                    {each_object.FundName}
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="slds-truncate" title={each_object.ShareClassName}>
+                                                                    {each_object.ShareClassName}
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="slds-truncate" title={each_object.ShareClassISINCode}>
+                                                                    {each_object.ShareClassISINCode}
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="slds-truncate" title="Contact Synchro Status">
+                                                                    <template if:true={each_object.synchroStatusIconSuccess}>
+                                                                        <lightning-icon icon-name="utility:success"
+                                                                            class="slds-float_right success-icon" size="x-small"
+                                                                            alternative-text="Contact Synchro Status Successful"
+                                                                            title="Contact Synchro Status Successful"></lightning-icon>
+                                                                    </template>
+                                                                    <template if:false={each_object.synchroStatusIconSuccess}>
+                                                                        <lightning-icon icon-name="utility:error"
+                                                                            class="slds-float_right error-icon" size="x-small"
+                                                                            alternative-text="Contact Synchro Status Failed"
+                                                                            title="Contact Synchro Status Failed"></lightning-icon>
+                                                                    </template>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </template>
+                                                </tbody>
+                                            </table>
+                                            <!-- END : Lightning Datable for Share Classes and Funds -->
+                                        </template>
+                                        <template if:true={isEmptyState}>
+                                            <c-lwc_empty_state_illustrations show_nodata_illustration="true"
+                                                message_to_display="No Prospace Alert.">
+                                            </c-lwc_empty_state_illustrations>
+                                        </template>
+                                    </div>
+                                </div>
+                                <!--END : Share Classes and Funds Added Section --------------------------------------- -->
+                            </template>
+                    </template>
+                    <template if:true={isInterestDisplayed}>
+                        <div data-id="interestsCheckboxContainer">
+                            <template for:each={interestsCheckboxList} for:item="sub_interest">
+                                <lightning-input key={sub_interest.checkboxAPI} type="checkbox" label={sub_interest.checkboxLabel}
+                                    name={sub_interest.checkboxAPI} checked={sub_interest.checkboxValue} onchange={selectInterest}>
+                                </lightning-input>
+                            </template>
+                        </div>
+                        <template if:true={isInterestLoading}>
+                            <div class="spinnerContainer">
+                                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                            </div>
+                        </template>
+                    </template>
+                </div>
+                <div class="slds-modal__footer" data-id="modal_buttons_container">
+                    <template if:false={isInterestDisplayed}>
+                        <button class="slds-button slds-button_brand" data-name="addAllProspaceAlertsBtn" onclick={addAllProspaceAlertsModal}>Add All</button>
+                        <template if:true={isEmptyState}>
+                            <!--<button class="slds-button slds-button_brand" data-name="addAllProspaceAlertsBtn" onclick={addAllProspaceAlertsModal}>Add All</button>-->
+                            <button class="slds-button slds-button_brand" data-name="removeAllProspaceAlertsBtn" disabled>Delete All</button>
+                        </template>
+                        <template if:false={isEmptyState}>
+                           <!--- <button class="slds-button slds-button_brand" data-name="addAllProspaceAlertsBtn" disabled>Add All</button> -->
+                            <button class="slds-button slds-button_brand" data-name="removeAllProspaceAlertsBtn" onclick={removeAllProspaceAlertsModal}>Delete All</button>
+                        </template>
+                    </template>
+                    <template if:true={isInterestDisplayed}>
+                        <button class="slds-button slds-button_brand" onclick={saveContactInterest}>Save</button>
+                    </template>
+                    <button class="slds-button slds-button_neutral" onclick={closeModalPopUp}>Cancel</button>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+    <!--END : MODAL Section-->
+</template>

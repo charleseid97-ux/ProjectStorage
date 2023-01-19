@@ -327,27 +327,27 @@
             <recipient>seb.prod@carmignac.com</recipient>
             <type>user</type>
         </recipients>
+        <recipients>
+            <field>Requester__c</field>
+            <type>userLookup</type>
+        </recipients>
         <senderType>CurrentUser</senderType>
-        <template>Work_Together_Process/Work_Together_Process_New</template>
+        <template>Work_Together_Process/Work_Together_ProcessNew</template>
     </alerts>
     <alerts>
         <fullName>New_Work_Together_Process_MI</fullName>
-        <ccEmails>Workgroup.Market.Intelligence@carmignac.com</ccEmails>
+        <ccEmails>business.intelligence@carmignac.com</ccEmails>
         <description>New_WorkTogether_Process_MI</description>
         <protected>false</protected>
         <recipients>
             <type>creator</type>
         </recipients>
         <recipients>
-            <recipient>felix.reyes-crm@carmignac.com</recipient>
-            <type>user</type>
-        </recipients>
-        <recipients>
             <field>Requester__c</field>
             <type>userLookup</type>
         </recipients>
         <senderType>CurrentUser</senderType>
-        <template>Work_Together_Process/Work_Together_Process_New</template>
+        <template>Work_Together_Process/Work_Together_ProcessNew</template>
     </alerts>
     <alerts>
         <fullName>New_Work_Together_Process_Product</fullName>
@@ -355,31 +355,23 @@
         <description>New_WorkTogether_Process_Product</description>
         <protected>false</protected>
         <recipients>
-            <recipient>felix.reyes-crm@carmignac.com</recipient>
-            <type>user</type>
-        </recipients>
-        <recipients>
             <field>Requester__c</field>
             <type>userLookup</type>
         </recipients>
         <senderType>CurrentUser</senderType>
-        <template>Work_Together_Process/Work_Together_Process_New</template>
+        <template>Work_Together_Process/Work_Together_ProcessNew</template>
     </alerts>
     <alerts>
         <fullName>New_Work_Together_Process_RFP</fullName>
-        <ccEmails>RFP@carmignac.com</ccEmails>
+        <ccEmails>rfp@carmignac.com</ccEmails>
         <description>New_WorkTogether_Process_RFP</description>
         <protected>false</protected>
-        <recipients>
-            <recipient>felix.reyes-crm@carmignac.com</recipient>
-            <type>user</type>
-        </recipients>
         <recipients>
             <field>Requester__c</field>
             <type>userLookup</type>
         </recipients>
         <senderType>CurrentUser</senderType>
-        <template>Work_Together_Process/Work_Together_Process_New</template>
+        <template>Work_Together_Process/Work_Together_ProcessNew</template>
     </alerts>
     <alerts>
         <fullName>Notify_Work_Together</fullName>
@@ -400,6 +392,28 @@
         </recipients>
         <senderType>CurrentUser</senderType>
         <template>CarmignacAlerts/Reminder_Client_Request</template>
+    </alerts>
+    <alerts>
+        <fullName>WTP_DPM_Status_Notification</fullName>
+        <ccEmails>performance.management@carmignac.com</ccEmails>
+        <description>WTP DPM Status Notification</description>
+        <protected>false</protected>
+        <recipients>
+            <type>creator</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <field>Assigned_To__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <recipients>
+            <field>Requester__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Notification_Status_WTP_DPM</template>
     </alerts>
     <alerts>
         <fullName>WorkTogether_AssignedTo</fullName>
@@ -477,7 +491,7 @@
             <type>userLookup</type>
         </recipients>
         <senderType>CurrentUser</senderType>
-        <template>Work_Together_Process/Work_Together_Process_New</template>
+        <template>Work_Together_Process/Work_Together_ProcessNew</template>
     </alerts>
     <alerts>
         <fullName>WorkTogether_RFP_Awaiting</fullName>
@@ -492,7 +506,7 @@
             <type>userLookup</type>
         </recipients>
         <senderType>CurrentUser</senderType>
-        <template>Work_Together_Process/WorkTogether_RFP_Awaiting</template>
+        <template>Work_Together_Process/Work_Together_Process_Awaiting</template>
     </alerts>
     <alerts>
         <fullName>WorkTogether_RFP_Closed</fullName>
@@ -500,14 +514,14 @@
         <description>WorkTogether_RFP_Closed</description>
         <protected>false</protected>
         <recipients>
-            <type>creator</type>
+            <type>owner</type>
         </recipients>
         <recipients>
             <field>Requester__c</field>
             <type>userLookup</type>
         </recipients>
         <senderType>CurrentUser</senderType>
-        <template>Work_Together_Process/WorkTogether_RFP_Close</template>
+        <template>Work_Together_Process/Work_Together_Process_Completed_Rejected</template>
     </alerts>
     <alerts>
         <fullName>X3_months_update</fullName>

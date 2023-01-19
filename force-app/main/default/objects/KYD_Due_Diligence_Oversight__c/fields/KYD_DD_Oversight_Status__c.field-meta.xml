@@ -2,12 +2,13 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>KYD_DD_Oversight_Status__c</fullName>
     <externalId>false</externalId>
-    <formula>if((NumberofMandatoryDocuments__c ==  NumberofMandatoryDocumentsUploaded__c || NumberofMandatoryDocuments__c == 0) &amp;&amp; NOT(ISPICKVAL(Final_Risk__c, &apos;&apos;)), 
-			&quot;Completed&quot;,
-			if(NumberofMandatoryDocuments__c &gt; 0 &amp;&amp; NumberofMandatoryDocuments__c &lt;&gt; NumberofMandatoryDocumentsUploaded__c,
-				    &quot;In Progress&quot;, 
-						  &quot;Not Started&quot;
-				)
+    <formula>if(
+(NumberofMandatoryDocuments__c == NumberofMandatoryDocumentsUploaded__c || NumberofMandatoryDocuments__c == 0) &amp;&amp; (NOT(ISPICKVAL(Final_Risk__c,&apos;&apos;)) || ISPICKVAL(KYD_Responsible__c,&apos;RELIANCE&apos;)) ,
+&quot;Completed&quot;,
+if(NumberofMandatoryDocuments__c &gt; 0 &amp;&amp; NumberofMandatoryDocuments__c &lt;&gt; NumberofMandatoryDocumentsUploaded__c,
+&quot;In Progress&quot;,
+&quot;Not Started&quot;
+)
 )</formula>
     <inlineHelpText>All mandatory document should be uploaded and the final risk needs to be populated for the status to be completed</inlineHelpText>
     <label>KYD DD Oversight Status</label>

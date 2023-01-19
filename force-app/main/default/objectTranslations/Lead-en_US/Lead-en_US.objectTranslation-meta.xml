@@ -8,6 +8,10 @@
         </sections>
         <sections>
             <label></label>
+            <section>Custom scoring</section>
+        </sections>
+        <sections>
+            <label></label>
             <section>Disqualification information</section>
         </sections>
         <sections>
@@ -27,6 +31,10 @@
         <layout>Lead Layout</layout>
         <sections>
             <label></label>
+            <section>Custom scoring</section>
+        </sections>
+        <sections>
+            <label></label>
             <section>Pardot</section>
         </sections>
         <sections>
@@ -43,6 +51,10 @@
         <sections>
             <label></label>
             <section>Communication Preferences</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Custom scoring</section>
         </sections>
         <sections>
             <label></label>
@@ -81,4 +93,111 @@
         <label></label>
         <name>Sync_Website_Lead</name>
     </quickActions>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>BrightTALK_Lead</name>
+    </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>Lead_ProSpaceLead</name>
+    </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>Website_Lead</name>
+    </recordTypes>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Lead_VR01_PhoneNumberFormat</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Lead_VR02_MobileNumberFormat</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Lead_VR03_DirectPhoneNumberFormat</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Lead_VR04_Disqualified_status_management</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Lead_VR05_EmailOrPhoneMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Lead_VR06_EmailMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Lead_VR07_TrialStatusMandatory</name>
+    </validationRules>
+    <webLinks>
+        <label></label>
+        <name>Add_To_Event_list</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>Add_to_Campaign_Custom</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>CventEvents__InviteLeadToEvent</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>CventEvents__ModifyCancelLeadToEvent</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>CventEvents__NominateLeadToEvent</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>CventEvents__RegisterLeadToEvent</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>Easy_Drill__View_Hierarchy</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>GoogleMaps</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>GoogleNews</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>GoogleSearch</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>Linkedin</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>Mass_Delete_Records</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>pi__Send_Pardot_Email</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>pi__Send_Pardot_Emails</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>pi__Send_Single_Pardot_Email</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>pi__Send_to_Prospect_Insight</name>
+    </webLinks>
 </CustomObjectTranslation>

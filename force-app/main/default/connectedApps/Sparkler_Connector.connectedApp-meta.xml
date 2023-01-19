@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+    <canvasConfig>
+        <accessMethod>Post</accessMethod>
+        <canvasUrl>https://efl-prd.carmignac.com:8443/sparkler/sfdc/canvas</canvasUrl>
+        <locations>Visualforce</locations>
+        <locations>Publisher</locations>
+        <locations>ChatterFeed</locations>
+        <samlInitiationMethod>None</samlInitiationMethod>
+    </canvasConfig>
+    <contactEmail>nicolas.mieszaly.external@carmignac.com</contactEmail>
+    <label>Sparkler_Connector</label>
+    <oauthConfig>
+        <callbackUrl>https://efl-prd.carmignac.com:8443/sparkler/keepAlive</callbackUrl>
+        <consumerKey>3MVG98_Psg5cppyagUaZtwGwCkRfFmUHSoCM1YiVo03A_LlCDdaUopuLkBfIe386Jd_fh_dmfvK4PSHrDmpry</consumerKey>
+        <isAdminApproved>true</isAdminApproved>
+        <isClientCredentialEnabled>false</isClientCredentialEnabled>
+        <isConsumerSecretOptional>false</isConsumerSecretOptional>
+        <isIntrospectAllTokens>false</isIntrospectAllTokens>
+        <isSecretRequiredForRefreshToken>false</isSecretRequiredForRefreshToken>
+        <scopes>Basic</scopes>
+    </oauthConfig>
+    <oauthPolicy>
+        <ipRelaxation>ENFORCE</ipRelaxation>
+        <refreshTokenPolicy>infinite</refreshTokenPolicy>
+    </oauthPolicy>
+    <profileName>Carmignac - Legal and Compliance</profileName>
+    <profileName>Carmignac - Investment Solutions</profileName>
+    <profileName>Carmignac - Event</profileName>
+    <profileName>Carmignac - Investor Services</profileName>
+    <profileName>System Administrator</profileName>
+    <profileName>Carmignac - Interface</profileName>
+    <profileName>Carmignac - System Administrator</profileName>
+    <profileName>Carmignac - Business Developer</profileName>
+    <profileName>Carmignac - CRM</profileName>
+    <profileName>Carmignac - Campaign Automation</profileName>
+    <profileName>Carmignac - Contributor</profileName>
+    <profileName>Carmignac - Interface Etouches</profileName>
+    <profileName>Carmignac - Market Intelligence</profileName>
+    <profileName>Carmignac - Top Management</profileName>
+</ConnectedApp>

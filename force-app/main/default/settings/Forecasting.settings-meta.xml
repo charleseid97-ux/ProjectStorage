@@ -80,19 +80,10 @@
     </forecastingCategoryMappings>
     <forecastingTypeSettings>
         <active>true</active>
-        <adjustmentsSettings>
-            <enableAdjustments>true</enableAdjustments>
-            <enableOwnerAdjustments>false</enableOwnerAdjustments>
-        </adjustmentsSettings>
         <displayedCategoryApiNames>closedonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>commitonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>bestcaseonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>pipelineonly</displayedCategoryApiNames>
-        <forecastRangeSettings>
-            <beginning>0</beginning>
-            <displaying>6</displaying>
-            <periodType>Month</periodType>
-        </forecastRangeSettings>
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
@@ -271,6 +262,10 @@
             <label>Business Development Region_TEXT</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N5800000D9em8</field>
+            <label>Client Feedback</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYi</field>
             <label>Company type</label>
         </opportunityListFieldsLabelMappings>
@@ -299,16 +294,16 @@
             <label>Découverte terminée</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
-            <field>00N5800000D9em8</field>
-            <label>Due Diligence Feedback</label>
-        </opportunityListFieldsLabelMappings>
-        <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYj</field>
             <label>Expertise</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYk</field>
             <label>Expertise</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002JKPh</field>
+            <label>Feedback Date</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYl</field>
@@ -434,6 +429,7 @@
             <field>00N58000004lqZT</field>
             <field>00N1i000002fXdM</field>
             <field>00N1i000002fXdL</field>
+            <field>00N5800000D9em8</field>
             <field>00N5800000CMqYi</field>
             <field>00N1i000001y64v</field>
             <field>00N1i000001y64w</field>
@@ -441,9 +437,9 @@
             <field>00N5800000DIYE9</field>
             <field>00N5800000DIdG3</field>
             <field>00N58000004lqZU</field>
-            <field>00N5800000D9em8</field>
             <field>00N5800000CMqYj</field>
             <field>00N5800000CMqYk</field>
+            <field>00N1i000002JKPh</field>
             <field>00N5800000CMqYl</field>
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
@@ -465,25 +461,13 @@
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
         </opportunityListFieldsUnselectedSettings>
-        <quotasSettings>
-            <showQuotas>false</showQuotas>
-        </quotasSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
         <active>false</active>
-        <adjustmentsSettings>
-            <enableAdjustments>true</enableAdjustments>
-            <enableOwnerAdjustments>false</enableOwnerAdjustments>
-        </adjustmentsSettings>
         <displayedCategoryApiNames>closedonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>commitonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>bestcaseonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>pipelineonly</displayedCategoryApiNames>
-        <forecastRangeSettings>
-            <beginning>0</beginning>
-            <displaying>6</displaying>
-            <periodType>Month</periodType>
-        </forecastRangeSettings>
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
@@ -662,6 +646,10 @@
             <label>Business Development Region_TEXT</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N5800000D9em8</field>
+            <label>Client Feedback</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYi</field>
             <label>Company type</label>
         </opportunityListFieldsLabelMappings>
@@ -690,16 +678,16 @@
             <label>Découverte terminée</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
-            <field>00N5800000D9em8</field>
-            <label>Due Diligence Feedback</label>
-        </opportunityListFieldsLabelMappings>
-        <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYj</field>
             <label>Expertise</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYk</field>
             <label>Expertise</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002JKPh</field>
+            <label>Feedback Date</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYl</field>
@@ -825,6 +813,7 @@
             <field>00N58000004lqZT</field>
             <field>00N1i000002fXdM</field>
             <field>00N1i000002fXdL</field>
+            <field>00N5800000D9em8</field>
             <field>00N5800000CMqYi</field>
             <field>00N1i000001y64v</field>
             <field>00N1i000001y64w</field>
@@ -832,9 +821,9 @@
             <field>00N5800000DIYE9</field>
             <field>00N5800000DIdG3</field>
             <field>00N58000004lqZU</field>
-            <field>00N5800000D9em8</field>
             <field>00N5800000CMqYj</field>
             <field>00N5800000CMqYk</field>
+            <field>00N1i000002JKPh</field>
             <field>00N5800000CMqYl</field>
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
@@ -856,25 +845,13 @@
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
         </opportunityListFieldsUnselectedSettings>
-        <quotasSettings>
-            <showQuotas>false</showQuotas>
-        </quotasSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
         <active>false</active>
-        <adjustmentsSettings>
-            <enableAdjustments>true</enableAdjustments>
-            <enableOwnerAdjustments>false</enableOwnerAdjustments>
-        </adjustmentsSettings>
         <displayedCategoryApiNames>closedonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>commitonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>bestcaseonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>pipelineonly</displayedCategoryApiNames>
-        <forecastRangeSettings>
-            <beginning>0</beginning>
-            <displaying>6</displaying>
-            <periodType>Month</periodType>
-        </forecastRangeSettings>
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
@@ -1057,6 +1034,10 @@
             <label>Business Development Region_TEXT</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N5800000D9em8</field>
+            <label>Client Feedback</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYi</field>
             <label>Company type</label>
         </opportunityListFieldsLabelMappings>
@@ -1085,16 +1066,16 @@
             <label>Découverte terminée</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
-            <field>00N5800000D9em8</field>
-            <label>Due Diligence Feedback</label>
-        </opportunityListFieldsLabelMappings>
-        <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYj</field>
             <label>Expertise</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYk</field>
             <label>Expertise</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002JKPh</field>
+            <label>Feedback Date</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYl</field>
@@ -1221,6 +1202,7 @@
             <field>00N58000004lqZT</field>
             <field>00N1i000002fXdM</field>
             <field>00N1i000002fXdL</field>
+            <field>00N5800000D9em8</field>
             <field>00N5800000CMqYi</field>
             <field>00N1i000001y64v</field>
             <field>00N1i000001y64w</field>
@@ -1228,9 +1210,9 @@
             <field>00N5800000DIYE9</field>
             <field>00N5800000DIdG3</field>
             <field>00N58000004lqZU</field>
-            <field>00N5800000D9em8</field>
             <field>00N5800000CMqYj</field>
             <field>00N5800000CMqYk</field>
+            <field>00N1i000002JKPh</field>
             <field>00N5800000CMqYl</field>
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
@@ -1252,25 +1234,13 @@
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
         </opportunityListFieldsUnselectedSettings>
-        <quotasSettings>
-            <showQuotas>false</showQuotas>
-        </quotasSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
         <active>false</active>
-        <adjustmentsSettings>
-            <enableAdjustments>true</enableAdjustments>
-            <enableOwnerAdjustments>false</enableOwnerAdjustments>
-        </adjustmentsSettings>
         <displayedCategoryApiNames>closedonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>commitonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>bestcaseonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>pipelineonly</displayedCategoryApiNames>
-        <forecastRangeSettings>
-            <beginning>0</beginning>
-            <displaying>6</displaying>
-            <periodType>Month</periodType>
-        </forecastRangeSettings>
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
@@ -1449,6 +1419,10 @@
             <label>Business Development Region_TEXT</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N5800000D9em8</field>
+            <label>Client Feedback</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYi</field>
             <label>Company type</label>
         </opportunityListFieldsLabelMappings>
@@ -1477,16 +1451,16 @@
             <label>Découverte terminée</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
-            <field>00N5800000D9em8</field>
-            <label>Due Diligence Feedback</label>
-        </opportunityListFieldsLabelMappings>
-        <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYj</field>
             <label>Expertise</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYk</field>
             <label>Expertise</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002JKPh</field>
+            <label>Feedback Date</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYl</field>
@@ -1612,6 +1586,7 @@
             <field>00N58000004lqZT</field>
             <field>00N1i000002fXdM</field>
             <field>00N1i000002fXdL</field>
+            <field>00N5800000D9em8</field>
             <field>00N5800000CMqYi</field>
             <field>00N1i000001y64v</field>
             <field>00N1i000001y64w</field>
@@ -1619,9 +1594,9 @@
             <field>00N5800000DIYE9</field>
             <field>00N5800000DIdG3</field>
             <field>00N58000004lqZU</field>
-            <field>00N5800000D9em8</field>
             <field>00N5800000CMqYj</field>
             <field>00N5800000CMqYk</field>
+            <field>00N1i000002JKPh</field>
             <field>00N5800000CMqYl</field>
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
@@ -1643,25 +1618,13 @@
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
         </opportunityListFieldsUnselectedSettings>
-        <quotasSettings>
-            <showQuotas>false</showQuotas>
-        </quotasSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
         <active>false</active>
-        <adjustmentsSettings>
-            <enableAdjustments>true</enableAdjustments>
-            <enableOwnerAdjustments>false</enableOwnerAdjustments>
-        </adjustmentsSettings>
         <displayedCategoryApiNames>closedonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>commitonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>bestcaseonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>pipelineonly</displayedCategoryApiNames>
-        <forecastRangeSettings>
-            <beginning>0</beginning>
-            <displaying>6</displaying>
-            <periodType>Month</periodType>
-        </forecastRangeSettings>
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
@@ -1844,6 +1807,10 @@
             <label>Business Development Region_TEXT</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N5800000D9em8</field>
+            <label>Client Feedback</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYi</field>
             <label>Company type</label>
         </opportunityListFieldsLabelMappings>
@@ -1872,16 +1839,16 @@
             <label>Découverte terminée</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
-            <field>00N5800000D9em8</field>
-            <label>Due Diligence Feedback</label>
-        </opportunityListFieldsLabelMappings>
-        <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYj</field>
             <label>Expertise</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYk</field>
             <label>Expertise</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002JKPh</field>
+            <label>Feedback Date</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYl</field>
@@ -2008,6 +1975,7 @@
             <field>00N58000004lqZT</field>
             <field>00N1i000002fXdM</field>
             <field>00N1i000002fXdL</field>
+            <field>00N5800000D9em8</field>
             <field>00N5800000CMqYi</field>
             <field>00N1i000001y64v</field>
             <field>00N1i000001y64w</field>
@@ -2015,9 +1983,9 @@
             <field>00N5800000DIYE9</field>
             <field>00N5800000DIdG3</field>
             <field>00N58000004lqZU</field>
-            <field>00N5800000D9em8</field>
             <field>00N5800000CMqYj</field>
             <field>00N5800000CMqYk</field>
+            <field>00N1i000002JKPh</field>
             <field>00N5800000CMqYl</field>
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
@@ -2039,25 +2007,13 @@
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
         </opportunityListFieldsUnselectedSettings>
-        <quotasSettings>
-            <showQuotas>false</showQuotas>
-        </quotasSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
         <active>false</active>
-        <adjustmentsSettings>
-            <enableAdjustments>true</enableAdjustments>
-            <enableOwnerAdjustments>false</enableOwnerAdjustments>
-        </adjustmentsSettings>
         <displayedCategoryApiNames>closedonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>commitonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>bestcaseonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>pipelineonly</displayedCategoryApiNames>
-        <forecastRangeSettings>
-            <beginning>0</beginning>
-            <displaying>6</displaying>
-            <periodType>Month</periodType>
-        </forecastRangeSettings>
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
@@ -2236,6 +2192,10 @@
             <label>Business Development Region_TEXT</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N5800000D9em8</field>
+            <label>Client Feedback</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYi</field>
             <label>Company type</label>
         </opportunityListFieldsLabelMappings>
@@ -2264,16 +2224,16 @@
             <label>Découverte terminée</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
-            <field>00N5800000D9em8</field>
-            <label>Due Diligence Feedback</label>
-        </opportunityListFieldsLabelMappings>
-        <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYj</field>
             <label>Expertise</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYk</field>
             <label>Expertise</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002JKPh</field>
+            <label>Feedback Date</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYl</field>
@@ -2399,6 +2359,7 @@
             <field>00N58000004lqZT</field>
             <field>00N1i000002fXdM</field>
             <field>00N1i000002fXdL</field>
+            <field>00N5800000D9em8</field>
             <field>00N5800000CMqYi</field>
             <field>00N1i000001y64v</field>
             <field>00N1i000001y64w</field>
@@ -2406,9 +2367,9 @@
             <field>00N5800000DIYE9</field>
             <field>00N5800000DIdG3</field>
             <field>00N58000004lqZU</field>
-            <field>00N5800000D9em8</field>
             <field>00N5800000CMqYj</field>
             <field>00N5800000CMqYk</field>
+            <field>00N1i000002JKPh</field>
             <field>00N5800000CMqYl</field>
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
@@ -2430,25 +2391,13 @@
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
         </opportunityListFieldsUnselectedSettings>
-        <quotasSettings>
-            <showQuotas>false</showQuotas>
-        </quotasSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
         <active>false</active>
-        <adjustmentsSettings>
-            <enableAdjustments>true</enableAdjustments>
-            <enableOwnerAdjustments>false</enableOwnerAdjustments>
-        </adjustmentsSettings>
         <displayedCategoryApiNames>closedonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>commitonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>bestcaseonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>pipelineonly</displayedCategoryApiNames>
-        <forecastRangeSettings>
-            <beginning>0</beginning>
-            <displaying>6</displaying>
-            <periodType>Month</periodType>
-        </forecastRangeSettings>
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
@@ -2631,6 +2580,10 @@
             <label>Business Development Region_TEXT</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N5800000D9em8</field>
+            <label>Client Feedback</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYi</field>
             <label>Company type</label>
         </opportunityListFieldsLabelMappings>
@@ -2659,16 +2612,16 @@
             <label>Découverte terminée</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
-            <field>00N5800000D9em8</field>
-            <label>Due Diligence Feedback</label>
-        </opportunityListFieldsLabelMappings>
-        <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYj</field>
             <label>Expertise</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYk</field>
             <label>Expertise</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002JKPh</field>
+            <label>Feedback Date</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYl</field>
@@ -2795,6 +2748,7 @@
             <field>00N58000004lqZT</field>
             <field>00N1i000002fXdM</field>
             <field>00N1i000002fXdL</field>
+            <field>00N5800000D9em8</field>
             <field>00N5800000CMqYi</field>
             <field>00N1i000001y64v</field>
             <field>00N1i000001y64w</field>
@@ -2802,9 +2756,9 @@
             <field>00N5800000DIYE9</field>
             <field>00N5800000DIdG3</field>
             <field>00N58000004lqZU</field>
-            <field>00N5800000D9em8</field>
             <field>00N5800000CMqYj</field>
             <field>00N5800000CMqYk</field>
+            <field>00N1i000002JKPh</field>
             <field>00N5800000CMqYl</field>
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
@@ -2826,25 +2780,13 @@
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
         </opportunityListFieldsUnselectedSettings>
-        <quotasSettings>
-            <showQuotas>false</showQuotas>
-        </quotasSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
         <active>false</active>
-        <adjustmentsSettings>
-            <enableAdjustments>true</enableAdjustments>
-            <enableOwnerAdjustments>false</enableOwnerAdjustments>
-        </adjustmentsSettings>
         <displayedCategoryApiNames>closedonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>commitonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>bestcaseonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>pipelineonly</displayedCategoryApiNames>
-        <forecastRangeSettings>
-            <beginning>0</beginning>
-            <displaying>6</displaying>
-            <periodType>Month</periodType>
-        </forecastRangeSettings>
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
@@ -3023,6 +2965,10 @@
             <label>Business Development Region_TEXT</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N5800000D9em8</field>
+            <label>Client Feedback</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYi</field>
             <label>Company type</label>
         </opportunityListFieldsLabelMappings>
@@ -3051,16 +2997,16 @@
             <label>Découverte terminée</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
-            <field>00N5800000D9em8</field>
-            <label>Due Diligence Feedback</label>
-        </opportunityListFieldsLabelMappings>
-        <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYj</field>
             <label>Expertise</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYk</field>
             <label>Expertise</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002JKPh</field>
+            <label>Feedback Date</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYl</field>
@@ -3186,6 +3132,7 @@
             <field>00N58000004lqZT</field>
             <field>00N1i000002fXdM</field>
             <field>00N1i000002fXdL</field>
+            <field>00N5800000D9em8</field>
             <field>00N5800000CMqYi</field>
             <field>00N1i000001y64v</field>
             <field>00N1i000001y64w</field>
@@ -3193,9 +3140,9 @@
             <field>00N5800000DIYE9</field>
             <field>00N5800000DIdG3</field>
             <field>00N58000004lqZU</field>
-            <field>00N5800000D9em8</field>
             <field>00N5800000CMqYj</field>
             <field>00N5800000CMqYk</field>
+            <field>00N1i000002JKPh</field>
             <field>00N5800000CMqYl</field>
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
@@ -3217,25 +3164,13 @@
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
         </opportunityListFieldsUnselectedSettings>
-        <quotasSettings>
-            <showQuotas>false</showQuotas>
-        </quotasSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
         <active>false</active>
-        <adjustmentsSettings>
-            <enableAdjustments>true</enableAdjustments>
-            <enableOwnerAdjustments>false</enableOwnerAdjustments>
-        </adjustmentsSettings>
         <displayedCategoryApiNames>closedonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>commitonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>bestcaseonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>pipelineonly</displayedCategoryApiNames>
-        <forecastRangeSettings>
-            <beginning>0</beginning>
-            <displaying>6</displaying>
-            <periodType>Month</periodType>
-        </forecastRangeSettings>
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
@@ -3418,6 +3353,10 @@
             <label>Business Development Region_TEXT</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N5800000D9em8</field>
+            <label>Client Feedback</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYi</field>
             <label>Company type</label>
         </opportunityListFieldsLabelMappings>
@@ -3446,16 +3385,16 @@
             <label>Découverte terminée</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
-            <field>00N5800000D9em8</field>
-            <label>Due Diligence Feedback</label>
-        </opportunityListFieldsLabelMappings>
-        <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYj</field>
             <label>Expertise</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYk</field>
             <label>Expertise</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002JKPh</field>
+            <label>Feedback Date</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYl</field>
@@ -3582,6 +3521,7 @@
             <field>00N58000004lqZT</field>
             <field>00N1i000002fXdM</field>
             <field>00N1i000002fXdL</field>
+            <field>00N5800000D9em8</field>
             <field>00N5800000CMqYi</field>
             <field>00N1i000001y64v</field>
             <field>00N1i000001y64w</field>
@@ -3589,9 +3529,9 @@
             <field>00N5800000DIYE9</field>
             <field>00N5800000DIdG3</field>
             <field>00N58000004lqZU</field>
-            <field>00N5800000D9em8</field>
             <field>00N5800000CMqYj</field>
             <field>00N5800000CMqYk</field>
+            <field>00N1i000002JKPh</field>
             <field>00N5800000CMqYl</field>
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
@@ -3613,25 +3553,13 @@
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
         </opportunityListFieldsUnselectedSettings>
-        <quotasSettings>
-            <showQuotas>false</showQuotas>
-        </quotasSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
         <active>false</active>
-        <adjustmentsSettings>
-            <enableAdjustments>true</enableAdjustments>
-            <enableOwnerAdjustments>false</enableOwnerAdjustments>
-        </adjustmentsSettings>
         <displayedCategoryApiNames>closedonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>commitonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>bestcaseonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>pipelineonly</displayedCategoryApiNames>
-        <forecastRangeSettings>
-            <beginning>0</beginning>
-            <displaying>6</displaying>
-            <periodType>Month</periodType>
-        </forecastRangeSettings>
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
@@ -3810,6 +3738,10 @@
             <label>Business Development Region_TEXT</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N5800000D9em8</field>
+            <label>Client Feedback</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYi</field>
             <label>Company type</label>
         </opportunityListFieldsLabelMappings>
@@ -3838,16 +3770,16 @@
             <label>Découverte terminée</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
-            <field>00N5800000D9em8</field>
-            <label>Due Diligence Feedback</label>
-        </opportunityListFieldsLabelMappings>
-        <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYj</field>
             <label>Expertise</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYk</field>
             <label>Expertise</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002JKPh</field>
+            <label>Feedback Date</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYl</field>
@@ -3973,6 +3905,7 @@
             <field>00N58000004lqZT</field>
             <field>00N1i000002fXdM</field>
             <field>00N1i000002fXdL</field>
+            <field>00N5800000D9em8</field>
             <field>00N5800000CMqYi</field>
             <field>00N1i000001y64v</field>
             <field>00N1i000001y64w</field>
@@ -3980,9 +3913,9 @@
             <field>00N5800000DIYE9</field>
             <field>00N5800000DIdG3</field>
             <field>00N58000004lqZU</field>
-            <field>00N5800000D9em8</field>
             <field>00N5800000CMqYj</field>
             <field>00N5800000CMqYk</field>
+            <field>00N1i000002JKPh</field>
             <field>00N5800000CMqYl</field>
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
@@ -4004,25 +3937,13 @@
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
         </opportunityListFieldsUnselectedSettings>
-        <quotasSettings>
-            <showQuotas>false</showQuotas>
-        </quotasSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
         <active>false</active>
-        <adjustmentsSettings>
-            <enableAdjustments>true</enableAdjustments>
-            <enableOwnerAdjustments>false</enableOwnerAdjustments>
-        </adjustmentsSettings>
         <displayedCategoryApiNames>closedonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>commitonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>bestcaseonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>pipelineonly</displayedCategoryApiNames>
-        <forecastRangeSettings>
-            <beginning>0</beginning>
-            <displaying>6</displaying>
-            <periodType>Month</periodType>
-        </forecastRangeSettings>
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
@@ -4205,6 +4126,10 @@
             <label>Business Development Region_TEXT</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N5800000D9em8</field>
+            <label>Client Feedback</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYi</field>
             <label>Company type</label>
         </opportunityListFieldsLabelMappings>
@@ -4233,16 +4158,16 @@
             <label>Découverte terminée</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
-            <field>00N5800000D9em8</field>
-            <label>Due Diligence Feedback</label>
-        </opportunityListFieldsLabelMappings>
-        <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYj</field>
             <label>Expertise</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYk</field>
             <label>Expertise</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002JKPh</field>
+            <label>Feedback Date</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYl</field>
@@ -4369,6 +4294,7 @@
             <field>00N58000004lqZT</field>
             <field>00N1i000002fXdM</field>
             <field>00N1i000002fXdL</field>
+            <field>00N5800000D9em8</field>
             <field>00N5800000CMqYi</field>
             <field>00N1i000001y64v</field>
             <field>00N1i000001y64w</field>
@@ -4376,9 +4302,9 @@
             <field>00N5800000DIYE9</field>
             <field>00N5800000DIdG3</field>
             <field>00N58000004lqZU</field>
-            <field>00N5800000D9em8</field>
             <field>00N5800000CMqYj</field>
             <field>00N5800000CMqYk</field>
+            <field>00N1i000002JKPh</field>
             <field>00N5800000CMqYl</field>
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
@@ -4400,25 +4326,13 @@
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
         </opportunityListFieldsUnselectedSettings>
-        <quotasSettings>
-            <showQuotas>false</showQuotas>
-        </quotasSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
         <active>false</active>
-        <adjustmentsSettings>
-            <enableAdjustments>true</enableAdjustments>
-            <enableOwnerAdjustments>false</enableOwnerAdjustments>
-        </adjustmentsSettings>
         <displayedCategoryApiNames>closedonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>commitonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>bestcaseonly</displayedCategoryApiNames>
         <displayedCategoryApiNames>pipelineonly</displayedCategoryApiNames>
-        <forecastRangeSettings>
-            <beginning>0</beginning>
-            <displaying>6</displaying>
-            <periodType>Month</periodType>
-        </forecastRangeSettings>
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
@@ -4597,6 +4511,10 @@
             <label>Business Development Region_TEXT</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N5800000D9em8</field>
+            <label>Client Feedback</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYi</field>
             <label>Company type</label>
         </opportunityListFieldsLabelMappings>
@@ -4625,16 +4543,16 @@
             <label>Découverte terminée</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
-            <field>00N5800000D9em8</field>
-            <label>Due Diligence Feedback</label>
-        </opportunityListFieldsLabelMappings>
-        <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYj</field>
             <label>Expertise</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYk</field>
             <label>Expertise</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002JKPh</field>
+            <label>Feedback Date</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000CMqYl</field>
@@ -4760,6 +4678,7 @@
             <field>00N58000004lqZT</field>
             <field>00N1i000002fXdM</field>
             <field>00N1i000002fXdL</field>
+            <field>00N5800000D9em8</field>
             <field>00N5800000CMqYi</field>
             <field>00N1i000001y64v</field>
             <field>00N1i000001y64w</field>
@@ -4767,9 +4686,9 @@
             <field>00N5800000DIYE9</field>
             <field>00N5800000DIdG3</field>
             <field>00N58000004lqZU</field>
-            <field>00N5800000D9em8</field>
             <field>00N5800000CMqYj</field>
             <field>00N5800000CMqYk</field>
+            <field>00N1i000002JKPh</field>
             <field>00N5800000CMqYl</field>
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
@@ -4791,8 +4710,17 @@
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
         </opportunityListFieldsUnselectedSettings>
-        <quotasSettings>
-            <showQuotas>false</showQuotas>
-        </quotasSettings>
     </forecastingTypeSettings>
+    <globalAdjustmentsSettings>
+        <enableAdjustments>true</enableAdjustments>
+        <enableOwnerAdjustments>false</enableOwnerAdjustments>
+    </globalAdjustmentsSettings>
+    <globalForecastRangeSettings>
+        <beginning>0</beginning>
+        <displaying>6</displaying>
+        <periodType>Month</periodType>
+    </globalForecastRangeSettings>
+    <globalQuotasSettings>
+        <showQuotas>false</showQuotas>
+    </globalQuotasSettings>
 </ForecastingSettings>

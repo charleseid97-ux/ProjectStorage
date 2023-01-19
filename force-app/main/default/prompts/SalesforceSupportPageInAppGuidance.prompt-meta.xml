@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Prompt xmlns="http://soap.sforce.com/2006/04/metadata">
+    <masterLabel>Salesforce Support Page In App Guidance</masterLabel>
+    <promptVersions>
+        <body>&lt;p&gt;&lt;strong&gt;Welcome to the Salesforce Support Page.&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Here you will be able to find help and important details regarding Salesforce.&lt;/p&gt;&lt;p&gt;Let us walk you through the page. &lt;strong&gt;Click Next&lt;/strong&gt; for more information.&lt;/p&gt;</body>
+        <delayDays>1</delayDays>
+        <dismissButtonLabel>Skip</dismissButtonLabel>
+        <displayPosition>TopCenter</displayPosition>
+        <displayType>FloatingPanel</displayType>
+        <endDate>2022-11-04</endDate>
+        <image>Salesforcelogo2</image>
+        <imageAltText>Salesforce logo</imageAltText>
+        <imageLocation>Top</imageLocation>
+        <isPublished>true</isPublished>
+        <masterLabel>Salesforce Support Page In App Guidance Step 1</masterLabel>
+        <publishedDate>2022-10-21</publishedDate>
+        <shouldDisplayActionButton>false</shouldDisplayActionButton>
+        <shouldIgnoreGlobalDelay>true</shouldIgnoreGlobalDelay>
+        <startDate>2022-10-21</startDate>
+        <stepNumber>1</stepNumber>
+        <targetPageKey1>Salesforce_Support_Page</targetPageKey1>
+        <targetPageType>standard__navItemPage</targetPageType>
+        <themeColor>Theme2</themeColor>
+        <themeSaturation>Dark</themeSaturation>
+        <timesToDisplay>2</timesToDisplay>
+        <title>Welcome</title>
+        <userAccess>Everyone</userAccess>
+        <userProfileAccess>Everyone</userProfileAccess>
+        <versionNumber>1</versionNumber>
+    </promptVersions>
+    <promptVersions>
+        <body>&lt;p&gt;&lt;strong&gt;Click on the titles to access the training material.&lt;/strong&gt;&lt;/p&gt;</body>
+        <dismissButtonLabel>Skip</dismissButtonLabel>
+        <displayType>Targeted</displayType>
+        <isPublished>false</isPublished>
+        <masterLabel>Salesforce Support Page In App Guidance Step 2</masterLabel>
+        <referenceElementContext>{&quot;scope&quot;:{&quot;attributes&quot;:{&quot;id&quot;:&quot;flowruntime_interview&quot;}},&quot;version&quot;:2}</referenceElementContext>
+        <shouldDisplayActionButton>false</shouldDisplayActionButton>
+        <shouldIgnoreGlobalDelay>false</shouldIgnoreGlobalDelay>
+        <stepNumber>2</stepNumber>
+        <targetPageKey1>Salesforce_Support_Page</targetPageKey1>
+        <targetPageType>standard__navItemPage</targetPageType>
+        <title>Training Material</title>
+        <userAccess>Everyone</userAccess>
+        <userProfileAccess>Everyone</userProfileAccess>
+        <versionNumber>1</versionNumber>
+    </promptVersions>
+    <promptVersions>
+        <body>&lt;p&gt;You can find the 3 latest Salesforce updates here.&lt;/p&gt;</body>
+        <dismissButtonLabel>Skip</dismissButtonLabel>
+        <displayType>Targeted</displayType>
+        <isPublished>false</isPublished>
+        <masterLabel>Salesforce Support Page In App Guidance Step 3</masterLabel>
+        <referenceElementContext>{&quot;scope&quot;:{&quot;attributes&quot;:{&quot;id&quot;:&quot;flexipage_filterListCard&quot;}},&quot;version&quot;:2}</referenceElementContext>
+        <shouldDisplayActionButton>false</shouldDisplayActionButton>
+        <shouldIgnoreGlobalDelay>false</shouldIgnoreGlobalDelay>
+        <stepNumber>3</stepNumber>
+        <targetPageKey1>Salesforce_Support_Page</targetPageKey1>
+        <targetPageType>standard__navItemPage</targetPageType>
+        <title>Latest Updates</title>
+        <userAccess>Everyone</userAccess>
+        <userProfileAccess>Everyone</userProfileAccess>
+        <versionNumber>1</versionNumber>
+    </promptVersions>
+    <promptVersions>
+        <body>&lt;p&gt;You can find here a list of contact for Salesforce&apos;s related tools.&lt;/p&gt;</body>
+        <dismissButtonLabel>Skip</dismissButtonLabel>
+        <displayType>Targeted</displayType>
+        <isPublished>false</isPublished>
+        <masterLabel>Salesforce Support Page In App Guidance Step 4</masterLabel>
+        <referenceElementContext>{&quot;scope&quot;:{&quot;attributes&quot;:{&quot;id&quot;:&quot;flexipage_richText9&quot;}},&quot;version&quot;:2}</referenceElementContext>
+        <shouldDisplayActionButton>false</shouldDisplayActionButton>
+        <shouldIgnoreGlobalDelay>false</shouldIgnoreGlobalDelay>
+        <stepNumber>4</stepNumber>
+        <targetPageKey1>Salesforce_Support_Page</targetPageKey1>
+        <targetPageType>standard__navItemPage</targetPageType>
+        <title>Support Contacts</title>
+        <userAccess>Everyone</userAccess>
+        <userProfileAccess>Everyone</userProfileAccess>
+        <versionNumber>1</versionNumber>
+    </promptVersions>
+    <promptVersions>
+        <body>&lt;p&gt;You can find the upcoming Updates in Salesforce here.&lt;/p&gt;</body>
+        <dismissButtonLabel>Skip</dismissButtonLabel>
+        <displayType>Targeted</displayType>
+        <isPublished>false</isPublished>
+        <masterLabel>Salesforce Support Page In App Guidance Step 5</masterLabel>
+        <referenceElementContext>{&quot;scope&quot;:{&quot;attributes&quot;:{&quot;id&quot;:&quot;flexipage_filterListCard2&quot;}},&quot;version&quot;:2}</referenceElementContext>
+        <shouldDisplayActionButton>false</shouldDisplayActionButton>
+        <shouldIgnoreGlobalDelay>false</shouldIgnoreGlobalDelay>
+        <stepNumber>5</stepNumber>
+        <targetPageKey1>Salesforce_Support_Page</targetPageKey1>
+        <targetPageType>standard__navItemPage</targetPageType>
+        <title>Next Updates</title>
+        <userAccess>Everyone</userAccess>
+        <userProfileAccess>Everyone</userProfileAccess>
+        <versionNumber>1</versionNumber>
+    </promptVersions>
+    <promptVersions>
+        <body>&lt;p&gt;&lt;strong&gt;List of contacts for Salesforce processes.&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;Click on the name to send an email.&lt;/p&gt;</body>
+        <customApplication>Carmignac_Lightning</customApplication>
+        <dismissButtonLabel>Skip</dismissButtonLabel>
+        <displayType>Targeted</displayType>
+        <isPublished>false</isPublished>
+        <masterLabel>Salesforce Support Page In App Guidance Step 6</masterLabel>
+        <referenceElementContext>{&quot;scope&quot;:{&quot;attributes&quot;:{&quot;id&quot;:&quot;flexipage_richText6&quot;}},&quot;version&quot;:2}</referenceElementContext>
+        <shouldDisplayActionButton>false</shouldDisplayActionButton>
+        <shouldIgnoreGlobalDelay>false</shouldIgnoreGlobalDelay>
+        <stepNumber>6</stepNumber>
+        <targetPageKey1>Salesforce_Support_Page</targetPageKey1>
+        <targetPageType>standard__navItemPage</targetPageType>
+        <title>Salesforce Processes&apos; Contact list</title>
+        <userAccess>Everyone</userAccess>
+        <userProfileAccess>Everyone</userProfileAccess>
+        <versionNumber>1</versionNumber>
+    </promptVersions>
+</Prompt>

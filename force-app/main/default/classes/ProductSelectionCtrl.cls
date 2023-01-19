@@ -449,4 +449,13 @@ global with sharing class ProductSelectionCtrl {
 
         return shareProduct;
     }
+    //START : JLC MODIFICATION : 14/06/2022 
+    //Description: This method returns the list of all products without the filters. 
+    @AuraEnabled
+    public static List<Product__c> getProductListUnfiltered(){
+        return [SELECT id, Name, Legal_Status__c, Asset_Class__c, Asset_Class__r.Name, Strategy__c, Strategy__r.Name, RecordType.DeveloperName, RecordType.Name 
+                FROM Product__c 
+                WHERE (RecordType.Name='Strategy' OR (RecordType.Name='Fund' AND Legal_Status__c = 'OEIC')) AND validity__c = true AND Dedicated_Fund__c = false];
+    }    
+    //END : JLC MODIFICATION : 14/06/2022
 }

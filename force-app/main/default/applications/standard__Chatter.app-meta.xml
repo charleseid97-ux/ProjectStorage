@@ -4,6 +4,7 @@
     <formFactors>Large</formFactors>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <tabs>standard-Chatter</tabs>
     <tabs>standard-File</tabs>
     <tabs>Template_Etouches__c</tabs>
@@ -11,4 +12,5 @@
     <tabs>Meeting_Note__c</tabs>
     <tabs>Opportunity_Dashboard</tabs>
     <tabs>Data_Solutions_Report_Type__c</tabs>
+    <tabs>Salesforce_update__c</tabs>
 </CustomApplication>

@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <customValue>
+        <fullName>IT</fullName>
+        <default>false</default>
+        <label>Italy</label>
+    </customValue>
+    <customValue>
+        <fullName>FR</fullName>
+        <default>false</default>
+        <label>France</label>
+    </customValue>
+    <customValue>
+        <fullName>CH</fullName>
+        <default>false</default>
+        <label>Switzerland</label>
+    </customValue>
+    <customValue>
+        <fullName>LU</fullName>
+        <default>false</default>
+        <label>Luxembourg</label>
+    </customValue>
+    <customValue>
+        <fullName>ES</fullName>
+        <default>false</default>
+        <label>Spain</label>
+    </customValue>
+    <customValue>
+        <fullName>DE</fullName>
+        <default>false</default>
+        <label>Germany</label>
+    </customValue>
+    <customValue>
+        <fullName>GB</fullName>
+        <default>false</default>
+        <label>United Kingdom</label>
+    </customValue>
+    <customValue>
         <fullName>AF</fullName>
         <default>false</default>
         <label>Afghanistan</label>
@@ -336,11 +371,6 @@
         <label>Finland</label>
     </customValue>
     <customValue>
-        <fullName>FR</fullName>
-        <default>false</default>
-        <label>France</label>
-    </customValue>
-    <customValue>
         <fullName>GA</fullName>
         <default>false</default>
         <label>Gabon</label>
@@ -354,11 +384,6 @@
         <fullName>GE</fullName>
         <default>false</default>
         <label>Georgia</label>
-    </customValue>
-    <customValue>
-        <fullName>DE</fullName>
-        <default>false</default>
-        <label>Germany</label>
     </customValue>
     <customValue>
         <fullName>GH</fullName>
@@ -471,11 +496,6 @@
         <label>Israel</label>
     </customValue>
     <customValue>
-        <fullName>IT</fullName>
-        <default>false</default>
-        <label>Italy</label>
-    </customValue>
-    <customValue>
         <fullName>CI</fullName>
         <default>false</default>
         <label>Ivory Coast</label>
@@ -569,11 +589,6 @@
         <fullName>LT</fullName>
         <default>false</default>
         <label>Lithuania</label>
-    </customValue>
-    <customValue>
-        <fullName>LU</fullName>
-        <default>false</default>
-        <label>Luxembourg</label>
     </customValue>
     <customValue>
         <fullName>MO</fullName>
@@ -871,11 +886,6 @@
         <label>South Korea</label>
     </customValue>
     <customValue>
-        <fullName>ES</fullName>
-        <default>false</default>
-        <label>Spain</label>
-    </customValue>
-    <customValue>
         <fullName>LK</fullName>
         <default>false</default>
         <label>Sri Lanka</label>
@@ -909,11 +919,6 @@
         <fullName>SE</fullName>
         <default>false</default>
         <label>Sweden</label>
-    </customValue>
-    <customValue>
-        <fullName>CH</fullName>
-        <default>false</default>
-        <label>Switzerland</label>
     </customValue>
     <customValue>
         <fullName>SY</fullName>
@@ -989,11 +994,6 @@
         <fullName>AE</fullName>
         <default>false</default>
         <label>United Arab Emirates</label>
-    </customValue>
-    <customValue>
-        <fullName>GB</fullName>
-        <default>false</default>
-        <label>United Kingdom</label>
     </customValue>
     <customValue>
         <fullName>US</fullName>

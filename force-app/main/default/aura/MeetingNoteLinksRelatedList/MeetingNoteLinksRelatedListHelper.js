@@ -11,6 +11,7 @@
         var opportunityIds = [];
         var campaignIds = [];
 		var caseIds = [];
+		var eventNoteIds = [];
 
         if (meetingLinks) {
 
@@ -41,6 +42,9 @@
 				else if(meetingLink.Case__c){
                     caseIds.push(meetingLink.Case__c);
                 }
+                else if(meetingLink.Event_Note__c){
+                    eventNoteIds.push(meetingLink.Event_Note__c);
+                }
             }
             component.find('accountLookup').set('v.value', accountIds.join(';'));
             component.find('contactLookup').set('v.value', contactIds.join(';'));
@@ -51,6 +55,7 @@
             component.find('opportunityLookup').set('v.value', opportunityIds.join(';'));
             component.find('campaignLookup').set('v.value', campaignIds.join(';'));
 			component.find('caseLookup').set('v.value', caseIds.join(';'));
+			component.find('eventNoteLookup').set('v.value', eventNoteIds.join(';'));
         }
     },
     

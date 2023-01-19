@@ -4,16 +4,19 @@
         <itemInstances>
             <componentInstance>
                 <componentName>GAMHomepageListComponent</componentName>
+                <identifier>GAMHomepageListComponent</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>HomepageReportButtons</componentName>
+                <identifier>HomepageReportButtons</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>home:heroChart</componentName>
+                <identifier>home_heroChart</identifier>
             </componentInstance>
         </itemInstances>
         <name>top</name>
@@ -23,6 +26,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>home:eventContainer</componentName>
+                <identifier>home_eventContainer</identifier>
             </componentInstance>
         </itemInstances>
         <name>bottomLeft</name>
@@ -32,6 +36,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>runtime_sales_activities:todayTaskContainer</componentName>
+                <identifier>runtime_sales_activities_todayTaskContainer</identifier>
             </componentInstance>
         </itemInstances>
         <name>bottomRight</name>
@@ -65,6 +70,7 @@
                     <value>3</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:filterListCard</componentName>
+                <identifier>flexipage_filterListCard</identifier>
             </componentInstance>
         </itemInstances>
         <name>sidebar</name>

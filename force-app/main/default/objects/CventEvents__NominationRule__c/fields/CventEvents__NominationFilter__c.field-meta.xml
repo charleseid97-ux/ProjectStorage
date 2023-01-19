@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CventEvents__NominationFilter__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Stores Nomination Filter to be applied for the rule.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Stores Nomination Filter to be applied for the rule.</inlineHelpText>
+    <label>Nomination Filter</label>
+    <referenceTo>CventEvents__NominationFilter__c</referenceTo>
+    <relationshipName>NominationRules</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

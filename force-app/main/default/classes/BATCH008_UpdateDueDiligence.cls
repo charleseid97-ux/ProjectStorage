@@ -34,7 +34,10 @@ global class BATCH008_UpdateDueDiligence implements Database.Batchable<sObject>,
                 if (scoring !=null){
                     dd.BaseScore__c = scoring.baseScore;
                     dd.Overall_Total_Risk_Score__c = scoring.totalScore;
-                    dd.Country_Risk_Factor__c = scoring.countryRiskFactor*100;
+                    if(scoring.countryRiskFactor != null)
+                    {
+                        dd.Country_Risk_Factor__c = scoring.countryRiskFactor*100;
+                    }
                     JSONScoreUME2Apex jScoreApex = UTIL_LegalEntity.getScore('/api/v2/brs/'+ja.brid+'/controlled/score/current');
                     if (jScoreApex !=null){
                         if(scoring.totalScore < jScoreApex.yellowThreshold)

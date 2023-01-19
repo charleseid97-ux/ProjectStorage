@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CventEvents__CventObject__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Indicates Cvent object used in filter.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Indicates Cvent object used in filter.</inlineHelpText>
+    <label>Cvent Object</label>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Cvent Contact</fullName>
+                <default>false</default>
+                <label>Cvent Contact</label>
+            </value>
+            <value>
+                <fullName>Survey Respondent</fullName>
+                <default>false</default>
+                <label>Survey Respondent</label>
+            </value>
+            <value>
+                <fullName>Survey Answer</fullName>
+                <default>false</default>
+                <label>Survey Answer</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

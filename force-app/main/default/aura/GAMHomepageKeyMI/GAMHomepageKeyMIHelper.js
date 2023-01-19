@@ -78,7 +78,8 @@
         var urlEvent = $A.get("e.force:navigateToURL");
         urlEvent.setParams({
             //"url": "https://efl-prd.carmignac.com/#/views/Salesforce-HomePage/OPPORTUNITYDASHBOARD?Lev5_Code="+component.get("v.GAMAccount.TECH_CompanyTechSUNID__c")
-            "url": "https://efl-prd.carmignac.com/#/views/GAM-AUMANDNETFLOWS-NEWRELEASE/GAMDashboard?:iid="+component.get("v.GAMAccount.TECH_CompanyTechSUNID__c")
+        	"url": "https://efl-prd.carmignac.com/#/views/GAM-AUMANDNETFLOWS-NEWRELEASE/GAMDashboard?:iid=5&CpgCrmcode%20(Td_Compagnie)="+component.get("v.GAMAccount.TECH_CompanyTechSUNID__c")
+        
         });
         urlEvent.fire();
     },

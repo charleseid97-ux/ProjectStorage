@@ -43,6 +43,10 @@ private class KYD_FileServiceTest
                 Status__c = 'Pending', KYD_Due_Diligence_Oversight__c = kydDD.Id, ExternalId__c = kydDD.Id + '_' + 'RLE02');
         insert kydDoc;
 
+        KYD_Document_Item__c kydDocItem = new KYD_Document_Item__c(Name = 'RLE02',
+                Status__c = 'Pending', KYD_Document__c = kydDoc.Id);
+        insert kydDocItem;
+        
         ContentVersion contentVersion = new ContentVersion();
         contentVersion.Title = 'ABC';
         contentVersion.PathOnClient = 'test';
@@ -170,6 +174,31 @@ private class KYD_FileServiceTest
         KYD_UploadController.uploadFileContent(contentDocumentId, kydDoc.Id);
         Test.stopTest();
     }
+    
+    @IsTest
+    static void testUploads()
+    {
+        MultiStaticResourceCalloutMock mock = new MultiStaticResourceCalloutMock();
+        mock.setHeader('Content-Type', 'application/json');
+        mock.setHeader('access_token', 'Test');
+        mock.setStatus('Success');
+        mock.setStatusCode(200);
+        mock.setStaticResource('OAuth', 'OAuth_Response');
+        mock.setStaticResource('Upload', 'FileInsert_Response');
+        mock.setStaticResource('Metadata', 'Metadata_Response');
+        mock.setStaticResource('LegalEntity', 'Metadata_Response');
+        Test.setMock(HttpCalloutMock.class, mock);
+
+
+        Id contentDocumentId = [SELECT Id FROM ContentDocument LIMIT 1].Id;
+        KYD_Document__c kydDoc = [SELECT Id FROM KYD_Document__c LIMIT 1];
+        kydDoc.GED_Document_Id__c = 'DOC_0001';
+        update kydDoc;
+
+        Test.startTest();
+        KYD_UploadController.uploadFileContents(new List<String>{contentDocumentId}, kydDoc.Id);
+        Test.stopTest();
+    }
 
     @IsTest
     static void testDownload()
@@ -192,6 +221,31 @@ private class KYD_FileServiceTest
 
         Test.startTest();
         KYD_Download download = new KYD_Download(stdController);
+        download.getPdf();
+        Test.stopTest();
+    }
+    
+    @IsTest
+    static void testDownloadItem()
+    {
+        MultiStaticResourceCalloutMock mock = new MultiStaticResourceCalloutMock();
+        mock.setHeader('Content-Type', 'application/json');
+        mock.setHeader('access_token', 'Test');
+        mock.setStatus('Success');
+        mock.setStatusCode(200);
+        mock.setStaticResource('OAuth', 'OAuth_Response');
+        mock.setStaticResource('Download?Path=Test', 'FileInsert_Response');
+        Test.setMock(HttpCalloutMock.class, mock);
+
+        KYD_Document_Item__c kydDoc = [SELECT Id FROM KYD_Document_Item__c LIMIT 1];
+        kydDoc.External_Repository_Id__c = 'Test';
+        update kydDoc;
+
+        ApexPages.StandardController stdController = new ApexPages.StandardController(kydDoc);
+
+
+        Test.startTest();
+        KYD_DownloadItem download = new KYD_DownloadItem(stdController);
         download.getPdf();
         Test.stopTest();
     }

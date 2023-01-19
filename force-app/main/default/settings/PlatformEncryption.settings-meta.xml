@@ -2,7 +2,7 @@
 <PlatformEncryptionSettings xmlns="http://soap.sforce.com/2006/04/metadata">
     <canEncryptManagedPackageFields>false</canEncryptManagedPackageFields>
     <enableDeterministicEncryption>false</enableDeterministicEncryption>
-    <enableEncryptFieldHistory>false</enableEncryptFieldHistory>
+    <enableEncryptFieldHistory>true</enableEncryptFieldHistory>
     <enableEncryptionSearchEnabled>false</enableEncryptionSearchEnabled>
     <enableEventBusEncryption>false</enableEventBusEncryption>
     <isMEKForEncryptionRequired>false</isMEKForEncryptionRequired>

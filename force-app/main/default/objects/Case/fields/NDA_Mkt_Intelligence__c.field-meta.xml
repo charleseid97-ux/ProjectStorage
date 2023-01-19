@@ -27,6 +27,26 @@
                 <default>false</default>
                 <label>Signature ongoing</label>
             </value>
+            <value>
+                <fullName>Signed open ended</fullName>
+                <default>false</default>
+                <label>Signed open ended</label>
+            </value>
+            <value>
+                <fullName>Signed close ended</fullName>
+                <default>false</default>
+                <label>Signed close ended</label>
+            </value>
+            <value>
+                <fullName>Pending signature</fullName>
+                <default>false</default>
+                <label>Pending signature</label>
+            </value>
+            <value>
+                <fullName>Not applicable</fullName>
+                <default>false</default>
+                <label>Not applicable</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

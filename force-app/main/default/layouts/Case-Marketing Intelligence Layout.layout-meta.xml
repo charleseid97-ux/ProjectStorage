@@ -61,12 +61,12 @@
                 <field>AccountId</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>NDA_Mkt_Intelligence__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Company_s_Business_Development_Region__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Reason_for_reject__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -117,7 +117,7 @@
                 <field>CreatedById</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Requester__c</field>
             </layoutItems>
         </layoutColumns>
@@ -282,6 +282,20 @@
         </relatedContentItems>
     </relatedContent>
     <relatedLists>
+        <fields>NAME</fields>
+        <fields>Product__c</fields>
+        <fields>CREATED_DATE</fields>
+        <fields>CREATEDBY_USER</fields>
+        <relatedList>Work_Together_Process_Product__c.Work_Together_Process__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Share_Class__c</fields>
+        <fields>CREATED_DATE</fields>
+        <fields>CREATEDBY_USER</fields>
+        <relatedList>Case_Share__c.Work_Together_Process__c</relatedList>
+    </relatedLists>
+    <relatedLists>
         <relatedList>RelatedCaseContactRoleList</relatedList>
     </relatedLists>
     <relatedLists>
@@ -292,6 +306,8 @@
         <relatedList>Meeting_Link__c.Case__c</relatedList>
     </relatedLists>
     <relatedLists>
+        <excludeButtons>MassChangeOwner</excludeButtons>
+        <excludeButtons>New</excludeButtons>
         <fields>NAME</fields>
         <fields>Share_Class__c</fields>
         <fields>Isin_Code__c</fields>

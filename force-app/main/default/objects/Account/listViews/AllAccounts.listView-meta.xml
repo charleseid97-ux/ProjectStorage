@@ -19,7 +19,7 @@
     <filters>
         <field>CompanyStatus__c</field>
         <operation>equals</operation>
-        <value>Active</value>
+        <value>Active,Inactive</value>
     </filters>
     <label>All Companies</label>
 </ListView>

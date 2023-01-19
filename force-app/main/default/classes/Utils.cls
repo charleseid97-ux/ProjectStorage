@@ -66,4 +66,19 @@ public with sharing class Utils {
 
         return globalSettings;
     }
+
+    /**
+    * @author Noor
+    * @date 08/11/2022
+    * @description get all Global_Settings__mdt entries by label
+    * @return Map<String, Global_Settings__mdt>
+    */
+    public static Map<String, Global_Settings__mdt> getGlobalSettingsByLabel() {
+        if(globalSettings == null || globalSettings.isEmpty()) {
+            globalSettings = new Map<String, Global_Settings__mdt>();
+            for (Global_Settings__mdt mdt : Global_Settings__mdt.getAll().values()) globalSettings.put(mdt.Label, mdt);
+        }
+
+        return globalSettings;
+    }
 }

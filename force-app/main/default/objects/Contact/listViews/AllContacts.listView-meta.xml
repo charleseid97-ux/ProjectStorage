@@ -9,15 +9,5 @@
     <columns>ContactOwner__c</columns>
     <columns>Contact_Status_Logo__c</columns>
     <filterScope>Everything</filterScope>
-    <filters>
-        <field>Country__c</field>
-        <operation>equals</operation>
-        <value>FR</value>
-    </filters>
-    <filters>
-        <field>Account.Distributor_Type__c</field>
-        <operation>equals</operation>
-        <value>Insurance</value>
-    </filters>
     <label>All Contacts</label>
 </ListView>

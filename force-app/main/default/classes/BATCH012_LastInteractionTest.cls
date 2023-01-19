@@ -21,19 +21,20 @@ private class BATCH012_LastInteractionTest
         '   First_Last_name__c, ' +
         '   Last_interaction__c,' +
         '   Last_Meeting_Call__c, ' +
-        '   Last_Newsletter_sent__c, ' +
+        '   Last_Newsletter_sent__c,' +
+        '   Last_Newsletter_opened__c, ' +
         '   Last_Event_attendance__c, ' +
         '   Last_Event_attendance_Type__c ' +
         '   FROM ' +
         '       Contact';
 
-    private static final Datetime LAST_EVENT = Datetime.newInstance(2021, 06, 29, 18, 0, 0);
-    private static final Datetime LAST_MEETING = Datetime.newInstance(2021, 06, 30, 17, 0, 0);
-    private static final Datetime LAST_NEWSLETTER = Datetime.newInstance(2021, 06, 30, 19, 0, 0);
+    private static final Datetime LAST_EVENT = Datetime.newInstance(System.today().year(), 01, 01, 9, 0, 0);
+    private static final Datetime LAST_MEETING = Datetime.newInstance(System.today().year() + 1, 06, 30, 17, 0, 0);
+    private static final Datetime LAST_NEWSLETTER = Datetime.newInstance(System.today().year() + 1, 06, 30, 19, 0, 0);
 
-    private static final Datetime LAST_EVENT_CONTACT = Datetime.newInstance(2021, 06, 30, 15, 0, 0);
-    private static final Datetime LAST_MEETING_CONTACT = Datetime.newInstance(2021, 06, 30, 14, 0, 0);
-    private static final Datetime LAST_NEWSLETTER_CONTACT = Datetime.newInstance(2021, 06, 30, 16, 0, 0);
+    private static final Datetime LAST_EVENT_CONTACT = Datetime.newInstance(System.today().year() + 1, 06, 30, 15, 0, 0);
+    private static final Datetime LAST_MEETING_CONTACT = Datetime.newInstance(System.today().year() + 1, 06, 30, 14, 0, 0);
+    private static final Datetime LAST_NEWSLETTER_CONTACT = Datetime.newInstance(System.today().year() + 1, 06, 30, 16, 0, 0);
 
     @TestSetup
     private static void setup()
@@ -44,13 +45,7 @@ private class BATCH012_LastInteractionTest
             Name = 'Test'
         );
 
-        Account aAccount2 = new Account(
-                BusinessDevelopmentRegion__c = 'BP_FR',
-                BillingCountryCode = 'FR',
-                Name = 'Test Account without Contact'
-        );
-
-        insert new List<Account>{aAccount, aAccount2};
+        insert new List<Account>{aAccount};
 
         Contact aContact = new Contact(
             Source__c = 'Event',
@@ -66,8 +61,6 @@ private class BATCH012_LastInteractionTest
         insert aContact;
 
         Test.setCreatedDate(aContact.Id, Datetime.newInstance(2012,12,12));
-        Test.setCreatedDate(aAccount.Id, Datetime.newInstance(2012,12,12));
-        Test.setCreatedDate(aAccount2.Id, Datetime.newInstance(2012,12,12));
 
         insert new Event(
             WhoId = aContact.Id,
@@ -94,18 +87,6 @@ private class BATCH012_LastInteractionTest
         Database.executeBatch(batch);
         Test.stopTest();
 
-        Account aAccount =
-        [
-            SELECT
-                CreatedDate,
-                Last_Contact_involved__c,
-                Last_interaction_with_contact__c,
-                Last_contact_interaction_Corporate_Title__c
-            FROM
-                Account
-            LIMIT 1
-        ];
-
         Contact aContact =
         [
             SELECT
@@ -117,9 +98,6 @@ private class BATCH012_LastInteractionTest
                 Contact
         ];
 
-        System.assertEquals(LAST_NEWSLETTER_CONTACT, aAccount.Last_interaction_with_contact__c);
-        System.assertEquals(LAST_NEWSLETTER_CONTACT, aContact.Last_Interaction__c);
-        System.assertEquals(aContact.First_Last_name__c, aAccount.Last_Contact_involved__c);
-        System.assertEquals(aContact.CorporateTitle__c, aAccount.Last_contact_interaction_Corporate_Title__c);
+        System.assertEquals(LAST_EVENT, aContact.Last_Interaction__c);
     }
 }

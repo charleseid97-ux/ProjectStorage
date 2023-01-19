@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Case</entityName>
+    <fieldName>Status</fieldName>
+    <masterLabel>Data Performance Management Path</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Request_Handled__c</fieldNames>
+        <info>&lt;p&gt;Use this Stage to &lt;strong&gt;&lt;u&gt;Close&lt;/u&gt;&lt;/strong&gt;&lt;u&gt; the request.&lt;/u&gt; The field &lt;strong&gt;Request Handled&lt;/strong&gt; has to be filled accordingly.&lt;/p&gt;</info>
+        <picklistValueName>Completed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Type_of_Request__c</fieldNames>
+        <fieldNames>Due_date__c</fieldNames>
+        <fieldNames>Requester_Department__c</fieldNames>
+        <info>&lt;p&gt;For any new request, please ensure that the &lt;strong&gt;Type of Request &lt;/strong&gt;and the&lt;strong&gt; Due date &lt;/strong&gt;are filled in.&lt;/p&gt;</info>
+        <picklistValueName>New</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Rejected__c</fieldNames>
+        <fieldNames>Reason_for_reject__c</fieldNames>
+        <info>&lt;p&gt;This stage is used for any rejected request. The reason for rejection should be filled in.&lt;/p&gt;</info>
+        <picklistValueName>Rejected</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Assigned_To__c</fieldNames>
+        <info>&lt;p&gt;At this stage the person handling this request is mentionned at the field &lt;strong&gt;Assigned To.&lt;/strong&gt;&lt;/p&gt;</info>
+        <picklistValueName>Work in progress</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Data_Performance_Management_Request</recordTypeName>
+</PathAssistant>

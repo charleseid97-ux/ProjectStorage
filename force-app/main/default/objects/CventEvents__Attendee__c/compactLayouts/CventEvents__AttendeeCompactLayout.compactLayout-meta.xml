@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CventEvents__AttendeeCompactLayout</fullName>
+    <fields>Name</fields>
+    <fields>CventEvents__AttendeeName__c</fields>
+    <fields>CventEvents__Status__c</fields>
+    <fields>CventEvents__EventTitle__c</fields>
+    <fields>CventEvents__EventStartDate__c</fields>
+    <fields>CventEvents__EventStartTime__c</fields>
+    <fields>CventEvents__EventTimeZone__c</fields>
+    <label>Attendee Compact Layout</label>
+</CompactLayout>

@@ -162,6 +162,7 @@
     <defaultLandingTab>standard-home</defaultLandingTab>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <isServiceCloudConsole>true</isServiceCloudConsole>
     <preferences>
         <enableCustomizeMyTabs>false</enableCustomizeMyTabs>
@@ -184,6 +185,7 @@
     <tabs>Meeting_Note__c</tabs>
     <tabs>Opportunity_Dashboard</tabs>
     <tabs>Data_Solutions_Report_Type__c</tabs>
+    <tabs>Salesforce_update__c</tabs>
     <workspaceConfig>
         <mappings>
             <tab>Data_Solutions_Report_Type__c</tab>
@@ -193,6 +195,9 @@
         </mappings>
         <mappings>
             <tab>Opportunity_Dashboard</tab>
+        </mappings>
+        <mappings>
+            <tab>Salesforce_update__c</tab>
         </mappings>
         <mappings>
             <tab>Template_Etouches__c</tab>

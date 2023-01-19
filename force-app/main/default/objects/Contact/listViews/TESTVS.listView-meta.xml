@@ -7,6 +7,11 @@
     <columns>CONTACT.EMAIL</columns>
     <columns>CONTACT.TITLE</columns>
     <columns>CORE.USERS.ALIAS</columns>
-    <filterScope>Mine</filterScope>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>ACCOUNT.NAME</field>
+        <operation>equals</operation>
+        <value>Carmignac</value>
+    </filters>
     <label>TESTVS</label>
 </ListView>

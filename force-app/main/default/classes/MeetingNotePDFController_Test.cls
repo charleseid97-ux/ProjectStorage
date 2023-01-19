@@ -7,7 +7,8 @@ public class MeetingNotePDFController_Test
         Account a = new Account(
                       Name='Test Account',
                                 BillingStreet='Fake Street',
-                                BillingCountry='United States'
+                                BillingCountry='United States',
+            					BusinessDevelopmentRegion__c='BP_UK'
                                );
         insert a;
         

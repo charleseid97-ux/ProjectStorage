@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FlowSettings xmlns="http://soap.sforce.com/2006/04/metadata">
     <canDebugFlowAsAnotherUser>false</canDebugFlowAsAnotherUser>
-    <doesEnforceApexCpuTimeLimit>false</doesEnforceApexCpuTimeLimit>
+    <doesEnforceApexCpuTimeLimit>true</doesEnforceApexCpuTimeLimit>
     <doesFormulaEnforceDataAccess>true</doesFormulaEnforceDataAccess>
     <doesFormulaGenerateHtmlOutput>false</doesFormulaGenerateHtmlOutput>
     <enableFlowBREncodedFixEnabled>true</enableFlowBREncodedFixEnabled>
@@ -12,12 +12,14 @@
     <enableFlowInterviewSharingEnabled>true</enableFlowInterviewSharingEnabled>
     <enableFlowNullPreviousValueFix>false</enableFlowNullPreviousValueFix>
     <enableFlowPauseEnabled>false</enableFlowPauseEnabled>
-    <enableFlowUseApexExceptionEmail>false</enableFlowUseApexExceptionEmail>
-    <enableLightningRuntimeEnabled>false</enableLightningRuntimeEnabled>
+    <enableFlowUseApexExceptionEmail>true</enableFlowUseApexExceptionEmail>
+    <enableFlowViaRestUsesUserCtxt>false</enableFlowViaRestUsesUserCtxt>
+    <enableLightningRuntimeEnabled>true</enableLightningRuntimeEnabled>
     <isAccessToInvokedApexRequired>true</isAccessToInvokedApexRequired>
     <isApexPluginAccessModifierRespected>true</isApexPluginAccessModifierRespected>
     <isEnhancedFlowListViewVisible>true</isEnhancedFlowListViewVisible>
     <isFlowApexContextRetired>false</isFlowApexContextRetired>
+    <isFlowBlockAccessToSessionIDEnabled>false</isFlowBlockAccessToSessionIDEnabled>
     <isManageFlowRequiredForAutomationCharts>false</isManageFlowRequiredForAutomationCharts>
     <isTimeResumedInSameRunContext>false</isTimeResumedInSameRunContext>
 </FlowSettings>

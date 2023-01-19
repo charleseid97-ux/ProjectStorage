@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+    <contactEmail>abderrahmane.tria@alphafmc.com</contactEmail>
+    <label>sfdx CI</label>
+    <oauthConfig>
+        <callbackUrl>http://localhost:1717/OauthRedirect</callbackUrl>
+        <certificate>MIIDrzCCApcCFE3kdZrz2f2WWKOB4xtjKWZYHQrBMA0GCSqGSIb3DQEBCwUAMIGTMQswCQYDVQQGEwJGUjEOMAwGA1UECAwFUGFyaXMxDjAMBgNVBAcMBVBhcmlzMRIwEAYDVQQKDAlDYXJtaWduYWMxEjAQBgNVBAsMCUNhcm1pZ25hYzENMAsGA1UEAwwEVFJJQTEtMCsGCSqGSIb3DQEJARYeYWJkZXJyYWhtYW5lLnRyaWFAYWxwaGFmbWMuY29tMB4XDTIwMTIyNDEzNDQyNFoXDTIxMTIyNDEzNDQyNFowgZMxCzAJBgNVBAYTAkZSMQ4wDAYDVQQIDAVQYXJpczEOMAwGA1UEBwwFUGFyaXMxEjAQBgNVBAoMCUNhcm1pZ25hYzESMBAGA1UECwwJQ2FybWlnbmFjMQ0wCwYDVQQDDARUUklBMS0wKwYJKoZIhvcNAQkBFh5hYmRlcnJhaG1hbmUudHJpYUBhbHBoYWZtYy5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC5BwYujl5+9RnIYQxDgLlSkJc2MlhjAQ37lbwRNRRSWVZBCu8fyxJ70uevWi8iEfXAkhAGrgZxAXlJRy08NbDEAZfHnjNB7DXHJdQclY8gp9l8HBKFSanxuS8MFCib0qBevYKZEqR8zM17GNNkXK/a1fKKMRXNyzzn4O8q2sGUw0GMmrYLczYTycACJM0bgwjq21chJqmaKCmtaNXcHzSxcEeoYI5l4IYCGg07K7Iw/BwXCIWcsLzw8HIc8imD1eoCfUdhLjzClm9x3iALl0MwIsCVcj4ddvldqBdGhsi9ZZQ8TKDcMy5n2dBWSdLTLcDDVpq0GhNE21fvG+2BJ9TxAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAIv1S9GjmuaKJCTZYPMU3pdGg1DIKMcsq8Q51xaeXpSZmMOiemjYmRsgFdcWgTAzSr58cJZiIduNN2h61OBxnifrPrUaU61fFNL7BI+/AeAM1KNiprQgYN101pnuRfkpwhZl2NbgF4Sn/aCucXzJeGnsBI1PQbuzR4zhRpszR166g223LPEjWPqcqqdNcRBmZN8qilFX9AdzK/DnqiH+j4aOErWKfgU8geDLiN+aJ443+4eHzI9IGclDUspeAqjsogMxzH6D0fKbShWdqvFZv99pdiZ+dY9J4hB0FX/fLXYIP/qbj0LKcl1mweuJbJv09fg9eAIdFztY8XNQjDNPiYc=</certificate>
+        <consumerKey>3MVG98_Psg5cppyagUaZtwGwCkePtdVMTbSAH66Xv3XzM9GhfhJzOPA7_Hiqxc5dV7wfkD6i47o__5CTzQJa7</consumerKey>
+        <isAdminApproved>false</isAdminApproved>
+        <isClientCredentialEnabled>false</isClientCredentialEnabled>
+        <isConsumerSecretOptional>false</isConsumerSecretOptional>
+        <isIntrospectAllTokens>false</isIntrospectAllTokens>
+        <isSecretRequiredForRefreshToken>false</isSecretRequiredForRefreshToken>
+        <scopes>Api</scopes>
+        <scopes>Web</scopes>
+        <scopes>Full</scopes>
+        <scopes>RefreshToken</scopes>
+    </oauthConfig>
+    <oauthPolicy>
+        <ipRelaxation>ENFORCE</ipRelaxation>
+        <refreshTokenPolicy>infinite</refreshTokenPolicy>
+    </oauthPolicy>
+</ConnectedApp>

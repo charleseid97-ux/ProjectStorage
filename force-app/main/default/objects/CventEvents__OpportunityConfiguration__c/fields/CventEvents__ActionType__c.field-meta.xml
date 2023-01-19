@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CventEvents__ActionType__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Indicates what action should be taken on opportunity.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Indicates what action should be taken on opportunity.</inlineHelpText>
+    <label>Action Type</label>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Create New</fullName>
+                <default>false</default>
+                <label>Create New</label>
+            </value>
+            <value>
+                <fullName>Update Existing</fullName>
+                <default>true</default>
+                <label>Update Existing</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

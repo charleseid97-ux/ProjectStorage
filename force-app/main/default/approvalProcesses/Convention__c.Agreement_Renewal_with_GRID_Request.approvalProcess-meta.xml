@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ApprovalProcess xmlns="http://soap.sforce.com/2006/04/metadata">
-    <active>true</active>
+    <active>false</active>
     <allowRecall>true</allowRecall>
     <allowedSubmitters>
         <submitter>Group_CRM</submitter>
@@ -19,10 +19,6 @@
     <approvalStep>
         <allowDelegate>false</allowDelegate>
         <approvalActions>
-            <action>
-                <name>Agreement_Amendment_IS_Approval</name>
-                <type>FieldUpdate</type>
-            </action>
             <action>
                 <name>Agreement_Renewal_with_GRID_Approval_Stage_Change_CRM</name>
                 <type>Alert</type>
@@ -449,10 +445,6 @@
         <allowDelegate>false</allowDelegate>
         <approvalActions>
             <action>
-                <name>Agreement_Amendment_IS_Approval</name>
-                <type>FieldUpdate</type>
-            </action>
-            <action>
                 <name>Agreement_Renewal_with_GRID_Approval_Stage_Change_CRM</name>
                 <type>Alert</type>
             </action>
@@ -496,10 +488,6 @@
     <approvalStep>
         <allowDelegate>false</allowDelegate>
         <approvalActions>
-            <action>
-                <name>Agreement_Amendment_IS_Approval</name>
-                <type>FieldUpdate</type>
-            </action>
             <action>
                 <name>Agreement_Renewal_with_GRID_Approval_Stage_Change_CRM</name>
                 <type>Alert</type>
@@ -910,7 +898,7 @@
         </action>
     </initialSubmissionActions>
     <label>Agreement Renewal with GRID Request</label>
-    <processOrder>3</processOrder>
+    <processOrder>1</processOrder>
     <recordEditability>AdminOrCurrentApprover</recordEditability>
     <showApprovalHistory>true</showApprovalHistory>
 </ApprovalProcess>

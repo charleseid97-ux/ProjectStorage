@@ -13,7 +13,7 @@ ISPICKVAL(Type,&quot;Solvency&quot;)
 ),
 ISPICKVAL(Status,&apos;In Service&apos;),
 ISCHANGED(Status),
-Total_Products__c = 0 
+AND(Total_Products__c = 0,Platform__c&lt;&gt;&quot;_NOSCOPE&quot;) 
 )
 )</errorConditionFormula>
     <errorMessage>Please insert at least one Product case record</errorMessage>

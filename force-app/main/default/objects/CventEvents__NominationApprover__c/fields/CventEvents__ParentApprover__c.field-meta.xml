@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CventEvents__ParentApprover__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <description>Stores the parent group-type approver in case this approver is a group member.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Stores the parent group-type approver in case this approver is a group member.</inlineHelpText>
+    <label>Parent Approver</label>
+    <referenceTo>CventEvents__NominationApprover__c</referenceTo>
+    <relationshipLabel>Approvers</relationshipLabel>
+    <relationshipName>ChildApprovers</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

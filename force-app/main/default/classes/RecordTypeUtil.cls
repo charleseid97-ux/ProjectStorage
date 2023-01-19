@@ -20,7 +20,6 @@ public class RecordTypeUtil
         get{
             if (allRecordTypes == null)
                 allRecordTypes = [select Id, Name, DeveloperName, SObjectType from RecordType];
-
             return allRecordTypes;
         }
         set;
@@ -94,6 +93,21 @@ public class RecordTypeUtil
         }
 
         return defaultRecordTypeId;
+    }
+
+    /**
+     * @author Noor
+     * @date 16/10/2022
+     * @description Get recordTypeId from rt developerName
+     *
+     * @param sObjectType
+     * @param recordTypeName
+     *
+     * @return String
+     */
+    public static String getRecordTypeIdByDeveloperName(SObjectType sObjectType, String recordTypeName) {
+        Map<String, Schema.RecordTypeInfo> recordTypeInfo = sObjectType.getDescribe().getRecordTypeInfosByDeveloperName();
+        return recordTypeInfo.get(recordTypeName).getRecordTypeId();
     }
 
 

@@ -220,4 +220,19 @@ private class ProductSelectionCtrlTest {
 
         ProductSelectionCtrl.updateShareProducts(new List<Id>{share.Id}, aCase.Id);
     }
+    //START : JLC MODIFICATION : 14/06/2022 
+    //Description: This method covers the getProductListUnfiltered method
+     @isTest
+    static void testgetProductListUnfiltered(){
+        Test.StartTest();
+        String StratProdRTId= Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Strategy').getRecordTypeId();
+        //Creation of Product
+        Product__c testStratProd = new Product__c(Name='testStratProd', Product_Name__c = 'testStratProd',
+                                                  RecordTypeId=StratProdRTId, Validity__c=true, Dedicated_Fund__c=false);
+        Database.insert(testStratProd, true);
+        List<Product__c> unfilterdProductList = ProductSelectionCtrl.getProductListUnfiltered();
+        Test.StopTest();   
+        System.assert(unfilterdProductList.size() > 0);
+    }
+    //END : JLC MODIFICATION : 14/06/2022
 }

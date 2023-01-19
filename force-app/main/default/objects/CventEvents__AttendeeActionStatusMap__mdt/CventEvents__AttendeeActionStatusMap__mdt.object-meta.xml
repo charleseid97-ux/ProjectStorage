@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This represents a map of Attendee statuses to the Actions (Registration, Nomination, Invitation) that are available.</description>
+    <label>Attendee Action Status Map</label>
+    <pluralLabel>Attendee Action Status Maps</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

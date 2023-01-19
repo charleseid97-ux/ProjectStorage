@@ -28,4 +28,12 @@
         <name>New_Meeting_NoteLEX</name>
     </quickActions>
     <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Event_VR01_RestrictProductList</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Event_VR02_ContactNameMandatory</name>
+    </validationRules>
 </CustomObjectTranslation>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CventEvents__ObjectApiName__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Stores mnemonic Cvent object name (either &apos;EVENT&apos;, or &apos;CONTACT&apos;). Has been previously used to store SF object API name.</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>Stores the SF object API name.</inlineHelpText>
+    <label>Cvent Object</label>
+    <length>60</length>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

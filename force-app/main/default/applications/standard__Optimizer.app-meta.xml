@@ -3,11 +3,16 @@
     <formFactors>Large</formFactors>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <label>Optimizer</label>
     <navType>Console</navType>
     <tabs>standard-OrgMetric</tabs>
+    <tabs>Salesforce_update__c</tabs>
     <uiType>Lightning</uiType>
     <workspaceConfig>
+        <mappings>
+            <tab>Salesforce_update__c</tab>
+        </mappings>
         <mappings>
             <tab>standard-OrgMetric</tab>
         </mappings>

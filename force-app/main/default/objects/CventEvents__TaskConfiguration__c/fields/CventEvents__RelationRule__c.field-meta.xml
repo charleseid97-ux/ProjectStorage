@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CventEvents__RelationRule__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Indicates the relation rule for the Task.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Indicates the assignment rule for the Task.</inlineHelpText>
+    <label>Related To</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Event</fullName>
+                <default>false</default>
+                <label>Event</label>
+            </value>
+            <value>
+                <fullName>Campaign most recently linked to event</fullName>
+                <default>false</default>
+                <label>Campaign most recently linked to event</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

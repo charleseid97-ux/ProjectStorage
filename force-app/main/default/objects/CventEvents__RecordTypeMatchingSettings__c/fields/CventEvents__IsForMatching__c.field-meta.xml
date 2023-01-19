@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CventEvents__IsForMatching__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>Indicates whether this record type is enforced during record matching.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Indicates whether this record type is enforced during record matching.</inlineHelpText>
+    <label>Is For Matching</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

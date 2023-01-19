@@ -8,6 +8,11 @@
     <columns>OPPORTUNITY.STAGE_NAME</columns>
     <columns>CORE.USERS.ALIAS</columns>
     <columns>OPPORTUNITY.CREATED_DATE</columns>
-    <filterScope>Team</filterScope>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>BusinessDevelopmentRegion__c</field>
+        <operation>equals</operation>
+        <value>Spain</value>
+    </filters>
     <label>Opportunity Pipeline</label>
 </ListView>

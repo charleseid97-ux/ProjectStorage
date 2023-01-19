@@ -161,6 +161,10 @@
             <fullName>QUAT</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Thematics</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Language__c</picklist>
@@ -186,6 +190,10 @@
         </values>
         <values>
             <fullName>NL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PT</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -644,6 +652,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>CAELS</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>CAGR</fullName>
             <default>false</default>
         </values>
@@ -657,6 +669,10 @@
         </values>
         <values>
             <fullName>CC25</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CC27</fullName>
             <default>false</default>
         </values>
         <values>
@@ -708,6 +724,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>CGA</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>CGC</fullName>
             <default>false</default>
         </values>
@@ -737,6 +757,10 @@
         </values>
         <values>
             <fullName>CLSGE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>COO</fullName>
             <default>false</default>
         </values>
         <values>
@@ -793,6 +817,10 @@
         </values>
         <values>
             <fullName>GSMMEDIO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LSEE</fullName>
             <default>false</default>
         </values>
         <values>
@@ -897,6 +925,10 @@
         </values>
         <values>
             <fullName>UKCP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UKMPS</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1329,7 +1361,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Event Conference</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Exclusive Event</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hedge Fund Conference</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1337,7 +1377,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Investment Professional Presentation</fullName>
+            <fullName>One-To-One Meeting</fullName>
             <default>false</default>
         </values>
         <values>

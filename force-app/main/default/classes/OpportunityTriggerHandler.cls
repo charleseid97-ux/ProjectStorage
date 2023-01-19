@@ -4,7 +4,7 @@ public class OpportunityTriggerHandler {
         
         //Create Sets and Lists
         Set<ID> OppAcc = New Set<id>();
-        
+         
         //Loop through inbound opps and add the accountid to the ID set
         For(Opportunity o : newOpportunity)
         {
@@ -23,4 +23,18 @@ public class OpportunityTriggerHandler {
         }
     }
     
+    public static void handleBeforeUpdate(Map<Id, Opportunity> newOpportunities, Map<Id, Opportunity> oldOpportunities)
+    {
+        new OpportunityAP01().updateFeedbackDate(newOpportunities, oldOpportunities);
+    }
+
+    public static void handleAfterInsert(Map<Id, Opportunity> newOpportunities)
+    {
+        new OpportunityAP01().updateFeedback(newOpportunities);
+    }
+
+    public static void handleAfterUpdate(Map<Id, Opportunity> newOpportunities, Map<Id, Opportunity> oldOpportunities)
+    {
+        new OpportunityAP01().updateFeedback(newOpportunities, oldOpportunities);
+    }
 }

@@ -18,6 +18,10 @@
                 <behavior>Required</behavior>
                 <field>Nature_of_the_Request__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Reason_for_reject__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

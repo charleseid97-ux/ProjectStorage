@@ -16,6 +16,7 @@
                     <value>false</value>
                 </componentInstanceProperties>
                 <componentName>force:highlightsPanel</componentName>
+                <identifier>force_highlightsPanel</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -25,6 +26,7 @@
                     <value>BOTH</value>
                 </componentInstanceProperties>
                 <componentName>runtime_sales_merge:mergeCandidatesPreviewCard</componentName>
+                <identifier>runtime_sales_merge_mergeCandidatesPreviewCard</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -35,6 +37,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>force:detailPanel</componentName>
+                <identifier>force_detailPanel</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -45,6 +48,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>AlphaLightningAccountHierarchy</componentName>
+                <identifier>AlphaLightningAccountHierarchy</identifier>
             </componentInstance>
         </itemInstances>
         <name>facet-9d6aa7f6-fa33-40ef-99f0-47ade51d5e0d</name>
@@ -54,11 +58,13 @@
         <itemInstances>
             <componentInstance>
                 <componentName>BuyListDefinitionsButton</componentName>
+                <identifier>BuyListDefinitionsButton</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>BuyListDetailManager</componentName>
+                <identifier>BuyListDetailManager</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -104,11 +110,13 @@
                     <value>GlobalBuyListLocalDetails</value>
                 </componentInstanceProperties>
                 <componentName>AccountGlobalBuyList</componentName>
+                <identifier>AccountGlobalBuyList</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>GAMFundSelectionOverview</componentName>
+                <identifier>GAMFundSelectionOverview</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-3a133970-ec00-4d3d-8df5-07a13943bd5a</name>
@@ -122,6 +130,7 @@
                     <value>true</value>
                 </componentInstanceProperties>
                 <componentName>DecisionMakerMatrix</componentName>
+                <identifier>DecisionMakerMatrix</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-5c728806-8063-4cbc-8fac-2be1990ceec0</name>
@@ -139,6 +148,7 @@
                     <value>Meeting_Note__c</value>
                 </componentInstanceProperties>
                 <componentName>strategicNews</componentName>
+                <identifier>strategicNews</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-f60101b0-b3d6-49f6-aed0-06cc209b03b9</name>
@@ -160,6 +170,7 @@
                     <value>Standard.Tab.detail</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>detailTab</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -173,6 +184,7 @@
                     <value>Hierarchy</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -186,6 +198,7 @@
                     <value>Buy List</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab2</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -199,6 +212,7 @@
                     <value>Decision Maker Matrix</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab3</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -212,6 +226,7 @@
                     <value>Strategic News</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>customTab4</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -226,6 +241,7 @@
                     <value>maintabs</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -236,6 +252,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>OpenOpportunitiesInAccHierarchy</componentName>
+                <identifier>OpenOpportunitiesInAccHierarchy</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -245,6 +262,7 @@
                     <value>NONE</value>
                 </componentInstanceProperties>
                 <componentName>force:relatedListContainer</componentName>
+                <identifier>force_relatedListContainer</identifier>
             </componentInstance>
         </itemInstances>
         <name>facet-fdf0d84d-bde9-428d-9ab2-508564fc0f24</name>
@@ -254,6 +272,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>runtime_sales_activities:activityPanel</componentName>
+                <identifier>runtime_sales_activities_activityPanel</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -264,6 +283,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>forceChatter:recordFeedContainer</componentName>
+                <identifier>forceChatter_recordFeedContainer</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -286,6 +306,7 @@
                     <value>Standard.Tab.relatedLists</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>relatedListsTab</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -303,6 +324,7 @@
                     <value>Standard.Tab.activity</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>activityTab</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -316,6 +338,7 @@
                     <value>Standard.Tab.collaborate</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
+                <identifier>collaborateTab</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -326,6 +349,7 @@
         <itemInstances>
             <componentInstance>
                 <componentName>AccountClientTierDisplay</componentName>
+                <identifier>AccountClientTierDisplay</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -335,6 +359,7 @@
                     <value>sidebartabs</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
+                <identifier>flexipage_tabset2</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CventEvents__IsSingleApproveSufficient__c</fullName>
+    <defaultValue>false</defaultValue>
+    <deprecated>false</deprecated>
+    <description>In case of &apos;Public Group&apos; type indicates whether the single approve sufficient for the entire level.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>In case of &apos;Public Group&apos; type indicates whether the single approve sufficient for the entire level.</inlineHelpText>
+    <label>Is Single Approve Sufficient</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

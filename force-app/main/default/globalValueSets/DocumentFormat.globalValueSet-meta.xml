@@ -30,6 +30,11 @@
         <default>false</default>
         <label>Letter Confirming No Change</label>
     </customValue>
+    <customValue>
+        <fullName>PDF</fullName>
+        <default>false</default>
+        <label>PDF</label>
+    </customValue>
     <masterLabel>DocumentFormat</masterLabel>
     <sorted>false</sorted>
 </GlobalValueSet>

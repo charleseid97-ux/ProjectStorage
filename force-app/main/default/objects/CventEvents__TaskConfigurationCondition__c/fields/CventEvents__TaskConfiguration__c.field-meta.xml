@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CventEvents__TaskConfiguration__c</fullName>
+    <deprecated>false</deprecated>
+    <externalId>false</externalId>
+    <label>Task Configuration</label>
+    <referenceTo>CventEvents__TaskConfiguration__c</referenceTo>
+    <relationshipLabel>Task Configuration Conditions</relationshipLabel>
+    <relationshipName>TaskConfigurationConditions</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

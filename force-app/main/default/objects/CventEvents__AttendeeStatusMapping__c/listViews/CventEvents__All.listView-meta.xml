@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CventEvents__All</fullName>
+    <columns>NAME</columns>
+    <columns>CventEvents__Campaign__c</columns>
+    <columns>CventEvents__AttendeeStatus__c</columns>
+    <columns>CventEvents__CampaignMemberStatus__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CventEvents__Campaign__c</field>
+        <operation>equals</operation>
+        <value>2021-04-14-ALL-Carmignac Direct line with Michel Wiskirski</value>
+    </filters>
+    <label>All</label>
+</ListView>

@@ -123,7 +123,8 @@ private class strike_lookupControllerTest {
             LastName='Contact',
             FirstName='Test',
             AccountId = a.Id,
-        	Email='test@user.com');
+        	Email='test@user.com',
+        	Source__c='Website');
         insert c;
 
         String jsonString = '{"searchField":"FirstName", "subtitleField": "Account.Name", "object": "Contact", "filter": "Name = \'Test Contact\'", "searchTerm": "Test"}';

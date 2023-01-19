@@ -9,6 +9,21 @@
         <value>Work Together Processes</value>
     </caseValues>
     <layouts>
+        <layout>Data Performance Management Layout</layout>
+        <sections>
+            <label></label>
+            <section>NDA</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Request Rejected</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Type of Request and Date</section>
+        </sections>
+    </layouts>
+    <layouts>
         <layout>Data Solutions layout</layout>
         <sections>
             <label></label>
@@ -174,5 +189,122 @@
         <label></label>
         <name>SendEmail</name>
     </quickActions>
+    <quickActions>
+        <label></label>
+        <name>Show_the_Opp_details</name>
+    </quickActions>
+    <recordTypes>
+        <label></label>
+        <name>Client_delivery_request</name>
+    </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>Data_Performance_Management_Request</name>
+    </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>Due_Diligence</name>
+    </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>Product_Marketing_Request</name>
+    </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>RFP</name>
+    </recordTypes>
+    <recordTypes>
+        <description></description>
+        <label></label>
+        <name>RFP_RFI_Questionnaire</name>
+    </recordTypes>
     <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Case_VR001_NDAMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Case_VR002_AddCarmignacProductMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Case_VR003_VermillonIDMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Case_VR004_OnlyNewStatusOnCreation</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Case_VR005_DueDate</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Case_VR005_DueDate_Client_delivery</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Case_VR006_At_least_one_related</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Case_VR007_FundBlank_Focus</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Case_VR008_ReportTypeMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Case_VR009_PackageCodeMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Case_VR010_StartDateMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Case_VR011_MandatoryMultiContact</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Case_VR012_MandatoryCaseProduct</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Case_VR013_MandatoryDeliveryDateEstimate</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Case_VR013_OpportunityMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Case_VR014_RejectReason</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Case_VR015_Level_Hierarchies</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Case_VR016_CompletedStatus</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage></errorMessage>
+        <name>Case_VR018_DelayReasonMandatory</name>
+    </validationRules>
+    <webLinks>
+        <label></label>
+        <name>Easy_Drill__View_Hierarchy</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>Mass_Delete_Records</name>
+    </webLinks>
 </CustomObjectTranslation>
