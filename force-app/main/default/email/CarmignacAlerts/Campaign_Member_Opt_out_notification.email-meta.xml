@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Email sent to the user who added a contact or lead as campaign member, when this contact or lead has an &quot;etouches event opt-out&quot; status</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Campaign Member - Opt-out notification</name>
+    <style>none</style>
+    <subject>[Salesforce][{!CampaignMember.Campaign}] - You have an opt-out member in your Campaign</subject>
+    <type>text</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

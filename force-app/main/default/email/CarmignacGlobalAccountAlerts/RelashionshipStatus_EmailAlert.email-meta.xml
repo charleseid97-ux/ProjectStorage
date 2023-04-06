@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Template for push alert of a Relationship Status at the Global Account level</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Relashionship Status - Email Alert</name>
+    <style>freeForm</style>
+    <subject>RELATIONSHIP STATUS: {!RelationshipStatus__c.Title__c}</subject>
+    <textOnly>The following RELATIONSHIP UPDATE from {!RelationshipStatus__c.Company__c} has been pushed to {!RelationshipStatus__c.GlobalAccount__c}.
+
+
+Overall Relationship Status: {!RelationshipStatus__c.OverallRelationship__c}
+Updated on {!RelationshipStatus__c.OverallRelationshipStatusLastUpdate__c}
+
+{!RelationshipStatus__c.CommentsOverallRelationship__c}
+
+
+Product Status: {!RelationshipStatus__c.Product__c}
+Updated on
+{!RelationshipStatus__c.ProductRelationshipStatusLastUpdate__c}
+
+{!RelationshipStatus__c.CommentsProductRelationship__c}
+
+
+Pricing Status: {!RelationshipStatus__c.Pricing__c}
+Updated on {!RelationshipStatus__c.PricingRelationshipStatusLastUpdate__c}
+
+{!RelationshipStatus__c.CommentsPricingRelationship__c}
+
+
+People Status: {!RelationshipStatus__c.People__c}
+Updated on {!RelationshipStatus__c.PeopleRelationshipStatusLastUpdate__c}
+
+{!RelationshipStatus__c.CommentsPeopleRelationship__c}</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

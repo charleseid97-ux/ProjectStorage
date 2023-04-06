@@ -125,6 +125,7 @@ public with sharing class PreferenceCenterController {
             }
             if(existingProspaceAlertsList.size() == 0){
                 Web_Communication__c newWebCommunication = new Web_Communication__c();
+                newWebCommunication.Synchro_Status__c = 'Success';
                 if(isPublication){
                     newWebCommunication.Contact__c = Id.valueOf(contactId);
                     newWebCommunication.AlertTypeRecord__c = Id.valueOf(alertTypeId);
@@ -386,7 +387,7 @@ public with sharing class PreferenceCenterController {
         Map<String, List<subInterest>> mainToSubInterestsMap = new Map<String, List<subInterest>>();
         Map<String, List<String>> mainToSubInterestsStrMap = new Map<String, List<String>>();
         
-        Contact interestsMainFields = [SELECT Id, European_Equities__c, Fixed_Income_Strategy__c, Emerging_Equities__c, Thematic_Equities__c, 
+        Contact interestsMainFields = [SELECT Id, European_Equities__c, Fixed_Income_Strategy__c, Emerging_Equities__c, Thematic_Equities__c, Investment_Solutions__c,
                                        Diversified_Strategy__c, Patrimoine_Strategy__c, Alternative_Strategy__c, Market_Analysis__c, Sustainable_Investing__c, Corporate__c
                                        FROM Contact 
                                        WHERE Id = : Id.valueOf(contactId) WITH SECURITY_ENFORCED];
@@ -415,6 +416,10 @@ public with sharing class PreferenceCenterController {
                                     when 'Carmignac_ProfReactif_CPR100_CPR75_CPR50__c' {
                                         checkboxLabel = 'Carmignac Profil Réactif (CPR 100/CPR 75/CPR 50)';
                                     }
+                                    when 'Carmignac_Alt_European_Long_Short_CAELS__c' {
+                                        checkboxLabel = 'Carmignac Alt European Long Short (CAELS)';
+                                        
+                                    }
                                     when else {
                                         checkboxLabel = fieldResult.getLabel();
                                     }
@@ -430,7 +435,8 @@ public with sharing class PreferenceCenterController {
                                            Carmignac_Emergents_CE_PE_UKCE__c, Carmignac_Emerging_Discovery_CED_UKCED__c, Carmignac_China_New_Economy_CCNE_PCNE__c, Carmignac_Investissement_CI_PI__c,
                                            Carmignac_Climate_Transition_CC__c, Carmignac_Family_Governed_CFG__c, Carmignac_Grandchildren_CGC_UKCGEC__c, Carmignac_Human_Xperience_CHX__c, 
                                            Carmignac_ProfReactif_CPR100_CPR75_CPR50__c, Carmignac_Patrimoine_CP_PP_UKCP__c, Carmignac_Patrimoine_Europe_CPE__c, Carmignac_Emerging_Patrimoine_CEMP_UKCEM__c,
-                                           Carmignac_Long_Short_Eur_Equities_CLSEE__c, Carmignac_Investissement_Latitude_CIL__c
+                                           Carmignac_Long_Short_Eur_Equities_CLSEE__c, Carmignac_Investissement_Latitude_CIL__c, Carmignac_Alt_European_Long_Short_CAELS__c, Carmignac_Court_Terme_CCT__c,
+                                           Carmignac_Global_Market_Neutral_CGMN__c
                                            FROM Contact
                                            WHERE Id = : Id.valueOf(contactId) WITH SECURITY_ENFORCED];
                 //START : Building the Interest Wrapper Object
@@ -467,14 +473,15 @@ public with sharing class PreferenceCenterController {
         try {
             if(String.isNotBlank(contactId) && String.isNotBlank(mainInterest) && String.isNotBlank(subInterest)){
                 
-                Contact interestsFields = [SELECT Id, European_Equities__c, Fixed_Income_Strategy__c, Emerging_Equities__c, Thematic_Equities__c, 
+                Contact interestsFields = [SELECT Id, European_Equities__c, Fixed_Income_Strategy__c, Emerging_Equities__c, Thematic_Equities__c, Investment_Solutions__c,
                                                Diversified_Strategy__c, Patrimoine_Strategy__c, Alternative_Strategy__c, Market_Analysis__c, Sustainable_Investing__c, Corporate__c,
                                                Carmignac_Grande_Europe_CGE__c, FP_Carmignac_European_Leaders_UKCEL__c, Carmignac_Global_Bond_CGB_UKCGB__c, Carmignac_S_curit_CSC_PSC__c, 
                                                Carmignac_Flexible_Bond_CFB__c, Carmignac_Credit_CCR__c, Carmignac_EM_Debt_CEMD__c, Carmignac_Credit_2025_CC25__c, Carmignac_Credit_2027_CC27__c,
                                                Carmignac_Emergents_CE_PE_UKCE__c, Carmignac_Emerging_Discovery_CED_UKCED__c, Carmignac_China_New_Economy_CCNE_PCNE__c, Carmignac_Investissement_CI_PI__c,
                                                Carmignac_Climate_Transition_CC__c, Carmignac_Family_Governed_CFG__c, Carmignac_Grandchildren_CGC_UKCGEC__c, Carmignac_Human_Xperience_CHX__c, 
                                                Carmignac_ProfReactif_CPR100_CPR75_CPR50__c, Carmignac_Patrimoine_CP_PP_UKCP__c, Carmignac_Patrimoine_Europe_CPE__c, Carmignac_Emerging_Patrimoine_CEMP_UKCEM__c,
-                                               Carmignac_Long_Short_Eur_Equities_CLSEE__c, Carmignac_Investissement_Latitude_CIL__c
+                                               Carmignac_Long_Short_Eur_Equities_CLSEE__c, Carmignac_Investissement_Latitude_CIL__c, Carmignac_Alt_European_Long_Short_CAELS__c, Carmignac_Court_Terme_CCT__c,
+                                           Carmignac_Global_Market_Neutral_CGMN__c
                                                FROM Contact 
                                                WHERE Id = : Id.valueOf(contactId) WITH SECURITY_ENFORCED];
                 

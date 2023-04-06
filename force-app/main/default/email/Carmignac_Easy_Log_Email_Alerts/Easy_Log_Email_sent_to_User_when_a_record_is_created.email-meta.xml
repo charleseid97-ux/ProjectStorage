@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Recap email sent to User after an he has created and saved a log</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>Easy_Log_Letterheads</letterhead>
+    <name>Easy Log : Email sent to User when a record is created</name>
+    <style>freeForm</style>
+    <subject>New Easy Log created : {!Bug_Log__c.Name}</subject>
+    <textOnly>Hello {!Bug_Log__c.CreatedBy} !
+
+
+Thank you for your email,
+
+We confirm that your record has been created with the number {!Bug_Log__c.Name}
+Follow the link : https://carmignac-crm.lightning.force.com/lightning/r/Bug_Log__c/{!Bug_Log__c.Id}/view
+
+
+You have informed support team that :
+
+{!Bug_Log__c.Type__c} on {!Bug_Log__c.App__c} related to {!Bug_Log__c.Object__c} :
+
+{!Bug_Log__c.Description__c}
+
+It is {!Bug_Log__c.PrioritySeverity__c} and you wish that it will be resolved on {!Bug_Log__c.Expected_Date__c}.&quot;
+
+The support team has received you request.
+
+You will receive a confirmation by email when Support team will start the investigation.
+We advise you to regulary check the Chatter Tab on your record to follow up actions and questions from Support Team
+
+
+We assure you that Support Team will do everything they can to solve your request !</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

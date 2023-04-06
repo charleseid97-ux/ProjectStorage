@@ -21,10 +21,5 @@
         <operation>equals</operation>
         <value>New</value>
     </filters>
-    <filters>
-        <field>OWNER_NAME</field>
-        <operation>notContain</operation>
-        <value>Performance Management</value>
-    </filters>
     <label>New Performance Management Requests</label>
 </ListView>

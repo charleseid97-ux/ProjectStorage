@@ -37,7 +37,7 @@
                 <stringValue>[Contact].Account.All_Concerned_Business_Regions__c </stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_2_myRule_1_A2_9188757068</name>
+        <name>formula_2_myRule_1_A2_5709778358</name>
         <dataType>String</dataType>
         <expression>{!myVariable_current.Account.All_Concerned_Business_Regions__c}</expression>
     </formulas>
@@ -48,7 +48,7 @@
                 <stringValue>if(CONTAINS([Contact].Account.All_Concerned_Business_Regions__c ,[Contact].Contact_Owner_Business_Region__c),[Contact].Account.All_Concerned_Business_Regions__c,[Contact].Account.All_Concerned_Business_Regions__c &amp; &quot;;&quot;&amp;[Contact].Contact_Owner_Business_Region__c)</stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_3_myRule_1_A1_7098086616</name>
+        <name>formula_3_myRule_1_A1_1760769654</name>
         <dataType>String</dataType>
         <expression>if(CONTAINS({!myVariable_current.Account.All_Concerned_Business_Regions__c} ,{!myVariable_current.Contact_Owner_Business_Region__c}),{!myVariable_current.Account.All_Concerned_Business_Regions__c},{!myVariable_current.Account.All_Concerned_Business_Regions__c} &amp; &quot;;&quot;&amp;{!myVariable_current.Contact_Owner_Business_Region__c})</expression>
     </formulas>
@@ -56,14 +56,14 @@
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>AND(ISCHANGED([Contact].Contact_Owner_Business_Region__c ), !$User.BypassProcessBuilders__c)</stringValue>
+                <stringValue>AND(ISCHANGED([Contact].Contact_Owner_Business_Region__c ), !$User.BypassProcessBuilders__c, $User.Username &lt;&gt; &quot;b2bmaintegration@00d58000000zabiea4.ext&quot;)</stringValue>
             </value>
         </processMetadataValues>
         <name>formula_myRule_1</name>
         <dataType>Boolean</dataType>
-        <expression>AND(ISCHANGED({!myVariable_current.Contact_Owner_Business_Region__c} ), !{!$User.BypassProcessBuilders__c})</expression>
+        <expression>AND(ISCHANGED({!myVariable_current.Contact_Owner_Business_Region__c} ), !{!$User.BypassProcessBuilders__c}, {!$User.Username} &lt;&gt; &quot;b2bmaintegration@00d58000000zabiea4.ext&quot;)</expression>
     </formulas>
-    <interviewLabel>Contact_PB009_IdentifyBRsOnCompany-3_InterviewLabel</interviewLabel>
+    <interviewLabel>Contact_PB009_IdentifyBRsOnCompany-5_InterviewLabel</interviewLabel>
     <label>Contact_PB009_IdentifyBRsOnCompany</label>
     <processMetadataValues>
         <name>ObjectType</name>
@@ -163,7 +163,7 @@
             </processMetadataValues>
             <field>All_Concerned_Business_Regions__c</field>
             <value>
-                <elementReference>formula_3_myRule_1_A1_7098086616</elementReference>
+                <elementReference>formula_3_myRule_1_A1_1760769654</elementReference>
             </value>
         </inputAssignments>
         <object>Account</object>
@@ -287,7 +287,7 @@
             </processMetadataValues>
             <field>TECH_All_concerned_Business_Regions__c</field>
             <value>
-                <elementReference>formula_2_myRule_1_A2_9188757068</elementReference>
+                <elementReference>formula_2_myRule_1_A2_5709778358</elementReference>
             </value>
         </inputAssignments>
         <object>Convention__c</object>

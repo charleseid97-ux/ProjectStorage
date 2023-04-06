@@ -154,6 +154,7 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
     <label>Respondent Temp Record</label>
     <nameField>
         <displayFormat>RT-{00000000}</displayFormat>

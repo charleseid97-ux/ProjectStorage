@@ -361,6 +361,7 @@
     <tabs>Opportunity_Dashboard</tabs>
     <tabs>Data_Solutions_Report_Type__c</tabs>
     <tabs>Salesforce_update__c</tabs>
+    <tabs>NDA__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>LightningSalesConsole_UtilityBar</utilityBar>
     <workspaceConfig>
@@ -369,6 +370,9 @@
         </mappings>
         <mappings>
             <tab>Meeting_Note__c</tab>
+        </mappings>
+        <mappings>
+            <tab>NDA__c</tab>
         </mappings>
         <mappings>
             <tab>Opportunity_Dashboard</tab>

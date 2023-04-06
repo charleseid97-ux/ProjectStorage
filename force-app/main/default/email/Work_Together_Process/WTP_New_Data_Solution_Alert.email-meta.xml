@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Notification alert for data solution team when new request is created</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>WTP_New Data Solution Alert</name>
+    <style>none</style>
+    <subject>A new Data Solution Request has been initiated</subject>
+    <type>text</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

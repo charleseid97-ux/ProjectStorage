@@ -111,6 +111,24 @@
                 <identifier>force_relatedListSingleContainer</identifier>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>height</name>
+                    <value>880</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>hideOnError</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>openLinksInNewWindow</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>runtime_marketing_btobma:embeddedCampaignDashboard</componentName>
+                <identifier>runtime_marketing_btobma_embeddedCampaignDashboard</identifier>
+            </componentInstance>
+        </itemInstances>
         <name>Facet-a5d7a608-2b5f-48f8-a9c1-f448aba07070</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -187,6 +205,10 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentInstanceProperties>
+                    <name>showLegacyActivityComposer</name>
+                    <value>false</value>
+                </componentInstanceProperties>
                 <componentName>runtime_sales_activities:activityPanel</componentName>
                 <identifier>runtime_sales_activities_activityPanel</identifier>
             </componentInstance>

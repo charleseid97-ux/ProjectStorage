@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Email sent to User to notify him that a log has been assigned to him</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>Easy_Log_Letterheads</letterhead>
+    <name>Easy Log : Email sent to Admin Log Assigned</name>
+    <style>freeForm</style>
+    <subject>Easy Log : {!Bug_Log__c.Name} has been assigned to you</subject>
+    <textOnly>Hello {!Bug_Log__c.AssignedTo__c} !
+
+
+Please noticed that {!Bug_Log__c.Name} has been assigned to you !
+
+Go on Easy Log page to check {!Bug_Log__c.Owner__c} &apos;s request and provide a quick solution !
+
+Follow the link :https://carmignac-crm.lightning.force.com/one/one.app?source=alohaHeader#/sObject/{!Bug_Log__c.Id}/view
+
+For information,  {!Bug_Log__c.Name} concerns {!Bug_Log__c.App__c}
+
+According to {!Bug_Log__c.Owner__c}, it is {!Bug_Log__c.PrioritySeverity__c} and wish to be resolved {!Bug_Log__c.Expected_Date__c}.
+
+
+
+Good Luck {!Bug_Log__c.AssignedTo__c} !</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -156,6 +156,7 @@ Scoring Categories are used for multi-product engagement scoring in Pardot and a
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
     <label>Pardot Category Score (Contact)</label>
     <nameField>
         <displayFormat>SCCS-{0}</displayFormat>

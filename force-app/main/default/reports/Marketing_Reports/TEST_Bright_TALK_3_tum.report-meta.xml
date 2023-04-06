@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Account.Contacts.BrightTALK__Webcast_Activites__r$BrightTALK__Webcast__c.BrightTALK__Name__c</field>
+    </columns>
+    <columns>
+        <field>Account.Contacts$BrightTALK_UTM_Campaign__c</field>
+    </columns>
+    <columns>
+        <field>Account.Contacts.BrightTALK__Webcast_Activites__r$BrightTALK__Pre_Registered__c</field>
+    </columns>
+    <columns>
+        <field>Account.Contacts$Name</field>
+    </columns>
+    <columns>
+        <field>Account$Name</field>
+    </columns>
+    <columns>
+        <field>Account.Contacts.BrightTALK__Webcast_Activites__r$Name</field>
+    </columns>
+    <currency>EUR</currency>
+    <format>Tabular</format>
+    <name>TEST Bright TALK 3 tum</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Contacts_with_BrightTALK_Activitytest__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Account.Contacts.BrightTALK__Webcast_Activites__r$CreatedDate</dateColumn>
+        <interval>INTERVAL_LAST7</interval>
+    </timeFrameFilter>
+</Report>

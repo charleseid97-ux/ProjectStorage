@@ -160,6 +160,7 @@ FROM Salesforce to SAM.</description>
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
     <gender>Feminine</gender>
     <label>Case Product</label>
     <nameField>

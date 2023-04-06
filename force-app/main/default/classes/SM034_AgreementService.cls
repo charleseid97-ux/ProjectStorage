@@ -31,7 +31,6 @@ public without sharing class SM034_AgreementService {
 
         for(Convention__c a : newAgreements) {
             accountIds.add(a.Company__c);
-
         }
 
         //all companies linked to the new agreements
@@ -63,7 +62,10 @@ public without sharing class SM034_AgreementService {
 
             if(thisRecordTypeName == 'Investor_without_Agreement_Request' || thisRecordTypeName == 'Technical_Agreement') {
                 if(zeroGrid == null) {
-                    zeroGrid = [SELECT Id, Name FROM Grid__c WHERE Name = '0%'];
+                    List<Grid__c> gridList = [SELECT Id, Name FROM Grid__c WHERE Name = '0%'];
+                    if (gridList.size() > 0) {
+                        zeroGrid = gridList[0];
+                    }
                 }
 
                 if(zeroGrid != null) {
@@ -105,7 +107,7 @@ public without sharing class SM034_AgreementService {
 
         for(Convention__c agr : newAgreements) {
             String thisRecordTypeName = AgreementUtil.getKeyFromValue(agmRtMap, agr.RecordTypeId);
-            if(thisRecordTypeName == 'Investor_without_Agreement_Request' || thisRecordTypeName == 'Technical_Agreement') {
+            if ((thisRecordTypeName == 'Investor_without_Agreement_Request' || thisRecordTypeName == 'Technical_Agreement') && defaultRebateContact.size() > 0) {
                 rebateContactsToInsert.add(new ConventionRelatedContact__c(Convention__c = agr.Id,
                         Contact__c = defaultRebateContact[0].Id,
                         Delivery_mode__c = 'Email',
@@ -126,8 +128,9 @@ public without sharing class SM034_AgreementService {
             }*/
         }
 
-        if(rebateContactsToInsert.size() > 0) insert rebateContactsToInsert;
-
+        if(rebateContactsToInsert.size() > 0) {
+            insert rebateContactsToInsert;
+        }
     }
 
     /**
@@ -146,14 +149,74 @@ public without sharing class SM034_AgreementService {
         Id CGL = settings.get('CARMIGNAC_GESTION_LUXEMBOURG').Value__c;
         Id CGF = settings.get('CARMIGNAC_GESTION').Value__c;
 
-        for(Convention__c agr : newItems){
-            if(agr.Carmignac_Legal_Entity__c == 'CGL' && CGL != null) roles.add(new Agreement_Role__c(Role__c = 'Carmignac Entity', Agreement__c = agr.Id, Legal_Entity__c = CGL));
-            else if(agr.Carmignac_Legal_Entity__c == 'CGF' && CGF != null) roles.add(new Agreement_Role__c(Role__c = 'Carmignac Entity', Agreement__c = agr.Id, Legal_Entity__c = CGF));
+        for (Convention__c agr : newItems){
+            if (agr.Carmignac_Legal_Entity__c == 'CGL' && CGL != null) {
+                roles.add(new Agreement_Role__c(Role__c = 'Carmignac Entity', Agreement__c = agr.Id, Legal_Entity__c = CGL));
+            }
+            else if (agr.Carmignac_Legal_Entity__c == 'CGF' && CGF != null) {
+                roles.add(new Agreement_Role__c(Role__c = 'Carmignac Entity', Agreement__c = agr.Id, Legal_Entity__c = CGF));
+            }
         }
 
-        if(!roles.isEmpty()) insert roles;
+        if (!roles.isEmpty()) {
+            insert roles;
+        }
     }
 
+    /*public static void createAgreementRoles(Map<Id, Convention__c> newItems) {
+
+        //Automated Role variables
+        List<Agreement_Role__c> roles = new List<Agreement_Role__c>();
+
+        Map<String, Global_Settings__mdt> settings = Utils.getGlobalSettings();
+        List<List<String>> autoAgreementRoleMapping = Utils.getAutoAgreementRoleMapping();
+
+        Id CGL = settings.get('CARMIGNAC_GESTION_LUXEMBOURG').Value__c;
+        Id CGF = settings.get('CARMIGNAC_GESTION').Value__c;
+
+        for (Convention__c agr : [SELECT Id, Code_Type__c, Company__r.LegalEntity__c, CurrencyIsoCode, Carmignac_Legal_Entity__c, RecordTypeId FROM Convention__c where id in :newItems.keySet()]) {
+            
+            Agreement_Role__c agrRoleCarmignac = new Agreement_Role__c();
+            agrRoleCarmignac.Role__c = 'Carmignac Entity';
+            agrRoleCarmignac.Agreement__c = agr.Id;
+            
+            if (agr.Carmignac_Legal_Entity__c == 'CGL' && CGL != null) {
+                agrRoleCarmignac.Legal_Entity__c = CGL;
+                
+            }
+            else if (agr.Carmignac_Legal_Entity__c == 'CGF' && CGF != null) {
+                agrRoleCarmignac.Legal_Entity__c = CGF;
+            }
+            
+            if (agrRoleCarmignac.Legal_Entity__c != null) {
+                roles.add(agrRoleCarmignac);
+            }
+            
+            Agreement_Role__c agrRole = new Agreement_Role__c();
+            agrRole.Agreement__c = agr.Id;
+            agrRole.TECH_Agreement_CodeType__c = agr.Code_Type__c;
+            agrRole.CurrencyIsoCode = agr.CurrencyIsoCode;
+            agrRole.Legal_Entity__c = agr.Company__r.LegalEntity__c;
+            
+            String recordTypeString = Schema.getGlobalDescribe().get('Convention__c').getDescribe().getRecordTypeInfosById().get(agr.RecordTypeId).getName();
+            for (List<String> mapping : autoAgreementRoleMapping) {
+                system.debug('Record Type String: ' + recordTypeString);
+                system.debug('Mapping code type: ' + mapping[1] + ' Mapping record type: ' + mapping[2] + ' Mapping role: ' + mapping[0]);
+                if (mapping[1].equals(agr.Code_Type__c) && mapping[2].equals(recordTypeString)) {
+                    agrRole.Role__c = mapping[0];
+                    break;
+                }
+            }
+
+            if (agrRole.Role__c != null && agrRole.Legal_Entity__c != agrRoleCarmignac.Legal_Entity__c && agrRole.Legal_Entity__c != null) {
+                roles.add(agrRole);
+            }
+        }
+
+        if (!roles.isEmpty()) {
+            insert roles;
+        }
+    }*/
 
     /**
      * @author Noor
@@ -161,6 +224,7 @@ public without sharing class SM034_AgreementService {
      * @description  Setting up the role if Legal Entity company match Agreement Company based on Code Type
      *               For Sub-distributor via Platforms master Agreement Company is Used
      *               The default role per code Type is stored in custom metadata Agreement_Role_Mapping__mdt
+     * 				Previously called on After Insert Agreement Trigger - Not used anymore since need has changed
      * @param newItems new created agreement
      */
     public static void createDefaultLegalEntityAgreementRole(List<Convention__c> newItems){
@@ -168,31 +232,40 @@ public without sharing class SM034_AgreementService {
         List<Agreement_Role__c> roles = new List<Agreement_Role__c>();
         Set<Id> companyIds = new Set<Id>();
 
-        for(Convention__c agr : newItems) {
+        for (Convention__c agr : newItems) {
             companyIds.add(agr.Company__c);
-            if(agr.MasterConvention__r.Company__c != null) companyIds.add(agr.MasterConvention__r.Company__c);
+            if (agr.MasterConvention__r.Company__c != null) {
+                companyIds.add(agr.MasterConvention__r.Company__c);
+            }
         }
 
-        List<Convention__c> agreementsWithMaster = [SELECT Id,Code_Type__c,Company__c, MasterConvention__r.Company__c
+        List<Convention__c> agreementsWithMaster = [SELECT Id, Code_Type__c, Company__c, MasterConvention__r.Company__c
                                                                 FROM Convention__c WHERE Id IN : newItems];
 
-        Map<Id, Legal_Entity__c> matchingLegalEntityByCompany = new Map<Id, Legal_Entity__c>();
+        /*Map<Id, Legal_Entity__c> matchingLegalEntityByCompany = new Map<Id, Legal_Entity__c>();
         for(Legal_Entity__c le : [SELECT Company__c, Id, Name FROM Legal_Entity__c WHERE Company__c IN : companyIds]) {
             matchingLegalEntityByCompany.put(le.Company__c, le);
+        }*/
+        Map<Id, Id> matchingLegalEntityByCompany = new Map<Id, Id>();
+        for (Account acc : [SELECT Id, LegalEntity__c FROM Account where id in : companyIds AND LegalEntity__c != null]) {
+            matchingLegalEntityByCompany.put(acc.Id, acc.LegalEntity__c);
         }
 
-        for(Convention__c agr : agreementsWithMaster) {
+        for (Convention__c agr : agreementsWithMaster) {
 
-            if(agr.Code_Type__c.equalsIgnoreCase('Sub-distributor via Platforms') && matchingLegalEntityByCompany.containsKey(agr.MasterConvention__r.Company__c))
-                roles.add(createRole(agr, matchingLegalEntityByCompany.get(agr.MasterConvention__r.Company__c).Id));
-
-            else if(!agr.Code_Type__c.equalsIgnoreCase('Sub-distributor via Platforms')
+            if (agr.Code_Type__c.equalsIgnoreCase('Sub-distributor via Platforms') && matchingLegalEntityByCompany.containsKey(agr.MasterConvention__r.Company__c)) {
+                roles.add(createRole(agr, matchingLegalEntityByCompany.get(agr.MasterConvention__r.Company__c)));
+            }
+            else if (!agr.Code_Type__c.equalsIgnoreCase('Sub-distributor via Platforms')
                       && !agr.Code_Type__c.equalsIgnoreCase('Technical')
-                        && matchingLegalEntityByCompany.containsKey(agr.Company__c))
-                roles.add(createRole(agr, matchingLegalEntityByCompany.get(agr.Company__c).Id));
+                    && matchingLegalEntityByCompany.containsKey(agr.Company__c)) {
+                roles.add(createRole(agr, matchingLegalEntityByCompany.get(agr.Company__c)));
+            }
         }
 
-        if(!roles.isEmpty()) insert roles;
+        if (!roles.isEmpty()) {
+            insert roles;
+        }
     }
 
     /**
@@ -205,9 +278,13 @@ public without sharing class SM034_AgreementService {
      *
      * @return
      */
-    private static Agreement_Role__c createRole(Convention__c agr, Id legalEntityId) {
-
-        return new Agreement_Role__c(Agreement__c = agr.Id, Legal_Entity__c = legalEntityId, Role__c = getMappingAgreementRole(agr.Code_Type__c), TECH_Agreement_CodeType__c= agr.Code_Type__c);
+    public static Agreement_Role__c createRole(Convention__c agr, Id legalEntityId) {
+        Agreement_Role__c agrRole = new Agreement_Role__c();
+        agrRole.Agreement__c = agr.Id;
+        agrRole.Legal_Entity__c = legalEntityId;
+        agrRole.Role__c = getMappingAgreementRole(agr.Code_Type__c);
+        agrRole.TECH_Agreement_CodeType__c= agr.Code_Type__c;
+        return agrRole;
     }
 
     /**
@@ -223,9 +300,13 @@ public without sharing class SM034_AgreementService {
 
         Map<String, String> agreementRoles = Utils.getAgreementRoleSettings();
 
-        if(agreementRoles.containsKey(codeType)) return agreementRoles.get(codeType);
+        if (agreementRoles.containsKey(codeType)) {
+            return agreementRoles.get(codeType);
+        }
 
-        else return agreementRoles.get('Default');
+        else {
+            return agreementRoles.get('Default');
+        }
 
     }
 
@@ -235,30 +316,53 @@ public without sharing class SM034_AgreementService {
         List<Id> gridIds = new List<Id>();
 
         Map<Id, Convention__c> mConvIds_withSubAgreements = new Map<Id, Convention__c>();
+        Map<Id, List<Convention__c>> accAgreement = new Map<Id, List<Convention__c>>();
 
         for(Convention__c agr : newAgreements) {
             accountIds.add(agr.Company__c);
             gridIds.add(agr.Grid__c);
 
             Convention__c oldConv = oldAgreements.get(agr.Id);
-            if(agr.Agreement_Type__c == 'Master') {
-                if(agr.Primary_Rebate_Contact__c != oldConv.Primary_Rebate_Contact__c){
+            if (checkIfApprovalProcess(agr.id, 'Started')) {
+                if (accAgreement.containsKey(oldConv.Company__c)) {
+                    accAgreement.get(agr.Company__c).add(agr);
+                }
+                else {
+                    accAgreement.put(agr.Company__c, new List<Convention__c>{agr});
+                }
+            }
+            else if (agr.Agreement_Type__c == 'Master') {
+                if (agr.Primary_Rebate_Contact__c != oldConv.Primary_Rebate_Contact__c){
                     mConvIds_withSubAgreements.put(agr.Id, agr);
                 }
             }
 
         }
+        
+        //Check if the records updated because of approval process have required fields
+        if (accAgreement.size() > 0) {
+            List<Account> accList = [SELECT id, LegalEntity__c FROM Account where id in: accAgreement.keySet()];
+            for (Account acc : accList) {
+                for (Convention__c agr : accAgreement.get(acc.id)) {
+                    if (acc.LegalEntity__c == null) {
+                        agr.Name.addError(System.Label.ApprovalProcessMandotoryFieldsAgreement);
+                    }
+                }
+            }
+            return;
+        }
         //all companies linked to the new agreements
         Map<Id, Account> companyMap = AgreementUtil.getAllLinkedAccounts(accountIds);
         Map<Id, Grid__c> gridMap = new Map<Id, Grid__c>([SELECT Id, Name FROM Grid__c WHERE Id IN: gridIds]);
 
-        if(mConvIds_withSubAgreements.size() > 0){
+        if (mConvIds_withSubAgreements.size() > 0){
             List<Convention__c> lConventionToUpdate = new List<Convention__c>([SELECT Primary_Rebate_Contact__c, Convention__c FROM Convention__c WHERE MasterConvention__c IN :mConvIds_withSubAgreements.keySet() AND Status__c != 'Terminated']);
-            if(lConventionToUpdate.size() > 0){
-                for(Convention__c Conv : lConventionToUpdate) {
+            if (lConventionToUpdate.size() > 0){
+                for (Convention__c Conv : lConventionToUpdate) {
                     Convention__c a = mConvIds_withSubAgreements.get(Conv.id);
-                    for(id MasterId : mConvIds_withSubAgreements.keySet()){
-                        Conv.Primary_Rebate_Contact__c = mConvIds_withSubAgreements.get(MasterId).Primary_Rebate_Contact__c;                    }
+                    for (id MasterId : mConvIds_withSubAgreements.keySet()) {
+                        Conv.Primary_Rebate_Contact__c = mConvIds_withSubAgreements.get(MasterId).Primary_Rebate_Contact__c;
+                    }
                 }
 
             }
@@ -266,7 +370,7 @@ public without sharing class SM034_AgreementService {
         }
 
         List<Agreement_Grid_History__c> AGHToInsert = new List<Agreement_Grid_History__c>();
-        for(Convention__c agr : newAgreements) {
+        for (Convention__c agr : newAgreements) {
 
             Account tmpAcc = companyMap.get(agr.Company__c);
 
@@ -276,9 +380,9 @@ public without sharing class SM034_AgreementService {
                 AgreementUtil.snapCompanyToAgreement(agr, tmpAcc);
             }
 
-            if(agr.Amendment_Approval_Status__c == 'Approved' && agr.Grid_Request_Approved__c) {
+            if (agr.Amendment_Approval_Status__c == 'Approved' && agr.Grid_Request_Approved__c) {
                 Agreement_Grid_History__c retAGH = AgreementUtil.createGridHistory(agr, gridMap.get(agr.Grid__c));
-                if(retAGH != null) {
+                if (retAGH != null) {
                     AGHToInsert.add(retAGH);
 
                     agr.Grid__c = agr.Grid_Request__c;
@@ -290,14 +394,17 @@ public without sharing class SM034_AgreementService {
                 }
             }
 
-            if(agr.Amendment_Approval_Status__c == 'Approved' && agr.Status__c != null)
+            if(agr.Amendment_Approval_Status__c == 'Approved' && agr.Status__c != null) {
                 agr.Renewal_Request_End_Date__c = null;
+            }
 
-            if(String.isEmpty(agr.Amendment_Approval_Status__c) == false && agr.Amendment_Approval_Status__c != 'Approval Rejected' && agr.Status__c == 'Rejected')
+            if(String.isEmpty(agr.Amendment_Approval_Status__c) == false && agr.Amendment_Approval_Status__c != 'Approval Rejected' && agr.Status__c == 'Rejected') {
                 agr.Status__c = 'In Negotiation';
+            }
 
-            if(String.isEmpty(agr.Agreement_Termination_Status__c) == false && agr.Agreement_Termination_Status__c != 'Approval Rejected' && agr.Status__c == 'Rejected')
+            if(String.isEmpty(agr.Agreement_Termination_Status__c) == false && agr.Agreement_Termination_Status__c != 'Approval Rejected' && agr.Status__c == 'Rejected') {
                 agr.Status__c = 'In Negotiation';
+            }
 
             
             //if(agr.Amendment_Approval_Status__c != oldAgreements.get(agr.Id).Amendment_Approval_Status__c ||
@@ -305,21 +412,28 @@ public without sharing class SM034_AgreementService {
             //    AgreementUtil.validateStepsApproval(agr, oldAgreements);
         }
 
-        if(AGHToInsert.size() > 0)
+        if(AGHToInsert.size() > 0) {
             insert AGHToInsert;
+        }
+    }
+    
+    public static boolean checkIfApprovalProcess(Id recordId, String statusString) {
+        List<ProcessInstance> existingApprovals = [SELECT Id, TargetObjectId
+                                                   FROM ProcessInstance
+                                                   WHERE TargetObjectId=:recordId AND status=:statusString];
+        return existingApprovals.size() > 0;
     }
 
     public static void attachedKYD_DD(List<Convention__c> conventions) {
 
         Set<Id> legalEntitySet = getallLegalEntities(conventions);
         Map<Id, KYD_Due_Diligence_Oversight__c>getKYCCheckListMap = new Map<Id, KYD_Due_Diligence_Oversight__c>([SELECT Id, Active__c, LegalEntity__c
-        FROM KYD_Due_Diligence_Oversight__c
-        WHERE LegalEntity__c IN:legalEntitySet
-        AND Active__c =true
-        ORDER BY createdDate DESC LIMIT 1]);
+                                                                                                                 FROM KYD_Due_Diligence_Oversight__c
+        																										 WHERE LegalEntity__c IN:legalEntitySet AND Active__c =true
+        																										 ORDER BY createdDate DESC LIMIT 1]);
 
-        for(Convention__c agr : conventions) {
-            for(KYD_Due_Diligence_Oversight__c chk: getKYCCheckListMap.values()){
+        for (Convention__c agr : conventions) {
+            for (KYD_Due_Diligence_Oversight__c chk: getKYCCheckListMap.values()) {
                 agr.KYD_Due_Diligence_Oversight__c = chk.Id;
             }
         }
@@ -335,11 +449,11 @@ public without sharing class SM034_AgreementService {
         }
 
         Convention__c[] agreementRoles = [SELECT Id, (SELECT Id, Legal_Entity__c, Legal_Role_Validation__c
-                FROM Agreement_Roles__r WHERE Role__c!=:System.Label.CarmignacEntity)
-                FROM Convention__c where Id IN: agRecordIdSet];
-        if (agreementRoles.size() > 0){
+                						  FROM Agreement_Roles__r WHERE Role__c!=:System.Label.CarmignacEntity)
+                                          FROM Convention__c where Id IN: agRecordIdSet];
+        if (agreementRoles.size() > 0) {
             list<Agreement_Role__c> rols = agreementRoles[0].Agreement_Roles__r;
-            for (Agreement_Role__c r: rols){
+            for (Agreement_Role__c r: rols) {
                 legalEntitiesSet.add(r.Legal_Entity__c);
             }
         }
@@ -359,14 +473,16 @@ public without sharing class SM034_AgreementService {
 
         Id intermediaryAgreement = UtilitiesSObject.getRecordTypeIdByDeveloperName(Convention__c.SObjectType, 'Agreement');
 
-        for(Convention__c agr : newItems.values())
-            if(agr.RecordTypeId.equals(intermediaryAgreement) && agr.Status__c.equals('Terminated') && agr.Status__c != oldItems.get(agr.Id).Status__c)
+        for(Convention__c agr : newItems.values()) {
+            if(agr.RecordTypeId.equals(intermediaryAgreement) && agr.Status__c.equals('Terminated') && agr.Status__c != oldItems.get(agr.Id).Status__c) {
                 agreementsToUpdate.add(agr);
+            }
+        }
 
-        if(!agreementsToUpdate.isEmpty()){
+        if (!agreementsToUpdate.isEmpty()) {
             List<Convention__c> childAgreement = new List<Convention__c>();
 
-            for(Convention__c agr : [SELECT Id FROM Convention__c WHERE MasterConvention__c IN : agreementsToUpdate AND Status__c NOT IN ('Terminated', 'Pending Termination')]){
+            for (Convention__c agr : [SELECT Id FROM Convention__c WHERE MasterConvention__c IN : agreementsToUpdate AND Status__c NOT IN ('Terminated', 'Pending Termination')]){
                 agr.Status__c = 'Pending Termination';
                 childAgreement.add(agr);
             }
@@ -374,10 +490,10 @@ public without sharing class SM034_AgreementService {
         }
     }
 
-
     public static void validateAgreementWhenApproved(Map<Id, Convention__c> newMap, Map<Id, Convention__c> oldMap) {
-        //Validate only when request come from the agreement page
-        if(newMap.size() == 1) validateStepsApproval(newMap.values()[0], oldMap.values()[0]);
+        for (Convention__c c : newMap.values()) {
+            validateStepsApproval(c, oldMap.get(c.id));
+        }
     }
 
     public static void validateStepsApproval(Convention__c agr, Convention__c oldAgreement) {
@@ -386,22 +502,30 @@ public without sharing class SM034_AgreementService {
 
         switch on approvalStep {
             when 'Agreement Request IS Approval' {
-                if(approvedAction(agr, oldAgreement, 'DCO Approval', 'HOC Approval')){
+                if (approvedAction(agr, oldAgreement, 'DCO Approval', 'HOC Approval')) {
                     validateRequestISApprovalKYD(agr, oldAgreement);
                     validateRequestISApprovalRiskLevel(agr);
                 }
             }
             when 'Agreement Request Compliance Approval' {
-                if (approvedAction(agr, oldAgreement, 'Compliance Approval', 'DCO Approval')) validateRequestComplianceApproval(agr);
+                if (approvedAction(agr, oldAgreement, 'Compliance Approval', 'DCO Approval')) {
+                    validateRequestComplianceApproval(agr);
+                }
             }
             when 'Agreement Amendment Legal Approval' {
-                if (!isAgreementRoleValidated(agr, oldAgreement)) agr.Name.addError(System.label.Validate_Agreement_Roles_Error_message);
+                if (!isAgreementRoleValidated(agr, oldAgreement)) {
+                    agr.Name.addError(System.label.Validate_Agreement_Roles_Error_message);
+                }
             }
             when 'Agreement Renewal Legal Approval' {
-                if (!isAgreementRoleValidated(agr, oldAgreement)) agr.Name.addError(System.label.Validate_Agreement_Roles_Error_message);
+                if (!isAgreementRoleValidated(agr, oldAgreement)) {
+                    agr.Name.addError(System.label.Validate_Agreement_Roles_Error_message);
+                }
             }
             when 'Agreement Renewal with GRID Legal Approval' {
-                if (!isAgreementRoleValidated(agr, oldAgreement)) agr.Name.addError(System.label.Validate_Agreement_Roles_Error_message);
+                if (!isAgreementRoleValidated(agr, oldAgreement)) {
+                    agr.Name.addError(System.label.Validate_Agreement_Roles_Error_message);
+                }
             }
             when else {
             }
@@ -417,12 +541,16 @@ public without sharing class SM034_AgreementService {
      */
     public static String getApprovalStepName(Convention__c agr) {
         String approvalStep = '';
-        ProcessInstance[] pi = [SELECT Id,TargetObjectId, Status FROM ProcessInstance WHERE TargetObjectId = :agr.Id AND Status = 'Pending' ORDER BY CreatedDate DESC];
+        ProcessInstance[] pi = [SELECT Id, TargetObjectId, Status FROM ProcessInstance WHERE TargetObjectId = :agr.Id AND Status = 'Pending' ORDER BY CreatedDate DESC];
 
-        ProcessInstanceNode[] pin ;
-        if (!pi.isEmpty()) pin = [SELECT Id, NodeStatus, ProcessNodeName, ProcessInstanceId FROM ProcessInstanceNode WHERE ProcessInstanceId = :pi[0].Id AND NodeStatus = 'Pending'];
+        ProcessInstanceNode[] pin;
+        if (!pi.isEmpty()) {
+            pin = [SELECT Id, NodeStatus, ProcessNodeName, ProcessInstanceId FROM ProcessInstanceNode WHERE ProcessInstanceId = :pi[0].Id AND NodeStatus = 'Pending'];
+        }
 
-        if (pin != null && !pin.isEmpty()) approvalStep = pin[0].ProcessNodeName;
+        if (pin != null && !pin.isEmpty()) {
+            approvalStep = pin[0].ProcessNodeName;
+        }
 
         return approvalStep;
     }
@@ -440,9 +568,9 @@ public without sharing class SM034_AgreementService {
      * @return An error message
      */
     public static void validateRequestISApprovalKYD(Convention__c agr, Convention__c oldAgr) {
-        if (agr.KYD_DD_Oversight_Status__c != 'Completed' &&
-                agr.KYD_Due_Diligence_Oversight__c == oldAgr.KYD_Due_Diligence_Oversight__c)
+        if (agr.KYD_DD_Oversight_Status__c != 'Completed' && agr.KYD_Due_Diligence_Oversight__c == oldAgr.KYD_Due_Diligence_Oversight__c) {
             agr.KYD_DD_Oversight_Status__c .addError(System.Label.Due_Diligence_Error_Message);
+        }
     }
 
     /**
@@ -454,8 +582,9 @@ public without sharing class SM034_AgreementService {
      */
     public static void validateRequestISApprovalRiskLevel(Convention__c agr) {
 
-        if (String.isBlank(agr.Preliminary_Risk_Assesment__c) &&
-           agr.KYD_DD_Oversight_Status__c != 'Completed') agr.Preliminary_Risk_Assesment__c.addError(System.Label.Risk_level_Error_Message);
+        if (String.isBlank(agr.Preliminary_Risk_Assesment__c) && (String.isBlank(agr.KYD_Responsible__c) || agr.KYD_Responsible__c.toLowerCase() != 'reliance')) {
+            agr.Preliminary_Risk_Assesment__c.addError(System.Label.Risk_level_Error_Message);
+        }
     }
 
 
@@ -466,7 +595,9 @@ public without sharing class SM034_AgreementService {
      * @return An error message
      */
     public static void validateRequestComplianceApproval(Convention__c agr) {
-        if (!agr.Compliance_Clearing__c) agr.Compliance_Clearing__c.addError(System.Label.Compliance_Clearing_Error_Message);
+        if (!agr.Compliance_Clearing__c) {
+            agr.Compliance_Clearing__c.addError(System.Label.Compliance_Clearing_Error_Message);
+        }
     }
 
     public static Boolean approvedAction(Convention__c agr, Convention__c oldAgr, String actualStatus, String previousStatus) {
@@ -485,18 +616,22 @@ public without sharing class SM034_AgreementService {
         Set<Id> agrIds = new Set<Id>();
         List<Agreement_Role__c> roleToUpdate = new List<Agreement_Role__c>();
 
-        for(Convention__c agr : newMap.values()){
-            if(agr.Code_Type__c != oldMap.get(agr.Id).Code_Type__c) agrIds.add(agr.Id);
+        for (Convention__c agr : newMap.values()){
+            if(agr.Code_Type__c != oldMap.get(agr.Id).Code_Type__c) {
+                agrIds.add(agr.Id);
+            }
         }
 
-        for(Agreement_Role__c role : [SELECT Id, Role__c, Agreement__r.Code_Type__c FROM Agreement_Role__c
+        for (Agreement_Role__c role : [SELECT Id, Role__c, Agreement__r.Code_Type__c FROM Agreement_Role__c
                                         WHERE Agreement__c IN :agrIds AND Role__c != 'Carmignac Entity']){
             role.TECH_Agreement_CodeType__c = role.Agreement__r.Code_Type__c;
             role.Role__c = getMappingAgreementRole(role.Agreement__r.Code_Type__c);
             roleToUpdate.add(role);
         }
 
-        if(!roleToUpdate.isEmpty()) update roleToUpdate;
+        if (!roleToUpdate.isEmpty()) {
+            update roleToUpdate;
+        }
     }
 
 }

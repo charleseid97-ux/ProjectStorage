@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>ACCOUNT.NAME</field>
+    </columns>
+    <columns>
+        <field>ACCOUNT_ID</field>
+    </columns>
+    <columns>
+        <field>USERS.NAME</field>
+    </columns>
+    <columns>
+        <field>ProductStatus__c.Strategy__c</field>
+    </columns>
+    <columns>
+        <field>CUST_NAME</field>
+    </columns>
+    <columns>
+        <field>ProductStatus__c.Status__c</field>
+    </columns>
+    <columns>
+        <field>TYPE</field>
+    </columns>
+    <columns>
+        <field>CUST_CREATED_DATE</field>
+    </columns>
+    <currency>EUR</currency>
+    <filter>
+        <criteriaItems>
+            <column>CUST_CREATED_DATE</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>greaterOrEqual</operator>
+            <value>1/1/2018 12:00 AM</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>USERS.NAME</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>JO SWITTEN</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>ACCOUNT.NAME</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value>Financial Request,Advieskantoor Kockaerts,Zakenkantoor Flipkens,Kantoor Vandekerckhove-Smets</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Account.Ultimate_Parent__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>BNP PARIBAS GLOBAL ACCOUNT,AXA GLOBAL ACCOUNT,ARCHITAS GLOBAL ACCOUNT,CREDIT AGRICOLE GLOBAL ACCOUNT,UNICREDITO GLOBAL ACCOUNT,GENERALI GLOBAL ACCOUNT,INTESA GROUP,MEDIOLANUM GROUP,ARGENTA GROUP,BELFIUS GROUP,SANTANDER GLOBAL ACCOUNT,BANKINTER GROUP,CREDIT SUISSE GLOBAL ACCOUNT,UBS GLOBAL ACCOUNT,JULIUS BAER GLOBAL ACCOUNT,ALLIANZ GLOBAL ACCOUNT,DEUTSCHE BANK GLOBAL ACCOUNT,COMMERZBANK GROUP,DZ BANK</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Account.Ultimate_Parent__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>18/19 Product Status Review</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>AccountCustomEntity$ProductStatus__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>false</showSubTotals>
+    <sortColumn>CUST_NAME</sortColumn>
+    <sortOrder>Asc</sortOrder>
+    <timeFrameFilter>
+        <dateColumn>CREATED_DATE</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

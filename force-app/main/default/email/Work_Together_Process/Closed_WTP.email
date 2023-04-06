@@ -1,0 +1,11 @@
+The {!Case.RecordType} from the Company : {!Case.Account} was closed.
+
+The Organisator's feedback : 
+{!Case.Coordinator_Feedback__c}
+The Client's feedback :
+{!Case.Contact_Owner_Feedback__c}
+Main Takeaway :
+{!Case.Main_Takeaway__c}
+
+To access the full information in Salesforce, please click on the link below : 
+https://carmignac-crm.lightning.force.com/lightning/r/Case/{!Case.Id}/view

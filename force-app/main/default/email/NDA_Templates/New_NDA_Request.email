@@ -1,0 +1,42 @@
+<messaging:emailTemplate subject="New NDA request has been submitted in Salesforce" recipientType="User" relatedToType="NDA__c">
+<messaging:htmlEmailBody >
+Dear Legal Team,<br/>
+<br/><br/>
+A new NDA request has been submitted in Salesforce on the {!DAY(DATEVALUE(relatedTo.SystemModStamp))}/{!MONTH(DATEVALUE(relatedTo.SystemModStamp))}/{!YEAR(DATEVALUE(relatedTo.SystemModStamp))}, with
+the following information:<br/>
+<br/>
+<ul>
+    <li>Link to NDA : &nbsp;<apex:outputlink value="{!LEFT($Api.Partner_Server_URL_140,FIND('.com',$Api.Partner_Server_URL_140)+4)+relatedTo.Id}">{!relatedTo.Name}</apex:outputlink></li>
+    <li>NDA Name : {!relatedTo.Name}</li>
+    <li>NDA Record Type : {!relatedTo.RecordType.Name}</li>
+    <li>Service Provider : {!relatedto.Service_Provider__r.Name}</li>
+    <li>Related Master NDA : {!relatedto.Related_NDA__r.Name}</li>
+    <li>NDA demand owner : {!relatedTo.Owner.Name} </li>
+    <li>CRM Business Region : {!relatedTo.Company_Business_Region__c}</li>
+    <li>Company Requesting an NDA :  {!relatedTo.Company__r.Name}</li>
+    <li>Signatory : {!relatedTo.Signatory__c}</li>
+    <li>Purpose : {!relatedTo.Purpose__c}</li>
+    <li>Business type : {!relatedTo.Type__c}</li>
+    <li>Regulatory type : {!relatedTo.Regulatory__c}</li>
+    <li>Type of data sent : {!relatedTo.TypeOfDataToSend__c}</li>
+    <li>Intermediary : {!relatedTo.Intermediates__c}</li>
+    <li>Release Schedule : {!relatedTo.ReleaseSchedule__c}</li>
+    <li>Due Date : {!relatedTo.SignatureDate__c}</li>
+    <li>Data Protection Regulation : {!relatedTo.Data_Protection_Regulation__c}</li>
+    <li>Description: {!relatedTo.Description__c}</li>
+    <li>Funds concerned :</li>
+<apex:repeat var="cx" value="{!relatedTo.NDA_Products__r}">
+    <ul>
+        <li style="font-weight:bold;">Name : {!cx.Share_Class__r.Fund__r.Name}</li>
+        <li>Product Name : {!cx.Share_Class__r.Fund__r.Product_Name__c}</li>
+        <li>Isin Code : {!cx.Isin_Code__c}</li>
+        <li>Share Class : {!cx.Share_Class__r.Name}</li>
+    </ul>
+</apex:repeat>
+</ul>
+<br/>
+Please liaise with the CRM team in charge of this query, in order to address it.<br/>
+<br/><br/>
+Best regards,<br/>
+</messaging:htmlEmailBody>
+</messaging:emailTemplate>

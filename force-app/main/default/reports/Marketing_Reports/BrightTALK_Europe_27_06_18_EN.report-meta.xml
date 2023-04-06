@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_25498636</developerName>
+        <masterLabel>Country</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <otherBucketLabel>Other</otherBucketLabel>
+        <sourceColumnName>CampaignMember.Category_Event_lookup__c</sourceColumnName>
+        <useOther>true</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>Clients - UK // BT Europe 27.06.18</sourceValue>
+            </sourceValues>
+            <value>UK</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Clients - Nordics // BT Europe 27.06.18</sourceValue>
+            </sourceValues>
+            <value>Nordics</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Clients - NL // BT Europe 27.06.18</sourceValue>
+            </sourceValues>
+            <value>Netherlands</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Clients - LU // BT Europe 27.06.18</sourceValue>
+            </sourceValues>
+            <value>Luxembourg</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Clients - LATAM // BT Europe 27.06.18</sourceValue>
+            </sourceValues>
+            <value>LATAM</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Clients - FR // BT Europe 27.06.18</sourceValue>
+            </sourceValues>
+            <value>France</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Clients - ES // BT Europe 27.06.18</sourceValue>
+            </sourceValues>
+            <value>Spain</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Clients - DE // BT Europe 27.06.18</sourceValue>
+            </sourceValues>
+            <value>Germany</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Clients - CH // BT Europe 27.06.18</sourceValue>
+            </sourceValues>
+            <value>Switzerland</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Clients - BE // BT Europe 27.06.18</sourceValue>
+            </sourceValues>
+            <value>Belgium</value>
+        </values>
+    </buckets>
+    <chart>
+        <backgroundColor1>#FFFFFF</backgroundColor1>
+        <backgroundColor2>#FFFFFF</backgroundColor2>
+        <backgroundFadeDir>Diagonal</backgroundFadeDir>
+        <chartSummaries>
+            <axisBinding>y</axisBinding>
+            <column>RowCount</column>
+        </chartSummaries>
+        <chartType>HorizontalBarStacked</chartType>
+        <enableHoverLabels>false</enableHoverLabels>
+        <expandOthers>true</expandOthers>
+        <groupingColumn>Account.BusinessDevelopmentRegion__c</groupingColumn>
+        <legendPosition>Right</legendPosition>
+        <location>CHART_BOTTOM</location>
+        <secondaryGroupingColumn>Contact.Investment_Decision_formula__c</secondaryGroupingColumn>
+        <showAxisLabels>true</showAxisLabels>
+        <showPercentage>false</showPercentage>
+        <showTotal>false</showTotal>
+        <showValues>false</showValues>
+        <size>Medium</size>
+        <summaryAxisRange>Auto</summaryAxisRange>
+        <textColor>#000000</textColor>
+        <textSize>12</textSize>
+        <titleColor>#000000</titleColor>
+        <titleSize>18</titleSize>
+    </chart>
+    <columns>
+        <field>FIRST_NAME</field>
+    </columns>
+    <columns>
+        <field>LAST_NAME</field>
+    </columns>
+    <columns>
+        <field>ACCOUNT.NAME</field>
+    </columns>
+    <columns>
+        <field>Contact.JobTitle__c</field>
+    </columns>
+    <currency>EUR</currency>
+    <filter>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <criteriaItems>
+            <column>CAMPAIGN_NAME</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>BrightTALK – European Equities – 27/06/18 – EN</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>CAMPAIGN_NAME</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>BrightTALK – European Equities – 10/07/18 – IT</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Matrix</format>
+    <groupingsAcross>
+        <dateGranularity>Day</dateGranularity>
+        <field>Contact.Investment_Decision_formula__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsAcross>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Account.BusinessDevelopmentRegion__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>BrightTALK – Europe - June 2018</name>
+    <params>
+        <name>scopeid</name>
+        <value></value>
+    </params>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CampaignContact</reportType>
+    <scope>orgAll</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>false</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+</Report>

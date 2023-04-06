@@ -4,16 +4,21 @@ global without sharing class AgreementUtil {
     public static void validateCompanySnapshot(Convention__c agg, Account c) {
         String errorMsg = '';
         if (c != null) {
-            if (c.BillingStreet == null || c.BillingCity == null || c.BillingPostalCode == null || c.BillingCountry == null)
+            if (c.BillingStreet == null || c.BillingCity == null || c.BillingPostalCode == null || c.BillingCountry == null) {
                 agg.Company__c.addError('The minimum requirement for Address fields are not entered on this Company. Please enter at least Street, City, Postal Code and Country');
-            if (c.Distributor_Type__c == null || c.Distributor_Type__c == '')
+            }
+            if (c.Distributor_Type__c == null || c.Distributor_Type__c == '') {
                 agg.Distributor_Type__c.addError('Please ensure the linked Company has a Distibutor Type');
-            if (c.Sub_Type__c == null || c.Sub_Type__c == '')
+            }
+            if (c.Sub_Type__c == null || c.Sub_Type__c == '') {
                 agg.Sub_Type__c.addError('Please ensure the linked Company has a Sub-Type');
-            if (c.In__c == null || c.In__c == '')
+            }
+            if (c.In__c == null || c.In__c == '') {
                 agg.Investment_Decision__c.addError('Please ensure the linked Company has an Investment Decision');
-            if (c.Final_Distribution__c == null || c.Final_Distribution__c == '')
+            }
+            if (c.Final_Distribution__c == null || c.Final_Distribution__c == '') {
                 agg.Final_Distribution__c.addError('Please ensure the linked Company has a Final Distribution');
+            }
         } else {
             agg.Company__c.addError('No Company was found');
         }
@@ -36,8 +41,9 @@ global without sharing class AgreementUtil {
             if (currentCodeTop == -1) {
                 //possible optimisation needed
                 AggregateResult[] groupedResults = [SELECT max(Code_Top_Level__c) max FROM Convention__c];
-                if (Integer.valueOf(groupedResults[0].get('max')) != null)
+                if (Integer.valueOf(groupedResults[0].get('max')) != null) {
                     thisCodeTop = Integer.valueOf(groupedResults[0].get('max'));
+                }
             }
             thisCodeTop = thisCodeTop + 1;
             agr.Code_Top_Level__c = thisCodeTop;
@@ -48,8 +54,9 @@ global without sharing class AgreementUtil {
             if (currentCodeSub == -1) {
                 //possible optimisation needed
                 AggregateResult[] groupedResults = [SELECT max(Code_Sub_Level__c) max FROM Convention__c WHERE MasterConvention__c = :agr.MasterConvention__c];
-                if (Integer.valueOf(groupedResults[0].get('max')) != null)
+                if (Integer.valueOf(groupedResults[0].get('max')) != null) {
                     thisCodeSub = Integer.valueOf(groupedResults[0].get('max'));
+                }
             }
             thisCodeSub = thisCodeSub + 1;
             agr.Code_Sub_Level__c = thisCodeSub;
@@ -61,7 +68,9 @@ global without sharing class AgreementUtil {
         codeSubPrefix = (thisRTName == 'Request_Agreement' || thisRTName == 'Investor_without_Agreement_Request' || thisRTName == 'Sub_distributor_Agreement_Request') ? agr.Business_Region__c.subString(3, 5) : 'T';
 
         agreementCode = (thisCodeSub == 0) ? codePrefix + codeTopLP : codePrefix + codeTopLP + '_' + codeSubPrefix + codeSubLP;
-        if (thisRTName.equals('Technical_Agreement')) agreementCode += '_T';
+        if (thisRTName.equals('Technical_Agreement')) {
+            agreementCode += '_T';
+        }
         agr.Name = agreementCode;
         agr.TECH_ConventionExternalID__c = agreementCode;
     }
@@ -69,7 +78,15 @@ global without sharing class AgreementUtil {
     public static void agreementNameGeneration(Convention__c agr, Map<Id, Convention__c> masterAgreements, Account linkedAccount) {
         String agreementName = linkedAccount.Name;
 
-        if (agr.Code_Type__c == 'Technical') agreementName += '_TECH'; else agreementName += '_' + agr.Business_Region__c.subString(3, 5);
+        if (agr.Code_Type__c == 'Technical') {
+            agreementName += '_TECH';
+        }
+        else {
+            agreementName += '_';
+            if (String.isNotBlank(agr.Business_Region__c) && agr.Business_Region__c.length() >= 4) {
+            	agreementName += agr.Business_Region__c.subString(3, 5);
+            }
+        }
 
         agr.ConventionName__c = agreementName;
     }

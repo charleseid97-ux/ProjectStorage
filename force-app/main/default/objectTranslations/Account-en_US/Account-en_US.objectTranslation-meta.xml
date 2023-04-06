@@ -16,10 +16,6 @@
         <layout>Account - Distributor Layout</layout>
         <sections>
             <label></label>
-            <section>AUM &amp; NET FLOWS</section>
-        </sections>
-        <sections>
-            <label></label>
             <section>Description</section>
         </sections>
         <sections>
@@ -75,6 +71,25 @@
         <sections>
             <label></label>
             <section>Last interactions</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Account - Internal Company Layout</layout>
+        <sections>
+            <label></label>
+            <section>Description</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Details</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Last interactions</section>
+        </sections>
+        <sections>
+            <label></label>
+            <section>Segmentation</section>
         </sections>
     </layouts>
     <layouts>
@@ -287,6 +302,14 @@
     <webLinks>
         <label></label>
         <name>Mass_Delete_Records</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>dupcheck__dc3Check</name>
+    </webLinks>
+    <webLinks>
+        <label></label>
+        <name>dupcheck__dc3Merge</name>
     </webLinks>
     <webLinks>
         <label></label>

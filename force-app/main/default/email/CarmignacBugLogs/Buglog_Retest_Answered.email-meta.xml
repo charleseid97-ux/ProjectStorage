@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Buglog-Retest/Answered</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>BugLogs - Retest/Answered</name>
+    <style>freeForm</style>
+    <subject>Your Bug  {!Bug_Log__c.Name} has been Re-test/Answered.</subject>
+    <textOnly>Dear user,
+
+
+Your Bug  {!Bug_Log__c.Name} has been Re-test/Answered.
+
+To access your bug :
+
+{!Bug_Log__c.Link}
+
+Regards,
+
+System Administrator</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

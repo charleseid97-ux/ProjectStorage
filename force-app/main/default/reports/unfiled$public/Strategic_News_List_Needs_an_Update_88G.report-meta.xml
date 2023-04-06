@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>StrategicNews__c$Name</field>
+    </columns>
+    <columns>
+        <field>StrategicNews__c$Title__c</field>
+    </columns>
+    <columns>
+        <field>StrategicNews__c.Activities$Subject</field>
+    </columns>
+    <currency>EUR</currency>
+    <description>Following an Strategic News that announced a change on a Buy List, a Task was created to keep track of the Buy List update. This report aims to show the status of the concerned tasks, the associated SN and the person accountable.</description>
+    <filter>
+        <criteriaItems>
+            <column>StrategicNews__c.Activities$Subject</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>Buy List needs to be updated</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>StrategicNews__c.Activities$Status</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>To Do</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Month</dateGranularity>
+        <field>StrategicNews__c.Activities$ActivityDate</field>
+        <sortOrder>Desc</sortOrder>
+    </groupingsDown>
+    <name>Strategic News - List Needs an Update</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Tasks_Strategic_News__c</reportType>
+    <scope>user</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>false</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>StrategicNews__c$CreatedDate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

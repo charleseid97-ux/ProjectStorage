@@ -430,7 +430,7 @@ User u = DM023_User.getListByIds(UserIdList).get(0);
                 , PersonalEmail__c = PersonalEmail
                 , TeamEmail__c = TeamEmail
                 , Title = 'Maitre'
-                , Source__c = 'Web'
+                
             );
         return contact;
     }
@@ -531,7 +531,7 @@ User u = DM023_User.getListByIds(UserIdList).get(0);
                 , TeamEmail__c = TeamEmail
                 , Title = 'Maitre'
                 , Website_Reset_Password__c = true
-                , Source__c = 'Website'
+                
             );
         return contact;
     }
@@ -633,7 +633,7 @@ User u = DM023_User.getListByIds(UserIdList).get(0);
                 Type = 'Data Solution',
                 Status = 'New',
                 Origin = 'Email',
-                Due_date__c = date.today().addDays(21),
+                Due_date__c = date.today(),
                 //DUE DATE
                 // REPORT FREQ
                 Report_frequency__c = 'Weekly',
@@ -674,7 +674,7 @@ User u = DM023_User.getListByIds(UserIdList).get(0);
             );
         return camp1;
     }
-/*
+
     public static NDA__c getNDA()
     {
         return getNDA('NDA_Classic');
@@ -687,13 +687,13 @@ User u = DM023_User.getListByIds(UserIdList).get(0);
                 Stage__c = 'To update',
                 Signatory__c = 'CGL',
                 Purpose__c = 'Regulatory',
-                Type__c = 'CRR',
+                //Type__c = 'Others',
                 TypeOfDataToSend__c = 'Other',
                 RecordTypeId = rt
         );
         return nda;
     }
-*/
+
     public static Campaign getSimpleCampaignEventsEtouhchesNotSend()
     {
         //
@@ -843,13 +843,12 @@ Local_zone__c ='28'
         
     }
 
-    public static Legal_Entity__c getLegalEntity(Id accountId)
+    public static Legal_Entity__c getLegalEntity()
     {
         Legal_Entity__c testLegalEnity = new Legal_Entity__c
             (
                 Name= 'Test Entity',
-                LEI__c = '5067007V6269EHSP3295',
-                Company__c = accountId
+                LEI__c = '5067007V6269EHSP3295'
             );
         return testLegalEnity;
     }

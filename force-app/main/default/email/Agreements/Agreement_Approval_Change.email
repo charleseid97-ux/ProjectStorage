@@ -1,0 +1,6 @@
+<table border="0" cellpadding="5" width="550" cellspacing="5" height="400" >
+<tr valign="top" height="400" >
+<td tEditID="c1r1" style=" background-color:#FFFFFF; bEditID:r3st1; color:#000000; bLabel:main; font-size:12pt; font-family:arial;" aEditID="c1r1" locked="0" >
+<![CDATA[Dear CRM Team<div><br></div><div>The Approval Status of&nbsp;{!Convention__c.Name} has changed to&nbsp;{!Convention__c.Approval_Status__c}</div><div><br></div><div>The comment for approval is&nbsp;{!Convention__c.CommentForApproval__c}</div><div><br></div><div><span lang="FR" style="font-size: 12pt; caret-color: rgb(0, 0, 0);"><font face="Arial, sans-serif">View Agreement information by clicking here -&nbsp;</font></span><font face="Arial, sans-serif">{!Convention__c.Link}</font></div><div><br></div><div><span style="font-family: Arial, sans-serif; caret-color: rgb(0, 0, 0);">This is an automated email, please do no reply to this email.</span></div>]]></td>
+</tr>
+</table>

@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_40522381</developerName>
+        <masterLabel>APP</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <sourceColumnName>Interface_Log__c.Interface_Name__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>Get Token in Etouches</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>SM014_CampaignTriggerHandler callCreateListCategory</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>SM014_CampaignTriggerHandler callUpdateEvent</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>SM014_CampaignTriggerHandler callUpdateMailingList</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>SM014_CampaignTriggerHandler getAllCatgeroy</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>SM016_CampaignMemberTriggerHandler callCreateSubscribereTouches</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>SM016_CampaignMemberTriggerHandler callSubscriberUpdate</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Etouches</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>processEtouches</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Service Call All Event in Etouches</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Service Create Subscriber in Etouches</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Service Get List Attendee in Etouches</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Service Get the Subscriber from a Mailing List ID</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Service Reset Password User in Prospace</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Service Service Get Attendee in Etouches</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Service Update Event in Etouches</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Service Update Subcriber in Etouches</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>SM014_CampaignTriggerHandler callCreateCampaignEvent</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>SM016_CampaignMemberTriggerHandler callDeleteSubscriber</sourceValue>
+            </sourceValues>
+            <value>Aventri</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Input Contact Lead WebSite</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Service Create Business Dev in Prospace</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Service Create Communication Sub in Prospace</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Service Create Contact Account in Prospace</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Service Deactivate Contact Account in Prospace</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Service Delete Contact Account in Prospace</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Service Update Business Dev in Prospace</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Service Update Communication Sub in Prospace</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Service Update Contact Account in Prospace</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Input ComSub WebSite</sourceValue>
+            </sourceValues>
+            <value>Website</value>
+        </values>
+    </buckets>
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_71974689</developerName>
+        <masterLabel>Sub Category</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <sourceColumnName>CUST_CREATED_ALIAS</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>SM016_CampaignMemberTriggerHandler callCreateSubscribereTouches</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>SM016_CampaignMemberTriggerHandler callSubscriberUpdate</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>callCreateSubscribereTouches Catch Exception16:54:09.967Z</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>callCreateSubscribereTouches Catch Exception</sourceValue>
+            </sourceValues>
+            <value>Campaign Member</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>SM014_CampaignTriggerHandler callCreateListCategory</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>SM014_CampaignTriggerHandler callUpdateEvent</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>SM014_CampaignTriggerHandler callUpdateMailingList</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>SM014_CampaignTriggerHandler getAllCatgeroy</sourceValue>
+            </sourceValues>
+            <value>Campaign</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Etouches</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Get Token in Etouches</sourceValue>
+            </sourceValues>
+            <value>Aventri other</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Service Create Business Dev in Prospace</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Service Update Business Dev in Prospace</sourceValue>
+            </sourceValues>
+            <value>Business Dev</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Service Create Communication Sub in Prospace</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Service Update Communication Sub in Prospace</sourceValue>
+            </sourceValues>
+            <value>Communication</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Service Create Contact Account in Prospace</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Service Deactivate Contact Account in Prospace</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Service Delete Contact Account in Prospace</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Service Update Contact Account in Prospace</sourceValue>
+            </sourceValues>
+            <value>Contact</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Input Contact Lead WebSite</sourceValue>
+            </sourceValues>
+            <value>Lead</value>
+        </values>
+    </buckets>
+    <chart>
+        <backgroundColor1>#FFFFFF</backgroundColor1>
+        <backgroundColor2>#FFFFFF</backgroundColor2>
+        <backgroundFadeDir>Diagonal</backgroundFadeDir>
+        <chartSummaries>
+            <axisBinding>y</axisBinding>
+            <column>RowCount</column>
+        </chartSummaries>
+        <chartType>HorizontalBarStacked</chartType>
+        <enableHoverLabels>false</enableHoverLabels>
+        <expandOthers>true</expandOthers>
+        <groupingColumn>BucketField_40522381</groupingColumn>
+        <legendPosition>Right</legendPosition>
+        <location>CHART_BOTTOM</location>
+        <secondaryGroupingColumn>Interface_Log__c.Interface_Name__c</secondaryGroupingColumn>
+        <showAxisLabels>false</showAxisLabels>
+        <showPercentage>false</showPercentage>
+        <showTotal>false</showTotal>
+        <showValues>false</showValues>
+        <size>Medium</size>
+        <summaryAxisRange>Auto</summaryAxisRange>
+        <textColor>#000000</textColor>
+        <textSize>12</textSize>
+        <titleColor>#000000</titleColor>
+        <titleSize>18</titleSize>
+    </chart>
+    <columns>
+        <field>Interface_Log__c.Data__c</field>
+    </columns>
+    <columns>
+        <field>CUST_ID</field>
+    </columns>
+    <columns>
+        <field>CUST_CREATED_NAME</field>
+    </columns>
+    <columns>
+        <field>CUST_OWNER_NAME</field>
+    </columns>
+    <columns>
+        <field>CUST_NAME</field>
+    </columns>
+    <columns>
+        <field>Interface_Log__c.Error__c</field>
+    </columns>
+    <currency>EUR</currency>
+    <filter>
+        <criteriaItems>
+            <column>BucketField_40522381</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Website</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Interface_Log__c.Error__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>Address_country</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Matrix</format>
+    <groupingsAcross>
+        <dateGranularity>Month</dateGranularity>
+        <field>Interface_Log__c.Date_Log__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsAcross>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>BucketField_40522381</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Interface_Log__c.Interface_Name__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Log by interface - Website</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$Interface_Log__c</reportType>
+    <scope>organization</scope>
+    <showDetails>false</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>CUST_CREATED_DATE</dateColumn>
+        <interval>INTERVAL_LAST120</interval>
+    </timeFrameFilter>
+</Report>

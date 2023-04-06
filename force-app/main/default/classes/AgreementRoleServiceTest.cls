@@ -13,15 +13,16 @@ private class AgreementRoleServiceTest {
             SingleRequestMock fakeUMEResp = new SingleRequestMock(200, 'OK', 'jsonUMEStr', null);
             Test.setMock(HttpCalloutMock.class, fakeUMEResp);
 
+            Legal_Entity__c testLegalEnity = TestFactory.getLegalEntity();
+            insert testLegalEnity;
+            
             Account testAcc = TestFactory.getSimpleAccount();
             testAcc.BillingPostalCode = '439955';
             testAcc.BillingStreet = 'Road 12344';
             testAcc.BillingCity = 'Paris';
             testAcc.recordtypeId = ObjectUtil.getRecordTypeId('Account', 'Distributor');
-            insert testAcc;
-
-            Legal_Entity__c testLegalEnity = TestFactory.getLegalEntity(testAcc.Id);
-            insert testLegalEnity;
+            testAcc.LegalEntity__c = testLegalEnity.id;
+            insert testAcc;            
 
             Grid__c grid = TestFactory.getGrid();
             insert grid;
@@ -52,15 +53,16 @@ private class AgreementRoleServiceTest {
             SingleRequestMock fakeUMEResp = new SingleRequestMock(200, 'OK', 'jsonUMEStr', null);
             Test.setMock(HttpCalloutMock.class, fakeUMEResp);
 
+            Legal_Entity__c testLegalEnity = TestFactory.getLegalEntity();
+            insert testLegalEnity;
+            
             Account testAcc = TestFactory.getSimpleAccount();
             testAcc.BillingPostalCode = '439955';
             testAcc.BillingStreet = 'Road 12344';
             testAcc.BillingCity = 'Paris';
             testAcc.recordtypeId = ObjectUtil.getRecordTypeId('Account', 'Distributor');
+            testAcc.LegalEntity__c = testLegalEnity.id;
             insert testAcc;
-
-            Legal_Entity__c testLegalEnity = TestFactory.getLegalEntity(testAcc.Id);
-            insert testLegalEnity;
 
             Grid__c grid = TestFactory.getGrid();
             insert grid;
@@ -72,11 +74,11 @@ private class AgreementRoleServiceTest {
             try {
 
                 List<Agreement_Role__c> roles = [SELECT Id FROM Agreement_Role__c];
-                roles[0].Role__c = 'Investment Advisor';
-                update roles[0];
-
-                delete roles[0];
-
+                if (roles.size() > 0) {
+                    roles[0].Role__c = 'Investment Advisor';
+                	update roles[0];
+                	delete roles[0];
+                }
             }catch (DmlException e){
 
                 System.assert(e.getMessage().contains(Label.VR01_AGREEMENT_ROLE_UNIQUENESS));

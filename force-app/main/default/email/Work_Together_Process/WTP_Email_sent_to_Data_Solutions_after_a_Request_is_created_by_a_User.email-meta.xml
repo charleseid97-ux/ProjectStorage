@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Recap Email sent to Data Solutions Team after a Request is created</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>Carmignac</letterhead>
+    <name>WTP : Email sent to Data Solutions after a Request is created by a User</name>
+    <style>formalLetter</style>
+    <subject>A new Data Solution&amp;Solvency Request has been created</subject>
+    <textOnly>Hello Data Solutions Team,
+
+A new {!Case.Type} Request number {!Case.CaseNumber} has been created :
+
+Subject : {!Case.Subject}
+Contact : {!Case.Contact}
+Company : {!Case.Account}
+Report Frequency : {!Case.Report_frequency__c}
+Description : {!Case.Description}
+
+You can access to the request with the following link : https://carmignac-crm.lightning.force.com/lightning/r/Case/{!Case.Id}/view
+
+Thank you!</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

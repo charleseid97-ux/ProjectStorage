@@ -3,15 +3,5 @@
     <fullName>All</fullName>
     <columns>NAME</columns>
     <filterScope>Everything</filterScope>
-    <filters>
-        <field>LAST_UPDATE</field>
-        <operation>equals</operation>
-        <value>TODAY</value>
-    </filters>
-    <filters>
-        <field>UPDATEDBY_USER</field>
-        <operation>contains</operation>
-        <value>Loader</value>
-    </filters>
     <label>All</label>
 </ListView>

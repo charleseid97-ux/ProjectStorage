@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_20731933</developerName>
+        <masterLabel>Business Region</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <sourceColumnName>Lead$Country</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>France</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>French Polynesia</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Monaco</sourceValue>
+            </sourceValues>
+            <value>France</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Belgium</sourceValue>
+            </sourceValues>
+            <value>Belgium</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Luxembourg</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Denmark</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Finland</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Sweden</sourceValue>
+            </sourceValues>
+            <value>Luxembourg, Netherlands &amp; Nordics</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Italy</sourceValue>
+            </sourceValues>
+            <value>Italy</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Afghanistan</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>China</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Israel</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Singapore</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>South Africa</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Taiwan</sourceValue>
+            </sourceValues>
+            <value>International</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Austria</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Germany</sourceValue>
+            </sourceValues>
+            <value>Germany</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Switzerland</sourceValue>
+            </sourceValues>
+            <value>Switzerland</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>United Kingdom</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Gibraltar</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Ireland</sourceValue>
+            </sourceValues>
+            <value>United Kingdom</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>United States</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Argentina</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Brazil</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Canada</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Colombia</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Panama</sourceValue>
+            </sourceValues>
+            <value>LATAM</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Andorra</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Portugal</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Spain</sourceValue>
+            </sourceValues>
+            <value>Spain</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Angola</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Anguilla</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Armenia</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Australia</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Croatia</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>India</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Lebanon</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Lithuania</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Malta</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Qatar</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Sri Lanka</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Thailand</sourceValue>
+            </sourceValues>
+            <value>Other</value>
+        </values>
+    </buckets>
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_29433875</developerName>
+        <masterLabel>Web Conference</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <otherBucketLabel>Other</otherBucketLabel>
+        <sourceColumnName>Lead.BrightTALK__Webcast_Activites__r$BrightTALK__Webcast__c.BrightTALK__Name__c</sourceColumnName>
+        <useOther>true</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>Carmignac - Narrow path ahead for markets</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac - Les marchés sur une ligne de crête</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac View: Decisioni d’investimento per uno scenario di reflazione</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac: Los mercados se adentran en una senda estrecha</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac -Narrow path ahead for markets</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac -Les marchés sur une ligne de crête</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac: Decisioni d’investimento per uno scenario di reflazione</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac - Ein schmaler Pfad liegt vor den Märkten</sourceValue>
+            </sourceValues>
+            <value>2 - Apr. - May</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Carmignac -2017: Be careful what you wish for</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac -2017 : Attention à ce que vous souhaitez</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac -2017: attenti a quello che desiderate</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac - 2017 : Attention à ce que vous souhaitez</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac - 2017: Be careful what you wish for</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac - 2017: attenti a quello che desiderate</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>2017: attenti a quello che desiderate</sourceValue>
+            </sourceValues>
+            <value>1 - Jan. - Feb.</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Carmignac: L’inizio di una nuova era per i mercati</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac - Der Beginn einer neuen Ära an den Kapitalmärkten</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Le début d&apos;une nouvelle ère pour les marchés</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>The beginning of a new era for markets</sourceValue>
+            </sourceValues>
+            <value>3 - July</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>The Good, the Bad and the Ugly:  Wirtschaft, Zentralbanken und Bewertungen</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>The good, the bad and the ugly : l’économie, les banques Centrales et les valori</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>The good, the bad and the ugly: economy, central Banks  and valuations</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Il buono, il brutto e il cattivo: il ciclo, le banche Centrali e le valutazioni</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>El bueno, el feo y el malo: la economía, los bancos Centrales y las valoraciones</sourceValue>
+            </sourceValues>
+            <value>4 - Oct. - Nov.</value>
+        </values>
+    </buckets>
+    <chart>
+        <backgroundColor1>#FFFFFF</backgroundColor1>
+        <backgroundColor2>#FFFFFF</backgroundColor2>
+        <backgroundFadeDir>Diagonal</backgroundFadeDir>
+        <chartSummaries>
+            <axisBinding>y</axisBinding>
+            <column>RowCount</column>
+        </chartSummaries>
+        <chartType>HorizontalBar</chartType>
+        <enableHoverLabels>false</enableHoverLabels>
+        <expandOthers>true</expandOthers>
+        <groupingColumn>Lead.BrightTALK__Webcast_Activites__r$BrightTALK__Webcast__c.BrightTALK__Name__c</groupingColumn>
+        <location>CHART_TOP</location>
+        <showAxisLabels>true</showAxisLabels>
+        <showPercentage>false</showPercentage>
+        <showTotal>false</showTotal>
+        <showValues>false</showValues>
+        <size>Medium</size>
+        <summaryAxisRange>Auto</summaryAxisRange>
+        <textColor>#000000</textColor>
+        <textSize>12</textSize>
+        <title>Viewer unit</title>
+        <titleColor>#000000</titleColor>
+        <titleSize>18</titleSize>
+    </chart>
+    <columns>
+        <field>Lead$Country</field>
+    </columns>
+    <columns>
+        <field>Lead$Company</field>
+    </columns>
+    <columns>
+        <field>Lead$Name</field>
+    </columns>
+    <columns>
+        <field>Lead.BrightTALK__Webcast_Activites__r$BrightTALK__Webcast__c.BrightTALK__Start_Date__c</field>
+    </columns>
+    <columns>
+        <field>Lead$IsConverted</field>
+    </columns>
+    <currency>EUR</currency>
+    <filter>
+        <criteriaItems>
+            <column>Lead$Email</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notContain</operator>
+            <value>carmignac</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Lead$Status</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value>Disqualified</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Lead$Company</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>notContain</operator>
+            <value>CARMIGNAC,Carmignac,carmignac</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Matrix</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Lead.BrightTALK__Webcast_Activites__r$BrightTALK__Webcast__c.BrightTALK__Name__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>BucketField_20731933</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>LEAD BY WEB CONFERENCES</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>BrightTALK__Leads_with_BrightTALK_Activity__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Lead.BrightTALK__Webcast_Activites__r$BrightTALK__Webcast__c.BrightTALK__Start_Date__c</dateColumn>
+        <interval>INTERVAL_CURFY</interval>
+    </timeFrameFilter>
+</Report>

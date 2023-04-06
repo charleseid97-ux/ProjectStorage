@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>CUST_NAME</field>
+    </columns>
+    <columns>
+        <field>Convention__c.ConventionName__c</field>
+    </columns>
+    <columns>
+        <field>Convention__c.Business_Region__c</field>
+    </columns>
+    <columns>
+        <field>CUST_OWNER_NAME</field>
+    </columns>
+    <columns>
+        <field>Convention__c.Termination_Description__c</field>
+    </columns>
+    <columns>
+        <field>Convention__c.Agreement_Termination_Status__c</field>
+    </columns>
+    <columns>
+        <field>Convention__c.Status__c</field>
+    </columns>
+    <columns>
+        <field>Convention__c.ExpirationDate__c</field>
+    </columns>
+    <columns>
+        <field>Convention__c.Cancellation_Date__c</field>
+    </columns>
+    <currency>EUR</currency>
+    <description>Agreement that are under termination process that need to be finalized.</description>
+    <filter>
+        <criteriaItems>
+            <column>Convention__c.Status__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Pending Termination</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Tabular</format>
+    <name>Agreements Pending Termination Status</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$Convention__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Convention__c.Cancellation_Date__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

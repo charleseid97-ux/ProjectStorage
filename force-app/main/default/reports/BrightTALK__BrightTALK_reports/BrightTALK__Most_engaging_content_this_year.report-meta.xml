@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>BrightTALK__Channel__c$Name</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>BrightTALK__Channel__c.BrightTALK__Webcasts__r.BrightTALK__Webcast_Activites__r$BrightTALK__Total_Viewing_Duration_Minutes__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>BrightTALK__Channel__c.BrightTALK__Webcasts__r.BrightTALK__Webcast_Activites__r$BrightTALK__Total_Viewings__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>BrightTALK__Channel__c.BrightTALK__Webcasts__r.BrightTALK__Webcast_Activites__r$BrightTALK__Live_Viewings__c</field>
+    </columns>
+    <columns>
+        <field>BrightTALK__Channel__c.BrightTALK__Webcasts__r.BrightTALK__Webcast_Activites__r$BrightTALK__Live_Viewing_Duration_Minutes__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>BrightTALK__Channel__c.BrightTALK__Webcasts__r.BrightTALK__Webcast_Activites__r$BrightTALK__Recorded_Viewings__c</field>
+    </columns>
+    <columns>
+        <field>BrightTALK__Channel__c.BrightTALK__Webcasts__r.BrightTALK__Webcast_Activites__r$BrightTALK__Recorded_Viewing_Duration_Minutes__c</field>
+    </columns>
+    <currency>EUR</currency>
+    <description>by viewing duration</description>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>BrightTALK__Channel__c.BrightTALK__Webcasts__r$Name</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Z_Old_Most engaging content (this year)</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>BrightTALK__BrightTALK_Channels_with_BrightTALK_Webcasts_with_BrightTALK_Webcast_Activites__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>false</showGrandTotal>
+    <showSubTotals>false</showSubTotals>
+    <sortColumn>BrightTALK__Channel__c.BrightTALK__Webcasts__r.BrightTALK__Webcast_Activites__r$BrightTALK__Total_Viewing_Duration_Minutes__c</sortColumn>
+    <sortOrder>Desc</sortOrder>
+    <timeFrameFilter>
+        <dateColumn>BrightTALK__Channel__c.BrightTALK__Webcasts__r$BrightTALK__Start_Date__c</dateColumn>
+        <interval>INTERVAL_CURY</interval>
+    </timeFrameFilter>
+</Report>

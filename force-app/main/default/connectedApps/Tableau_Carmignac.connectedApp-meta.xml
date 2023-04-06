@@ -1,8 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
-    <contactEmail>distributionanddigital.technology@carmignac.com</contactEmail>
+    <contactEmail>workgroup.supporttableau@carmignac.com</contactEmail>
     <infoUrl>https://efl-prd.carmignac.com/#/projects</infoUrl>
     <label>Tableau Software</label>
     <logoUrl>https://carmignac-crm--c.eu6.content.force.com/servlet/servlet.ImageServer?id=01558000004Kjed&amp;oid=00D58000000ZABI</logoUrl>
+    <oauthConfig>
+        <callbackUrl>https://efl-prd.carmignac.com/auth/add_oauth_token</callbackUrl>
+        <consumerKey>3MVG98_Psg5cppyagUaZtwGwCkan3zVybgIprBTYRn8PAaOXAcVXQQIIMqdyIeQD1S9jbBDOgqys2W9xZyRhH</consumerKey>
+        <isAdminApproved>true</isAdminApproved>
+        <isClientCredentialEnabled>false</isClientCredentialEnabled>
+        <isCodeCredentialEnabled>false</isCodeCredentialEnabled>
+        <isCodeCredentialPostOnly>false</isCodeCredentialPostOnly>
+        <isConsumerSecretOptional>false</isConsumerSecretOptional>
+        <isIntrospectAllTokens>false</isIntrospectAllTokens>
+        <isSecretRequiredForRefreshToken>true</isSecretRequiredForRefreshToken>
+        <scopes>Basic</scopes>
+        <scopes>Api</scopes>
+        <scopes>RefreshToken</scopes>
+    </oauthConfig>
+    <oauthPolicy>
+        <ipRelaxation>ENFORCE</ipRelaxation>
+        <refreshTokenPolicy>infinite</refreshTokenPolicy>
+    </oauthPolicy>
+    <profileName>Carmignac - Legal and Compliance</profileName>
+    <profileName>Carmignac - Investment Solutions</profileName>
+    <profileName>Carmignac - Event</profileName>
+    <profileName>Carmignac - Investor Services</profileName>
+    <profileName>System Administrator</profileName>
+    <profileName>Carmignac - Interface</profileName>
+    <profileName>Carmignac - System Administrator</profileName>
+    <profileName>Carmignac - Business Developer</profileName>
+    <profileName>Carmignac - CRM</profileName>
+    <profileName>Carmignac - Campaign Automation</profileName>
+    <profileName>Carmignac - Contributor</profileName>
+    <profileName>Carmignac - Top Management</profileName>
     <startUrl>https://efl-prd.carmignac.com/#/projects</startUrl>
 </ConnectedApp>

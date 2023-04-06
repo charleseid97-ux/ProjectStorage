@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Email to notify teams of Risk Assessment change</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>Carmignac</letterhead>
+    <name>Agreement Risk Assessment changed</name>
+    <style>freeForm</style>
+    <subject>{!Convention__c.Name} Risk Assessment changed to {!Convention__c.Preliminary_Risk_Assesment__c}</subject>
+    <textOnly>Hello
+
+This is to inform that the Risk Assessment value for Agreement {!Convention__c.Name} has been changed to {!Convention__c.Preliminary_Risk_Assesment__c}
+
+You can view the Agreement here - {!Convention__c.Link}
+
+This is an automated email, please do no reply to this email.</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

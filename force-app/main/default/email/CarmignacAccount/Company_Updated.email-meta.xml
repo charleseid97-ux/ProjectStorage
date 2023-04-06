@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>Carmignac</letterhead>
+    <name>Company Account Hierarchy Updated</name>
+    <style>freeForm</style>
+    <subject>Company Update</subject>
+    <textOnly>A company has been updated and needs to be correctly set in the Hierarchy.
+
+Company Name : {!Account.Name}
+Business Development Region : {!Account.BusinessDevelopmentRegion__c}
+Sub-Type : {!Account.Sub_Type__c}
+
+Please update this Company
+{!Account.Link}</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

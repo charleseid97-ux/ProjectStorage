@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_75491019</developerName>
+        <masterLabel>Companies in buckets</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <sourceColumnName>COMPANY</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>BANKINTER</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BANKINTER BANCA PRIVADA</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BANKINTER ANALISIS- FSU</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BANKINTER GESTION- FSU</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BANKINTER LUXEMBOURG</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BANKINTER MADRID 3</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Bankinter Portugal Private Banking</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BANKINTER SA</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>GESTORA DE BANKINTER</sourceValue>
+            </sourceValues>
+            <value>BANKINTER</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>bankinter agentes</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BANKINTER AGENTES ANDALUCIA</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BANKINTER AGENTES CANARIAS</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BANKINTER AGENTES CATALUÑA</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BANKINTER AGENTES CLME</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BANKINTER AGENTES LEVANTE - BALEARES</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BANKINTER AGENTES MADRID ESTE</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BANKINTER AGENTES MADRID OESTE</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BANKINTER AGENTES NARS</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BANKINTER AGENTES NOROESTE</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BANKINTER AGENTES NORTE</sourceValue>
+            </sourceValues>
+            <value>BANINTER AGENTES</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>MEDIOLANUM</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>MEDIOLANUM ASSET MANAGEMENT LTD</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>MEDIOLANUM GROUP</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>MEDIOLANUM VITA SPA</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BANCO MEDIOLANUM</sourceValue>
+            </sourceValues>
+            <value>MEDIOLANUM</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>AXA / EXCLUSIV</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>AXA INVESTMENT MANAGERS IBERCAPITAL</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>AXA IBERCAPITAL</sourceValue>
+            </sourceValues>
+            <value>AXA</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>BNP PARIBAS MADRID</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BNP PARIBAS SPAIN- TO BE CLEANED</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>POPULAR BANCA PRIVADA</sourceValue>
+            </sourceValues>
+            <value>BNP PARIBAS</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>DEUTSCHE BANK SPAIN - BANCA PRIVADA</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>DEUTSCHE BANK SPAIN</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>AGENTES DEUTSCHE BANK</sourceValue>
+            </sourceValues>
+            <value>DEUTSCHE BANK</value>
+        </values>
+    </buckets>
+    <columns>
+        <field>LAST_NAME</field>
+    </columns>
+    <columns>
+        <field>FIRST_NAME</field>
+    </columns>
+    <columns>
+        <field>EMAIL</field>
+    </columns>
+    <columns>
+        <field>LC_OWNER</field>
+    </columns>
+    <columns>
+        <field>CITY</field>
+    </columns>
+    <currency>EUR</currency>
+    <filter>
+        <criteriaItems>
+            <column>CAMPAIGN_ID</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>7011i000000gTqG,7011i000000gTq8,7011i000000gTqC,7011i000000gTq7,7011i000000gTqB,7011i000000gTq9,7011i000000gTqF,7011i000000gTqA,7011i000000gTqE,7011i000000gTqD</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>MEMBER_STATUS</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Attended</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>EMAIL</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notContain</operator>
+            <value>carmignac</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>COMPANY</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>allianz</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>COMPANY</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>axa</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>COMPANY</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>architas</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>COMPANY</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>bnp</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>COMPANY</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>crédit agricole</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>COMPANY</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>crédit suisse</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>COMPANY</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>Santander</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>COMPANY</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>Generali</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>COMPANY</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>UBS</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>COMPANY</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>Unicredit</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>COMPANY</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>CAMPAIGN_NAME</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>France_Tourné S1 2019_Focus GAM-KAM</name>
+    <params>
+        <name>scopeid</name>
+        <value></value>
+    </params>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CampaignWithCampaignMembers</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+</Report>

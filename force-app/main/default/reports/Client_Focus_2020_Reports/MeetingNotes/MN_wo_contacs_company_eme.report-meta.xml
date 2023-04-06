@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Meeting_Note__c$Id</field>
+    </columns>
+    <columns>
+        <field>Meeting_Note__c$Name</field>
+    </columns>
+    <columns>
+        <field>Meeting_Note__c$Owner</field>
+    </columns>
+    <columns>
+        <field>Meeting_Note__c.Meeting_Links__r$Contact__c</field>
+    </columns>
+    <columns>
+        <field>Meeting_Note__c.Meeting_Links__r$Employee__c</field>
+    </columns>
+    <columns>
+        <field>Meeting_Note__c.Meeting_Links__r$Account__c</field>
+    </columns>
+    <columns>
+        <field>Meeting_Note__c.Meeting_Links__r$Opportunity__c</field>
+    </columns>
+    <columns>
+        <field>Meeting_Note__c.Meeting_Links__r$Product__c</field>
+    </columns>
+    <currency>EUR</currency>
+    <format>Tabular</format>
+    <name>MN w/o contacs company</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Meeting_Notes_with_Meeting_Links__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Meeting_Note__c$CreatedDate</dateColumn>
+        <interval>INTERVAL_CURFY</interval>
+    </timeFrameFilter>
+</Report>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>BugLogs - Log Assigned To User</name>
+    <style>freeForm</style>
+    <subject>Salesforce Program - A new log has been assigned to you</subject>
+    <textOnly>Hello {!Bug_Log__c.AssignedTo__c} ! 
+
+
+Please notice that a new log has been assigned to you ! 
+
+Go on Easy Log page to check {!Bug_Log__c.Owner__c} &apos;s request and provide a quick solution !
+
+Follow the link : https://carmignac-crm.lightning.force.com/lightning/r/Bug_Log__c/{!Bug_Log__c.Id}/view
+
+For information, it concerns {!Bug_Log__c.App__c}</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -88,6 +88,7 @@
             <value>True</value>
         </criteriaItems>
         <description>Checks TECH Feedback filled in if text is present in DD Feedback on opportunity. Else unchecked</description>
+        <failedMigrationToolVersion>242.9.1</failedMigrationToolVersion>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
     </rules>
     <rules>

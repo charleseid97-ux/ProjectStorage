@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Used to notify the new owner of a WTP</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>Carmignac</letterhead>
+    <name>WTP_DPM New Owner Notification</name>
+    <style>freeForm</style>
+    <subject>You have been assigned to this WTP</subject>
+    <textOnly>Hello {!Case.OwnerFirstName},
+
+Please note that the WTP: {!Case.CaseNumber} has been assigned to you by {!Case.LastModifiedBy}.
+You can reveiew it at the following link: {!Case.WTP_Link__c} .
+
+
+
+
+This email is automatically generated.
+Please do not respond to this email.</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

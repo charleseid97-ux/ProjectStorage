@@ -1,0 +1,16 @@
+Hello {!Bug_Log__c.AssignedTo__c} ! 
+ <br>
+  <br>
+Please notice that {!Bug_Log__c.Name} has been assigned to you ! 
+ <br>
+ <br>
+Go on Easy Log page to check {!Bug_Log__c.Owner__c} 's request and provide a quick solution !
+ <br>
+ <br>
+Follow the link : https://carmignac-crm.lightning.force.com/lightning/r/Bug_Log__c/{!Bug_Log__c.Id}/view
+ <br>
+ <br>
+For information,  {!Bug_Log__c.Name} concerns {!Bug_Log__c.App__c}.
+ <br>
+ <br>
+Distribution Support Team

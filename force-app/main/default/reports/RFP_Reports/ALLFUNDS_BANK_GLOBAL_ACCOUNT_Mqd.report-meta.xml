@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Account$Name</field>
+    </columns>
+    <columns>
+        <field>Account.Companies__r$Name</field>
+    </columns>
+    <columns>
+        <field>Account.Companies__r.Contacts$LastName</field>
+    </columns>
+    <columns>
+        <field>Account.Companies__r.Contacts$FirstName</field>
+    </columns>
+    <columns>
+        <field>Account.Companies__r.Contacts$MailingAddress</field>
+    </columns>
+    <columns>
+        <field>Account.Companies__r.Contacts$Email</field>
+    </columns>
+    <columns>
+        <field>Account.Companies__r$Owner</field>
+    </columns>
+    <columns>
+        <field>Account.Companies__r$BusinessDevelopmentRegion__c</field>
+    </columns>
+    <currency>EUR</currency>
+    <filter>
+        <criteriaItems>
+            <column>Account$Name</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>ALLFUNDSBANK GLOBAL ACCOUNT</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Tabular</format>
+    <name>ALLFUNDS BANK GLOBAL ACCOUNT</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Companies_Hierarchy__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Account$CreatedDate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

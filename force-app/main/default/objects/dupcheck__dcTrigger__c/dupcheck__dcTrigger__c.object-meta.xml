@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <description>Management of DC Triggers on User, Profile or Org level. Only use under advicement of Plauti support. If setting is enabled, this trigger is disabled. ENABLED = DISABLED</description>
+    <enableFeeds>false</enableFeeds>
+    <label>DC Trigger Management</label>
+    <visibility>Public</visibility>
+</CustomObject>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Account.Product_Statuses__r$Product__c</field>
+    </columns>
+    <columns>
+        <field>Account.Product_Statuses__r$Status__c</field>
+    </columns>
+    <columns>
+        <field>Account.Product_Statuses__r$Fund_Selector__c</field>
+    </columns>
+    <columns>
+        <field>Account.Product_Statuses__r$Local_Status__c</field>
+    </columns>
+    <columns>
+        <field>Account.Product_Statuses__r$Comment__c</field>
+    </columns>
+    <currency>EUR</currency>
+    <filter>
+        <criteriaItems>
+            <column>Account$Ultimate_Parent__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>ARGENTA GROUP</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Account$Name</field>
+        <sortOrder>Desc</sortOrder>
+    </groupingsDown>
+    <name>ARGENTA GROUP Buy List</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Buy_List_Items_with_Companies__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <sortColumn>Account.Product_Statuses__r$Status__c</sortColumn>
+    <sortOrder>Asc</sortOrder>
+    <timeFrameFilter>
+        <dateColumn>Account$CreatedDate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

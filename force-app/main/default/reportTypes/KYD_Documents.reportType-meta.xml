@@ -169,6 +169,11 @@
             <field>Agreement__c.Code_Type__c</field>
             <table>KYD_Due_Diligence_Oversight__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Agreement__c.Approval_Status__c</field>
+            <table>KYD_Due_Diligence_Oversight__c</table>
+        </columns>
         <masterLabel>KYD Due Diligence Oversights</masterLabel>
     </sections>
     <sections>

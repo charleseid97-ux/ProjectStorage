@@ -1,0 +1,13 @@
+Dear {!Case.Assigned_To__c},
+
+The Work Together Process {!Case.RecordType} for {!Case.Account} has been assigned to you.
+
+The request was made by {!Case.CreatedBy} and the expected due date is on {!Case.Due_date__c}
+
+To access the full information please click on the link : https://carmignac-crm.lightning.force.com/lightning/r/Case/{!Case.Id}/view
+
+Kind Regards,
+{!Case.LastModifiedBy}
+
+This email is automatically generated.
+Please do not respond to this email.

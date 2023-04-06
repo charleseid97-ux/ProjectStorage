@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <buckets>
+        <bucketType>number</bucketType>
+        <developerName>BucketField_47906864</developerName>
+        <masterLabel>% completion</masterLabel>
+        <nullTreatment>z</nullTreatment>
+        <sourceColumnName>Contact.Data_Quality_Score__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <to>30</to>
+            </sourceValues>
+            <value>Less than 30%</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>30</from>
+                <to>50</to>
+            </sourceValues>
+            <value>up to 50%</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>50</from>
+                <to>70</to>
+            </sourceValues>
+            <value>up to 70%</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>70</from>
+                <to>90</to>
+            </sourceValues>
+            <value>up to 90%</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>90</from>
+            </sourceValues>
+            <value>more than 90%</value>
+        </values>
+    </buckets>
+    <buckets>
+        <bucketType>number</bucketType>
+        <developerName>BucketField_13092474</developerName>
+        <masterLabel>Contact Completion</masterLabel>
+        <nullTreatment>z</nullTreatment>
+        <sourceColumnName>Contact.Data_Quality_Score__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <to>30</to>
+            </sourceValues>
+            <value>less than 30%</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>30</from>
+                <to>50</to>
+            </sourceValues>
+            <value>up to 50%</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>50</from>
+                <to>70</to>
+            </sourceValues>
+            <value>up to 70%</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>70</from>
+                <to>90</to>
+            </sourceValues>
+            <value>up to 90%</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>90</from>
+            </sourceValues>
+            <value>more than 90%</value>
+        </values>
+    </buckets>
+    <chart>
+        <backgroundColor1>#FFFFFF</backgroundColor1>
+        <backgroundColor2>#FFFFFF</backgroundColor2>
+        <backgroundFadeDir>Diagonal</backgroundFadeDir>
+        <chartSummaries>
+            <axisBinding>y</axisBinding>
+            <column>RowCount</column>
+        </chartSummaries>
+        <chartType>VerticalColumn</chartType>
+        <enableHoverLabels>false</enableHoverLabels>
+        <expandOthers>true</expandOthers>
+        <groupingColumn>BucketField_47906864</groupingColumn>
+        <location>CHART_BOTTOM</location>
+        <showAxisLabels>false</showAxisLabels>
+        <showPercentage>false</showPercentage>
+        <showTotal>false</showTotal>
+        <showValues>false</showValues>
+        <size>Medium</size>
+        <summaryAxisRange>Auto</summaryAxisRange>
+        <textColor>#000000</textColor>
+        <textSize>12</textSize>
+        <titleColor>#000000</titleColor>
+        <titleSize>18</titleSize>
+    </chart>
+    <columns>
+        <field>CONTACT_OWNER</field>
+    </columns>
+    <columns>
+        <field>SALUTATION</field>
+    </columns>
+    <columns>
+        <field>FIRST_NAME</field>
+    </columns>
+    <columns>
+        <field>LAST_NAME</field>
+    </columns>
+    <columns>
+        <field>Contact.Data_Quality_Description__c</field>
+    </columns>
+    <columns>
+        <field>BucketField_13092474</field>
+    </columns>
+    <currency>EUR</currency>
+    <description>Idenitifies Trends in Data Quality within Contacts</description>
+    <filter>
+        <criteriaItems>
+            <column>CONTACT_OWNER</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>$USER</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>BucketField_47906864</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Contact.Data_Quality_Score__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Account.BusinessDevelopmentRegion__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Contact Data Quality Score #user</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>ContactList</reportType>
+    <scope>organization</scope>
+    <showDetails>false</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>CREATED_DATE</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

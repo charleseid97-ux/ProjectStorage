@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Sprint__c$Name</field>
+    </columns>
+    <columns>
+        <field>Sprint__c.US_Sprint__r$Stream__c</field>
+    </columns>
+    <columns>
+        <field>Sprint__c.US_Sprint__r$Name</field>
+    </columns>
+    <columns>
+        <field>Sprint__c.US_Sprint__r$Context__c</field>
+    </columns>
+    <columns>
+        <field>Sprint__c.US_Sprint__r$Status__c</field>
+    </columns>
+    <columns>
+        <field>Sprint__c.US_Sprint__r$Assigned_To__c</field>
+    </columns>
+    <currency>EUR</currency>
+    <description>User Storys - Sprint Report</description>
+    <filter>
+        <criteriaItems>
+            <column>Sprint__c$Status__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>,Not started,In progress,Testing</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Tabular</format>
+    <name>SALES - Action Log</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>User_Storys_Sprint__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Sprint__c$CreatedDate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

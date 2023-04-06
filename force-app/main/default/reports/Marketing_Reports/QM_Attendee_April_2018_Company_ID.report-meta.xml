@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Account$Name</field>
+    </columns>
+    <columns>
+        <field>Account.Agreements__r$Name</field>
+    </columns>
+    <columns>
+        <field>Account.Agreements__r$Id</field>
+    </columns>
+    <currency>EUR</currency>
+    <filter>
+        <criteriaItems>
+            <column>Account$Id</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>0015800000lJdv2,0015800000lJcVP,0015800001GQX3b,0015800000l6ttE,0015800000l70fC,0015800000l6wTG,0015800000lJdj2,0015800000l6tVM,0015800000lJc8w,0015800000lJdCh,0015800000lJctr,0015800000lJctt,0015800000l6zCy,0015800001GO5M9,0015800001GO680,0015800001GQWvo,0015800000lJdvE,0015800000l6tkb,0015800000lJbXp</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Tabular</format>
+    <name>QM Attendee - April 2018- Company ID</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Agreements_Companies_Contacts__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Account$CreatedDate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

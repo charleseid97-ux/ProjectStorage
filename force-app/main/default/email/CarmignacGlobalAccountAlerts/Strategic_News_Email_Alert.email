@@ -1,0 +1,15 @@
+<table border="0" cellpadding="5" width="600" cellspacing="5" height="400" >
+<tr valign="top" height="50" >
+<td tEditID="c1r1" style=" background-color:#FFFFFF; bEditID:r3st1; color:#000000; bLabel:main; font-size:12pt; font-family:arial;" aEditID="c1r1" locked="0" >
+<![CDATA[<br>]]></td>
+</tr>
+<tr valign="top" height="300" >
+<td tEditID="c1r2" style=" background-color:#FFFFFF; bEditID:r3st1; color:#000000; bLabel:main; font-size:12pt; font-family:arial;" aEditID="c1r2" locked="0" >
+<![CDATA[<table border="0" cellpadding="5" width="550" cellspacing="5" height="400"><tbody><tr valign="top" height="400"><td teditid="c1r1" aeditid="c1r1" locked="0" style="background-color: rgb(255, 255, 255);"><font face="Arial, sans-serif"><font color="#003300" size="4"><b>STRATEGIC NEWS -&nbsp;{!StrategicNews__c.Type__c} -&nbsp;</b></font><b style=""><font size="4" color="#003300" style="">{!StrategicNews__c.Subtype__c}</font><br></b>{!StrategicNews__c.Company__c}<br><br></font><div><b style="font-family: Arial, sans-serif;">{!StrategicNews__c.Title__c}</b></div><div><div><font face="Arial, sans-serif"><br></font></div><div><font face="Arial, sans-serif">{!StrategicNews__c.StrategicNews__c}</font></div></div><div><font face="Arial, sans-serif"><br></font></div><div><span style="font-family: Arial, sans-serif; font-size: 12pt;">Read more by clicking on
+the link below:</span></div><div><font face="Arial, sans-serif" color="#006600">{!StrategicNews__c.Link}</font></div><div><font face="Arial, sans-serif"><br></font></div><div><span style="font-family: Arial, sans-serif; font-size: x-small;">This email is automatically generated. Please do not respond to this email.</span></div></td></tr></tbody></table>]]></td>
+</tr>
+<tr valign="top" height="50" >
+<td tEditID="c1r3" style=" background-color:#FFFFFF; bEditID:r3st1; color:#000000; bLabel:main; font-size:12pt; font-family:arial;" aEditID="c1r3" locked="0" >
+<![CDATA[<br>]]></td>
+</tr>
+</table>

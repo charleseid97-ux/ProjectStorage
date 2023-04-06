@@ -62,11 +62,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Company__c</field>
-            <table>Legal_Entity__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Country__c</field>
             <table>Legal_Entity__c</table>
         </columns>
@@ -184,11 +179,6 @@
             <checkedByDefault>false</checkedByDefault>
             <field>RelatedPartyEntity__c.LEI__c</field>
             <table>Legal_Entity__c.Related_Parties_Contact_Entity__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Data_Quality__c</field>
-            <table>Legal_Entity__c</table>
         </columns>
         <masterLabel>Legal Entities</masterLabel>
     </sections>

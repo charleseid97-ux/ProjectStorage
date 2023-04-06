@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Alerts Assigned Tasks Done</name>
+    <style>freeForm</style>
+    <subject>[SALESFORCE] Your task &quot; {!Task.Subject} &quot; has been done</subject>
+    <textOnly>Dear {!Task.CreatedBy},
+
+
+We inform you that the task {!Task.Subject} you assigned to {!Task.TaskAssignedToName__c}, has been done.
+
+
+Regards,
+
+System Administrator</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

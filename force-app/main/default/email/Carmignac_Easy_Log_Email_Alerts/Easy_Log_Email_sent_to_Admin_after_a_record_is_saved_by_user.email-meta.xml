@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Recap email sent to Admin after an user has created and saved a log</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>Easy_Log_Letterheads</letterhead>
+    <name>Easy Log : Email sent to Admin after a record is saved by user</name>
+    <style>freeForm</style>
+    <subject>New Easy Log from {!Bug_Log__c.CreatedBy}</subject>
+    <textOnly>Hello Team !
+
+{!Bug_Log__c.CreatedBy} says that :
+
+&quot;{!Bug_Log__c.Type__c} on {!Bug_Log__c.App__c} related to the {!Bug_Log__c.Object__c}&quot;
+
+To be more precised,
+&quot;{!Bug_Log__c.Description__c}
+
+Can you check for me, please ?
+
+It is {!Bug_Log__c.PrioritySeverity__c} and according to me it should be resolved on {!Bug_Log__c.Expected_Date__c}.&quot;
+
+
+Team, please go to Easy Log and check for the {!Bug_Log__c.Name} to resolve {!Bug_Log__c.CreatedBy} &apos;s issue.
+
+Follow the link : https://carmignac-crm--uatmycrm.lightning.force.com/one/one.app?source=alohaHeader#/sObject/{!Bug_Log__c.Id}/view
+
+And do not forget to Assigned the request to you, if you decide to resolve it :-)
+
+
+Good Luck !</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

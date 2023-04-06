@@ -1,0 +1,16 @@
+Hi Data Solution Team !
+
+A Salesforce user asks you to stop send a Data Solution Report for the contact : {!Contact.FirstName} {!Contact.LastName} of the company {!Account.Name} .
+
+After stopping to send the Vermillion report to this contact, please go in Salesforce and delete the related communication subscription named as "Data Solution and Solvency Report" on the client contact page.
+
+Step by step process,
+- Go on the contact page : {!Contact.Link}
+- On the right, click on "Related" tab
+- Find "Communication Subscription" related object
+- Click on "View all"
+- Find the "Data Solution and Solvency Report" and delete it
+
+Thanks in advance,
+
+Have a nice day !

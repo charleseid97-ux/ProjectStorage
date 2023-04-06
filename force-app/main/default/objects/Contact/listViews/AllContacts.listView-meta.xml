@@ -9,5 +9,10 @@
     <columns>ContactOwner__c</columns>
     <columns>Contact_Status_Logo__c</columns>
     <filterScope>Everything</filterScope>
+    <filters>
+        <field>CONTACT.ADDRESS2_CITY</field>
+        <operation>equals</operation>
+        <value>Luxembourg</value>
+    </filters>
     <label>All Contacts</label>
 </ListView>

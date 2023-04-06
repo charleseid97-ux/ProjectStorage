@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>dupcheck__recordCount__c</fullName>
+    <deprecated>false</deprecated>
+    <externalId>false</externalId>
+    <label>Record Count</label>
+    <summarizedField>dupcheck__dcGroup__c.dupcheck__recordCount__c</summarizedField>
+    <summaryForeignKey>dupcheck__dcGroup__c.dupcheck__dcJob__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

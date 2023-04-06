@@ -16,14 +16,15 @@ public class VFC01_KYDocumentsTest
             //create test data
             SingleRequestMock fakeUMEResp = new SingleRequestMock(200, 'OK', 'jsonUMEStr', null);
             Test.setMock(HttpCalloutMock.class, fakeUMEResp);
+            
+            Legal_Entity__c testLegalEnity =TestFactory.getLegalEntity();
+            insert testLegalEnity;
     
             Account testAcc =TestFactory.getSimpleAccount();
             testAcc.recordtypeId = ObjectUtil.getRecordTypeId('Account', 'Distributor');
+            testAcc.LegalEntity__c = testLegalEnity.id;
             insert testAcc;
             
-            Legal_Entity__c testLegalEnity =TestFactory.getLegalEntity(testAcc.Id);
-            insert testLegalEnity;
-
             KYD_Due_Diligence_Oversight__c testCheckList =TestFactory.getKYCheckList(testLegalEnity.Id);
             insert testCheckList;
             

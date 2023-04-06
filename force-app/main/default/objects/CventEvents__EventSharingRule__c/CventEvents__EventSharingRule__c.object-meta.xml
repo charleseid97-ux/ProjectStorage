@@ -154,6 +154,7 @@
     <enableSearch>true</enableSearch>
     <enableSharing>false</enableSharing>
     <enableStreamingApi>false</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
     <label>Event Sharing Rule</label>
     <nameField>
         <displayFormat>ESR-{00000000}</displayFormat>

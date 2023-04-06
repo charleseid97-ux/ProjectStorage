@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <buckets>
+        <bucketType>number</bucketType>
+        <developerName>BucketField_44668322</developerName>
+        <masterLabel>% completion</masterLabel>
+        <nullTreatment>z</nullTreatment>
+        <sourceColumnName>Account.Data_Quality_Score__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <to>30</to>
+            </sourceValues>
+            <value>Less than 30%</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>30</from>
+                <to>50</to>
+            </sourceValues>
+            <value>up to 50%</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>50</from>
+                <to>70</to>
+            </sourceValues>
+            <value>up to 70%</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>70</from>
+                <to>90</to>
+            </sourceValues>
+            <value>up to 90%</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>90</from>
+            </sourceValues>
+            <value>more than 90%</value>
+        </values>
+    </buckets>
+    <buckets>
+        <bucketType>number</bucketType>
+        <developerName>BucketField_85982726</developerName>
+        <masterLabel>Account Completion</masterLabel>
+        <nullTreatment>z</nullTreatment>
+        <sourceColumnName>Account.Data_Quality_Score__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <to>30</to>
+            </sourceValues>
+            <value>lesst than 30%</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>30</from>
+                <to>50</to>
+            </sourceValues>
+            <value>up to 50%</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>50</from>
+                <to>70</to>
+            </sourceValues>
+            <value>up to 70%</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>70</from>
+                <to>90</to>
+            </sourceValues>
+            <value>up to 90%</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>90</from>
+            </sourceValues>
+            <value>more than 90%</value>
+        </values>
+    </buckets>
+    <chart>
+        <backgroundColor1>#FFFFFF</backgroundColor1>
+        <backgroundColor2>#FFFFFF</backgroundColor2>
+        <backgroundFadeDir>Diagonal</backgroundFadeDir>
+        <chartSummaries>
+            <axisBinding>y</axisBinding>
+            <column>RowCount</column>
+        </chartSummaries>
+        <chartType>VerticalColumn</chartType>
+        <enableHoverLabels>false</enableHoverLabels>
+        <expandOthers>true</expandOthers>
+        <groupingColumn>BucketField_44668322</groupingColumn>
+        <location>CHART_BOTTOM</location>
+        <showAxisLabels>false</showAxisLabels>
+        <showPercentage>false</showPercentage>
+        <showTotal>false</showTotal>
+        <showValues>false</showValues>
+        <size>Medium</size>
+        <summaryAxisRange>Auto</summaryAxisRange>
+        <textColor>#000000</textColor>
+        <textSize>12</textSize>
+        <titleColor>#000000</titleColor>
+        <titleSize>18</titleSize>
+    </chart>
+    <columns>
+        <field>USERS.NAME</field>
+    </columns>
+    <columns>
+        <field>ACCOUNT.NAME</field>
+    </columns>
+    <columns>
+        <field>DUE_DATE</field>
+    </columns>
+    <columns>
+        <field>LAST_UPDATE</field>
+    </columns>
+    <columns>
+        <field>Account.Data_Quality_Description__c</field>
+    </columns>
+    <columns>
+        <field>BucketField_85982726</field>
+    </columns>
+    <currency>EUR</currency>
+    <description>Idenitifies Trends in Data Quality within Accounts</description>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>BucketField_44668322</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Account.Data_Quality_Score__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Account.BusinessDevelopmentRegion__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Account Data Quality Score #</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>AccountList</reportType>
+    <scope>organization</scope>
+    <showDetails>false</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>CREATED_DATE</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

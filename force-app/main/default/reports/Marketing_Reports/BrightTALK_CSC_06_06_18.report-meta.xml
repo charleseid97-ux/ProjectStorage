@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_78284226</developerName>
+        <masterLabel>Country</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <otherBucketLabel>Other</otherBucketLabel>
+        <sourceColumnName>CampaignMember.Category_Event_lookup__c</sourceColumnName>
+        <useOther>true</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>Clients - FR // BT CSC 06.06.18</sourceValue>
+            </sourceValues>
+            <value>France</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Clients - UK // BT CSC 06.06.18</sourceValue>
+            </sourceValues>
+            <value>UK</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Clients - Nordics // BT CSC 06.06.18</sourceValue>
+            </sourceValues>
+            <value>Nordics</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Clients - NL // BT CSC 06.06.18</sourceValue>
+            </sourceValues>
+            <value>Netherlands</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Clients - LU // BT CSC 06.06.18</sourceValue>
+            </sourceValues>
+            <value>Luxembourg</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Clients - IT // BT CSC 06.06.18</sourceValue>
+            </sourceValues>
+            <value>Italy</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Clients - ES // BT CSC 06.06.18</sourceValue>
+            </sourceValues>
+            <value>Spain</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Clients - DE // BT CSC 06.06.18</sourceValue>
+            </sourceValues>
+            <value>Germany/Austria</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Clients - CH // BT CSC 06.06.18</sourceValue>
+            </sourceValues>
+            <value>Switzerland</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Clients - BE // BT CSC 06.06.18</sourceValue>
+            </sourceValues>
+            <value>Belgium</value>
+        </values>
+    </buckets>
+    <chart>
+        <backgroundColor1>#FFFFFF</backgroundColor1>
+        <backgroundColor2>#FFFFFF</backgroundColor2>
+        <backgroundFadeDir>Diagonal</backgroundFadeDir>
+        <chartSummaries>
+            <axisBinding>y</axisBinding>
+            <column>RowCount</column>
+        </chartSummaries>
+        <chartType>HorizontalBarStacked</chartType>
+        <enableHoverLabels>false</enableHoverLabels>
+        <expandOthers>true</expandOthers>
+        <groupingColumn>BucketField_78284226</groupingColumn>
+        <legendPosition>Right</legendPosition>
+        <location>CHART_BOTTOM</location>
+        <secondaryGroupingColumn>Contact.Investment_Decision_formula__c</secondaryGroupingColumn>
+        <showAxisLabels>true</showAxisLabels>
+        <showPercentage>false</showPercentage>
+        <showTotal>false</showTotal>
+        <showValues>false</showValues>
+        <size>Medium</size>
+        <summaryAxisRange>Auto</summaryAxisRange>
+        <textColor>#000000</textColor>
+        <textSize>12</textSize>
+        <titleColor>#000000</titleColor>
+        <titleSize>18</titleSize>
+    </chart>
+    <columns>
+        <field>FIRST_NAME</field>
+    </columns>
+    <columns>
+        <field>LAST_NAME</field>
+    </columns>
+    <columns>
+        <field>ACCOUNT.NAME</field>
+    </columns>
+    <columns>
+        <field>Contact.JobTitle__c</field>
+    </columns>
+    <columns>
+        <field>CampaignMember.Category_Event_lookup__c</field>
+    </columns>
+    <columns>
+        <field>Contact.ContactStatus__c</field>
+    </columns>
+    <currency>EUR</currency>
+    <format>Matrix</format>
+    <groupingsAcross>
+        <dateGranularity>Day</dateGranularity>
+        <field>Contact.Investment_Decision_formula__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsAcross>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>BucketField_78284226</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>BrightTALK - CSC - 06/06/18</name>
+    <params>
+        <name>scopeid</name>
+        <value>70158000000MxAn</value>
+    </params>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CampaignContact</reportType>
+    <scope>one</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+</Report>

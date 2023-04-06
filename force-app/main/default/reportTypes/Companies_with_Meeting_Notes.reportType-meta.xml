@@ -2,7 +2,7 @@
 <ReportType xmlns="http://soap.sforce.com/2006/04/metadata">
     <baseObject>Account</baseObject>
     <category>accounts</category>
-    <deployed>false</deployed>
+    <deployed>true</deployed>
     <description>Compnies that contains Meeting Notes</description>
     <join>
         <outerJoin>false</outerJoin>
@@ -167,5 +167,13 @@
             <table>Account</table>
         </columns>
         <masterLabel>Companies</masterLabel>
+    </sections>
+    <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Owner.Name</field>
+            <table>Account</table>
+        </columns>
+        <masterLabel>Accounts</masterLabel>
     </sections>
 </ReportType>

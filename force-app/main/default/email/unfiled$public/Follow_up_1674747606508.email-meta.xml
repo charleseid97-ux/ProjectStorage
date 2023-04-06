@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Email to follow up on exchange made</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Follow up</name>
+    <relatedEntityType>Contact</relatedEntityType>
+    <style>none</style>
+    <subject>Following up on our conversation</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

@@ -34,8 +34,18 @@ public class UtilitiesAccount {
         {
             if (InactiveContactsAccount == null)
             {
-                Id InactiveContactRecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(RT_InactiveContacts).getRecordTypeId();
-                InactiveContactsAccount = [SELECT Id, Name FROM Account WHERE RecordTypeId = :InactiveContactRecordTypeId LIMIT 1];
+                if (Test.isRunningTest()) {
+	                //Id InactiveContactRecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(RT_InactiveContacts).getRecordTypeId();
+    	            //InactiveContactRecordTypeId = [SELECT Id, Name FROM Account WHERE RecordTypeId = :InactiveContactRecordTypeId LIMIT 1];
+                    InactiveContactsAccount = new Account();
+                    InactiveContactsAccount.Name = 'Inactive Contacts Company';
+                    InactiveContactsAccount.RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(RT_InactiveContacts).getRecordTypeId();
+                    insert InactiveContactsAccount;
+                }
+                else {
+                    Map<String, Global_Settings__mdt> settings = Utils.getGlobalSettings();
+                	InactiveContactsAccount = [SELECT Id, Name FROM Account WHERE id=: settings.get('Company_for_Inactive_External_Contacts').Value__c];
+                }
             }
             return InactiveContactsAccount;
         }

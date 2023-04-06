@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Template for push alert of Pro Space contact assignment after creation</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Lead - Pro Space Contact Assignment</name>
+    <style>freeForm</style>
+    <subject>There is a new ProSpace Contact in your Region !</subject>
+    <textOnly>Dear user,
+
+
+A Pro Space contact  {!Contact.LastName} {!Contact.FirstName} has been created in your region.
+
+You have 30 days for validating this contact.
+
+
+Regards,
+
+System Administrator</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

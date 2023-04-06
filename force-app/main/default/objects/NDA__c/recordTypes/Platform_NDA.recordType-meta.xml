@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Platform_NDA</fullName>
+    <active>true</active>
+    <compactLayoutAssignment>NDA</compactLayoutAssignment>
+    <label>Data Platform</label>
+    <picklistValues>
+        <picklist>Intermediates__c</picklist>
+        <values>
+            <fullName>Master</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Service provider</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>NDA_Type__c</picklist>
+        <values>
+            <fullName>Analyse</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CRD IV</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CRR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Due diligence</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ESG</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Others</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Solvency II</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Platform__c</picklist>
+        <values>
+            <fullName>Morningstar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Refinitiv</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Purpose__c</picklist>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Regulatory</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Regulatory__c</picklist>
+        <values>
+            <fullName>Autre</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CRD IV</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CRR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Solvency II</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>ReleaseSchedule__c</picklist>
+        <values>
+            <fullName>Annual%3A 31%2F12</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ClassicD15</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Monthly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>One-shot</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Signatory__c</picklist>
+        <values>
+            <fullName>CG</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CGL</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Stage__c</picklist>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In progress</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>To update</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Status__c</picklist>
+        <values>
+            <fullName>Close ended</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not applicable</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Open ended</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending signature</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>TypeOfDataToSend__c</picklist>
+        <values>
+            <fullName>Holdings with Derivatives</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TPT</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type__c</picklist>
+        <values>
+            <fullName>Analyse</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CRD IV</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CRR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Due diligence</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ESG</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Others</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Solvency II</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Email sent to User to notify him that its case is now &quot;CLOSED&quot;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>Easy_Log_Letterheads</letterhead>
+    <name>Easy Log : Email sent to User if Status Closed</name>
+    <style>freeForm</style>
+    <subject>Easy Log : {!Bug_Log__c.Name} : Status {!Bug_Log__c.Status__c}</subject>
+    <textOnly>Hello {!Bug_Log__c.Owner__c} !
+
+
+Please noticed that your {!Bug_Log__c.Name} is now {!Bug_Log__c.Status__c}
+
+Follow the link : https://carmignac-crm.lightning.force.com/one/one.app?source=alohaHeader#/sObject/{!Bug_Log__c.Id}/view
+
+
+
+Please find Administrator comments :
+{!Bug_Log__c.AdministratorComment__c}
+
+Result : {!Bug_Log__c.RetestResult__c}
+
+You case has been closed the {!Bug_Log__c.CloseDate__c}
+
+Please check on your side that everything is good !
+
+
+Thank you for contacting Easy Log Team !</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

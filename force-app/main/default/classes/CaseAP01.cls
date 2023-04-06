@@ -4,54 +4,42 @@
 
 public with sharing class CaseAP01
 {
-    public void updateFeedback(List<Case> newCases)
-    {
-        Map<Id, Opportunity> opportunities = getRelatedOpportunities(newCases);
-
-        for(Case aCase : newCases)
-        {
-            if(aCase.Coordinator_Feedback__c != opportunities.get(aCase.Opportunity__c)?.Due_Diligence_Feedback__c)
-            {
-                aCase.Coordinator_Feedback__c = opportunities.get(aCase.Opportunity__c)?.Due_Diligence_Feedback__c;
-            }
-            if(aCase.Opportunity_s_Result_Reason_Explanation__c !=  opportunities.get(aCase.Opportunity__c)?.Result_Reason_Explanation__c){
-
-                aCase.Opportunity_s_Result_Reason_Explanation__c = opportunities.get(aCase.Opportunity__c)?.Result_Reason_Explanation__c;
-            }
-        }
+    public static void addProductsToNDA(List<Id> caseList) {
+    	List<Case_Product__c> itemsList = [SELECT Share_Class__c, CurrencyIsoCode, Work_Together_Process__r.NDA__c, Work_Together_Process__r.NDA__r.Related_NDA__c, ShareClass__c
+                                           FROM Case_Product__c
+                                           WHERE Work_Together_Process__c in :caseList];
+        CaseProductHelper.addCaseProductToNDA(itemsList);
     }
-
-    private Map<Id, Opportunity> getRelatedOpportunities(List<Case> newCases)
-    {
-        Set<Id> opportunitiesIds = getOpportunitiesIds(newCases);
-
-        return new Map<Id, Opportunity>([
-                SELECT
-                    Id,
-                    Due_Diligence_Feedback__c, Result_Reason_Explanation__c
-                FROM
-                    Opportunity
-                WHERE
-                    Id IN : opportunitiesIds
-        ]);
-    }
-
-    private Set<Id> getOpportunitiesIds(List<Case> newCases)
-    {
-        Set<Id> opportunitiesIds = new Set<Id>();
-
-        for(Case aCase : newCases)
-        {
-            if(aCase.Opportunity__c != null)
-            {
-                opportunitiesIds.add(aCase.Opportunity__c);
+    
+    public static void addCompanyToNDA(Map<Id, Case> newItems) {
+        
+        Map<Id, Id> ndaAccount = new Map<Id, Id>();
+        for (Case c : newItems.values()) {
+            if (c.NDA__c != null && c.AccountId != null) {
+            	ndaAccount.put(c.NDA__c, c.AccountId);
             }
         }
-
-        if(opportunitiesIds.size() > 0)
-        {
-            return  opportunitiesIds;
+        
+        List<NDA__c> ndaList = [SELECT id, Company__c FROM NDA__c WHERE id in :ndaAccount.keySet()];
+        List<NDA__c> ndaToUpdate = new List<NDA__c>();
+        
+        for (NDA__c nda : ndaList) {
+            if (nda.Company__c != ndaAccount.get(nda.id)) {
+                nda.Company__c = ndaAccount.get(nda.id);
+                ndaToUpdate.add(nda);
+            }
         }
-        return null;
+        
+        update ndaToUpdate;
+    }
+    
+    public static void addCompanyToNDA(Map<Id, Case> newItems, Map<Id, Case> oldItems) {
+        Map<Id, Case> caseWithNda = new Map<Id, Case>();
+        for (Case c : newItems.values()) {
+            if (c.NDA__c != oldItems.get(c.Id).NDA__c || c.AccountId != oldItems.get(c.Id).AccountId) {
+                caseWithNda.put(c.Id, c);
+            }
+        }
+        addCompanyToNDA(caseWithNDA);
     }
 }

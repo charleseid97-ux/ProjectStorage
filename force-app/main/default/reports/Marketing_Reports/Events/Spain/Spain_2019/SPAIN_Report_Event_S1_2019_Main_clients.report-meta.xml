@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_70683049</developerName>
+        <masterLabel>Companies in bucket</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <sourceColumnName>COMPANY</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>Banco Agricola</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BANCO SABADELL</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>GRUPO SABADELL URQUIJO</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>SABADELL ATLANTICO</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>SABADELL BANCA PRIVADA</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>SABADELLURQUIJO</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>SABADELL-URQUIJO BANCA PRIVADA</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>GRUPO BANC DE SABADELL</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>SABADELL BANCA PRIVADA A CORUÑA</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>SABADELL BANCA PRIVADA BARCELONA 1</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>SABADELL BANCA PRIVADA BARCELONA 2</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>SABADELL BANCA PRIVADA BILBAO</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>SABADELL BANCA PRIVADA MADRID 1</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>SABADELL BANCA PRIVADA MADRID 4</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>SABADELL BANCA PRIVADA PALMA DE MALLORCA</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>SABADELL BANCA PRIVADA PAMPLONA</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>SABADELL BANCA PRIVADA SAN SEBASTIAN</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>SABADELL BANCA PRIVADA VALENCIA</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>SABADELL BANCA PRIVADA ZARAGOZA</sourceValue>
+            </sourceValues>
+            <value>SABADELL</value>
+        </values>
+    </buckets>
+    <columns>
+        <field>LAST_NAME</field>
+    </columns>
+    <columns>
+        <field>FIRST_NAME</field>
+    </columns>
+    <columns>
+        <field>EMAIL</field>
+    </columns>
+    <columns>
+        <field>LC_OWNER</field>
+    </columns>
+    <columns>
+        <field>CITY</field>
+    </columns>
+    <currency>EUR</currency>
+    <filter>
+        <criteriaItems>
+            <column>CAMPAIGN_ID</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>7011i000000gTo9,7011i000000gTo8,7011i000000gTo7,7011i000000gUTw,7011i000000gTny,7011i000000gTnv,7011i000000gTnu,7011i000000gTnx,7011i000000gTo4,7011i000000gTni,7011i000000gTnm,7011i000000gTnl,7011i000000gTnk,7011i000000gTnt,7011i000000gTnj,7011i000000gTnw</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>MEMBER_STATUS</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Attended</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>COMPANY</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>BANCO SABADELL,Banc Sabadell,Bankia,DEUTSCHE BANK SPAIN,GRUPO BANC DE SABADELL,GRUPO SABADELL URQUIJO,SABADELL,SABADELL ATLANTICO,SABADELL BANCA PRIVADA A CORUÑA,SABADELL BANCA PRIVADA BARCELONA 2,sabadell herrero,SABADELLURQUIJO,Sabadell Urquijo,SABADELL-URQUIJO BANCA PRIVADA,Sabedell Urquijo,agente bankinter,AGENTES DE BANKINTER,AGENTES DEUTSCHE BANK,BANCO SANTANDER,Bankinter,BANKINTER BANCA PRIVADA,BANKINTER BARCELONA,bankinter BP,BANKINTER LOGRONO,BANKINTER MALAGA,BANKINTER ZARAGOZA,Santander,SANTANDER PRIVATE BANKING (SPB)</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>MEMBER_TYPE</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>contact</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>EMAIL</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notContain</operator>
+            <value>carmignac</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>COMPANY</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>CAMPAIGN_NAME</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>BucketField_70683049</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>SPAIN_Report Event S1 2019_Main clients</name>
+    <params>
+        <name>scopeid</name>
+        <value></value>
+    </params>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CampaignWithCampaignMembers</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+</Report>

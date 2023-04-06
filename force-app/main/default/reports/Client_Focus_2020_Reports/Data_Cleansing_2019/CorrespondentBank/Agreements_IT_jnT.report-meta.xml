@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Convention__c.Company__c</field>
+    </columns>
+    <columns>
+        <field>CUST_NAME</field>
+    </columns>
+    <columns>
+        <field>Convention__c.Status__c</field>
+    </columns>
+    <columns>
+        <field>Convention__c.TECH_Business_Region__c</field>
+    </columns>
+    <columns>
+        <field>Convention__c.TECH_All_concerned_Business_Regions__c</field>
+    </columns>
+    <currency>EUR</currency>
+    <filter>
+        <criteriaItems>
+            <column>Convention__c.Company__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>ALTO ADIGE BANCA S.P.A. - SÜDTIROL BANK AG,BANCA SELLA HOLDING,COPERNICO SIM,ONLINE SIM SPA,BANCA SELLA S.P.A.,DEUTSCHE BANK FINANCIAL ADVISORS,DEUTSCHE BANK S.P.A.,BANCA INTERMOBILIARE DI INVESTIMENTI E GESTIONI,BANCA PROFILO,CREDEM SPA,ALLIANZ BANK FINANCIAL ADVISORS S.P.A.,CASSA LOMBARDA,BANCA EUROMOBILIARE SPA,BANCA SAN FRANCESCO / CREDITO COOPERATIVO,CONSULTINVEST INVESTIMENTI SIM S.P.A,SOCIETE GENERALE SECURITIES SERVICES,BANCA IFIGEST S.P.A.,EDMOND DE ROTHSCHILD (FRANCE) SUCCURSALE ITALIANA,BANCA CESARE PONTI</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Tabular</format>
+    <name>Correspondent Banks Agreements IT</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$Convention__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Convention__c.EffectiveDate__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

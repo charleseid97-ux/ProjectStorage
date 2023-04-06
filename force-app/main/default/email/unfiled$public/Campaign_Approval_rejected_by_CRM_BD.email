@@ -1,0 +1,11 @@
+Hi {!Campaign.Assigned_to__c},
+
+Your newsletter template concerning " {!Campaign.Name} " has been declined during the approval process.
+
+Please review your template with the following comments
+ {!ApprovalRequest.Comments} 
+
+Here is the direct link to the newsletter campaign : {!Campaign.Link}
+
+Thank you and have a nice day,
+{!ApprovalRequest.Process_Approver}

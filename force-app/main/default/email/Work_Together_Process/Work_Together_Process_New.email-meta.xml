@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Recap email sent to Queue after creation of work together process</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>Carmignac</letterhead>
+    <name>Work Together Process - New</name>
+    <style>freeForm</style>
+    <subject>New {!Case.RecordType}</subject>
+    <textOnly>Dear All, 
+
+A new Work Together Process {!Case.RecordType} has been created by {!Case.CreatedBy} on {!Case.CreatedDate}. 
+
+The request subject is : &quot;{!Case.Subject}&quot; 
+for the Company : &quot;{!Account.Name}&quot;
+
+To access the full information, please click on this link : https://carmignac-crm.lightning.force.com/lightning/r/Case/{!Case.Id}/view 
+
+Kind regards, 
+
+This email is automatically generated. 
+Please do not respond to this email.</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>Carmignac</letterhead>
+    <name>InterfaceLog_CmpMember</name>
+    <style>freeForm</style>
+    <subject>A new error 500  with eTouches occured and is logged in Interface log</subject>
+    <textOnly>Hi,
+
+A new error 500 occured with eTouches interface.
+Log is registered with id {!Interface_Log__c.Name}
+Created by: {!Interface_Log__c.CreatedBy}
+
+Date log: {!Interface_Log__c.Date_Log__c}
+
+Related service : {!Interface_Log__c.Interface_Name__c}
+
+Detailed error message (response):
+{!Interface_Log__c.Error__c}
+
+Message/Data concerned:
+{!Interface_Log__c.Data__c}
+
+eTouches process Id (if relevant):
+{!Interface_Log__c.Process_Id__c}
+
+These information can be retrieved in Salesforce with the following url:
+{!Interface_Log__c.Link}
+
+Regards</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

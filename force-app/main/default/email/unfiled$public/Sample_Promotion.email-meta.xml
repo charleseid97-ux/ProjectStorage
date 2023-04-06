@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Entrer en contact avec quelqu’un une fois que nous l’avons encouragé à faire affaire avec nous</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>EXEMPLE : Félicitations pour votre promotion</name>
+    <relatedEntityType>Contact</relatedEntityType>
+    <style>none</style>
+    <subject>Félicitations pour votre promotion !</subject>
+    <type>custom</type>
+    <uiType>SFX_Sample</uiType>
+</EmailTemplate>

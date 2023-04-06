@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_40932837</developerName>
+        <masterLabel>Region</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <sourceColumnName>Account.Contacts$Contact_Owner_Business_Region__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>BP_BE</sourceValue>
+            </sourceValues>
+            <value>Belgium</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>BP_FR</sourceValue>
+            </sourceValues>
+            <value>France</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>BP_IT</sourceValue>
+            </sourceValues>
+            <value>Italy</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>BP_CH</sourceValue>
+            </sourceValues>
+            <value>Switzerland</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>BP_LU;BP_NL</sourceValue>
+            </sourceValues>
+            <value>Luxembourg &amp; Netherlands</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>BP_NO</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BP_LU;BP_NL;BP_NO</sourceValue>
+            </sourceValues>
+            <value>Nordics &amp; Switzerlands</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>BP_UK</sourceValue>
+            </sourceValues>
+            <value>United Kingdom</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>BP_LU</sourceValue>
+            </sourceValues>
+            <value>Luxembourg</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>BP_LA</sourceValue>
+            </sourceValues>
+            <value>LATAM</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>BP_IN</sourceValue>
+            </sourceValues>
+            <value>International</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>BP_ES</sourceValue>
+            </sourceValues>
+            <value>Spain</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>BP_DA</sourceValue>
+            </sourceValues>
+            <value>Germany &amp; Austria</value>
+        </values>
+    </buckets>
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_78358455</developerName>
+        <masterLabel>Web Conference</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <sourceColumnName>Account.Contacts.BrightTALK__Webcast_Activites__r$BrightTALK__Webcast__c.BrightTALK__Name__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>LE DÉBUT D&apos;UNE NOUVELLE ÈRE POUR LES MARCHÉS</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>The beginning of a new era for markets</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac: L&apos;inizio di una nuova era per i mercati</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac - Der Beginn einer neuen Ära an den Kapitalmärkten</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac: L’inizio di una nuova era per i mercati</sourceValue>
+            </sourceValues>
+            <value>Macro Q3 2017 (July 2017)</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Narrow path ahead for markets</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Les marchés sur une ligne de crête</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Decisioni d’investimento per uno scenario di reflazione</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Estrategia de inversión de Carmignac: Los mercados se adentran en una senda estrecha</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac View: Decisioni d’investimento per uno scenario di reflazione</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac: Los mercados se adentran en una senda estrecha</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac - Les marchés sur une ligne de crête</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac - Narrow path ahead for markets</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>RECORDING OF SPANISH SESSION - GLOBAL STRATEGY</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac - Ein schmaler Pfad liegt vor den Märkten</sourceValue>
+            </sourceValues>
+            <value>Macro Q2 2017 (Avril/Mai 2017)</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>2017: Be careful what you wish for</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>2017 : Attention à ce que vous souhaitez</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>2017: attenti a quello che desiderate</sourceValue>
+            </sourceValues>
+            <value>Macro Q1 2017 (Janvier/Février 2017)</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>The Good, the Bad and the Ugly:  Wirtschaft, Zentralbanken und Bewertungen</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>The good, the bad and the ugly : l’économie, les banques Centrales et les valori</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>The good, the bad and the ugly: economy, central Banks  and valuations</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Il buono, il brutto e il cattivo: il ciclo, le banche Centrali e le valutazioni</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>El bueno, el feo y el malo: la economía, los bancos Centrales y las valoraciones</sourceValue>
+            </sourceValues>
+            <value>Macro Q4 2017 (Octobre / Novembre 2017)</value>
+        </values>
+    </buckets>
+    <chart>
+        <backgroundColor1>#FFFFFF</backgroundColor1>
+        <backgroundColor2>#FFFFFF</backgroundColor2>
+        <backgroundFadeDir>Diagonal</backgroundFadeDir>
+        <chartSummaries>
+            <axisBinding>y</axisBinding>
+            <column>RowCount</column>
+        </chartSummaries>
+        <chartType>HorizontalBarStacked</chartType>
+        <enableHoverLabels>false</enableHoverLabels>
+        <expandOthers>true</expandOthers>
+        <groupingColumn>Account.Contacts$JobTitle__c</groupingColumn>
+        <legendPosition>Right</legendPosition>
+        <location>CHART_BOTTOM</location>
+        <secondaryGroupingColumn>BucketField_40932837</secondaryGroupingColumn>
+        <showAxisLabels>true</showAxisLabels>
+        <showPercentage>false</showPercentage>
+        <showTotal>false</showTotal>
+        <showValues>false</showValues>
+        <size>Medium</size>
+        <summaryAxisRange>Auto</summaryAxisRange>
+        <textColor>#000000</textColor>
+        <textSize>12</textSize>
+        <title>Viewer unit</title>
+        <titleColor>#000000</titleColor>
+        <titleSize>18</titleSize>
+    </chart>
+    <columns>
+        <field>Account.Contacts$ContactOwner__c</field>
+    </columns>
+    <columns>
+        <field>Account.Contacts.BrightTALK__Webcast_Activites__r$BrightTALK__Webcast__c.BrightTALK__Name__c</field>
+    </columns>
+    <columns>
+        <field>Account$Name</field>
+    </columns>
+    <columns>
+        <field>Account.Contacts$Name</field>
+    </columns>
+    <columns>
+        <field>Account.Contacts.BrightTALK__Webcast_Activites__r$BrightTALK__Webcast__c.BrightTALK__Start_Date__c</field>
+    </columns>
+    <currency>EUR</currency>
+    <filter>
+        <criteriaItems>
+            <column>Account.Contacts$Email</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notContain</operator>
+            <value>carmignac</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Matrix</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Account.Contacts$JobTitle__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>BucketField_40932837</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>JOB TITLE BY WEB CONFERENCES</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Contacts_with_BrightTALK_Activitytest__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Account.Contacts.BrightTALK__Webcast_Activites__r$BrightTALK__Webcast__c.BrightTALK__Start_Date__c</dateColumn>
+        <interval>INTERVAL_CURFY</interval>
+    </timeFrameFilter>
+</Report>

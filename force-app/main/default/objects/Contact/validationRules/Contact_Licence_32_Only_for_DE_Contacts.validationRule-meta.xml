@@ -3,6 +3,8 @@
     <fullName>Contact_Licence_32_Only_for_DE_Contacts</fullName>
     <active>true</active>
     <errorConditionFormula>AND(
+				NOT($User.BypassValidationRules__c), 
+				NOT(CONTAINS( Account.Name ,&apos;Inactive Contact&apos;)),
 INCLUDES(SupportFunction__c, &apos;§32 KWG|Asset Allocator (DE)&apos;),
 NOT( ISPICKVAL(Account.BusinessDevelopmentRegion__c, &apos;BP_DA&apos;))
 )</errorConditionFormula>

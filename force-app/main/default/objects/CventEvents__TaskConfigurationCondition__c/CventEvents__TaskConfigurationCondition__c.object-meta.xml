@@ -154,6 +154,7 @@
     <enableSearch>true</enableSearch>
     <enableSharing>false</enableSharing>
     <enableStreamingApi>false</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
     <label>Task Configuration Condition</label>
     <nameField>
         <displayFormat>TCC-{00000000}</displayFormat>

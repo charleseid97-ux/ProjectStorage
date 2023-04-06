@@ -1,0 +1,8 @@
+<table border="0" cellpadding="5" width="550" cellspacing="5" height="400" >
+<tr valign="top" height="400" >
+<td tEditID="c1r1" style=" background-color:#FFFFFF; bEditID:r3st1; color:#000000; bLabel:main; font-size:12pt; font-family:arial;" aEditID="c1r1" locked="0" >
+<![CDATA[<span style="color: rgb(0, 0, 0); font-size: 12pt; background-color: rgb(255, 255, 255);">Dear Legal Team,</span><div style="color: rgb(0, 0, 0); font-size: 12pt;"><br></div><div style="color: rgb(0, 0, 0); font-size: 12pt;">The NDA&nbsp;{!NDA__c.Name} has been fully signed and uploaded in Salesforce.</div><div style="color: rgb(0, 0, 0); font-size: 12pt;"><br></div><div style="color: rgb(0, 0, 0); font-size: 12pt;">Please review the document before moving the NDA to the completed stage.</div><div style="color: rgb(0, 0, 0); font-size: 12pt;"><br></div><div style="color: rgb(0, 0, 0); font-size: 12pt;">Here is the link to the record:&nbsp;{!NDA__c.Link_To_NDA__c}.</div><div style="color: rgb(0, 0, 0); font-size: 12pt;"><br></div><div style="color: rgb(0, 0, 0); font-size: 12pt;">Best regards,</div><div style="color: rgb(0, 0, 0); font-size: 12pt;"><br></div><div style="color: rgb(0, 0, 0); font-size: 12pt;"><br></div><div style=""><span style="font-family: Arial, sans-serif;"><font size="2" style="" color="#003300"><i>This email is automatically
+generated.<br>
+Please do not respond to this email.</i></font></span></div>]]></td>
+</tr>
+</table>

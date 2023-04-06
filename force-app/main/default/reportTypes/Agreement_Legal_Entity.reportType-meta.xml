@@ -23,11 +23,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Company__c</field>
-            <table>Legal_Entity__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Country__c</field>
             <table>Legal_Entity__c</table>
         </columns>
@@ -169,11 +164,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Website__c</field>
-            <table>Legal_Entity__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Data_Quality__c</field>
             <table>Legal_Entity__c</table>
         </columns>
         <masterLabel>Legal Entities</masterLabel>

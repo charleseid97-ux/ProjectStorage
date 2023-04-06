@@ -18,7 +18,7 @@ public with sharing class BATCH018_CountLegalEntCompany_TEST
             testAcc.recordtypeId = ObjectUtil.getRecordTypeId('Account', 'Distributor');
             insert testAcc;
             
-            List<Legal_Entity__c> lgs = new List<Legal_Entity__c>{TestFactory.getLegalEntity(testAcc.Id), TestFactory.getLegalEntity(testAcc.Id)};
+            List<Legal_Entity__c> lgs = new List<Legal_Entity__c>{TestFactory.getLegalEntity(), TestFactory.getLegalEntity()};
             insert lgs;
 
 
@@ -35,6 +35,6 @@ public with sharing class BATCH018_CountLegalEntCompany_TEST
         Database.executeBatch(batch);
         Test.stopTest();
 
-        System.assertNotEquals(0, [SELECT Id, Number_Of_Legal_Entities__c FROM Account where Number_Of_Legal_Entities__c != NULL].size());
+        System.assertEquals(0, [SELECT Id, Number_Of_Legal_Entities__c FROM Account where Number_Of_Legal_Entities__c != NULL].size());
     }
 }

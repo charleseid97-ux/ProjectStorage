@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Rendez-vous au bureau du client la semaine prochaine</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>EXEMPLE : Rencontre à votre bureau</name>
+    <relatedEntityType>Account</relatedEntityType>
+    <style>none</style>
+    <subject>Rendez-vous à votre bureau la semaine prochaine ?</subject>
+    <type>custom</type>
+    <uiType>SFX_Sample</uiType>
+</EmailTemplate>

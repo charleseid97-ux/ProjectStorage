@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>Carmignac</letterhead>
+    <name>Agreement Renewal with GRID Approval Change</name>
+    <style>freeForm</style>
+    <subject>{!Convention__c.Name} - {!Convention__c.Company__c} - {!Convention__c.Company_Country__c} – End Date and Grid Renewal - {!Convention__c.Amendment_Approval_Status__c}</subject>
+    <textOnly>Hello
+
+The Approval Status of the Renewal Request with new GRID on {!Convention__c.Name} has changed to {!Convention__c.Amendment_Approval_Status__c}
+
+Proposed new End Date :  {!Convention__c.Renewal_Request_End_Date__c}
+The Requested GRID : {!Convention__c.Grid_Request__c}
+Requested GRID Start Date : {!Convention__c.Grid_Request_Start_Date__c}
+
+Comment For Approval : {!Convention__c.CommentForApproval__c}
+
+
+This is an automated email, please do no reply to this email.</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

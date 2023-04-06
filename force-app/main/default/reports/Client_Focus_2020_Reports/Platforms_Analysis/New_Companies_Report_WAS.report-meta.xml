@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Account.Ultimate_Parent__c</field>
+    </columns>
+    <columns>
+        <field>ACCOUNT.NAME</field>
+    </columns>
+    <columns>
+        <field>Account.BusinessDevelopmentRegion__c</field>
+    </columns>
+    <columns>
+        <field>Account.Distributor_Type__c</field>
+    </columns>
+    <columns>
+        <field>Account.Sub_Type__c</field>
+    </columns>
+    <columns>
+        <field>Account.CompanyStatus__c</field>
+    </columns>
+    <currency>EUR</currency>
+    <filter>
+        <criteriaItems>
+            <column>ACCOUNT.NAME</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>AEGON,AEGON SEGUROS,FUNDSNETWORK (FIDELITY DEUTSCHLAND),STANDARD LIFE,OLD MUTUAL WEALTH GLOBAL ACCOUNT,AJ BELL,TRANSACT - INTEGRAFIN,BNP PARIBAS S.A. NIEDERLASSUNG DEUTSCHLAND,FFB FIL FONDSBANK,V-BANK,AUGSBURGER AKTIENBANK AG,HAUCK &amp; AUFHÄUSER Global Investment Management,MOVENTUM,METZLER FUNDSERVICES GMBH,XCHANGE,AXA FRANCE VIE THEMA,SWISS LIFE,AEP Solutions Patrimoniales,BNP PARIBAS CARDIF ASSURANCE FONDS PROPRES,INTENCIAL PATRIMOINE,SELECTION 1818</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>RECORDTYPE</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value>Account.Grouping_Entity,Account.Account_GlobalAccount</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Tabular</format>
+    <name>New Companies Report</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>AccountList</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <sortColumn>ACCOUNT.NAME</sortColumn>
+    <sortOrder>Asc</sortOrder>
+    <timeFrameFilter>
+        <dateColumn>CREATED_DATE</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

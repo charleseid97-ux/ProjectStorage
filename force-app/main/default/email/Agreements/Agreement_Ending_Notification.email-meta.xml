@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Email to Notify Users when an Agreement is 60 days from End Date</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>Carmignac</letterhead>
+    <name>Agreement Ending Notification</name>
+    <style>freeForm</style>
+    <subject>{!Convention__c.Name} - {!Convention__c.Company__c} - Agreement is about to end ({!Convention__c.ExpirationDate__c})</subject>
+    <textOnly>Hello
+
+This email is to notify you that an Agreement is 60 days away from its End Date. Details below :
+
+Agreement Name : {!Convention__c.Name}
+Grid : {!Convention__c.Grid__c}
+
+Please log in and take any action necessary</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

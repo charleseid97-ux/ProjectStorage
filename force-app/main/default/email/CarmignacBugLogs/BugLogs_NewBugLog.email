@@ -1,0 +1,6 @@
+<table border="0" cellpadding="5" width="550" cellspacing="5" height="400" >
+<tr valign="top" height="400" >
+<td tEditID="c1r1" style=" background-color:#FFFFFF; bEditID:r3st1; color:#000000; bLabel:main; font-size:12pt; font-family:arial;" aEditID="c1r1" locked="0" >
+<![CDATA[Bonjour la team !<div><br></div><div>Un nouveau bug log de type <b>{!Bug_Log__c.Type__c}</b> et priorité&nbsp;<b>{!Bug_Log__c.PrioritySeverity__c} </b>a été créé par&nbsp;<b>{!Bug_Log__c.CreatedBy}</b></div><div><br></div><div>Lien du bug :</div><div>{!Bug_Log__c.Link}</div>]]></td>
+</tr>
+</table>

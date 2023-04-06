@@ -11,6 +11,7 @@
     </allowedSubmitters>
     <approvalPageFields>
         <field>Name</field>
+        <field>ConventionName__c</field>
         <field>Grid__c</field>
         <field>EffectiveDate__c</field>
         <field>All_concerned_Business_Regions__c</field>

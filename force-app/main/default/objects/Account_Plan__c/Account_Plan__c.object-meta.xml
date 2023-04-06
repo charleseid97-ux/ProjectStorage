@@ -157,6 +157,7 @@
     <enableSearch>false</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
     <label>Account Plan</label>
     <nameField>
         <encryptionScheme>None</encryptionScheme>

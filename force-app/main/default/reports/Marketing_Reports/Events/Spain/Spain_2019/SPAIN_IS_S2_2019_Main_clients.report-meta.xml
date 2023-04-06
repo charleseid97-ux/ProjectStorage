@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_58288982</developerName>
+        <masterLabel>Company in bucket</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <sourceColumnName>COMPANY</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>EFPA</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>EFPA ESPAÑA</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>EFPA ITALIA</sourceValue>
+            </sourceValues>
+            <value>EFPA</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>bankinter agentes</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BANKINTER AGENTES ANDALUCIA</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BANKINTER AGENTES CANARIAS</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BANKINTER AGENTES CATALUÑA</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BANKINTER AGENTES CLME</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BANKINTER AGENTES LEVANTE - BALEARES</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BANKINTER AGENTES MADRID ESTE</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BANKINTER AGENTES MADRID OESTE</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BANKINTER AGENTES NARS</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BANKINTER AGENTES NOROESTE</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BANKINTER AGENTES NORTE</sourceValue>
+            </sourceValues>
+            <value>BANKINTER AGENTES</value>
+        </values>
+    </buckets>
+    <columns>
+        <field>LAST_NAME</field>
+    </columns>
+    <columns>
+        <field>FIRST_NAME</field>
+    </columns>
+    <columns>
+        <field>EMAIL</field>
+    </columns>
+    <columns>
+        <field>LC_OWNER</field>
+    </columns>
+    <columns>
+        <field>CITY</field>
+    </columns>
+    <currency>EUR</currency>
+    <filter>
+        <criteriaItems>
+            <column>CAMPAIGN_ID</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>7011i000000U5Xq,7011i000000U5Xr,7011i000000U5pm</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>MEMBER_STATUS</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Attended</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>EMAIL</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notContain</operator>
+            <value>carmignac</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>CAMPAIGN_NAME</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>BucketField_58288982</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>COMPANY</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>SPAIN_IS S2 2019_Main clients</name>
+    <params>
+        <name>scopeid</name>
+        <value></value>
+    </params>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CampaignWithCampaignMembers</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+</Report>

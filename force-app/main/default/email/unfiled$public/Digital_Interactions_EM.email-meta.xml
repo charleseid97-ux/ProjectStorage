@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>[Digital Interactions] Flag Thematic EM : Contact Owner notification</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>Carmignac</letterhead>
+    <name>[Digital Interactions] EM</name>
+    <style>freeForm</style>
+    <subject>PRM/CRM Notification : Your Contact has engaged on Emerging Markets Thematic website content</subject>
+    <textOnly>Dear {!Contact.OwnerFirstName},
+
+We have noticed that your Contact, {!Contact.FirstName} {!Contact.LastName}, from {!Account.Name}, has engaged on Carmignac&apos;s website, browsing Emerging Markets related content.
+
+Business card title: {!Contact.Business_Card_Title__c}
+Persona: {!Contact.Persona__c}
+Email: {!Contact.Email}
+Direct line: {!Contact.Phone}
+
+
+This information may be relevant for you.
+Please feel free to get in touch with him/her.
+
+Should you need additional information, we remain at your disposal.
+
+Best regards,
+
+PRM/CRM Team</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

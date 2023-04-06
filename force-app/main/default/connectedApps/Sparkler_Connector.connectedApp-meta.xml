@@ -15,6 +15,8 @@
         <consumerKey>3MVG98_Psg5cppyagUaZtwGwCkRfFmUHSoCM1YiVo03A_LlCDdaUopuLkBfIe386Jd_fh_dmfvK4PSHrDmpry</consumerKey>
         <isAdminApproved>true</isAdminApproved>
         <isClientCredentialEnabled>false</isClientCredentialEnabled>
+        <isCodeCredentialEnabled>false</isCodeCredentialEnabled>
+        <isCodeCredentialPostOnly>false</isCodeCredentialPostOnly>
         <isConsumerSecretOptional>false</isConsumerSecretOptional>
         <isIntrospectAllTokens>false</isIntrospectAllTokens>
         <isSecretRequiredForRefreshToken>false</isSecretRequiredForRefreshToken>

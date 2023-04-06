@@ -11,10 +11,5 @@
         <operation>equals</operation>
         <value>Other</value>
     </filters>
-    <filters>
-        <field>RECORDTYPE</field>
-        <operation>equals</operation>
-        <value>Salesforce_update__c.Training_Material</value>
-    </filters>
     <label>Others</label>
 </ListView>

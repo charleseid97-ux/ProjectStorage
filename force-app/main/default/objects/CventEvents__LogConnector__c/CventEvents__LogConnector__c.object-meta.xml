@@ -154,6 +154,7 @@
     <enableSearch>true</enableSearch>
     <enableSharing>false</enableSharing>
     <enableStreamingApi>false</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
     <label>Log Connector</label>
     <nameField>
         <displayFormat>LC-{00000000}</displayFormat>

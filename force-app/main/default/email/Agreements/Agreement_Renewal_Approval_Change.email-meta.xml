@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>Carmignac</letterhead>
+    <name>Agreement Renewal Approval Change</name>
+    <style>freeForm</style>
+    <subject>{!Convention__c.Name} - {!Convention__c.Company__c} - {!Convention__c.Company_Country__c} - Renewal - {!Convention__c.Amendment_Approval_Status__c}</subject>
+    <textOnly>Hello
+
+The Approval Status of the Renewal Request on {!Convention__c.Name} has changed to {!Convention__c.Amendment_Approval_Status__c}
+
+The proposed new End Date is {!Convention__c.Renewal_Request_End_Date__c}
+
+The comment for approval is : {!Convention__c.CommentForApproval__c}
+
+
+This is an automated email, please do no reply to this email.</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

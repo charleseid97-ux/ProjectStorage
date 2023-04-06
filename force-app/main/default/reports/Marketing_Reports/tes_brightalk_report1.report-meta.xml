@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_3315623</developerName>
+        <masterLabel>Business Region</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <sourceColumnName>Account.Contacts$Contact_Owner_Business_Region__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>BP_BE</sourceValue>
+            </sourceValues>
+            <value>Belgium</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>BP_FR</sourceValue>
+            </sourceValues>
+            <value>France</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>BP_IN</sourceValue>
+            </sourceValues>
+            <value>International</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>BP_IT</sourceValue>
+            </sourceValues>
+            <value>Italy</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>BP_ES</sourceValue>
+            </sourceValues>
+            <value>Spain</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>BP_DA</sourceValue>
+            </sourceValues>
+            <value>Germany &amp; Austria</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>BP_CH</sourceValue>
+            </sourceValues>
+            <value>Switzerland</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>BP_LU</sourceValue>
+            </sourceValues>
+            <value>Luxembourg</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>BP_LA</sourceValue>
+            </sourceValues>
+            <value>LATAM</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>BP_NO</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BP_LU;BP_NL;BP_NO</sourceValue>
+            </sourceValues>
+            <value>Nordics &amp; Netherlands</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>BP_LU;BP_NL</sourceValue>
+            </sourceValues>
+            <value>Netherlands &amp; Luxembourg</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>BP_UK</sourceValue>
+            </sourceValues>
+            <value>United Kingdom</value>
+        </values>
+    </buckets>
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_78358455</developerName>
+        <masterLabel>Web Conference</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <sourceColumnName>Account.Contacts.BrightTALK__Webcast_Activites__r$BrightTALK__Webcast__c.BrightTALK__Name__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>Carmignac P. Capital Plus: Perspectivas de inversión y estrategias a seguir</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac Portfolio Capital Plus: Perspectivas de inversión y estrategias a seguir</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac Portfolio Capital Plus: Investment views and strategies going forward</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac Portfolio Capital Plus: Prospettive di investimento e strategie future</sourceValue>
+            </sourceValues>
+            <value>2 - CCP</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>The need for an unconstrained approach in fixed income markets by Charles Zerah</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>La necesidad de un enfoque sin restricciones en los mercados de renta fijas</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Der Bedarf an einem uneingeschränkten Ansatz für die Rentenmärkte</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Perché è necessario un approccio privo di vincoli sui mercati obbligazionari</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>The need for an unconstrained approach  in fixed income markets by Charles Zerah</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>La necesidad de un enfoque sin restricciones en los mercados de renta fija</sourceValue>
+            </sourceValues>
+            <value>3 - CGB</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Emerging markets in 2017: politics, macroeconomics – which will prevail?</sourceValue>
+            </sourceValues>
+            <value>1 - EM Markets</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Exploiter le plein potentiel des marchés émergents</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Harness the full potential of Emerging Markets</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Cogliere appieno il potenziale dei mercati emergenti</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Mercati emergenti nel 2017: macroeconomia e politica, cosa prevarrà?</sourceValue>
+            </sourceValues>
+            <value>4 - CEMP</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Carmignac Sécurité: Non-benchmarked and flexible approach will be key in 2016</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac Sécurité : nel 2016, un approccio flessibile e non indicizzato</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac Sécurité:  Update and views going forward</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac Sécurité: Actualización y perspectivas</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac Sécurité: Aggiornamento e strategie future</sourceValue>
+            </sourceValues>
+            <value>5 - CSC</value>
+        </values>
+    </buckets>
+    <chart>
+        <backgroundColor1>#FFFFFF</backgroundColor1>
+        <backgroundColor2>#FFFFFF</backgroundColor2>
+        <backgroundFadeDir>Diagonal</backgroundFadeDir>
+        <chartSummaries>
+            <axisBinding>y</axisBinding>
+            <column>RowCount</column>
+        </chartSummaries>
+        <chartType>HorizontalBarStacked</chartType>
+        <enableHoverLabels>false</enableHoverLabels>
+        <expandOthers>true</expandOthers>
+        <groupingColumn>BucketField_78358455</groupingColumn>
+        <legendPosition>Right</legendPosition>
+        <location>CHART_BOTTOM</location>
+        <secondaryGroupingColumn>BucketField_3315623</secondaryGroupingColumn>
+        <showAxisLabels>true</showAxisLabels>
+        <showPercentage>false</showPercentage>
+        <showTotal>false</showTotal>
+        <showValues>false</showValues>
+        <size>Medium</size>
+        <summaryAxisRange>Auto</summaryAxisRange>
+        <textColor>#000000</textColor>
+        <textSize>12</textSize>
+        <title>Viewer unit</title>
+        <titleColor>#000000</titleColor>
+        <titleSize>18</titleSize>
+    </chart>
+    <columns>
+        <field>Account.Contacts$ContactOwner__c</field>
+    </columns>
+    <columns>
+        <field>Account.Contacts.BrightTALK__Webcast_Activites__r$BrightTALK__Webcast__c.BrightTALK__Name__c</field>
+    </columns>
+    <columns>
+        <field>Account$Name</field>
+    </columns>
+    <columns>
+        <field>Account.Contacts$Name</field>
+    </columns>
+    <columns>
+        <field>Account.Contacts.BrightTALK__Webcast_Activites__r$BrightTALK__Webcast__c.BrightTALK__Start_Date__c</field>
+    </columns>
+    <currency>EUR</currency>
+    <filter>
+        <criteriaItems>
+            <column>Account.Contacts$Email</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notContain</operator>
+            <value>carmignac</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>BucketField_78358455</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>CEMP,CEMD,CGB,CPP,CS</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Matrix</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>BucketField_78358455</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>BucketField_3315623</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>CONTACT BY FUND WEB CONFERENCES</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Contacts_with_BrightTALK_Activitytest__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Account.Contacts.BrightTALK__Webcast_Activites__r$BrightTALK__Webcast__c.BrightTALK__Start_Date__c</dateColumn>
+        <interval>INTERVAL_CURFY</interval>
+    </timeFrameFilter>
+</Report>

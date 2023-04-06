@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Account$Name</field>
+    </columns>
+    <columns>
+        <field>Account.Agreements__r$Name</field>
+    </columns>
+    <columns>
+        <field>Account.Agreements__r.Agreement_Roles__r$Legal_Entity__c</field>
+    </columns>
+    <columns>
+        <field>Account.Agreements__r.Agreement_Roles__r$LEI__c</field>
+    </columns>
+    <columns>
+        <field>Account.Agreements__r.Agreement_Roles__r$Role__c</field>
+    </columns>
+    <columns>
+        <field>Account.Agreements__r$Id</field>
+    </columns>
+    <currency>EUR</currency>
+    <description>Company - Legale Entity - Agreement Roles</description>
+    <filter>
+        <criteriaItems>
+            <column>Account.Agreements__r.Agreement_Roles__r$Role__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>,Counterparty – Distributor / Delegate,Counterparty – Intermediary / Platforms,Counterparty – Third Party Advisor</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Tabular</format>
+    <name>Company - Legale Entity - Agreement Role</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Company_Legale_Entity_Agreement_Roles__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>false</showGrandTotal>
+    <showSubTotals>false</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Account$CreatedDate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

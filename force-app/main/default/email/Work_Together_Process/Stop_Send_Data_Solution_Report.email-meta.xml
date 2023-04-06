@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Use to notify Data Solution Team to stop send report</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Stop Send Data Solution Report</name>
+    <style>none</style>
+    <subject>Salesforce user asks to stop send Data Solution and Solvency Report</subject>
+    <type>text</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -371,7 +371,17 @@
         <label>UKMPS</label>
     </customValue>
     <customValue>
-        <fullName>UFFGE</fullName>
+        <fullName>CMA</fullName>
+        <default>false</default>
+        <label>CMA</label>
+    </customValue>
+    <customValue>
+        <fullName>CMAP</fullName>
+        <default>false</default>
+        <label>CMAP</label>
+    </customValue>
+    <customValue>
+        <fullName>UFF Grande Europe 0-100</fullName>
         <default>false</default>
         <isActive>false</isActive>
         <label>UFF Grande Europe 0-100</label>
@@ -389,7 +399,7 @@
         <label>CC+</label>
     </customValue>
     <customValue>
-        <fullName>UFF Grande Europe 0-100</fullName>
+        <fullName>UFFGE</fullName>
         <default>false</default>
         <isActive>false</isActive>
         <label>UFF Grande Europe 0-100</label>

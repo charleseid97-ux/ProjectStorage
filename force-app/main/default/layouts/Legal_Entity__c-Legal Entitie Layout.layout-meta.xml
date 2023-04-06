@@ -20,10 +20,6 @@
                 <field>LEI_Status__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>Company__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Website__c</field>
             </layoutItems>
@@ -208,6 +204,14 @@
         <fields>KYD_Responsible__c</fields>
         <fields>KYD_DD_Oversight_Status__c</fields>
         <relatedList>KYD_Due_Diligence_Oversight__c.LegalEntity__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>ACCOUNT.NAME</fields>
+        <fields>ACCOUNT.RECORDTYPE</fields>
+        <fields>ACCOUNT.ADDRESS1_COUNTRY_CODE</fields>
+        <fields>PARENT_NAME</fields>
+        <fields>CORE.USERS.ALIAS</fields>
+        <relatedList>Account.LegalEntity__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

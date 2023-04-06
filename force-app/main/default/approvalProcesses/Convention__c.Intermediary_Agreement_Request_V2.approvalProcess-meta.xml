@@ -14,6 +14,7 @@
     </allowedSubmitters>
     <approvalPageFields>
         <field>Name</field>
+        <field>ConventionName__c</field>
         <field>Grid__c</field>
         <field>EffectiveDate__c</field>
         <field>All_concerned_Business_Regions__c</field>
@@ -888,15 +889,11 @@
         </assignedApprover>
         <description>Compliance Approval</description>
         <entryCriteria>
-            <booleanFilter>1 OR 2</booleanFilter>
+            <booleanFilter>1</booleanFilter>
             <criteriaItems>
                 <field>Convention__c.FinalRisk__c</field>
                 <operation>equals</operation>
                 <value>High,Medium</value>
-            </criteriaItems>
-            <criteriaItems>
-                <field>Convention__c.FinalRisk__c</field>
-                <operation>equals</operation>
             </criteriaItems>
         </entryCriteria>
         <ifCriteriaNotMet>GotoNextStep</ifCriteriaNotMet>

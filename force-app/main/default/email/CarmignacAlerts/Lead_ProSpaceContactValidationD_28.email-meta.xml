@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Template for push alert of Pro Space contact validation at 28 day after creation</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Lead - Pro Space ContactValidation D+28</name>
+    <style>freeForm</style>
+    <subject>Your Contact is waiting for a validation</subject>
+    <textOnly>Dear user,
+
+
+Your contact  {!Contact.LastName} {!Contact.FirstName} is waiting for validation.
+
+You still have 2 days for validating this contact.
+
+
+Regards,
+
+System Administrator</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

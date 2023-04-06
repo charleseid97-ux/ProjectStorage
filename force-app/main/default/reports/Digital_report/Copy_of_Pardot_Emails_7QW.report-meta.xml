@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>ListEmail$ScheduledDate</field>
+    </columns>
+    <columns>
+        <field>ListEmail$Campaign</field>
+    </columns>
+    <columns>
+        <field>ListEmail$Campaign.Sales_Team__c</field>
+    </columns>
+    <columns>
+        <field>ListEmail$Name</field>
+    </columns>
+    <columns>
+        <field>ListEmail$Subject</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>ListEmail$UniqueOptOuts</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Average</aggregateTypes>
+        <field>ListEmail$DeliveryRate</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Average</aggregateTypes>
+        <field>ListEmail$OpenRate</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Average</aggregateTypes>
+        <field>ListEmail$UniqueClickThroughRate</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Average</aggregateTypes>
+        <field>ListEmail$ClickToOpenRatio</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>ListEmail$UniqueOpens</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>ListEmail$UniqueTrackedLinkClicks</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>ListEmail$TotalHardBounced</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>ListEmail$TotalSoftBounced</field>
+    </columns>
+    <currency>EUR</currency>
+    <customDetailFormulas>
+        <calculatedFormula>CASE(
+    WEEKDAY(DATEVALUE(ListEmail.ScheduledDate)), 
+    1, &quot;Sunday&quot;,
+    2, &quot;Monday&quot;,
+    3, &quot;Tuesday&quot;,
+    4, &quot;Wednesday&quot;, 
+    5, &quot;Thursday&quot;, 
+    6, &quot;Friday&quot;, 
+    7, &quot;Saturday&quot;, &quot;NULL&quot;)</calculatedFormula>
+        <dataType>Text</dataType>
+        <developerName>CDF1</developerName>
+        <label>Day</label>
+        <scale>0</scale>
+    </customDetailFormulas>
+    <filter>
+        <criteriaItems>
+            <column>ListEmail$Subject</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notContain</operator>
+            <value>Proof</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>ListEmail$Name</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notContain</operator>
+            <value>test,demo</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>ListEmail$Campaign.Type</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Due Diligence,Exclusive Event,Incentive,Investment Professional Presentation,Partnership,Quarterly Meeting,Sales Presentation,Sponsorship</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>CDF1</field>
+        <sortOrder>Desc</sortOrder>
+    </groupingsDown>
+    <name>Copy of Pardot Emails</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Pardot_Emails__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>false</showSubTotals>
+    <sortColumn>ListEmail$ScheduledDate</sortColumn>
+    <sortOrder>Desc</sortOrder>
+    <timeFrameFilter>
+        <dateColumn>ListEmail$ScheduledDate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

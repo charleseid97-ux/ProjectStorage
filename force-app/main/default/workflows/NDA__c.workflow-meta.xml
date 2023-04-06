@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>NDA_Document_Upload</fullName>
+        <description>NDA Completed</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Legal</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>NDA_Templates/NDA_Completed</template>
+    </alerts>
+    <alerts>
+        <fullName>NDA_Modified</fullName>
+        <description>NDA Modified</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Legal</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>NDA_Templates/NDA_Modified</template>
+    </alerts>
+    <alerts>
+        <fullName>New_NDA_Request</fullName>
+        <description>New NDA Request</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Legal</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>NDA_Templates/New_NDA_Request</template>
+    </alerts>
+    <alerts>
+        <fullName>The_Signed_NDA_has_been_Uploaded</fullName>
+        <description>The Signed NDA has been Uploaded</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Legal</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/NDA_is_Signed</template>
+    </alerts>
+</Workflow>

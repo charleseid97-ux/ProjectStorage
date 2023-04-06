@@ -26,6 +26,7 @@ global class BATCH004_InsertLegalEntitiesUME implements Database.Batchable<Strin
         
         List<DueDiligence__c> lstDueDiligenceToInsert = new List<DueDiligence__c>();
         List<Legal_Entity__c> LegalEntityToInsert = new List<Legal_Entity__c>();
+        Map<Id, Legal_Entity__c> companyLegalEntity = new Map<Id, Legal_Entity__c>();
         
         //Deserialize the JSON string into collections of primitive data types.        
         List<JSONLegalEntityUME2Apex> jApexUME = UTIL_LegalEntity.getDistributors('/api/v2/network/distributors/');
@@ -80,11 +81,10 @@ global class BATCH004_InsertLegalEntitiesUME implements Database.Batchable<Strin
                                         
                     if( company.companyName.length() > maxSize ) {                   
                         le.Name = company.companyName.substring(0, maxSize);
-                        le.Full_Legal_Entity_Name__c = company.companyName;
                     }else{
                         le.Name = company.companyName;
-                        le.Full_Legal_Entity_Name__c = company.companyName;
                     }
+                    le.Full_Legal_Entity_Name__c = company.companyName;
                     
                     if(checkJ.containsKey(company.country.code))
                         le.Country__c = company.country.code;
@@ -92,7 +92,7 @@ global class BATCH004_InsertLegalEntitiesUME implements Database.Batchable<Strin
                     le.Location__Longitude__s = company.lon;
                     le.Legal_Entity_Address__c = company.streetAddress;
                     
-                    le.Company__c = mapACCompany.get(mapGuidinternalId.get(guid));
+                    //le.Company__c = mapACCompany.get(mapGuidinternalId.get(guid));
                     le.LEI__c = (company.lei != null) ? company.lei : 'NO LEI UME';
                     le.LEI_Status__c = company.status;
                     le.UME_ID__c = company.guid;
@@ -120,17 +120,27 @@ global class BATCH004_InsertLegalEntitiesUME implements Database.Batchable<Strin
                             dd.Status_of_Completion__c = pume.StatusOfCompletion__c;
                         }
                     }
-                    LegalEntityToInsert.add(le);
+                    companyLegalEntity.put(mapACCompany.get(mapGuidinternalId.get(guid)), le);
+                    //LegalEntityToInsert.add(le);
                     if (company.lei != null)
                         lstDueDiligenceToInsert.add(dd);
                 }
             }
         }
         try {
-            if(LegalEntityToInsert.size()>0)
-                Database.insert(LegalEntityToInsert,false);
+            /*if(LegalEntityToInsert.size()>0)
+                Database.insert(LegalEntityToInsert,false);*/
+            if (companyLegalEntity.size() > 0)
+                Database.insert(companyLegalEntity.values());
             if(lstDueDiligenceToInsert.size()>0)
                 Database.insert(lstDueDiligenceToInsert,false);
+            List<Account> accountToUpdate = new List<Account>();
+            for (Account a : [Select id, LegalEntity__c from Account where id in :companyLegalEntity.keySet()]) {
+                a.LegalEntity__c = companyLegalEntity.get(a.id).id;
+                accountToUpdate.add(a);
+            }
+            if (accountToUpdate.size() > 0)
+                Database.update(accountToUpdate);
         } catch(Exception e) {
             System.debug('Insertion LE UME - The following exception has occurred: ' + e);
         }

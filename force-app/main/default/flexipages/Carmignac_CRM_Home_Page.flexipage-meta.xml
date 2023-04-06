@@ -9,8 +9,16 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentName>HomepageReportButtons</componentName>
-                <identifier>HomepageReportButtons</identifier>
+                <componentInstanceProperties>
+                    <name>flowLayout</name>
+                    <value>oneColumn</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>flowName</name>
+                    <value>HomePageDashboards</value>
+                </componentInstanceProperties>
+                <componentName>flowruntime:interview</componentName>
+                <identifier>flowruntime_interview</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>

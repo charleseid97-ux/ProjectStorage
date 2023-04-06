@@ -536,6 +536,16 @@
         <senderType>CurrentUser</senderType>
         <template>Work_Together_Process/WorkTogether_3_Months_Update</template>
     </alerts>
+    <alerts>
+        <fullName>You_have_been_assigned_to_this_WTP</fullName>
+        <description>You have been assigned to this WTP</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/WTP_DPM_New_Owner_Notification</template>
+    </alerts>
     <fieldUpdates>
         <fullName>Attribute_queue_Client_delivery</fullName>
         <field>OwnerId</field>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>BrightTALK__Channel__c.BrightTALK__Webcasts__r.BrightTALK__Webcast_Activites__r$BrightTALK__Contact__c</field>
+    </columns>
+    <columns>
+        <field>BrightTALK__Channel__c.BrightTALK__Webcasts__r.BrightTALK__Webcast_Activites__r$BrightTALK__Lead__c</field>
+    </columns>
+    <columns>
+        <field>BrightTALK__Channel__c.BrightTALK__Webcasts__r.BrightTALK__Webcast_Activites__r$BrightTALK__Created__c</field>
+    </columns>
+    <columns>
+        <field>BrightTALK__Channel__c.BrightTALK__Webcasts__r$Name</field>
+    </columns>
+    <columns>
+        <field>BrightTALK__Channel__c.BrightTALK__Webcasts__r.BrightTALK__Webcast_Activites__r$BrightTALK__Webcast_Activity_Id__c</field>
+    </columns>
+    <columns>
+        <field>BrightTALK__Channel__c.BrightTALK__Webcasts__r.BrightTALK__Webcast_Activites__r$Name</field>
+    </columns>
+    <columns>
+        <field>BrightTALK__Channel__c.BrightTALK__Webcasts__r.BrightTALK__Webcast_Activites__r$BrightTALK__Pre_Registered__c</field>
+    </columns>
+    <currency>EUR</currency>
+    <format>Tabular</format>
+    <name>TEST BrightTALK 2 UTM</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>BrightTALK__BrightTALK_Channels_with_BrightTALK_Webcasts_with_BrightTALK_Webcast_Activites__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>BrightTALK__Channel__c.BrightTALK__Webcasts__r.BrightTALK__Webcast_Activites__r$CreatedDate</dateColumn>
+        <interval>INTERVAL_LAST7</interval>
+    </timeFrameFilter>
+</Report>

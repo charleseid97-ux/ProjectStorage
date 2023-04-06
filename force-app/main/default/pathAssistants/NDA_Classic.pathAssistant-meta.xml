@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>NDA__c</entityName>
+    <fieldName>Stage__c</fieldName>
+    <masterLabel>NDA Bipartite</masterLabel>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;At this stage, the &lt;span style=&quot;font-family: Calibri; font-size: 11pt;&quot;&gt;Legal team is validating the NDA completion.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
+        <picklistValueName>Completed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Signed__c</fieldNames>
+        <fieldNames>SignatureDate__c</fieldNames>
+        <fieldNames>Status__c</fieldNames>
+        <info>&lt;ol&gt;&lt;li&gt;&lt;span style=&quot;font-family: Calibri; font-size: 11pt;&quot;&gt;The Legal Team is preparing and uploading the NDA information to the files.&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-family: Calibri; font-size: 11pt;&quot;&gt;The CRM fills in the fields on the left hand side then uploads the signed NDA into Salesforce &lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;</info>
+        <picklistValueName>In progress</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Signatory__c</fieldNames>
+        <fieldNames>Purpose__c</fieldNames>
+        <fieldNames>NDA_Type__c</fieldNames>
+        <fieldNames>TypeOfDataToSend__c</fieldNames>
+        <fieldNames>ReleaseSchedule__c</fieldNames>
+        <info>&lt;ul&gt;&lt;li&gt;&lt;span style=&quot;font-size: 10.5pt;&quot;&gt;Ensure that the NDA is linked to a WTP.&lt;/span&gt;&lt;/li&gt;&lt;li&gt;Once all the NDA information are provided, the CRM/Sales has to move the NDA to &amp;#39;In progress&amp;#39; status.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
+        <picklistValueName>To update</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>NDA_Classic</recordTypeName>
+</PathAssistant>

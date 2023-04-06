@@ -113,11 +113,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Legal_Entity__c.Company__c</field>
-            <table>Agreement_Role__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Legal_Entity__c.Country__c</field>
             <table>Agreement_Role__c</table>
         </columns>
@@ -183,11 +178,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Data_Quality__c</field>
-            <table>Agreement_Role__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Agreement__c.Company__c.Distributor_Type__c</field>
             <table>Agreement_Role__c</table>
         </columns>
@@ -209,16 +199,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Agreement__c.Company__c.Final_Distribution__c</field>
-            <table>Agreement_Role__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Legal_Entity__c.Company__c.Distributor_Type__c</field>
-            <table>Agreement_Role__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Legal_Entity__c.Company__c.Sub_Type__c</field>
             <table>Agreement_Role__c</table>
         </columns>
         <masterLabel>Agreements Roles</masterLabel>

@@ -9,6 +9,11 @@ import { LightningElement, wire, track, api } from 'lwc';
 //Lightning Imports
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import LightningConfirm from 'lightning/confirm';
+import {getRecord, getFieldValue} from 'lightning/uiRecordApi';
+
+//import for user profile
+import USER_ID from '@salesforce/user/Id';
+import USERPROFILE_OBJECT from '@salesforce/schema/User.Profile.Name';
 
 //Salesforce APEX Imports
 import { refreshApex } from '@salesforce/apex';
@@ -42,6 +47,8 @@ import contactNotSynchronizedMSG from '@salesforce/label/c.PreferenceCenter_Cont
 
 export default class Lwc_preferencecenter extends LightningElement {
     @api recordId; // :- Obtaining the Contact Id from the Contact Record Page
+    currentUserProfileName; // Name of the user's profile name
+    error; // To deal with error while getting user Profile Name
     //START  : Event Related Variables
     inputValFromCriteriaCom; // :- Stores the value obtained from the Share Class Lookup Input Field value change
     //END  : Event Related Variables
@@ -93,6 +100,15 @@ export default class Lwc_preferencecenter extends LightningElement {
     //END : Component Lifecycle Methods
     //START : APEX Methods ---------------------------------------------
     //Start : Wire Methods -----------------
+    //Description : Sets the name of the user's profile
+    @wire(getRecord, { recordId: USER_ID, fields: [USERPROFILE_OBJECT] })
+    userDetails({ error, data }) {
+        if (data) {
+            this.currentUserProfileName = getFieldValue(data, USERPROFILE_OBJECT);
+        } else if (error) {
+            this.error = error;
+        }
+    }
     //Description : Returns a JSON String of Alert Types and Prospace Alert
     @wire(getAlertTypesWithProspaceAlert, { contactId: '$recordId' })
     wiredgetAlertTypesWithProspaceAlert({ error, data }) {
@@ -119,6 +135,10 @@ export default class Lwc_preferencecenter extends LightningElement {
     getAlertTypesWithProspaceAlertCacheUpdate;
     //End : Wire Methods -----------------
     //Start : Imperative Methods ----------
+    //Description : Returns true if the user's profile is System Admin or Carmignac - System Administrator to hide prospace alert section until it's ready
+    get userAllowed() {
+        return this.currentUserProfileName === 'System Administrator' || this.currentUserProfileName === 'Carmignac - System Administrator';
+    }
     //Description : Creates a new Prospace Alert when the Add button is clicked in the Modal/PopUp
     addProspaceAlert() {
         //Getting the Fund Lookup Field value from the DOM directly
@@ -247,22 +267,19 @@ export default class Lwc_preferencecenter extends LightningElement {
         //Storing the selected Toggle Button's checked value.
         let isToggleChecked = event.target.checked;
         //The confirmation prompt paramters with await 
-        let isSelectionConfirmed = await LightningConfirm.open({
+        /*let isSelectionConfirmed = await LightningConfirm.open({
             message: event.target.checked ? subscriptionsCreationConfirmMsg : subscriptionsDeletionConfirmMsg,
             theme: "info", // other options are success, info, warning
             variant: 'headerless',
-        });
+        });*/
         //Checking for User Confirmation
-        if (isSelectionConfirmed) {
-            //Retrieving all the Alert Types Ids from the Alert Types List
-            this.alertTypesArr.forEach(alertTypeObject => {
-                this.allAlertTypesIDsArr.push(alertTypeObject.alertTypeId);
-            });
-            if (isToggleChecked) {
-                this.addAllProspaceAlerts(this.allAlertTypesIDsArr, false);
-            } else {
-                this.removeAllProspaceAlerts(this.allAlertTypesIDsArr, false);
-            }
+        this.alertTypesArr.forEach(alertTypeObject => {
+            this.allAlertTypesIDsArr.push(alertTypeObject.alertTypeId);
+        });
+        if (isToggleChecked) {
+            this.addAllProspaceAlerts(this.allAlertTypesIDsArr, false);
+        } else {
+            this.removeAllProspaceAlerts(this.allAlertTypesIDsArr, false);
         }
     }
 
@@ -341,7 +358,9 @@ export default class Lwc_preferencecenter extends LightningElement {
     openModalPopUpExisting(event) {
         this.isModalDisplayed = true;
         //Differentiating between the interest and alert types edits
+        
         if (event.target.name === "interestsEdit") {
+            this.modalTitle = event.target.ariaLabel;
             this.isInterestDisplayed = true;
             this.interestsCheckboxList = [];
             this.filterSubInterestsCheckbox(event.target.value);
@@ -349,8 +368,8 @@ export default class Lwc_preferencecenter extends LightningElement {
             this.modalTitle = event.target.name;
             this.selectedAlertTypeId = event.target.value;
             //Refreshing the new Prospace ALerts List to display the appropriate existing Prospace Alert for the appropriate Alert Type
-            this.refreshProspaceAlerts(event, false);
             this.isEmptyState = this.newProspaceAlertsArr.length > 0 ? false : true;
+            this.refreshProspaceAlerts(event, false);
         }
     }
     //Description : Opens up the Modal for European Equity only in the Marketing Emails section
@@ -415,6 +434,7 @@ export default class Lwc_preferencecenter extends LightningElement {
     //Description : Closes the Modal
     closeModalPopUp() {
         this.isModalDisplayed = false;
+        this.isInterestDisplayed = false;
         //Unchecking the selected Toggle Button when the process is cancelled or the Modal/PopUp is closed
         if (this.newProspaceAlertsArr.length === 0) {
             this.uncheckSelectedToggleOnCancel(this.template.querySelectorAll('div[data-class="nav_and_reports_container"]'));

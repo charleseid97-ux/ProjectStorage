@@ -15,6 +15,7 @@
     </allowedSubmitters>
     <approvalPageFields>
         <field>Name</field>
+        <field>ConventionName__c</field>
         <field>Grid__c</field>
         <field>Grid_Request__c</field>
         <field>Grid_Request_Start_Date__c</field>

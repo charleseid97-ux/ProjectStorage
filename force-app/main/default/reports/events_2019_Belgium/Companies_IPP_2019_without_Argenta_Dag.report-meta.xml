@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_87936854</developerName>
+        <masterLabel>company in bucket</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <sourceColumnName>COMPANY</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>ARGENTA</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>ARGENTA - AGENCIES</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>ARGENTA - AGENCIES - VANOOST-PATTYN BVBA</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Argenta Brakel</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Argenta Hulshout</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Argenta Lierde</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>ARGENTA - RETAIL BANK</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>9555</sourceValue>
+            </sourceValues>
+            <value>Argenta</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Allianz</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>ALLIANZ BELGIUM SA/NV</sourceValue>
+            </sourceValues>
+            <value>Allianz</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>BELFIUS - Intern Investment Strategist - I come to represent Jan Vergote</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BELFIUS - INTERN OF JAN VERGOTE</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Belfius Investment Partners</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BELFIUS - PRIVATE BANK</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BELFIUS - RETAIL BANK</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>BELFIUS - RETAIL BANK AGENCIES</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Belfius Wealth Management</sourceValue>
+            </sourceValues>
+            <value>Belfius</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>CREA ASSET MANAGEMENT TRUST REG.</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>CRELAN</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>CRELAN BELGIUM</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>CRELAN BELGIUM - AGENCIES</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Crelan Agentschap Jackers &amp; Dessers</sourceValue>
+            </sourceValues>
+            <value>Crelan</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>DEUTSCHE BANK AGENCIES - BELGIUM</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>DEUTSCHE BANK - BELGIUM</sourceValue>
+            </sourceValues>
+            <value>Deutsche Bank</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>KBC</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>KBC Bank NV</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>KBC BELGIUM</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>KBC BELGIUM - ASSET MANAGEMENT</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>KBC BELGIUM - CBC</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>KBC BELGIUM - PENSIONFUND</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>KBC BELGIUM - PRIVATE BANKING</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>KBC BELGIUM - SECURITIES</sourceValue>
+            </sourceValues>
+            <value>KBC</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>NNS CAPITAL</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>NN SEGUROS</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>NN INVESTMENT PARTNERS NV</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>NN INVESTMENT PARTNERS LUXEMBOURG S.A.</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>NN Investment partners</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>NN INSURANCE - BELGIUM</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>NN Group</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>NNESPANA</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>NNEK VERMOGENSOPBOUW</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>NN / Delta Lloyd Life</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>nn</sourceValue>
+            </sourceValues>
+            <value>NN</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>ONELIFE</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>ONE LIFE</sourceValue>
+            </sourceValues>
+            <value>ONE LIFE</value>
+        </values>
+    </buckets>
+    <columns>
+        <field>LAST_NAME</field>
+    </columns>
+    <columns>
+        <field>FIRST_NAME</field>
+    </columns>
+    <columns>
+        <field>EMAIL</field>
+    </columns>
+    <columns>
+        <field>LC_OWNER</field>
+    </columns>
+    <columns>
+        <field>CITY</field>
+    </columns>
+    <currency>EUR</currency>
+    <filter>
+        <criteriaItems>
+            <column>MEMBER_STATUS</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Attended</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>CAMPAIGN_ID</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>7011i000000gTpC,7011i000000U42J,7011i000000U4yR,7011i000000U758,7011i000000U757,7011i000000gTq3,7011i000000U5Xp,7011i000000gTsm,7011i000000U2Nu,7011i000000U5pk,7011i000000U5pu,7011i000000U66f</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>COMPANY</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value>carmignac,test,corona print,holding company for inactive contacts</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>MEMBER_TYPE</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>contains</operator>
+            <value>contact</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>CAMPAIGN_NAME</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>BucketField_87936854</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>CampaignMember.Job_Title__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>IPP participants2019-without Argenta Dag</name>
+    <params>
+        <name>scopeid</name>
+        <value></value>
+    </params>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CampaignWithCampaignMembers</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+</Report>

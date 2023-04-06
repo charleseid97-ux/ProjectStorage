@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Web_Communication__c.Contact__c</field>
+    </columns>
+    <columns>
+        <field>Web_Communication__c.Lead__c</field>
+    </columns>
+    <columns>
+        <field>Web_Communication__c.TECH_CommunicationWebsiteId__c</field>
+    </columns>
+    <currency>EUR</currency>
+    <customDetailFormulas>
+        <calculatedFormula>CASE(Web_Communication__c.TECH_User_Website_Country__c,
+&quot;AT&quot;, &quot;Austria&quot;,
+&quot;BE&quot;, &quot;Belgium&quot;,
+&quot;FR&quot;, &quot;France&quot;,
+&quot;DE&quot;, &quot;Germany&quot;,
+&quot;GB&quot;, &quot;Great Britain&quot;,
+&quot;XI&quot;, &quot;International&quot;,
+&quot;IT&quot;, &quot;Italy&quot;,
+&quot;LU&quot;, &quot;Luxembourg&quot;,
+&quot;ES&quot;, &quot;Spain&quot;,
+&quot;SE&quot;, &quot;Sweden&quot;,
+&quot;CH&quot;, &quot;Switzeland&quot;,
+&quot;TW&quot;, &quot;Taiwan&quot;,
+&quot;NL&quot;, &quot;The Netherlands&quot;,
+&quot;PT&quot;, &quot;Portugal&quot;,
+&quot;None&quot;)</calculatedFormula>
+        <dataType>Text</dataType>
+        <developerName>CDF1</developerName>
+        <label>Country Name</label>
+        <scale>2</scale>
+    </customDetailFormulas>
+    <filter>
+        <criteriaItems>
+            <column>Web_Communication__c.isPublication__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>1</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Web_Communication__c.AlertTypeRecord__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>CDF1</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Pub Subscriptions Per Type Per Country</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$Web_Communication__c</reportType>
+    <scope>organization</scope>
+    <showDetails>false</showDetails>
+    <showGrandTotal>false</showGrandTotal>
+    <showSubTotals>false</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>CUST_CREATED_DATE</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

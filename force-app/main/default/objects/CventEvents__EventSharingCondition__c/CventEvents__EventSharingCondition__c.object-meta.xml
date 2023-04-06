@@ -154,6 +154,7 @@
     <enableSearch>true</enableSearch>
     <enableSharing>false</enableSharing>
     <enableStreamingApi>false</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
     <label>Event Sharing Condition</label>
     <nameField>
         <displayFormat>ESC-{00000000}</displayFormat>

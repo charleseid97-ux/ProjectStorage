@@ -7,96 +7,98 @@
 -->
 <template>
     <!-- START : Prospace Alert Section----------------------------------------------------------- -->
-    <lightning-card title="Prospace Alerts">
-        <template if:true={isAlertTypesArrayInitialized}>
-            <!--START : Choose All Toggle Button -->
-            <div class="slds-form-element slds-p-around_x-small" slot="actions">
-                <label class="slds-checkbox_toggle slds-grid">
-                    <div class="slds-col slds-size_1-of-1 slds-large-size_7-of-12 slds-text-align_right">
-                        <span class="slds-form-element__label slds-m-bottom_none">Choose All</span>
-                    </div>
-                    <div class="slds-col slds-size_1-of-1 slds-large-size_5-of-12">
-                        <lightning-input type="toggle" message-toggle-active="" message-toggle-inactive="" label=""
-                            name="chooseAllToggle" onchange={selectAllAlertTypes} checked={isChooseAllToggleSelected}>
-                        </lightning-input>
-                    </div>
-                </label>
-            </div>
-            <!--END : Choose All Toggle Button -->
-            <!-- START : Alert Types Section----------------------------------------------------------- -->
-            <div class="slds-grid slds-wrap slds-p-top_small slds-p-bottom_medium">
-                <!-- START : Nav and Reports Toggle Buttons -------------------------------- -->
-                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
-                    <div class=" slds-text-heading_label">Nav & Reports</div>
-                    <template for:each={alertTypesArr} for:item="alert_type">
-                        <template if:false={alert_type.alertTypeIsPublished}>
-                            <div key={alert_type.alertTypeId} class="slds-form-element slds-p-around_x-small">
-                                <label class="slds-checkbox_toggle slds-grid">
-                                    <div class="slds-col slds-size_1-of-1 slds-large-size_7-of-12 slds-text-align_right">
-                                        <!-- START : Existing Prospace Alert Indication Icon Button -->
-                                        <template if:true={alert_type.prospaceAlertCreated}>
-                                            <span class="slds-form-element__label slds-p-bottom_xx-small">
-                                                <lightning-button-icon icon-name="utility:edit" size="small"
-                                                    name={alert_type.alertTypeName} value={alert_type.alertTypeId}
-                                                    variant="bare" alternative-text="Open Pop-Up" title="Open Pop-Up"
-                                                    onclick={openModalPopUpExisting}
-                                                    tooltip="Prospace Alerts already exist. Click here to View.">
-                                                </lightning-button-icon>
-                                            </span>
-                                        </template>
-                                        <!-- END : Existing Prospace Alert Indication Icon Button -->
-                                        <span
-                                            class="slds-form-element__label slds-m-bottom_none">{alert_type.alertTypeName}</span>
-                                    </div>
-                                    <div class="slds-col slds-size_1-of-1 slds-large-size_5-of-12"
-                                        data-class="nav_and_reports_container">
-                                        <lightning-input type="toggle" message-toggle-active="" message-toggle-inactive=""
-                                            label="" name={alert_type.alertTypeName} value={alert_type.alertTypeId}
-                                            onchange={openModalPopUp} checked={alert_type.prospaceAlertCreated}>
-                                        </lightning-input>
-                                    </div>
-                                </label>
-                            </div>
-                        </template>
-                    </template>
+    <template if:true={userAllowed}>
+        <lightning-card title="Prospace Alerts">
+            <template if:true={isAlertTypesArrayInitialized}>
+                <!--START : Choose All Toggle Button -->
+                <div class="slds-form-element slds-p-around_x-small" slot="actions">
+                    <label class="slds-checkbox_toggle slds-grid">
+                        <div class="slds-col slds-size_1-of-1 slds-large-size_7-of-12 slds-text-align_right">
+                            <span class="slds-form-element__label slds-m-bottom_none">Choose All</span>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-large-size_5-of-12">
+                            <lightning-input type="toggle" message-toggle-active="" message-toggle-inactive="" label=""
+                                name="chooseAllToggle" onchange={selectAllAlertTypes} checked={isChooseAllToggleSelected}>
+                            </lightning-input>
+                        </div>
+                    </label>
                 </div>
-                <!-- END : Nav and Reports Toggle Buttons -------------------------------- -->
-                <!-- START : Publication Toggle Buttons ---------------------------------- -->
-                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
-                    <div class="slds-text-heading_label">Publication</div>
-                    <template for:each={alertTypesArr} for:item="alert_type">
-                        <template if:true={alert_type.alertTypeIsPublished}>
-                            <div key={alert_type.alertTypeId} class="slds-form-element slds-p-around_x-small">
-                                <label class="slds-checkbox_toggle slds-grid">
-                                    <div class="slds-col slds-size_1-of-1 slds-large-size_7-of-12 slds-text-align_right">
-                                        <span
-                                            class="slds-form-element__label slds-m-bottom_none">{alert_type.alertTypeName}</span>
-                                    </div>
-                                    <div class="slds-col slds-size_1-of-1 slds-large-size_5-of-12"
-                                        data-class="publisher_container">
-                                        <lightning-input type="toggle" message-toggle-active="" message-toggle-inactive=""
-                                            label="" name={alert_type.alertTypeName} value={alert_type.alertTypeId}
-                                            onchange={openModalPopUp} checked={alert_type.prospaceAlertCreated}>
-                                        </lightning-input>
-                                    </div>
-                                </label>
-                            </div>
+                <!--END : Choose All Toggle Button -->
+                <!-- START : Alert Types Section----------------------------------------------------------- -->
+                <div class="slds-grid slds-wrap slds-p-top_small slds-p-bottom_medium">
+                    <!-- START : Nav and Reports Toggle Buttons -------------------------------- -->
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                        <div class=" slds-text-heading_label">Nav & Reports</div>
+                        <template for:each={alertTypesArr} for:item="alert_type">
+                            <template if:false={alert_type.alertTypeIsPublished}>
+                                <div key={alert_type.alertTypeId} class="slds-form-element slds-p-around_x-small">
+                                    <label class="slds-checkbox_toggle slds-grid">
+                                        <div class="slds-col slds-size_1-of-1 slds-large-size_7-of-12 slds-text-align_right">
+                                            <!-- START : Existing Prospace Alert Indication Icon Button -->
+                                            <template if:true={alert_type.prospaceAlertCreated}>
+                                                <span class="slds-form-element__label slds-p-bottom_xx-small">
+                                                    <lightning-button-icon icon-name="utility:edit" size="small"
+                                                        name={alert_type.alertTypeName} value={alert_type.alertTypeId}
+                                                        variant="bare" alternative-text="Open Pop-Up" title="Open Pop-Up"
+                                                        onclick={openModalPopUpExisting} aria-label={alert_type.alertTypeName}
+                                                        tooltip="Prospace Alerts already exist. Click here to View.">
+                                                    </lightning-button-icon>
+                                                </span>
+                                            </template>
+                                            <!-- END : Existing Prospace Alert Indication Icon Button -->
+                                            <span
+                                                class="slds-form-element__label slds-m-bottom_none">{alert_type.alertTypeName}</span>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 slds-large-size_5-of-12"
+                                            data-class="nav_and_reports_container">
+                                            <lightning-input type="toggle" message-toggle-active="" message-toggle-inactive=""
+                                                label="" name={alert_type.alertTypeName} value={alert_type.alertTypeId}
+                                                onchange={openModalPopUp} checked={alert_type.prospaceAlertCreated}>
+                                            </lightning-input>
+                                        </div>
+                                    </label>
+                                </div>
+                            </template>
                         </template>
-                    </template>
+                    </div>
+                    <!-- END : Nav and Reports Toggle Buttons -------------------------------- -->
+                    <!-- START : Publication Toggle Buttons ---------------------------------- -->
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                        <div class="slds-text-heading_label">Publication</div>
+                        <template for:each={alertTypesArr} for:item="alert_type">
+                            <template if:true={alert_type.alertTypeIsPublished}>
+                                <div key={alert_type.alertTypeId} class="slds-form-element slds-p-around_x-small">
+                                    <label class="slds-checkbox_toggle slds-grid">
+                                        <div class="slds-col slds-size_1-of-1 slds-large-size_7-of-12 slds-text-align_right">
+                                            <span
+                                                class="slds-form-element__label slds-m-bottom_none">{alert_type.alertTypeName}</span>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 slds-large-size_5-of-12"
+                                            data-class="publisher_container">
+                                            <lightning-input type="toggle" message-toggle-active="" message-toggle-inactive=""
+                                                label="" name={alert_type.alertTypeName} value={alert_type.alertTypeId}
+                                                onchange={openModalPopUp} checked={alert_type.prospaceAlertCreated}>
+                                            </lightning-input>
+                                        </div>
+                                    </label>
+                                </div>
+                            </template>
+                        </template>
+                    </div>
+                    <!-- END : Publication Toggle Buttons ---------------------------------- -->
                 </div>
-                <!-- END : Publication Toggle Buttons ---------------------------------- -->
-            </div>
-            <template if:true={isChooseAllLoading}>
-                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                <template if:true={isChooseAllLoading}>
+                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                </template>
+                <!-- END : Alert Types Section----------------------------------------------------------- -->
             </template>
-            <!-- END : Alert Types Section----------------------------------------------------------- -->
-        </template>
-        <template if:false={isAlertTypesArrayInitialized}>
-            <div class="slds-text-heading_medium slds-align_absolute-center" style="color:#747474;">
-                {customLabelsReference.contactNotSynchronizedMSG}
-            </div>
-        </template>
-    </lightning-card>
+            <template if:false={isAlertTypesArrayInitialized}>
+                <div class="slds-text-heading_medium slds-align_absolute-center" style="color:#747474;">
+                    {customLabelsReference.contactNotSynchronizedMSG}
+                </div>
+            </template>
+        </lightning-card>
+    </template>
 
     <!-- EMD : Prospace Alert Section------------------------------------------------------------- -->
     <!-- START : Marketing Emails Section----------------------------------------------------------- -->
@@ -163,7 +165,7 @@
                                             <span class="slds-form-element__label slds-p-bottom_xx-small">
                                                 <lightning-button-icon icon-name="utility:edit" size="small" name="interestsEdit"
                                                     value={interest.checkboxAPI} variant="bare" alternative-text="Open Pop-Up"
-                                                    title="Open Pop-Up" onclick={openModalPopUpExisting}
+                                                    title="Open Pop-Up" onclick={openModalPopUpExisting} aria-label={interest.checkboxLabel}
                                                     tooltip="Interests have been created. Click here to View.">
                                                 </lightning-button-icon>
                                             </span>

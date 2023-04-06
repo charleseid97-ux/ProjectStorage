@@ -155,6 +155,7 @@ use to make a upsert and recover data SAM V_ETL_Products.</description>
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
     <gender>Masculine</gender>
     <label>Carmignac Product</label>
     <nameField>

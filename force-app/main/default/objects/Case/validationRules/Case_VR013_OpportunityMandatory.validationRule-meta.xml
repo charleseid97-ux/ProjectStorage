@@ -5,13 +5,11 @@
     <description>Opportunity (Record Type = Due Diligence) needs to be mandatory when the case type are
 DDQ Initial, Pure RFPs, DDQ Follow up and DD onsite</description>
     <errorConditionFormula>AND(
-     NOT($User.BypassValidationRules__c),
-				 OR(ISPICKVAL(Type, &apos;DDQ - Initial&apos;),
-								ISPICKVAL(Type, &apos;RFP&apos;),
-								ISPICKVAL(Type, &apos;DDQ - Follow up&apos;),
-								ISPICKVAL(Type, &apos;DD - On-site&apos;)),
-				 ISBLANK(Opportunity__c),
-				 RecordType.DeveloperName = &apos;RFP_RFI_Questionnaire&apos;
+NOT($User.BypassValidationRules__c),
+OR(ISPICKVAL(Type, &apos;DD - On-site&apos;),
+ISPICKVAL(Type, &apos;RFP&apos;)),
+ISBLANK(Opportunity__c),
+RecordType.DeveloperName = &apos;RFP_RFI_Questionnaire&apos;
 )</errorConditionFormula>
     <errorMessage>You need to link an opportunity for the chosen Type</errorMessage>
 </ValidationRule>

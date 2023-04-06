@@ -153,6 +153,7 @@
     <enableSearch>false</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
     <label>Legal Entity Related Contact</label>
     <nameField>
         <displayFormat>LEVC-{0000}</displayFormat>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>Carmignac</letterhead>
+    <name>Agreement Pending Approval</name>
+    <style>freeForm</style>
+    <subject>{!Convention__c.Name} - {!Convention__c.Company__c} - {!Convention__c.Company_Country__c} - New Agreement - Pending Approval</subject>
+    <textOnly>Hello
+
+Your approval is required for the Agreement {!Convention__c.Name} the agreement was submitted with the following details :
+
+Company Name: {!Convention__c.00N1i000002P6Sd}
+Agreement Type: {!Convention__c.Code_Type__c}
+Rebates Grid : {!Convention__c.Grid__c}
+Agreement Region : {!Convention__c.Business_Region__c}
+Start Date : {!Convention__c.EffectiveDate__c}
+Preliminary Risk : {!Convention__c.Preliminary_Risk_Assesment__c}
+
+Comment For Approval : {!Convention__c.CommentForApproval__c}
+
+Latest Approval Comment : {!ApprovalRequest.Comments}
+
+Please view and validate the Agreement information by clicking here - {!Convention__c.Link}
+
+Do not forget to :
+Include a comment when submitting your request and / or approval
+Review the Counterparties Role
+
+ 
+This is an automated email, please do no reply to this email.</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

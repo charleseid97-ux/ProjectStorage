@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Notify user when FieldPro job is completed.</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>fpro__FieldPro_LH1</letterhead>
+    <name>FieldPro Job Alert</name>
+    <style>freeForm</style>
+    <subject>FieldPro job has been completed</subject>
+    <textOnly>Hello {!fpro__FieldPro_Jobs__c.fpro__Apex_Job_Submitted_By__c},
+
+The job has been completed. Check below details.
+
+Object- {!fpro__FieldPro_Jobs__c.fpro__Object_Name__c}
+Submitted date- {!fpro__FieldPro_Jobs__c.fpro__Apex_Job_SubmittedDate__c}
+Completed date- {!fpro__FieldPro_Jobs__c.fpro__Apex_Job_CompletedDate__c}
+
+Click &quot;Export CSV&quot; in the FieldPro App, or run the &quot;FieldPro - Complete Object Analysis&quot; report for a complete view of your object.
+
+Thank you,
+FieldPro Admin
+Contact Email- fieldpro.sfdc@gmail.com</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

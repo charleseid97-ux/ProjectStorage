@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_29433875</developerName>
+        <masterLabel>Web Conference</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <otherBucketLabel>Other</otherBucketLabel>
+        <sourceColumnName>Lead.BrightTALK__Webcast_Activites__r$BrightTALK__Webcast__c.BrightTALK__Name__c</sourceColumnName>
+        <useOther>true</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>Carmignac - Narrow path ahead for markets</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac - Les marchés sur une ligne de crête</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac View: Decisioni d’investimento per uno scenario di reflazione</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac: Los mercados se adentran en una senda estrecha</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac -Narrow path ahead for markets</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac -Les marchés sur une ligne de crête</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac: Decisioni d’investimento per uno scenario di reflazione</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac - Ein schmaler Pfad liegt vor den Märkten</sourceValue>
+            </sourceValues>
+            <value>Macro Q2 2017 (Avril/Mai 2017)</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Carmignac -2017: Be careful what you wish for</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac -2017 : Attention à ce que vous souhaitez</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac -2017: attenti a quello che desiderate</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac - 2017 : Attention à ce que vous souhaitez</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac - 2017: Be careful what you wish for</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac - 2017: attenti a quello che desiderate</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>2017: attenti a quello che desiderate</sourceValue>
+            </sourceValues>
+            <value>Macro Q1 2017 (Janvier/Février 2017)</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Le début d&apos;une nouvelle ère pour les marchés</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>The beginning of a new era for markets</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>L&apos;inizio di una nuova era per i mercati</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Der Beginn einer neuen Ära an den Kapitalmärkten (BrightTALK)</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Der Beginn einer neuen Ära an den Kapitalmärkten</sourceValue>
+            </sourceValues>
+            <value>Macro Q3 2017 (Juillet 2017)</value>
+        </values>
+        <values>
+            <value>Emerging Markets</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Carmignac Portfolio Capital Plus: Perspectivas de inversión y estrategias a seguir</sourceValue>
+            </sourceValues>
+            <value>Carmignac Portfolio Capital Plus</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>The need for an unconstrained approach in fixed income markets by Charles Zerah</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>La necesidad de un enfoque sin restricciones en los mercados de renta fijas</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Der Bedarf an einem uneingeschränkten Ansatz für die Rentenmärkte</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Perché è necessario un approccio privo di vincoli sui mercati obbligazionari</sourceValue>
+            </sourceValues>
+            <value>Carmignac Portfolio Global Bond</value>
+        </values>
+    </buckets>
+    <chart>
+        <backgroundColor1>#FFFFFF</backgroundColor1>
+        <backgroundColor2>#FFFFFF</backgroundColor2>
+        <backgroundFadeDir>Diagonal</backgroundFadeDir>
+        <chartSummaries>
+            <axisBinding>y</axisBinding>
+            <column>RowCount</column>
+        </chartSummaries>
+        <chartType>LineGrouped</chartType>
+        <enableHoverLabels>false</enableHoverLabels>
+        <expandOthers>true</expandOthers>
+        <groupingColumn>Lead$Country</groupingColumn>
+        <legendPosition>Bottom</legendPosition>
+        <location>CHART_TOP</location>
+        <secondaryGroupingColumn>BucketField_29433875</secondaryGroupingColumn>
+        <showAxisLabels>true</showAxisLabels>
+        <showPercentage>false</showPercentage>
+        <showTotal>false</showTotal>
+        <showValues>false</showValues>
+        <size>Medium</size>
+        <summaryAxisRange>Auto</summaryAxisRange>
+        <textColor>#000000</textColor>
+        <textSize>12</textSize>
+        <titleColor>#000000</titleColor>
+        <titleSize>18</titleSize>
+    </chart>
+    <columns>
+        <field>Lead$Company</field>
+    </columns>
+    <columns>
+        <field>Lead$Name</field>
+    </columns>
+    <columns>
+        <field>Lead.BrightTALK__Webcast_Activites__r$BrightTALK__Webcast__c</field>
+    </columns>
+    <columns>
+        <field>Lead.BrightTALK__Webcast_Activites__r$BrightTALK__Webcast__c.BrightTALK__Presenter__c</field>
+    </columns>
+    <currency>EUR</currency>
+    <filter>
+        <criteriaItems>
+            <column>Lead.BrightTALK__Webcast_Activites__r$BrightTALK__Webcast__c.BrightTALK__Start_Date__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>greaterThan</operator>
+            <value>4/1/2017 12:00 AM</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Lead$Email</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notContain</operator>
+            <value>carmignac</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Matrix</format>
+    <groupingsAcross>
+        <dateGranularity>Day</dateGranularity>
+        <field>BucketField_29433875</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsAcross>
+    <groupingsAcross>
+        <dateGranularity>Month</dateGranularity>
+        <field>Lead.BrightTALK__Webcast_Activites__r$BrightTALK__Webcast__c.BrightTALK__Start_Date__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsAcross>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Lead$Country</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>LEAD BY COUNTRIES</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>BrightTALK__Leads_with_BrightTALK_Activity__c</reportType>
+    <scope>organization</scope>
+    <showDetails>false</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Lead.BrightTALK__Webcast_Activites__r$BrightTALK__Last_Updated__c</dateColumn>
+        <endDate>2017-08-31</endDate>
+        <interval>INTERVAL_CUSTOM</interval>
+        <startDate>2017-04-01</startDate>
+    </timeFrameFilter>
+</Report>

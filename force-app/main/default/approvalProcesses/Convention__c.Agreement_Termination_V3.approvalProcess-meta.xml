@@ -11,6 +11,7 @@
     </allowedSubmitters>
     <approvalPageFields>
         <field>Name</field>
+        <field>ConventionName__c</field>
         <field>Owner</field>
     </approvalPageFields>
     <approvalStep>

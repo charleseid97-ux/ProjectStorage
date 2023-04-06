@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Data_Quality_Score__c</fullName>
+    <description>Calculate score based on important field for contacts</description>
     <externalId>false</externalId>
-    <formula>IF(OR(LEN(LastName)=0,LEN(FirstName)=0),0,8)+IF(LEN(AccountId)=0,0,8)+IF(ISBLANK(TEXT(Gender__c)),0,8)+IF(LEN(RecordTypeId)=0,0,8)+IF(ISBLANK(TEXT(ContactStatus__c)),0,8)+IF(LEN(Business_Card_Title__c)=0,0,8)+IF(ISBLANK(TEXT(Language__c)),0,8)+IF(LEN(Email)=0,0,8)+ IF(AND(LEN(MobilePhone)=0,LEN(Phone)=0),0,8)+IF(HasOptedOutOfEmail=TRUE,0,8)+IF(LEN(Distributor_Type_formula__c)=0,0,4)+IF(LEN(Distributor_Sub_Type_formula__c)=0,0,4)+IF(LEN(Investment_Decision_formula__c)=0,0,4)+IF(LEN(Final_Distribution_formula__c)=0,0,4)+IF(ISBLANK(TEXT(Source__c)),0,4)</formula>
+    <formula>IF(ISBLANK(TEXT(Salutation)),0,10)
++IF(OR(LEN(LastName)=0,LEN(FirstName)=0),0,15)
++IF(LEN(AccountId)=0,0,10)
++IF(ISBLANK(TEXT(JobFunction__c)),0,5)
++IF(ISBLANK(TEXT(Persona__c)),0,5)
++IF(ISBLANK(TEXT(Language__c)),0,10)
++IF(LEN(Email)=0,0,15)
++IF(LEN(Phone)=0,0,10)
++IF(HasOptedOutOfEmail=TRUE,0,5)
++IF(OR(LEN(MailingCountry)=0,LEN(MailingCity)=0,LEN(MailingStreet)=0),0,10)
++IF(ISBLANK(TEXT(Source__c)),0,5)</formula>
     <label>Data Quality Score</label>
     <precision>18</precision>
     <required>false</required>

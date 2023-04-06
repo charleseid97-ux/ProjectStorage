@@ -22,6 +22,18 @@
         <template>CarmignacAlerts/Contact_SendNewOwnerNotification</template>
     </alerts>
     <alerts>
+        <fullName>Digital_Interactions_Flag_Thematic_EM</fullName>
+        <ccEmails>gregory.carissimo@carmignac.com</ccEmails>
+        <description>[Digital Interactions] Flag Thematic EM</description>
+        <protected>false</protected>
+        <recipients>
+            <field>User__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>DefaultWorkflowUser</senderType>
+        <template>unfiled$public/Digital_Interactions_EM</template>
+    </alerts>
+    <alerts>
         <fullName>Send_email_to_Client_Delivery_Team</fullName>
         <description>Send email to Client Delivery Team</description>
         <protected>false</protected>

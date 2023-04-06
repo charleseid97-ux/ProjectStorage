@@ -1,0 +1,12 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">Dear {{{Recipient.FirstName}}},<br />
+<br />
+I really enjoyed speaking with you today. I think that&nbsp;{{{Recipient.Company_Name_Text_Only__c}}} has a lot to offer&nbsp;and I look forward to our next meeting.<br />
+<br />
+Regards,&nbsp;<br />
+<br />
+{{{Sender.FirstName}}}</body>
+</html>

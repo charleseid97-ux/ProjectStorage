@@ -1,0 +1,17 @@
+Dear {!User.FirstName}, 
+
+Please note that you have just added to the event "{!CampaignMember.Campaign}" a Campaign Member tagged as "Event opt-out". 
+
+The concerned Campaign Member is : {!CampaignMember.LastName} {!CampaignMember.FirstName}. Click here to access his record : https://carmignac-crm.lightning.force.com/lightning/r/CampaignMember/{!CampaignMember.Id}/view
+
+For security reasons, this Campaign Member won't be sent to eTouches in order to avoid the sending of unwanted communication. Nevertheless, If you still want to invite this person follow the next steps: 
+   1. Make sure you have a written confirmation from the concerned person (For more information contact Joanna Fortaine)
+   2. Unmarked the box "Event Optout" 
+   3. Remove the Campaign Member from the Campaign
+   4. Add the Campaign Member again 
+
+Kind regards, 
+The Salesforce Team 
+
+This email is automatically generated. 
+Please do not respond to this email.

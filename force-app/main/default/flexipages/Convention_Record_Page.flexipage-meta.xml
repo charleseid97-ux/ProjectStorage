@@ -110,7 +110,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>richTextValue</name>
-                    <value>&lt;p&gt;&lt;b style=&quot;color: rgb(199, 15, 15); font-size: 22px;&quot;&gt;&lt;u&gt;Warning&lt;/u&gt;:&lt;/b&gt;&lt;b style=&quot;color: rgb(199, 15, 15); font-size: 20px;&quot;&gt; Please do not forget to click on &quot;Submit for Approval&quot; button to send your request.&lt;/b&gt;&lt;/p&gt;</value>
+                    <value>&lt;p&gt;&lt;strong style=&quot;font-size: 22px; color: rgb(199, 15, 15);&quot;&gt;&lt;u&gt;Warning&lt;/u&gt;:&lt;/strong&gt;&lt;strong style=&quot;font-size: 20px; color: rgb(199, 15, 15);&quot;&gt; When submitting your request, do not forget to add a rationale in the Comment section&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;font-size: 20px; color: rgb(199, 15, 15);&quot;&gt;(Background, AUM and potential, grid level justification, previous grid level and simulation). &lt;/strong&gt;&lt;/p&gt;</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:richText</componentName>
                 <identifier>flexipage_richText</identifier>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>fpro__Status_Bar__c</fullName>
+    <deprecated>false</deprecated>
+    <externalId>false</externalId>
+    <formula>IF(
+ISPICKVAL(fpro__Apex_Job_Status__c, &apos;Completed&apos;),
+IMAGE(&quot;/img/samples/color_green.gif&quot;,&quot;green&quot;,10,100),
+IF(ISPICKVAL(fpro__Apex_Job_Status__c, &apos;Failed&apos;),
+IMAGE(&quot;/img/samples/color_red.gif&quot;,&quot;red&quot;,10,100),
+IF(ISPICKVAL(fpro__Apex_Job_Status__c, &apos;Aborted&apos;),
+IMAGE(&quot;/img/samples/color_yellow.gif&quot;,&quot;yellow&quot;,10,100),
+IF(ISPICKVAL(fpro__Apex_Job_Status__c, &apos;Processing&apos;),
+IMAGE(&quot;/img/samples/color_green.gif&quot;,&quot;green&quot;,10,((fpro__Apex_Job_JobItemsProcessed__c/fpro__Apex_Job_TotalJobItems__c)*100)) &amp; &quot; &quot; &amp; TEXT(ROUND((fpro__Apex_Job_JobItemsProcessed__c/fpro__Apex_Job_TotalJobItems__c)*100, 0)) &amp; &quot;%&quot;,
+&quot;&quot;
+))))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Status Bar</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

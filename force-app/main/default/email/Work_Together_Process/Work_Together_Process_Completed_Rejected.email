@@ -1,0 +1,84 @@
+<style type="text/css">
+.myTable {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 50%;
+
+}
+
+.myTable td, #myTable th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.myTable tr:nth-child(even){background-color: #f2f2f2;}
+
+.myTable tr:hover {background-color: #ddd;}
+
+.myTable th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4e8267;
+  color: white;
+}
+</style>
+Dear all,<br/><br/>
+
+The following {!Case.RecordType} Work Together Process has been {!Case.Status}.<br/><br/>
+
+<table class="myTable">
+            <thead>
+                <tr>
+                    <th class="" scope="col" style ="text-align: center;">
+                        <div class="slds-truncate" title="New Request">{!Case.Status} {!Case.RecordType}</div>
+                      </th>
+                </tr>
+</thead>
+</table>
+<table class="myTable">
+            <tbody>
+                    <tr>
+                        <td style="width:150px;"><b>Subject</b></td>
+                        <td>{!Case.Subject}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Company</b></td>
+                        <td>{!Account.Name}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Comment</b></td>
+                        <td>{!Case.RFP_DD_Team_Comments__c}</td>
+                    </tr>
+            </tbody>
+</table>
+
+<br/>
+<table class="myTable">
+            <thead>
+                <tr>
+                    <th class="" scope="col" style ="text-align: center;">
+                        <div class="slds-truncate" title="New Request">WTP Details</div>
+                      </th>
+                </tr>
+</thead>
+</table>
+<table class="myTable">
+            <tbody>
+                    <tr>
+                        <td style="width:150px;"><b>Type</b></td>
+                        <td>{!Case.Type}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Due Date</b></td>
+                        <td>{!Case.Due_date__c}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Reference</b></td>
+                        <td><a href="https://carmignac-crm.lightning.force.com/{!Case.Id}">{!Case.CaseNumber}</a></td>
+                    </tr>
+            </tbody>
+</table><br/>
+
+This email is automatically generated. <br/>
+Please do not respond to this email.

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>Carmignac</letterhead>
+    <name>Agreement Renewal Pending Approval</name>
+    <style>freeForm</style>
+    <subject>An Agreement Renewal is pending your Approval</subject>
+    <textOnly>Hello
+
+
+Your approval is required for a Renewal Request on Agreement {!Convention__c.Name}. The agreement was submitted with the following details :
+
+
+Current End Date : {!Convention__c.End_Date__c}
+
+Requested End Date : {!Convention__c.Renewal_Request_End_Date__c}
+
+
+Comment For Approval : {!Convention__c.CommentForApproval__c}
+
+
+Please view and validate the Agreement information by clicking here -{!Convention__c.Link}
+
+
+
+This is an automated email, please do no reply to this email.</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Prompt xmlns="http://soap.sforce.com/2006/04/metadata">
+    <masterLabel>NDA process</masterLabel>
+    <promptVersions>
+        <body>&lt;p&gt;You can now process your NDAs through Salesforce.&lt;/p&gt;&lt;p&gt;Click on the NDA field to attach or create a new NDA.&lt;/p&gt;&lt;p&gt;Click &lt;strong&gt;NEXT&lt;/strong&gt; to access the &lt;strong&gt;training material&lt;/strong&gt;&lt;/p&gt;</body>
+        <delayDays>1</delayDays>
+        <dismissButtonLabel>Skip</dismissButtonLabel>
+        <displayPosition>MiddleCenter</displayPosition>
+        <displayType>FloatingPanel</displayType>
+        <endDate>2023-03-08</endDate>
+        <isPublished>true</isPublished>
+        <masterLabel>NDA process Step 1</masterLabel>
+        <publishedDate>2023-03-06</publishedDate>
+        <shouldDisplayActionButton>false</shouldDisplayActionButton>
+        <shouldIgnoreGlobalDelay>false</shouldIgnoreGlobalDelay>
+        <startDate>2023-02-15</startDate>
+        <stepNumber>1</stepNumber>
+        <targetPageKey1>Case</targetPageKey1>
+        <targetPageKey2>view</targetPageKey2>
+        <targetPageType>standard__recordPage</targetPageType>
+        <targetRecordType>Case.Client_delivery_request</targetRecordType>
+        <timesToDisplay>2</timesToDisplay>
+        <title>New NDA Process</title>
+        <userAccess>Everyone</userAccess>
+        <userProfileAccess>Everyone</userProfileAccess>
+        <versionNumber>1</versionNumber>
+    </promptVersions>
+    <promptVersions>
+        <body>&lt;p&gt;&lt;a href=&quot;https://carmignac-crm.file.force.com/sfc/servlet.shepherd/document/download/0691i00000UXVzzAAH?operationContext=S1&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Click HERE&lt;/a&gt;&lt;/p&gt;</body>
+        <displayType>DockedComposer</displayType>
+        <header>NDA Process Demonstration</header>
+        <isPublished>false</isPublished>
+        <masterLabel>NDA process Step 2</masterLabel>
+        <shouldDisplayActionButton>false</shouldDisplayActionButton>
+        <shouldIgnoreGlobalDelay>false</shouldIgnoreGlobalDelay>
+        <stepNumber>2</stepNumber>
+        <targetPageKey1>NDA__c</targetPageKey1>
+        <targetPageKey2>view</targetPageKey2>
+        <targetPageType>standard__recordPage</targetPageType>
+        <title>Watch the training material</title>
+        <userAccess>Everyone</userAccess>
+        <userProfileAccess>Everyone</userProfileAccess>
+        <versionNumber>1</versionNumber>
+    </promptVersions>
+</Prompt>

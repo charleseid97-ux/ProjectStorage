@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Email Sent to new owner of a contact</description>
+    <encodingKey>UTF-8</encodingKey>
+    <letterhead>Carmignac</letterhead>
+    <name>Contact - SendNewOwnerNotification</name>
+    <style>freeForm</style>
+    <subject>You are the new Contact Owner of {!Contact.FirstName} {!Contact.LastName}</subject>
+    <textOnly>Dear {!Contact.ContactOwner__c},
+
+You have been identified as new owner of the following contact: {!Contact.Salutation} {!Contact.FirstName} {!Contact.LastName} (Company : Account.Name)
+
+You can access contact information by following this link:
+{!Contact.Link}
+
+Regards,
+
+{!User.Username}</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

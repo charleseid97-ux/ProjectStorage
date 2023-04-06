@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>BugLogs - User Answered</name>
+    <style>formalLetter</style>
+    <subject>{!Bug_Log__c.Name} : User Asnwered</subject>
+    <textOnly>Hello, {!Bug_Log__c.Owner__c} a répondu à ton commentaire sur le bug {!Bug_Log__c.Name} .
+
+Lien du bug : {!Bug_Log__c.Link}</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

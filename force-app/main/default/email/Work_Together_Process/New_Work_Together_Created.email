@@ -1,0 +1,12 @@
+Dear All,
+
+A new Work Together Process {!Case.RecordType} has been created by {!Case.CreatedBy} on {!Case.CreatedDate}.
+
+The request concerns {!Case.Account} and the subject is : "{!Case.Subject}"
+
+To access the full information, please click on this link : https://carmignac-crm.lightning.force.com/lightning/r/Case/{!Case.Id}/view
+
+Kind regards,
+
+This email is automatically generated.
+Please do not respond to this email.

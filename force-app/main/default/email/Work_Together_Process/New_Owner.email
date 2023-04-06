@@ -1,0 +1,5 @@
+Hello,
+
+You are the new Owner of the {!Case.RecordType} : {!Case.Subject} from the Company :{!Case.Account} 
+
+Click on this link to access the full details : https://carmignac-crm.lightning.force.com/lightning/r/Case/{!Case.Id}/view

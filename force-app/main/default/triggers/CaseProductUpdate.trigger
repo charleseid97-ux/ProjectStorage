@@ -1,4 +1,4 @@
-trigger CaseProductUpdate on Case_Product__c (before update, before insert) {
+trigger CaseProductUpdate on Case_Product__c (before update, before insert, after insert) {
     
     //First we use this IF statement to make sure that the following code is only ever run before inserting or updating.
     //If, for example, the trigger is modified in the future to handle Deletes eg (before update, before insert, after delete)
@@ -35,5 +35,11 @@ trigger CaseProductUpdate on Case_Product__c (before update, before insert) {
             oa.Carmignac_Product__c = carmignacProductISINMAP.get(shareClassISINMAP.get(oa.Share_Class__c));
             oa.ShareClass__c = oa.Share_Class__c + '' + oa.Work_Together_Process__c;
         }
-	}    
+	}
+    else if (Trigger.isAfter) {
+        if (Trigger.isInsert) {
+            List<Case_Product__c> itemsList = [Select Share_Class__c, CurrencyIsoCode, Work_Together_Process__r.NDA__c, Work_Together_Process__r.NDA__r.Related_NDA__c, ShareClass__c from Case_Product__c where id in :Trigger.newMap.keySet()];
+            CaseProductHelper.addCaseProductToNDA(itemsList);
+        }
+    }    
 }

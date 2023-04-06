@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Template for push alert of a Strategic News</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Strategic News - Email Alert</name>
+    <style>freeForm</style>
+    <subject>STRATEGIC NEWS: {!StrategicNews__c.Title__c}</subject>
+    <textOnly>{!StrategicNews__c.EmailCore__c}
+
+TYPE: {!StrategicNews__c.Type__c}
+
+SUBJECT: {!StrategicNews__c.Title__c}
+
+{!StrategicNews__c.StrategicNews__c}</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

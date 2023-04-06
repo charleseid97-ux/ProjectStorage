@@ -1,0 +1,9 @@
+*** New Performance Management Request Notification ***  
+
+The following case has been created:
+Case #:  {!Case.CaseNumber} 
+Subject:  {!Case.Subject} 
+Description: {!Case.Description}  
+Created by: {!Case.CreatedBy}
+
+Click on the link to access the case:  {!Case.Link}

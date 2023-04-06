@@ -4,16 +4,24 @@ public class AgreementTriggerHandler implements  ITriggerHandler {
 
     public void BeforeInsert(List<SObject> newItems) {
         //TODO  breakdown method by functionality
-        if (PAD.canTrigger('AgreementBeforeInsert')) SM034_AgreementService.handleBeforeInsert((List<Convention__c>) newItems);
-        if (PAD.canTrigger('attachedKYD_DD')) SM034_AgreementService.attachedKYD_DD((List<Convention__c>)newItems);
+        if (PAD.canTrigger('AgreementBeforeInsert')) {
+            SM034_AgreementService.handleBeforeInsert((List<Convention__c>) newItems);
+        }
+        if (PAD.canTrigger('attachedKYD_DD')) {
+            SM034_AgreementService.attachedKYD_DD((List<Convention__c>)newItems);
+        }
     }
 
     public void BeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
         //TODO  breakdown method by functionality
-        if (PAD.canTrigger('AgreementBeforeUpdate')) SM034_AgreementService.handleBeforeUpdate((List<Convention__c>)newItems.values(),(Map<Id, Convention__c>) oldItems);
+        if (PAD.canTrigger('AgreementBeforeUpdate')) {
+            SM034_AgreementService.handleBeforeUpdate((List<Convention__c>) newItems.values(),(Map<Id, Convention__c>) oldItems);
+        }
 
         //Validation for approval process
-        if (PAD.canTrigger('validateAgreementWhenApproved')) SM034_AgreementService.validateAgreementWhenApproved((Map<Id, Convention__c>) newItems,(Map<Id, Convention__c>) oldItems);
+        if (PAD.canTrigger('validateAgreementWhenApproved')) {
+            SM034_AgreementService.validateAgreementWhenApproved((Map<Id, Convention__c>) newItems,(Map<Id, Convention__c>) oldItems);
+        }
 
     }
 
@@ -21,13 +29,19 @@ public class AgreementTriggerHandler implements  ITriggerHandler {
 
     public void AfterInsert(Map<Id, SObject> newItems) {
 
-        if (PAD.canTrigger('AgreementAfterInsert')) SM034_AgreementService.createDefaultRebateContact((List<Convention__c>) newItems.values());
+        if (PAD.canTrigger('AgreementAfterInsert')) {
+            SM034_AgreementService.createDefaultRebateContact((List<Convention__c>) newItems.values());
+        }
 
         //Noor create Default LegalEntity Agreement Role for Carmignac Gestion or Carmignac Gestion Luxembourd
-        if (PAD.canTrigger('AgreementAfterInsert')) SM034_AgreementService.createDefaultCarmignacAgreementRole((List<Convention__c>) newItems.values());
+        if (PAD.canTrigger('AgreementAfterInsert')) {
+            SM034_AgreementService.createDefaultCarmignacAgreementRole((List<Convention__c>) newItems.values());
+        }
 
         //Noor create Default LegalEntity Agreement Role for legal entity that match agreement based on the company Id
-        if (PAD.canTrigger('AgreementAfterInsert')) SM034_AgreementService.createDefaultLegalEntityAgreementRole((List<Convention__c>) newItems.values());
+        if (PAD.canTrigger('AgreementAfterInsert')) {
+            SM034_AgreementService.createDefaultLegalEntityAgreementRole((List<Convention__c>) newItems.values());
+        }
 
     }
 
@@ -36,7 +50,9 @@ public class AgreementTriggerHandler implements  ITriggerHandler {
         SM034_AgreementService.updateChildAgreementWhenTerminated((Map<Id, Convention__c>) newItems, (Map<Id, Convention__c>) oldItems);
 
         //method to update the role on agreement role when the code type is changed on the agreement
-        if (PAD.canTrigger('updateAgreementRoleWhenCodeTypeChange')) SM034_AgreementService.updateAgreementRoleWhenCodeTypeChange((Map<Id, Convention__c>) newItems, (Map<Id, Convention__c>) oldItems);
+        if (PAD.canTrigger('updateAgreementRoleWhenCodeTypeChange')) {
+            SM034_AgreementService.updateAgreementRoleWhenCodeTypeChange((Map<Id, Convention__c>) newItems, (Map<Id, Convention__c>) oldItems);
+        }
     }
 
     public void AfterDelete(Map<Id, SObject> oldItems) {  }
@@ -44,7 +60,11 @@ public class AgreementTriggerHandler implements  ITriggerHandler {
     public void AfterUndelete(Map<Id, SObject> oldItems) {  }
 
     public Boolean isDisabled() {
-        if(PAD.canTrigger('AgreementTrigger')) {return triggerDisabled;}
-        else {return true;}
+        if (PAD.canTrigger('AgreementTrigger')) {
+            return triggerDisabled;
+        }
+        else {
+            return true;
+        }
     }
 }

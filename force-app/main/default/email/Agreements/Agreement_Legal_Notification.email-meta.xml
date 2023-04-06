@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Email to notify Legal of a new Agreement Approved by Investor Services</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>Carmignac</letterhead>
+    <name>Agreement - Legal Notification</name>
+    <style>freeForm</style>
+    <subject>{!Convention__c.Name} - {!Convention__c.ConventionName__c} - IS approval - Preparation for this Agreement can begin</subject>
+    <textOnly>Hello Legal team
+
+A new Agreement has been submitted and Approved by Investor Services but is still under review by Compliance and Head of Sales.
+
+Details below :
+Agreement Name : {!Convention__c.Name}
+Grid : {!Convention__c.Grid__c}
+
+Preparation for this Agreement can begin.
+{!Convention__c.Link}
+
+Legal Entity Name : {!Convention__c.00N1i000002faeB}
+{!Convention__c.00N1i000002fbgs}
+
+This is an automated email, please do no reply to this email.</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

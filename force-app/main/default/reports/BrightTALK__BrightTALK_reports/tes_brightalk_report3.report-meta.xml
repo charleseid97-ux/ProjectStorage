@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_78358455</developerName>
+        <masterLabel>Web Conference</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <sourceColumnName>Account.Contacts.BrightTALK__Webcast_Activites__r$BrightTALK__Webcast__c.BrightTALK__Name__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>LE DÉBUT D&apos;UNE NOUVELLE ÈRE POUR LES MARCHÉS</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>The beginning of a new era for markets</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac: L&apos;inizio di una nuova era per i mercati</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac - Der Beginn einer neuen Ära an den Kapitalmärkten</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac: L’inizio di una nuova era per i mercati</sourceValue>
+            </sourceValues>
+            <value>Macro Q3 2017 (July 2017)</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Carmignac P. Capital Plus: Perspectivas de inversión y estrategias a seguir</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac Portfolio Capital Plus: Perspectivas de inversión y estrategias a seguir</sourceValue>
+            </sourceValues>
+            <value>Carmignac Portfolio Capital Plus</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>Narrow path ahead for markets</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Les marchés sur une ligne de crête</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Decisioni d’investimento per uno scenario di reflazione</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Estrategia de inversión de Carmignac: Los mercados se adentran en una senda estrecha</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac View: Decisioni d’investimento per uno scenario di reflazione</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac: Los mercados se adentran en una senda estrecha</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac - Les marchés sur une ligne de crête</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac - Narrow path ahead for markets</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>RECORDING OF SPANISH SESSION - GLOBAL STRATEGY</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Carmignac - Ein schmaler Pfad liegt vor den Märkten</sourceValue>
+            </sourceValues>
+            <value>Macro Q2 2017 (Avril/Mai 2017)</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>2017: Be careful what you wish for</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>2017 : Attention à ce que vous souhaitez</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>2017: attenti a quello che desiderate</sourceValue>
+            </sourceValues>
+            <value>Macro Q1 2017 (Janvier/Février 2017)</value>
+        </values>
+        <values>
+            <sourceValues>
+                <sourceValue>The need for an unconstrained approach in fixed income markets by Charles Zerah</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>La necesidad de un enfoque sin restricciones en los mercados de renta fijas</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Der Bedarf an einem uneingeschränkten Ansatz für die Rentenmärkte</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Perché è necessario un approccio privo di vincoli sui mercati obbligazionari</sourceValue>
+            </sourceValues>
+            <value>Carmignac Portfolio Global Bond</value>
+        </values>
+    </buckets>
+    <chart>
+        <backgroundColor1>#FFFFFF</backgroundColor1>
+        <backgroundColor2>#FFFFFF</backgroundColor2>
+        <backgroundFadeDir>Diagonal</backgroundFadeDir>
+        <chartSummaries>
+            <axisBinding>y</axisBinding>
+            <column>RowCount</column>
+        </chartSummaries>
+        <chartType>VerticalColumnGrouped</chartType>
+        <enableHoverLabels>false</enableHoverLabels>
+        <expandOthers>true</expandOthers>
+        <groupingColumn>Account.Contacts$JobTitle__c</groupingColumn>
+        <legendPosition>Right</legendPosition>
+        <location>CHART_BOTTOM</location>
+        <secondaryGroupingColumn>BucketField_78358455</secondaryGroupingColumn>
+        <showAxisLabels>true</showAxisLabels>
+        <showPercentage>false</showPercentage>
+        <showTotal>false</showTotal>
+        <showValues>true</showValues>
+        <size>Medium</size>
+        <summaryAxisRange>Auto</summaryAxisRange>
+        <textColor>#000000</textColor>
+        <textSize>12</textSize>
+        <title>Viewer unit</title>
+        <titleColor>#000000</titleColor>
+        <titleSize>18</titleSize>
+    </chart>
+    <columns>
+        <field>Account$Distributor_Type__c</field>
+    </columns>
+    <columns>
+        <field>Account$Name</field>
+    </columns>
+    <columns>
+        <field>Account.Contacts$Name</field>
+    </columns>
+    <currency>EUR</currency>
+    <filter>
+        <criteriaItems>
+            <column>Account.Contacts.BrightTALK__Webcast_Activites__r$BrightTALK__Webcast__c.BrightTALK__Start_Date__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>greaterThan</operator>
+            <value>4/24/2017 12:00 AM</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Account.Contacts$Email</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notContain</operator>
+            <value>carmignac</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Account.Contacts$JobTitle__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Fund Selector</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>BucketField_78358455</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Macro Q3 2017 (July 2017)</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Matrix</format>
+    <groupingsAcross>
+        <dateGranularity>Day</dateGranularity>
+        <field>BucketField_78358455</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsAcross>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Account.Contacts$JobTitle__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>BREAKDOWN OF JOB FUNCTION BY CONTACT</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Contacts_with_BrightTALK_Activitytest__c</reportType>
+    <scope>organization</scope>
+    <showDetails>false</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>Account$CreatedDate</dateColumn>
+        <endDate>2017-08-31</endDate>
+        <interval>INTERVAL_CUSTOM</interval>
+        <startDate>2017-04-01</startDate>
+    </timeFrameFilter>
+</Report>

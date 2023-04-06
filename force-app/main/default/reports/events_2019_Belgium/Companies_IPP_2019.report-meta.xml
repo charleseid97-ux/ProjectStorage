@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <buckets>
+        <bucketType>text</bucketType>
+        <developerName>BucketField_87936854</developerName>
+        <masterLabel>company in bucket</masterLabel>
+        <nullTreatment>n</nullTreatment>
+        <sourceColumnName>COMPANY</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <sourceValue>ARGENTA</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Argenta 2595</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Argenta2954</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Argenta 3517</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Argenta 3641</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Argenta 39</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Argenta - Agence</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>ARGENTA AGENCES</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>ARGENTA - AGENCIES</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>ARGENTA - AGENCIES - VANOOST-PATTYN BVBA</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Argenta Beveren</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Argenta Beveren-Leie</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Argenta Boechout</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Argenta Brakel</sourceValue>
+            </sourceValues>
+            <sourceValues>
+                <sourceValue>Argenta - CLM bvba</sourceValue>
+            </sourceValues>
+            <value>Argenta</value>
+        </values>
+    </buckets>
+    <columns>
+        <field>LAST_NAME</field>
+    </columns>
+    <columns>
+        <field>FIRST_NAME</field>
+    </columns>
+    <columns>
+        <field>EMAIL</field>
+    </columns>
+    <columns>
+        <field>LC_OWNER</field>
+    </columns>
+    <columns>
+        <field>CITY</field>
+    </columns>
+    <columns>
+        <field>BucketField_87936854</field>
+    </columns>
+    <currency>EUR</currency>
+    <filter>
+        <criteriaItems>
+            <column>MEMBER_STATUS</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Attended</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>CAMPAIGN_ID</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>7011i000000gTpC,7011i000000U42J,7011i000000U4yR,7011i000000U758,7011i000000U757,7011i000000gTq3,7011i000000U5Xp,7011i000000gTsm,7011i000000U2Nu,7011i000000U5pk,7011i000000U5pu,7011i000000U5pt,7011i000000U66f</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>CAMPAIGN_NAME</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>CampaignMember.Job_Title__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>COMPANY</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>IPP 2019 participants job title</name>
+    <params>
+        <name>scopeid</name>
+        <value></value>
+    </params>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CampaignWithCampaignMembers</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+</Report>
