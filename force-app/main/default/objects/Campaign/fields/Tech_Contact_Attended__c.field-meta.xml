@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Tech_Contact_Attended__c</fullName>
+    <description>Allow to count the number of contact in campaign members with the status attended</description>
+    <externalId>false</externalId>
+    <label>Tech Contact Attended</label>
+    <summaryFilterItems>
+        <field>CampaignMember.Status</field>
+        <operation>equals</operation>
+        <value>Attended</value>
+    </summaryFilterItems>
+    <summaryFilterItems>
+        <field>CampaignMember.ContactId</field>
+        <operation>notEqual</operation>
+        <value></value>
+    </summaryFilterItems>
+    <summaryForeignKey>CampaignMember.CampaignId</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

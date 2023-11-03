@@ -10,7 +10,7 @@
     <columns>LEAD.STATUS</columns>
     <columns>Lead_Status_Logo__c</columns>
     <columns>LEAD.CREATED_DATE</columns>
-    <filterScope>Queue</filterScope>
+    <filterScope>Everything</filterScope>
     <filters>
         <field>CORE.USERS.ALIAS</field>
         <operation>equals</operation>
@@ -29,10 +29,9 @@
     <filters>
         <field>LEAD.STATUS</field>
         <operation>notEqual</operation>
-        <value>Disqualified</value>
+        <value>Disqualified,Qualified</value>
     </filters>
     <label>Switzerland - All Active Leads</label>
-    <queue>Switzerland</queue>
     <sharedTo>
         <roleAndSubordinates>SwitzerlandHeadofCountry</roleAndSubordinates>
     </sharedTo>

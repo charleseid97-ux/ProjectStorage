@@ -18,8 +18,8 @@
     </filters>
     <filters>
         <field>LEAD.STATUS</field>
-        <operation>equals</operation>
-        <value>Pending Qualification</value>
+        <operation>notEqual</operation>
+        <value>Disqualified,Qualified</value>
     </filters>
     <filters>
         <field>LEAD.RECORDTYPE</field>

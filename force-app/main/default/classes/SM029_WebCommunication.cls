@@ -92,7 +92,35 @@ public class SM029_WebCommunication {
 
     }
 
+    /**
+     * Send list of web communication to Website
+     * Either for :
+     * - creation (when field isActive__c is true)
+     * - deletion (when field isActive__c is false)
+     * As Salesforce keep records of inactive subscriptions unlike the website
+     */
+    public static void sendWebCommuniction(List<Web_Communication__c> webCommToSendList) {
+        List<Web_Communication__c> activeList = new List<Web_Communication__c>();
+        List<Web_Communication__c> inactiveList = new List<Web_Communication__c>();
+        
+        for (Web_Communication__c webCom : webCommToSendList) {
+            if (webCom.isActive__c) {
+                activeList.add(webCom);
+            }
+            //the field TECH_CommunicationWebsiteId__c is checked because if it is empty, this means the alert does not exist on the website
+            //so it does not need to be deleted on the website
+            else if (!String.isEmpty(webCom.TECH_CommunicationWebsiteId__c)) {
+                inactiveList.add(webCom);
+            }
+        }
 
+        if (activeList.size() > 0) {
+            processWebCommunication(activeList);
+        }
+        if (inactiveList.size() > 0) {
+            deleteWebsiteWebComm(inactiveList);
+        }
+    }
 
 
 
@@ -334,6 +362,7 @@ public class SM029_WebCommunication {
             //if publications
             if (themeNameByIdMap.get(theme).isPublication__c) {
                 Web_Communication__c webComm = new Web_Communication__c();
+                webComm.Synchro_Status__c = 'Success';
                 webComm.AlertTypeRecord__c = themeNameByIdMap.get(theme).Id;
                 webComm.Contact__c = aContactRecord.Id;
                 webComm.TECH_CommunicationWebsiteId__c = aContactRecord.TECH_WebSiteID__c + '_' + themeNameByIdMap.get(theme).TECH_WebSiteID__c;
@@ -341,6 +370,7 @@ public class SM029_WebCommunication {
             } else {
                 for (Share_Class__c sc : shareClassList) {
                     Web_Communication__c webComm = new Web_Communication__c();
+                    webComm.Synchro_Status__c = 'Success';
                     webComm.AlertTypeRecord__c = themeNameByIdMap.get(theme).Id;
                     webComm.Contact__c = aContactRecord.Id;
                     webComm.ShareClass__c = sc.Id;
@@ -385,6 +415,7 @@ public class SM029_WebCommunication {
             //if publications
             if (themeNameByIdMap.get(theme).isPublication__c) {
                 Web_Communication__c webComm = new Web_Communication__c();
+                webComm.Synchro_Status__c = 'Success';
                 webComm.AlertTypeRecord__c = themeNameByIdMap.get(theme).Id;
                 webComm.Lead__c = aLeadRecord.Id;
                 webComm.TECH_CommunicationWebsiteId__c = aLeadRecord.TECH_WebSiteID__c + '_' + themeNameByIdMap.get(theme).Name;
@@ -392,6 +423,7 @@ public class SM029_WebCommunication {
             } else {
                 for (Share_Class__c sc : shareClassList) {
                     Web_Communication__c webComm = new Web_Communication__c();
+                    webComm.Synchro_Status__c = 'Success';
                     webComm.AlertTypeRecord__c = themeNameByIdMap.get(theme).Id;
                     webComm.Lead__c = aLeadRecord.Id;
                     webComm.ShareClass__c = sc.Id;
@@ -467,6 +499,34 @@ public class SM029_WebCommunication {
         if(webComToDeleteList.size() > 0){
             Database.delete(webComToDeleteList, false);
         }
+    }
+
+    public static void deleteEmptyWebCommunication() {
+        String query = 'SELECT id FROM Web_Communication__c WHERE Contact__c = null AND Lead__c = null LIMIT 50000';
+        List<Web_Communication__c> webComList = Database.query(query);
+        if (webComList.size() > 0) {
+            Database.delete(webComList, false);
+        }
+    }
+
+    public static void deactivateAllWebCommunication(String objectName, Set<Id> records) {
+        String query = 'SELECT id, isActive__c FROM Web_Communication__c WHERE isActive__c = true AND ' + objectName + '__c IN :records LIMIT 50000';
+        List<Web_Communication__c> webComList = Database.query(query);
+        for (Web_Communication__c webCom : webComList) {
+            webCom.isActive__c = false;
+        }
+        if (webComList.size() > 0) {
+            Database.update(webComList, false);
+        }
+    }
+
+    public static void transferContactAlerts(Map<Id, Id> recordList) {
+        List<Web_Communication__c> webComList = [SELECT id, Contact__c FROM Web_Communication__c WHERE Contact__c in :recordList.keySet() LIMIT 50000];
+        for (Web_Communication__c webCom : webComList) {
+            Id old = webCom.Contact__c;
+            webCom.Contact__c = recordList.get(old);
+        }
+        update webComList;
     }
 
 }

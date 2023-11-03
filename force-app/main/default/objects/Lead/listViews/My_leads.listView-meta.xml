@@ -11,12 +11,6 @@
     <columns>CORE.USERS.ALIAS</columns>
     <columns>LEAD.CREATED_DATE</columns>
     <columns>LEAD.LAST_UPDATE</columns>
-    <filterScope>Everything</filterScope>
-    <filters>
-        <field>CORE.USERS.ALIAS</field>
-        <operation>equals</operation>
-        <value>mdata</value>
-    </filters>
+    <filterScope>Mine</filterScope>
     <label>My leads</label>
-    <language>en_US</language>
 </ListView>

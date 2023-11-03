@@ -27,16 +27,25 @@
                 <label>Event (Schedule)</label>
             </value>
             <value>
+                <fullName>Event</fullName>
+                <default>false</default>
+                <label>Event</label>
+            </value>
+            <value>
+                <fullName>Meeting</fullName>
+                <default>false</default>
+                <label>Meeting</label>
+            </value>
+            <value>
+                <fullName>Call</fullName>
+                <default>false</default>
+                <label>Call</label>
+            </value>
+            <value>
                 <fullName>Call / Conference</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
                 <label>Call / Conference</label>
-            </value>
-            <value>
-                <fullName>Event</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Event</label>
             </value>
             <value>
                 <fullName>Event/Conference</fullName>
@@ -49,12 +58,6 @@
                 <default>false</default>
                 <isActive>false</isActive>
                 <label>Face-to-Face</label>
-            </value>
-            <value>
-                <fullName>Meeting</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Meeting</label>
             </value>
             <value>
                 <fullName>Seminar / Round Table</fullName>

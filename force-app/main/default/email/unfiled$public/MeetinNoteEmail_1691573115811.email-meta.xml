@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Summary Meeting template</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>MeetingNoteEmail</name>
+    <relatedEntityType>Meeting_Note__c</relatedEntityType>
+    <style>none</style>
+    <subject>{{{Meeting_Note__c.Name}}} Summary</subject>
+    <type>custom</type>
+    <uiType>SFX</uiType>
+</EmailTemplate>

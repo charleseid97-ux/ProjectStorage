@@ -366,6 +366,7 @@
         <relatedList>RelatedProcessHistoryList</relatedList>
     </relatedLists>
     <relatedLists>
+        <excludeButtons>SendListEmailAction</excludeButtons>
         <fields>MEMBER_TYPE</fields>
         <fields>Category_Event_lookup__c</fields>
         <fields>STATUS</fields>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_IN_my_Team__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF (CONTAINS( $User.Tech_text_All_teams__c , TECH_Text_Team__c  ) = true,true,false)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Is IN my Team</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

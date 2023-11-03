@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Adressable_AUM__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>Threshold of the total adressable AUM managed by this company</inlineHelpText>
+    <label>Total Adressable AUM</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>&lt;200</fullName>
+                <default>false</default>
+                <label>&lt;200</label>
+            </value>
+            <value>
+                <fullName>&lt;1bn</fullName>
+                <default>false</default>
+                <label>&lt;1bn</label>
+            </value>
+            <value>
+                <fullName>&lt;3bn</fullName>
+                <default>false</default>
+                <label>&lt;3bn</label>
+            </value>
+            <value>
+                <fullName>&lt;10bn</fullName>
+                <default>false</default>
+                <label>&lt;10bn</label>
+            </value>
+            <value>
+                <fullName>&gt;=10bn</fullName>
+                <default>false</default>
+                <label>&gt;=10bn</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

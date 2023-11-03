@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StandardValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sorted>false</sorted>
+    <standardValue>
+        <fullName>Email/Letter</fullName>
+        <default>false</default>
+        <label>Email/Letter</label>
+    </standardValue>
+    <standardValue>
+        <fullName>To Do Action</fullName>
+        <default>false</default>
+        <label>To Do Action</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Business Opportunity</fullName>
+        <default>false</default>
+        <label>Business Opportunity</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Follow Up Meeting</fullName>
+        <default>false</default>
+        <label>Follow Up Meeting</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Follow Up Call</fullName>
+        <default>false</default>
+        <label>Follow Up Call</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Follow Up Event</fullName>
+        <default>false</default>
+        <label>Follow Up Event</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Follow-up Thematic Event</fullName>
+        <default>false</default>
+        <label>Follow-up Thematic Event</label>
+    </standardValue>
+</StandardValueSet>

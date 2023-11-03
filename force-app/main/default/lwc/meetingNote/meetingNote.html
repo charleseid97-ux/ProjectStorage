@@ -1,0 +1,207 @@
+<!--
+  @description       : 
+  @author            : Thanina YAYA
+  @last modified on  : 06-09-2023
+  @last modified by  : Thanina YAYA
+-->
+<template>
+    <div>
+    <template if:true={isLoading}>
+        <lightning-spinner alternative-text="Loading" variant="brand" size="medium">
+        </lightning-spinner>
+    </template>
+    </div>
+    <div class="slds-text-align_center slds-docked-composer__header">
+        <h2><b>{title}</b></h2>
+    </div>
+      <lightning-record-edit-form  object-api-name="Meeting_Note__c"
+                onsuccess={handleSuccess} onsubmit={handleSubmit} onerror={handleError}>
+            <div class="slds-docked-composer__body_form" style="background-color: white;">
+                <lightning-messages></lightning-messages>
+                <div class="slds-grid slds-gutters slds-grid_vertical-align-center slds-var-p-bottom_small">
+                  <div class="slds-col slds-size_1-of-2">
+                    <label for="meetingDate" class="slds-form-element__label"><abbr class="slds-required" title="required">* </abbr>Date</label>
+                    <lightning-input-field id="meetingDate" field-name="Date__c" value={meetingDate} variant="label-hidden" required onchange={handleFieldChange}>
+                    </lightning-input-field>
+                  </div>
+                  <div class="slds-col slds-size_1-of-2">
+                    <label for="meetingName" class="slds-form-element__label"><abbr class="slds-required" title="required">* </abbr>Title</label>
+                    <lightning-input-field id="meetingName" field-name="Name" variant="label-hidden" value={initialMeetingName} required onchange={handleFieldChange}>
+                    </lightning-input-field>
+                  </div>
+                </div>
+            <lightning-accordion allow-multiple-sections-open
+            active-section-name={openSections} onsectiontoggle={handleSectionToggle}>
+            <lightning-accordion-section name="Attende" label="Attendees" >
+              <div class="slds-grid slds-gutters slds-grid_vertical-align-center slds-var-p-top_x-small">
+                <div class="slds-col slds-size_1-of-2">
+                  <template if:true={externalContacts}>
+                    <c-multi-select-search-list label="Clients" options={externalContacts} value={selectedClients}  onchange={handleClients}>
+                    </c-multi-select-search-list>
+                  </template>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                  <template if:true={internalContacts}>
+                    <c-multi-select-search-list label="Carmignac" options={internalContacts} value={selectedInternals} onchange={handleInternal}>
+                    </c-multi-select-search-list>
+                  </template>
+                </div>
+              </div>
+              <!-- Client/internal Contacts pills part -->
+              <div class="slds-grid slds-gutters slds-var-p-bottom_small">
+                <div class="slds-col slds-size_1-of-2">
+                  <template if:true={clientPills}>
+                      <lightning-pill-container items={clientPills} data-item="Client" onitemremove={handleItemRemove} variant="bare">
+                      </lightning-pill-container>
+                  </template>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                  <template if:true={internalPills}>
+                      <lightning-pill-container items={internalPills} data-item="Internal" onitemremove={handleItemRemove} variant="bare">
+                      </lightning-pill-container>
+                  </template>
+                </div>
+              </div>
+              
+            </lightning-accordion-section>
+            <lightning-accordion-section name="MeetingType" label="Meeting Type" >
+              <div class="slds-grid slds-gutters slds-grid_vertical-align-center slds-var-p-top_x-small slds-var-p-bottom_x-small">
+                <div class="slds-col slds-size_1-of-2">
+                  <lightning-input-field field-name="SalesPresentation__c" value={isSalesPres} data-item="SalesPresentation__c"  onchange={handleMeetingType}>
+                  </lightning-input-field>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                  <lightning-input-field field-name="RelationshipManagement__c" value={isRelatMgt} data-item="RelationshipManagement__c" onchange={handleMeetingType}>
+                  </lightning-input-field>
+                </div>
+              </div>
+              <template if:true={isRelatMgt}>
+                <lightning-input-field field-name="Topic__c" required={isRelatMgt} value={meetingTopic} onchange={handleFieldChange}>
+                </lightning-input-field>
+              </template>
+              <template if:true={isSalesPres}>
+                <template if:true={allProducts}>
+                  <c-multi-select-search-list label="Products" options={allProducts} value={selectedProducts} more-searching-fields={productSearchFields} onchange={handleProducts}>
+                  </c-multi-select-search-list>
+                </template>
+                <!-- Client Interests pills part -->
+                  <template if:true={clientInterest}>
+                    <template for:each={clientInterest} for:item="item">
+                      <div key={item.id}  class="slds-grid slds-gutters slds-grid_vertical-align-center slds-var-p-top_x-small slds-var-p-bottom_x-small slds-align_absolute-center">
+                        <div class="slds-col slds-size_1-of-3 slds-truncate">
+                          <li role="presentation" style="height:2rem;width:100%;" >
+                            <lightning-icon icon-name={item.icon} size="medium"></lightning-icon>
+                            <label class="slds-var-p-left_small"><a href={item.href}>{item.label}</a></label>   
+                          </li>
+                        </div>
+                        <div class="slds-col slds-size_2-of-3 slds-align_absolute-center">
+                          <div class ="slds-grid slds-grid_vertical-align-center slds-box" style="width: 75%;height: 2rem;">
+                            <div class="slds-col slds-size_1-of-3 slds-truncate">
+                              <label>Client interest</label>
+                            </div>
+                            <div class="slds-col slds-size_2-of-3">
+                              <c-stars-rating selected-rating={item.rating}  data-item={item.index} data-id={item.id} onratingclick={handleRating}></c-stars-rating>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </template>
+                  </template>
+              </template>
+            </lightning-accordion-section>
+            <lightning-accordion-section name="Note" label="Notes" >
+              <lightning-input-field id="meetingNote" field-name="Note__c" variant="label-hidden" required onchange={handleFieldChange}>
+              </lightning-input-field>
+              <lightning-input-field field-name=Opportunity__c> </lightning-input-field>
+
+            </lightning-accordion-section>
+            
+            <lightning-accordion-section name="FollowUP" label="Follow UP">
+              <lightning-button-icon slot="actions" icon-name="utility:add" variant="brand" alternative-text="New Task" class="slds-var-m-left_xx-small" title="New Task" onclick={handleAddTask}></lightning-button-icon>
+              <template for:each={allTasks} for:item="item">
+              <div key={item.Index} class="slds-var-p-top_small slds-var-p-bottom_xxx-small">
+                <div class="slds-grid" >
+                    <div class="slds-col slds-size_3-of-6 slds-var-p-right_x-small" >
+                      <lightning-textarea field-level-help="Please be aware that this field is limited to a maximum of 250 characters" maxlength="255" name="taskDes" label="Description" required={taskRequiered} value={item.Description__c} data-id={item.Index} onchange={handleTaskFields}></lightning-textarea>
+                    </div>
+                    <div class="slds-col slds-size_1-of-6 slds-var-p-right_x-small" >
+                      <lightning-input type="date" name="taskDate" label="Due Date" required={taskRequiered} value={item.ActivityDate} data-id={item.Index} onchange={handleTaskFields}></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_2-of-6" >
+                      <template if:true={allUsers} >
+                        <template if:true={item.OwnerId}>
+                          <label for={item.Index} class="slds-form-element__label">Assigned To</label>
+                          <div class="slds-pill-container slds-border_right slds-border_top slds-border_bottom slds-border_left slds-var-p-top_xxx-small" style="border-radius: 0.25rem;min-height: 2rem;">
+                              <lightning-pill
+                                      id={item.Index}
+                                      data-id={item.Index}
+                                      label={item.OwnerLabel}
+                                      onremove={handleRemoveSelectedUser}
+                              >
+                              <lightning-avatar
+                                      src="https://www.lightningdesignsystem.com/assets/images/avatar2.jpg"
+                                      fallback-icon-name="standard:user"
+                                      alternative-text="User avatar"
+                                      variant="circle"></lightning-avatar>
+                              </lightning-pill>
+                          </div>
+                        </template>
+                        <template if:false={item.OwnerId}>
+                          <c-multi-select-search-list label="Assigned To" mono-select="true" options={allUsers} value={item.OwnerId} data-id={item.Index} onchange={handleUsers}>
+                          </c-multi-select-search-list>
+                        </template>
+                      </template>
+                    </div>
+                </div>
+                <template if:true={item.IsDelete}>
+                  <div class="slds-align_absolute-center slds-var-p-top_small" >
+                    <lightning-button variant="brand" label="Delete Task" title="Delete" icon-name="utility:delete" data-id={item.Index} class="slds-var-m-left_x-small" onclick={handleDeleteTask}></lightning-button>
+                  </div>  
+                </template>
+              </div>
+            </template>
+            </lightning-accordion-section>
+            <lightning-accordion-section name="Share" label="Sharing" class="slds-var-p-bottom_medium" >
+              <div class="slds-grid slds-gutters slds-grid_vertical-align-center slds-var-p-top_x-small slds-var-p-bottom_small">
+                <div class="slds-col slds-size_1-of-2">
+                  <lightning-input type="checkbox" label="Carmignac Attendees" name="shareCarmi" checked={shareToCarmi} onchange={handleShareCarmi}></lightning-input>
+                </div>
+                <!-- Select other carmi contact -->
+                <div class="slds-col slds-size_1-of-2">
+                  <template if:true={allContactShare}>
+                    <c-multi-select-search-list label="Share With" options={allContactShare} value={selectedContactShare} onchange={handleShareOther}>
+                    </c-multi-select-search-list>
+                  </template>
+                  <template if:true={contactPills}>
+                    <lightning-pill-container items={contactPills} data-item="Share" onitemremove={handleItemRemove} variant="bare">
+                    </lightning-pill-container>
+                </template>
+                </div>
+              </div>
+            </lightning-accordion-section>
+            </lightning-accordion>
+          </div>
+              <div class="slds-grid slds-grid_align-end slds-var-p-top_small slds-docked-composer__footer ">
+                <div class="slds-col">
+                  <lightning-button
+                    icon-name="utility:skip_back"
+                    variant="brand"
+                    name="cancel"
+                    label="Cancel"
+                    class="slds-var-m-left_x-small" onclick={handleCancel}>
+                  </lightning-button>
+                </div>
+                <div class="slds-col">
+                    <lightning-button
+                        icon-name="utility:save"
+                        variant="brand"
+                        type="submit"
+                        name="save"
+                        label="Save"
+                        class="slds-var-m-left_x-small"
+                        disabled={isLoading}>
+                    </lightning-button>
+                </div>
+            </div>
+      </lightning-record-edit-form>
+  </template>

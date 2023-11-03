@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <description>Allows to categorize In and Out flows</description>
+    <externalId>false</externalId>
+    <label>Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>REDMPT</fullName>
+                <default>false</default>
+                <label>Redemption</label>
+            </value>
+            <value>
+                <fullName>SUBSCR</fullName>
+                <default>false</default>
+                <label>Subscription</label>
+            </value>
+            <value>
+                <fullName>TFTIN</fullName>
+                <default>false</default>
+                <label>In transfer</label>
+            </value>
+            <value>
+                <fullName>TFTOUT</fullName>
+                <default>false</default>
+                <label>Out transfer</label>
+            </value>
+            <value>
+                <fullName>IN Flow</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>IN Flow</label>
+            </value>
+            <value>
+                <fullName>OUT Flow</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>OUT Flow</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

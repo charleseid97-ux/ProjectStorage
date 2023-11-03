@@ -143,7 +143,7 @@
     <allowInChatterGroups>false</allowInChatterGroups>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
-    <enableActivities>false</enableActivities>
+    <enableActivities>true</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>false</enableFeeds>
     <enableHistory>true</enableHistory>
@@ -155,12 +155,12 @@
     <externalSharingModel>ControlledByParent</externalSharingModel>
     <label>AUM</label>
     <nameField>
-        <displayFormat>AUM-{0000}</displayFormat>
+        <displayFormat>AUM-{00000}</displayFormat>
         <label>AUM Name</label>
         <trackHistory>false</trackHistory>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>AUM</pluralLabel>
+    <pluralLabel>AUMs</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
     <visibility>Public</visibility>

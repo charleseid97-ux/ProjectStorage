@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ClosingThisMonth</fullName>
-    <filterScope>Everything</filterScope>
+    <columns>OPPORTUNITY.NAME</columns>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>OPPORTUNITY.AMOUNT</columns>
+    <columns>OPPORTUNITY.CLOSE_DATE</columns>
+    <columns>OPPORTUNITY.STAGE_NAME</columns>
+    <columns>CORE.USERS.ALIAS</columns>
+    <filterScope>Mine</filterScope>
     <filters>
         <field>OPPORTUNITY.CLOSED</field>
         <operation>equals</operation>
@@ -10,7 +16,7 @@
     <filters>
         <field>OPPORTUNITY.CLOSE_DATE</field>
         <operation>equals</operation>
-        <value>THIS_MONTH</value>
+        <value>THIS_MONTH,NEXT_MONTH</value>
     </filters>
-    <label>Closing This Month</label>
+    <label>My Opportunities closing soon</label>
 </ListView>

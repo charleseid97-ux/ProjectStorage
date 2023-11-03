@@ -88,4 +88,123 @@ public without sharing class UtilitiesSObject
         //Retrieve the record type id by name
         return recordTypeInfo.get(recordTypeName).getRecordTypeId();
     }
+
+    //Set Client Managed Preferences for the Preference Center on new Lead and Contact Record
+    //If the record is OPT IN and all the fields Client Managed Preferences are OFF, they should be defined as ON
+    //Theses fields are represented on the Custom Metadata Type Preference Center Category, with the Category 'Communication Type'
+    public static void initPreferenceCenter(List<SObject> newRecords) {
+        List<String> clientManagedPreference = new List<String>{'Events__c', 'Fund_Update__c', 'Monthly_Newsletter__c'};
+        Boolean allFalse = true;
+        for (SObject record : newRecords) {
+            if (record.get('HasOptedOutOfEmail') == false) {
+                allFalse = true;
+                for (String field : clientManagedPreference) {
+                    if (record.get(field) == true) {
+                        allFalse = false;
+                        break;
+                    }
+                }
+                if (allFalse) {
+                    for (String field : clientManagedPreference) {
+                        record.put(field, true);
+                    }
+                }
+            }
+            System.debug('HasOptedOutOfEmail' + record.get('HasOptedOutOfEmail'));
+                for (String field : clientManagedPreference) {
+                    System.debug('Field: ' + field + ' value: ' + record.get(field));
+                }
+        }
+    }
+
+    public static void checkCommunicationTypes(Sobject record, Sobject oldRecord, List<String> communicationTypes) {
+        if (record.get('HasOptedOutOfEmail') == true) {
+            //If a contact/lead opt out of email, all communication types fields must be set to false
+            if (oldRecord.get('HasOptedOutOfEmail') == false) {
+                for (String category : communicationTypes) {
+                    record.put(category, false);
+                  }
+            }
+            //If a contact/lead is opted out of email, and a communication type is set to true then the contact/lead should be opt in
+            else if (oldRecord.get('Events__c') == false && oldRecord.get('Fund_Update__c') == false && oldRecord.get('Monthly_Newsletter__c') == false) {
+                if (record.get('Events__c') == true || record.get('Fund_Update__c') == true || record.get('Monthly_Newsletter__c') == true) {
+                    record.put('HasOptedOutOfEmail', false);
+                }
+            }
+        }
+        //If a contact/lead is opt in for email, but all communication types fields are set to false, then the contact/lead must be opt out of email
+        else if (record.get('HasOptedOutOfEmail') == false) {
+            Boolean allFalse = true;
+            Boolean newFalse = false;
+            for (String category : communicationTypes) {
+                if (record.get(category) == true) {
+                    allFalse = false;
+                    break;
+                }
+                else if (record.get(category) != oldRecord.get(category)) {
+                    newFalse = true;
+                }
+            }
+            if (newFalse && allFalse) {
+              record.put('HasOptedOutOfEmail', true);
+            }
+        }
+    }
+
+    public static void checkPreferencesFields(SObject record, SObject oldRecord, Map<String, List<String>> preferences) {
+        for (String interest : preferences.keySet()) {
+            if (record.get(interest) != oldRecord.get(interest)) {
+                if (record.get(interest) == false) {
+                    for (String subInterest : preferences.get(interest)) {
+                        record.put(subInterest, false);
+                    }
+                }
+                else {
+                    Boolean allFalse = true;
+                    for (String subInterest : preferences.get(interest)) {
+                        if (record.get(subInterest) == true) {
+                            allFalse = false;
+                        }
+                    }
+                    if (allFalse) {
+                        record.put(interest, false);
+                    }
+                }
+            }
+            else {
+                Boolean oneTrue = false;
+                for (String subInterest : preferences.get(interest)) {
+                    if (record.get(subInterest) == true) {
+                        oneTrue = true;
+                        break;
+                    }
+                }
+                if (oneTrue && record.get(interest) == false) {
+                    record.put(interest, true);
+                }
+                else if (!oneTrue && record.get(interest) == true) {
+                    record.put(interest, false);
+                }
+            }
+        }
+    }
+
+    public static void checkPreferenceCenterFields(List<SObject> newRecords, Map<Id, SObject> oldRecords) {
+        List<String> communicationTypes = new List<String>{'Events__c', 'Fund_Update__c', 'Monthly_Newsletter__c'};
+        Map<String, List<String>> preferences = new Map<String, List<String>>();
+        
+        for (Preference_Center_Category__mdt prefCenterCat : [SELECT DeveloperName, category__c, Childs__c FROM Preference_Center_Category__mdt WHERE category__c in ('Preference')]) {
+            List<String> childs = new List<String>();
+            for (String str : prefCenterCat.Childs__c.split(';')) {
+                childs.add(str.split(':')[0]);
+            }
+            preferences.put(prefCenterCat.DeveloperName + '__c', childs);
+        }
+
+        for (SObject newRecord : newRecords) {
+            SObject oldRecord = oldRecords.get(newRecord.id);
+            checkCommunicationTypes(newRecord, oldRecord, communicationTypes);
+            checkPreferencesFields(newRecord, oldRecord, preferences);
+        }   
+    }
 }

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <classAccesses>
+        <apexClass>CTL_AudienceManagement</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>QUEUEABLE001_AudienceManagement</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>true</enabled>
+        <name>AudienceManagementField__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>true</enabled>
+        <name>Preference_Center_Category__mdt</name>
+    </customMetadataTypeAccesses>
+    <description>All permissions linked to the Audience Management Screen</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Audience Management Access</label>
+    <tabSettings>
+        <tab>Audience_Management</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+</PermissionSet>

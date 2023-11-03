@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Object__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Object</label>
+    <required>true</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Contact</fullName>
+                <default>true</default>
+                <label>Contact</label>
+            </value>
+            <value>
+                <fullName>Account</fullName>
+                <default>false</default>
+                <label>Account</label>
+            </value>
+            <value>
+                <fullName>ClientInterest__c</fullName>
+                <default>false</default>
+                <label>Client Interest</label>
+            </value>
+            <value>
+                <fullName>Digital_Interaction__c</fullName>
+                <default>false</default>
+                <label>Digital Interaction</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

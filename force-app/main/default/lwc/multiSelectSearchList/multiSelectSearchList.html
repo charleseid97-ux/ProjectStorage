@@ -1,0 +1,47 @@
+<!--
+  @description       : 
+  @author            : Thanina YAYA
+  @last modified on  : 04-09-2023
+  @last modified by  : Thanina YAYA
+-->
+<template>
+    <div class="slds-form-element">
+         <div class="slds-form-element__control">
+             <div class="slds-combobox_container">
+                <div  class={mainDivClass} aria-expanded="false" aria-haspopup="listbox" role="combobox" >
+                    <div  style="width:100%;" onclick={handleClick} >
+                         <lightning-input
+                                name="searchAll"
+                                label={label}
+                                type="search"
+                                value={searchKey}
+                                autocomplete="off"
+                                onchange={handleChangeSearch}>       
+                         </lightning-input>
+                    </div>
+                    <div  class={dropdownOuterStyle} role="listbox"  style="height:12rem; overflow: scroll;" onmouseleave={closeDropdown} >
+                         <template if:false={monoSelect} >
+                             <lightning-checkbox-group name="Checkbox Group"
+                                                       label=""
+                                                       options={options}
+                                                       value={value}
+                                                       onchange={handleChange}
+                                                       onfocus={closeDropdown}>
+                             </lightning-checkbox-group>
+                         </template>
+                         <template if:true={monoSelect} >
+                             <lightning-radio-group name="radioButtonGroup"
+                                                       label=""
+                                                       options={options}
+                                                       value={value}
+                                                       onchange={handleChange}
+                                                       class="slds-truncate"
+                             >
+                             </lightning-radio-group>
+                         </template>
+                    </div>
+                </div>
+             </div>
+         </div>
+     </div>
+</template>

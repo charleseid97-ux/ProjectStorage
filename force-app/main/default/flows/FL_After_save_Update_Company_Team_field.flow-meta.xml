@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <environments>Default</environments>
+    <formulas>
+        <name>Form_Team_field_value</name>
+        <dataType>String</dataType>
+        <expression>IF({!$Record.BusinessDevelopmentRegion_TEXT__c}=&quot;BP_BE&quot;, &quot;Belgium&quot;, 
+IF({!$Record.BusinessDevelopmentRegion_TEXT__c}=&quot;BP_FR&quot;, &quot;France&quot;,
+IF({!$Record.BusinessDevelopmentRegion_TEXT__c}=&quot;BP_DA&quot;, &quot;Germany&quot;,
+IF({!$Record.BusinessDevelopmentRegion_TEXT__c}=&quot;BP_IN&quot;, &quot;International&quot;,
+IF({!$Record.BusinessDevelopmentRegion_TEXT__c}=&quot;BP_IT&quot;, &quot;Italy&quot;,
+IF({!$Record.BusinessDevelopmentRegion_TEXT__c}=&quot;BP_JP&quot;, &quot;Japan&quot;,
+IF({!$Record.BusinessDevelopmentRegion_TEXT__c}=&quot;BP_LA&quot;, &quot;LATAM&quot;,
+IF({!$Record.BusinessDevelopmentRegion_TEXT__c}=&quot;BP_LU&quot;, &quot;Luxembourg&quot;,
+IF({!$Record.BusinessDevelopmentRegion_TEXT__c}=&quot;BP_NL&quot;, &quot;Netherlands&quot;,
+IF({!$Record.BusinessDevelopmentRegion_TEXT__c}=&quot;BP_NO&quot;, &quot;Nordics&quot;,
+IF({!$Record.BusinessDevelopmentRegion_TEXT__c}=&quot;BP_ES&quot;, &quot;Spain&quot;,
+IF({!$Record.BusinessDevelopmentRegion_TEXT__c}=&quot;BP_CH&quot;, &quot;Switzerland&quot;,
+IF({!$Record.BusinessDevelopmentRegion_TEXT__c}=&quot;BP_TW&quot;, &quot;Taiwan&quot;,
+IF({!$Record.BusinessDevelopmentRegion_TEXT__c}=&quot;BP_UK&quot;, &quot;United Kingdom&quot;,&quot;&quot;
+))))))))))))))</expression>
+    </formulas>
+    <interviewLabel>FL_After_save_Company_Team_field {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>FL_After_save_Update_Company_Team_field</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_Team_field</name>
+        <label>Update Team field</label>
+        <locationX>176</locationX>
+        <locationY>323</locationY>
+        <inputAssignments>
+            <field>Team__c</field>
+            <value>
+                <elementReference>Form_Team_field_value</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Update_Team_field</targetReference>
+        </connector>
+        <filterFormula>OR(AND(ISNEW(),NOT(ISPICKVAL({!$Record.BusinessDevelopmentRegion__c},&quot;&quot;))),ISCHANGED({!$Record.BusinessDevelopmentRegion__c}))</filterFormula>
+        <object>Account</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

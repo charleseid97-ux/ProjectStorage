@@ -3,16 +3,16 @@
     <fullName>AllContacts</fullName>
     <columns>FULL_NAME</columns>
     <columns>ACCOUNT.NAME</columns>
+    <columns>Persona__c</columns>
     <columns>JobTitle__c</columns>
-    <columns>CONTACT.ADDRESS2_CITY</columns>
-    <columns>Country__c</columns>
+    <columns>Team__c</columns>
+    <columns>CONTACT.ADDRESS2_COUNTRY_CODE</columns>
     <columns>ContactOwner__c</columns>
-    <columns>Contact_Status_Logo__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
-        <field>CONTACT.ADDRESS2_CITY</field>
+        <field>ContactStatus__c</field>
         <operation>equals</operation>
-        <value>Luxembourg</value>
+        <value>true</value>
     </filters>
     <label>All Contacts</label>
 </ListView>

@@ -8,13 +8,8 @@
     <columns>CASES.SUBJECT</columns>
     <columns>CREATEDBY_USER.ALIAS</columns>
     <columns>CASES.REASON</columns>
-    <columns>CASES.CREATED_DATE_DATE_ONLY</columns>
+    <columns>CASES.CREATED_DATE</columns>
     <columns>CASES.RECORDTYPE</columns>
     <filterScope>Everything</filterScope>
-    <filters>
-        <field>CASES.RECORDTYPE</field>
-        <operation>equals</operation>
-        <value>Case.Product_Marketing_Request</value>
-    </filters>
-    <label>All Work Together Processes</label>
+    <label>All WTP</label>
 </ListView>

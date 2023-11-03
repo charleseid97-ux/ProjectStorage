@@ -1,0 +1,144 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;">
+<style type="text/css">.table_header{
+            font-family:Times New Roman,Times New Roman,Times,serif;
+            font-size:11pt;
+			background-color: #F2F2F2;
+            font-weight:bold;
+		}
+        #bodyStyle{
+			font-family:Times New Roman,Times New Roman,Times,serif;
+            font-size:11pt;
+			height: auto; 
+			min-height: auto;
+		}
+		#interestTable{
+            font-family:Times New Roman,Times New Roman,Times,serif;
+            font-size:11pt;
+			width:90%;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		#interestTable td{
+			border: 1px solid black ;
+			text-align:center; 
+			vertical-align:top; 
+			background-color:#e2f0d9; 
+			
+		}
+		#taskTable{
+            font-family:Times New Roman,Times New Roman,Times,serif;
+            font-size:11pt;
+			width:90%;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		#taskTable td{
+			border: 1px solid black ;
+			text-align:center; 
+			vertical-align:top; 			
+		}
+</style>
+<div id="bodyStyle"><span>Dear <strong>{{{Recipient.FirstName}}},</strong><br />
+<br />
+I had a&nbsp;<strong>{{{Meeting_Note__c.Meeting_Type__c}}}</strong> with&nbsp;{{{Meeting_Note__c.CompanyName__c}}} on&nbsp;<strong>{{{Meeting_Note__c.Date__c}}}.</strong></span><br />
+<br />
+<span>Please find below the minutes of&nbsp;&nbsp;<strong>{{{Meeting_Note__c.Name}}} :&nbsp;</strong></span><br />
+&nbsp;
+<table style="width:100%">
+	
+		<tr class="table_header">
+			<th colspan="3" id="companyAttTitle" style="text-align: left;"><b>Attendees from Client</b></th>
+		</tr>
+		<tr>
+			<td colspan="3">
+			<ul id="companyAttList">
+				<li>Client 1</li>
+				<li>Client 2</li>
+			</ul>
+			</td>
+		</tr>
+	
+</table>
+
+<table style="width:100%">
+	
+		<tr class="table_header">
+			<th colspan="3" style="text-align: left;"><b>Attendees from Carmignac</b></th>
+		</tr>
+		<tr>
+			<td colspan="3">
+			<ul id="carmiAttList">
+				<li>Carmi 1</li>
+				<li>Carmi 2</li>
+			</ul>
+			</td>
+		</tr>
+	
+</table>
+
+<table id="interestTableHeader" style="width:100%">
+	
+		<tr class="table_header">
+			<th colspan="3" style="text-align: left;"><b>Products discussed</b></th>
+		</tr>
+	
+</table>
+&nbsp;
+
+<table id="interestTable">
+	<colgroup>
+		<col span="2" />
+	</colgroup>
+	<tbody id="interestLines">
+		<tr>
+			<td><span>Name</span></td>
+			<td><span>Interest</span></td>
+		</tr>
+	
+</table>
+&nbsp;
+
+<table id="taskTableHeader" style="width:100%">
+	
+		<tr class="table_header">
+			<th colspan="3" style="text-align: left;"><b>Action Plan</b></th>
+		</tr>
+	
+</table>
+&nbsp;
+
+<table id="taskTable">
+	<colgroup>
+		<col span="1" />
+	</colgroup>
+	<tbody id="interestLines">
+		<tr>
+			<td><span>Subject</span></td>
+			<td><span>Description</span></td>
+			<td><span>Due Date</span></td>
+			<td><span>Owner</span></td>
+		</tr>
+	
+</table>
+&nbsp;
+
+<table style="width:100%">
+	
+		<tr class="table_header">
+			<th colspan="3" style="text-align: left;"><b>Notes</b></th>
+		</tr>
+		<tr>
+			<td colspan="3">{{{Meeting_Note__c.Note__c}}}</td>
+		</tr>
+	
+</table>
+<br />
+<br />
+Thank you,<br />
+{{{Sender.Name}}}</div>
+</body>
+</html>

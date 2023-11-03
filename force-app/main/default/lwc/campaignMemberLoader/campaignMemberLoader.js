@@ -42,13 +42,22 @@ export default class CampaignMemberLoader extends LightningElement {
 
     get customColumns() {
         return [
+            {label: "Status", fieldName: "Status", hideDefaultActions:true, initialWidth: 100},
             {label: "First Name", fieldName: "FirstName", hideDefaultActions:true, initialWidth: 150},
             {label: "Last Name", fieldName: "LastName", hideDefaultActions:true, initialWidth: 150},
-            {label: "Email", fieldName: "Email", hideDefaultActions:true, initialWidth: 250},
-            {label: "Company", fieldName: "Company", hideDefaultActions:true, initialWidth: 150},
-            {label: "Country", fieldName: "Country", hideDefaultActions:true, initialWidth: 150},
-            {label: "Status", fieldName: "Status", hideDefaultActions:true, initialWidth: 150},
-            {label: "Action", fieldName: "Action", hideDefaultActions:true, initialWidth: 170},
+            {label: "Email", fieldName: "Email", hideDefaultActions:true, initialWidth: 200},
+            {label: "Phone", fieldName: "Phone", hideDefaultActions:true, initialWidth: 130},
+            {label: "Company", fieldName: "Company", hideDefaultActions:true, initialWidth: 170},
+            {label: "Job Title", fieldName: "JobTitle", hideDefaultActions:true, initialWidth: 150},
+            {label: "Country", fieldName: "Country", hideDefaultActions:true, initialWidth: 100},
+            {label: "Mailing Country", fieldName: "MailingCountry", hideDefaultActions:true, initialWidth: 140},
+            {label: "City", fieldName: "City", hideDefaultActions:true, initialWidth: 100},
+            {label: "Postal Code", fieldName: "PostalCode", hideDefaultActions:true, initialWidth: 130},
+            {label: "Street", fieldName: "Street", hideDefaultActions:true, initialWidth: 150},
+            {label: "Attendance Rate", fieldName: "AttendanceRate", hideDefaultActions:true, initialWidth: 140},
+            {label: "Attendance Duration", fieldName: "AttendanceDuration", hideDefaultActions:true, initialWidth: 150},
+            {label: "IP City", fieldName: "IPCity", hideDefaultActions:true, initialWidth: 150},
+            {label: "Action", fieldName: "Action", hideDefaultActions:true, initialWidth: 140},
         ]
     }
 
@@ -144,6 +153,7 @@ export default class CampaignMemberLoader extends LightningElement {
             }
         ).catch(
             error => {
+                console.log(error);
                 this.displayError("Error", error.body?.message);
                 this.hideSpinner();
             }

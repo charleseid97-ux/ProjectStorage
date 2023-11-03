@@ -77,7 +77,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CAMPAIGN_MEMBER_TEMPLATE_URL</shortDescription>
-        <value>https://carmignac-crm.my.salesforce.com/sfc/p/58000000ZABI/a/1i00000110Zq/ZZjI2Nfk_e9MNmnLdWLYGZDHCsCz5qBEjsn.27b1Tz0</value>
+        <value>https://carmignac-crm.my.salesforce.com/sfc/p/58000000ZABI/a/1i0000012xn9/ir8Yw6XeBQ2pv2tW_nT.BSyLplzKT8r_wUr9U8x0aGE</value>
     </labels>
     <labels>
         <fullName>CPGN_Add_To_Campaign</fullName>
@@ -392,7 +392,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>SESSIONS LIMIT</shortDescription>
-        <value>10</value>
+        <value>100</value>
     </labels>
     <labels>
         <fullName>SyncingToWebsite</fullName>
@@ -598,5 +598,37 @@
         <protected>false</protected>
         <shortDescription>Website Sync Failed</shortDescription>
         <value>Synced failed. Please fill in all the website fields.</value>
+    </labels>
+    <labels>
+        <fullName>MissingClientProduct</fullName>
+        <categories>New Meeting Note</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Missing ClientProduct</shortDescription>
+        <value>Please select a client attendees, and be sure to choose products and select rating for each one in case of Sales Presentation!</value>
+    </labels>
+    <labels>
+        <fullName>MissingDataTitle</fullName>
+        <categories>New Meeting Note</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Missing Data Title</shortDescription>
+        <value>Mandatory Data Is Missing!</value>
+    </labels>
+    <labels>
+        <fullName>MissingProductRating</fullName>
+        <categories>New Meeting Note</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Missing ProductRating</shortDescription>
+        <value>Please add a rating for each discussed product!</value>
+    </labels>
+    <labels>
+        <fullName>MissingTaskInfos</fullName>
+        <categories>New Meeting Note</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Missing TaskInfos</shortDescription>
+        <value>Please fill up requiered fields in &apos;Follow Up section&apos;!</value>
     </labels>
 </CustomLabels>

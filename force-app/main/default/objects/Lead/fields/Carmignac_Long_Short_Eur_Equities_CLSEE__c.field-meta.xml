@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Carmignac_Long_Short_Eur_Equities_CLSEE__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Interest Alternative Strategy</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Interest Alternative Strategy</inlineHelpText>
+    <label>Carm Long Short Eur Equities-CLSEE/PLSEE</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

@@ -4,8 +4,85 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>actionNames</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>Edit</value>
+                            <visibilityRule>
+                                <booleanFilter>1 OR 2 OR 3 OR 4</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>CONTAINS</operator>
+                                    <rightValue>Administrator</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Carmignac - Business Developer</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Carmignac - CRM</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.UserRole.Name}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Product Specialist</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Delete</value>
+                            <visibilityRule>
+                                <booleanFilter>1 OR 2 OR 3 OR 4</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>CONTAINS</operator>
+                                    <rightValue>Administrator</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Carmignac - Business Developer</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Carmignac - CRM</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.UserRole.Name}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Product Specialist</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Share</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>FeedItem.TextPost</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>FeedItem.ContentPost</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>FeedItem.PollPost</value>
+                        </valueListItems>
+                    </valueList>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>collapsed</name>
                     <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>enableActionsConfiguration</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>enableActionsInNative</name>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>hideChatterActions</name>
@@ -25,21 +102,306 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Name</fieldItem>
+                <identifier>RecordNameField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Meeting_Type__c</fieldItem>
+                <identifier>RecordMeeting_Type_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-5abe330b-7389-4c8e-b75f-386dda2e9bf5</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Date__c</fieldItem>
+                <identifier>RecordDate_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.OwnerId</fieldItem>
+                <identifier>RecordOwnerIdField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-8eea3056-fe5f-4004-8c89-c1feb1750af6</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
             <componentInstance>
-                <componentName>MeetingNotePDFDownloadButton</componentName>
-                <identifier>MeetingNotePDFDownloadButton</identifier>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-5abe330b-7389-4c8e-b75f-386dda2e9bf5</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column6</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentName>MeetingNotesHashtagView</componentName>
-                <identifier>MeetingNotesHashtagView</identifier>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-8eea3056-fe5f-4004-8c89-c1feb1750af6</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column7</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-fb15b0a3-2bb1-47ba-acc5-b0085e9251e8</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.RelationshipManagement__c</fieldItem>
+                <identifier>RecordRelationshipManagement_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Topic__c</fieldItem>
+                <identifier>RecordTopic_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.RelationshipManagement__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-bdbb0ac8-66f4-413c-a170-aaa745d59270</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SalesPresentation__c</fieldItem>
+                <identifier>RecordSalesPresentation_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Opportunity__c</fieldItem>
+                <identifier>RecordOpportunity_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-9a0b9b3d-4e11-400c-aa9f-96254fe05ac3</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-bdbb0ac8-66f4-413c-a170-aaa745d59270</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
-                <componentName>force:detailPanel</componentName>
-                <identifier>force_detailPanel</identifier>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-9a0b9b3d-4e11-400c-aa9f-96254fe05ac3</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-a5685e8e-9cec-48f6-9d1d-3cfa12926a48</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Note__c</fieldItem>
+                <identifier>RecordNote_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-c59fff1a-a5f4-4d1d-9a6c-5c94db0071ae</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-c59fff1a-a5f4-4d1d-9a6c-5c94db0071ae</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-1ae8b566-65a7-4da5-a5c3-e6b80fa124a9</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.CreatedById</fieldItem>
+                <identifier>RecordCreatedByIdField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-6eda1663-956d-4edd-9ec2-c8c4876c386e</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.LastModifiedById</fieldItem>
+                <identifier>RecordLastModifiedByIdField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-8dff2938-7cc4-42ea-9fb2-aeb0b3d54f51</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-6eda1663-956d-4edd-9ec2-c8c4876c386e</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column4</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-8dff2938-7cc4-42ea-9fb2-aeb0b3d54f51</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column5</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-84733d6e-f1fb-4d18-b5b9-e9e39c0255db</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-fb15b0a3-2bb1-47ba-acc5-b0085e9251e8</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>About Meeting/Call</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection4</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-a5685e8e-9cec-48f6-9d1d-3cfa12926a48</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Purpose</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-1ae8b566-65a7-4da5-a5c3-e6b80fa124a9</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Notes</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-84733d6e-f1fb-4d18-b5b9-e9e39c0255db</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>System Information</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection3</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -49,52 +411,15 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>MeetingNoteEmail</componentName>
-                <identifier>MeetingNoteEmail</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
                 <componentInstanceProperties>
-                    <name>height</name>
-                    <value>600</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>pageName</name>
-                    <value>MeetingNotePDF</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showLabel</name>
+                    <name>showLegacyActivityComposer</name>
                     <value>false</value>
                 </componentInstanceProperties>
-                <componentName>flexipage:visualforcePage</componentName>
-                <identifier>flexipage_visualforcePage</identifier>
+                <componentName>runtime_sales_activities:activityPanel</componentName>
+                <identifier>runtime_sales_activities_activityPanel2</identifier>
             </componentInstance>
         </itemInstances>
-        <name>Facet-8e6a2a7b-5340-4e49-8641-605e6cb6c3c2</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>relatedListComponentOverride</name>
-                    <value>NONE</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>rowsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentName>force:relatedListContainer</componentName>
-                <identifier>force_relatedListContainer</identifier>
-            </componentInstance>
-        </itemInstances>
-        <mode>Replace</mode>
-        <name>relatedTabContent</name>
+        <name>Facet-33593e46-e7dc-4455-8c54-f23bcb13544c</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -120,28 +445,14 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-8e6a2a7b-5340-4e49-8641-605e6cb6c3c2</value>
+                    <value>Facet-33593e46-e7dc-4455-8c54-f23bcb13544c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
-                    <value>Email Meeting Note</value>
+                    <value>All Tasks &amp; Emails</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
-                <identifier>customTab</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>relatedTabContent</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Standard.Tab.relatedLists</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>relatedListsTab</identifier>
+                <identifier>flexipage_tab</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -159,12 +470,6 @@
                 <identifier>flexipage_tabset</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>runtime_sales_activities:activityPanel</componentName>
-                <identifier>runtime_sales_activities_activityPanel</identifier>
-            </componentInstance>
-        </itemInstances>
         <mode>Replace</mode>
         <name>main</name>
         <type>Region</type>
@@ -173,344 +478,86 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>customIcon</name>
-                    <value>standard:account</value>
+                    <name>parentFieldApiName</name>
+                    <value>Meeting_Note__c.Id</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>fieldSetName</name>
-                    <value>Account__c</value>
+                    <name>relatedListApiName</name>
+                    <value>ClientInterestMeeting__r</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>listView</name>
+                    <name>relatedListComponentOverride</name>
+                    <value>NONE</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>rowsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
                     <value>true</value>
                 </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>maxItemDisplay</name>
-                    <value>50</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>objectName</name>
-                    <value>Meeting_Link__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>parentId</name>
-                    <value>Meeting_Note__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>recordIdOverride</name>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Organisations Attended</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>typeFieldSource</name>
-                    <value>Fields</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>viewAll</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>whereClause</name>
-                    <value>Account__c != &apos;&apos;</value>
-                </componentInstanceProperties>
-                <componentName>GenericRelatedList</componentName>
-                <identifier>GenericRelatedList</identifier>
+                <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.SalesPresentation__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>customIcon</name>
-                    <value>standard:contact</value>
+                    <name>parentFieldApiName</name>
+                    <value>Meeting_Note__c.Id</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>fieldSetName</name>
-                    <value>Contact__c</value>
+                    <name>relatedListApiName</name>
+                    <value>Activities__r</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>listView</name>
+                    <name>relatedListComponentOverride</name>
+                    <value>ADVGRID</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>rowsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
                     <value>true</value>
                 </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>maxItemDisplay</name>
-                    <value>5</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>objectName</name>
-                    <value>Meeting_Link__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>parentId</name>
-                    <value>Meeting_Note__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>recordIdOverride</name>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Contacts Attended</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>typeFieldSource</name>
-                    <value>Fields</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>viewAll</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>whereClause</name>
-                    <value>Contact__c != &apos;&apos;</value>
-                </componentInstanceProperties>
-                <componentName>GenericRelatedList</componentName>
-                <identifier>GenericRelatedList2</identifier>
+                <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer2</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>customIcon</name>
-                    <value>standard:user</value>
+                    <name>parentFieldApiName</name>
+                    <value>Meeting_Note__c.Id</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>fieldSetName</name>
-                    <value>Employee__c</value>
+                    <name>relatedListApiName</name>
+                    <value>AttachedContentDocuments</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>listView</name>
+                    <name>relatedListComponentOverride</name>
+                    <value>NONE</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>rowsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
                     <value>true</value>
                 </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>maxItemDisplay</name>
-                    <value>5</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>objectName</name>
-                    <value>Meeting_Link__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>parentId</name>
-                    <value>Meeting_Note__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>recordIdOverride</name>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Employees Attended</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>typeFieldSource</name>
-                    <value>Fields</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>viewAll</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>whereClause</name>
-                    <value>Employee__c != &apos;&apos;</value>
-                </componentInstanceProperties>
-                <componentName>GenericRelatedList</componentName>
-                <identifier>GenericRelatedList3</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>customIcon</name>
-                    <value>standard:opportunity</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>fieldSetName</name>
-                    <value>Opportunity__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>listView</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>maxItemDisplay</name>
-                    <value>5</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>objectName</name>
-                    <value>Meeting_Link__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>parentId</name>
-                    <value>Meeting_Note__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>recordIdOverride</name>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Opportunities Discussed</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>typeFieldSource</name>
-                    <value>Fields</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>viewAll</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>whereClause</name>
-                    <value>Opportunity__c != &apos;&apos;</value>
-                </componentInstanceProperties>
-                <componentName>GenericRelatedList</componentName>
-                <identifier>GenericRelatedList4</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>customIcon</name>
-                    <value>standard:case</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>fieldSetName</name>
-                    <value>Case__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>listView</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>maxItemDisplay</name>
-                    <value>5</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>objectName</name>
-                    <value>Meeting_Link__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>parentId</name>
-                    <value>Meeting_Note__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>recordIdOverride</name>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Related Work Together Processes</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>typeFieldSource</name>
-                    <value>Fields</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>viewAll</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>whereClause</name>
-                    <value>Case__c != &apos;&apos;</value>
-                </componentInstanceProperties>
-                <componentName>GenericRelatedList</componentName>
-                <identifier>GenericRelatedList5</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>customIcon</name>
-                    <value>custom:custom5</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>fieldSetName</name>
-                    <value>Product__c,Product_Sentiment__c, Interest_Level__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>listView</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>maxItemDisplay</name>
-                    <value>5</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>objectName</name>
-                    <value>Meeting_Link__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>parentId</name>
-                    <value>Meeting_Note__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>recordIdOverride</name>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Products Discussed</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>typeFieldSource</name>
-                    <value>Fields</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>viewAll</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>whereClause</name>
-                    <value>Product__c!=&apos;&apos;</value>
-                </componentInstanceProperties>
-                <componentName>GenericRelatedList</componentName>
-                <identifier>GenericRelatedList6</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>customIcon</name>
-                    <value>standard:campaign</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>fieldSetName</name>
-                    <value>Campaign__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>listView</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>maxItemDisplay</name>
-                    <value>5</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>objectName</name>
-                    <value>Meeting_Link__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>parentId</name>
-                    <value>Meeting_Note__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>recordIdOverride</name>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Related Campaigns</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>typeFieldSource</name>
-                    <value>Fields</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>viewAll</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>whereClause</name>
-                    <value>Campaign__c != &apos;&apos;</value>
-                </componentInstanceProperties>
-                <componentName>GenericRelatedList</componentName>
-                <identifier>GenericRelatedList7</identifier>
+                <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer3</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>

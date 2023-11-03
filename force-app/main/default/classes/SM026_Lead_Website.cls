@@ -9,20 +9,21 @@ public with sharing class SM026_Lead_Website {
 
         Set<Id> leadsToSend = new Set<Id>();
 
-        for(Lead aLead : newItems.values()){
+        for (Lead aLead : newItems.values()){
 
-            if(isWebsiteSync(aLead, oldItems)){
+            if (isWebsiteSync(aLead, oldItems)) {
                 leadsToSend.add(aLead.Id);
                 Pad.SKIP_STRIGGER_MAP.put('sendAsyncWebsiteLead', 'prevent double execution');
             }
         }
         
-        if(leadsToSend.size() > 0) System.enqueueJob(new SM026_SendSelectedLeadsAsync(retrieveLeads(leadsToSend), 0, 1));
+        if (leadsToSend.size() > 0) {
+            System.enqueueJob(new SM026_SendSelectedLeadsAsync(retrieveLeads(leadsToSend), 0, 1));
+        }
 
     }
 
     private static boolean isWebsiteSync(Lead aLead, Map<Id, Lead> oldItems) {
-
         System.debug('isWebsiteSync : '+aLead);
         return aLead.TECH_WebSiteID__c != null  && aLead.Synchrostatus__c != oldItems.get(aLead.id).Synchrostatus__c && aLead.Synchrostatus__c == 'To be synced';
     }
@@ -37,7 +38,7 @@ public with sharing class SM026_Lead_Website {
      *
      * @param newItems
      */
-    public static void processConvertedLead(Map<Id, Lead> newItems) {
+    public static void processConvertedLead(Map<Id, Lead> newItems, Map<Id, Lead> oldItems) {
 
         Map<Id, Id> leadIdByContactIdMap = new Map<Id, Id>();
         Map<Id, Lead> contactIdByLeadMap = new Map<Id, Lead>();
@@ -45,15 +46,19 @@ public with sharing class SM026_Lead_Website {
         Id websiteLeadRT = UtilitiesSObject.getRecordTypeIdByDeveloperName(Lead.SObjectType, 'Website_Lead');
 
         for (Lead ld : newItems.values()) {
-            if (ld.IsConverted && ld.RecordTypeId == websiteLeadRT && ld.TECH_WebSiteID__c != null) {
+            if (ld.IsConverted && oldItems.get(ld.id).IsConverted != ld.IsConverted && ld.TECH_WebSiteID__c != null) {
                 leadIdByContactIdMap.put(ld.Id, ld.ConvertedContactId);
                 contactIdByLeadMap.put(ld.ConvertedContactId, ld);
             }
         }
 
-        if (!leadIdByContactIdMap.isEmpty()) transferProspaceAlert(leadIdByContactIdMap);
+        if (!leadIdByContactIdMap.isEmpty()) {
+            transferProspaceAlert(leadIdByContactIdMap);
+        }
 
-        if(!contactIdByLeadMap.isEmpty()) updateConvertedContactFields(contactIdByLeadMap);
+        if(!contactIdByLeadMap.isEmpty()) {
+            updateConvertedContactFields(contactIdByLeadMap);
+        }
 
         Pad.SKIP_STRIGGER_MAP.put('processConvertedLead', 'prevent double execution');
 
@@ -80,17 +85,31 @@ public with sharing class SM026_Lead_Website {
         for (Contact con : contactConvertedList) {
             Lead convertedLead = aContactIdByLeadMap.get(con.Id);
 
-            if(con.TECH_WebSiteID__c == convertedLead.TECH_WebSiteID__c){
+            if (con.TECH_WebSiteID__c == convertedLead.TECH_WebSiteID__c) {
                 updatedContactList.add(updateNewContactWithLeadInfo(con, convertedLead));
-            }else {
+            } else {
                 leadToBeDeleted.add(convertedLead);
                 updatedContactList.add(updateExistingContactToValidated(con, convertedLead));
             }
         }
 
-        if(updatedContactList.size() > 0) Database.update(updatedContactList, true);
+        if (updatedContactList.size() > 0) {
+            Database.update(updatedContactList, true);
+        }
 
-        if(leadToBeDeleted.size() > 0 ) System.enqueueJob(new SM026_DeleteWebsiteLeadsAsync(leadToBeDeleted, 0, 1));
+        if (leadToBeDeleted.size() > 0 ) {
+            if (Limits.getQueueableJobs() == 1) {
+                String hour = String.valueOf(Datetime.now().hour());
+                String min = String.valueOf(Datetime.now().minute()); 
+                String ss = String.valueOf(Datetime.now().second() + 5);
+                //parse to cron expression
+                String nextFireTime = ss + ' ' + min + ' ' + hour + ' * * ?';
+                SM026_DeleteWebsiteLeadsSchedulable deleteSchedulable = new SM026_DeleteWebsiteLeadsSchedulable(leadToBeDeleted);
+                System.schedule('ScheduledJob Delete Website Lead Schedulable', nextFireTime, deleteSchedulable);
+            } else {
+                System.enqueueJob(new SM026_DeleteWebsiteLeadsAsync(leadToBeDeleted, leadToBeDeleted.size(), 1));
+            }
+        }
 
     }
 
@@ -110,27 +129,28 @@ public with sharing class SM026_Lead_Website {
             webCommToUpdateList.add(webComm);
         }
 
-        if (webCommToUpdateList.size() > 0) Database.update(webCommToUpdateList, true);
-
+        if (webCommToUpdateList.size() > 0) {
+            Database.update(webCommToUpdateList, true);
+        }
     }
     
-    public static void deleteLeadAlerts(List<Lead> leadList, Map<Id, Lead> oldLeadMap) {
+    public static void deactivateLeadAlerts(List<Lead> leadList, Map<Id, Lead> oldLeadMap) {
         
-        Set<Lead> leadAlertToDeleteSet = new Set<Lead>();
+        Set<Id> leadAlertsToDeactivate = new Set<Id>();
         
         for(Lead l : leadList){
             Lead oldLead = oldLeadMap.get(l.ID);
             if ((l.Status != oldLead.Status) && (l.Status == 'Disqualified')) {
-                leadAlertToDeleteSet.add(l);
+                leadAlertsToDeactivate.add(l.Id);
             }
             if ((l.Prospace_Status__c != oldLead.Prospace_Status__c) && (l.Prospace_Status__c == 'Disabled')) {
-                leadAlertToDeleteSet.add(l);
+                leadAlertsToDeactivate.add(l.Id);
             }
         }
         
-        SM029_WebCommunication.delAllLeadAlerts(leadAlertToDeleteSet);
+        SM029_WebCommunication.deactivateAllWebCommunication('Lead', leadAlertsToDeactivate);
         
-        Pad.SKIP_STRIGGER_MAP.put('deleteLeadAlerts', 'prevent double execution');
+        Pad.SKIP_STRIGGER_MAP.put('deactivateLeadAlerts', 'prevent double execution');
         
     }
 
@@ -172,7 +192,9 @@ public with sharing class SM026_Lead_Website {
             }
         }
 
-        if (leadToDeleteList.size() > 0) System.enqueueJob(new SM026_DeleteWebsiteLeadsAsync(leadToDeleteList, 0, 1));
+        if (leadToDeleteList.size() > 0) {
+            System.enqueueJob(new SM026_DeleteWebsiteLeadsAsync(leadToDeleteList, 0, 1));
+        }
     }
     
     public Static List<Lead> retrieveLeads(Set<Id> aLeadIdSet){
@@ -192,7 +214,7 @@ public with sharing class SM026_Lead_Website {
         
         Set<Id> leadIdSet = new Set<Id>();
         
-        for(Lead ld : aLeadToProcessList){
+        for (Lead ld : aLeadToProcessList){
             leadIdSet.add(ld.Id);            
         }
         
@@ -249,39 +271,42 @@ public with sharing class SM026_Lead_Website {
         req.setBody(aLeadJson);
         
         try {
-            if(!Test.isRunningTest()){
+            if (!Test.isRunningTest()){
                 res = http.send(req);
-            }else{
+            }
+            else {
                 MCK012_WebsiteMockWS mockContactWS = new MCK012_WebsiteMockWS();
                 res = mockContactWS.syncContact(req, aWebsiteMethod, 'success'); 
             }
             if (res.getStatusCode() == 200) {
                 System.debug('Success!');
-                if(aWebsiteMethod == 'DELETE'){
+                if (aWebsiteMethod == 'DELETE'){
                     return;
                 }
-                if(res.getBody() == '' || res.getBody() == null){
+                if (res.getBody() == '' || res.getBody() == null){
                     aLeadToSent.WebsiteResponse__c = String.valueOf(res.getStatusCode());
-                }else{
+                }
+                else {
                     aLeadToSent.WebsiteResponse__c = String.valueOf(res.getBody());
                 }
                 aLeadToSent.Synchrostatus__c = 'Success';
                 
             } else {
                 try{
-                    if(aWebsiteMethod == 'DELETE'){
+                    if (aWebsiteMethod == 'DELETE'){
                         return;
                     }
                     Map<String, Object> o = (Map<String, Object>) JSON.deserializeUntyped(res.getBody());
-                    if(o.get('message') != null){
+                    if (o.get('message') != null) {
                         String errMessage = EncodingUtil.urlDecode(String.valueof(o.get('message')), 'utf-8');
                         aLeadToSent.WebsiteResponse__c = 'ERROR: ' + errMessage;
                         
-                    }else{
+                    }
+                    else {
                         aLeadToSent.WebsiteResponse__c = 'ERROR: ' + res.getBody();
                         
                     }
-                }catch(Exception e){
+                } catch (Exception e) {
                     System.debug('Error retrieving content');
                     aLeadToSent.WebsiteResponse__c = 'ERROR: Website connection error';
                 }
@@ -295,16 +320,14 @@ public with sharing class SM026_Lead_Website {
             PAD.SKIP_STRIGGER_MAP.put('initializeExistingLeadFromWebSite', 'prevent double execution');
 
             Database.update(aLeadToSent, true);
-
             
-            
-        } catch(System.CalloutException e) {
+        } catch (System.CalloutException e) {
             System.debug('Callout error: '+ e);
             EM023_Log.errorToLog newErro = ObjectUtil.GetErrorToLog(res, req, aLeadToSent.Id, 'SM026_Lead_Website', 'connectAndSendLeads');
             listLogError.add(newErro);   
         }
         
-        if(listLogError.size() > 0){        
+        if (listLogError.size() > 0){        
             EM023_Log.insertLogError(listLogError);
         }
         
@@ -314,7 +337,7 @@ public with sharing class SM026_Lead_Website {
         
         JSONGenerator gen = JSON.createGenerator(true);   
         
-        for (integer i = 0; i < aLeadToSendList.size(); i++){
+        for (integer i = 0; i < aLeadToSendList.size(); i++) {
             
             gen.writeStartObject();
             JSONGeneratorChecker.writeStringField(gen, 'SalesForceId', String.valueOf(aLeadToSendList[i].id));
@@ -383,9 +406,11 @@ public with sharing class SM026_Lead_Website {
 
         for (Lead ld : (List<Lead>) newItems.values()) {
             //When lead is updated to Website
-            if (oldItems.get(ld.Id).TECH_WebSiteID__c == null && ld.TECH_WebSiteID__c != null)  leadToUpdate.add(ld);
+            if (oldItems.get(ld.Id).TECH_WebSiteID__c == null && ld.TECH_WebSiteID__c != null) {
+                leadToUpdate.add(ld);
+            }
         }
-        if(leadToUpdate.size() > 0){
+        if (leadToUpdate.size() > 0) {
             initializeLeadFromWebSite(leadToUpdate, false);
             Pad.SKIP_STRIGGER_MAP.put('initializeExistingLeadFromWebSite', 'prevent double execution');
         }
@@ -418,7 +443,7 @@ public with sharing class SM026_Lead_Website {
                 ld.Status = 'Pending Qualification';
                 ld.Prospace_Status__c = 'Pending';
                 ld.Business_Card_Title__c = ld.Title;
-                if(isInsert){
+                if (isInsert){
                     ld.LeadSource = 'Website';
                     ld.Lead_Sub_Source__c = 'Web self-registration';
                 }

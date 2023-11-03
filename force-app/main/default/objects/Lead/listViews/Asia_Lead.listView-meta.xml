@@ -11,6 +11,11 @@
     <columns>CORE.USERS.ALIAS</columns>
     <columns>LEAD.UNREAD</columns>
     <filterScope>Queue</filterScope>
+    <filters>
+        <field>LEAD.STATUS</field>
+        <operation>notEqual</operation>
+        <value>Disqualified,Qualified</value>
+    </filters>
     <label>Asia - All Active Leads</label>
     <queue>Asia</queue>
     <sharedTo>

@@ -1,0 +1,30 @@
+/*
+    Author : Noor Goolamnabee 
+    Date : 07/07/2022
+    Description :  Preference Center
+    Referenced In : Contact's Record Page under Preference Center Tab
+    APEX Controller : PreferenceCenterController
+*/
+/* Adds padding/spacing to the SLDS Grid of the Alert Types toggle buttons*/
+.slds-grid {
+    padding-bottom: 4px;
+}
+.slds-border_left {
+    border-left: 3px solid #2F4233
+}
+/*START : MODAL Section */
+/* : Changes the close icon's colour of the Modal for better visibility*/
+.white-icon {
+    --lwc-colorTextIconDefault: #fff;
+}
+/* : Aligns the Spinner Animation to the center of the Modal*/
+.spinnerContainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+/*EMD : MODAL Section */

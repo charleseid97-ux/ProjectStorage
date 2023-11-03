@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Business_Opportunities</fullName>
+    <columns>SUBJECT</columns>
+    <columns>DUE_DATE</columns>
+    <filterScope>Mine</filterScope>
+    <filters>
+        <field>IS_CLOSED</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <filters>
+        <field>TYPE</field>
+        <operation>equals</operation>
+        <value>Business Opportunity</value>
+    </filters>
+    <label>Business Opportunities</label>
+</ListView>

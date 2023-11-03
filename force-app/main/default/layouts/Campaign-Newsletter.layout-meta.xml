@@ -325,6 +325,11 @@
         <relatedList>RelatedProcessHistoryList</relatedList>
     </relatedLists>
     <relatedLists>
+        <customButtons>AddContacts</customButtons>
+        <excludeButtons>AddAccount</excludeButtons>
+        <excludeButtons>AddContact</excludeButtons>
+        <excludeButtons>ImportLeadsAndContacts</excludeButtons>
+        <excludeButtons>SendListEmailAction</excludeButtons>
         <fields>MEMBER_TYPE</fields>
         <fields>Category_Event_lookup__c</fields>
         <fields>STATUS</fields>
@@ -366,6 +371,12 @@
     </relatedLists>
     <relatedLists>
         <relatedList>RelatedEntityHistoryList</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>SNIPPET.NAME</fields>
+        <fields>SNIPPET.TYPE</fields>
+        <fields>SNIPPET.CREATED_BY</fields>
+        <relatedList>RelatedSnippetAssignmentList</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>TASK.SUBJECT</fields>

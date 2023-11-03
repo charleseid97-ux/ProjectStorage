@@ -12,5 +12,15 @@
     <columns>BusinessDevelopmentRegion__c</columns>
     <columns>OPPORTUNITY.LAST_UPDATE</columns>
     <filterScope>Everything</filterScope>
-    <label>All Opportunities</label>
+    <filters>
+        <field>OPPORTUNITY.CLOSED</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>OPPORTUNITY.WON</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <label>All Won Opportunities</label>
 </ListView>

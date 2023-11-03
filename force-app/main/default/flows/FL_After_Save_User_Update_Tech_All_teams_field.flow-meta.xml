@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <decisions>
+        <name>Secondary_team_empty</name>
+        <label>fields team and secondary team empty?</label>
+        <locationX>446</locationX>
+        <locationY>323</locationY>
+        <defaultConnector>
+            <targetReference>Update_Tech_All_teams_field</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Secondary teams but no main team</defaultConnectorLabel>
+        <rules>
+            <name>YES</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Secondary_Teams__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Team__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Copy_1_of_Update_Tech_All_teams_field</targetReference>
+            </connector>
+            <label>No secondary teams but main team</label>
+        </rules>
+        <rules>
+            <name>Team_secondary</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Team__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Secondary_Teams__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Copy_2_of_Update_Tech_All_teams_field</targetReference>
+            </connector>
+            <label>Team + secondary</label>
+        </rules>
+        <rules>
+            <name>All_empty</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Team__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Secondary_Teams__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Copy_3_of_Update_Tech_All_teams_field</targetReference>
+            </connector>
+            <label>All team fields empty</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <formulas>
+        <name>Form_Concat_Main_team_Secondary_teams</name>
+        <dataType>String</dataType>
+        <expression>TEXT({!$Record.Team__c})&amp;{!Form_Secondary_Teams}</expression>
+    </formulas>
+    <formulas>
+        <name>Form_Main_team</name>
+        <dataType>String</dataType>
+        <expression>IF(ISPICKVAL({!$User.Team__c} ,&quot;France&quot;),&quot;France&quot;,
+IF(ISPICKVAL({!$User.Team__c} ,&quot;United Kingdom&quot;),&quot;United Kingdom&quot;,
+IF(ISPICKVAL({!$User.Team__c} ,&quot;Germany&quot;),&quot;Germany&quot;,
+IF(ISPICKVAL({!$User.Team__c} ,&quot;Italy&quot;),&quot;Italy&quot;,
+IF(ISPICKVAL({!$User.Team__c} ,&quot;Switzerland&quot;),&quot;Switzerland&quot;,
+IF(ISPICKVAL({!$User.Team__c} ,&quot;Belgium&quot;),&quot;Belgium&quot;,
+IF(ISPICKVAL({!$User.Team__c} ,&quot;Spain&quot;),&quot;Spain&quot;,
+IF(ISPICKVAL({!$User.Team__c} ,&quot;International&quot;),&quot;International&quot;,
+IF(ISPICKVAL({!$User.Team__c} ,&quot;LATAM&quot;),&quot;LATAM&quot;,
+IF(ISPICKVAL({!$User.Team__c} ,&quot;Nordics&quot;),&quot;Nordics&quot;,
+IF(ISPICKVAL({!$User.Team__c} ,&quot;Luxembourg&quot;),&quot;Luxembourg&quot;,
+IF(ISPICKVAL({!$User.Team__c} ,&quot;Netherlands&quot;),&quot;Netherlands&quot;,
+IF(ISPICKVAL({!$User.Team__c} ,&quot;Japan&quot;),&quot;Japan&quot;,
+IF(ISPICKVAL({!$User.Team__c} ,&quot;Taiwan&quot;),&quot;Taiwan&quot;,&quot;&quot;))))))))))))))</expression>
+    </formulas>
+    <formulas>
+        <name>Form_Main_Team_2</name>
+        <dataType>String</dataType>
+        <expression>TEXT({!$Record.Team__c})</expression>
+    </formulas>
+    <formulas>
+        <name>Form_Secondary_Teams</name>
+        <dataType>String</dataType>
+        <expression>IF(INCLUDES({!$Record.Secondary_Teams__c} ,&quot;France&quot;),&quot;; France&quot;,&quot;&quot;) &amp;
+IF(INCLUDES({!$Record.Secondary_Teams__c} ,&quot;United Kingdom&quot;),&quot;; United Kingdom&quot;,&quot;&quot;)&amp;
+IF(INCLUDES({!$Record.Secondary_Teams__c},&quot;Germany&quot;),&quot;; Germany&quot;,&quot;&quot;) &amp;
+IF(INCLUDES({!$Record.Secondary_Teams__c} ,&quot;Italy&quot;),&quot;; Italy&quot;,&quot;&quot;) &amp;
+IF(INCLUDES({!$Record.Secondary_Teams__c},&quot;Switzerland&quot;),&quot;; Switzerland&quot;,&quot;&quot;) &amp;
+IF(INCLUDES({!$Record.Secondary_Teams__c} ,&quot;Belgium&quot;),&quot;; Belgium&quot;,&quot;&quot;) &amp;
+IF(INCLUDES({!$Record.Secondary_Teams__c},&quot;Spain&quot;),&quot;; Spain&quot;,&quot;&quot;) &amp;
+IF(INCLUDES({!$Record.Secondary_Teams__c} ,&quot;International&quot;),&quot;; International&quot;,&quot;&quot;) &amp;
+IF(INCLUDES({!$Record.Secondary_Teams__c} ,&quot;LATAM&quot;),&quot;; LATAM&quot;,&quot;&quot;) &amp;
+IF(INCLUDES({!$Record.Secondary_Teams__c} ,&quot;Nordics&quot;),&quot;; Nordics&quot;,&quot;&quot;) &amp;
+IF(INCLUDES({!$Record.Secondary_Teams__c} ,&quot;Luxembourg&quot;),&quot;; Luxembourg&quot;,&quot;&quot;) &amp;
+IF(INCLUDES({!$Record.Secondary_Teams__c} ,&quot;Netherlands&quot;),&quot;; Netherlands&quot;,&quot;&quot;) &amp;
+IF(INCLUDES({!$Record.Secondary_Teams__c} ,&quot;Japan&quot;),&quot;; Japan&quot;,&quot;&quot;) &amp;
+IF(INCLUDES({!$Record.Secondary_Teams__c} ,&quot;Taiwan&quot;),&quot;; Taiwan&quot;,&quot;&quot;)</expression>
+    </formulas>
+    <interviewLabel>FL_After_Save_User Update Tech All teams field {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>FL_After_Save_User Update Tech All teams field</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Copy_1_of_Update_Tech_All_teams_field</name>
+        <label>Update Tech with main team</label>
+        <locationX>50</locationX>
+        <locationY>431</locationY>
+        <inputAssignments>
+            <field>Tech_text_All_teams__c</field>
+            <value>
+                <elementReference>Form_Main_Team_2</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Copy_2_of_Update_Tech_All_teams_field</name>
+        <label>Update Tech with secondary + main team</label>
+        <locationX>314</locationX>
+        <locationY>431</locationY>
+        <inputAssignments>
+            <field>Tech_text_All_teams__c</field>
+            <value>
+                <elementReference>Form_Concat_Main_team_Secondary_teams</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Copy_3_of_Update_Tech_All_teams_field</name>
+        <label>Update Tech null value</label>
+        <locationX>578</locationX>
+        <locationY>431</locationY>
+        <inputAssignments>
+            <field>Tech_text_All_teams__c</field>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Tech_All_teams_field</name>
+        <label>Update Tech All teams field</label>
+        <locationX>842</locationX>
+        <locationY>431</locationY>
+        <inputAssignments>
+            <field>Tech_text_All_teams__c</field>
+            <value>
+                <elementReference>Form_Secondary_Teams</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>320</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Secondary_team_empty</targetReference>
+        </connector>
+        <object>User</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Carmignac_Grande_Europe_CGE__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Interest Equities</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Interest Equities</inlineHelpText>
+    <label>Carmignac Grande Europe (CGE)</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

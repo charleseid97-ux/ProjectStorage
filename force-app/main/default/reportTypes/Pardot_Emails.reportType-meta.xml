@@ -196,6 +196,15 @@
             <field>UniqueOptOuts</field>
             <table>ListEmail</table>
         </columns>
+        <masterLabel>List Emails</masterLabel>
+    </sections>
+    <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Is IN my team</displayNameOverride>
+            <field>Campaign.Is_IN_my_team__c</field>
+            <table>ListEmail</table>
+        </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Campaign.Type</field>
@@ -206,6 +215,6 @@
             <field>Campaign.Sales_Team__c</field>
             <table>ListEmail</table>
         </columns>
-        <masterLabel>List Emails</masterLabel>
+        <masterLabel>Campaign</masterLabel>
     </sections>
 </ReportType>

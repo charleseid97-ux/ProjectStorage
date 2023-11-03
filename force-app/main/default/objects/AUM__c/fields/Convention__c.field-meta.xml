@@ -3,10 +3,10 @@
     <fullName>Convention__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
-    <label>Convention</label>
+    <label>Agreement</label>
     <referenceTo>Convention__c</referenceTo>
-    <relationshipLabel>AUM</relationshipLabel>
-    <relationshipName>AUM</relationshipName>
+    <relationshipLabel>AUMs</relationshipLabel>
+    <relationshipName>AUMConvension</relationshipName>
     <required>false</required>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

@@ -14,7 +14,7 @@
     <filters>
         <field>LEAD.STATUS</field>
         <operation>notEqual</operation>
-        <value>Disqualified</value>
+        <value>Disqualified,Qualified</value>
     </filters>
     <label>Nordics - All Active Leads</label>
     <queue>Nordics</queue>

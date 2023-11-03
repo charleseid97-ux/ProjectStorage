@@ -285,14 +285,14 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
-            <actionName>Campaign.New_Event_Note</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>1</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
             <actionName>Campaign.New_Meeting_Note</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>0</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Campaign.New_Event_Note</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>1</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>NewTask</actionName>
@@ -403,6 +403,11 @@
         <relatedList>Speaker__c.Campaign__c</relatedList>
     </relatedLists>
     <relatedLists>
+        <customButtons>AddContacts</customButtons>
+        <excludeButtons>AddAccount</excludeButtons>
+        <excludeButtons>AddContact</excludeButtons>
+        <excludeButtons>ImportLeadsAndContacts</excludeButtons>
+        <excludeButtons>SendListEmailAction</excludeButtons>
         <fields>MEMBER_TYPE</fields>
         <fields>Category_Event_lookup__c</fields>
         <fields>STATUS</fields>
@@ -480,11 +485,13 @@
         <relatedList>RelatedActivityList</relatedList>
     </relatedLists>
     <relatedLists>
-        <fields>NAME</fields>
-        <fields>Meeting_Note__c</fields>
-        <fields>Type__c</fields>
-        <fields>Date__c</fields>
-        <relatedList>Meeting_Link__c.Campaign__c</relatedList>
+        <fields>Name</fields>
+        <fields>ScheduledDate</fields>
+        <fields>TotalSent</fields>
+        <fields>UniqueOpens</fields>
+        <fields>UniqueClickThroughRate</fields>
+        <fields>UniqueOptOuts</fields>
+        <relatedList>RelatedListEmailList</relatedList>
     </relatedLists>
     <relatedLists>
         <excludeButtons>MassChangeOwner</excludeButtons>

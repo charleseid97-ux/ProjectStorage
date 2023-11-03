@@ -1,0 +1,110 @@
+<!--
+  @description       : 
+  @author            : Thanina YAYA
+  @last modified on  : 18-09-2023
+  @last modified by  : Thanina YAYA
+-->
+<template>
+    <template if:true={showSpinner}>
+        <div class="">
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </div>
+    </template>
+    <!-- Campaign Selection modal -->
+    <template if:true={showAddToCampaignModal}>
+        <div class="slds-modal slds-fade-in-open slds-backdrop">
+            <div class="slds-modal__container">                
+                <div class="slds-modal__header slds-text-heading_medium">
+                    <lightning-button-icon icon-name="utility:close" alternatice-text="Close this window" size="large" variant="bare-inverse" onclick={closeAddToCampaign} class="slds-modal__close"></lightning-button-icon>
+                    Select a Campaign
+                </div>
+                <div class="slds-modal__content">
+                    <template if:true={showSpinnerCampaign}>
+                        <div class="">
+                            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                        </div>
+                    </template>
+                    <div class="slds-var-m-around_medium">
+                        <template if:true={allCampaigns}>
+                            <template if:true={selectedCampaign}>
+                                <label class="slds-form-element__label">Campaign</label>
+                                <div class="slds-pill-container slds-border_right slds-border_top slds-border_bottom slds-border_left slds-var-p-top_xxx-small" style="border-radius: 0.25rem;min-height: 2rem;">
+                                    <lightning-pill
+                                            id={selectedCampaign.id}
+                                            label={selectedCampaign.name}
+                                            onremove={handleRemoveSelectedCampaign}
+                                    >
+                                    <lightning-icon
+                                            icon-name="standard:campaign"
+                                            size="medium"></lightning-icon>
+                                    </lightning-pill>
+                                </div>
+                            </template>
+                            <template if:false={selectedCampaign}>
+                                <c-multi-select-search-list label="Campaign" mono-select="true" options={allCampaigns} value={selectedCampaign} onchange={handleSelectedCampaign}>
+                                </c-multi-select-search-list>
+                            </template>                            
+                        </template>
+                        <!-- <c-lookup 
+                            onselected={handleSelectedCampaign} 
+                            objectname="Campaign"
+                            keyfieldapiname="Name"
+                            lookup-label="Campaign" 
+                            invalid-option-chosen-message="">
+                        </c-lookup> -->
+                    </div>                    
+                </div>
+                <div class="slds-modal__footer">
+                    <lightning-button label="Cancel" onclick={closeAddToCampaign} class="slds-var-m-around_small" ></lightning-button>
+                    <lightning-button disabled={addButtonDisabled} label="Add" variant="brand" onclick={handleAddToCampaign} class="slds-var-m-around_small"></lightning-button>
+                </div>
+            </div>            
+        </div>        
+    </template>
+    <lightning-card>
+        <div class="slds-var-m-around_medium slds-grid">
+            <div class="slds-col slds-text-align_left slds-text-heading_medium">
+                <p>Total records</p>
+                <p>{totalRecountCount}</p>
+            </div>
+            <div class="slds-col slds-text-align_right">
+                <lightning-button-group>
+                    <template if:false={allSelected}>
+                        <lightning-button label="Select all Contacts" icon-name="utility:multi_select_checkbox" onclick={handleSelectAll} disabled={noContacts}></lightning-button>
+                    </template>
+                    <template if:true={allSelected}>
+                        <lightning-button label="Unselect all Contacts" icon-name="utility:layers" onclick={handleUnselectAll} disabled={noContacts}></lightning-button>
+                    </template>
+                    <lightning-button label="Add to Campaign" icon-name="utility:campaign" onclick={openAddToCampaign} disabled={noContacts}></lightning-button>
+                    <lightning-button label="Export" icon-name="utility:download" onclick={handleExport} disabled={noContacts}></lightning-button>
+                </lightning-button-group>
+            </div>
+        </div>
+        <!-- Datatable with Pagination Start -->
+        <div class="slds-var-m-around_medium">
+            <div>
+                <lightning-datatable
+                    data-id="datatable"
+                    key-field="Id"
+                    data={data}
+                    columns={columns}
+                    selected-rows={selectedRows}
+                    onrowselection={handleRowSelection}
+                    sorted-by={sortBy}
+                    sorted-direction={sortDirection}
+                    onsort={handleSort}>                    
+                </lightning-datatable>
+            </div>
+        </div>
+        <!--  Pagination Buttons Start -->
+        <div class="slds-align_absolute-center">
+            <lightning-button disabled={isFirstPage} label="Previous" icon-name="utility:chevronleft" onclick={previousHandler}>
+            </lightning-button>
+            <span class="slds-badge slds-badge_lightest" style="margin-right: 10px;margin-left: 10px;">
+                Page {page} of {totalPage}
+            </span>
+            <lightning-button disabled={isLastPage} label="Next" icon-name="utility:chevronright" icon-position="right" onclick={nextHandler}>
+            </lightning-button>
+        </div>
+    </lightning-card>
+</template>

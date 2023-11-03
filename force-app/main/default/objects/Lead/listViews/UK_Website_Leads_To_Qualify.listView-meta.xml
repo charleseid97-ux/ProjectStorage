@@ -23,10 +23,10 @@
     </filters>
     <filters>
         <field>LEAD.STATUS</field>
-        <operation>equals</operation>
-        <value>Pending Qualification</value>
+        <operation>notEqual</operation>
+        <value>Disqualified,Qualified</value>
     </filters>
-    <label>UK - Website Leads To Qualify</label>
+    <label>United K - Website Leads To Qualify</label>
     <sharedTo>
         <roleAndSubordinates>UKHeadofCountry</roleAndSubordinates>
     </sharedTo>

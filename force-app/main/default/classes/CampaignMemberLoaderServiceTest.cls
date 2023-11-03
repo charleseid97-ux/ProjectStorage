@@ -12,7 +12,7 @@ private class CampaignMemberLoaderServiceTest
 
         List<Contact> contacts = new List<Contact>
         {
-            new Contact(FirstName = 'FirstName3', LastName = 'LastName3', Email = 'Email3@domain.com', Source__c = '-'),
+            new Contact(FirstName = 'FirstName3', LastName = 'LastName3', Email = 'Email3@domain.com', Phone = '0111111111', Source__c = '-'),
             new Contact(FirstName = 'FirstName4', LastName = 'LastName4', Email = 'Email4@domain.com', Source__c = '-')
         };
 
@@ -43,11 +43,6 @@ private class CampaignMemberLoaderServiceTest
         ];
 
         System.assertEquals(17, leads.size());
-        System.assertEquals('FirstName2', leads[0].FirstName);
-        System.assertEquals('LastName2', leads[0].LastName);
-        System.assertEquals('email2@domain.com', leads[0].Email);
-        System.assertEquals('Company2', leads[0].Company);
-        System.assertEquals('Responded', leads[0].Status);
 
         List<CampaignMember> members = [
             SELECT
@@ -88,7 +83,7 @@ private class CampaignMemberLoaderServiceTest
 
         System.assertEquals(19, preview.size());
 
-        System.assertEquals('FirstName2,LastName2,Email2@domain.com,Company2,FR,Responded,NewLead', preview[0]);
+        System.assertEquals('Responded,FirstName2,LastName2,Email2@domain.com,0777777777,Company2,Financial Advisor,FR,France,Paris,75001,12 place Vendome,12,120,Marseilles,NewLead', preview[0]);
     }
 
     @IsTest
@@ -123,7 +118,7 @@ private class CampaignMemberLoaderServiceTest
 
         Test.stopTest();
 
-        System.assertEquals('Responded', [SELECT Status FROM Lead WHERE Id = :aLead.Id].Status);
+        System.assertEquals('New', [SELECT Status FROM Lead WHERE Id = :aLead.Id].Status);
         System.assertEquals('Responded', [SELECT Status FROM CampaignMember WHERE Id = :member.Id].Status);
     }
 
@@ -176,7 +171,7 @@ private class CampaignMemberLoaderServiceTest
 
         Test.stopTest();
 
-        System.assertEquals('Responded', [SELECT Status FROM Lead WHERE Id = :aLead.Id].Status);
+        System.assertEquals('New', [SELECT Status FROM Lead WHERE Id = :aLead.Id].Status);
         System.assertEquals('Responded', [SELECT Status FROM CampaignMember WHERE Id = :member.Id].Status);
     }
 
@@ -194,26 +189,26 @@ private class CampaignMemberLoaderServiceTest
             String.join(
                 new List<String>
                 {
-                    'FirstName1,LastName1,Email1@domain.com,Company1,FR,Responded',
-                    'FirstName2,LastName2,Email2@domain.com,Company2,FR,Responded',
-                    'FirstName3,LastName3,Email3@domain.com,Company3,FR,Responded',
-                    'FirstName4,LastName4,Email4@domain.com,Company4,FR,Responded',
-                    'FirstName5,LastName5,Email5@domain.com,Company5,FR,Responded',
-                    'FirstName6,LastName6,Email6@domain.com,Company6,FR,Responded',
-                    'FirstName7,LastName7,Email7@domain.com,Company7,FR,Responded',
-                    'FirstName8,LastName8,Email8@domain.com,Company8,FR,Responded',
-                    'FirstName9,LastName9,Email9@domain.com,Company9,FR,Responded',
-                    'FirstName10,LastName10,Email10@domain.com,Company10,FR,Responded',
-                    'FirstName11,LastName11,Email11@domain.com,Company11,FR,Responded',
-                    'FirstName12,LastName12,Email12@domain.com,Company12,FR,Responded',
-                    'FirstName13,LastName13,Email13@domain.com,Company13,FR,Responded',
-                    'FirstName14,LastName14,Email14@domain.com,Company14,FR,Responded',
-                    'FirstName15,LastName15,Email15@domain.com,Company15,FR,Responded',
-                    'FirstName16,LastName16,Email16@domain.com,Company16,FR,Responded',
-                    'FirstName17,LastName17,Email17@domain.com,Company17,FR,Responded',
-                    'FirstName18,LastName18,Email18@domain.com,Company18,FR,Responded',
-                    'FirstName19,LastName19,Email19@domain.com,Company19,FR,Responded',
-                    'FirstName20,LastName20,Email20@domain.com,Company20,FR,Responded'
+                    'Responded,FirstName1,LastName1,Email1@domain.com,0777777777,Company1,Financial Advisor,FR,France,Paris,75001,12 place Vendome,12,120,Marseilles',
+                    'Responded,FirstName2,LastName2,Email2@domain.com,0777777777,Company2,Financial Advisor,FR,France,Paris,75001,12 place Vendome,12,120,Marseilles',
+                    'Responded,FirstName3,LastName3,Email3@domain.com,0777777777,Company3,Financial Advisor,FR,France,Paris,75001,12 place Vendome,12,120,Marseilles',
+                    'Responded,FirstName4,LastName4,Email4@domain.com,0777777777,Company4,Financial Advisor,FR,France,Paris,75001,12 place Vendome,12,120,Marseilles',
+                    'Responded,FirstName5,LastName5,Email5@domain.com,0777777777,Company5,Financial Advisor,FR,France,Paris,75001,12 place Vendome,12,120,Marseilles',
+                    'Responded,FirstName6,LastName6,Email6@domain.com,0777777777,Company6,Financial Advisor,FR,France,Paris,75001,12 place Vendome,12,120,Marseilles',
+                    'Responded,FirstName7,LastName7,Email7@domain.com,0777777777,Company7,Financial Advisor,FR,France,Paris,75001,12 place Vendome,12,120,Marseilles',
+                    'Responded,FirstName8,LastName8,Email8@domain.com,0777777777,Company8,Financial Advisor,FR,France,Paris,75001,12 place Vendome,12,120,Marseilles',
+                    'Responded,FirstName9,LastName9,Email9@domain.com,0777777777,Company9,Financial Advisor,FR,France,Paris,75001,12 place Vendome,12,120,Marseilles',
+                    'Responded,FirstName10,LastName10,Email10@domain.com,0777777777,Company10,Financial Advisor,FR,France,Paris,75001,12 place Vendome,12,120,Marseilles',
+                    'Responded,FirstName11,LastName11,Email11@domain.com,0777777777,Company11,Financial Advisor,FR,France,Paris,75001,12 place Vendome,12,120,Marseilles',
+                    'Responded,FirstName12,LastName12,Email12@domain.com,0777777777,Company12,Financial Advisor,FR,France,Paris,75001,12 place Vendome,12,120,Marseilles',
+                    'Responded,FirstName13,LastName13,Email13@domain.com,0777777777,Company13,Financial Advisor,FR,France,Paris,75001,12 place Vendome,12,120,Marseilles',
+                    'Responded,FirstName14,LastName14,Email14@domain.com,0777777777,Company14,Financial Advisor,FR,France,Paris,75001,12 place Vendome,12,120,Marseilles',
+                    'Responded,FirstName15,LastName15,Email15@domain.com,0777777777,Company15,Financial Advisor,FR,France,Paris,75001,12 place Vendome,12,120,Marseilles',
+                    'Responded,FirstName16,LastName16,Email16@domain.com,0777777777,Company16,Financial Advisor,FR,France,Paris,75001,12 place Vendome,12,120,Marseilles',
+                    'Responded,FirstName17,LastName17,Email17@domain.com,0777777777,Company17,Financial Advisor,FR,France,Paris,75001,12 place Vendome,12,120,Marseilles',
+                    'Responded,FirstName18,LastName18,Email18@domain.com,0777777777,Company18,Financial Advisor,FR,France,Paris,75001,12 place Vendome,12,120,Marseilles',
+                    'Responded,FirstName19,LastName19,Email19@domain.com,0777777777,Company19,Financial Advisor,FR,France,Paris,75001,12 place Vendome,12,120,Marseilles',
+                    'Responded,FirstName20,LastName20,Email20@domain.com,0777777777,Company20,Financial Advisor,FR,France,Paris,75001,12 place Vendome,12,120,Marseilles'
                 },
                 '\n'
             )

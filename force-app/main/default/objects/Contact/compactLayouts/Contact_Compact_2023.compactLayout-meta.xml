@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_Compact_2023</fullName>
+    <fields>Name</fields>
+    <fields>AccountId</fields>
+    <fields>Persona__c</fields>
+    <fields>JobFunction__c</fields>
+    <fields>Phone</fields>
+    <fields>MobilePhone</fields>
+    <fields>Email</fields>
+    <fields>HasOptedOutOfEmail</fields>
+    <fields>Last_Interaction__c</fields>
+    <label>Contact Compact Layout 2023</label>
+</CompactLayout>

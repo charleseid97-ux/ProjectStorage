@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_VR09_Business_Region_required</fullName>
+    <active>true</active>
+    <description>Prevent user to save new company without Business Developement region</description>
+    <errorConditionFormula>OR(
+AND(ISNEW(),
+				NOT($User.BypassValidationRules__c),
+				NOT(ISBLANK($User.Secondary_Teams__c)),
+				AND(ISCHANGED(BusinessDevelopmentRegion__c),
+								ISBLANK(TEXT(BusinessDevelopmentRegion__c)))),
+				
+AND(ISBLANK(TEXT(BusinessDevelopmentRegion__c)),
+				NOT($User.BypassValidationRules__c)),
+				
+AND(ISNEW(),
+				NOT($User.BypassValidationRules__c),
+    ISPICKVAL($User.Team__c, &apos;&apos;),
+				ISBLANK(TEXT(BusinessDevelopmentRegion__c)))
+)</errorConditionFormula>
+    <errorDisplayField>BusinessDevelopmentRegion__c</errorDisplayField>
+    <errorMessage>Please enter a Business Development Region to save this new company.</errorMessage>
+</ValidationRule>

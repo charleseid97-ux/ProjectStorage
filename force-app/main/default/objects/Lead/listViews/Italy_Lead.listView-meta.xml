@@ -10,7 +10,7 @@
     <columns>LEAD.LEAD_SOURCE</columns>
     <columns>LEAD.STATUS</columns>
     <columns>Lead_Status_Logo__c</columns>
-    <filterScope>Queue</filterScope>
+    <filterScope>Everything</filterScope>
     <filters>
         <field>CORE.USERS.ALIAS</field>
         <operation>equals</operation>
@@ -29,10 +29,9 @@
     <filters>
         <field>LEAD.STATUS</field>
         <operation>notEqual</operation>
-        <value>Disqualified</value>
+        <value>Disqualified,Qualified</value>
     </filters>
     <label>Italy - All Active Leads</label>
-    <queue>Italy</queue>
     <sharedTo>
         <roleAndSubordinates>ItalyHeadofCountry</roleAndSubordinates>
     </sharedTo>

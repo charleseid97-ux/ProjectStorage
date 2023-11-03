@@ -24,7 +24,7 @@
     <filters>
         <field>DUE_DATE</field>
         <operation>equals</operation>
-        <value>TODAY,LAST_N_DAYS:30</value>
+        <value>TODAY</value>
     </filters>
-    <label>ENCODED:{!FilterNames.z_TodaysTasks}</label>
+    <label>My Today&apos;s Tasks</label>
 </ListView>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Upcoming_Events_in_my_region</fullName>
+    <columns>CAMPAIGN.NAME</columns>
+    <columns>Event_Local_Start_Time__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Start_Date_Time__c</field>
+        <operation>greaterOrEqual</operation>
+        <value>TODAY</value>
+    </filters>
+    <filters>
+        <field>CAMPAIGN.RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Campaign.Event_and_Meeting</value>
+    </filters>
+    <filters>
+        <field>Is_IN_my_team__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>CAMPAIGN.STATUS</field>
+        <operation>notEqual</operation>
+        <value>Closed,Cancelled,Rejected,Archived</value>
+    </filters>
+    <label>Upcoming Events in my Team</label>
+</ListView>

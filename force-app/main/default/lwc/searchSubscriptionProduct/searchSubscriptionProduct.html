@@ -1,0 +1,154 @@
+<!--
+  @description       : 
+  @author            : Thanina YAYA
+  @last modified on  : 29-08-2023
+  @last modified by  : Thanina YAYA
+-->
+<template>
+    <template if:true={results} >
+        <lightning-card title="" icon-name="" style="display: inline-block;width: 100%;height:30rem;">
+            <div class="slds-align_absolute-center" style="width: 80%;">
+                <lightning-input
+                    name="searchAll"
+                    label="Search [Strategy - Fund]"
+                    type="search"
+                    autocomplete="off"
+                    onchange={handleSeach}>
+                </lightning-input>
+            </div>
+            <div class="slds-align_absolute-center" style="width: 80%;">
+                    <lightning-button
+                    label="Expand All"
+                    onclick={expandAll}
+                    class="slds-var-m-around_medium">
+                </lightning-button>
+                <lightning-button
+                    label="Collapse All"
+                    onclick={collapseAll}
+                    class="slds-var-m-around_medium">
+                </lightning-button>
+            </div> 
+            <lightning-accordion allow-multiple-sections-open
+                            active-section-name={defaultOpenStrat}
+                            onsectiontoggle={handleSectionToggleStrat}>
+                <template for:each={results} for:item="strat" for:index="indexSt">
+                    <lightning-accordion-section key={strat.Id} name={strat.Id} label={strat.Name}>
+                        <lightning-accordion allow-multiple-sections-open
+                            active-section-name={defaultOpenFund}
+                            onsectiontoggle={handleSectionToggleFund}>
+                            <template if:true={strat.funds} >
+                                <template for:each={strat.funds} for:item="item" for:index="index">  
+                            <lightning-accordion-section key={item.Id} name={item.Id} label={item.Name}>
+                                <template if:true={item.products} >
+                                    <div class="slds-col slds-var-m-left_medium slds-var-m-right_x-small">
+                                    <template for:each={item.products} for:item="product" for:index="iteration">
+                                        <div key={product.Id} class="slds-var-p-left_x-small slds-var-m-top_xx-small lgc-bg ">
+            
+                                            <div class="slds-grid slds-gutters slds-grid_vertical-align-center shareClassText">
+                                                <div class="slds-col slds-size_1-of-2 slds-truncate">
+                                                    <!-- dip check box and name-->  
+                                                    <label style="font-size: .7rem;">{product.Name}</label>
+                                                    <!--<lightning-input type="checkbox" label={product.Name} name={item.Id} value={product.Id} onchange={handleProductSelection}></lightning-input>-->
+                                                </div>
+                                            <template if:true={isNav}>
+                                                <div class="slds-col slds-size_1-of-6">
+                                                    <!-- Daily-->
+                                                    <div class="slds-form slds-form_stacked">
+                                                        <div class="slds-form-element">
+                                                            <label class="slds-form-element__label" for="toggle">Daily</label>
+                                                            <lightning-input data-item={item.Id}
+                                                                             type="toggle"
+                                                                             label=""
+                                                                             variant="label-hidden"
+                                                                             name={product.Id} value="daily" checked={product.alertTypes.daily.checked} message-toggle-active="" message-toggle-inactive="" onchange={handlePeriodSelection}> </lightning-input>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col slds-size_1-of-6">
+                                                    <!-- weekly-->
+                                                    <div class="slds-form slds-form_stacked">
+                                                        <div class="slds-form-element">
+                                                            <label class="slds-form-element__label" for="toggle">Weekly</label>
+                                                            <lightning-input data-item={item.Id}
+                                                                             type="toggle"
+                                                                             label=""
+                                                                             variant="label-hidden"
+                                                                             name={product.Id} value="weekly" checked={product.alertTypes.weekly.checked} message-toggle-active="" message-toggle-inactive="" onchange={handlePeriodSelection}> </lightning-input>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col slds-size_1-of-6">
+                                                    <!-- Monthly-->
+                                                    <div class="slds-form slds-form_stacked">
+                                                        <div class="slds-form-element">
+                                                            <label class="slds-form-element__label" for="toggle">Monthly</label>
+                                                            <lightning-input data-item={item.Id}
+                                                                             type="toggle"
+                                                                             label=""
+                                                                             variant="label-hidden"
+                                                                             name={product.Id} value="monthly" checked={product.alertTypes.monthly.checked} message-toggle-active="" message-toggle-inactive="" onchange={handlePeriodSelection}> </lightning-input>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                            <template if:true={isReport}>
+                                                <div class="slds-col slds-size_1-of-4">
+                                                    <!-- weekly-->
+                                                    <div class="slds-form slds-form_stacked">
+                                                        <div class="slds-form-element">
+                                                            <label class="slds-form-element__label" for="toggle">Weekly</label>
+                                                            <lightning-input data-item={item.Id}
+                                                                             type="toggle"
+                                                                             label=""
+                                                                             variant="label-hidden"
+                                                                             name={product.Id} value="weekly" checked={product.alertTypes.weekly.checked} message-toggle-active="" message-toggle-inactive="" onchange={handlePeriodSelection}> </lightning-input>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col slds-size_1-of-4">
+                                                    <!-- Monthly-->
+                                                    <div class="slds-form slds-form_stacked">
+                                                        <div class="slds-form-element">
+                                                            <label class="slds-form-element__label" for="toggle">Monthly</label>
+                                                            <lightning-input data-item={item.Id}
+                                                                             type="toggle"
+                                                                             label=""
+                                                                             variant="label-hidden"
+                                                                             name={product.Id} value="monthly" checked={product.alertTypes.monthly.checked} message-toggle-active="" message-toggle-inactive="" onchange={handlePeriodSelection}> </lightning-input>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                            </div>
+                                            
+                                            <!--<lightning-icon icon-name="custom:custom64" size="xx-small" alternative-text="product" title="product"></lightning-icon>&nbsp;
+                                             <label>{product.Name}</label>-->
+                                        </div> 
+                                    </template>
+                                </div>
+                                </template>
+                            </lightning-accordion-section>
+                        </template>
+                        </template>
+                        </lightning-accordion>
+                    
+                       
+                    </lightning-accordion-section>  
+                </template>
+            </lightning-accordion>
+        </lightning-card> 
+        
+        <!--<div slot="footer" class="slds-align_absolute-center" >
+            <lightning-button label="Save" title="Save action" icon-name="utility:save" class="slds-var-m-left_x-small" onclick={handleSaveSubscriptions} variant="brand"></lightning-button>
+            <lightning-button label="Cancel" title="Cancel action" icon-name="utility:refresh" class="slds-var-m-left_x-small" onclick={cancelSubscriptions} variant="brand"></lightning-button>
+        </div>-->
+    </template>
+    <template if:true={showSpinner}>
+        <!--<div class="slds-align_absolute-center">-->
+            <div style="height: 30rem; position:relative">
+                <lightning-spinner alternative-text="Loading" size="x-small"></lightning-spinner>
+            </div>
+           
+        <!--</div> -->
+   </template> 
+</template>

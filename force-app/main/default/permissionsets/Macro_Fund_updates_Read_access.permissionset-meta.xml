@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Allows users to have Trending Topics/Funds updates Read Access
+To assign to users except admin and Product/BI team</description>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Macro_Fund_update__c.News__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Macro_Fund_update__c.Topics__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Trending Topics/Funds updates - Read access</label>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Macro_Fund_update__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <tabSettings>
+        <tab>Macro_Fund_update__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+</PermissionSet>

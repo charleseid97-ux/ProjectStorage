@@ -21,9 +21,15 @@ public class SM017_LeadTriggerHandler implements ITriggerHandler{
 
             boolean isWebsiteUser = UserInfo.getUserId() == Label.WebsiteProspaceId;
 
-            if(!Pad.SKIP_STRIGGER_MAP.containsKey('initializeNewLeadFromWebSite') && isWebsiteUser) SM026_Lead_Website.initializeNewLeadFromWebSite((List<Lead>) newItems);
+            if (!Pad.SKIP_STRIGGER_MAP.containsKey('initializeNewLeadFromWebSite') && isWebsiteUser) {
+                SM026_Lead_Website.initializeNewLeadFromWebSite((List<Lead>) newItems);
+            }
 
-            if(!Pad.SKIP_STRIGGER_MAP.containsKey('updateTechnicalId')) updateTechnicalId((List<Lead>) newItems);
+            if (!Pad.SKIP_STRIGGER_MAP.containsKey('updateTechnicalId')) {
+                updateTechnicalId((List<Lead>) newItems);
+            }
+
+            UtilitiesSObject.initPreferenceCenter(newItems);
         }
     }
 
@@ -31,8 +37,16 @@ public class SM017_LeadTriggerHandler implements ITriggerHandler{
 
         if (PAD.canTrigger('LeadBeforeUpdate')) {
             boolean isWebsiteUser = UserInfo.getUserId() == Label.WebsiteProspaceId;
-            if(!Pad.SKIP_STRIGGER_MAP.containsKey('updateLeadOwner') && !isWebsiteUser) SM026_Lead_Website.updateLeadOwner((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
-            if(!Pad.SKIP_STRIGGER_MAP.containsKey('initializeExistingLeadFromWebSite') && isWebsiteUser) SM026_Lead_Website.initializeExistingLeadFromWebSite((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
+            if (!Pad.SKIP_STRIGGER_MAP.containsKey('updateLeadOwner') && !isWebsiteUser) {
+                SM026_Lead_Website.updateLeadOwner((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
+            }
+            if (!Pad.SKIP_STRIGGER_MAP.containsKey('initializeExistingLeadFromWebSite') && isWebsiteUser) {
+                SM026_Lead_Website.initializeExistingLeadFromWebSite((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
+            }
+
+            //Check the preference center and hasoptoutofemail fiels
+            //Some fields may be checked or unchecked based on other fields changes
+            UtilitiesSObject.checkPreferenceCenterFields(newItems.values(), oldItems);
         }
     }
 
@@ -50,19 +64,27 @@ public class SM017_LeadTriggerHandler implements ITriggerHandler{
 
             boolean isNotWebsiteUser = UserInfo.getUserId() != Label.WebsiteProspaceId;
 
-            if(!Pad.SKIP_STRIGGER_MAP.containsKey('sendAsyncWebsiteLead') && isNotWebsiteUser) SM026_Lead_Website.sendAsyncWebsiteLead((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
+            if (!Pad.SKIP_STRIGGER_MAP.containsKey('sendAsyncWebsiteLead') && isNotWebsiteUser) {
+                SM026_Lead_Website.sendAsyncWebsiteLead((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
+            }
 
-            if(!Pad.SKIP_STRIGGER_MAP.containsKey('processConvertedLead')) SM026_Lead_Website.processConvertedLead((Map<Id, Lead>) newItems);
+            if (!Pad.SKIP_STRIGGER_MAP.containsKey('processConvertedLead')) {
+                SM026_Lead_Website.processConvertedLead((Map<Id, Lead>) newItems, (Map<Id, Lead>) oldItems);
+            }
 
-            //if(!Pad.SKIP_STRIGGER_MAP.containsKey('updateCampaignMembersForLead')) updateCampaignMembersForLead((List<Lead>) newItems.values());
+            //if (!Pad.SKIP_STRIGGER_MAP.containsKey('updateCampaignMembersForLead')) updateCampaignMembersForLead((List<Lead>) newItems.values());
 
-            if(!Pad.SKIP_STRIGGER_MAP.containsKey('deleteLeadAlerts')) SM026_Lead_Website.deleteLeadAlerts((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
+            if (!Pad.SKIP_STRIGGER_MAP.containsKey('deactivateLeadAlerts')) {
+                SM026_Lead_Website.deactivateLeadAlerts((List<Lead>) newItems.values(), (Map<Id, Lead>) oldItems);
+            }
 
         }
     }
 
 
     public void AfterDelete(Map<Id, SObject> oldItems) {
+        SM026_Lead_Website.deleteAsyncWebsiteLead((Map<Id, Lead>) oldItems);
+        //SM029_WebCommunication.deleteEmptyWebCommunication();
     }
 
 
@@ -70,8 +92,12 @@ public class SM017_LeadTriggerHandler implements ITriggerHandler{
     }
 
     public Boolean IsDisabled() {
-        if(PAD.canTrigger('LeadTrigger')) return triggerDisabled;
-        else return true;
+        if (PAD.canTrigger('LeadTrigger')) {
+            return triggerDisabled;
+        }
+        else {
+            return true;
+        }
     }
 
     /*
@@ -114,7 +140,7 @@ public class SM017_LeadTriggerHandler implements ITriggerHandler{
             }
         }
         //Update incremental value in custom settings
-        if(setting != null){
+        if (setting != null){
             update setting;
         }
     }

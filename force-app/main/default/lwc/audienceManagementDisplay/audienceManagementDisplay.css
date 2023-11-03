@@ -1,0 +1,5 @@
+/* Allows the content of the modal to pop out of the div */
+.slds-modal__content {
+    overflow: visible;
+    overflow-y: visible;
+}

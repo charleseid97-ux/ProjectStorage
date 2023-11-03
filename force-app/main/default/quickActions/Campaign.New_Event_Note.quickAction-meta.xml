@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Swith name from Event Note to campaign note to avoid mistake with meeting note type event</description>
     <flowDefinition>Create_Event_Note</flowDefinition>
-    <label>New Event Note</label>
+    <label>New Campaign Note</label>
     <optionsCreateFeedItem>false</optionsCreateFeedItem>
     <type>Flow</type>
 </QuickAction>
