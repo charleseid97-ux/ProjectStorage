@@ -1,0 +1,60 @@
+# Python Function App to Linux on Azure
+# Build a Python function app
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/python
+
+trigger:
+- master
+- develop
+
+variables:
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+
+  # Working Directory
+  workingDirectory: '$(System.DefaultWorkingDirectory)/'
+
+stages:
+- stage: Build
+  displayName: Build stage
+
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
+
+    steps:
+    - checkout: self
+      fetchDepth: 0
+    - task: SonarCloudPrepare@3
+      inputs:
+        SonarQube: 'SF-SonarCloud'
+        organization: 'sonarcloudtools'
+        scannerMode: 'cli'
+        configMode: 'manual'
+        cliProjectKey: 'DBS.SalesForce'
+        cliProjectName: 'DBS.SalesForce'
+        cliSources: '../'
+    - task: SonarCloudAnalyze@3
+      inputs:
+        jdkversion: 'JAVA_HOME_21_X64'
+    - bash: |
+        if [ -f extensions.csproj ]
+        then
+            dotnet build extensions.csproj --runtime ubuntu.22.04-x64 --output ./bin 
+        fi
+      workingDirectory: $(workingDirectory)
+      displayName: 'Build extensions'
+
+    - task: ArchiveFiles@2
+      displayName: 'Archive files'
+      inputs:
+        rootFolderOrFile: '$(workingDirectory)'
+        includeRootFolder: false
+        archiveType: zip
+        archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+        replaceExistingArchive: true
+
+    - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+      artifact: drop
