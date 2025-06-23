@@ -34,6 +34,7 @@ stages:
         configMode: 'manual'
         cliProjectKey: 'DBS.SalesForce'
         cliProjectName: 'DBS.SalesForce'
+        sonarToken: '$(SONAR_TOKEN)'
         cliSources: '../'
     - task: SonarCloudAnalyze@3
       inputs:
