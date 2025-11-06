@@ -1,0 +1,113 @@
+# --------------------------------------------------------------------------------
+#  SFDX/SF - Deploy (MDAPI) on Azure Pipelines
+# --------------------------------------------------------------------------------
+parameters:
+  pool:
+    vmImage: 'ubuntu-latest'
+  Environment: ''     # Nom d'environnement Azure (optionnel)
+  instance: 'UAT'     # Libellé (apparaitra dans le titre des tests)
+
+jobs:
+- deployment: sfdx_deploy
+  displayName: SFDX Deploy
+  environment: ${{ parameters.Environment }}
+  pool: ${{ parameters.pool }}
+  timeoutInMinutes: 360
+
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - checkout: self
+
+        # Clé privée de la Connected App (nom tel qu'enregistré dans la Librairie)
+        - task: DownloadSecureFile@1
+          name: sfdxDigitalCertificate
+          inputs:
+            secureFile: 'salesforce_privatekey.pem'
+
+        - task: NodeTool@0
+          displayName: 'Install Node.js'
+          inputs:
+            versionSpec: '18.x'
+
+        - script: |
+            npm i -g @salesforce/cli sfdx-cli
+            sf --version
+            sfdx --version
+          displayName: 'Install Salesforce CLI'
+
+        # (Optionnel) jq pour parser le JSON de sortie
+        - script: |
+            sudo apt-get update -y
+            sudo apt-get install -y jq
+          displayName: 'Install jq'
+
+        # Auth JWT (non interactive)
+        - script: |
+            sfdx force:auth:jwt:grant \
+              --clientid "$(SFDX_CLIENT_ID)" \
+              --jwtkeyfile "$(sfdxDigitalCertificate.secureFilePath)" \
+              --username "$(SFDX_USERNAME)" \
+              --setalias targetorg
+          displayName: 'Authenticate Salesforce (JWT)'
+          env:
+            # Expose aussi en variables d'environnement si tu préfères $SFDX_CLIENT_ID dans les scripts
+            SFDX_CLIENT_ID: $(SFDX_CLIENT_ID)
+            SFDX_USERNAME: $(SFDX_USERNAME)
+
+        # Convertir le projet source -> MDAPI
+        - script: |
+            rm -rf mdapi_out
+            sfdx force:source:convert -r force-app -d mdapi_out
+          displayName: 'Convert source to MDAPI'
+
+        # Déploiement MDAPI + tests locaux + sortie JSON/JUnit
+        - script: |
+            # Déploiement avec attente (60 min max) et génération JUnit
+            sf deploy metadata \
+              --metadata-dir mdapi_out \
+              --target-org targetorg \
+              --test-level RunLocalTests \
+              --wait 60 \
+              --json > build.json
+
+            # En parallèle, export JUnit pour Azure (sf écrit un chemin dans le JSON seulement pour certaines commandes)
+            # Si besoin, tu peux aussi utiliser sfdx mdapi:deploy pour générer un JUnit explicite
+          displayName: 'Deploy (MDAPI) + RunLocalTests'
+          continueOnError: false
+
+        # Report (MDAPI) à partir de l'ID du déploiement
+        - script: |
+            DEPLOY_ID=$(jq -r '.result.id // empty' build.json)
+            if [ -n "$DEPLOY_ID" ]; then
+              sfdx force:mdapi:deploy:report -i "$DEPLOY_ID" -u targetorg -w 1
+            else
+              echo "No deploy id found in build.json"; cat build.json; exit 1
+            fi
+            echo; cat build.json
+          condition: always()
+          timeoutInMinutes: 5
+          displayName: 'Print Deploy Report'
+
+        # Récup du chemin JUnit (fallback si absent)
+        - script: |
+            JUNIT_PATH=$(jq -r '.result.junit // empty' build.json)
+            if [ -z "$JUNIT_PATH" ]; then
+              # Fallback : chercher tout JUnit dans le repo (à adapter si tu sauvegardes ailleurs)
+              JUNIT_PATH="**/test-result-*.xml"
+            fi
+            echo "##vso[task.setvariable variable=SFDX_TEST_OUTPUT_PATH]$JUNIT_PATH"
+          condition: always()
+          timeoutInMinutes: 5
+          displayName: 'Locate Test Report'
+
+        - task: PublishTestResults@2
+          displayName: 'Publish Test Results'
+          condition: always()
+          inputs:
+            testRunner: JUnit
+            testResultsFiles: '$(SFDX_TEST_OUTPUT_PATH)'
+            testRunTitle: "[${{ parameters.instance }}] Salesforce Deployment"
+            failTaskOnFailedTests: true
+            platform: ${{ parameters.instance }}
