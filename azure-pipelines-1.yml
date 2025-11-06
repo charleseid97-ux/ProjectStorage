@@ -43,7 +43,7 @@ steps:
         --clientid "$(SFDX_CLIENT_ID)" \
         --jwtkeyfile "$(sfdxJwtKey.secureFilePath)" \
         --username "$(SFDX_USERNAME)" \
-        --instanceurl "$(SFDX_INSTANCE_URL)" \
+        --instance-url "$SF_ORG_INSTANCE_URL" \
         --setalias uat
       sf org display --target-org uat
     displayName: 'Authenticate Salesforce (JWT UAT)'
