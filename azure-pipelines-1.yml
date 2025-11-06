@@ -18,7 +18,7 @@ steps:
   - task: DownloadSecureFile@1
     name: sfdxJwtKey
     inputs:
-      secureFile: 'SF_UAT_certificate.pem'   # <--- nom exact en Secure Files
+      secureFile: 'SF_UAT_key.pem'   # <--- nom exact en Secure Files
 
   # 2) Node + Salesforce CLI
   - task: NodeTool@0
@@ -60,6 +60,7 @@ steps:
         -d mdapi_out \
         -u uat \
         -l RunLocalTests \
+         --check-only \
         -w 60 \
         --json \
         --junit > build.json
