@@ -23,9 +23,11 @@ public with sharing class CampaignTriggerHandler implements ITriggerHandler{
     }
 
     public void AfterInsert(Map<Id, SObject> newItems) {
+        CampaignService.sendCampaignLyyti((List<Campaign>) newItems.values(), null);
     }
 
     public void AfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
+        CampaignService.sendCampaignLyyti((List<Campaign>) newItems.values(), (Map<Id, Campaign>) oldItems);
     }
 
     public void AfterDelete(Map<Id, SObject> oldItems) {

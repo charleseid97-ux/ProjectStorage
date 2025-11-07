@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Type --></label>
     <name>Type__c</name>
     <picklistValues>
         <masterLabel>Bug</masterLabel>
-        <translation></translation>
+        <translation><!-- Bug --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>New Feature</masterLabel>
-        <translation></translation>
+        <translation><!-- New Feature --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Question</masterLabel>
-        <translation></translation>
+        <translation><!-- Question --></translation>
     </picklistValues>
 </CustomFieldTranslation>

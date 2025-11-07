@@ -46,6 +46,13 @@
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
+    <multilineLayoutFields>AccountId</multilineLayoutFields>
+    <multilineLayoutFields>TeamMemberRole</multilineLayoutFields>
+    <multilineLayoutFields>OpportunityAccessLevel</multilineLayoutFields>
+    <multilineLayoutFields>ContactAccessLevel</multilineLayoutFields>
+    <multilineLayoutFields>UserId</multilineLayoutFields>
+    <multilineLayoutFields>AccountAccessLevel</multilineLayoutFields>
+    <multilineLayoutFields>CaseAccessLevel</multilineLayoutFields>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>

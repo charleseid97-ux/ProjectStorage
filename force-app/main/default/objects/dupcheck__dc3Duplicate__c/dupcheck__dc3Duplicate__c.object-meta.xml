@@ -154,13 +154,13 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ControlledByParent</externalSharingModel>
-    <label>Duplicate Check Duplicate</label>
+    <label>Plauti Deduplicate Duplicate</label>
     <nameField>
         <displayFormat>DUP{0000000000}</displayFormat>
-        <label>Duplicate Check Duplicate</label>
+        <label>Plauti Deduplicate Duplicate</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Duplicate Check Duplicates</pluralLabel>
+    <pluralLabel>Plauti Deduplicate Duplicates</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
     <visibility>Public</visibility>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help></help>
-    <label></label>
+    <help><!-- Auto populate field on creation from the related Company --></help>
+    <label><!-- Business Development Region --></label>
     <name>BusinessDevelopmentRegion__c</name>
 </CustomFieldTranslation>

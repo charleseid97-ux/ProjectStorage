@@ -28,7 +28,7 @@
     </filters>
     <label>Nord,Lux &amp; NL - Website Leads To Qualify</label>
     <sharedTo>
-        <roleAndSubordinates>LuxembourgNetherlandsHeadofCountry</roleAndSubordinates>
-        <roleAndSubordinates>NordicsHeadofCountry</roleAndSubordinates>
+        <roleAndSubordinatesInternal>LuxembourgNetherlandsHeadofCountry</roleAndSubordinatesInternal>
+        <roleAndSubordinatesInternal>NordicsHeadofCountry</roleAndSubordinatesInternal>
     </sharedTo>
 </ListView>

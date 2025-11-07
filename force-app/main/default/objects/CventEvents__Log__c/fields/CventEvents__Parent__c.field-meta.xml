@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Enables hierarchical event logs, where one parent event log has multiple child logs.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Enables hierarchical event logs, where one parent event log has multiple child logs.</inlineHelpText>
     <label>Parent</label>
     <referenceTo>CventEvents__Log__c</referenceTo>

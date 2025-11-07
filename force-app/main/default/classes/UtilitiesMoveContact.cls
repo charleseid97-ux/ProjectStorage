@@ -117,7 +117,6 @@ public with sharing class UtilitiesMoveContact {
             cont.Phone = newContact.Phone;
             cont.MobilePhone = newContact.MobilePhone;
             cont.HasOptedOutOfEmail = newContact.HasOptedOutOfEmail;
-            cont.Subscriber__c = newContact.Subscriber__c;
           //cont.Use_Company_Address__c = newContact.Use_Company_Address__c;
         }
                             

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <excludeButtons>OpenSlackRecordChannel</excludeButtons>
     <excludeButtons>Submit</excludeButtons>
     <layoutSections>
         <customLabel>false</customLabel>
@@ -38,10 +39,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Date_of_Interaction__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Last_Interaction_Date__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -88,14 +85,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Email_Status__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Total_Opens__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Total_Clicks__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -161,6 +150,7 @@
         <fields>Details_Date__c</fields>
         <fields>Type__c</fields>
         <fields>Page_Title__c</fields>
+        <fields>FundName__c</fields>
         <fields>URL__c</fields>
         <fields>Time_Spent__c</fields>
         <fields>Tag__c</fields>

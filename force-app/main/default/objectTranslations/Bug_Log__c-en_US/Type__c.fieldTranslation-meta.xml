@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help></help>
-    <label></label>
+    <help><!-- What can we do for you ? --></help>
+    <label><!-- Type --></label>
     <name>Type__c</name>
     <picklistValues>
         <masterLabel>I have a problem... (Bug)</masterLabel>
-        <translation></translation>
+        <translation><!-- I have a problem... (Bug) --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>I have a question about... (Information)</masterLabel>
-        <translation></translation>
+        <translation><!-- I have a question about... (Information) --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>I have an idea/suggestion... (Evolution)</masterLabel>
-        <translation></translation>
+        <translation><!-- I have an idea/suggestion... (Evolution) --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>I need assistance ... (Support)</masterLabel>
-        <translation></translation>
+        <translation><!-- I need assistance ... (Support) --></translation>
     </picklistValues>
 </CustomFieldTranslation>

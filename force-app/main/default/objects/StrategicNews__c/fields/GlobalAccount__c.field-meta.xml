@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>GlobalAccount__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
-    <externalId>false</externalId>
     <label>Global Account</label>
     <referenceTo>Account</referenceTo>
     <relationshipName>StrategicNews1</relationshipName>

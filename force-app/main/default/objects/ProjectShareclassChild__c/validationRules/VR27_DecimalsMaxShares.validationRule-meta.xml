@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR27_DecimalsMaxShares</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  NOT($User.BypassValidationRules__c),
+  OR(
+    DecimalsMaxShares__c &lt; 0,
+    DecimalsMaxShares__c &gt; 4
+  )
+)</errorConditionFormula>
+    <errorMessage>Decimals Max Shares must be between 0 and 4</errorMessage>
+</ValidationRule>

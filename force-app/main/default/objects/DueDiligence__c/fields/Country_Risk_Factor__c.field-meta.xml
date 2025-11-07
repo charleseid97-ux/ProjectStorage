@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Country_Risk_Factor__c</fullName>
     <description>Country risk factor from UME</description>
-    <externalId>false</externalId>
     <label>Country Risk Factor</label>
     <precision>3</precision>
     <required>false</required>

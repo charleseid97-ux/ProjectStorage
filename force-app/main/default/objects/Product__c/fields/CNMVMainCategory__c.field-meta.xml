@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CNMVMainCategory__c</fullName>
+    <label>CNMV Main Category</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Equities Funds</fullName>
+                <default>false</default>
+                <label>Equities Funds</label>
+            </value>
+            <value>
+                <fullName>Fixed Income Funds</fullName>
+                <default>false</default>
+                <label>Fixed Income Funds</label>
+            </value>
+            <value>
+                <fullName>Hedge Funds</fullName>
+                <default>false</default>
+                <label>Hedge Funds</label>
+            </value>
+            <value>
+                <fullName>Mixed Funds</fullName>
+                <default>false</default>
+                <label>Mixed Funds</label>
+            </value>
+            <value>
+                <fullName>MMF Funds</fullName>
+                <default>false</default>
+                <label>MMF Funds</label>
+            </value>
+            <value>
+                <fullName>Other Funds</fullName>
+                <default>false</default>
+                <label>Other Funds</label>
+            </value>
+            <value>
+                <fullName>Real estate Funds</fullName>
+                <default>false</default>
+                <label>Real estate Funds</label>
+            </value>
+            <value>
+                <fullName>CNMV Main Category</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>CNMV Main Category</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

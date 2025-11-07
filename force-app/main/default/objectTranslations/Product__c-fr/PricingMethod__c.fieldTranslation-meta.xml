@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Pricing Methodology --></label>
+    <name>PricingMethod__c</name>
+    <picklistValues>
+        <masterLabel>Dual pricing</masterLabel>
+        <translation><!-- Dual pricing --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Single pricing</masterLabel>
+        <translation><!-- Single pricing --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NAVCalendar__c</fullName>
+    <label>NAV Calendar</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>FCP-SICAV Standard</fullName>
+                <default>false</default>
+                <label>FCP-SICAV-FCPE Standard</label>
+            </value>
+            <value>
+                <fullName>FCP-SICAV China Economy</fullName>
+                <default>false</default>
+                <label>FCP-SICAV China Economy</label>
+            </value>
+            <value>
+                <fullName>OEIC</fullName>
+                <default>false</default>
+                <label>OEIC</label>
+            </value>
+            <value>
+                <fullName>ICAV</fullName>
+                <default>false</default>
+                <label>ICAV</label>
+            </value>
+            <value>
+                <fullName>CPEG</fullName>
+                <default>false</default>
+                <label>CPEG</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

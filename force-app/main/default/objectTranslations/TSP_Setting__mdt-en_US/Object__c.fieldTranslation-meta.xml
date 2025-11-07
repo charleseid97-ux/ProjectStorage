@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Object --></label>
     <name>Object__c</name>
     <picklistValues>
         <masterLabel>Account</masterLabel>
-        <translation></translation>
+        <translation><!-- Account --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Campaign</masterLabel>
-        <translation></translation>
+        <translation><!-- Campaign --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Case</masterLabel>
-        <translation></translation>
+        <translation><!-- Case --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Contact</masterLabel>
-        <translation></translation>
+        <translation><!-- Contact --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Lead</masterLabel>
-        <translation></translation>
+        <translation><!-- Lead --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Opportunity</masterLabel>
-        <translation></translation>
+        <translation><!-- Opportunity --></translation>
     </picklistValues>
 </CustomFieldTranslation>

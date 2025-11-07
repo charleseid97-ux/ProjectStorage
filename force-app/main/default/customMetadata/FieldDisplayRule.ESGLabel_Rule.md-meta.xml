@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>ESGLabel_Rule</label>
+    <protected>false</protected>
+    <values>
+        <field>DependentFields__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DisplayCondition__c</field>
+        <value xsi:type="xsd:string">((record.SFDRcategory__c === &quot;8&quot; || record.SFDRcategory__c === &quot;9&quot;) &amp;&amp;  (record.ESGLabelForeseen__c=== &quot;True&quot; || record.ESGLabelForeseen__c===true))</value>
+    </values>
+    <values>
+        <field>FieldApiName__c</field>
+        <value xsi:type="xsd:string">ESGLabel</value>
+    </values>
+    <values>
+        <field>Mandatory_Rule__c</field>
+        <value xsi:type="xsd:string">((record.SFDRcategory__c === &quot;8&quot; || record.SFDRcategory__c === &quot;9&quot;) &amp;&amp;  (record.ESGLabelForeseen__c === &quot;True&quot; || record.ESGLabelForeseen__c ===  true))</value>
+    </values>
+    <values>
+        <field>ObjectApiName__c</field>
+        <value xsi:type="xsd:string">Product</value>
+    </values>
+</CustomMetadata>

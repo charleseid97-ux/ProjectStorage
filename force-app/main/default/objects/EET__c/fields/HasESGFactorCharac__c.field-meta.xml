@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>HasESGFactorCharac__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>20260_Financial_Instrument_ESG_Existing_Thematic_Characteristics</description>
+    <label>Has ESG Factor Charac(20260)</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

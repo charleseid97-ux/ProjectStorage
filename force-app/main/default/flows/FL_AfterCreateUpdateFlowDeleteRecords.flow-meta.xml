@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>59.0</apiVersion>
+    <description>in order to delete flows flaged as &quot;to be deleted&quot; by ADF</description>
+    <environments>Default</environments>
+    <interviewLabel>FL After CreateUpdate Flow Delete Records {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>FL After CreateUpdate Flow Delete Records</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordDeletes>
+        <name>Delete_flagged_Records</name>
+        <label>Delete flagged Records</label>
+        <locationX>176</locationX>
+        <locationY>323</locationY>
+        <faultConnector>
+            <targetReference>CreateLog</targetReference>
+        </faultConnector>
+        <inputReference>$Record</inputReference>
+    </recordDeletes>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Delete_flagged_Records</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>To_delete__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>Flow__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <subflows>
+        <name>CreateLog</name>
+        <label>CreateLog</label>
+        <locationX>440</locationX>
+        <locationY>431</locationY>
+        <flowName>Flows_log_creation</flowName>
+        <inputAssignments>
+            <name>InterfaceLogData</name>
+            <value>
+                <stringValue>Error When trying to delete flagged flow records</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>InterfaceLogName</name>
+            <value>
+                <stringValue>FL Delete Flows Error</stringValue>
+            </value>
+        </inputAssignments>
+    </subflows>
+</Flow>

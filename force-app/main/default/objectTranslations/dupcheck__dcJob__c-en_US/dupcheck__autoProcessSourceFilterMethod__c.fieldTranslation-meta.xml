@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Auto Process Source Filter Method --></label>
+    <name>dupcheck__autoProcessSourceFilterMethod__c</name>
+    <picklistValues>
+        <masterLabel>all</masterLabel>
+        <translation><!-- all --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>filter</masterLabel>
+        <translation><!-- filter --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>predefined</masterLabel>
+        <translation><!-- predefined --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

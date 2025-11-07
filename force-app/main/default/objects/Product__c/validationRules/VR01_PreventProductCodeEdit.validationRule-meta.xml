@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR01_PreventProductCodeEdit</fullName>
+    <active>true</active>
+    <description>Blocks changes to the Product Code (Name field) unless the user is a System Admin or has the BypassValidationRules__c flag enabled.</description>
+    <errorConditionFormula>AND(
+  ISCHANGED(Name),
+  NOT($User.BypassValidationRules__c),
+  $Profile.Name &lt;&gt; &quot;Carmignac - System Admin&quot;
+)</errorConditionFormula>
+    <errorDisplayField>Name</errorDisplayField>
+    <errorMessage>You cannot modify the product code.</errorMessage>
+</ValidationRule>

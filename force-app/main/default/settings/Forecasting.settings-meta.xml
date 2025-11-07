@@ -61,6 +61,13 @@
         </weightedSourceCategories>
     </forecastingCategoryMappings>
     <forecastingCategoryMappings>
+        <forecastingItemCategoryApiName>customcategory</forecastingItemCategoryApiName>
+        <weightedSourceCategories>
+            <sourceCategoryApiName>custom category</sourceCategoryApiName>
+            <weight>1.0</weight>
+        </weightedSourceCategories>
+    </forecastingCategoryMappings>
+    <forecastingCategoryMappings>
         <forecastingItemCategoryApiName>commitforecast</forecastingItemCategoryApiName>
         <weightedSourceCategories>
             <sourceCategoryApiName>closed</sourceCategoryApiName>
@@ -87,6 +94,7 @@
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
+        <forecastedCategoryApiNames>customcategory</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>bestcaseonly</forecastedCategoryApiNames>
         <forecastingDateType>OpportunityCloseDate</forecastingDateType>
         <hasProductFamily>false</hasProductFamily>
@@ -234,8 +242,16 @@
             <label>Last Modified Date</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002i2TI</field>
+            <label>AML Done</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N58000004lqZV</field>
             <label>Analyse ROI terminée</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000ZVsB</field>
+            <label>Asset Class</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N1i000001y64u</field>
@@ -322,12 +338,24 @@
             <label>Investment Solution Product</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002iVEs</field>
+            <label>IS Agreement</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002ZAeW</field>
+            <label>Is IN my Team</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N1i000002faeh</field>
             <label>IS Team Comment</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N1i000002faei</field>
             <label>IS Team Stance</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002iCVZ</field>
+            <label>LinkedIn Company Id</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N58000004lqZW</field>
@@ -366,8 +394,20 @@
             <label>Solution Validation</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002ZAeX</field>
+            <label>Team</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N1i000002fXdN</field>
             <label>TECH_AutomateChatter</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000ZVsC</field>
+            <label>TECH_FlagPEOpp</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000IHAT</field>
+            <label>TechCreatedDate</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000D9emI</field>
@@ -384,6 +424,14 @@
         <opportunityListFieldsLabelMappings>
             <field>00N1i000000dWHT</field>
             <label>Winning Competitor(s)</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <label>Last Stage Change Date</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
+            <label>Push Count</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsSelectedSettings>
             <field>OPPORTUNITY.NAME</field>
@@ -422,7 +470,9 @@
             <field>OPPORTUNITY.LAST_ACTIVITY</field>
             <field>OPPORTUNITY.CREATED_DATE</field>
             <field>OPPORTUNITY.LAST_UPDATE</field>
+            <field>00N1i000002i2TI</field>
             <field>00N58000004lqZV</field>
+            <field>00NaT000000ZVsB</field>
             <field>00N1i000001y64u</field>
             <field>00N5800000CMqYg</field>
             <field>00N5800000CMqYh</field>
@@ -444,8 +494,11 @@
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
             <field>00N1i000001y2RK</field>
+            <field>00N1i000002iVEs</field>
+            <field>00N1i000002ZAeW</field>
             <field>00N1i000002faeh</field>
             <field>00N1i000002faei</field>
+            <field>00N1i000002iCVZ</field>
             <field>00N58000004lqZW</field>
             <field>00N1i000002fcex</field>
             <field>00N5800000CMqYz</field>
@@ -455,11 +508,16 @@
             <field>00N1i000002faej</field>
             <field>00N1i000000dWHQ</field>
             <field>00N1i000002faek</field>
+            <field>00N1i000002ZAeX</field>
             <field>00N1i000002fXdN</field>
+            <field>00NaT000000ZVsC</field>
+            <field>00NaT000000IHAT</field>
             <field>00N5800000D9emI</field>
             <field>00N5800000CMqYp</field>
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
         </opportunityListFieldsUnselectedSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
@@ -471,6 +529,7 @@
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
+        <forecastedCategoryApiNames>customcategory</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>bestcaseonly</forecastedCategoryApiNames>
         <forecastingDateType>OpportunityCloseDate</forecastingDateType>
         <hasProductFamily>false</hasProductFamily>
@@ -618,8 +677,16 @@
             <label>Last Modified Date</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002i2TI</field>
+            <label>AML Done</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N58000004lqZV</field>
             <label>Analyse ROI terminée</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000ZVsB</field>
+            <label>Asset Class</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N1i000001y64u</field>
@@ -706,12 +773,24 @@
             <label>Investment Solution Product</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002iVEs</field>
+            <label>IS Agreement</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002ZAeW</field>
+            <label>Is IN my Team</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N1i000002faeh</field>
             <label>IS Team Comment</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N1i000002faei</field>
             <label>IS Team Stance</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002iCVZ</field>
+            <label>LinkedIn Company Id</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N58000004lqZW</field>
@@ -750,8 +829,20 @@
             <label>Solution Validation</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002ZAeX</field>
+            <label>Team</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N1i000002fXdN</field>
             <label>TECH_AutomateChatter</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000ZVsC</field>
+            <label>TECH_FlagPEOpp</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000IHAT</field>
+            <label>TechCreatedDate</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000D9emI</field>
@@ -768,6 +859,14 @@
         <opportunityListFieldsLabelMappings>
             <field>00N1i000000dWHT</field>
             <label>Winning Competitor(s)</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <label>Last Stage Change Date</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
+            <label>Push Count</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsSelectedSettings>
             <field>OPPORTUNITY.NAME</field>
@@ -806,7 +905,9 @@
             <field>OPPORTUNITY.LAST_ACTIVITY</field>
             <field>OPPORTUNITY.CREATED_DATE</field>
             <field>OPPORTUNITY.LAST_UPDATE</field>
+            <field>00N1i000002i2TI</field>
             <field>00N58000004lqZV</field>
+            <field>00NaT000000ZVsB</field>
             <field>00N1i000001y64u</field>
             <field>00N5800000CMqYg</field>
             <field>00N5800000CMqYh</field>
@@ -828,8 +929,11 @@
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
             <field>00N1i000001y2RK</field>
+            <field>00N1i000002iVEs</field>
+            <field>00N1i000002ZAeW</field>
             <field>00N1i000002faeh</field>
             <field>00N1i000002faei</field>
+            <field>00N1i000002iCVZ</field>
             <field>00N58000004lqZW</field>
             <field>00N1i000002fcex</field>
             <field>00N5800000CMqYz</field>
@@ -839,11 +943,16 @@
             <field>00N1i000002faej</field>
             <field>00N1i000000dWHQ</field>
             <field>00N1i000002faek</field>
+            <field>00N1i000002ZAeX</field>
             <field>00N1i000002fXdN</field>
+            <field>00NaT000000ZVsC</field>
+            <field>00NaT000000IHAT</field>
             <field>00N5800000D9emI</field>
             <field>00N5800000CMqYp</field>
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
         </opportunityListFieldsUnselectedSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
@@ -855,6 +964,7 @@
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
+        <forecastedCategoryApiNames>customcategory</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>bestcaseonly</forecastedCategoryApiNames>
         <forecastingDateType>OpportunityCloseDate</forecastingDateType>
         <hasProductFamily>true</hasProductFamily>
@@ -1006,8 +1116,16 @@
             <label>Last Modified Date</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002i2TI</field>
+            <label>AML Done</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N58000004lqZV</field>
             <label>Analyse ROI terminée</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000ZVsB</field>
+            <label>Asset Class</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N1i000001y64u</field>
@@ -1094,12 +1212,24 @@
             <label>Investment Solution Product</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002iVEs</field>
+            <label>IS Agreement</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002ZAeW</field>
+            <label>Is IN my Team</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N1i000002faeh</field>
             <label>IS Team Comment</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N1i000002faei</field>
             <label>IS Team Stance</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002iCVZ</field>
+            <label>LinkedIn Company Id</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N58000004lqZW</field>
@@ -1138,8 +1268,20 @@
             <label>Solution Validation</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002ZAeX</field>
+            <label>Team</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N1i000002fXdN</field>
             <label>TECH_AutomateChatter</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000ZVsC</field>
+            <label>TECH_FlagPEOpp</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000IHAT</field>
+            <label>TechCreatedDate</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000D9emI</field>
@@ -1156,6 +1298,14 @@
         <opportunityListFieldsLabelMappings>
             <field>00N1i000000dWHT</field>
             <label>Winning Competitor(s)</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <label>Last Stage Change Date</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
+            <label>Push Count</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsSelectedSettings>
             <field>OPPORTUNITY.NAME</field>
@@ -1195,7 +1345,9 @@
             <field>OPPORTUNITY.LAST_ACTIVITY</field>
             <field>OPPORTUNITY.CREATED_DATE</field>
             <field>OPPORTUNITY.LAST_UPDATE</field>
+            <field>00N1i000002i2TI</field>
             <field>00N58000004lqZV</field>
+            <field>00NaT000000ZVsB</field>
             <field>00N1i000001y64u</field>
             <field>00N5800000CMqYg</field>
             <field>00N5800000CMqYh</field>
@@ -1217,8 +1369,11 @@
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
             <field>00N1i000001y2RK</field>
+            <field>00N1i000002iVEs</field>
+            <field>00N1i000002ZAeW</field>
             <field>00N1i000002faeh</field>
             <field>00N1i000002faei</field>
+            <field>00N1i000002iCVZ</field>
             <field>00N58000004lqZW</field>
             <field>00N1i000002fcex</field>
             <field>00N5800000CMqYz</field>
@@ -1228,11 +1383,16 @@
             <field>00N1i000002faej</field>
             <field>00N1i000000dWHQ</field>
             <field>00N1i000002faek</field>
+            <field>00N1i000002ZAeX</field>
             <field>00N1i000002fXdN</field>
+            <field>00NaT000000ZVsC</field>
+            <field>00NaT000000IHAT</field>
             <field>00N5800000D9emI</field>
             <field>00N5800000CMqYp</field>
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
         </opportunityListFieldsUnselectedSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
@@ -1244,6 +1404,7 @@
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
+        <forecastedCategoryApiNames>customcategory</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>bestcaseonly</forecastedCategoryApiNames>
         <forecastingDateType>OpportunityCloseDate</forecastingDateType>
         <hasProductFamily>true</hasProductFamily>
@@ -1391,8 +1552,16 @@
             <label>Last Modified Date</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002i2TI</field>
+            <label>AML Done</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N58000004lqZV</field>
             <label>Analyse ROI terminée</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000ZVsB</field>
+            <label>Asset Class</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N1i000001y64u</field>
@@ -1479,12 +1648,24 @@
             <label>Investment Solution Product</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002iVEs</field>
+            <label>IS Agreement</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002ZAeW</field>
+            <label>Is IN my Team</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N1i000002faeh</field>
             <label>IS Team Comment</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N1i000002faei</field>
             <label>IS Team Stance</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002iCVZ</field>
+            <label>LinkedIn Company Id</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N58000004lqZW</field>
@@ -1523,8 +1704,20 @@
             <label>Solution Validation</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002ZAeX</field>
+            <label>Team</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N1i000002fXdN</field>
             <label>TECH_AutomateChatter</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000ZVsC</field>
+            <label>TECH_FlagPEOpp</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000IHAT</field>
+            <label>TechCreatedDate</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000D9emI</field>
@@ -1541,6 +1734,14 @@
         <opportunityListFieldsLabelMappings>
             <field>00N1i000000dWHT</field>
             <label>Winning Competitor(s)</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <label>Last Stage Change Date</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
+            <label>Push Count</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsSelectedSettings>
             <field>OPPORTUNITY.NAME</field>
@@ -1579,7 +1780,9 @@
             <field>OPPORTUNITY.LAST_ACTIVITY</field>
             <field>OPPORTUNITY.CREATED_DATE</field>
             <field>OPPORTUNITY.LAST_UPDATE</field>
+            <field>00N1i000002i2TI</field>
             <field>00N58000004lqZV</field>
+            <field>00NaT000000ZVsB</field>
             <field>00N1i000001y64u</field>
             <field>00N5800000CMqYg</field>
             <field>00N5800000CMqYh</field>
@@ -1601,8 +1804,11 @@
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
             <field>00N1i000001y2RK</field>
+            <field>00N1i000002iVEs</field>
+            <field>00N1i000002ZAeW</field>
             <field>00N1i000002faeh</field>
             <field>00N1i000002faei</field>
+            <field>00N1i000002iCVZ</field>
             <field>00N58000004lqZW</field>
             <field>00N1i000002fcex</field>
             <field>00N5800000CMqYz</field>
@@ -1612,11 +1818,16 @@
             <field>00N1i000002faej</field>
             <field>00N1i000000dWHQ</field>
             <field>00N1i000002faek</field>
+            <field>00N1i000002ZAeX</field>
             <field>00N1i000002fXdN</field>
+            <field>00NaT000000ZVsC</field>
+            <field>00NaT000000IHAT</field>
             <field>00N5800000D9emI</field>
             <field>00N5800000CMqYp</field>
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
         </opportunityListFieldsUnselectedSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
@@ -1628,6 +1839,7 @@
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
+        <forecastedCategoryApiNames>customcategory</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>bestcaseonly</forecastedCategoryApiNames>
         <forecastingDateType>ProductDate</forecastingDateType>
         <hasProductFamily>false</hasProductFamily>
@@ -1779,8 +1991,16 @@
             <label>Last Modified Date</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002i2TI</field>
+            <label>AML Done</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N58000004lqZV</field>
             <label>Analyse ROI terminée</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000ZVsB</field>
+            <label>Asset Class</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N1i000001y64u</field>
@@ -1867,12 +2087,24 @@
             <label>Investment Solution Product</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002iVEs</field>
+            <label>IS Agreement</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002ZAeW</field>
+            <label>Is IN my Team</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N1i000002faeh</field>
             <label>IS Team Comment</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N1i000002faei</field>
             <label>IS Team Stance</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002iCVZ</field>
+            <label>LinkedIn Company Id</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N58000004lqZW</field>
@@ -1911,8 +2143,20 @@
             <label>Solution Validation</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002ZAeX</field>
+            <label>Team</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N1i000002fXdN</field>
             <label>TECH_AutomateChatter</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000ZVsC</field>
+            <label>TECH_FlagPEOpp</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000IHAT</field>
+            <label>TechCreatedDate</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000D9emI</field>
@@ -1929,6 +2173,14 @@
         <opportunityListFieldsLabelMappings>
             <field>00N1i000000dWHT</field>
             <label>Winning Competitor(s)</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <label>Last Stage Change Date</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
+            <label>Push Count</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsSelectedSettings>
             <field>OPPORTUNITY.NAME</field>
@@ -1968,7 +2220,9 @@
             <field>OPPORTUNITY.LAST_ACTIVITY</field>
             <field>OPPORTUNITY.CREATED_DATE</field>
             <field>OPPORTUNITY.LAST_UPDATE</field>
+            <field>00N1i000002i2TI</field>
             <field>00N58000004lqZV</field>
+            <field>00NaT000000ZVsB</field>
             <field>00N1i000001y64u</field>
             <field>00N5800000CMqYg</field>
             <field>00N5800000CMqYh</field>
@@ -1990,8 +2244,11 @@
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
             <field>00N1i000001y2RK</field>
+            <field>00N1i000002iVEs</field>
+            <field>00N1i000002ZAeW</field>
             <field>00N1i000002faeh</field>
             <field>00N1i000002faei</field>
+            <field>00N1i000002iCVZ</field>
             <field>00N58000004lqZW</field>
             <field>00N1i000002fcex</field>
             <field>00N5800000CMqYz</field>
@@ -2001,11 +2258,16 @@
             <field>00N1i000002faej</field>
             <field>00N1i000000dWHQ</field>
             <field>00N1i000002faek</field>
+            <field>00N1i000002ZAeX</field>
             <field>00N1i000002fXdN</field>
+            <field>00NaT000000ZVsC</field>
+            <field>00NaT000000IHAT</field>
             <field>00N5800000D9emI</field>
             <field>00N5800000CMqYp</field>
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
         </opportunityListFieldsUnselectedSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
@@ -2017,6 +2279,7 @@
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
+        <forecastedCategoryApiNames>customcategory</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>bestcaseonly</forecastedCategoryApiNames>
         <forecastingDateType>ProductDate</forecastingDateType>
         <hasProductFamily>false</hasProductFamily>
@@ -2164,8 +2427,16 @@
             <label>Last Modified Date</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002i2TI</field>
+            <label>AML Done</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N58000004lqZV</field>
             <label>Analyse ROI terminée</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000ZVsB</field>
+            <label>Asset Class</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N1i000001y64u</field>
@@ -2252,12 +2523,24 @@
             <label>Investment Solution Product</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002iVEs</field>
+            <label>IS Agreement</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002ZAeW</field>
+            <label>Is IN my Team</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N1i000002faeh</field>
             <label>IS Team Comment</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N1i000002faei</field>
             <label>IS Team Stance</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002iCVZ</field>
+            <label>LinkedIn Company Id</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N58000004lqZW</field>
@@ -2296,8 +2579,20 @@
             <label>Solution Validation</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002ZAeX</field>
+            <label>Team</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N1i000002fXdN</field>
             <label>TECH_AutomateChatter</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000ZVsC</field>
+            <label>TECH_FlagPEOpp</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000IHAT</field>
+            <label>TechCreatedDate</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000D9emI</field>
@@ -2314,6 +2609,14 @@
         <opportunityListFieldsLabelMappings>
             <field>00N1i000000dWHT</field>
             <label>Winning Competitor(s)</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <label>Last Stage Change Date</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
+            <label>Push Count</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsSelectedSettings>
             <field>OPPORTUNITY.NAME</field>
@@ -2352,7 +2655,9 @@
             <field>OPPORTUNITY.LAST_ACTIVITY</field>
             <field>OPPORTUNITY.CREATED_DATE</field>
             <field>OPPORTUNITY.LAST_UPDATE</field>
+            <field>00N1i000002i2TI</field>
             <field>00N58000004lqZV</field>
+            <field>00NaT000000ZVsB</field>
             <field>00N1i000001y64u</field>
             <field>00N5800000CMqYg</field>
             <field>00N5800000CMqYh</field>
@@ -2374,8 +2679,11 @@
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
             <field>00N1i000001y2RK</field>
+            <field>00N1i000002iVEs</field>
+            <field>00N1i000002ZAeW</field>
             <field>00N1i000002faeh</field>
             <field>00N1i000002faei</field>
+            <field>00N1i000002iCVZ</field>
             <field>00N58000004lqZW</field>
             <field>00N1i000002fcex</field>
             <field>00N5800000CMqYz</field>
@@ -2385,11 +2693,16 @@
             <field>00N1i000002faej</field>
             <field>00N1i000000dWHQ</field>
             <field>00N1i000002faek</field>
+            <field>00N1i000002ZAeX</field>
             <field>00N1i000002fXdN</field>
+            <field>00NaT000000ZVsC</field>
+            <field>00NaT000000IHAT</field>
             <field>00N5800000D9emI</field>
             <field>00N5800000CMqYp</field>
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
         </opportunityListFieldsUnselectedSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
@@ -2401,6 +2714,7 @@
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
+        <forecastedCategoryApiNames>customcategory</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>bestcaseonly</forecastedCategoryApiNames>
         <forecastingDateType>ProductDate</forecastingDateType>
         <hasProductFamily>true</hasProductFamily>
@@ -2552,8 +2866,16 @@
             <label>Last Modified Date</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002i2TI</field>
+            <label>AML Done</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N58000004lqZV</field>
             <label>Analyse ROI terminée</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000ZVsB</field>
+            <label>Asset Class</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N1i000001y64u</field>
@@ -2640,12 +2962,24 @@
             <label>Investment Solution Product</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002iVEs</field>
+            <label>IS Agreement</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002ZAeW</field>
+            <label>Is IN my Team</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N1i000002faeh</field>
             <label>IS Team Comment</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N1i000002faei</field>
             <label>IS Team Stance</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002iCVZ</field>
+            <label>LinkedIn Company Id</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N58000004lqZW</field>
@@ -2684,8 +3018,20 @@
             <label>Solution Validation</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002ZAeX</field>
+            <label>Team</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N1i000002fXdN</field>
             <label>TECH_AutomateChatter</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000ZVsC</field>
+            <label>TECH_FlagPEOpp</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000IHAT</field>
+            <label>TechCreatedDate</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000D9emI</field>
@@ -2702,6 +3048,14 @@
         <opportunityListFieldsLabelMappings>
             <field>00N1i000000dWHT</field>
             <label>Winning Competitor(s)</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <label>Last Stage Change Date</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
+            <label>Push Count</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsSelectedSettings>
             <field>OPPORTUNITY.NAME</field>
@@ -2741,7 +3095,9 @@
             <field>OPPORTUNITY.LAST_ACTIVITY</field>
             <field>OPPORTUNITY.CREATED_DATE</field>
             <field>OPPORTUNITY.LAST_UPDATE</field>
+            <field>00N1i000002i2TI</field>
             <field>00N58000004lqZV</field>
+            <field>00NaT000000ZVsB</field>
             <field>00N1i000001y64u</field>
             <field>00N5800000CMqYg</field>
             <field>00N5800000CMqYh</field>
@@ -2763,8 +3119,11 @@
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
             <field>00N1i000001y2RK</field>
+            <field>00N1i000002iVEs</field>
+            <field>00N1i000002ZAeW</field>
             <field>00N1i000002faeh</field>
             <field>00N1i000002faei</field>
+            <field>00N1i000002iCVZ</field>
             <field>00N58000004lqZW</field>
             <field>00N1i000002fcex</field>
             <field>00N5800000CMqYz</field>
@@ -2774,11 +3133,16 @@
             <field>00N1i000002faej</field>
             <field>00N1i000000dWHQ</field>
             <field>00N1i000002faek</field>
+            <field>00N1i000002ZAeX</field>
             <field>00N1i000002fXdN</field>
+            <field>00NaT000000ZVsC</field>
+            <field>00NaT000000IHAT</field>
             <field>00N5800000D9emI</field>
             <field>00N5800000CMqYp</field>
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
         </opportunityListFieldsUnselectedSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
@@ -2790,6 +3154,7 @@
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
+        <forecastedCategoryApiNames>customcategory</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>bestcaseonly</forecastedCategoryApiNames>
         <forecastingDateType>ProductDate</forecastingDateType>
         <hasProductFamily>true</hasProductFamily>
@@ -2937,8 +3302,16 @@
             <label>Last Modified Date</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002i2TI</field>
+            <label>AML Done</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N58000004lqZV</field>
             <label>Analyse ROI terminée</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000ZVsB</field>
+            <label>Asset Class</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N1i000001y64u</field>
@@ -3025,12 +3398,24 @@
             <label>Investment Solution Product</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002iVEs</field>
+            <label>IS Agreement</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002ZAeW</field>
+            <label>Is IN my Team</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N1i000002faeh</field>
             <label>IS Team Comment</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N1i000002faei</field>
             <label>IS Team Stance</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002iCVZ</field>
+            <label>LinkedIn Company Id</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N58000004lqZW</field>
@@ -3069,8 +3454,20 @@
             <label>Solution Validation</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002ZAeX</field>
+            <label>Team</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N1i000002fXdN</field>
             <label>TECH_AutomateChatter</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000ZVsC</field>
+            <label>TECH_FlagPEOpp</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000IHAT</field>
+            <label>TechCreatedDate</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000D9emI</field>
@@ -3087,6 +3484,14 @@
         <opportunityListFieldsLabelMappings>
             <field>00N1i000000dWHT</field>
             <label>Winning Competitor(s)</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <label>Last Stage Change Date</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
+            <label>Push Count</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsSelectedSettings>
             <field>OPPORTUNITY.NAME</field>
@@ -3125,7 +3530,9 @@
             <field>OPPORTUNITY.LAST_ACTIVITY</field>
             <field>OPPORTUNITY.CREATED_DATE</field>
             <field>OPPORTUNITY.LAST_UPDATE</field>
+            <field>00N1i000002i2TI</field>
             <field>00N58000004lqZV</field>
+            <field>00NaT000000ZVsB</field>
             <field>00N1i000001y64u</field>
             <field>00N5800000CMqYg</field>
             <field>00N5800000CMqYh</field>
@@ -3147,8 +3554,11 @@
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
             <field>00N1i000001y2RK</field>
+            <field>00N1i000002iVEs</field>
+            <field>00N1i000002ZAeW</field>
             <field>00N1i000002faeh</field>
             <field>00N1i000002faei</field>
+            <field>00N1i000002iCVZ</field>
             <field>00N58000004lqZW</field>
             <field>00N1i000002fcex</field>
             <field>00N5800000CMqYz</field>
@@ -3158,11 +3568,16 @@
             <field>00N1i000002faej</field>
             <field>00N1i000000dWHQ</field>
             <field>00N1i000002faek</field>
+            <field>00N1i000002ZAeX</field>
             <field>00N1i000002fXdN</field>
+            <field>00NaT000000ZVsC</field>
+            <field>00NaT000000IHAT</field>
             <field>00N5800000D9emI</field>
             <field>00N5800000CMqYp</field>
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
         </opportunityListFieldsUnselectedSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
@@ -3174,6 +3589,7 @@
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
+        <forecastedCategoryApiNames>customcategory</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>bestcaseonly</forecastedCategoryApiNames>
         <forecastingDateType>ScheduleDate</forecastingDateType>
         <hasProductFamily>false</hasProductFamily>
@@ -3325,8 +3741,16 @@
             <label>Last Modified Date</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002i2TI</field>
+            <label>AML Done</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N58000004lqZV</field>
             <label>Analyse ROI terminée</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000ZVsB</field>
+            <label>Asset Class</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N1i000001y64u</field>
@@ -3413,12 +3837,24 @@
             <label>Investment Solution Product</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002iVEs</field>
+            <label>IS Agreement</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002ZAeW</field>
+            <label>Is IN my Team</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N1i000002faeh</field>
             <label>IS Team Comment</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N1i000002faei</field>
             <label>IS Team Stance</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002iCVZ</field>
+            <label>LinkedIn Company Id</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N58000004lqZW</field>
@@ -3457,8 +3893,20 @@
             <label>Solution Validation</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002ZAeX</field>
+            <label>Team</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N1i000002fXdN</field>
             <label>TECH_AutomateChatter</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000ZVsC</field>
+            <label>TECH_FlagPEOpp</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000IHAT</field>
+            <label>TechCreatedDate</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000D9emI</field>
@@ -3475,6 +3923,14 @@
         <opportunityListFieldsLabelMappings>
             <field>00N1i000000dWHT</field>
             <label>Winning Competitor(s)</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <label>Last Stage Change Date</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
+            <label>Push Count</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsSelectedSettings>
             <field>OPPORTUNITY.NAME</field>
@@ -3514,7 +3970,9 @@
             <field>OPPORTUNITY.LAST_ACTIVITY</field>
             <field>OPPORTUNITY.CREATED_DATE</field>
             <field>OPPORTUNITY.LAST_UPDATE</field>
+            <field>00N1i000002i2TI</field>
             <field>00N58000004lqZV</field>
+            <field>00NaT000000ZVsB</field>
             <field>00N1i000001y64u</field>
             <field>00N5800000CMqYg</field>
             <field>00N5800000CMqYh</field>
@@ -3536,8 +3994,11 @@
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
             <field>00N1i000001y2RK</field>
+            <field>00N1i000002iVEs</field>
+            <field>00N1i000002ZAeW</field>
             <field>00N1i000002faeh</field>
             <field>00N1i000002faei</field>
+            <field>00N1i000002iCVZ</field>
             <field>00N58000004lqZW</field>
             <field>00N1i000002fcex</field>
             <field>00N5800000CMqYz</field>
@@ -3547,11 +4008,16 @@
             <field>00N1i000002faej</field>
             <field>00N1i000000dWHQ</field>
             <field>00N1i000002faek</field>
+            <field>00N1i000002ZAeX</field>
             <field>00N1i000002fXdN</field>
+            <field>00NaT000000ZVsC</field>
+            <field>00NaT000000IHAT</field>
             <field>00N5800000D9emI</field>
             <field>00N5800000CMqYp</field>
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
         </opportunityListFieldsUnselectedSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
@@ -3563,6 +4029,7 @@
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
+        <forecastedCategoryApiNames>customcategory</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>bestcaseonly</forecastedCategoryApiNames>
         <forecastingDateType>ScheduleDate</forecastingDateType>
         <hasProductFamily>false</hasProductFamily>
@@ -3710,8 +4177,16 @@
             <label>Last Modified Date</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002i2TI</field>
+            <label>AML Done</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N58000004lqZV</field>
             <label>Analyse ROI terminée</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000ZVsB</field>
+            <label>Asset Class</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N1i000001y64u</field>
@@ -3798,12 +4273,24 @@
             <label>Investment Solution Product</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002iVEs</field>
+            <label>IS Agreement</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002ZAeW</field>
+            <label>Is IN my Team</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N1i000002faeh</field>
             <label>IS Team Comment</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N1i000002faei</field>
             <label>IS Team Stance</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002iCVZ</field>
+            <label>LinkedIn Company Id</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N58000004lqZW</field>
@@ -3842,8 +4329,20 @@
             <label>Solution Validation</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002ZAeX</field>
+            <label>Team</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N1i000002fXdN</field>
             <label>TECH_AutomateChatter</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000ZVsC</field>
+            <label>TECH_FlagPEOpp</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000IHAT</field>
+            <label>TechCreatedDate</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000D9emI</field>
@@ -3860,6 +4359,14 @@
         <opportunityListFieldsLabelMappings>
             <field>00N1i000000dWHT</field>
             <label>Winning Competitor(s)</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <label>Last Stage Change Date</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
+            <label>Push Count</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsSelectedSettings>
             <field>OPPORTUNITY.NAME</field>
@@ -3898,7 +4405,9 @@
             <field>OPPORTUNITY.LAST_ACTIVITY</field>
             <field>OPPORTUNITY.CREATED_DATE</field>
             <field>OPPORTUNITY.LAST_UPDATE</field>
+            <field>00N1i000002i2TI</field>
             <field>00N58000004lqZV</field>
+            <field>00NaT000000ZVsB</field>
             <field>00N1i000001y64u</field>
             <field>00N5800000CMqYg</field>
             <field>00N5800000CMqYh</field>
@@ -3920,8 +4429,11 @@
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
             <field>00N1i000001y2RK</field>
+            <field>00N1i000002iVEs</field>
+            <field>00N1i000002ZAeW</field>
             <field>00N1i000002faeh</field>
             <field>00N1i000002faei</field>
+            <field>00N1i000002iCVZ</field>
             <field>00N58000004lqZW</field>
             <field>00N1i000002fcex</field>
             <field>00N5800000CMqYz</field>
@@ -3931,11 +4443,16 @@
             <field>00N1i000002faej</field>
             <field>00N1i000000dWHQ</field>
             <field>00N1i000002faek</field>
+            <field>00N1i000002ZAeX</field>
             <field>00N1i000002fXdN</field>
+            <field>00NaT000000ZVsC</field>
+            <field>00NaT000000IHAT</field>
             <field>00N5800000D9emI</field>
             <field>00N5800000CMqYp</field>
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
         </opportunityListFieldsUnselectedSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
@@ -3947,6 +4464,7 @@
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
+        <forecastedCategoryApiNames>customcategory</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>bestcaseonly</forecastedCategoryApiNames>
         <forecastingDateType>ScheduleDate</forecastingDateType>
         <hasProductFamily>true</hasProductFamily>
@@ -4098,8 +4616,16 @@
             <label>Last Modified Date</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002i2TI</field>
+            <label>AML Done</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N58000004lqZV</field>
             <label>Analyse ROI terminée</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000ZVsB</field>
+            <label>Asset Class</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N1i000001y64u</field>
@@ -4186,12 +4712,24 @@
             <label>Investment Solution Product</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002iVEs</field>
+            <label>IS Agreement</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002ZAeW</field>
+            <label>Is IN my Team</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N1i000002faeh</field>
             <label>IS Team Comment</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N1i000002faei</field>
             <label>IS Team Stance</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002iCVZ</field>
+            <label>LinkedIn Company Id</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N58000004lqZW</field>
@@ -4230,8 +4768,20 @@
             <label>Solution Validation</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002ZAeX</field>
+            <label>Team</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N1i000002fXdN</field>
             <label>TECH_AutomateChatter</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000ZVsC</field>
+            <label>TECH_FlagPEOpp</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000IHAT</field>
+            <label>TechCreatedDate</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000D9emI</field>
@@ -4248,6 +4798,14 @@
         <opportunityListFieldsLabelMappings>
             <field>00N1i000000dWHT</field>
             <label>Winning Competitor(s)</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <label>Last Stage Change Date</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
+            <label>Push Count</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsSelectedSettings>
             <field>OPPORTUNITY.NAME</field>
@@ -4287,7 +4845,9 @@
             <field>OPPORTUNITY.LAST_ACTIVITY</field>
             <field>OPPORTUNITY.CREATED_DATE</field>
             <field>OPPORTUNITY.LAST_UPDATE</field>
+            <field>00N1i000002i2TI</field>
             <field>00N58000004lqZV</field>
+            <field>00NaT000000ZVsB</field>
             <field>00N1i000001y64u</field>
             <field>00N5800000CMqYg</field>
             <field>00N5800000CMqYh</field>
@@ -4309,8 +4869,11 @@
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
             <field>00N1i000001y2RK</field>
+            <field>00N1i000002iVEs</field>
+            <field>00N1i000002ZAeW</field>
             <field>00N1i000002faeh</field>
             <field>00N1i000002faei</field>
+            <field>00N1i000002iCVZ</field>
             <field>00N58000004lqZW</field>
             <field>00N1i000002fcex</field>
             <field>00N5800000CMqYz</field>
@@ -4320,11 +4883,16 @@
             <field>00N1i000002faej</field>
             <field>00N1i000000dWHQ</field>
             <field>00N1i000002faek</field>
+            <field>00N1i000002ZAeX</field>
             <field>00N1i000002fXdN</field>
+            <field>00NaT000000ZVsC</field>
+            <field>00NaT000000IHAT</field>
             <field>00N5800000D9emI</field>
             <field>00N5800000CMqYp</field>
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
         </opportunityListFieldsUnselectedSettings>
     </forecastingTypeSettings>
     <forecastingTypeSettings>
@@ -4336,6 +4904,7 @@
         <forecastedCategoryApiNames>commitonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>closedonly</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>pipelineonly</forecastedCategoryApiNames>
+        <forecastedCategoryApiNames>customcategory</forecastedCategoryApiNames>
         <forecastedCategoryApiNames>bestcaseonly</forecastedCategoryApiNames>
         <forecastingDateType>ScheduleDate</forecastingDateType>
         <hasProductFamily>true</hasProductFamily>
@@ -4483,8 +5052,16 @@
             <label>Last Modified Date</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002i2TI</field>
+            <label>AML Done</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N58000004lqZV</field>
             <label>Analyse ROI terminée</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000ZVsB</field>
+            <label>Asset Class</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N1i000001y64u</field>
@@ -4571,12 +5148,24 @@
             <label>Investment Solution Product</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002iVEs</field>
+            <label>IS Agreement</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002ZAeW</field>
+            <label>Is IN my Team</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N1i000002faeh</field>
             <label>IS Team Comment</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N1i000002faei</field>
             <label>IS Team Stance</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00N1i000002iCVZ</field>
+            <label>LinkedIn Company Id</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N58000004lqZW</field>
@@ -4615,8 +5204,20 @@
             <label>Solution Validation</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
+            <field>00N1i000002ZAeX</field>
+            <label>Team</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
             <field>00N1i000002fXdN</field>
             <label>TECH_AutomateChatter</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000ZVsC</field>
+            <label>TECH_FlagPEOpp</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>00NaT000000IHAT</field>
+            <label>TechCreatedDate</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsLabelMappings>
             <field>00N5800000D9emI</field>
@@ -4633,6 +5234,14 @@
         <opportunityListFieldsLabelMappings>
             <field>00N1i000000dWHT</field>
             <label>Winning Competitor(s)</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <label>Last Stage Change Date</label>
+        </opportunityListFieldsLabelMappings>
+        <opportunityListFieldsLabelMappings>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
+            <label>Push Count</label>
         </opportunityListFieldsLabelMappings>
         <opportunityListFieldsSelectedSettings>
             <field>OPPORTUNITY.NAME</field>
@@ -4671,7 +5280,9 @@
             <field>OPPORTUNITY.LAST_ACTIVITY</field>
             <field>OPPORTUNITY.CREATED_DATE</field>
             <field>OPPORTUNITY.LAST_UPDATE</field>
+            <field>00N1i000002i2TI</field>
             <field>00N58000004lqZV</field>
+            <field>00NaT000000ZVsB</field>
             <field>00N1i000001y64u</field>
             <field>00N5800000CMqYg</field>
             <field>00N5800000CMqYh</field>
@@ -4693,8 +5304,11 @@
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
             <field>00N1i000001y2RK</field>
+            <field>00N1i000002iVEs</field>
+            <field>00N1i000002ZAeW</field>
             <field>00N1i000002faeh</field>
             <field>00N1i000002faei</field>
+            <field>00N1i000002iCVZ</field>
             <field>00N58000004lqZW</field>
             <field>00N1i000002fcex</field>
             <field>00N5800000CMqYz</field>
@@ -4704,14 +5318,20 @@
             <field>00N1i000002faej</field>
             <field>00N1i000000dWHQ</field>
             <field>00N1i000002faek</field>
+            <field>00N1i000002ZAeX</field>
             <field>00N1i000002fXdN</field>
+            <field>00NaT000000ZVsC</field>
+            <field>00NaT000000IHAT</field>
             <field>00N5800000D9emI</field>
             <field>00N5800000CMqYp</field>
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
         </opportunityListFieldsUnselectedSettings>
     </forecastingTypeSettings>
     <globalAdjustmentsSettings>
+        <allowExpandedColumns>false</allowExpandedColumns>
         <enableAdjustments>true</enableAdjustments>
         <enableOwnerAdjustments>false</enableOwnerAdjustments>
     </globalAdjustmentsSettings>

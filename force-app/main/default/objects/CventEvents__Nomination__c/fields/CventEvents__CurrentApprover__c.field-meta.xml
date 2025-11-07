@@ -3,7 +3,6 @@
     <fullName>CventEvents__CurrentApprover__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Current Approver</label>
     <referenceTo>CventEvents__NominationApprover__c</referenceTo>
     <relationshipName>Nominations</relationshipName>

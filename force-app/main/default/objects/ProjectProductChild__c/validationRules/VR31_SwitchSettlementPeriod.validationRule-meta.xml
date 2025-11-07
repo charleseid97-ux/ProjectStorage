@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR31_SwitchSettlementPeriod</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  NOT($User.BypassValidationRules__c),
+  NOT(ISBLANK(SwitchSettlementPeriod__c)),
+  OR(
+    SwitchSettlementPeriod__c &lt; 1,
+    SwitchSettlementPeriod__c &gt; 10
+  )
+)</errorConditionFormula>
+    <errorDisplayField>SwitchSettlementPeriod__c</errorDisplayField>
+    <errorMessage>Switch Settlement Period must be between 1 and 10 days</errorMessage>
+</ValidationRule>

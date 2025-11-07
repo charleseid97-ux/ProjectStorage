@@ -15,7 +15,7 @@
     </filters>
     <filters>
         <field>SupportFunction__c</field>
-        <operation>includes</operation>
+        <operation>equals</operation>
         <value>Reallocation</value>
     </filters>
     <label>All Support Function</label>

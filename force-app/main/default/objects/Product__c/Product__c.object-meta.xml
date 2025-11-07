@@ -136,7 +136,7 @@
     <actionOverrides>
         <actionName>View</actionName>
         <comment>Action override updated by Lightning App Builder during activation.</comment>
-        <content>Product_Record_Page</content>
+        <content>PMP_Product_Lightning_Page</content>
         <formFactor>Large</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
         <type>Flexipage</type>
@@ -158,7 +158,6 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ReadWrite</externalSharingModel>
-    <gender>Feminine</gender>
     <label>Product</label>
     <nameField>
         <encryptionScheme>None</encryptionScheme>

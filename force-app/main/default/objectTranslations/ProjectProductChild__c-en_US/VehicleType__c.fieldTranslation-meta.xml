@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Vehicle Type --></label>
+    <name>VehicleType__c</name>
+    <picklistValues>
+        <masterLabel>Dedicated</masterLabel>
+        <translation><!-- Dedicated --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Funds</masterLabel>
+        <translation><!-- Funds --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Mandate</masterLabel>
+        <translation><!-- Mandate --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Umbrella</masterLabel>
+        <translation><!-- Umbrella --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

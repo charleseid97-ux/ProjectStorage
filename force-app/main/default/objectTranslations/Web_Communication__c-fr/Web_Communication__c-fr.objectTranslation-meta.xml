@@ -12,37 +12,37 @@
     <layouts>
         <layout>Web Communication Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Product Details --></label>
             <section>Product Details</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Technical --></label>
             <section>Technical</section>
         </sections>
     </layouts>
     <startsWith>Consonant</startsWith>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Please choose a Fund and Share class for a Nav Alert --></errorMessage>
         <name>Web_Comm_VR01_Nav_Mandatory_Fields</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Related Lead/ Contact should be validated before creating alerts. --></errorMessage>
         <name>Web_Comm_VR02_CheckProspaceStatus</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Le site selectioné sur ce theme n&apos;est pas valide. --></errorMessage>
         <name>Web_Comm_VR03_InvalidSite</name>
     </validationRules>
     <webLinks>
-        <label></label>
+        <label><!-- Add_all --></label>
         <name>Add_all</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- Delete_all --></label>
         <name>Delete_all</name>
     </webLinks>
 </CustomObjectTranslation>

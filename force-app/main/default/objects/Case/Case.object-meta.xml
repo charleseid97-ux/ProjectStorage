@@ -203,7 +203,7 @@
     </actionOverrides>
     <compactLayoutAssignment>DS_Compact_Layout</compactLayoutAssignment>
     <enableFeeds>true</enableFeeds>
-    <externalSharingModel>ReadWriteTransfer</externalSharingModel>
+    <externalSharingModel>Private</externalSharingModel>
     <recordTypeTrackFeedHistory>false</recordTypeTrackFeedHistory>
     <recordTypeTrackHistory>true</recordTypeTrackHistory>
     <searchLayouts>
@@ -211,6 +211,8 @@
         <customTabListAdditionalFields>CASES.SUBJECT</customTabListAdditionalFields>
         <customTabListAdditionalFields>CASES.CREATED_DATE</customTabListAdditionalFields>
         <customTabListAdditionalFields>CASES.PRIORITY</customTabListAdditionalFields>
+        <excludedStandardButtons>NewCase</excludedStandardButtons>
+        <listViewButtons>NewLWCCase</listViewButtons>
         <lookupDialogsAdditionalFields>CASES.CASE_NUMBER</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>CASES.SUBJECT</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>NAME</lookupDialogsAdditionalFields>
@@ -230,5 +232,5 @@
         <searchResultsAdditionalFields>CASES.TYPE</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>CASES.CREATED_DATE</searchResultsAdditionalFields>
     </searchLayouts>
-    <sharingModel>ReadWriteTransfer</sharingModel>
+    <sharingModel>Private</sharingModel>
 </CustomObject>

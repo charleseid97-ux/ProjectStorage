@@ -30,6 +30,7 @@ This Campaign {!myVariable_current.Name} has been approved.</stringValue>
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>chatterPost</nameSegment>
     </actionCalls>
     <apiVersion>49.0</apiVersion>
     <decisions>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Target Market --></label>
+    <name>TargetMarket__c</name>
+    <picklistValues>
+        <masterLabel>Eligible Counterparty</masterLabel>
+        <translation><!-- Eligible Counterparty --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Professional</masterLabel>
+        <translation><!-- Professional --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Retail</masterLabel>
+        <translation><!-- Retail --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Before_or_After__c</fullName>
     <description>Whether the trigger event is a before or after event. Must be one of Before or After</description>
-    <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>Before or After</label>
     <required>false</required>

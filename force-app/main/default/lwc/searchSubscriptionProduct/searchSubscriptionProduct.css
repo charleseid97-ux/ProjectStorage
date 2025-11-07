@@ -14,3 +14,7 @@
     --lwc-heightToggle: 1.25rem;
     --lwc-squareToggleSlider: 1rem;
   }
+
+  .input-toggle{
+    width: fit-content !important;
+  }

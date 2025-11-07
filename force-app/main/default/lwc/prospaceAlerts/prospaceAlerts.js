@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : Khadija EL GDAOUNI
+ * @group             : 
+ * @last modified on  : 18-02-2025
+ * @last modified by  : Khadija EL GDAOUNI
+**/
 import { LightningElement, api, track, wire } from 'lwc';
 import { refreshApex } from '@salesforce/apex';
 
@@ -21,13 +28,19 @@ export default class prospaceAlerts extends LightningElement {
     
     @track navs = [];
     @track reports = [];
+    @track performances = [];
+    @track funds = [];
+    @track holdings = [];
     @track publications = [];
+    @track regularities = [];
     @track wiredProspaceAlerts = [];
 
     @api get showSpinner(){
         return this.isLoading;
     }
 
+    fundOnly = false;
+    isPerformance = false;
     isLoading = true;
     isModalDisplayed = false;
     modalTitle;
@@ -52,13 +65,17 @@ export default class prospaceAlerts extends LightningElement {
         this.isLoading = true;
         this.navs = [];
         this.reports = [];
+        this.performances = [];
+        this.funds = [];
+        this.holdings = [];
         this.publications = [];
+        this.regularities = [];
         this.wiredProspaceAlerts = result;
         if (result.data) {
             let arr;
             JSON.parse(result.data).forEach(element => {
-                console.log(element.checkboxCategory);
-                arr = element.checkboxCategory === 'Nav' ? this.navs : element.checkboxCategory === 'Report' ? this.reports : this.publications;
+                console.log(element.checkboxValue);
+                arr = element.checkboxCategory === 'Nav' ? this.navs : element.checkboxCategory === 'Report' ? this.reports : element.checkboxCategory === 'Performance' ? this.performances : element.checkboxCategory === 'Fund' ? this.funds : element.checkboxCategory === 'Holdings' ? this.holdings : element.checkboxCategory === 'Regularity' ? this.regularities : this.publications;
                 arr.push({
                     checkboxLabel: element.checkboxLabel,
                     checkboxAPI: element.checkboxAPI,
@@ -75,9 +92,21 @@ export default class prospaceAlerts extends LightningElement {
     }
 
     editSubscriptions(event) {
+        if(event.target.title == 'Fund' || event.target.title == 'Holdings'){
+            this.fundOnly = true;
+            this.isPerformance = false;
+            this.modalTitle = event.target.name ;
+        }else if(event.target.title == 'Performance'){
+            this.isPerformance = true;
+            this.fundOnly = false;
+            this.modalTitle = event.target.name;
+        }else{
+            this.isPerformance = false;
+            this.fundOnly = false;
+            this.modalTitle = event.target.title + ' Subscription';
+        }
         this.isModalDisplayed = true;
         
-        this.modalTitle = event.target.title + ' Subscription';
         this.alertType = event.target.title;
         this.counter += 1;
     }
@@ -87,6 +116,7 @@ export default class prospaceAlerts extends LightningElement {
             this.editSubscriptions(event);
         }
         else {
+            console.log('id : '+event.target.value)
             this.deactivateAllProspaceAlert(event.target.value, event.target.name);            
         }
         refreshApex(this.wiredProspaceAlerts);

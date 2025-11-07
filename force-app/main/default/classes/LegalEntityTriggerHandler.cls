@@ -10,10 +10,13 @@ public class LegalEntityTriggerHandler implements ITriggerHandler{
     public static Boolean triggerDisabled = false;
 
     public void BeforeInsert(List<SObject> newItems) {
-
+        //check here for uppercase name
+        UTIL_LegalEntity.toUppercaseName((List<Legal_Entity__c>) newItems);
     }
 
     public void BeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
+        //check here for uppercase name
+        UTIL_LegalEntity.toUppercaseName((List<Legal_Entity__c>) newItems.values());
     }
 
     public void BeforeDelete(Map<Id, SObject> oldItems) {
@@ -21,8 +24,9 @@ public class LegalEntityTriggerHandler implements ITriggerHandler{
 
     public void AfterInsert(Map<Id, SObject> newItems) {
         //Call webservice UME and GLEIF to retrieve info by LEIs
-        if(!System.isBatch()) LegalEntityAP01.callLegalEntityWebservices((List<Legal_Entity__c>) newItems.values());
-
+        if (!System.isBatch()) {
+            LegalEntityAP01.callLegalEntityWebservices((List<Legal_Entity__c>) newItems.values());
+        }
     }
 
     public void AfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {

@@ -6,9 +6,12 @@ private class ProspaceAlertsControllerTest {
         insert c;
 
         List<Web_Communication__c> prospaceAlerts = new List<Web_Communication__c>();
-        for (ProspaceAlertType__mdt alertType : [SELECT WebsiteId__c FROM ProspaceAlertType__mdt WHERE Category__c = :'Publication' LIMIT 1]) {
+        for (ProspaceAlertType__mdt alertType : [SELECT MasterLabel,WebsiteId__c FROM ProspaceAlertType__mdt WHERE Category__c = :'Publication' LIMIT 1]) {
+			AlertType__c alert = new AlertType__c(Name=alertType.MasterLabel,isPublication__c=true,TECH_WebSiteID__c=alertType.WebsiteId__c);    
+            insert alert;
             Web_Communication__c prospaceAlert = new Web_Communication__c(
                 AlertType__c = alertType.WebsiteId__c,
+                AlertTypeRecord__c = alert.Id,
                 Contact__c = c.id,
                 isActive__c = true
             );

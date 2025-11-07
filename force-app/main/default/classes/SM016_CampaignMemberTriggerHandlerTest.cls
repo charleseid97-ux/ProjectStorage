@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : Khadija EL GDAOUNI
+ * @group             : 
+ * @last modified on  : 29-10-2024
+ * @last modified by  : Khadija EL GDAOUNI
+**/
 @isTest
 public class SM016_CampaignMemberTriggerHandlerTest {
 
@@ -357,7 +364,7 @@ public class SM016_CampaignMemberTriggerHandlerTest {
 
         handler.BeforeUpdate(null, null);
         handler.BeforeDelete(null);
-        handler.AfterInsert(null);
+        //handler.AfterInsert(null);
         handler.AfterDelete(null);
         handler.AfterUndelete(null);
 

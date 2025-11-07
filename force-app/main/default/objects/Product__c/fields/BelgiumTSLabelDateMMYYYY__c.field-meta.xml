@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>BelgiumTSLabelDateMMYYYY__c</fullName>
+    <description>Displays the Belgium TS Label Date in MM-YYYY format for user-friendly visualization in the Product Catalog and reports.
+This field is automatically calculated from Belgium TS Label Date and should not be edited manually</description>
+    <externalId>false</externalId>
+    <formula>IF(
+  ISBLANK(BelgiumTSLabelDate__c),
+  &quot;&quot;,
+  RIGHT(&quot;0&quot; &amp; TEXT(MONTH(BelgiumTSLabelDate__c)), 2)
+  &amp; &quot;-&quot; &amp;
+  TEXT(YEAR(BelgiumTSLabelDate__c))
+)</formula>
+    <label>Belgium TS Label Date</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

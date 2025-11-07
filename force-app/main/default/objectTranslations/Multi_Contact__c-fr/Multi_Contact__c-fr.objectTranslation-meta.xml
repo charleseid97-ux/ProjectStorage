@@ -12,21 +12,21 @@
     <layouts>
         <layout>Multi Contact Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
     </layouts>
     <startsWith>Consonant</startsWith>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- You cannot choose a contact who is not part of the same company. --></errorMessage>
         <name>MultiContact_CheckContactUnderCompany</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Data Solution Email is missing on Contact, please add one before saving. --></errorMessage>
         <name>MultiContact_CheckDataSolutionEmail</name>
     </validationRules>
     <webLinks>
-        <label></label>
+        <label><!-- Mass_Delete --></label>
         <name>Mass_Delete</name>
     </webLinks>
 </CustomObjectTranslation>

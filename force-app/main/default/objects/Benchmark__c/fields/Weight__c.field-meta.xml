@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Weight__c</fullName>
+    <inlineHelpText>This is the weight associated to an index as a reference indicator for the fund (in percentage). If the fund benchmark is a composite, each index will be associated to the fund with a percentage &lt; 100% and the sum of the lines linked to the fund equal to 100%. If the benchmark is a pure index, only one line will be created with a weight of 100%.</inlineHelpText>
+    <label>Weight</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help></help>
-    <label></label>
+    <help><!-- The Id field to use when hovering over a record in the timeline. If blank the Id of the record plotted will be used. --></help>
+    <label><!-- Tooltip Id Field --></label>
     <name>Tooltip_Id_Field__c</name>
 </CustomFieldTranslation>

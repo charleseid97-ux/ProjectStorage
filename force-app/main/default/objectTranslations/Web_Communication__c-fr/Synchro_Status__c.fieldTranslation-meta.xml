@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Synchro Status --></label>
     <name>Synchro_Status__c</name>
     <picklistValues>
         <masterLabel>Failed</masterLabel>
-        <translation></translation>
+        <translation><!-- Failed --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Success</masterLabel>
-        <translation></translation>
+        <translation><!-- Success --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>To be synced</masterLabel>
-        <translation></translation>
+        <translation><!-- To be synced --></translation>
     </picklistValues>
 </CustomFieldTranslation>

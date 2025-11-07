@@ -1,3 +1,249 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata"/>
-
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>BENELUX_MarketingFeedback_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>BENELUX MarketingFeedback Sharing</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>Benelux_Head_of_Countries</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>Category__c</field>
+            <operation>equals</operation>
+            <value>Luxembourg,Netherlands,Belgium</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Marketing Feedback</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>France_MarketingFeedback_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>France MarketingFeedback Sharing</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>FranceHeadofCountry</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>Category__c</field>
+            <operation>equals</operation>
+            <value>France</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Marketing Feedback</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Germany_MarketingFeedback_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Germany MarketingFeedback Sharing</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>GermanyHeadofCountry</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>Category__c</field>
+            <operation>equals</operation>
+            <value>Germany</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Marketing Feedback</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>International_Marketing_Feedback_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>International Marketing Feedback Sharing</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>InternationalHeadofCountry</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Marketing Feedback</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Category__c</field>
+            <operation>equals</operation>
+            <value>International</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Italy_Marketing_Feedback_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Italy Marketing Feedback Sharing</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>ItalyHeadofCountry</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Marketing Feedback</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Category__c</field>
+            <operation>equals</operation>
+            <value>Italy</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Latam_MarketingFeedback_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Latam MarketingFeedback Sharing</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>LATAMHeadofCountry</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Marketing Feedback</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Category__c</field>
+            <operation>equals</operation>
+            <value>LATAM</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Nordics_MarketingFeedback_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Nordics MarketingFeedback Sharing</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>NordicsHeadofCountry</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Marketing Feedback</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Category__c</field>
+            <operation>equals</operation>
+            <value>Nordics</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Private_Equity</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Private Equity</label>
+        <sharedTo>
+            <role>PrivateEquity</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Sub Translation Request,Translation Request,Sub Publication Request</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ProductSpecialist_MarketingFeedback_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>ProductSpecialist MarketingFeedback Sharing</label>
+        <sharedTo>
+            <role>Product_Specialist</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Marketing Feedback</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ShareOtherWTPs</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>ShareOtherWTPs</label>
+        <sharedTo>
+            <group>All_Users</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Product Team Request,RFP/DDQ,AUM/Flow Reallocation Request,Sub Publication Request,Sub Translation Request,Tableau Request,Performance Management Request,Product Strategy Request,Translation Request,Data Solution Request</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Spain_Marketing_Feedback_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Spain Marketing Feedback Sharing</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>SpainHeadofCountry</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Marketing Feedback</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Category__c</field>
+            <operation>equals</operation>
+            <value>Spain</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Switzerland_Marketing_Feedback_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Switzerland Marketing Feedback Sharing</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>SwitzerlandHeadofCountry</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Marketing Feedback</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Category__c</field>
+            <operation>equals</operation>
+            <value>Switzerland</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>Tableau_Admins</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Tableau Admins</label>
+        <sharedTo>
+            <group>Tableau_Admins</group>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Tableau Request</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>UK_Marketing_Feedback_Sharing</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>UK Marketing Feedback Sharing</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>UKHeadofCountry</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Marketing Feedback</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Category__c</field>
+            <operation>equals</operation>
+            <value>United Kingdom</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+</SharingRules>

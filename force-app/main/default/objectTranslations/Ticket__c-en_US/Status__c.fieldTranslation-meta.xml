@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Status --></label>
     <name>Status__c</name>
     <picklistValues>
         <masterLabel>Cancelled</masterLabel>
-        <translation></translation>
+        <translation><!-- Cancelled --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Completed</masterLabel>
-        <translation></translation>
+        <translation><!-- Completed --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>In progress</masterLabel>
-        <translation></translation>
+        <translation><!-- In progress --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>New</masterLabel>
-        <translation></translation>
+        <translation><!-- New --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>To Be Arbitrated</masterLabel>
-        <translation></translation>
+        <translation><!-- To Be Arbitrated --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>To be tested</masterLabel>
-        <translation></translation>
+        <translation><!-- To be tested --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Waiting for information</masterLabel>
-        <translation></translation>
+        <translation><!-- Waiting for information --></translation>
     </picklistValues>
 </CustomFieldTranslation>

@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Status_of_Completion__c</fullName>
     <description>Ume Risk Assessment status questionnaire. Possible value a % of competition</description>
-    <externalId>false</externalId>
     <label>Status of Completion</label>
     <precision>18</precision>
     <required>false</required>

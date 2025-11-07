@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Event__c</fullName>
     <description>The trigger event. Must be one of Update, Insert, Delete</description>
-    <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>Event</label>
     <required>false</required>

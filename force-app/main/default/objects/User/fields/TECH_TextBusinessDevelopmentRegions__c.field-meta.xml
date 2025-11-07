@@ -3,9 +3,9 @@
     <fullName>TECH_TextBusinessDevelopmentRegions__c</fullName>
     <description>This is field used in a Process Builder which populates automatically the business development region when possible. It is populated by a workflow rule.</description>
     <encryptionScheme>None</encryptionScheme>
-    <externalId>false</externalId>
     <label>TECH_TextBusinessDevelopmentRegions</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <type>TextArea</type>
 </CustomField>

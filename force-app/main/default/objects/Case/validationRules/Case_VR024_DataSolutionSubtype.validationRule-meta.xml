@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_VR024_DataSolutionSubtype</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND( 
+NOT($User.BypassValidationRules__c),
+RecordType.DeveloperName = &apos;Client_delivery_request&apos;,
+ISPICKVAL(Type , &apos;Client Delivery&apos;),
+ISPICKVAL( DataSolutionsSubtype__c, &quot;&quot;))</errorConditionFormula>
+    <errorDisplayField>DataSolutionsSubtype__c</errorDisplayField>
+    <errorMessage>When the Type of WTP is &apos;Client Delivery&apos; you must select a &apos;Data Solution Subtype&apos;.</errorMessage>
+</ValidationRule>

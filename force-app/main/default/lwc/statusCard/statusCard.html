@@ -1,0 +1,44 @@
+<template>
+    <div class="status-container">
+        <!-- Closed Status -->
+        <template if:true={isClosed}>
+            <div class="status-card">
+                <div class="header closed">
+                    <lightning-icon icon-name="utility:check" alternative-text="Closed" size="small" ></lightning-icon>
+                    <span>{projectStatus}</span>
+                </div>
+                <div class="content closed">
+                    <p><strong>Launch Date :</strong><br> {launchdate}</p>
+                </div>
+            </div>
+        </template>
+
+        <!-- On Hold Status -->
+        <template if:true={isOnHold}>
+            <div class="status-card">
+                <div class="header on-hold">
+                <lightning-icon icon-name="utility:pause" alternative-text="On Hold" size="small"></lightning-icon>
+                <span>{projectStatus}</span>
+                </div>
+                <div class="content on-hold">
+                <p> <strong>Date :</strong> <br> {dateStatus}</p>
+                <p><strong>Comment :</strong><br>{commentStatus}</p>
+            </div>
+            </div>
+        </template>
+
+        <!-- Cancelled Status -->
+        <template if:true={isCancelled}>
+            <div class="status-card">
+                <div class="header cancelled">
+                <lightning-icon icon-name="utility:close" alternative-text="Cancelled" size="small" class="cancelled-icon" ></lightning-icon>
+                <span>{projectStatus}</span>
+                </div>
+                <div class="content cancelled">
+                <p> <strong>Date :</strong> <br>{dateStatus}</p>
+                <p><strong>Comment :</strong><br>{commentStatus}</p>
+            </div>
+            </div>
+        </template>
+    </div>
+</template>

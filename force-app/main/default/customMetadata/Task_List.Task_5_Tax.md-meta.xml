@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Task 5 Tax</label>
+    <protected>false</protected>
+    <values>
+        <field>Comment__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Description__c</field>
+        <value xsi:type="xsd:string">we wish to bring to the attention of the SPC the following concerns, comments or observations</value>
+    </values>
+    <values>
+        <field>Order__c</field>
+        <value xsi:type="xsd:double">5.0</value>
+    </values>
+    <values>
+        <field>Task_Type__c</field>
+        <value xsi:type="xsd:string">Control</value>
+    </values>
+    <values>
+        <field>Task__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Team__c</field>
+        <value xsi:type="xsd:string">Control Tax</value>
+    </values>
+    <values>
+        <field>Type__c</field>
+        <value xsi:type="xsd:string">Text</value>
+    </values>
+</CustomMetadata>

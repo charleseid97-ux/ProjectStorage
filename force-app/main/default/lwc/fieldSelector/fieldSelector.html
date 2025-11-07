@@ -1,0 +1,47 @@
+<template>
+    <template if:true={showSpinner}>
+        <div class="slds-align_absolute-center" style="width: 100%; height: 100%; background-color: rgba(255,255,255,.8);">
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </div>
+    </template>
+    <div class={tabClass}>
+        <div class="container">
+            <!-- Left Side: Field Selection -->
+            <div class="left">
+                <lightning-input type="text" label="Search Fields" onchange={handleSearch}></lightning-input>
+                <div class="field-list">
+                    <template for:each={filteredFields} for:item="field">
+                        <div key={field.value} class="field-item">
+                            <lightning-button variant="base" label={field.label} data-value={field.value}
+                                onclick={handleFieldSelect}>
+                            </lightning-button>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Right Side: Selected Fields -->
+            <div class="right">
+                <div class="selected-fields">
+                    <template for:each={selectedFields} for:item="field">
+                        <div key={field.value} class="selected-item">
+                            <span>{field.label}</span>
+                            <lightning-button-icon icon-name="utility:close" alternative-text="Remove"
+                                data-value={field.value} onclick={handleFieldRemove}>
+                            </lightning-button-icon>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        <!-- Save Button -->
+         <template if:true={changeMade}>
+            <div class="footer">
+                <lightning-button variant="brand" label="Save" onclick={handleSave}>
+                </lightning-button>
+            </div>
+         </template>
+        
+    </div>
+</template>

@@ -1,4 +1,16 @@
+/**
+ * @description       : 
+ * @author            : Thanina YAYA
+ * @last modified on  : 28-03-2024
+ * @last modified by  : Thanina YAYA
+**/
 global without sharing class AgreementUtil {
+
+    final public static String IS_RECTYPE_ID = Schema.SObjectType.Convention__c.getRecordTypeInfosByDeveloperName().get('IS_Agreement').getRecordTypeId();
+    final public static String SUB_DISRECTYPE_ID = Schema.SObjectType.Convention__c.getRecordTypeInfosByDeveloperName().get('Sub_distributor_Agreement_Request').getRecordTypeId();
+    final public static String TECH_RECTYPE_ID = Schema.SObjectType.Convention__c.getRecordTypeInfosByDeveloperName().get('Technical_Agreement').getRecordTypeId();
+    final public static String INV_WITHRECTYPE_ID = Schema.SObjectType.Convention__c.getRecordTypeInfosByDeveloperName().get('Investor_without_Agreement_Request').getRecordTypeId();
+    final public static String REQ_RECTYPE_ID = Schema.SObjectType.Convention__c.getRecordTypeInfosByDeveloperName().get('Request_Agreement').getRecordTypeId();
 
 //Company data validation
     public static void validateCompanySnapshot(Convention__c agg, Account c) {
@@ -113,7 +125,8 @@ global without sharing class AgreementUtil {
                         BusinessDevelopmentRegion__c,
                         All_Concerned_Business_Regions__c,
                         OwnerId,
-                        Owner.Name
+                        Owner.Name,
+                        Team__c
                 FROM Account
                 WHERE Id IN:accountIds
         ]);
@@ -122,6 +135,7 @@ global without sharing class AgreementUtil {
     }
 
 //Create Company Snapshot for Agreememt
+    //Agreement recordType is added as param, cauz we need to baypass some rules in case of IS Agreement
     public static void snapCompanyToAgreement(Convention__c a, Account tmpAcc) {
         //**Start setting company snapshot data
         String mainAddress = (tmpAcc.BillingStreet != null) ? tmpAcc.BillingStreet + '\n' : '' ;
@@ -141,10 +155,11 @@ global without sharing class AgreementUtil {
         //a.Company_Name__c = tmpAcc.Name;
         a.Business_Region__c = tmpAcc.BusinessDevelopmentRegion__c;
         a.TECH_Business_Region__c = tmpAcc.BusinessDevelopmentRegion__c;
+        a.TeamSharing__c = tmpAcc.Team__c;
         //a.Business_Developer__c = tmpAcc.Owner.Name;
         a.Ultimate_Parent__c = tmpAcc.Ultimate_Parent_Name__c;
         a.Ultimate_Tier_at_Group_level__c = tmpAcc.Ultimate_Parent_Tier__c;
-        a.OwnerId = tmpAcc.OwnerId;
+        if(a.RecordTypeId != IS_RECTYPE_ID) a.OwnerId = tmpAcc.OwnerId;
         //**End setting company snapshot data
     }
 
@@ -158,13 +173,13 @@ global without sharing class AgreementUtil {
         return newAGH;
     }
 
-    public static void validateUniqueCode(Convention__c agr) {
+    /*public static void validateUniqueCode(Convention__c agr) {
         String thisAgrId = agr.Id;
         List<Convention__c> agrs = new List<Convention__c>([SELECT Id, Name FROM Convention__c WHERE Name = :agr.Name AND Id <> :thisAgrId]);
         if (agrs.size() > 0) {
             agr.Name.addError('This Agreement Code is not Unique. Please notify an Administrator.');
         }
-    }
+    }*/
 
 //Utility method for Map Key retrieval
     public static String getKeyFromValue(Map<String, String> hm, String value) {

@@ -1,333 +1,377 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Thematic --></label>
     <name>Thematic__c</name>
     <picklistValues>
         <masterLabel>ALM ES CI</masterLabel>
-        <translation></translation>
+        <translation><!-- ALM ES CI --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>ALM ES CPE</masterLabel>
-        <translation></translation>
+        <translation><!-- ALM ES CPE --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>AXA Selection Carmignac Convictions</masterLabel>
-        <translation></translation>
+        <translation><!-- AXA Selection Carmignac Convictions --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Allianz Darta</masterLabel>
-        <translation></translation>
+        <translation><!-- Allianz Darta --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Avenir Sélection Patrimoine</masterLabel>
-        <translation></translation>
+        <translation><!-- Avenir Sélection Patrimoine --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Brand</masterLabel>
-        <translation></translation>
+        <translation><!-- Brand --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CAELS</masterLabel>
-        <translation></translation>
+        <translation><!-- CAELS --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CAGR</masterLabel>
-        <translation></translation>
+        <translation><!-- CAGR --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CARE</masterLabel>
+        <translation><!-- CARE --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CAT</masterLabel>
-        <translation></translation>
+        <translation><!-- CAT --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CC</masterLabel>
-        <translation></translation>
+        <translation><!-- CC --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CC25</masterLabel>
-        <translation></translation>
+        <translation><!-- CC25 --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CC27</masterLabel>
-        <translation></translation>
+        <translation><!-- CC27 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CC29</masterLabel>
+        <translation><!-- CC29 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CC31</masterLabel>
+        <translation><!-- CC31 --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CCC</masterLabel>
-        <translation></translation>
+        <translation><!-- CCC --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CCNE</masterLabel>
-        <translation></translation>
+        <translation><!-- CCNE --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CCO</masterLabel>
+        <translation><!-- CCO --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CCP</masterLabel>
-        <translation></translation>
+        <translation><!-- CCP --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CCR</masterLabel>
-        <translation></translation>
+        <translation><!-- CCR --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CCT</masterLabel>
-        <translation></translation>
+        <translation><!-- CCT --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CE</masterLabel>
-        <translation></translation>
+        <translation><!-- CE --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CED</masterLabel>
-        <translation></translation>
+        <translation><!-- CED --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CEE</masterLabel>
-        <translation></translation>
+        <translation><!-- CEE --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CEMD</masterLabel>
-        <translation></translation>
+        <translation><!-- CEMD --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CEMP</masterLabel>
-        <translation></translation>
+        <translation><!-- CEMP --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CFA24</masterLabel>
-        <translation></translation>
+        <translation><!-- CFA24 --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CFB</masterLabel>
-        <translation></translation>
+        <translation><!-- CFB --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CFG</masterLabel>
-        <translation></translation>
+        <translation><!-- CFG --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CGA</masterLabel>
-        <translation></translation>
+        <translation><!-- CGA --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CGC</masterLabel>
-        <translation></translation>
+        <translation><!-- CGC --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CGE</masterLabel>
-        <translation></translation>
+        <translation><!-- CGE --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CGG</masterLabel>
-        <translation></translation>
+        <translation><!-- CGG --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CHX</masterLabel>
-        <translation></translation>
+        <translation><!-- CHX --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CI</masterLabel>
-        <translation></translation>
+        <translation><!-- CI --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CIL</masterLabel>
-        <translation></translation>
+        <translation><!-- CIL --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CLSEE</masterLabel>
-        <translation></translation>
+        <translation><!-- CLSEE --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CLSGE</masterLabel>
-        <translation></translation>
+        <translation><!-- CLSGE --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CMA</masterLabel>
+        <translation><!-- CMA --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CMAP</masterLabel>
+        <translation><!-- CMAP --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CME</masterLabel>
+        <translation><!-- CME --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CP</masterLabel>
-        <translation></translation>
+        <translation><!-- CP --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CPE</masterLabel>
-        <translation></translation>
+        <translation><!-- CPE --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CPEG</masterLabel>
+        <translation><!-- CPEG --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CPI</masterLabel>
+        <translation><!-- CPI --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CPR100</masterLabel>
-        <translation></translation>
+        <translation><!-- CPR100 --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CPR50</masterLabel>
-        <translation></translation>
+        <translation><!-- CPR50 --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CPR75</masterLabel>
-        <translation></translation>
+        <translation><!-- CPR75 --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CSC</masterLabel>
-        <translation></translation>
+        <translation><!-- CSC --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CTS</masterLabel>
+        <translation><!-- CTS --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CUEFI</masterLabel>
-        <translation></translation>
+        <translation><!-- CUEFI --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CUGB</masterLabel>
-        <translation></translation>
+        <translation><!-- CUGB --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Credit Suisse Carmignac Emerging Markets Multi-Asset Fund</masterLabel>
-        <translation></translation>
+        <translation><!-- Credit Suisse Carmignac Emerging Markets Multi-Asset Fund --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>ESG</masterLabel>
-        <translation></translation>
+        <translation><!-- ESG --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Emerging</masterLabel>
-        <translation></translation>
+        <translation><!-- Emerging --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Eres &amp; Carmignac Patrimoine</masterLabel>
-        <translation></translation>
+        <translation><!-- Eres &amp; Carmignac Patrimoine --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Eres Carmignac Equilibre</masterLabel>
-        <translation></translation>
+        <translation><!-- Eres Carmignac Equilibre --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Europe</masterLabel>
-        <translation></translation>
+        <translation><!-- Europe --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Fixed Income</masterLabel>
-        <translation></translation>
+        <translation><!-- Fixed Income --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Global Equity</masterLabel>
-        <translation></translation>
+        <translation><!-- Global Equity --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Global Macro</masterLabel>
-        <translation></translation>
+        <translation><!-- Global Macro --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Inversis Big Battle</masterLabel>
-        <translation></translation>
+        <translation><!-- Inversis Big Battle --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Investment Solutions</masterLabel>
-        <translation></translation>
+        <translation><!-- Investment Solutions --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>LSEE</masterLabel>
-        <translation></translation>
+        <translation><!-- LSEE --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>MA</masterLabel>
-        <translation></translation>
+        <translation><!-- MA --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>MACSF CP</masterLabel>
-        <translation></translation>
+        <translation><!-- MACSF CP --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Mapfre Carmignac F.P.</masterLabel>
-        <translation></translation>
+        <translation><!-- Mapfre Carmignac F.P. --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Mediolanum Carmignac Strategy</masterLabel>
-        <translation></translation>
+        <translation><!-- Mediolanum Carmignac Strategy --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Multimanagers Actions Internationales – C</masterLabel>
-        <translation></translation>
+        <translation><!-- Multimanagers Actions Internationales – C --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Multimanagers Equilibre – CP</masterLabel>
-        <translation></translation>
+        <translation><!-- Multimanagers Equilibre – CP --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>No Thematic</masterLabel>
-        <translation></translation>
+        <translation><!-- No Thematic --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Nomura</masterLabel>
-        <translation></translation>
+        <translation><!-- Nomura --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>PCNE</masterLabel>
-        <translation></translation>
+        <translation><!-- PCNE --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>PE</masterLabel>
-        <translation></translation>
+        <translation><!-- PE --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>PEE</masterLabel>
-        <translation></translation>
+        <translation><!-- PEE --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>PI</masterLabel>
-        <translation></translation>
+        <translation><!-- PI --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>PIL</masterLabel>
-        <translation></translation>
+        <translation><!-- PIL --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>PLSEE</masterLabel>
-        <translation></translation>
+        <translation><!-- PLSEE --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>PP</masterLabel>
-        <translation></translation>
+        <translation><!-- PP --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>PSC</masterLabel>
-        <translation></translation>
+        <translation><!-- PSC --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Quantitative</masterLabel>
-        <translation></translation>
+        <translation><!-- Quantitative --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Retirement</masterLabel>
-        <translation></translation>
+        <translation><!-- Retirement --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Risk Managers</masterLabel>
-        <translation></translation>
+        <translation><!-- Risk Managers --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Sagis</masterLabel>
-        <translation></translation>
+        <translation><!-- Sagis --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Salix</masterLabel>
-        <translation></translation>
+        <translation><!-- Salix --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>UK</masterLabel>
+        <translation><!-- UK --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>UKCE</masterLabel>
-        <translation></translation>
+        <translation><!-- UKCE --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>UKCED</masterLabel>
-        <translation></translation>
+        <translation><!-- UKCED --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>UKCEL</masterLabel>
-        <translation></translation>
+        <translation><!-- UKCEL --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>UKCEMP</masterLabel>
-        <translation></translation>
+        <translation><!-- UKCEMP --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>UKCGB</masterLabel>
-        <translation></translation>
+        <translation><!-- UKCGB --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>UKCGEC</masterLabel>
-        <translation></translation>
+        <translation><!-- UKCGEC --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>UKCP</masterLabel>
-        <translation></translation>
+        <translation><!-- UKCP --></translation>
     </picklistValues>
 </CustomFieldTranslation>

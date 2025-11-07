@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- TECH_WhichWebService --></label>
     <name>TECH_WhichWebService__c</name>
     <picklistValues>
         <masterLabel>NullValue</masterLabel>
-        <translation></translation>
+        <translation><!-- NullValue --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>OnBeforeDelete_CallDelete</masterLabel>
-        <translation></translation>
+        <translation><!-- OnBeforeDelete_CallDelete --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>OnBeforeInsert_CallCreate</masterLabel>
-        <translation></translation>
+        <translation><!-- OnBeforeInsert_CallCreate --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>OnBeforeUpdate_CallCreate</masterLabel>
-        <translation></translation>
+        <translation><!-- OnBeforeUpdate_CallCreate --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>OnBeforeUpdate_CallDesactivate</masterLabel>
-        <translation></translation>
+        <translation><!-- OnBeforeUpdate_CallDesactivate --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>OnBeforeUpdate_CallUpdate</masterLabel>
-        <translation></translation>
+        <translation><!-- OnBeforeUpdate_CallUpdate --></translation>
     </picklistValues>
 </CustomFieldTranslation>

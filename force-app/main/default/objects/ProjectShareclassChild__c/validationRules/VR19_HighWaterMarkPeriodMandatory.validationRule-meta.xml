@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR19_HighWaterMarkPeriodMandatory</fullName>
+    <active>false</active>
+    <description>Display &amp; Mandatory ONLY If PerformanceFeeMethod=&apos;HighWaterMark&apos;</description>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+$Permission.PRPProductStrategy  = true,
+Name = &quot;Design &amp; Proposal&quot;,
+INCLUDES(PerformanceFeeMethod__c,&apos;HighWaterMark&apos;),
+ISBLANK(HighWaterMarkPeriod__c))</errorConditionFormula>
+    <errorMessage>If the Perf Fee Method is &apos;HighWaterMark&apos;, please provide a High Water Mark Period.</errorMessage>
+</ValidationRule>

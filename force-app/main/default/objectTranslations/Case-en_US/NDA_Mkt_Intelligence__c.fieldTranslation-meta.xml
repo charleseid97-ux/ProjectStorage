@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- NDA --></label>
     <name>NDA_Mkt_Intelligence__c</name>
     <picklistValues>
         <masterLabel>Not Signed</masterLabel>
-        <translation></translation>
+        <translation><!-- Not Signed --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Not applicable</masterLabel>
-        <translation></translation>
+        <translation><!-- Not applicable --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Pending signature</masterLabel>
-        <translation></translation>
+        <translation><!-- Pending signature --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Signature ongoing</masterLabel>
-        <translation></translation>
+        <translation><!-- Signature ongoing --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Signed</masterLabel>
-        <translation></translation>
+        <translation><!-- Signed --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Signed close ended</masterLabel>
-        <translation></translation>
+        <translation><!-- Signed close ended --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Signed open ended</masterLabel>
-        <translation></translation>
+        <translation><!-- Signed open ended --></translation>
     </picklistValues>
 </CustomFieldTranslation>

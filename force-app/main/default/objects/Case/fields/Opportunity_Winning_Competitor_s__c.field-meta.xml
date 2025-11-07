@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Opportunity_Winning_Competitor_s__c</fullName>
     <externalId>false</externalId>
-    <formula>Opportunity__r.Winning_Competitor__c</formula>
+    <formula>TEXT(0)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Opportunity&apos;s Winning Competitor(s)</label>
     <required>false</required>

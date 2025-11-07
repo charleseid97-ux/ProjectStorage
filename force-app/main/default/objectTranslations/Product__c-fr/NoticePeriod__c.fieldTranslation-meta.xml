@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Number of days required to execute a transaction before NAV date (applies to all types of transactions) --></help>
+    <label><!-- Notice Period --></label>
+    <name>NoticePeriod__c</name>
+    <picklistValues>
+        <masterLabel>J</masterLabel>
+        <translation><!-- J --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>J-1</masterLabel>
+        <translation><!-- J-1 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>J-5</masterLabel>
+        <translation><!-- J-5 --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

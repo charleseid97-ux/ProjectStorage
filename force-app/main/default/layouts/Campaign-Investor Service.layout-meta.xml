@@ -215,14 +215,15 @@
         <excludeButtons>ImportMembers</excludeButtons>
         <excludeButtons>SendListEmailAction</excludeButtons>
         <fields>MEMBER_TYPE</fields>
-        <fields>Category_Event_lookup__c</fields>
         <fields>STATUS</fields>
         <fields>FIRST_NAME</fields>
         <fields>LAST_NAME</fields>
+        <fields>Cancelled_Icone__c</fields>
         <fields>COMPANY</fields>
         <fields>LC_OWNER</fields>
         <fields>Active_Inactive__c</fields>
         <fields>Event_Email__c</fields>
+        <fields>Contact_Status__c</fields>
         <relatedList>RelatedCampaignMemberList</relatedList>
         <sortField>LC_OWNER</sortField>
         <sortOrder>Asc</sortOrder>

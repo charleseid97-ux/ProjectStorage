@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OTCClearerDetails__c</fullName>
+    <label>OTC (clearer) Details</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>IRS</fullName>
+                <default>false</default>
+                <label>IRS</label>
+            </value>
+            <value>
+                <fullName>CDS</fullName>
+                <default>false</default>
+                <label>CDS</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>3</visibleLines>
+</CustomField>

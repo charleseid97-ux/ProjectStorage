@@ -7,6 +7,10 @@
         <value xsi:type="xsd:string">Nav</value>
     </values>
     <values>
+        <field>Is_Active__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
         <field>LWCLabel__c</field>
         <value xsi:type="xsd:string">Daily</value>
     </values>

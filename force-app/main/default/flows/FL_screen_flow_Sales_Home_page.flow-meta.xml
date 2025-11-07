@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>58.0</apiVersion>
+    <description>Add new link home for MorningStar</description>
     <environments>Default</environments>
     <interviewLabel>FL_screen_flow_Sales_Home_page {!$Flow.CurrentDateTime}</interviewLabel>
     <label>FL_Sales_Home_Page_Links</label>
@@ -136,7 +137,7 @@
                 </fields>
                 <fields>
                     <name>DashboardCatalogLink</name>
-                    <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://efl-prd.carmignac.com/#/views/Tableofcontents/DashboardCatalog-ProfessionalClients&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 11px; background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);&quot;&gt;&lt;strong&gt;&lt;u&gt;DASHBOARD CATALOG&lt;/u&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+                    <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://tableau.carmignac.com/#/views/HomePageTableau/HomePageTableau?:iid=1&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 0, 0); font-size: 11px;&quot;&gt;&lt;strong&gt;&lt;u&gt;TABLEAU CATALOG&lt;/u&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
                 </fields>
                 <inputParameters>
@@ -399,6 +400,184 @@
                 <name>Screen3_Section3_Column1</name>
                 <fieldType>Region</fieldType>
                 <fields>
+                    <name>ActivitiesGFIImage</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>ActivitiesGFIImage</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>horizontalAlignment</name>
+                        <value>
+                            <stringValue>center</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>imageHeight</name>
+                        <value>
+                            <stringValue>50</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>imageWidth</name>
+                        <value>
+                            <stringValue>50</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>imageAlt</name>
+                        <value>
+                            <stringValue>ACTIVITIES WITH GFI</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <fields>
+                    <name>ActivitiesGFILink</name>
+                    <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://carmignac-crm.lightning.force.com/lightning/r/Dashboard/01Z1i000000QPLFEA4/view?queryScope=userFolders&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 11px; color: rgb(0, 0, 0);&quot;&gt;&lt;strong&gt;&lt;u&gt;ACTIVITIES WITH GFI﻿&lt;/u&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>4</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Screen3_Section3_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>DashboardCatalogImageSales</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>DashboardCatalogImage</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>horizontalAlignment</name>
+                        <value>
+                            <stringValue>center</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>imageAlt</name>
+                        <value>
+                            <stringValue>Dashboard Catalog</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>imageHeight</name>
+                        <value>
+                            <stringValue>50</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>imageWidth</name>
+                        <value>
+                            <stringValue>50</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <fields>
+                    <name>DashboardCatalogLinkSales</name>
+                    <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://tableau.carmignac.com/#/views/HomePageTableau/HomePageTableau?:iid=1&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 0, 0); font-size: 11px;&quot;&gt;&lt;strong&gt;&lt;u&gt;TABLEAU CATALOG&lt;/u&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>4</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Screen3_Section3_Column3</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>BoardProjectionsImage</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>BoardProjections</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>horizontalAlignment</name>
+                        <value>
+                            <stringValue>CENTER</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>imageAlt</name>
+                        <value>
+                            <stringValue>Board Projections</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>imageHeight</name>
+                        <value>
+                            <stringValue>50</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>imageWidth</name>
+                        <value>
+                            <stringValue>50</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <fields>
+                    <name>BoardProjectionsLinkSale</name>
+                    <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://carmignac-c1.board.com/#/screen/?capsulePath=Link%5CLink.bcps&amp;amp;screenId=813f7cfb-7612-4536-bad5-b6f1a3966468&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 0, 0); font-size: 11px;&quot;&gt;&lt;strong&gt;&lt;u&gt;BOARD PROJECTIONS&lt;/u&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>4</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Vardisplay</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <numberValue>3.0</numberValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Screen3_Section4</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Screen3_Section4_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
                     <name>CRMSalesforceTrainingImage</name>
                     <extensionName>flowruntime:image</extensionName>
                     <fieldType>ComponentInstance</fieldType>
@@ -444,28 +623,34 @@
                 <inputParameters>
                     <name>width</name>
                     <value>
-                        <stringValue>6</stringValue>
+                        <stringValue>4</stringValue>
                     </value>
                 </inputParameters>
                 <isRequired>false</isRequired>
             </fields>
             <fields>
-                <name>Screen3_Section3_Column2</name>
+                <name>Screen3_Section4_Column2</name>
                 <fieldType>Region</fieldType>
                 <fields>
-                    <name>CRMCommercialViewImage</name>
+                    <name>BoardProjections</name>
                     <extensionName>flowruntime:image</extensionName>
                     <fieldType>ComponentInstance</fieldType>
                     <inputParameters>
                         <name>imageName</name>
                         <value>
-                            <stringValue>CommercialViewImage</stringValue>
+                            <stringValue>BoardProjections</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>horizontalAlignment</name>
+                        <value>
+                            <stringValue>center</stringValue>
                         </value>
                     </inputParameters>
                     <inputParameters>
                         <name>imageAlt</name>
                         <value>
-                            <stringValue>﻿COMMERCIAL VIEW TRANSPARIZATION FREQUENCY</stringValue>
+                            <stringValue>Board Projections</stringValue>
                         </value>
                     </inputParameters>
                     <inputParameters>
@@ -480,10 +665,58 @@
                             <stringValue>50</stringValue>
                         </value>
                     </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <fields>
+                    <name>BoardProjectionsLink</name>
+                    <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://carmignac-c1.board.com/#/screen/?capsulePath=Link%5CLink.bcps&amp;amp;screenId=813f7cfb-7612-4536-bad5-b6f1a3966468&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 11px; color: rgb(0, 0, 0);&quot;&gt;&lt;strong&gt;&lt;u&gt;BOARD PROJECTIONS&lt;/u&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>4</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Screen3_Section4_Column3</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>contentimagecrm</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>Contentimage</stringValue>
+                        </value>
+                    </inputParameters>
                     <inputParameters>
                         <name>horizontalAlignment</name>
                         <value>
                             <stringValue>center</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>imageAlt</name>
+                        <value>
+                            <stringValue>Content</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>imageHeight</name>
+                        <value>
+                            <stringValue>50</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>imageWidth</name>
+                        <value>
+                            <stringValue>50</stringValue>
                         </value>
                     </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -491,14 +724,14 @@
                     <storeOutputAutomatically>true</storeOutputAutomatically>
                 </fields>
                 <fields>
-                    <name>CRMCommercialViewLink</name>
-                    <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://carmignac-crm.my.salesforce.com/sfc/p/#58000000ZABI/a/1i0000012xrV/dpMVLDK2Bl3U8MzEKyKjyzVk9dK69v.iXJaICsw6lfg&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 11px; background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);&quot;&gt;&lt;strong&gt;&lt;u&gt;﻿COMMERCIAL VIEW&lt;/u&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://carmignac-crm.my.salesforce.com/sfc/p/#58000000ZABI/a/1i0000012xrV/dpMVLDK2Bl3U8MzEKyKjyzVk9dK69v.iXJaICsw6lfg&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 11px; background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);&quot;&gt;&lt;strong&gt;&lt;u&gt; TRANSPARIZATION FREQUENCY&lt;/u&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+                    <name>contentlinkcrm</name>
+                    <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://carmignac365.sharepoint.com/sites/CustomerExperienceProgram-ContentandChannel/Lists/Content%20List/AllItems.aspx?useFiltersInViewXml=1&amp;amp;sortField=Date&amp;amp;isAscending=false&amp;amp;viewid=d8eaa2b6%2D2f3d%2D4af7%2Db0cf%2D9af1a7dd55d0&amp;amp;OR=Teams%2DHL&amp;amp;CT=1733917911005&amp;amp;clickparams=eyJBcHBOYW1lIjoiVGVhbXMtRGVza3RvcCIsIkFwcFZlcnNpb24iOiI0OS8yNDExMDExNTcyMiIsIkhhc0ZlZGVyYXRlZFVzZXIiOmZhbHNlfQ%3D%3D&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 0, 0); font-size: 11px;&quot;&gt;&lt;strong&gt;&lt;u&gt;CONTENT&lt;/u&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
                 </fields>
                 <inputParameters>
                     <name>width</name>
                     <value>
-                        <stringValue>6</stringValue>
+                        <stringValue>4</stringValue>
                     </value>
                 </inputParameters>
                 <isRequired>false</isRequired>
@@ -517,10 +750,10 @@
             </visibilityRule>
         </fields>
         <fields>
-            <name>Screen3_Section4</name>
+            <name>Screen3_Section5</name>
             <fieldType>RegionContainer</fieldType>
             <fields>
-                <name>Screen3_Section4_Column1</name>
+                <name>Screen3_Section5_Column1</name>
                 <fieldType>Region</fieldType>
                 <fields>
                     <name>SalesSalesforceTrainingImage</name>
@@ -568,13 +801,13 @@
                 <inputParameters>
                     <name>width</name>
                     <value>
-                        <stringValue>3</stringValue>
+                        <stringValue>4</stringValue>
                     </value>
                 </inputParameters>
                 <isRequired>false</isRequired>
             </fields>
             <fields>
-                <name>Screen3_Section4_Column2</name>
+                <name>Screen3_Section5_Column2</name>
                 <fieldType>Region</fieldType>
                 <fields>
                     <name>WorkTogetherImage</name>
@@ -622,34 +855,34 @@
                 <inputParameters>
                     <name>width</name>
                     <value>
-                        <stringValue>3</stringValue>
+                        <stringValue>4</stringValue>
                     </value>
                 </inputParameters>
                 <isRequired>false</isRequired>
             </fields>
             <fields>
-                <name>Screen3_Section4_Column3</name>
+                <name>Screen3_Section5_Column3</name>
                 <fieldType>Region</fieldType>
                 <fields>
-                    <name>SalesCommercialViewImage</name>
+                    <name>ContentImageSales</name>
                     <extensionName>flowruntime:image</extensionName>
                     <fieldType>ComponentInstance</fieldType>
                     <inputParameters>
                         <name>imageName</name>
                         <value>
-                            <stringValue>CommercialViewImage</stringValue>
+                            <stringValue>Contentimage</stringValue>
                         </value>
                     </inputParameters>
                     <inputParameters>
                         <name>horizontalAlignment</name>
                         <value>
-                            <stringValue>center</stringValue>
+                            <stringValue>Center</stringValue>
                         </value>
                     </inputParameters>
                     <inputParameters>
                         <name>imageAlt</name>
                         <value>
-                            <stringValue>﻿COMMERCIAL VIEW TRANSPARIZATION FREQUENCY</stringValue>
+                            <stringValue>Content</stringValue>
                         </value>
                     </inputParameters>
                     <inputParameters>
@@ -669,68 +902,14 @@
                     <storeOutputAutomatically>true</storeOutputAutomatically>
                 </fields>
                 <fields>
-                    <name>SalesCommercialViewLink</name>
-                    <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://carmignac-crm.my.salesforce.com/sfc/p/58000000ZABI/a/1i0000012xrV/dpMVLDK2Bl3U8MzEKyKjyzVk9dK69v.iXJaICsw6lfg&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 11px; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);&quot;&gt;&lt;strong&gt;&lt;u&gt;﻿COMMERCIAL VIEW TRANSPARIZATION FREQUENCY&lt;/u&gt;&lt;/strong&gt;&lt;/a&gt;&lt;strong style=&quot;font-size: 11px; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);&quot;&gt;﻿&lt;/strong&gt;&lt;/p&gt;</fieldText>
+                    <name>Salescontentlink</name>
+                    <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://carmignac365.sharepoint.com/sites/CustomerExperienceProgram-ContentandChannel/Lists/Content%20List/AllItems.aspx?useFiltersInViewXml=1&amp;amp;sortField=Date&amp;amp;isAscending=false&amp;amp;viewid=d8eaa2b6%2D2f3d%2D4af7%2Db0cf%2D9af1a7dd55d0&amp;amp;OR=Teams%2DHL&amp;amp;CT=1733917911005&amp;amp;clickparams=eyJBcHBOYW1lIjoiVGVhbXMtRGVza3RvcCIsIkFwcFZlcnNpb24iOiI0OS8yNDExMDExNTcyMiIsIkhhc0ZlZGVyYXRlZFVzZXIiOmZhbHNlfQ%3D%3D&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 0, 0); font-size: 11px;&quot;&gt;&lt;strong&gt;&lt;u&gt;CONTENT&lt;/u&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
                 </fields>
                 <inputParameters>
                     <name>width</name>
                     <value>
-                        <stringValue>3</stringValue>
-                    </value>
-                </inputParameters>
-                <isRequired>false</isRequired>
-            </fields>
-            <fields>
-                <name>Screen3_Section4_Column4</name>
-                <fieldType>Region</fieldType>
-                <fields>
-                    <name>ActivitiesGFIImage</name>
-                    <extensionName>flowruntime:image</extensionName>
-                    <fieldType>ComponentInstance</fieldType>
-                    <inputParameters>
-                        <name>imageName</name>
-                        <value>
-                            <stringValue>ActivitiesGFIImage</stringValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>horizontalAlignment</name>
-                        <value>
-                            <stringValue>center</stringValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>imageHeight</name>
-                        <value>
-                            <stringValue>50</stringValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>imageWidth</name>
-                        <value>
-                            <stringValue>50</stringValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>imageAlt</name>
-                        <value>
-                            <stringValue>ACTIVITIES WITH GFI</stringValue>
-                        </value>
-                    </inputParameters>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>true</isRequired>
-                    <storeOutputAutomatically>true</storeOutputAutomatically>
-                </fields>
-                <fields>
-                    <name>ActivitiesGFILink</name>
-                    <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://carmignac-crm.lightning.force.com/lightning/r/Dashboard/01Z1i000000QPLFEA4/view?queryScope=userFolders&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 11px; color: rgb(0, 0, 0);&quot;&gt;&lt;strong&gt;&lt;u&gt;ACTIVITIES WITH GFI﻿&lt;/u&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
-                    <fieldType>DisplayText</fieldType>
-                </fields>
-                <inputParameters>
-                    <name>width</name>
-                    <value>
-                        <stringValue>3</stringValue>
+                        <stringValue>4</stringValue>
                     </value>
                 </inputParameters>
                 <isRequired>false</isRequired>
@@ -749,10 +928,10 @@
             </visibilityRule>
         </fields>
         <fields>
-            <name>Screen3_Section5</name>
+            <name>Screen3_Section6</name>
             <fieldType>RegionContainer</fieldType>
             <fields>
-                <name>Screen3_Section5_Column1</name>
+                <name>Screen3_Section6_Column1</name>
                 <fieldType>Region</fieldType>
                 <fields>
                     <name>SalesforceTrainingImageInvestorServices</name>
@@ -811,6 +990,43 @@
                     </rightValue>
                 </conditions>
             </visibilityRule>
+        </fields>
+        <fields>
+            <name>MorningStarImage</name>
+            <extensionName>flowruntime:image</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>imageName</name>
+                <value>
+                    <stringValue>MorningStarImage</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>horizontalAlignment</name>
+                <value>
+                    <stringValue>center</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>imageHeight</name>
+                <value>
+                    <stringValue>60</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>imageWidth</name>
+                <value>
+                    <stringValue>60</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <fields>
+            <name>MorningStar</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://carmignac365.sharepoint.com/sites/departments/MarketIntelligence/fca/sr/Forms/AllItems.aspx?id=%2Fsites%2Fdepartments%2FMarketIntelligence%2Ffca%2Fsr%2FMorningstar%20Rankings%2Epdf&amp;amp;parent=%2Fsites%2Fdepartments%2FMarketIntelligence%2Ffca%2Fsr&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 0, 0); font-size: 11px;&quot;&gt;&lt;strong&gt;&lt;u&gt;MORNINGSTAR RANKINGS&lt;/u&gt;&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>false</showFooter>
         <showHeader>false</showHeader>

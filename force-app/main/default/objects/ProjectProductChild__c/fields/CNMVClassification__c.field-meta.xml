@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CNMVClassification__c</fullName>
+    <description>CNMVClassification Field</description>
+    <inlineHelpText>CNMVClassification Field</inlineHelpText>
+    <label>CNMV Classification</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>7</fullName>
+                <default>false</default>
+                <label>7</label>
+            </value>
+            <value>
+                <fullName>8</fullName>
+                <default>true</default>
+                <label>8</label>
+            </value>
+            <value>
+                <fullName>9</fullName>
+                <default>false</default>
+                <label>9</label>
+            </value>
+            <value>
+                <fullName>8 - Foreign UCIs not included under the above definitions regulated under the Directive 2009/65/EC of the European Parliament and of the Council of 13 July 2009 on the coordination of laws</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>8 - Foreign UCIs not included under the above definitions regulated under the Directive 2009/65/EC of the European Parliament and of the Council of 13 July 2009 on the coordination of laws</label>
+            </value>
+            <value>
+                <fullName>9 - Foreign UCIs not included under the above definition</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>9 - Foreign UCIs not included under the above definition</label>
+            </value>
+            <value>
+                <fullName>N/A</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>N/A</label>
+            </value>
+            <value>
+                <fullName>regulations and administrative provisions relating to undertakings for collective investment in transferable securities (UCITS)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>regulations and administrative provisions relating to undertakings for collective investment in transferable securities (UCITS)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

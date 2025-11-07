@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Product_T__c</fullName>
-    <externalId>false</externalId>
     <label>Product</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
@@ -41,6 +40,10 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>CARE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>checked</controllingFieldValue>
             <valueName>CAT</valueName>
         </valueSettings>
         <valueSettings>
@@ -57,6 +60,14 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>CC29</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>CC31</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>checked</controllingFieldValue>
             <valueName>CCC</valueName>
         </valueSettings>
         <valueSettings>
@@ -65,7 +76,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>checked</controllingFieldValue>
-            <valueName>COO</valueName>
+            <valueName>CCO</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>checked</controllingFieldValue>
@@ -145,11 +156,31 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>CMA</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>CMAP</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>CME</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>checked</controllingFieldValue>
             <valueName>CP</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>checked</controllingFieldValue>
             <valueName>CPE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>CPEG</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>CPI</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>checked</controllingFieldValue>
@@ -170,6 +201,10 @@
         <valueSettings>
             <controllingFieldValue>checked</controllingFieldValue>
             <valueName>CSC</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>CTS</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>checked</controllingFieldValue>

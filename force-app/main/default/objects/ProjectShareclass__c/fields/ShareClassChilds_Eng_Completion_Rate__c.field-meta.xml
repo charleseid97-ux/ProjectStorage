@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ShareClassChilds_Eng_Completion_Rate__c</fullName>
+    <label>ShareClassChilds Eng Completion Rate</label>
+    <summarizedField>ProjectShareclassChild__c.NbofFilledFields__c</summarizedField>
+    <summaryFilterItems>
+        <field>ProjectShareclassChild__c.TECH_Childtype__c</field>
+        <operation>equals</operation>
+        <value>Engineering</value>
+    </summaryFilterItems>
+    <summaryForeignKey>ProjectShareclassChild__c.ProjectShareclasses__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

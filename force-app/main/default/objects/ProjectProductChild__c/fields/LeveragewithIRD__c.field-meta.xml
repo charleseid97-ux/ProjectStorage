@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LeveragewithIRD__c</fullName>
+    <description>Should be contributed only for the FCP and SICAV monitored in VAR</description>
+    <inlineHelpText>Estimated leverage including the IRDs</inlineHelpText>
+    <label>Estimated Leverage with IRD</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

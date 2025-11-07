@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Legal Form --></label>
+    <name>LegalForm__c</name>
+    <picklistValues>
+        <masterLabel>FCP</masterLabel>
+        <translation><!-- FCP --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>FCPE</masterLabel>
+        <translation><!-- FCPE --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ICAV</masterLabel>
+        <translation><!-- ICAV --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>OEIC</masterLabel>
+        <translation><!-- OEIC --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Other</masterLabel>
+        <translation><!-- Other --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>SICAV</masterLabel>
+        <translation><!-- SICAV --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

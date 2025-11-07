@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : SILA Nicolas
+ * @group             : 
+ * @last modified on  : 20-12-2023
+ * @last modified by  : Thanina YAYA
+**/
 public class CampaignMemberLoaderService extends ObjectLoaderService
 {
     private enum IdentityField {
@@ -664,7 +671,6 @@ public class CampaignMemberLoaderService extends ObjectLoaderService
             indices.add(index);
             leads.add(newLeads.get(index));
         }
-
         Database.DMLOptions dmlOpts = new Database.DMLOptions();
         dmlOpts.assignmentRuleHeader.useDefaultRule= true;
 
@@ -838,12 +844,19 @@ public class CampaignMemberLoaderService extends ObjectLoaderService
 
         for (SObject record: records)
         {
+            //Can't use containsKey method for SObject recod
+            Map<String, Object> fieldsToValue = record.getPopulatedFieldsAsMap();
             String email = (String)record.get(IdentityField.Email.name());
-            if (email == null)
+            String personalEmail =(fieldsToValue.containsKey('PersonalEmail__c'))?(String)record.get('PersonalEmail__c'):null;
+
+            if (personalEmail != null)
             {
-                email = (String)record.get('PersonalEmail__c');
+                output.put(personalEmail, record);
             }
-            output.put(email, record);
+            if (email != null)
+            {
+                output.put(email, record);
+            }
         }
 
         return output;
@@ -856,7 +869,6 @@ public class CampaignMemberLoaderService extends ObjectLoaderService
         String emailField = IdentityField.Email.name();
         List<String> emailAddresses = stringifyObjects(filter.get(emailField));
         Map<Id, SObject> matches = queryEmailMatches(targetType, emailAddresses, queryFilters);
-
         return matches;
     }
 

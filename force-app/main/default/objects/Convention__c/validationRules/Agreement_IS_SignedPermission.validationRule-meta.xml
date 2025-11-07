@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Agreement_IS_SignedPermission</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+ISPICKVAL(Status__c, &quot;Signed&quot;),
+RecordType.Name = &quot;IS_Agreement&quot;,
+NOT($Profile.Name = &apos;System Administrator&apos;),
+NOT($Profile.Name = &apos;Carmignac - System Administrator&apos;),
+NOT($Profile.Name = &apos;Carmignac - Legal and Compliance&apos;),
+NOT($User.BypassValidationRules__c) 
+)</errorConditionFormula>
+    <errorMessage>Only Users with Legal and Compliance profiles can change the status of an Agreement to signed.</errorMessage>
+</ValidationRule>

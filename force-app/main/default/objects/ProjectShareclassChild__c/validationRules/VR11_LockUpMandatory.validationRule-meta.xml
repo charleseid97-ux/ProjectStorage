@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR11_LockUpMandatory</fullName>
+    <active>false</active>
+    <description>Display &amp; Mandatory ONLY If HasLockUpPeriod=&apos;True&apos;</description>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+$Permission.PRPProductStrategy  = true,
+RecordType.DeveloperName = &apos;Proposal&apos;,
+ISBLANK(LockUp__c),
+HasLockUpPeriod__c = true)</errorConditionFormula>
+    <errorMessage>If Has Lock Up Period is true, you must provide a value for Lock Up field.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- 60420 Financial Instrument Social Topic --></label>
+    <name>EET60420__c</name>
+    <picklistValues>
+        <masterLabel>Investment in human capital (including health)</masterLabel>
+        <translation><!-- Investment in human capital (including health) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Labour relations</masterLabel>
+        <translation><!-- Labour relations --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>None</masterLabel>
+        <translation><!-- None --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Social &amp; human rights</masterLabel>
+        <translation><!-- Social &amp; human rights --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

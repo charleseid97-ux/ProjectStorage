@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Rejected --></label>
     <name>Rejected__c</name>
     <picklistValues>
         <masterLabel>No data available</masterLabel>
-        <translation></translation>
+        <translation><!-- No data available --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Not the right service</masterLabel>
-        <translation></translation>
+        <translation><!-- Not the right service --></translation>
     </picklistValues>
 </CustomFieldTranslation>

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Sub-Status --></label>
     <name>SubStatus__c</name>
     <picklistValues>
         <masterLabel>Business Arbitration</masterLabel>
-        <translation></translation>
+        <translation><!-- Business Arbitration --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Duplicate</masterLabel>
-        <translation></translation>
+        <translation><!-- Duplicate --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Salesforce / Editor Bug</masterLabel>
-        <translation></translation>
+        <translation><!-- Salesforce / Editor Bug --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Salesforce / Editor Limitation</masterLabel>
-        <translation></translation>
+        <translation><!-- Salesforce / Editor Limitation --></translation>
     </picklistValues>
 </CustomFieldTranslation>

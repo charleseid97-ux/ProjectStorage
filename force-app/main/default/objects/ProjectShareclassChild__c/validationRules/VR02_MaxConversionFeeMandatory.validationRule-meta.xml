@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR02_MaxConversionFeeMandatory</fullName>
+    <active>false</active>
+    <description>Display &amp; Mandatory ONLY if ((LegalForm=&quot;SICAV&quot;) and (DomiciledIn=LU))</description>
+    <errorConditionFormula>AND(
+				NOT($User.BypassValidationRules__c),
+				$Permission.PRPProductStrategy,
+				RecordType.DeveloperName = &apos;DesignAndProposal&apos;,
+				ISPICKVAL(ProjectShareclasses__r.ProjectProduct__r.LegalForm__c, &apos;SICAV&apos;),
+ 			ISPICKVAL(ProjectShareclasses__r.ProjectProduct__r.DomiciledInOLD__c , &apos;Luxembourg&apos;),
+    ISBLANK(MaxConversionFee__c)
+				)</errorConditionFormula>
+    <errorMessage>You must provide a value for the &quot;Max Conversion Fee&quot; when the Product is domiciled in LU and the Legal Form is SICAV.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- To specify only for the French registered foreseen moneymarket or structured funds --></help>
+    <label><!-- AMF BCE Classification --></label>
+    <name>AMFBCEClassification__c</name>
+    <picklistValues>
+        <masterLabel>Actions internationales</masterLabel>
+        <translation><!-- Actions internationales --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Autres fonds</masterLabel>
+        <translation><!-- Autres fonds --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Fonds actions</masterLabel>
+        <translation><!-- Fonds actions --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Fonds investis en biens immobiliers</masterLabel>
+        <translation><!-- Fonds investis en biens immobiliers --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Fonds mixtes</masterLabel>
+        <translation><!-- Fonds mixtes --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Fonds monétaire à valeur liquidative variable (VNAV) court terme</masterLabel>
+        <translation><!-- Fonds monétaire à valeur liquidative variable (VNAV) court terme --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Fonds obligations</masterLabel>
+        <translation><!-- Fonds obligations --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Fonds spéculatifs</masterLabel>
+        <translation><!-- Fonds spéculatifs --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Obligations et/ou titres de créances libellés en euros</masterLabel>
+        <translation><!-- Obligations et/ou titres de créances libellés en euros --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

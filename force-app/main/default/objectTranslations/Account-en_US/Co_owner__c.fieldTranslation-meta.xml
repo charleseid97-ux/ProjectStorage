@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Co-owner --></label>
+    <lookupFilter>
+        <errorMessage><!-- Only sales can be added as Co-Owner --></errorMessage>
+    </lookupFilter>
+    <name>Co_owner__c</name>
+    <relationshipLabel><!-- Companies (Co-owner) --></relationshipLabel>
+</CustomFieldTranslation>

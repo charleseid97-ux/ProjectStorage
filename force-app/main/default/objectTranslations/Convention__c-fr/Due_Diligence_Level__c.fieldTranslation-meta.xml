@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Due Diligence Level --></label>
     <name>Due_Diligence_Level__c</name>
     <picklistValues>
         <masterLabel>Enhanced</masterLabel>
-        <translation></translation>
+        <translation><!-- Enhanced --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Simplified</masterLabel>
-        <translation></translation>
+        <translation><!-- Simplified --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Standard</masterLabel>
-        <translation></translation>
+        <translation><!-- Standard --></translation>
     </picklistValues>
 </CustomFieldTranslation>

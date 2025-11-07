@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Coordinator_Feedback__c</fullName>
     <encryptionScheme>None</encryptionScheme>
-    <externalId>false</externalId>
     <inlineHelpText>Value automatically populated from the linked opportunity (Client Feedback field)</inlineHelpText>
     <label>Client Feedback</label>
     <length>130000</length>

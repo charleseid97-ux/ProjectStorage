@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR05_SustainabilityIndicatorsMandatory</fullName>
+    <active>false</active>
+    <description>Display &amp; Mandatory ONLY If ((SFDRcategory=8 OR 9))
+&gt; Conflit avec Display conditionnel</description>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+ $Permission.PRPESG , 
+RecordType.DeveloperName = &apos;Filing&apos;,
+OR(ISPICKVAL(ProjectProductParent__r.SFDRcategory__c, &apos;8&apos;),ISPICKVAL(ProjectProductParent__r.SFDRcategory__c, &apos;9&apos;)),
+ISBLANK(SustainabilityIndicators__c ))</errorConditionFormula>
+    <errorDisplayField>SustainabilityIndicators__c</errorDisplayField>
+    <errorMessage>If SFDRcategory=8 OR 9, please provide a value for Sustainability Indicators</errorMessage>
+</ValidationRule>

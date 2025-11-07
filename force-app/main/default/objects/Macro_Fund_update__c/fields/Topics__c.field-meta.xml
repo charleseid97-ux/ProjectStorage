@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Topics__c</fullName>
     <description>Allows users to select Topics of the News</description>
-    <externalId>false</externalId>
     <label>Topics</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>

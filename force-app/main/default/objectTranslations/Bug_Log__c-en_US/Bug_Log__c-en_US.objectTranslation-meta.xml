@@ -11,42 +11,45 @@
     <layouts>
         <layout>Easy Log Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Administration Information --></label>
             <section>Administration Information</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Administration Result --></label>
             <section>Administration Result</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Description --></label>
             <section>Description</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Priority --></label>
             <section>Priority</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Result --></label>
             <section>Result</section>
         </sections>
     </layouts>
     <nameFieldLabel>Easy Log Name</nameFieldLabel>
     <startsWith>Vowel</startsWith>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Please complete Result Detail --></errorMessage>
         <name>BugLog_VR001_TestCommentMandatory</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Close date is mandatory if status is &quot;Closed&quot; --></errorMessage>
         <name>Closed_Date_mandatory</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage>
+            <!-- Sorry, we are not able to resolve a Log for before Today ;-) 
+Please change the date -->
+        </errorMessage>
         <name>Expected_date_must_be_greater_than_to</name>
     </validationRules>
 </CustomObjectTranslation>

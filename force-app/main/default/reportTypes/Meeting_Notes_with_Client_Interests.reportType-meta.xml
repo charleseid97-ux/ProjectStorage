@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ReportType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <baseObject>Meeting_Note__c</baseObject>
+    <category>other</category>
+    <deployed>true</deployed>
+    <description>Allows to track Meeting Notes with Client Interests</description>
+    <join>
+        <outerJoin>false</outerJoin>
+        <relationship>ClientInterestMeeting__r</relationship>
+    </join>
+    <label>Meeting Notes with Client Interests</label>
+    <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Company</displayNameOverride>
+            <field>Company__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Company Name</displayNameOverride>
+            <field>CompanyName__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Corporate Brand</displayNameOverride>
+            <field>Brand__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Created By</displayNameOverride>
+            <field>CreatedBy</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Created Date</displayNameOverride>
+            <field>CreatedDate</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Currency</displayNameOverride>
+            <field>CurrencyIsoCode</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Date</displayNameOverride>
+            <field>Date__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>GFI (meeting note)</displayNameOverride>
+            <field>GFI__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Investment Solution</displayNameOverride>
+            <field>Investment_Solution__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Is IN my Team</displayNameOverride>
+            <field>Is_IN_my_Team__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Activity Date</displayNameOverride>
+            <field>LastActivityDate</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Modified By</displayNameOverride>
+            <field>LastModifiedBy</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Modified Date</displayNameOverride>
+            <field>LastModifiedDate</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Local</displayNameOverride>
+            <field>Local__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Macro / Strategy</displayNameOverride>
+            <field>Macro__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Meeting Note ID</displayNameOverride>
+            <field>Id</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Meeting Type</displayNameOverride>
+            <field>Meeting_Type__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Notes</displayNameOverride>
+            <field>Note__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Note SubString</displayNameOverride>
+            <field>Note_SubString__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Number of Companies</displayNameOverride>
+            <field>Number_of_Companies__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Meeting Note Owner</displayNameOverride>
+            <field>Owner</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Purpose</displayNameOverride>
+            <field>Purpose__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Relationship Management</displayNameOverride>
+            <field>RelationshipManagement__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Sales Presentation</displayNameOverride>
+            <field>SalesPresentation__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Meeting Note Team</displayNameOverride>
+            <field>Team__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <displayNameOverride>Title</displayNameOverride>
+            <field>Name</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Topic</displayNameOverride>
+            <field>Topic__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Company Team</displayNameOverride>
+            <field>Company__c.Team__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Meeting Note : Company : Tech Dashboard filter</displayNameOverride>
+            <field>Company__c.Tech_Dashboard_filter__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Ultimate Parent</displayNameOverride>
+            <field>Company__c.Ultimate_Parent__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Meeting Note : Company : GFI</displayNameOverride>
+            <field>Company__c.GFI__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Meeting Note Owner Team</displayNameOverride>
+            <field>Owner.UserRole.PortalAccountOwner.Team__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Tech Teams</displayNameOverride>
+            <field>Tech_Teams__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Meeting Note Owner Team</displayNameOverride>
+            <field>Meeting_Note_Owner_Team__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Company__c.Distributor_Type__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <masterLabel>Meeting Notes</masterLabel>
+    </sections>
+    <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Client Interest ID</displayNameOverride>
+            <field>Id</field>
+            <table>Meeting_Note__c.ClientInterestMeeting__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Created By</displayNameOverride>
+            <field>CreatedBy</field>
+            <table>Meeting_Note__c.ClientInterestMeeting__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Created Date</displayNameOverride>
+            <field>CreatedDate</field>
+            <table>Meeting_Note__c.ClientInterestMeeting__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Currency</displayNameOverride>
+            <field>CurrencyIsoCode</field>
+            <table>Meeting_Note__c.ClientInterestMeeting__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Interest</displayNameOverride>
+            <field>Interest__c</field>
+            <table>Meeting_Note__c.ClientInterestMeeting__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Activity Date</displayNameOverride>
+            <field>LastActivityDate</field>
+            <table>Meeting_Note__c.ClientInterestMeeting__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Modified By</displayNameOverride>
+            <field>LastModifiedBy</field>
+            <table>Meeting_Note__c.ClientInterestMeeting__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Modified Date</displayNameOverride>
+            <field>LastModifiedDate</field>
+            <table>Meeting_Note__c.ClientInterestMeeting__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <displayNameOverride>Name</displayNameOverride>
+            <field>Name</field>
+            <table>Meeting_Note__c.ClientInterestMeeting__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Product</displayNameOverride>
+            <field>Product__c</field>
+            <table>Meeting_Note__c.ClientInterestMeeting__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Product Name</displayNameOverride>
+            <field>Product_Name__c</field>
+            <table>Meeting_Note__c.ClientInterestMeeting__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Rating</displayNameOverride>
+            <field>Rating__c</field>
+            <table>Meeting_Note__c.ClientInterestMeeting__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Sentiment</displayNameOverride>
+            <field>Sentiment__c</field>
+            <table>Meeting_Note__c.ClientInterestMeeting__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Strategy</displayNameOverride>
+            <field>Product__c.Name</field>
+            <table>Meeting_Note__c.ClientInterestMeeting__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Product Record Type</displayNameOverride>
+            <field>Product__c.RecordType</field>
+            <table>Meeting_Note__c.ClientInterestMeeting__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Asset Class</displayNameOverride>
+            <field>Product__c.Asset_Class__c</field>
+            <table>Meeting_Note__c.ClientInterestMeeting__r</table>
+        </columns>
+        <masterLabel>Clients Interests</masterLabel>
+    </sections>
+    <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Strategy__c</field>
+            <table>Meeting_Note__c.ClientInterestMeeting__r</table>
+        </columns>
+        <masterLabel>Client Interests</masterLabel>
+    </sections>
+</ReportType>

@@ -157,7 +157,7 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <externalSharingModel>ReadWrite</externalSharingModel>
+    <externalSharingModel>Private</externalSharingModel>
     <label>Meeting Note</label>
     <nameField>
         <encryptionScheme>None</encryptionScheme>
@@ -168,7 +168,9 @@
     <pluralLabel>Meeting Notes</pluralLabel>
     <searchLayouts>
         <excludedStandardButtons>New</excludedStandardButtons>
+        <searchResultsAdditionalFields>Date__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>CompanyName__c</searchResultsAdditionalFields>
     </searchLayouts>
-    <sharingModel>ReadWrite</sharingModel>
+    <sharingModel>Private</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

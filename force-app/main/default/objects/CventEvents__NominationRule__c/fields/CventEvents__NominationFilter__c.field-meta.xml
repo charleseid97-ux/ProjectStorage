@@ -4,7 +4,6 @@
     <deleteConstraint>Restrict</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Stores Nomination Filter to be applied for the rule.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Stores Nomination Filter to be applied for the rule.</inlineHelpText>
     <label>Nomination Filter</label>
     <referenceTo>CventEvents__NominationFilter__c</referenceTo>

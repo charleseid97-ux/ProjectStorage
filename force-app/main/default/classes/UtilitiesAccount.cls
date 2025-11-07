@@ -40,6 +40,7 @@ public class UtilitiesAccount {
                     InactiveContactsAccount = new Account();
                     InactiveContactsAccount.Name = 'Inactive Contacts Company';
                     InactiveContactsAccount.RecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get(RT_InactiveContacts).getRecordTypeId();
+                    InactiveContactsAccount.BusinessDevelopmentRegion__c = 'BP_FR';
                     insert InactiveContactsAccount;
                 }
                 else {

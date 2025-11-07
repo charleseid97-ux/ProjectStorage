@@ -146,6 +146,51 @@
             <field>Campaign__c.RecordType.DeveloperName</field>
             <table>Meeting_Link__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Product__c.Name</field>
+            <table>Meeting_Link__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Product__c.Id</field>
+            <table>Meeting_Link__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Product__c.Product_Name__c</field>
+            <table>Meeting_Link__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Account__c.BusinessDevelopmentRegion__c</field>
+            <table>Meeting_Link__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Meeting_Note__c.Note__c</field>
+            <table>Meeting_Link__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Meeting_Note__c.Owner</field>
+            <table>Meeting_Link__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Meeting_Note__c.Meeting_Type__c</field>
+            <table>Meeting_Link__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Account__c.BusinessDevelopmentRegion_TEXT__c</field>
+            <table>Meeting_Link__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy.BusinessDevelopmentRegions__c</field>
+            <table>Meeting_Link__c</table>
+        </columns>
         <masterLabel>Meeting Links</masterLabel>
     </sections>
 </ReportType>

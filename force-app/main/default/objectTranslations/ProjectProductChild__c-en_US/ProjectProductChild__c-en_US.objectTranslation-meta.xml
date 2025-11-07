@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Project Contribution at Product level</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Project Contribution at Product level</value>
+    </caseValues>
+    <layouts>
+        <layout>Product Engineering</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- General Details --></label>
+            <section>General Details</section>
+        </sections>
+        <sections>
+            <label><!-- Identifiers --></label>
+            <section>Identifiers</section>
+        </sections>
+        <sections>
+            <label><!-- Pricing / Valuation / Dealing --></label>
+            <section>Pricing / Valuation / Dealing</section>
+        </sections>
+        <sections>
+            <label><!-- Reporting --></label>
+            <section>Reporting</section>
+        </sections>
+        <sections>
+            <label><!-- Risk --></label>
+            <section>Risk</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Product Filing</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- ESG --></label>
+            <section>ESG</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- General Details --></label>
+            <section>General Details</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Product Proposal</layout>
+        <sections>
+            <label><!-- Benchmark --></label>
+            <section>Benchmark</section>
+        </sections>
+        <sections>
+            <label><!-- Control Form --></label>
+            <section>Control Form</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Distribution --></label>
+            <section>Distribution</section>
+        </sections>
+        <sections>
+            <label><!-- ESG --></label>
+            <section>ESG</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- General Details --></label>
+            <section>General Details</section>
+        </sections>
+        <sections>
+            <label><!-- Identifiers --></label>
+            <section>Identifiers</section>
+        </sections>
+        <sections>
+            <label><!-- Investment information --></label>
+            <section>Investment information</section>
+        </sections>
+        <sections>
+            <label><!-- Operations --></label>
+            <section>Operations</section>
+        </sections>
+        <sections>
+            <label><!-- Pricing / Valuation / Dealing --></label>
+            <section>Pricing / Valuation / Dealing</section>
+        </sections>
+        <sections>
+            <label><!-- Regulation --></label>
+            <section>Regulation</section>
+        </sections>
+        <sections>
+            <label><!-- Reporting --></label>
+            <section>Reporting</section>
+        </sections>
+        <sections>
+            <label><!-- Risk --></label>
+            <section>Risk</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Product Set Up</layout>
+        <sections>
+            <label><!-- Benchmark --></label>
+            <section>Benchmark</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- General Details --></label>
+            <section>General Details</section>
+        </sections>
+        <sections>
+            <label><!-- Identifiers --></label>
+            <section>Identifiers</section>
+        </sections>
+        <sections>
+            <label><!-- Pricing / Valuation / Dealing --></label>
+            <section>Pricing / Valuation / Dealing</section>
+        </sections>
+        <sections>
+            <label><!-- Regulation --></label>
+            <section>Regulation</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Project Product Child Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- New Section --></label>
+            <section>New Section</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label><!-- New Benchmark --></label>
+        <name>NewBenchmark</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- New Third Party Role --></label>
+        <name>NewThirdPartyRole</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Update --></label>
+        <name>UpdateRec</name>
+    </quickActions>
+    <recordTypes>
+        <label><!-- Design and Proposal --></label>
+        <name>DesignAndProposal</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Engineering --></label>
+        <name>Engineering</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Filing --></label>
+        <name>Filing</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Set-Up --></label>
+        <name>SetUp</name>
+    </recordTypes>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- If Has Investment Universe Reduction is true, please provide a value for Investment Universe Reduction. --></errorMessage>
+        <name>VR01_InvestmntUniverseReductionMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- If Legal Form &lt;&gt; OEIC and Maturity Date is blank, please provide values for Recommended Holding Period, Recommended Holding Period Unit and Recommended Holding Label. --></errorMessage>
+        <name>VR02_RecommendedHoldingsMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- If SFDR Category = 8 or 9 AND Legal Form = FCP or SICAV, please provide a value for AMF ESG Communication (60400). --></errorMessage>
+        <name>VR03_AMFESGCommunicationMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- If SFDRcategory=8 OR 9, please provide Minimum Taxonomy Alignment (20450), ESG Label (20060) and Fund Specific Exclusions. --></errorMessage>
+        <name>VR04_SFDRCategoryDependentProposal</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- If SFDRcategory=8 OR 9, please provide a value for Sustainability Indicators --></errorMessage>
+        <name>VR05_SustainabilityIndicatorsMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- If FATCAClassification = &quot;Reporting Model 1 FFI&quot;, please provide a value for GIIN Sponsor Code. --></errorMessage>
+        <name>VR07_GIINSponsorCodeMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- If GlobalRiskMethod = &quot;Absolute VaR&quot; OR &quot;Relative VaR&quot;, please provide a value for VAR Method. --></errorMessage>
+        <name>VR08_VARMethodMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- HasBenchmark = True, please provide a value for Benchmark and Use of Reference Indicator. --></errorMessage>
+        <name>VR09_HasBenchmarkMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- If Has Carbon Target = True, please provide a value for Carbon Target. --></errorMessage>
+        <name>VR10_CarbonTargetMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- If IsSeeded = True, please provide a value for Seed Description. --></errorMessage>
+        <name>VR11_SeedDescriptionMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- If Is Feeder = True, please provide a value for Master Fund --></errorMessage>
+        <name>VR13_MasterFundMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- If SFDRcategory = 8 ou 9, please provide a value for Minimum Sustainable Investment (20180). --></errorMessage>
+        <name>VR15_MinSustainableInvestMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Please link a Benchmark record to the Project before validating the Set Up phase. --></errorMessage>
+        <name>VR16_BenchmarkonSetup</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Please provide a value for Is Leveraged UCITS is Foreseen EU Category = UCITS. --></errorMessage>
+        <name>VR18_IsLeveragedUCITSMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- The GIIN Sponsor Code format is invalid. Expected format: ABCDEF.12345.SL.XXX --></errorMessage>
+        <name>VR19_GIINSponsorCode</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Invalid format. Please enter the date in MM-DD format (e.g. 12-31) --></errorMessage>
+        <name>VR20_FiscalYearEndDate</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- The maximum allowable percentage of High Yield Bonds must be between 0% and 100%. --></errorMessage>
+        <name>VR21_CNMVMaxHighYield</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- The German Equity Ratio must be between 0% and 100%. --></errorMessage>
+        <name>VR22_DEEquityRatio</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Invalid Morningstar Code format. Please enter 10 to 12 uppercase letters and numbers only (e.g. F0GBR04VX3). --></errorMessage>
+        <name>VR23_MorningstarCode</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Minimum tax alignment must be between 1% and 100% --></errorMessage>
+        <name>VR24_MinTaxAlignment</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Minimum sustainable investment must be between 1% and 100%. --></errorMessage>
+        <name>VR25_MinSustainableInvest</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Carbon reduction target must be between 0% and 100% --></errorMessage>
+        <name>VR26_CarbonTarget</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Investment universe reduction must be between 0% and 100% --></errorMessage>
+        <name>VR27_InvestmentUniverseReduction</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Redemption Settlement Period must be between 1 and 10 days --></errorMessage>
+        <name>VR28_RedemptionSettlementPeriod</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Subscription Settlement Period must be between 1 and 10 days --></errorMessage>
+        <name>VR30_SubscriptionSettlementPeriod</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Switch Settlement Period must be between 1 and 10 days --></errorMessage>
+        <name>VR31_SwitchSettlementPeriod</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage>
+            <!-- The maximum allowed length for this field is 4000 characters.
+To account for text expansion during translations, the source text must not exceed 3200 characters. -->
+        </errorMessage>
+        <name>VR32_InvestmentObjective</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage>
+            <!-- The maximum allowed length for this field is 4000 characters.
+To account for text expansion during translations, the source text must not exceed 3200 characters. -->
+        </errorMessage>
+        <name>VR33_IntentedRetailInvestor</name>
+    </validationRules>
+</CustomObjectTranslation>

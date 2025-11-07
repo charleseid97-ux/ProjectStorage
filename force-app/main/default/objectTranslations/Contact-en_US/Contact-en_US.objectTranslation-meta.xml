@@ -3,429 +3,484 @@
     <layouts>
         <layout>Contact - Distribution Contact Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Carmignac Offer Focus --></label>
             <section>Carmignac Offer Focus</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Communication Preferences --></label>
             <section>Communication Preferences</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Contact Details --></label>
             <section>Contact Details</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Custom scoring --></label>
             <section>Custom scoring</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- GDPR - Personal Data Section --></label>
             <section>GDPR - Personal Data Section</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Last interactions --></label>
             <section>Last interactions</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Pardot --></label>
             <section>Pardot</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Pardot Visualforce Pages --></label>
             <section>Pardot Visualforce Pages</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Profile --></label>
             <section>Profile</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Relationship Matrix Contact Information --></label>
             <section>Relationship Matrix Contact Information</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Source --></label>
             <section>Source</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Target Events and Marketing Categories --></label>
             <section>Target Events and Marketing Categories</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Website Information --></label>
             <section>Website Information</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Contact - Internal Carmignac Contact Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Address --></label>
             <section>Address</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Communication Preferences --></label>
             <section>Communication Preferences</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Contact Details --></label>
             <section>Contact Details</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Custom scoring --></label>
             <section>Custom scoring</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Website Information --></label>
             <section>Website Information</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Contact - Support Contact Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Communication Preferences --></label>
             <section>Communication Preferences</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Contact details --></label>
             <section>Contact details</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- GDPR - personal data section --></label>
             <section>GDPR - personal data section</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Last interactions --></label>
             <section>Last interactions</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Pardot --></label>
             <section>Pardot</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Pardot Information --></label>
             <section>Pardot Information</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Relationship Matrix Contact Information --></label>
             <section>Relationship Matrix Contact Information</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Segmentation Alert --></label>
             <section>Segmentation Alert</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Source --></label>
             <section>Source</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Target Events and Marketing Categories --></label>
             <section>Target Events and Marketing Categories</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Website Information --></label>
             <section>Website Information</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Contact - Third Party Contact Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Communication Preferences --></label>
             <section>Communication Preferences</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Contact Details --></label>
             <section>Contact Details</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- GDPR - personal data section --></label>
             <section>GDPR - personal data section</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Last interactions --></label>
             <section>Last interactions</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Pardot --></label>
             <section>Pardot</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Pardot Information --></label>
             <section>Pardot Information</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Relationship Matrix Contact Information --></label>
             <section>Relationship Matrix Contact Information</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Segmentation Alert --></label>
             <section>Segmentation Alert</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Source --></label>
             <section>Source</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Target Events and Marketing Categories --></label>
             <section>Target Events and Marketing Categories</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Website Information --></label>
             <section>Website Information</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Contact Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Scoring --></label>
             <section>Custom Scoring</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Last Interactions --></label>
             <section>Last Interactions</section>
         </sections>
     </layouts>
+    <layouts>
+        <layout>Contact Page Layout 2023</layout>
+        <sections>
+            <label><!-- Profile --></label>
+            <section>Profile</section>
+        </sections>
+    </layouts>
     <quickActions>
-        <label></label>
+        <label><!-- Add To Event --></label>
         <name>AddToEvent</name>
     </quickActions>
     <quickActions>
-        <label></label>
+        <label><!-- Create Prospace/Update Website Info --></label>
+        <name>Auto_Fill_Website_Information</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Change Owner --></label>
         <name>Change_Owner</name>
     </quickActions>
     <quickActions>
-        <label></label>
+        <label><!-- Clone Contact --></label>
+        <name>CloneContact</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Create / Update Website Account --></label>
         <name>CreateUpdateWebsiteAccount</name>
     </quickActions>
     <quickActions>
-        <label></label>
+        <label><!-- Email --></label>
         <name>Email</name>
     </quickActions>
     <quickActions>
-        <label></label>
+        <label><!-- Move Contact --></label>
         <name>Move_Contact</name>
     </quickActions>
     <quickActions>
-        <label></label>
+        <label><!-- New Call Note --></label>
+        <name>NewCallNote</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- New Event Note --></label>
+        <name>NewEventNote</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- New Meeting Note --></label>
+        <name>NewMeetingNote</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- New Call/Meeting --></label>
         <name>New_Call_Meeting</name>
     </quickActions>
     <quickActions>
-        <label></label>
+        <label><!-- New Meeting Note --></label>
         <name>New_Meeting_Note</name>
     </quickActions>
     <quickActions>
-        <label></label>
+        <label><!-- Reset Website Password --></label>
         <name>Reset_Website_Password</name>
     </quickActions>
     <quickActions>
-        <label></label>
+        <label><!-- Source Definitions --></label>
         <name>Source_Definitions</name>
     </quickActions>
     <quickActions>
-        <label></label>
+        <label><!-- DO NOT USE Sync Website Contact --></label>
         <name>Sync_Website_Contact</name>
     </quickActions>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- this record type should be used for distribution contacts --></description>
+        <label><!-- Distribution Contact --></label>
         <name>Contact_DistributionContact</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- this record type should be used for support contacts --></description>
+        <label><!-- Support Contact --></label>
         <name>Contact_SupportContact</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- this record type should be used for third party contacts --></description>
+        <label><!-- Third Party Contact --></label>
         <name>Contact_ThirdPartyContact</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- Inactive Non-Employee Contacts --></description>
+        <label><!-- Inactive External Contact --></label>
         <name>Inactive_External_Contact</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- This record type should be used for Internal Carmignac Employees --></description>
+        <label><!-- Internal Carmignac Contact --></label>
         <name>Internal_Carmignac_Contact</name>
     </recordTypes>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- You cannot update the Company field. Please use the Move Contact button at the top right of the page. --></errorMessage>
         <name>Contact_Cannot_Change_Company</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- You cannot update the Proposed Contact Owner. Please use the Change Owner button at the top right of the page. --></errorMessage>
         <name>Contact_Cannot_update_Proposed_Owner</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- You cannot update Source to a Blank value --></errorMessage>
         <name>Contact_Change_Source_to_Blank</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Only Contacts working for German Companies can have this value selected --></errorMessage>
         <name>Contact_Licence_32_Only_for_DE_Contacts</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- You must choose a source when creating a Contact --></errorMessage>
         <name>Contact_Mandatory_Source_on_Create</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Prefered Method of contact must be filled --></errorMessage>
         <name>Contact_VR008_Fax_Prefered_Method</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- As the Phone is the Prefered Method of Contact, at least one Phone should be filled --></errorMessage>
         <name>Contact_VR009_Phone_Prefered_Method</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- As the Email is the Prefered Method of Contact, at least one Email should be filled --></errorMessage>
         <name>Contact_VR010_Email_Prefered_Method</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- You cannot choose a contact who is not part of the same company or of the same GAM --></errorMessage>
         <name>Contact_VR011_Reports_To</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Website Role is set to ProSpace Temp. Trial Status is mandatory --></errorMessage>
         <name>Contact_VR012_TrialStatusMandatory</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- You are not allowed to direct change contact owner. To do so, please fill in &quot;Proposed Contact Owner&quot; field --></errorMessage>
         <name>Contact_VR013_OwnerUpdateNotAllowed</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Asset Class Focus is mandatory for Contacts related to a Company with Investment Decision Wholesale or Institutional --></errorMessage>
         <name>Contact_VR014_AssetClassFocusMandatory</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Website creation date (ProSpace member since) is mandatory when website role is ProSpace Temp or ProSpace --></errorMessage>
         <name>Contact_VR015_WebsiteCreationDateMandato</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- The fields Website First Name, Website Last Name, Website Login, Website Company, Website Country, Website Language are mandatory if website role is different from No Profile --></errorMessage>
         <name>Contact_VR016_WebsiteMandatoryFields</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- This box is intended for approval tracking of Head of Country from the current business region --></errorMessage>
         <name>Contact_VR017_LimitValidationHOC</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- This box is intended for the Head of Country from the proposed business region --></errorMessage>
         <name>Contact_VR018_LimitValidationHOC2</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Professional email is empty, please choose another email in the communication preferences section. --></errorMessage>
         <name>Contact_VR019_Email_Pro_Empty</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Please inform at least one email address --></errorMessage>
         <name>Contact_VR01_OneEmailMandatory</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Personal email is empty, please choose another email in the communication preferences section. --></errorMessage>
         <name>Contact_VR020_Email_Perso_Empty</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Please inform a country for the contact --></errorMessage>
         <name>Contact_VR02_CountryMandatory</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Please create a Segmentation before creating contacts for this client --></errorMessage>
         <name>Contact_VR03_SegmentationMandatory</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage>
+            <!-- Please enter a mobile number starting with &quot;+&quot; and a country code 
+(Example : +33 6 42 86 XX XX) -->
+        </errorMessage>
         <name>Contact_VR04_MobileNumberFormat</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage>
+            <!-- Please enter a phone number starting with &quot;+&quot; and a country code 
+(Example : +33 142 86 XX XX) -->
+        </errorMessage>
         <name>Contact_VR05_PhoneNumberFormat</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage>
+            <!-- Please enter a direct phone number starting with &quot;+&quot; and a country code 
+(Example : +33 142 86 XX XX) -->
+        </errorMessage>
         <name>Contact_VR06_OtherPhoneNumberFormat</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage>
+            <!-- Please enter a fax number starting with &quot;+&quot; and a country code 
+(Example : +33 142 86 XX XX) -->
+        </errorMessage>
         <name>Contact_VR07_FaxNumberFormat</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- CompanyId should be a numeric value --></errorMessage>
+        <name>LID__Check_Company_Id_Value</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- You cannot edit the Middle Office Investor Services Default Contact --></errorMessage>
         <name>Non_Edit_MOIS_Contact</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- CRM Users must select a Proposed Contact Owner --></errorMessage>
         <name>Proposed_Owner_Mandatory_for_CRM</name>
     </validationRules>
     <webLinks>
-        <label></label>
+        <label><!-- Add_To_Event_list --></label>
         <name>Add_To_Event_list</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- Add_to_Events --></label>
         <name>Add_to_Events</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- CallNoteMobile --></label>
+        <name>CallNoteMobile</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- InviteContactToEvent --></label>
         <name>CventEvents__InviteContactToEvent</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- ModifyCancelContactToEvent --></label>
         <name>CventEvents__ModifyCancelContactToEvent</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- NominateContactToEvent --></label>
         <name>CventEvents__NominateContactToEvent</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- RegisterContactToEvent --></label>
         <name>CventEvents__RegisterContactToEvent</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- EventNoteMobile --></label>
+        <name>EventNoteMobile</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- GoogleMaps --></label>
         <name>GoogleMaps</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- GoogleSearch --></label>
         <name>GoogleSearch</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- Linkedin --></label>
         <name>Linkedin</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- Mass_Delete_Records --></label>
         <name>Mass_Delete_Records</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- MeetingNoteMobile --></label>
+        <name>MeetingNoteMobile</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- ProSpace_Reset --></label>
         <name>ProSpace_Reset</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- Reset_Password --></label>
         <name>Reset_Password</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- dc3Check --></label>
         <name>dupcheck__dc3Check</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- dc3Merge --></label>
         <name>dupcheck__dc3Merge</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- Send_Pardot_Email --></label>
         <name>pi__Send_Pardot_Email</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- Send_Pardot_Emails --></label>
         <name>pi__Send_Pardot_Emails</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- Send_Single_Pardot_Email --></label>
         <name>pi__Send_Single_Pardot_Email</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- Send_to_Prospect_Insight --></label>
         <name>pi__Send_to_Prospect_Insight</name>
     </webLinks>
 </CustomObjectTranslation>

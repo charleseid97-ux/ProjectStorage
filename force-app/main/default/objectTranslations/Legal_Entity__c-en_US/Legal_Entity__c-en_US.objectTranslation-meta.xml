@@ -11,29 +11,32 @@
     <layouts>
         <layout>Legal Entitie Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Address Information --></label>
             <section>Address Information</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Legal Entity Information --></label>
             <section>Legal Entity Information</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Registration Information --></label>
             <section>Registration Information</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- System Information --></label>
             <section>System Information</section>
         </sections>
     </layouts>
     <startsWith>Consonant</startsWith>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage>
+            <!-- Only System Administrators can change a Legal Entity Identifier (LEI).
+Please contact a System Admin for this update. -->
+        </errorMessage>
         <name>Legal_Entity_Identifier_VR</name>
     </validationRules>
 </CustomObjectTranslation>

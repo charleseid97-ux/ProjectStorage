@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Generic Win/Loss Reason --></label>
     <name>Win_Loss_Reason__c</name>
     <picklistValues>
         <masterLabel>Asset Allocation / Demand Change</masterLabel>
-        <translation></translation>
+        <translation><!-- Asset Allocation / Demand Change --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Brand</masterLabel>
-        <translation></translation>
+        <translation><!-- Brand --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Capacity Constraints (Buy Side)</masterLabel>
-        <translation></translation>
+        <translation><!-- Capacity Constraints (Buy Side) --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Capacity Constraints (Sell Side)</masterLabel>
-        <translation></translation>
+        <translation><!-- Capacity Constraints (Sell Side) --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Competitor Better Fit</masterLabel>
-        <translation></translation>
+        <translation><!-- Competitor Better Fit --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Consultant Influenced Decision</masterLabel>
-        <translation></translation>
+        <translation><!-- Consultant Influenced Decision --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Due Diligence Quality</masterLabel>
-        <translation></translation>
+        <translation><!-- Due Diligence Quality --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Fund Selection Team Change</masterLabel>
-        <translation></translation>
+        <translation><!-- Fund Selection Team Change --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>In-house Policy Change (Buy Side)</masterLabel>
-        <translation></translation>
+        <translation><!-- In-house Policy Change (Buy Side) --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Platform onboarding</masterLabel>
-        <translation></translation>
+        <translation><!-- Platform onboarding --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Regulatory</masterLabel>
-        <translation></translation>
+        <translation><!-- Regulatory --></translation>
     </picklistValues>
 </CustomFieldTranslation>

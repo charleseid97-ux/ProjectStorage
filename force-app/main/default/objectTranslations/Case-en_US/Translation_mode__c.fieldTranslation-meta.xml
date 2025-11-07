@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Translation mode --></label>
+    <name>Translation_mode__c</name>
+    <picklistValues>
+        <masterLabel>Full human</masterLabel>
+        <translation><!-- Full human --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IA only</masterLabel>
+        <translation><!-- IA only --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Post-editing</masterLabel>
+        <translation><!-- Post-editing --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -20,6 +20,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Case.WorkTogether_AssignedTo</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -59,6 +60,7 @@ Kind Regards,
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>chatterPost</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -98,6 +100,7 @@ Kind Regards,
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>chatterPost</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -119,6 +122,7 @@ Kind Regards,
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Case.WorkTogether_MI_AssignedTo</nameSegment>
     </actionCalls>
     <apiVersion>49.0</apiVersion>
     <decisions>
@@ -180,7 +184,7 @@ Kind Regards,
             <connector>
                 <targetReference>myRule_3_A1</targetReference>
             </connector>
-            <label>Product Request</label>
+            <label>Product Specialists</label>
         </rules>
     </decisions>
     <decisions>
@@ -208,7 +212,7 @@ Kind Regards,
             <connector>
                 <targetReference>myRule_5_A1</targetReference>
             </connector>
-            <label>MI Requests</label>
+            <label>Product Strategy</label>
         </rules>
     </decisions>
     <description>Update the status from new to &quot;Work in Progress&quot;  when field &quot;assign to&quot; is updated</description>
@@ -227,12 +231,12 @@ Kind Regards,
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>AND(ISCHANGED([Case].Assigned_To__c), CONTAINS([Case].RecordType.Name, &quot;Product&quot;), !ISBLANK([Case].Assigned_To__c), !$User.BypassProcessBuilders__c)</stringValue>
+                <stringValue>AND(ISCHANGED([Case].Assigned_To__c), [Case].RecordType.DeveloperName= &quot;Product_Marketing_Request&quot;, !ISBLANK([Case].Assigned_To__c), !$User.BypassProcessBuilders__c)</stringValue>
             </value>
         </processMetadataValues>
         <name>formula_myRule_3</name>
         <dataType>Boolean</dataType>
-        <expression>AND(ISCHANGED({!myVariable_current.Assigned_To__c}), CONTAINS({!myVariable_current.RecordType.Name}, &quot;Product&quot;), !ISBLANK({!myVariable_current.Assigned_To__c}), !{!$User.BypassProcessBuilders__c})</expression>
+        <expression>AND(ISCHANGED({!myVariable_current.Assigned_To__c}), {!myVariable_current.RecordType.DeveloperName}= &quot;Product_Marketing_Request&quot;, !ISBLANK({!myVariable_current.Assigned_To__c}), !{!$User.BypassProcessBuilders__c})</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
@@ -245,7 +249,7 @@ Kind Regards,
         <dataType>Boolean</dataType>
         <expression>AND(ISCHANGED({!myVariable_current.Assigned_To__c}), {!myVariable_current.RecordType.DeveloperName} = &quot;RFP&quot;, !ISBLANK({!myVariable_current.Assigned_To__c}), NOT(ISPICKVAL({!myVariable_current.Status} , &quot;Completed&quot;)), !{!$User.BypassProcessBuilders__c})</expression>
     </formulas>
-    <interviewLabel>WorkTogether_PB004_WorkInProgress-23_InterviewLabel</interviewLabel>
+    <interviewLabel>WorkTogether_PB004_WorkInProgress-24_InterviewLabel</interviewLabel>
     <label>WorkTogether_PB004_AssignTo</label>
     <processMetadataValues>
         <name>ObjectType</name>

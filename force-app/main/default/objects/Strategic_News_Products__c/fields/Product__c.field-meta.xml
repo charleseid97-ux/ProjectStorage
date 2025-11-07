@@ -3,7 +3,6 @@
     <fullName>Product__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <description>junction object Product</description>
-    <externalId>false</externalId>
     <label>Product</label>
     <referenceTo>Product__c</referenceTo>
     <relationshipLabel>Strategics News Products</relationshipLabel>

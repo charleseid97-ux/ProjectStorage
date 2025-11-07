@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Signatory --></label>
     <name>Signatory__c</name>
     <picklistValues>
         <masterLabel>CG</masterLabel>
-        <translation></translation>
+        <translation><!-- CG --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CGL</masterLabel>
-        <translation></translation>
+        <translation><!-- CGL --></translation>
     </picklistValues>
 </CustomFieldTranslation>

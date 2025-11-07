@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- NDA Type --></label>
     <name>NDA_Type__c</name>
     <picklistValues>
         <masterLabel>Analyse</masterLabel>
-        <translation></translation>
+        <translation><!-- Analyse --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CRD IV</masterLabel>
-        <translation></translation>
+        <translation><!-- CRD IV --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CRR</masterLabel>
-        <translation></translation>
+        <translation><!-- CRR --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Due diligence</masterLabel>
-        <translation></translation>
+        <translation><!-- Due diligence --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>ESG</masterLabel>
-        <translation></translation>
+        <translation><!-- ESG --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Others</masterLabel>
-        <translation></translation>
+        <translation><!-- Others --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Solvency II</masterLabel>
-        <translation></translation>
+        <translation><!-- Solvency II --></translation>
     </picklistValues>
 </CustomFieldTranslation>

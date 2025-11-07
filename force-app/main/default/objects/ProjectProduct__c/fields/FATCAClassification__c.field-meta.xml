@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FATCAClassification__c</fullName>
+    <description>FATCA Classification</description>
+    <label>FATCA Classification</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Nonreporting IGA FFI</fullName>
+                <default>false</default>
+                <label>Nonreporting IGA FFI</label>
+            </value>
+            <value>
+                <fullName>Reporting Model 1 FFI</fullName>
+                <default>false</default>
+                <label>Reporting Model 1 FFI</label>
+            </value>
+            <value>
+                <fullName>Nonreporting IGA FFI|Reporting Model 1 FFI</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Nonreporting IGA FFI|Reporting Model 1 FFI</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

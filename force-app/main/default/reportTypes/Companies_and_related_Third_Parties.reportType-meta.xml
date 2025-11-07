@@ -910,4 +910,12 @@
         </columns>
         <masterLabel>Related Companies</masterLabel>
     </sections>
+    <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>GFI__c</field>
+            <table>Account</table>
+        </columns>
+        <masterLabel>Companies</masterLabel>
+    </sections>
 </ReportType>

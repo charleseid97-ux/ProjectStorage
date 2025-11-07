@@ -5,6 +5,8 @@
     <columns>Description__c</columns>
     <columns>Roll_out_Date__c</columns>
     <columns>Link_To_Material__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>Latest_Update__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>Latest_Update__c</field>

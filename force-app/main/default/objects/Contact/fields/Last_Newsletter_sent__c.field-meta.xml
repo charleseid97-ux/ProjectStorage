@@ -3,7 +3,6 @@
     <fullName>Last_Newsletter_sent__c</fullName>
     <description>Tracks last sent newsletter. Filled-in with process builder based on campaign member when status is &quot;sent&quot;</description>
     <encryptionScheme>None</encryptionScheme>
-    <externalId>false</externalId>
     <inlineHelpText>Date when the Last Newsletter was sent.</inlineHelpText>
     <label>Last Newsletter sent</label>
     <required>false</required>

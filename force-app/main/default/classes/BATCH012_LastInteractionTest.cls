@@ -24,7 +24,8 @@ private class BATCH012_LastInteractionTest
         '   Last_Newsletter_sent__c,' +
         '   Last_Newsletter_opened__c, ' +
         '   Last_Event_attendance__c, ' +
-        '   Last_Event_attendance_Type__c ' +
+        '   Last_Event_attendance_Type__c, ' +
+        '   Last_Newsletter_Clicked__c ' +
         '   FROM ' +
         '       Contact';
 
@@ -35,6 +36,7 @@ private class BATCH012_LastInteractionTest
     private static final Datetime LAST_EVENT_CONTACT = Datetime.newInstance(System.today().year() + 1, 06, 30, 15, 0, 0);
     private static final Datetime LAST_MEETING_CONTACT = Datetime.newInstance(System.today().year() + 1, 06, 30, 14, 0, 0);
     private static final Datetime LAST_NEWSLETTER_CONTACT = Datetime.newInstance(System.today().year() + 1, 06, 30, 16, 0, 0);
+    private static final Datetime LAST_NEWSLETTER_Clicked = Datetime.newInstance(System.today().year() + 1, 06, 30, 16, 0, 0);
 
     @TestSetup
     private static void setup()
@@ -55,7 +57,8 @@ private class BATCH012_LastInteractionTest
             CorporateTitle__c = 'Associate',
             Last_Meeting_Call__c = LAST_MEETING_CONTACT,
             Last_Event_attendance__c = LAST_EVENT_CONTACT,
-            Last_Newsletter_sent__c = LAST_NEWSLETTER_CONTACT
+            Last_Newsletter_sent__c = LAST_NEWSLETTER_CONTACT,
+            Last_Newsletter_Clicked__c = LAST_NEWSLETTER_Clicked
         );
 
         insert aContact;

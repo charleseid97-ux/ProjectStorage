@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ClonedByReferential__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Cloned by (Referential)</label>
+    <referenceTo>Share_Class__c</referenceTo>
+    <relationshipLabel>ProjectShareclasses</relationshipLabel>
+    <relationshipName>ProjectShareclasses</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

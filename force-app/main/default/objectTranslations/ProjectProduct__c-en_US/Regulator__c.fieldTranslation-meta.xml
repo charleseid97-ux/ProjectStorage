@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Forseen Regulator --></label>
+    <name>Regulator__c</name>
+    <picklistValues>
+        <masterLabel>AMF</masterLabel>
+        <translation><!-- AMF --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CBI</masterLabel>
+        <translation><!-- CBI --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CSSF</masterLabel>
+        <translation><!-- CSSF --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>FCA</masterLabel>
+        <translation><!-- FCA --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

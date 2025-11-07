@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- TMP_APP_STAT --></label>
     <name>TMP_APP_STAT__c</name>
     <picklistValues>
         <masterLabel>Compliance Approval</masterLabel>
-        <translation></translation>
+        <translation><!-- Compliance Approval --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Global Head of Sales Approval</masterLabel>
-        <translation></translation>
+        <translation><!-- Global Head of Sales Approval --></translation>
     </picklistValues>
 </CustomFieldTranslation>

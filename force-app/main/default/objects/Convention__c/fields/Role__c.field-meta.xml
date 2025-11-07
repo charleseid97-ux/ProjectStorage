@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Role__c</fullName>
+    <label>Role</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Code Technique</fullName>
+                <default>false</default>
+                <label>Code Technique</label>
+            </value>
+            <value>
+                <fullName>Distribution Delegate</fullName>
+                <default>false</default>
+                <label>Distribution Delegate</label>
+            </value>
+            <value>
+                <fullName>Distribution Intermediary</fullName>
+                <default>false</default>
+                <label>Distribution Intermediary</label>
+            </value>
+            <value>
+                <fullName>Investment Advisor</fullName>
+                <default>false</default>
+                <label>Investment Advisor</label>
+            </value>
+            <value>
+                <fullName>IS Agreement</fullName>
+                <default>false</default>
+                <label>IS Agreement</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

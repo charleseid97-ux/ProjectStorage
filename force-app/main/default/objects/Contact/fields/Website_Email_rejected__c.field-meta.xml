@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Website_Email_rejected__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Allows to track if the login email used for Prospace (in the Website Login field) is detected as hadbounced by Mandrill</description>
+    <label>Website Email rejected</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

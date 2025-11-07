@@ -1,0 +1,23 @@
+.overdue-days {
+    color: red;
+    font-weight: bold;
+}
+
+th {
+    font-weight: bold;
+    background-color: #f3f3f3;
+}
+
+td {
+    padding: 0.75rem;
+}
+.green-header .slds-card__header {
+    background-color: #8bb490;
+    color: black;
+}
+.green-header h2 {
+    background-color: #8bb490;
+    color: black;
+    font-weight: bold;
+    height: 24px;
+}

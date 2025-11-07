@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Legal_Entity__c</fullName>
-    <externalId>false</externalId>
     <label>Legal Entity</label>
     <referenceTo>Legal_Entity__c</referenceTo>
     <relationshipLabel>Legal Entity Related Contacts</relationshipLabel>

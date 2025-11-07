@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Convention__c</entityName>
+    <fieldName>Status__c</fieldName>
+    <masterLabel>IS Agreement</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Finances__c</fieldNames>
+        <fieldNames>Tax_DAC6__c</fieldNames>
+        <fieldNames>Risk_Team__c</fieldNames>
+        <fieldNames>New_Entities__c</fieldNames>
+        <info>&lt;p&gt;To proceed to &amp;quot;Ready to execute&amp;quot; stage, the following criteria need to be met : &lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Risk Team, Finance Team, Tax DAC6 must be checked &lt;/li&gt;&lt;li&gt;New Entitites must be filled - if there is a New Entity then a KYD must be created&lt;/li&gt;&lt;li&gt;SPC Status cannot be &amp;#39;To Do&amp;#39;.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;If SPC Status is &amp;#39;Yes Approved&amp;#39; then you must provide a Validation Date&lt;/p&gt;</info>
+        <picklistValueName>Post Governance</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Operations_Team__c</fieldNames>
+        <fieldNames>GHOS__c</fieldNames>
+        <fieldNames>Legal_Team__c</fieldNames>
+        <fieldNames>Compliance_Team__c</fieldNames>
+        <info>&lt;p&gt;To proceed to &amp;quot;Ready for Gouvernance&amp;quot; stage, the following boxes must be checked : Operations Team, GHOS&lt;/p&gt;</info>
+        <picklistValueName>Pre-governance</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Governance_Decision__c</fieldNames>
+        <fieldNames>Governance_Decision_Date__c</fieldNames>
+        <fieldNames>SPC_Status__c</fieldNames>
+        <info>&lt;p&gt;To proceed to &amp;quot;Post Governance&amp;quot; stage, the following criteria need to be met : &lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;span style=&quot;font-size: 13px;&quot;&gt;Gouvernance Decision must be &amp;#39;Approved&amp;#39;.&lt;/span&gt;&lt;/li&gt;&lt;li&gt;SPC Status and Gouvernance Decision Date must be provided.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Ready for governance</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>EffectiveDate__c</fieldNames>
+        <fieldNames>Teams_Channel_2__c</fieldNames>
+        <fieldNames>Servicing_Source__c</fieldNames>
+        <fieldNames>Internal_Servicing_Code__c</fieldNames>
+        <info>&lt;p&gt;To proceed to &amp;quot;Signed&amp;quot; stage, the following fields cannot be blank :&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Effective Date,&lt;/li&gt;&lt;li&gt;Teams Channel 2&lt;/li&gt;&lt;li&gt;Servicing Source&lt;/li&gt;&lt;li&gt;Internal Servicing Code.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Ready to execute</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>EffectiveDate__c</fieldNames>
+        <fieldNames>Servicing_Source__c</fieldNames>
+        <fieldNames>Internal_Servicing_Code__c</fieldNames>
+        <fieldNames>Teams_Channel_2__c</fieldNames>
+        <info>&lt;p&gt;To proceed to &amp;quot;Signed&amp;quot; stage, the following fields cannot be blank : &lt;/p&gt;&lt;p&gt;Effective Date, Teams Channel 2, Servicing Source, Internal Servicing Code.&lt;/p&gt;</info>
+        <picklistValueName>Signed</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>IS_Agreement</recordTypeName>
+</PathAssistant>

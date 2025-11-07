@@ -3,8 +3,8 @@
     <fullName>dupcheck__dc3DisableDCTriggers__c</fullName>
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
-    <label>Disable All Duplicate Check triggers</label>
+    <label>Disable All Deduplicate triggers</label>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <type>Checkbox</type>
 </CustomField>

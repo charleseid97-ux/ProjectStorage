@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help></help>
-    <label></label>
+    <help><!-- Define the level of ESG interest in the Questionnaire --></help>
+    <label><!-- ESG Interest Level --></label>
     <name>ESG_Interest_Level__c</name>
     <picklistValues>
         <masterLabel>ESG focused questionnaire</masterLabel>
-        <translation></translation>
+        <translation><!-- ESG focused questionnaire --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>No specific ESG requirements</masterLabel>
-        <translation></translation>
+        <translation><!-- No specific ESG requirements --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Some ESG questions</masterLabel>
-        <translation></translation>
+        <translation><!-- Some ESG questions --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Strong emphasis on ESG</masterLabel>
-        <translation></translation>
+        <translation><!-- Strong emphasis on ESG --></translation>
     </picklistValues>
 </CustomFieldTranslation>

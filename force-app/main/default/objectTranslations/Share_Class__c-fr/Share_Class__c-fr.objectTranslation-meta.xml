@@ -12,33 +12,86 @@
     <layouts>
         <layout>Share Class Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- AUM and Flows (EUR) --></label>
             <section>AUM and Flows (EUR)</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Fees and Charges (%) --></label>
             <section>Fees and Charges (%)</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Identifiers --></label>
             <section>Identifiers</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Information --></label>
             <section>Information</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Overview --></label>
             <section>Overview</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Product Hierarchy --></label>
             <section>Product Hierarchy</section>
         </sections>
     </layouts>
+    <nameFieldLabel><!-- Share Class Name --></nameFieldLabel>
+    <quickActions>
+        <label><!-- Fields History --></label>
+        <name>FFA_History</name>
+    </quickActions>
     <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- The currency cannot be changed after the record is created. --></errorMessage>
+        <name>VR01_PreventCurrencyEdit</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- CUSIP Code must be exactly 9 uppercase alphanumeric characters (no spaces or special characters). --></errorMessage>
+        <name>VR02_CUSIPCode</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Bloomberg Ticker must be max 10 characters and contain only uppercase letters, numbers and spaces. --></errorMessage>
+        <name>VR03_BloombergCode</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- CITI Code must be alphanumeric and up to 5 characters only. --></errorMessage>
+        <name>VR04_CITICode</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- SEDOL must be exactly 7 alphanumeric characters (letters and numbers only). --></errorMessage>
+        <name>VR05_SEDOLCode</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Transaction Costs must be between 0% and 100%. --></errorMessage>
+        <name>VR07_TransactionCosts</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Invalid CFI Code format. Please enter up to 6 uppercase letters (A–Z), e.g., &apos;ESVUFR&apos;, &apos;ABC&apos;. --></errorMessage>
+        <name>VR08_CFICode</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Valoren Code must contain only digits and be no longer than 9 characters. --></errorMessage>
+        <name>VR09_ValorenCode</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- WKN Code must be exactly 6 alphanumeric characters. --></errorMessage>
+        <name>VR10_WKNCode</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- The Reuters Lipper Code must start with &apos;LP&apos; followed by exactly 8 digits (e.g. LP12345678). --></errorMessage>
+        <name>VR11_ReutersLipperCode</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- A product can only have one Main Share Class. --></errorMessage>
+        <name>VR12_Only_One_Main_SC_Per_Product</name>
+    </validationRules>
+    <webLinks>
+        <label><!-- ExportShareclass --></label>
+        <name>ExportShareclass</name>
+    </webLinks>
 </CustomObjectTranslation>

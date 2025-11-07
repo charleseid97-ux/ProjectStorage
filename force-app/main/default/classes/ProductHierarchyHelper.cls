@@ -51,6 +51,27 @@ public with sharing class ProductHierarchyHelper
         return strategyTofundsMap;
     }
 
+    public static Map<Id, List<Product__c>> setFundStrategyToFundsMap(List<Product__c> fundsList)
+    {
+        Map<Id, List<Product__c>> strategyTofundsMap = new Map<Id, List<Product__c>>();
+
+        for(Product__c fund : fundsList)
+        {
+			if(fund.FundStrategy__c != null)
+            {
+                if(strategyTofundsMap.get(fund.FundStrategy__c) == null)
+                {
+                    strategyTofundsMap.put(fund.FundStrategy__c, new List<Product__c>{fund});
+                }
+                else
+                {
+                    strategyTofundsMap.get(fund.FundStrategy__c).add(fund);
+                }
+            } 
+        }
+        return strategyTofundsMap;
+    }
+
 
     /**
      * creates a map of Regional Focus => Strategies
@@ -218,7 +239,133 @@ public with sharing class ProductHierarchyHelper
         return strategyItems;
     }
 
+    public static List<productHierarchyController.ItemDTO> getAllStrategywithFundsItems(Map<Id, List<Product__c>> strategyTofundsMap,
+                                                           List<Strategy__c> strategies,
+                                                           Map<Id, List<Share_Class__c>> fundToSharesMap)
+    {
+        List<productHierarchyController.ItemDTO> strategyItems = new List<productHierarchyController.ItemDTO>();
+        for(Strategy__c str: strategies)
+        {
+            if( str.Name != null)
+            {
+                List<Product__c> fundsList =  strategyTofundsMap.get(str.Id);
+                if(fundsList.size() > 0)
+                    {
+                        productHierarchyController.ItemDTO strategy = new productHierarchyController.ItemDTO(str.Name, null, str.Name,
+                        null, null, null, false, true,
+                        true, false, getFundsItemsWithSharesReferential(fundsList, fundToSharesMap, false));
+            
+                        //strategy.regionalFocusId = strategies.get(strategyId).Sub_Asset_Class__c;
+            
+                        //strategy.assetClassId = strategies.get(strategyId).Asset_Class__c;
+            
+                        strategy.id = str.Id;
+            
+                        strategy.assetclass = str.AssetClass__c;
+                        
+                        strategy.regionalfocus = str.SubAssetClass__c;
 
+                        if(strategy.items.size() > 0)
+                        {
+                            strategyItems.add(strategy);
+                        }
+                    }  
+            }
+        }    
+        /*for(Id strategyId : strategyTofundsMap.keySet())
+        {
+            if(strategies.get(strategyId) != null)
+            {
+                if( strategies.get(strategyId).Name != null)
+                {
+                    List<Product__c> fundsList =  strategyTofundsMap.get(strategyId);
+    
+                    if(fundsList.size() > 0)
+                    {
+                        productHierarchyController.ItemDTO strategy = new productHierarchyController.ItemDTO(strategies.get(strategyId).Name, null, strategies.get(strategyId).Name,
+                        null, null, null, false, true,
+                        true, false, getFundsItemsWithSharesReferential(fundsList, fundToSharesMap, false));
+            
+                        //strategy.regionalFocusId = strategies.get(strategyId).Sub_Asset_Class__c;
+            
+                        //strategy.assetClassId = strategies.get(strategyId).Asset_Class__c;
+            
+                        strategy.id = strategyId;
+            
+                        strategy.assetclass = strategies.get(strategyId).AssetClass__c;
+                        
+                        strategy.regionalfocus = strategies.get(strategyId).SubAssetClass__c;
+
+                        if(strategy.items.size() > 0)
+                        {
+                            strategyItems.add(strategy);
+                        }
+                    }                
+                }
+            }
+        }*/
+  
+        return strategyItems;
+    }
+
+    public static List<productHierarchyController.ItemDTO> getFundsItemsWithSharesReferential(List<Product__c> funds, Map<Id, List<Share_Class__c>> shares, Boolean expanded)
+    {
+        List<productHierarchyController.ItemDTO> fundItems = new List<productHierarchyController.ItemDTO>();
+
+        for(Product__c fund : funds)
+        {
+            List<Share_Class__c> fundSharesList =  shares.get(fund.Id);
+
+            System.debug('Size is '+ fundSharesList);
+        
+            if(fundSharesList != null)
+            {
+                //TODO add AUMs
+                productHierarchyController.ItemDTO fundItem = new productHierarchyController.ItemDTO(fund.Name, null, fund.Name, URL.getSalesforceBaseUrl().toExternalForm()+'/'+fund.Id,
+                null, null, false, fund.Validity__c, true, expanded, getShareItemsReferential(fundSharesList));
+
+                //if(fund.Last_AUM_Previous_Year__c != null) fundItem.aum = formatSharesAUM('(M€ ) - AUM : ', fund.Last_AUM_Previous_Year__c);
+                //if(fund.Last_AUM_Available__c != null) fundItem.lastaum = formatSharesAUM('- Last AUM : ', fund.Last_AUM_Available__c);
+                //if(fund.YTD_Net_Flows__c != null) fundItem.ytdnet = formatSharesAUM('- YTD Flows : ', fund.YTD_Net_Flows__c);
+				fundItem.assetclass = fund.AssetClass__c;
+                fundItem.regionalfocus = fund.SubAssetClass__c;
+                fundItems.add(fundItem);
+            }else{
+                productHierarchyController.ItemDTO fundItem = new productHierarchyController.ItemDTO(fund.Name, fund.Record_Type_Name__c, fund.Name, URL.getSalesforceBaseUrl().toExternalForm()+'/'+fund.Id,
+                null, null, false, fund.Validity__c, true, false, null);
+
+                //if(fund.Last_AUM_Previous_Year__c != null) fundItem.aum = formatSharesAUM('(M€ ) - AUM : ', fund.Last_AUM_Previous_Year__c);
+                //if(fund.Last_AUM_Available__c != null) fundItem.lastaum = formatSharesAUM('- Last AUM : ', fund.Last_AUM_Available__c);
+                //if(fund.YTD_Net_Flows__c != null) fundItem.ytdnet = formatSharesAUM('- YTD Flows : ', fund.YTD_Net_Flows__c);
+				fundItem.assetclass = fund.AssetClass__c;
+                fundItem.regionalfocus = fund.SubAssetClass__c;
+                fundItems.add(fundItem);
+
+            }
+        }
+        return fundItems;
+    }
+
+    public static List<productHierarchyController.ItemDTO> getShareItemsReferential(List<Share_Class__c> fundSharesList)
+    {
+        List<productHierarchyController.ItemDTO> shareItems = new List<productHierarchyController.ItemDTO>();
+        if(fundSharesList.size() > 0)
+        {
+            for(Share_Class__c share : fundSharesList)
+            {
+                productHierarchyController.ItemDTO shareItem = new productHierarchyController.ItemDTO(share.Name, null, share.Name, URL.getSalesforceBaseUrl().toExternalForm()+'/'+share.Id, null, share.ISIN__c,
+                false, share.TechIsActive__c, false, false, null);
+
+                //if(share.Last_AUM_Previous_Year__c != null) shareItem.aum = formatSharesAUM('(M€ ) - AUM : ', share.Last_AUM_Previous_Year__c);
+                //if(share.Last_AUM_Available__c != null) shareItem.lastaum = formatSharesAUM('- Last AUM : ', share.Last_AUM_Available__c);
+                //if(share.YTD_Net_Flows__c != null) shareItem.ytdnet = formatSharesAUM('- YTD Flows : ', share.YTD_Net_Flows__c);
+                shareItem.assetclass = share.Fund__r.AssetClass__c;
+                shareItem.regionalfocus = share.Fund__r.SubAssetClass__c;
+                shareItems.add(shareItem);
+            }
+        }
+        return shareItems;
+    }
 
 
     /**
@@ -271,6 +418,8 @@ public with sharing class ProductHierarchyHelper
         }
         return shareItems;
     }
+
+   
 
     public static String formatSharesAUM(String label, String value){
 

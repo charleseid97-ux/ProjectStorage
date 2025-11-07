@@ -39,7 +39,7 @@ public with sharing class SM026_Contact_Website {
     public static List<Contact> retrieveContacts(Set<Contact> aContactIdSet) {
 
         List<Contact> contactList = [
-                SELECT Id, FirstName, LastName, Email, MailingStreet, MailingCity, MailingCountry, MobilePhone, Phone, Account.Type,
+                SELECT Id, FirstName, LastName, Email, MailingStreet, MailingCity, MailingCountry, MobilePhone, Phone, Account.Type,BlockEmail__c,
                         Account.Name, Salutation, Prospace_Status__c, MailingCountryCode, Language__c, Business_Card_Title__c, WebsiteLogin__c, MailingPostalCode,
                         WebsiteCompany__c, WebsiteCountry__c, WebsiteLanguage__c, JobTitle__c, Address1__c, City__c, Title, ContactStatus__c,Account.Competitor__c,
                         Country__c, PostalCode__c, PhoneNumber__c, TECH_WebSiteID__c, WebsiteSalutation__c, FirstNameWebsite__c, LastNameWebsite__c, WebsiteJobTitle__c
@@ -172,6 +172,7 @@ public with sharing class SM026_Contact_Website {
             JSONGeneratorChecker.writeStringField(gen, 'AddressCity', aContactToSendList[i].City__c);
             JSONGeneratorChecker.writeStringField(gen, 'AddressCountry', aContactToSendList[i].Country__c);
             JSONGeneratorChecker.writeStringField(gen, 'PhoneNumber', aContactToSendList[i].PhoneNumber__c);
+            JSONGeneratorChecker.writeStringField(gen, 'BlockEmail__c', aContactToSendList[i].BlockEmail__c? '1':'0');
             JSONGeneratorChecker.writeStringField(gen, 'Language', String.IsBlank(aContactToSendList[i].Language__c) ? 'English' : aContactToSendList[i].Language__c);
             //JSONGeneratorChecker.writeStringField(gen, 'PlainPassword', 'Test01*01SaX');
             if (aContactToSendList[i].ContactStatus__c == 'true') {

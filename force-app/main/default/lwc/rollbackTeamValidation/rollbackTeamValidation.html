@@ -1,0 +1,63 @@
+<template>
+    <div class="slds-box slds-theme_default">
+        <div class="slds-page-header">
+            <div class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center">
+                <div class="slds-media slds-media_center">
+                    <div class="slds-media__figure">
+                        <lightning-icon icon-name="utility:undo" alternative-text="Rollback" size="medium"></lightning-icon>
+                    </div>
+                    <div class="slds-media__body">
+                        <h1 class="slds-page-header__title slds-truncate" title="Rollback Validation">
+                            Rollback Validation
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+ 
+        <div class="slds-grid slds-wrap slds-p-around_medium">
+            <!-- Colonne Gauche : Phase et Statut -->
+            <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                <lightning-combobox
+                    name="phase"
+                    label="Phase"
+                    value={selectedPhase}
+                    options={phaseOptions}
+                    onchange={handlePhaseChange}
+                    required>
+                </lightning-combobox>
+ 
+                <lightning-combobox
+                    name="status"
+                    label="Status"
+                    value={selectedStatus}
+                    options={statusOptions}
+                    onchange={handleStatusChange}
+                    required>
+                </lightning-combobox>
+            </div>
+ 
+            <!-- Colonne Droite : Sélection des équipes -->
+            <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                <lightning-dual-listbox
+                    name="teams"
+                    label="Teams"
+                    source-label="Available"
+                    selected-label="Chosen"
+                    options={teamOptions}
+                    value={selectedTeams}
+                    onchange={handleTeamChange}
+                    required>
+                </lightning-dual-listbox>
+            </div>
+        </div>
+ 
+        <div class="slds-p-around_medium">
+            <lightning-button
+                label="Save"
+                variant="brand"
+                onclick={handleSave}>
+            </lightning-button>
+        </div>
+    </div>
+</template>

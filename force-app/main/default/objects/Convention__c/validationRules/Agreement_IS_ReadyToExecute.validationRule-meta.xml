@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Agreement_IS_ReadyToExecute</fullName>
+    <active>true</active>
+    <description>OBJECTIF : Ready to Execute : Risk Team = Oui // Finance Team = Oui // Tax DAC6 = Oui // SPC != Oui to-do //  New Entities  != Null</description>
+    <errorConditionFormula>AND ( 
+						
+		RecordType.Name = &quot;IS Agreement&quot;, 
+		NOT($User.BypassValidationRules__c),
+		ISPICKVAL(Status__c, &quot;Ready to execute&quot;), 
+						
+		OR(
+		(Risk_Team__c=false),
+		(Finances__c=false), 
+		(Tax_DAC6__c=false),
+		AND(ISPICKVAL(New_Entities__c, &quot;Yes&quot;), NOT(KYD_DD_Oversight_Status__c = &quot;Completed&quot;))
+		
+
+		))</errorConditionFormula>
+    <errorMessage>To proceed to &quot;Ready to execute&quot; stage, the following criteria need to be met : Risk Team, Finance Team, Tax DAC6 must be checked.
+If Need for an initial DD is set to Yes then the KYD DD Oversight Status must be Completed</errorMessage>
+</ValidationRule>

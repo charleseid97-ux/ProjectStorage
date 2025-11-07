@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- NAV Calendar --></label>
+    <name>NAVCalendar__c</name>
+    <picklistValues>
+        <masterLabel>CPEG</masterLabel>
+        <translation><!-- CPEG --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>FCP-SICAV China Economy</masterLabel>
+        <translation><!-- FCP-SICAV China Economy --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>FCP-SICAV-FCPE Standard</masterLabel>
+        <translation><!-- FCP-SICAV-FCPE Standard --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ICAV</masterLabel>
+        <translation><!-- ICAV --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>OEIC</masterLabel>
+        <translation><!-- OEIC --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : SILA Nicolas
+ * @group             : 
+ * @last modified on  : 02-13-2024
+ * @last modified by  : SILA Nicolas
+**/
 global class SCH_LastInteraction_Delta implements Schedulable
 {
         global void execute(SchedulableContext sc)
@@ -13,7 +20,8 @@ global class SCH_LastInteraction_Delta implements Schedulable
             '   Last_Newsletter_Sent_Type__c,' +
             '   Last_Newsletter_Opened__c, ' +
             '   Last_Event_attendance__c, ' +
-            '   Last_Event_attendance_Type__c ' +
+            '   Last_Event_attendance_Type__c, ' +
+            '   Last_Newsletter_Clicked__c ' +
             '   FROM ' +
             '       Contact '+
             '   WHERE '+

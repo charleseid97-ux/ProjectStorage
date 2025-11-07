@@ -36,6 +36,11 @@
         <label>CAGR</label>
     </customValue>
     <customValue>
+        <fullName>CARE</fullName>
+        <default>false</default>
+        <label>CARE</label>
+    </customValue>
+    <customValue>
         <fullName>CAT</fullName>
         <default>false</default>
         <label>CAT</label>
@@ -56,6 +61,11 @@
         <label>CC27</label>
     </customValue>
     <customValue>
+        <fullName>CC29</fullName>
+        <default>false</default>
+        <label>CC29</label>
+    </customValue>
+    <customValue>
         <fullName>CCC</fullName>
         <default>false</default>
         <label>CCC</label>
@@ -66,7 +76,7 @@
         <label>CCNE</label>
     </customValue>
     <customValue>
-        <fullName>COO</fullName>
+        <fullName>CCO</fullName>
         <default>false</default>
         <label>CCO</label>
     </customValue>
@@ -166,6 +176,16 @@
         <label>CLSGE</label>
     </customValue>
     <customValue>
+        <fullName>CMA</fullName>
+        <default>false</default>
+        <label>CMA</label>
+    </customValue>
+    <customValue>
+        <fullName>CMAP</fullName>
+        <default>false</default>
+        <label>CMAP</label>
+    </customValue>
+    <customValue>
         <fullName>CP</fullName>
         <default>false</default>
         <label>CP</label>
@@ -174,6 +194,16 @@
         <fullName>CPE</fullName>
         <default>false</default>
         <label>CPE</label>
+    </customValue>
+    <customValue>
+        <fullName>CPEG</fullName>
+        <default>false</default>
+        <label>CPEG</label>
+    </customValue>
+    <customValue>
+        <fullName>CPI</fullName>
+        <default>false</default>
+        <label>CPI</label>
     </customValue>
     <customValue>
         <fullName>CPR100</fullName>
@@ -371,14 +401,31 @@
         <label>UKMPS</label>
     </customValue>
     <customValue>
-        <fullName>CMA</fullName>
+        <fullName>CME</fullName>
         <default>false</default>
-        <label>CMA</label>
+        <label>CME</label>
     </customValue>
     <customValue>
-        <fullName>CMAP</fullName>
+        <fullName>CC31</fullName>
         <default>false</default>
-        <label>CMAP</label>
+        <label>CC31</label>
+    </customValue>
+    <customValue>
+        <fullName>CTS</fullName>
+        <default>false</default>
+        <label>CTS</label>
+    </customValue>
+    <customValue>
+        <fullName>UFFGE</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>UFF Grande Europe 0-100</label>
+    </customValue>
+    <customValue>
+        <fullName>CC+</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>CC+</label>
     </customValue>
     <customValue>
         <fullName>UFF Grande Europe 0-100</fullName>
@@ -391,18 +438,6 @@
         <default>false</default>
         <isActive>false</isActive>
         <label>CARA</label>
-    </customValue>
-    <customValue>
-        <fullName>CC+</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>CC+</label>
-    </customValue>
-    <customValue>
-        <fullName>UFFGE</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>UFF Grande Europe 0-100</label>
     </customValue>
     <masterLabel>Product</masterLabel>
     <sorted>true</sorted>

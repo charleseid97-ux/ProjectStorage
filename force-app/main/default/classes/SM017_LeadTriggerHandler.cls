@@ -83,7 +83,7 @@ public class SM017_LeadTriggerHandler implements ITriggerHandler{
 
 
     public void AfterDelete(Map<Id, SObject> oldItems) {
-        SM026_Lead_Website.deleteAsyncWebsiteLead((Map<Id, Lead>) oldItems);
+        //SM026_Lead_Website.deleteAsyncWebsiteLead((Map<Id, Lead>) oldItems);
         //SM029_WebCommunication.deleteEmptyWebCommunication();
     }
 

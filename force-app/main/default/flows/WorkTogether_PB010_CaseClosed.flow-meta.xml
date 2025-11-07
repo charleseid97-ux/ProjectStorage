@@ -20,6 +20,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Case.Closed_WTP_DA</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -41,6 +42,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Case.Closed_WTP_IN</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -62,6 +64,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Case.Closed_WTP_IT</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -83,6 +86,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Case.Closed_WTP_LA</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -104,6 +108,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Case.Closed_WTP_LU</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -125,6 +130,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Case.WorkTogether_RFP_Closed</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -146,6 +152,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Case.Closed_WTP_NL</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -167,6 +174,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Case.Closed_WTP_NO</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -188,6 +196,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Case.Closed_WTP_ES</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -209,6 +218,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Case.Closed_WTP_CH</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -230,6 +240,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Case.Closed_WTP_UK</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -251,6 +262,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Case.Closed_WTP_IN</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -272,6 +284,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Case.Closed_WTP_IN</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -296,6 +309,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Case.WorkTogether_Product_Closed</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -317,6 +331,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Case.WorkTogether_MI_Closed</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -338,6 +353,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Case.Closed_WTP</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -359,6 +375,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Case.Closed_WTP_BE</nameSegment>
     </actionCalls>
     <apiVersion>49.0</apiVersion>
     <decisions>
@@ -575,7 +592,7 @@
             <connector>
                 <targetReference>myRule_3_A1</targetReference>
             </connector>
-            <label>Product</label>
+            <label>Product Specialists</label>
         </rules>
     </decisions>
     <decisions>
@@ -820,7 +837,7 @@
             <connector>
                 <targetReference>myRule_5_A1</targetReference>
             </connector>
-            <label>MKT Intelligence</label>
+            <label>Product Strategy</label>
         </rules>
     </decisions>
     <decisions>
@@ -890,190 +907,190 @@
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Completed&quot;), ISCHANGED([Case].Status), CONTAINS([Case].RecordType.Name, &quot;RFP&quot;), !$User.BypassProcessBuilders__c )</stringValue>
+                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Completed&quot;), ISCHANGED([Case].Status), [Case].RecordType.DeveloperName=&quot;RFP_RFI_Questionnaire&quot;, !$User.BypassProcessBuilders__c )</stringValue>
             </value>
         </processMetadataValues>
         <name>formula_myRule_1</name>
         <dataType>Boolean</dataType>
-        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Completed&quot;), ISCHANGED({!myVariable_current.Status}), CONTAINS({!myVariable_current.RecordType.Name}, &quot;RFP&quot;), !{!$User.BypassProcessBuilders__c} )</expression>
+        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Completed&quot;), ISCHANGED({!myVariable_current.Status}), {!myVariable_current.RecordType.DeveloperName}=&quot;RFP_RFI_Questionnaire&quot;, !{!$User.BypassProcessBuilders__c} )</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Closed&quot;), ([Case].RecordType.Name = &quot;Due Diligence Request&quot;), ISCHANGED([Case].Status), ([Case].Company_s_Business_Development_Region__c = &quot;BP_DA&quot;), !$User.BypassProcessBuilders__c)</stringValue>
+                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Completed&quot;), ([Case].RecordType.Name = &quot;Due Diligence Request&quot;), ISCHANGED([Case].Status), ([Case].Company_s_Business_Development_Region__c = &quot;BP_DA&quot;), !$User.BypassProcessBuilders__c)</stringValue>
             </value>
         </processMetadataValues>
         <name>formula_myRule_11</name>
         <dataType>Boolean</dataType>
-        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Closed&quot;), ({!myVariable_current.RecordType.Name} = &quot;Due Diligence Request&quot;), ISCHANGED({!myVariable_current.Status}), ({!myVariable_current.Company_s_Business_Development_Region__c} = &quot;BP_DA&quot;), !{!$User.BypassProcessBuilders__c})</expression>
+        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Completed&quot;), ({!myVariable_current.RecordType.Name} = &quot;Due Diligence Request&quot;), ISCHANGED({!myVariable_current.Status}), ({!myVariable_current.Company_s_Business_Development_Region__c} = &quot;BP_DA&quot;), !{!$User.BypassProcessBuilders__c})</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Closed&quot;), ([Case].RecordType.Name = &quot;Due Diligence Request&quot;), ISCHANGED([Case].Status), ([Case].Company_s_Business_Development_Region__c = &quot;BP_IN&quot;), !$User.BypassProcessBuilders__c)</stringValue>
+                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Completed&quot;), ([Case].RecordType.Name = &quot;Due Diligence Request&quot;), ISCHANGED([Case].Status), ([Case].Company_s_Business_Development_Region__c = &quot;BP_IN&quot;), !$User.BypassProcessBuilders__c)</stringValue>
             </value>
         </processMetadataValues>
         <name>formula_myRule_13</name>
         <dataType>Boolean</dataType>
-        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Closed&quot;), ({!myVariable_current.RecordType.Name} = &quot;Due Diligence Request&quot;), ISCHANGED({!myVariable_current.Status}), ({!myVariable_current.Company_s_Business_Development_Region__c} = &quot;BP_IN&quot;), !{!$User.BypassProcessBuilders__c})</expression>
+        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Completed&quot;), ({!myVariable_current.RecordType.Name} = &quot;Due Diligence Request&quot;), ISCHANGED({!myVariable_current.Status}), ({!myVariable_current.Company_s_Business_Development_Region__c} = &quot;BP_IN&quot;), !{!$User.BypassProcessBuilders__c})</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Closed&quot;), ([Case].RecordType.Name = &quot;Due Diligence Request&quot;), ISCHANGED([Case].Status), ([Case].Company_s_Business_Development_Region__c = &quot;BP_IN&quot;), !$User.BypassProcessBuilders__c)</stringValue>
+                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Completed&quot;), ([Case].RecordType.Name = &quot;Due Diligence Request&quot;), ISCHANGED([Case].Status), ([Case].Company_s_Business_Development_Region__c = &quot;BP_IN&quot;), !$User.BypassProcessBuilders__c)</stringValue>
             </value>
         </processMetadataValues>
         <name>formula_myRule_15</name>
         <dataType>Boolean</dataType>
-        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Closed&quot;), ({!myVariable_current.RecordType.Name} = &quot;Due Diligence Request&quot;), ISCHANGED({!myVariable_current.Status}), ({!myVariable_current.Company_s_Business_Development_Region__c} = &quot;BP_IN&quot;), !{!$User.BypassProcessBuilders__c})</expression>
+        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Completed&quot;), ({!myVariable_current.RecordType.Name} = &quot;Due Diligence Request&quot;), ISCHANGED({!myVariable_current.Status}), ({!myVariable_current.Company_s_Business_Development_Region__c} = &quot;BP_IN&quot;), !{!$User.BypassProcessBuilders__c})</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Closed&quot;), ([Case].RecordType.Name = &quot;Due Diligence Request&quot;), ISCHANGED([Case].Status), ([Case].Company_s_Business_Development_Region__c = &quot;BP_LA&quot;), !$User.BypassProcessBuilders__c)</stringValue>
+                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Completed&quot;), ([Case].RecordType.Name = &quot;Due Diligence Request&quot;), ISCHANGED([Case].Status), ([Case].Company_s_Business_Development_Region__c = &quot;BP_LA&quot;), !$User.BypassProcessBuilders__c)</stringValue>
             </value>
         </processMetadataValues>
         <name>formula_myRule_17</name>
         <dataType>Boolean</dataType>
-        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Closed&quot;), ({!myVariable_current.RecordType.Name} = &quot;Due Diligence Request&quot;), ISCHANGED({!myVariable_current.Status}), ({!myVariable_current.Company_s_Business_Development_Region__c} = &quot;BP_LA&quot;), !{!$User.BypassProcessBuilders__c})</expression>
+        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Completed&quot;), ({!myVariable_current.RecordType.Name} = &quot;Due Diligence Request&quot;), ISCHANGED({!myVariable_current.Status}), ({!myVariable_current.Company_s_Business_Development_Region__c} = &quot;BP_LA&quot;), !{!$User.BypassProcessBuilders__c})</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Closed&quot;), ([Case].RecordType.Name = &quot;Due Diligence Request&quot;), ISCHANGED([Case].Status), ([Case].Company_s_Business_Development_Region__c = &quot;BP_LU&quot;), !$User.BypassProcessBuilders__c)</stringValue>
+                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Completed&quot;), ([Case].RecordType.Name = &quot;Due Diligence Request&quot;), ISCHANGED([Case].Status), ([Case].Company_s_Business_Development_Region__c = &quot;BP_LU&quot;), !$User.BypassProcessBuilders__c)</stringValue>
             </value>
         </processMetadataValues>
         <name>formula_myRule_19</name>
         <dataType>Boolean</dataType>
-        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Closed&quot;), ({!myVariable_current.RecordType.Name} = &quot;Due Diligence Request&quot;), ISCHANGED({!myVariable_current.Status}), ({!myVariable_current.Company_s_Business_Development_Region__c} = &quot;BP_LU&quot;), !{!$User.BypassProcessBuilders__c})</expression>
+        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Completed&quot;), ({!myVariable_current.RecordType.Name} = &quot;Due Diligence Request&quot;), ISCHANGED({!myVariable_current.Status}), ({!myVariable_current.Company_s_Business_Development_Region__c} = &quot;BP_LU&quot;), !{!$User.BypassProcessBuilders__c})</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Closed&quot;), ([Case].RecordType.Name = &quot;Due Diligence Request&quot;), ISCHANGED([Case].Status), ([Case].Company_s_Business_Development_Region__c = &quot;BP_NL&quot;), !$User.BypassProcessBuilders__c)</stringValue>
+                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Completed&quot;), ([Case].RecordType.Name = &quot;Due Diligence Request&quot;), ISCHANGED([Case].Status), ([Case].Company_s_Business_Development_Region__c = &quot;BP_NL&quot;), !$User.BypassProcessBuilders__c)</stringValue>
             </value>
         </processMetadataValues>
         <name>formula_myRule_21</name>
         <dataType>Boolean</dataType>
-        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Closed&quot;), ({!myVariable_current.RecordType.Name} = &quot;Due Diligence Request&quot;), ISCHANGED({!myVariable_current.Status}), ({!myVariable_current.Company_s_Business_Development_Region__c} = &quot;BP_NL&quot;), !{!$User.BypassProcessBuilders__c})</expression>
+        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Completed&quot;), ({!myVariable_current.RecordType.Name} = &quot;Due Diligence Request&quot;), ISCHANGED({!myVariable_current.Status}), ({!myVariable_current.Company_s_Business_Development_Region__c} = &quot;BP_NL&quot;), !{!$User.BypassProcessBuilders__c})</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Closed&quot;), ([Case].RecordType.Name = &quot;Due Diligence Request&quot;), ISCHANGED([Case].Status), ([Case].Company_s_Business_Development_Region__c = &quot;BP_NO&quot;), !$User.BypassProcessBuilders__c)</stringValue>
+                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Completed&quot;), ([Case].RecordType.Name = &quot;Due Diligence Request&quot;), ISCHANGED([Case].Status), ([Case].Company_s_Business_Development_Region__c = &quot;BP_NO&quot;), !$User.BypassProcessBuilders__c)</stringValue>
             </value>
         </processMetadataValues>
         <name>formula_myRule_23</name>
         <dataType>Boolean</dataType>
-        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Closed&quot;), ({!myVariable_current.RecordType.Name} = &quot;Due Diligence Request&quot;), ISCHANGED({!myVariable_current.Status}), ({!myVariable_current.Company_s_Business_Development_Region__c} = &quot;BP_NO&quot;), !{!$User.BypassProcessBuilders__c})</expression>
+        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Completed&quot;), ({!myVariable_current.RecordType.Name} = &quot;Due Diligence Request&quot;), ISCHANGED({!myVariable_current.Status}), ({!myVariable_current.Company_s_Business_Development_Region__c} = &quot;BP_NO&quot;), !{!$User.BypassProcessBuilders__c})</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Closed&quot;), ([Case].RecordType.Name = &quot;Due Diligence Request&quot;), ISCHANGED([Case].Status), ([Case].Company_s_Business_Development_Region__c = &quot;BP_ES&quot;), !$User.BypassProcessBuilders__c)</stringValue>
+                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Completed&quot;), ([Case].RecordType.Name = &quot;Due Diligence Request&quot;), ISCHANGED([Case].Status), ([Case].Company_s_Business_Development_Region__c = &quot;BP_ES&quot;), !$User.BypassProcessBuilders__c)</stringValue>
             </value>
         </processMetadataValues>
         <name>formula_myRule_25</name>
         <dataType>Boolean</dataType>
-        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Closed&quot;), ({!myVariable_current.RecordType.Name} = &quot;Due Diligence Request&quot;), ISCHANGED({!myVariable_current.Status}), ({!myVariable_current.Company_s_Business_Development_Region__c} = &quot;BP_ES&quot;), !{!$User.BypassProcessBuilders__c})</expression>
+        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Completed&quot;), ({!myVariable_current.RecordType.Name} = &quot;Due Diligence Request&quot;), ISCHANGED({!myVariable_current.Status}), ({!myVariable_current.Company_s_Business_Development_Region__c} = &quot;BP_ES&quot;), !{!$User.BypassProcessBuilders__c})</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Closed&quot;), ([Case].RecordType.Name = &quot;Due Diligence Request&quot;), ISCHANGED([Case].Status), ([Case].Company_s_Business_Development_Region__c = &quot;BP_CH&quot;), !$User.BypassProcessBuilders__c)</stringValue>
+                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Completed&quot;), ([Case].RecordType.Name = &quot;Due Diligence Request&quot;), ISCHANGED([Case].Status), ([Case].Company_s_Business_Development_Region__c = &quot;BP_CH&quot;), !$User.BypassProcessBuilders__c)</stringValue>
             </value>
         </processMetadataValues>
         <name>formula_myRule_27</name>
         <dataType>Boolean</dataType>
-        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Closed&quot;), ({!myVariable_current.RecordType.Name} = &quot;Due Diligence Request&quot;), ISCHANGED({!myVariable_current.Status}), ({!myVariable_current.Company_s_Business_Development_Region__c} = &quot;BP_CH&quot;), !{!$User.BypassProcessBuilders__c})</expression>
+        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Completed&quot;), ({!myVariable_current.RecordType.Name} = &quot;Due Diligence Request&quot;), ISCHANGED({!myVariable_current.Status}), ({!myVariable_current.Company_s_Business_Development_Region__c} = &quot;BP_CH&quot;), !{!$User.BypassProcessBuilders__c})</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Closed&quot;), ([Case].RecordType.Name = &quot;Due Diligence Request&quot;), ISCHANGED([Case].Status), ([Case].Company_s_Business_Development_Region__c = &quot;BP_UK&quot;), !$User.BypassProcessBuilders__c)</stringValue>
+                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Completed&quot;), ([Case].RecordType.Name = &quot;Due Diligence Request&quot;), ISCHANGED([Case].Status), ([Case].Company_s_Business_Development_Region__c = &quot;BP_UK&quot;), !$User.BypassProcessBuilders__c)</stringValue>
             </value>
         </processMetadataValues>
         <name>formula_myRule_29</name>
         <dataType>Boolean</dataType>
-        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Closed&quot;), ({!myVariable_current.RecordType.Name} = &quot;Due Diligence Request&quot;), ISCHANGED({!myVariable_current.Status}), ({!myVariable_current.Company_s_Business_Development_Region__c} = &quot;BP_UK&quot;), !{!$User.BypassProcessBuilders__c})</expression>
+        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Completed&quot;), ({!myVariable_current.RecordType.Name} = &quot;Due Diligence Request&quot;), ISCHANGED({!myVariable_current.Status}), ({!myVariable_current.Company_s_Business_Development_Region__c} = &quot;BP_UK&quot;), !{!$User.BypassProcessBuilders__c})</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>AND(CONTAINS([Case].RecordType.Name, &quot;Product&quot;), ISCHANGED([Case].Status), OR(ISPICKVAL([Case].Status , &quot;Completed&quot;), ISPICKVAL([Case].Status , &quot;Awaiting Client&apos;s Feedback&quot;)), !$User.BypassProcessBuilders__c)</stringValue>
+                <stringValue>AND([Case].RecordType.DeveloperName=&quot;Product_Marketing_Request&quot;, ISCHANGED([Case].Status), OR(ISPICKVAL([Case].Status , &quot;Completed&quot;), ISPICKVAL([Case].Status , &quot;Awaiting Client&apos;s Feedback&quot;)), !$User.BypassProcessBuilders__c)</stringValue>
             </value>
         </processMetadataValues>
         <name>formula_myRule_3</name>
         <dataType>Boolean</dataType>
-        <expression>AND(CONTAINS({!myVariable_current.RecordType.Name}, &quot;Product&quot;), ISCHANGED({!myVariable_current.Status}), OR(ISPICKVAL({!myVariable_current.Status} , &quot;Completed&quot;), ISPICKVAL({!myVariable_current.Status} , &quot;Awaiting Client&apos;s Feedback&quot;)), !{!$User.BypassProcessBuilders__c})</expression>
+        <expression>AND({!myVariable_current.RecordType.DeveloperName}=&quot;Product_Marketing_Request&quot;, ISCHANGED({!myVariable_current.Status}), OR(ISPICKVAL({!myVariable_current.Status} , &quot;Completed&quot;), ISPICKVAL({!myVariable_current.Status} , &quot;Awaiting Client&apos;s Feedback&quot;)), !{!$User.BypassProcessBuilders__c})</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Closed&quot;), ([Case].RecordType.Name = &quot;Due Diligence Request&quot;), ISCHANGED([Case].Status), ([Case].Company_s_Business_Development_Region__c = &quot;BP_JP&quot;), !$User.BypassProcessBuilders__c)</stringValue>
+                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Completed&quot;), ([Case].RecordType.Name = &quot;Due Diligence Request&quot;), ISCHANGED([Case].Status), ([Case].Company_s_Business_Development_Region__c = &quot;BP_JP&quot;), !$User.BypassProcessBuilders__c)</stringValue>
             </value>
         </processMetadataValues>
         <name>formula_myRule_31</name>
         <dataType>Boolean</dataType>
-        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Closed&quot;), ({!myVariable_current.RecordType.Name} = &quot;Due Diligence Request&quot;), ISCHANGED({!myVariable_current.Status}), ({!myVariable_current.Company_s_Business_Development_Region__c} = &quot;BP_JP&quot;), !{!$User.BypassProcessBuilders__c})</expression>
+        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Completed&quot;), ({!myVariable_current.RecordType.Name} = &quot;Due Diligence Request&quot;), ISCHANGED({!myVariable_current.Status}), ({!myVariable_current.Company_s_Business_Development_Region__c} = &quot;BP_JP&quot;), !{!$User.BypassProcessBuilders__c})</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Closed&quot;), ([Case].RecordType.Name = &quot;Due Diligence Request&quot;), ISCHANGED([Case].Status), ([Case].Company_s_Business_Development_Region__c = &quot;BP_TW&quot;), !$User.BypassProcessBuilders__c)</stringValue>
+                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Completed&quot;), ([Case].RecordType.Name = &quot;Due Diligence Request&quot;), ISCHANGED([Case].Status), ([Case].Company_s_Business_Development_Region__c = &quot;BP_TW&quot;), !$User.BypassProcessBuilders__c)</stringValue>
             </value>
         </processMetadataValues>
         <name>formula_myRule_33</name>
         <dataType>Boolean</dataType>
-        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Closed&quot;), ({!myVariable_current.RecordType.Name} = &quot;Due Diligence Request&quot;), ISCHANGED({!myVariable_current.Status}), ({!myVariable_current.Company_s_Business_Development_Region__c} = &quot;BP_TW&quot;), !{!$User.BypassProcessBuilders__c})</expression>
+        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Completed&quot;), ({!myVariable_current.RecordType.Name} = &quot;Due Diligence Request&quot;), ISCHANGED({!myVariable_current.Status}), ({!myVariable_current.Company_s_Business_Development_Region__c} = &quot;BP_TW&quot;), !{!$User.BypassProcessBuilders__c})</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Closed&quot;), [Case].RecordType.DeveloperName = &quot;RFP&quot;, !$User.BypassProcessBuilders__c)</stringValue>
+                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Completed&quot;), [Case].RecordType.DeveloperName = &quot;RFP&quot;, !$User.BypassProcessBuilders__c)</stringValue>
             </value>
         </processMetadataValues>
         <name>formula_myRule_5</name>
         <dataType>Boolean</dataType>
-        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Closed&quot;), {!myVariable_current.RecordType.DeveloperName} = &quot;RFP&quot;, !{!$User.BypassProcessBuilders__c})</expression>
+        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Completed&quot;), {!myVariable_current.RecordType.DeveloperName} = &quot;RFP&quot;, !{!$User.BypassProcessBuilders__c})</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Closed&quot;), ([Case].RecordType.Name = &quot;Due Diligence Request&quot;), ISCHANGED([Case].Status), ([Case].Company_s_Business_Development_Region__c = &quot;BP_FR&quot;), !$User.BypassProcessBuilders__c)</stringValue>
+                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Completed&quot;), ([Case].RecordType.Name = &quot;Due Diligence Request&quot;), ISCHANGED([Case].Status), ([Case].Company_s_Business_Development_Region__c = &quot;BP_FR&quot;), !$User.BypassProcessBuilders__c)</stringValue>
             </value>
         </processMetadataValues>
         <name>formula_myRule_7</name>
         <dataType>Boolean</dataType>
-        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Closed&quot;), ({!myVariable_current.RecordType.Name} = &quot;Due Diligence Request&quot;), ISCHANGED({!myVariable_current.Status}), ({!myVariable_current.Company_s_Business_Development_Region__c} = &quot;BP_FR&quot;), !{!$User.BypassProcessBuilders__c})</expression>
+        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Completed&quot;), ({!myVariable_current.RecordType.Name} = &quot;Due Diligence Request&quot;), ISCHANGED({!myVariable_current.Status}), ({!myVariable_current.Company_s_Business_Development_Region__c} = &quot;BP_FR&quot;), !{!$User.BypassProcessBuilders__c})</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Closed&quot;), ([Case].RecordType.Name = &quot;Due Diligence Request&quot;), ISCHANGED([Case].Status), ([Case].Company_s_Business_Development_Region__c = &quot;BP_BE&quot;), !$User.BypassProcessBuilders__c)</stringValue>
+                <stringValue>AND(ISPICKVAL([Case].Status , &quot;Completed&quot;), ([Case].RecordType.Name = &quot;Due Diligence Request&quot;), ISCHANGED([Case].Status), ([Case].Company_s_Business_Development_Region__c = &quot;BP_BE&quot;), !$User.BypassProcessBuilders__c)</stringValue>
             </value>
         </processMetadataValues>
         <name>formula_myRule_9</name>
         <dataType>Boolean</dataType>
-        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Closed&quot;), ({!myVariable_current.RecordType.Name} = &quot;Due Diligence Request&quot;), ISCHANGED({!myVariable_current.Status}), ({!myVariable_current.Company_s_Business_Development_Region__c} = &quot;BP_BE&quot;), !{!$User.BypassProcessBuilders__c})</expression>
+        <expression>AND(ISPICKVAL({!myVariable_current.Status} , &quot;Completed&quot;), ({!myVariable_current.RecordType.Name} = &quot;Due Diligence Request&quot;), ISCHANGED({!myVariable_current.Status}), ({!myVariable_current.Company_s_Business_Development_Region__c} = &quot;BP_BE&quot;), !{!$User.BypassProcessBuilders__c})</expression>
     </formulas>
-    <interviewLabel>WorkTogether_PB010_CaseClosed-17_InterviewLabel</interviewLabel>
+    <interviewLabel>WorkTogether_PB010_CaseClosed-18_InterviewLabel</interviewLabel>
     <label>WorkTogether_PB010_Closed</label>
     <processMetadataValues>
         <name>ObjectType</name>

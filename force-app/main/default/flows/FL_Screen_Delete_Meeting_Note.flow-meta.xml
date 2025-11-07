@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>60.0</apiVersion>
+    <assignments>
+        <name>set_Event_Rec_Id</name>
+        <label>set Event Rec Id</label>
+        <locationX>545</locationX>
+        <locationY>350</locationY>
+        <assignmentItems>
+            <assignToReference>EventRecord.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>get_Meeting_Note.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>check_if_meeting_note_is_not_null</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>set_Event_Record</name>
+        <label>set Event Record</label>
+        <locationX>930</locationX>
+        <locationY>566</locationY>
+        <assignmentItems>
+            <assignToReference>EventRecord.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>get_Event_from_Meeting_note.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>check_Meeting_Owner</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>set_Meeting_Note_Rec_Id</name>
+        <label>set Meeting Note Rec Id</label>
+        <locationX>336</locationX>
+        <locationY>566</locationY>
+        <assignmentItems>
+            <assignToReference>MeetingNoteRecord.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>get_Meeting_Note.Meeting_Note__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>check_Meeting_Owner</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_Meeting_Record</name>
+        <label>Set Meeting Record</label>
+        <locationX>1062</locationX>
+        <locationY>242</locationY>
+        <assignmentItems>
+            <assignToReference>MeetingNoteRecord.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>get_Event_from_Meeting_note</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>Check_if_Event_Exist</name>
+        <label>Check if Event Exist</label>
+        <locationX>1062</locationX>
+        <locationY>458</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Event_is_not_null</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>get_Event_from_Meeting_note</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>set_Event_Record</targetReference>
+            </connector>
+            <label>Event is not null</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>check_if_meeting_note_is_not_null</name>
+        <label>check if meeting note is not null</label>
+        <locationX>545</locationX>
+        <locationY>458</locationY>
+        <defaultConnector>
+            <targetReference>Delete_Meeting</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Meeting_Note_Is_Null</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>get_Meeting_Note.Meeting_Note__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>set_Meeting_Note_Rec_Id</targetReference>
+            </connector>
+            <label>Meeting Note Is Not Null</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>check_If_tasks_exist</name>
+        <label>check If tasks exist</label>
+        <locationX>182</locationX>
+        <locationY>998</locationY>
+        <defaultConnector>
+            <targetReference>Delete_Meeting_Note</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Tasks_Not_Null</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>TasksTodelete</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Delete_Tasks</targetReference>
+            </connector>
+            <label>Tasks Not Null</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>check_Meeting_Owner</name>
+        <label>check Meeting Owner</label>
+        <locationX>336</locationX>
+        <locationY>674</locationY>
+        <defaultConnector>
+            <targetReference>Delete_Meeting_Note2</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Current_User_Is_Owner</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>CheckOwnerEvent</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>get_All_tasks_related_to_Meeting_Norte</targetReference>
+            </connector>
+            <label>Current User Is Owner</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>check_Record_Type</name>
+        <label>check Record Type</label>
+        <locationX>1001</locationX>
+        <locationY>134</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>If_Event_record</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>objectType</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Event</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>get_Meeting_Note</targetReference>
+            </connector>
+            <label>If Event record</label>
+        </rules>
+        <rules>
+            <name>If_Meeting_Record</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>objectType</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Meeting_Note__c</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Meeting_Record</targetReference>
+            </connector>
+            <label>If Meeting Record</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <formulas>
+        <name>CheckOwnerEvent</name>
+        <dataType>Boolean</dataType>
+        <expression>IF({!objectType} = &apos;Event&apos; , 
+IF({!get_Meeting_Note.OwnerId} = CASESAFEID({!$User.Id}),true, false),
+IF({!objectType} = &apos;Meeting_Note__c&apos;,IF({!get_Event_from_Meeting_note.OwnerId}=CASESAFEID({!$User.Id}),true,false)  , false)
+)</expression>
+    </formulas>
+    <formulas>
+        <name>EventOwner</name>
+        <dataType>String</dataType>
+        <expression>CASE({!objectType}, &apos;Event&apos;, {!get_Meeting_Note.Owner:User.Id},{!get_Event_from_Meeting_note.Owner:User.Id})</expression>
+    </formulas>
+    <formulas>
+        <name>meetingNoteId</name>
+        <dataType>String</dataType>
+        <expression>CASE({!objectType},&apos;Event&apos;, {!get_Meeting_Note.Meeting_Note__c},{!recordId})</expression>
+    </formulas>
+    <formulas>
+        <name>objectType</name>
+        <dataType>String</dataType>
+        <expression>CASE(LEFT({!recordId}, 3), &apos;a1h&apos;, &apos;Meeting_Note__c&apos;,&apos;00U&apos;,&apos;Event&apos;, NULL)</expression>
+    </formulas>
+    <interviewLabel>FL Screen Delete Meeting Note {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>FL Screen Delete Meeting Note</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordDeletes>
+        <name>Delete_Event</name>
+        <label>Delete Event</label>
+        <locationX>182</locationX>
+        <locationY>890</locationY>
+        <connector>
+            <targetReference>check_If_tasks_exist</targetReference>
+        </connector>
+        <inputReference>EventRecord</inputReference>
+    </recordDeletes>
+    <recordDeletes>
+        <name>Delete_Meeting_Note</name>
+        <label>Delete Meeting Note</label>
+        <locationX>182</locationX>
+        <locationY>1298</locationY>
+        <connector>
+            <targetReference>Delete_Meeting</targetReference>
+        </connector>
+        <inputReference>MeetingNoteRecord</inputReference>
+    </recordDeletes>
+    <recordDeletes>
+        <name>Delete_Tasks</name>
+        <label>Delete Tasks</label>
+        <locationX>50</locationX>
+        <locationY>1106</locationY>
+        <connector>
+            <targetReference>Delete_Meeting_Note</targetReference>
+        </connector>
+        <inputReference>TasksTodelete</inputReference>
+    </recordDeletes>
+    <recordLookups>
+        <name>get_All_tasks_related_to_Meeting_Norte</name>
+        <label>get All tasks related to Meeting Norte</label>
+        <locationX>182</locationX>
+        <locationY>782</locationY>
+        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Delete_Event</targetReference>
+        </connector>
+        <filterLogic>4 AND (1 OR 2 OR 3)</filterLogic>
+        <filters>
+            <field>Type</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Follow Up Meeting</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Type</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Follow Up Call</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Type</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Follow Up Event</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>WhatId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>meetingNoteId</elementReference>
+            </value>
+        </filters>
+        <object>Task</object>
+        <outputReference>TasksTodelete</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Subject</queriedFields>
+    </recordLookups>
+    <recordLookups>
+        <name>get_Event_from_Meeting_note</name>
+        <label>get Event from Meeting note</label>
+        <locationX>1062</locationX>
+        <locationY>350</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_if_Event_Exist</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Meeting_Note__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Event</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>OwnerId</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>get_Meeting_Note</name>
+        <label>get Meeting Note</label>
+        <locationX>545</locationX>
+        <locationY>242</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>set_Event_Rec_Id</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Event</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Meeting_Note__c</queriedFields>
+        <queriedFields>OwnerId</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <screens>
+        <name>Delete_Meeting</name>
+        <label>Delete Meeting</label>
+        <locationX>545</locationX>
+        <locationY>1574</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>messageSuccess</name>
+            <fieldText>&lt;p&gt;&lt;strong&gt;Your Meeting Note and all related records  were  successfully deleted&lt;/strong&gt; &lt;img src=&quot;https://statics.teams.cdn.office.net/evergreen-assets/personal-expressions/v2/assets/emoticons/1f389_partypopper/default/20_f.png?v=v12&quot; alt=&quot;Pochette surprise&quot;&gt;&lt;img src=&quot;https://statics.teams.cdn.office.net/evergreen-assets/personal-expressions/v2/assets/emoticons/party/default/20_f.png?v=v18&quot; alt=&quot;Fête&quot;&gt;&lt;img src=&quot;https://statics.teams.cdn.office.net/evergreen-assets/personal-expressions/v2/assets/emoticons/handsinair/default/20_f.png?v=v23&quot; alt=&quot;Mains en fête&quot;&gt; !&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <nextOrFinishButtonLabel>OK</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Delete_Meeting_Note2</name>
+        <label>Delete Meeting Note</label>
+        <locationX>490</locationX>
+        <locationY>782</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>CantDelete</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;color: rgb(253, 0, 0);&quot;&gt;You can&apos;t delete this record. You are not the owner.  &lt;/strong&gt;&lt;strong style=&quot;color: rgb(234, 18, 18);&quot;&gt;{!EventOwner}﻿&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <nextOrFinishButtonLabel>OK</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <start>
+        <locationX>875</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>check_Record_Type</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>EventRecord</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Event</objectType>
+    </variables>
+    <variables>
+        <name>MeetingNoteRecord</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Meeting_Note__c</objectType>
+    </variables>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>TasksTodelete</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Task</objectType>
+    </variables>
+</Flow>

@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Primary_Rebate_Contact__c</fullName>
     <deleteConstraint>Restrict</deleteConstraint>
-    <externalId>false</externalId>
     <label>Primary Rebate Contact</label>
     <referenceTo>Contact</referenceTo>
     <relationshipLabel>Agreements</relationshipLabel>

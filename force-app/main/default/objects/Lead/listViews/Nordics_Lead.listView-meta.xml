@@ -19,6 +19,6 @@
     <label>Nordics - All Active Leads</label>
     <queue>Nordics</queue>
     <sharedTo>
-        <roleAndSubordinates>NordicsHeadofCountry</roleAndSubordinates>
+        <roleAndSubordinatesInternal>NordicsHeadofCountry</roleAndSubordinatesInternal>
     </sharedTo>
 </ListView>

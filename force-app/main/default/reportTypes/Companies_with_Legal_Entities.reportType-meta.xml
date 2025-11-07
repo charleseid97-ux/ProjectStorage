@@ -758,6 +758,24 @@
             <field>Data_Quality__c</field>
             <table>Account.Legal_Entities__r</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Commercial_Register_Id__c</field>
+            <table>Account.Legal_Entities__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Commercial_Register_Code__c</field>
+            <table>Account.Legal_Entities__r</table>
+        </columns>
         <masterLabel>Legal Entities</masterLabel>
+    </sections>
+    <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>GFI__c</field>
+            <table>Account</table>
+        </columns>
+        <masterLabel>Companies</masterLabel>
     </sections>
 </ReportType>

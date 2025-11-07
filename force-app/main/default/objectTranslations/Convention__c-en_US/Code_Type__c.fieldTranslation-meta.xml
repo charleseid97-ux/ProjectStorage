@@ -1,61 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Code Type --></label>
     <name>Code_Type__c</name>
     <picklistValues>
         <masterLabel>Consultant</masterLabel>
-        <translation></translation>
+        <translation><!-- Consultant --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Direct Investor</masterLabel>
-        <translation></translation>
+        <translation><!-- Direct Investor --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Distribution Agreement</masterLabel>
-        <translation></translation>
+        <translation><!-- Distribution Agreement --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>End Investor</masterLabel>
-        <translation></translation>
+        <translation><!-- End Investor --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Execution only Platform Agreement</masterLabel>
-        <translation></translation>
+        <translation><!-- Execution only Platform Agreement --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>French IFA Agreement</masterLabel>
-        <translation></translation>
+        <translation><!-- French IFA Agreement --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IS Advisory</masterLabel>
+        <translation><!-- IS Advisory --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IS Dedicated Product Distribution</masterLabel>
+        <translation><!-- IS Dedicated Product Distribution --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IS Master Feeder</masterLabel>
+        <translation><!-- IS Master Feeder --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IS Portfolio Management Delegation</masterLabel>
+        <translation><!-- IS Portfolio Management Delegation --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>OEIC Distribution Agreement</masterLabel>
-        <translation></translation>
+        <translation><!-- OEIC Distribution Agreement --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Placement Agreement</masterLabel>
-        <translation></translation>
+        <translation><!-- Placement Agreement --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Platform Master Agreement</masterLabel>
-        <translation></translation>
+        <translation><!-- Platform Master Agreement --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Private Placement Agreement</masterLabel>
-        <translation></translation>
+        <translation><!-- Private Placement Agreement --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Sub-distributor via Platforms</masterLabel>
-        <translation></translation>
+        <translation><!-- Sub-distributor via Platforms --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Swiss IFA Agreement</masterLabel>
-        <translation></translation>
+        <translation><!-- Swiss IFA Agreement --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Technical</masterLabel>
-        <translation></translation>
+        <translation><!-- Technical --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>UK Execution only Platform Agreement</masterLabel>
-        <translation></translation>
+        <translation><!-- UK Execution only Platform Agreement --></translation>
     </picklistValues>
 </CustomFieldTranslation>

@@ -11,23 +11,23 @@
     <layouts>
         <layout>Salesforce update Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Training Material</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
     </layouts>
     <recordTypes>
-        <label></label>
+        <label><!-- Training Material --></label>
         <name>Training_Material</name>
     </recordTypes>
     <recordTypes>
-        <label></label>
+        <label><!-- Updates --></label>
         <name>Updates</name>
     </recordTypes>
     <startsWith>Consonant</startsWith>

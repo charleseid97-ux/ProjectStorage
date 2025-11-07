@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help></help>
-    <label></label>
+    <help><!-- Indicates source Cvent object used in mapping. --></help>
+    <label><!-- Cvent Object --></label>
     <name>CventEvents__CventObject__c</name>
     <picklistValues>
         <masterLabel>Cvent Contact</masterLabel>
-        <translation></translation>
+        <translation><!-- Cvent Contact --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Survey Answer</masterLabel>
-        <translation></translation>
+        <translation><!-- Survey Answer --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Survey Respondent</masterLabel>
-        <translation></translation>
+        <translation><!-- Survey Respondent --></translation>
     </picklistValues>
 </CustomFieldTranslation>

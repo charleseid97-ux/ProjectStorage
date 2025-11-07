@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Status can be a maximum of 40 characters --></errorMessage>
         <name>AAKCS__Check_length_of_status</name>
     </validationRules>
 </CustomObjectTranslation>

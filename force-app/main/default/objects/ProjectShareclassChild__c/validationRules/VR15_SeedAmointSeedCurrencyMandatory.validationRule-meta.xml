@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR15_SeedAmointSeedCurrencyMandatory</fullName>
+    <active>false</active>
+    <description>Display &amp; Mandatory ONLY if IsSeeded=True
+&gt; Bloc le save quelque soit la phase (a supprimer?)</description>
+    <errorConditionFormula>AND(
+NOT(ISNEW()) ,
+NOT($User.BypassValidationRules__c),
+$Permission.PRPProductStrategy  = true,
+RecordType.DeveloperName = &apos;SetUp&apos;,
+ISPICKVAL(ProjectShareclasses__r.ProjectProduct__r.IsSeeded__c, &apos;true&apos;),
+OR(ISBLANK(TEXT(SeedCurrency__c)),
+ISBLANK(SeedAmount__c)))</errorConditionFormula>
+    <errorMessage>If &quot;Is Seeded&quot; on the product project = true, please provide values for Seed Amount and Seed Currency.</errorMessage>
+</ValidationRule>

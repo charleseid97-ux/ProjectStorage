@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- CFD Details --></label>
+    <name>CFDDetails__c</name>
+    <picklistValues>
+        <masterLabel>CFD long</masterLabel>
+        <translation><!-- CFD long --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CFD short</masterLabel>
+        <translation><!-- CFD short --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

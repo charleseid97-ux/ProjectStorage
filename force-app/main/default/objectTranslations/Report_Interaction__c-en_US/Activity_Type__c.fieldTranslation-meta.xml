@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Activity Type --></label>
+    <name>Activity_Type__c</name>
+    <picklistValues>
+        <masterLabel>Email Opened</masterLabel>
+        <translation><!-- Email Opened --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Email Sent</masterLabel>
+        <translation><!-- Email Sent --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

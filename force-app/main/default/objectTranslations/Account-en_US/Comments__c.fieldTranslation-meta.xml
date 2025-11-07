@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help></help>
-    <label></label>
+    <help><!-- Please fill information to manage Contact/Lead details only and avoid (1) sensitive data (political/religious beliefs, union membership, medical information, racial/ethnic origin, sexual orientation); (2) any assessment of behaviour and (3) value judgment --></help>
+    <label><!-- Comments --></label>
     <name>Comments__c</name>
 </CustomFieldTranslation>

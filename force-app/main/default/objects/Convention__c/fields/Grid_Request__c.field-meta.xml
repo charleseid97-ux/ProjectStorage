@@ -3,7 +3,6 @@
     <fullName>Grid_Request__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <description>Lookup to a new Requested Grid</description>
-    <externalId>false</externalId>
     <label>Grid Request</label>
     <lookupFilter>
         <active>true</active>

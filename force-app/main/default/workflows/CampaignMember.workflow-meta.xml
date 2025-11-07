@@ -31,7 +31,7 @@
             <name>CampaignMember_Email_to_notify_opt_out_status</name>
             <type>Alert</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <criteriaItems>
             <field>CampaignMember.Subscriber__c</field>
             <operation>equals</operation>

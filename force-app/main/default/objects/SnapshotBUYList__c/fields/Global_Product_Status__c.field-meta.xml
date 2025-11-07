@@ -3,7 +3,6 @@
     <fullName>Global_Product_Status__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <description>link with the Global Product Status (Buy list).</description>
-    <externalId>false</externalId>
     <label>Global Product Status</label>
     <referenceTo>Product_Status__c</referenceTo>
     <relationshipName>SnapshotBUYList1</relationshipName>

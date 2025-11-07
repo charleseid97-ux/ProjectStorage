@@ -4,6 +4,7 @@
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
     <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
+    <isOmniPinnedViewEnabled>false</isOmniPinnedViewEnabled>
     <tabs>standard-ContactPointTypeConsent</tabs>
     <tabs>standard-DataUsePurpose</tabs>
     <tabs>standard-DataUseLegalBasis</tabs>

@@ -11,300 +11,456 @@
     <layouts>
         <layout>Data Performance Management Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- NDA --></label>
             <section>NDA</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Request Rejected --></label>
             <section>Request Rejected</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Type of Request and Date --></label>
             <section>Type of Request and Date</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Data Solutions layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Data Solutions Information --></label>
             <section>Data Solutions Information</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Due Diligence</layout>
         <sections>
-            <label></label>
+            <label><!-- Contact information --></label>
             <section>Contact information</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Description --></label>
             <section>Description</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Due Diligence information --></label>
             <section>Due Diligence information</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Feedback --></label>
             <section>Feedback</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- System information --></label>
             <section>System information</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Marketing Intelligence Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Contact information --></label>
             <section>Contact information</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Description --></label>
             <section>Description</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Feedback --></label>
             <section>Feedback</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Request information --></label>
             <section>Request information</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- System information --></label>
             <section>System information</section>
         </sections>
     </layouts>
     <layouts>
         <layout>New RFP/DDQ</layout>
         <sections>
-            <label></label>
+            <label><!-- Contact information --></label>
             <section>Contact information</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Definitions --></label>
             <section>Definitions</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Description --></label>
             <section>Description</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Feedback --></label>
             <section>Feedback</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- RFP/DDQ information --></label>
             <section>RFP/DDQ information</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- System information --></label>
             <section>System information</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Parent Translation Page Layout</layout>
+        <sections>
+            <label><!-- Addirional Informatino --></label>
+            <section>Addirional Informatino</section>
+        </sections>
+        <sections>
+            <label><!-- Content Information --></label>
+            <section>Content Information</section>
+        </sections>
+        <sections>
+            <label><!-- Content Source --></label>
+            <section>Content Source</section>
+        </sections>
+        <sections>
+            <label><!-- Content Usage --></label>
+            <section>Content Usage</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Product Team Request</layout>
         <sections>
-            <label></label>
+            <label><!-- Contact information --></label>
             <section>Contact information</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Description --></label>
             <section>Description</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Feedback --></label>
             <section>Feedback</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Request Information --></label>
             <section>Request Information</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- System information --></label>
             <section>System information</section>
         </sections>
     </layouts>
     <layouts>
         <layout>RFP/DDQ</layout>
         <sections>
-            <label></label>
+            <label><!-- Contact information --></label>
             <section>Contact information</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Description --></label>
             <section>Description</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Feedback --></label>
             <section>Feedback</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- RFP/DDQ information --></label>
             <section>RFP/DDQ information</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- System information --></label>
+            <section>System information</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Reallocation Request</layout>
+        <sections>
+            <label><!-- Contact information --></label>
+            <section>Contact information</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- DCO Feedback --></label>
+            <section>DCO Feedback</section>
+        </sections>
+        <sections>
+            <label><!-- Description --></label>
+            <section>Description</section>
+        </sections>
+        <sections>
+            <label><!-- Reallocation information --></label>
+            <section>Reallocation information</section>
+        </sections>
+        <sections>
+            <label><!-- System information --></label>
             <section>System information</section>
         </sections>
     </layouts>
     <quickActions>
-        <label></label>
+        <label><!-- CloseCaseLightning --></label>
+        <name>CloseCaseLightning</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Email --></label>
         <name>Email</name>
     </quickActions>
     <quickActions>
-        <label></label>
+        <label><!-- NewChildCase --></label>
         <name>NewChildCase</name>
     </quickActions>
     <quickActions>
-        <label></label>
+        <label><!-- New Meeting &amp; Call --></label>
         <name>New_Meeting_Call</name>
     </quickActions>
     <quickActions>
-        <label></label>
+        <label><!-- Plan On-Site DD --></label>
         <name>Plan_On_Site_DD</name>
     </quickActions>
     <quickActions>
-        <label></label>
+        <label><!-- Request a review --></label>
+        <name>Request_a_review</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- SendEmail --></label>
         <name>SendEmail</name>
     </quickActions>
     <quickActions>
-        <label></label>
+        <label><!-- Show the Opp. details --></label>
         <name>Show_the_Opp_details</name>
     </quickActions>
+    <quickActions>
+        <label><!-- Tech New Case --></label>
+        <name>Tech_New_Case</name>
+    </quickActions>
     <recordTypes>
-        <label></label>
+        <label><!-- Data Solution Request --></label>
         <name>Client_delivery_request</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <label><!-- Marketing Feedback --></label>
+        <name>Content_Feedback</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Request related to performance data and reports. --></description>
+        <label><!-- Performance Management Request --></label>
         <name>Data_Performance_Management_Request</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- A request from a client willing to meet with our operational functions to assess select key business areas. --></description>
+        <label><!-- Due Diligence Request --></label>
         <name>Due_Diligence</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- Request relating to funds’ performance explanation, funds’ features or funds/market strategy --></description>
+        <label><!-- Product Team Request --></label>
         <name>Product_Marketing_Request</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- All that is related to fund competitive positioning and comparisons with peers, buy lists or portfolios analysis, etc. --></description>
+        <label><!-- Product Strategy Request --></label>
         <name>RFP</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- All types of questionnaires sent by clients on the company or its funds : Requests for Proposals (RFP), Requests for Information (RFI) and Due Diligence Questionnaires (DDQ) --></description>
+        <label><!-- RFP/DDQ --></label>
         <name>RFP_RFI_Questionnaire</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- AUM/Flow Reallocation Request --></label>
+        <name>ReallocationRequest</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Sub Publication Request --></label>
+        <name>Sub_Publication_Request</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Sub Translation Request --></label>
+        <name>Sub_Translation_Request</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Tableau Request --></label>
+        <name>Tableau_Request</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Translation request Record type --></description>
+        <label><!-- Translation Request --></label>
+        <name>TranslationRequest</name>
     </recordTypes>
     <startsWith>Consonant</startsWith>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Only Tableau Admins can edit the following fields : Tableau Report Path/Folder, Report Owner. --></errorMessage>
+        <name>Case_TableauAdmin</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Only Tableau Admins can update the Priority and Estimated Delivery Date. --></errorMessage>
+        <name>Case_TableauPriorityAndDate</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage>
+            <!-- You must make a Service Now request before creating a WTP.
+Tableau Admins cannot perform any tasks without the appropriate access rights (AAD_TBLServer_PRD_User) -->
+        </errorMessage>
+        <name>Case_TableauServiceNow</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- You need to have a NDA signed in order to closed the work together process --></errorMessage>
         <name>Case_VR001_NDAMandatory</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Please check the box and add your Fund and Share Class after saving your request --></errorMessage>
         <name>Case_VR002_AddCarmignacProductMandatory</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- You need to fill in Vermillon Record ID on this Work Together Process before it can be closed. If you don&apos;t have this ID, please request this ID to Client Delivery Team. --></errorMessage>
         <name>Case_VR003_VermillonIDMandatory</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- You can only create requests with &quot;New&quot; Status --></errorMessage>
         <name>Case_VR004_OnlyNewStatusOnCreation</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- You cannot enter a Due Date before today... nice try! --></errorMessage>
         <name>Case_VR005_DueDate</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage>
+            <!-- You cannot enter a Due Date that is less than 21 days for Data Solution Recurring Report Requests. 
+For Ad Hoc Data &amp; Client Reporting Requests, the due date must be at least 48h in the future. -->
+        </errorMessage>
         <name>Case_VR005_DueDate_Client_delivery</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- At least one related object must be completed : Contact, Meeting/Conference or Opportunity --></errorMessage>
         <name>Case_VR006_At_least_one_related</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage>
+            <!-- Please select a Fund when you choose &quot;DD Product&quot;. 
+Fund is non mandatory when you choose &quot;DD Corporate&quot; -->
+        </errorMessage>
         <name>Case_VR007_FundBlank_Focus</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- You need to fill the Report Type before it can be &quot;in service&quot; --></errorMessage>
         <name>Case_VR008_ReportTypeMandatory</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Package Code is missing on this request. Please add one before put it to &quot;in Service&quot; Status. --></errorMessage>
         <name>Case_VR009_PackageCodeMandatory</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Start Date is missing on this request. Please add one before changing to &quot;In Service&quot; Status --></errorMessage>
         <name>Case_VR010_StartDateMandatory</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Please insert at least one Multi Contact record --></errorMessage>
         <name>Case_VR011_MandatoryMultiContact</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- WTP cannot be put into service without a Product. --></errorMessage>
         <name>Case_VR012_MandatoryCaseProduct</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- The Delivery Date Estimate is mandatory if the Status is Work In Progress --></errorMessage>
         <name>Case_VR013_MandatoryDeliveryDateEstimate</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- You need to link an opportunity for the chosen Type --></errorMessage>
         <name>Case_VR013_OpportunityMandatory</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Please provide a reason for reject --></errorMessage>
         <name>Case_VR014_RejectReason</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- You cannot have more than 1 level of hierarchy in the work together process --></errorMessage>
         <name>Case_VR015_Level_Hierarchies</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Ensure that the field Request Handled is filled if the request is completed . --></errorMessage>
         <name>Case_VR016_CompletedStatus</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Please enter a Delay reason when the request has a past due date --></errorMessage>
         <name>Case_VR018_DelayReasonMandatory</name>
     </validationRules>
+    <validationRules>
+        <errorMessage><!-- This Status is usedd for the Pure RFP type only. --></errorMessage>
+        <name>Case_VR019_Pure_RFP_Stage</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- To ensure consistency between Salesforce and VRS, please contact the Data Solution team before making any changes to the “Expected Lag” and “Request frequency” fields. --></errorMessage>
+        <name>Case_VR020_DataSolution_EnsureConsistent</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- You must provide a Reason for Rejection before closing the agreement --></errorMessage>
+        <name>Case_VR021_ReallocationRejectionReason</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- You must select a Data Solutions Request Type before Saving --></errorMessage>
+        <name>Case_VR023_DataSolutions</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- When the Type of WTP is &apos;Client Delivery&apos; you must select a &apos;Data Solution Subtype&apos;. --></errorMessage>
+        <name>Case_VR024_DataSolutionSubtype</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- &quot;Delivery Date Estimate&quot;, &quot;Report Type&quot; and &quot;Assigned To&quot; can only be set and changed by Data Solutions --></errorMessage>
+        <name>Case_VR025_DeliveryEstimateandAssigned</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Users with the Client Reporting Role cannot modify NDA fields --></errorMessage>
+        <name>Case_VR026_NDAClientReporting</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage>
+            <!-- Warning: The due dates you entered are incompatible with the required processing times. 
+
+Translation must be completed before publication can begin. 
+
+Due Dates cannot be equal to today.
+
+Please adjust the dates accordingly. -->
+        </errorMessage>
+        <name>Translation_Due_Date_GT_Due_Date</name>
+    </validationRules>
     <webLinks>
-        <label></label>
+        <label><!-- View_Hierarchy --></label>
         <name>Easy_Drill__View_Hierarchy</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- Mass_Delete_Records --></label>
         <name>Mass_Delete_Records</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- NewLWCCase --></label>
+        <name>NewLWCCase</name>
     </webLinks>
 </CustomObjectTranslation>

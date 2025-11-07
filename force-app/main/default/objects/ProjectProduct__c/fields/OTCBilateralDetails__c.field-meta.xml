@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OTCBilateralDetails__c</fullName>
+    <label>OTC (bilateral) Details</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Options</fullName>
+                <default>false</default>
+                <label>Options</label>
+            </value>
+            <value>
+                <fullName>Basket</fullName>
+                <default>false</default>
+                <label>Basket</label>
+            </value>
+            <value>
+                <fullName>IRS</fullName>
+                <default>false</default>
+                <label>IRS</label>
+            </value>
+            <value>
+                <fullName>CDS / CDX</fullName>
+                <default>false</default>
+                <label>CDS / CDX</label>
+            </value>
+            <value>
+                <fullName>Swaption</fullName>
+                <default>false</default>
+                <label>Swaption</label>
+            </value>
+            <value>
+                <fullName>TRS</fullName>
+                <default>false</default>
+                <label>TRS</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>6</visibleLines>
+</CustomField>

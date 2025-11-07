@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>
+        <!-- &quot;Status of share class for new or existing investors (open / hard close).
+open
+soft closed: closed for new investors or limited subscription amounts; redemption is possible
+hard closed: closed for all investors or any amount, but redemption is possible
+closed for redemption: no redemption possible, but still open for subscription
+closed for subscription and redemption&quot; -->
+    </help>
+    <label><!-- Investment Status Investors --></label>
+    <name>InvestmentStatusInvestors__c</name>
+    <picklistValues>
+        <masterLabel>Closed for redemption</masterLabel>
+        <translation><!-- Closed for redemption --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Closed for subscription and redemption</masterLabel>
+        <translation><!-- Closed for subscription and redemption --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Hard closed</masterLabel>
+        <translation><!-- Hard closed --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Open</masterLabel>
+        <translation><!-- Open --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Soft closed</masterLabel>
+        <translation><!-- Soft closed --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

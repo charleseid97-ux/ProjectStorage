@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IsMainShareClass__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>IsMainShareClass Field</description>
+    <inlineHelpText>IsMainShareClass Field</inlineHelpText>
+    <label>IsMainShareClass</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Share_Class_Type__c</fullName>
-    <externalId>false</externalId>
-    <label>Share Class Type</label>
+    <label>Old_Share Class Type</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
@@ -17,6 +16,26 @@
                 <label>A</label>
             </value>
             <value>
+                <fullName>A2</fullName>
+                <default>false</default>
+                <label>A2</label>
+            </value>
+            <value>
+                <fullName>AW</fullName>
+                <default>false</default>
+                <label>AW</label>
+            </value>
+            <value>
+                <fullName>B</fullName>
+                <default>false</default>
+                <label>B</label>
+            </value>
+            <value>
+                <fullName>DL</fullName>
+                <default>false</default>
+                <label>DL</label>
+            </value>
+            <value>
                 <fullName>E</fullName>
                 <default>false</default>
                 <label>E</label>
@@ -27,19 +46,19 @@
                 <label>F</label>
             </value>
             <value>
-                <fullName>W</fullName>
+                <fullName>FW</fullName>
                 <default>false</default>
-                <label>W</label>
-            </value>
-            <value>
-                <fullName>B</fullName>
-                <default>false</default>
-                <label>B</label>
+                <label>FW</label>
             </value>
             <value>
                 <fullName>I</fullName>
                 <default>false</default>
                 <label>I</label>
+            </value>
+            <value>
+                <fullName>IW</fullName>
+                <default>false</default>
+                <label>IW</label>
             </value>
             <value>
                 <fullName>KB</fullName>
@@ -57,9 +76,34 @@
                 <label>Not Applicable</label>
             </value>
             <value>
+                <fullName>R</fullName>
+                <default>false</default>
+                <label>R</label>
+            </value>
+            <value>
+                <fullName>R1</fullName>
+                <default>false</default>
+                <label>R1</label>
+            </value>
+            <value>
+                <fullName>S</fullName>
+                <default>false</default>
+                <label>S</label>
+            </value>
+            <value>
+                <fullName>S1</fullName>
+                <default>false</default>
+                <label>S1</label>
+            </value>
+            <value>
                 <fullName>SB</fullName>
                 <default>false</default>
                 <label>SB</label>
+            </value>
+            <value>
+                <fullName>T</fullName>
+                <default>false</default>
+                <label>T</label>
             </value>
             <value>
                 <fullName>UB</fullName>
@@ -67,24 +111,31 @@
                 <label>UB</label>
             </value>
             <value>
+                <fullName>W</fullName>
+                <default>false</default>
+                <label>W</label>
+            </value>
+            <value>
                 <fullName>X</fullName>
                 <default>false</default>
                 <label>X</label>
             </value>
             <value>
-                <fullName>AW</fullName>
+                <fullName>X2</fullName>
                 <default>false</default>
-                <label>AW</label>
+                <label>X2</label>
             </value>
             <value>
-                <fullName>FW</fullName>
+                <fullName>InvSol</fullName>
                 <default>false</default>
-                <label>FW</label>
+                <isActive>false</isActive>
+                <label>InvSol</label>
             </value>
             <value>
-                <fullName>IW</fullName>
+                <fullName>Z</fullName>
                 <default>false</default>
-                <label>IW</label>
+                <isActive>false</isActive>
+                <label>Z</label>
             </value>
         </valueSetDefinition>
     </valueSet>

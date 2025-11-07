@@ -13,18 +13,24 @@
         <isCodeCredentialPostOnly>false</isCodeCredentialPostOnly>
         <isConsumerSecretOptional>false</isConsumerSecretOptional>
         <isIntrospectAllTokens>false</isIntrospectAllTokens>
+        <isNamedUserJwtEnabled>false</isNamedUserJwtEnabled>
+        <isPkceRequired>false</isPkceRequired>
+        <isRefreshTokenRotationEnabled>false</isRefreshTokenRotationEnabled>
         <isSecretRequiredForRefreshToken>true</isSecretRequiredForRefreshToken>
+        <isSecretRequiredForTokenExchange>false</isSecretRequiredForTokenExchange>
+        <isTokenExchangeEnabled>false</isTokenExchangeEnabled>
         <scopes>Basic</scopes>
         <scopes>Api</scopes>
         <scopes>RefreshToken</scopes>
     </oauthConfig>
     <oauthPolicy>
         <ipRelaxation>ENFORCE</ipRelaxation>
+        <isTokenExchangeFlowEnabled>false</isTokenExchangeFlowEnabled>
         <refreshTokenPolicy>infinite</refreshTokenPolicy>
     </oauthPolicy>
-    <profileName>Carmignac - Legal and Compliance</profileName>
     <profileName>Carmignac - Investment Solutions</profileName>
     <profileName>Carmignac - Event</profileName>
+    <profileName>Carmignac - Legal and Compliance</profileName>
     <profileName>Carmignac - Investor Services</profileName>
     <profileName>System Administrator</profileName>
     <profileName>Carmignac - Interface</profileName>
@@ -33,6 +39,5 @@
     <profileName>Carmignac - CRM</profileName>
     <profileName>Carmignac - Campaign Automation</profileName>
     <profileName>Carmignac - Contributor</profileName>
-    <profileName>Carmignac - Top Management</profileName>
     <startUrl>https://efl-prd.carmignac.com/#/projects</startUrl>
 </ConnectedApp>

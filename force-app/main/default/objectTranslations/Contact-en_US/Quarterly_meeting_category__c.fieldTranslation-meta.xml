@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Quarterly meeting (OLD) --></label>
     <name>Quarterly_meeting_category__c</name>
     <picklistValues>
-        <masterLabel>2nd part</masterLabel>
-        <translation></translation>
+        <masterLabel>2nd part (OLD)</masterLabel>
+        <translation><!-- 2nd part (OLD) --></translation>
     </picklistValues>
     <picklistValues>
-        <masterLabel>From the 1st part</masterLabel>
-        <translation></translation>
+        <masterLabel>From the 1st part (OLD)</masterLabel>
+        <translation><!-- From the 1st part (OLD) --></translation>
     </picklistValues>
 </CustomFieldTranslation>

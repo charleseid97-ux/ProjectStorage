@@ -1,5 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Document Type --></label>
     <name>Document_Type__c</name>
+    <picklistValues>
+        <masterLabel>IS Advisory agreement</masterLabel>
+        <translation><!-- IS Advisory agreement --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IS Cooperation agreement</masterLabel>
+        <translation><!-- IS Cooperation agreement --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IS Distribution agreement</masterLabel>
+        <translation><!-- IS Distribution agreement --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IS IMA</masterLabel>
+        <translation><!-- IS IMA --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IS Post-Governance memo</masterLabel>
+        <translation><!-- IS Post-Governance memo --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IS Pre-Execution memo</masterLabel>
+        <translation><!-- IS Pre-Execution memo --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IS Service agreement</masterLabel>
+        <translation><!-- IS Service agreement --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>KYD</masterLabel>
+        <translation><!-- KYD --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Scanned Agreement</masterLabel>
+        <translation><!-- Scanned Agreement --></translation>
+    </picklistValues>
 </CustomFieldTranslation>

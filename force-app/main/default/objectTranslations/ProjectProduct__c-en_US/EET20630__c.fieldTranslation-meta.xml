@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- 20630 Financial Instrument Methodology --></label>
+    <name>EET20630__c</name>
+    <picklistValues>
+        <masterLabel>CapEx</masterLabel>
+        <translation><!-- CapEx --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>OpEx</masterLabel>
+        <translation><!-- OpEx --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Revenue</masterLabel>
+        <translation><!-- Revenue --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

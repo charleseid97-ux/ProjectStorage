@@ -12,631 +12,757 @@
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>.</displayNameOverride>
             <field>RecordType_image__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Company Currency</displayNameOverride>
             <field>CurrencyIsoCode</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Company ID</displayNameOverride>
             <field>Id</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>true</checkedByDefault>
+            <displayNameOverride>Company Name</displayNameOverride>
             <field>Name</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Company Number</displayNameOverride>
             <field>AccountNumber</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Owner</displayNameOverride>
             <field>Owner</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Company Record Type</displayNameOverride>
             <field>RecordType</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Company Site</displayNameOverride>
             <field>Site</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Company Source</displayNameOverride>
             <field>AccountSource</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Address mandatory</displayNameOverride>
             <field>Address_mandatory__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>All Concerned Business Regions</displayNameOverride>
             <field>All_Concerned_Business_Regions__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Annual Revenue</displayNameOverride>
             <field>AnnualRevenue</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Approval Status</displayNameOverride>
             <field>Approval_Status__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>AUM Exposure to Carmignac Funds</displayNameOverride>
             <field>AUMToDate__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Month AUM (EUR)</displayNameOverride>
             <field>Last_Month_AUM_EUR__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>BD Business Region</displayNameOverride>
             <field>BD_Business_Region__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Main Address</displayNameOverride>
             <field>BillingAddress</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Main City</displayNameOverride>
             <field>BillingCity</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Main Country</displayNameOverride>
             <field>BillingCountryCode</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Main Country (text only)</displayNameOverride>
             <field>BillingCountry</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Billing Geocode Accuracy</displayNameOverride>
             <field>BillingGeocodeAccuracy</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Main Latitude</displayNameOverride>
             <field>BillingLatitude</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Main Longitude</displayNameOverride>
             <field>BillingLongitude</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Main State/Province</displayNameOverride>
             <field>BillingStateCode</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Main State/Province (text only)</displayNameOverride>
             <field>BillingState</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Main Street</displayNameOverride>
             <field>BillingStreet</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Main Zip/Postal Code</displayNameOverride>
             <field>BillingPostalCode</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Business Development Region</displayNameOverride>
             <field>BusinessDevelopmentRegion__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>BusinessDevelopmentRegion_TEXT</displayNameOverride>
             <field>BusinessDevelopmentRegion_TEXT__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Buy List Information</displayNameOverride>
             <field>Buy_List_Information__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac AUM Ratio</displayNameOverride>
             <field>AssetRatio_del__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac AUM Ratio</displayNameOverride>
             <field>AssetRatio__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Check Hierarchy BuissRegion</displayNameOverride>
             <field>Check_Hierarchy_BuissRegion__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Check Hierarchy Is Parent GroupEntity</displayNameOverride>
             <field>Check_Hierarchy_Is_Parent_GroupEntity__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Check Hierarchy Parent Segmentation</displayNameOverride>
             <field>Check_Hierarchy_Parent_Segmentation__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Comments</displayNameOverride>
             <field>Comments__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Company ID</displayNameOverride>
             <field>Company_ID__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Company ID 18</displayNameOverride>
             <field>Company_id_18__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Company Status</displayNameOverride>
             <field>CompanyStatus__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Company Status Logo</displayNameOverride>
             <field>Company_Status_Logo__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Competitor</displayNameOverride>
             <field>Competitor__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Convention Code(s)</displayNameOverride>
             <field>ConventionCodes__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Created By</displayNameOverride>
             <field>CreatedBy</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Created Date</displayNameOverride>
             <field>CreatedDate</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Current HOC approval</displayNameOverride>
             <field>Current_HOC_approval__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Data.com Key</displayNameOverride>
             <field>Jigsaw</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Data Quality Description</displayNameOverride>
             <field>Data_Quality_Description__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Data Quality Score</displayNameOverride>
             <field>Data_Quality_Score__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Description</displayNameOverride>
             <field>Description</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Disable Duplicate Check</displayNameOverride>
             <field>dupcheck__dc3DisableDuplicateCheck__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Distributor AUM Comments</displayNameOverride>
             <field>DistributorAssetComments__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Distributor Total AUM</displayNameOverride>
             <field>DistributorAsset__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Distributor Type</displayNameOverride>
             <field>Distributor_Type__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Duplicate Check Index</displayNameOverride>
             <field>dupcheck__dc3Index__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Employees</displayNameOverride>
             <field>NumberOfEmployees</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Fax</displayNameOverride>
             <field>Fax</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Final Distribution</displayNameOverride>
             <field>Final_Distribution__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>GAM</displayNameOverride>
             <field>GAM__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>GFI</displayNameOverride>
             <field>GFI__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Hierarchy Updated</displayNameOverride>
             <field>Hierarchy_Updated__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Sector Activities</displayNameOverride>
             <field>Industry</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Interaction indicator</displayNameOverride>
             <field>Interaction_indicator__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Investment Decision</displayNameOverride>
             <field>In__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Investment vehicle</displayNameOverride>
             <field>Investment_vehicle__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Investment Vehicle Type</displayNameOverride>
             <field>Investment_Vehicle_Type__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Known As</displayNameOverride>
             <field>CommercialName__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Activity</displayNameOverride>
             <field>LastActivityDate</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last contact interaction Corporate Title</displayNameOverride>
             <field>Last_contact_interaction_Corporate_Title__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Contact involved</displayNameOverride>
             <field>Last_Contact_involved__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Interaction elapsed time</displayNameOverride>
             <field>Last_Interaction_elapsed_time__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last interaction with contact</displayNameOverride>
             <field>Last_interaction_with_contact__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Modified By</displayNameOverride>
             <field>LastModifiedBy</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Modified Date</displayNameOverride>
             <field>LastModifiedDate</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Latest Update</displayNameOverride>
             <field>DistributorAUMDeclarationDate__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Legal Entity</displayNameOverride>
             <field>LegalEntity__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Legal Form</displayNameOverride>
             <field>LegalForm__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Logo</displayNameOverride>
             <field>Logo__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Number of Legal Entities</displayNameOverride>
             <field>Number_Of_Legal_Entities__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Other Phone</displayNameOverride>
             <field>OtherPhone__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Ownership</displayNameOverride>
             <field>Ownership</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Parent Company</displayNameOverride>
             <field>Parent</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Phone</displayNameOverride>
             <field>Phone</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Potential -beta-</displayNameOverride>
             <field>potential__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Primary Local FSU</displayNameOverride>
             <field>Primary_Local_FSU__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Proposed BD Business Region</displayNameOverride>
             <field>Proposed_BD_Business_Region__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Proposed Business Developer</displayNameOverride>
             <field>Proposed_Business_Developer__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Proposed HOC approval</displayNameOverride>
             <field>Proposed_HOC_approval__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Rating</displayNameOverride>
             <field>Rating</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Reference</displayNameOverride>
             <field>Reference__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Region Code</displayNameOverride>
             <field>RegionCode__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing Address</displayNameOverride>
             <field>ShippingAddress</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing City</displayNameOverride>
             <field>ShippingCity</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing Country</displayNameOverride>
             <field>ShippingCountryCode</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing Country (text only)</displayNameOverride>
             <field>ShippingCountry</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Shipping Geocode Accuracy</displayNameOverride>
             <field>ShippingGeocodeAccuracy</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing Latitude</displayNameOverride>
             <field>ShippingLatitude</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing Longitude</displayNameOverride>
             <field>ShippingLongitude</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing State/Province</displayNameOverride>
             <field>ShippingStateCode</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing State/Province (text only)</displayNameOverride>
             <field>ShippingState</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing Street</displayNameOverride>
             <field>ShippingStreet</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing Zip/Postal Code</displayNameOverride>
             <field>ShippingPostalCode</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Short Name</displayNameOverride>
             <field>ShortName__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>SIC Code</displayNameOverride>
             <field>Sic</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>SIC Description</displayNameOverride>
             <field>SicDesc</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Sub Type</displayNameOverride>
             <field>SubType__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Sub-Type</displayNameOverride>
             <field>Sub_Type__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Sum Of Competitor Assets</displayNameOverride>
             <field>SumOfCompetitorAssets__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>TECH_CountDistribAsset</displayNameOverride>
             <field>TECH_CountDistribAsset__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>TECHCompanySUNID</displayNameOverride>
             <field>TECH_CompanySUNID__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>TECHCompanyTechSUNID</displayNameOverride>
             <field>TECH_CompanyTechSUNID__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>TECH - External ID</displayNameOverride>
             <field>TECHExternalID__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Ticker Symbol</displayNameOverride>
             <field>TickerSymbol</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Tier at BRANCH Level</displayNameOverride>
             <field>Client_Tier__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Type</displayNameOverride>
             <field>Type</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Ultimate Parent</displayNameOverride>
             <field>Ultimate_Parent__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Ultimate Parent</displayNameOverride>
             <field>dupcheck__dc3UltimateParent__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Ultimate Parent ID</displayNameOverride>
             <field>Ultimate_Parent_ID__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Ultimate Parent Name</displayNameOverride>
             <field>Ultimate_Parent_Name__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Ultimate Tier at GROUP Level</displayNameOverride>
             <field>Ultimate_Parent_Tier__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Website</displayNameOverride>
             <field>Website</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>YTD Net Flows</displayNameOverride>
             <field>YTDNetFlows__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Is IN my Team</displayNameOverride>
             <field>Is_IN_my_Team__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>YTD Flows (EUR)</displayNameOverride>
             <field>YTD_Flows__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Co-owner</displayNameOverride>
             <field>Co_owner__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Tech Dashboard filter</displayNameOverride>
             <field>Tech_Dashboard_filter__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Team</displayNameOverride>
             <field>Team__c</field>
             <table>Account</table>
         </columns>
@@ -645,86 +771,103 @@
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Agreement</displayNameOverride>
             <field>Agreement__c</field>
             <table>Account.FlowAccount__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Amount</displayNameOverride>
             <field>Amount__c</field>
             <table>Account.FlowAccount__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Value Date</displayNameOverride>
             <field>ValueDate__c</field>
             <table>Account.FlowAccount__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Amount (EUR)</displayNameOverride>
             <field>AmountEUR__c</field>
             <table>Account.FlowAccount__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>AUM</displayNameOverride>
             <field>AUM__c</field>
             <table>Account.FlowAccount__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Created By</displayNameOverride>
             <field>CreatedBy</field>
             <table>Account.FlowAccount__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Created Date</displayNameOverride>
             <field>CreatedDate</field>
             <table>Account.FlowAccount__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Currency</displayNameOverride>
             <field>CurrencyIsoCode</field>
             <table>Account.FlowAccount__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Flow External Id</displayNameOverride>
             <field>FlowExternalId__c</field>
             <table>Account.FlowAccount__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Flow ID</displayNameOverride>
             <field>Id</field>
             <table>Account.FlowAccount__r</table>
         </columns>
         <columns>
             <checkedByDefault>true</checkedByDefault>
+            <displayNameOverride>Flow Name</displayNameOverride>
             <field>Name</field>
             <table>Account.FlowAccount__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Activity Date</displayNameOverride>
             <field>LastActivityDate</field>
             <table>Account.FlowAccount__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Modified By</displayNameOverride>
             <field>LastModifiedBy</field>
             <table>Account.FlowAccount__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Modified Date</displayNameOverride>
             <field>LastModifiedDate</field>
             <table>Account.FlowAccount__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Periodicity</displayNameOverride>
             <field>Periodicity__c</field>
             <table>Account.FlowAccount__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Quantity</displayNameOverride>
             <field>Quantity__c</field>
             <table>Account.FlowAccount__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Share Class</displayNameOverride>
             <field>ShareClass__c</field>
             <table>Account.FlowAccount__r</table>
         </columns>
@@ -736,6 +879,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Flow : Share Class : Fund : Strategy : Asset Class Code</displayNameOverride>
             <field>ShareClass__c.Fund__c.Strategy__c.Asset_Class_Code__c</field>
             <table>Account.FlowAccount__r</table>
         </columns>
@@ -747,6 +891,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Type</displayNameOverride>
             <field>Type__c</field>
             <table>Account.FlowAccount__r</table>
         </columns>
@@ -758,27 +903,83 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Strategy TECH</displayNameOverride>
             <field>TECH_StrategyFormula__c</field>
             <table>Account.FlowAccount__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Flow : Share Class : Strategy</displayNameOverride>
             <field>ShareClass__c.Tech_Text_Strategy__c</field>
             <table>Account.FlowAccount__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Flow : Share Class : Asset Class</displayNameOverride>
             <field>ShareClass__c.Tech_Text_Asset_Class__c</field>
             <table>Account.FlowAccount__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Asset Class</displayNameOverride>
             <field>Asset_Class__c</field>
             <table>Account.FlowAccount__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Strategy</displayNameOverride>
             <field>Strategy__c</field>
+            <table>Account.FlowAccount__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Tech_ValueDateTime</displayNameOverride>
+            <field>Tech_ValueDateTime__c</field>
+            <table>Account.FlowAccount__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Positive Amount</displayNameOverride>
+            <field>Positive_Amount__c</field>
+            <table>Account.FlowAccount__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Platform</displayNameOverride>
+            <field>Platform__c</field>
+            <table>Account.FlowAccount__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Tech Platform Id</displayNameOverride>
+            <field>Tech_Platform_Id__c</field>
+            <table>Account.FlowAccount__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Flow : Share Class : Share Class Type</displayNameOverride>
+            <field>ShareClass__c.Share_Class_Type__c</field>
+            <table>Account.FlowAccount__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Comment</displayNameOverride>
+            <field>Comment__c</field>
+            <table>Account.FlowAccount__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ShareClass__c.ISIN_Code__c</field>
+            <table>Account.FlowAccount__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ShareClass__c.ISIN__c</field>
+            <table>Account.FlowAccount__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>AssetClass__c</field>
             <table>Account.FlowAccount__r</table>
         </columns>
         <masterLabel>Flows</masterLabel>
@@ -795,36 +996,43 @@
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Question 1</displayNameOverride>
             <field>Question_1__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Question 2</displayNameOverride>
             <field>Question_2__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Question 3</displayNameOverride>
             <field>Question_3__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Question 4</displayNameOverride>
             <field>Question_4__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Potential AUM</displayNameOverride>
             <field>Potential_AUM__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Total Adressable AUM</displayNameOverride>
             <field>Total_Adressable_AUM__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Tiering</displayNameOverride>
             <field>Tiering__c</field>
             <table>Account</table>
         </columns>

@@ -11,8 +11,16 @@
         <value xsi:type="xsd:string">Checkbox</value>
     </values>
     <values>
+        <field>IconName__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>IsActive__c</field>
         <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>IsMultiSelectLookup__c</field>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>MaxNumber__c</field>

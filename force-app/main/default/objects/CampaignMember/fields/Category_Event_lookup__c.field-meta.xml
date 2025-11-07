@@ -3,7 +3,6 @@
     <fullName>Category_Event_lookup__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <description>This is the category that was given by the CRM in Salesforce. This field is not connected to eTouches</description>
-    <externalId>false</externalId>
     <inlineHelpText>This field is not connected to eTouches</inlineHelpText>
     <label>Declared Category in Salesforce</label>
     <referenceTo>Category_Event__c</referenceTo>

@@ -3,7 +3,7 @@
     <fullName>Product_Name__c</fullName>
     <externalId>false</externalId>
     <formula>HYPERLINK(
-  &quot;/&quot; &amp;  Product__c , Product__r.Product_Name__c ,&quot;_blank&quot;)</formula>
+&quot;/&quot; &amp; Strategy__c , Strategy__r.Name ,&quot;_blank&quot;)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Product Name</label>
     <required>false</required>

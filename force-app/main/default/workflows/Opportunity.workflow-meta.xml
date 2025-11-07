@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>IS_Opportunity_Created</fullName>
+        <description>IS Opportunity Created</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Investment_Solutions</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Opportunity_Alerts/IS_Opportunity_Created</template>
+    </alerts>
     <fieldUpdates>
         <fullName>Check_TECH_DD_Feedback</fullName>
         <field>TECH_DD_Filled__c</field>

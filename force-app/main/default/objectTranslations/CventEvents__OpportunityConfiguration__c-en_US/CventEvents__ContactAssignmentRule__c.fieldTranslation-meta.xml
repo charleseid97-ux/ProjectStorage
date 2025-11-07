@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help></help>
-    <label></label>
+    <help><!-- Indicates the Contact assignment rule for the Opportunity Contact Role. --></help>
+    <label><!-- Contact Assignment Rule --></label>
     <name>CventEvents__ContactAssignmentRule__c</name>
     <picklistValues>
         <masterLabel>Assign to Attendee&apos;s Contact</masterLabel>
-        <translation></translation>
+        <translation><!-- Assign to Attendee&apos;s Contact --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Assign to specific Contact</masterLabel>
-        <translation></translation>
+        <translation><!-- Assign to specific Contact --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Do not create a contact role</masterLabel>
-        <translation></translation>
+        <translation><!-- Do not create a contact role --></translation>
     </picklistValues>
 </CustomFieldTranslation>

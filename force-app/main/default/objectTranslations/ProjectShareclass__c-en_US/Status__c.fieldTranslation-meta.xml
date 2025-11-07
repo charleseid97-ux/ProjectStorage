@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Share class Lifecycle status --></label>
+    <name>Status__c</name>
+    <picklistValues>
+        <masterLabel>Active - Lab</masterLabel>
+        <translation><!-- Active - Lab --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Closed - liquidated</masterLabel>
+        <translation><!-- Closed - liquidated --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Closed - merged</masterLabel>
+        <translation><!-- Closed - merged --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Inactive</masterLabel>
+        <translation><!-- Inactive --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>To be launched</masterLabel>
+        <translation><!-- To be launched --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -116,6 +116,7 @@
             <label>GDPR External request = true</label>
         </rules>
     </decisions>
+    <description>Add type = To do action (to get the task in the Home page)</description>
     <formulas>
         <processMetadataValues>
             <name>originalFormula</name>
@@ -123,11 +124,11 @@
                 <stringValue>Today()</stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_3_myRule_1_A1_4914388532</name>
+        <name>formula_3_myRule_1_A1_7956131150</name>
         <dataType>Date</dataType>
         <expression>Today()</expression>
     </formulas>
-    <interviewLabel>Contact_GDPR_externally_requested-7_InterviewLabel</interviewLabel>
+    <interviewLabel>Contact_GDPR_externally_requested-2_InterviewLabel</interviewLabel>
     <label>Contact_GDPR externally requested</label>
     <processMetadataValues>
         <name>ObjectType</name>
@@ -192,7 +193,7 @@
             </processMetadataValues>
             <field>ActivityDate</field>
             <value>
-                <elementReference>formula_3_myRule_1_A1_4914388532</elementReference>
+                <elementReference>formula_3_myRule_1_A1_7956131150</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -355,6 +356,42 @@
             <field>Subject</field>
             <value>
                 <stringValue>Forward GDPR Request email to Data Protection Officer (DPO)</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>Picklist</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Type</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue></stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Picklist</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>Type</field>
+            <value>
+                <stringValue>To Do Action</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>

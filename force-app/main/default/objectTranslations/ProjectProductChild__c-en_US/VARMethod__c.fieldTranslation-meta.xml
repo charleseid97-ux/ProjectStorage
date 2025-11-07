@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- VAR Method --></label>
+    <name>VARMethod__c</name>
+    <picklistValues>
+        <masterLabel>Historical</masterLabel>
+        <translation><!-- Historical --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>MonteCarlo</masterLabel>
+        <translation><!-- MonteCarlo --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Parametric</masterLabel>
+        <translation><!-- Parametric --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

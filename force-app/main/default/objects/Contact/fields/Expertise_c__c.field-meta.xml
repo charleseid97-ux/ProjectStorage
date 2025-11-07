@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Expertise_c__c</fullName>
     <defaultValue>false</defaultValue>
-    <externalId>false</externalId>
     <inlineHelpText>Expertise checked = YES // Empty = NO</inlineHelpText>
     <label>Expertise (Y/N)</label>
     <trackFeedHistory>false</trackFeedHistory>

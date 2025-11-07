@@ -2,11 +2,10 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Email_Distribution_List__c</fullName>
     <encryptionScheme>None</encryptionScheme>
-    <externalId>false</externalId>
     <label>Email Distribution List</label>
     <length>5000</length>
     <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>
     <visibleLines>2</visibleLines>

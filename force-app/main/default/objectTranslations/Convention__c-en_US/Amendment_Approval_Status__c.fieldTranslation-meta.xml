@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Amendment Approval Status --></label>
     <name>Amendment_Approval_Status__c</name>
     <picklistValues>
         <masterLabel>Approval Rejected</masterLabel>
-        <translation></translation>
+        <translation><!-- Approval Rejected --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Approval Required</masterLabel>
-        <translation></translation>
+        <translation><!-- Approval Required --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Approved</masterLabel>
-        <translation></translation>
+        <translation><!-- Approved --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CRM Approval</masterLabel>
-        <translation></translation>
+        <translation><!-- CRM Approval --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>HOC Approval</masterLabel>
-        <translation></translation>
+        <translation><!-- HOC Approval --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Investor Services Approval</masterLabel>
-        <translation></translation>
+        <translation><!-- Investor Services Approval --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Legal Approval</masterLabel>
-        <translation></translation>
+        <translation><!-- Legal Approval --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Need Submission</masterLabel>
-        <translation></translation>
+        <translation><!-- Need Submission --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Top Management Approval</masterLabel>
-        <translation></translation>
+        <translation><!-- Top Management Approval --></translation>
     </picklistValues>
 </CustomFieldTranslation>

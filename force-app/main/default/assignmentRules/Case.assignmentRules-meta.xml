@@ -1,23 +1,128 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <AssignmentRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <assignmentRule>
-        <fullName>Assign team to WTP</fullName>
-        <active>true</active>
+        <fullName>Assign Translation%2Fpublication to Queues</fullName>
+        <active>false</active>
         <ruleEntry>
-            <assignedTo>Marketing_Product_Queue</assignedTo>
+            <assignedTo>Translation_Queue_Admin</assignedTo>
             <assignedToType>Queue</assignedToType>
             <criteriaItems>
                 <field>Case.RecordTypeId</field>
                 <operation>equals</operation>
-                <value>Product Team Request</value>
+                <value>Sub Translation Request</value>
+            </criteriaItems>
+            <template>TranslationEmailTemplates/CRM_Queue_Translation_Request_1715933775972</template>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>DE_Translation_Queue</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Sub Translation Request</value>
             </criteriaItems>
             <criteriaItems>
-                <field>Case.Status</field>
+                <field>Case.Sub_Target_language__c</field>
                 <operation>equals</operation>
-                <value>New</value>
+                <value>German</value>
             </criteriaItems>
-            <overrideExistingTeams>true</overrideExistingTeams>
+            <template>Translation_EmailTemplates/New_Translation_Request_Queue</template>
         </ruleEntry>
+        <ruleEntry>
+            <assignedTo>IT_Translation_Queue</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Sub Translation Request</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Sub_Target_language__c</field>
+                <operation>equals</operation>
+                <value>Italian</value>
+            </criteriaItems>
+            <template>Translation_EmailTemplates/New_Translation_Request_Queue</template>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>SP_PT_Translation_Queue</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <booleanFilter>1 AND (2 OR 3)</booleanFilter>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Sub Translation Request</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Sub_Target_language__c</field>
+                <operation>equals</operation>
+                <value>Portuguese</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Sub_Target_language__c</field>
+                <operation>equals</operation>
+                <value>Spanish</value>
+            </criteriaItems>
+            <template>Translation_EmailTemplates/New_Translation_Request_Queue</template>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>NL_Translation_Queue</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Sub Translation Request</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Sub_Target_language__c</field>
+                <operation>equals</operation>
+                <value>Dutch</value>
+            </criteriaItems>
+            <template>Translation_EmailTemplates/New_Translation_Request_Queue</template>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>UK_Translation_Queue</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Sub Translation Request</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Sub_Target_language__c</field>
+                <operation>equals</operation>
+                <value>English</value>
+            </criteriaItems>
+            <template>Translation_EmailTemplates/New_Translation_Request_Queue</template>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>FR_Translation_Queue</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Sub Translation Request</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Sub_Target_language__c</field>
+                <operation>equals</operation>
+                <value>French</value>
+            </criteriaItems>
+            <template>Translation_EmailTemplates/New_Translation_Request_Queue</template>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>Publication_Queue_WebHelp</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Sub Publication Request</value>
+            </criteriaItems>
+            <template>TranslationEmailTemplates/WebHelp_Queue_Publication_Request_1716910375905</template>
+        </ruleEntry>
+    </assignmentRule>
+    <assignmentRule>
+        <fullName>Assign team to WTP</fullName>
+        <active>false</active>
         <ruleEntry>
             <assignedTo>Due_Diligence_Team</assignedTo>
             <assignedToType>Queue</assignedToType>
@@ -95,6 +200,298 @@
                 <operation>equals</operation>
                 <value>Client Delivery and Solvency Request</value>
             </criteriaItems>
+        </ruleEntry>
+    </assignmentRule>
+    <assignmentRule>
+        <fullName>WTP Queue Assignment Rules</fullName>
+        <active>true</active>
+        <ruleEntry>
+            <assignedTo>Tableau_Admins</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Tableau Request</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Status</field>
+                <operation>equals</operation>
+                <value>New</value>
+            </criteriaItems>
+            <template>Tableau/New_Tableau_WTP_1738751973830</template>
+        </ruleEntry>
+        <ruleEntry>
+            <booleanFilter>1 OR 2 OR (3 AND 4) OR (5 AND 6) AND 7</booleanFilter>
+            <criteriaItems>
+                <field>Case.Document_Type__c</field>
+                <operation>equals</operation>
+                <value>IS Monthly Comments</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Sensitive_Content__c</field>
+                <operation>equals</operation>
+                <value>True</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Document_Type__c</field>
+                <operation>equals</operation>
+                <value>Monthly comments</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Sub_Target_language__c</field>
+                <operation>equals</operation>
+                <value>French</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Source_Language__c</field>
+                <operation>equals</operation>
+                <value>English</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Sub_Target_language__c</field>
+                <operation>equals</operation>
+                <value>English</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Record_Type_Name__c</field>
+                <operation>notEqual</operation>
+                <value>Sub Publication Request</value>
+            </criteriaItems>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>Due_Diligence_Team</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <booleanFilter>(1 OR 2) AND 3</booleanFilter>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>RFP/DDQ</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Due Diligence Request</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Status</field>
+                <operation>equals</operation>
+                <value>New</value>
+            </criteriaItems>
+            <template>Work_Together_Process/Work_Together_Process_New</template>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>MI_Team</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Market Intelligence Request</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Status</field>
+                <operation>equals</operation>
+                <value>New</value>
+            </criteriaItems>
+            <template>Work_Together_Process/Work_Together_Process_New</template>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>Client_delivery_team</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Data Solution and Solvency Request</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Status</field>
+                <operation>equals</operation>
+                <value>New</value>
+            </criteriaItems>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>Performance_Management</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Performance Management Request</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Status</field>
+                <operation>equals</operation>
+                <value>New</value>
+            </criteriaItems>
+            <template>Work_Together_Process/WTP_New_assignment_notification</template>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>DE_Translation_Queue</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Sub Translation Request</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Sub_Target_language__c</field>
+                <operation>equals</operation>
+                <value>German</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Translation_mode__c</field>
+                <operation>equals</operation>
+                <value>Post-editing,Full humain,IA only</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Source_Language__c</field>
+                <operation>notEqual</operation>
+                <value>German</value>
+            </criteriaItems>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>IT_Translation_Queue</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Sub Translation Request</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Sub_Target_language__c</field>
+                <operation>equals</operation>
+                <value>Italian</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Translation_mode__c</field>
+                <operation>equals</operation>
+                <value>Post-editing,Full humain,IA only</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Source_Language__c</field>
+                <operation>notEqual</operation>
+                <value>Italian</value>
+            </criteriaItems>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>SP_PT_Translation_Queue</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Sub Translation Request</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Sub_Target_language__c</field>
+                <operation>equals</operation>
+                <value>Spanish,Portuguese</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Translation_mode__c</field>
+                <operation>equals</operation>
+                <value>Post-editing,Full humain,IA only</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Source_Language__c</field>
+                <operation>notEqual</operation>
+                <value>Portuguese,Spanish</value>
+            </criteriaItems>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>NL_Translation_Queue</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Sub Translation Request</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Sub_Target_language__c</field>
+                <operation>equals</operation>
+                <value>Dutch</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Translation_mode__c</field>
+                <operation>equals</operation>
+                <value>Post-editing,Full humain,IA only</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Source_Language__c</field>
+                <operation>notEqual</operation>
+                <value>Dutch</value>
+            </criteriaItems>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>UK_Translation_Queue</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Sub Translation Request</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Sub_Target_language__c</field>
+                <operation>equals</operation>
+                <value>English</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Translation_mode__c</field>
+                <operation>equals</operation>
+                <value>Post-editing,Full humain,IA only</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Source_Language__c</field>
+                <operation>notEqual</operation>
+                <value>English</value>
+            </criteriaItems>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>FR_Translation_Queue</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Sub Translation Request</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Sub_Target_language__c</field>
+                <operation>equals</operation>
+                <value>French</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Translation_mode__c</field>
+                <operation>equals</operation>
+                <value>Post-editing,Full humain,IA only</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Source_Language__c</field>
+                <operation>notEqual</operation>
+                <value>French</value>
+            </criteriaItems>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>Publication_Queue_WebHelp</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Sub Publication Request</value>
+            </criteriaItems>
+            <template>TranslationEmailTemplates/WebHelp_Queue_Publication_Request_1716910375905</template>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>Translation_Queue_Admin</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <booleanFilter>1 AND 2</booleanFilter>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Sub Translation Request</value>
+            </criteriaItems>
+            <criteriaItems>
+                <field>Case.Translation_mode__c</field>
+                <operation>equals</operation>
+                <value>IA only,Post-editing,Full humain</value>
+            </criteriaItems>
+            <template>TranslationEmailTemplates/CRM_Translation_Request_via_DeeplPro_1713873530874</template>
         </ruleEntry>
     </assignmentRule>
 </AssignmentRules>

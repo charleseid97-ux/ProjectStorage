@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Quarterly_meeting_category__c</fullName>
-    <externalId>false</externalId>
-    <label>Quarterly meeting</label>
+    <label>Quarterly meeting (OLD)</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>From the 1st part</fullName>
-                <default>false</default>
-                <label>From the 1st part</label>
-            </value>
-            <value>
                 <fullName>2nd part</fullName>
                 <default>false</default>
-                <label>2nd part</label>
+                <label>2nd part (OLD)</label>
+            </value>
+            <value>
+                <fullName>From the 1st part</fullName>
+                <default>false</default>
+                <label>From the 1st part (OLD)</label>
             </value>
         </valueSetDefinition>
     </valueSet>

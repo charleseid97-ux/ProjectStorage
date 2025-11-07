@@ -10,5 +10,5 @@
     <openType>sidebar</openType>
     <protected>false</protected>
     <requireRowSelection>false</requireRowSelection>
-    <url>/lightning/n/Audience_Management</url>
+    <url>/lightning/n/Audience_Management?c__campaignid={!Campaign.Campaign_ID__c}</url>
 </WebLink>

@@ -32,7 +32,7 @@
     </filters>
     <label>Active Permanent Agreements LU NL Nordic</label>
     <sharedTo>
-        <roleAndSubordinates>LuxembourgNetherlandsHeadofCountry</roleAndSubordinates>
-        <roleAndSubordinates>NordicsHeadofCountry</roleAndSubordinates>
+        <roleAndSubordinatesInternal>LuxembourgNetherlandsHeadofCountry</roleAndSubordinatesInternal>
+        <roleAndSubordinatesInternal>NordicsHeadofCountry</roleAndSubordinatesInternal>
     </sharedTo>
 </ListView>

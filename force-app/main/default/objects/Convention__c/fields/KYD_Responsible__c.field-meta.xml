@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>KYD_Responsible__c</fullName>
     <externalId>false</externalId>
-    <formula>TEXT(KYD_Due_Diligence_Oversight__r.KYD_Responsible__c)</formula>
+    <formula>TEXT( KYD_Due_Diligence_Oversight__r.KYD_Responsible__c )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>KYD Responsible</label>
     <required>false</required>

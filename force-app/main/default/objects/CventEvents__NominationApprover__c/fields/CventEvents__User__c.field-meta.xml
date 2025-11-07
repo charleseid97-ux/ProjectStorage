@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Stores the approving User.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Stores the approving User.</inlineHelpText>
     <label>User</label>
     <referenceTo>User</referenceTo>

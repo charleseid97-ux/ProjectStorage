@@ -1,49 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Lead Sub Source --></label>
     <name>Lead_Sub_Source__c</name>
     <picklistValues>
         <masterLabel>EFPA</masterLabel>
-        <translation></translation>
+        <translation><!-- EFPA --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Email Inquiry</masterLabel>
-        <translation></translation>
+        <translation><!-- Email Inquiry --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Events</masterLabel>
+        <translation><!-- Events --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Facebook</masterLabel>
-        <translation></translation>
+        <translation><!-- Facebook --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>LinkedIn</masterLabel>
-        <translation></translation>
+        <translation><!-- LinkedIn --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Other</masterLabel>
-        <translation></translation>
+        <translation><!-- Other --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Phone Inquiry</masterLabel>
-        <translation></translation>
+        <translation><!-- Phone Inquiry --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Twitter</masterLabel>
-        <translation></translation>
+        <translation><!-- Twitter --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Viadeo</masterLabel>
-        <translation></translation>
+        <translation><!-- Viadeo --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Web self-registration</masterLabel>
-        <translation></translation>
+        <translation><!-- Web self-registration --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Website banner</masterLabel>
-        <translation></translation>
+        <translation><!-- Website banner --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Website contact us</masterLabel>
-        <translation></translation>
+        <translation><!-- Website contact us --></translation>
     </picklistValues>
 </CustomFieldTranslation>

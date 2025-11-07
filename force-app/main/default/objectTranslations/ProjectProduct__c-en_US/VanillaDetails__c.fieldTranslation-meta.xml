@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Vanilla Details --></label>
+    <name>VanillaDetails__c</name>
+    <picklistValues>
+        <masterLabel>Bond</masterLabel>
+        <translation><!-- Bond --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CLO</masterLabel>
+        <translation><!-- CLO --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ETF</masterLabel>
+        <translation><!-- ETF --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Equity</masterLabel>
+        <translation><!-- Equity --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>MM (Money Market)</masterLabel>
+        <translation><!-- MM (Money Market) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Mutual Funds</masterLabel>
+        <translation><!-- Mutual Funds --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

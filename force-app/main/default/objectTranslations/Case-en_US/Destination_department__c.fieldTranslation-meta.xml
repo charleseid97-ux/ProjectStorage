@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Destination department --></label>
+    <name>Destination_department__c</name>
+    <picklistValues>
+        <masterLabel>Communication</masterLabel>
+        <translation><!-- Communication --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Graphic Design</masterLabel>
+        <translation><!-- Graphic Design --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>On Line</masterLabel>
+        <translation><!-- On Line --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Product Marketing</masterLabel>
+        <translation><!-- Product Marketing --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Reporting</masterLabel>
+        <translation><!-- Reporting --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

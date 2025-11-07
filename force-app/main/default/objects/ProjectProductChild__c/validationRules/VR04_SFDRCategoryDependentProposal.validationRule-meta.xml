@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR04_SFDRCategoryDependentProposal</fullName>
+    <active>false</active>
+    <description>Display &amp; Mandatory ONLY If ((SFDRcategory=8 OR 9))
+&gt; Va rentrer en conflit avec le mandatory conditionel</description>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+ $Permission.PRPESG , 
+Name = &quot;Proposal&quot;,
+OR(ISPICKVAL(ProjectProductParent__r.SFDRcategory__c , &apos;8&apos;),ISPICKVAL(ProjectProductParent__r.SFDRcategory__c , &apos;9&apos;)),
+OR(
+ISBLANK(MinTaxAlignment__c),
+ISNULL(ESGLabel__c),
+ISNULL(FundSpecificExclusions__c)
+				))</errorConditionFormula>
+    <errorMessage>If SFDRcategory=8 OR 9, please provide Minimum Taxonomy Alignment (20450), ESG Label (20060) and Fund Specific Exclusions.</errorMessage>
+</ValidationRule>

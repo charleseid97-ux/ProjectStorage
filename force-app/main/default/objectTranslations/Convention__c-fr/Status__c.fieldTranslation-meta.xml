@@ -1,33 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Status --></label>
     <name>Status__c</name>
     <picklistValues>
         <masterLabel>Approved</masterLabel>
-        <translation></translation>
+        <translation><!-- Approved --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Change Renewal</masterLabel>
+        <translation><!-- Change Renewal --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Change Requested</masterLabel>
+        <translation><!-- Change Requested --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Expired</masterLabel>
+        <translation><!-- Expired --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>In Negotiation</masterLabel>
-        <translation></translation>
+        <translation><!-- In Negotiation --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Pending Renewal</masterLabel>
+        <translation><!-- Pending Renewal --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Pending Termination</masterLabel>
-        <translation></translation>
+        <translation><!-- Pending Termination --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Post Governance</masterLabel>
+        <translation><!-- Post Governance --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Pre-governance</masterLabel>
+        <translation><!-- Pre-governance --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Ready for governance</masterLabel>
+        <translation><!-- Ready for governance --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Ready to execute</masterLabel>
+        <translation><!-- Ready to execute --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Rejected</masterLabel>
-        <translation></translation>
+        <translation><!-- Rejected --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Signed</masterLabel>
-        <translation></translation>
+        <translation><!-- Signed --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Terminated</masterLabel>
-        <translation></translation>
+        <translation><!-- Terminated --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Without Agreement</masterLabel>
-        <translation></translation>
+        <translation><!-- Without Agreement --></translation>
     </picklistValues>
 </CustomFieldTranslation>

@@ -3,213 +3,226 @@
     <layouts>
         <layout>Generic Layout Lead</layout>
         <sections>
-            <label></label>
+            <label><!-- Communication Preferences --></label>
             <section>Communication Preferences</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Custom scoring --></label>
             <section>Custom scoring</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Disqualification information --></label>
             <section>Disqualification information</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Pardot --></label>
             <section>Pardot</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Pardot activities --></label>
             <section>Pardot activities</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Source --></label>
             <section>Source</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Lead Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom scoring --></label>
             <section>Custom scoring</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Pardot --></label>
             <section>Pardot</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Source --></label>
             <section>Source</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Website Information --></label>
             <section>Website Information</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Lead Layout ProSpace</layout>
         <sections>
-            <label></label>
+            <label><!-- Communication Preferences --></label>
             <section>Communication Preferences</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Custom scoring --></label>
             <section>Custom scoring</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Disqualification information --></label>
             <section>Disqualification information</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Pardot --></label>
             <section>Pardot</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Pardot activities --></label>
             <section>Pardot activities</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Source --></label>
             <section>Source</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Website Information --></label>
             <section>Website Information</section>
         </sections>
     </layouts>
     <quickActions>
-        <label></label>
+        <label><!-- Add To Event --></label>
         <name>Add_To_Event_detail</name>
     </quickActions>
     <quickActions>
-        <label></label>
+        <label><!-- Reset Website Password --></label>
         <name>Reset_Website_Password</name>
     </quickActions>
     <quickActions>
-        <label></label>
+        <label><!-- Source Definitions --></label>
         <name>Source_Definitions</name>
     </quickActions>
     <quickActions>
-        <label></label>
+        <label><!-- Sync Website Lead --></label>
         <name>Sync_Website_Lead</name>
     </quickActions>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- For BrightTALK Leads --></description>
+        <label><!-- BrightTALK Lead --></label>
         <name>BrightTALK_Lead</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- Generic record type for leads --></description>
+        <label><!-- Generic Lead --></label>
         <name>Lead_ProSpaceLead</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- Website Lead created by Ekino Website --></description>
+        <label><!-- Website Lead --></label>
         <name>Website_Lead</name>
     </recordTypes>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- CompanyId should be a numeric value --></errorMessage>
+        <name>LID__Check_Company_Id_Value</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage>
+            <!-- Please enter a phone number starting with &quot;+&quot; and a country code 
+(Example : +33 142 86 XX XX) -->
+        </errorMessage>
         <name>Lead_VR01_PhoneNumberFormat</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage>
+            <!-- Please enter a mobile phone number starting with &quot;+&quot; and a country code 
+(Example : +33 6 42 86 XX XX) -->
+        </errorMessage>
         <name>Lead_VR02_MobileNumberFormat</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage>
+            <!-- Please enter a direct phone number starting with &quot;+&quot; and a country code 
+(Example : +33 142 86 XX XX) -->
+        </errorMessage>
         <name>Lead_VR03_DirectPhoneNumberFormat</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- You will disqualify this lead. Please add a reason and comment --></errorMessage>
         <name>Lead_VR04_Disqualified_status_management</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Please fill in at least professional email, phone or mobile --></errorMessage>
         <name>Lead_VR05_EmailOrPhoneMandatory</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Please fill in at least one email (professional or personal) or you will not be able to convert this lead --></errorMessage>
         <name>Lead_VR06_EmailMandatory</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- You selected ProSpace Temp. Trial Status is mandatory --></errorMessage>
         <name>Lead_VR07_TrialStatusMandatory</name>
     </validationRules>
     <webLinks>
-        <label></label>
+        <label><!-- Add_To_Event_list --></label>
         <name>Add_To_Event_list</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- Add_to_Campaign_Custom --></label>
         <name>Add_to_Campaign_Custom</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- InviteLeadToEvent --></label>
         <name>CventEvents__InviteLeadToEvent</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- ModifyCancelLeadToEvent --></label>
         <name>CventEvents__ModifyCancelLeadToEvent</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- NominateLeadToEvent --></label>
         <name>CventEvents__NominateLeadToEvent</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- RegisterLeadToEvent --></label>
         <name>CventEvents__RegisterLeadToEvent</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- View_Hierarchy --></label>
         <name>Easy_Drill__View_Hierarchy</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- GoogleMaps --></label>
         <name>GoogleMaps</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- GoogleNews --></label>
         <name>GoogleNews</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- GoogleSearch --></label>
         <name>GoogleSearch</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- Linkedin --></label>
         <name>Linkedin</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- Mass_Delete_Records --></label>
         <name>Mass_Delete_Records</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- dc3Check --></label>
         <name>dupcheck__dc3Check</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- dc3Convert --></label>
         <name>dupcheck__dc3Convert</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- dc3Merge --></label>
         <name>dupcheck__dc3Merge</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- Send_Pardot_Email --></label>
         <name>pi__Send_Pardot_Email</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- Send_Pardot_Emails --></label>
         <name>pi__Send_Pardot_Emails</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- Send_Single_Pardot_Email --></label>
         <name>pi__Send_Single_Pardot_Email</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- Send_to_Prospect_Insight --></label>
         <name>pi__Send_to_Prospect_Insight</name>
     </webLinks>
 </CustomObjectTranslation>

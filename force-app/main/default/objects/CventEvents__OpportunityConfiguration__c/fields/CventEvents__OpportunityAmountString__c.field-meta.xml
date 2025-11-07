@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>CventEvents__OpportunityAmountString__c</fullName>
     <deprecated>false</deprecated>
-    <description>Amount value of the Opportunity. Has text type in order to keep data tags in addition to numeric values.</description>
+    <description>Amount value of the Opportunity. Has text type in order to keep data tags in addition to numeric values. Replaces OpportunityAmount__c field which has been deprecated.</description>
     <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
     <inlineHelpText>Amount value of the Opportunity.</inlineHelpText>

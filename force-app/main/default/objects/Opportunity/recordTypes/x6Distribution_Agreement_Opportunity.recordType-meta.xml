@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>x6Distribution_Agreement_Opportunity</fullName>
-    <active>true</active>
+    <active>false</active>
     <businessProcess>Distribution Agreement Process</businessProcess>
     <description>Opportunity to sign a distribution agreement with a Distributor or to have a fund(s) added to a Platform</description>
     <label>6. Distribution Agreement Opportunity</label>

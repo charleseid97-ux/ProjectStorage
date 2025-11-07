@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Status --></label>
     <name>Status__c</name>
     <picklistValues>
         <masterLabel>Closed</masterLabel>
-        <translation></translation>
+        <translation><!-- Closed --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Ongoing</masterLabel>
-        <translation></translation>
+        <translation><!-- Ongoing --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Open</masterLabel>
-        <translation></translation>
+        <translation><!-- Open --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Pending</masterLabel>
-        <translation></translation>
+        <translation><!-- Pending --></translation>
     </picklistValues>
 </CustomFieldTranslation>

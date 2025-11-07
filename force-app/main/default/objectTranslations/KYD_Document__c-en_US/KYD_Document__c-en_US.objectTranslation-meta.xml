@@ -11,25 +11,25 @@
     <layouts>
         <layout>KYD Document Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
     </layouts>
+    <quickActions>
+        <label><!-- Upload Document --></label>
+        <name>Upload_Document</name>
+    </quickActions>
     <startsWith>Consonant</startsWith>
     <webLinks>
-        <label></label>
-        <name>Show_File</name>
-    </webLinks>
-    <webLinks>
-        <label></label>
+        <label><!-- Update_Status_Pending --></label>
         <name>Update_Status_Pending</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- Update_Status_Received --></label>
         <name>Update_Status_Received</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- Update_Status_Uploaded --></label>
         <name>Update_Status_Uploaded</name>
     </webLinks>
 </CustomObjectTranslation>

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Status --></label>
     <name>Status__c</name>
     <picklistValues>
         <masterLabel>Deployed</masterLabel>
-        <translation></translation>
+        <translation><!-- Deployed --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>In progress</masterLabel>
-        <translation></translation>
+        <translation><!-- In progress --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Not started</masterLabel>
-        <translation></translation>
+        <translation><!-- Not started --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Testing</masterLabel>
-        <translation></translation>
+        <translation><!-- Testing --></translation>
     </picklistValues>
 </CustomFieldTranslation>

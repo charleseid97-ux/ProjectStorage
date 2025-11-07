@@ -90,6 +90,12 @@
                 <identifier>RecordEntityType__cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.Onboarding__c</fieldItem>
+                <identifier>RecordOnboarding__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-a54943d5-4a0f-4b8c-9bf5-aadfeb073e8a</name>
         <type>Facet</type>
     </flexiPageRegions>

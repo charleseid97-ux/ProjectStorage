@@ -181,48 +181,6 @@
         <label>Unconstrained Emerging Markets Debt</label>
     </customValue>
     <customValue>
-        <fullName>Euro-Investissement</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>Euro-Investissement</label>
-    </customValue>
-    <customValue>
-        <fullName>Innovation</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>Innovation</label>
-    </customValue>
-    <customValue>
-        <fullName>UFFGE</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>UFF Grande Europe 0-100</label>
-    </customValue>
-    <customValue>
-        <fullName>CMN</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>Market Neutral</label>
-    </customValue>
-    <customValue>
-        <fullName>Not Applicable</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>Not Applicable</label>
-    </customValue>
-    <customValue>
-        <fullName>CGCN</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>China</label>
-    </customValue>
-    <customValue>
-        <fullName>CARA</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>Active Risk Allocation</label>
-    </customValue>
-    <customValue>
         <fullName>Cross Asset Opportunities</fullName>
         <default>false</default>
         <isActive>false</isActive>
@@ -233,6 +191,48 @@
         <default>false</default>
         <isActive>false</isActive>
         <label>Infotech</label>
+    </customValue>
+    <customValue>
+        <fullName>CMN</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Market Neutral</label>
+    </customValue>
+    <customValue>
+        <fullName>Innovation</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Innovation</label>
+    </customValue>
+    <customValue>
+        <fullName>CARA</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Active Risk Allocation</label>
+    </customValue>
+    <customValue>
+        <fullName>CGCN</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>China</label>
+    </customValue>
+    <customValue>
+        <fullName>UFFGE</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>UFF Grande Europe 0-100</label>
+    </customValue>
+    <customValue>
+        <fullName>Euro-Investissement</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Euro-Investissement</label>
+    </customValue>
+    <customValue>
+        <fullName>Not Applicable</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Not Applicable</label>
     </customValue>
     <masterLabel>Strategy</masterLabel>
     <sorted>true</sorted>

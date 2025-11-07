@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Type --></label>
+    <name>Type__c</name>
+    <picklistValues>
+        <masterLabel>Biography</masterLabel>
+        <translation><!-- Biography --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Glossary</masterLabel>
+        <translation><!-- Glossary --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Investment Objective</masterLabel>
+        <translation><!-- Investment Objective --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Investment Strategy</masterLabel>
+        <translation><!-- Investment Strategy --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>PRIIPs</masterLabel>
+        <translation><!-- PRIIPs --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Risk</masterLabel>
+        <translation><!-- Risk --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Third Party</masterLabel>
+        <translation><!-- Third Party --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

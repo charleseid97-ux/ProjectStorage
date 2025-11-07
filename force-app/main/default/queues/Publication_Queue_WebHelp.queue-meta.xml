@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesSendEmailToMembers>false</doesSendEmailToMembers>
+    <email>digital.publishing@carmignac.com</email>
+    <name>Publication Queue WebHelp</name>
+    <queueMembers>
+        <users>
+            <user>anasztazia.puskas.external-crm@carmignac.com</user>
+            <user>andrei-ioan.iesanu.external-crm@carmignac.com</user>
+            <user>denisa-lavinia.kantor.external-crm@carmignac.com</user>
+            <user>getuta-ionela.gogoseanu.external-crm@carmignac.com</user>
+            <user>silvia.gavinhos-crm@carmignac.com</user>
+            <user>stephane.lawtime-crm@carmignac.com</user>
+        </users>
+    </queueMembers>
+    <queueSobject>
+        <sobjectType>Case</sobjectType>
+    </queueSobject>
+</Queue>

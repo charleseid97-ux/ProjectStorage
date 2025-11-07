@@ -3,7 +3,6 @@
     <fullName>Product__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <description>link with the Product.</description>
-    <externalId>false</externalId>
     <label>Strategy</label>
     <referenceTo>Product__c</referenceTo>
     <relationshipName>SnapshotBUYList</relationshipName>

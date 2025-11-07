@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Owner of the Task in case of &apos;Assign to specific User&apos; rule.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Owner of the Task in case of &apos;Assign to specific User&apos; rule.</inlineHelpText>
     <label>Task Owner</label>
     <referenceTo>User</referenceTo>

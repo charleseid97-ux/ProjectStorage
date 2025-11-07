@@ -154,13 +154,13 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ReadWrite</externalSharingModel>
-    <label>Duplicate Check Index</label>
+    <label>Plauti Deduplicate Index</label>
     <nameField>
         <encryptionScheme>None</encryptionScheme>
-        <label>DC Object Id</label>
+        <label>Plauti Deduplicate Object Id</label>
         <type>Text</type>
     </nameField>
-    <pluralLabel>Duplicate Check Indexes</pluralLabel>
+    <pluralLabel>Plauti Deduplicate Indexes</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

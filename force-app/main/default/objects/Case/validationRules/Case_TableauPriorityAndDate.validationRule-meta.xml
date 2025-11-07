@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_TableauPriorityAndDate</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+
+NOT($Permission.TableauAdmin),
+NOT($Profile.Name = &quot;System Administrator&quot;),
+NOT($Profile.Name = &quot;Carmignac - System Administrator&quot;),
+RecordType.DeveloperName = &quot;Tableau_Request&quot;,
+OR(ISCHANGED(Priority),  
+  ISCHANGED(Delivery_Date_Estimate__c) )
+)</errorConditionFormula>
+    <errorMessage>Only Tableau Admins can update the Priority and Estimated Delivery Date.</errorMessage>
+</ValidationRule>

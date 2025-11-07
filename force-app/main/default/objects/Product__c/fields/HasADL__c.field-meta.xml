@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>HasADL__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Anti Dilution Levy</description>
+    <inlineHelpText>Is there a possible dilution levy in favour of the fund that can be charged at the discretion of the fund manager to compensate for market transaction costs within the fund?</inlineHelpText>
+    <label>Has ADL</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

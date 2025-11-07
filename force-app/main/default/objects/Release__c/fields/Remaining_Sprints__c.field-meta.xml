@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Remaining_Sprints__c</fullName>
-    <externalId>false</externalId>
     <label>Remaining Sprints</label>
     <summaryFilterItems>
         <field>Sprint__c.Status__c</field>

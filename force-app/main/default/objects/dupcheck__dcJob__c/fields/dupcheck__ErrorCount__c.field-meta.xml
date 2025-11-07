@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>dupcheck__ErrorCount__c</fullName>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Error Count</label>
     <summaryFilterItems>
         <field>dupcheck__dc3Duplicate__c.dupcheck__HasError__c</field>

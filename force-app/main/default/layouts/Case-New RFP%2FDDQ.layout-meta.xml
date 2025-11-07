@@ -85,6 +85,14 @@
                 <behavior>Edit</behavior>
                 <field>Reason_for_reject__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>LastSendDate__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>LastOpenedDate__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -94,6 +102,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Opportunity__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Favorite__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -332,10 +344,6 @@
     <relatedLists>
         <fields>Share_Class__c</fields>
         <relatedList>Case_Share__c.Work_Together_Process__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>Meeting_Link__c.Case__c</relatedList>
     </relatedLists>
     <relatedLists>
         <relatedList>RelatedFileList</relatedList>

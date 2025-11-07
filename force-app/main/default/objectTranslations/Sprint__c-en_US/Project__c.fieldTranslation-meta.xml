@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Project --></label>
     <name>Project__c</name>
     <picklistValues>
         <masterLabel>Marketing</masterLabel>
-        <translation></translation>
+        <translation><!-- Marketing --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Sales</masterLabel>
-        <translation></translation>
+        <translation><!-- Sales --></translation>
     </picklistValues>
 </CustomFieldTranslation>

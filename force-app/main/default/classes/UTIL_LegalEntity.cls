@@ -10,32 +10,52 @@ public class UTIL_LegalEntity {
     public static final string guid = 'b56e935b-8a47-479b-b275-764fb30e5cad';
     public static final string UME_Auth = 'ume bUBTLUprhDRaR6UH5Yth9w:epaNbfiB2iNWmwoLg_b7ew';
     
+    //The name of Legal Entity records must be in uppercase letters only
+    //Called in before update and before insert
+    //Necessary because lowercase in the name leaded matching to fail with Account records in some cases
+    public static void toUppercaseName(List<Legal_Entity__c> newItems) {
+        for (Legal_Entity__c le : newItems) {
+            if (!le?.Name.isAllUpperCase()) {
+                le.Name = le.Name.toUpperCase();
+            }
+        }
+    }
     
     // Get Legal Entity from lei.info
     public static JSONLegalEntity2Apex getLegalEntity (String lei) {
         String res = callGLEIF(lei);
-        if (Test.isRunningTest()) res = getString (1);
+        if (Test.isRunningTest()) {
+            res = getString (1);
+        }
         // Deserialize the JSON string into collections of primitive data types.
-        JSONLegalEntity2Apex jsonApex = (JSONLegalEntity2Apex)JSON.deserialize(res, JSONLegalEntity2Apex.class);
+        JSONLegalEntity2Apex jsonApex;
+        if (res != null) {
+            jsonApex = (JSONLegalEntity2Apex)JSON.deserialize(res, JSONLegalEntity2Apex.class);
+        }
         return jsonApex;
     }
     
     // Get list of Distributors from UME
     public static List<JSONLegalEntityUME2Apex> getDistributors (String url) {
         String res = callUME(url);
-        if (Test.isRunningTest()) res = getString (2);
+        if (Test.isRunningTest()) {
+            res = getString (2);
+        }
         System.debug('SLI >> '+ res);
         //Deserialize the JSON string into collections of primitive data types.
         List<JSONLegalEntityUME2Apex>  jsonApex = new List<JSONLegalEntityUME2Apex>();
-        if ( res != null )
+        if (res != null) {
         	jsonApex = (List<JSONLegalEntityUME2Apex>)JSON.deserialize(res, List<JSONLegalEntityUME2Apex>.class);
+        }
         return jsonApex;
     }
     
     // Get Score
     public static JSONScoreUME2Apex getScore (String url) {
         String res = callUME(url);
-        if (Test.isRunningTest()) res = getString (3);
+        if (Test.isRunningTest()) {
+            res = getString (3);
+        }
         //Deserialize the JSON string into collections of primitive data types.
         JSONScoreUME2Apex jsonApex = new JSONScoreUME2Apex();
         if ( res != null )
@@ -46,7 +66,9 @@ public class UTIL_LegalEntity {
     // Get Assessment
     public static JSONAssessmentsUME2Apex getAssessment (String url) {
         String res = callUME(url);
-        if (Test.isRunningTest()) res = getString (4);
+        if (Test.isRunningTest()) {
+            res = getString (4);
+        }
         //Deserialize the JSON string into collections of primitive data types.
         JSONAssessmentsUME2Apex jsonApex = new JSONAssessmentsUME2Apex();
         if ( res != null )
@@ -57,7 +79,9 @@ public class UTIL_LegalEntity {
     // Get Profil
     public static JSONProfileUME2Apex getProfile (String url) {
         String res = callUME(url);
-        if (Test.isRunningTest()) res = getString (5);
+        if (Test.isRunningTest()) {
+            res = getString (5);
+        }
         //Deserialize the JSON string into collections of primitive data types.
         JSONProfileUME2Apex jsonApex = new JSONProfileUME2Apex();
         if ( res != null )
@@ -72,10 +96,11 @@ public class UTIL_LegalEntity {
         String url = '';
         try {
             Legal_Entity__c[] le = [SELECT Id, TECH_brid__c FROM Legal_Entity__c WHERE Id = :recordId];
-            if(le != null){
+            if (le != null) {
                 brid = le[0].TECH_brid__c;
-                if (brid != null)
+                if (brid != null) {
                    return callUME ('/api/v2/brs/'+brid+'/controlled/kyc/persons');
+                }
             }
         }catch(System.CalloutException e) {
             System.debug('Callout UME - The following exception has occurred: ' + e.getMessage());

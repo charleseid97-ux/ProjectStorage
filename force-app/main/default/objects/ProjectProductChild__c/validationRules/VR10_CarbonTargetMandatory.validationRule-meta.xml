@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR10_CarbonTargetMandatory</fullName>
+    <active>true</active>
+    <description>Display &amp; Mandatory Only If HasCarbonTarget=True</description>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+$Permission.PRPESG,
+Name = &apos;Proposal&apos;,
+HasCarbonTarget__c = true, 
+ISBLANK(CarbonTarget__c)
+				)</errorConditionFormula>
+    <errorDisplayField>CarbonTarget__c</errorDisplayField>
+    <errorMessage>If Has Carbon Target = True, please provide a value for Carbon Target.</errorMessage>
+</ValidationRule>

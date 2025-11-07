@@ -1,0 +1,182 @@
+.days-text {
+    font-size: 1.5rem;       /* Taille de la police similaire à l'image */
+    font-weight: bold;       /* Texte en gras */
+    color: #333333;          /* Couleur du texte (gris foncé) */
+    margin-bottom: 0.5rem;   /* Espacement en bas */
+}
+
+.date-text {
+    font-size: 1.2rem;       /* Taille de la police pour la date */
+    color: #555555;
+    font-weight: bold;        /* Couleur légèrement plus claire */
+}
+
+
+.pipeline-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+}
+
+.pipeline-stages {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.stage-container {
+    text-align: center;
+    width: 15%;
+}
+
+.stage-checkpoint {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.checkpoint {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid gray;
+}
+
+.checkpoint.complete {
+    background-color: green;
+    border-color: green;
+}
+
+.checkpoint.in-progress {
+    background-color: orange;
+    border-color: orange;
+}
+
+.checkpoint.upcoming {
+    background-color: white;
+    border-color: gray;
+}
+
+.stage-label {
+    font-size: 0.9rem;
+    color: #333;
+}
+
+/* Milestones Section */
+.milestone-section {
+    width: 100%;
+}
+
+.milestone-header {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.milestone-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.milestone-table th,
+.milestone-table td {
+    border: 1px solid #ddd;
+    padding: 0.5rem;
+    text-align: left;
+}
+
+.milestone-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+.donut-chart-container {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: auto;
+    text-align: center;
+}
+
+.donut {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.donut-ring {
+    fill: transparent;
+    stroke: #e6e6e6;
+    stroke-width: 3;
+}
+
+.donut-segment {
+    fill: transparent;
+    stroke: green;
+    stroke-width: 3;
+    stroke-linecap: round;
+    transition: stroke-dasharray 0.5s ease;
+}
+
+.donut-segment {
+    fill: transparent;
+    stroke: green;
+    stroke-width: 3;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.5s ease;
+}
+
+.donut-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.donut-text span {
+    font-size: 2rem;
+    color: green;
+}
+
+.progress-circle { width: 150px; height: 150px; } 
+.circular-chart { display: block; margin: 10px auto; max-width: 100%; max-height: 250px; } 
+.circle-bg { fill: none; stroke: #eee; stroke-width: 3.8; } 
+.circle { fill: none; stroke: green; stroke-width: 3.8; stroke-linecap: round; transform: rotate(-90deg); transform-origin: 50% 50%; } 
+.percentage { fill: #666; font-family: sans-serif; font-size: 8px; text-anchor: middle; }
+
+.phase-label {
+    font-size: 14px;
+    color: #666;
+}
+ 
+.phase-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #000;
+}
+ 
+.info-text {
+    font-size: 14px;
+    color: #666;
+    margin-top: 10px;
+}
+ 
+.remaining-days {
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+}
+ 
+.deadline {
+    font-size: 16px;
+    font-weight: bold;
+    color: #000;
+}

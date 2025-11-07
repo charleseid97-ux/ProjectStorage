@@ -70,6 +70,61 @@
         <default>false</default>
         <label>Taiwan</label>
     </customValue>
+    <customValue>
+        <fullName>Product</fullName>
+        <default>false</default>
+        <label>Product</label>
+    </customValue>
+    <customValue>
+        <fullName>Communication</fullName>
+        <default>false</default>
+        <label>Communication</label>
+    </customValue>
+    <customValue>
+        <fullName>Local Marketing &amp; Event</fullName>
+        <default>false</default>
+        <label>Local Marketing &amp; Event</label>
+    </customValue>
+    <customValue>
+        <fullName>Fund Marketing</fullName>
+        <default>false</default>
+        <label>Fund Marketing</label>
+    </customValue>
+    <customValue>
+        <fullName>Digital Marketing</fullName>
+        <default>false</default>
+        <label>Digital Marketing</label>
+    </customValue>
+    <customValue>
+        <fullName>Investment Solutions</fullName>
+        <default>false</default>
+        <label>Investment Solutions</label>
+    </customValue>
+    <customValue>
+        <fullName>Legal</fullName>
+        <default>false</default>
+        <label>Legal</label>
+    </customValue>
+    <customValue>
+        <fullName>ESG</fullName>
+        <default>false</default>
+        <label>ESG</label>
+    </customValue>
+    <customValue>
+        <fullName>DCR</fullName>
+        <default>false</default>
+        <label>DCR</label>
+    </customValue>
+    <customValue>
+        <fullName>Compliance</fullName>
+        <default>false</default>
+        <label>Compliance</label>
+    </customValue>
+    <customValue>
+        <fullName>Private Equity</fullName>
+        <default>false</default>
+        <label>Private Equity</label>
+    </customValue>
     <description>Allows to determine the team of Sales users. It corresponds to their action area. Used to replace Business Region notion.</description>
     <masterLabel>Team</masterLabel>
     <sorted>false</sorted>

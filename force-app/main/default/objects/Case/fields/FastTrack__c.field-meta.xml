@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>FastTrack__c</fullName>
-    <externalId>false</externalId>
     <formula>ISPICKVAL(Type, &apos;Solvency&apos;) || CONTAINS(Ultimate_Parent_Tier__c, &apos;Tier 0&apos;)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Fast Track</label>

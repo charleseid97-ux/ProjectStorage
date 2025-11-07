@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Level of Support --></label>
     <name>Level_of_Support__c</name>
     <picklistValues>
         <masterLabel>Interested in You</masterLabel>
-        <translation></translation>
+        <translation><!-- Interested in You --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Mildly Negative</masterLabel>
-        <translation></translation>
+        <translation><!-- Mildly Negative --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Sees You Same as Everyone Else</masterLabel>
-        <translation></translation>
+        <translation><!-- Sees You Same as Everyone Else --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Strong Supporter</masterLabel>
-        <translation></translation>
+        <translation><!-- Strong Supporter --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Strongly for Competition</masterLabel>
-        <translation></translation>
+        <translation><!-- Strongly for Competition --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Supporter of Yours</masterLabel>
-        <translation></translation>
+        <translation><!-- Supporter of Yours --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Will Recommend Competition</masterLabel>
-        <translation></translation>
+        <translation><!-- Will Recommend Competition --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Will Recommend You</masterLabel>
-        <translation></translation>
+        <translation><!-- Will Recommend You --></translation>
     </picklistValues>
 </CustomFieldTranslation>

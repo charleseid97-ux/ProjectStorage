@@ -154,13 +154,13 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ReadWrite</externalSharingModel>
-    <label>Duplicate Check Layout</label>
+    <label>Plauti Deduplicate Layout</label>
     <nameField>
         <displayFormat>DCLAY{000}</displayFormat>
-        <label>Duplicate Check Layout Name</label>
+        <label>Plauti Deduplicate Layout Name</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Duplicate Check Layouts</pluralLabel>
+    <pluralLabel>Plauti Deduplicate Layouts</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

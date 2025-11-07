@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Publication_Kanban</fullName>
+    <columns>CASES.SUBJECT</columns>
+    <columns>Article_Funds__c</columns>
+    <columns>OWNER_NAME</columns>
+    <columns>CASES.PRIORITY</columns>
+    <columns>CASES.CREATED_DATE_DATE_ONLY</columns>
+    <columns>DueDate__c</columns>
+    <columns>TargetWebsite__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Record_Type_Name__c</field>
+        <operation>equals</operation>
+        <value>Sub Publication Request</value>
+    </filters>
+    <filters>
+        <field>On_Hold__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <label>Publication Kanban</label>
+</ListView>

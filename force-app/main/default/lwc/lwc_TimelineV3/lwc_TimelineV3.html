@@ -1,0 +1,106 @@
+<!--
+  @description       : 
+  @author            : Doha EL QOUSSI
+  @group             : 
+  @last modified on  : 27-02-2025
+  @last modified by  : Doha EL QOUSSI
+-->
+<template>
+    <div class="timeline-container">
+        <template if:true={isLoading}> 
+            <lightning-spinner alternative-text="Chargement des étapes"></lightning-spinner> 
+        </template> <!-- Afficher les étapes si isLoading est false --> 
+        <template if:false={isLoading}> 
+        <!-- Ligne principale -->
+        <div class="timeline-line" ></div>
+          
+        <!-- Étapes -->
+        <div class="timeline-steps">
+            <div 
+            class="start"
+            style={stepStart}>
+            <div class="start-circle" data-deadline={startDatProject} ><lightning-icon icon-name="utility:light_bulb" size="small" variant="inverse"></lightning-icon></div>   
+        </div>
+            <template for:each={stepsWithPositions} for:item="step">
+                <div key={step.id}>
+                <div   class="etape-line" style={step.styleLine}></div>
+                <p class="step-name" style={step.styleText}>{step.name}</p>
+                
+                <div
+                    class="step"
+                    style={step.style}  data-id={step.id} onclick={handleStepClick}>
+                    
+                    <div class="step-circle" data-deadline={step.endDateConverted} style={step.stylestep}><template if:true={step.stepCompleted}><lightning-icon icon-name="utility:check" size="small" variant="inverse"></lightning-icon></template></div>
+                   <!-- <p class="step-name">{step.name}</p>-->
+                </div>
+
+                <!-- Jalons -->
+                <template for:each={step.milestones} for:item="milestone">
+                    <div
+                        key={milestone.id}
+                        class="milestone"
+                        style={milestone.style}>
+                        <div class="milestone-circle" ></div>
+                        <p class="milestone-name" data-deadline={milestone.dateconverted} style={milestone.stylemilestone}>{milestone.name}</p>
+                    </div>
+                </template>
+            </div>
+            </template>
+        </div>
+        <!-- Road to Market -->
+        <template if:true={roadtomarketactivate}>
+        <div class="road-to-market">
+            <!-- Texte "Road to Market" -->
+            <p class="road-label" ><a href={roadToMarket.url}  style={roadToMarket.textStyle}>Road to Market</a></p>
+            <!-- Ligne verte -->
+            <div class="road-line" style={roadToMarket.lineStyle}></div>
+
+            <!-- Cercle de début -->
+            
+            <div class="road-circle" style={roadToMarket.startStyle} data-deadline={roadToMarket.startDate}>
+            </div>
+            
+
+            <!-- Cercle de fin -->
+            <div
+                class="road-circle"
+                style={roadToMarket.endStyle} data-deadline={roadToMarket.endDate}>
+            </div>
+        </div>
+
+        </template>
+</template>
+    </div>
+ 
+       <!-- Pop-up modal -->
+       <template if:true={isModalOpen}>
+        <div class="modal-backdrop" onclick={closeModal}></div>
+        <div class="modal">
+            <h1>Update Status</h1>
+            <lightning-record-edit-form
+            object-api-name="ProjectProductChild__c"
+            record-id={recordstepId}
+            onsuccess={handleSuccess}
+        >
+        <lightning-input-field field-name="Status__c" ></lightning-input-field>
+        <div  class="button-container">
+        <lightning-button
+        type="submit"
+        label="Update"
+        class="button-spacing"
+        variant="brand"
+    ></lightning-button>
+    <lightning-button
+        type="close"
+        label="Close"
+        class="button-spacing"
+        variant="neutral"
+        onclick={closeModal}
+    ></lightning-button>
+   </div>
+        </lightning-record-edit-form>
+           
+        </div>
+    </template>
+
+</template>

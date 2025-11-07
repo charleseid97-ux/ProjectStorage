@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ForeseenEUCategory__c</fullName>
+    <description>Applicable EU directive</description>
+    <label>Foreseen EU Category</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>UCITS</fullName>
+                <default>false</default>
+                <label>UCITS</label>
+            </value>
+            <value>
+                <fullName>AIF</fullName>
+                <default>false</default>
+                <label>AIF</label>
+            </value>
+            <value>
+                <fullName>other</fullName>
+                <default>false</default>
+                <label>other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -7,10 +7,12 @@
 !$User.BypassValidationRules__c,
 ISBLANK(Platform__c),
 AND(
-RecordType.DeveloperName = &quot;Client_delivery_request&quot;,
+RecordType.DeveloperName = &apos;Client_delivery_request&apos;,
+ISPICKVAL(Data_Solutions_Type__c , &apos;Ad Hoc Data &amp; Client Reporting Request&apos;),
+
 OR(
-ISPICKVAL(Type,&quot;Client Delivery&quot;),
-ISPICKVAL(Type,&quot;Solvency&quot;)
+ISPICKVAL(Type,&apos;Data Solution&apos;),
+ISPICKVAL(Type,&apos;Solvency&apos;)
 ),
 ISPICKVAL(Status, &apos;In Service&apos;),
 ISCHANGED(Status),

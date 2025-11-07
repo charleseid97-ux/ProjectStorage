@@ -3,10 +3,9 @@
     <fullName>Opportunity__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <description>Links Meeting Note to an Opportunity.</description>
-    <externalId>false</externalId>
     <label>Opportunity</label>
     <referenceTo>Opportunity</referenceTo>
-    <relationshipLabel>Meeting Notes</relationshipLabel>
+    <relationshipLabel>Meeting Link</relationshipLabel>
     <relationshipName>Meeting_Links_Opportunity</relationshipName>
     <required>false</required>
     <trackTrending>false</trackTrending>

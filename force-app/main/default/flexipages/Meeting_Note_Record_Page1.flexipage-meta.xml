@@ -70,6 +70,16 @@
                         <valueListItems>
                             <value>FeedItem.PollPost</value>
                         </valueListItems>
+                        <valueListItems>
+                            <value>Meeting_Note__c.DeleteNote</value>
+                            <visibilityRule>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>CONTAINS</operator>
+                                    <rightValue>Administrator</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -569,6 +579,79 @@
     <sobjectType>Meeting_Note__c</sobjectType>
     <template>
         <name>flexipage:recordHomeTemplateDesktop</name>
+        <properties>
+            <name>actionNames</name>
+            <valueList>
+                <valueListItems>
+                    <value>Edit</value>
+                    <visibilityRule>
+                        <booleanFilter>1 OR 2 OR 3 OR 4</booleanFilter>
+                        <criteria>
+                            <leftValue>{!$User.Profile.Name}</leftValue>
+                            <operator>CONTAINS</operator>
+                            <rightValue>Administrator</rightValue>
+                        </criteria>
+                        <criteria>
+                            <leftValue>{!$User.Profile.Name}</leftValue>
+                            <operator>EQUAL</operator>
+                            <rightValue>Carmignac - Business Developer</rightValue>
+                        </criteria>
+                        <criteria>
+                            <leftValue>{!$User.Profile.Name}</leftValue>
+                            <operator>EQUAL</operator>
+                            <rightValue>Carmignac - CRM</rightValue>
+                        </criteria>
+                        <criteria>
+                            <leftValue>{!$User.UserRole.Name}</leftValue>
+                            <operator>EQUAL</operator>
+                            <rightValue>Product Specialist</rightValue>
+                        </criteria>
+                    </visibilityRule>
+                </valueListItems>
+                <valueListItems>
+                    <value>Delete</value>
+                    <visibilityRule>
+                        <booleanFilter>1 OR 2 OR 3 OR 4</booleanFilter>
+                        <criteria>
+                            <leftValue>{!$User.Profile.Name}</leftValue>
+                            <operator>CONTAINS</operator>
+                            <rightValue>Administrator</rightValue>
+                        </criteria>
+                        <criteria>
+                            <leftValue>{!$User.Profile.Name}</leftValue>
+                            <operator>EQUAL</operator>
+                            <rightValue>Carmignac - Business Developer</rightValue>
+                        </criteria>
+                        <criteria>
+                            <leftValue>{!$User.Profile.Name}</leftValue>
+                            <operator>EQUAL</operator>
+                            <rightValue>Carmignac - CRM</rightValue>
+                        </criteria>
+                        <criteria>
+                            <leftValue>{!$User.UserRole.Name}</leftValue>
+                            <operator>EQUAL</operator>
+                            <rightValue>Product Specialist</rightValue>
+                        </criteria>
+                    </visibilityRule>
+                </valueListItems>
+                <valueListItems>
+                    <value>Share</value>
+                </valueListItems>
+                <valueListItems>
+                    <value>FeedItem.TextPost</value>
+                </valueListItems>
+                <valueListItems>
+                    <value>FeedItem.ContentPost</value>
+                </valueListItems>
+                <valueListItems>
+                    <value>FeedItem.PollPost</value>
+                </valueListItems>
+            </valueList>
+        </properties>
+        <properties>
+            <name>enablePageActionConfig</name>
+            <value>true</value>
+        </properties>
     </template>
     <type>RecordPage</type>
 </FlexiPage>

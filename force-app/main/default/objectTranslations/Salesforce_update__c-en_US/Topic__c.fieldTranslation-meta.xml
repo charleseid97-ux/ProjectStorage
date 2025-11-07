@@ -1,41 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Topic --></label>
     <name>Topic__c</name>
     <picklistValues>
-        <masterLabel>Agreements</masterLabel>
-        <translation></translation>
+        <masterLabel>How to</masterLabel>
+        <translation><!-- How to --></translation>
     </picklistValues>
     <picklistValues>
-        <masterLabel>Campaigns</masterLabel>
-        <translation></translation>
-    </picklistValues>
-    <picklistValues>
-        <masterLabel>Companies</masterLabel>
-        <translation></translation>
-    </picklistValues>
-    <picklistValues>
-        <masterLabel>Contact</masterLabel>
-        <translation></translation>
-    </picklistValues>
-    <picklistValues>
-        <masterLabel>Event / Meeting Notes</masterLabel>
-        <translation></translation>
-    </picklistValues>
-    <picklistValues>
-        <masterLabel>Leads</masterLabel>
-        <translation></translation>
-    </picklistValues>
-    <picklistValues>
-        <masterLabel>Other</masterLabel>
-        <translation></translation>
-    </picklistValues>
-    <picklistValues>
-        <masterLabel>Reports &amp; Dashboards</masterLabel>
-        <translation></translation>
-    </picklistValues>
-    <picklistValues>
-        <masterLabel>WTP</masterLabel>
-        <translation></translation>
+        <masterLabel>Overview on</masterLabel>
+        <translation><!-- Overview on --></translation>
     </picklistValues>
 </CustomFieldTranslation>

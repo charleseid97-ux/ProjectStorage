@@ -163,38 +163,32 @@
     <pluralLabel>Digital Interactions</pluralLabel>
     <profileSearchLayouts>
         <fields>NAME</fields>
-        <fields>Date_of_Interaction__c</fields>
+        <fields>Interaction_Date__c</fields>
         <fields>Contact_lu__c</fields>
         <fields>Lead_lu__c</fields>
         <fields>Engagement_Type__c</fields>
         <fields>Campaign__c</fields>
-        <fields>Total_Opens__c</fields>
-        <fields>Total_Clicks__c</fields>
         <fields>Pages_Viewed2__c</fields>
         <fields>attendance__c</fields>
         <profileName>Carmignac - Business Developer</profileName>
     </profileSearchLayouts>
     <profileSearchLayouts>
         <fields>NAME</fields>
-        <fields>Date_of_Interaction__c</fields>
+        <fields>Interaction_Date__c</fields>
         <fields>Contact_lu__c</fields>
         <fields>Lead_lu__c</fields>
         <fields>Engagement_Type__c</fields>
         <fields>Campaign__c</fields>
-        <fields>Total_Opens__c</fields>
-        <fields>Total_Clicks__c</fields>
         <fields>Pages_Viewed2__c</fields>
         <fields>attendance__c</fields>
         <profileName>Carmignac - System Administrator</profileName>
     </profileSearchLayouts>
     <searchLayouts>
-        <searchResultsAdditionalFields>Date_of_Interaction__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Interaction_Date__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Contact_lu__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Lead_lu__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Engagement_Type__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Campaign__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Total_Opens__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Total_Clicks__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Pages_Viewed2__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>attendance__c</searchResultsAdditionalFields>
     </searchLayouts>

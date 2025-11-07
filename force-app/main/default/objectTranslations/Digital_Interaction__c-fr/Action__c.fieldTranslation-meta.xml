@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Action --></label>
+    <name>Action__c</name>
+    <picklistValues>
+        <masterLabel>Attended</masterLabel>
+        <translation><!-- Attended --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Click</masterLabel>
+        <translation><!-- Click --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Comment</masterLabel>
+        <translation><!-- Comment --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Declined</masterLabel>
+        <translation><!-- Declined --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Form completed</masterLabel>
+        <translation><!-- Form completed --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Mention</masterLabel>
+        <translation><!-- Mention --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>No show</masterLabel>
+        <translation><!-- No show --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Open</masterLabel>
+        <translation><!-- Open --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Reaction</masterLabel>
+        <translation><!-- Reaction --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Resubscribe</masterLabel>
+        <translation><!-- Resubscribe --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Subscribe</masterLabel>
+        <translation><!-- Subscribe --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Unsubscribe</masterLabel>
+        <translation><!-- Unsubscribe --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Video View</masterLabel>
+        <translation><!-- Video View --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Video Watch</masterLabel>
+        <translation><!-- Video Watch --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Visit</masterLabel>
+        <translation><!-- Visit --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

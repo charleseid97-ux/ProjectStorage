@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>On_Time_Delivery__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(
+AND(ISPICKVAL(Work_Together_Process__r.Report_frequency__c, &apos;Monthly&apos;), DAY(Send_Date__c) &lt; Work_Together_Process__r.Date_expected_for_delivery__c + 2), &apos;✔️&apos;,
+IF(AND(ISPICKVAL(Work_Together_Process__r.Report_frequency__c, &apos;Weekly&apos;), WEEKDAY(Send_Date__c) - 1 = Work_Together_Process__r.Date_expected_for_delivery__c ), &apos;✔️&apos;,
+IF(OR(ISPICKVAL(Work_Together_Process__r.Report_frequency__c, &apos;Anually&apos;),
+ISPICKVAL(Work_Together_Process__r.Report_frequency__c, &apos;Quarterly&apos;),
+ISPICKVAL(Work_Together_Process__r.Report_frequency__c, &apos;Quarterly&apos;)), &apos;N/A&apos;,
+&apos;❌&apos;)
+
+
+)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>On-Time Delivery</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

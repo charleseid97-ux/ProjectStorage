@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>French_Contact</fullName>
+    <columns>FULL_NAME</columns>
+    <columns>Prospace_Status__c</columns>
+    <columns>Language__c</columns>
+    <columns>WebsiteLanguage__c</columns>
+    <columns>WebsiteSalutation__c</columns>
+    <columns>PhoneNumber__c</columns>
+    <columns>Address1__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>WebsiteLanguage__c</field>
+        <operation>equals</operation>
+        <value>French</value>
+    </filters>
+    <label>French Contact</label>
+    <sharedTo>
+        <group>Administrators</group>
+    </sharedTo>
+</ListView>

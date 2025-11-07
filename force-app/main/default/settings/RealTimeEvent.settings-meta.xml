@@ -38,10 +38,26 @@
     </realTimeEvents>
     <realTimeEvents>
         <entityName>FileEventStore</entityName>
-        <isEnabled>false</isEnabled>
+        <isEnabled>true</isEnabled>
     </realTimeEvents>
     <realTimeEvents>
         <entityName>FileEvent</entityName>
+        <isEnabled>true</isEnabled>
+    </realTimeEvents>
+    <realTimeEvents>
+        <entityName>GuestUserAnomalyEventStore</entityName>
+        <isEnabled>false</isEnabled>
+    </realTimeEvents>
+    <realTimeEvents>
+        <entityName>GuestUserAnomalyEvent</entityName>
+        <isEnabled>false</isEnabled>
+    </realTimeEvents>
+    <realTimeEvents>
+        <entityName>LoginAnomalyEventStore</entityName>
+        <isEnabled>false</isEnabled>
+    </realTimeEvents>
+    <realTimeEvents>
+        <entityName>LoginAnomalyEvent</entityName>
         <isEnabled>false</isEnabled>
     </realTimeEvents>
     <realTimeEvents>

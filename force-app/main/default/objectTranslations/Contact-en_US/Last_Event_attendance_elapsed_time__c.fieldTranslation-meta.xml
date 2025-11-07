@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help></help>
-    <label></label>
+    <help><!-- Elapsed time (Days) since last attendance to an event (Business Days without National Day Off) --></help>
+    <label><!-- Last Event attendance elapsed time --></label>
     <name>Last_Event_attendance_elapsed_time__c</name>
 </CustomFieldTranslation>

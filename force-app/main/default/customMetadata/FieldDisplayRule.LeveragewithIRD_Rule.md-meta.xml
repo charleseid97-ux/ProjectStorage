@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>LeveragewithIRD_Rule</label>
+    <protected>false</protected>
+    <values>
+        <field>DependentFields__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>DisplayCondition__c</field>
+        <value xsi:type="xsd:string">((record.LegalForm__c===&apos;FCP&apos; || record.LegalForm__c===&apos;SICAV&apos;) &amp;&amp; (record.GlobalRiskMethod__c===&apos;Absolute VaR&apos; || record.GlobalRiskMethod__c===&apos;Relative VaR&apos;))</value>
+    </values>
+    <values>
+        <field>FieldApiName__c</field>
+        <value xsi:type="xsd:string">LeveragewithIRD</value>
+    </values>
+    <values>
+        <field>Mandatory_Rule__c</field>
+        <value xsi:type="xsd:string">((record.LegalForm__c===&apos;FCP&apos; || record.LegalForm__c===&apos;SICAV&apos;) &amp;&amp; (record.GlobalRiskMethod__c===&apos;Absolute VaR&apos; || record.GlobalRiskMethod__c===&apos;Relative VaR&apos;))</value>
+    </values>
+    <values>
+        <field>ObjectApiName__c</field>
+        <value xsi:type="xsd:string">Product</value>
+    </values>
+</CustomMetadata>

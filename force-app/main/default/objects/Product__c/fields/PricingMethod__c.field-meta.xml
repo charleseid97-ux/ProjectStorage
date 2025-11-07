@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PricingMethod__c</fullName>
+    <description>Pricing methodology</description>
+    <label>Pricing Methodology</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Single pricing</fullName>
+                <default>false</default>
+                <label>Single pricing</label>
+            </value>
+            <value>
+                <fullName>Dual pricing</fullName>
+                <default>false</default>
+                <label>Dual pricing</label>
+            </value>
+            <value>
+                <fullName>Full swing NAV</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Full swing NAV</label>
+            </value>
+            <value>
+                <fullName>No swing NAV</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>No swing NAV</label>
+            </value>
+            <value>
+                <fullName>Partial swing NAV</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Partial swing NAV</label>
+            </value>
+            <value>
+                <fullName>Pricing methodology</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Pricing methodology</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

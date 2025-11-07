@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- CNMVMainCategory Field --></help>
+    <label><!-- CNMVMainCategory --></label>
+    <name>CNMVMainCategory__c</name>
+    <picklistValues>
+        <masterLabel>Equities Funds</masterLabel>
+        <translation><!-- Equities Funds --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Fixed Income Funds</masterLabel>
+        <translation><!-- Fixed Income Funds --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Hedge Funds</masterLabel>
+        <translation><!-- Hedge Funds --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>MMF Funds</masterLabel>
+        <translation><!-- MMF Funds --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Mixed Funds</masterLabel>
+        <translation><!-- Mixed Funds --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Other Funds</masterLabel>
+        <translation><!-- Other Funds --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Real estate Funds</masterLabel>
+        <translation><!-- Real estate Funds --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

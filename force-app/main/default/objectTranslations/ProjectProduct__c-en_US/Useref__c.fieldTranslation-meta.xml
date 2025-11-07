@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- How the benchmark will be used? --></help>
+    <label><!-- Use of Reference Indicator --></label>
+    <name>Useref__c</name>
+    <picklistValues>
+        <masterLabel>To define find&apos;s investment universe</masterLabel>
+        <translation><!-- To define find&apos;s investment universe --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>To measure relative performance</masterLabel>
+        <translation><!-- To measure relative performance --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>fund&apos;s investment strategy is not depenent on ref. indicator</masterLabel>
+        <translation><!-- fund&apos;s investment strategy is not depenent on ref. indicator --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>funds universe is partly derived from ref. indicator</masterLabel>
+        <translation><!-- funds universe is partly derived from ref. indicator --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>used to calculate performance fees</masterLabel>
+        <translation><!-- used to calculate performance fees --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

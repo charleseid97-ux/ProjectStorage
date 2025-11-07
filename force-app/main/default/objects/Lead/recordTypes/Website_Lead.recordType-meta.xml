@@ -1937,7 +1937,7 @@
         </values>
         <values>
             <fullName>Event</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
         <values>
             <fullName>Phone Inquiry</fullName>
@@ -1968,6 +1968,10 @@
         <picklist>Lead_Sub_Source__c</picklist>
         <values>
             <fullName>Email Inquiry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Events</fullName>
             <default>false</default>
         </values>
         <values>

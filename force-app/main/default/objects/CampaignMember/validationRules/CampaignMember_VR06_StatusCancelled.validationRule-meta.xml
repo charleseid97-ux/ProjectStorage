@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CampaignMember_VR06_StatusCancelled</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(!$User.BypassValidationRules__c,
+ISPICKVAL( Status , &quot;Cancelled&quot;),
+NOT(ISPICKVAL(Campaign.Status, &quot;Closed&quot; )),
+NOT(ISBLANK(Campaign.LyytiId__c)) ,
+ISCHANGED(Status) )</errorConditionFormula>
+    <errorMessage>You can&apos;t change status to &apos;Cancelled&apos;</errorMessage>
+</ValidationRule>

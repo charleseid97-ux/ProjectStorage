@@ -3,10 +3,12 @@
     <customButtons>pi__Send_to_Prospect_Insight</customButtons>
     <customButtons>pi__Send_Pardot_Email</customButtons>
     <excludeButtons>Clone</excludeButtons>
+    <excludeButtons>DataDotComClean</excludeButtons>
     <excludeButtons>DisableCustomerPortal</excludeButtons>
     <excludeButtons>DisablePartnerPortal</excludeButtons>
     <excludeButtons>DisablePrmSuperUser</excludeButtons>
     <excludeButtons>EnablePrmSuperUser</excludeButtons>
+    <excludeButtons>RequestUseSfdc</excludeButtons>
     <excludeButtons>SendEmail</excludeButtons>
     <excludeButtons>Share</excludeButtons>
     <layoutSections>
@@ -28,10 +30,6 @@
             <layoutItems>
                 <behavior>Required</behavior>
                 <field>Name</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Business_Card_Title__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
@@ -85,11 +83,11 @@
                 <field>JobTitle__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>JobFunction__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>CorporateTitle__c</field>
             </layoutItems>
             <layoutItems>
@@ -165,7 +163,7 @@
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Email</field>
             </layoutItems>
             <layoutItems>
@@ -839,6 +837,7 @@
         <fields>Synchro_Status__c</fields>
         <fields>Website_Response__c</fields>
         <fields>CREATED_DATE</fields>
+        <fields>OBJECT_ID</fields>
         <relatedList>Web_Communication__c.Contact__c</relatedList>
     </relatedLists>
     <relatedLists>

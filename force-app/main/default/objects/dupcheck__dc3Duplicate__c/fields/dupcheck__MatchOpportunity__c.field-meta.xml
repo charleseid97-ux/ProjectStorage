@@ -3,7 +3,6 @@
     <fullName>dupcheck__MatchOpportunity__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>**DO NOT USE**</label>
     <referenceTo>Lead</referenceTo>
     <relationshipName>MatchOpportunity</relationshipName>

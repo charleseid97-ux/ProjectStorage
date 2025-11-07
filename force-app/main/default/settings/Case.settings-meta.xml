@@ -14,15 +14,32 @@
     <defaultCaseOwner>salesforce_service_prd@carmignac.com</defaultCaseOwner>
     <defaultCaseOwnerType>User</defaultCaseOwnerType>
     <emailToCase>
-        <enableE2CAttachmentAsFile>false</enableE2CAttachmentAsFile>
+        <enableE2CAttachmentAsFile>true</enableE2CAttachmentAsFile>
+        <enableE2CDeduplicateAttachments>true</enableE2CDeduplicateAttachments>
+        <enableE2CExternalServer>true</enableE2CExternalServer>
         <enableE2CSourceTracking>true</enableE2CSourceTracking>
         <enableEmailToCase>true</enableEmailToCase>
-        <enableHtmlEmail>false</enableHtmlEmail>
-        <enableOnDemandEmailToCase>false</enableOnDemandEmailToCase>
-        <enableThreadIDInBody>true</enableThreadIDInBody>
-        <enableThreadIDInSubject>true</enableThreadIDInSubject>
+        <enableHtmlEmail>true</enableHtmlEmail>
+        <enableNewToReadTriggers>true</enableNewToReadTriggers>
+        <enableOnDemandEmailToCase>true</enableOnDemandEmailToCase>
+        <enableThreadTokenInBody>true</enableThreadTokenInBody>
+        <enableThreadTokenInSubject>false</enableThreadTokenInSubject>
         <notifyOwnerOnNewCaseEmail>false</notifyOwnerOnNewCaseEmail>
-        <preQuoteSignature>false</preQuoteSignature>
+        <overEmailLimitAction>Bounce</overEmailLimitAction>
+        <preQuoteSignature>true</preQuoteSignature>
+        <replyWithNewContentOnly>true</replyWithNewContentOnly>
+        <routingAddresses>
+            <addressType>Outlook</addressType>
+            <caseOrigin>Web</caseOrigin>
+            <caseOwner>salesforce_service_prd@carmignac.com</caseOwner>
+            <caseOwnerType>User</caseOwnerType>
+            <casePriority>Medium</casePriority>
+            <emailServicesAddress>ra1721144387514@2ik4bh25gn26sg5nv7okflb7ulo65zj5zkccyqpp2ul6ql8ysa.58-zabiea4.fra70.case.salesforce.com</emailServicesAddress>
+            <isVerified>false</isVerified>
+            <routingName>Translation Request</routingName>
+        </routingAddresses>
+        <unauthorizedSenderAction>Discard</unauthorizedSenderAction>
+        <useEmailHeadersForThreading>true</useEmailHeadersForThreading>
     </emailToCase>
     <enableCaseFeed>true</enableCaseFeed>
     <enableCaseSwarming>false</enableCaseSwarming>

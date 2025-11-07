@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>TECH_IS_MEMBER_TO_BE_DELETED__c</fullName>
     <description>Technical field to be used to check if we need to delete the campaign member when its corresponding Lead or Contact is desactivated</description>
-    <externalId>false</externalId>
     <formula>AND( NOT(ISPICKVAL(Campaign.Status, &apos;Closed&apos;)), NOT(ISPICKVAL(Campaign.Status, &apos;Cancelled&apos;)), NOT(ISPICKVAL(Campaign.Status, &apos;Archived&apos;)) )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>TECH_IS_MEMBER_TO_BE_DELETED</label>

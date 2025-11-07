@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR18_IsLeveragedUCITSMandatory</fullName>
+    <active>true</active>
+    <description>Display &amp; Mandatory ONLY if EUCategory = UCITS</description>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+$Permission.PRPRisk = true,  
+RecordType.DeveloperName = &apos;DesignAndProposal&apos;,
+ISPICKVAL(ForeseenEUCategory__c, &apos;UCITS&apos;),
+ISBLANK(TEXT(IsLeveragedUCITS__c )) 
+				)</errorConditionFormula>
+    <errorDisplayField>IsLeveragedUCITS__c</errorDisplayField>
+    <errorMessage>Please provide a value for Is Leveraged UCITS is Foreseen EU Category = UCITS.</errorMessage>
+</ValidationRule>

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Priority --></label>
     <name>Priority__c</name>
     <picklistValues>
         <masterLabel>Critical</masterLabel>
-        <translation></translation>
+        <translation><!-- Critical --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Major</masterLabel>
-        <translation></translation>
+        <translation><!-- Major --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Minor</masterLabel>
-        <translation></translation>
+        <translation><!-- Minor --></translation>
     </picklistValues>
 </CustomFieldTranslation>

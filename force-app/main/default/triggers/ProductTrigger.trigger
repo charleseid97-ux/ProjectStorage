@@ -1,4 +1,4 @@
-trigger ProductTrigger on Product__c (before insert, before update) {
+trigger ProductTrigger on Product__c (before insert, before update , after update, after insert) {
 
 	if(Trigger.isBefore && Trigger.isInsert) {
 
@@ -8,6 +8,17 @@ trigger ProductTrigger on Product__c (before insert, before update) {
 	if(Trigger.isBefore && Trigger.isUpdate) {
 
     	ProductTriggerHandler.handleBeforeUpdate(Trigger.new);
+    
+    }
+    if(Trigger.isAfter && Trigger.isInsert) {
+    	
+        ProductTriggerHandler.handleAfterInsert( Trigger.new  );
+    
+    }
+    if(Trigger.isAfter && Trigger.isUpdate) {
+
+    	
+        ProductTriggerHandler.handleAfterUpdate( Trigger.new  ,  Trigger.oldMap );
     
     }
 }

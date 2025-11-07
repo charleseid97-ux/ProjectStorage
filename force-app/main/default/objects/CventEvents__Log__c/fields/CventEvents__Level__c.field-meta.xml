@@ -3,7 +3,6 @@
     <fullName>CventEvents__Level__c</fullName>
     <deprecated>false</deprecated>
     <description>Specifies whether the event is directed to the end user, indicates a business rule violation, or indicates an internal error. Used to determine the amount of detail shown to the end user.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Specifies whether the event is directed to the end user, indicates a business rule violation, or indicates an internal error. Used to determine the amount of detail shown to the end user.</inlineHelpText>
     <label>Level</label>
     <required>true</required>

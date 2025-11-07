@@ -167,9 +167,9 @@
         <customTabListAdditionalFields>CventEvents__QuestionText__c</customTabListAdditionalFields>
         <excludedStandardButtons>New</excludedStandardButtons>
         <excludedStandardButtons>OpenListInQuip</excludedStandardButtons>
-        <excludedStandardButtons>Accept</excludedStandardButtons>
-        <excludedStandardButtons>ChangeOwner</excludedStandardButtons>
         <excludedStandardButtons>MassChangeOwner</excludedStandardButtons>
+        <excludedStandardButtons>ChangeOwner</excludedStandardButtons>
+        <excludedStandardButtons>Accept</excludedStandardButtons>
         <lookupDialogsAdditionalFields>CventEvents__SurveyProgram__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>CventEvents__QuestionText__c</lookupDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>CventEvents__SurveyProgram__c</lookupPhoneDialogsAdditionalFields>

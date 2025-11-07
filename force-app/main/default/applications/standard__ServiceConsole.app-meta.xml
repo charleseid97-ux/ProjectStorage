@@ -163,6 +163,7 @@
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
     <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
+    <isOmniPinnedViewEnabled>false</isOmniPinnedViewEnabled>
     <isServiceCloudConsole>true</isServiceCloudConsole>
     <preferences>
         <enableCustomizeMyTabs>false</enableCustomizeMyTabs>
@@ -187,6 +188,7 @@
     <tabs>Data_Solutions_Report_Type__c</tabs>
     <tabs>Salesforce_update__c</tabs>
     <tabs>NDA__c</tabs>
+    <tabs>ShareclassRegistration_Website__c</tabs>
     <workspaceConfig>
         <mappings>
             <tab>Data_Solutions_Report_Type__c</tab>
@@ -202,6 +204,9 @@
         </mappings>
         <mappings>
             <tab>Salesforce_update__c</tab>
+        </mappings>
+        <mappings>
+            <tab>ShareclassRegistration_Website__c</tab>
         </mappings>
         <mappings>
             <tab>Template_Etouches__c</tab>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Risk Associated --></label>
+    <name>RiskAssociated__c</name>
+    <picklistValues>
+        <masterLabel>Credit</masterLabel>
+        <translation><!-- Credit --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Currency</masterLabel>
+        <translation><!-- Currency --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Equity</masterLabel>
+        <translation><!-- Equity --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Interest rates</masterLabel>
+        <translation><!-- Interest rates --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Content/Event/Campaign --></label>
+    <name>FeedbackStrategy__c</name>
+    <picklistValues>
+        <masterLabel>Alternatives</masterLabel>
+        <translation><!-- Alternatives --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Campaign</masterLabel>
+        <translation><!-- Campaign --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Digital</masterLabel>
+        <translation><!-- Digital --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>EM</masterLabel>
+        <translation><!-- EM --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Equity</masterLabel>
+        <translation><!-- Equity --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Event</masterLabel>
+        <translation><!-- Event --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>FI</masterLabel>
+        <translation><!-- FI --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Macro</masterLabel>
+        <translation><!-- Macro --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

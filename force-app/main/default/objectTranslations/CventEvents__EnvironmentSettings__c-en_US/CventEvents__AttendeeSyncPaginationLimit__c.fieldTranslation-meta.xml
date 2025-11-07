@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Stores attendee sync pagination limit. The limit can vary between 1 and 2000. Invalid or NULL value is treated as a default of 1000. --></help>
+    <label><!-- Attendee Sync Pagination Limit --></label>
+    <name>CventEvents__AttendeeSyncPaginationLimit__c</name>
+</CustomFieldTranslation>

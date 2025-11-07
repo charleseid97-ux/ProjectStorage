@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help></help>
-    <label></label>
+    <help>
+        <!-- Evolution/Suggestion to be discussed during SF Governance
+Empty : NO //
+Filled : YES -->
+    </help>
+    <label><!-- Governance (Y/N) --></label>
     <name>Governance_Y_N__c</name>
 </CustomFieldTranslation>

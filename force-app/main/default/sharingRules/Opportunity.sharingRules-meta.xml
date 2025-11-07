@@ -1,3 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata"/>
-
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>PE_Opportunity_Sharing</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>PE Opportunity Sharing</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>PrivateEquity</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>TECH_FlagPEOpp__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingOwnerRules>
+        <fullName>Share_Opps_with_Global_Head_of_Sales_Branch</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Share all opportunites owned by users in the Global Head of Sales branch of the Role Hiarachy with users in the same branch.</description>
+        <label>Share Opps with Global Head of Sales Branch</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>GlobalHeadofSales</roleAndSubordinatesInternal>
+        </sharedTo>
+        <sharedFrom>
+            <roleAndSubordinatesInternal>GlobalHeadofSales</roleAndSubordinatesInternal>
+        </sharedFrom>
+    </sharingOwnerRules>
+</SharingRules>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <label>Tax Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Retail Minimum Investment Currency</fullName>
+                <default>false</default>
+                <label>Retail Minimum Investment Currency</label>
+            </value>
+            <value>
+                <fullName>Retail Minimum Initial Investment In Amount</fullName>
+                <default>false</default>
+                <label>Retail Minimum Initial Investment In Amount</label>
+            </value>
+            <value>
+                <fullName>Retail Minimum Additional Investment In Amount</fullName>
+                <default>false</default>
+                <label>Retail Minimum Additional Investment In Amount</label>
+            </value>
+            <value>
+                <fullName>SBA compliant</fullName>
+                <default>false</default>
+                <label>SBA compliant</label>
+            </value>
+            <value>
+                <fullName>Is Transparency Option Exercised As Defined In Par 30 And 31 In Germany</fullName>
+                <default>false</default>
+                <label>Is Transparency Option Exercised As Defined In Par 30 And 31 In Germany</label>
+            </value>
+            <value>
+                <fullName>PIR compliant</fullName>
+                <default>false</default>
+                <label>PIR compliant</label>
+            </value>
+            <value>
+                <fullName>Is Netherlands Cluster Munitions Ban Compliant</fullName>
+                <default>false</default>
+                <label>Is Netherlands Cluster Munitions Ban Compliant</label>
+            </value>
+            <value>
+                <fullName>UK TMPR Registered</fullName>
+                <default>false</default>
+                <label>UK TMPR Registered</label>
+            </value>
+            <value>
+                <fullName>Is UK Approved Investment Trust</fullName>
+                <default>false</default>
+                <label>Is UK Approved Investment Trust</label>
+            </value>
+            <value>
+                <fullName>Is Recognised By FCA</fullName>
+                <default>false</default>
+                <label>Is Recognised By FCA</label>
+            </value>
+            <value>
+                <fullName>Is UK UCITS</fullName>
+                <default>false</default>
+                <label>Is UK UCITS</label>
+            </value>
+            <value>
+                <fullName>Is PAIF</fullName>
+                <default>false</default>
+                <label>Is PAIF</label>
+            </value>
+            <value>
+                <fullName>Is Authorised By FCA</fullName>
+                <default>false</default>
+                <label>Is Authorised By FCA</label>
+            </value>
+            <value>
+                <fullName>UK Distribution Type</fullName>
+                <default>false</default>
+                <label>UK Distribution Type</label>
+            </value>
+            <value>
+                <fullName>Partial tax exemption in Germany</fullName>
+                <default>false</default>
+                <label>Partial tax exemption in Germany</label>
+            </value>
+            <value>
+                <fullName>Country Reference Share class</fullName>
+                <default>false</default>
+                <label>Country Reference Share class</label>
+            </value>
+            <value>
+                <fullName>Applicable tax procedure in Germany</fullName>
+                <default>false</default>
+                <label>Applicable tax procedure in Germany</label>
+            </value>
+            <value>
+                <fullName>German Special Investment Fund</fullName>
+                <default>false</default>
+                <label>German Special Investment Fund</label>
+            </value>
+            <value>
+                <fullName>Fund with tax exemption in Germany</fullName>
+                <default>false</default>
+                <label>Fund with tax exemption in Germany</label>
+            </value>
+            <value>
+                <fullName>German investment tax act</fullName>
+                <default>false</default>
+                <label>German investment tax act</label>
+            </value>
+            <value>
+                <fullName>Without domestic income in Germany</fullName>
+                <default>false</default>
+                <label>Without domestic income in Germany</label>
+            </value>
+            <value>
+                <fullName>Type Of Transparency Option In Germany</fullName>
+                <default>false</default>
+                <label>Type Of Transparency Option In Germany</label>
+            </value>
+            <value>
+                <fullName>Has Tax Exemption For Business Tax In Germany</fullName>
+                <default>false</default>
+                <label>Has Tax Exemption For Business Tax In Germany</label>
+            </value>
+            <value>
+                <fullName>Eligible to Traspaso</fullName>
+                <default>false</default>
+                <label>Eligible to Traspaso</label>
+            </value>
+            <value>
+                <fullName>Is the Fund under UK TEF Tax Regime</fullName>
+                <default>false</default>
+                <label>Is the Fund under UK TEF Tax Regime</label>
+            </value>
+            <value>
+                <fullName>Subject To FATCA Withholding Taxation</fullName>
+                <default>false</default>
+                <label>Subject To FATCA Withholding Taxation</label>
+            </value>
+            <value>
+                <fullName>IsRegistered</fullName>
+                <default>false</default>
+                <label>IsRegistered</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

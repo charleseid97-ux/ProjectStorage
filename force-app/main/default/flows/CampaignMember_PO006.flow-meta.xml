@@ -47,6 +47,7 @@ Regards,</stringValue>
                 <elementReference>myVariable_current.Campaign.CRM_User__r.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>chatterPost</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -98,6 +99,7 @@ Regards,</stringValue>
                 <stringValue>00558000002FtlsAAC</stringValue>
             </value>
         </inputParameters>
+        <nameSegment>chatterPost</nameSegment>
     </actionCalls>
     <apiVersion>49.0</apiVersion>
     <assignments>

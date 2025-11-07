@@ -2,8 +2,8 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>CventEvents__sub_Value__c</fullName>
     <deprecated>false</deprecated>
+    <description>Replaces Value__c field which has been deprecated.</description>
     <encryptionScheme>None</encryptionScheme>
-    <externalId>false</externalId>
     <label>Value</label>
     <length>10000</length>
     <trackTrending>false</trackTrending>

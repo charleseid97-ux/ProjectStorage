@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Select the type of entity this narrative refers to. This will determine which lookup field (Product, Share Class, or Strategy) you should complete below. --></help>
+    <label><!-- Narrative Scope --></label>
+    <name>Narrative_Scope__c</name>
+    <picklistValues>
+        <masterLabel>Product</masterLabel>
+        <translation><!-- Product --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Shareclass</masterLabel>
+        <translation><!-- Shareclass --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Strategy</masterLabel>
+        <translation><!-- Strategy --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

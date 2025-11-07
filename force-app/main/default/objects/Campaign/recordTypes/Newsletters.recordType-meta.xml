@@ -117,6 +117,25 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Conversion_point__c</picklist>
+        <values>
+            <fullName>Event</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Form</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Social</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Video</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Event_Type__c</picklist>
         <values>
             <fullName>OCO</fullName>
@@ -501,6 +520,40 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Lyyti_Template__c</picklist>
+        <values>
+            <fullName>1622920</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>1634722</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Marketing_Channel__c</picklist>
+        <values>
+            <fullName>Display</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Event</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Search</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Social</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Newsletter_Country__c</picklist>
         <values>
             <fullName>Austria</fullName>
@@ -668,6 +721,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>CARE</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>CAT</fullName>
             <default>false</default>
         </values>
@@ -684,11 +741,23 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>CC29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CC31</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>CCC</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>CCNE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CCO</fullName>
             <default>false</default>
         </values>
         <values>
@@ -776,7 +845,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>COO</fullName>
+            <fullName>CME</fullName>
             <default>false</default>
         </values>
         <values>
@@ -785,6 +854,14 @@
         </values>
         <values>
             <fullName>CPE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CPEG</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CPI</fullName>
             <default>false</default>
         </values>
         <values>
@@ -978,6 +1055,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>QA</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>XA</fullName>
             <default>false</default>
         </values>
@@ -1033,6 +1114,29 @@
         </values>
         <values>
             <fullName>Under Construction</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Sub_Category__c</picklist>
+        <values>
+            <fullName>Marketing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Organic</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Paid</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Platform</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sales</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1190,6 +1294,10 @@
         </values>
         <values>
             <fullName>Post-meeting %2F Info</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Post-meeting %2F Replay</fullName>
             <default>false</default>
         </values>
         <values>

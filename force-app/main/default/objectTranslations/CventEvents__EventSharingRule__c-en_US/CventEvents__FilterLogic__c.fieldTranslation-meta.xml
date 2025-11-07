@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help></help>
-    <label></label>
+    <help><!-- Indicates what filter logic should be applied to the conditions. --></help>
+    <label><!-- Filter Logic --></label>
     <name>CventEvents__FilterLogic__c</name>
     <picklistValues>
         <masterLabel>AND</masterLabel>
-        <translation></translation>
+        <translation><!-- AND --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>OR</masterLabel>
-        <translation></translation>
+        <translation><!-- OR --></translation>
     </picklistValues>
 </CustomFieldTranslation>

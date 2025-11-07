@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Old_Investment Style --></label>
+    <name>InvestmentStyle__c</name>
+    <picklistValues>
+        <masterLabel>Bottom-Up</masterLabel>
+        <translation><!-- Bottom-Up --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Quantitative</masterLabel>
+        <translation><!-- Quantitative --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Top-Down</masterLabel>
+        <translation><!-- Top-Down --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Top-Down/Bottom-Up</masterLabel>
+        <translation><!-- Top-Down/Bottom-Up --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

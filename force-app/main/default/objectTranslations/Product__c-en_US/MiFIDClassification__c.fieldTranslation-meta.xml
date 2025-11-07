@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- MiFID Securities Classification --></label>
+    <name>MiFIDClassification__c</name>
+    <picklistValues>
+        <masterLabel>Complex instrument</masterLabel>
+        <translation><!-- Complex instrument --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Non-complex instrument</masterLabel>
+        <translation><!-- Non-complex instrument --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

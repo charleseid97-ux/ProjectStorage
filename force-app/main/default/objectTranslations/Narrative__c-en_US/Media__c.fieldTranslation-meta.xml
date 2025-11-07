@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Media --></label>
+    <name>Media__c</name>
+    <picklistValues>
+        <masterLabel>EPT</masterLabel>
+        <translation><!-- EPT --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Factsheet</masterLabel>
+        <translation><!-- Factsheet --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Form</masterLabel>
+        <translation><!-- Form --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Kid</masterLabel>
+        <translation><!-- Kid --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>PTEMT</masterLabel>
+        <translation><!-- PTEMT --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Prospectus</masterLabel>
+        <translation><!-- Prospectus --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Web</masterLabel>
+        <translation><!-- Web --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

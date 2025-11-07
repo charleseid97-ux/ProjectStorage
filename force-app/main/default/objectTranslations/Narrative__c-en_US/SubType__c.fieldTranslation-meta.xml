@@ -1,0 +1,725 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Sub Type --></label>
+    <name>SubType__c</name>
+    <picklistValues>
+        <masterLabel>ABS</masterLabel>
+        <translation><!-- ABS --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Actifs nets</masterLabel>
+        <translation><!-- Actifs nets --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Active Management</masterLabel>
+        <translation><!-- Active Management --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Active Weight</masterLabel>
+        <translation><!-- Active Weight --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Active share</masterLabel>
+        <translation><!-- Active share --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Advanced/developed markets</masterLabel>
+        <translation><!-- Advanced/developed markets --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Alpha</masterLabel>
+        <translation><!-- Alpha --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Beta</masterLabel>
+        <translation><!-- Beta --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bond</masterLabel>
+        <translation><!-- Bond --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bottom-up</masterLabel>
+        <translation><!-- Bottom-up --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bottom-up investing</masterLabel>
+        <translation><!-- Bottom-up investing --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CDS</masterLabel>
+        <translation><!-- CDS --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Capital markets</masterLabel>
+        <translation><!-- Capital markets --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Capitalisation</masterLabel>
+        <translation><!-- Capitalisation --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Carbon Emission Figures</masterLabel>
+        <translation><!-- Carbon Emission Figures --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Carbon Emissions (as defined by the GHG Protocol)</masterLabel>
+        <translation><!-- Carbon Emissions (as defined by the GHG Protocol) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Carmignac Proprietary Scoring System (START)</masterLabel>
+        <translation><!-- Carmignac Proprietary Scoring System (START) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Carry Effect</masterLabel>
+        <translation><!-- Carry Effect --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Central Admin(s)</masterLabel>
+        <translation><!-- Central Admin(s) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Climate tech</masterLabel>
+        <translation><!-- Climate tech --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Cloud &amp; Software</masterLabel>
+        <translation><!-- Cloud &amp; Software --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Co-investment</masterLabel>
+        <translation><!-- Co-investment --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Collateralized Loan Obligation (CLO)</masterLabel>
+        <translation><!-- Collateralized Loan Obligation (CLO) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Communication</masterLabel>
+        <translation><!-- Communication --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Consommation de base</masterLabel>
+        <translation><!-- Consommation de base --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Consommation discrétionnaire</masterLabel>
+        <translation><!-- Consommation discrétionnaire --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Corporate credit</masterLabel>
+        <translation><!-- Corporate credit --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Correlation</masterLabel>
+        <translation><!-- Correlation --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Credit Cycle</masterLabel>
+        <translation><!-- Credit Cycle --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Currency exposure</masterLabel>
+        <translation><!-- Currency exposure --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Custodian</masterLabel>
+        <translation><!-- Custodian --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Delegated Investment Manager(s)</masterLabel>
+        <translation><!-- Delegated Investment Manager(s) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Description</masterLabel>
+        <translation><!-- Description --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Direct fund</masterLabel>
+        <translation><!-- Direct fund --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Directional strategies</masterLabel>
+        <translation><!-- Directional strategies --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Diversification</masterLabel>
+        <translation><!-- Diversification --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Drawdown</masterLabel>
+        <translation><!-- Drawdown --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Drawdowns</masterLabel>
+        <translation><!-- Drawdowns --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Duration</masterLabel>
+        <translation><!-- Duration --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ESG</masterLabel>
+        <translation><!-- ESG --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ESG Scoring</masterLabel>
+        <translation><!-- ESG Scoring --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ESG score Calculation:</masterLabel>
+        <translation><!-- ESG score Calculation: --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Emerging markets</masterLabel>
+        <translation><!-- Emerging markets --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Emprunts privés</masterLabel>
+        <translation><!-- Emprunts privés --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Emprunts privés convertibles</masterLabel>
+        <translation><!-- Emprunts privés convertibles --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Emprunts publics</masterLabel>
+        <translation><!-- Emprunts publics --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Emprunts supranationaux</masterLabel>
+        <translation><!-- Emprunts supranationaux --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Energy transition</masterLabel>
+        <translation><!-- Energy transition --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Evergreen funds</masterLabel>
+        <translation><!-- Evergreen funds --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Exposition brute</masterLabel>
+        <translation><!-- Exposition brute --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Exposition courte</masterLabel>
+        <translation><!-- Exposition courte --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Exposition longue</masterLabel>
+        <translation><!-- Exposition longue --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Exposition nette</masterLabel>
+        <translation><!-- Exposition nette --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>External debt</masterLabel>
+        <translation><!-- External debt --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>FCP</masterLabel>
+        <translation><!-- FCP --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>FX Effect</masterLabel>
+        <translation><!-- FX Effect --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Finance</masterLabel>
+        <translation><!-- Finance --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Forward financial instruments</masterLabel>
+        <translation><!-- Forward financial instruments --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Frontier markets</masterLabel>
+        <translation><!-- Frontier markets --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Fund Admin</masterLabel>
+        <translation><!-- Fund Admin --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Fund Advisor</masterLabel>
+        <translation><!-- Fund Advisor --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Fund Auditor</masterLabel>
+        <translation><!-- Fund Auditor --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Fund Turnover</masterLabel>
+        <translation><!-- Fund Turnover --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>GDP Per Capita PPP</masterLabel>
+        <translation><!-- GDP Per Capita PPP --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>GINI Coefficient</masterLabel>
+        <translation><!-- GINI Coefficient --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>General Partner (GP)</masterLabel>
+        <translation><!-- General Partner (GP) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Glossary</masterLabel>
+        <translation><!-- Glossary --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Green and Social Bonds</masterLabel>
+        <translation><!-- Green and Social Bonds --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Green energy providers</masterLabel>
+        <translation><!-- Green energy providers --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Green solution enablers</masterLabel>
+        <translation><!-- Green solution enablers --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Health &amp; Well being</masterLabel>
+        <translation><!-- Health &amp; Well being --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>High Yield</masterLabel>
+        <translation><!-- High Yield --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>High_yield</masterLabel>
+        <translation><!-- High_yield --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Index</masterLabel>
+        <translation><!-- Index --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Industrial Tech &amp; Digital Infrastructure</masterLabel>
+        <translation><!-- Industrial Tech &amp; Digital Infrastructure --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Industrie</masterLabel>
+        <translation><!-- Industrie --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Inflation effect</masterLabel>
+        <translation><!-- Inflation effect --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Intented Retail Investor</masterLabel>
+        <translation><!-- Intented Retail Investor --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Interest rate effect</masterLabel>
+        <translation><!-- Interest rate effect --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Investment exposure</masterLabel>
+        <translation><!-- Investment exposure --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Investment grade</masterLabel>
+        <translation><!-- Investment grade --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Investment/exposure rate</masterLabel>
+        <translation><!-- Investment/exposure rate --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Issuer</masterLabel>
+        <translation><!-- Issuer --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>KID</masterLabel>
+        <translation><!-- KID --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>LMT</masterLabel>
+        <translation><!-- LMT --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Label ISR</masterLabel>
+        <translation><!-- Label ISR --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Legal</masterLabel>
+        <translation><!-- Legal --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Limited Partners (LPs)</masterLabel>
+        <translation><!-- Limited Partners (LPs) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Liquid sleeve</masterLabel>
+        <translation><!-- Liquid sleeve --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Liquidity</masterLabel>
+        <translation><!-- Liquidity --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Liquidités</masterLabel>
+        <translation><!-- Liquidités --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Liquidités_Emplois</masterLabel>
+        <translation><!-- Liquidités_Emplois --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Local debt</masterLabel>
+        <translation><!-- Local debt --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Long</masterLabel>
+        <translation><!-- Long --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Look_through_allocation</masterLabel>
+        <translation><!-- Look_through_allocation --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>MSCI methodology</masterLabel>
+        <translation><!-- MSCI methodology --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Macroeconomic fundamentals</masterLabel>
+        <translation><!-- Macroeconomic fundamentals --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Main Risk of the Fund</masterLabel>
+        <translation><!-- Main Risk of the Fund --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Management Company</masterLabel>
+        <translation><!-- Management Company --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Marchés émergents</masterLabel>
+        <translation><!-- Marchés émergents --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Market capitalisation</masterLabel>
+        <translation><!-- Market capitalisation --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Merger Arbitrage Exposure</masterLabel>
+        <translation><!-- Merger Arbitrage Exposure --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Merger Arbitrage Risk</masterLabel>
+        <translation><!-- Merger Arbitrage Risk --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Merger Arbitrage Type/Nature</masterLabel>
+        <translation><!-- Merger Arbitrage Type/Nature --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Mid-capitalisation companies</masterLabel>
+        <translation><!-- Mid-capitalisation companies --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Modified Duration</masterLabel>
+        <translation><!-- Modified Duration --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Modified_duration</masterLabel>
+        <translation><!-- Modified_duration --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Net Asset Value</masterLabel>
+        <translation><!-- Net Asset Value --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Net_asset_value</masterLabel>
+        <translation><!-- Net_asset_value --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Non-benchmarked fund or approach</masterLabel>
+        <translation><!-- Non-benchmarked fund or approach --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Notation morningstar</masterLabel>
+        <translation><!-- Notation morningstar --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>PRIIPS</masterLabel>
+        <translation><!-- PRIIPS --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Pays développés</masterLabel>
+        <translation><!-- Pays développés --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Performance</masterLabel>
+        <translation><!-- Performance --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Performance Fee</masterLabel>
+        <translation><!-- Performance Fee --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Performance Fee UCITS</masterLabel>
+        <translation><!-- Performance Fee UCITS --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Performance fee EPT/KID</masterLabel>
+        <translation><!-- Performance fee EPT/KID --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Performance fee UCITS KIID</masterLabel>
+        <translation><!-- Performance fee UCITS KIID --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Portfolio company</masterLabel>
+        <translation><!-- Portfolio company --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Portfolio summary</masterLabel>
+        <translation><!-- Portfolio summary --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Pre Central Admin</masterLabel>
+        <translation><!-- Pre Central Admin --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Primary fund of funds</masterLabel>
+        <translation><!-- Primary fund of funds --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Prime Agent</masterLabel>
+        <translation><!-- Prime Agent --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Principal Adverse Indicators (PAI)</masterLabel>
+        <translation><!-- Principal Adverse Indicators (PAI) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Principal Adverse Indicators - PAI</masterLabel>
+        <translation><!-- Principal Adverse Indicators - PAI --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Private Equity (PE)</masterLabel>
+        <translation><!-- Private Equity (PE) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Private markets</masterLabel>
+        <translation><!-- Private markets --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Précompte mobilier</masterLabel>
+        <translation><!-- Précompte mobilier --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Quantitative easing</masterLabel>
+        <translation><!-- Quantitative easing --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>RQFII</masterLabel>
+        <translation><!-- RQFII --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Rating</masterLabel>
+        <translation><!-- Rating --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Reason for RHP</masterLabel>
+        <translation><!-- Reason for RHP --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Redeem Condition</masterLabel>
+        <translation><!-- Redeem Condition --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Relative strategies</masterLabel>
+        <translation><!-- Relative strategies --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Return</masterLabel>
+        <translation><!-- Return --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Rolling three year period</masterLabel>
+        <translation><!-- Rolling three year period --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>S&amp;P Trucost methodology</masterLabel>
+        <translation><!-- S&amp;P Trucost methodology --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>SFDR Classification</masterLabel>
+        <translation><!-- SFDR Classification --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>SFDR Fund Classification</masterLabel>
+        <translation><!-- SFDR Fund Classification --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>SICAV</masterLabel>
+        <translation><!-- SICAV --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Santé</masterLabel>
+        <translation><!-- Santé --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Scope 1</masterLabel>
+        <translation><!-- Scope 1 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Scope 2</masterLabel>
+        <translation><!-- Scope 2 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Scope 3</masterLabel>
+        <translation><!-- Scope 3 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Secondary funds</masterLabel>
+        <translation><!-- Secondary funds --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Sensibilité</masterLabel>
+        <translation><!-- Sensibilité --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Share</masterLabel>
+        <translation><!-- Share --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Share Class Investment Objective</masterLabel>
+        <translation><!-- Share Class Investment Objective --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Share class</masterLabel>
+        <translation><!-- Share class --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Sharpe Ratio</masterLabel>
+        <translation><!-- Sharpe Ratio --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Short</masterLabel>
+        <translation><!-- Short --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Small-capitalisation companies</masterLabel>
+        <translation><!-- Small-capitalisation companies --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Spread Effect</masterLabel>
+        <translation><!-- Spread Effect --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Standard</masterLabel>
+        <translation><!-- Standard --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Sustainable Investment</masterLabel>
+        <translation><!-- Sustainable Investment --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Sustainable Investments</masterLabel>
+        <translation><!-- Sustainable Investments --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Taxonomy Alignment</masterLabel>
+        <translation><!-- Taxonomy Alignment --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Tech materials</masterLabel>
+        <translation><!-- Tech materials --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Technologie de l’information</masterLabel>
+        <translation><!-- Technologie de l’information --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Top-down investing</masterLabel>
+        <translation><!-- Top-down investing --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Track record</masterLabel>
+        <translation><!-- Track record --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Transfer Agent</masterLabel>
+        <translation><!-- Transfer Agent --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Turnover</masterLabel>
+        <translation><!-- Turnover --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>UCITS Fund</masterLabel>
+        <translation><!-- UCITS Fund --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>UNSDG</masterLabel>
+        <translation><!-- UNSDG --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Unconstrained approach</masterLabel>
+        <translation><!-- Unconstrained approach --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Underpenetrated sectors</masterLabel>
+        <translation><!-- Underpenetrated sectors --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Unit</masterLabel>
+        <translation><!-- Unit --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>VaR</masterLabel>
+        <translation><!-- VaR --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Valeur liquidative (VL/VNI)</masterLabel>
+        <translation><!-- Valeur liquidative (VL/VNI) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Vintage year</masterLabel>
+        <translation><!-- Vintage year --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Volatility</masterLabel>
+        <translation><!-- Volatility --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Volatilité</masterLabel>
+        <translation><!-- Volatilité --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Yield</masterLabel>
+        <translation><!-- Yield --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Yield to Maturity</masterLabel>
+        <translation><!-- Yield to Maturity --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Yield to Maturity (EUR)</masterLabel>
+        <translation><!-- Yield to Maturity (EUR) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Yield to Worst</masterLabel>
+        <translation><!-- Yield to Worst --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Yield to Worst (EUR)</masterLabel>
+        <translation><!-- Yield to Worst (EUR) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Yield_to_maturity</masterLabel>
+        <translation><!-- Yield_to_maturity --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>“Towards Sustainability” label:</masterLabel>
+        <translation><!-- “Towards Sustainability” label: --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -17,7 +17,6 @@ IF(ISPICKVAL($User.Team__c,&quot;Netherlands&quot;),&quot;BP_NL&quot;,
 IF(ISPICKVAL($User.Team__c,&quot;Japan&quot;),&quot;BP_JP&quot;,
 IF(ISPICKVAL($User.Team__c,&quot;Taiwan&quot;),&quot;BP_TW&quot;,
 &quot;&quot; ))))))))))))))</defaultValue>
-    <externalId>false</externalId>
     <label>Business Development Region</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>

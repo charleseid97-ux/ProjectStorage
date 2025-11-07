@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help></help>
-    <label></label>
+    <help><!-- Excluded Queue Ids separated by &apos;;&apos; --></help>
+    <label><!-- Excluded Queues --></label>
     <name>Excluded_Queues__c</name>
 </CustomFieldTranslation>

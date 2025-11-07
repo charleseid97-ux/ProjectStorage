@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>InvestorsRegion__c</fullName>
+    <description>Region of investors</description>
+    <inlineHelpText>Are the investors in or outside of Europe?</inlineHelpText>
+    <label>Investors Region</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Retail/Institutional investors in Europe</fullName>
+                <default>false</default>
+                <label>Retail/Institutional investors in Europe</label>
+            </value>
+            <value>
+                <fullName>Retail/Institutional investors outside Europe</fullName>
+                <default>false</default>
+                <label>Retail/Institutional investors outside Europe</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>5</visibleLines>
+</CustomField>

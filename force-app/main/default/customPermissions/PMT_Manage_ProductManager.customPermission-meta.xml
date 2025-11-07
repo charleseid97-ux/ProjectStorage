@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomPermission xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Grants users the ability to create and update records on the FundManager__c object within the PMT.
+This permission set is intended for users involved in administrative actions or product data maintenance and is required to bypass</description>
+    <isLicensed>false</isLicensed>
+    <label>PMT_Manage_ProductManager</label>
+</CustomPermission>

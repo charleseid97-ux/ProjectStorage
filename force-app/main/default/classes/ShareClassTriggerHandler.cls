@@ -14,6 +14,21 @@ public class ShareClassTriggerHandler {
                 fM.Fund__c = fundMap.get(fM.Fund_Code__c);
             }
         }
+
+        ShareClassHandler.updateFormattedName(newShareClasses, null);
         
+    }
+
+    public static void handleAfterInsert(List<Share_Class__c> newShareClasses) {
+        FieldHistoryLogger.log(newShareClasses, null, 'Share_Class__c');
+}
+
+    public static void handleBeforeUpdate(List<Share_Class__c> newShareClasses , Map<Id,Share_Class__c> oldShareClassesMap){
+        ShareClassHandler.updateFormattedName(newShareClasses, oldShareClassesMap);
+    }
+    
+    public static void handleAfterUpdate(List<Share_Class__c> newShareClasses , Map<Id,Share_Class__c> oldShareClassesMap){
+        FieldHistoryLogger.log( newShareClasses ,  oldShareClassesMap , 'Share_Class__c');
+    	FieldHistoryLogger.logAllFields( newShareClasses ,  oldShareClassesMap , 'Share_Class__c');
     }
 }

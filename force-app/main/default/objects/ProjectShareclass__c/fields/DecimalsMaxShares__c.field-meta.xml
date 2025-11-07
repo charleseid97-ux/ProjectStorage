@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DecimalsMaxShares__c</fullName>
+    <description>Maximal Number Of Possible Decimals Shares</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Maximal Number Of Possible Decimals for transactions in shares</inlineHelpText>
+    <label>Decimals Max Shares</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

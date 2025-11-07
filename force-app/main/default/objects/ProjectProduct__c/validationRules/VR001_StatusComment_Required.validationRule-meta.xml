@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR001_StatusComment_Required</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND( ISCHANGED(ProjectStatus__c) , OR( ISPICKVAL(ProjectStatus__c, &quot;On hold&quot;) , ISPICKVAL(ProjectStatus__c, &quot;Cancelled&quot;) )  ,    ISBLANK(StatusComment__c))</errorConditionFormula>
+    <errorMessage>A comment is required if the project status is changed to &quot;On hold&quot; or &quot;Cancelled&quot;.</errorMessage>
+</ValidationRule>

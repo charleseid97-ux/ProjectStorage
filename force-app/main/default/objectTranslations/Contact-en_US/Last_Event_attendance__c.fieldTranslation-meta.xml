@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help></help>
-    <label></label>
+    <help><!-- Date and Time of the last Event (etouches) that the contact attended. --></help>
+    <label><!-- Last Event attendance --></label>
     <name>Last_Event_attendance__c</name>
 </CustomFieldTranslation>

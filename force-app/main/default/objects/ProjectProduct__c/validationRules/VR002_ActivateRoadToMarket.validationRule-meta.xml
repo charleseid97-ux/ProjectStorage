@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR002_ActivateRoadToMarket</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND( ISCHANGED( ActivateRoadToMarket__c ) ,  OR(  ISBLANK(RoadToMarketStartDate__c) , ISBLANK(RoadToMarketEndDate__c) ))</errorConditionFormula>
+    <errorMessage>You must enter Road To Market Start Date and Road To Market End Date.</errorMessage>
+</ValidationRule>

@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Reason for disqualification --></label>
     <name>Reason_for_disqualification__c</name>
     <picklistValues>
         <masterLabel>Competitor</masterLabel>
-        <translation></translation>
+        <translation><!-- Competitor --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Disqualified from nurturing</masterLabel>
-        <translation></translation>
+        <translation><!-- Disqualified from nurturing --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Lead Opt Out</masterLabel>
-        <translation></translation>
+        <translation><!-- Lead Opt Out --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Not interested in Carmignac Funds</masterLabel>
-        <translation></translation>
+        <translation><!-- Not interested in Carmignac Funds --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Not relevant for Carmignac</masterLabel>
-        <translation></translation>
+        <translation><!-- Not relevant for Carmignac --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Other</masterLabel>
-        <translation></translation>
+        <translation><!-- Other --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Student</masterLabel>
-        <translation></translation>
+        <translation><!-- Student --></translation>
     </picklistValues>
 </CustomFieldTranslation>

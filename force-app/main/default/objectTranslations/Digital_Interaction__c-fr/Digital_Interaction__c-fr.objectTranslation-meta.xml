@@ -12,23 +12,24 @@
     <layouts>
         <layout>Digital Interaction Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
     </layouts>
+    <nameFieldLabel><!-- Digital Interaction Number --></nameFieldLabel>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- To capture data related to what Content has been interacted with --></description>
+        <label><!-- Content Consumption --></label>
         <name>Content_Consumption</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- To capture Event, Webinar and Newsletter related engagement data --></description>
+        <label><!-- Marketing Activity --></label>
         <name>Marketing_Activity</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- To capture data related to what Product pages have been viewed --></description>
+        <label><!-- Product Interests --></label>
         <name>Product_Interests</name>
     </recordTypes>
     <startsWith>Consonant</startsWith>

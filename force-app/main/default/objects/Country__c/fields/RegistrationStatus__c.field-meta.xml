@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RegistrationStatus__c</fullName>
+    <label>Registration Status</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>REG</fullName>
+                <default>false</default>
+                <label>Retails</label>
+            </value>
+            <value>
+                <fullName>NOTREG</fullName>
+                <default>false</default>
+                <label>NOTREG</label>
+            </value>
+            <value>
+                <fullName>INSTITUTIONAL_ONLY</fullName>
+                <default>false</default>
+                <label>Institutional</label>
+            </value>
+            <value>
+                <fullName>AUTNOTREG</fullName>
+                <default>false</default>
+                <label>AUTNOTREG</label>
+            </value>
+            <value>
+                <fullName>TOBEREG</fullName>
+                <default>false</default>
+                <label>TOBEREG</label>
+            </value>
+            <value>
+                <fullName>UNDREG</fullName>
+                <default>false</default>
+                <label>UNDREG</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

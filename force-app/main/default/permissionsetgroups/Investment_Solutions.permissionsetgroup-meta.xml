@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Investment Solutions</label>
+    <permissionSets>AUM_Flows_Read_access</permissionSets>
+    <permissionSets>Investment_Solutions_Agreements</permissionSets>
+    <permissionSets>Investment_Solutions_Permission_Set</permissionSets>
+    <permissionSets>KYD_Oversight_Documents_Read_Access</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>

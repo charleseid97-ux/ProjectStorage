@@ -3,8 +3,8 @@
     <actionCalls>
         <name>Send_Notification</name>
         <label>Send Notification</label>
-        <locationX>341</locationX>
-        <locationY>1656</locationY>
+        <locationX>489</locationX>
+        <locationY>1956</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -39,13 +39,12 @@
             </value>
         </inputParameters>
         <nameSegment>customNotificationAction</nameSegment>
-        <versionSegment>1</versionSegment>
     </actionCalls>
-    <apiVersion>58.0</apiVersion>
+    <apiVersion>59.0</apiVersion>
     <assignments>
         <name>Assign_ContactId_to_VarcollcontactId</name>
         <label>Assign ContactId &amp; Recipients Notif</label>
-        <locationX>429</locationX>
+        <locationX>709</locationX>
         <locationY>924</locationY>
         <assignmentItems>
             <assignToReference>VarcollContact_Id_txt</assignToReference>
@@ -54,22 +53,15 @@
                 <elementReference>Assign_task_value.Contact.Id</elementReference>
             </value>
         </assignmentItems>
-        <assignmentItems>
-            <assignToReference>VarColl_Recipients</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>Assign_task_value.Contact.Account.Owner.Id</elementReference>
-            </value>
-        </assignmentItems>
         <connector>
-            <targetReference>Assign_task_values</targetReference>
+            <targetReference>Check_if_company_Owner_is_Actif</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_task_to_varcollTasks</name>
         <label>Assign task to varcollTasks</label>
-        <locationX>429</locationX>
-        <locationY>1140</locationY>
+        <locationX>577</locationX>
+        <locationY>1356</locationY>
         <assignmentItems>
             <assignToReference>Varcoll_tasks</assignToReference>
             <operator>Add</operator>
@@ -84,8 +76,8 @@
     <assignments>
         <name>Assign_task_values</name>
         <label>Assign task fields values</label>
-        <locationX>429</locationX>
-        <locationY>1032</locationY>
+        <locationX>577</locationX>
+        <locationY>1248</locationY>
         <assignmentItems>
             <assignToReference>Vartask.Type</assignToReference>
             <operator>Assign</operator>
@@ -132,7 +124,7 @@
             <assignToReference>Vartask.OwnerId</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Assign_task_value.Contact.Account.OwnerId</elementReference>
+                <elementReference>Assign_task_value.Contact.OwnerId</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -146,14 +138,62 @@
             <targetReference>Assign_task_to_varcollTasks</targetReference>
         </connector>
     </assignments>
+    <assignments>
+        <name>List_Notif_Recipients</name>
+        <label>List Notif Recipients</label>
+        <locationX>577</locationX>
+        <locationY>1140</locationY>
+        <assignmentItems>
+            <assignToReference>VarColl_Recipients</assignToReference>
+            <operator>RemoveAll</operator>
+            <value>
+                <elementReference>Assign_task_value.Contact.OwnerId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>VarColl_Recipients</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Assign_task_value.Contact.OwnerId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Assign_task_values</targetReference>
+        </connector>
+    </assignments>
     <constants>
         <name>Constant_Emptyvalue</name>
         <dataType>String</dataType>
     </constants>
     <decisions>
+        <name>Check_if_company_Owner_is_Actif</name>
+        <label>Check if company Owner is Actif</label>
+        <locationX>709</locationX>
+        <locationY>1032</locationY>
+        <defaultConnector>
+            <targetReference>Assign_task_value</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Company_Owner_Is_Active</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Assign_task_value.Contact.Owner.IsActive</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>List_Notif_Recipients</targetReference>
+            </connector>
+            <label>Company Owner Is Active</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>End_Date_y_a_4_jours</name>
         <label>End Date y a 4 jours</label>
-        <locationX>627</locationX>
+        <locationX>742</locationX>
         <locationY>276</locationY>
         <defaultConnectorLabel>NON</defaultConnectorLabel>
         <rules>
@@ -175,7 +215,7 @@
     <decisions>
         <name>Nb_of_Contacts_Attended</name>
         <label>Nb of Contacts Attended</label>
-        <locationX>385</locationX>
+        <locationX>467</locationX>
         <locationY>384</locationY>
         <defaultConnectorLabel>NO</defaultConnectorLabel>
         <rules>
@@ -211,7 +251,7 @@
     <decisions>
         <name>Verify_if_flow_has_been_already_launch</name>
         <label>Verify if flow has already created tasks</label>
-        <locationX>165</locationX>
+        <locationX>181</locationX>
         <locationY>600</locationY>
         <defaultConnector>
             <targetReference>Get_campaign_members</targetReference>
@@ -261,7 +301,7 @@
     <loops>
         <name>Assign_task_value</name>
         <label>Assign task value</label>
-        <locationX>341</locationX>
+        <locationX>489</locationX>
         <locationY>816</locationY>
         <collectionReference>VarcollCampaignMembersContact</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -294,8 +334,8 @@
     <recordCreates>
         <name>Create_Records_1</name>
         <label>Create all tasks</label>
-        <locationX>341</locationX>
-        <locationY>1440</locationY>
+        <locationX>489</locationX>
+        <locationY>1740</locationY>
         <connector>
             <targetReference>Get_Custom_Notification_type</targetReference>
         </connector>
@@ -304,7 +344,7 @@
     <recordLookups>
         <name>Get_campaign_members</name>
         <label>Get all campaign members</label>
-        <locationX>341</locationX>
+        <locationX>489</locationX>
         <locationY>708</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -348,8 +388,8 @@
     <recordLookups>
         <name>Get_Custom_Notification_type</name>
         <label>Get Custom Notification type</label>
-        <locationX>341</locationX>
-        <locationY>1548</locationY>
+        <locationX>489</locationX>
+        <locationY>1848</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Send_Notification</targetReference>
@@ -369,7 +409,7 @@
     <recordLookups>
         <name>Get_Tasks_Follow_up_for_this_campaign</name>
         <label>Get potential Tasks Follow up for this campaign</label>
-        <locationX>165</locationX>
+        <locationX>181</locationX>
         <locationY>492</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -397,8 +437,8 @@
     <recordUpdates>
         <name>Update_Thematic_Lunch_checkbox_to_true</name>
         <label>Update Thematic follow up checkbox to true (campaign)</label>
-        <locationX>341</locationX>
-        <locationY>1332</locationY>
+        <locationX>489</locationX>
+        <locationY>1632</locationY>
         <connector>
             <targetReference>Create_Records_1</targetReference>
         </connector>

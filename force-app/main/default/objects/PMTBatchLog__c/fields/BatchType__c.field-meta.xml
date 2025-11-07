@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>BatchType__c</fullName>
+    <label>Batch Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>FundCreation</fullName>
+                <default>false</default>
+                <label>FundCreation</label>
+            </value>
+            <value>
+                <fullName>ShareclassCreation</fullName>
+                <default>false</default>
+                <label>ShareclassCreation</label>
+            </value>
+            <value>
+                <fullName>FundShareclassModification</fullName>
+                <default>false</default>
+                <label>FundShareclassModification</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

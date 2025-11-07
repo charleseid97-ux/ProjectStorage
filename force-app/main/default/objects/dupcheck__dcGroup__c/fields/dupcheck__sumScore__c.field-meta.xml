@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>dupcheck__sumScore__c</fullName>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Sum Score</label>
     <summarizedField>dupcheck__dc3Duplicate__c.dupcheck__Score__c</summarizedField>
     <summaryFilterItems>

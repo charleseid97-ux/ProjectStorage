@@ -13,9 +13,15 @@
     </action>
     <active>true</active>
     <apexClass>TSP_Blocker</apexClass>
-    <blockMessage>The operation you requested isn&apos;t allowed due to Carmignac security policies. 
+    <blockMessage>Dear Users,
 
-Contact your Salesforce administrator (Technology_sales_marketing@carmignac.com) and CISO (okeles.meet@carmignac.com) for more information about security policies.</blockMessage>
+We regret to inform you that the operation you requested isn&apos;t allowed due to Carmignac&apos;s security policies. For further information about our security policies, please contact your Salesforce Support Team (salesforcesupport@carmignac.com) and our Chief Information Security Officer (CISO) at okeles.meet@carmignac.com.
+
+As a reminder, we strictly adhere to Carmignac&apos;s security protocols. Please be aware that the Business Development team is restricted from extracting more than 500 records on the Contacts, Accounts, Opportunity, Leads, and Cases objects.
+
+It&apos;s important to note that this restriction does not apply to CRM usage. However, if you need to exceed this limit for specific business needs, approval from our CISO, Mr. Onder, will be required.
+
+Thank you for your understanding and cooperation.</blockMessage>
     <customEmailContent>&lt;p&gt;One of Carmignac transaction security policies was triggered on Salesforce&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Policy Name: {{policy.MasterLabel}}&lt;/p&gt;&lt;p&gt;Event responsible for triggering this policy:&lt;/p&gt;&lt;p&gt;{{policy.EventName}} on {{event.QueriedEntities}} object associated with user {{event.Username}} at {{event.EventDate}}.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Triggered query : {{event.Query}}&lt;/p&gt;&lt;p&gt;Number of records: {{event.RowsProcessed}}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Please note that this query has been blocked&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;For more context about this event, refer to these event fields:&lt;/p&gt;&lt;p&gt;Org ID: {{policy.OrganizationId}}&lt;/p&gt;&lt;p&gt;User ID:{{event.UserId}}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Regards,&lt;/p&gt;</customEmailContent>
     <description>This TSP blocks API call on Account, Opportunity and Case objects on more than 500 records
 Manage excluded profiles on TSP Setting through Custom Metadata Types</description>

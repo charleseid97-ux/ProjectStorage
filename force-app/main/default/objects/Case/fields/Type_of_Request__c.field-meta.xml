@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Type_of_Request__c</fullName>
-    <externalId>false</externalId>
     <label>Type of Request</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
@@ -46,6 +45,58 @@
                 <fullName>Allocation</fullName>
                 <default>false</default>
                 <label>Allocation</label>
+            </value>
+            <value>
+                <fullName>Inflow reallocation</fullName>
+                <default>false</default>
+                <label>Inflow reallocation</label>
+            </value>
+            <value>
+                <fullName>Outflow reallocation</fullName>
+                <default>false</default>
+                <label>Outflow reallocation</label>
+            </value>
+            <value>
+                <fullName>AUM reallocation</fullName>
+                <default>false</default>
+                <label>AUM reallocation</label>
+            </value>
+            <value>
+                <fullName>User management</fullName>
+                <default>false</default>
+                <label>User management (Add/Remove user)</label>
+            </value>
+            <value>
+                <fullName>New Report</fullName>
+                <default>false</default>
+                <label>New Report</label>
+            </value>
+            <value>
+                <fullName>Change existing report</fullName>
+                <default>false</default>
+                <label>Change existing report</label>
+            </value>
+            <value>
+                <fullName>Miscellaneous Issue/Technical Assistance</fullName>
+                <default>false</default>
+                <label>Miscellaneous Issue/Technical Assistance</label>
+            </value>
+            <value>
+                <fullName>Project</fullName>
+                <default>false</default>
+                <label>Project</label>
+            </value>
+            <value>
+                <fullName>Redemption_Reallocation</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Redemption_Reallocation</label>
+            </value>
+            <value>
+                <fullName>Subscription_Reallocation</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Subscription_Reallocation</label>
             </value>
         </valueSetDefinition>
     </valueSet>

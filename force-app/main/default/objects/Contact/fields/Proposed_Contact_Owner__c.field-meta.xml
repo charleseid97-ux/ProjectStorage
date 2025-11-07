@@ -3,7 +3,6 @@
     <fullName>Proposed_Contact_Owner__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <description>Field to be used when changing the owner of a contact</description>
-    <externalId>false</externalId>
     <inlineHelpText>Insert here the name of the new owner</inlineHelpText>
     <label>Proposed Contact Owner</label>
     <lookupFilter>

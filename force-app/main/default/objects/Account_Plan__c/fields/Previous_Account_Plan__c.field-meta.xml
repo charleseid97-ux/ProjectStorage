@@ -3,7 +3,6 @@
     <fullName>Previous_Account_Plan__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <description>Lookup to the Previous year&apos;s Account Plan</description>
-    <externalId>false</externalId>
     <label>Previous Account Plan</label>
     <referenceTo>Account_Plan__c</referenceTo>
     <relationshipLabel>Account Plans</relationshipLabel>

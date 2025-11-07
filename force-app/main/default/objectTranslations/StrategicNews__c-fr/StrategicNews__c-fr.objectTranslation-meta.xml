@@ -12,26 +12,26 @@
     <layouts>
         <layout>Strategic News Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Strategic News --></label>
             <section>Strategic News</section>
         </sections>
     </layouts>
     <quickActions>
-        <label></label>
+        <label><!-- Download PDF --></label>
         <name>Download_PDF</name>
     </quickActions>
     <quickActions>
-        <label></label>
+        <label><!-- Strategic News Definitions --></label>
         <name>Strategic_News_Definitions</name>
     </quickActions>
     <startsWith>Consonant</startsWith>
     <workflowTasks>
-        <description></description>
+        <description><!-- A Product Placement Strategic News has been sent and the Buy List needs to be updated. --></description>
         <name>Buy_List_needs_to_be_updated</name>
-        <subject></subject>
+        <subject><!-- Buy List needs to be updated --></subject>
     </workflowTasks>
 </CustomObjectTranslation>

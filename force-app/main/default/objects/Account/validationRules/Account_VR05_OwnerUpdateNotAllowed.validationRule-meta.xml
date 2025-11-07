@@ -12,5 +12,5 @@ NOT($User.ProfileId = &apos;00e58000000s3v6&apos;),
 NOT($User.ProfileId = &apos;00e58000000z6UE&apos;), 
 NOT($User.ProfileId = &apos;00e58000000z6UC&apos;) 
 )</errorConditionFormula>
-    <errorMessage>You are not authorized to change ownership of Companys from other business regions. Get support from Distribution and Digital team.</errorMessage>
+    <errorMessage>You are not authorized to change the ownership of companies from other business regions. Please contact the Salesforce support team for assistance.</errorMessage>
 </ValidationRule>

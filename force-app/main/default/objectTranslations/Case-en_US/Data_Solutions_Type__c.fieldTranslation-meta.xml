@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Data Solutions Type --></label>
+    <name>Data_Solutions_Type__c</name>
+    <picklistValues>
+        <masterLabel>Ad Hoc Data &amp; Client Reporting Request</masterLabel>
+        <translation><!-- Ad Hoc Data &amp; Client Reporting Request --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Recurring Report Request</masterLabel>
+        <translation><!-- Recurring Report Request --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

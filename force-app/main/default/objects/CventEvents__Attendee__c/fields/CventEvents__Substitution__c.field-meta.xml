@@ -3,7 +3,6 @@
     <fullName>CventEvents__Substitution__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Substitution Number</label>
     <referenceTo>CventEvents__Attendee__c</referenceTo>
     <relationshipLabel>Substituted Attendees</relationshipLabel>

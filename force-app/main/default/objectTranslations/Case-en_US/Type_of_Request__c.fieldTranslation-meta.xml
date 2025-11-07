@@ -1,33 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Type of Request --></label>
     <name>Type_of_Request__c</name>
     <picklistValues>
+        <masterLabel>AUM reallocation</masterLabel>
+        <translation><!-- AUM reallocation --></translation>
+    </picklistValues>
+    <picklistValues>
         <masterLabel>Allocation</masterLabel>
-        <translation></translation>
+        <translation><!-- Allocation --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Change existing report</masterLabel>
+        <translation><!-- Change existing report --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Funds / Benchmark Performance</masterLabel>
-        <translation></translation>
+        <translation><!-- Funds / Benchmark Performance --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Inflow reallocation</masterLabel>
+        <translation><!-- Inflow reallocation --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Miscellaneous Issue/Technical Assistance</masterLabel>
+        <translation><!-- Miscellaneous Issue/Technical Assistance --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>New Report</masterLabel>
+        <translation><!-- New Report --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Outflow reallocation</masterLabel>
+        <translation><!-- Outflow reallocation --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>PC&amp;A Report</masterLabel>
-        <translation></translation>
+        <translation><!-- PC&amp;A Report --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Performance Attribution (StatPro)</masterLabel>
-        <translation></translation>
+        <translation><!-- Performance Attribution (StatPro) --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Performance Attribution (UBS Delta)</masterLabel>
-        <translation></translation>
+        <translation><!-- Performance Attribution (UBS Delta) --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Portfolio Indicators / Statistics</masterLabel>
-        <translation></translation>
+        <translation><!-- Portfolio Indicators / Statistics --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Portfolio Turnover</masterLabel>
-        <translation></translation>
+        <translation><!-- Portfolio Turnover --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Project</masterLabel>
+        <translation><!-- Project --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>User management (Add/Remove user)</masterLabel>
+        <translation><!-- User management (Add/Remove user) --></translation>
     </picklistValues>
 </CustomFieldTranslation>

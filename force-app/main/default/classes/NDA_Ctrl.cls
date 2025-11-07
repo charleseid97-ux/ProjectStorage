@@ -13,7 +13,7 @@ public with sharing class NDA_Ctrl {
      * @param newItems NDAs list
      * @param oldMap old value NDAs
      */
-    public static void validateNDAWhenInProgress(List<NDA__c> newItems, Map<Id, NDA__c> oldMap){
+    /*public static void validateNDAWhenInProgress(List<NDA__c> newItems, Map<Id, NDA__c> oldMap){
 
         String STAGE_IN_PROGRESS = 'In progress';
         String STAGE_TO_UPDATE = 'To update';
@@ -52,7 +52,7 @@ public with sharing class NDA_Ctrl {
 
             }
         }
-    }
+    }*/
 
     /**
      * @author JLC
@@ -61,7 +61,7 @@ public with sharing class NDA_Ctrl {
      * @param ndas nda where stage has been changed to In progress
      * @param ndaMap
      */
-    public static void validateIfProductListIsSameClassic(List<NDA__c> ndas, Map<Id, NDA__c> ndaMap ){
+    /*public static void validateIfProductListIsSameClassic(List<NDA__c> ndas, Map<Id, NDA__c> ndaMap ){
 
 		Map<Id, List<Id>> NDAProductMap = new Map<Id, List<String>>();
 
@@ -84,7 +84,7 @@ public with sharing class NDA_Ctrl {
                 ndas[0].addError('Product list does not correspond to the product list of the WTPs');
             }
         }
-    }
+    }*/
 
     /**
      * @author JLC
@@ -93,7 +93,7 @@ public with sharing class NDA_Ctrl {
      * @param ndas nda where stage has been changed to In progress
      * @param ndaMap
      */
-    public static void validateIfProductListIsSamePlatform(List<NDA__c> ndas, Map<Id, Id> ndaParent ){
+    /*public static void validateIfProductListIsSamePlatform(List<NDA__c> ndas, Map<Id, Id> ndaParent ){
 
         Map<Id, NDA__c> ndaMap = new Map<Id, NDA__c>([SELECT Id, (SELECT Id FROM Work_Together_Processes__r),
         (SELECT Id, Share_Class__c FROM NDA_Products__r) FROM NDA__c WHERE Id IN : ndaParent.values()]);
@@ -119,6 +119,6 @@ public with sharing class NDA_Ctrl {
                 ndas[0].addError('Master NDA Product list does not correspond to the product list of the WTPs');
             }
         }
-    }
+    }*/
 
 }

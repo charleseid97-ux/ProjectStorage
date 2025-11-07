@@ -3,7 +3,6 @@
     <fullName>CventEvents__Question__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Question Number</label>
     <referenceTo>CventEvents__SurveyQuestion__c</referenceTo>
     <relationshipLabel>Answers</relationshipLabel>

@@ -245,6 +245,41 @@
             <field>SRI__c</field>
             <table>Product__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>EFAMAEFCInvestTheme__c</field>
+            <table>Product__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ProductCatalog__c</field>
+            <table>Product__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Tech_NotDisplayedProductCatalog__c</field>
+            <table>Product__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>NAVCalculationDate__c</field>
+            <table>Product__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>BelgiumTSLabelDateMMYYYY__c</field>
+            <table>Product__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ISRLabelDateMMYYYY__c</field>
+            <table>Product__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Count_SC__c</field>
+            <table>Product__c</table>
+        </columns>
         <masterLabel>Products</masterLabel>
     </sections>
     <sections>

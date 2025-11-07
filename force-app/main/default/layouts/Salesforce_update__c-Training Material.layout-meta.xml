@@ -19,6 +19,10 @@
                 <behavior>Readonly</behavior>
                 <field>Link_To_Material__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Event_Training__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

@@ -3,7 +3,6 @@
     <fullName>StrategicNewsSubstring__c</fullName>
     <description>This field is used to export the field Strategic news to Tableau since TAbleau can support field upto 4096 characters</description>
     <encryptionScheme>None</encryptionScheme>
-    <externalId>false</externalId>
     <inlineHelpText>Will be auto populated by System</inlineHelpText>
     <label>Strategic News Substring</label>
     <length>4096</length>

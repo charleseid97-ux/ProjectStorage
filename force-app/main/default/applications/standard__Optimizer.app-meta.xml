@@ -4,19 +4,12 @@
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
     <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
+    <isOmniPinnedViewEnabled>false</isOmniPinnedViewEnabled>
     <label>Optimizer</label>
     <navType>Console</navType>
     <tabs>standard-OrgMetric</tabs>
-    <tabs>Salesforce_update__c</tabs>
-    <tabs>NDA__c</tabs>
     <uiType>Lightning</uiType>
     <workspaceConfig>
-        <mappings>
-            <tab>NDA__c</tab>
-        </mappings>
-        <mappings>
-            <tab>Salesforce_update__c</tab>
-        </mappings>
         <mappings>
             <tab>standard-OrgMetric</tab>
         </mappings>

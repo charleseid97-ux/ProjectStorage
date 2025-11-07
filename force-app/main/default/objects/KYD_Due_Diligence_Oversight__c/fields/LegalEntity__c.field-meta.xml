@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>LegalEntity__c</fullName>
-    <externalId>false</externalId>
     <label>Legal Entity</label>
     <referenceTo>Legal_Entity__c</referenceTo>
+    <relationshipLabel>KYD Due Diligence Oversights</relationshipLabel>
     <relationshipName>KYC_Checklist</relationshipName>
     <relationshipOrder>0</relationshipOrder>
-    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <reparentableMasterDetail>true</reparentableMasterDetail>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>

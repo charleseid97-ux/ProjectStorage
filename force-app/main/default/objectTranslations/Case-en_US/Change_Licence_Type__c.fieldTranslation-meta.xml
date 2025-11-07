@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Change Licence Type --></label>
+    <name>Change_Licence_Type__c</name>
+    <picklistValues>
+        <masterLabel>Creator (create and change dashboards)</masterLabel>
+        <translation><!-- Creator (create and change dashboards) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Explorer (change dashboards)</masterLabel>
+        <translation><!-- Explorer (change dashboards) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Viewer  (view dashboards)</masterLabel>
+        <translation><!-- Viewer  (view dashboards) --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

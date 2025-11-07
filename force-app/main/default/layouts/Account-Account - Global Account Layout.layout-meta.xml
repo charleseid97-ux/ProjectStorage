@@ -253,11 +253,14 @@
     </relatedLists>
     <relatedLists>
         <fields>CONTACT.FULL_NAME</fields>
-        <fields>CONTACT.ACCOUNT_NAME</fields>
-        <fields>CONTACT.TITLE</fields>
+        <fields>ACCCONRELATION.IS_DIRECT</fields>
+        <fields>JobTitle__c</fields>
         <fields>CONTACT.EMAIL</fields>
         <fields>CONTACT.PHONE1</fields>
-        <fields>ACCCONRELATION.ROLES</fields>
+        <fields>CONTACT.ADDRESS2_CITY</fields>
+        <fields>Last_Interaction__c</fields>
+        <fields>ContactOwner__c</fields>
+        <fields>Business_Card_Title__c</fields>
         <relatedList>RelatedAccountContactRelationList</relatedList>
     </relatedLists>
     <relatedLists>

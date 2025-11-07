@@ -9,318 +9,373 @@
         <value>Companies</value>
     </caseValues>
     <fieldSets>
-        <label></label>
+        <label><!-- HierarchyAccount --></label>
         <name>HierarchyAccount</name>
     </fieldSets>
     <layouts>
         <layout>Account - Distributor Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Description --></label>
             <section>Description</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Details --></label>
             <section>Details</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Distributor AUM Exposure --></label>
             <section>Distributor AUM Exposure</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Last interactions --></label>
             <section>Last interactions</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Relationship Management --></label>
             <section>Relationship Management</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Tiering and Segmentation --></label>
             <section>Tiering and Segmentation</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Account - Global Account Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- AUM &amp; NET FLOWS --></label>
             <section>AUM &amp; NET FLOWS</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Address Information --></label>
             <section>Address Information</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Description --></label>
             <section>Description</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Last Interactions --></label>
             <section>Last Interactions</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Account - Global Account Layout Admin</layout>
         <sections>
-            <label></label>
+            <label><!-- AUM &amp; NET FLOWS --></label>
             <section>AUM &amp; NET FLOWS</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Description --></label>
             <section>Description</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Last interactions --></label>
             <section>Last interactions</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Account - Internal Company Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Description --></label>
             <section>Description</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Details --></label>
             <section>Details</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Last interactions --></label>
             <section>Last interactions</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Segmentation --></label>
             <section>Segmentation</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Account - Prospect Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Description --></label>
             <section>Description</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Details --></label>
             <section>Details</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Last interactions --></label>
             <section>Last interactions</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Segmentation --></label>
             <section>Segmentation</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Account - Third Party Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Additional Information --></label>
             <section>Additional Information</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Last interactions --></label>
             <section>Last interactions</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Account Page Layout 2023</layout>
+        <sections>
+            <label><!-- Description --></label>
+            <section>Description</section>
+        </sections>
+        <sections>
+            <label><!-- Tiering and Segmentation --></label>
+            <section>Tiering and Segmentation</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Fund Selection Unit</layout>
         <sections>
-            <label></label>
+            <label><!-- Description --></label>
             <section>Description</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Details --></label>
             <section>Details</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Last interactions --></label>
             <section>Last interactions</section>
         </sections>
     </layouts>
     <quickActions>
-        <label></label>
+        <label><!-- Child Account --></label>
         <name>Child_Account</name>
     </quickActions>
     <quickActions>
-        <label></label>
+        <label><!-- Deactivate Company --></label>
         <name>Deactivate_Company</name>
     </quickActions>
     <quickActions>
-        <label></label>
+        <label><!-- Hierarchy Builder --></label>
         <name>GAM_Hierarchy_Builder</name>
     </quickActions>
     <quickActions>
-        <label></label>
+        <label><!-- GAM Homepage --></label>
         <name>GAM_Homepage</name>
     </quickActions>
     <quickActions>
-        <label></label>
+        <label><!-- New Call Note --></label>
+        <name>NewCallNote</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- New Event Note --></label>
+        <name>NewEventNote</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- New Meeting Note --></label>
+        <name>NewMeetingNote</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- New Meeting Note --></label>
         <name>New_Meeting_Note</name>
     </quickActions>
     <quickActions>
-        <label></label>
+        <label><!-- Opportunity Dashboard --></label>
         <name>Opportunity_Dashboard</name>
     </quickActions>
     <quickActions>
-        <label></label>
+        <label><!-- Social --></label>
         <name>Social</name>
     </quickActions>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- A company is considered a distributor if it has at least one signed agreement/code and/or AUM assigned to this distributor directly or via an intermediary --></description>
+        <label><!-- Distributor --></label>
         <name>Account_Distributor</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- Virtual account created for grouping several companies. Its goal is to report at a global level --></description>
+        <label><!-- Global Account --></label>
         <name>Account_GlobalAccount</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- A prospect is a company (legal entity) in the initial stage of a relationship with Carmignac. No convention is related to this company and the company does not hold/distribute Carmignac assets --></description>
+        <label><!-- Prospect --></label>
         <name>Account_Prospect</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- Legal entity involved in the business development process, which is neither a prospect nor a distributor --></description>
+        <label><!-- Third Party --></label>
         <name>Account_ThirdParty</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- Special Record Type to relate inactive contacts to --></description>
+        <label><!-- Inactive Contacts --></label>
         <name>Company_for_Inactive_External_Contacts</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- Business Unit responsible for the Fund Selection --></description>
+        <label><!-- Fund Selection Unit --></label>
         <name>Fund_Selection_Unit</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- Virtual account created for grouping several companies at a Business Development and Sub-Type level --></description>
+        <label><!-- Grouping Entity --></label>
         <name>Grouping_Entity</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- Specific Record Type to reflect the Internal Organisation - for the purpose of relating Employee Contacts --></description>
+        <label><!-- Internal Company --></label>
         <name>Internal_Organisation</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- Ultimate Parent Company for grouping Companies logically in the Hierarchy. --></description>
+        <label><!-- Ultimate Parent --></label>
         <name>Ultimate_Parent</name>
     </recordTypes>
     <startsWith>Consonant</startsWith>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage>
+            <!-- Please enter a phone number starting with &quot;+&quot; and a country code
+(Example : +33 142 86 XX XX) -->
+        </errorMessage>
         <name>Account_VR01_PhoneNumberFormat</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage>
+            <!-- Please enter an other phone number starting with &quot;+&quot; and a country code 
+(Example : +33 142 86 XX XX) -->
+        </errorMessage>
         <name>Account_VR02_OtherPhoneNumberFormat</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Please inform at least the main country code for the company --></errorMessage>
         <name>Account_VR03_CountryMandatory</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Please inform at least the main country code for the company --></errorMessage>
         <name>Account_VR03_CountryMandatory_V2</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Please enter a Business Development Region to your Company --></errorMessage>
         <name>Account_VR04_BusinessDeveloppementRegion</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- You are not authorized to change the ownership of companies from other business regions. Please contact the Salesforce support team for assistance. --></errorMessage>
         <name>Account_VR05_OwnerUpdateNotAllowed</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- You are not authorized to change ownership of Companys from other business regions. Get support from Distribution and Digital team. --></errorMessage>
         <name>Account_VR05_OwnerUpdateNotAllowedV2</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- This box is intended for approval tracking of Head of Country from the current business region --></errorMessage>
         <name>Account_VR06_LimitValidationHOC</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- This box is intended for the Head of Country from the proposed business region --></errorMessage>
         <name>Account_VR07_LimitValidationHOC2</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage>
+            <!-- Please select a Parent Company in order to complete the attachment to the GAM.
+(The GAM itself if the Company is directly linked to the GAM) -->
+        </errorMessage>
         <name>Account_VR08_ParentCompanyMandatory</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Please enter a Business Development Region to save this new company. --></errorMessage>
+        <name>Account_VR09_Business_Region_required</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- You cannot rename this FSU. It is the default FSU for Independent Buy Lists --></errorMessage>
         <name>Cannot_edit_Primary_Local_FSU_Name</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage>
+            <!-- Only System Administrators can change a Company TO or FROM Tier 0. 
+Please contact a System Admin for this update. -->
+        </errorMessage>
         <name>Company_Tier_0_Validation</name>
     </validationRules>
+    <validationRules>
+        <errorMessage><!-- CompanyId should be a numeric value --></errorMessage>
+        <name>LID__Check_Company_Id_Value</name>
+    </validationRules>
     <webLinks>
-        <label></label>
+        <label><!-- AUMFlowReport --></label>
         <name>AUMFlowReport</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- Account_Hierarchy_Details --></label>
         <name>Account_Hierarchy_Details</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- CallNoteMobile --></label>
+        <name>CallNoteMobile</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- InviteAccountToEvent --></label>
         <name>CventEvents__InviteAccountToEvent</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- ModifyCancelAccountToEvent --></label>
         <name>CventEvents__ModifyCancelAccountToEvent</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- NominateAccountToEvent --></label>
         <name>CventEvents__NominateAccountToEvent</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- RegisterAccountToEvent --></label>
         <name>CventEvents__RegisterAccountToEvent</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- View_Hierarchy --></label>
         <name>Easy_Drill__View_Hierarchy</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- EventNoteMobile --></label>
+        <name>EventNoteMobile</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- GoogleMaps --></label>
         <name>GoogleMaps</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- GoogleNews --></label>
         <name>GoogleNews</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- GoogleSearch --></label>
         <name>GoogleSearch</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- Mass_Delete_Records --></label>
         <name>Mass_Delete_Records</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- MeetingNoteMobile --></label>
+        <name>MeetingNoteMobile</name>
+    </webLinks>
+    <webLinks>
+        <label><!-- dc3Check --></label>
         <name>dupcheck__dc3Check</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- dc3Merge --></label>
         <name>dupcheck__dc3Merge</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- Send_Pardot_Emails --></label>
         <name>pi__Send_Pardot_Emails</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- Send_Single_Pardot_Email --></label>
         <name>pi__Send_Single_Pardot_Email</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- Send_To_Prospect_Insight --></label>
         <name>pi__Send_To_Prospect_Insight</name>
     </webLinks>
 </CustomObjectTranslation>

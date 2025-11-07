@@ -12,9 +12,24 @@
     <layouts>
         <layout>Agreement Document Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
     </layouts>
+    <layouts>
+        <layout>IS - Agreement Document</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <recordTypes>
+        <label><!-- Agreement Document --></label>
+        <name>Agreement_Document</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- IS Agreement Document --></label>
+        <name>IS_Agreement_Document</name>
+    </recordTypes>
     <startsWith>Consonant</startsWith>
 </CustomObjectTranslation>

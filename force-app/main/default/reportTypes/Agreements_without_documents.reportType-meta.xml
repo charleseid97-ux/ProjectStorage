@@ -470,6 +470,16 @@
             <field>CACEIS_Reliance__c</field>
             <table>Convention__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Send_SharePoint_Email__c</field>
+            <table>Convention__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Role__c</field>
+            <table>Convention__c</table>
+        </columns>
         <masterLabel>Agreements</masterLabel>
     </sections>
     <sections>

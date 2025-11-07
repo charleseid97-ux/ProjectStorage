@@ -1,69 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Job Title --></label>
     <name>Job_Title__c</name>
     <picklistValues>
         <masterLabel>Administrator</masterLabel>
-        <translation></translation>
+        <translation><!-- Administrator --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Analyst</masterLabel>
-        <translation></translation>
+        <translation><!-- Analyst --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Consultant</masterLabel>
-        <translation></translation>
+        <translation><!-- Consultant --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Financial Advisor</masterLabel>
-        <translation></translation>
+        <translation><!-- Financial Advisor --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>FoF Manager</masterLabel>
-        <translation></translation>
+        <translation><!-- FoF Manager --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Fund Manager</masterLabel>
-        <translation></translation>
+        <translation><!-- Fund Manager --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Fund Selector</masterLabel>
-        <translation></translation>
+        <translation><!-- Fund Selector --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Investment Advisor</masterLabel>
-        <translation></translation>
+        <translation><!-- Investment Advisor --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Investment Manager</masterLabel>
-        <translation></translation>
+        <translation><!-- Investment Manager --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Other</masterLabel>
-        <translation></translation>
+        <translation><!-- Other --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Portfolio Manager</masterLabel>
-        <translation></translation>
+        <translation><!-- Portfolio Manager --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Private Banker</masterLabel>
-        <translation></translation>
+        <translation><!-- Private Banker --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Product Manager</masterLabel>
-        <translation></translation>
+        <translation><!-- Product Manager --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Relationship Manager</masterLabel>
-        <translation></translation>
+        <translation><!-- Relationship Manager --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Sales Contact</masterLabel>
-        <translation></translation>
+        <translation><!-- Sales Contact --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Tied Agent</masterLabel>
-        <translation></translation>
+        <translation><!-- Tied Agent --></translation>
     </picklistValues>
 </CustomFieldTranslation>

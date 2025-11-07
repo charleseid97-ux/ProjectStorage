@@ -5,6 +5,8 @@
     <description>Only request with &quot;new&quot; status can be created</description>
     <errorConditionFormula>AND(NOT($User.BypassValidationRules__c),
 ISNEW(),
+NOT(CONTAINS(Record_Type_Name__c, &quot;Translation&quot;)),
+NOT(CONTAINS(Record_Type_Name__c, &quot;Publication&quot;)),
 NOT(ISPICKVAL(Status,&quot;New&quot;)))</errorConditionFormula>
     <errorDisplayField>Status</errorDisplayField>
     <errorMessage>You can only create requests with &quot;New&quot; Status</errorMessage>

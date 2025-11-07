@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR01_InvestmntUniverseReductionMandatory</fullName>
+    <active>true</active>
+    <description>Display &amp; Mandatory ONLY If ((HasInvestmentUniverseReduction=True))</description>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+				
+$Permission.PRPESG,
+				
+HasInvestmentUniverseReduction__c = true,
+				
+ISBLANK(InvestmentUniverseReduction__c)
+				
+				
+				)</errorConditionFormula>
+    <errorDisplayField>InvestmentUniverseReduction__c</errorDisplayField>
+    <errorMessage>If Has Investment Universe Reduction is true, please provide a value for Investment Universe Reduction.</errorMessage>
+</ValidationRule>

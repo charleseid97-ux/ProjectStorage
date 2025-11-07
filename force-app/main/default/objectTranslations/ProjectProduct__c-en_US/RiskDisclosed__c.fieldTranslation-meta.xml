@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Risk Disclosed --></label>
+    <name>RiskDisclosed__c</name>
+    <picklistValues>
+        <masterLabel>ESG risk</masterLabel>
+        <translation><!-- ESG risk --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Emerging markets risks</masterLabel>
+        <translation><!-- Emerging markets risks --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Liquidity risk</masterLabel>
+        <translation><!-- Liquidity risk --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Long/Short risk</masterLabel>
+        <translation><!-- Long/Short risk --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Risks associated with Asset Backed Securities (ABD) or Mortgage backed Securities (MBS)</masterLabel>
+        <translation><!-- Risks associated with Asset Backed Securities (ABD) or Mortgage backed Securities (MBS) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Risks associated with OTC transactions</masterLabel>
+        <translation><!-- Risks associated with OTC transactions --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Risks associated with commodity indices</masterLabel>
+        <translation><!-- Risks associated with commodity indices --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Risks associated with credit derivative transactions</masterLabel>
+        <translation><!-- Risks associated with credit derivative transactions --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Risks associated with currencies</masterLabel>
+        <translation><!-- Risks associated with currencies --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Risks associated with discretionary management</masterLabel>
+        <translation><!-- Risks associated with discretionary management --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Risks associated with equity investments</masterLabel>
+        <translation><!-- Risks associated with equity investments --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Risks associated with hedging foreign currency units</masterLabel>
+        <translation><!-- Risks associated with hedging foreign currency units --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Risks associated with investments in debt securities</masterLabel>
+        <translation><!-- Risks associated with investments in debt securities --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Risks associated with management of collateral</masterLabel>
+        <translation><!-- Risks associated with management of collateral --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Risks associated with market capitalisation</masterLabel>
+        <translation><!-- Risks associated with market capitalisation --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Risks associated with unlisted securities</masterLabel>
+        <translation><!-- Risks associated with unlisted securities --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Risks of capital loss</masterLabel>
+        <translation><!-- Risks of capital loss --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Risks of leverage</masterLabel>
+        <translation><!-- Risks of leverage --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Sustainability risk</masterLabel>
+        <translation><!-- Sustainability risk --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Volatility risk</masterLabel>
+        <translation><!-- Volatility risk --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

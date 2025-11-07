@@ -26,7 +26,7 @@
             <label>Afghanistan</label>
             <orgDefault>false</orgDefault>
             <standard>true</standard>
-            <visible>true</visible>
+            <visible>false</visible>
         </countries>
         <countries>
             <active>true</active>
@@ -35,7 +35,7 @@
             <label>Antigua and Barbuda</label>
             <orgDefault>false</orgDefault>
             <standard>true</standard>
-            <visible>true</visible>
+            <visible>false</visible>
         </countries>
         <countries>
             <active>true</active>
@@ -790,6 +790,14 @@
                 <integrationValue>Lausanne</integrationValue>
                 <isoCode>LAUSANNE</isoCode>
                 <label>Lausanne</label>
+                <standard>false</standard>
+                <visible>true</visible>
+            </states>
+            <states>
+                <active>true</active>
+                <integrationValue>Liechtenstein</integrationValue>
+                <isoCode>LI</isoCode>
+                <label>Liechtenstein</label>
                 <standard>false</standard>
                 <visible>true</visible>
             </states>
@@ -4061,6 +4069,14 @@
             <label>Liechtenstein</label>
             <orgDefault>false</orgDefault>
             <standard>true</standard>
+            <states>
+                <active>true</active>
+                <integrationValue>Vaduz</integrationValue>
+                <isoCode>VA</isoCode>
+                <label>Vaduz</label>
+                <standard>false</standard>
+                <visible>true</visible>
+            </states>
             <visible>true</visible>
         </countries>
         <countries>

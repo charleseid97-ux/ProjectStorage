@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Product Manager</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Product Managers</value>
+    </caseValues>
+    <quickActions>
+        <label><!-- New Biography --></label>
+        <name>NewBio</name>
+    </quickActions>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Please enter the last name in uppercase (e.g. SMITH). --></errorMessage>
+        <name>VR01_Enforce_Uppercase_LastName</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- You do not have the required permission to create or update Fund Manager records. Please contact your administrator. --></errorMessage>
+        <name>VR02_Restrict_ProductManager_Update</name>
+    </validationRules>
+</CustomObjectTranslation>

@@ -4,7 +4,6 @@
     <deprecated>false</deprecated>
     <description>Overrides the &quot;now&quot; datetime used by all Aquiva apex code. If this is set, then Today Override is ignored.</description>
     <encryptionScheme>None</encryptionScheme>
-    <externalId>false</externalId>
     <inlineHelpText>Overrides the &quot;now&quot; datetime used by all Aquiva apex code. If this is set, then Today Override is ignored.</inlineHelpText>
     <label>Now Override</label>
     <required>false</required>

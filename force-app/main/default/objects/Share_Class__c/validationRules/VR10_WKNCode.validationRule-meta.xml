@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR10_WKNCode</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  NOT($User.BypassValidationRules__c),
+  NOT(ISBLANK(WKNCode__c)),
+  OR(
+    LEN(WKNCode__c) &lt;&gt; 6,                               /* Le WKN doit avoir exactement 6 caractères */
+    NOT(REGEX(WKNCode__c, &quot;^[A-Za-z0-9]{6}$&quot;))          /* Autorise uniquement des caractères alphanumériques */
+  )
+)</errorConditionFormula>
+    <errorDisplayField>WKNCode__c</errorDisplayField>
+    <errorMessage>WKN Code must be exactly 6 alphanumeric characters.</errorMessage>
+</ValidationRule>

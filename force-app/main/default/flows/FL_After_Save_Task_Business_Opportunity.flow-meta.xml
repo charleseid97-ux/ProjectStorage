@@ -1,73 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>58.0</apiVersion>
+    <actionCalls>
+        <name>Task_Email</name>
+        <label>Task Email</label>
+        <locationX>578</locationX>
+        <locationY>1079</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <connector>
+            <targetReference>Flag_DI_as_Task_Created</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>TaskOwnerEmail</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>$Label.NoReplayWideAddress</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>EmailSubject</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>EmailBodyWebTask</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+    </actionCalls>
+    <apiVersion>59.0</apiVersion>
     <decisions>
         <name>D_j_cr_e</name>
         <label>Contact is OK ?</label>
-        <locationX>1106</locationX>
+        <locationX>578</locationX>
         <locationY>539</locationY>
         <defaultConnector>
             <targetReference>Copy_2_of_Log_Notes</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>NONE</defaultConnectorLabel>
-        <rules>
-            <name>LiveWebinar</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Get_contact_info</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Engagement_Type__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Webinars</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.attendance__c</leftValueReference>
-                <operator>GreaterThanOrEqualTo</operator>
-                <rightValue>
-                    <numberValue>80.0</numberValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Create_task_Live</targetReference>
-            </connector>
-            <label>Live Webinar</label>
-        </rules>
-        <rules>
-            <name>Replay_Webinar1</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Get_contact_info</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Engagement_Type__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Replay Webinar</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.attendance__c</leftValueReference>
-                <operator>GreaterThanOrEqualTo</operator>
-                <rightValue>
-                    <numberValue>75.0</numberValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Create_task_Replay</targetReference>
-            </connector>
-            <label>Replay Webinar</label>
-        </rules>
         <rules>
             <name>Prospace1</name>
             <conditionLogic>and</conditionLogic>
@@ -90,6 +81,13 @@
                 <operator>GreaterThanOrEqualTo</operator>
                 <rightValue>
                     <numberValue>600.0</numberValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_contact_info.Owner.IsActive</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -121,6 +119,13 @@
                     <numberValue>600.0</numberValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>Get_contact_info.Owner.IsActive</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Create_task_Web</targetReference>
             </connector>
@@ -138,8 +143,19 @@
         <dataType>Boolean</dataType>
         <expression>IF(CONTAINS({!$Record.Contact_lu__r.Email}, &apos;@carmignac&apos;), true, false)</expression>
     </formulas>
+    <formulas>
+        <name>RecordURL</name>
+        <dataType>String</dataType>
+        <expression>LEFT( {!$Api.Enterprise_Server_URL_520}, FIND( &apos;/services&apos;, {!$Api.Enterprise_Server_URL_520} ))&amp;{!TaskId}</expression>
+    </formulas>
+    <formulas>
+        <name>TaskSubjectForEmailBody</name>
+        <dataType>String</dataType>
+        <expression>IF(ISPICKVAL({!$Record.Engagement_Type__c}, &apos;Web&apos;) , {!Text_Subject_Web}, 
+IF(ISPICKVAL({!$Record.Engagement_Type__c}, &apos;Prospace&apos;), {!Text_Subject_Prospace} ,&apos;&apos;) )</expression>
+    </formulas>
     <interviewLabel>FL After Save Task Business Opportunity {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>FL After Save Task Business Opportunity with logs and update</label>
+    <label>FL After Save Task Business Opportunity with logs and update EMAIL</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -162,7 +178,7 @@
     <recordCreates>
         <name>Copy_2_of_Log_Notes</name>
         <label>Copy 2 of Log Notes</label>
-        <locationX>2162</locationX>
+        <locationX>1106</locationX>
         <locationY>647</locationY>
         <inputAssignments>
             <field>Body</field>
@@ -212,69 +228,13 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
     <recordCreates>
-        <name>Create_task_Live</name>
-        <label>Create task Live</label>
-        <locationX>50</locationX>
-        <locationY>647</locationY>
-        <connector>
-            <targetReference>Flag_DI_as_Task_Created</targetReference>
-        </connector>
-        <faultConnector>
-            <isGoTo>true</isGoTo>
-            <targetReference>Copy_5_of_Log_Notes</targetReference>
-        </faultConnector>
-        <inputAssignments>
-            <field>ActivityDate</field>
-            <value>
-                <elementReference>Form_Due_Date</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Description__c</field>
-            <value>
-                <elementReference>Text_Desc_Live_Webinar</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>OwnerId</field>
-            <value>
-                <elementReference>Get_contact_info.Owner.Id</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Subject</field>
-            <value>
-                <elementReference>Text_Subject_Live_Webinar</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Type</field>
-            <value>
-                <stringValue>Business Opportunity</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>WhatId</field>
-            <value>
-                <elementReference>$Record.Id</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>WhoId</field>
-            <value>
-                <elementReference>Get_contact_info.Id</elementReference>
-            </value>
-        </inputAssignments>
-        <object>Task</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordCreates>
-    <recordCreates>
         <name>Create_task_Prospace</name>
         <label>Create task Prospace</label>
-        <locationX>1106</locationX>
+        <locationX>50</locationX>
         <locationY>647</locationY>
+        <assignRecordIdToReference>TaskId</assignRecordIdToReference>
         <connector>
-            <targetReference>Flag_DI_as_Task_Created</targetReference>
+            <targetReference>Task_Email</targetReference>
         </connector>
         <faultConnector>
             <isGoTo>true</isGoTo>
@@ -323,74 +283,17 @@
             </value>
         </inputAssignments>
         <object>Task</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordCreates>
-    <recordCreates>
-        <name>Create_task_Replay</name>
-        <label>Create task Replay</label>
-        <locationX>578</locationX>
-        <locationY>647</locationY>
-        <connector>
-            <targetReference>Flag_DI_as_Task_Created</targetReference>
-        </connector>
-        <faultConnector>
-            <targetReference>Copy_5_of_Log_Notes</targetReference>
-        </faultConnector>
-        <inputAssignments>
-            <field>ActivityDate</field>
-            <value>
-                <elementReference>Form_Due_Date</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Description__c</field>
-            <value>
-                <elementReference>Text_Desc_Replay_Webinar</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>OwnerId</field>
-            <value>
-                <elementReference>Get_contact_info.Owner.Id</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Subject</field>
-            <value>
-                <elementReference>Text_Subject_Replay_Webinar</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Type</field>
-            <value>
-                <stringValue>Business Opportunity</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>WhatId</field>
-            <value>
-                <elementReference>$Record.Id</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>WhoId</field>
-            <value>
-                <elementReference>Get_contact_info.Id</elementReference>
-            </value>
-        </inputAssignments>
-        <object>Task</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
     <recordCreates>
         <name>Create_task_Web</name>
         <label>Create task Web</label>
-        <locationX>1634</locationX>
+        <locationX>578</locationX>
         <locationY>647</locationY>
+        <assignRecordIdToReference>TaskId</assignRecordIdToReference>
         <connector>
-            <targetReference>Flag_DI_as_Task_Created</targetReference>
+            <targetReference>Task_Email</targetReference>
         </connector>
         <faultConnector>
-            <isGoTo>true</isGoTo>
             <targetReference>Copy_5_of_Log_Notes</targetReference>
         </faultConnector>
         <inputAssignments>
@@ -436,12 +339,11 @@
             </value>
         </inputAssignments>
         <object>Task</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
     <recordLookups>
         <name>Get_contact_info</name>
         <label>Get contact info</label>
-        <locationX>1106</locationX>
+        <locationX>578</locationX>
         <locationY>431</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -483,7 +385,7 @@
     <recordLookups>
         <name>get_Recordtype</name>
         <label>get Recordtype</label>
-        <locationX>1106</locationX>
+        <locationX>578</locationX>
         <locationY>323</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -504,8 +406,8 @@
     <recordUpdates>
         <name>Flag_DI_as_Task_Created</name>
         <label>Flag DI as Task Created</label>
-        <locationX>1106</locationX>
-        <locationY>1079</locationY>
+        <locationX>578</locationX>
+        <locationY>1187</locationY>
         <inputAssignments>
             <field>TECH_Task_Created__c</field>
             <value>
@@ -515,12 +417,12 @@
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <start>
-        <locationX>980</locationX>
+        <locationX>452</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>get_Recordtype</targetReference>
         </connector>
-        <filterLogic>1 AND 8 AND (2 OR 3) AND ( 4 OR 5 OR 6 OR 7)</filterLogic>
+        <filterLogic>1 AND 2 AND 5 AND ( 3 OR 4)</filterLogic>
         <filters>
             <field>Contact_lu__c</field>
             <operator>NotEqualTo</operator>
@@ -536,13 +438,6 @@
             </value>
         </filters>
         <filters>
-            <field>attendance__c</field>
-            <operator>GreaterThanOrEqualTo</operator>
-            <value>
-                <numberValue>75.0</numberValue>
-            </value>
-        </filters>
-        <filters>
             <field>Engagement_Type__c</field>
             <operator>EqualTo</operator>
             <value>
@@ -554,20 +449,6 @@
             <operator>EqualTo</operator>
             <value>
                 <stringValue>Prospace</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>Engagement_Type__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Webinars</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>Engagement_Type__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Replay Webinar</stringValue>
             </value>
         </filters>
         <filters>
@@ -586,6 +467,21 @@
         <name>Creationerror</name>
         <isViewedAsPlainText>false</isViewedAsPlainText>
         <text>&lt;p&gt;{!LogEmail}&lt;/p&gt;&lt;p&gt;Contact Id :{!Get_contact_info.Id}&lt;/p&gt;&lt;p&gt;Subject: {!Text_Subject_Web}&lt;/p&gt;&lt;p&gt;Subject: {!Text_Subject_Prospace}&lt;/p&gt;&lt;p&gt;Subject: {!Text_Subject_Live_Webinar}&lt;/p&gt;&lt;p&gt;Subject: {!&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;Text_Subject_Replay_Webinar&lt;/span&gt;}&lt;/p&gt;&lt;p&gt;Description: {!&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;Text_Desc_Web&lt;/span&gt;}&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;Description&lt;/span&gt;: {!Text_Desc_Prospace}&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;Description&lt;/span&gt;: {!&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;Text_Desc_Live_Webinar&lt;/span&gt;}&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;Description&lt;/span&gt;: {!&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;Text_Desc_Replay_Webinar&lt;/span&gt;}&lt;/p&gt;&lt;p&gt;Erreur a la creation de la tache&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>EmailBody</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;Dear {!$Record.Contact_lu__r.ContactOwner__c},&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;A new Business Opportunity has been assigned to you.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;For more details, please see &lt;a href=&quot;{!RecordURL}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>EmailBodyWebTask</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>&lt;p&gt;Dear  {!Get_contact_info.Owner.FirstName},&lt;/p&gt;&lt;p&gt;A new Business Opportunity has been assigned to because one of your clients was very engaged.&lt;/p&gt;&lt;p&gt;Please review the detail and decide if an action is required to take advantage of this information :&lt;/p&gt;&lt;p&gt;Detail : {!TaskSubjectForEmailBody}  &lt;/p&gt;&lt;p&gt;Company : {!Get_contact_info.Account.Name}&lt;/p&gt;&lt;p&gt;Please see full details &lt;a href=&quot;{!RecordURL}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;here &lt;/a&gt;&lt;/p&gt;&lt;p&gt;Kind regards,&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>EmailSubject</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>📣 You have been assigned a new Business Opportunity 📣</text>
     </textTemplates>
     <textTemplates>
         <name>LogEmail</name>
@@ -642,4 +538,21 @@ Contact Owner :{!Get_contact_info.OwnerId}</text>
         <isViewedAsPlainText>true</isViewedAsPlainText>
         <text>{!$Record.Contact_lu__r.FirstName} {!$Record.Contact_lu__r.LastName} has just spent more than 10 minutes on our website</text>
     </textTemplates>
+    <variables>
+        <name>TaskId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>TaskOwnerEmail</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <elementReference>Get_contact_info.Owner.Email</elementReference>
+        </value>
+    </variables>
 </Flow>

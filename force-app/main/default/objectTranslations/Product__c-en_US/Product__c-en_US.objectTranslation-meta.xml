@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Product</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Products</value>
+    </caseValues>
+    <layouts>
+        <layout>Asset Class</layout>
+        <sections>
+            <label><!-- AUM --></label>
+            <section>AUM</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Dummy Product</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Expertise</layout>
+        <sections>
+            <label><!-- AUM --></label>
+            <section>AUM</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Product Hierarchy --></label>
+            <section>Product Hierarchy</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Fund</layout>
+        <sections>
+            <label><!-- AUM and Flows (EUR) --></label>
+            <section>AUM and Flows (EUR)</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Overview --></label>
+            <section>Overview</section>
+        </sections>
+        <sections>
+            <label><!-- Product Hierarchy --></label>
+            <section>Product Hierarchy</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Range</layout>
+        <sections>
+            <label><!-- AUM --></label>
+            <section>AUM</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Regional Focus</layout>
+        <sections>
+            <label><!-- AUM --></label>
+            <section>AUM</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Strategy</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Hierarchy --></label>
+            <section>Hierarchy</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label><!-- New Meeting Note --></label>
+        <name>New_Meeting_Note</name>
+    </quickActions>
+    <recordTypes>
+        <description><!-- The highest level of the investment product offer: Equity, Fixed Income, Alternative and Multi-Asset --></description>
+        <label><!-- Asset Class --></label>
+        <name>Asset_Class</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- This is a record type exclusively to represent &apos;Investment Solution Products&apos; - &apos;Dummy Products&apos;. Only for Opportunity Type number 5 &apos;Investment Solution&apos; and &apos;Meeting Notes&apos; --></description>
+        <label><!-- Dummy Products --></label>
+        <name>Dummy_Products</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- The legal vehicle and structure of a fund i.e. FCP, SICAV, OEIC, ICAV --></description>
+        <label><!-- Fund --></label>
+        <name>Fund</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Underlying overall investment strategy. I.e.  ‘Patrimoine’, ‘Emergents’, ‘Securite’ – regardless of legal the legal structure of the fund (FCP or SICAV), we are looking at the strategy level. --></description>
+        <label><!-- Strategy --></label>
+        <name>Strategy</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Regional, sectorial or thematic focus of the range --></description>
+        <label><!-- Regional Focus --></label>
+        <name>Sub_Asset_Class</name>
+    </recordTypes>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- You cannot modify the product code. --></errorMessage>
+        <name>VR01_PreventProductCodeEdit</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Minimum sustainable investment must be between 0% and 100% --></errorMessage>
+        <name>VR02_EET20220</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Minimum sustainable investment must be between 0% and 100% --></errorMessage>
+        <name>VR03_EET20250</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Minimum or planned investment must be between 0% and 100% --></errorMessage>
+        <name>VR04_EET20400</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Planned other investments with environmental or social characteristics must be between 0% and 100% --></errorMessage>
+        <name>VR06_EET20430</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Planned sustainable investments (other environmental) must be between 0% and 100% --></errorMessage>
+        <name>VR07_EET20460</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- The GIIN Sponsor Code format is invalid. Expected format: ABCDEF.12345.SL.XXX --></errorMessage>
+        <name>VR09_GIINSponsorCode</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Planned SFDR Art 9 minimum % must be between 0% and 100% --></errorMessage>
+        <name>VR11_EET20080</name>
+    </validationRules>
+    <webLinks>
+        <label><!-- ExportProduct --></label>
+        <name>ExportProduct</name>
+    </webLinks>
+</CustomObjectTranslation>

@@ -4,10 +4,5 @@
     <columns>NAME</columns>
     <columns>URL__c</columns>
     <filterScope>Everything</filterScope>
-    <filters>
-        <field>URL__c</field>
-        <operation>contains</operation>
-        <value>pro-space</value>
-    </filters>
     <label>Digital Interactions Details</label>
 </ListView>

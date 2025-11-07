@@ -40,6 +40,7 @@
                 <elementReference>myVariable_current.Owner:User.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>chatterPost</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -63,6 +64,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Lead.Email_to_notify_the_new_owner_of_the_leas</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -86,6 +88,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Lead.Email_to_notify_the_new_owner_of_the_leas</nameSegment>
     </actionCalls>
     <apiVersion>49.0</apiVersion>
     <assignments>
@@ -292,7 +295,7 @@
     </processMetadataValues>
     <processType>Workflow</processType>
     <startElementReference>myPreWaitDecision_myWait_myRule_1</startElementReference>
-    <status>Active</status>
+    <status>Obsolete</status>
     <variables>
         <name>cancelWaits</name>
         <dataType>String</dataType>

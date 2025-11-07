@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Favorite__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Allows users to add a favorite tag to this WTP in order to keep this WTP as an interseting WTP, an exemple to follow for example</description>
+    <inlineHelpText>Check if you want to tag this WTP as a favorite. The &quot;favorite&quot; WTPs can be easily found in a list view or in reports</inlineHelpText>
+    <label>Favorite</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

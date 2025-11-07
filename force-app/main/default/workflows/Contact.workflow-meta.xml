@@ -107,6 +107,26 @@ RIGHT(FirstName, LEN(FirstName)-1)</formula>
         <reevaluateOnChange>false</reevaluateOnChange>
     </fieldUpdates>
     <fieldUpdates>
+        <fullName>Contact_UpdateMailingCountry2</fullName>
+        <field>MailingCountry</field>
+        <formula>Account.BillingCountry</formula>
+        <name>Contact_UpdateMailingCountry2</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Contact_UpdateMailingState</fullName>
+        <field>MailingState</field>
+        <formula>Account.BillingState</formula>
+        <name>Contact_UpdateMailingState</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
         <fullName>Contact_UpdateMailingStreet</fullName>
         <field>MailingStreet</field>
         <formula>Account.BillingStreet</formula>
@@ -318,10 +338,6 @@ RIGHT(FirstName, LEN(FirstName)-1)</formula>
             <type>FieldUpdate</type>
         </actions>
         <actions>
-            <name>Contact_UpdateEmailOptout</name>
-            <type>FieldUpdate</type>
-        </actions>
-        <actions>
             <name>Contact_UpdatePardotOptout</name>
             <type>FieldUpdate</type>
         </actions>
@@ -357,7 +373,7 @@ RIGHT(FirstName, LEN(FirstName)-1)</formula>
             <name>Contact_updateLastNameCapitalLetter</name>
             <type>FieldUpdate</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <description>Automatique Capital Letter on Last Name</description>
         <formula>AND(     NOT($User.BypassWorkflowRules__c),     OR(        ISNEW(),        ISCHANGED( LastName ),        ISCHANGED( FirstName ),        AND            (ISCHANGED (FirstName),            ISCHANGED (LastName)            )       ) )</formula>
         <triggerType>onAllChanges</triggerType>
@@ -397,6 +413,14 @@ RIGHT(FirstName, LEN(FirstName)-1)</formula>
             <type>FieldUpdate</type>
         </actions>
         <actions>
+            <name>Contact_UpdateMailingCountry2</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>Contact_UpdateMailingState</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
             <name>Contact_UpdateMailingStreet</name>
             <type>FieldUpdate</type>
         </actions>
@@ -405,12 +429,9 @@ RIGHT(FirstName, LEN(FirstName)-1)</formula>
             <type>FieldUpdate</type>
         </actions>
         <active>true</active>
+        <booleanFilter>((1 AND 2 ) OR ( 1 AND 2 AND 5 AND 6) ) AND  3 AND 4</booleanFilter>
         <criteriaItems>
             <field>Contact.MailingCity</field>
-            <operation>equals</operation>
-        </criteriaItems>
-        <criteriaItems>
-            <field>Contact.MailingCountry</field>
             <operation>equals</operation>
         </criteriaItems>
         <criteriaItems>
@@ -427,6 +448,14 @@ RIGHT(FirstName, LEN(FirstName)-1)</formula>
             <operation>notEqual</operation>
             <value>BP_IT</value>
         </criteriaItems>
+        <criteriaItems>
+            <field>Contact.MailingStateCode</field>
+            <operation>equals</operation>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Contact.MailingCountry</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
         <description>If the contact address is empty, the company address is automaticly used</description>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
     </rules>
@@ -434,10 +463,6 @@ RIGHT(FirstName, LEN(FirstName)-1)</formula>
         <fullName>Contact_WF005_CancelWebsite</fullName>
         <actions>
             <name>Contact_SetTrialStatusToNull</name>
-            <type>FieldUpdate</type>
-        </actions>
-        <actions>
-            <name>Contact_UpdateEmailOptout</name>
             <type>FieldUpdate</type>
         </actions>
         <actions>

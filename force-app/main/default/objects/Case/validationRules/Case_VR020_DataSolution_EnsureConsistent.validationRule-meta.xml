@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_VR020_DataSolution_EnsureConsistent</fullName>
+    <active>true</active>
+    <description>To ensure consistency between Salesforce and VRS, please contact the Data Solution team before making any changes to the “Expected Lag” and “Request frequency” fields.</description>
+    <errorConditionFormula>AND(
+    NOT(ISNEW()),
+    OR(
+        ISCHANGED(Date_expected_for_delivery__c),
+        ISCHANGED(Report_frequency__c)
+    ),
+    NOT($Permission.SuperUserDataSolutions)
+)</errorConditionFormula>
+    <errorMessage>To ensure consistency between Salesforce and VRS, please contact the Data Solution team before making any changes to the “Expected Lag” and “Request frequency” fields.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Agreement_Type__c</fullName>
+    <defaultValue>IF(
+$User.ProfileId = &apos;00e1i000000KfYN&apos;,
+&apos;IS Agreement&apos;,
+&apos;Distribution Agreement&apos;
+)</defaultValue>
+    <label>Agreement Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>IS Agreement</fullName>
+                <default>false</default>
+                <label>IS Agreement</label>
+            </value>
+            <value>
+                <fullName>Distribution Agreement</fullName>
+                <default>false</default>
+                <label>Distribution Agreement</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

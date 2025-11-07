@@ -478,6 +478,11 @@
             <field>Process__c</field>
             <table>StrategicNews__c.Activities</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Tech_Owner_Team__c</field>
+            <table>StrategicNews__c.Activities</table>
+        </columns>
         <masterLabel>Activities</masterLabel>
     </sections>
 </ReportType>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Status__c</fullName>
-    <externalId>false</externalId>
     <label>Status</label>
     <required>false</required>
     <trackFeedHistory>true</trackFeedHistory>
@@ -15,6 +14,41 @@
                 <fullName>In Negotiation</fullName>
                 <default>true</default>
                 <label>In Negotiation</label>
+            </value>
+            <value>
+                <fullName>Change Requested</fullName>
+                <default>false</default>
+                <label>Change Requested</label>
+            </value>
+            <value>
+                <fullName>Pending Renewal</fullName>
+                <default>false</default>
+                <label>Pending Renewal</label>
+            </value>
+            <value>
+                <fullName>Change Renewal</fullName>
+                <default>false</default>
+                <label>Change Renewal</label>
+            </value>
+            <value>
+                <fullName>Pre-governance</fullName>
+                <default>false</default>
+                <label>Pre-governance</label>
+            </value>
+            <value>
+                <fullName>Ready for governance</fullName>
+                <default>false</default>
+                <label>Ready for governance</label>
+            </value>
+            <value>
+                <fullName>Post Governance</fullName>
+                <default>false</default>
+                <label>Post Governance</label>
+            </value>
+            <value>
+                <fullName>Ready to execute</fullName>
+                <default>false</default>
+                <label>Ready to execute</label>
             </value>
             <value>
                 <fullName>Signed</fullName>
@@ -45,6 +79,11 @@
                 <fullName>Rejected</fullName>
                 <default>false</default>
                 <label>Rejected</label>
+            </value>
+            <value>
+                <fullName>Expired</fullName>
+                <default>false</default>
+                <label>Expired</label>
             </value>
         </valueSetDefinition>
     </valueSet>

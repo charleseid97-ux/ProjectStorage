@@ -130,7 +130,7 @@
             <field>CreatedBy</field>
             <table>Campaign</table>
         </columns>
-        <masterLabel>Campaign 2</masterLabel>
+        <masterLabel>Campaign </masterLabel>
     </sections>
     <sections>
         <columns>
@@ -213,6 +213,43 @@
             <field>Contact.ICAV_CAELS_Opt_In__c</field>
             <table>Campaign.CampaignMembers</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Contact Company</displayNameOverride>
+            <field>Contact.Account</field>
+            <table>Campaign.CampaignMembers</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Lead Company</displayNameOverride>
+            <field>Lead.Company</field>
+            <table>Campaign.CampaignMembers</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ContactBounceReason__c</field>
+            <table>Campaign.CampaignMembers</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Last_update_contact_or_lead__c</field>
+            <table>Campaign.CampaignMembers</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LeadBounceReason__c</field>
+            <table>Campaign.CampaignMembers</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Contact</field>
+            <table>Campaign.CampaignMembers</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Lead</field>
+            <table>Campaign.CampaignMembers</table>
+        </columns>
         <masterLabel>Campaign Members</masterLabel>
     </sections>
     <sections>
@@ -232,5 +269,58 @@
             <table>Campaign</table>
         </columns>
         <masterLabel>Info Users</masterLabel>
+    </sections>
+    <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>NumberOfBounced__c</field>
+            <table>Campaign</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>NumberOfClicks__c</field>
+            <table>Campaign</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>NumberOfDelivered__c</field>
+            <table>Campaign</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>NumberOfMember__c</field>
+            <table>Campaign</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>NumberOfOpen__c</field>
+            <table>Campaign</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>NumberofSpamComplaint__c</field>
+            <table>Campaign</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>NumberOfUnsubscribed__c</field>
+            <table>Campaign</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>NumberOfReadyToBeSent__c</field>
+            <table>Campaign</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>NumberOfSent__c</field>
+            <table>Campaign</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LyytiURL__c</field>
+            <table>Campaign</table>
+        </columns>
+        <masterLabel>Campaigns</masterLabel>
     </sections>
 </ReportType>

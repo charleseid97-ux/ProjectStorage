@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- EFAMA EFC Classification --></label>
+    <name>EFAMAEFCClassification__c</name>
+    <picklistValues>
+        <masterLabel>ARIS Long/Short Equity Variable Bias Strategy</masterLabel>
+        <translation><!-- ARIS Long/Short Equity Variable Bias Strategy --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ARIS Merger Arbitrage</masterLabel>
+        <translation><!-- ARIS Merger Arbitrage --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bond Aggregate High Yield FD EUR</masterLabel>
+        <translation><!-- Bond Aggregate High Yield FD EUR --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bond Aggregate MT</masterLabel>
+        <translation><!-- Bond Aggregate MT --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bond Aggregate MT CHF</masterLabel>
+        <translation><!-- Bond Aggregate MT CHF --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bond Aggregate MT EUR</masterLabel>
+        <translation><!-- Bond Aggregate MT EUR --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bond Aggregate MT GBP</masterLabel>
+        <translation><!-- Bond Aggregate MT GBP --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bond Aggregate MT USD</masterLabel>
+        <translation><!-- Bond Aggregate MT USD --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bond Aggregate ST CHF</masterLabel>
+        <translation><!-- Bond Aggregate ST CHF --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bond Aggregate ST EUR</masterLabel>
+        <translation><!-- Bond Aggregate ST EUR --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bond Aggregate ST GBP</masterLabel>
+        <translation><!-- Bond Aggregate ST GBP --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bond Aggregate ST USD</masterLabel>
+        <translation><!-- Bond Aggregate ST USD --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bond Corporate FD CAD</masterLabel>
+        <translation><!-- Bond Corporate FD CAD --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bond Corporate FD CHF</masterLabel>
+        <translation><!-- Bond Corporate FD CHF --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bond Corporate FD EUR</masterLabel>
+        <translation><!-- Bond Corporate FD EUR --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bond Corporate FD USD</masterLabel>
+        <translation><!-- Bond Corporate FD USD --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bond Corporate MT CHF</masterLabel>
+        <translation><!-- Bond Corporate MT CHF --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bond Corporate MT EUR</masterLabel>
+        <translation><!-- Bond Corporate MT EUR --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bond Corporate MT USD</masterLabel>
+        <translation><!-- Bond Corporate MT USD --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bond Emerging Global</masterLabel>
+        <translation><!-- Bond Emerging Global --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bond High Yield FD CHF</masterLabel>
+        <translation><!-- Bond High Yield FD CHF --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bond High Yield FD EUR</masterLabel>
+        <translation><!-- Bond High Yield FD EUR --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bond High Yield FD USD</masterLabel>
+        <translation><!-- Bond High Yield FD USD --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Capital Protected</masterLabel>
+        <translation><!-- Capital Protected --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Equity Advanced Europe</masterLabel>
+        <translation><!-- Equity Advanced Europe --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Equity Advanced Europe Small Cap</masterLabel>
+        <translation><!-- Equity Advanced Europe Small Cap --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Equity Emerging Asia Pacific</masterLabel>
+        <translation><!-- Equity Emerging Asia Pacific --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Equity Emerging Market Global</masterLabel>
+        <translation><!-- Equity Emerging Market Global --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Equity Emerging Market Global Small Cap</masterLabel>
+        <translation><!-- Equity Emerging Market Global Small Cap --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Equity Europe</masterLabel>
+        <translation><!-- Equity Europe --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Equity Global</masterLabel>
+        <translation><!-- Equity Global --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Equity Global Advanced Markets</masterLabel>
+        <translation><!-- Equity Global Advanced Markets --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Equity Greater China</masterLabel>
+        <translation><!-- Equity Greater China --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Equity Information Technology</masterLabel>
+        <translation><!-- Equity Information Technology --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Flexible Bond</masterLabel>
+        <translation><!-- Flexible Bond --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Flexible Bond CHF</masterLabel>
+        <translation><!-- Flexible Bond CHF --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Flexible Bond EUR</masterLabel>
+        <translation><!-- Flexible Bond EUR --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Flexible Bond GBP</masterLabel>
+        <translation><!-- Flexible Bond GBP --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Flexible Bond USD</masterLabel>
+        <translation><!-- Flexible Bond USD --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Multi-Asset Advanced Europe Balanced EUR</masterLabel>
+        <translation><!-- Multi-Asset Advanced Europe Balanced EUR --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Multi-Asset Europe Balanced</masterLabel>
+        <translation><!-- Multi-Asset Europe Balanced --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Multi-Asset Europe Balanced GBP</masterLabel>
+        <translation><!-- Multi-Asset Europe Balanced GBP --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Multi-Asset Global Aggressive</masterLabel>
+        <translation><!-- Multi-Asset Global Aggressive --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Multi-Asset Global Balanced</masterLabel>
+        <translation><!-- Multi-Asset Global Balanced --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Multi-Asset Global Balanced CHF</masterLabel>
+        <translation><!-- Multi-Asset Global Balanced CHF --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Multi-Asset Global Balanced EUR</masterLabel>
+        <translation><!-- Multi-Asset Global Balanced EUR --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Multi-Asset Global Balanced GBP</masterLabel>
+        <translation><!-- Multi-Asset Global Balanced GBP --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Multi-Asset Global Balanced USD</masterLabel>
+        <translation><!-- Multi-Asset Global Balanced USD --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Multi-Asset Global Emerging Markets Balanced</masterLabel>
+        <translation><!-- Multi-Asset Global Emerging Markets Balanced --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Multi-Asset Global Emerging Markets Balanced CHF</masterLabel>
+        <translation><!-- Multi-Asset Global Emerging Markets Balanced CHF --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Multi-Asset Global Emerging Markets Balanced USD</masterLabel>
+        <translation><!-- Multi-Asset Global Emerging Markets Balanced USD --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Multi-Asset Global Flexible</masterLabel>
+        <translation><!-- Multi-Asset Global Flexible --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Multi-Strategy ARIS</masterLabel>
+        <translation><!-- Multi-Strategy ARIS --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Private Equity</masterLabel>
+        <translation><!-- Private Equity --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Short-term variable NAV Money Market EUR</masterLabel>
+        <translation><!-- Short-term variable NAV Money Market EUR --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

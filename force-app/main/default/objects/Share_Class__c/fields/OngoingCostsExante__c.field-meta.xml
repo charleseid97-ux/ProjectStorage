@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OngoingCostsExante__c</fullName>
+    <description>Management fees and other administrative or operating costs (PRIIPS KID), Ongoing Costs Ex-ante, this field is feeded with the EMT 07100</description>
+    <inlineHelpText>Management fees and other administrative or operating costs (PRIIPS KID), Ongoing Costs Ex-ante, this field is feeded with the EMT 07100</inlineHelpText>
+    <label>Mgt fees and other admin or operat costs</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>CventEvents__pkg_SurveyStub__c</fullName>
     <deprecated>false</deprecated>
+    <description>Stores either standalone survey stub or the blank stub for event surveys.</description>
     <encryptionScheme>None</encryptionScheme>
     <externalId>true</externalId>
     <label>Survey Stub</label>

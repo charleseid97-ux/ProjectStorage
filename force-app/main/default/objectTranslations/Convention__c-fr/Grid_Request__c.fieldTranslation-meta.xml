@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Grid Request --></label>
     <lookupFilter>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- You can only select Active Grids --></errorMessage>
     </lookupFilter>
     <name>Grid_Request__c</name>
-    <relationshipLabel></relationshipLabel>
+    <relationshipLabel><!-- Agreements (Grid Request) --></relationshipLabel>
 </CustomFieldTranslation>

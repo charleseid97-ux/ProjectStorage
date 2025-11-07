@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EET60410__c</fullName>
+    <label>60410 Financial Instrument Environmenta</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Biodiversity preservation</fullName>
+                <default>false</default>
+                <label>Biodiversity preservation</label>
+            </value>
+            <value>
+                <fullName>Land &amp; Ocean preservation</fullName>
+                <default>false</default>
+                <label>Land &amp; Ocean preservation</label>
+            </value>
+            <value>
+                <fullName>Natural resources preservation or consumption</fullName>
+                <default>false</default>
+                <label>Natural resources preservation or consumption</label>
+            </value>
+            <value>
+                <fullName>Transition to low carbon economy</fullName>
+                <default>false</default>
+                <label>Transition to low carbon economy</label>
+            </value>
+            <value>
+                <fullName>Waste</fullName>
+                <default>false</default>
+                <label>Waste</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

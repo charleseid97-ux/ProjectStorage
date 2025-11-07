@@ -154,13 +154,13 @@
     <enableSharing>false</enableSharing>
     <enableStreamingApi>false</enableStreamingApi>
     <externalSharingModel>ReadWrite</externalSharingModel>
-    <label>Duplicate Check Audit</label>
+    <label>Plauti Deduplicate Audit</label>
     <nameField>
         <displayFormat>DC-AUDIT-{000000}</displayFormat>
-        <label>Duplicate Check Audit Name</label>
+        <label>Plauti Deduplicate Audit Name</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Duplicate Check Audits</pluralLabel>
+    <pluralLabel>Plauti Deduplicate Audits</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

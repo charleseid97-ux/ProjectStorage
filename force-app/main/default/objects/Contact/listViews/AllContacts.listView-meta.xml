@@ -9,10 +9,5 @@
     <columns>CONTACT.ADDRESS2_COUNTRY_CODE</columns>
     <columns>ContactOwner__c</columns>
     <filterScope>Everything</filterScope>
-    <filters>
-        <field>ContactStatus__c</field>
-        <operation>equals</operation>
-        <value>true</value>
-    </filters>
     <label>All Contacts</label>
 </ListView>

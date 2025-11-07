@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>56.0</apiVersion>
+    <description>Page to store all training material</description>
+    <environments>Default</environments>
+    <interviewLabel>Training Material {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>FL_screen_flow_Training_Material</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <screens>
+        <name>Training_Videos</name>
+        <label>Training Videos</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>Training_Videos_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Training_Videos_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Overview</name>
+                    <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 20px;&quot;&gt;Overview on...&lt;/strong&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>Platform_Overview</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;&lt;img src=&quot;https://carmignac-crm.file.force.com/sfc/servlet.shepherd/version/download/0681i00000acofb?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;Tour.png&quot;&gt; &lt;/span&gt;&lt;a href=&quot;https://carmignac.seismic.com/Link/Content/DC8W7VFGRhj6JG92RbPfbBh82PM8&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px; color: rgb(0, 0, 0);&quot;&gt;&lt;strong&gt;Salesforce Platform Tour&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>Home</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;&lt;img src=&quot;https://carmignac-crm.file.force.com/sfc/servlet.shepherd/version/download/0681i00000acofq?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;Home.png&quot;&gt; Home Page&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>Agreements</name>
+                    <fieldText>&lt;p&gt;&lt;a href=&quot;https://carmignac-crm.lightning.force.com/lightning/o/Salesforce_update__c/list?filterName=00B1i000003CUyCEAW&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px;&quot;&gt;&lt;strong&gt;&lt;img src=&quot;https://carmignac-crm.file.force.com/sfc/servlet.shepherd/version/download/0681i00000acogA?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;Agree.png&quot;&gt; &lt;/strong&gt;&lt;/a&gt;&lt;span style=&quot;font-size: 14px; color: rgb(0, 0, 0);&quot;&gt;Agreements&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>WTP</name>
+                    <fieldText>&lt;p&gt;&lt;a href=&quot;https://carmignac-crm.lightning.force.com/lightning/o/Salesforce_update__c/list?filterName=00B1i000003CUyKEAW&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px;&quot;&gt;&lt;strong&gt;&lt;img src=&quot;https://carmignac-crm.file.force.com/sfc/servlet.shepherd/version/download/0681i00000acohi?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;Case.png&quot;&gt; &lt;/strong&gt;&lt;/a&gt;&lt;a href=&quot;https://carmignac-crm.file.force.com/sfc/servlet.shepherd/document/download/0691i00000S1UfcAAF?operationContext=S1&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px; color: rgb(0, 0, 0);&quot;&gt;&lt;strong&gt;WTP&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>HowTo</name>
+                    <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;&lt;img src=&quot;https://carmignac-crm.file.force.com/sfc/servlet.shepherd/version/download/0681i00000acogS?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;NDA.png&quot;&gt; &lt;/strong&gt;&lt;a href=&quot;https://carmignac.seismic.com/Link/Content/DCJMhM94Q3Qp3GcGjBbfbmFDpMD8&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px; background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);&quot;&gt;&lt;strong&gt;NDA&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>BuyList</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;&lt;img src=&quot;https://carmignac-crm.file.force.com/sfc/servlet.shepherd/version/download/0681i00000acogh?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;buy.png&quot;&gt; Buy List&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>ContactOverview</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255); font-size: 14px;&quot;&gt;&lt;img src=&quot;https://carmignac-crm.file.force.com/sfc/servlet.shepherd/version/download/0681i00000acohD?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;contact.png&quot;&gt; &lt;/span&gt;&lt;a href=&quot;https://carmignac.seismic.com/Link/Content/DCfFX9gT2GMcC8FMbGp6fpqPCbdB&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(15, 0, 0); background-color: rgb(255, 255, 255); font-size: 14px;&quot;&gt;&lt;strong&gt;Contact&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Training_Videos_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>How</name>
+                    <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 20px;&quot;&gt;How to ...&lt;/strong&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>Compagnies</name>
+                    <fieldText>&lt;p&gt;&lt;a href=&quot;https://carmignac-crm.my.salesforce.com/sfc/p/#58000000ZABI/a/1i000000Jznh/Ikunx1YJEHWnR2se4iT5yZsWyDXITwv8.j08acPmUvY&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;https://carmignac-crm.file.force.com/sfc/servlet.shepherd/version/download/0681i00000acokD?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;Account.png&quot;&gt;&lt;/a&gt; Create a new company&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>Contacts</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;&lt;img src=&quot;https://carmignac-crm.file.force.com/sfc/servlet.shepherd/version/download/0681i00000acohD?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;contact.png&quot;&gt; &lt;/span&gt;&lt;a href=&quot;https://carmignac.seismic.com/Link/Content/DCCP4DQqGFd2QG2R4WDCQqV2ThHd&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px; color: rgb(0, 0, 0);&quot;&gt;&lt;strong&gt;Create a new contact&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>MeetingNote</name>
+                    <fieldText>&lt;p&gt;&lt;u style=&quot;font-size: 14px;&quot;&gt;﻿&lt;/u&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;&lt;img src=&quot;https://carmignac-crm.file.force.com/sfc/servlet.shepherd/version/download/0681i00000acohd?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;Note.png&quot;&gt; &lt;/span&gt;&lt;a href=&quot;https://carmignac.seismic.com/Link/Content/DCjdWCJq3fXHPG7Q2MF3R6BDXj3V&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px; color: rgb(0, 0, 0);&quot;&gt;&lt;strong&gt;Create a Meeting Note&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>Audience</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;&lt;img src=&quot;https://carmignac-crm.file.force.com/sfc/servlet.shepherd/version/download/0681i00000acohx?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;Audience.png&quot;&gt; &lt;/span&gt;&lt;a href=&quot;https://carmignac.seismic.com/Link/Content/DCqCmqXVP4g7qGcJBJMVgd7HRq7j&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px; color: rgb(0, 0, 0);&quot;&gt;&lt;strong&gt;Manage Audience for Campaign&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>Email</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;&lt;img src=&quot;https://carmignac-crm.file.force.com/sfc/servlet.shepherd/version/download/0681i00000acoi7?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;email.png&quot;&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 14px; color: rgb(0, 0, 0);&quot;&gt; &lt;/span&gt;&lt;a href=&quot;https://carmignac.seismic.com/Link/Content/DCFXQXCDg8hmfG4HC4X3JTVfjhq3&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px; color: rgb(0, 0, 0);&quot;&gt;&lt;strong&gt;Manage Emails from Salesforce or Outlook&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>Subscription</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;&lt;img src=&quot;https://carmignac-crm.file.force.com/sfc/servlet.shepherd/version/download/0681i00000acoiW?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;Prospace.png&quot;&gt; &lt;/span&gt;&lt;a href=&quot;https://carmignac.seismic.com/Link/Content/DCmQqdJ7Vh6GXG22DHFC6mdH926j&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px; color: rgb(0, 0, 0);&quot;&gt;&lt;strong&gt;Subscribe a contact with ProSpace&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>Campaigns</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;&lt;img src=&quot;https://carmignac-crm.file.force.com/sfc/servlet.shepherd/version/download/0681i00000acoiq?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;digital.png&quot;&gt; Leverage on Digital Interactions&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>EventTrainingLink</name>
+                    <fieldText>&lt;p&gt;&lt;strong&gt;&lt;span class=&quot;ql-cursor&quot;&gt;﻿&lt;/span&gt;&lt;/strong&gt;&lt;img src=&quot;https://carmignac-crm.file.force.com/sfc/servlet.shepherd/version/download/0681i00000dzx69?asPdf=false&amp;amp;operationContext=CHATTER&quot; alt=&quot;image.png&quot;&gt;&lt;strong&gt; &lt;/strong&gt;&lt;a href=&quot;https://carmignac-crm.lightning.force.com/lightning/o/Salesforce_update__c/list?filterName=00B1i0000036JJCEA2&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 0, 0);&quot;&gt;&lt;strong&gt;Event Training&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Training_Videos</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+</Flow>

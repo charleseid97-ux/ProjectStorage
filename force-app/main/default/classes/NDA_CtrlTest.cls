@@ -48,25 +48,16 @@ private class NDA_CtrlTest {
     @IsTest
     static void testBehavior() {
 
-        User u = [SELECT Id FROM User WHERE LastName = 'Tecg'];
+        NDA__c nda = [SELECT Id FROM NDA__c LIMIT 1];
 
-        system.runAs(u) {
+        nda.Stage__c = 'In progress';
 
-            NDA__c nda = [SELECT Id FROM NDA__c];
-
-            nda.Stage__c = 'In progress';
-
-            update nda;
-        }
+        update nda;
 
     }
 
     @IsTest
     static void testBehaviorPlatform() {
-
-        User u = [SELECT Id FROM User WHERE LastName = 'Tecg'];
-
-        system.runAs(u) {
 
             NDA__c parentNDA = [SELECT Id FROM NDA__c where Name LIKE '%Morning%' LIMIT 1];
 
@@ -105,6 +96,5 @@ private class NDA_CtrlTest {
             }catch (Exception e){
                 System.debug('//testBehaviorPlatform'+e.getMessage());
             }
-        }
     }
 }

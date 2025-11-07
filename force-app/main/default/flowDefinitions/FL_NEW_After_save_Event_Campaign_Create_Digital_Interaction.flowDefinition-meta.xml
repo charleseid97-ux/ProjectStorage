@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlowDefinition xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionNumber>2</activeVersionNumber>
+    <description>Ce flow créer des digital interactions a partir des campaign members, si le campaign est de type event
+Se déclenche 4 jours après la fin de l&apos;événement</description>
+    <masterLabel>FL_After_save_Create_Digital_Interaction_Event</masterLabel>
+</FlowDefinition>

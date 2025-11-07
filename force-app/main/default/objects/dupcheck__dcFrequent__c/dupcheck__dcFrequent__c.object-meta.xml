@@ -154,13 +154,13 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ReadWrite</externalSharingModel>
-    <label>Duplicate Check Frequent Word</label>
+    <label>Plauti Deduplicate Frequent Word</label>
     <nameField>
         <displayFormat>DCF{000000000}</displayFormat>
-        <label>Duplicate Check Frequent Number</label>
+        <label>Plauti Deduplicate Frequent Number</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Duplicate Check Frequent Words</pluralLabel>
+    <pluralLabel>Plauti Deduplicate Frequent Words</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

@@ -45,6 +45,7 @@ Have a nice day !</stringValue>
                 <stringValue>0F9580000005rSICAY</stringValue>
             </value>
         </inputParameters>
+        <nameSegment>chatterPost</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -97,6 +98,7 @@ Have a nice day !</stringValue>
                 <stringValue>00558000002FtmwAAC</stringValue>
             </value>
         </inputParameters>
+        <nameSegment>chatterPost</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -149,6 +151,7 @@ Have a nice day !</stringValue>
                 <stringValue>00558000002FtnDAAS</stringValue>
             </value>
         </inputParameters>
+        <nameSegment>chatterPost</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -201,6 +204,7 @@ Have a nice day !</stringValue>
                 <stringValue>00558000002FtnpAAC</stringValue>
             </value>
         </inputParameters>
+        <nameSegment>chatterPost</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -221,6 +225,7 @@ Have a nice day !</stringValue>
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Campaign.New_Newsletter_created</nameSegment>
     </actionCalls>
     <apiVersion>49.0</apiVersion>
     <assignments>

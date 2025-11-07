@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Contact_Company__c</fullName>
     <externalId>false</externalId>
-    <formula>Contact.Account.Name</formula>
+    <formula>null</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Contact Company</label>
     <required>false</required>

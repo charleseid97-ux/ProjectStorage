@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- 50210 Financial Instrument Alcohol Excl --></label>
+    <name>EET50210__c</name>
+    <picklistValues>
+        <masterLabel>CaPEX</masterLabel>
+        <translation><!-- CaPEX --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Opex</masterLabel>
+        <translation><!-- Opex --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Revenue</masterLabel>
+        <translation><!-- Revenue --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

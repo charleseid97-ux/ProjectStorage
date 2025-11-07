@@ -4,6 +4,7 @@
     <enableEnhancedConcealPersonalInfo>true</enableEnhancedConcealPersonalInfo>
     <enableEnhancedPermsetMgmt>true</enableEnhancedPermsetMgmt>
     <enableEnhancedProfileMgmt>true</enableEnhancedProfileMgmt>
+    <enableEnhcUiUserAccessPolicies>true</enableEnhcUiUserAccessPolicies>
     <enableNewProfileUI>true</enableNewProfileUI>
     <enableProfileFiltering>false</enableProfileFiltering>
     <enableRestrictEmailDomains>false</enableRestrictEmailDomains>
@@ -12,4 +13,5 @@
     <permsetsInFieldCreation>false</permsetsInFieldCreation>
     <psaExpirationUIEnabled>true</psaExpirationUIEnabled>
     <restrictedProfileCloning>false</restrictedProfileCloning>
+    <userAccessPoliciesEnabled>true</userAccessPoliciesEnabled>
 </UserManagementSettings>

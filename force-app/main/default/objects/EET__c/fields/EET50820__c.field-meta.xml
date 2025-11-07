@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EET50820__c</fullName>
+    <description>50820_Financial_Instrument_FUR_Exclusion_Relative_Threshold</description>
+    <label>50820 Financial Instrument FUR Exclusio</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

@@ -19,11 +19,10 @@ IF(ISPICKVAL($User.Team__c,&quot;Taiwan&quot;),&quot;English&quot;,
 IF(ISPICKVAL($User.Team__c,&quot;Switzerland&quot;),&quot;German&quot;,&quot;&quot;
 )))))))))))))
 ))</defaultValue>
-    <externalId>false</externalId>
     <label>Language</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>

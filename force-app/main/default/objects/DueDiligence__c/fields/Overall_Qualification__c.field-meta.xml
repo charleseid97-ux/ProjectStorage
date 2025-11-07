@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Overall_Qualification__c</fullName>
     <description>Overall qualification following Risk Assessment. 3 possible Values: Low, Medium &amp; High</description>
-    <externalId>false</externalId>
     <label>UME DDQ Risk</label>
     <required>false</required>
     <trackHistory>true</trackHistory>

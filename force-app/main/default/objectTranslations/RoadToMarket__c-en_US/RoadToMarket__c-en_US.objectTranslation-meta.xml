@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Road to Market Task Name</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Road to Market Task Names</value>
+    </caseValues>
+    <layouts>
+        <layout>Road To Market Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <recordTypes>
+        <label><!-- Road To Market --></label>
+        <name>Road_To_Market</name>
+    </recordTypes>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

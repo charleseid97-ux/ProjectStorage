@@ -733,12 +733,27 @@
             <field>CACEIS_Reliance__c</field>
             <table>Account.Agreements__r</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Send_SharePoint_Email__c</field>
+            <table>Account.Agreements__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Role__c</field>
+            <table>Account.Agreements__r</table>
+        </columns>
         <masterLabel>Agreements</masterLabel>
     </sections>
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Number_Of_Legal_Entities__c</field>
+            <table>Account</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>GFI__c</field>
             <table>Account</table>
         </columns>
         <masterLabel>Companies</masterLabel>

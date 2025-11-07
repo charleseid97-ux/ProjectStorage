@@ -11,29 +11,40 @@
     <layouts>
         <layout>Event Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Historic Meeting Report --></label>
             <section>Historic Meeting Report</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Next Step --></label>
             <section>Next Step</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Related To --></label>
             <section>Related To</section>
         </sections>
     </layouts>
+    <layouts>
+        <layout>Event MeetingCall</layout>
+        <sections>
+            <label><!-- Participants --></label>
+            <section>Participants</section>
+        </sections>
+    </layouts>
     <quickActions>
-        <label></label>
+        <label><!-- Delete Note --></label>
+        <name>DeleteNote</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- New Meeting Note --></label>
         <name>New_Meeting_NoteLEX</name>
     </quickActions>
     <startsWith>Consonant</startsWith>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Some products you selected can not be chosen if expertise &quot;Investment Solution&quot; is chosen as Expertise. --></errorMessage>
         <name>Event_VR01_RestrictProductList</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Please select a contact or lead related to this Meeting &amp; Call record --></errorMessage>
         <name>Event_VR02_ContactNameMandatory</name>
     </validationRules>
 </CustomObjectTranslation>

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Objective Type --></label>
     <name>Objective_Type__c</name>
     <picklistValues>
         <masterLabel>Activity</masterLabel>
-        <translation></translation>
+        <translation><!-- Activity --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Financial</masterLabel>
-        <translation></translation>
+        <translation><!-- Financial --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Product</masterLabel>
-        <translation></translation>
+        <translation><!-- Product --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Relationship</masterLabel>
-        <translation></translation>
+        <translation><!-- Relationship --></translation>
     </picklistValues>
 </CustomFieldTranslation>

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help></help>
-    <label></label>
+    <help><!-- Indicates answer property used in mapping. --></help>
+    <label><!-- Answer Type --></label>
     <name>CventEvents__AnswerType__c</name>
     <picklistValues>
         <masterLabel>Answer</masterLabel>
-        <translation></translation>
+        <translation><!-- Answer --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Choice Index</masterLabel>
-        <translation></translation>
+        <translation><!-- Choice Index --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Report Value</masterLabel>
-        <translation></translation>
+        <translation><!-- Report Value --></translation>
     </picklistValues>
 </CustomFieldTranslation>

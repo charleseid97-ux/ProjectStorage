@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- InvestorType Field --></help>
+    <label><!-- InvestorType --></label>
+    <name>InvestorType__c</name>
+    <picklistValues>
+        <masterLabel>Institutional</masterLabel>
+        <translation><!-- Institutional --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Retail</masterLabel>
+        <translation><!-- Retail --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

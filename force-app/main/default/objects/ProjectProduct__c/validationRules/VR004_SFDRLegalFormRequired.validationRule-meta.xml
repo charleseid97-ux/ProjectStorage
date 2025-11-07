@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR004_SFDRLegalFormRequired</fullName>
+    <active>true</active>
+    <description>Il ne doit pas être possible d’activer un projet tant que le champ &quot;SFDR Category&quot; n’est pas renseigné.
+Legal form doit être rensigné avant d&apos;activer le projet car c&apos;est une donnée structurantes qui touche aux</description>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+ISCHANGED(ProjectStatus__c),
+ISPICKVAL(ProjectStatus__c, &quot;Active&quot;),
+OR(ISBLANK(TEXT(SFDRcategory__c)),
+ISBLANK(TEXT(LegalForm__c)))
+)</errorConditionFormula>
+    <errorMessage>You must specify the SFDR Category and the Legal Form before activating the project.
+This information is necessary for cross-team collaboration.</errorMessage>
+</ValidationRule>

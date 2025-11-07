@@ -5,7 +5,7 @@
         <name>Assign_KYD_Document</name>
         <label>Assign KYD Document</label>
         <locationX>754</locationX>
-        <locationY>1478</locationY>
+        <locationY>1430</locationY>
         <assignmentItems>
             <assignToReference>singleKYCDocumentRecord.Name</assignToReference>
             <operator>Assign</operator>
@@ -84,7 +84,7 @@
         <name>AssignToListDocuments</name>
         <label>AssignToListDocuments</label>
         <locationX>754</locationX>
-        <locationY>1598</locationY>
+        <locationY>1538</locationY>
         <assignmentItems>
             <assignToReference>KYCDocumentsListToCreate</assignToReference>
             <operator>Add</operator>
@@ -100,7 +100,7 @@
         <name>getAssignKYDCheckListID</name>
         <label>getAssignKYDOversightID</label>
         <locationX>666</locationX>
-        <locationY>878</locationY>
+        <locationY>890</locationY>
         <assignmentItems>
             <assignToReference>GetKYCheckListID</assignToReference>
             <operator>Assign</operator>
@@ -124,7 +124,7 @@
         <name>Verify_if_Legal_Entity_Exists</name>
         <label>Verify if Legal Entity Exists</label>
         <locationX>358</locationX>
-        <locationY>398</locationY>
+        <locationY>458</locationY>
         <defaultConnector>
             <targetReference>GetDueDiligence</targetReference>
         </defaultConnector>
@@ -260,7 +260,7 @@
         <name>LoopOnDocumenTConfig</name>
         <label>LoopOnDocumenTConfig</label>
         <locationX>666</locationX>
-        <locationY>1358</locationY>
+        <locationY>1322</locationY>
         <collectionReference>GetDocumentConfig</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -293,7 +293,7 @@
         <name>Create_KYD_Documents</name>
         <label>Create KYD Documents</label>
         <locationX>666</locationX>
-        <locationY>1814</locationY>
+        <locationY>1730</locationY>
         <connector>
             <targetReference>Message</targetReference>
         </connector>
@@ -306,7 +306,7 @@
         <name>KYD_Create</name>
         <label>KYD Due Diligence Oversight</label>
         <locationX>666</locationX>
-        <locationY>758</locationY>
+        <locationY>782</locationY>
         <connector>
             <targetReference>getAssignKYDCheckListID</targetReference>
         </connector>
@@ -377,13 +377,36 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
     <recordLookups>
-        <name>getAgreement</name>
-        <label>getAgreement</label>
+        <name>Get_Record_Type_Name</name>
+        <label>Get Record Type Name</label>
         <locationX>358</locationX>
-        <locationY>158</locationY>
+        <locationY>242</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>getAgreementRole</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>AgreementRecType</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>DeveloperName</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getAgreement</name>
+        <label>getAgreement</label>
+        <locationX>358</locationX>
+        <locationY>134</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Record_Type_Name</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -398,12 +421,16 @@
             <assignToReference>recordId</assignToReference>
             <field>Id</field>
         </outputAssignments>
+        <outputAssignments>
+            <assignToReference>AgreementRecType</assignToReference>
+            <field>RecordTypeId</field>
+        </outputAssignments>
     </recordLookups>
     <recordLookups>
         <name>getAgreementRole</name>
         <label>getAgreementRole</label>
         <locationX>358</locationX>
-        <locationY>278</locationY>
+        <locationY>350</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Verify_if_Legal_Entity_Exists</targetReference>
@@ -433,12 +460,12 @@
         <name>GetDocumentConfig</name>
         <label>GetDocumentConfig</label>
         <locationX>666</locationX>
-        <locationY>1238</locationY>
+        <locationY>1214</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>LoopOnDocumenTConfig</targetReference>
         </connector>
-        <filterLogic>(1 AND 2 AND 3 AND 4) OR 5</filterLogic>
+        <filterLogic>(1 AND 2 AND 3 AND 4 AND 6) OR 5</filterLogic>
         <filters>
             <field>EntityType__c</field>
             <operator>EqualTo</operator>
@@ -474,6 +501,13 @@
                 <booleanValue>true</booleanValue>
             </value>
         </filters>
+        <filters>
+            <field>ExcludeAgreementRecordType__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <elementReference>Get_Record_Type_Name.DeveloperName</elementReference>
+            </value>
+        </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>KYC_Document_Configuration__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -482,7 +516,7 @@
         <name>GetDueDiligence</name>
         <label>GetDueDiligence</label>
         <locationX>666</locationX>
-        <locationY>518</locationY>
+        <locationY>566</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_New_KYD_Checklist</targetReference>
@@ -503,7 +537,7 @@
         <name>getKYDCheckList</name>
         <label>getKYDOversightName</label>
         <locationX>666</locationX>
-        <locationY>1118</locationY>
+        <locationY>1106</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>GetDocumentConfig</targetReference>
@@ -557,7 +591,7 @@
         <name>Create_New_KYD_Checklist</name>
         <label>Create New KYD Checklist</label>
         <locationX>666</locationX>
-        <locationY>638</locationY>
+        <locationY>674</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -570,12 +604,14 @@
             <dataType>String</dataType>
             <fieldText>KYD Responsible</fieldText>
             <fieldType>DropdownBox</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
         </fields>
         <fields>
             <name>KYD_Responsible_Details</name>
             <fieldText>KYD Responsible Details</fieldText>
             <fieldType>LargeTextArea</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>false</isRequired>
         </fields>
         <fields>
@@ -584,6 +620,7 @@
             <dataType>String</dataType>
             <fieldText>Entity Type</fieldText>
             <fieldType>DropdownBox</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
@@ -602,6 +639,7 @@
             <dataType>String</dataType>
             <fieldText>Collective Funds with legal personality</fieldText>
             <fieldType>DropdownBox</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <visibilityRule>
                 <conditionLogic>1 AND 2</conditionLogic>
@@ -629,6 +667,7 @@
             <defaultSelectedChoiceReference>getRiskFromAgreement</defaultSelectedChoiceReference>
             <fieldText>Preliminary Risk</fieldText>
             <fieldType>DropdownBox</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
@@ -648,7 +687,7 @@
         <name>Error_Message</name>
         <label>Error Message</label>
         <locationX>50</locationX>
-        <locationY>518</locationY>
+        <locationY>566</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -664,7 +703,7 @@
         <name>ErrorCreateKYDDiligence</name>
         <label>Error Message</label>
         <locationX>1458</locationX>
-        <locationY>878</locationY>
+        <locationY>890</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -680,7 +719,7 @@
         <name>ErrorCreateKYDDoc</name>
         <label>Error Message</label>
         <locationX>930</locationX>
-        <locationY>1934</locationY>
+        <locationY>1838</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -696,7 +735,7 @@
         <name>ErrorUpdateAgreement</name>
         <label>Error Message</label>
         <locationX>1194</locationX>
-        <locationY>1118</locationY>
+        <locationY>1106</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -712,7 +751,7 @@
         <name>Message</name>
         <label>Message</label>
         <locationX>666</locationX>
-        <locationY>1934</locationY>
+        <locationY>1838</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -728,7 +767,7 @@
         <name>Warning_Msg</name>
         <label>Warning Msg</label>
         <locationX>314</locationX>
-        <locationY>518</locationY>
+        <locationY>566</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -748,6 +787,13 @@
         </connector>
     </start>
     <status>Active</status>
+    <variables>
+        <name>AgreementRecType</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
     <variables>
         <name>GetKYCheckListID</name>
         <dataType>String</dataType>

@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>CventEvents__Status__c</fullName>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Status</label>
     <required>true</required>
     <trackFeedHistory>false</trackFeedHistory>
@@ -18,6 +17,36 @@
                 <label>No Response</label>
             </value>
             <value>
+                <fullName>Invitation Not Sent</fullName>
+                <default>false</default>
+                <label>Invitation Not Sent</label>
+            </value>
+            <value>
+                <fullName>Invitation Pending</fullName>
+                <default>false</default>
+                <label>Invitation Pending</label>
+            </value>
+            <value>
+                <fullName>Invitation Sent</fullName>
+                <default>false</default>
+                <label>Invitation Sent</label>
+            </value>
+            <value>
+                <fullName>Invitation Opened</fullName>
+                <default>false</default>
+                <label>Invitation Opened</label>
+            </value>
+            <value>
+                <fullName>Invitation Bounced</fullName>
+                <default>false</default>
+                <label>Invitation Bounced</label>
+            </value>
+            <value>
+                <fullName>Visited</fullName>
+                <default>false</default>
+                <label>Visited</label>
+            </value>
+            <value>
                 <fullName>Accepted</fullName>
                 <default>false</default>
                 <label>Accepted</label>
@@ -26,11 +55,6 @@
                 <fullName>Declined</fullName>
                 <default>false</default>
                 <label>Declined</label>
-            </value>
-            <value>
-                <fullName>Visited</fullName>
-                <default>false</default>
-                <label>Visited</label>
             </value>
             <value>
                 <fullName>Waitlisted</fullName>
@@ -53,16 +77,6 @@
                 <label>Denied Approval</label>
             </value>
             <value>
-                <fullName>Invitation Not Sent</fullName>
-                <default>false</default>
-                <label>Invitation Not Sent</label>
-            </value>
-            <value>
-                <fullName>Invitation Pending</fullName>
-                <default>false</default>
-                <label>Invitation Pending</label>
-            </value>
-            <value>
                 <fullName>Nomination Pending</fullName>
                 <default>false</default>
                 <label>Nomination Pending</label>
@@ -78,9 +92,19 @@
                 <label>Nomination Denied</label>
             </value>
             <value>
+                <fullName>Nomination Cancelled</fullName>
+                <default>false</default>
+                <label>Nomination Cancelled</label>
+            </value>
+            <value>
                 <fullName>Registration Pending</fullName>
                 <default>false</default>
                 <label>Registration Pending</label>
+            </value>
+            <value>
+                <fullName>Substituted</fullName>
+                <default>false</default>
+                <label>Substituted</label>
             </value>
         </valueSetDefinition>
     </valueSet>

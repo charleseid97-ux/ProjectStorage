@@ -3,19 +3,17 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>GAMHomepageListComponent</componentName>
-                <identifier>GAMHomepageListComponent</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
+                <componentInstanceProperties>
+                    <name>flowArguments</name>
+                    <value>[{&quot;label&quot;:&quot;Vardisplay&quot;,&quot;dataType&quot;:&quot;Number&quot;,&quot;supportsRecordId&quot;:false,&quot;value&quot;:3}]</value>
+                </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>flowLayout</name>
                     <value>oneColumn</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>flowName</name>
-                    <value>HomePageDashboards</value>
+                    <value>FL_screen_flow_Sales_Home_page</value>
                 </componentInstanceProperties>
                 <componentName>flowruntime:interview</componentName>
                 <identifier>flowruntime_interview</identifier>
@@ -41,16 +39,10 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>richTextValue</name>
-                    <value>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 18px;&quot;&gt;&lt;img src=&quot;https://carmignac-crm--uatmycrm.sandbox.file.force.com/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_Png&amp;amp;versionId=0687Z000002Cmpa&amp;amp;operationContext=CHATTER&amp;amp;contentId=05T7Z000005ef6j&quot;&gt;   &lt;/strong&gt;&lt;a href=&quot;https://carmignac-crm.lightning.force.com/lightning/n/Salesforce_Support_Page&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 18px;&quot;&gt;&lt;strong&gt;Salesforce Training &amp;amp; Support Page&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</value>
+                    <value>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 18px;&quot;&gt; &lt;/strong&gt;&lt;a href=&quot;https://carmignac-crm.lightning.force.com/lightning/n/Salesforce_Support_Page&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 18px;&quot;&gt;&lt;strong&gt;Salesforce Training &amp;amp; Support Page&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:richText</componentName>
                 <identifier>flexipage_richText</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>homeBoardingApp</componentName>
-                <identifier>homeBoardingApp</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- 60430 Financial Instrument Governance T --></label>
+    <name>EET60430__c</name>
+    <picklistValues>
+        <masterLabel>Anti bribery &amp; corruption</masterLabel>
+        <translation><!-- Anti bribery &amp; corruption --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Governance other</masterLabel>
+        <translation><!-- Governance other --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>None</masterLabel>
+        <translation><!-- None --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

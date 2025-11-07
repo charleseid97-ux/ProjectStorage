@@ -33,6 +33,7 @@ Regards
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>chatterPost</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -67,6 +68,7 @@ Regards
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>chatterPost</nameSegment>
     </actionCalls>
     <apiVersion>49.0</apiVersion>
     <decisions>

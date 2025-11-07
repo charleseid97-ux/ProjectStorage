@@ -514,6 +514,11 @@
             <field>Number_Of_Legal_Entities__c</field>
             <table>Account</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>GFI__c</field>
+            <table>Account</table>
+        </columns>
         <masterLabel>Companies</masterLabel>
     </sections>
 </ReportType>

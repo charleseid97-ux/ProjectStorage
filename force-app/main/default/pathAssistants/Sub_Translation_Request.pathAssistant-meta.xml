@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Case</entityName>
+    <fieldName>Status</fieldName>
+    <masterLabel>Sub Translation Request</masterLabel>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;The translation has been completed.&lt;/p&gt;</info>
+        <picklistValueName>Closed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Translation_mode__c</fieldNames>
+        <fieldNames>Document_Type__c</fieldNames>
+        <fieldNames>OwnerId</fieldNames>
+        <info>&lt;p&gt;&lt;strong&gt;The translation has been completed by WordClass and now requires CRM validation.&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;CRM actions:&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;If the document is correct → click &lt;strong&gt;“Confirm Proofreading”&lt;/strong&gt; to close the request.&lt;/li&gt;&lt;li&gt;If edits are needed → upload the corrected file in Salesforce &lt;strong&gt;and then click “Confirm Proofreading”&lt;/strong&gt; to close the request.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;strong&gt;Notes:&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Monthly Comments:&lt;/strong&gt; Validation pushes the Monthly Comments data into the databases and triggers Yoda Factsheet generation.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Translation &amp;amp; Publication:&lt;/strong&gt; Closing the request automatically notifies the publication team for the next steps.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
+        <picklistValueName>Proofreading Validation</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Translation_mode__c</fieldNames>
+        <fieldNames>OwnerId</fieldNames>
+        <info>&lt;p&gt;The content is currently being translated through &lt;strong style=&quot;font-size: 13px;&quot;&gt;WordClass&lt;/strong&gt;.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Translation can follow one of three modes:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong style=&quot;font-size: 13px;&quot;&gt;AI only:&lt;/strong&gt; automatic translation with no human review.&lt;/li&gt;&lt;li&gt;&lt;strong style=&quot;font-size: 13px;&quot;&gt;Post-editing:&lt;/strong&gt; AI translation reviewed by a linguist.&lt;/li&gt;&lt;li&gt;&lt;strong style=&quot;font-size: 13px;&quot;&gt;Full human:&lt;/strong&gt; translation fully done by a professional linguist.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Once the translation is completed, you will receive a notification in Salesforce to &lt;strong style=&quot;font-size: 13px;&quot;&gt;proofread and validate&lt;/strong&gt; the document.&lt;/p&gt;</info>
+        <picklistValueName>Work in progress</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Sub_Translation_Request</recordTypeName>
+</PathAssistant>

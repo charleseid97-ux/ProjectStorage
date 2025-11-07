@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Action --></label>
+    <name>Type__c</name>
+    <picklistValues>
+        <masterLabel>Attended</masterLabel>
+        <translation><!-- Attended --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Bounce</masterLabel>
+        <translation><!-- Bounce --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Click</masterLabel>
+        <translation><!-- Click --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Delivered</masterLabel>
+        <translation><!-- Delivered --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Download</masterLabel>
+        <translation><!-- Download --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Email Preference Page</masterLabel>
+        <translation><!-- Email Preference Page --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Form Completed</masterLabel>
+        <translation><!-- Form Completed --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Open</masterLabel>
+        <translation><!-- Open --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Spam Complaint</masterLabel>
+        <translation><!-- Spam Complaint --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Unsubscribe</masterLabel>
+        <translation><!-- Unsubscribe --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Video View</masterLabel>
+        <translation><!-- Video View --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Video Watch</masterLabel>
+        <translation><!-- Video Watch --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Visit</masterLabel>
+        <translation><!-- Visit --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

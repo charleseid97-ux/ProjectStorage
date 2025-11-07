@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Recommended Holding Label --></label>
+    <name>RecommendedHoldingLabel__c</name>
+    <picklistValues>
+        <masterLabel>Hold until maturity</masterLabel>
+        <translation><!-- Hold until maturity --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Long Term</masterLabel>
+        <translation><!-- Long Term --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Medium Term</masterLabel>
+        <translation><!-- Medium Term --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Short Term</masterLabel>
+        <translation><!-- Short Term --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

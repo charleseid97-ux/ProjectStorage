@@ -3,7 +3,6 @@
     <fullName>pi__Lead__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Lead</label>
     <referenceTo>Lead</referenceTo>
     <relationshipName>Category_Lead_Scores</relationshipName>

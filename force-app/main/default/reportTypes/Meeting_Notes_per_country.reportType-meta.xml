@@ -130,6 +130,16 @@
             <field>CreatedBy.Profile.Name</field>
             <table>Meeting_Note__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Tech_Teams__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Meeting_Note_Owner_Team__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
         <masterLabel>Meeting Notes</masterLabel>
     </sections>
     <sections>
@@ -521,6 +531,11 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Time_to_task__c</field>
+            <table>Meeting_Note__c.Activities__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Tech_Owner_Team__c</field>
             <table>Meeting_Note__c.Activities__r</table>
         </columns>
         <masterLabel>Activities</masterLabel>

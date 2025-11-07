@@ -19,6 +19,6 @@
     <label>International &amp; LATAM - All Active Leads</label>
     <queue>InternationalLATAM</queue>
     <sharedTo>
-        <roleAndSubordinates>LATAMHeadofCountry</roleAndSubordinates>
+        <roleAndSubordinatesInternal>LATAMHeadofCountry</roleAndSubordinatesInternal>
     </sharedTo>
 </ListView>

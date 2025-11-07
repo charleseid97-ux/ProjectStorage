@@ -4,7 +4,6 @@
     <defaultValue>DATETIMEVALUE(&quot;1900-01-01 12:00:00&quot;)</defaultValue>
     <description>Date/Time of last interaction with a contact from the company. Filled in with process builder when &quot;last interaction date&quot; is changed in a contact</description>
     <encryptionScheme>None</encryptionScheme>
-    <externalId>false</externalId>
     <inlineHelpText>Date/Time of last interaction with a contact from the company. Filled in with process builder when &quot;last interaction date&quot; is changed in a contact</inlineHelpText>
     <label>Last interaction with contact</label>
     <required>false</required>

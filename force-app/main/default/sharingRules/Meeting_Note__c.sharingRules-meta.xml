@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>Share_MN_with_PE</fullName>
+        <accessLevel>Read</accessLevel>
+        <label>Share MN with PE</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>PrivateEquity</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>Private_Assets__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingOwnerRules>
+        <fullName>Share_MN_with_Global_Head_of_Sales_Branch</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Share MN with Global Head of Sales Branch</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>GlobalHeadofSales</roleAndSubordinatesInternal>
+        </sharedTo>
+        <sharedFrom>
+            <roleAndSubordinatesInternal>GlobalHeadofSales</roleAndSubordinatesInternal>
+        </sharedFrom>
+    </sharingOwnerRules>
+</SharingRules>

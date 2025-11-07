@@ -1001,6 +1001,21 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>DAC6__c</picklist>
+        <values>
+            <fullName>Non Reportable</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ongoing Analysis</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reportable</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Due_Diligence_Level__c</picklist>
         <values>
             <fullName>Enhanced</fullName>
@@ -1016,6 +1031,59 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Governance_Decision__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Back to Pre-governnace</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Refused</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>IS_Steps__c</picklist>
+        <values>
+            <fullName>Post Governance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pre-gouvernance</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Ready for governance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ready to execute</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Signed</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>New_Entities__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Preliminary_Risk_Assesment__c</picklist>
         <values>
             <fullName>High</fullName>
@@ -1027,6 +1095,59 @@
         </values>
         <values>
             <fullName>Medium</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Role__c</picklist>
+        <values>
+            <fullName>Code Technique</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Distribution Delegate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Distribution Intermediary</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Investment Advisor</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>SPC_Status__c</picklist>
+        <values>
+            <fullName>Not Needed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes To-do</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Servicing_Source__c</picklist>
+        <values>
+            <fullName>Abor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>External or Shadow Abor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ibor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Model Portfolio</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1092,6 +1213,73 @@
         </values>
         <values>
             <fullName>Global Head of Sales Approval</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>TeamSharing__c</picklist>
+        <values>
+            <fullName>Belgium</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>France</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fund Marketing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Germany</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>International</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Italy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Japan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LATAM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Luxembourg</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Netherlands</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nordics</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Private Equity</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Spain</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Switzerland</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Taiwan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>United Kingdom</fullName>
             <default>false</default>
         </values>
     </picklistValues>

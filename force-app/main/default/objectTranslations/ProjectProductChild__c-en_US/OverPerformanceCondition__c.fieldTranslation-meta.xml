@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- OverPerformanceCondition Field --></help>
+    <label><!-- OverPerformanceCondition --></label>
+    <name>OverPerformanceCondition__c</name>
+    <picklistValues>
+        <masterLabel>Over Benchmark</masterLabel>
+        <translation><!-- Over Benchmark --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Over Positive value</masterLabel>
+        <translation><!-- Over Positive value --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

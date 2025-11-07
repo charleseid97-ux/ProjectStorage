@@ -3,7 +3,6 @@
     <fullName>WorkTogetherProcess__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <description>Field used to use in flow to be able to add existing WTP directly to NDA</description>
-    <externalId>false</externalId>
     <label>Work Together Process</label>
     <lookupFilter>
         <active>true</active>

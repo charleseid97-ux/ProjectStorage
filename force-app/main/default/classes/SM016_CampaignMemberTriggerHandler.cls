@@ -23,6 +23,8 @@ public class SM016_CampaignMemberTriggerHandler implements ITriggerHandler {
     public void BeforeInsert(List<SObject> newItems) {
         if(PAD.canTrigger('CampaignMemberBeforeInsert')){
 
+            SM016_CampaignMemberService.checkUnicity((List<CampaignMember>) newItems);
+			SM016_CampaignMemberService.blockOptOutEvent((List<CampaignMember>) newItems);
             //TODO delete workflow CampaignMember_WF002_EventOptOutatCreation
             //SM016_CampaignMemberService.intializeCampaignMember((List<CampaignMember>) newItems);
             //SM016_CampaignMemberService.flagCampaignMemberAsSubscriber((List<CampaignMember>) newItems);
@@ -39,7 +41,8 @@ public class SM016_CampaignMemberTriggerHandler implements ITriggerHandler {
     }
 
     public void AfterInsert(Map<Id, SObject> newItems) {
-
+        //call WS Lyyti to send campaign members
+        SM016_CampaignMemberService.sendCallWSLyyti((List<CampaignMember>) newItems.values(), null);
     }
 
     public void AfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
@@ -61,6 +64,9 @@ public class SM016_CampaignMemberTriggerHandler implements ITriggerHandler {
             //Update Contact fields lastEvent from Campaign
             SM016_CampaignMemberService.updateLastFieldEvent( membersWithOtherFields,(Map<Id, CampaignMember>) oldItems);
 
+            //call WS Lyyti to send campaign members
+            SM016_CampaignMemberService.sendCallWSLyyti((List<CampaignMember>) newItems.values(), (Map<Id, CampaignMember>) oldItems);
+            
             //Send update to Aventri
             //SM016_CampaignMemberService.callUpdateSubscriber( (List<CampaignMember>) newItems.values(),(Map<Id, CampaignMember>) oldItems);
         }

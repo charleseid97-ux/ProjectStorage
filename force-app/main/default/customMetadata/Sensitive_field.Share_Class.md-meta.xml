@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>ShareClass</label>
+    <protected>false</protected>
+    <values>
+        <field>Fields__c</field>
+        <value xsi:type="xsd:string">DividendFrequency__c;IsUSEligible__c;HasEqualizationFactor__c;HedgingRatio__c;RoundingMethod__c;InvestmentStatusInvestors__c;TradeCycleSubscription__c;TradeCycleRedemption__c;DecimalsMaxAmount__c;DecimalsMaxShares__c;MaxManagementFees__c;EffectiveManagementFees__c;MaxServiceFees__c;EffectiveServiceFees__c;MaxPerfFees__c;HurdleRate__c;EffectivePerfFees__c;IsESMAPerfFeesGuidelines__c;PerfFeesRefPeriod__c;PerfFeesCrystallisationFreq__c;MaxRedemptionFee__c;MaxSubscriptionFee__c;MaxConversionFee__c;ActualManagementFees__c;ProxyRisk__c;Dissemination__c;SRI__c;LegalType__c;Type__c;DividendPolicy__c;Currency__c;LaunchDate__c;Name__c;CurrencyHedging__c;IsPayingTrailerFees__c;InvestorType__c;ISIN__c;PerformanceFeeMethod__c;PerfFeesCrystallisationDate__c;HurdleType__c;Clawback__c;OverPerformanceCondition__c;MinInitialSub__c;MinSubsequentSub__c;MinInitialRed__c;SRRI__c;OngoingCostsExante__c;OngoingCostsExPost__c;MaxIndirectFees__c;MaxRedemptionFeesSubfund__c;MaxRedemptionFeesSubfund__c</value>
+    </values>
+    <values>
+        <field>Object__c</field>
+        <value xsi:type="xsd:string">Share_Class__c</value>
+    </values>
+</CustomMetadata>

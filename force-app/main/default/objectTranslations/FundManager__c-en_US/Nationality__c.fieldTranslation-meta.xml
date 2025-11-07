@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Nationality --></label>
+    <name>Nationality__c</name>
+    <picklistValues>
+        <masterLabel>Belgian</masterLabel>
+        <translation><!-- Belgian --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>British</masterLabel>
+        <translation><!-- British --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>French</masterLabel>
+        <translation><!-- French --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Italian</masterLabel>
+        <translation><!-- Italian --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

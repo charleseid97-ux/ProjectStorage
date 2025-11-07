@@ -17,7 +17,7 @@
         </recipients>
         <recipients>
             <recipient>FranceHeadofCountry</recipient>
-            <type>roleSubordinates</type>
+            <type>roleSubordinatesInternal</type>
         </recipients>
         <senderType>CurrentUser</senderType>
         <template>Work_Together_Process/Closed_WTP</template>
@@ -39,7 +39,7 @@
         </recipients>
         <recipients>
             <recipient>BelgiumHeadofCountry</recipient>
-            <type>roleSubordinates</type>
+            <type>roleSubordinatesInternal</type>
         </recipients>
         <senderType>CurrentUser</senderType>
         <template>Work_Together_Process/Closed_WTP</template>
@@ -61,7 +61,7 @@
         </recipients>
         <recipients>
             <recipient>SwitzerlandHeadofCountry</recipient>
-            <type>roleSubordinates</type>
+            <type>roleSubordinatesInternal</type>
         </recipients>
         <senderType>CurrentUser</senderType>
         <template>Work_Together_Process/Closed_WTP</template>
@@ -83,7 +83,7 @@
         </recipients>
         <recipients>
             <recipient>GermanyHeadofCountry</recipient>
-            <type>roleSubordinates</type>
+            <type>roleSubordinatesInternal</type>
         </recipients>
         <senderType>CurrentUser</senderType>
         <template>Work_Together_Process/Closed_WTP</template>
@@ -105,7 +105,7 @@
         </recipients>
         <recipients>
             <recipient>SpainHeadofCountry</recipient>
-            <type>roleSubordinates</type>
+            <type>roleSubordinatesInternal</type>
         </recipients>
         <senderType>CurrentUser</senderType>
         <template>Work_Together_Process/Closed_WTP</template>
@@ -127,7 +127,7 @@
         </recipients>
         <recipients>
             <recipient>InternationalHeadofCountry</recipient>
-            <type>roleSubordinates</type>
+            <type>roleSubordinatesInternal</type>
         </recipients>
         <senderType>CurrentUser</senderType>
         <template>Work_Together_Process/Closed_WTP</template>
@@ -167,7 +167,7 @@
         </recipients>
         <recipients>
             <recipient>InternationalHeadofCountry</recipient>
-            <type>roleSubordinates</type>
+            <type>roleSubordinatesInternal</type>
         </recipients>
         <senderType>CurrentUser</senderType>
         <template>Work_Together_Process/Closed_WTP</template>
@@ -189,7 +189,7 @@
         </recipients>
         <recipients>
             <recipient>LATAMHeadofCountry</recipient>
-            <type>roleSubordinates</type>
+            <type>roleSubordinatesInternal</type>
         </recipients>
         <senderType>CurrentUser</senderType>
         <template>Work_Together_Process/Closed_WTP</template>
@@ -211,7 +211,7 @@
         </recipients>
         <recipients>
             <recipient>LuxembourgNetherlandsHeadofCountry</recipient>
-            <type>roleSubordinates</type>
+            <type>roleSubordinatesInternal</type>
         </recipients>
         <senderType>CurrentUser</senderType>
         <template>Work_Together_Process/Closed_WTP</template>
@@ -233,7 +233,7 @@
         </recipients>
         <recipients>
             <recipient>LuxembourgNetherlandsHeadofCountry</recipient>
-            <type>roleSubordinates</type>
+            <type>roleSubordinatesInternal</type>
         </recipients>
         <senderType>CurrentUser</senderType>
         <template>Work_Together_Process/Closed_WTP</template>
@@ -255,7 +255,7 @@
         </recipients>
         <recipients>
             <recipient>NordicsHeadofCountry</recipient>
-            <type>roleSubordinates</type>
+            <type>roleSubordinatesInternal</type>
         </recipients>
         <recipients>
             <recipient>catharina.vandenhoof-crm@carmignac.com</recipient>
@@ -281,7 +281,7 @@
         </recipients>
         <recipients>
             <recipient>InternationalHeadofCountry</recipient>
-            <type>roleSubordinates</type>
+            <type>roleSubordinatesInternal</type>
         </recipients>
         <senderType>CurrentUser</senderType>
         <template>Work_Together_Process/Closed_WTP</template>
@@ -303,7 +303,7 @@
         </recipients>
         <recipients>
             <recipient>UKHeadofCountry</recipient>
-            <type>roleSubordinates</type>
+            <type>roleSubordinatesInternal</type>
         </recipients>
         <senderType>CurrentUser</senderType>
         <template>Work_Together_Process/Closed_WTP</template>
@@ -336,7 +336,8 @@
     </alerts>
     <alerts>
         <fullName>New_Work_Together_Process_MI</fullName>
-        <ccEmails>business.intelligence@carmignac.com</ccEmails>
+        <ccEmails>productstrategy@carmignac.com</ccEmails>
+        <ccEmails>thomas.coullon@carmignac.com</ccEmails>
         <description>New_WorkTogether_Process_MI</description>
         <protected>false</protected>
         <recipients>
@@ -355,6 +356,9 @@
         <description>New_WorkTogether_Process_Product</description>
         <protected>false</protected>
         <recipients>
+            <type>creator</type>
+        </recipients>
+        <recipients>
             <field>Requester__c</field>
             <type>userLookup</type>
         </recipients>
@@ -366,6 +370,9 @@
         <ccEmails>rfp@carmignac.com</ccEmails>
         <description>New_WorkTogether_Process_RFP</description>
         <protected>false</protected>
+        <recipients>
+            <type>creator</type>
+        </recipients>
         <recipients>
             <field>Requester__c</field>
             <type>userLookup</type>
@@ -417,7 +424,8 @@
     </alerts>
     <alerts>
         <fullName>WorkTogether_AssignedTo</fullName>
-        <ccEmails>marketintelligencerfp.marketing@carmignac.com</ccEmails>
+        <ccEmails>productstrategy@carmignac.com</ccEmails>
+        <ccEmails>thomas.coullon@carmignac.com</ccEmails>
         <description>WorkTogether_AssignedTo</description>
         <protected>false</protected>
         <recipients>
@@ -441,7 +449,7 @@
     </alerts>
     <alerts>
         <fullName>WorkTogether_MI_AssignedTo</fullName>
-        <ccEmails>Workgroup.Market.Intelligence@carmignac.com</ccEmails>
+        <ccEmails>productstrategy@carmignac.com</ccEmails>
         <description>WorkTogether_MI_AssignedTo</description>
         <protected>false</protected>
         <recipients>
@@ -453,7 +461,7 @@
     </alerts>
     <alerts>
         <fullName>WorkTogether_MI_Closed</fullName>
-        <ccEmails>marketintelligencerfp.marketing@carmignac.com</ccEmails>
+        <ccEmails>productstrategy@carmignac.com</ccEmails>
         <description>WorkTogether_MI_Closed</description>
         <protected>false</protected>
         <recipients>
@@ -577,22 +585,6 @@
         <protected>false</protected>
         <reevaluateOnChange>false</reevaluateOnChange>
     </fieldUpdates>
-    <fieldUpdates>
-        <fullName>Update_Work_Together_PMReq_Subject</fullName>
-        <field>Subject</field>
-        <formula>LEFT (Account.Name,15) +&quot;/&quot;+
-
-TECH_Related_Fund_Name__c +&quot;/&quot;+
-
-TEXT(Request_type__c) +&quot;/&quot;+
-
-TEXT (DATEVALUE(CreatedDate))</formula>
-        <name>Update Work Together PMReq Subject</name>
-        <notifyAssignee>false</notifyAssignee>
-        <operation>Formula</operation>
-        <protected>false</protected>
-        <reevaluateOnChange>false</reevaluateOnChange>
-    </fieldUpdates>
     <rules>
         <fullName>Case Assignment Client delivery</fullName>
         <actions>
@@ -616,20 +608,6 @@ TEXT (DATEVALUE(CreatedDate))</formula>
             <value>False</value>
         </criteriaItems>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
-    </rules>
-    <rules>
-        <fullName>Work Together_WF003 - Naming Convention for PMReq subject</fullName>
-        <actions>
-            <name>Update_Work_Together_PMReq_Subject</name>
-            <type>FieldUpdate</type>
-        </actions>
-        <active>false</active>
-        <criteriaItems>
-            <field>Case.RecordTypeId</field>
-            <operation>equals</operation>
-            <value>Product Team Request</value>
-        </criteriaItems>
-        <triggerType>onAllChanges</triggerType>
     </rules>
     <rules>
         <fullName>WorkTogether_WF001_PastDueDate</fullName>

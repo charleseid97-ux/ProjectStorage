@@ -11,13 +11,9 @@
     <layouts>
         <layout>KYD Document Item Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
     </layouts>
-    <quickActions>
-        <label></label>
-        <name>Show_File</name>
-    </quickActions>
     <startsWith>Consonant</startsWith>
 </CustomObjectTranslation>

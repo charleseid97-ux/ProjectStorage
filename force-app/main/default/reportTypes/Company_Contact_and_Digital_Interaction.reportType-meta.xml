@@ -16,636 +16,763 @@
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>.</displayNameOverride>
             <field>RecordType_image__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Company Currency</displayNameOverride>
             <field>CurrencyIsoCode</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Company ID</displayNameOverride>
             <field>Id</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>true</checkedByDefault>
+            <displayNameOverride>Company Name</displayNameOverride>
             <field>Name</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Company Number</displayNameOverride>
             <field>AccountNumber</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Owner</displayNameOverride>
             <field>Owner</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Company Record Type</displayNameOverride>
             <field>RecordType</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Company Site</displayNameOverride>
             <field>Site</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Company Source</displayNameOverride>
             <field>AccountSource</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Address mandatory</displayNameOverride>
             <field>Address_mandatory__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>All Concerned Business Regions</displayNameOverride>
             <field>All_Concerned_Business_Regions__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Annual Revenue</displayNameOverride>
             <field>AnnualRevenue</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Approval Status</displayNameOverride>
             <field>Approval_Status__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>AUM Exposure to Carmignac Funds</displayNameOverride>
             <field>AUMToDate__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Month AUM (EUR)</displayNameOverride>
             <field>Last_Month_AUM_EUR__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>BD Business Region</displayNameOverride>
             <field>BD_Business_Region__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Main Address</displayNameOverride>
             <field>BillingAddress</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Main City</displayNameOverride>
             <field>BillingCity</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Main Country</displayNameOverride>
             <field>BillingCountryCode</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Main Country (text only)</displayNameOverride>
             <field>BillingCountry</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Billing Geocode Accuracy</displayNameOverride>
             <field>BillingGeocodeAccuracy</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Main Latitude</displayNameOverride>
             <field>BillingLatitude</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Main Longitude</displayNameOverride>
             <field>BillingLongitude</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Main State/Province</displayNameOverride>
             <field>BillingStateCode</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Main State/Province (text only)</displayNameOverride>
             <field>BillingState</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Main Street</displayNameOverride>
             <field>BillingStreet</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Main Zip/Postal Code</displayNameOverride>
             <field>BillingPostalCode</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Business Development Region</displayNameOverride>
             <field>BusinessDevelopmentRegion__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>BusinessDevelopmentRegion_TEXT</displayNameOverride>
             <field>BusinessDevelopmentRegion_TEXT__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Buy List Information</displayNameOverride>
             <field>Buy_List_Information__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac AUM Ratio</displayNameOverride>
             <field>AssetRatio_del__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac AUM Ratio</displayNameOverride>
             <field>AssetRatio__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Check Hierarchy BuissRegion</displayNameOverride>
             <field>Check_Hierarchy_BuissRegion__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Check Hierarchy Is Parent GroupEntity</displayNameOverride>
             <field>Check_Hierarchy_Is_Parent_GroupEntity__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Check Hierarchy Parent Segmentation</displayNameOverride>
             <field>Check_Hierarchy_Parent_Segmentation__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Comments</displayNameOverride>
             <field>Comments__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Company ID</displayNameOverride>
             <field>Company_ID__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Company ID 18</displayNameOverride>
             <field>Company_id_18__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Company Status</displayNameOverride>
             <field>CompanyStatus__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Company Status Logo</displayNameOverride>
             <field>Company_Status_Logo__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Competitor</displayNameOverride>
             <field>Competitor__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Convention Code(s)</displayNameOverride>
             <field>ConventionCodes__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Co-owner</displayNameOverride>
             <field>Co_owner__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Created By</displayNameOverride>
             <field>CreatedBy</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Created Date</displayNameOverride>
             <field>CreatedDate</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Current HOC approval</displayNameOverride>
             <field>Current_HOC_approval__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Data.com Key</displayNameOverride>
             <field>Jigsaw</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Data Quality Description</displayNameOverride>
             <field>Data_Quality_Description__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Data Quality Score</displayNameOverride>
             <field>Data_Quality_Score__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Description</displayNameOverride>
             <field>Description</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Disable Duplicate Check</displayNameOverride>
             <field>dupcheck__dc3DisableDuplicateCheck__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Distributor AUM Comments</displayNameOverride>
             <field>DistributorAssetComments__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Distributor Total AUM</displayNameOverride>
             <field>DistributorAsset__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Distributor Type</displayNameOverride>
             <field>Distributor_Type__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Duplicate Check Index</displayNameOverride>
             <field>dupcheck__dc3Index__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Employees</displayNameOverride>
             <field>NumberOfEmployees</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Fax</displayNameOverride>
             <field>Fax</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Final Distribution</displayNameOverride>
             <field>Final_Distribution__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>GAM</displayNameOverride>
             <field>GAM__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>GFI</displayNameOverride>
             <field>GFI__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Hierarchy Updated</displayNameOverride>
             <field>Hierarchy_Updated__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Sector Activities</displayNameOverride>
             <field>Industry</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Interaction indicator</displayNameOverride>
             <field>Interaction_indicator__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Investment Decision</displayNameOverride>
             <field>In__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Investment vehicle</displayNameOverride>
             <field>Investment_vehicle__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Investment Vehicle Type</displayNameOverride>
             <field>Investment_Vehicle_Type__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Is IN my Team</displayNameOverride>
             <field>Is_IN_my_Team__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Known As</displayNameOverride>
             <field>CommercialName__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Activity</displayNameOverride>
             <field>LastActivityDate</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last contact interaction Corporate Title</displayNameOverride>
             <field>Last_contact_interaction_Corporate_Title__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Contact involved</displayNameOverride>
             <field>Last_Contact_involved__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Interaction elapsed time</displayNameOverride>
             <field>Last_Interaction_elapsed_time__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last interaction with contact</displayNameOverride>
             <field>Last_interaction_with_contact__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Modified By</displayNameOverride>
             <field>LastModifiedBy</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Modified Date</displayNameOverride>
             <field>LastModifiedDate</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Latest Update</displayNameOverride>
             <field>DistributorAUMDeclarationDate__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Legal Entity</displayNameOverride>
             <field>LegalEntity__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Legal Form</displayNameOverride>
             <field>LegalForm__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Logo</displayNameOverride>
             <field>Logo__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Number of Legal Entities</displayNameOverride>
             <field>Number_Of_Legal_Entities__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Other Phone</displayNameOverride>
             <field>OtherPhone__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Ownership</displayNameOverride>
             <field>Ownership</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Parent Company</displayNameOverride>
             <field>Parent</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Phone</displayNameOverride>
             <field>Phone</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Potential -beta-</displayNameOverride>
             <field>potential__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Primary Local FSU</displayNameOverride>
             <field>Primary_Local_FSU__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Proposed BD Business Region</displayNameOverride>
             <field>Proposed_BD_Business_Region__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Proposed Business Developer</displayNameOverride>
             <field>Proposed_Business_Developer__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Proposed HOC approval</displayNameOverride>
             <field>Proposed_HOC_approval__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Rating</displayNameOverride>
             <field>Rating</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Reference</displayNameOverride>
             <field>Reference__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Region Code</displayNameOverride>
             <field>RegionCode__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing Address</displayNameOverride>
             <field>ShippingAddress</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing City</displayNameOverride>
             <field>ShippingCity</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing Country</displayNameOverride>
             <field>ShippingCountryCode</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing Country (text only)</displayNameOverride>
             <field>ShippingCountry</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Shipping Geocode Accuracy</displayNameOverride>
             <field>ShippingGeocodeAccuracy</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing Latitude</displayNameOverride>
             <field>ShippingLatitude</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing Longitude</displayNameOverride>
             <field>ShippingLongitude</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing State/Province</displayNameOverride>
             <field>ShippingStateCode</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing State/Province (text only)</displayNameOverride>
             <field>ShippingState</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing Street</displayNameOverride>
             <field>ShippingStreet</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing Zip/Postal Code</displayNameOverride>
             <field>ShippingPostalCode</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Short Name</displayNameOverride>
             <field>ShortName__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>SIC Code</displayNameOverride>
             <field>Sic</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>SIC Description</displayNameOverride>
             <field>SicDesc</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Sub Type</displayNameOverride>
             <field>SubType__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Sub-Type</displayNameOverride>
             <field>Sub_Type__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Sum Of Competitor Assets</displayNameOverride>
             <field>SumOfCompetitorAssets__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Team</displayNameOverride>
             <field>Team__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>TECH_CountDistribAsset</displayNameOverride>
             <field>TECH_CountDistribAsset__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>TECH_Text_Team</displayNameOverride>
             <field>TECH_Text_Team__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>TECHCompanySUNID</displayNameOverride>
             <field>TECH_CompanySUNID__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>TECHCompanyTechSUNID</displayNameOverride>
             <field>TECH_CompanyTechSUNID__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Tech Dashboard filter</displayNameOverride>
             <field>Tech_Dashboard_filter__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>TECH - External ID</displayNameOverride>
             <field>TECHExternalID__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Ticker Symbol</displayNameOverride>
             <field>TickerSymbol</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Tier at BRANCH Level</displayNameOverride>
             <field>Client_Tier__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Type</displayNameOverride>
             <field>Type</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Ultimate Parent</displayNameOverride>
             <field>Ultimate_Parent__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Ultimate Parent</displayNameOverride>
             <field>dupcheck__dc3UltimateParent__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Ultimate Parent ID</displayNameOverride>
             <field>Ultimate_Parent_ID__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Ultimate Parent Name</displayNameOverride>
             <field>Ultimate_Parent_Name__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Ultimate Tier at GROUP Level</displayNameOverride>
             <field>Ultimate_Parent_Tier__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Website</displayNameOverride>
             <field>Website</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>YTD Flows (EUR)</displayNameOverride>
             <field>YTD_Flows__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>YTD Net Flows</displayNameOverride>
             <field>YTDNetFlows__c</field>
             <table>Account</table>
         </columns>
@@ -654,1787 +781,2228 @@
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Account Engagement Campaign</displayNameOverride>
             <field>pi__campaign__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Account Engagement Comments</displayNameOverride>
             <field>pi__comments__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Account Engagement Conversion Date</displayNameOverride>
             <field>pi__conversion_date__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Account Engagement Created Date</displayNameOverride>
             <field>pi__created_date__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Account Engagement First Activity</displayNameOverride>
             <field>pi__first_activity__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Account Engagement First Referrer</displayNameOverride>
             <field>pi__first_touch_url__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Account Engagement First Referrer Query</displayNameOverride>
             <field>pi__first_search_term__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Account Engagement First Referrer Type</displayNameOverride>
             <field>pi__first_search_type__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Account Engagement Grade</displayNameOverride>
             <field>pi__grade__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Account Engagement Hard Bounced</displayNameOverride>
             <field>pi__pardot_hard_bounced__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Account Engagement Last Activity</displayNameOverride>
             <field>pi__last_activity__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Account Engagement Last Scored At</displayNameOverride>
             <field>pi__Pardot_Last_Scored_At__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Account Engagement Notes</displayNameOverride>
             <field>pi__notes__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Account Engagement Score</displayNameOverride>
             <field>pi__score__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Account Engagement URL</displayNameOverride>
             <field>pi__url__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Company Name</displayNameOverride>
             <field>Account</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Address 1</displayNameOverride>
             <field>Address1__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Address 2</displayNameOverride>
             <field>Address2__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Aggregate Viewing Duration</displayNameOverride>
             <field>BrightTALK__Aggregate_Viewing_Duration__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Alternative</displayNameOverride>
             <field>Alternative_Strategy__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Any dietetary requirement</displayNameOverride>
             <field>Any_dietetary_requirement__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Approval Status</displayNameOverride>
             <field>Approval_Status__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Asset Class Focus</displayNameOverride>
             <field>AssetClassFocus__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Assistant</displayNameOverride>
             <field>AssistantName</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Asst. Phone</displayNameOverride>
             <field>AssistantPhone</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Birthdate</displayNameOverride>
             <field>Birthdate</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Bounce</displayNameOverride>
             <field>Bounce__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>BrightTALK Campaign URL</displayNameOverride>
             <field>BrightTALK_Campaign_URL__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>BrightTALK Engagement Score</displayNameOverride>
             <field>BrightTALK_Engagement_Score__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>BrightTALK First Connexion</displayNameOverride>
             <field>BrightTALK_First_Connexion__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>BrightTALK Lead Context</displayNameOverride>
             <field>BrightTALK_Lead_Context__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>BrightTALK Lead Type</displayNameOverride>
             <field>BrightTALK_Lead_Type__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>BrightTalk Phone Number</displayNameOverride>
             <field>BrightTalk_Phone_Number__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>BrightTALK Referral</displayNameOverride>
             <field>BrightTALK_Referral__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>BrightTALK User Company Size</displayNameOverride>
             <field>BrightTALK__BrightTALK_User_Company_Size__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>BrightTALK User Id</displayNameOverride>
             <field>BrightTALK__User_Id__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>BrightTALK User Level</displayNameOverride>
             <field>BrightTALK__BrightTALK_User_Level__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>BrightTALK UTM Campaign</displayNameOverride>
             <field>BrightTALK_UTM_Campaign__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>BrightTALK UTM Content</displayNameOverride>
             <field>BrightTALK_UTM_Content__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>BrightTALK UTM Medium</displayNameOverride>
             <field>BrightTALK_UTM_Medium__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>BrightTALK UTM Source</displayNameOverride>
             <field>BrightTALK_UTM_Source__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>BrightTALK UTM Term</displayNameOverride>
             <field>BrightTALK_UTM_Term__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Business Card Title</displayNameOverride>
             <field>Business_Card_Title__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Bypass Apex</displayNameOverride>
             <field>Bypass_Apex__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Campaign Display Name</displayNameOverride>
             <field>BrightTALK__Campaign_Display_Name__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Campaign ID</displayNameOverride>
             <field>BrightTALK__Campaign_ID__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Campaign Reference</displayNameOverride>
             <field>BrightTALK__Campaign_Reference__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Campaign Targeting (OLD)</displayNameOverride>
             <field>Campaign_Targeting__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carm Emerging Patrimoine (CEMP/UKCEMP)</displayNameOverride>
             <field>Carmignac_Emerging_Patrimoine_CEMP_UKCEM__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac Alt European Long Short(CAELS)</displayNameOverride>
             <field>Carmignac_Alt_European_Long_Short_CAELS__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac China New Economy (CCNE/PCNE)</displayNameOverride>
             <field>Carmignac_China_New_Economy_CCNE_PCNE__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac Climate Transition (CC)</displayNameOverride>
             <field>Carmignac_Climate_Transition_CC__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac Court Terme (CCT)</displayNameOverride>
             <field>Carmignac_Court_Terme_CCT__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac Credit (CCR)</displayNameOverride>
             <field>Carmignac_Credit_CCR__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac Credit 2025 (CC25)</displayNameOverride>
             <field>Carmignac_Credit_2025_CC25__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac Credit 2027 (CC27)</displayNameOverride>
             <field>Carmignac_Credit_2027_CC27__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac Credit Opportunities (CCO)</displayNameOverride>
             <field>Carmignac_Credit_Opportunities_CCO__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac EM Debt (CEMD)</displayNameOverride>
             <field>Carmignac_EM_Debt_CEMD__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac Emergents (CE/PE/UKCE)</displayNameOverride>
             <field>Carmignac_Emergents_CE_PE_UKCE__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac Emerging Discovery (CED/UKCED)</displayNameOverride>
             <field>Carmignac_Emerging_Discovery_CED_UKCED__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac Family Governed (CFG)</displayNameOverride>
             <field>Carmignac_Family_Governed_CFG__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac Flexible Bond (CFB)</displayNameOverride>
             <field>Carmignac_Flexible_Bond_CFB__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac Global Bond (CGB/UKCGB)</displayNameOverride>
             <field>Carmignac_Global_Bond_CGB_UKCGB__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac Global Market Neutral (CGMN)</displayNameOverride>
             <field>Carmignac_Global_Market_Neutral_CGMN__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac Grandchildren (CGC/UKCGEC)</displayNameOverride>
             <field>Carmignac_Grandchildren_CGC_UKCGEC__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac Grande Europe (CGE)</displayNameOverride>
             <field>Carmignac_Grande_Europe_CGE__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac Human Xperience (CHX)</displayNameOverride>
             <field>Carmignac_Human_Xperience_CHX__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac Investissement (CI/PI)</displayNameOverride>
             <field>Carmignac_Investissement_CI_PI__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac Investissement Latitude (CIL)</displayNameOverride>
             <field>Carmignac_Investissement_Latitude_CIL__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac Merger Arbitrage (CMA)</displayNameOverride>
             <field>Carmignac_Merger_Arbitrage_CMA__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac Merger Arbitrage Plus (CMAP)</displayNameOverride>
             <field>Carmignac_Merger_Arbitrage_Plus_CMAP__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac Patrimoine (CP/PP/UKCP)</displayNameOverride>
             <field>Carmignac_Patrimoine_CP_PP_UKCP__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac Patrimoine Europe (CPE)</displayNameOverride>
             <field>Carmignac_Patrimoine_Europe_CPE__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac Sécurité (CSC/PSC)</displayNameOverride>
             <field>Carmignac_S_curit_CSC_PSC__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carm Long Short Eur Equities-CLSEE/PLSEE</displayNameOverride>
             <field>Carmignac_Long_Short_Eur_Equities_CLSEE__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carm Profil Réactif(CPR100/CPR75/CPR50)</displayNameOverride>
             <field>Carmignac_ProfReactif_CPR100_CPR75_CPR50__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Category name</displayNameOverride>
             <field>Category_name__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Category type</displayNameOverride>
             <field>Category_type__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Check_PROSpace_company</displayNameOverride>
             <field>Check_PROSpace_company__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>City</displayNameOverride>
             <field>City__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Comment</displayNameOverride>
             <field>Comment__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Company Name Text Only</displayNameOverride>
             <field>Company_Name_Text_Only__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Contact Currency</displayNameOverride>
             <field>CurrencyIsoCode</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Contact ID</displayNameOverride>
             <field>Id</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Contact ID 15</displayNameOverride>
             <field>Contact_ID_15__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Contact ID 18</displayNameOverride>
             <field>ContactId18__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Contact Owner</displayNameOverride>
             <field>ContactOwner__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Contact Owner</displayNameOverride>
             <field>Owner</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Contact Owner Business Region</displayNameOverride>
             <field>Contact_Owner_Business_Region__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Contact question</displayNameOverride>
             <field>Contact_question__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Contact Record Type</displayNameOverride>
             <field>RecordType</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Contact Status</displayNameOverride>
             <field>ContactStatus__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Contact Status Logo</displayNameOverride>
             <field>Contact_Status_Logo__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Context Name</displayNameOverride>
             <field>BrightTALK__Context_Name__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Conversion Object Name</displayNameOverride>
             <field>pi__conversion_object_name__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Conversion Object Type</displayNameOverride>
             <field>pi__conversion_object_type__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Corporate</displayNameOverride>
             <field>Corporate__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Corporate Title</displayNameOverride>
             <field>CorporateTitle__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Country</displayNameOverride>
             <field>Country__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Created By</displayNameOverride>
             <field>CreatedBy</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Created Date</displayNameOverride>
             <field>CreatedDate</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Current HOC approval</displayNameOverride>
             <field>Current_HOC_approval__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Cvent Contact Stub</displayNameOverride>
             <field>CventEvents__ContactStub__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Data.com Key</displayNameOverride>
             <field>Jigsaw</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Data Quality Description</displayNameOverride>
             <field>Data_Quality_Description__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Data Quality Score</displayNameOverride>
             <field>Data_Quality_Score__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Data Solution Email</displayNameOverride>
             <field>Client_Delivery_Email__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Department</displayNameOverride>
             <field>Department</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Description</displayNameOverride>
             <field>Description</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Digital Interactions Flag EM</displayNameOverride>
             <field>Digital_Interactions_Flag_EM__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Disable Duplicate Check</displayNameOverride>
             <field>dupcheck__dc3DisableDuplicateCheck__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Distributor Sub Type</displayNameOverride>
             <field>Distributor_Sub_Type_formula__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Distributor Type</displayNameOverride>
             <field>Distributor_Type_formula__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Diversified</displayNameOverride>
             <field>Diversified_Strategy__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Doc Link</displayNameOverride>
             <field>Doc_Link__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Do Not Call</displayNameOverride>
             <field>DoNotCall</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Duplicate Check Index</displayNameOverride>
             <field>dupcheck__dc3Index__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Eligible cities</displayNameOverride>
             <field>Roadshow__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Professional Email</displayNameOverride>
             <field>Email</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Email Bounce Date</displayNameOverride>
             <field>Email_Bounce_Date__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Email Bounced Date</displayNameOverride>
             <field>EmailBouncedDate</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Email Bounced Reason</displayNameOverride>
             <field>EmailBouncedReason</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Email Bounce Reason</displayNameOverride>
             <field>Email_bounce_reason__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>General Opt Out</displayNameOverride>
             <field>HasOptedOutOfEmail</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Emerging Equities</displayNameOverride>
             <field>Emerging_Equities__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Emerging Markets</displayNameOverride>
             <field>Emerging_Markets__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Engagement Score</displayNameOverride>
             <field>BrightTALK__Engagement_Score__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Equities</displayNameOverride>
             <field>Equities__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>ESG Newsletter</displayNameOverride>
             <field>ESG_Newsletter__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Europe</displayNameOverride>
             <field>Europe__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>European Equities</displayNameOverride>
             <field>European_Equities__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Event Email</displayNameOverride>
             <field>Event_Email__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Event First Name</displayNameOverride>
             <field>Event_First_Name__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Event Last Name</displayNameOverride>
             <field>Event_Last_Name__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Event Optout (OLD)</displayNameOverride>
             <field>Subscriber__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Exclusive Event (OLD)</displayNameOverride>
             <field>Fund_Selector_Day__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Expertise</displayNameOverride>
             <field>Expertise_picklist_c__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Expertise (Y/N)</displayNameOverride>
             <field>Expertise_c__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Fax</displayNameOverride>
             <field>Fax</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Fax Indicator</displayNameOverride>
             <field>FaxIndicator__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Fax Number</displayNameOverride>
             <field>FaxNumber__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Fax Opt Out</displayNameOverride>
             <field>HasOptedOutOfFax</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Final Distribution</displayNameOverride>
             <field>Final_Distribution_formula__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>First &amp; Last name</displayNameOverride>
             <field>First_Last_name__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>First Name</displayNameOverride>
             <field>FirstName</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Fixed Income</displayNameOverride>
             <field>Fixed_Income_Strategy__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>FP Carmignac Emerging Market (UKCE)</displayNameOverride>
             <field>FP_Carmignac_Emerging_Market_UKCE__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>FP Carmignac European Leaders (UKCEL)</displayNameOverride>
             <field>FP_Carmignac_European_Leaders_UKCEL__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>FP Carmignac Global Equity Compounders</displayNameOverride>
             <field>FP_Carmignac_Global_Equity_Compounders__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>FP Carmignac Patrimoine (UKCP)</displayNameOverride>
             <field>FP_Carmignac_Patrimoine_UKCP__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>FP Carmignac Unconstrained Global Bond</displayNameOverride>
             <field>FP_Carmignac_Unconstrained_Global_Bond__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Frequent Traveler Number</displayNameOverride>
             <field>Frequent_Traveler_Number__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Frequent Traveler Program</displayNameOverride>
             <field>Frequent_Traveler_Program__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>true</checkedByDefault>
+            <displayNameOverride>Full Name</displayNameOverride>
             <field>Name</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Fund Update</displayNameOverride>
             <field>Fund_Update__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>GAM Level</displayNameOverride>
             <field>GAMLevel__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>GDPR external comment</displayNameOverride>
             <field>GDPR_external_comment__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>GDPR external request for data deletion</displayNameOverride>
             <field>GDPR_external_request_for_data_deletion__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>GDPR flag comment</displayNameOverride>
             <field>GDPR_flag_comment__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>GDPR Flag for Deletion</displayNameOverride>
             <field>To_Delete__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Gender</displayNameOverride>
             <field>Gender__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Gender Identity</displayNameOverride>
             <field>GenderIdentity</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Global</displayNameOverride>
             <field>Global__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Global equities</displayNameOverride>
             <field>Patrimoine_Strategy__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Google Analytics Campaign</displayNameOverride>
             <field>pi__utm_campaign__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Google Analytics Content</displayNameOverride>
             <field>pi__utm_content__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Google Analytics Medium</displayNameOverride>
             <field>pi__utm_medium__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Google Analytics Source</displayNameOverride>
             <field>pi__utm_source__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Google Analytics Term</displayNameOverride>
             <field>pi__utm_term__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Home Phone</displayNameOverride>
             <field>HomePhone</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Hotel Book</displayNameOverride>
             <field>Hotel_Book__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>ICAV - CAELS Opt In</displayNameOverride>
             <field>ICAV_CAELS_Opt_In__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Incentive (OLD)</displayNameOverride>
             <field>Incentive__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Individual</displayNameOverride>
             <field>Individual</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Influence Level</displayNameOverride>
             <field>InfluenceLevel__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Intent Lead Score</displayNameOverride>
             <field>BrightTALK__Intent_Lead_Score__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Intent Lead Scores</displayNameOverride>
             <field>BrightTALK__Intent_Lead_Scores__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Interaction Indicator</displayNameOverride>
             <field>Interaction_Indicator__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Investment Decision</displayNameOverride>
             <field>Investment_Decision_formula__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Investment Pro Presentation (OLD)</displayNameOverride>
             <field>Investment_seminar__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Investment Solutions</displayNameOverride>
             <field>Investment_Solutions__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Investment Vehicle</displayNameOverride>
             <field>Investment_Vehicle_formula__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Investment Vehicle Type</displayNameOverride>
             <field>Investment_Vehicle_Type_formula__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Invitations</displayNameOverride>
             <field>Events__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>isCompetitor</displayNameOverride>
             <field>isCompetitor__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Is Email Bounced</displayNameOverride>
             <field>IsEmailBounced</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Is IN my Team</displayNameOverride>
             <field>Is_IN_my_Team__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Is Meetings Emails excluded</displayNameOverride>
             <field>IsMeetingsEmailsExcluded__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Is Meetings excluded</displayNameOverride>
             <field>IsMeetingsexcluded__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Job Function</displayNameOverride>
             <field>JobFunction__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Job Title</displayNameOverride>
             <field>JobTitle__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Langage 2</displayNameOverride>
             <field>Langage_2__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Language</displayNameOverride>
             <field>Language__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Activity</displayNameOverride>
             <field>LastActivityDate</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Etouches action synchronized</displayNameOverride>
             <field>Last_Etouches_action_synchronized__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Event attendance</displayNameOverride>
             <field>Last_Event_attendance__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Event attendance elapsed time</displayNameOverride>
             <field>Last_Event_attendance_elapsed_time__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Event attendance Type</displayNameOverride>
             <field>Last_Event_attendance_Type__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Interaction</displayNameOverride>
             <field>Last_Interaction__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Meeting &amp; Call</displayNameOverride>
             <field>Last_Meeting_Call__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Meeting &amp; Call elapsed time</displayNameOverride>
             <field>Last_Meeting_Call_elapsed_time__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Meeting &amp; Call type</displayNameOverride>
             <field>Last_Meeting_Call_type__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Modified By</displayNameOverride>
             <field>LastModifiedBy</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Modified Date</displayNameOverride>
             <field>LastModifiedDate</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Name</displayNameOverride>
             <field>LastName</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Newsletter Opened</displayNameOverride>
             <field>Last_Newsletter_Opened__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Newsletter sent</displayNameOverride>
             <field>Last_Newsletter_sent__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Newsletter Sent elapsed time</displayNameOverride>
             <field>Last_Newsletter_Sent_elapsed_time__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Newsletter Sent Type</displayNameOverride>
             <field>Last_Newsletter_Sent_Type__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Stay-in-Touch Request Date</displayNameOverride>
             <field>LastCURequestDate</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Stay-in-Touch Save Date</displayNameOverride>
             <field>LastCUUpdateDate</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Sync Date</displayNameOverride>
             <field>LastSyncDate__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Sync Status</displayNameOverride>
             <field>LastSyncStatus__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Lead Context</displayNameOverride>
             <field>BrightTALK__Lead_Context__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Lead Source</displayNameOverride>
             <field>LeadSource</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Lead Type</displayNameOverride>
             <field>BrightTALK__Lead_Type__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Level of Influence</displayNameOverride>
             <field>Level_of_Influence__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Level of Support</displayNameOverride>
             <field>Level_of_Support__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing Address</displayNameOverride>
             <field>MailingAddress</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing City</displayNameOverride>
             <field>MailingCity</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing Country</displayNameOverride>
             <field>MailingCountryCode</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing Country (text only)</displayNameOverride>
             <field>MailingCountry</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing Geocode Accuracy</displayNameOverride>
             <field>MailingGeocodeAccuracy</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing Latitude</displayNameOverride>
             <field>MailingLatitude</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing Longitude</displayNameOverride>
             <field>MailingLongitude</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing Area/Province</displayNameOverride>
             <field>MailingStateCode</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing Area/Province (text only)</displayNameOverride>
             <field>MailingState</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing Street</displayNameOverride>
             <field>MailingStreet</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mailing Zip/Postal Code</displayNameOverride>
             <field>MailingPostalCode</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Market Analysis</displayNameOverride>
             <field>Market_Analysis__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Median influence</displayNameOverride>
             <field>Median_influence__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mobile</displayNameOverride>
             <field>MobilePhone</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mobile Indicator</displayNameOverride>
             <field>MobileIndicator__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mobile Number</displayNameOverride>
             <field>MobileNumber__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>MOIS Default Contact</displayNameOverride>
             <field>MOIS_Default_Contact__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Needs Score Synced</displayNameOverride>
             <field>pi__Needs_Score_Synced__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Newsletter Opt Out (OLD)</displayNameOverride>
             <field>Contact_Opt_out__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Newsletters</displayNameOverride>
             <field>Monthly_Newsletter__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>OEIC Funds</displayNameOverride>
             <field>OEIC_Funds__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Other Address</displayNameOverride>
             <field>OtherAddress</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Other City</displayNameOverride>
             <field>OtherCity</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Other Country</displayNameOverride>
             <field>OtherCountryCode</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Other Country (text only)</displayNameOverride>
             <field>OtherCountry</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Other Geocode Accuracy</displayNameOverride>
             <field>OtherGeocodeAccuracy</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Other Latitude</displayNameOverride>
             <field>OtherLatitude</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Other Longitude</displayNameOverride>
             <field>OtherLongitude</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Direct Phone</displayNameOverride>
             <field>OtherPhone</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Other Area/State</displayNameOverride>
             <field>OtherStateCode</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Other Area/State (text only)</displayNameOverride>
             <field>OtherState</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Other Street</displayNameOverride>
             <field>OtherStreet</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Other Zip/Postal Code</displayNameOverride>
             <field>OtherPostalCode</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Owner Change Requested By</displayNameOverride>
             <field>Owner_Change_Requested_By__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Partnership (OLD)</displayNameOverride>
             <field>Partnership__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Persona</displayNameOverride>
             <field>Persona__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Personal Email</displayNameOverride>
             <field>PersonalEmail__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Phone</displayNameOverride>
             <field>Phone</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Phone Indicator</displayNameOverride>
             <field>PhoneIndicator__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Phone Number</displayNameOverride>
             <field>PhoneNumber__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Postal Code</displayNameOverride>
             <field>PostalCode__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Postal Delivery Opt Out</displayNameOverride>
             <field>PostalDeliveryOptOut__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Potential</displayNameOverride>
             <field>Potential__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Preferred Method Of Contact</displayNameOverride>
             <field>PreferredMethodOfContact__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Product</displayNameOverride>
             <field>Product_c__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Product (Y/N)</displayNameOverride>
             <field>Product_cb__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Pronouns</displayNameOverride>
             <field>Pronouns</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Proposed Contact Owner</displayNameOverride>
             <field>Proposed_Contact_Owner__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Proposed Contact Owner Business Region</displayNameOverride>
             <field>Proposed_Contact_Owner_Business_Region__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Proposed HOC approval</displayNameOverride>
             <field>Proposed_HOC_approval__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Prospace Status</displayNameOverride>
             <field>Prospace_Status__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Quarterly meeting (OLD)</displayNameOverride>
             <field>Quarterly_meeting_category__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Question Answered?</displayNameOverride>
             <field>BrightTALK__UserQuestionAnswered__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Question Text</displayNameOverride>
             <field>BrightTALK__UserQuestionText__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Reference</displayNameOverride>
             <field>Reference_formula__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>References</displayNameOverride>
             <field>References__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Referral</displayNameOverride>
             <field>BrightTALK__Referral__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Regional / Sector Focus</displayNameOverride>
             <field>RegionalSectorFocus__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Regulatory Newsletter</displayNameOverride>
             <field>Regulatory_Newsletter__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Reports To</displayNameOverride>
             <field>ReportsTo</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Room Book</displayNameOverride>
             <field>Room_Book__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Sales Presentation (OLD)</displayNameOverride>
             <field>Sales_Event__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Salutation</displayNameOverride>
             <field>Salutation</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>ScoreEmailing - AssetClass - Alternative</displayNameOverride>
             <field>ScoreEmailing_AssetClass_Alternative__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>ScoreEmailing - AssetClass - EQ</displayNameOverride>
             <field>ScoreEmailing_AssetClass_EQ__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>ScoreEmailing - AssetClass - FI</displayNameOverride>
             <field>ScoreEmailing_AssetClass_FI__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>ScoreEmailing - AssetClass - Mixed</displayNameOverride>
             <field>ScoreEmailing_AssetClass_Mixed__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>ScoreEmailing - Stats - Clicked</displayNameOverride>
             <field>ScoreEmailing_Stats_Clicked__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>ScoreEmailing - Stats - Opened</displayNameOverride>
             <field>ScoreEmailing_Stats_Opened__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>ScoreEmailing - Type - ESG</displayNameOverride>
             <field>ScoreEmailing_Type_ESG__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>ScoreEmailing - Type - Invitation</displayNameOverride>
             <field>ScoreEmailing_Type_Invitation__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>ScoreEmailing - Type - Newsletter</displayNameOverride>
             <field>ScoreEmailing_Type_Newsletter__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>ScoreEmailing - Type - Other</displayNameOverride>
             <field>ScoreEmailing_Type_Other__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>ScoreEmailing - Type - Post event</displayNameOverride>
             <field>ScoreEmailing_Type_Post_event__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>ScoreEmailing - Type - Push Product</displayNameOverride>
             <field>ScoreEmailing_Type_Push_Product__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>ScoreEmailing - Type - Reminder</displayNameOverride>
             <field>ScoreEmailing_Type_Reminder__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Select Personal Email for Events</displayNameOverride>
             <field>Use_Personnal_Email_For_Event_Comm__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Skype Twitter ID</displayNameOverride>
             <field>Skype_Twitter_ID__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Source</displayNameOverride>
             <field>Source__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Source comments</displayNameOverride>
             <field>Sourcecomments__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Sponsorship (OLD)</displayNameOverride>
             <field>Sponsorship__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Stop Send Data Solution Report</displayNameOverride>
             <field>ClientDeliveryRecipient__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Sub Source</displayNameOverride>
             <field>SubSource__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Support Department</displayNameOverride>
             <field>SupportDepartment__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Support Function</displayNameOverride>
             <field>SupportFunction__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Sustainable Investing</displayNameOverride>
             <field>Sustainable_Investing__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Synchro status</displayNameOverride>
             <field>Synchrostatus__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Team</displayNameOverride>
             <field>Team__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Team Email</displayNameOverride>
             <field>TeamEmail__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>TECH_isInserted</displayNameOverride>
             <field>TECH_isInserted__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>TECH_WhichWebService</displayNameOverride>
             <field>TECH_WhichWebService__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>TECH Contact Owner updates count</displayNameOverride>
             <field>TECH_Contact_Owner__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>TECHContactSUNID</displayNameOverride>
             <field>TECH_ContactSUNID__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>TECHContactTechSUNID</displayNameOverride>
             <field>TECH_ContactTechSUNID__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Technical ID</displayNameOverride>
             <field>Technical_ID__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>TECHWebSiteID</displayNameOverride>
             <field>TECH_WebSiteID__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Thematic Equities</displayNameOverride>
             <field>Thematic_Equities__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Thematic lunch</displayNameOverride>
             <field>Thematic_lunch__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Third-Party Type</displayNameOverride>
             <field>Third_Party_Type__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Educational</displayNameOverride>
             <field>Financial_Education__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>TimeZone</displayNameOverride>
             <field>BrightTALK__TimeZone__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Title</displayNameOverride>
             <field>Title</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Trafic metrics (Contact activities)</displayNameOverride>
             <field>Trafic_metrics_Contact_activities__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Traveler Information</displayNameOverride>
             <field>Traveler_Information__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Trial Status</displayNameOverride>
             <field>TrialStatus__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>UK Model Portfolio Services (UKMPS)</displayNameOverride>
             <field>UK_Model_Portfolio_Services_UKMPS__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Use Company Address</displayNameOverride>
             <field>Use_Company_Address__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>User</displayNameOverride>
             <field>User__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>User Id</displayNameOverride>
             <field>User_Id_Ctc__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>UTM Campaign</displayNameOverride>
             <field>BrightTALK__UTM_Campaign__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>UTM Content</displayNameOverride>
             <field>BrightTALK__UTM_Content__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>UTM Medium</displayNameOverride>
             <field>BrightTALK__UTM_Medium__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>UTM Source</displayNameOverride>
             <field>BrightTALK__UTM_Source__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>UTM Term</displayNameOverride>
             <field>BrightTALK__UTM_Term__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>VIP</displayNameOverride>
             <field>VIP__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Website_Country_Language</displayNameOverride>
             <field>WebsiteCountryLanguage__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Website Company</displayNameOverride>
             <field>WebsiteCompany__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Website Country</displayNameOverride>
             <field>WebsiteCountry__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Website Creation Date</displayNameOverride>
             <field>WebsiteCreationDate__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Website Email rejected</displayNameOverride>
             <field>Website_Email_rejected__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Website First Name</displayNameOverride>
             <field>FirstNameWebsite__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Website Business Card Title</displayNameOverride>
             <field>WebsiteJobTitle__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Website Language</displayNameOverride>
             <field>WebsiteLanguage__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Website Last Name</displayNameOverride>
             <field>LastNameWebsite__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Website Last Visit Date</displayNameOverride>
             <field>WebsiteLastVisitDate__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Website Login</displayNameOverride>
             <field>WebsiteLogin__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Website Reset Password</displayNameOverride>
             <field>Website_Reset_Password__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Website Response</displayNameOverride>
             <field>WebsiteResponse__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Website Role</displayNameOverride>
             <field>WebsiteRole__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Website Salutation</displayNameOverride>
             <field>WebsiteSalutation__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Work Together Process</displayNameOverride>
             <field>Work_Together_Process__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>XX Distributor Sub Type</displayNameOverride>
             <field>Distributor_Sub_Type__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>XX Distributor Type</displayNameOverride>
             <field>Distributor_Type__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>XX Final Distribution</displayNameOverride>
             <field>Final_Distribution__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>XX Invesment Decision</displayNameOverride>
             <field>Invesment_Decision__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>XX Investment Vehicle</displayNameOverride>
             <field>Investment_vehicle__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>XX Investment Vehicle Type</displayNameOverride>
             <field>Investment_Vehicle_Type__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Sales Support</displayNameOverride>
             <field>Sales_Support__c</field>
             <table>Account.Contacts</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac Credit 2029 (CC29)</displayNameOverride>
             <field>Carmignac_Credit_2029_CC29__c</field>
+            <table>Account.Contacts</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac Absolute Return Europe (CARE)</displayNameOverride>
+            <field>Carmignac_Absolute_Return_Europe_CARE__c</field>
+            <table>Account.Contacts</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Opt out Reason</displayNameOverride>
+            <field>OptOut_Reason__c</field>
+            <table>Account.Contacts</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac Inflation Solution (CPI)</displayNameOverride>
+            <field>Carmignac_Inflation_Solution_CPI__c</field>
+            <table>Account.Contacts</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>HardBounced Mandrill Reason</displayNameOverride>
+            <field>HardBounced_Mandrill_Reason__c</field>
+            <table>Account.Contacts</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>HardBounced Mandrill</displayNameOverride>
+            <field>HardBounced_Mandrill__c</field>
+            <table>Account.Contacts</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Unsubscribe Campaign</displayNameOverride>
+            <field>Unsubscribe_Campaign__c</field>
+            <table>Account.Contacts</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Attendance Number</displayNameOverride>
+            <field>AttendanceNumber__c</field>
+            <table>Account.Contacts</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Click Number</displayNameOverride>
+            <field>ClickNumber__c</field>
+            <table>Account.Contacts</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Open Number</displayNameOverride>
+            <field>OpenNumber__c</field>
+            <table>Account.Contacts</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Other Newsletters Status Number</displayNameOverride>
+            <field>OtherNewslettersStatusNumber__c</field>
+            <table>Account.Contacts</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Other Events Status Number</displayNameOverride>
+            <field>OtherEventsStatusNumber__c</field>
+            <table>Account.Contacts</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac Private Equity (CPEG)</displayNameOverride>
+            <field>Carmignac_Private_Equity_CPEG__c</field>
+            <table>Account.Contacts</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Private Equity</displayNameOverride>
+            <field>Private_Equities__c</field>
+            <table>Account.Contacts</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Carmignac Credit 2031 (CC31)</displayNameOverride>
+            <field>Carmignac_Credit_2031_CC31__c</field>
             <table>Account.Contacts</table>
         </columns>
         <masterLabel>Contacts</masterLabel>
@@ -2442,282 +3010,367 @@
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>% Attendance</displayNameOverride>
             <field>attendance__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Action</displayNameOverride>
             <field>Action__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Campaign</displayNameOverride>
             <field>Campaign__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Campaign Member Id</displayNameOverride>
             <field>Campaign_Member_Id__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Contact</displayNameOverride>
             <field>Contact_lu__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>ContactOrLead</displayNameOverride>
             <field>Contact__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Content Item Name</displayNameOverride>
             <field>Content_Item_Name__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Emailing Sent Date</displayNameOverride>
             <field>Create_Date__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Created By</displayNameOverride>
             <field>CreatedBy</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Created Date</displayNameOverride>
             <field>CreatedDate</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Currency</displayNameOverride>
             <field>CurrencyIsoCode</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Days Since First Visit</displayNameOverride>
             <field>Days_Since_First_Visit__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Device</displayNameOverride>
             <field>Device__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Digital Interaction ID</displayNameOverride>
             <field>Id</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>true</checkedByDefault>
+            <displayNameOverride>Digital Interaction Number</displayNameOverride>
             <field>Name</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Email Status</displayNameOverride>
             <field>Email_Status__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Engagement</displayNameOverride>
             <field>Engagement__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Engagement Type</displayNameOverride>
             <field>Engagement_Type__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Date_of_Interaction__c</field>
-            <table>Account.Contacts.Digital_Interactions__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Interaction Hour</displayNameOverride>
             <field>Interaction_Hour__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Source Detail</displayNameOverride>
             <field>Key_Word__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Activity Date</displayNameOverride>
             <field>LastActivityDate</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Last_Interaction_Date__c</field>
-            <table>Account.Contacts.Digital_Interactions__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Interaction Hour</displayNameOverride>
             <field>Last_Interaction_Time__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Modified By</displayNameOverride>
             <field>LastModifiedBy</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Modified Date</displayNameOverride>
             <field>LastModifiedDate</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Latitude</displayNameOverride>
             <field>Latitude__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Lead</displayNameOverride>
             <field>Lead_lu__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Location</displayNameOverride>
             <field>Location__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Longitude</displayNameOverride>
             <field>Longitude__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Matomo ExternalId</displayNameOverride>
             <field>Matomo_External_Id__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>MDS ID</displayNameOverride>
             <field>MDS_ID__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Owner</displayNameOverride>
             <field>Owner</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Product</displayNameOverride>
             <field>Product__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Product Code</displayNameOverride>
             <field>Product_Code__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Source Subtype</displayNameOverride>
             <field>Referrer__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Interaction Date</displayNameOverride>
+            <field>Last_Interaction_Date__c</field>
+            <table>Account.Contacts.Digital_Interactions__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Source Type</displayNameOverride>
             <field>Referrer_Type__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Session ID</displayNameOverride>
             <field>Session_ID__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Source</displayNameOverride>
             <field>Source__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Tag</displayNameOverride>
             <field>Tag__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Thematic</displayNameOverride>
             <field>Thematic__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Time Spent (sec)</displayNameOverride>
             <field>Time_Spent__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Total_Clicks__c</field>
-            <table>Account.Contacts.Digital_Interactions__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Total downloads</displayNameOverride>
             <field>Total_downloads__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Total_Opens__c</field>
-            <table>Account.Contacts.Digital_Interactions__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Type</displayNameOverride>
             <field>Type__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>URL</displayNameOverride>
             <field>URL__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>UTM Campaign</displayNameOverride>
             <field>UTM_Campaign__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>UTM Content</displayNameOverride>
             <field>UTM_Content__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>UTM Medium</displayNameOverride>
             <field>UTM_Medium__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>UTM Source</displayNameOverride>
             <field>UTM_Source__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>UTM Term</displayNameOverride>
             <field>UTM_Term__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Video Watch</displayNameOverride>
             <field>Video_Watch__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Attendance Duration (min)</displayNameOverride>
             <field>Attendance_Duration_Min__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Company</displayNameOverride>
             <field>Company__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>#Pages Viewed</displayNameOverride>
             <field>Pages_Viewed2__c</field>
+            <table>Account.Contacts.Digital_Interactions__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>TECH_LastInteractionDate</displayNameOverride>
+            <field>TECH_LastInteractionDate__c</field>
+            <table>Account.Contacts.Digital_Interactions__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>TECH Time Spent</displayNameOverride>
+            <field>TECH_Time_Spent__c</field>
+            <table>Account.Contacts.Digital_Interactions__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Full Name</displayNameOverride>
+            <field>ContactOrLeadFullName__c</field>
+            <table>Account.Contacts.Digital_Interactions__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Contact or Lead Id</displayNameOverride>
+            <field>ContactOrLeadId__c</field>
+            <table>Account.Contacts.Digital_Interactions__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Professional Email</displayNameOverride>
+            <field>ContactOrLeadEmail__c</field>
+            <table>Account.Contacts.Digital_Interactions__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Tech_ContactWebsiteLanguage</displayNameOverride>
+            <field>Tech_ContactWebsiteLanguage__c</field>
+            <table>Account.Contacts.Digital_Interactions__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Contct/Lead Name</displayNameOverride>
+            <field>Contct_Lead_Name__c</field>
+            <table>Account.Contacts.Digital_Interactions__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Content__c</field>
             <table>Account.Contacts.Digital_Interactions__r</table>
         </columns>
         <masterLabel>Digital Interactions</masterLabel>
@@ -2725,36 +3378,43 @@
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Question 1</displayNameOverride>
             <field>Question_1__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Question 2</displayNameOverride>
             <field>Question_2__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Question 3</displayNameOverride>
             <field>Question_3__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Question 4</displayNameOverride>
             <field>Question_4__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Potential AUM</displayNameOverride>
             <field>Potential_AUM__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Total Adressable AUM</displayNameOverride>
             <field>Total_Adressable_AUM__c</field>
             <table>Account</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Tiering</displayNameOverride>
             <field>Tiering__c</field>
             <table>Account</table>
         </columns>

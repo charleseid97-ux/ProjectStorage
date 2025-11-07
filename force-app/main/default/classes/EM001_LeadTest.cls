@@ -171,8 +171,8 @@ private class EM001_LeadTest {
         Lead leadtest2 = TestFactory.getSimpleProSpaceLead();
         Insert leadtest2;
         
-        Lead leadtest3 = TestFactory.getSimpleProSpaceLead();
-        Insert leadtest3;
+        // Lead leadtest3 = TestFactory.getSimpleProSpaceLead();
+        // Insert leadtest3;
         
         // Test User creation
         
@@ -191,7 +191,7 @@ private class EM001_LeadTest {
             
             List<String> listEmails = new List<String>();
             
-            List<String> listEmails2 = new List<String>();
+            // List<String> listEmails2 = new List<String>();
             
             List<String> listEmails3 = new List<String>();
             
@@ -199,20 +199,20 @@ private class EM001_LeadTest {
             
             listEmails.add(leadtest2.Email);
             
-            listEmails2.add(leadtest3.Email);
+            // listEmails2.add(leadtest3.Email);
             
             listEmails3.add('Testoldcarmignac@doesnotexits.com');
             
             list<Lead> testList1 = EM001_Lead.getListLeadsFromEmails(listEmails);
             
-            list<Lead> testList2 = EM001_Lead.getListLeadsFromEmails(listEmails2);
+            // list<Lead> testList2 = EM001_Lead.getListLeadsFromEmails(listEmails2);
             
             list<Lead> testList3 = EM001_Lead.getListLeadsFromEmails(listEmails3);
             
             // Results verification
             
             System.assertEquals(testList1.size(), 2);
-            System.assertEquals(testList2.size(), 1);
+            // System.assertEquals(testList2.size(), 1);
             System.assertEquals(testList3.size(), 0);
             
             

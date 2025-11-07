@@ -11,75 +11,75 @@
     <layouts>
         <layout>Master NDA</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Fields --></label>
             <section>Fields</section>
         </sections>
     </layouts>
     <layouts>
         <layout>NDA Classic</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Fields --></label>
             <section>Fields</section>
         </sections>
     </layouts>
     <layouts>
         <layout>NDA Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
     </layouts>
     <layouts>
         <layout>NDA via Master NDA</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Fields --></label>
             <section>Fields</section>
         </sections>
     </layouts>
     <layouts>
         <layout>NDA via Service Provider</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Fields --></label>
             <section>Fields</section>
         </sections>
     </layouts>
     <quickActions>
-        <label></label>
+        <label><!-- Add existing WTP --></label>
         <name>Add_existing_WTP</name>
     </quickActions>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- This process refers to a direct commercial relation between Carmignac and a single Client that requires the signatory of an NDA --></description>
+        <label><!-- NDA Bipartite --></label>
         <name>NDA_Classic</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- A tripartite NDA between Carmignac and a client - managed through an intermediary that is EITHER Morningstar or Refinitiv --></description>
+        <label><!-- NDA via Data Platform --></label>
         <name>NDA_via_Platform</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- A tripartite NDA between Carmignac and a client - managed through an intermediary that is NOT Morningstar or Refinitiv --></description>
+        <label><!-- NDA via Service Provider --></label>
         <name>NDA_via_Service_Provider</name>
     </recordTypes>
     <recordTypes>
-        <label></label>
+        <label><!-- Data Platform --></label>
         <name>Platform_NDA</name>
     </recordTypes>
     <startsWith>Vowel</startsWith>

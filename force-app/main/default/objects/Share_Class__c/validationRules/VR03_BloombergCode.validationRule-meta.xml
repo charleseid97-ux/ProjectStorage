@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR03_BloombergCode</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  NOT($User.BypassValidationRules__c),
+  NOT(ISBLANK(Bloomberg_Ticker__c)),
+  NOT(REGEX(Bloomberg_Ticker__c, &quot;^[A-Z0-9 ]{1,10}$&quot;))
+)</errorConditionFormula>
+    <errorDisplayField>BloombergCode__c</errorDisplayField>
+    <errorMessage>Bloomberg Ticker must be max 10 characters and contain only uppercase letters, numbers and spaces.</errorMessage>
+</ValidationRule>

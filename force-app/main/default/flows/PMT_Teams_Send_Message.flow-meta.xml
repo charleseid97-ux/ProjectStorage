@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Send_chat_message</name>
+        <label>Send chat message</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>WS_QueueableLauncher</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>email</name>
+            <value>
+                <elementReference>emailTEAMS</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>templateId</name>
+            <value>
+                <elementReference>Copy_1_of_Get_E.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>WS_QueueableLauncher</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <apiVersion>64.0</apiVersion>
+    <description>This flow allows users to share a document or meeting summary via Microsoft Teams directly from a PMT project.
+If the user selects the “Notify All” checkbox, the content will be sent to all Team Owners associated with the project via Teams notification.
+If the checkbox is not selected, the message is sent only to the team(s) explicitly selected.</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>Ne contient pas l&apos;équipe IS (à terme il faut ajouter une condition suivant le vehicule type et remplacer PS par IS) et l&apos;équipe INvestment Management (Laurent Mathieu) qui contribue indirectement à PMT en ajoutant des Product Manager si nécessaire ou en faisant les modifications d&apos;assignation.</description>
+        <name>emailTEAMS</name>
+        <dataType>String</dataType>
+        <expression>IF(
+  OR(
+    ISPICKVAL({!GETPMT.SFDRcategory__c}, &apos;6&apos;),
+    ISPICKVAL({!GETPMT.SFDRcategory__c}, &apos;8&apos;),
+    ISPICKVAL({!GETPMT.SFDRcategory__c}, &apos;9&apos;)
+  ),
+
+  /* ESG included */
+
+IF(ISBLANK({!GETPMT.Communication__r.Email}), &apos;&apos;, {!GETPMT.Communication__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.Compliance__r.Email}), &apos;&apos;, {!GETPMT.Compliance__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.DBS__r.Email}), &apos;&apos;, {!GETPMT.DBS__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.DCO__r.Email}), &apos;&apos;, {!GETPMT.DCO__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.DCP__r.Email}), &apos;&apos;, {!GETPMT.DCP__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.DCR__r.Email}), &apos;&apos;, {!GETPMT.DCR__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.DM__r.Email}), &apos;&apos;, {!GETPMT.DM__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.ESG__r.Email}), &apos;&apos;, {!GETPMT.ESG__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.Finance__r.Email}), &apos;&apos;, {!GETPMT.Finance__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.FundMarketing__r.Email}), &apos;&apos;, {!GETPMT.FundMarketing__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.InvestmentPerf__r.Email}), &apos;&apos;, {!GETPMT.InvestmentPerf__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.Legal__r.Email}), &apos;&apos;, {!GETPMT.Legal__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.OPS__r.Email}), &apos;&apos;, {!GETPMT.OPS__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.ProductSpecialists__r.Email}), &apos;&apos;, {!GETPMT.ProductSpecialists__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.ProductStrategy__r.Email}), &apos;&apos;, {!GETPMT.ProductStrategy__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.RFP__r.Email}), &apos;&apos;, {!GETPMT.RFP__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.Risk__r.Email}), &apos;&apos;, {!GETPMT.Risk__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.Tax__r.Email}), &apos;&apos;, {!GETPMT.Tax__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.IS__r.Email}), &apos;&apos;, {!GETPMT.IS__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.Technology__r.Email}), &apos;&apos;, {!GETPMT.Technology__r.Email}),
+
+  /* ESG excluded */
+
+IF(ISBLANK({!GETPMT.Communication__r.Email}), &apos;&apos;, {!GETPMT.Communication__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.Compliance__r.Email}), &apos;&apos;, {!GETPMT.Compliance__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.DBS__r.Email}), &apos;&apos;, {!GETPMT.DBS__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.DCO__r.Email}), &apos;&apos;, {!GETPMT.DCO__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.DCP__r.Email}), &apos;&apos;, {!GETPMT.DCP__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.DCR__r.Email}), &apos;&apos;, {!GETPMT.DCR__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.DM__r.Email}), &apos;&apos;, {!GETPMT.DM__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.Finance__r.Email}), &apos;&apos;, {!GETPMT.Finance__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.FundMarketing__r.Email}), &apos;&apos;, {!GETPMT.FundMarketing__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.InvestmentPerf__r.Email}), &apos;&apos;, {!GETPMT.InvestmentPerf__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.Legal__r.Email}), &apos;&apos;, {!GETPMT.Legal__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.OPS__r.Email}), &apos;&apos;, {!GETPMT.OPS__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.ProductSpecialists__r.Email}), &apos;&apos;, {!GETPMT.ProductSpecialists__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.ProductStrategy__r.Email}), &apos;&apos;, {!GETPMT.ProductStrategy__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.RFP__r.Email}), &apos;&apos;, {!GETPMT.RFP__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.Risk__r.Email}), &apos;&apos;, {!GETPMT.Risk__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.Tax__r.Email}), &apos;&apos;, {!GETPMT.Tax__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.IS__r.Email}), &apos;&apos;, {!GETPMT.IS__r.Email} &amp; &apos;;&apos;) &amp;
+IF(ISBLANK({!GETPMT.Technology__r.Email}), &apos;&apos;, {!GETPMT.Technology__r.Email})
+)</expression>
+    </formulas>
+    <formulas>
+        <name>PMTId</name>
+        <dataType>String</dataType>
+        <expression>{!$Record.Project_product__r.Id}</expression>
+    </formulas>
+    <formulas>
+        <name>TESTThomas</name>
+        <dataType>String</dataType>
+        <expression>&quot;thomas.coullon@carmignac.com&quot;</expression>
+    </formulas>
+    <interviewLabel>PMT_Teams Send Message - {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>PMT - Teams Notification - CheckboxNotifyAll</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Copy_1_of_Get_E</name>
+        <label>Copy 1 of Get Email Template</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Send_chat_message</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Teams_Notify_All_checkbox</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>EmailTemplate</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_EmailTemplate</name>
+        <label>Get EmailTemplate</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Teams_Notify_All_checkbox</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>EmailTemplate</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>GETPMT</name>
+        <label>GET PMT</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Copy_1_of_Get_E</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>PMTId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ProjectProduct__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_EmailTemplate</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>NotifyAllTeamOwners__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>ProjectDocuments__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <scheduledPaths>
+            <connector>
+                <targetReference>GETPMT</targetReference>
+            </connector>
+            <pathType>AsyncAfterCommit</pathType>
+        </scheduledPaths>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <name>EmailTest</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>nicolas.rossignol@carmignac.com;sihem.mokhtari.external@carmignac.com;thomas.coullon@carmignac.com</text>
+    </textTemplates>
+    <textTemplates>
+        <name>TESTEmails</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;span style=&quot;font-size: 13px;&quot;&gt;thomas.coullon@carmignac.com&lt;/span&gt;&lt;/p&gt;</text>
+    </textTemplates>
+</Flow>

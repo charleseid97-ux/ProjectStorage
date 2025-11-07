@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>RelatedPartyEntity__c</fullName>
     <deleteConstraint>Restrict</deleteConstraint>
-    <externalId>false</externalId>
     <label>Related Party Entity</label>
     <referenceTo>Legal_Entity__c</referenceTo>
     <relationshipName>Related_Parties_Contact_Entity1</relationshipName>

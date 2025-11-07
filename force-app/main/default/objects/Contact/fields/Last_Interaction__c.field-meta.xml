@@ -2,34 +2,39 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Last_Interaction__c</fullName>
     <description>Date and Time of the last interaction : Call , Meeting (End date), or Newsletter opened</description>
-    <externalId>false</externalId>
-    <formula>if(
-AND(
-OR(now()-CreatedDate &lt;= now()-Last_Event_attendance__c,isnull(Last_Event_attendance__c)), 
-OR(now()-CreatedDate &lt;= now()-Last_Newsletter_Opened__c,isnull(Last_Newsletter_Opened__c)), 
-OR(now()-CreatedDate &lt;= now()-Last_Meeting_Call__c,isnull(Last_Meeting_Call__c))
-),
-CreatedDate
-,
-if( 
-AND( 
-OR(now()-Last_Meeting_Call__c &lt;= now()-Last_Event_attendance__c,isnull(Last_Event_attendance__c)), 
-OR(now()-Last_Meeting_Call__c &lt;= now()-Last_Newsletter_Opened__c,isnull(Last_Newsletter_Opened__c)), 
-not(isnull(Last_Meeting_Call__c))), 
-Last_Meeting_Call__c, 
-if( 
-AND( 
-OR(now()-Last_Event_attendance__c &lt;= now()-Last_Meeting_Call__c ,isnull(Last_Meeting_Call__c )), 
-OR(now()-Last_Event_attendance__c &lt;= now()-Last_Newsletter_Opened__c,isnull(Last_Newsletter_Opened__c)), 
-not(isnull(Last_Event_attendance__c))), 
-Last_Event_attendance__c, 
-if( 
-AND( 
-OR(now()-Last_Newsletter_Opened__c &lt;= now()-Last_Meeting_Call__c ,isnull(Last_Meeting_Call__c )), 
-OR(now()-Last_Newsletter_Opened__c &lt;= now()-Last_Event_attendance__c,isnull(Last_Event_attendance__c)), 
-not(isnull(Last_Newsletter_Opened__c))), 
-Last_Newsletter_Opened__c, 
-CreatedDate))))</formula>
+    <formula>IF(
+    AND(
+        OR(now() - CreatedDate &lt;= now() - Last_Event_attendance__c, ISNULL(Last_Event_attendance__c)),
+        OR(now() - CreatedDate &lt;= now() - Last_Meeting_Call__c, ISNULL(Last_Meeting_Call__c)),
+        OR(now() - CreatedDate &lt;= now() - Last_Newsletter_Clicked__c, ISNULL(Last_Newsletter_Clicked__c))
+    ),
+    CreatedDate,
+    IF(
+        AND(
+            OR(now() - Last_Meeting_Call__c &lt;= now() - Last_Event_attendance__c, ISNULL(Last_Event_attendance__c)),
+            OR(now() - Last_Meeting_Call__c &lt;= now() - Last_Newsletter_Clicked__c, ISNULL(Last_Newsletter_Clicked__c)),
+            NOT(ISNULL(Last_Meeting_Call__c))
+        ),
+        Last_Meeting_Call__c,
+        IF(
+            AND(
+                OR(now() - Last_Event_attendance__c &lt;= now() - Last_Meeting_Call__c, ISNULL(Last_Meeting_Call__c)),
+                OR(now() - Last_Event_attendance__c &lt;= now() - Last_Newsletter_Clicked__c, ISNULL(Last_Newsletter_Clicked__c)),
+                NOT(ISNULL(Last_Event_attendance__c))
+            ),
+            Last_Event_attendance__c,
+            IF(
+				AND(
+					OR(now() - Last_Newsletter_Clicked__c &lt;= now() - Last_Meeting_Call__c, ISNULL(Last_Meeting_Call__c)),
+					OR(now() - Last_Newsletter_Clicked__c &lt;= now() - Last_Event_attendance__c, ISNULL(Last_Event_attendance__c)),
+					NOT(ISNULL(Last_Newsletter_Clicked__c))
+				),
+				Last_Newsletter_Clicked__c,
+				CreatedDate
+            )
+        )
+    )
+)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <inlineHelpText>Date and Time of the last interaction : Call , Meeting (End date), or Newsletter opened</inlineHelpText>
     <label>Last Interaction</label>

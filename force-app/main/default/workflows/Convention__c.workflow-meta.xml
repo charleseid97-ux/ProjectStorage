@@ -5,6 +5,14 @@
         <description>AgreementExpiration_BP_BE</description>
         <protected>false</protected>
         <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
             <type>owner</type>
         </recipients>
         <recipients>
@@ -15,9 +23,47 @@
         <template>Agreements/Agreement_Expired</template>
     </alerts>
     <alerts>
+        <fullName>AgreementExpiration_BP_BENELUX_Nordics</fullName>
+        <description>AgreementExpiration_BP_BENELUX&amp;Nordics</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>BelgiumCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <recipients>
+            <recipient>LuxembourgNetherlandsCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <recipients>
+            <recipient>NordicsCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Expired</template>
+    </alerts>
+    <alerts>
         <fullName>AgreementExpiration_BP_CH</fullName>
         <description>AgreementExpiration_BP_CH</description>
         <protected>false</protected>
+        <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
         <recipients>
             <type>owner</type>
         </recipients>
@@ -33,6 +79,14 @@
         <description>AgreementExpiration_BP_DA</description>
         <protected>false</protected>
         <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
             <type>owner</type>
         </recipients>
         <recipients>
@@ -46,6 +100,14 @@
         <fullName>AgreementExpiration_BP_ES</fullName>
         <description>AgreementExpiration_BP_ES</description>
         <protected>false</protected>
+        <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
         <recipients>
             <type>owner</type>
         </recipients>
@@ -61,6 +123,14 @@
         <description>AgreementExpiration_BP_FR</description>
         <protected>false</protected>
         <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
             <type>owner</type>
         </recipients>
         <recipients>
@@ -74,6 +144,14 @@
         <fullName>AgreementExpiration_BP_IN</fullName>
         <description>AgreementExpiration_BP_IN</description>
         <protected>false</protected>
+        <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
         <recipients>
             <type>owner</type>
         </recipients>
@@ -89,6 +167,14 @@
         <description>AgreementExpiration_BP_IT</description>
         <protected>false</protected>
         <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
             <type>owner</type>
         </recipients>
         <recipients>
@@ -102,6 +188,14 @@
         <fullName>AgreementExpiration_BP_LA</fullName>
         <description>AgreementExpiration_BP_LA</description>
         <protected>false</protected>
+        <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
         <recipients>
             <type>owner</type>
         </recipients>
@@ -117,6 +211,10 @@
         <description>AgreementExpiration_BP_LU_NL</description>
         <protected>false</protected>
         <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
             <type>owner</type>
         </recipients>
         <recipients>
@@ -130,6 +228,14 @@
         <fullName>AgreementExpiration_BP_NO</fullName>
         <description>AgreementExpiration_BP_NO</description>
         <protected>false</protected>
+        <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
         <recipients>
             <type>owner</type>
         </recipients>
@@ -145,6 +251,10 @@
         <description>AgreementExpiration_BP_UK</description>
         <protected>false</protected>
         <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
             <type>owner</type>
         </recipients>
         <recipients>
@@ -155,9 +265,289 @@
         <template>Agreements/Agreement_Expired</template>
     </alerts>
     <alerts>
+        <fullName>AgreementExpired6Months_BP_BE</fullName>
+        <description>AgreementExpired6Months_BP_BE</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>BelgiumCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Agreement_Expired_6_Months_Ago</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementExpired6Months_BP_BENELUX_Nordics</fullName>
+        <description>AgreementExpired6Months_BP_BENELUX&amp;Nordics</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>BelgiumCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <recipients>
+            <recipient>LuxembourgNetherlandsCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <recipients>
+            <recipient>NordicsCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Agreement_Expired_6_Months_Ago</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementExpired6Months_BP_CH</fullName>
+        <description>AgreementExpired6Months_BP_CH</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>SwitzerlandCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Agreement_Expired_6_Months_Ago</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementExpired6Months_BP_DA</fullName>
+        <description>AgreementExpired6Months_BP_DA</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>GermanyCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Agreement_Expired_6_Months_Ago</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementExpired6Months_BP_ES</fullName>
+        <description>AgreementExpired6Months_BP_ES</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>SpainCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Agreement_Expired_6_Months_Ago</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementExpired6Months_BP_FR</fullName>
+        <description>AgreementExpired6Months_BP_FR</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>FranceCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Agreement_Expired_6_Months_Ago</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementExpired6Months_BP_IN</fullName>
+        <description>AgreementExpired6Months_BP_IN</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>InternationalCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Agreement_Expired_6_Months_Ago</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementExpired6Months_BP_IT</fullName>
+        <description>AgreementExpired6Months_BP_IT</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>ItalyCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Agreement_Expired_6_Months_Ago</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementExpired6Months_BP_LA</fullName>
+        <description>AgreementExpired6Months_BP_LA</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>LATAMCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Agreement_Expired_6_Months_Ago</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementExpired6Months_BP_LU_NL</fullName>
+        <description>AgreementExpired6Months_BP_LU_NL</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>LuxembourgNetherlandsCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Agreement_Expired_6_Months_Ago</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementExpired6Months_BP_NO</fullName>
+        <description>AgreementExpired6Months_BP_NO</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>NordicsCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Agreement_Expired_6_Months_Ago</template>
+    </alerts>
+    <alerts>
+        <fullName>AgreementExpired6Months_BP_UK</fullName>
+        <description>AgreementExpired6Months_BP_UK</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>UKCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Agreement_Expired_6_Months_Ago</template>
+    </alerts>
+    <alerts>
         <fullName>AgreementFutureExpiration_BP_BE</fullName>
         <description>AgreementFutureExpiration_BP_BE</description>
         <protected>false</protected>
+        <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
         <recipients>
             <type>owner</type>
         </recipients>
@@ -169,9 +559,47 @@
         <template>Agreements/Agreement_will_Expire</template>
     </alerts>
     <alerts>
+        <fullName>AgreementFutureExpiration_BP_BENELUX_Nordics</fullName>
+        <description>AgreementFutureExpiration_BP_BENELUX&amp;Nordics</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>BelgiumCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <recipients>
+            <recipient>LuxembourgNetherlandsCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <recipients>
+            <recipient>NordicsCRM</recipient>
+            <type>role</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_will_Expire</template>
+    </alerts>
+    <alerts>
         <fullName>AgreementFutureExpiration_BP_CH</fullName>
         <description>AgreementFutureExpiration_BP_CH</description>
         <protected>false</protected>
+        <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
         <recipients>
             <type>owner</type>
         </recipients>
@@ -187,6 +615,14 @@
         <description>AgreementFutureExpiration_BP_DA</description>
         <protected>false</protected>
         <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
             <type>owner</type>
         </recipients>
         <recipients>
@@ -200,6 +636,14 @@
         <fullName>AgreementFutureExpiration_BP_ES</fullName>
         <description>AgreementFutureExpiration_BP_ES</description>
         <protected>false</protected>
+        <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
         <recipients>
             <type>owner</type>
         </recipients>
@@ -215,6 +659,10 @@
         <description>AgreementFutureExpiration_BP_FR</description>
         <protected>false</protected>
         <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
             <type>owner</type>
         </recipients>
         <recipients>
@@ -228,6 +676,14 @@
         <fullName>AgreementFutureExpiration_BP_IN</fullName>
         <description>AgreementFutureExpiration_BP_IN</description>
         <protected>false</protected>
+        <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
         <recipients>
             <type>owner</type>
         </recipients>
@@ -243,6 +699,14 @@
         <description>AgreementFutureExpiration_BP_IT</description>
         <protected>false</protected>
         <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
             <type>owner</type>
         </recipients>
         <recipients>
@@ -256,6 +720,14 @@
         <fullName>AgreementFutureExpiration_BP_LA</fullName>
         <description>AgreementFutureExpiration_BP_LA</description>
         <protected>false</protected>
+        <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
         <recipients>
             <type>owner</type>
         </recipients>
@@ -271,6 +743,14 @@
         <description>AgreementFutureExpiration_BP_LU_NL</description>
         <protected>false</protected>
         <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
             <type>owner</type>
         </recipients>
         <recipients>
@@ -285,6 +765,14 @@
         <description>AgreementFutureExpiration_BP_NO</description>
         <protected>false</protected>
         <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
             <type>owner</type>
         </recipients>
         <recipients>
@@ -298,6 +786,14 @@
         <fullName>AgreementFutureExpiration_BP_UK</fullName>
         <description>AgreementFutureExpiration_BP_UK</description>
         <protected>false</protected>
+        <recipients>
+            <recipient>Administrators</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>Investor_Services</recipient>
+            <type>group</type>
+        </recipients>
         <recipients>
             <type>owner</type>
         </recipients>
@@ -360,6 +856,14 @@
             <field>CRM_Team_Email_Address__c</field>
             <type>email</type>
         </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Amendment_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Amendment_Approval_Stage_Change_DCO_KYD</fullName>
+        <ccEmails>DCO.AML-KYD@carmignac.com</ccEmails>
+        <description>Agreement Amendment Approval Stage Change - DCO KYD</description>
+        <protected>false</protected>
         <senderType>CurrentUser</senderType>
         <template>Agreements/Agreement_Amendment_Approval_Change</template>
     </alerts>
@@ -493,6 +997,14 @@
             <recipient>Compliance</recipient>
             <type>group</type>
         </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Request_Approval_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>Agreement_Approval_Stage_Change_DCO_Rebate</fullName>
+        <ccEmails>DCO.AML-KYD@carmignac.com</ccEmails>
+        <description>Agreement Approval Stage Change - DCO Rebate</description>
+        <protected>false</protected>
         <senderType>CurrentUser</senderType>
         <template>Agreements/Agreement_Request_Approval_Change</template>
     </alerts>
@@ -760,6 +1272,14 @@
         <template>Agreements/Agreement_Renewal_with_GRID_Approval_Change</template>
     </alerts>
     <alerts>
+        <fullName>Agreement_Renewal_with_GRID_Approval_Stage_Change_DCO_KYD</fullName>
+        <ccEmails>DCO.AML-KYD@carmignac.com</ccEmails>
+        <description>Agreement Renewal with GRID Approval Stage Change - DCO KYD</description>
+        <protected>false</protected>
+        <senderType>CurrentUser</senderType>
+        <template>Agreements/Agreement_Renewal_with_GRID_Approval_Change</template>
+    </alerts>
+    <alerts>
         <fullName>Agreement_Renewal_with_GRID_Approval_Stage_Change_Finance</fullName>
         <ccEmails>financeaccounting@carmignac.com</ccEmails>
         <description>Agreement Renewal with GRID Approval Stage Change - Finance</description>
@@ -932,6 +1452,10 @@
         <ccEmails>DCO.AML-KYD@carmignac.com</ccEmails>
         <description>Pending Approval Notification-DCO.AML-KYD</description>
         <protected>false</protected>
+        <recipients>
+            <recipient>coullon.thomas-crm@carmignac.com</recipient>
+            <type>user</type>
+        </recipients>
         <senderType>CurrentUser</senderType>
         <template>Agreements/Agreement_Termination_Pending_Approval</template>
     </alerts>
@@ -1125,6 +1649,28 @@
         <name>Agreement - Approved Rule - Record Type</name>
         <notifyAssignee>false</notifyAssignee>
         <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Change_Renewal</fullName>
+        <description>When Grid Change + Renewal requested : set Change Requested Status</description>
+        <field>Status__c</field>
+        <literalValue>Change Requested</literalValue>
+        <name>Agreement Change Renewal</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Agreement_Change_Requested</fullName>
+        <description>Update Agreement : Status to Change requested IF there is a Grid Amendment request</description>
+        <field>Status__c</field>
+        <literalValue>Change Requested</literalValue>
+        <name>Agreement Change Requested</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
         <protected>false</protected>
         <reevaluateOnChange>false</reevaluateOnChange>
     </fieldUpdates>
@@ -1330,6 +1876,17 @@
         <reevaluateOnChange>false</reevaluateOnChange>
     </fieldUpdates>
     <fieldUpdates>
+        <fullName>Pending_Renewal</fullName>
+        <description>When Renewal reuquested update Agreement : Status to Pendeing Renewal</description>
+        <field>Status__c</field>
+        <literalValue>Pending Renewal</literalValue>
+        <name>Pending Renewal</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
         <fullName>Subdistributor_A_Update_Record_Type</fullName>
         <field>RecordTypeId</field>
         <lookupValue>Sub_distributor_Agreement_Request_Full</lookupValue>
@@ -1396,7 +1953,7 @@
     </rules>
     <rules>
         <fullName>Agreement Ending Rule</fullName>
-        <active>true</active>
+        <active>false</active>
         <criteriaItems>
             <field>Convention__c.RecordTypeId</field>
             <operation>equals</operation>
@@ -1510,7 +2067,7 @@
         <criteriaItems>
             <field>Convention__c.Status__c</field>
             <operation>notEqual</operation>
-            <value>In Negotiation,Expired,Terminated</value>
+            <value>In Negotiation,Expired,Terminated,Change Requested,Pending Renewal,Change Renewal</value>
         </criteriaItems>
         <criteriaItems>
             <field>Convention__c.ExpirationDate__c</field>
@@ -1573,7 +2130,7 @@
             <name>Agreement_Approval_Compliance</name>
             <type>FieldUpdate</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <booleanFilter>1 AND (2 OR 3) AND 4</booleanFilter>
         <criteriaItems>
             <field>Convention__c.RecordTypeId</field>

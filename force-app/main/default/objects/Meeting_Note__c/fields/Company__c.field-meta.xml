@@ -3,7 +3,6 @@
     <fullName>Company__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <description>The main Client</description>
-    <externalId>false</externalId>
     <label>Company</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Meeting Notes</relationshipLabel>

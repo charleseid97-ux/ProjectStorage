@@ -112,6 +112,12 @@
                 <identifier>RecordCode_Type__cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.Role__c</fieldItem>
+                <identifier>RecordRole__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-14a7e944-9365-4a8c-8b59-e7e1c122ea61</name>
         <type>Facet</type>
     </flexiPageRegions>

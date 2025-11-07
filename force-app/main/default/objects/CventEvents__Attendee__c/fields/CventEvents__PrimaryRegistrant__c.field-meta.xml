@@ -3,7 +3,6 @@
     <fullName>CventEvents__PrimaryRegistrant__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Primary Registrant Number</label>
     <referenceTo>CventEvents__Attendee__c</referenceTo>
     <relationshipLabel>Guests</relationshipLabel>

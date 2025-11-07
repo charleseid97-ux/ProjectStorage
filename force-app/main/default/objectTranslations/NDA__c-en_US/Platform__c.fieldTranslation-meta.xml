@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Platform --></label>
     <name>Platform__c</name>
     <picklistValues>
         <masterLabel>Morningstar</masterLabel>
-        <translation></translation>
+        <translation><!-- Morningstar --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Refinitiv</masterLabel>
-        <translation></translation>
+        <translation><!-- Refinitiv --></translation>
     </picklistValues>
 </CustomFieldTranslation>

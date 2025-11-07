@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>CventEvents__Log__c</fullName>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Log</label>
     <referenceTo>CventEvents__Log__c</referenceTo>
     <relationshipLabel>Log Connectors</relationshipLabel>

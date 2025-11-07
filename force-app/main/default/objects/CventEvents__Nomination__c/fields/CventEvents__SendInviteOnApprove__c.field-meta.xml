@@ -3,7 +3,6 @@
     <fullName>CventEvents__SendInviteOnApprove__c</fullName>
     <deprecated>false</deprecated>
     <description>Indicates whether an automatic invitation will take place after the nomination gets approved.</description>
-    <externalId>false</externalId>
     <formula>NOT(ISBLANK(CventEvents__InvitationConfigurationStub__c))</formula>
     <inlineHelpText>Indicates whether an automatic invitation will take place after the nomination gets approved.</inlineHelpText>
     <label>Send Invite On Approve</label>

@@ -154,13 +154,13 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ReadWrite</externalSharingModel>
-    <label>Duplicate Check Delta</label>
+    <label>Plauti Deduplicate Delta</label>
     <nameField>
         <displayFormat>DCD-{000000000}</displayFormat>
-        <label>Duplicate Check Delta Name</label>
+        <label>Plauti Deduplicate Delta Name</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Duplicate Check Deltas</pluralLabel>
+    <pluralLabel>Plauti Deduplicate Deltas</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

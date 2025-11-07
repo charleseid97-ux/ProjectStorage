@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Source --></label>
     <name>Source__c</name>
     <picklistValues>
         <masterLabel>Others</masterLabel>
-        <translation></translation>
+        <translation><!-- Others --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>RCS</masterLabel>
+        <translation><!-- RCS --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>UME</masterLabel>
-        <translation></translation>
+        <translation><!-- UME --></translation>
     </picklistValues>
 </CustomFieldTranslation>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <label>Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Prospectus</fullName>
+                <default>false</default>
+                <label>Prospectus</label>
+            </value>
+            <value>
+                <fullName>Notice to Shareholders</fullName>
+                <default>false</default>
+                <label>Notice to Shareholders</label>
+            </value>
+            <value>
+                <fullName>PRIIPS KID</fullName>
+                <default>false</default>
+                <label>PRIIPS KID</label>
+            </value>
+            <value>
+                <fullName>Portfolio Model</fullName>
+                <default>false</default>
+                <label>Portfolio Model</label>
+            </value>
+            <value>
+                <fullName>Type 1</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Type 1</label>
+            </value>
+            <value>
+                <fullName>Type 2</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Type 2</label>
+            </value>
+            <value>
+                <fullName>Type 3</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Type 3</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

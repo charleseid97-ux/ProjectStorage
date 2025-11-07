@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Role --></label>
+    <name>Role__c</name>
+    <picklistValues>
+        <masterLabel>Code Technique</masterLabel>
+        <translation><!-- Code Technique --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Distribution Delegate</masterLabel>
+        <translation><!-- Distribution Delegate --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Distribution Intermediary</masterLabel>
+        <translation><!-- Distribution Intermediary --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IS Agreement</masterLabel>
+        <translation><!-- IS Agreement --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Investment Advisor</masterLabel>
+        <translation><!-- Investment Advisor --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PerfFeesCrystallisationFreq__c</fullName>
+    <description>Performance crystallization frequency</description>
+    <externalId>false</externalId>
+    <inlineHelpText>In Years</inlineHelpText>
+    <label>Perf Fees Crystallisation Freq</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

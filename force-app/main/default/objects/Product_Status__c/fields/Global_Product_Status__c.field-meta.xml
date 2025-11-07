@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Global_Product_Status__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
-    <externalId>false</externalId>
     <label>Global Product Status</label>
     <referenceTo>Product_Status__c</referenceTo>
     <relationshipName>Product_Statuses</relationshipName>

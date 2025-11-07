@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- IS Team Stance --></label>
     <name>IS_Team_Stance__c</name>
     <picklistValues>
         <masterLabel>Currently involved</masterLabel>
-        <translation></translation>
+        <translation><!-- Currently involved --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>On Hold / Need more Input</masterLabel>
-        <translation></translation>
+        <translation><!-- On Hold / Need more Input --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Waiting for feedback</masterLabel>
-        <translation></translation>
+        <translation><!-- Waiting for feedback --></translation>
     </picklistValues>
 </CustomFieldTranslation>

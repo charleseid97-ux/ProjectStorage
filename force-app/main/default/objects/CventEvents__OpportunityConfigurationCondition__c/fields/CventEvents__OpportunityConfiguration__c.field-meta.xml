@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>CventEvents__OpportunityConfiguration__c</fullName>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Opportunity Configuration</label>
     <referenceTo>CventEvents__OpportunityConfiguration__c</referenceTo>
     <relationshipLabel>Opportunity Configuration Conditions</relationshipLabel>

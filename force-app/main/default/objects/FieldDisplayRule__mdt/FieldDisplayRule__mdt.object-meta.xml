@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This Custom Metadata defines the field display rules within PMT. It allows the configuration of complex and custom conditional logic to control field visibility and mandatory status.
+
+Depending on specific conditions, a field can be shown or hidden, and set as mandatory or optional. This metadata enables both conditional display and conditional mandatory behaviors, ensuring a dynamic and context-aware user interface within PMT.</description>
+    <label>PMT - Field Display Rule</label>
+    <pluralLabel>Field Display Rules</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

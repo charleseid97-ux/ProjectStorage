@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Depositary/settlement platform foreseen --></help>
+    <label><!-- Fund Invest Countries --></label>
+    <name>FundInvestCountries__c</name>
+    <picklistValues>
+        <masterLabel>Clearstream Luxemburg</masterLabel>
+        <translation><!-- Clearstream Luxemburg --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Domestic</masterLabel>
+        <translation><!-- Domestic --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Euroclear Belgium</masterLabel>
+        <translation><!-- Euroclear Belgium --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Segregated Markets</masterLabel>
+        <translation><!-- Segregated Markets --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

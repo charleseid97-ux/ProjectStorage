@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Language__c</fullName>
-    <externalId>false</externalId>
     <inlineHelpText>Select the language of the outcome</inlineHelpText>
     <label>Language</label>
     <required>false</required>
@@ -10,6 +9,7 @@
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
+        <controllingField>Document_Type__c</controllingField>
         <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
@@ -44,5 +44,35 @@
                 <label>Dutch</label>
             </value>
         </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Monthly comments</controllingFieldValue>
+            <controllingFieldValue>IS Monthly Comments</controllingFieldValue>
+            <valueName>English</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Monthly comments</controllingFieldValue>
+            <controllingFieldValue>IS Monthly Comments</controllingFieldValue>
+            <valueName>French</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Monthly comments</controllingFieldValue>
+            <controllingFieldValue>IS Monthly Comments</controllingFieldValue>
+            <valueName>Italian</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Monthly comments</controllingFieldValue>
+            <controllingFieldValue>IS Monthly Comments</controllingFieldValue>
+            <valueName>Spanish</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Monthly comments</controllingFieldValue>
+            <controllingFieldValue>IS Monthly Comments</controllingFieldValue>
+            <valueName>German</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Monthly comments</controllingFieldValue>
+            <controllingFieldValue>IS Monthly Comments</controllingFieldValue>
+            <valueName>Dutch</valueName>
+        </valueSettings>
     </valueSet>
 </CustomField>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Translation_Queue_FR</fullName>
+    <columns>CASES.CASE_NUMBER</columns>
+    <columns>CASES.SUBJECT</columns>
+    <columns>Sub_Target_language__c</columns>
+    <columns>CASES.STATUS</columns>
+    <columns>CREATEDBY_USER.ALIAS</columns>
+    <columns>DueDate__c</columns>
+    <columns>OWNER_NAME</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Translation_Request_Type__c</field>
+        <operation>equals</operation>
+        <value>Translation Only</value>
+    </filters>
+    <filters>
+        <field>CREATEDBY_USER.ALIAS</field>
+        <operation>equals</operation>
+        <value>mnchew</value>
+    </filters>
+    <filters>
+        <field>Sub_Target_language__c</field>
+        <operation>notEqual</operation>
+    </filters>
+    <label>PE translation requests</label>
+    <sharedTo>
+        <role>PrivateEquity</role>
+    </sharedTo>
+</ListView>

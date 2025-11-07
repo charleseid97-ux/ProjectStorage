@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Account of the Opportunity in case of &apos;Assign to specific Account&apos; rule.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Account of the Opportunity in case of &apos;Assign to specific Account&apos; rule.</inlineHelpText>
     <label>Opportunity Account</label>
     <referenceTo>Account</referenceTo>

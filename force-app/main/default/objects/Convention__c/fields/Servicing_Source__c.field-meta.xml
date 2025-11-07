@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Servicing_Source__c</fullName>
+    <label>Servicing Source</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Abor</fullName>
+                <default>false</default>
+                <label>Abor</label>
+            </value>
+            <value>
+                <fullName>External or Shadow Abor</fullName>
+                <default>false</default>
+                <label>External or Shadow Abor</label>
+            </value>
+            <value>
+                <fullName>Ibor</fullName>
+                <default>false</default>
+                <label>Ibor</label>
+            </value>
+            <value>
+                <fullName>Model Portfolio</fullName>
+                <default>false</default>
+                <label>Model Portfolio</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

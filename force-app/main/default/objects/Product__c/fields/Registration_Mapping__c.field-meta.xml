@@ -7,7 +7,7 @@ IF(Domicile__c = &apos;France&apos;,HYPERLINK(&apos;https://home.carmignac.com/d
 &apos;Not Available&apos;))</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <inlineHelpText>Link to Sharepoint for up-to-date Registration Mapping</inlineHelpText>
-    <label>Registration Mapping</label>
+    <label>Old_Registration Mapping</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

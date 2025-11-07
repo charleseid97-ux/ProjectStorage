@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Status --></label>
     <name>Status__c</name>
     <picklistValues>
         <masterLabel>Draft</masterLabel>
-        <translation></translation>
+        <translation><!-- Draft --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Expired</masterLabel>
-        <translation></translation>
+        <translation><!-- Expired --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Ready for validation</masterLabel>
-        <translation></translation>
+        <translation><!-- Ready for validation --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Validated</masterLabel>
-        <translation></translation>
+        <translation><!-- Validated --></translation>
     </picklistValues>
 </CustomFieldTranslation>

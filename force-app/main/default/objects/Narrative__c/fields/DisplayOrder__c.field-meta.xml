@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DisplayOrder__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE(
+  TEXT(SubType__c),
+  &quot;ManagementCompany&quot;, 1,
+  &quot;Delegated_Investment_Managers&quot;, 2,
+  &quot;FundAdvisor&quot;, 3,
+  &quot;FundAdmin&quot;, 4,
+  &quot;Custodian&quot;, 5,
+  &quot;Central_Admins&quot;, 6,
+  &quot;Pre_CentralAdmin&quot;, 7,
+  &quot;Prime_Agent&quot;, 8,
+  &quot;TransferAgent&quot;, 9,
+  &quot;FundAuditor&quot;, 10,
+  99 /* défaut si aucune correspondance */
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Display Order</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

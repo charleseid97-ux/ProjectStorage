@@ -166,6 +166,13 @@
         <value>Carmignac Entity</value>
     </labels>
     <labels>
+        <fullName>Comment_process_planning</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Comment process planning</shortDescription>
+        <value>/sfc/p/58000000ZABI/a/aT00000000uT/1tbA7W6fI.kwjYqwYvyvLzuSW3Lv3U.vOAVApz3pNyQ</value>
+    </labels>
+    <labels>
         <fullName>Compliance_Clearing_Error_Message</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -179,6 +186,13 @@
         <protected>false</protected>
         <shortDescription>ContactNotSynced</shortDescription>
         <value>Error! Record is not validated or not properly synced. You are being redirected to record page.</value>
+    </labels>
+    <labels>
+        <fullName>DataDicURL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DataDicURL</shortDescription>
+        <value>https://carmignac365-my.sharepoint.com/:x:/r/personal/ldanino_carmignac_com/_layouts/15/Doc.aspx?sourcedoc=%7B10A174A0-D680-435B-8D13-8AB8F153A006%7D&amp;file=Product%20Data%20Dictionary%20-%20PUBLIC%20Version.xlsx&amp;action=default&amp;mobileredirect=true</value>
     </labels>
     <labels>
         <fullName>DeleteAllAlerts</fullName>
@@ -285,6 +299,60 @@
         <value>Received</value>
     </labels>
     <labels>
+        <fullName>MissingClientProduct</fullName>
+        <categories>New Meeting Note</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Missing ClientProduct</shortDescription>
+        <value>Please select a client attendees, and be sure to choose products and select rating for each one in case of Sales Presentation!</value>
+    </labels>
+    <labels>
+        <fullName>MissingDataTitle</fullName>
+        <categories>New Meeting Note</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Missing Data Title</shortDescription>
+        <value>Mandatory Data Is Missing!</value>
+    </labels>
+    <labels>
+        <fullName>MissingProductRating</fullName>
+        <categories>New Meeting Note</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Missing ProductRating</shortDescription>
+        <value>Please add a rating for each discussed product!</value>
+    </labels>
+    <labels>
+        <fullName>MissingTaskInfos</fullName>
+        <categories>New Meeting Note</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Missing TaskInfos</shortDescription>
+        <value>Please fill up requiered fields in &apos;Follow Up section&apos;!</value>
+    </labels>
+    <labels>
+        <fullName>MonthlyCommentsDeadline</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MonthlyCommentsDeadline</shortDescription>
+        <value>1</value>
+    </labels>
+    <labels>
+        <fullName>NAVCalendar</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>NAVCalendar</shortDescription>
+        <value>https://carmignac365-my.sharepoint.com/:w:/g/personal/sdegeneve_carmignac_com/EWjR8i4C1DtCu3EKc5t8F5sBAxC9oenEEZX33oAHg9_xyA?e=CFHytC</value>
+    </labels>
+    <labels>
+        <fullName>NoReplayWideAddress</fullName>
+        <categories>Org Wide Address</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No Replay Wide Address</shortDescription>
+        <value>salesforcesupport@carmignac.com</value>
+    </labels>
+    <labels>
         <fullName>PreferenceCenter_Contact_Not_Sync</fullName>
         <categories>Preference Center</categories>
         <language>en_US</language>
@@ -365,12 +433,26 @@
         <value>Subscriptions for all the Fund/Shares have been removed successfully.</value>
     </labels>
     <labels>
+        <fullName>Publication_Library_Link</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Publication_Library_Link</shortDescription>
+        <value>/sfc/p/#58000000ZABI/a/aT00000000sr/7PuLzAVhN9x6KQkYUZWmumIiK94SwZVvFbMVQflC4zA</value>
+    </labels>
+    <labels>
         <fullName>RedirectAlerts</fullName>
         <categories>Alerts</categories>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RedirectAlerts</shortDescription>
         <value>Please wait, you are being redirected... Please refresh the record page once it is loaded to see the changes.</value>
+    </labels>
+    <labels>
+        <fullName>ReportHomeProductCatalog</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ReportHomeProductCatalog</shortDescription>
+        <value>00OaT000002dNq6UAE</value>
     </labels>
     <labels>
         <fullName>ResetingPassword</fullName>
@@ -547,11 +629,32 @@
         <value>Navigation Not Permitted</value>
     </labels>
     <labels>
+        <fullName>ToolTip_Target_Language</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ToolTip Target Language</shortDescription>
+        <value>If you want a publication in the language specified in the &apos;source language&apos; field, make sure it is also included in the &apos;target languages&apos; field. If the source language is missing from the target languages, no publication request will be created for it</value>
+    </labels>
+    <labels>
         <fullName>UnknownCompetitorAssetsRecordTypeID</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Unknown Competitor Assets Record Type ID</shortDescription>
         <value>01258000000ce6h</value>
+    </labels>
+    <labels>
+        <fullName>UsernameId_Lyyti</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>UsernameId_Lyyti</shortDescription>
+        <value>0051i000002Ben4AAC</value>
+    </labels>
+    <labels>
+        <fullName>Username_Lyyti</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Username Lyyti</shortDescription>
+        <value>seb.prod@carmignac.com</value>
     </labels>
     <labels>
         <fullName>VR01_AGREEMENT_ROLE_UNIQUENESS</fullName>
@@ -576,6 +679,30 @@
         <value>datasolutions@carmignac.com</value>
     </labels>
     <labels>
+        <fullName>WarningInvitationOptOut</fullName>
+        <categories>Audience Management</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Warning Invitation Opt Out</shortDescription>
+        <value>For the event campaign you&apos;ve chosen, we&apos;ve automatically excluded all contacts who have opted out of receiving event invitations!</value>
+    </labels>
+    <labels>
+        <fullName>WarningNewsletterOptOut</fullName>
+        <categories>Audience Management</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Warning Newsletter Opt Out</shortDescription>
+        <value>For the newsletter campaign you&apos;ve selected, we&apos;ve automatically excluded all contacts who have opted out of receiving newsletters!</value>
+    </labels>
+    <labels>
+        <fullName>WarningQueryResults</fullName>
+        <categories>Audience Management</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Warning Query Results</shortDescription>
+        <value>The Carmignac contacts, opt-out and hard bounced contacts have been excluded from the results.</value>
+    </labels>
+    <labels>
         <fullName>WebsiteProspaceId</fullName>
         <categories>Salesforce ID</categories>
         <language>en_US</language>
@@ -598,37 +725,5 @@
         <protected>false</protected>
         <shortDescription>Website Sync Failed</shortDescription>
         <value>Synced failed. Please fill in all the website fields.</value>
-    </labels>
-    <labels>
-        <fullName>MissingClientProduct</fullName>
-        <categories>New Meeting Note</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Missing ClientProduct</shortDescription>
-        <value>Please select a client attendees, and be sure to choose products and select rating for each one in case of Sales Presentation!</value>
-    </labels>
-    <labels>
-        <fullName>MissingDataTitle</fullName>
-        <categories>New Meeting Note</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Missing Data Title</shortDescription>
-        <value>Mandatory Data Is Missing!</value>
-    </labels>
-    <labels>
-        <fullName>MissingProductRating</fullName>
-        <categories>New Meeting Note</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Missing ProductRating</shortDescription>
-        <value>Please add a rating for each discussed product!</value>
-    </labels>
-    <labels>
-        <fullName>MissingTaskInfos</fullName>
-        <categories>New Meeting Note</categories>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Missing TaskInfos</shortDescription>
-        <value>Please fill up requiered fields in &apos;Follow Up section&apos;!</value>
     </labels>
 </CustomLabels>

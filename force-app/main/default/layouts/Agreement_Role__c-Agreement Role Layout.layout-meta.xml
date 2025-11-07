@@ -32,6 +32,10 @@
                 <behavior>Edit</behavior>
                 <field>Legal_Role_Validation__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Third_Party__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>

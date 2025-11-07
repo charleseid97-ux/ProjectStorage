@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <assignments>
+        <name>Add_products</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>Add products</label>
+        <locationX>176</locationX>
+        <locationY>758</locationY>
+        <assignmentItems>
+            <assignToReference>$Output.Prompt</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>{!out}
+</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Copy_2_of_Output</name>
+        <label>Copy 2 of Output</label>
+        <locationX>264</locationX>
+        <locationY>458</locationY>
+        <assignmentItems>
+            <assignToReference>out</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>products</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_over_products</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Copy_3_of_Output</name>
+        <label>Copy 3 of Output</label>
+        <locationX>176</locationX>
+        <locationY>650</locationY>
+        <assignmentItems>
+            <assignToReference>out</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>]</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Add_products</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Output</name>
+        <label>Output</label>
+        <locationX>176</locationX>
+        <locationY>242</locationY>
+        <assignmentItems>
+            <assignToReference>out</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>[</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_over_products</targetReference>
+        </connector>
+    </assignments>
+    <environments>Default</environments>
+    <interviewLabel>List of Share Classes, Funds and Strategy {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>List of Share Classes, Funds and Strategy</label>
+    <loops>
+        <name>Loop_over_products</name>
+        <label>Loop over products</label>
+        <locationX>176</locationX>
+        <locationY>350</locationY>
+        <collectionReference>get_products</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Copy_2_of_Output</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Copy_3_of_Output</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>PromptFlow</processType>
+    <recordLookups>
+        <name>get_products</name>
+        <label>get products</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Output</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Record_Type_Name__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Strategy</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Product__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>get_products</targetReference>
+        </connector>
+        <triggerType>Capability</triggerType>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <name>products</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>{
+Product Id: {!Loop_over_products.Id} ,
+Product Code: {!Loop_over_products.Name} ,
+Product  Name: {!Loop_over_products.Product_Name__c} 
+},</text>
+    </textTemplates>
+    <variables>
+        <name>out</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

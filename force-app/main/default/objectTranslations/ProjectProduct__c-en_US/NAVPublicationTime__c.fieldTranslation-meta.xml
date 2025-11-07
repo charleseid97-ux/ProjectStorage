@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- NAV Publication Time --></label>
+    <name>NAVPublicationTime__c</name>
+    <picklistValues>
+        <masterLabel>15:00 CET</masterLabel>
+        <translation><!-- 15:00 CET --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>16:00 CET</masterLabel>
+        <translation><!-- 16:00 CET --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>18:00 CET</masterLabel>
+        <translation><!-- 18:00 CET --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

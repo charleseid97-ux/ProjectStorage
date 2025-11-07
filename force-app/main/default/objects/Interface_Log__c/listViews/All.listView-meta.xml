@@ -11,10 +11,5 @@
     <columns>LAST_UPDATE</columns>
     <columns>OBJECT_ID</columns>
     <filterScope>Everything</filterScope>
-    <filters>
-        <field>Interface_Name__c</field>
-        <operation>contains</operation>
-        <value>SM016</value>
-    </filters>
     <label>All</label>
 </ListView>

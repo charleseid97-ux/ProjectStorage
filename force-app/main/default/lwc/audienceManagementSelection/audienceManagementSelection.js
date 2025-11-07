@@ -1,3 +1,9 @@
+/**
+ * @description       : 
+ * @author            : Thanina YAYA
+ * @last modified on  : 25-04-2024
+ * @last modified by  : Thanina YAYA
+**/
 import { LightningElement, wire, track } from 'lwc';
 
 import Id from '@salesforce/user/Id';
@@ -7,11 +13,13 @@ import { publish, MessageContext } from 'lightning/messageService';
 import amQuery from "@salesforce/messageChannel/audienceManagementQuery__c";
 
 import getAllFilters from '@salesforce/apex/CTL_AudienceManagement.getAllFilters';
+import getCurrentProfile from '@salesforce/apex/CTL_AudienceManagement.getCurrentProfile';
 import getProducts from '@salesforce/apex/CTL_AudienceManagement.getProducts';
 import getUsers from '@salesforce/apex/CTL_AudienceManagement.getUsers';
 import getContactFromProductInterest from '@salesforce/apex/CTL_AudienceManagement.getContactFromProductInterest';
 import getCompanyFromProductInterest from '@salesforce/apex/CTL_AudienceManagement.getCompanyFromProductInterest';
-
+import getPickValues from '@salesforce/apex/CTL_AudienceManagement.getPicklistValues';
+import getPicklistStateCode from '@salesforce/apex/CTL_AudienceManagement.getPicklistStateCode';
 
 export default class AudienceManagementSelection extends LightningElement {
     activeSections = ['ContactCompany', 'SubManagement', 'ProdInterest', 'EventPreferences', 'CustInterest', 'Interactions'];
@@ -46,23 +54,74 @@ export default class AudienceManagementSelection extends LightningElement {
     productSearchFields = ['code'];
 
     //List of parameters used for the user lookup
-    @track allUsers;
+    @track allUsers = [];
+    @track allContOwner = [];
     @track mapUsers = {};
-    @track selectedUser;
+    @track selectedUser = [];
+    @track compOwnesPills;
+    @track selectedUserContact=[];
+    @track contOwnersPills;
+    @track teamVals = [];
+    @track selectedTeams = [];
+    @track teamsPills;
+    @track mailingArea = [];
+    @track selectedMailingArea = [];
+    @track mailingPills;
 
-    myCompanyFilter = true;
+    domainName = '@';
+    myCompanyFilter = false;
     myTeamCompanyFilter = false;
     @track userId = Id;
-
     //List of filters to add to the query
     contactFiltersValue = [];
     interactionsFiltersValue = [];
+    @track mapPrentChilds = {};
+    baseQuery = 'SELECT id, FirstName, LastName, Account.Name, Email, Phone, Invitation_Opt_Out__c, Newsletter_Opt_Out__c FROM Contact WHERE HasOptedOutOfEmail = false AND Global_Hardbounced__c = false  AND ContactStatus__c = \'true\' AND Account.Name != \'Carmignac\' AND AccountId != null';
+    
+    get dispSelectionPills(){
+            let dispPills = {CompanyTeam: this.teamsPills && this.teamsPills.length,
+                            CompanyOwner: this.compOwnesPills && this.compOwnesPills.length,
+                            ContactOwner: this.contOwnersPills && this.contOwnersPills.length,
+                            ContactMailing: this.mailingPills && this.mailingPills.length };
 
-    baseQuery = 'SELECT id, FirstName, LastName, Account.Name, Email, Phone FROM Contact WHERE HasOptedOutOfEmail = false AND ContactStatus__c = \'true\'';
+        return dispPills;
+    }
 
     @wire(MessageContext)
     MessageContext;
 
+    //MailingStateCode
+    @wire (getPicklistStateCode, {})
+    getMailingAreaValues({ error, data }) {
+        if (data && data.length) {
+            this.mailingArea = [...data];
+        } else if (error) {
+            console.error('@err getMailingAreaPickVals:', error);
+        }
+    }
+
+    @wire (getPickValues, {sObjectName: 'Account', fieldName: 'Team__c'})
+    getTeamValues({ error, data }) {
+        if (data && data.length) {
+            this.teamVals = [...data];
+        } else if (error) {
+            console.error('@err getTeamPickVals:', error);
+        }
+    }
+
+    @wire(getCurrentProfile, { userId: '$userId' })
+    getprofile({ error, data }) {
+        if (data) {
+            console.log('Profile', data);
+            if (data === 'Carmignac - CRM') {
+                this.myTeamCompanyFilter = true;
+            } else if (data === 'Carmignac - Business Developer') {
+                this.myCompanyFilter = true;
+            }
+        } else if (error) {
+            console.error('@err getprofile:', error);
+        }
+    }
     //Retrieve products on load
     @wire(getProducts, {})
     products({data,error}) {
@@ -70,7 +129,7 @@ export default class AudienceManagementSelection extends LightningElement {
             let products =[];
             let mapProducts = {};
             data.forEach(product =>{
-                products.push({label:product.Product_Name__c,value:product.Id,code:product.Name});
+                products.push({label:product.Code__c+" | "+product.Name,value:product.Id,code:product.Code__c});
                 mapProducts[product.Id] = product;
             });
             this.allProducts = [...products];
@@ -93,6 +152,7 @@ export default class AudienceManagementSelection extends LightningElement {
                 mapUsers[user.Id] = user;
             });
             this.allUsers = [...users];
+            this.allContOwner= [...users];
             this.mapUsers = mapUsers;
         }
         else if(error)
@@ -105,15 +165,18 @@ export default class AudienceManagementSelection extends LightningElement {
     @wire(getAllFilters, {})
     getFiltersBySection({data, error}){
         if(data) {
-            var contactCompanyFiltersTemp = [];
-            var subManagementFiltersTemp = [];
-            var custInterestFiltersTemp = [];
-            var eventPrefFiltersTemp = [];
-            var interactionsFiltersTemp = [];
-            var preferencesFiltersTemp = [];
-            var otherInterestsFiltersTemp = [];
-            var regionsFiltersTemp = [];
+            let contactCompanyFiltersTemp = [];
+            let subManagementFiltersTemp = [];
+            let custInterestFiltersTemp = [];
+            let eventPrefFiltersTemp = [];
+            let interactionsFiltersTemp = [];
+            let preferencesFiltersTemp = [];
+            let otherInterestsFiltersTemp = [];
+            let regionsFiltersTemp = [];
+            //manage PrefCenter Parent and childs
+            let mapPrefParentChilds = {};
             for (const value of data) {
+                
                 if(!value.hasParent) {
                     //Every filter is stocked in the list corresponding to its section
                     switch (value.section) {
@@ -144,8 +207,18 @@ export default class AudienceManagementSelection extends LightningElement {
                         default:
                             break;
                     }
-                }                
+                }   
+                //to check after
+                else{
+                    let childs = [];
+                    if(mapPrefParentChilds[value.parentName] && (mapPrefParentChilds[value.parentName]).length)
+                    childs = mapPrefParentChilds[value.parentName];
+                    childs.push(value.name);
+                    mapPrefParentChilds[value.parentName] = [...childs]; 
+                }             
             }
+            
+            this.mapPrentChilds = mapPrefParentChilds;
             this.contactCompanyFilters = contactCompanyFiltersTemp;
             this.subManagementFilters = subManagementFiltersTemp;
             this.custInterestFilters = custInterestFiltersTemp;
@@ -163,10 +236,22 @@ export default class AudienceManagementSelection extends LightningElement {
 
     handleChangeMyCompany(event) {
         this.myCompanyFilter = event.detail.checked;
+        if (this.myCompanyFilter) {
+            this.myTeamCompanyFilter = false;
+        } 
     }
 
     handleChangeMyTeamCompany(event) {
         this.myTeamCompanyFilter = event.detail.checked;
+        if (this.myTeamCompanyFilter) {
+            this.myCompanyFilter = false;
+            // this.showToast('Please note that you cannot simultaneously check both "My Companies" and "My Team\'s Companies" Please select one option at a time.', 'Warning', 'Warning'); 
+        }
+    }
+
+    handleDomainName(event) {
+        this.domainName = event.detail.value;
+        
     }
 
     handleChangePicklist(event) {
@@ -185,26 +270,56 @@ export default class AudienceManagementSelection extends LightningElement {
 
     handleChangeText(event) {
         if(event.detail.value === '') {
-            var index = this.contactFiltersValue.findIndex(e => e.name == event.currentTarget.dataset.id)
+            let index = this.contactFiltersValue.findIndex(e => e.name === event.currentTarget.dataset.id)
             if(index >= 0) {
                 this.contactFiltersValue.splice(index, 1);
             }
         } else {
-            var newValue = {};
+            let newValue = {};
             newValue.name = event.currentTarget.dataset.id;
             newValue.value = event.detail.value;
             this.changeFilterValue(newValue);
         }        
     }
 
+    handleChangeToggleWithChilds(event) {
+        let filterId = event.currentTarget.dataset.id;
+        this.childModalTitle = event.target.ariaLabel;
+        let childFilters = this.mapPrentChilds[this.childModalTitle];
+        if(event.detail.checked) {
+            let newValue = {};
+            newValue.name = filterId;
+            newValue.value = event.detail.checked;
+            this.changeFilterValue(newValue); 
+            let shouldOpenModel = true;
+            childFilters.forEach(elem=> { 
+                if (this.contactFiltersValue.find(e => e.name === elem)) {
+                    shouldOpenModel = false;
+                }
+            });
+            if(shouldOpenModel) this.handleOpenChildrenModal(event);
+        } else {
+            let indexParent = this.contactFiltersValue.findIndex(e => e.name === filterId)
+            if(indexParent >= 0) {
+                this.contactFiltersValue.splice(indexParent, 1);
+            }
+            childFilters.forEach(elem=> { 
+                let index = this.contactFiltersValue.findIndex(e => e.name === elem)
+                if(index >= 0) {
+                    this.contactFiltersValue.splice(index, 1);
+                } 
+            });
+        }
+    }
+
     handleChangeToggle(event) {
         if(event.detail.checked) {
-            var newValue = {};
+            let newValue = {};
             newValue.name = event.currentTarget.dataset.id;
             newValue.value = event.detail.checked;
-            this.changeFilterValue(newValue);  
+            this.changeFilterValue(newValue);
         } else {
-            var index = this.contactFiltersValue.findIndex(e => e.name == event.currentTarget.dataset.id)
+            let index = this.contactFiltersValue.findIndex(e => e.name === event.currentTarget.dataset.id)
             if(index >= 0) {
                 this.contactFiltersValue.splice(index, 1);
             }
@@ -227,8 +342,8 @@ export default class AudienceManagementSelection extends LightningElement {
 
     //Add the new filter value to the correct list of filter value, depending on the section of the filter
     changeFilterValue(newValue) {        
-        var filter = this.allFilters.find(e => e.name == newValue.name);
-        if(filter.section == 'Digital Interactions') {
+        var filter = this.allFilters.find(e => e.name === newValue.name);
+        if(filter.section === 'Digital Interactions') {
             this.addToInteractionsFilters(newValue);
         } else {
             this.addToContactFilters(newValue);
@@ -236,15 +351,16 @@ export default class AudienceManagementSelection extends LightningElement {
     }
 
     addToContactFilters(newValue) {
-        var index = this.contactFiltersValue.findIndex(e => e.name == newValue.name)
+        var index = this.contactFiltersValue.findIndex(e => e.name === newValue.name)
         if(index >= 0) {
             this.contactFiltersValue.splice(index, 1);
         }
-        this.contactFiltersValue.push(newValue);
+        if( typeof newValue?.value !== "object" ) this.contactFiltersValue.push(newValue);
+        else if(newValue?.value?.length) this.contactFiltersValue.push(newValue);
     }
 
     addToInteractionsFilters(newValue) {
-        var index = this.interactionsFiltersValue.findIndex(e => e.name == newValue.name)
+        var index = this.interactionsFiltersValue.findIndex(e => e.name === newValue.name)
         if(index >= 0) {
             this.interactionsFiltersValue.splice(index, 1);
         }
@@ -254,22 +370,82 @@ export default class AudienceManagementSelection extends LightningElement {
     handleProducts(event){
         var product = this.mapProducts[event.detail.selectedValues];
         if(product) {
-            this.selectedProduct = {id:event.detail.selectedValues, name:product.Product_Name__c};
+            this.selectedProduct = {id:event.detail.selectedValues, name:product.Name};
         }
     }
 
-    handleUsers(event){
-        var user = this.mapUsers[event.detail.selectedValues];
-        if(user) {
-            this.selectedUser = {id:event.detail.selectedValues, name:user.Name};
-        }
-    }
+    handleMultiSelection(e){
+        const looukup = e.target?.dataset?.id;
+        let newValue = {};
 
+        switch(looukup){
+            case 'CompanyTeam':
+                this.selectedTeams = [...e.detail.selectedValues];
+                this.teamsPills = [...this.selectionPills(this.teamVals,'standard:team_member',this.selectedTeams)];
+                break;
+            case 'CompanyOwner':
+                this.selectedUser =  [...e.detail.selectedValues]; 
+                this.compOwnesPills = [...this.selectionPills(this.allUsers,'standard:user',this.selectedUser)];
+                break;
+            case 'ContactOwner':
+                this.selectedUserContact = [...e.detail.selectedValues];
+                this.contOwnersPills = [...this.selectionPills(this.allContOwner,'standard:user',this.selectedUserContact)];
+                break;
+            case 'MailingState':
+                this.selectedMailingArea = [...e.detail.selectedValues];
+                this.mailingPills = [...this.selectionPills(this.mailingArea,'standard:service_territory',this.selectedMailingArea)];
+                break;
+            default:
+                newValue.name = looukup;
+                newValue.value = [...e.detail.selectedValues];
+                this.changeFilterValue(newValue);             
+        }
+        
+    }
+    
+    selectionPills(allData,icon,selectedOnes){
+        let items= [];
+        selectedOnes.forEach(cont =>{
+            items.push({type: 'icon',
+                        label: (allData.find(e => e.value === cont))?.label,
+                        name: cont,
+                        iconName: icon,
+                        alternativeText: 'contact',
+                        isLink: true
+                        //href: '/'+cont
+                    });
+        });
+        return items;
+    }
+    handleMultiItemRemove(e) {
+        const looukup = e.target?.dataset?.id;
+        const index = e.detail.index;
+        switch(looukup){
+            case 'CompanyTeam':
+                this.teamsPills.splice(index, 1);
+                this.selectedTeams.splice(index,1);
+                break;
+            case 'CompanyOwner':
+                this.compOwnesPills.splice(index, 1);
+                this.selectedUser.splice(index,1);
+                break;
+            case 'ContactOwner':
+                this.contOwnersPills.splice(index, 1);
+                this.selectedUserContact.splice(index,1);
+                break;
+            case 'MailingState':
+                this.mailingPills.splice(index,1);
+                this.selectedMailingArea.splice(index,1);
+                break;
+            default:
+        }
+        
+    }
     handleRemoveSelectedProduct() {
         this.selectedProduct = null;
     }
 
-    handleRemoveSelectedUser() {
+    handleRemoveSelectedUsers() {
         this.selectedUser = null;
     }
 
@@ -288,11 +464,11 @@ export default class AudienceManagementSelection extends LightningElement {
     //Retrieves the children filter of selected filter, build the modal with them and opens the modal
     handleOpenChildrenModal(event) {
         this.childModalTitle = event.target.ariaLabel;
-        var childFilters = this.findChildrenFilters(this.childModalTitle);
-        var filtersTemp = [];
-        for (var childFilter of childFilters) {
-            var filter = {...childFilter};
-            if (this.contactFiltersValue.find(e => e.name == childFilter.name)) {
+        let childFilters = this.findChildrenFilters(this.childModalTitle);
+        let filtersTemp = [];
+        for (let childFilter of childFilters) {
+            let filter = {...childFilter};
+            if (this.contactFiltersValue.find(e => e.name === childFilter.name)) {
                 filter.checked = true;                
             } else {
                 filter.checked = false;
@@ -303,12 +479,30 @@ export default class AudienceManagementSelection extends LightningElement {
         this.childModalOpened = true;
     }
 
-    closeModalChild() {
+    closeModalChild(evt) {
+        if(evt.target.dataset.parent) {
+            let childFilters = this.mapPrentChilds[evt.target.dataset.parent];
+            let ontoggle = false;
+            childFilters.forEach(elem=> { 
+                if (this.contactFiltersValue.find(e => e.name === elem)) {
+                        ontoggle = true;    
+                } 
+            });
+            if(ontoggle) {
+                let parentToggle = this.template.querySelector(`lightning-input[data-id="${evt.target.dataset.parent}"]`);
+                if(parentToggle) parentToggle.checked = true;
+                let newValue = {};
+                newValue.name = evt.target.dataset.parent;
+                newValue.value = true;
+                this.changeFilterValue(newValue); 
+
+            }
+        }
         this.childModalOpened = false;
     }
 
     //Resets every filter to their initial state
-    handleClickReset(event) {
+    handleClickReset() {
         // Clear the lightning-input 
         this.template.querySelectorAll('lightning-input').forEach(element => {
             if(element.type === 'toggle') {
@@ -321,6 +515,14 @@ export default class AudienceManagementSelection extends LightningElement {
         this.template.querySelectorAll('lightning-combobox').forEach(element => {            
             element.value = null;
         });
+        //Clear All dual list 
+        this.template.querySelectorAll('lightning-dual-listbox').forEach(element => {            
+            element.value = null;
+        });
+        //Clear All multi Select Lookup filters 
+        this.template.querySelectorAll('c-multi-select-search-list')?.forEach(element => {            
+            element.value = [];
+        });
         // Clear the variables
         this.contactFiltersValue = [];
         this.interactionsFiltersValue = [];
@@ -329,19 +531,28 @@ export default class AudienceManagementSelection extends LightningElement {
         this.selectedRating = 0;
         this.selectedProductInvested = false;
         this.myCompanyFilter = false;
+        this.domainName = '@';
         this.myTeamCompanyFilter = false;
+        this.selectedUserContact = [];
+        this.selectedTeams = [];
+        this.selectedMailingArea = [];
+        this.teamsPills = [];
+        this.mailingPills = [];
+        this.contOwnersPills = [];
+        this.compOwnesPills = [];
+        this.selectedUser = [];
     }
 
     //Builds the query and sends it to the audienceManagementDisplay component
-    handleClickRun(event) {
+    handleClickRun() {
         //If a product has been selected, build a query to retrieve the contact linked to these product interest
         if(this.selectedProduct || this.selectedDateFrom) {
             this.showSpinner = true;
             getContactFromProductInterest({request: this.buildQueryInterest()})
             .then(data => {                
-                var query = this.baseQuery
+                let query = this.baseQuery
                 query += ' AND Id IN (';
-                var firstId = true;
+                let firstId = true;
                 for (const iterator of data) {
                     if(firstId) {
                         firstId = false;
@@ -353,9 +564,10 @@ export default class AudienceManagementSelection extends LightningElement {
                 query += ')';
                 if(this.selectedProductInvested) {
                     getCompanyFromProductInterest({productId: this.selectedProduct.id})
+                    // eslint-disable-next-line no-shadow
                     .then(data => {
                         query += ' AND AccountId IN (';
-                        var firstCompany = true;
+                        let firstCompany = true;
                         for (const iterator of data) {
                             if(firstCompany) {
                                 firstCompany = false;
@@ -404,7 +616,7 @@ export default class AudienceManagementSelection extends LightningElement {
             } else {
                 query += ' AND ';
             }
-            query += ' Product__c=\'' + this.selectedProduct.id + '\'';
+            query += ' Strategy__c=\'' + this.selectedProduct.id + '\'';
         }
         if(this.selectedDateFrom) {
             if(first) {
@@ -428,7 +640,6 @@ export default class AudienceManagementSelection extends LightningElement {
 
     //Builds the query from a base query by adding every selected filters
     buildQuery(query) {
-
         if(this.myCompanyFilter) {
             query += ' AND Account.OwnerId=\'' + this.userId + '\'';
         }
@@ -437,19 +648,40 @@ export default class AudienceManagementSelection extends LightningElement {
             query += ' AND Account.Is_IN_my_Team__c=true';
         }
 
-        if(this.selectedUser) {
-            query += ' AND Account.OwnerId=\'' + this.selectedUser.id + '\'';
+        if(this.selectedUser && this.selectedUser.length) {
+            let quotedAndCommaSeparated = "'" + this.selectedUser.join("','") + "'";
+            query += ' AND Account.OwnerId IN (' + quotedAndCommaSeparated + ')';
+        }
+        if(this.selectedUserContact && this.selectedUserContact.length){
+            let quotedAndCommaSeparated = "'" + this.selectedUserContact.join("','") + "'";
+            query += ' AND OwnerId IN (' + quotedAndCommaSeparated + ')';
         }
         
+        if(this.domainName && this.domainName!='@') {
+            query += ' AND Email LIKE \'%' + this.domainName + '%\'';
+        }
+
+        /*
+        if(this.selectedTeams && this.selectedTeams.length){
+            let quotedAndCommaSeparated = "'" + this.selectedTeams.join("','") + "'";
+            query += ' AND Account.Team__c IN (' + quotedAndCommaSeparated + ')';
+        }
+        if(this.selectedMailingArea && this.selectedMailingArea.length){
+            let quotedAndCommaSeparated = "'" + this.selectedMailingArea.join("','") + "'";
+            query += ' AND MailingStateCode IN (' + quotedAndCommaSeparated + ')';
+        }*/
+        
         for (const contFilter of this.contactFiltersValue) {
-            var filter = this.findFilter(contFilter.name);            
+            let filter = this.findFilter(contFilter.name); 
             query += ' AND ';
-            if(filter.objectName != 'Contact') {
+            if(filter.objectName !== 'Contact') {
                 query += filter.objectName + '.';
             }
             query += filter.fieldName;
             if(filter.isPicklist) {
-                query += '=\'';
+                if(filter.isMultiLookup){
+                    query += ' IN (\'';
+                } else query += '=\'';
             } else if(filter.isText) {
                 query += ' LIKE \'%'
             } else if(filter.isMultipicklist) {
@@ -460,30 +692,31 @@ export default class AudienceManagementSelection extends LightningElement {
                 query += '>=';
             }
 
-            if(filter.isMultipicklist) {
+            if(filter.isMultipicklist || filter.isMultiLookup) {
                 query += contFilter.value.toString().replaceAll(',', '\',\'');
             } else {
                 query += contFilter.value;
             }
 
             if(filter.isPicklist) {
-                query += '\'';
+                if(filter.isMultiLookup)  query += '\')';
+                else query += '\'';
             } else if(filter.isText) {
                 query += '%\'';
             } else if(filter.isMultipicklist) {
                 query += '\')';
-            }         
+            }
         }
         if(this.interactionsFiltersValue.length > 0) {
             query += ' AND Id IN (SELECT Contact_lu__c FROM Digital_Interaction__c WHERE ';
-            var first = true;
+            let first = true;
             for (const intFilter of this.interactionsFiltersValue) {
                 if(first) {
                     first = false;
                 } else {
                     query += ' AND ';
                 }
-                var filter = this.findFilter(intFilter.name);                
+                let filter = this.findFilter(intFilter.name);                
                 query += filter.fieldName;
                 if(filter.isPicklist) {
                     query += '=\'';
@@ -508,11 +741,11 @@ export default class AudienceManagementSelection extends LightningElement {
     }
 
     findFilter(name) {
-        return this.allFilters.find(e => e.name == name);
+        return this.allFilters.find(e => e.name === name);
     }
 
     findChildrenFilters(parentName) {
-        return this.allFilters.filter(e => e.parentName == parentName);
+        return this.allFilters.filter(e => e.parentName === parentName);
     }
 
     //Sends the query to the audienceManagementDisplay component via a messageChannel

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>SuperUserDataSolutions</name>
+    </customPermissions>
+    <description>To ensure consistency between Salesforce and VRS, please contact the Data Solution team before making any changes to the “Expected Lag” and “Request frequency” fields.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>SuperUserDataSolutions</label>
+</PermissionSet>

@@ -3,7 +3,6 @@
     <fullName>Agreement_Code__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <description>Agreement related to document</description>
-    <externalId>false</externalId>
     <label>Agreement Code</label>
     <referenceTo>Convention__c</referenceTo>
     <relationshipLabel>Agreement Documents</relationshipLabel>

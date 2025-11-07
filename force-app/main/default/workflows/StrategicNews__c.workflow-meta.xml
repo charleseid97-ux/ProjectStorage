@@ -6,7 +6,7 @@
         <ccEmails>workgroup.strategicclientcommittee@carmignac.com</ccEmails>
         <ccEmails>portfolioadvisors@carmignac.com</ccEmails>
         <ccEmails>marketing2@carmignac.com</ccEmails>
-        <ccEmails>distributionanddigital.technology@carmignac.com</ccEmails>
+        <ccEmails>DigitalBusinessSolutions@carmignac.com</ccEmails>
         <description>Strategic News - Send email if SN created on GAM or LAM</description>
         <protected>false</protected>
         <recipients>
@@ -15,6 +15,18 @@
         </recipients>
         <recipients>
             <recipient>benoit.nansot-crm@carmignac.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>maxime.carmignac-crm@carmignac.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>nicolas.pierre-crm@carmignac.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>rose.ouahba-crm@carmignac.com</recipient>
             <type>user</type>
         </recipients>
         <senderType>CurrentUser</senderType>

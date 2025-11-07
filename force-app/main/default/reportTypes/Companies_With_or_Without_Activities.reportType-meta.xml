@@ -858,12 +858,22 @@
             <field>Process__c</field>
             <table>Account.Activities</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Tech_Owner_Team__c</field>
+            <table>Account.Activities</table>
+        </columns>
         <masterLabel>Activities</masterLabel>
     </sections>
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Number_Of_Legal_Entities__c</field>
+            <table>Account</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>GFI__c</field>
             <table>Account</table>
         </columns>
         <masterLabel>Companies</masterLabel>

@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>dupcheck__LastDuplicateAdded__c</fullName>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Last Duplicate Added</label>
     <summarizedField>dupcheck__dc3Duplicate__c.CreatedDate</summarizedField>
     <summaryFilterItems>

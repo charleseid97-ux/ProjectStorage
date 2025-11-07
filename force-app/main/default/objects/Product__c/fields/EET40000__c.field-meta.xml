@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EET40000__c</fullName>
+    <description>40000_Financial_Instrument_Existing_Negative_Screening_Strategy</description>
+    <inlineHelpText>Does the Financial_Instrument use a negative screening?</inlineHelpText>
+    <label>40000 Financial Instrument Existing Neg</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>True</fullName>
+                <default>true</default>
+                <label>True</label>
+            </value>
+            <value>
+                <fullName>False</fullName>
+                <default>false</default>
+                <label>False</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

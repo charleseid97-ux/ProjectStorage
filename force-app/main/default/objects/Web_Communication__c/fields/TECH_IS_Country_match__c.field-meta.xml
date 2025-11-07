@@ -3,7 +3,6 @@
     <fullName>TECH_IS_Country_match__c</fullName>
     <description>Formula field to check if the alerts shares match the user country
 Used to align migration data</description>
-    <externalId>false</externalId>
     <formula>IF(LEN(ShareClass__c) &gt; 0, CONTAINS(TECH_ShareClassCountry__c,  TECH_User_Website_Country__c ), true)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>TECH_IS_Country_match</label>

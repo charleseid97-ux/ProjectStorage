@@ -11,7 +11,7 @@
       ISPICKVAL(PRIORVALUE(Client_Tier__c),&quot;Titanium (Tier 0)&quot;)
     )
   ),
-  NOT(OR($User.ProfileId = &apos;00e58000000s3v6&apos;, $User.ProfileId =&apos;00e58000000z6UE&apos;)),
+  NOT(OR($User.ProfileId = &apos;00e58000000s3v6&apos;, $User.ProfileId =&apos;00e58000000z6UE&apos;, $User.ProfileId =&apos;00e1i000000UWR0&apos;)),
   NOT($User.BypassValidationRules__c)
 )</errorConditionFormula>
     <errorDisplayField>Client_Tier__c</errorDisplayField>

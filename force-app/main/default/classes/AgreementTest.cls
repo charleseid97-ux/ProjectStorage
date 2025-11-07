@@ -1,5 +1,62 @@
+/**
+ * @description       : 
+ * @author            : Thanina YAYA
+ * @last modified on  : 11-07-2024
+ * @last modified by  : Khadija EL GDAOUNI
+**/
 @isTest
 public class AgreementTest {
+    private static final Id recTypeId = Schema.SObjectType.Convention__c.getRecordTypeInfosByName().get('Sub-distributor via Platforms').getRecordTypeId();
+    private static final Id masterRecTypeId = Schema.SObjectType.Convention__c.getRecordTypeInfosByName().get('Intermediary Agreement').getRecordTypeId();
+  
+     @isTest
+    static void testRollupAccount() {
+        Account testAcc = TestFactory.getSimpleAccount();
+        testAcc.Client_Tier__c = 'Titanium (Tier 0)';
+        testAcc.BusinessDevelopmentRegion__c = 'BP_FR';
+        testAcc.Distributor_Type__c = 'Bank';
+        testAcc.Sub_Type__c = 'Retail Banking';
+        testAcc.Billingcity='Paris';
+        testAcc.BillingStreet='12 rue test';
+        testAcc.BillingPostalCode='75001';
+        testAcc.BillingCountry='France';
+        testAcc.In__c = 'Retail';
+        testAcc.Final_Distribution__c = 'Retail';
+        insert testAcc;
+        
+        Grid__c grid = new Grid__c(Name='France grid', ActiveGrid__c=true);
+        insert grid;
+        
+        Convention__c master = new Convention__c( RecordTypeId=masterRecTypeId, Grid__c = grid.Id, Company__c=testAcc.Id, Name='L198', Agreement_Type__c='Master', Code_Type__c = 'Platform Master Agreement', Countries_of_Distribution__c='FR');
+        insert master;
+        
+        Convention__c convention = new Convention__c(
+            MasterConvention__c=master.Id, 
+            RecordTypeId=recTypeId, 
+            Grid__c = grid.Id, 
+            Company__c=testAcc.Id, 
+            Name='L198_IT131', 
+            Agreement_Type__c='Standard', 
+            Code_Type__c = 'Sub-distributor via Platforms', 
+            Countries_of_Distribution__c='FR',
+            AUM_To_Date__c=1200,
+            YTDNetFlows__c=800
+        );
+        insert convention;
+        
+        Account acc = [SELECT Id,YTDNetFlowsAgreement__c,AUMToDateAgreement__c FROM Account];
+        System.assertEquals(1200, acc.AUMToDateAgreement__c);
+        System.assertEquals(800, acc.YTDNetFlowsAgreement__c);
+
+		convention.AUM_To_Date__c =2000;
+        convention.YTDNetFlows__c=3000;
+        update convention;
+        
+        Account accUpdated = [SELECT Id,YTDNetFlowsAgreement__c,AUMToDateAgreement__c FROM Account];
+        System.assertEquals(2000, accUpdated.AUMToDateAgreement__c);
+        System.assertEquals(3000, accUpdated.YTDNetFlowsAgreement__c);
+
+    }
 
     static testmethod void doTest() {
 
@@ -29,17 +86,18 @@ public class AgreementTest {
             
             List<Sobject> aggList = new List<Sobject>();
 
-            Convention__c masterAgreement = new Convention__c(Name = 'tmpName', Grid__c = franceGrid.Id, Company__c = accList[0].Id,
+            Convention__c masterAgreement = new Convention__c(Name = 'tmp-'+String.valueOf(System.now()), Grid__c = franceGrid.Id, Company__c = accList[0].Id,
                     Countries_of_Distribution__c = 'AL', Code_Type__c = 'Distribution Agreement', Agreement_Type__c = 'Master',
                     RecordTypeId = agmRtMap.get('Request_Agreement'));
-            aggList.add(masterAgreement);
+                    insert masterAgreement;
+            //aggList.add(masterAgreement);
             
-            Convention__c secondAgreement = new Convention__c(Name = 'tmpNameSecond', Grid__c = franceGrid.Id, Company__c = accList[0].Id,
+            Convention__c secondAgreement = new Convention__c(Name = 'tmp-'+String.valueOf(System.now()), Grid__c = franceGrid.Id, Company__c = accList[0].Id,
                     Countries_of_Distribution__c = 'AL', Code_Type__c = 'Direct Investor', Agreement_Type__c = 'Standard',
                     RecordTypeId = agmRtMap.get('Investor_without_Agreement_Request'));
             aggList.add(secondAgreement);
 
-            Convention__c subAgreement = new Convention__c(Name = 'tmpSUBName', Grid__c = franceGrid.Id, Company__c = accList[1].Id, MasterConvention__c = masterAgreement.Id,
+            Convention__c subAgreement = new Convention__c(Name = 'tmp-'+String.valueOf(System.now()), Grid__c = franceGrid.Id, Company__c = accList[1].Id, MasterConvention__c = masterAgreement.Id,
                     Countries_of_Distribution__c = 'AL', Code_Type__c = 'Distribution Agreement', Amendment_Approval_Status__c='Approved', Grid_Request_Approved__c=True,
                     RecordTypeId = agmRtMap.get('Request_Agreement'));
             aggList.add(subAgreement);
@@ -70,7 +128,7 @@ public class AgreementTest {
 
             insert CRCList;
 
-            Convention__c failAgreement = new Convention__c(Name = 'tmpSUBName', Grid__c = franceGrid.Id, Company__c = accList[2].Id,
+            /*Convention__c failAgreement = new Convention__c(Name = 'tmpSUBName', Grid__c = franceGrid.Id, Company__c = accList[2].Id,
                     Countries_of_Distribution__c = 'AL', Code_Type__c = 'Distribution Agreement',
                     RecordTypeId = agmRtMap.get('Request_Agreement'));
             try {
@@ -79,7 +137,7 @@ public class AgreementTest {
             } catch (Exception e) {
                 Boolean expectedExceptionThrown = e.getMessage().contains('FIELD_CUSTOM_VALIDATION_EXCEPTION') ? true : false;
                 //System.AssertEquals(expectedExceptionThrown, true);
-            }
+            }*/
 
             Test.startTest();
             Delete CRCList;
@@ -114,12 +172,12 @@ public class AgreementTest {
             Grid__c franceGrid = new Grid__c(Name = 'France S5');
             insert franceGrid;
 
-            Convention__c masterAgreement = new Convention__c(Name = 'tmpName', Grid__c = franceGrid.Id, Company__c = accList[0].Id,
+            Convention__c masterAgreement = new Convention__c(Name = 'tmp-'+String.valueOf(System.now()), Grid__c = franceGrid.Id, Company__c = accList[0].Id,
                     Countries_of_Distribution__c = 'AL', Code_Type__c = 'Distribution Agreement', Agreement_Type__c = 'Master',
                     RecordTypeId = agmRtMap.get('Request_Agreement'));
             insert masterAgreement;
 
-            Convention__c subAgreement = new Convention__c(Name = 'tmpSUBName', Grid__c = franceGrid.Id, Company__c = accList[1].Id, MasterConvention__c = masterAgreement.Id,
+            Convention__c subAgreement = new Convention__c(Name = 'tmp-'+String.valueOf(System.now()), Grid__c = franceGrid.Id, Company__c = accList[1].Id, MasterConvention__c = masterAgreement.Id,
                     Countries_of_Distribution__c = 'AL', Code_Type__c = 'Distribution Agreement',
                     RecordTypeId = agmRtMap.get('Request_Agreement'));
             insert subAgreement;

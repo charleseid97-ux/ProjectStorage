@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ThematicsCampaign__c</fullName>
-    <externalId>false</externalId>
     <label>ThematicsCampaign</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
@@ -170,6 +169,11 @@
                 <fullName>UFFGE</fullName>
                 <default>false</default>
                 <label>UFF Grande Europe 0-100</label>
+            </value>
+            <value>
+                <fullName>CC31</fullName>
+                <default>false</default>
+                <label>CC31</label>
             </value>
         </valueSetDefinition>
     </valueSet>

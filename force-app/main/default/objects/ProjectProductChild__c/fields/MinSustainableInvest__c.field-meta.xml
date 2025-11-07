@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MinSustainableInvest__c</fullName>
+    <description>20180_Financial_Instrument_Products_Minimal_Proportion_Of_Sustainable_Investments_Art_8</description>
+    <inlineHelpText>Enter the minimum percentage of sustainable investments</inlineHelpText>
+    <label>Minimum Sustainable Investment</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Data Transfer Status --></label>
     <name>CventEvents__pkg_DataTransferStatus__c</name>
     <picklistValues>
         <masterLabel>Failed</masterLabel>
-        <translation></translation>
+        <translation><!-- Failed --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Not Applicable</masterLabel>
-        <translation></translation>
+        <translation><!-- Not Applicable --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Partial Error</masterLabel>
-        <translation></translation>
+        <translation><!-- Partial Error --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Pending</masterLabel>
-        <translation></translation>
+        <translation><!-- Pending --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Processed</masterLabel>
-        <translation></translation>
+        <translation><!-- Processed --></translation>
     </picklistValues>
 </CustomFieldTranslation>

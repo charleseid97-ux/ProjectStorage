@@ -15,8 +15,7 @@ public with sharing class SM033_KYD_DD_OversightService {
 
         for(KYD_Due_Diligence_Oversight__c kydDD : newItems.values())
         {
-            if(kydDD.Final_Risk__c != null && kydDD.Final_Risk__c != oldItems.get(kydDD.Id).Final_Risk__c
-                    || (kydDD.KYD_Responsible__c == 'RELIANCE' && kydDD.Preliminary_Risk__c != oldItems.get(kydDD.Id).Preliminary_Risk__c))
+            if(kydDD.KYD_Responsible__c != 'RELIANCE' && kydDD.Final_Risk__c != null && kydDD.Final_Risk__c != oldItems.get(kydDD.Id).Final_Risk__c)
             {
                 kydDDs.add(kydDD);
             }

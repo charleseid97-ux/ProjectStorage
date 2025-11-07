@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR28_RedemptionSettlementPeriod</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  NOT($User.BypassValidationRules__c),
+  NOT(ISBLANK(RedemptionSettlementPeriod__c)),
+  OR(
+    RedemptionSettlementPeriod__c &lt; 0,
+    RedemptionSettlementPeriod__c &gt; 10
+  )
+)</errorConditionFormula>
+    <errorDisplayField>RedemptionSettlementPeriod__c</errorDisplayField>
+    <errorMessage>Redemption Settlement Period must be between 1 and 10 days</errorMessage>
+</ValidationRule>

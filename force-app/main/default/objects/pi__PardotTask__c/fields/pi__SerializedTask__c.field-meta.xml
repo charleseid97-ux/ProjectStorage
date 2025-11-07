@@ -4,7 +4,6 @@
     <deprecated>false</deprecated>
     <description>Holds JSON data representing the Task (sObject) fields and values to be inserted/updated.</description>
     <encryptionScheme>None</encryptionScheme>
-    <externalId>false</externalId>
     <label>SerializedTask</label>
     <length>32768</length>
     <trackTrending>false</trackTrending>

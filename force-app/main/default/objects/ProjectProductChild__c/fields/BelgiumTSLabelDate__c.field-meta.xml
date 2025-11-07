@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>BelgiumTSLabelDate__c</fullName>
+    <description>BelgiumTSLabelDate Field</description>
+    <encryptionScheme>None</encryptionScheme>
+    <inlineHelpText>BelgiumTSLabelDate Field</inlineHelpText>
+    <label>BelgiumTSLabelDate</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

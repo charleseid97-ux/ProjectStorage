@@ -2,10 +2,12 @@
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
     <customButtons>pi__Send_Pardot_Email</customButtons>
     <excludeButtons>Clone</excludeButtons>
+    <excludeButtons>DataDotComClean</excludeButtons>
     <excludeButtons>DisableCustomerPortal</excludeButtons>
     <excludeButtons>DisablePartnerPortal</excludeButtons>
     <excludeButtons>DisablePrmSuperUser</excludeButtons>
     <excludeButtons>EnablePrmSuperUser</excludeButtons>
+    <excludeButtons>RequestUseSfdc</excludeButtons>
     <excludeButtons>SendEmail</excludeButtons>
     <excludeButtons>Share</excludeButtons>
     <layoutSections>
@@ -86,7 +88,7 @@
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>Email</field>
             </layoutItems>
             <layoutItems>
@@ -448,6 +450,7 @@
         <fields>Synchro_Status__c</fields>
         <fields>Website_Response__c</fields>
         <fields>CREATED_DATE</fields>
+        <fields>OBJECT_ID</fields>
         <relatedList>Web_Communication__c.Contact__c</relatedList>
     </relatedLists>
     <relatedLists>

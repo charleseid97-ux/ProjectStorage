@@ -3,6 +3,8 @@
     <fullName>All_Funds</fullName>
     <columns>NAME</columns>
     <columns>Product_Name__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>RECORDTYPE</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>RECORDTYPE</field>

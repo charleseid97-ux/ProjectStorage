@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Event --></label>
     <name>Event__c</name>
     <picklistValues>
         <masterLabel>ISDELETE</masterLabel>
-        <translation></translation>
+        <translation><!-- ISDELETE --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>ISINSERT</masterLabel>
-        <translation></translation>
+        <translation><!-- ISINSERT --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>ISUNDELETE</masterLabel>
-        <translation></translation>
+        <translation><!-- ISUNDELETE --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>ISUPDATE</masterLabel>
-        <translation></translation>
+        <translation><!-- ISUPDATE --></translation>
     </picklistValues>
 </CustomFieldTranslation>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Task39</label>
+    <protected>false</protected>
+    <values>
+        <field>Contributors__c</field>
+        <value xsi:type="xsd:string">MOF / Legal / DCO</value>
+    </values>
+    <values>
+        <field>Description__c</field>
+        <value xsi:type="xsd:string">New BNP process for fund launches where their compliance team has to approve fund launch</value>
+    </values>
+    <values>
+        <field>Name__c</field>
+        <value xsi:type="xsd:string">BNP KYC on fund launch</value>
+    </values>
+    <values>
+        <field>TeamOrder__c</field>
+        <value xsi:type="xsd:double">14.0</value>
+    </values>
+    <values>
+        <field>Team__c</field>
+        <value xsi:type="xsd:string">Operations</value>
+    </values>
+</CustomMetadata>

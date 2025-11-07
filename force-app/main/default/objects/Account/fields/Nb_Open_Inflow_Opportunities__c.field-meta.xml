@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Nb_Open_Inflow_Opportunities__c</fullName>
     <description>Count the Number of Inflow Opp</description>
-    <externalId>false</externalId>
     <label>Nb Open Inflow Opportunities</label>
     <summaryFilterItems>
         <field>Opportunity.RecordTypeId</field>

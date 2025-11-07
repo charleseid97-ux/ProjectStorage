@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Opted_out__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Used to flag alerts when they are desactivated by an opt out action on the contact record</description>
+    <label>Opted out</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

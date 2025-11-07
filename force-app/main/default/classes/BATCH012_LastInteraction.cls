@@ -53,22 +53,19 @@ global class BATCH012_LastInteraction implements Database.Batchable<SObject>
         // Meeting & Call max date
         Map<Id, DateType> contactToEventMaxDate = eventMaxDate(contactIds);
 
-        // Meeting Link max date
-        Map<Id, DateType> contactToMLMaxDate = meetingLinkMaxDate(contactIds);
-
         // Last Event Attendance max date
         Map<Id, DateType> contactToCampaignMaxDate = campaignMaxDate(contactIds);
 
         Map<Id, DateType> contactToNewsletterSent = newsletterSentMaxDate(contactIds);
 
         Map<Id, DateType> contactToNewsletterOpened = newsletterOpenedMaxDate(contactIds);
-
+        Map<Id, DateType> contactToNewsletterClicked = newsletterClickedMaxDate(contactIds);
         List<Contact> contactsToUpdate = contactsToUpdate(scope,
                 contactToEventMaxDate,
                 contactToCampaignMaxDate,
-                contactToMLMaxDate,
                 contactToNewsletterSent,
-                contactToNewsletterOpened); 
+                contactToNewsletterOpened,
+                contactToNewsletterClicked); 
 
         Database.update(contactsToUpdate, false);
     }
@@ -122,40 +119,6 @@ global class BATCH012_LastInteraction implements Database.Batchable<SObject>
             }
         }
         return contactToEventMaxDate;
-    }
-
-    // this method return contact Id => his last meeting Link
-    private Map<Id, DateType> meetingLinkMaxDate(Set<Id> contactIds)
-    {
-        Map<Id, DateType> contactToMLMaxDate = new Map<Id, DateType>();
-        // gets the events related to selected contacts
-        List<Meeting_Link__c> relatedMeetingLinks =
-        [
-                SELECT
-                        Id,
-                        Date__c,
-                        Contact__c,
-                        CreatedDate
-                FROM
-                        Meeting_Link__c
-                WHERE
-                        Contact__c IN :contactIds
-                ORDER BY
-                        Date__c DESC
-        ];
-
-        // calculates the last event date
-        for (Meeting_Link__c meetingLink : relatedMeetingLinks)
-        {
-            DateType dateType = new DateType();
-            dateType.lastDate = meetingLink.Date__c;
-
-            if (!contactToMLMaxDate.containsKey(meetingLink.Contact__c))
-            {
-                contactToMLMaxDate.put(meetingLink.Contact__c, dateType);
-            }
-        }
-        return contactToMLMaxDate;
     }
 
     // this method return contact Id => Last Campaign where he attended
@@ -287,6 +250,50 @@ global class BATCH012_LastInteraction implements Database.Batchable<SObject>
         return contactToNewsletterOpened;
     }
 
+     // this method return contact Id => Last Newsletter received date
+     private Map<Id, DateType> newsletterClickedMaxDate(Set<Id> contactIds)
+     {
+         Map<Id, DateType> contactToNewsletterClicked = new Map<Id, DateType>();
+         // gets all the campaignMembers related to the contacts
+         List<CampaignMember> relatedCampaignMembers =
+         [
+                 SELECT
+                         Id,
+                         ContactId,
+                         CreatedDate,
+                         LastModifiedDate,
+                         Campaign.End_Date_Time__c,
+                         Campaign.Type,
+                         Status,
+                         Type
+                 FROM
+                         CampaignMember
+                 WHERE
+                     ContactId IN :contactIds
+                 AND
+                     Status = 'Clicked'
+                 AND
+                     Campaign.RecordType.DeveloperName = 'Newsletters'
+                 ORDER BY
+                     LastModifiedDate DESC
+         ];
+ 
+ 
+         // calculates the last newsletter clicked
+         for (CampaignMember aCampaignMember : relatedCampaignMembers)
+         {
+             DateType dateType = new DateType();
+             dateType.lastDate = aCampaignMember.LastModifiedDate;
+             dateType.type = aCampaignMember.Campaign.Type;
+ 
+             if (!contactToNewsletterClicked.containsKey(aCampaignMember.ContactId))
+             {
+                contactToNewsletterClicked.put(aCampaignMember.ContactId, dateType);
+             }
+         }
+         return contactToNewsletterClicked;
+     }
+
 
     private Set<Id> getSet(List<SObject> input)
     {
@@ -303,9 +310,9 @@ global class BATCH012_LastInteraction implements Database.Batchable<SObject>
     private List<Contact> contactsToUpdate(List<Contact> contacts,
             Map<Id, DateType> contactToEventMaxDate,
             Map<Id, DateType> contactToCampaignMaxDate,
-            Map<Id, DateType> contactToMLMaxDate,
             Map<Id, DateType> contactToNewsletterSent,
-            Map<Id, DateType> contactToNewsletterOpened
+            Map<Id, DateType> contactToNewsletterOpened,
+            Map<Id, DateType> contactToNewsletterClicked
     )
     {
         List<Contact> contactsToUpdate = new List<Contact>();
@@ -314,17 +321,7 @@ global class BATCH012_LastInteraction implements Database.Batchable<SObject>
         {
             Boolean toAdd = false;
 
-            if (aContact.Last_Meeting_Call__c != contactToMLMaxDate.get(aContact.Id)?.lastDate || aContact.Last_Meeting_Call__c == null)
-            {
-                aContact.Last_Meeting_Call__c = contactToMLMaxDate.get(aContact.Id)?.lastDate;
-                toAdd = true;
-            }
-
-            System.debug('SLI > ' +  aContact.Last_Meeting_Call__c);
-            System.debug('SLI > ' +  contactToEventMaxDate);
-            System.debug('SLI > ' +  contactToEventMaxDate.get(aContact.Id)?.lastDate);
-
-            if (aContact.Last_Meeting_Call__c < contactToEventMaxDate.get(aContact.Id)?.lastDate || aContact.Last_Meeting_Call__c == null)
+            if (aContact.Last_Meeting_Call__c != contactToEventMaxDate.get(aContact.Id)?.lastDate || aContact.Last_Meeting_Call__c == null)
             {
                 aContact.Last_Meeting_Call__c = contactToEventMaxDate.get(aContact.Id)?.lastDate;
                 aContact.Last_Meeting_Call_type__c = contactToEventMaxDate.get(aContact.Id)?.type;
@@ -348,6 +345,12 @@ global class BATCH012_LastInteraction implements Database.Batchable<SObject>
             if (aContact.Last_Newsletter_Opened__c != contactToNewsletterOpened.get(aContact.Id)?.lastDate || aContact.Last_Newsletter_Opened__c == null)
             {
                 aContact.Last_Newsletter_Opened__c = contactToNewsletterOpened.get(aContact.Id)?.lastDate;
+                toAdd = true;
+            }
+            
+            if (aContact.Last_Newsletter_Clicked__c != contactToNewsletterClicked.get(aContact.Id)?.lastDate || aContact.Last_Newsletter_Clicked__c == null)
+            {
+                aContact.Last_Newsletter_Clicked__c = contactToNewsletterClicked.get(aContact.Id)?.lastDate;
                 toAdd = true;
             }
 

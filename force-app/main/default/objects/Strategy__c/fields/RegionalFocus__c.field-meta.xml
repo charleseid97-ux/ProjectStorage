@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RegionalFocus__c</fullName>
+    <label>Regional Focus</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Europe</fullName>
+                <default>false</default>
+                <label>Europe</label>
+            </value>
+            <value>
+                <fullName>North America</fullName>
+                <default>false</default>
+                <label>North America</label>
+            </value>
+            <value>
+                <fullName>Global</fullName>
+                <default>false</default>
+                <label>Global</label>
+            </value>
+            <value>
+                <fullName>Emerging</fullName>
+                <default>false</default>
+                <label>Emerging</label>
+            </value>
+            <value>
+                <fullName>EM ex China</fullName>
+                <default>false</default>
+                <label>Emerging Asia ex China</label>
+            </value>
+            <value>
+                <fullName>Greater China</fullName>
+                <default>false</default>
+                <label>Greater China</label>
+            </value>
+            <value>
+                <fullName>Africa</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Africa</label>
+            </value>
+            <value>
+                <fullName>Asia &amp; Pacific</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Asia &amp; Pacific</label>
+            </value>
+            <value>
+                <fullName>Central &amp; South America</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Central &amp; South America</label>
+            </value>
+            <value>
+                <fullName>Multiple Region</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Multiple Region</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IS_Agreement_Compact</fullName>
+    <fields>Name</fields>
+    <fields>Company__c</fields>
+    <fields>IS_Steps__c</fields>
+    <fields>Code_Type__c</fields>
+    <fields>SignedDate__c</fields>
+    <fields>Status__c</fields>
+    <label>IS Agreement Compact</label>
+</CompactLayout>

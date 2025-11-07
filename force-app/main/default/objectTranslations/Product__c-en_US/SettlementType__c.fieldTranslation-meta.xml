@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Settlement Type --></label>
+    <name>SettlementType__c</name>
+    <picklistValues>
+        <masterLabel>CSD</masterLabel>
+        <translation><!-- CSD --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ICSD</masterLabel>
+        <translation><!-- ICSD --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>LOCAL CUSTODY</masterLabel>
+        <translation><!-- LOCAL CUSTODY --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>REGISTER</masterLabel>
+        <translation><!-- REGISTER --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>SUBCUSTODIAN</masterLabel>
+        <translation><!-- SUBCUSTODIAN --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

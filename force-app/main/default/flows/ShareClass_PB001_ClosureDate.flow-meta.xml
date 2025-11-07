@@ -59,6 +59,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>WTPProductNotify</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -119,6 +120,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>WTPProductDelete</nameSegment>
     </actionCalls>
     <apiVersion>51.0</apiVersion>
     <assignments>

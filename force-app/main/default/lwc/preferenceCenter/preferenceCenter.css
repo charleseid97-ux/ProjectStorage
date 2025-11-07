@@ -20,11 +20,62 @@
 /* : Aligns the Spinner Animation to the center of the Modal*/
 .spinnerContainer {
     position: relative;
-    width: 100%;
-    height: 100%;
+    /* width: 100%;
+    height: 100%; */
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 999;
 }
 /*EMD : MODAL Section */
+
+.grid-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.grid-table td {
+    border: 1px solid #dddddd;
+    border: 0px;
+    padding: 8px;
+    text-align: left;
+}
+
+/* .grid-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+} */
+
+.toggle .slds-grow span{
+    float: inline-end;
+}
+
+.line-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.toggle-container {
+    /* width: auto !important;
+    white-space: nowrap; */
+    width: auto !important;
+    display: flex ;
+    align-items: center;
+    flex: 0.5;
+
+}
+.toggle-container lightning-input {
+    width: unset !important;
+    max-width: unset !important;
+    min-width: unset !important;
+}
+
+.output-container {
+    flex: 1; /* Take up remaining space */
+    margin-bottom: 1%;
+    margin-left: -15% !important;
+}
+
+.modalBodySpinner{
+    position: relative;;
+}

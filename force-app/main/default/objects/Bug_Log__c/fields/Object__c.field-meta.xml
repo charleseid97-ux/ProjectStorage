@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Object__c</fullName>
     <description>Objects are dependent of the solution / App</description>
-    <externalId>false</externalId>
     <inlineHelpText>Precise your request by selecting the concerned object</inlineHelpText>
     <label>Object</label>
     <required>true</required>

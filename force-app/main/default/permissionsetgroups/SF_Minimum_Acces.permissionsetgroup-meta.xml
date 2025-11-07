@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Minimum PermSet for SF users</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>SF Minimum Acces</label>
+    <permissionSets>AUM_Flows_Read_access</permissionSets>
+    <permissionSets>Access_NDA</permissionSets>
+    <permissionSets>AudienceManagementAccess</permissionSets>
+    <permissionSets>Digital_Interaction_and_Detail_Read_Access</permissionSets>
+    <permissionSets>Export_report_capability</permissionSets>
+    <permissionSets>Macro_Fund_updates_Read_access</permissionSets>
+    <permissionSets>PRPMinimumAccess</permissionSets>
+    <permissionSets>Preference_Center_Permission</permissionSets>
+    <permissionSets>Team_Read_Access</permissionSets>
+    <permissionSets>Translation_Publication_Permission_Set</permissionSets>
+    <permissionSets>force__EinsteinGPTPromptTemplateUser</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>

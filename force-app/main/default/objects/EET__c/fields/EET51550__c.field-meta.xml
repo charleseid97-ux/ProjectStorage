@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EET51550__c</fullName>
+    <description>51550_Financial_Instrument_Oil_Energy_Mix_Relative_Cap</description>
+    <label>51550 Financial Instrument Oil Energy M</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

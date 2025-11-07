@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Product Management Tool</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Product Management Tool</value>
+    </caseValues>
+    <layouts>
+        <layout>Fund Shareclass creation</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Fund Shareclass modification</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Project product Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Shareclass creation</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <recordTypes>
+        <description><!-- (Create a new product and define its core attributes) --></description>
+        <label><!-- Product  Creation --></label>
+        <name>FundCreation</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- (Update details of an existing product and/or shareclass) --></description>
+        <label><!-- Product / Shareclass Modification --></label>
+        <name>FundShareClassModification</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- (Add a new shareclass to an existing product) --></description>
+        <label><!-- Shareclass Creation --></label>
+        <name>ShareclassCreation</name>
+    </recordTypes>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- A comment is required if the project status is changed to &quot;On hold&quot; or &quot;Cancelled&quot;. --></errorMessage>
+        <name>VR001_StatusComment_Required</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- You must enter Road To Market Start Date and Road To Market End Date. --></errorMessage>
+        <name>VR002_ActivateRoadToMarket</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Access denied: You do not have permission to edit this record based on its Vehicle Type. --></errorMessage>
+        <name>VR003_LockRecord</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage>
+            <!-- You must specify the SFDR Category and the Legal Form before activating the project.
+This information is necessary for cross-team collaboration. -->
+        </errorMessage>
+        <name>VR004_SFDRLegalFormRequired</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage>
+            <!-- Project name is too long.
+Please shorten the name to improve readability and ensure proper display in all interfaces. 
+Recommended maximum length: 14 characters. -->
+        </errorMessage>
+        <name>VR005_ProjectProductNameField_sup14carac</name>
+    </validationRules>
+</CustomObjectTranslation>

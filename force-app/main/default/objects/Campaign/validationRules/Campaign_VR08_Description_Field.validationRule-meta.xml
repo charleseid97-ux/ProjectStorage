@@ -3,10 +3,11 @@
     <fullName>Campaign_VR08_Description_Field</fullName>
     <active>true</active>
     <errorConditionFormula>AND(
-					!$User.BypassValidationRules__c,
-					 RecordType.DeveloperName = &apos;Newsletters&apos;,
-					 LEN(Description) &gt; 60
-)</errorConditionFormula>
+NOT($User.BypassValidationRules__c),LEN(Description) &gt; 60,
+OR(
+AND(RecordType.DeveloperName = &apos;Newsletters&apos;, OR(CreatedDate &gt; DATETIMEVALUE(&quot;2022-12-08 15:00:00&quot;),ISNEW())),
+AND(OR(RecordType.DeveloperName = &apos;Marketing_Channel&apos;, RecordType.DeveloperName = &apos;Conversion_point&apos;), OR(CreatedDate &gt; DATETIMEVALUE(&quot;2023-03-30 11:00:00&quot;),ISNEW()))
+))</errorConditionFormula>
     <errorDisplayField>Description</errorDisplayField>
     <errorMessage>The Description cannot be more than 60 characters</errorMessage>
 </ValidationRule>

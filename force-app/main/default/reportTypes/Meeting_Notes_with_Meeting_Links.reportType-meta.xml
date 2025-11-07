@@ -90,6 +90,16 @@
             <field>CreatedBy.BusinessDevelopmentRegions__c</field>
             <table>Meeting_Note__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Tech_Teams__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Meeting_Note_Owner_Team__c</field>
+            <table>Meeting_Note__c</table>
+        </columns>
         <masterLabel>Meeting Notes</masterLabel>
     </sections>
     <sections>

@@ -3,7 +3,6 @@
     <fullName>Company__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <description>link with the Company.</description>
-    <externalId>false</externalId>
     <label>Company</label>
     <referenceTo>Account</referenceTo>
     <relationshipName>SnapshotBUYList</relationshipName>

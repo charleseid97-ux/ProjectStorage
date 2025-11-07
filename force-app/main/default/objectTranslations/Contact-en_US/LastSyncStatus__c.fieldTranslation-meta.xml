@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Last Sync Status --></label>
     <name>LastSyncStatus__c</name>
     <picklistValues>
         <masterLabel>Sync NOT OK</masterLabel>
-        <translation></translation>
+        <translation><!-- Sync NOT OK --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Sync OK</masterLabel>
-        <translation></translation>
+        <translation><!-- Sync OK --></translation>
     </picklistValues>
 </CustomFieldTranslation>

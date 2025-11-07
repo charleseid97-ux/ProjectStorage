@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Median_influence__c</fullName>
+    <description>Field used to calculate the sum between the Level of influence &amp; the Level of support for each contact (providing similar result as the &apos;decision maker matrix&apos; in the companie object) That allows to rank the contacts 
+Field visible for admins &amp; reports only</description>
+    <externalId>false</externalId>
+    <formula>VALUE(CASE(Level_of_Influence__c,
+    &quot;Hardly Influences Decision&quot;, &quot;1&quot;,
+    &quot;Slight Influence&quot;, &quot;2&quot;,
+    &quot;Influences Decision&quot;, &quot;3&quot;,
+    &quot;Strong Influencer&quot;, &quot;4&quot;,
+    &quot;Minor Decision Maker&quot;, &quot;5&quot;,
+    &quot;A Decision Maker&quot;, &quot;6&quot;,
+    &quot;Major Decision Maker&quot;, &quot;7&quot;,
+    &quot;Only Decision Maker&quot;, &quot;8&quot;,
+        &quot;&quot;
+  ))   + 
+  VALUE(CASE(Level_of_Support__c,
+    &quot;Will Recommend Competition&quot;, &quot;1&quot;,
+    &quot;Strongly for Competition&quot;, &quot;2&quot;,
+    &quot;Mildly Negative&quot;, &quot;3&quot;,
+    &quot;Sees You Same as Everyone Else&quot;, &quot;4&quot;,
+    &quot;Interested in You&quot;, &quot;5&quot;,
+    &quot;Supporter of Yours&quot;, &quot;6&quot;,
+    &quot;Strong Supporter&quot;, &quot;7&quot;,
+    &quot;Will Recommend You&quot;, &quot;8&quot;,
+    &quot;&quot;
+  ))</formula>
+    <label>Median influence</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

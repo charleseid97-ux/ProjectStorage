@@ -77,15 +77,18 @@ public class VFC04_AddToEventController {
         System.debug('//NGO sCampaignId : '+sCampaignId);
         List<String> options = new List<String>();        
         //List<CampaignMemberStatus> metadatas = [select id, Label from CampaignMemberStatus where CampaignId = :sCampaignId order by Label asc];
-        List<CampaignMemberStatus> metadatas = [select id, Label from CampaignMemberStatus where CampaignId = :sCampaignId and Label = 'Invited'];
+        List<CampaignMemberStatus> metadatas = [select id, Label from CampaignMemberStatus where CampaignId = :sCampaignId and (Label = 'Invited' OR Label = 'Confirmed')];
                 
         for(CampaignMemberStatus mdt : metadatas){            
             if(!options.contains(mdt.Label)){
                 options.add(mdt.Label);
             }
         }
+        if(options.size()==0){
+            options.add('Invited');
+            options.add('Confirmed');
+        }
         
-        //options.add('Invited');
         return options;
     }
     

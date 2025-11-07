@@ -100,6 +100,7 @@
                 <elementReference>myCollection_myRule_1_A1recipientIds</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>customNotificationAction</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -120,6 +121,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Account_Plan__c.Account_Plan_Update</nameSegment>
     </actionCalls>
     <apiVersion>50.0</apiVersion>
     <assignments>

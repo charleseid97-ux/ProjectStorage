@@ -4,6 +4,9 @@
     <columns>Date__c</columns>
     <columns>NAME</columns>
     <columns>Meeting_Type__c</columns>
+    <columns>Company__c</columns>
+    <columns>Topic__c</columns>
+    <columns>Note__c</columns>
     <filterScope>Mine</filterScope>
     <label>My meeting notes</label>
 </ListView>

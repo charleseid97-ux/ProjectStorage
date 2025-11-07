@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help></help>
-    <label></label>
+    <help><!-- Refers to the actual date on which Carmignac will stop paying rebates --></help>
+    <label><!-- Grid End Date --></label>
     <name>ExpirationDate__c</name>
 </CustomFieldTranslation>

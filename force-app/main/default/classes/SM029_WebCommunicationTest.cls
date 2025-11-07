@@ -38,12 +38,20 @@ public class SM029_WebCommunicationTest {
             Share_Class__c sC = new Share_Class__c();
             sC.Name = 'Test SC';
             sC.Fund__c = prd.Id;
-            sC.ISIN_Code__c = 'FR0011100000';
+            sC.ISIN__c = 'FR0011100000';
             sc.Country__c = 'FR';
             sc.Validity__c = true;
+            sc.Status__c = 'Active';
             
             Database.insert(sC, true);
-                
+            
+            Country__c country = new Country__c();
+            country.ShareClass__c = sC.Id;
+            country.ISINCountryKey__c = 'FR0011100000_FR';
+            country.Country__c = 'FR';
+            
+            Database.insert(country, true);
+            
             Account accountTest = TestFactory.getSimpleAccount();
             insert accountTest;
             
@@ -145,6 +153,8 @@ public class SM029_WebCommunicationTest {
             web3.Fund__c = prd.Id;
             Database.insert(web3, true);
             SM029_WebCommunication.updateLookupAlertType(WebCommList);
+            
+            Database.update(web3, true);
             
             Database.delete(web3, true);
             

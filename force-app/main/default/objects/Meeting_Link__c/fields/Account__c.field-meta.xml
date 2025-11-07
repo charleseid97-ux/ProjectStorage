@@ -3,7 +3,6 @@
     <fullName>Account__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <description>Represents a link to an Organisation. Is inferred from links to Contact.</description>
-    <externalId>false</externalId>
     <label>Company</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Meeting Notes</relationshipLabel>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Monthly_Comment_Date__c</fullName>
+    <defaultValue>CASE(
+    MOD(DATE(YEAR(TODAY()), MONTH(TODAY()), 1) - 1 - DATE(1900, 1, 7), 7),
+    0, DATE(YEAR(TODAY()), MONTH(TODAY()), 1) - 3, /* Dimanche */
+    6, DATE(YEAR(TODAY()), MONTH(TODAY()), 1) - 2, /* Samedi */
+    DATE(YEAR(TODAY()), MONTH(TODAY()), 1) - 1     /* Autres jours */
+)</defaultValue>
+    <encryptionScheme>None</encryptionScheme>
+    <label>Monthly Comment Date</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

@@ -71,6 +71,11 @@
         <label>United Kingdom</label>
     </customValue>
     <customValue>
+        <fullName>BP_IP</fullName>
+        <default>false</default>
+        <label>International Platform</label>
+    </customValue>
+    <customValue>
         <fullName>Global</fullName>
         <default>false</default>
         <isActive>false</isActive>

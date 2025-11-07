@@ -3,7 +3,6 @@
     <fullName>Buy_List__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <description>link with the Product Status.</description>
-    <externalId>false</externalId>
     <label>Buy List</label>
     <referenceTo>Product_Status__c</referenceTo>
     <relationshipName>SnapshotBUYList</relationshipName>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- 20420 Financial Instrument EU SFDR Mini --></label>
+    <name>EET20420__c</name>
+    <picklistValues>
+        <masterLabel>Approach</masterLabel>
+        <translation><!-- Approach --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Capex</masterLabel>
+        <translation><!-- Capex --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Opex</masterLabel>
+        <translation><!-- Opex --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Revenue</masterLabel>
+        <translation><!-- Revenue --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

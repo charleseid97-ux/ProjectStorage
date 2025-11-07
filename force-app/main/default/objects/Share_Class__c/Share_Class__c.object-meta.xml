@@ -128,16 +128,16 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <content>Share_Class_Record_Page</content>
-        <formFactor>Small</formFactor>
+        <comment>Action override updated by Lightning App Builder during activation.</comment>
+        <content>PMP_ShareClass_Lightning_Page</content>
+        <formFactor>Large</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
         <type>Flexipage</type>
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <comment>Action override created by Lightning App Builder during activation.</comment>
         <content>Share_Class_Record_Page</content>
-        <formFactor>Large</formFactor>
+        <formFactor>Small</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
         <type>Flexipage</type>
     </actionOverrides>
@@ -158,7 +158,6 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ControlledByParent</externalSharingModel>
-    <gender>Feminine</gender>
     <label>Share Class</label>
     <nameField>
         <encryptionScheme>None</encryptionScheme>
@@ -168,10 +167,10 @@
     </nameField>
     <pluralLabel>Share Classes</pluralLabel>
     <searchLayouts>
-        <searchResultsAdditionalFields>ISIN_Code__c</searchResultsAdditionalFields>
+        <excludedStandardButtons>Import</excludedStandardButtons>
+        <excludedStandardButtons>MassAssignRecordLabel</excludedStandardButtons>
+        <searchResultsAdditionalFields>ISIN__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Strategy__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Share_Class_Inception_Date__c</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Share_Class_Closure_Date__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Shareclass_Status_Logo__c</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>

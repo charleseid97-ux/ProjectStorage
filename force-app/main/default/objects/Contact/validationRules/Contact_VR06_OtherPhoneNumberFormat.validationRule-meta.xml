@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Contact_VR06_OtherPhoneNumberFormat</fullName>
-    <active>true</active>
+    <active>false</active>
     <description>Direct Phone number format shall always start by &quot;+&quot; and contain a country code</description>
     <errorConditionFormula>AND(
 Bypass_Apex__c = false,

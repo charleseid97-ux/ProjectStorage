@@ -3,7 +3,6 @@
     <fullName>Last_Meeting_Call__c</fullName>
     <description>Field used to retrieve last interaction (meeting or call) registered on the contact. Filled-in by process builder when meeting &amp; call is registered with end date</description>
     <encryptionScheme>None</encryptionScheme>
-    <externalId>false</externalId>
     <inlineHelpText>Date and Time of the last : Call or Meeting (End date)</inlineHelpText>
     <label>Last Meeting &amp; Call</label>
     <required>false</required>

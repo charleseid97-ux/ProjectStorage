@@ -2,8 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Sub_Asset_Class__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
-    <externalId>false</externalId>
-    <label>Regional Focus</label>
+    <label>Old_Regional Focus</label>
     <lookupFilter>
         <active>true</active>
         <filterItems>

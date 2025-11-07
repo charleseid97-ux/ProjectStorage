@@ -33,6 +33,6 @@
     </filters>
     <label>France - All Active Leads</label>
     <sharedTo>
-        <roleAndSubordinates>FranceHeadofCountry</roleAndSubordinates>
+        <roleAndSubordinatesInternal>FranceHeadofCountry</roleAndSubordinatesInternal>
     </sharedTo>
 </ListView>

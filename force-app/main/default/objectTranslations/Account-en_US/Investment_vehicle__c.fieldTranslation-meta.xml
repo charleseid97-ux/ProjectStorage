@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Investment vehicle --></label>
     <name>Investment_vehicle__c</name>
     <picklistValues>
         <masterLabel>CG Investment Solution Platform - Co Branding</masterLabel>
-        <translation></translation>
+        <translation><!-- CG Investment Solution Platform - Co Branding --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>External Vehicle</masterLabel>
-        <translation></translation>
+        <translation><!-- External Vehicle --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>N/A</masterLabel>
-        <translation></translation>
+        <translation><!-- N/A --></translation>
     </picklistValues>
 </CustomFieldTranslation>

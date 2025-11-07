@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Project Contribution at Shareclass level</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Project Contribution at Shareclass level</value>
+    </caseValues>
+    <layouts>
+        <layout>Project Contribution at Shareclass level Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>ProjectShareclassChild Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>ShareClass Engineering</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- General Details --></label>
+            <section>General Details</section>
+        </sections>
+        <sections>
+            <label><!-- Pricing / Valuation / Dealing --></label>
+            <section>Pricing / Valuation / Dealing</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>ShareClass Filing</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- General Details --></label>
+            <section>General Details</section>
+        </sections>
+        <sections>
+            <label><!-- Identifiers --></label>
+            <section>Identifiers</section>
+        </sections>
+        <sections>
+            <label><!-- Regulation --></label>
+            <section>Regulation</section>
+        </sections>
+        <sections>
+            <label><!-- Risk --></label>
+            <section>Risk</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>ShareClass Proposal</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Distribution --></label>
+            <section>Distribution</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- General Details --></label>
+            <section>General Details</section>
+        </sections>
+        <sections>
+            <label><!-- Pricing / Valuation / Dealing --></label>
+            <section>Pricing / Valuation / Dealing</section>
+        </sections>
+        <sections>
+            <label><!-- Registration Needs --></label>
+            <section>Registration Needs</section>
+        </sections>
+        <sections>
+            <label><!-- Reporting --></label>
+            <section>Reporting</section>
+        </sections>
+        <sections>
+            <label><!-- ShareClass Form --></label>
+            <section>ShareClass Form</section>
+        </sections>
+        <sections>
+            <label><!-- Tax reporting / Transparency --></label>
+            <section>Tax reporting / Transparency</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>ShareClass SetUp</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Fields --></label>
+            <section>Fields</section>
+        </sections>
+        <sections>
+            <label><!-- General Details --></label>
+            <section>General Details</section>
+        </sections>
+        <sections>
+            <label><!-- Identifiers --></label>
+            <section>Identifiers</section>
+        </sections>
+        <sections>
+            <label><!-- Pricing / Valuation / Dealing --></label>
+            <section>Pricing / Valuation / Dealing</section>
+        </sections>
+    </layouts>
+    <recordTypes>
+        <label><!-- Design and Proposal --></label>
+        <name>DesignAndProposal</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Engineering --></label>
+        <name>Engineering</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Filing --></label>
+        <name>Filing</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Set-Up --></label>
+        <name>SetUp</name>
+    </recordTypes>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Please provide a value for Clawback if Performance Fee Method Contains &quot;HighWaterMark&quot;. --></errorMessage>
+        <name>VR01_ClawbackMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- You must provide a value for the &quot;Max Conversion Fee&quot; when the Product is domiciled in LU and the Legal Form is SICAV. --></errorMessage>
+        <name>VR02_MaxConversionFeeMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- If Country Reg Needed contains &quot;UnitedKingdom&quot;, please provide a value for SRRI. --></errorMessage>
+        <name>VR03_SRRIMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- If DividendPolicy = Distributing you must provide the Dividend Frequency --></errorMessage>
+        <name>VR06_DividendFrequencyMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- If Eligible Euroclear Settlement = true, you must provide a CFI Code of 6 digits. --></errorMessage>
+        <name>VR10_CFICodeMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- If Has Lock Up Period is true, you must provide a value for Lock Up field. --></errorMessage>
+        <name>VR11_LockUpMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- If Has Perf Fees=&apos;True&apos;, you must provide values for all of the following fields : Max Perf Fees, Effective Perf Fees, Performance Fee Method, Perf Fees Ref Period and Perf Fees Crystallisation Freq --></errorMessage>
+        <name>VR12_HasPerfFeesEqualsTrueProposal</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- If Has Perf Fees=&apos;True&apos;, you must provide a value for Perf Fees Crystallisation Date. --></errorMessage>
+        <name>VR13_HasPerfFeesEqualsTrueSetUp</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- If &quot;Is Seeded&quot; on the product project = true, please provide values for Seed Amount and Seed Currency. --></errorMessage>
+        <name>VR15_SeedAmointSeedCurrencyMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- If the Perf Fee Method is &apos;HighWaterMark&apos;, please provide a High Water Mark Period. --></errorMessage>
+        <name>VR19_HighWaterMarkPeriodMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- If PerformanceFeeMethod contains &apos;Hurdle&apos;, please provide values for the Hurdle Type and the Hurdle Rate. --></errorMessage>
+        <name>VR21_HurdleMandatory</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Launch Price must be between 1 and 10,000 --></errorMessage>
+        <name>VR22_LaunchPrice</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Max Management Fees must be between 0% and 3% --></errorMessage>
+        <name>VR23_MaxManagementFees</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Max Perf Fees must be between 0% and 20% --></errorMessage>
+        <name>VR24_MaxPerfFees</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Max Subscription Fee must be between 0% and 4% --></errorMessage>
+        <name>VR25_MaxSubscriptionFee</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Decimals Max Amount must be between 0 and 3 --></errorMessage>
+        <name>VR26_DecimalsMaxAmount</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Decimals Max Shares must be between 0 and 4 --></errorMessage>
+        <name>VR27_DecimalsMaxShares</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- The ISIN must consist of 12 characters: two uppercase letters, followed by nine alphanumeric characters, and ending with a single digit. --></errorMessage>
+        <name>VR28_ISIN</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- The Reuters Lipper Code must start with &apos;LP&apos; followed by exactly 8 digits (e.g. LP12345678). --></errorMessage>
+        <name>VR29_ReutersLipperCode</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Hedging ratio must be between 0% and 100% --></errorMessage>
+        <name>VR30_HedgingRatio</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Invalid CFI Code format. Please enter exactly 6 uppercase letters (A–Z), e.g., &apos;ESVUFR&apos;. --></errorMessage>
+        <name>VR31_CFICode</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Transaction costs must be between 0% and 100%. --></errorMessage>
+        <name>VR32_TransactionCosts</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Effective performance fees must be between 0% and 100% --></errorMessage>
+        <name>VR33_EffectivePerfFees</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Maximum conversion fee must be between 0% and 100% --></errorMessage>
+        <name>VR34_MaxConversionFee</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Effective management fees must be between 0% and 100% --></errorMessage>
+        <name>VR35_EffectiveManagementFees</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Maximum service fees must be between 0% and 100% --></errorMessage>
+        <name>VR36_MaxServiceFees</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Effective service fees must be between 0% and 100% --></errorMessage>
+        <name>VR37_EffectiveServiceFees</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Maximum redemption fee must be between 0% and 100% --></errorMessage>
+        <name>VR38_MaxRedemptionFee</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Invalid Morningstar Code format. Please enter 10 to 12 uppercase letters and numbers only (e.g. F0GBR04VX3). --></errorMessage>
+        <name>VR39_MorningstarCode</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage>
+            <!-- The maximum allowed length for this field is 300 characters.
+To account for text expansion during translations, the source text must not exceed 225 characters. -->
+        </errorMessage>
+        <name>VR40_PerformanceFeeEPTKID</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- N/A is not allowed when Has Perf Fees = True. --></errorMessage>
+        <name>VR41_HasPerfFeesTrue</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Is ESMA Perf Fees Guidelines must be N/A when Has Perf Fees = False. --></errorMessage>
+        <name>VR42_HasPerfFeesFalse</name>
+    </validationRules>
+</CustomObjectTranslation>

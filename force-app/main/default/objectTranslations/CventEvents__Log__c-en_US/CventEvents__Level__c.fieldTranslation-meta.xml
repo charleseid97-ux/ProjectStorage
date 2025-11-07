@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help></help>
-    <label></label>
+    <help><!-- Specifies whether the event is directed to the end user, indicates a business rule violation, or indicates an internal error. Used to determine the amount of detail shown to the end user. --></help>
+    <label><!-- Level --></label>
     <name>CventEvents__Level__c</name>
     <picklistValues>
         <masterLabel>Business</masterLabel>
-        <translation></translation>
+        <translation><!-- Business --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Internal</masterLabel>
-        <translation></translation>
+        <translation><!-- Internal --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>User</masterLabel>
-        <translation></translation>
+        <translation><!-- User --></translation>
     </picklistValues>
 </CustomFieldTranslation>

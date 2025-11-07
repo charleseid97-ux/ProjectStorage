@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EET50320__c</fullName>
+    <description>50320_Financial_Instrument_Animal_Testing_Exclusion_Relative_Threshold</description>
+    <inlineHelpText>Enter a number between 1 and 100</inlineHelpText>
+    <label>50320 Financial Instrument Animal Testi</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

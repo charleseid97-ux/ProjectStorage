@@ -1,0 +1,64 @@
+.status-card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+}
+ 
+.header.closed {
+    background-color: #aac0ac; /* vert foncé */
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+ 
+.header.on-hold {
+    background-color: #d9d6a7; /* Light yellow */
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.header.cancelled {
+    background-color: #ccc0ab;/* Light yellow */
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.content.closed {
+    background-color: #d0dcd1; /* Gris clair */
+    padding: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: black;
+}
+.content.on-hold{
+    background-color: #fff2cc;  /* Gris clair */
+    padding: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: black;
+}
+.content.cancelled{
+    background-color:  #f2dcd0;   /* Gris clair */
+    padding: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: black;
+}
+.cancelled-icon{
+    fill: red;
+}

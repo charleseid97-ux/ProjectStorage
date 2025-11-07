@@ -19,6 +19,6 @@
     <label>Asia - All Active Leads</label>
     <queue>Asia</queue>
     <sharedTo>
-        <roleAndSubordinates>InternationalHeadofCountry</roleAndSubordinates>
+        <roleAndSubordinatesInternal>InternationalHeadofCountry</roleAndSubordinatesInternal>
     </sharedTo>
 </ListView>

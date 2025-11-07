@@ -9,19 +9,19 @@
         <value>Related Companies</value>
     </caseValues>
     <fieldSets>
-        <label></label>
+        <label><!-- HierarchyRelationship --></label>
         <name>HierarchyRelationship</name>
     </fieldSets>
     <gender>Neuter</gender>
     <layouts>
         <layout>Related Company Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
     </layouts>
     <recordTypes>
-        <label></label>
+        <label><!-- Related Third Party --></label>
         <name>Related_Third_Party</name>
     </recordTypes>
     <startsWith>Consonant</startsWith>

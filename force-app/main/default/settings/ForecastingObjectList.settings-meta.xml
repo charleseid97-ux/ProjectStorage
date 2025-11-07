@@ -26,12 +26,20 @@
             <label>Business Development Region_TEXT</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002iVEs</field>
+            <label>IS Agreement</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.EXP_AMOUNT</field>
             <label>Expected Revenue</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000002fXdM</field>
             <label>Business Development Region</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00N1i000002i2TI</field>
+            <label>AML Done</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000002faeh</field>
@@ -106,6 +114,10 @@
             <label>Stage</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00NaT000000IHAT</field>
+            <label>TechCreatedDate</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>CONTRACT.NAME</field>
             <label>Contract Name</label>
         </forecastingObjectListLabelMappings>
@@ -118,12 +130,20 @@
             <label>Synced Quote</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002iCVZ</field>
+            <label>LinkedIn Company Id</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>00N5800000DIYE8</field>
             <label>Data Quality Description</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N5800000DIYE9</field>
             <label>Data Quality Score</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <label>Last Stage Change Date</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>ACCOUNT.SITE</field>
@@ -138,8 +158,16 @@
             <label>Private</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00NaT000000ZVsB</field>
+            <label>Asset Class</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>CONTRACT.CONTRACT_NUMBER</field>
             <label>Contract Number</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00NaT000000ZVsC</field>
+            <label>TECH_FlagPEOpp</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000001y2RK</field>
@@ -222,6 +250,10 @@
             <label>Description</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
+            <label>Push Count</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.FISCAL_PERIOD</field>
             <label>Fiscal Period</label>
         </forecastingObjectListLabelMappings>
@@ -246,8 +278,16 @@
             <label>Analyse ROI terminée</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002ZAeW</field>
+            <label>Is IN my Team</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>00N5800000CMqYz</field>
             <label>Potential 12 M</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00N1i000002ZAeX</field>
+            <label>Team</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.QUANTITY</field>
@@ -326,7 +366,9 @@
             <field>OPPORTUNITY.LAST_ACTIVITY</field>
             <field>OPPORTUNITY.CREATED_DATE</field>
             <field>OPPORTUNITY.LAST_UPDATE</field>
+            <field>00N1i000002i2TI</field>
             <field>00N58000004lqZV</field>
+            <field>00NaT000000ZVsB</field>
             <field>00N1i000001y64u</field>
             <field>00N5800000CMqYg</field>
             <field>00N5800000CMqYh</field>
@@ -348,8 +390,11 @@
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
             <field>00N1i000001y2RK</field>
+            <field>00N1i000002iVEs</field>
+            <field>00N1i000002ZAeW</field>
             <field>00N1i000002faeh</field>
             <field>00N1i000002faei</field>
+            <field>00N1i000002iCVZ</field>
             <field>00N58000004lqZW</field>
             <field>00N1i000002fcex</field>
             <field>00N5800000CMqYz</field>
@@ -359,11 +404,16 @@
             <field>00N1i000002faej</field>
             <field>00N1i000000dWHQ</field>
             <field>00N1i000002faek</field>
+            <field>00N1i000002ZAeX</field>
             <field>00N1i000002fXdN</field>
+            <field>00NaT000000ZVsC</field>
+            <field>00NaT000000IHAT</field>
             <field>00N5800000D9emI</field>
             <field>00N5800000CMqYp</field>
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
         </forecastingObjectListUnselectedSettings>
         <forecastingTypeDeveloperName>OpportunityRevenue</forecastingTypeDeveloperName>
     </forecastingTypeObjectListSettings>
@@ -393,12 +443,20 @@
             <label>Business Development Region_TEXT</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002iVEs</field>
+            <label>IS Agreement</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.EXP_AMOUNT</field>
             <label>Expected Revenue</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000002fXdM</field>
             <label>Business Development Region</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00N1i000002i2TI</field>
+            <label>AML Done</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000002faeh</field>
@@ -473,6 +531,10 @@
             <label>Stage</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00NaT000000IHAT</field>
+            <label>TechCreatedDate</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>CONTRACT.NAME</field>
             <label>Contract Name</label>
         </forecastingObjectListLabelMappings>
@@ -485,12 +547,20 @@
             <label>Synced Quote</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002iCVZ</field>
+            <label>LinkedIn Company Id</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>00N5800000DIYE8</field>
             <label>Data Quality Description</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N5800000DIYE9</field>
             <label>Data Quality Score</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <label>Last Stage Change Date</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>ACCOUNT.SITE</field>
@@ -505,8 +575,16 @@
             <label>Private</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00NaT000000ZVsB</field>
+            <label>Asset Class</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>CONTRACT.CONTRACT_NUMBER</field>
             <label>Contract Number</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00NaT000000ZVsC</field>
+            <label>TECH_FlagPEOpp</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000001y2RK</field>
@@ -589,6 +667,10 @@
             <label>Description</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
+            <label>Push Count</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.FISCAL_PERIOD</field>
             <label>Fiscal Period</label>
         </forecastingObjectListLabelMappings>
@@ -613,8 +695,16 @@
             <label>Analyse ROI terminée</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002ZAeW</field>
+            <label>Is IN my Team</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>00N5800000CMqYz</field>
             <label>Potential 12 M</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00N1i000002ZAeX</field>
+            <label>Team</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.QUANTITY</field>
@@ -693,7 +783,9 @@
             <field>OPPORTUNITY.LAST_ACTIVITY</field>
             <field>OPPORTUNITY.CREATED_DATE</field>
             <field>OPPORTUNITY.LAST_UPDATE</field>
+            <field>00N1i000002i2TI</field>
             <field>00N58000004lqZV</field>
+            <field>00NaT000000ZVsB</field>
             <field>00N1i000001y64u</field>
             <field>00N5800000CMqYg</field>
             <field>00N5800000CMqYh</field>
@@ -715,8 +807,11 @@
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
             <field>00N1i000001y2RK</field>
+            <field>00N1i000002iVEs</field>
+            <field>00N1i000002ZAeW</field>
             <field>00N1i000002faeh</field>
             <field>00N1i000002faei</field>
+            <field>00N1i000002iCVZ</field>
             <field>00N58000004lqZW</field>
             <field>00N1i000002fcex</field>
             <field>00N5800000CMqYz</field>
@@ -726,11 +821,16 @@
             <field>00N1i000002faej</field>
             <field>00N1i000000dWHQ</field>
             <field>00N1i000002faek</field>
+            <field>00N1i000002ZAeX</field>
             <field>00N1i000002fXdN</field>
+            <field>00NaT000000ZVsC</field>
+            <field>00NaT000000IHAT</field>
             <field>00N5800000D9emI</field>
             <field>00N5800000CMqYp</field>
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
         </forecastingObjectListUnselectedSettings>
         <forecastingTypeDeveloperName>OpportunityQuantity</forecastingTypeDeveloperName>
     </forecastingTypeObjectListSettings>
@@ -760,12 +860,20 @@
             <label>Business Development Region_TEXT</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002iVEs</field>
+            <label>IS Agreement</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.EXP_AMOUNT</field>
             <label>Expected Revenue</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000002fXdM</field>
             <label>Business Development Region</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00N1i000002i2TI</field>
+            <label>AML Done</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000002faeh</field>
@@ -840,6 +948,10 @@
             <label>Stage</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00NaT000000IHAT</field>
+            <label>TechCreatedDate</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>CONTRACT.NAME</field>
             <label>Contract Name</label>
         </forecastingObjectListLabelMappings>
@@ -856,12 +968,20 @@
             <label>Synced Quote</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002iCVZ</field>
+            <label>LinkedIn Company Id</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>00N5800000DIYE8</field>
             <label>Data Quality Description</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N5800000DIYE9</field>
             <label>Data Quality Score</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <label>Last Stage Change Date</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>ACCOUNT.SITE</field>
@@ -876,8 +996,16 @@
             <label>Private</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00NaT000000ZVsB</field>
+            <label>Asset Class</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>CONTRACT.CONTRACT_NUMBER</field>
             <label>Contract Number</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00NaT000000ZVsC</field>
+            <label>TECH_FlagPEOpp</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000001y2RK</field>
@@ -960,6 +1088,10 @@
             <label>Description</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
+            <label>Push Count</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.FISCAL_PERIOD</field>
             <label>Fiscal Period</label>
         </forecastingObjectListLabelMappings>
@@ -984,8 +1116,16 @@
             <label>Analyse ROI terminée</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002ZAeW</field>
+            <label>Is IN my Team</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>00N5800000CMqYz</field>
             <label>Potential 12 M</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00N1i000002ZAeX</field>
+            <label>Team</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.QUANTITY</field>
@@ -1065,7 +1205,9 @@
             <field>OPPORTUNITY.LAST_ACTIVITY</field>
             <field>OPPORTUNITY.CREATED_DATE</field>
             <field>OPPORTUNITY.LAST_UPDATE</field>
+            <field>00N1i000002i2TI</field>
             <field>00N58000004lqZV</field>
+            <field>00NaT000000ZVsB</field>
             <field>00N1i000001y64u</field>
             <field>00N5800000CMqYg</field>
             <field>00N5800000CMqYh</field>
@@ -1087,8 +1229,11 @@
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
             <field>00N1i000001y2RK</field>
+            <field>00N1i000002iVEs</field>
+            <field>00N1i000002ZAeW</field>
             <field>00N1i000002faeh</field>
             <field>00N1i000002faei</field>
+            <field>00N1i000002iCVZ</field>
             <field>00N58000004lqZW</field>
             <field>00N1i000002fcex</field>
             <field>00N5800000CMqYz</field>
@@ -1098,11 +1243,16 @@
             <field>00N1i000002faej</field>
             <field>00N1i000000dWHQ</field>
             <field>00N1i000002faek</field>
+            <field>00N1i000002ZAeX</field>
             <field>00N1i000002fXdN</field>
+            <field>00NaT000000ZVsC</field>
+            <field>00NaT000000IHAT</field>
             <field>00N5800000D9emI</field>
             <field>00N5800000CMqYp</field>
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
         </forecastingObjectListUnselectedSettings>
         <forecastingTypeDeveloperName>OpportunityLineItemRevenue</forecastingTypeDeveloperName>
     </forecastingTypeObjectListSettings>
@@ -1132,12 +1282,20 @@
             <label>Business Development Region_TEXT</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002iVEs</field>
+            <label>IS Agreement</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.EXP_AMOUNT</field>
             <label>Expected Revenue</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000002fXdM</field>
             <label>Business Development Region</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00N1i000002i2TI</field>
+            <label>AML Done</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000002faeh</field>
@@ -1212,6 +1370,10 @@
             <label>Stage</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00NaT000000IHAT</field>
+            <label>TechCreatedDate</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>CONTRACT.NAME</field>
             <label>Contract Name</label>
         </forecastingObjectListLabelMappings>
@@ -1224,12 +1386,20 @@
             <label>Synced Quote</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002iCVZ</field>
+            <label>LinkedIn Company Id</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>00N5800000DIYE8</field>
             <label>Data Quality Description</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N5800000DIYE9</field>
             <label>Data Quality Score</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <label>Last Stage Change Date</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>ACCOUNT.SITE</field>
@@ -1244,8 +1414,16 @@
             <label>Private</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00NaT000000ZVsB</field>
+            <label>Asset Class</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>CONTRACT.CONTRACT_NUMBER</field>
             <label>Contract Number</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00NaT000000ZVsC</field>
+            <label>TECH_FlagPEOpp</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000001y2RK</field>
@@ -1328,6 +1506,10 @@
             <label>Description</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
+            <label>Push Count</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.FISCAL_PERIOD</field>
             <label>Fiscal Period</label>
         </forecastingObjectListLabelMappings>
@@ -1352,8 +1534,16 @@
             <label>Analyse ROI terminée</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002ZAeW</field>
+            <label>Is IN my Team</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>00N5800000CMqYz</field>
             <label>Potential 12 M</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00N1i000002ZAeX</field>
+            <label>Team</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.QUANTITY</field>
@@ -1432,7 +1622,9 @@
             <field>OPPORTUNITY.LAST_ACTIVITY</field>
             <field>OPPORTUNITY.CREATED_DATE</field>
             <field>OPPORTUNITY.LAST_UPDATE</field>
+            <field>00N1i000002i2TI</field>
             <field>00N58000004lqZV</field>
+            <field>00NaT000000ZVsB</field>
             <field>00N1i000001y64u</field>
             <field>00N5800000CMqYg</field>
             <field>00N5800000CMqYh</field>
@@ -1454,8 +1646,11 @@
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
             <field>00N1i000001y2RK</field>
+            <field>00N1i000002iVEs</field>
+            <field>00N1i000002ZAeW</field>
             <field>00N1i000002faeh</field>
             <field>00N1i000002faei</field>
+            <field>00N1i000002iCVZ</field>
             <field>00N58000004lqZW</field>
             <field>00N1i000002fcex</field>
             <field>00N5800000CMqYz</field>
@@ -1465,11 +1660,16 @@
             <field>00N1i000002faej</field>
             <field>00N1i000000dWHQ</field>
             <field>00N1i000002faek</field>
+            <field>00N1i000002ZAeX</field>
             <field>00N1i000002fXdN</field>
+            <field>00NaT000000ZVsC</field>
+            <field>00NaT000000IHAT</field>
             <field>00N5800000D9emI</field>
             <field>00N5800000CMqYp</field>
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
         </forecastingObjectListUnselectedSettings>
         <forecastingTypeDeveloperName>OpportunityLineItemQuantity</forecastingTypeDeveloperName>
     </forecastingTypeObjectListSettings>
@@ -1499,12 +1699,20 @@
             <label>Business Development Region_TEXT</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002iVEs</field>
+            <label>IS Agreement</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.EXP_AMOUNT</field>
             <label>Expected Revenue</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000002fXdM</field>
             <label>Business Development Region</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00N1i000002i2TI</field>
+            <label>AML Done</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000002faeh</field>
@@ -1579,6 +1787,10 @@
             <label>Stage</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00NaT000000IHAT</field>
+            <label>TechCreatedDate</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>CONTRACT.NAME</field>
             <label>Contract Name</label>
         </forecastingObjectListLabelMappings>
@@ -1595,12 +1807,20 @@
             <label>Synced Quote</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002iCVZ</field>
+            <label>LinkedIn Company Id</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>00N5800000DIYE8</field>
             <label>Data Quality Description</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N5800000DIYE9</field>
             <label>Data Quality Score</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <label>Last Stage Change Date</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>ACCOUNT.SITE</field>
@@ -1615,8 +1835,16 @@
             <label>Private</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00NaT000000ZVsB</field>
+            <label>Asset Class</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>CONTRACT.CONTRACT_NUMBER</field>
             <label>Contract Number</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00NaT000000ZVsC</field>
+            <label>TECH_FlagPEOpp</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000001y2RK</field>
@@ -1699,6 +1927,10 @@
             <label>Description</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
+            <label>Push Count</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.FISCAL_PERIOD</field>
             <label>Fiscal Period</label>
         </forecastingObjectListLabelMappings>
@@ -1723,8 +1955,16 @@
             <label>Analyse ROI terminée</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002ZAeW</field>
+            <label>Is IN my Team</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>00N5800000CMqYz</field>
             <label>Potential 12 M</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00N1i000002ZAeX</field>
+            <label>Team</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.QUANTITY</field>
@@ -1804,7 +2044,9 @@
             <field>OPPORTUNITY.LAST_ACTIVITY</field>
             <field>OPPORTUNITY.CREATED_DATE</field>
             <field>OPPORTUNITY.LAST_UPDATE</field>
+            <field>00N1i000002i2TI</field>
             <field>00N58000004lqZV</field>
+            <field>00NaT000000ZVsB</field>
             <field>00N1i000001y64u</field>
             <field>00N5800000CMqYg</field>
             <field>00N5800000CMqYh</field>
@@ -1826,8 +2068,11 @@
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
             <field>00N1i000001y2RK</field>
+            <field>00N1i000002iVEs</field>
+            <field>00N1i000002ZAeW</field>
             <field>00N1i000002faeh</field>
             <field>00N1i000002faei</field>
+            <field>00N1i000002iCVZ</field>
             <field>00N58000004lqZW</field>
             <field>00N1i000002fcex</field>
             <field>00N5800000CMqYz</field>
@@ -1837,11 +2082,16 @@
             <field>00N1i000002faej</field>
             <field>00N1i000000dWHQ</field>
             <field>00N1i000002faek</field>
+            <field>00N1i000002ZAeX</field>
             <field>00N1i000002fXdN</field>
+            <field>00NaT000000ZVsC</field>
+            <field>00NaT000000IHAT</field>
             <field>00N5800000D9emI</field>
             <field>00N5800000CMqYp</field>
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
         </forecastingObjectListUnselectedSettings>
         <forecastingTypeDeveloperName>OpportunityRevenueProductDate</forecastingTypeDeveloperName>
     </forecastingTypeObjectListSettings>
@@ -1871,12 +2121,20 @@
             <label>Business Development Region_TEXT</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002iVEs</field>
+            <label>IS Agreement</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.EXP_AMOUNT</field>
             <label>Expected Revenue</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000002fXdM</field>
             <label>Business Development Region</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00N1i000002i2TI</field>
+            <label>AML Done</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000002faeh</field>
@@ -1951,6 +2209,10 @@
             <label>Stage</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00NaT000000IHAT</field>
+            <label>TechCreatedDate</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>CONTRACT.NAME</field>
             <label>Contract Name</label>
         </forecastingObjectListLabelMappings>
@@ -1963,12 +2225,20 @@
             <label>Synced Quote</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002iCVZ</field>
+            <label>LinkedIn Company Id</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>00N5800000DIYE8</field>
             <label>Data Quality Description</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N5800000DIYE9</field>
             <label>Data Quality Score</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <label>Last Stage Change Date</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>ACCOUNT.SITE</field>
@@ -1983,8 +2253,16 @@
             <label>Private</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00NaT000000ZVsB</field>
+            <label>Asset Class</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>CONTRACT.CONTRACT_NUMBER</field>
             <label>Contract Number</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00NaT000000ZVsC</field>
+            <label>TECH_FlagPEOpp</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000001y2RK</field>
@@ -2067,6 +2345,10 @@
             <label>Description</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
+            <label>Push Count</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.FISCAL_PERIOD</field>
             <label>Fiscal Period</label>
         </forecastingObjectListLabelMappings>
@@ -2091,8 +2373,16 @@
             <label>Analyse ROI terminée</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002ZAeW</field>
+            <label>Is IN my Team</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>00N5800000CMqYz</field>
             <label>Potential 12 M</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00N1i000002ZAeX</field>
+            <label>Team</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.QUANTITY</field>
@@ -2171,7 +2461,9 @@
             <field>OPPORTUNITY.LAST_ACTIVITY</field>
             <field>OPPORTUNITY.CREATED_DATE</field>
             <field>OPPORTUNITY.LAST_UPDATE</field>
+            <field>00N1i000002i2TI</field>
             <field>00N58000004lqZV</field>
+            <field>00NaT000000ZVsB</field>
             <field>00N1i000001y64u</field>
             <field>00N5800000CMqYg</field>
             <field>00N5800000CMqYh</field>
@@ -2193,8 +2485,11 @@
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
             <field>00N1i000001y2RK</field>
+            <field>00N1i000002iVEs</field>
+            <field>00N1i000002ZAeW</field>
             <field>00N1i000002faeh</field>
             <field>00N1i000002faei</field>
+            <field>00N1i000002iCVZ</field>
             <field>00N58000004lqZW</field>
             <field>00N1i000002fcex</field>
             <field>00N5800000CMqYz</field>
@@ -2204,11 +2499,16 @@
             <field>00N1i000002faej</field>
             <field>00N1i000000dWHQ</field>
             <field>00N1i000002faek</field>
+            <field>00N1i000002ZAeX</field>
             <field>00N1i000002fXdN</field>
+            <field>00NaT000000ZVsC</field>
+            <field>00NaT000000IHAT</field>
             <field>00N5800000D9emI</field>
             <field>00N5800000CMqYp</field>
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
         </forecastingObjectListUnselectedSettings>
         <forecastingTypeDeveloperName>OpportunityQuantityProductDate</forecastingTypeDeveloperName>
     </forecastingTypeObjectListSettings>
@@ -2238,12 +2538,20 @@
             <label>Business Development Region_TEXT</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002iVEs</field>
+            <label>IS Agreement</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.EXP_AMOUNT</field>
             <label>Expected Revenue</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000002fXdM</field>
             <label>Business Development Region</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00N1i000002i2TI</field>
+            <label>AML Done</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000002faeh</field>
@@ -2318,6 +2626,10 @@
             <label>Stage</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00NaT000000IHAT</field>
+            <label>TechCreatedDate</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>CONTRACT.NAME</field>
             <label>Contract Name</label>
         </forecastingObjectListLabelMappings>
@@ -2334,12 +2646,20 @@
             <label>Synced Quote</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002iCVZ</field>
+            <label>LinkedIn Company Id</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>00N5800000DIYE8</field>
             <label>Data Quality Description</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N5800000DIYE9</field>
             <label>Data Quality Score</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <label>Last Stage Change Date</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>ACCOUNT.SITE</field>
@@ -2354,8 +2674,16 @@
             <label>Private</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00NaT000000ZVsB</field>
+            <label>Asset Class</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>CONTRACT.CONTRACT_NUMBER</field>
             <label>Contract Number</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00NaT000000ZVsC</field>
+            <label>TECH_FlagPEOpp</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000001y2RK</field>
@@ -2438,6 +2766,10 @@
             <label>Description</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
+            <label>Push Count</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.FISCAL_PERIOD</field>
             <label>Fiscal Period</label>
         </forecastingObjectListLabelMappings>
@@ -2462,8 +2794,16 @@
             <label>Analyse ROI terminée</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002ZAeW</field>
+            <label>Is IN my Team</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>00N5800000CMqYz</field>
             <label>Potential 12 M</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00N1i000002ZAeX</field>
+            <label>Team</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.QUANTITY</field>
@@ -2543,7 +2883,9 @@
             <field>OPPORTUNITY.LAST_ACTIVITY</field>
             <field>OPPORTUNITY.CREATED_DATE</field>
             <field>OPPORTUNITY.LAST_UPDATE</field>
+            <field>00N1i000002i2TI</field>
             <field>00N58000004lqZV</field>
+            <field>00NaT000000ZVsB</field>
             <field>00N1i000001y64u</field>
             <field>00N5800000CMqYg</field>
             <field>00N5800000CMqYh</field>
@@ -2565,8 +2907,11 @@
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
             <field>00N1i000001y2RK</field>
+            <field>00N1i000002iVEs</field>
+            <field>00N1i000002ZAeW</field>
             <field>00N1i000002faeh</field>
             <field>00N1i000002faei</field>
+            <field>00N1i000002iCVZ</field>
             <field>00N58000004lqZW</field>
             <field>00N1i000002fcex</field>
             <field>00N5800000CMqYz</field>
@@ -2576,11 +2921,16 @@
             <field>00N1i000002faej</field>
             <field>00N1i000000dWHQ</field>
             <field>00N1i000002faek</field>
+            <field>00N1i000002ZAeX</field>
             <field>00N1i000002fXdN</field>
+            <field>00NaT000000ZVsC</field>
+            <field>00NaT000000IHAT</field>
             <field>00N5800000D9emI</field>
             <field>00N5800000CMqYp</field>
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
         </forecastingObjectListUnselectedSettings>
         <forecastingTypeDeveloperName>LineItemRevenueProductDate</forecastingTypeDeveloperName>
     </forecastingTypeObjectListSettings>
@@ -2610,12 +2960,20 @@
             <label>Business Development Region_TEXT</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002iVEs</field>
+            <label>IS Agreement</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.EXP_AMOUNT</field>
             <label>Expected Revenue</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000002fXdM</field>
             <label>Business Development Region</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00N1i000002i2TI</field>
+            <label>AML Done</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000002faeh</field>
@@ -2690,6 +3048,10 @@
             <label>Stage</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00NaT000000IHAT</field>
+            <label>TechCreatedDate</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>CONTRACT.NAME</field>
             <label>Contract Name</label>
         </forecastingObjectListLabelMappings>
@@ -2702,12 +3064,20 @@
             <label>Synced Quote</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002iCVZ</field>
+            <label>LinkedIn Company Id</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>00N5800000DIYE8</field>
             <label>Data Quality Description</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N5800000DIYE9</field>
             <label>Data Quality Score</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <label>Last Stage Change Date</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>ACCOUNT.SITE</field>
@@ -2722,8 +3092,16 @@
             <label>Private</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00NaT000000ZVsB</field>
+            <label>Asset Class</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>CONTRACT.CONTRACT_NUMBER</field>
             <label>Contract Number</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00NaT000000ZVsC</field>
+            <label>TECH_FlagPEOpp</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000001y2RK</field>
@@ -2806,6 +3184,10 @@
             <label>Description</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
+            <label>Push Count</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.FISCAL_PERIOD</field>
             <label>Fiscal Period</label>
         </forecastingObjectListLabelMappings>
@@ -2830,8 +3212,16 @@
             <label>Analyse ROI terminée</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002ZAeW</field>
+            <label>Is IN my Team</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>00N5800000CMqYz</field>
             <label>Potential 12 M</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00N1i000002ZAeX</field>
+            <label>Team</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.QUANTITY</field>
@@ -2910,7 +3300,9 @@
             <field>OPPORTUNITY.LAST_ACTIVITY</field>
             <field>OPPORTUNITY.CREATED_DATE</field>
             <field>OPPORTUNITY.LAST_UPDATE</field>
+            <field>00N1i000002i2TI</field>
             <field>00N58000004lqZV</field>
+            <field>00NaT000000ZVsB</field>
             <field>00N1i000001y64u</field>
             <field>00N5800000CMqYg</field>
             <field>00N5800000CMqYh</field>
@@ -2932,8 +3324,11 @@
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
             <field>00N1i000001y2RK</field>
+            <field>00N1i000002iVEs</field>
+            <field>00N1i000002ZAeW</field>
             <field>00N1i000002faeh</field>
             <field>00N1i000002faei</field>
+            <field>00N1i000002iCVZ</field>
             <field>00N58000004lqZW</field>
             <field>00N1i000002fcex</field>
             <field>00N5800000CMqYz</field>
@@ -2943,11 +3338,16 @@
             <field>00N1i000002faej</field>
             <field>00N1i000000dWHQ</field>
             <field>00N1i000002faek</field>
+            <field>00N1i000002ZAeX</field>
             <field>00N1i000002fXdN</field>
+            <field>00NaT000000ZVsC</field>
+            <field>00NaT000000IHAT</field>
             <field>00N5800000D9emI</field>
             <field>00N5800000CMqYp</field>
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
         </forecastingObjectListUnselectedSettings>
         <forecastingTypeDeveloperName>LineItemQuantityProductDate</forecastingTypeDeveloperName>
     </forecastingTypeObjectListSettings>
@@ -2977,12 +3377,20 @@
             <label>Business Development Region_TEXT</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002iVEs</field>
+            <label>IS Agreement</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.EXP_AMOUNT</field>
             <label>Expected Revenue</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000002fXdM</field>
             <label>Business Development Region</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00N1i000002i2TI</field>
+            <label>AML Done</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000002faeh</field>
@@ -3057,6 +3465,10 @@
             <label>Stage</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00NaT000000IHAT</field>
+            <label>TechCreatedDate</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>CONTRACT.NAME</field>
             <label>Contract Name</label>
         </forecastingObjectListLabelMappings>
@@ -3073,12 +3485,20 @@
             <label>Synced Quote</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002iCVZ</field>
+            <label>LinkedIn Company Id</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>00N5800000DIYE8</field>
             <label>Data Quality Description</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N5800000DIYE9</field>
             <label>Data Quality Score</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <label>Last Stage Change Date</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>ACCOUNT.SITE</field>
@@ -3093,8 +3513,16 @@
             <label>Private</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00NaT000000ZVsB</field>
+            <label>Asset Class</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>CONTRACT.CONTRACT_NUMBER</field>
             <label>Contract Number</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00NaT000000ZVsC</field>
+            <label>TECH_FlagPEOpp</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000001y2RK</field>
@@ -3177,6 +3605,10 @@
             <label>Description</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
+            <label>Push Count</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.FISCAL_PERIOD</field>
             <label>Fiscal Period</label>
         </forecastingObjectListLabelMappings>
@@ -3201,8 +3633,16 @@
             <label>Analyse ROI terminée</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002ZAeW</field>
+            <label>Is IN my Team</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>00N5800000CMqYz</field>
             <label>Potential 12 M</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00N1i000002ZAeX</field>
+            <label>Team</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.QUANTITY</field>
@@ -3282,7 +3722,9 @@
             <field>OPPORTUNITY.LAST_ACTIVITY</field>
             <field>OPPORTUNITY.CREATED_DATE</field>
             <field>OPPORTUNITY.LAST_UPDATE</field>
+            <field>00N1i000002i2TI</field>
             <field>00N58000004lqZV</field>
+            <field>00NaT000000ZVsB</field>
             <field>00N1i000001y64u</field>
             <field>00N5800000CMqYg</field>
             <field>00N5800000CMqYh</field>
@@ -3304,8 +3746,11 @@
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
             <field>00N1i000001y2RK</field>
+            <field>00N1i000002iVEs</field>
+            <field>00N1i000002ZAeW</field>
             <field>00N1i000002faeh</field>
             <field>00N1i000002faei</field>
+            <field>00N1i000002iCVZ</field>
             <field>00N58000004lqZW</field>
             <field>00N1i000002fcex</field>
             <field>00N5800000CMqYz</field>
@@ -3315,11 +3760,16 @@
             <field>00N1i000002faej</field>
             <field>00N1i000000dWHQ</field>
             <field>00N1i000002faek</field>
+            <field>00N1i000002ZAeX</field>
             <field>00N1i000002fXdN</field>
+            <field>00NaT000000ZVsC</field>
+            <field>00NaT000000IHAT</field>
             <field>00N5800000D9emI</field>
             <field>00N5800000CMqYp</field>
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
         </forecastingObjectListUnselectedSettings>
         <forecastingTypeDeveloperName>OpportunityRevenueScheduleDate</forecastingTypeDeveloperName>
     </forecastingTypeObjectListSettings>
@@ -3349,12 +3799,20 @@
             <label>Business Development Region_TEXT</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002iVEs</field>
+            <label>IS Agreement</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.EXP_AMOUNT</field>
             <label>Expected Revenue</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000002fXdM</field>
             <label>Business Development Region</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00N1i000002i2TI</field>
+            <label>AML Done</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000002faeh</field>
@@ -3429,6 +3887,10 @@
             <label>Stage</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00NaT000000IHAT</field>
+            <label>TechCreatedDate</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>CONTRACT.NAME</field>
             <label>Contract Name</label>
         </forecastingObjectListLabelMappings>
@@ -3441,12 +3903,20 @@
             <label>Synced Quote</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002iCVZ</field>
+            <label>LinkedIn Company Id</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>00N5800000DIYE8</field>
             <label>Data Quality Description</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N5800000DIYE9</field>
             <label>Data Quality Score</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <label>Last Stage Change Date</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>ACCOUNT.SITE</field>
@@ -3461,8 +3931,16 @@
             <label>Private</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00NaT000000ZVsB</field>
+            <label>Asset Class</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>CONTRACT.CONTRACT_NUMBER</field>
             <label>Contract Number</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00NaT000000ZVsC</field>
+            <label>TECH_FlagPEOpp</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000001y2RK</field>
@@ -3545,6 +4023,10 @@
             <label>Description</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
+            <label>Push Count</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.FISCAL_PERIOD</field>
             <label>Fiscal Period</label>
         </forecastingObjectListLabelMappings>
@@ -3569,8 +4051,16 @@
             <label>Analyse ROI terminée</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002ZAeW</field>
+            <label>Is IN my Team</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>00N5800000CMqYz</field>
             <label>Potential 12 M</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00N1i000002ZAeX</field>
+            <label>Team</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.QUANTITY</field>
@@ -3649,7 +4139,9 @@
             <field>OPPORTUNITY.LAST_ACTIVITY</field>
             <field>OPPORTUNITY.CREATED_DATE</field>
             <field>OPPORTUNITY.LAST_UPDATE</field>
+            <field>00N1i000002i2TI</field>
             <field>00N58000004lqZV</field>
+            <field>00NaT000000ZVsB</field>
             <field>00N1i000001y64u</field>
             <field>00N5800000CMqYg</field>
             <field>00N5800000CMqYh</field>
@@ -3671,8 +4163,11 @@
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
             <field>00N1i000001y2RK</field>
+            <field>00N1i000002iVEs</field>
+            <field>00N1i000002ZAeW</field>
             <field>00N1i000002faeh</field>
             <field>00N1i000002faei</field>
+            <field>00N1i000002iCVZ</field>
             <field>00N58000004lqZW</field>
             <field>00N1i000002fcex</field>
             <field>00N5800000CMqYz</field>
@@ -3682,11 +4177,16 @@
             <field>00N1i000002faej</field>
             <field>00N1i000000dWHQ</field>
             <field>00N1i000002faek</field>
+            <field>00N1i000002ZAeX</field>
             <field>00N1i000002fXdN</field>
+            <field>00NaT000000ZVsC</field>
+            <field>00NaT000000IHAT</field>
             <field>00N5800000D9emI</field>
             <field>00N5800000CMqYp</field>
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
         </forecastingObjectListUnselectedSettings>
         <forecastingTypeDeveloperName>OpportunityQuantityScheduleDate</forecastingTypeDeveloperName>
     </forecastingTypeObjectListSettings>
@@ -3716,12 +4216,20 @@
             <label>Business Development Region_TEXT</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002iVEs</field>
+            <label>IS Agreement</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.EXP_AMOUNT</field>
             <label>Expected Revenue</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000002fXdM</field>
             <label>Business Development Region</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00N1i000002i2TI</field>
+            <label>AML Done</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000002faeh</field>
@@ -3796,6 +4304,10 @@
             <label>Stage</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00NaT000000IHAT</field>
+            <label>TechCreatedDate</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>CONTRACT.NAME</field>
             <label>Contract Name</label>
         </forecastingObjectListLabelMappings>
@@ -3812,12 +4324,20 @@
             <label>Synced Quote</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002iCVZ</field>
+            <label>LinkedIn Company Id</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>00N5800000DIYE8</field>
             <label>Data Quality Description</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N5800000DIYE9</field>
             <label>Data Quality Score</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <label>Last Stage Change Date</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>ACCOUNT.SITE</field>
@@ -3832,8 +4352,16 @@
             <label>Private</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00NaT000000ZVsB</field>
+            <label>Asset Class</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>CONTRACT.CONTRACT_NUMBER</field>
             <label>Contract Number</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00NaT000000ZVsC</field>
+            <label>TECH_FlagPEOpp</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000001y2RK</field>
@@ -3916,6 +4444,10 @@
             <label>Description</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
+            <label>Push Count</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.FISCAL_PERIOD</field>
             <label>Fiscal Period</label>
         </forecastingObjectListLabelMappings>
@@ -3940,8 +4472,16 @@
             <label>Analyse ROI terminée</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002ZAeW</field>
+            <label>Is IN my Team</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>00N5800000CMqYz</field>
             <label>Potential 12 M</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00N1i000002ZAeX</field>
+            <label>Team</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.QUANTITY</field>
@@ -4021,7 +4561,9 @@
             <field>OPPORTUNITY.LAST_ACTIVITY</field>
             <field>OPPORTUNITY.CREATED_DATE</field>
             <field>OPPORTUNITY.LAST_UPDATE</field>
+            <field>00N1i000002i2TI</field>
             <field>00N58000004lqZV</field>
+            <field>00NaT000000ZVsB</field>
             <field>00N1i000001y64u</field>
             <field>00N5800000CMqYg</field>
             <field>00N5800000CMqYh</field>
@@ -4043,8 +4585,11 @@
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
             <field>00N1i000001y2RK</field>
+            <field>00N1i000002iVEs</field>
+            <field>00N1i000002ZAeW</field>
             <field>00N1i000002faeh</field>
             <field>00N1i000002faei</field>
+            <field>00N1i000002iCVZ</field>
             <field>00N58000004lqZW</field>
             <field>00N1i000002fcex</field>
             <field>00N5800000CMqYz</field>
@@ -4054,11 +4599,16 @@
             <field>00N1i000002faej</field>
             <field>00N1i000000dWHQ</field>
             <field>00N1i000002faek</field>
+            <field>00N1i000002ZAeX</field>
             <field>00N1i000002fXdN</field>
+            <field>00NaT000000ZVsC</field>
+            <field>00NaT000000IHAT</field>
             <field>00N5800000D9emI</field>
             <field>00N5800000CMqYp</field>
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
         </forecastingObjectListUnselectedSettings>
         <forecastingTypeDeveloperName>LineItemRevenueScheduleDate</forecastingTypeDeveloperName>
     </forecastingTypeObjectListSettings>
@@ -4088,12 +4638,20 @@
             <label>Business Development Region_TEXT</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002iVEs</field>
+            <label>IS Agreement</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.EXP_AMOUNT</field>
             <label>Expected Revenue</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000002fXdM</field>
             <label>Business Development Region</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00N1i000002i2TI</field>
+            <label>AML Done</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000002faeh</field>
@@ -4168,6 +4726,10 @@
             <label>Stage</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00NaT000000IHAT</field>
+            <label>TechCreatedDate</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>CONTRACT.NAME</field>
             <label>Contract Name</label>
         </forecastingObjectListLabelMappings>
@@ -4180,12 +4742,20 @@
             <label>Synced Quote</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002iCVZ</field>
+            <label>LinkedIn Company Id</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>00N5800000DIYE8</field>
             <label>Data Quality Description</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N5800000DIYE9</field>
             <label>Data Quality Score</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <label>Last Stage Change Date</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>ACCOUNT.SITE</field>
@@ -4200,8 +4770,16 @@
             <label>Private</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00NaT000000ZVsB</field>
+            <label>Asset Class</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>CONTRACT.CONTRACT_NUMBER</field>
             <label>Contract Number</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00NaT000000ZVsC</field>
+            <label>TECH_FlagPEOpp</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>00N1i000001y2RK</field>
@@ -4284,6 +4862,10 @@
             <label>Description</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
+            <label>Push Count</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.FISCAL_PERIOD</field>
             <label>Fiscal Period</label>
         </forecastingObjectListLabelMappings>
@@ -4308,8 +4890,16 @@
             <label>Analyse ROI terminée</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
+            <field>00N1i000002ZAeW</field>
+            <label>Is IN my Team</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
             <field>00N5800000CMqYz</field>
             <label>Potential 12 M</label>
+        </forecastingObjectListLabelMappings>
+        <forecastingObjectListLabelMappings>
+            <field>00N1i000002ZAeX</field>
+            <label>Team</label>
         </forecastingObjectListLabelMappings>
         <forecastingObjectListLabelMappings>
             <field>OPPORTUNITY.QUANTITY</field>
@@ -4388,7 +4978,9 @@
             <field>OPPORTUNITY.LAST_ACTIVITY</field>
             <field>OPPORTUNITY.CREATED_DATE</field>
             <field>OPPORTUNITY.LAST_UPDATE</field>
+            <field>00N1i000002i2TI</field>
             <field>00N58000004lqZV</field>
+            <field>00NaT000000ZVsB</field>
             <field>00N1i000001y64u</field>
             <field>00N5800000CMqYg</field>
             <field>00N5800000CMqYh</field>
@@ -4410,8 +5002,11 @@
             <field>00N5800000CMqYm</field>
             <field>00N1i000000dWHS</field>
             <field>00N1i000001y2RK</field>
+            <field>00N1i000002iVEs</field>
+            <field>00N1i000002ZAeW</field>
             <field>00N1i000002faeh</field>
             <field>00N1i000002faei</field>
+            <field>00N1i000002iCVZ</field>
             <field>00N58000004lqZW</field>
             <field>00N1i000002fcex</field>
             <field>00N5800000CMqYz</field>
@@ -4421,11 +5016,16 @@
             <field>00N1i000002faej</field>
             <field>00N1i000000dWHQ</field>
             <field>00N1i000002faek</field>
+            <field>00N1i000002ZAeX</field>
             <field>00N1i000002fXdN</field>
+            <field>00NaT000000ZVsC</field>
+            <field>00NaT000000IHAT</field>
             <field>00N5800000D9emI</field>
             <field>00N5800000CMqYp</field>
             <field>00N5800000CMqYq</field>
             <field>00N1i000000dWHT</field>
+            <field>OPPORTUNITY.LAST_STAGE_CHANGE</field>
+            <field>OPPORTUNITY.PUSH_COUNT</field>
         </forecastingObjectListUnselectedSettings>
         <forecastingTypeDeveloperName>LineItemQuantityScheduleDate</forecastingTypeDeveloperName>
     </forecastingTypeObjectListSettings>

@@ -3,7 +3,9 @@
     <fullName>All</fullName>
     <columns>ISIN_Code__c</columns>
     <columns>NAME</columns>
+    <columns>Share_Class_Type__c</columns>
     <columns>CREATED_DATE</columns>
+    <columns>Validity__c</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
 </ListView>

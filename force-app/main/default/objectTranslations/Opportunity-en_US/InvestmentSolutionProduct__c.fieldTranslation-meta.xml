@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Investment Solution Product --></label>
     <lookupFilter>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- You have to choose a product of the type Dummy Products. --></errorMessage>
     </lookupFilter>
     <name>InvestmentSolutionProduct__c</name>
-    <relationshipLabel></relationshipLabel>
+    <relationshipLabel><!-- Opportunities (Investment Solution Product) --></relationshipLabel>
 </CustomFieldTranslation>

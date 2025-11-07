@@ -1,17 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Role --></label>
     <name>Role__c</name>
     <picklistValues>
+        <masterLabel>Carmignac legal</masterLabel>
+        <translation><!-- Carmignac legal --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Current business developper</masterLabel>
+        <translation><!-- Current business developper --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>First Business developper</masterLabel>
+        <translation><!-- First Business developper --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>HOC</masterLabel>
+        <translation><!-- HOC --></translation>
+    </picklistValues>
+    <picklistValues>
         <masterLabel>Legal Contact</masterLabel>
-        <translation></translation>
+        <translation><!-- Legal Contact --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Partner FSU and PM contact</masterLabel>
+        <translation><!-- Partner FSU and PM contact --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Partner distribution contact</masterLabel>
+        <translation><!-- Partner distribution contact --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Partner legal &amp; compliance contact</masterLabel>
+        <translation><!-- Partner legal &amp; compliance contact --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Partner operation contact</masterLabel>
+        <translation><!-- Partner operation contact --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Partner senior contact</masterLabel>
+        <translation><!-- Partner senior contact --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Reallocation / IS Contact</masterLabel>
-        <translation></translation>
+        <translation><!-- Reallocation / IS Contact --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Rebate/ IS Contact</masterLabel>
-        <translation></translation>
+        <translation><!-- Rebate/ IS Contact --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Solution Team PM</masterLabel>
+        <translation><!-- Solution Team PM --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Solution Team project owner</masterLabel>
+        <translation><!-- Solution Team project owner --></translation>
     </picklistValues>
 </CustomFieldTranslation>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Narrative</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Narratives</value>
+    </caseValues>
+    <layouts>
+        <layout>Narrative Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label><!-- New Narrative --></label>
+        <name>NewNarrative</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- New Third Party --></label>
+        <name>NewThirdParty</name>
+    </quickActions>
+    <recordTypes>
+        <description><!-- Manage Biography from Product Manager --></description>
+        <label><!-- Biography --></label>
+        <name>Biography</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Narrative --></label>
+        <name>Narrative</name>
+    </recordTypes>
+    <recordTypes>
+        <label><!-- Third Parties --></label>
+        <name>ThirdParties</name>
+    </recordTypes>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- One and only one of the following lookup fields should be filled : Strategy, Product, Shareclass, Contact, Company, EET --></errorMessage>
+        <name>VR01_NarrativeLookups</name>
+    </validationRules>
+</CustomObjectTranslation>

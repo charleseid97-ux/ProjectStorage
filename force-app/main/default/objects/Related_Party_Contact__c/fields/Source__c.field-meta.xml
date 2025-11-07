@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Source__c</fullName>
-    <externalId>false</externalId>
     <label>Source</label>
     <required>false</required>
     <trackHistory>true</trackHistory>
@@ -20,6 +19,11 @@
                 <fullName>Others</fullName>
                 <default>false</default>
                 <label>Others</label>
+            </value>
+            <value>
+                <fullName>RCS</fullName>
+                <default>false</default>
+                <label>RCS</label>
             </value>
         </valueSetDefinition>
     </valueSet>

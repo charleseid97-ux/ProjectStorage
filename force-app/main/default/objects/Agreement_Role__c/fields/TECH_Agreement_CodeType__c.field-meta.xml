@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>TECH_Agreement_CodeType__c</fullName>
     <description>Pick list use to map role with the Agreement Code type</description>
-    <externalId>false</externalId>
     <label>Agreement Code Type</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
@@ -76,6 +75,26 @@
                 <fullName>Consultant</fullName>
                 <default>false</default>
                 <label>Consultant</label>
+            </value>
+            <value>
+                <fullName>IS Portfolio Management Delegation</fullName>
+                <default>false</default>
+                <label>IS Portfolio Management Delegation</label>
+            </value>
+            <value>
+                <fullName>IS Dedicated Product Distribution</fullName>
+                <default>false</default>
+                <label>IS Dedicated Product Distribution</label>
+            </value>
+            <value>
+                <fullName>IS Advisory</fullName>
+                <default>false</default>
+                <label>IS Advisory</label>
+            </value>
+            <value>
+                <fullName>IS Master Feeder</fullName>
+                <default>false</default>
+                <label>IS Master Feeder</label>
             </value>
             <value>
                 <fullName>Direct Investor without Agreement</fullName>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>BlockEmail__c</fullName>
+    <defaultValue>false</defaultValue>
+    <inlineHelpText>This allows you to subscribe your client to reports and NAV alerts without notifying them of the creation of their professional account. They can still access their account and request a password reset to gain access.</inlineHelpText>
+    <label>Block enrolling emails</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

@@ -2,8 +2,40 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Inactive_External_Contact</fullName>
     <active>true</active>
+    <compactLayoutAssignment>Contact_Compact_2023</compactLayoutAssignment>
     <description>Inactive Non-Employee Contacts</description>
     <label>Inactive External Contact</label>
+    <picklistValues>
+        <picklist>Agency_Translation_language__c</picklist>
+        <values>
+            <fullName>Dutch</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>English</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>French</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>German</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Italian</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Portuguese</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Spanish</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
     <picklistValues>
         <picklist>Approval_Status__c</picklist>
         <values>
@@ -1185,6 +1217,41 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Event_type__c</picklist>
+        <values>
+            <fullName>Exclusive Event</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fund Selector Day</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Investment Seminars</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Partnership</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Quarterly Meeting 1st part</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Quarterly Meeting 2nd part</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sales Event</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Thematic Lunch</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Expertise_picklist_c__c</picklist>
         <values>
             <fullName>EMEQ</fullName>
@@ -2353,6 +2420,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>LID__No_longer_at_Company__c</picklist>
+        <values>
+            <fullName>Ignore</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not at Company</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Langage_2__c</picklist>
         <values>
             <fullName>Dutch</fullName>
@@ -3465,6 +3543,33 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>OptOut_Reason__c</picklist>
+        <values>
+            <fullName>Change in interests</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Content not relevant</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Desactivated Contact</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Job%2FRole Change</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other Unsubscribe Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Too many emails</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Persona__c</picklist>
         <values>
             <fullName>B2B Buyer</fullName>
@@ -4467,6 +4572,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>CARE</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>CAT</fullName>
             <default>false</default>
         </values>
@@ -4475,7 +4584,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>CC25</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>CC27</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CC29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CC31</fullName>
             <default>false</default>
         </values>
         <values>
@@ -4484,6 +4605,10 @@
         </values>
         <values>
             <fullName>CCNE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CCO</fullName>
             <default>false</default>
         </values>
         <values>
@@ -4571,7 +4696,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>COO</fullName>
+            <fullName>CME</fullName>
             <default>false</default>
         </values>
         <values>
@@ -4580,6 +4705,14 @@
         </values>
         <values>
             <fullName>CPE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CPEG</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CPI</fullName>
             <default>false</default>
         </values>
         <values>
@@ -4762,10 +4895,6 @@
         <picklist>Quarterly_meeting_category__c</picklist>
         <values>
             <fullName>2nd part</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>From the 1st part</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -5210,6 +5339,10 @@
         <picklist>SubSource__c</picklist>
         <values>
             <fullName>EFPA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Events</fullName>
             <default>false</default>
         </values>
         <values>

@@ -10,19 +10,5 @@
     <columns>CONTACT.EMAIL</columns>
     <columns>ContactOwner__c</columns>
     <filterScope>Everything</filterScope>
-    <filters>
-        <field>ContactStatus__c</field>
-        <operation>equals</operation>
-        <value>true</value>
-    </filters>
-    <filters>
-        <field>Is_IN_my_Team__c</field>
-        <operation>equals</operation>
-        <value>1</value>
-    </filters>
-    <filters>
-        <field>Team__c</field>
-        <operation>notEqual</operation>
-    </filters>
     <label>My Team&apos;s Contacts</label>
 </ListView>

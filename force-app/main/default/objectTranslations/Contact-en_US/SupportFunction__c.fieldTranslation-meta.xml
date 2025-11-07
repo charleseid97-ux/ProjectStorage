@@ -1,50 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help></help>
-    <label></label>
+    <help><!-- You can pick one or many Support Function among the list --></help>
+    <label><!-- Support Function --></label>
     <name>SupportFunction__c</name>
     <picklistValues>
         <masterLabel>Accounting</masterLabel>
-        <translation></translation>
+        <translation><!-- Accounting --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Compliance</masterLabel>
-        <translation></translation>
+        <translation><!-- Compliance --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Corporate Actions</masterLabel>
-        <translation></translation>
+        <translation><!-- Corporate Actions --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>General Legal</masterLabel>
-        <translation></translation>
+        <translation><!-- General Legal --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Legal Agreements</masterLabel>
-        <translation></translation>
+        <translation><!-- Legal Agreements --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Other</masterLabel>
-        <translation></translation>
+        <translation><!-- Other --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Reallocation</masterLabel>
-        <translation></translation>
+        <translation><!-- Reallocation --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Rebates</masterLabel>
-        <translation></translation>
+        <translation><!-- Rebates --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Regional Website Contact</masterLabel>
-        <translation></translation>
+        <translation><!-- Regional Website Contact --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Tax</masterLabel>
-        <translation></translation>
+        <translation><!-- Tax --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>§32 KWG|Asset Allocator (DE)</masterLabel>
-        <translation></translation>
+        <translation><!-- §32 KWG|Asset Allocator (DE) --></translation>
     </picklistValues>
 </CustomFieldTranslation>

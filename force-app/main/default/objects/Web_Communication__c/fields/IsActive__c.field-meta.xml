@@ -3,9 +3,8 @@
     <fullName>IsActive__c</fullName>
     <defaultValue>true</defaultValue>
     <description>Aims at deactivating the alert type through web service</description>
-    <externalId>false</externalId>
     <label>IsActive</label>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

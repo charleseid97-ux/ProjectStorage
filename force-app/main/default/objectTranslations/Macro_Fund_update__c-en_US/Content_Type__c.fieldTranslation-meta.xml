@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Content Type --></label>
+    <name>Content_Type__c</name>
+    <picklistValues>
+        <masterLabel>Fund Update</masterLabel>
+        <translation><!-- Fund Update --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Trending Topics</masterLabel>
+        <translation><!-- Trending Topics --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

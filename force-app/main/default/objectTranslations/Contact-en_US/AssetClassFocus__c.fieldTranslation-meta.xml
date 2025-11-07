@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help></help>
-    <label></label>
+    <help><!-- You can pick one or many Asset Class Focus among the list --></help>
+    <label><!-- Asset Class Focus --></label>
     <name>AssetClassFocus__c</name>
     <picklistValues>
         <masterLabel>Alternatives</masterLabel>
-        <translation></translation>
+        <translation><!-- Alternatives --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Equities</masterLabel>
-        <translation></translation>
+        <translation><!-- Equities --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Fixed Income</masterLabel>
-        <translation></translation>
+        <translation><!-- Fixed Income --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Hedge Funds</masterLabel>
-        <translation></translation>
+        <translation><!-- Hedge Funds --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Multi Asset</masterLabel>
-        <translation></translation>
+        <translation><!-- Multi Asset --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Other</masterLabel>
-        <translation></translation>
+        <translation><!-- Other --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Quantitative</masterLabel>
-        <translation></translation>
+        <translation><!-- Quantitative --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Sector</masterLabel>
-        <translation></translation>
+        <translation><!-- Sector --></translation>
     </picklistValues>
 </CustomFieldTranslation>

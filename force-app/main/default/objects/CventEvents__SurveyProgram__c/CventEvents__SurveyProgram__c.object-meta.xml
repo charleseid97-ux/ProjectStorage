@@ -168,9 +168,9 @@
         <customTabListAdditionalFields>CventEvents__LastSyncStatus__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>CventEvents__LastSyncDate__c</customTabListAdditionalFields>
         <excludedStandardButtons>OpenListInQuip</excludedStandardButtons>
-        <excludedStandardButtons>Accept</excludedStandardButtons>
-        <excludedStandardButtons>ChangeOwner</excludedStandardButtons>
         <excludedStandardButtons>MassChangeOwner</excludedStandardButtons>
+        <excludedStandardButtons>ChangeOwner</excludedStandardButtons>
+        <excludedStandardButtons>Accept</excludedStandardButtons>
         <lookupDialogsAdditionalFields>CventEvents__Type__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>CventEvents__Status__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>CventEvents__LastSyncStatus__c</lookupDialogsAdditionalFields>

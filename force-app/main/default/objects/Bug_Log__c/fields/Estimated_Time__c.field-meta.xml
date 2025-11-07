@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Estimated_Time__c</fullName>
     <description>Give an approximate estimated time consumption of resolving the issue</description>
-    <externalId>false</externalId>
     <inlineHelpText>Give an approximate estimated time consumption of resolving the issue</inlineHelpText>
     <label>Estimated Time</label>
     <required>false</required>

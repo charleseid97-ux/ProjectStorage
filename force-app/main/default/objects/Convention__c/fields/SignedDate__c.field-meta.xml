@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>SignedDate__c</fullName>
     <encryptionScheme>None</encryptionScheme>
-    <externalId>false</externalId>
     <label>Signed Date</label>
     <required>false</required>
     <trackFeedHistory>true</trackFeedHistory>

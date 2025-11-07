@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Old_Sub Asset Class --></label>
+    <name>SubAssetClass__c</name>
+    <picklistValues>
+        <masterLabel>Emerging</masterLabel>
+        <translation><!-- Emerging --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Europe</masterLabel>
+        <translation><!-- Europe --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Europe ex UK</masterLabel>
+        <translation><!-- Europe ex UK --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Global</masterLabel>
+        <translation><!-- Global --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

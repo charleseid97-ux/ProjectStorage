@@ -5,12 +5,33 @@
     <fieldName>Status__c</fieldName>
     <masterLabel>Intermedi_Agreement_Status_Workflow</masterLabel>
     <pathAssistantSteps>
+        <info>&lt;p&gt;A NEW Grid combined with an extension of the temporary Agreement have been requested and need to be approved through these steps:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;HoC Approval&lt;/li&gt;&lt;li&gt;DCO Approval&lt;/li&gt;&lt;li&gt;Top Management Approval&lt;/li&gt;&lt;li&gt;Legal Approval&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Each of these steps needs to be formally approved by clicking on the &amp;quot;&lt;strong style=&quot;font-size: 13px;&quot;&gt;Approve&lt;/strong&gt;&amp;quot; button.&lt;/p&gt;</info>
+        <picklistValueName>Change Renewal</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;A NEW Grid has been requested and needs to be approved through these steps:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;HoC Approval&lt;/li&gt;&lt;li&gt;DCO Approval&lt;/li&gt;&lt;li&gt;Top Management Approval&lt;/li&gt;&lt;li&gt;Legal Approval&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Each of these steps needs to be formally approved by clicking on the &amp;quot;&lt;strong style=&quot;font-size: 13px;&quot;&gt;Approve&lt;/strong&gt;&amp;quot; button.&lt;/p&gt;</info>
+        <picklistValueName>Change Requested</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Company__c</fieldNames>
+        <fieldNames>Grid_Request__c</fieldNames>
+        <fieldNames>Renewal_Request_End_Date__c</fieldNames>
+        <fieldNames>Termination_Description__c</fieldNames>
+        <fieldNames>Cancellation_Date__c</fieldNames>
+        <info>&lt;p&gt;&lt;strong&gt;&lt;u&gt;Expired &lt;/u&gt;&lt;/strong&gt;Status means the Grid End Date has been reached:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Request a NEW Grid (optional)&lt;ul&gt;&lt;li&gt;Select the relevant Grid in the Grid Request field&lt;/li&gt;&lt;li&gt;Complete the Grid Request Start Date field&lt;/li&gt;&lt;li&gt;The Status would become &amp;quot;Change Renewal&amp;quot;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;li&gt;Extend the Grid End Date&lt;ul&gt;&lt;li&gt;Select the new End Date in the Renewal Request End Date field&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-size: 13px;&quot;&gt;The Status would become &amp;quot;Pending Renewal&amp;quot; if no Grid Change has been requested during the previous step.&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;li&gt;Request a &lt;u&gt;Termination &lt;/u&gt;(Closure of the Agreement)&lt;ul&gt;&lt;li&gt;Complete the Termination Description Field (Mandatory for CRMs)&lt;/li&gt;&lt;li&gt;Select the Cancellation Date if you know it (Mandatory for Legal/ Optional for CRMs)&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;li&gt;Click on &lt;strong&gt;&lt;em&gt;Submit for Approva&lt;/em&gt;&lt;/strong&gt;l button to finalize it + add comments&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Recall &lt;/strong&gt;if needed to change the initial request.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Expired</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
         <fieldNames>Code_Type__c</fieldNames>
         <fieldNames>Company__c</fieldNames>
         <fieldNames>Grid__c</fieldNames>
         <fieldNames>EffectiveDate__c</fieldNames>
         <info>&lt;p&gt;Agreement with an &lt;b&gt;&lt;u&gt;In Negotiation&lt;/u&gt;&lt;/b&gt; Status indicates that the approval is being processed by internal teams (i.e. KYC due diligence, etc.)&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;u&gt;Agreement &lt;/u&gt;should be linked to a &lt;u&gt;Company&lt;/u&gt;&lt;/li&gt;&lt;li&gt;&lt;u&gt;Legal Entity&lt;/u&gt; should be created in the system and it should be &lt;u&gt;linked &lt;/u&gt;to the relevant &lt;u&gt;Company&lt;/u&gt;&lt;/li&gt;&lt;li&gt;&lt;u&gt;Agreement Roles&lt;/u&gt; should contained the Legal Entities and the relevant roles (cf. check the Counterparties Mapping in case of question)&lt;/li&gt;&lt;li&gt;Rebates Section should be completed:&lt;ol&gt;&lt;li&gt;An &lt;u&gt;Effective Date &lt;/u&gt;must be selected&lt;ol&gt;&lt;li&gt;If the Agreement is Permanent, the Grid End Date should be empty&lt;/li&gt;&lt;li&gt;If the Agreement is NOT Permanent, the relevant date should be detailed in the Grid End Date&lt;/li&gt;&lt;/ol&gt;&lt;/li&gt;&lt;/ol&gt;&lt;/li&gt;&lt;/ol&gt;</info>
         <picklistValueName>In Negotiation</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;An extension of the temporary Grid has been requested and needs to be approved through these steps:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;HoC Approval&lt;/li&gt;&lt;li&gt;DCO Approval&lt;/li&gt;&lt;li&gt;Top Management Approval&lt;/li&gt;&lt;li&gt;Legal Approval&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Each of these steps needs to be formally approved by clicking on the &amp;quot;&lt;strong style=&quot;font-size: 13px;&quot;&gt;Approve&lt;/strong&gt;&amp;quot; button.&lt;/p&gt;</info>
+        <picklistValueName>Pending Renewal</picklistValueName>
     </pathAssistantSteps>
     <pathAssistantSteps>
         <fieldNames>Code_Type__c</fieldNames>

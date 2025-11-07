@@ -2,7 +2,7 @@
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>All</fullName>
     <columns>NAME</columns>
-    <columns>Date_of_Interaction__c</columns>
+    <columns>Interaction_Date__c</columns>
     <columns>Company__c</columns>
     <columns>Contact_lu__c</columns>
     <columns>Lead_lu__c</columns>
@@ -10,8 +10,7 @@
     <columns>attendance__c</columns>
     <columns>Time_Spent__c</columns>
     <columns>Total_downloads__c</columns>
-    <columns>Total_Opens__c</columns>
-    <columns>Total_Clicks__c</columns>
+    <columns>Engagement_Type__c</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
 </ListView>

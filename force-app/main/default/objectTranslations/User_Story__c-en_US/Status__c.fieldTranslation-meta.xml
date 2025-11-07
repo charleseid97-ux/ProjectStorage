@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Status --></label>
     <name>Status__c</name>
     <picklistValues>
         <masterLabel>Closed</masterLabel>
-        <translation></translation>
+        <translation><!-- Closed --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Completed / Deployed</masterLabel>
-        <translation></translation>
+        <translation><!-- Completed / Deployed --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>In Development</masterLabel>
-        <translation></translation>
+        <translation><!-- In Development --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>In Review</masterLabel>
-        <translation></translation>
+        <translation><!-- In Review --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Not started</masterLabel>
-        <translation></translation>
+        <translation><!-- Not started --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Pre-deployment</masterLabel>
-        <translation></translation>
+        <translation><!-- Pre-deployment --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Ready for Testing</masterLabel>
-        <translation></translation>
+        <translation><!-- Ready for Testing --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Stand-by</masterLabel>
-        <translation></translation>
+        <translation><!-- Stand-by --></translation>
     </picklistValues>
 </CustomFieldTranslation>

@@ -3,7 +3,6 @@
     <fullName>dupcheck__MatchAccount__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Match Account</label>
     <referenceTo>Account</referenceTo>
     <relationshipName>MatchAccount</relationshipName>

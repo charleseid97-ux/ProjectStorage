@@ -3,7 +3,6 @@
     <fullName>ContactCannotChangeCompany__c</fullName>
     <defaultValue>false</defaultValue>
     <description>If selected these users/profile will be able to bypass the rule Contact_Cannot_Change_Company on Contact object</description>
-    <externalId>false</externalId>
     <inlineHelpText>For Contact Object</inlineHelpText>
     <label>Contact_Cannot_Change_Company</label>
     <trackTrending>false</trackTrending>

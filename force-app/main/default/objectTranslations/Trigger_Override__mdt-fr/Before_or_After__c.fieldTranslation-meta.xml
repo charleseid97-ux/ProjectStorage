@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Before or After --></label>
     <name>Before_or_After__c</name>
     <picklistValues>
         <masterLabel>ISAFTER</masterLabel>
-        <translation></translation>
+        <translation><!-- ISAFTER --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>ISBEFORE</masterLabel>
-        <translation></translation>
+        <translation><!-- ISBEFORE --></translation>
     </picklistValues>
 </CustomFieldTranslation>

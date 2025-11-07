@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR22_DEEquityRatio</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  NOT($User.BypassValidationRules__c),
+  NOT(ISBLANK(DEEquityRatio__c)),
+  OR(
+    DEEquityRatio__c &lt; 0,
+    DEEquityRatio__c &gt; 1
+  )
+)</errorConditionFormula>
+    <errorDisplayField>DEEquityRatio__c</errorDisplayField>
+    <errorMessage>The German Equity Ratio must be between 0% and 100%.</errorMessage>
+</ValidationRule>

@@ -13,22 +13,22 @@
     <customValue>
         <fullName>CACEIS</fullName>
         <default>false</default>
-        <label>CACEIS</label>
+        <label>RELIANCE CACEIS</label>
     </customValue>
     <customValue>
         <fullName>SS&amp;C</fullName>
         <default>false</default>
-        <label>SS&amp;C</label>
+        <label>RELIANCE SS&amp;C</label>
     </customValue>
     <customValue>
         <fullName>BPSS</fullName>
         <default>false</default>
-        <label>BPSS</label>
+        <label>RELIANCE BPSS</label>
     </customValue>
     <customValue>
         <fullName>SGSS</fullName>
         <default>false</default>
-        <label>SGSS</label>
+        <label>RELIANCE SGSS</label>
     </customValue>
     <customValue>
         <fullName>RELIANCE</fullName>
@@ -36,9 +36,29 @@
         <label>RELIANCE</label>
     </customValue>
     <customValue>
+        <fullName>MFEX</fullName>
+        <default>false</default>
+        <label>RELIANCE MFEX</label>
+    </customValue>
+    <customValue>
+        <fullName>FUNDCHANNEL</fullName>
+        <default>false</default>
+        <label>RELIANCE FUNDCHANNEL</label>
+    </customValue>
+    <customValue>
+        <fullName>INVERSIS</fullName>
+        <default>false</default>
+        <label>RELIANCE INVERSIS</label>
+    </customValue>
+    <customValue>
         <fullName>OTHER</fullName>
         <default>false</default>
         <label>OTHER</label>
+    </customValue>
+    <customValue>
+        <fullName>AFB</fullName>
+        <default>false</default>
+        <label>RELIANCE AFB</label>
     </customValue>
     <masterLabel>KYD Responsible</masterLabel>
     <sorted>false</sorted>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- If no team is selected, rights of the requester will be assigned. --></help>
+    <label><!-- Tableau Team(s) --></label>
+    <name>TableauTeams__c</name>
+    <picklistValues>
+        <masterLabel>all users</masterLabel>
+        <translation><!-- all users --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>tbl_Communication</masterLabel>
+        <translation><!-- tbl_Communication --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>tbl_Compliance</masterLabel>
+        <translation><!-- tbl_Compliance --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>tbl_Direction</masterLabel>
+        <translation><!-- tbl_Direction --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>tbl_Finance accounting</masterLabel>
+        <translation><!-- tbl_Finance accounting --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>tbl_Finance control</masterLabel>
+        <translation><!-- tbl_Finance control --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>tbl_General secretary</masterLabel>
+        <translation><!-- tbl_General secretary --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>tbl_Marketing RFP</masterLabel>
+        <translation><!-- tbl_Marketing RFP --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>tbl_Marketing data client reporting</masterLabel>
+        <translation><!-- tbl_Marketing data client reporting --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>tbl_Marketing digital business solution</masterLabel>
+        <translation><!-- tbl_Marketing digital business solution --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>tbl_Marketing digital marketing</masterLabel>
+        <translation><!-- tbl_Marketing digital marketing --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>tbl_Marketing distribution client operations</masterLabel>
+        <translation><!-- tbl_Marketing distribution client operations --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>tbl_Marketing product</masterLabel>
+        <translation><!-- tbl_Marketing product --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>tbl_Marketing specialists events</masterLabel>
+        <translation><!-- tbl_Marketing specialists events --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>tbl_Operation operational excellence</masterLabel>
+        <translation><!-- tbl_Operation operational excellence --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>tbl_Operations middle office</masterLabel>
+        <translation><!-- tbl_Operations middle office --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>tbl_Operations performance investment</masterLabel>
+        <translation><!-- tbl_Operations performance investment --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>tbl_Operations private middle office</masterLabel>
+        <translation><!-- tbl_Operations private middle office --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>tbl_Portfolio management</masterLabel>
+        <translation><!-- tbl_Portfolio management --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>tbl_Portfolio management investment solutions</masterLabel>
+        <translation><!-- tbl_Portfolio management investment solutions --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>tbl_Private clients</masterLabel>
+        <translation><!-- tbl_Private clients --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>tbl_Product strategy</masterLabel>
+        <translation><!-- tbl_Product strategy --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>tbl_Professional clients</masterLabel>
+        <translation><!-- tbl_Professional clients --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>tbl_Risk Front management</masterLabel>
+        <translation><!-- tbl_Risk Front management --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>tbl_Risk management</masterLabel>
+        <translation><!-- tbl_Risk management --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>tbl_Service desk</masterLabel>
+        <translation><!-- tbl_Service desk --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>tbl_Technology change management</masterLabel>
+        <translation><!-- tbl_Technology change management --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>tbl_Technology infrastructure</masterLabel>
+        <translation><!-- tbl_Technology infrastructure --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>tbl_Trading desk</masterLabel>
+        <translation><!-- tbl_Trading desk --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -20,6 +20,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Case.New_Work_Together_Process_RFP</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -34,6 +35,9 @@
         <locationY>200</locationY>
         <actionName>Case.New_Work_Together_Process_Product</actionName>
         <actionType>emailAlert</actionType>
+        <connector>
+            <targetReference>myRule_3_A2</targetReference>
+        </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
@@ -41,6 +45,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Case.New_Work_Together_Process_Product</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -62,6 +67,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Case.New_Work_Together_Process_MI</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -83,6 +89,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Case.New_Work_Together_Process_DataSolutions</nameSegment>
     </actionCalls>
     <apiVersion>49.0</apiVersion>
     <decisions>
@@ -144,7 +151,7 @@
             <connector>
                 <targetReference>myRule_3_A1</targetReference>
             </connector>
-            <label>Product</label>
+            <label>Product Specialists</label>
         </rules>
     </decisions>
     <decisions>
@@ -175,7 +182,7 @@
             <connector>
                 <targetReference>myRule_5_A1</targetReference>
             </connector>
-            <label>MKT Intelligence</label>
+            <label>Product Strategy</label>
         </rules>
     </decisions>
     <decisions>
@@ -222,12 +229,12 @@
         <processMetadataValues>
             <name>originalFormula</name>
             <value>
-                <stringValue>AND(CONTAINS([Case].RecordType.Name , &quot;Product&quot;), !$User.BypassProcessBuilders__c)</stringValue>
+                <stringValue>AND([Case].RecordType.DeveloperName= &quot;Product_Marketing_Request&quot;, !$User.BypassProcessBuilders__c)</stringValue>
             </value>
         </processMetadataValues>
         <name>formula_myRule_3</name>
         <dataType>Boolean</dataType>
-        <expression>AND(CONTAINS({!myVariable_current.RecordType.Name} , &quot;Product&quot;), !{!$User.BypassProcessBuilders__c})</expression>
+        <expression>AND({!myVariable_current.RecordType.DeveloperName}= &quot;Product_Marketing_Request&quot;, !{!$User.BypassProcessBuilders__c})</expression>
     </formulas>
     <formulas>
         <processMetadataValues>
@@ -251,7 +258,7 @@
         <dataType>Boolean</dataType>
         <expression>AND(CONTAINS({!myVariable_current.RecordType.Name} , &quot;Data Solution&quot;), !{!$User.BypassProcessBuilders__c})</expression>
     </formulas>
-    <interviewLabel>WorkTogether_PB002_AssignToQeueu-32_InterviewLabel</interviewLabel>
+    <interviewLabel>WorkTogether_PB002_AssignToQeueu-34_InterviewLabel</interviewLabel>
     <label>WorkTogether_PB002_New</label>
     <processMetadataValues>
         <name>ObjectType</name>
@@ -278,6 +285,93 @@
         </value>
     </processMetadataValues>
     <processType>Workflow</processType>
+    <recordUpdates>
+        <processMetadataValues>
+            <name>evaluationType</name>
+            <value>
+                <stringValue>always</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>extraTypeInfo</name>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>isChildRelationship</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>reference</name>
+            <value>
+                <stringValue>[Case]</stringValue>
+            </value>
+        </processMetadataValues>
+        <processMetadataValues>
+            <name>referenceTargetField</name>
+        </processMetadataValues>
+        <name>myRule_3_A2</name>
+        <label>Assign to Product Queue</label>
+        <locationX>300</locationX>
+        <locationY>300</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <processMetadataValues>
+                <name>implicit</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </processMetadataValues>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>ID</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Work Together Process Owner</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideReferenceTo</name>
+                <value>
+                    <stringValue>Group;User</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideLabel</name>
+                <value>
+                    <stringValue>Marketing_Product_Queue</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Queue</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>OwnerId</field>
+            <value>
+                <stringValue>00G58000004V1kuEAC</stringValue>
+            </value>
+        </inputAssignments>
+        <object>Case</object>
+    </recordUpdates>
     <startElementReference>myDecision</startElementReference>
     <status>Active</status>
     <variables>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- FATCA Classification --></label>
+    <name>FATCAClassification__c</name>
+    <picklistValues>
+        <masterLabel>Nonreporting IGA FFI</masterLabel>
+        <translation><!-- Nonreporting IGA FFI --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Reporting Model 1 FFI</masterLabel>
+        <translation><!-- Reporting Model 1 FFI --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

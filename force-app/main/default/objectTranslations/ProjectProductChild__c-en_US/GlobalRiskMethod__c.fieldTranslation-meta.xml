@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Global Risk Method --></label>
+    <name>GlobalRiskMethod__c</name>
+    <picklistValues>
+        <masterLabel>Absolute VaR</masterLabel>
+        <translation><!-- Absolute VaR --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Commitment</masterLabel>
+        <translation><!-- Commitment --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Relative VaR</masterLabel>
+        <translation><!-- Relative VaR --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

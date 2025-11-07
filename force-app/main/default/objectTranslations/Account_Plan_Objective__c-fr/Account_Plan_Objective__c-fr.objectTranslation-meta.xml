@@ -12,14 +12,14 @@
     <layouts>
         <layout>Account Plan Objective Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Objective Detail --></label>
             <section>Objective Detail</section>
         </sections>
     </layouts>
-    <nameFieldLabel></nameFieldLabel>
+    <nameFieldLabel><!-- Account Plan Objective Name --></nameFieldLabel>
     <startsWith>Consonant</startsWith>
 </CustomObjectTranslation>

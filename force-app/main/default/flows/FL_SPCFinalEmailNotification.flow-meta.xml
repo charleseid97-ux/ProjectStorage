@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Copy_1_of_Send_Go_Live_Notification</name>
+        <label>Send Launch Date Notification</label>
+        <locationX>578</locationX>
+        <locationY>431</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>emailDistributionList</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>$Label.NoReplayWideAddress</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>GoLiveSubject</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>GoLiveBody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>logEmailOnSend</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <name>SendSPCFinalEmail</name>
+        <label>SendSPCFinalEmail</label>
+        <locationX>314</locationX>
+        <locationY>539</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>emailDistributionList</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>$Label.NoReplayWideAddress</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>SPCFinalSubject</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>SPCFinalBodyCreation</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>logEmailOnSend</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <name>SendSPCFinalEmailModification</name>
+        <label>SendSPCFinalEmailModification</label>
+        <locationX>50</locationX>
+        <locationY>539</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>emailDistributionList</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>$Label.NoReplayWideAddress</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>SPCFinalSubject</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>SPCFinalBodyModification</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>logEmailOnSend</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <apiVersion>63.0</apiVersion>
+    <constants>
+        <name>recordTypeName</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>FundShareClassModification</stringValue>
+        </value>
+    </constants>
+    <decisions>
+        <name>Check_if_Creation_or_Modification</name>
+        <label>Check if Creation or Modification</label>
+        <locationX>182</locationX>
+        <locationY>431</locationY>
+        <defaultConnector>
+            <targetReference>SendSPCFinalEmail</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Creation</defaultConnectorLabel>
+        <rules>
+            <name>Modification</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Project_product__r.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>recordTypeName</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>SendSPCFinalEmailModification</targetReference>
+            </connector>
+            <label>Modification</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>check_if_SPC_Final_or_Go_Live</name>
+        <label>check if SPC Final or Launch Date</label>
+        <locationX>512</locationX>
+        <locationY>323</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>SPC_Final</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Name</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>SPC Final</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Check_if_Creation_or_Modification</targetReference>
+            </connector>
+            <label>SPC Final</label>
+        </rules>
+        <rules>
+            <name>Go_Live</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Name</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Launch Date</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Copy_1_of_Send_Go_Live_Notification</targetReference>
+            </connector>
+            <label>Launch Date</label>
+        </rules>
+    </decisions>
+    <description>This Record-Triggered Flow is used within the Product Management Tool (PMT) to automatically notify all distribution lists when a key milestone is reached.
+It sends an email notification when a Milestone record is completed with either:
+- SPC Final 
+- Go Live
+
+For SPC Final, the flow distinguishes between Creation and Modification types to send a tailored message.
+For Go Live, a single standard notification is sent.
+ESG (responsible.investment@carmignac.com) is included only if SFDR Category = 6, 8 or 9</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>emailDistributionList</name>
+        <dataType>String</dataType>
+        <expression>IF(
+  OR(
+    ISPICKVAL({!$Record.Project_product__r.SFDRcategory__c}, &apos;6&apos;),
+    ISPICKVAL({!$Record.Project_product__r.SFDRcategory__c}, &apos;8&apos;),
+    ISPICKVAL({!$Record.Project_product__r.SFDRcategory__c}, &apos;9&apos;)
+  ),
+  /* responsible.investment included */
+  &apos;communication@carmignac.com,&apos; &amp;
+  &apos;complianceinternalcontrol.generalsecretary@carmignac.com,&apos; &amp;
+  &apos;digitaloperationsfordistribution@carmignac.com,&apos; &amp;
+  &apos;financecontrol.financeaccounting@carmignac.com,&apos; &amp;
+  &apos;responsible.investment@carmignac.com,&apos; &amp;
+  &apos;performance.management@carmignac.com,&apos; &amp;
+  &apos;legalaffairsproductdevelopment.generalsecretary@carmignac.com,&apos; &amp;
+  &apos;middleofficefunds2@carmignac.com,&apos; &amp;
+  &apos;productstrategy@carmignac.com,&apos; &amp;
+  &apos;risk_prod@carmignac.com,&apos; &amp;
+  &apos;tax.generalsecretary@carmignac.com,&apos; &amp;
+  &apos;supportfundmanagement.technology@carmignac.com,&apos; &amp;
+  &apos;workgroup.executiveproductcommittee@carmignac.com,&apos; &amp;
+  &apos;sf_pmt@carmignac.com&apos;,
+
+  /* responsible.investment excluded */
+   &apos;communication@carmignac.com,&apos; &amp;
+  &apos;complianceinternalcontrol.generalsecretary@carmignac.com,&apos; &amp;
+  &apos;digitaloperationsfordistribution@carmignac.com,&apos; &amp;
+  &apos;financecontrol.financeaccounting@carmignac.com,&apos; &amp;
+  &apos;performance.management@carmignac.com,&apos; &amp;
+  &apos;legalaffairsproductdevelopment.generalsecretary@carmignac.com,&apos; &amp;
+  &apos;middleofficefunds2@carmignac.com,&apos; &amp;
+  &apos;productstrategy@carmignac.com,&apos; &amp;
+  &apos;risk_prod@carmignac.com,&apos; &amp;
+  &apos;tax.generalsecretary@carmignac.com,&apos; &amp;
+  &apos;supportfundmanagement.technology@carmignac.com,&apos; &amp;
+  &apos;workgroup.executiveproductcommittee@carmignac.com,&apos; &amp;
+  &apos;sf_pmt@carmignac.com&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>EMAILRECIPIENTSTESTS</name>
+        <dataType>String</dataType>
+        <expression>IF(
+  OR(
+    ISPICKVAL({!$Record.Project_product__r.SFDRcategory__c}, &apos;6&apos;),
+    ISPICKVAL({!$Record.Project_product__r.SFDRcategory__c}, &apos;8&apos;),
+    ISPICKVAL({!$Record.Project_product__r.SFDRcategory__c}, &apos;9&apos;)
+  ),
+  &apos;salesforcesupport@carmignac.com&apos;,
+  &apos;thomas.coullon@carmignac.com&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>ProjectParentLink</name>
+        <dataType>String</dataType>
+        <expression>LEFT( {!$Api.Partner_Server_URL_520}, FIND( &apos;/services&apos;, {!$Api.Partner_Server_URL_520} ))&amp;{!$Record.Project_Product__r.Id}</expression>
+    </formulas>
+    <formulas>
+        <name>RecordLinkMilestone</name>
+        <dataType>String</dataType>
+        <expression>LEFT( {!$Api.Partner_Server_URL_520}, FIND( &apos;/services&apos;, {!$Api.Partner_Server_URL_520} ))&amp;{!$Record.Id}</expression>
+    </formulas>
+    <interviewLabel>FL_SPCFinalEmailNotification {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>PMT - Email Notification - SPC Final &amp; Launch Date</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>386</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>check_if_SPC_Final_or_Go_Live</targetReference>
+        </connector>
+        <filterLogic>(1 OR 4) AND 2 AND 3</filterLogic>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>SPC Final</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Completed</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Status__c</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Launch Date</stringValue>
+            </value>
+        </filters>
+        <object>Milestone__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <name>DistributionListTEST</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>&apos;nicolas.rossignol@carmignac.com&apos;&amp;&apos;,&apos;&amp;&apos;salesforcesupport@carmignac.com&apos;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>GoLiveBody</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;Hi Team,&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;The project&amp;nbsp;&lt;/span&gt;&lt;a href=&quot;{!ProjectParentLink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 12px;&quot;&gt;{!$Record.Project_product__r.Name}&lt;/a&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;is scheduled to &lt;/span&gt;&lt;strong style=&quot;font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;go live on {!$Record.Project_product__r.EndDate__c}&lt;/strong&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;Please make sure&lt;/strong&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt; that all required actions have been completed, and that all information is up to date and compliant in Salesforce ahead of this date.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;The product data will be &lt;/span&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;automatically published to the Product Catalog&lt;/strong&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt; on the &lt;/span&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;morning of the launch date.&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;&lt;u&gt;KEY INFO&lt;/u&gt;&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;Type of project :&amp;nbsp;&lt;/strong&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;{!$Record.Project_product__r.RecordType.Name}&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;Project Description :&amp;nbsp;&lt;/strong&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;{!$Record.Project_product__r.ProductDescription__c}&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong style=&quot;font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Launch Date :&amp;nbsp;&lt;/strong&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.Project_product__r.EndDate__c}&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;a href=&quot;{!ProjectParentLink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;ACCESS THE PROJET IN SALESFORE&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;If you have any questions or require support, feel free to reach out to the &lt;/span&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;Product Strategy Team&lt;/strong&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;Thank you,&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;The Product Strategy Team&lt;/strong&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>GoLiveSubject</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>Go Live – {!$Record.Project_product__r.Name}</text>
+    </textTemplates>
+    <textTemplates>
+        <name>SPCFinalBodyCreation</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;Hi Team,&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;The &lt;/span&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;SPC Final Milestone&lt;/strong&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt; for product project&amp;nbsp;&lt;/span&gt;&lt;a href=&quot;{!ProjectParentLink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 12px;&quot;&gt;&lt;strong&gt;{!$Record.Project_product__r.Name}&lt;/strong&gt;&lt;/a&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;&amp;nbsp;has officially been &lt;/span&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;validated&amp;nbsp;&lt;/strong&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;in Salesforce. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;You can now&amp;nbsp;&lt;/span&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;contribute&amp;nbsp;&lt;/strong&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;to the Engineering phase of the project and continue to review and complete your assigned tasks.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;&lt;u&gt;KEY INFO&lt;/u&gt;&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;Type of project :&amp;nbsp;&lt;/strong&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;{!$Record.Project_product__r.RecordType.Name}&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;Estimated Launch Date :&amp;nbsp;&lt;/strong&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;{!$Record.Project_product__r.EndDate__c}&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;SPC Validation Date : &lt;/strong&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;{!$Record.StartDate__c}&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;Project Description :&amp;nbsp;&lt;/strong&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;{!$Record.Project_product__r.ProductDescription__c}&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;a href=&quot;{!ProjectParentLink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 12px;&quot;&gt;&lt;strong&gt;ACCESS THE PROJET IN SALESFORE&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;If you have any questions or require support, feel free to reach out to the &lt;/span&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;Product Strategy Team&lt;/strong&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;Thank you,&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;The Product Strategy Team&lt;/strong&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>SPCFinalBodyModification</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;Hi Team,&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;The &lt;/span&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;SPC Final Milestone&lt;/strong&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt; for product project&amp;nbsp;&lt;/span&gt;&lt;a href=&quot;{!ProjectParentLink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 12px;&quot;&gt;&lt;strong&gt;{!$Record.Project_product__r.Name}&lt;/strong&gt;&lt;/a&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;&amp;nbsp;has officially been &lt;/span&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;validated&amp;nbsp;&lt;/strong&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;in Salesforce.  &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 13px;&quot;&gt;You can now ensure that all modifications are compliant and proceed with the validation of all project phases. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;&lt;u&gt;KEY INFO&lt;/u&gt;&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;Type of project :&amp;nbsp;&lt;/strong&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;{!$Record.Project_product__r.RecordType.Name}&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;Estimated Launch Date :&amp;nbsp;&lt;/strong&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;{!$Record.Project_product__r.EndDate__c}&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;SPC Validation Date : &lt;/strong&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;{!$Record.StartDate__c}&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;Project Description :&amp;nbsp;&lt;/strong&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;{!$Record.Project_product__r.ProductDescription__c}&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;a href=&quot;{!ProjectParentLink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;&lt;strong&gt;ACCESS THE PROJET IN SALESFORE&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;If you have any questions or require support, feel free to reach out to the &lt;/span&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;Product Strategy Team&lt;/strong&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;Thank you,&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;The Product Strategy Team&lt;/strong&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>SPCFinalSubject</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>SPC Final Validation – {!$Record.Project_product__r.Name} Approved</text>
+    </textTemplates>
+</Flow>

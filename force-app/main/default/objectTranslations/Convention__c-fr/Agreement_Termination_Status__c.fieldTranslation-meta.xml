@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Agreement Termination Status --></label>
     <name>Agreement_Termination_Status__c</name>
     <picklistValues>
         <masterLabel>Approval Rejected</masterLabel>
-        <translation></translation>
+        <translation><!-- Approval Rejected --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Approval Reset</masterLabel>
-        <translation></translation>
+        <translation><!-- Approval Reset --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Approved</masterLabel>
-        <translation></translation>
+        <translation><!-- Approved --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>HOC Approval</masterLabel>
-        <translation></translation>
+        <translation><!-- HOC Approval --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Legal Approval</masterLabel>
-        <translation></translation>
+        <translation><!-- Legal Approval --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Need Submission</masterLabel>
-        <translation></translation>
+        <translation><!-- Need Submission --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Pre-Approval</masterLabel>
-        <translation></translation>
+        <translation><!-- Pre-Approval --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Top Mgmt Approval</masterLabel>
-        <translation></translation>
+        <translation><!-- Top Mgmt Approval --></translation>
     </picklistValues>
 </CustomFieldTranslation>

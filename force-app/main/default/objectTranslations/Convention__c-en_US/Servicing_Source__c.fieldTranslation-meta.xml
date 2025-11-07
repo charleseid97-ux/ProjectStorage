@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Servicing Source --></label>
+    <name>Servicing_Source__c</name>
+    <picklistValues>
+        <masterLabel>Abor</masterLabel>
+        <translation><!-- Abor --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>External or Shadow Abor</masterLabel>
+        <translation><!-- External or Shadow Abor --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Ibor</masterLabel>
+        <translation><!-- Ibor --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Model Portfolio</masterLabel>
+        <translation><!-- Model Portfolio --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

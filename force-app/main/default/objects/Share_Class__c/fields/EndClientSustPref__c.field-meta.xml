@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EndClientSustPref__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>20590_Does_This_Financial_Instrument_Consider_End_Client_Sustainability_Preferences</description>
+    <inlineHelpText>&quot;MIFID: COMMISSION DELEGATED REGULATION (EU) 2021/1253 Art. 1
+IDD: COMMISSION DELEGATED DIRECTIVE (EU) 2021/1257 Art. 2
+
+answer = Yes or Neutral&quot;</inlineHelpText>
+    <label>End Client Sust Pref (20590)</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

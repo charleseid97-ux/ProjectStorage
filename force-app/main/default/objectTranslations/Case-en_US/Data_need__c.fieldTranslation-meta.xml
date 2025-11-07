@@ -1,49 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Please select the data need --></label>
     <name>Data_need__c</name>
     <picklistValues>
         <masterLabel>Bond data</masterLabel>
-        <translation></translation>
+        <translation><!-- Bond data --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Breakdown country</masterLabel>
-        <translation></translation>
+        <translation><!-- Breakdown country --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Breakdown sector</masterLabel>
-        <translation></translation>
+        <translation><!-- Breakdown sector --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>CEPT</masterLabel>
-        <translation></translation>
+        <translation><!-- CEPT --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>EPT</masterLabel>
-        <translation></translation>
+        <translation><!-- EPT --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Economic Sector</masterLabel>
+        <translation><!-- Economic Sector --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Equity Exposure</masterLabel>
-        <translation></translation>
+        <translation><!-- Equity Exposure --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Factsheet Request</masterLabel>
+        <translation><!-- Factsheet Request --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Financial Ratios</masterLabel>
+        <translation><!-- Financial Ratios --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Fixed Income data</masterLabel>
+        <translation><!-- Fixed Income data --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Fund Commentary</masterLabel>
+        <translation><!-- Fund Commentary --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Fund Exposure</masterLabel>
+        <translation><!-- Fund Exposure --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Fund Statistics</masterLabel>
+        <translation><!-- Fund Statistics --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Geographical Breakdown</masterLabel>
+        <translation><!-- Geographical Breakdown --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Holdings</masterLabel>
-        <translation></translation>
+        <translation><!-- Holdings --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>NAV/AuM</masterLabel>
+        <translation><!-- NAV/AuM --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Other</masterLabel>
-        <translation></translation>
+        <translation><!-- Other --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Performance</masterLabel>
+        <translation><!-- Performance --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Performances</masterLabel>
-        <translation></translation>
+        <translation><!-- Performances --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Regulatory Reports</masterLabel>
+        <translation><!-- Regulatory Reports --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Statistics</masterLabel>
-        <translation></translation>
+        <translation><!-- Statistics --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Top 10</masterLabel>
-        <translation></translation>
+        <translation><!-- Top 10 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Top/Bottom Holdings</masterLabel>
+        <translation><!-- Top/Bottom Holdings --></translation>
     </picklistValues>
 </CustomFieldTranslation>

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Role__c</fullName>
-    <externalId>false</externalId>
     <label>Role</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
+        <controllingField>Agreement_Type__c</controllingField>
         <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
@@ -26,6 +26,61 @@
                 <label>Reallocation / IS Contact</label>
             </value>
             <value>
+                <fullName>First Business developper</fullName>
+                <default>false</default>
+                <label>First Business developper</label>
+            </value>
+            <value>
+                <fullName>Current business developper</fullName>
+                <default>false</default>
+                <label>Current business developper</label>
+            </value>
+            <value>
+                <fullName>HOC</fullName>
+                <default>false</default>
+                <label>HOC</label>
+            </value>
+            <value>
+                <fullName>Carmignac legal</fullName>
+                <default>false</default>
+                <label>Carmignac legal</label>
+            </value>
+            <value>
+                <fullName>Partner operation contact</fullName>
+                <default>false</default>
+                <label>Partner operation contact</label>
+            </value>
+            <value>
+                <fullName>Partner distribution contact</fullName>
+                <default>false</default>
+                <label>Partner distribution contact</label>
+            </value>
+            <value>
+                <fullName>Partner FSU and PM contact</fullName>
+                <default>false</default>
+                <label>Partner FSU and PM contact</label>
+            </value>
+            <value>
+                <fullName>Partner senior contact</fullName>
+                <default>false</default>
+                <label>Partner senior contact</label>
+            </value>
+            <value>
+                <fullName>Partner legal &amp; compliance contact</fullName>
+                <default>false</default>
+                <label>Partner legal &amp; compliance contact</label>
+            </value>
+            <value>
+                <fullName>Solution Team project owner</fullName>
+                <default>false</default>
+                <label>Solution Team project owner</label>
+            </value>
+            <value>
+                <fullName>Solution Team PM</fullName>
+                <default>false</default>
+                <label>Solution Team PM</label>
+            </value>
+            <value>
                 <fullName>Accounting Contact</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
@@ -38,5 +93,61 @@
                 <label>Rebate Contact</label>
             </value>
         </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>IS Agreement</controllingFieldValue>
+            <valueName>First Business developper</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IS Agreement</controllingFieldValue>
+            <valueName>Current business developper</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IS Agreement</controllingFieldValue>
+            <valueName>HOC</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IS Agreement</controllingFieldValue>
+            <valueName>Carmignac legal</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IS Agreement</controllingFieldValue>
+            <valueName>Partner operation contact</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IS Agreement</controllingFieldValue>
+            <valueName>Partner distribution contact</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IS Agreement</controllingFieldValue>
+            <valueName>Partner FSU and PM contact</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IS Agreement</controllingFieldValue>
+            <valueName>Partner senior contact</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IS Agreement</controllingFieldValue>
+            <valueName>Partner legal &amp; compliance contact</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IS Agreement</controllingFieldValue>
+            <valueName>Solution Team project owner</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IS Agreement</controllingFieldValue>
+            <valueName>Solution Team PM</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Distribution Agreement</controllingFieldValue>
+            <valueName>Rebate/ IS Contact</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Distribution Agreement</controllingFieldValue>
+            <valueName>Legal Contact</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Distribution Agreement</controllingFieldValue>
+            <valueName>Reallocation / IS Contact</valueName>
+        </valueSettings>
     </valueSet>
 </CustomField>

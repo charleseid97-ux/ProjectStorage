@@ -1,7 +1,7 @@
 <!--
   @description       : 
   @author            : Thanina YAYA
-  @last modified on  : 06-09-2023
+  @last modified on  : 22-03-2024
   @last modified by  : Thanina YAYA
 -->
 <template>
@@ -30,13 +30,43 @@
                     </lightning-input-field>
                   </div>
                 </div>
+                <!-- Rangée 2 : Owner / (spacer) -->
+                <div class="slds-grid slds-gutters slds-grid_vertical-align-center slds-var-p-bottom_small">
+                  <div class="slds-col slds-size_1-of-2">
+                    <template if:true={selectedOwnerId}>
+                      <label class="slds-form-element__label">Owner</label>
+                      <div class="slds-pill-container slds-border_right slds-border_top slds-border_bottom slds-border_left slds-var-p-top_xxx-small" style="border-radius: 0.25rem;min-height: 2rem;">
+                        <lightning-pill
+                          label={selectedOwnerLabel}
+                          onremove={handleRemoveSelectedOwner}>
+                          <lightning-icon icon-name="standard:user" size="medium"></lightning-icon>
+                        </lightning-pill>
+                      </div>
+                    </template>
+
+                    <template if:false={selectedOwnerId}>
+                      <template if:true={allUsers}>
+                        <c-multi-select-search-list
+                          label="Owner"
+                          mono-select="true"
+                          options={allUsers}
+                          value={selectedOwnerId}
+                          onchange={handleOwnerSelect}>
+                        </c-multi-select-search-list>
+                      </template>
+                    </template>
+                  </div>
+
+                  <div class="slds-col slds-size_1-of-2"></div>
+                </div>
+
             <lightning-accordion allow-multiple-sections-open
             active-section-name={openSections} onsectiontoggle={handleSectionToggle}>
             <lightning-accordion-section name="Attende" label="Attendees" >
               <div class="slds-grid slds-gutters slds-grid_vertical-align-center slds-var-p-top_x-small">
                 <div class="slds-col slds-size_1-of-2">
                   <template if:true={externalContacts}>
-                    <c-multi-select-search-list label="Clients" options={externalContacts} value={selectedClients}  onchange={handleClients}>
+                    <c-multi-select-search-list label="Clients" required-label="true" options={externalContacts} value={selectedClients}  onchange={handleClients}>
                     </c-multi-select-search-list>
                   </template>
                 </div>
@@ -67,7 +97,8 @@
             <lightning-accordion-section name="MeetingType" label="Meeting Type" >
               <div class="slds-grid slds-gutters slds-grid_vertical-align-center slds-var-p-top_x-small slds-var-p-bottom_x-small">
                 <div class="slds-col slds-size_1-of-2">
-                  <lightning-input-field field-name="SalesPresentation__c" value={isSalesPres} data-item="SalesPresentation__c"  onchange={handleMeetingType}>
+                  <label for="SalesPres" class="slds-form-element__label">Strategy Presentation</label>
+                  <lightning-input-field id="SalesPres" field-name="SalesPresentation__c" value={isSalesPres} data-item="SalesPresentation__c" variant="label-hidden" onchange={handleMeetingType}>
                   </lightning-input-field>
                 </div>
                 <div class="slds-col slds-size_1-of-2">
@@ -81,7 +112,7 @@
               </template>
               <template if:true={isSalesPres}>
                 <template if:true={allProducts}>
-                  <c-multi-select-search-list label="Products" options={allProducts} value={selectedProducts} more-searching-fields={productSearchFields} onchange={handleProducts}>
+                  <c-multi-select-search-list label="Strategies (Short name or Long name)" options={allProducts} value={selectedProducts} more-searching-fields={productSearchFields} required-label="true" onchange={handleProducts}>
                   </c-multi-select-search-list>
                 </template>
                 <!-- Client Interests pills part -->
@@ -90,19 +121,29 @@
                       <div key={item.id}  class="slds-grid slds-gutters slds-grid_vertical-align-center slds-var-p-top_x-small slds-var-p-bottom_x-small slds-align_absolute-center">
                         <div class="slds-col slds-size_1-of-3 slds-truncate">
                           <li role="presentation" style="height:2rem;width:100%;" >
-                            <lightning-icon icon-name={item.icon} size="medium"></lightning-icon>
-                            <label class="slds-var-p-left_small"><a href={item.href}>{item.label}</a></label>   
+                            <lightning-icon icon-name={item.icon} size={productIconSize} ></lightning-icon>
+                            <label class="slds-var-p-left_small"><a href={item.href}>{item.label}</a></label>
                           </li>
                         </div>
                         <div class="slds-col slds-size_2-of-3 slds-align_absolute-center">
-                          <div class ="slds-grid slds-grid_vertical-align-center slds-box" style="width: 75%;height: 2rem;">
-                            <div class="slds-col slds-size_1-of-3 slds-truncate">
-                              <label>Client interest</label>
+                          
+                          <template if:false={isMobile}>
+                            <div class ="slds-grid slds-grid_vertical-align-center slds-box" style="width:75%;height: 2rem;">
+                              <div class="slds-col slds-size_1-of-3 slds-truncate">
+                                <label>Client interest</label>
+                              </div>
+                              <div class="slds-col slds-size_2-of-3">
+                                <c-stars-rating selected-rating={item.rating}  data-item={item.index} data-id={item.id} size={starIconSize} onratingclick={handleRating}></c-stars-rating>
+                              </div>
                             </div>
-                            <div class="slds-col slds-size_2-of-3">
-                              <c-stars-rating selected-rating={item.rating}  data-item={item.index} data-id={item.id} onratingclick={handleRating}></c-stars-rating>
+                          </template>
+                          <template if:true={isMobile}>
+                            <div class ="slds-grid slds-grid_vertical-align-center slds-box" style="width:100%;height: 2rem;">
+                              <div class="slds-col slds-size_1-of-1">
+                                <c-stars-rating selected-rating={item.rating}  data-item={item.index} data-id={item.id} size={starIconSize} onratingclick={handleRating}></c-stars-rating>
+                              </div>
                             </div>
-                          </div>
+                          </template>
                         </div>
                       </div>
                     </template>
@@ -110,12 +151,32 @@
               </template>
             </lightning-accordion-section>
             <lightning-accordion-section name="Note" label="Notes" >
-              <lightning-input-field id="meetingNote" field-name="Note__c" variant="label-hidden" required onchange={handleFieldChange}>
-              </lightning-input-field>
-              <lightning-input-field field-name=Opportunity__c> </lightning-input-field>
-
+                <lightning-input-field id="meetingNote" field-name="Note__c" variant="label-hidden" required onchange={handleFieldChange}>
+                </lightning-input-field>
+                <!-- Add Opport -->
+                <div class="slds-var-m-top_xx-small slds-var-m-bottom_x-small">
+                  <template if:true={allOpport}>
+                      <template if:true={selectedOpport}>
+                        <label class="slds-form-element__label">Opportunity</label>
+                        <div class="slds-pill-container slds-border_right slds-border_top slds-border_bottom slds-border_left slds-var-p-top_xxx-small" style="border-radius: 0.25rem;min-height: 2rem;">
+                            <lightning-pill
+                                    id={selectedOpport}
+                                    label={selectedOpportLabel}
+                                    onremove={handleRemoveSelectedOpport}
+                            >
+                            <lightning-icon
+                                    icon-name="standard:opportunity"
+                                    size="medium"></lightning-icon>
+                            </lightning-pill>
+                        </div>
+                    </template>
+                    <template if:false={selectedOpport}>
+                      <c-multi-select-search-list label="Opportunity" mono-select="true" options={allOpport} value={selectedOpport} more-searching-fields={oppSearchFields} onchange={handleOpport}>
+                      </c-multi-select-search-list>
+                    </template>
+                  </template>
+                </div>
             </lightning-accordion-section>
-            
             <lightning-accordion-section name="FollowUP" label="Follow UP">
               <lightning-button-icon slot="actions" icon-name="utility:add" variant="brand" alternative-text="New Task" class="slds-var-m-left_xx-small" title="New Task" onclick={handleAddTask}></lightning-button-icon>
               <template for:each={allTasks} for:item="item">
@@ -163,11 +224,8 @@
             </lightning-accordion-section>
             <lightning-accordion-section name="Share" label="Sharing" class="slds-var-p-bottom_medium" >
               <div class="slds-grid slds-gutters slds-grid_vertical-align-center slds-var-p-top_x-small slds-var-p-bottom_small">
-                <div class="slds-col slds-size_1-of-2">
-                  <lightning-input type="checkbox" label="Carmignac Attendees" name="shareCarmi" checked={shareToCarmi} onchange={handleShareCarmi}></lightning-input>
-                </div>
                 <!-- Select other carmi contact -->
-                <div class="slds-col slds-size_1-of-2">
+                <div class="slds-col slds-size_1-of-1">
                   <template if:true={allContactShare}>
                     <c-multi-select-search-list label="Share With" options={allContactShare} value={selectedContactShare} onchange={handleShareOther}>
                     </c-multi-select-search-list>

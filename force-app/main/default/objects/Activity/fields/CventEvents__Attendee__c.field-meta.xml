@@ -3,7 +3,6 @@
     <fullName>CventEvents__Attendee__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Attendee</label>
     <referenceTo>CventEvents__Attendee__c</referenceTo>
     <relationshipLabel>Tasks</relationshipLabel>

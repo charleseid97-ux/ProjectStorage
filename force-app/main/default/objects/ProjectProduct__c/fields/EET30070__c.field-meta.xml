@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EET30070__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>30070_GHG_Emissions_Scope_2_Considered_In_The_Investment_Strategy</description>
+    <label>30070 GHG Emissions Scope 2 Considered</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

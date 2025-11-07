@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : Khadija EL GDAOUNI
+ * @group             : 
+ * @last modified on  : 11-07-2024
+ * @last modified by  : Khadija EL GDAOUNI
+**/
 public class AgreementTriggerHandler implements  ITriggerHandler {
     //Allows unit tests (or other code) to disable this trigger for the transaction
     public static Boolean triggerDisabled = false;
@@ -28,6 +35,7 @@ public class AgreementTriggerHandler implements  ITriggerHandler {
     public void BeforeDelete(Map<Id, SObject> oldItems) { }
 
     public void AfterInsert(Map<Id, SObject> newItems) {
+        SM034_AgreementService.handleRollupCalculate((Map<Id, Convention__c>) newItems, null);
 
         if (PAD.canTrigger('AgreementAfterInsert')) {
             SM034_AgreementService.createDefaultRebateContact((List<Convention__c>) newItems.values());
@@ -48,16 +56,20 @@ public class AgreementTriggerHandler implements  ITriggerHandler {
     public void AfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
 
         SM034_AgreementService.updateChildAgreementWhenTerminated((Map<Id, Convention__c>) newItems, (Map<Id, Convention__c>) oldItems);
-
+		SM034_AgreementService.handleRollupCalculate((Map<Id, Convention__c>) newItems, (Map<Id, Convention__c>) oldItems);
         //method to update the role on agreement role when the code type is changed on the agreement
         if (PAD.canTrigger('updateAgreementRoleWhenCodeTypeChange')) {
             SM034_AgreementService.updateAgreementRoleWhenCodeTypeChange((Map<Id, Convention__c>) newItems, (Map<Id, Convention__c>) oldItems);
         }
     }
 
-    public void AfterDelete(Map<Id, SObject> oldItems) {  }
+    public void AfterDelete(Map<Id, SObject> oldItems) { 
+    SM034_AgreementService.handleRollupCalculate((Map<Id, Convention__c>) oldItems, null);
+    }
 
-    public void AfterUndelete(Map<Id, SObject> oldItems) {  }
+    public void AfterUndelete(Map<Id, SObject> oldItems) { 
+    SM034_AgreementService.handleRollupCalculate((Map<Id, Convention__c>) oldItems, null);
+    }
 
     public Boolean isDisabled() {
         if (PAD.canTrigger('AgreementTrigger')) {

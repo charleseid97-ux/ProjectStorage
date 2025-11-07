@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>TestedBy__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
-    <externalId>false</externalId>
     <label>Tested By</label>
     <referenceTo>User</referenceTo>
     <relationshipName>TicketsTestedBy</relationshipName>

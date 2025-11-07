@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Strategic_News__c</fullName>
     <description>Strategic News Master.</description>
-    <externalId>false</externalId>
     <label>Strategic News</label>
     <referenceTo>StrategicNews__c</referenceTo>
     <relationshipLabel>Strategics News Products</relationshipLabel>

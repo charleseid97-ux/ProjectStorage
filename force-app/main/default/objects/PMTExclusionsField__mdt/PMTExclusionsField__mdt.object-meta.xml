@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This Custom Metadata defines the list of fields to exclude when cloning Product or Shared Class records. It prevents the duplication of fields that are specific to the cloned record (such as Easing Codes, Boomer Codes, etc.) or fields with conditional displays.
+
+Conditional display fields are excluded to avoid data inconsistencies: if a field’s display condition is not met, its value remains hidden to the user but still exists in the record. Copying such fields could result in inaccurate data being exported. By excluding these fields from the cloning process, we ensure that they are correctly filled in by users, not automatically carried over from the source record.</description>
+    <label>PMT - Clone Exclusion Field</label>
+    <pluralLabel>PMT Clone Exclusion Fields</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

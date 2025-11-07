@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Tableau User Action --></label>
+    <name>Tableau_User_Action__c</name>
+    <picklistValues>
+        <masterLabel>Add</masterLabel>
+        <translation><!-- Add --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Modify</masterLabel>
+        <translation><!-- Modify --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Remove</masterLabel>
+        <translation><!-- Remove --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

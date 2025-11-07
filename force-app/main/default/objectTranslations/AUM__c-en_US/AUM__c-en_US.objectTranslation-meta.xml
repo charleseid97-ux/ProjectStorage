@@ -6,15 +6,14 @@
     </caseValues>
     <caseValues>
         <plural>true</plural>
-        <value>AUM</value>
+        <value>AUMs</value>
     </caseValues>
     <layouts>
         <layout>AUD Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
     </layouts>
-    <nameFieldLabel></nameFieldLabel>
     <startsWith>Consonant</startsWith>
 </CustomObjectTranslation>

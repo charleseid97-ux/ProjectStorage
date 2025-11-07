@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Top_Management</name>
+    </customPermissions>
+    <description>The Salesforce Executive Management Permission Set provides privileged and secure access to key business data and insights within Salesforce for top management.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Top Management</label>
+</PermissionSet>

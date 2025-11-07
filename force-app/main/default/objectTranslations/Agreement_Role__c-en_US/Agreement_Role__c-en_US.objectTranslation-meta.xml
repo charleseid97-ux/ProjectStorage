@@ -9,13 +9,13 @@
         <value>Agreements Roles</value>
     </caseValues>
     <fieldSets>
-        <label></label>
+        <label><!-- HierarchyAgreementRole --></label>
         <name>HierarchyAgreementRole</name>
     </fieldSets>
     <layouts>
         <layout>Agreement Role Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
     </layouts>

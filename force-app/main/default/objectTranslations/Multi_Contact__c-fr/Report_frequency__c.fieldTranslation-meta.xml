@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Report frequency --></label>
     <name>Report_frequency__c</name>
     <picklistValues>
         <masterLabel>Annually</masterLabel>
-        <translation></translation>
+        <translation><!-- Annually --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Monthly</masterLabel>
-        <translation></translation>
+        <translation><!-- Monthly --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Quarterly</masterLabel>
-        <translation></translation>
+        <translation><!-- Quarterly --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Weekly</masterLabel>
-        <translation></translation>
+        <translation><!-- Weekly --></translation>
     </picklistValues>
 </CustomFieldTranslation>

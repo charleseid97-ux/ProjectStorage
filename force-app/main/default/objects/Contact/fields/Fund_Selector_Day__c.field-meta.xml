@@ -2,8 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Fund_Selector_Day__c</fullName>
     <defaultValue>false</defaultValue>
-    <externalId>false</externalId>
-    <label>Exclusive Event</label>
+    <label>Exclusive Event (OLD)</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>

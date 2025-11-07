@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help></help>
-    <label></label>
+    <help><!-- Select the language of the outcome --></help>
+    <label><!-- Language --></label>
     <name>Language__c</name>
     <picklistValues>
         <masterLabel>Dutch</masterLabel>
-        <translation></translation>
+        <translation><!-- Dutch --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>English</masterLabel>
-        <translation></translation>
+        <translation><!-- English --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>French</masterLabel>
-        <translation></translation>
+        <translation><!-- French --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>German</masterLabel>
-        <translation></translation>
+        <translation><!-- German --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Italian</masterLabel>
-        <translation></translation>
+        <translation><!-- Italian --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Spanish</masterLabel>
-        <translation></translation>
+        <translation><!-- Spanish --></translation>
     </picklistValues>
 </CustomFieldTranslation>

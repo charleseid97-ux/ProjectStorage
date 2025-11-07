@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- TECH_ApprovalProcess --></label>
     <name>TECH_ApprovalProcess__c</name>
     <picklistValues>
         <masterLabel>Approved</masterLabel>
-        <translation></translation>
+        <translation><!-- Approved --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Complete</masterLabel>
-        <translation></translation>
+        <translation><!-- Complete --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Compliance</masterLabel>
-        <translation></translation>
+        <translation><!-- Compliance --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Global Head of Sales</masterLabel>
-        <translation></translation>
+        <translation><!-- Global Head of Sales --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>HOC</masterLabel>
-        <translation></translation>
+        <translation><!-- HOC --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Investor Services</masterLabel>
-        <translation></translation>
+        <translation><!-- Investor Services --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Legal</masterLabel>
-        <translation></translation>
+        <translation><!-- Legal --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Rejected</masterLabel>
-        <translation></translation>
+        <translation><!-- Rejected --></translation>
     </picklistValues>
 </CustomFieldTranslation>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- This is the weight associated to an index as a reference indicator for the fund (in percentage). If the fund benchmark is a composite, each index will be associated to the fund with a percentage &lt; 100% and the sum of the lines linked to the fund equal to 100%. If the benchmark is a pure index, only one line will be created with a weight of 100%. --></help>
+    <label><!-- Weight --></label>
+    <name>Weight__c</name>
+</CustomFieldTranslation>

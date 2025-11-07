@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help></help>
-    <label></label>
+    <help><!-- Date/Time of last interaction with a contact from the company. Filled in with process builder when &quot;last interaction date&quot; is changed in a contact --></help>
+    <label><!-- Last interaction with contact --></label>
     <name>Last_interaction_with_contact__c</name>
 </CustomFieldTranslation>

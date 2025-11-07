@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Result --></label>
     <name>RetestResult__c</name>
     <picklistValues>
         <masterLabel>KO</masterLabel>
-        <translation></translation>
+        <translation><!-- KO --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>N.C.</masterLabel>
-        <translation></translation>
+        <translation><!-- N.C. --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>OK</masterLabel>
-        <translation></translation>
+        <translation><!-- OK --></translation>
     </picklistValues>
 </CustomFieldTranslation>

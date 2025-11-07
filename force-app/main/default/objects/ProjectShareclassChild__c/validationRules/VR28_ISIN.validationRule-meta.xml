@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR28_ISIN</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  NOT($User.BypassValidationRules__c),
+  NOT(ISBLANK(ISIN__c)),
+  NOT(REGEX(ISIN__c, &quot;^[A-Z]{2}[A-Z0-9]{9}[0-9]$&quot;))
+)</errorConditionFormula>
+    <errorMessage>The ISIN must consist of 12 characters: two uppercase letters, followed by nine alphanumeric characters, and ending with a single digit.</errorMessage>
+</ValidationRule>

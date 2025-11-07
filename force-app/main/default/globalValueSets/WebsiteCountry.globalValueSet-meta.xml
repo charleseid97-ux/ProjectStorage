@@ -70,6 +70,16 @@
         <default>false</default>
         <label>Portugal</label>
     </customValue>
+    <customValue>
+        <fullName>SG</fullName>
+        <default>false</default>
+        <label>Singapore</label>
+    </customValue>
+    <customValue>
+        <fullName>FI</fullName>
+        <default>false</default>
+        <label>Finland</label>
+    </customValue>
     <masterLabel>Website Country</masterLabel>
     <sorted>false</sorted>
 </GlobalValueSet>

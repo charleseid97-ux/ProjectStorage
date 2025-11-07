@@ -3,7 +3,6 @@
     <fullName>Last_Newsletter_Opened__c</fullName>
     <description>Tracks last opened newsletter. Filled-in with process builder based on campaign member when status is &quot;Opened&quot;</description>
     <encryptionScheme>None</encryptionScheme>
-    <externalId>false</externalId>
     <label>Last Newsletter Opened</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>

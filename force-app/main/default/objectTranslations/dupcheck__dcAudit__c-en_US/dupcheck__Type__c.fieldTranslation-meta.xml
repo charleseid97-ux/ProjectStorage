@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Type --></label>
     <name>dupcheck__Type__c</name>
     <picklistValues>
         <masterLabel>Convert</masterLabel>
-        <translation></translation>
+        <translation><!-- Convert --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Direct</masterLabel>
-        <translation></translation>
+        <translation><!-- Direct --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Merge</masterLabel>
-        <translation></translation>
+        <translation><!-- Merge --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Prevention</masterLabel>
-        <translation></translation>
+        <translation><!-- Prevention --></translation>
     </picklistValues>
 </CustomFieldTranslation>

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Type of communication --></label>
     <name>Type_of_communication__c</name>
     <picklistValues>
         <masterLabel>Alert Website</masterLabel>
-        <translation></translation>
+        <translation><!-- Alert Website --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Data Solution</masterLabel>
-        <translation></translation>
+        <translation><!-- Data Solution --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Postal Service</masterLabel>
-        <translation></translation>
+        <translation><!-- Postal Service --></translation>
     </picklistValues>
 </CustomFieldTranslation>

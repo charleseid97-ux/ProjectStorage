@@ -1,0 +1,148 @@
+<template>
+    <lightning-card class="custom-card">
+        <div if:true={isLoaded} class="slds-is-relative">
+            <lightning-spinner alternative-text="Loading...">
+            </lightning-spinner>
+        </div>
+        
+        <div class="slds-grid slds-p-around_medium slds-clearfix custom-header">
+            <div class="slds-col_bump-left">
+               <template if:true={showNewShareclassButton}>
+                    <lightning-button label="New Shareclass" class="slds-m-right_small" variant="brand" onclick={openSelectionModal}></lightning-button>
+                </template>
+            </div>
+        </div>
+        
+        <template if:true={withSelectedFields}>
+            <div class="slds-grid slds-p-around_medium slds-clearfix custom-header">
+                <div class="slds-text-heading_medium">
+                    <strong>Share Classes To Modify </strong>
+                </div>
+            </div>
+            <div>
+                <lightning-datatable
+                    key-field="Id"
+                    data={shareClassWithSelectedFields}
+                    columns={columnsWithDelete}
+                    hide-checkbox-column="true"
+                    onrowaction={handleRowAction}>
+                </lightning-datatable>
+            </div>
+        </template>
+        
+        <template if:true={withoutSelectedFields}>
+            <div class="slds-grid slds-p-around_medium slds-clearfix custom-header">
+                <div class="slds-text-heading_medium">
+                    <strong>Share Classes</strong>
+                </div>
+            </div>
+            <div>
+                <lightning-datatable
+                    key-field="Id"
+                    data={shareClassWithoutSelectedFields}
+                    columns={columnsWithDelete}
+                    hide-checkbox-column="true"
+                    onrowaction={handleRowAction}>
+                </lightning-datatable>
+            </div>
+        </template>
+    </lightning-card>
+ 
+    <template if:true={isSelectionModalOpen}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_small">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header custom-modal-header">
+                    <h2 class="slds-text-heading_medium">Choose Creation Method</h2>
+                    <button class="slds-button slds-button_icon slds-modal__close" title="Close" onclick={closeSelectionModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close"></lightning-icon>
+                    </button>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning-radio-group name="shareclassCreationType" label="Select an option" options={creationOptions} value={selectedCreationOption} onchange={handleCreationSelection}>
+                    </lightning-radio-group>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Cancel" onclick={closeSelectionModal}></lightning-button>
+                    <lightning-button label="Next" variant="brand" onclick={handleCreationNext}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <template if:true={isFieldSelectorModalOpen}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_medium">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header custom-modal-header">
+                    <h2 class="slds-text-heading_medium">Select Fields</h2>
+                    <button class="slds-button slds-button_icon slds-modal__close" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close"></lightning-icon>
+                    </button>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <c-field-selector object-name="Parent_Share_Class__c" record-id={selectedShareclassId}></c-field-selector>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Cancel" onclick={closeModal}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_small">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header custom-modal-header">
+                    <h2 class="slds-text-heading_medium">Create New Shareclass</h2>
+                    <button class="slds-button slds-button_icon slds-modal__close" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close"></lightning-icon>
+                    </button>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    The Shareclass name will be automatically added
+                    <lightning-combobox label="Type" name="Type__c" value={newShareclass.Type__c} options={picklistValues.Type__c} onchange={handleFieldChange} required></lightning-combobox>
+                    <lightning-combobox label="Currency" name="Currency__c" value={newShareclass.Currency__c} options={picklistValues.Currency__c} onchange={handleFieldChange} required></lightning-combobox>
+                    <lightning-combobox label="Dividend Policy" name="DividendPolicy__c" value={newShareclass.DividendPolicy__c} options={picklistValues.DividendPolicy__c} onchange={handleFieldChange} required></lightning-combobox>
+                    <lightning-combobox label="Dividend Frequency" name="DividendFrequency__c" value={newShareclass.DividendFrequency__c} options={picklistValues.DividendFrequency__c} onchange={handleFieldChange} required></lightning-combobox>
+                     <lightning-combobox label="Currency Hedging" name="CurrencyHedging__c" value={newShareclass.CurrencyHedging__c} options={picklistValues.CurrencyHedging__c} onchange={handleFieldChange} required></lightning-combobox>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Cancel" onclick={closeModal}></lightning-button>
+                    <lightning-button label="Save" variant="brand" onclick={saveShareclass} disabled={isSavingShareclass}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+ 
+    <!-- Vérifie précisément : composant parent ShareclassNavigator -->
+    <template if:true={isLookupModalOpen}>
+        <section role="dialog" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header custom-modal-header">
+                    <h2 class="slds-text-heading_medium">{lookupModalTitle}</h2>
+                    <button class="slds-button slds-button_icon slds-modal__close" title="Close" onclick={closeLookupModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close"></lightning-icon>
+                    </button>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <!-- ✅ UNIQUEMENT ce composant doit rester -->
+                    <c-custom-shareclass-lookup 
+                        object-api-name={lookupObjectApiName} 
+                        onrecordselected={handleLookupSelection} 
+                        record-id={recordId}>
+                    </c-custom-shareclass-lookup>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Cancel" onclick={closeLookupModal}></lightning-button>
+                    <lightning-button label="Clone" variant="brand" onclick={cloneShareclasses} disabled={isCloning}>
+                    </lightning-button>
+                    <template if:true={isCloning}>
+                        <lightning-spinner alternative-text="Cloning..." size="small"></lightning-spinner>
+                    </template>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

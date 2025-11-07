@@ -1,57 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Type --></label>
     <name>dupcheck__Type__c</name>
     <picklistValues>
         <masterLabel>BULK_INSERT</masterLabel>
-        <translation></translation>
+        <translation><!-- BULK_INSERT --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>BULK_UPDATE</masterLabel>
-        <translation></translation>
+        <translation><!-- BULK_UPDATE --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>RV_ANONYMOUS</masterLabel>
-        <translation></translation>
+        <translation><!-- RV_ANONYMOUS --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>RV_BULK_API</masterLabel>
-        <translation></translation>
+        <translation><!-- RV_BULK_API --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>RV_REST</masterLabel>
-        <translation></translation>
+        <translation><!-- RV_REST --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>RV_RUNTEST_ASYNC</masterLabel>
-        <translation></translation>
+        <translation><!-- RV_RUNTEST_ASYNC --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>RV_RUNTEST_DEPLOY</masterLabel>
-        <translation></translation>
+        <translation><!-- RV_RUNTEST_DEPLOY --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>RV_RUNTEST_SYNC</masterLabel>
-        <translation></translation>
+        <translation><!-- RV_RUNTEST_SYNC --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>RV_SOAP</masterLabel>
-        <translation></translation>
+        <translation><!-- RV_SOAP --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>RV_SYNCHRONOUS</masterLabel>
-        <translation></translation>
+        <translation><!-- RV_SYNCHRONOUS --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>RV_WEB2LEAD</masterLabel>
-        <translation></translation>
+        <translation><!-- RV_WEB2LEAD --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>SINGLE_INSERT</masterLabel>
-        <translation></translation>
+        <translation><!-- SINGLE_INSERT --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>SINGLE_UPDATE</masterLabel>
-        <translation></translation>
+        <translation><!-- SINGLE_UPDATE --></translation>
     </picklistValues>
 </CustomFieldTranslation>

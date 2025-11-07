@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR07_GIINSponsorCodeMandatory</fullName>
+    <active>true</active>
+    <description>Display &amp; Mandatory only if FATCAClassification = &quot;Reporting Model 1 FFI&quot;</description>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+$Permission.PRPTax ,
+RecordType.DeveloperName = &apos;SetUp&apos;,
+ISPICKVAL(FATCAClassification__c, &apos;Reporting Model 1 FFI&apos;),
+ISBLANK(GIINSponsorCode__c)
+				)</errorConditionFormula>
+    <errorDisplayField>FATCAClassification__c</errorDisplayField>
+    <errorMessage>If FATCAClassification = &quot;Reporting Model 1 FFI&quot;, please provide a value for GIIN Sponsor Code.</errorMessage>
+</ValidationRule>

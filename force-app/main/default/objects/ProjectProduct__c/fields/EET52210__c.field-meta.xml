@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EET52210__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>52210_Financial_Instrument_OECD_Guidelines_Exclusion</description>
+    <label>52210 Financial Instrument OECD Guideli</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

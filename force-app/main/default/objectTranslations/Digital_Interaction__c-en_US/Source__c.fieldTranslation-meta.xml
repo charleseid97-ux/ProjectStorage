@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Source --></label>
+    <name>Source__c</name>
+    <picklistValues>
+        <masterLabel>Account Engagement</masterLabel>
+        <translation><!-- Account Engagement --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CSN</masterLabel>
+        <translation><!-- CSN --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Cvent</masterLabel>
+        <translation><!-- Cvent --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Livestorm</masterLabel>
+        <translation><!-- Livestorm --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Mandrill</masterLabel>
+        <translation><!-- Mandrill --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Matomo</masterLabel>
+        <translation><!-- Matomo --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Oktopost</masterLabel>
+        <translation><!-- Oktopost --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Preference Center</masterLabel>
+        <translation><!-- Preference Center --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Prospace</masterLabel>
+        <translation><!-- Prospace --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Seismic</masterLabel>
+        <translation><!-- Seismic --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -3,7 +3,7 @@
     <fullName>Contact_Cannot_update_Proposed_Owner</fullName>
     <active>true</active>
     <errorConditionFormula>AND(
-Bypass_Apex__c = false,
+NOT($User.BypassValidationRules__c),
 NOT(ISNEW()),
 ISCHANGED( Proposed_Contact_Owner__c ),
 NOT(ISBLANK(Proposed_Contact_Owner__c)),

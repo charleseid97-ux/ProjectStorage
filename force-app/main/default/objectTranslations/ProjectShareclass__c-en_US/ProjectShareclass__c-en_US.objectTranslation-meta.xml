@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>ProjectShareclass</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>ProjectShareclasses</value>
+    </caseValues>
+    <layouts>
+        <layout>ProjectShareclass Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Distribution --></label>
+            <section>Distribution</section>
+        </sections>
+        <sections>
+            <label><!-- General Details --></label>
+            <section>General Details</section>
+        </sections>
+        <sections>
+            <label><!-- Identifiers --></label>
+            <section>Identifiers</section>
+        </sections>
+        <sections>
+            <label><!-- Pricing / Valuation / Dealing --></label>
+            <section>Pricing / Valuation / Dealing</section>
+        </sections>
+        <sections>
+            <label><!-- Regulation --></label>
+            <section>Regulation</section>
+        </sections>
+        <sections>
+            <label><!-- Reporting --></label>
+            <section>Reporting</section>
+        </sections>
+        <sections>
+            <label><!-- Risk --></label>
+            <section>Risk</section>
+        </sections>
+        <sections>
+            <label><!-- Shareclass Form --></label>
+            <section>Shareclass Form</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

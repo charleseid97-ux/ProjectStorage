@@ -1,53 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Type --></label>
     <name>CventEvents__Type__c</name>
     <picklistValues>
         <masterLabel>FileUpload</masterLabel>
-        <translation></translation>
+        <translation><!-- FileUpload --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>MatrixMultiPerRow</masterLabel>
-        <translation></translation>
+        <translation><!-- MatrixMultiPerRow --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>MatrixRating</masterLabel>
-        <translation></translation>
+        <translation><!-- MatrixRating --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>MatrixSinglePerRow</masterLabel>
-        <translation></translation>
+        <translation><!-- MatrixSinglePerRow --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>MultiChoice</masterLabel>
-        <translation></translation>
+        <translation><!-- MultiChoice --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>NetPromoter</masterLabel>
-        <translation></translation>
+        <translation><!-- NetPromoter --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>OpenEndedDateTime</masterLabel>
-        <translation></translation>
+        <translation><!-- OpenEndedDateTime --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>OpenEndedNumeric</masterLabel>
-        <translation></translation>
+        <translation><!-- OpenEndedNumeric --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>OpenEndedTextCommentBox</masterLabel>
-        <translation></translation>
+        <translation><!-- OpenEndedTextCommentBox --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>OpenEndedTextOneLine</masterLabel>
-        <translation></translation>
+        <translation><!-- OpenEndedTextOneLine --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Rating</masterLabel>
-        <translation></translation>
+        <translation><!-- Rating --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>SingleChoice</masterLabel>
-        <translation></translation>
+        <translation><!-- SingleChoice --></translation>
     </picklistValues>
 </CustomFieldTranslation>

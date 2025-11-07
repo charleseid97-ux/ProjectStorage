@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>NumberofMandatoryDocumentsUploaded__c</fullName>
-    <externalId>false</externalId>
     <label>Number of Mandatory Documents Uploaded</label>
     <summaryFilterItems>
         <field>KYD_Document__c.Status__c</field>
         <operation>equals</operation>
-        <value>Uploaded</value>
+        <value>Uploaded, Override</value>
     </summaryFilterItems>
     <summaryFilterItems>
         <field>KYD_Document__c.Mandatory__c</field>

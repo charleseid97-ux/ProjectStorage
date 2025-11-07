@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Last Campaign Sync Status --></label>
     <name>BrightTALK__Last_Campaign_Sync_Status__c</name>
     <picklistValues>
         <masterLabel>Complete</masterLabel>
-        <translation></translation>
+        <translation><!-- Complete --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>In-Progress Callout Limited</masterLabel>
-        <translation></translation>
+        <translation><!-- In-Progress Callout Limited --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>In-Progress Rate Limited</masterLabel>
-        <translation></translation>
+        <translation><!-- In-Progress Rate Limited --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Not Synced</masterLabel>
-        <translation></translation>
+        <translation><!-- Not Synced --></translation>
     </picklistValues>
 </CustomFieldTranslation>

@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Meeting_Note__c</fullName>
     <deleteConstraint>Restrict</deleteConstraint>
-    <externalId>false</externalId>
     <label>Meeting Note</label>
     <referenceTo>Meeting_Note__c</referenceTo>
     <relationshipLabel>Strategic News</relationshipLabel>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Instrument Type --></label>
+    <name>InstrumentType__c</name>
+    <picklistValues>
+        <masterLabel>CFD</masterLabel>
+        <translation><!-- CFD --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ETD (Exchange Traded Derivatives)</masterLabel>
+        <translation><!-- ETD (Exchange Traded Derivatives) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Forward Fx</masterLabel>
+        <translation><!-- Forward Fx --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Listed vanilla instrument</masterLabel>
+        <translation><!-- Listed vanilla instrument --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>OTC (bilateral)</masterLabel>
+        <translation><!-- OTC (bilateral) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>OTC (clearer)</masterLabel>
+        <translation><!-- OTC (clearer) --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

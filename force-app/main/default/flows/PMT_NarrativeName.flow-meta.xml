@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>64.0</apiVersion>
+    <decisions>
+        <name>TypeDispatcher</name>
+        <label>Type Dispatcher</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>BiographyType</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Biography</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Biography_Name</targetReference>
+            </connector>
+            <label>Biography Type</label>
+        </rules>
+        <rules>
+            <name>ESGType</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>ESG</stringValue>
+                </rightValue>
+            </conditions>
+            <label>ESG Type</label>
+        </rules>
+        <rules>
+            <name>Risk_Type</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Risk</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Narrative_Name_Risk</targetReference>
+            </connector>
+            <label>Risk Type</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <formulas>
+        <name>FormattedBiographyName</name>
+        <dataType>String</dataType>
+        <expression>&quot;Biography – &quot; &amp; {!$Record.Fund_Manager__r.FullName__c} &amp; &quot; – &quot; &amp;
+CASE(
+  {!LanguageCodeText},
+  &quot;Dutch&quot;, &quot;NL&quot;,
+  &quot;English&quot;, &quot;EN&quot;,
+  &quot;French&quot;, &quot;FR&quot;,
+  &quot;German&quot;, &quot;DE&quot;,
+  &quot;Italian&quot;, &quot;IT&quot;,
+  &quot;Portuguese&quot;, &quot;PT&quot;,
+  &quot;Spanish&quot;, &quot;ES&quot;,
+  {!LanguageCodeText}
+) &amp; &quot; – &quot; &amp; TEXT($Record.SubType__c)</expression>
+    </formulas>
+    <formulas>
+        <name>FormattedESGName</name>
+        <dataType>String</dataType>
+        <expression>&quot;Narrative ESG – &quot; &amp; TEXT($Record.SubType__c)</expression>
+    </formulas>
+    <formulas>
+        <description>Builds the formatted name of the Narrative</description>
+        <name>FormattedNarrativeName</name>
+        <dataType>String</dataType>
+        <expression>{!$Record.Fund_Manager__c} &amp; &quot; &quot; &amp; TEXT({!$Record.Language__c}) &amp; &quot; Bio&quot;</expression>
+    </formulas>
+    <formulas>
+        <name>FormattedRiskName</name>
+        <dataType>String</dataType>
+        <expression>&quot;Narrative Risk – &quot; &amp; TEXT($Record.SubType__c)</expression>
+    </formulas>
+    <formulas>
+        <name>LanguageCodeText</name>
+        <dataType>String</dataType>
+        <expression>TEXT($Record.Language__c)</expression>
+    </formulas>
+    <interviewLabel>PMT_NarrativeName {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>PMT - AutoName Narratives</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_Biography_Name</name>
+        <label>Update Narrative Name - Biography</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>FormattedBiographyName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Narrative_Name_Risk</name>
+        <label>Update Narrative Name – Risk</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>FormattedRiskName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>TypeDispatcher</targetReference>
+        </connector>
+        <object>Narrative__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

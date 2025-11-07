@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LyytiURL__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF( ISBLANK(LyytiId__c) , &quot;&quot;, HYPERLINK(&quot;https://portal.lyyti.fi/t/?page=participant_edit&amp;eid=&quot;+  Campaign.LyytiId__c  +&quot;&amp;uid=&quot; +  LyytiId__c + &quot;&amp;readonly=true&quot;, &quot;View in Lyyti&quot; , &quot;_blank&quot;))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Lyyti URL</label>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

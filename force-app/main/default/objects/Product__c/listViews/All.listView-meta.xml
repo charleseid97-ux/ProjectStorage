@@ -5,6 +5,8 @@
     <columns>Product_Name__c</columns>
     <columns>CREATED_DATE</columns>
     <columns>RECORDTYPE</columns>
+    <columns>Asset_Class__c</columns>
+    <columns>Validity__c</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
 </ListView>

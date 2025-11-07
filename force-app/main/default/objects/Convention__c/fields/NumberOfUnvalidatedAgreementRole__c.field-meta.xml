@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>NumberOfUnvalidatedAgreementRole__c</fullName>
     <description>List the number of un validated agreement role</description>
-    <externalId>false</externalId>
     <label>Number of Unvalidated Agreement Role</label>
     <summaryFilterItems>
         <field>Agreement_Role__c.Legal_Role_Validation__c</field>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>TECH_ParentNewsletterOptOut__c</fullName>
-    <externalId>false</externalId>
     <formula>IF(ISBLANK(LeadId) , Contact.Contact_Opt_out__c, Lead.Prospect_Opt_out__c  )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>TECH_ParentNewsletterOptOut</label>

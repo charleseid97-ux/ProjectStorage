@@ -6,7 +6,9 @@
     <errorUrl>https://carmignac-crm.my.salesforce.com/projRes/linkedin-impl/oauth/error.html</errorUrl>
     <friendlyName>LinkedIn Sales Navigator</friendlyName>
     <includeOrgIdInIdentifier>false</includeOrgIdInIdentifier>
+    <isPkceEnabled>false</isPkceEnabled>
     <providerType>LinkedIn</providerType>
+    <requireMfa>false</requireMfa>
     <sendAccessTokenInHeader>false</sendAccessTokenInHeader>
     <sendClientCredentialsInHeader>false</sendClientCredentialsInHeader>
     <sendSecretInApis>true</sendSecretInApis>

@@ -5,278 +5,9 @@
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
     <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
+    <isOmniPinnedViewEnabled>false</isOmniPinnedViewEnabled>
     <label>Service Console</label>
     <navType>Console</navType>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - System Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Top Management</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Top Management</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Contributor</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Business Developer</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Business Developer</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Campaign Automation</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Campaign Automation</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Contributor</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - CRM</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - CRM</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Event</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Event</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Interface</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Interface</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Interface Etouches</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Interface Etouches</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Investment Solutions</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Investment Solutions</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Investor Services</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Investor Services</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Legal and Compliance</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Legal and Compliance</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Market Intelligence</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Market Intelligence</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Standard User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Standard User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - System Administrator</profile>
-    </profileActionOverrides>
     <profileActionOverrides>
         <actionName>Tab</actionName>
         <content>Carmignac_Administrator_Home_Page</content>
@@ -291,7 +22,7 @@
         <formFactor>Large</formFactor>
         <pageOrSobjectType>standard-home</pageOrSobjectType>
         <type>Flexipage</type>
-        <profile>Standard</profile>
+        <profile>Carmignac - Standard User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>Tab</actionName>
@@ -299,7 +30,7 @@
         <formFactor>Large</formFactor>
         <pageOrSobjectType>standard-home</pageOrSobjectType>
         <type>Flexipage</type>
-        <profile>Carmignac - Standard User</profile>
+        <profile>Standard</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>Tab</actionName>
@@ -308,14 +39,6 @@
         <pageOrSobjectType>standard-home</pageOrSobjectType>
         <type>Flexipage</type>
         <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>Tab</actionName>
-        <content>Carmignac_CRM_Home_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>standard-home</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Carmignac - CRM</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>Tab</actionName>
@@ -331,15 +54,267 @@
         <formFactor>Large</formFactor>
         <pageOrSobjectType>standard-home</pageOrSobjectType>
         <type>Flexipage</type>
-        <profile>Carmignac - Top Management</profile>
+        <profile>Carmignac - Business Developer</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>Tab</actionName>
-        <content>Carmignac_HOC_BD_Home_Page</content>
+        <content>Carmignac_CRM_Home_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>standard-home</pageOrSobjectType>
         <type>Flexipage</type>
+        <profile>Carmignac - CRM</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Work_Together_Process_Record_PageDPM</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Data_Performance_Management_Request</recordType>
+        <type>Flexipage</type>
         <profile>Carmignac - Business Developer</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Work_Together_Process_Record_PageDPM</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Data_Performance_Management_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Business Developer</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Work_Together_Process_Record_PageDPM</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Data_Performance_Management_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Campaign Automation</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Work_Together_Process_Record_PageDPM</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Data_Performance_Management_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Campaign Automation</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Work_Together_Process_Record_PageDPM</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Data_Performance_Management_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Contributor</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Work_Together_Process_Record_PageDPM</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Data_Performance_Management_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Contributor</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Work_Together_Process_Record_PageDPM</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Data_Performance_Management_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - CRM</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Work_Together_Process_Record_PageDPM</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Data_Performance_Management_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - CRM</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Work_Together_Process_Record_PageDPM</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Data_Performance_Management_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Event</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Work_Together_Process_Record_PageDPM</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Data_Performance_Management_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Event</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Work_Together_Process_Record_PageDPM</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Data_Performance_Management_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Interface</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Work_Together_Process_Record_PageDPM</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Data_Performance_Management_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Interface</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Work_Together_Process_Record_PageDPM</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Data_Performance_Management_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Interface Etouches</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Work_Together_Process_Record_PageDPM</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Data_Performance_Management_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Interface Etouches</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Work_Together_Process_Record_PageDPM</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Data_Performance_Management_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Investment Solutions</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Work_Together_Process_Record_PageDPM</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Data_Performance_Management_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Investment Solutions</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Work_Together_Process_Record_PageDPM</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Data_Performance_Management_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Investor Services</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Work_Together_Process_Record_PageDPM</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Data_Performance_Management_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Investor Services</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Work_Together_Process_Record_PageDPM</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Data_Performance_Management_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Legal and Compliance</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Work_Together_Process_Record_PageDPM</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Data_Performance_Management_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Legal and Compliance</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Work_Together_Process_Record_PageDPM</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Data_Performance_Management_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Market Intelligence</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Work_Together_Process_Record_PageDPM</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Data_Performance_Management_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Market Intelligence</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Work_Together_Process_Record_PageDPM</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Data_Performance_Management_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Standard User</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Work_Together_Process_Record_PageDPM</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Data_Performance_Management_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Standard User</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Work_Together_Process_Record_PageDPM</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Data_Performance_Management_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Work_Together_Process_Record_PageDPM</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Data_Performance_Management_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Work_Together_Process_Record_PageDPM</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Data_Performance_Management_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Work_Together_Process_Record_PageDPM</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Data_Performance_Management_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
     </profileActionOverrides>
     <setupExperience>service</setupExperience>
     <tabs>standard-Case</tabs>
@@ -355,6 +330,7 @@
     <tabs>Data_Solutions_Report_Type__c</tabs>
     <tabs>Salesforce_update__c</tabs>
     <tabs>NDA__c</tabs>
+    <tabs>ShareclassRegistration_Website__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>LightningService_UtilityBar</utilityBar>
     <workspaceConfig>
@@ -372,6 +348,9 @@
         </mappings>
         <mappings>
             <tab>Salesforce_update__c</tab>
+        </mappings>
+        <mappings>
+            <tab>ShareclassRegistration_Website__c</tab>
         </mappings>
         <mappings>
             <tab>Template_Etouches__c</tab>

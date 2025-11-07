@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Nb_Of_Required_FieldsEng__c</fullName>
+    <label>Nb Of Required Fields Eng</label>
+    <summarizedField>ProjectShareclassChild__c.NbOfFieldsGoal__c</summarizedField>
+    <summaryFilterItems>
+        <field>ProjectShareclassChild__c.TECH_Childtype__c</field>
+        <operation>equals</operation>
+        <value>Engineering</value>
+    </summaryFilterItems>
+    <summaryForeignKey>ProjectShareclassChild__c.ProjectShareclasses__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

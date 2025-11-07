@@ -2,98 +2,105 @@
 /**
  * @description       : 
  * @author            : Thanina YAYA
- * @last modified on  : 28-09-2023
+ * @last modified on  : 29-03-2024
  * @last modified by  : Thanina YAYA
 **/
 import { LightningElement, track, api, wire } from 'lwc';
 //standard LWC services
 import { getRecord } from 'lightning/uiRecordApi';
+import Id from '@salesforce/user/Id';
+import UserName from '@salesforce/schema/User.Name';
 import { CurrentPageReference } from 'lightning/navigation';
 import { CloseActionScreenEvent } from 'lightning/actions';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import FORM_FACTOR from '@salesforce/client/formFactor';
 
 //apex methods
 import createRelatedObjects from '@salesforce/apex/CTL_MeetingNotes.createRelatedObjects';
 import getContacts from '@salesforce/apex/CTL_MeetingNotes.getNeededContacts';
 import getProducts from '@salesforce/apex/CTL_MeetingNotes.getProducts';
-import getOpportunities from '@salesforce/apex/CTL_MeetingNotes.getOpportunities';
 import getUsers from '@salesforce/apex/CTL_MeetingNotes.getUsers';
 import getEmailTemplate from '@salesforce/apex/CTL_MeetingNotes.getEmailTemplate';
 import sendEmailMeeting from '@salesforce/apex/CTL_MeetingNotes.sendEmailMeeting';
 import getOrgId from '@salesforce/apex/CTL_MeetingNotes.getOrgId';
 import getClientContacts from '@salesforce/apex/CTL_MeetingNotes.getClientContacts';
+import getOpportunities from '@salesforce/apex/CTL_MeetingNotes.getOpportunities';
+import getOpenOpportunities from '@salesforce/apex/CTL_MeetingNotes.getOpenOpportunities';
 
 //custom labels
 import MissingClientProduct from '@salesforce/label/c.MissingClientProduct';
 import MissingProductRating from '@salesforce/label/c.MissingProductRating';
 import MissingTaskInfos from '@salesforce/label/c.MissingTaskInfos';
 import MissingDataTitle from '@salesforce/label/c.MissingDataTitle';
+import userId from '@salesforce/user/Id';
 
 
 export default class MeetingNote extends LightningElement {
 
     @api recordId;
     @api objectApiName;
-    @api dispLwc = false; // used in order to display this LWC in new tab app page
+    @api quickActionName='';
 
     @track currentContact={};
     @track internalContacts; //list of options to choose.
     @track externalContacts;
     @track allProducts;
-    @track relatedOpportunity;
-    @track allOpportunities;
     @track allUsers;
     @track allTasks = [{Description__c : '', ActivityDate:'', OwnerId:'',OwnerLabel:'',Index:0, IsDelete: false}];
     @track allContactShare;
+    @track allOpport;
     @track mapContacts = {};
     @track mapProducts = {};
-    @track mapOpportunities = {};
     @track mapUsers = {};
     @track selectedClients = [];
     @track selectedInternals = [];
     @track selectedProducts = [];
-    @track selectedOpportunities;
     @track selectedContactShare =[];
     @track clientPills=[];
     @track internalPills=[];
     @track clientInterest = [];
-    @track oppMeetingNote = []; //to delete
     @track contactPills =[];
     @track meetingNote = {id :'' , Name:'', Date__c: new Date()};
     @track emailTemplate;
     @track prevSelectedCont = [];
     @track allSelectedClients = [];
-
     @track taskObjects = [];
+    @track currentUser;
+    @track selectedOwnerId;      
+    @track selectedOwnerLabel='';
+
     openSections = ["Attende","MeetingType","Note","FollowUP","Share"];
     meetingDate = new Date();
     meetingName = '';
-    oppportunityId = '';
+    selectedOpport;
+    selectedOpportLabel = '';
     isSalesPres = true;
     isRelatMgt = false;
     meetingTopic = '';
     meetingNotes = '';
     companyName='';
     companyOwner={};
-    quickActionName='';
     isLoading = true;
     isrendered = false;
-    shareToCarmi = true;
     orgId = ''; //Used for rating image in assets
     emailTempName = 'MeetingNoteEmail'; //Email template Name
     productSearchFields = ['code'];
-    oppSearchFields = ['Name'];
+    oppSearchFields = ['accountName'];
     clientSearchKey = '';
     currentIter = 1;
     nextIter = 1;
     errorMessage = '';
+    userLoaded = false;
+    internalsLoaded = false;
+    
 
     get title(){
-        return ((this.quickActionName.indexOf('NewMeetingNote') > -1)?'Meeting Note':(this.quickActionName.indexOf('NewCallNote') > -1)?'Call Note':'Event Note');
+        return (((this.quickActionName.indexOf('NewMeetingNote') > -1) || (this.quickActionName.indexOf('MeetingNoteMobile') > -1)) ?'Meeting Note':((this.quickActionName.indexOf('NewCallNote') > -1) || (this.quickActionName.indexOf('CallNoteMobile') > -1))?'Call Note':'Event Note');
     }
     get meetingType(){
-        return ((this.quickActionName.indexOf('NewMeetingNote') > -1)?'Meeting':(this.quickActionName.indexOf('NewCallNote') > -1)?'Call':'Event');
+        return (((this.quickActionName.indexOf('NewMeetingNote') > -1) || (this.quickActionName.indexOf('MeetingNoteMobile') > -1))?'Meeting':((this.quickActionName.indexOf('NewCallNote') > -1) || (this.quickActionName.indexOf('CallNoteMobile') > -1))?'Call':'Event');
     }
+
     get initialMeetingName(){
         return this.meetingType;
     }
@@ -110,13 +117,67 @@ export default class MeetingNote extends LightningElement {
     get taskRequiered(){
         return this.isSalesPres;
     }
+    get productIconSize(){
+        if(FORM_FACTOR === "Small" || FORM_FACTOR === "Medium") return "small";
+        return "medium";
+    }
+    get starIconSize(){
+        if(FORM_FACTOR === "Small" || FORM_FACTOR === "Medium") return "xx-small";
+        return "small";
+    }
+    get isMobile(){
+        if(FORM_FACTOR === "Small" || FORM_FACTOR === "Medium") return true;
+        return false;
+    }
+    get classRating(){
+        if(FORM_FACTOR === "Small" || FORM_FACTOR === "Medium") return "slds-col slds-size_1-of-1";
+        return "slds-col slds-size_2-of-3";
+    }
     
     @wire(CurrentPageReference)
     getQuickActionName(currentPageReference) {        
      //if the page is a quick action, get quick action API name
      if(currentPageReference && (currentPageReference?.type === 'standard__quickAction')) {
+         // eslint-disable-next-line @lwc/lwc/no-api-reassignments
          this.quickActionName = currentPageReference.attributes?.apiName;
      }
+    }
+
+    initDefaultOwnerIfPossible() {
+        if (this.selectedOwnerId) return;
+        if (this.currentUser && this.allUsers && this.allUsers.length) {
+            const exists = this.allUsers.some(o => o.value === this.currentUser.Id);
+            if (exists) {
+            this.selectedOwnerId = this.currentUser.Id;
+            this.selectedOwnerLabel = this.currentUser.Name;
+            } else {
+            // fallback: premier user de la liste si besoin
+            // this.selectedOwnerId = this.allUsers[0].value;
+            // this.selectedOwnerLabel = this.allUsers[0].label;
+            // (sinon on laisse vide -> lookup s’affiche)
+            }
+        }
+        }
+
+    @wire(getRecord, { recordId: Id, fields: [UserName]}) 
+    currentUserInfo({error, data}) {
+        if (data && data.fields) {
+            let currentCarmi = '';
+            this.currentUser = {Id: Id,Name:data.fields?.Name?.value};
+            if(this.internalsLoaded && this.currentUser && this.internalContacts?.length && !this.selectedInternals.length) {
+                console.log('@from User: '+this.currentUser.Id);
+                currentCarmi = this.internalContacts.find(elm => elm.user === this.currentUser.Id);
+                if(currentCarmi){
+                    this.currentUser.contact = currentCarmi.value;
+                    this.selectedInternals.push(currentCarmi.value);
+                    this.internalPills = [...this.contactsPills(this.selectedInternals,'standard:user')];
+                }
+            }
+            this.userLoaded = true;
+            this.initDefaultOwnerIfPossible();
+        } else if (error) {
+            console.log('@Error: Get Current User Infos',error); 
+        }
     }
 
     @wire (getRecord,{recordId:'$recordId',fields: '$fieldsList'}) 
@@ -149,16 +210,28 @@ export default class MeetingNote extends LightningElement {
     @wire (getContacts) 
     allContacts({data,error}){
         if(data && data.length){
+            let selectedDefault=[];
             let internal=[];
             let mapCont=Object.assign({},this.mapContacts);
             data.forEach(cont =>{
-                if(cont.Account.Name === 'CARMIGNAC') internal.push({label:cont.Name,value:cont.Id});
+                if(this.userLoaded && this.currentUser && cont.User__c === this.currentUser.Id && !selectedDefault.length) {
+                    console.log('@user Id: '+this.currentUser.Id);
+                    selectedDefault.push(cont.Id);
+                    this.currentUser.contact = cont.Id;
+                }
+                internal.push({label:cont.Name,value:cont.Id,user:cont.User__c});
                 mapCont[cont.Id] = Object.assign({},cont);
             });
+            console.log('@@currentUser:',this.currentUser);
             this.internalContacts = [...internal];
             this.allContactShare = [...internal];
             this.mapContacts = mapCont;
-
+            //added to select by default, Carmignac meeting organizer as a Carmignac Attendee
+            if(selectedDefault.length) {
+                this.selectedInternals = [...selectedDefault];
+                this.internalPills = [...this.contactsPills(this.selectedInternals,'standard:user')];
+            }
+            this.internalsLoaded = true;
         }else if(error){ 
             console.log('@Error: Get Carmignac Contacts',error);
         }
@@ -169,11 +242,10 @@ export default class MeetingNote extends LightningElement {
         if(data && data.length){
             this.prevSelectedCont = [...new Set([...this.prevSelectedCont,...this.selectedClients])];
             this.selectedClients = [];
-            console.log('@@prev selected:'+JSON.stringify(this.prevSelectedCont));
             let external=[];
             let mapCont=Object.assign({},this.mapContacts);
             data.forEach(cont =>{
-                external.push({label:cont.Name,value:cont.Id});
+                external.push({label:cont.Name+" | "+cont.Account?.Name,value:cont.Id});
                 mapCont[cont.Id] = Object.assign({},cont);
             });
             this.externalContacts = [...external];
@@ -184,30 +256,13 @@ export default class MeetingNote extends LightningElement {
         }
     }
 
-    @wire (getOpportunities,{statFilter:''})
-    opportunities({data,error}){
-        if(data && data.length){ 
-            let opportunities =[];
-            let mapOpportunities = {};
-            data.forEach(opp =>{
-                opportunities.push({label:opp.Name,value:opp.Id});
-                mapOpportunities[opp.Id] = opp;
-            });
-            this.allOpportunities = [...opportunities];
-            this.mapOpportunities = mapOpportunities;
-        }
-        else if(error){
-            console.log('@Error: Get Products',error);
-        }
-    }
-
     @wire (getProducts,{statFilter:''})
     products({data,error}){
         if(data && data.length){ 
             let products =[];
             let mapProducts = {};
             data.forEach(product =>{
-                products.push({label:product.Product_Name__c,value:product.Id,code:product.Name});
+                products.push({label:product.Code__c+" | "+product.Name,value:product.Id,code:product.Code__c});
                 mapProducts[product.Id] = product;
             });
             this.allProducts = [...products];
@@ -229,10 +284,28 @@ export default class MeetingNote extends LightningElement {
             });
             this.allUsers = [...users];
             this.mapUsers = mapUsers;
+
+             this.initDefaultOwnerIfPossible();
         }
         else if(error){
             console.log('@Error: Get Users',error);
         }
+    }
+
+    @wire (getOpenOpportunities)
+    opportunities({data,error}){
+        if(data && data.length){
+            let opports = [];
+            data.forEach(opport =>{
+                opports.push({label:opport.Name+" | "+opport.Account?.Name,value:opport.Id, accountName:opport.Account?.Name});
+            });
+            this.allOpport = [...opports];
+        }
+        else if(error){
+            console.log('@Error: Get Opportunities',error);
+        }
+        
+        
     }
 
     @wire (getEmailTemplate,{name : '$emailTempName'})
@@ -259,6 +332,18 @@ export default class MeetingNote extends LightningElement {
         this.meetingName = this.initialMeetingName;
         this.isLoading = false;
     }
+
+    handleOwnerSelect(e){
+        const v = e.detail?.selectedValues;
+        this.selectedOwnerId = Array.isArray(v) ? v[0] : v;
+        this.selectedOwnerLabel = e.detail?.selectedLabel || (this.mapUsers?.[this.selectedOwnerId]?.Name) || '';
+    }
+
+    handleRemoveSelectedOwner(){
+        this.selectedOwnerId = '';
+        this.selectedOwnerLabel = '';
+    }
+
 
     handleFieldChange(evt){
         switch (evt.target.fieldName)
@@ -302,7 +387,6 @@ export default class MeetingNote extends LightningElement {
         }
         if(this.isSalesPres){
             //check clientInterest part
-            console.log('@@@MeetingNote: '+JSON.stringify(this.clientInterest));
             if(this.clientInterest.length > 0){
                 this.clientInterest.forEach(interest => {
                     if(!(interest.rating > 0)) {
@@ -324,6 +408,10 @@ export default class MeetingNote extends LightningElement {
         let fields = event.detail.fields;
         fields.Meeting_Type__c = this.meetingType ;
         fields.Company__c = this.companieId;
+        if(this.selectedOpport) {
+            fields.Opportunity__c = this.selectedOpport;
+        }
+        fields.OwnerId = this.selectedOwnerId || userId;
         //check the requiered fields and section here before submit 
             if(this.checkMandatory()){
                     this.isLoading = true;
@@ -340,7 +428,8 @@ export default class MeetingNote extends LightningElement {
     }
      handleCancel()
      {
-        this.dispatchEvent(new CloseActionScreenEvent());
+        if (FORM_FACTOR === "Small" || FORM_FACTOR === "Medium") window.history.go(-1);
+        else this.dispatchEvent(new CloseActionScreenEvent());
      }
      handleError(evt){
         this.isLoading = false;
@@ -373,7 +462,7 @@ export default class MeetingNote extends LightningElement {
         if(this.isSalesPres){
             this.clientInterest.forEach(interest => {
                 if(interest.rating && interest.rating > 0 )
-                 interestObject.push({Interest__c:interest.rating,MeetingNote__c:this.meetingNote.id,Product__c:interest.id});
+                 interestObject.push({Interest__c:interest.rating,MeetingNote__c:this.meetingNote.id,Strategy__c:interest.id});
             });
         }
         //Task part need to check that all fields are filled up ...
@@ -390,10 +479,10 @@ export default class MeetingNote extends LightningElement {
                 if(result.success){
                     result.objectList.forEach(task => {
                         this.taskObjects.forEach(taskObj => {
-                            if ( taskObj.Description__c == task.Description__c
-                                && taskObj.Subject == task.Subject
-                                && taskObj.WhatId == task.WhatId
-                                && taskObj.OwnerId == task.OwnerId ) {
+                            if ( taskObj.Description__c === task.Description__c
+                                && taskObj.Subject === task.Subject
+                                && taskObj.WhatId === task.WhatId
+                                && taskObj.OwnerId === task.OwnerId ) {
                                     taskObj.Id = task.Id;
                             }
                         });
@@ -417,8 +506,15 @@ export default class MeetingNote extends LightningElement {
                     
                     //Send Email To shared part
                     let shareWith = [];
-                    if(this.shareToCarmi) shareWith = [...this.selectedInternals];
+                    shareWith = [...this.selectedInternals];
+                    //need to delete current user from share with internal if it is selected 
+                    if(this.currentUser.contact && shareWith.length > 0 ) {
+                        const indexCurrent = shareWith.findIndex(elm => elm === this.currentUser.contact);
+                        if(indexCurrent > -1) shareWith.splice(indexCurrent,1);
+                        console.log('@@omit orgnizer OK');
+                    }
                     shareWith = [...new Set([...shareWith, ...this.selectedContactShare])];
+                    console.log('@@share without current Organizer: ',shareWith);
                     let contShareList = [];
                     shareWith.forEach(shareCont => {
                         contShareList.push(this.mapContacts[shareCont]);
@@ -440,9 +536,12 @@ export default class MeetingNote extends LightningElement {
                         });
                     }
                     //***End send Email***/
-                    this.dispatchEvent(new CloseActionScreenEvent());
-                    // eslint-disable-next-line no-eval
-                    eval("$A.get('e.force:refreshView').fire();"); //to refresh view, instead of reloading page. 
+                    if (FORM_FACTOR === "Small" || FORM_FACTOR === "Medium") window.history.go(0);
+                    else {
+                        this.dispatchEvent(new CloseActionScreenEvent());
+                        // eslint-disable-next-line no-eval
+                        eval("$A.get('e.force:refreshView').fire();"); //to refresh view, instead of reloading page. 
+                    }
                 }else {
                     this.isLoading = false;
                     this.showToast('Technical Issue During MeetingNote related Record Creation, Please Contact an Admin', 'Error', 'Error: Related MeetingNote Objects Creation');
@@ -469,23 +568,21 @@ export default class MeetingNote extends LightningElement {
         //construct Pills part
         this.selectedProducts = [...e.detail.selectedValues];
         let items= [];
-        console.log('@ClientInterestBefor: '+JSON.stringify(this.clientInterest));
         e.detail.selectedValues.forEach((prod,index) =>{
             const indCurrent = this.clientInterest.findIndex(elm => elm.id === prod);
             const ratProd = (indCurrent > -1)? this.clientInterest[indCurrent].rating:0;
             const picProd = (indCurrent > -1)? this.clientInterest[indCurrent].pic:'stars_000';
             items.push({id: prod,
                         index: index,
-                        label: this.mapProducts[prod].Product_Name__c,
+                        label: (this.isMobile)? this.mapProducts[prod].Code__c:this.mapProducts[prod].Name,
                         name: prod,
                         icon: 'custom:custom5',
-                        alternativeText: this.mapProducts[prod].Name,
+                        alternativeText: this.mapProducts[prod].Code__c,
                         href: '/'+prod,
                         pic: picProd,
                         rating:ratProd
                     });
         });
-        console.log('@ClientInterestafter items: '+JSON.stringify(items));
         this.clientInterest= [...items];
     }
     handleRating(e){
@@ -526,11 +623,7 @@ export default class MeetingNote extends LightningElement {
         }else if(origin === 'Internal'){
                 this.internalPills.splice(index, 1);
                 this.selectedInternals.splice(index,1);
-        }else if(origin == 'Opportunity') {    // to delete    
-            this.oppMeetingNote.splice(index,1);
-            this.selectedOpportunities.splice(index,1);
-        }
-        else{
+            } else{
                 this.contactPills.splice(index,1);
                 this.selectedContactShare.splice(index,1);
             }
@@ -549,6 +642,10 @@ export default class MeetingNote extends LightningElement {
         else  this.allTasks[indexTask].ActivityDate = e.target.value;
 
     }
+    handleOpport(e){
+        this.selectedOpport = e.detail.selectedValues;
+        this.selectedOpportLabel = e.detail.selectedLabel;
+    }
     handleUsers(e){
         let index = e.target.dataset.id;
         this.allTasks[index].OwnerId = e.detail.selectedValues;
@@ -559,21 +656,16 @@ export default class MeetingNote extends LightningElement {
         this.allTasks[index].OwnerId = '';
         this.allTasks[index].OwnerLabel = '';
     }
-    handleOpportunity(e){
-        this.oppportunityId = e.detail.selectedValues;
-        // this.allTasks[index].OwnerLabel = e.detail.selectedLabel;
-    }
-    handleRemoveSelectedOpp(e){
-        this.oppportunityId = '';
+    handleRemoveSelectedOpport(){
+        this.selectedOpport = null;
+        this.selectedOpportLabel = '';
     }
     handleDeleteTask(e){
         let index = e.target.dataset.id;
         this.allTasks.splice(index,1);
         if(index - 1 !== 0 ) this.allTasks[(index - 1)].IsDelete = true;
     }
-    handleShareCarmi(e){
-        this.shareToCarmi = e.target.checked;
-    }
+    
     handleShareOther(e){
         this.selectedContactShare = [...e.detail.selectedValues];
         this.contactPills = [...this.contactsPills(this.selectedContactShare,'standard:user')];
@@ -654,8 +746,6 @@ export default class MeetingNote extends LightningElement {
             this.taskObjects.forEach(task => {
                 let newNode = doc.createElement("tr");
                 let taskURL = orgUrl+ '/'+task.Id;
-                console.log('task',task);
-                console.log('taskURL',taskURL,'task.Id', task.Id);
                 newNode.innerHTML = `<td><span><a href="${taskURL}"> ${task.Subject}</a></span></td>
                 <td><span>${task.Description__c} </span></td>
                 <td><span>${task.ActivityDate} </span></td>

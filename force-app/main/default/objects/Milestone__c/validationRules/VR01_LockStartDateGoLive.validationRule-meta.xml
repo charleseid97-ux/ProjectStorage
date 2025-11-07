@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR01_LockStartDateGoLive</fullName>
+    <active>false</active>
+    <errorConditionFormula>AND(
+  NOT(
+    $User.BypassValidationRules__c
+    || $Permission.PRPLegal
+    || $Profile.Name = &quot;Carmignac - System Administrator&quot;
+  ),
+  ISCHANGED(StartDate__c),
+  Name = &quot;Go live&quot;
+)</errorConditionFormula>
+    <errorMessage>You cannot modify the Start Date for the milestone &quot;Go live&quot;. This field is linked to the Launch Date, which can only be updated by the Legal Team.</errorMessage>
+</ValidationRule>

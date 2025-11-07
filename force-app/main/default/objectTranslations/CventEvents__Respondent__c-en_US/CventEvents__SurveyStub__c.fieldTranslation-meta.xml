@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Stores stub of a survey the respondent has taken, as the respondent can be linked to an event survey program which doesn&apos;t store survey stub. --></help>
+    <label><!-- Survey Stub --></label>
+    <name>CventEvents__SurveyStub__c</name>
+</CustomFieldTranslation>

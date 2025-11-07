@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help></help>
-    <label></label>
+    <help><!-- Tick this box to enable synchronization of this Channel&apos;s reports. --></help>
+    <label><!-- Sync Leads --></label>
     <name>BrightTALK__Sync__c</name>
 </CustomFieldTranslation>

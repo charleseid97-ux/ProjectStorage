@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Event_Campaign_Member</fullName>
     <active>true</active>
+    <compactLayoutAssignment>Campaign_Member_Compact_2023</compactLayoutAssignment>
     <description>Record Type dedicated to Event campaigns</description>
     <label>Event Campaign Member</label>
     <picklistValues>

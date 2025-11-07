@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Request Recipients --></label>
+    <name>Request_Recipients__c</name>
+    <picklistValues>
+        <masterLabel>Digital Business Solution</masterLabel>
+        <translation><!-- Digital Business Solution --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Marketing Project</masterLabel>
+        <translation><!-- Marketing Project --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Product Marketing</masterLabel>
+        <translation><!-- Product Marketing --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Reporting</masterLabel>
+        <translation><!-- Reporting --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>SSI</masterLabel>
+        <translation><!-- SSI --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

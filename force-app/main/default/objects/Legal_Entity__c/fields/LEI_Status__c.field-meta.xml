@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>LEI_Status__c</fullName>
     <description>Indicates whether LEI references is legally registered and operating. 2 possible values: ACTIVE or INACTIVE</description>
-    <externalId>false</externalId>
     <label>LEI Status</label>
     <required>false</required>
     <trackHistory>true</trackHistory>

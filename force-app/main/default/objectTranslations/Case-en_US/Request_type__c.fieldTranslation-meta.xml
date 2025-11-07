@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Request type --></label>
     <name>Request_type__c</name>
     <picklistValues>
         <masterLabel>Fund Features</masterLabel>
-        <translation></translation>
+        <translation><!-- Fund Features --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Market Views / Fund Positioning</masterLabel>
-        <translation></translation>
+        <translation><!-- Market Views / Fund Positioning --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Market Watch</masterLabel>
-        <translation></translation>
+        <translation><!-- Market Watch --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Others</masterLabel>
-        <translation></translation>
+        <translation><!-- Others --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Performance Comment</masterLabel>
-        <translation></translation>
+        <translation><!-- Performance Comment --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>RFI</masterLabel>
-        <translation></translation>
+        <translation><!-- RFI --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>RFP</masterLabel>
-        <translation></translation>
+        <translation><!-- RFP --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Slide Update</masterLabel>
-        <translation></translation>
+        <translation><!-- Slide Update --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Survey</masterLabel>
-        <translation></translation>
+        <translation><!-- Survey --></translation>
     </picklistValues>
 </CustomFieldTranslation>

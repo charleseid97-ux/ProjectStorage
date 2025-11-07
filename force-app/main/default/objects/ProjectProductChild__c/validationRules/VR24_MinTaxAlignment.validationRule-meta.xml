@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR24_MinTaxAlignment</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  NOT($User.BypassValidationRules__c),
+  NOT(ISBLANK(MinTaxAlignment__c)),
+  OR(
+    MinTaxAlignment__c &lt; 0,
+    MinTaxAlignment__c &gt; 1
+  )
+)</errorConditionFormula>
+    <errorDisplayField>MinTaxAlignment__c</errorDisplayField>
+    <errorMessage>Minimum tax alignment must be between 1% and 100%</errorMessage>
+</ValidationRule>

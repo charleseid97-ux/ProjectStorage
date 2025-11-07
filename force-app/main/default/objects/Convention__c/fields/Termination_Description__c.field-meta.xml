@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Termination_Description__c</fullName>
     <encryptionScheme>None</encryptionScheme>
-    <externalId>false</externalId>
     <inlineHelpText>Required field to submit for termination approval</inlineHelpText>
     <label>Termination Description</label>
     <length>32768</length>

@@ -3,9 +3,8 @@
     <fullName>Subscriber__c</fullName>
     <defaultValue>false</defaultValue>
     <description>If the field &quot;Event OptOut&quot; is ticked, the Contact won&apos;t receive Carmignac&apos;s Event invitations or Post meetings (Etouches Emails)</description>
-    <externalId>false</externalId>
     <inlineHelpText>If the field « Event Opt out » is ticked, the contact won’t receive any Carmignac Invitation from Pardot</inlineHelpText>
-    <label>Event Optout</label>
+    <label>Event Optout (OLD)</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <type>Checkbox</type>

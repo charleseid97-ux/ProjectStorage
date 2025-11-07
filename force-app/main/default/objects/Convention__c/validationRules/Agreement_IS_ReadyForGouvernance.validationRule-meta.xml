@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Agreement_IS_ReadyForGouvernance</fullName>
+    <active>true</active>
+    <description>Opération Team/GHOS  ne peut pas être vide pour passer a l&apos;étape &quot;Ready for Gouvernance&quot;</description>
+    <errorConditionFormula>AND ( 
+RecordType.Name = &quot;IS Agreement&quot;, 
+NOT($User.BypassValidationRules__c),  
+				
+ISPICKVAL(Status__c, &quot;Ready for governance&quot;), 
+OR((Operations_Team__c=false),(GHOS__c=false),   
+			(Legal_Team__c = false), (Compliance_Team__c = false) ) )</errorConditionFormula>
+    <errorMessage>To proceed to &quot;Ready for Gouvernance&quot; stage, the following boxes must be checked : Operations Team, GHOS, Legal Team and Copliance Team</errorMessage>
+</ValidationRule>

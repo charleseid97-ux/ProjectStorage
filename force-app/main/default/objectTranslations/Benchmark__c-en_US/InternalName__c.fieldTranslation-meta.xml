@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>
+        <!-- This is the standardized label that should be used in Carmignac data bases and reports. It has been standardized to align benchmarks labels in all Carmignac supports and databases: 
+Each index should be named with one reference to the index provider (ICE BofA not ICE BofA ML, JPM not JP Morgan..), align scope spelling (AC WORLD, ACWI, Europe, EM,...), specify when it is Capped / Capitalized / Hedged, then when it is Net Return (NR)  and end by &quot;index&quot;. It should not refer to any currency, nor unhedged -->
+    </help>
+    <label><!-- Internal Name --></label>
+    <name>InternalName__c</name>
+</CustomFieldTranslation>

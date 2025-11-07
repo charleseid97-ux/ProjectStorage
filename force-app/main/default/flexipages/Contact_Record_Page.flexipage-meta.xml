@@ -126,10 +126,17 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Persona__c</fieldItem>
                 <identifier>RecordPersona_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.RecordType.Name}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Internal Carmignac Contact</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -194,7 +201,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>required</value>
+                    <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.JobFunction__c</fieldItem>
                 <identifier>RecordJobFunction_cField</identifier>
@@ -204,7 +211,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>required</value>
+                    <value>none</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.CorporateTitle__c</fieldItem>
                 <identifier>RecordCorporateTitle_cField</identifier>
@@ -224,26 +231,6 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.AssetClassFocus__c</fieldItem>
-                <identifier>RecordAssetClassFocus_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.RegionalSectorFocus__c</fieldItem>
-                <identifier>RecordRegionalSectorFocus_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
@@ -402,7 +389,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Email</fieldItem>
                 <identifier>RecordEmailField</identifier>
@@ -473,78 +460,6 @@
             </componentInstance>
         </itemInstances>
         <name>Facet-04e7f03a-562f-48b5-8e5b-9e97ec96e82c</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Expertise_c__c</fieldItem>
-                <identifier>RecordExpertise_c_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Product_cb__c</fieldItem>
-                <identifier>RecordProduct_cb_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-da482517-ea19-4e4f-a67c-a68b0fba81ff</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Expertise_picklist_c__c</fieldItem>
-                <identifier>RecordExpertise_picklist_c_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Product_c__c</fieldItem>
-                <identifier>RecordProduct_c_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-607b1088-dfac-4d5f-8956-ac2c0b49255a</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-da482517-ea19-4e4f-a67c-a68b0fba81ff</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column15</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-607b1088-dfac-4d5f-8956-ac2c0b49255a</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column16</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-37fe6cda-6c57-4879-b375-0677ba174762</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -720,6 +635,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.WebsiteResponse__c</fieldItem>
                 <identifier>RecordWebsiteResponse_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Website_Email_rejected__c</fieldItem>
+                <identifier>RecordWebsite_Email_rejected_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-581c41ce-7ee0-4ad9-b01b-22e66bd0e4cc</name>
@@ -945,6 +870,10 @@
                     <value>Facet-9f77090b-2058-4f04-888b-0995e4fa99a2</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>label</name>
                     <value>Contact Information</value>
                 </componentInstanceProperties>
@@ -957,6 +886,10 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-11eac69c-ead4-4946-94d2-496c68a15ad9</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
@@ -973,6 +906,10 @@
                     <value>Facet-d3da73b2-9e27-4e85-bad4-213d7ea11b1c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>label</name>
                     <value>Relationship Matrix Contact Information</value>
                 </componentInstanceProperties>
@@ -987,6 +924,10 @@
                     <value>Facet-04e7f03a-562f-48b5-8e5b-9e97ec96e82c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>label</name>
                     <value>Contact Details</value>
                 </componentInstanceProperties>
@@ -998,21 +939,11 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
-                    <value>Facet-37fe6cda-6c57-4879-b375-0677ba174762</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>Carmignac Offer Focus</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection8</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>columns</name>
                     <value>Facet-371c640d-2a95-4b7f-811c-362037477642</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
@@ -1029,6 +960,10 @@
                     <value>Facet-c7cd5559-e152-4424-8e5c-6c5ca5d14e2c</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>label</name>
                     <value>Source</value>
                 </componentInstanceProperties>
@@ -1041,6 +976,10 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-1c02fa48-6fd5-49d8-b85a-2a39e876087e</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
@@ -1143,28 +1082,18 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Subscriber__c</fieldItem>
-                <identifier>RecordSubscriber_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Contact_Opt_out__c</fieldItem>
-                <identifier>RecordContact_Opt_out_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.PostalDeliveryOptOut__c</fieldItem>
                 <identifier>RecordPostalDeliveryOptOut_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.pi__pardot_hard_bounced__c</fieldItem>
+                <identifier>Recordpi_pardot_hard_bounced_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-7eaf6c6f-19ee-4ac0-9470-6c82f2bba478</name>
@@ -1629,16 +1558,6 @@
                 <identifier>Recordpi_score_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.pi__pardot_hard_bounced__c</fieldItem>
-                <identifier>Recordpi_pardot_hard_bounced_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-a28b2852-a9a0-4af5-bff3-e5ff5652e0a4</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -1692,6 +1611,10 @@
                     <value>Facet-528fd0e9-99bb-4e6d-ab5f-d8838278ee4f</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>label</name>
                     <value>Communication Preferences</value>
                 </componentInstanceProperties>
@@ -1704,6 +1627,10 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-0b93da26-fdcc-4554-9a15-3bfda7fc62f7</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
@@ -1720,6 +1647,10 @@
                     <value>Facet-2cba6488-28c8-4a6d-aeae-2ecf99ef4d8d</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>label</name>
                     <value>Last interactions</value>
                 </componentInstanceProperties>
@@ -1732,6 +1663,10 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-cfa37365-c37f-4e81-b177-8e7d517b12cb</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
@@ -1748,11 +1683,22 @@
                     <value>Facet-ec7039e1-1b6c-4fba-a4e0-4a10c13a86d6</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>label</name>
                     <value>Pardot</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection19</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!$User.Profile.Name}</leftValue>
+                        <operator>CONTAINS</operator>
+                        <rightValue>Carmignac - System Administrator</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1762,11 +1708,22 @@
                     <value>Facet-91099d15-c5cf-4922-bbed-f85148aa24cf</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>label</name>
                     <value>Pardot Visualforce Pages</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection20</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!$User.Profile.Name}</leftValue>
+                        <operator>CONTAINS</operator>
+                        <rightValue>Administrator</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1822,7 +1779,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
-                    <value>Engagements</value>
+                    <value>Engagement</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>customTab3</identifier>

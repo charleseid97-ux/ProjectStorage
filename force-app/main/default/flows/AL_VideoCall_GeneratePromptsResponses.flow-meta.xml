@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>This action calls the prompt template used to create Client Interests records based on the transcript</description>
+        <name>Generate_VideoCall_Client_Interests</name>
+        <label>Generate VideoCall Client Interests</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>flex_GenerateClientInterestsFromVideoCall</actionName>
+        <actionType>generatePromptResponse</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>Input:VideoCall</name>
+            <value>
+                <elementReference>VideoCall</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>flex_GenerateClientInterestsFromVideoCall</nameSegment>
+        <outputParameters>
+            <assignToReference>Output_ClientInterests</assignToReference>
+            <name>promptResponse</name>
+        </outputParameters>
+    </actionCalls>
+    <actionCalls>
+        <description>This action calls the prompt template used to summarize the VideoCall Transcript</description>
+        <name>Generate_VideoCall_Summary</name>
+        <label>Generate VideoCall Summary</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>flex_VideoCallSummary</actionName>
+        <actionType>generatePromptResponse</actionType>
+        <connector>
+            <targetReference>Generate_VideoCall_Client_Interests</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>Input:VideoCall</name>
+            <value>
+                <elementReference>VideoCall</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>flex_VideoCallSummary</nameSegment>
+        <outputParameters>
+            <assignToReference>Output_VideoCallSummary</assignToReference>
+            <name>promptResponse</name>
+        </outputParameters>
+    </actionCalls>
+    <apiVersion>63.0</apiVersion>
+    <description>This autolaunched flow is used to pass the video call record in order to generate a Summary and Client Interests</description>
+    <environments>Default</environments>
+    <interviewLabel>AL_VideoCall_GeneratePromptsResponses {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>AL_VideoCall_GeneratePromptsResponses</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <runInMode>DefaultMode</runInMode>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Generate_VideoCall_Summary</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>This is the JSON formated output from the Prompt Template used to generate Client Interests</description>
+        <name>Output_ClientInterests</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>This is the VideoCall Summary output from the Prompt Template</description>
+        <name>Output_VideoCallSummary</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>The VideoCall record</description>
+        <name>VideoCall</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>VideoCall</objectType>
+    </variables>
+</Flow>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>KYD_Due_Diligence_Oversight__c</fullName>
-    <externalId>false</externalId>
     <label>KYD Due Diligence Oversight</label>
     <referenceTo>KYD_Due_Diligence_Oversight__c</referenceTo>
     <relationshipLabel>KYD Documents</relationshipLabel>

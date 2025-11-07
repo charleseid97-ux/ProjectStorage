@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Index Category --></label>
+    <name>IndexCategory__c</name>
+    <picklistValues>
+        <masterLabel>Index Bond</masterLabel>
+        <translation><!-- Index Bond --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Index Equity</masterLabel>
+        <translation><!-- Index Equity --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Index Itraxx</masterLabel>
+        <translation><!-- Index Itraxx --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Index Taux</masterLabel>
+        <translation><!-- Index Taux --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Taux</masterLabel>
+        <translation><!-- Taux --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

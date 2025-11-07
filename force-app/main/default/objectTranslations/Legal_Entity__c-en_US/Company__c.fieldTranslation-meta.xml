@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Company --></label>
     <lookupFilter>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- The company must be of the Distributor type. --></errorMessage>
     </lookupFilter>
     <name>Company__c</name>
-    <relationshipLabel></relationshipLabel>
+    <relationshipLabel><!-- Legal Entities --></relationshipLabel>
 </CustomFieldTranslation>

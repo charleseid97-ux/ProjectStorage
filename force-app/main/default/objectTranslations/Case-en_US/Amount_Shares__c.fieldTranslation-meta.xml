@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Amount / Shares --></label>
+    <name>Amount_Shares__c</name>
+    <picklistValues>
+        <masterLabel>Amount</masterLabel>
+        <translation><!-- Amount --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Number of Shares</masterLabel>
+        <translation><!-- Number of Shares --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

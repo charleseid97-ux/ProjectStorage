@@ -12,35 +12,35 @@
     <layouts>
         <layout>Distributor Asset - Carmignac Assets Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Distributor Asset - Competitor Assets Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Distributor Asset - Unknown Competitor Assets Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
     </layouts>
     <recordTypes>
-        <label></label>
+        <label><!-- Carmignac Assets --></label>
         <name>DistributorAsset_CarmignacAssets</name>
     </recordTypes>
     <recordTypes>
-        <label></label>
+        <label><!-- Competitor Assets --></label>
         <name>DistributorAsset_CompetitorAssets</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- Record Type for Unknown Competitor Asset record (created automatically) --></description>
+        <label><!-- Unknown Competitor Assets --></label>
         <name>DistributorAsset_UnknownCompetitorAssets</name>
     </recordTypes>
     <startsWith>Consonant</startsWith>

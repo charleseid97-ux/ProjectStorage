@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR003_LockRecord</fullName>
+    <active>true</active>
+    <description>Lock record for PS if Vehicle type = Mandate or Dedicated
+Lock record for IS if Vehicle type = Funds or Umbrella</description>
+    <errorConditionFormula>(
+    $Permission.PRPProductStrategy &amp;&amp;
+    (ISPICKVAL(VehicleType__c, &quot;Mandate&quot;) || ISPICKVAL(VehicleType__c, &quot;Dedicated&quot;))
+)
+||
+(
+    $Permission.PRPIS &amp;&amp;
+    (ISPICKVAL(VehicleType__c, &quot;Funds&quot;) || ISPICKVAL(VehicleType__c, &quot;Umbrella&quot;))
+)</errorConditionFormula>
+    <errorMessage>Access denied: You do not have permission to edit this record based on its Vehicle Type.</errorMessage>
+</ValidationRule>

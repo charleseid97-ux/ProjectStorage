@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Type --></label>
+    <name>Type__c</name>
+    <picklistValues>
+        <masterLabel>Notice to Shareholders</masterLabel>
+        <translation><!-- Notice to Shareholders --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>PRIIPS KID</masterLabel>
+        <translation><!-- PRIIPS KID --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Portfolio Model</masterLabel>
+        <translation><!-- Portfolio Model --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Prospectus</masterLabel>
+        <translation><!-- Prospectus --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

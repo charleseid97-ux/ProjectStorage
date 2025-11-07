@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This Custom Metadata defines the list of fields subject to historization. Unlike a standard audit trail, this mechanism stores each field value along with a Start Date and an End Date.
+
+When a Product is created in the Product Catalog, the field value is recorded with its Start Date (the creation date). Each time the field is updated, an End Date is set for the previous value, and a new record is created with the updated value and a new Start Date.
+
+This configuration enables a complete historical view of field value changes over time, ensuring full traceability and data lineage for Product and Share Class information.</description>
+    <label>PMT - Field History Config</label>
+    <pluralLabel>Fields History Config</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

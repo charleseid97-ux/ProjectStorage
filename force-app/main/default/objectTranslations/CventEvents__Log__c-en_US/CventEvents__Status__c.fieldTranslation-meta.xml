@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help></help>
-    <label></label>
+    <help><!-- Indicates how this event has been dealt with. --></help>
+    <label><!-- Status --></label>
     <name>CventEvents__Status__c</name>
     <picklistValues>
         <masterLabel>Closed</masterLabel>
-        <translation></translation>
+        <translation><!-- Closed --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Open</masterLabel>
-        <translation></translation>
+        <translation><!-- Open --></translation>
     </picklistValues>
 </CustomFieldTranslation>

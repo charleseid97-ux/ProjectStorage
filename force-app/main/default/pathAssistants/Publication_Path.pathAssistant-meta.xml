@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Case</entityName>
+    <fieldName>Status</fieldName>
+    <masterLabel>Publication Path</masterLabel>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;The Publication Request has been created.&lt;/p&gt;</info>
+        <picklistValueName>New</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Priority</fieldNames>
+        <fieldNames>DueDate__c</fieldNames>
+        <info>&lt;p&gt;&lt;strong&gt;Action Required by the CRM Team&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;&lt;strong&gt;Review the content&lt;/strong&gt;: Carefully examine the provided preview (check the URL and/or the attached content).&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Give feedback as needed&lt;/strong&gt;: Provide any necessary feedback in the Chatter section.&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Validate the preview&lt;/strong&gt;: Confirm the publication by clicking on the &amp;quot;Confirm Publication&amp;quot; button. The Webhelp team will be notified and will proceed to publish the content.&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 13px;&quot;&gt;Please note that for publications in both English and French, t&lt;/span&gt;he actions must be carried out by the requester.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
+        <picklistValueName>Preview</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;The content has been published.&lt;/p&gt;</info>
+        <picklistValueName>Published</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>DueDate__c</fieldNames>
+        <fieldNames>Priority</fieldNames>
+        <info>&lt;p&gt;The content has been validated by either the CRM team or the requester and is now in the process of being published.&lt;/p&gt;</info>
+        <picklistValueName>Validated</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Priority</fieldNames>
+        <fieldNames>DueDate__c</fieldNames>
+        <info>&lt;p&gt;The Webhelp Team has been notified of the request.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;A Webhelp Team member must &amp;quot;&lt;strong&gt;Accept&lt;/strong&gt;&amp;quot; the record to claim ownership.&lt;/li&gt;&lt;li&gt;The Webhelp owner will build the publication &lt;strong&gt;preview &lt;/strong&gt;according to the provided instructions.&lt;/li&gt;&lt;li&gt;The Webhelp owner will inform the CRM team that the preview is ready via the &amp;quot;Notify CRM&amp;quot; button.&lt;/li&gt;&lt;li&gt;The CRM team will review and give their &lt;strong&gt;approval&lt;/strong&gt;.&lt;/li&gt;&lt;li&gt;The Webhelp owner will publish the content and close the request by updating the current status to &amp;quot;&lt;strong&gt;Published&lt;/strong&gt;.&amp;quot;&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Please note that for publications in both English and French, it is the requester who must provide the validation, not the CRMs.&lt;/p&gt;</info>
+        <picklistValueName>Work in progress</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Sub_Publication_Request</recordTypeName>
+</PathAssistant>

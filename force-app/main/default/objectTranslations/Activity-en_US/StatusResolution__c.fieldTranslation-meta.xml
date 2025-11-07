@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Status Resolution --></label>
     <name>StatusResolution__c</name>
     <picklistValues>
         <masterLabel>Closed</masterLabel>
-        <translation></translation>
+        <translation><!-- Closed --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Complete</masterLabel>
-        <translation></translation>
+        <translation><!-- Complete --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>In progress</masterLabel>
-        <translation></translation>
+        <translation><!-- In progress --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>New</masterLabel>
-        <translation></translation>
+        <translation><!-- New --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Quick Fix</masterLabel>
-        <translation></translation>
+        <translation><!-- Quick Fix --></translation>
     </picklistValues>
 </CustomFieldTranslation>

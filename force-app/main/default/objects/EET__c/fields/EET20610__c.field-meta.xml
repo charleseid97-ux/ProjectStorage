@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EET20610__c</fullName>
+    <description>20610_Financial_Instrument_Minimum_Percentage_Investments_Aligned_EU_Taxonomy_Excl_Sovereign_Bonds</description>
+    <label>20610 Financial Instrument Minimum Perc</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

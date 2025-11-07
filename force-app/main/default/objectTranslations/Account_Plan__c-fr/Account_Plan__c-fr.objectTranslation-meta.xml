@@ -8,36 +8,40 @@
         <plural>true</plural>
         <value>Account Plans</value>
     </caseValues>
+    <fieldSets>
+        <label><!-- TEST --></label>
+        <name>TEST</name>
+    </fieldSets>
     <gender>Feminine</gender>
     <layouts>
         <layout>Account Plan Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Limited Account Plan Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Naming Convention --></label>
             <section>Naming Convention</section>
         </sections>
     </layouts>
-    <nameFieldLabel></nameFieldLabel>
+    <nameFieldLabel><!-- Account Plan Name --></nameFieldLabel>
     <quickActions>
-        <label></label>
+        <label><!-- Clone --></label>
         <name>Clone</name>
     </quickActions>
     <recordTypes>
-        <label></label>
+        <label><!-- Full Account Plan --></label>
         <name>Full_Account_Plan</name>
     </recordTypes>
     <recordTypes>
-        <label></label>
+        <label><!-- Limited Account Plan --></label>
         <name>Limited_Account_Plan</name>
     </recordTypes>
     <startsWith>Consonant</startsWith>

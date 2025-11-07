@@ -155,13 +155,13 @@
     <enableSharing>false</enableSharing>
     <enableStreamingApi>false</enableStreamingApi>
     <externalSharingModel>ReadWrite</externalSharingModel>
-    <label>Duplicate Check Queue</label>
+    <label>Plauti Deduplicate Queue</label>
     <nameField>
         <displayFormat>DCQ{000000}</displayFormat>
-        <label>DC Queue</label>
+        <label>Plauti Deduplicate Queue</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Duplicate Check Queues</pluralLabel>
+    <pluralLabel>Plauti Deduplicate Queues</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

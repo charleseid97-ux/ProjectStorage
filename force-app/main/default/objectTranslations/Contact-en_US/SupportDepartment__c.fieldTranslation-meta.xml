@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Support Department --></label>
     <name>SupportDepartment__c</name>
     <picklistValues>
         <masterLabel>Investor Services</masterLabel>
-        <translation></translation>
+        <translation><!-- Investor Services --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Legal</masterLabel>
-        <translation></translation>
+        <translation><!-- Legal --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Rebate &amp; Legal</masterLabel>
-        <translation></translation>
+        <translation><!-- Rebate &amp; Legal --></translation>
     </picklistValues>
 </CustomFieldTranslation>

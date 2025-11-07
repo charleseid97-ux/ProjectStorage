@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Registration Status --></label>
+    <name>RegistrationStatus__c</name>
+    <picklistValues>
+        <masterLabel>AUTNOTREG</masterLabel>
+        <translation><!-- AUTNOTREG --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Institutional</masterLabel>
+        <translation><!-- Institutional --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>NOTREG</masterLabel>
+        <translation><!-- NOTREG --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Retails</masterLabel>
+        <translation><!-- Retails --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>TOBEREG</masterLabel>
+        <translation><!-- TOBEREG --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>UNDREG</masterLabel>
+        <translation><!-- UNDREG --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

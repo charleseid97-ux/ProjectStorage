@@ -154,13 +154,13 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ReadWrite</externalSharingModel>
-    <label>Duplicate Check Job</label>
+    <label>Plauti Deduplicate Job</label>
     <nameField>
         <displayFormat>JOB{0000}</displayFormat>
-        <label>Duplicate Check Job</label>
+        <label>Plauti Deduplicate Job</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Duplicate Check Jobs</pluralLabel>
+    <pluralLabel>Plauti Deduplicate Jobs</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

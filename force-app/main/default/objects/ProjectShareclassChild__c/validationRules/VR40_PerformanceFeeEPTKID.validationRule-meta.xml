@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR40_PerformanceFeeEPTKID</fullName>
+    <active>true</active>
+    <description>Max 225 characters to account for translation expansion (limit is 300). Used in regulatory documents (KID/KIID/EPT) and client communications.</description>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+LEN(PerformanceFeeEPTKID__c) &gt; 225
+)</errorConditionFormula>
+    <errorMessage>The maximum allowed length for this field is 300 characters.
+To account for text expansion during translations, the source text must not exceed 225 characters.</errorMessage>
+</ValidationRule>

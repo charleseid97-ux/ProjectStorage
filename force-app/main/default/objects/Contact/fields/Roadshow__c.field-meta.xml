@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Roadshow__c</fullName>
     <description>Cities list available for selection of prefered cities for a contact (for attendance to events)</description>
-    <externalId>false</externalId>
     <inlineHelpText>Please select here the prefered cities for attending Event (for example: Roadshows)</inlineHelpText>
     <label>Eligible cities</label>
     <required>false</required>

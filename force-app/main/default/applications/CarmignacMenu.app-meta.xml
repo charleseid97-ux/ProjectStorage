@@ -2,17 +2,17 @@
 <CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionOverrides>
         <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
         <content>BrightTALK_Webcast_Record_Page2</content>
-        <formFactor>Small</formFactor>
+        <formFactor>Large</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
         <type>Flexipage</type>
         <pageOrSobjectType>BrightTALK__Webcast__c</pageOrSobjectType>
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <comment>Action override created by Lightning App Builder during activation.</comment>
         <content>BrightTALK_Webcast_Record_Page2</content>
-        <formFactor>Large</formFactor>
+        <formFactor>Small</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
         <type>Flexipage</type>
         <pageOrSobjectType>BrightTALK__Webcast__c</pageOrSobjectType>
@@ -27,80 +27,9 @@
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
     <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
+    <isOmniPinnedViewEnabled>false</isOmniPinnedViewEnabled>
     <label>Lightning</label>
     <navType>Standard</navType>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_Page_Admin_MI</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.RFP_RFI_Questionnaire</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Market Intelligence</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_Page_Admin_MI</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.RFP_RFI_Questionnaire</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Market Intelligence</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_Page_Admin_MI</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.RFP_RFI_Questionnaire</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - System Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_Page_Admin_MI</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.RFP_RFI_Questionnaire</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - System Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_Page_Admin_MI</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.RFP_RFI_Questionnaire</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_Page_Admin_MI</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.RFP_RFI_Questionnaire</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Account_GlobalAccount</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Business Developer</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Ultimate_Parent</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Interface</profile>
-    </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
         <content>Opportunity_Buy_List_Placement_Layout</content>
@@ -111,17 +40,8 @@
         <profile>Carmignac - System Administrator</profile>
     </profileActionOverrides>
     <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Ultimate_Parent</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Investor Services</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
         <actionName>Tab</actionName>
-        <content>Carmignac_HOC_BD_Home_Page_V2</content>
+        <content>CRM_Home_page_2023</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>standard-home</pageOrSobjectType>
         <type>Flexipage</type>
@@ -145,7 +65,7 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>Tab</actionName>
-        <content>Carmignac_HOC_BD_Home_Page_V2</content>
+        <content>CRM_Home_page_2023</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>standard-home</pageOrSobjectType>
         <type>Flexipage</type>
@@ -168,30 +88,6 @@
         <profile>Carmignac - CRM</profile>
     </profileActionOverrides>
     <profileActionOverrides>
-        <actionName>Tab</actionName>
-        <content>Carmignac_HOC_BD_Home_Page_V2</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>standard-home</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Top Management</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>Tab</actionName>
-        <content>Carmignac_HOC_BD_Home_Page_V2</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>standard-home</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Business Developer</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>Tab</actionName>
-        <content>Carmignac_HOC_BD_Home_Page_V2</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>standard-home</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Investor Services</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
         <actionName>View</actionName>
         <content>Opportunity_Buy_List_Placement_Layout</content>
         <formFactor>Large</formFactor>
@@ -252,87 +148,7 @@
         <pageOrSobjectType>Opportunity</pageOrSobjectType>
         <recordType>Opportunity.x6Distribution_Agreement_Opportunity</recordType>
         <type>Flexipage</type>
-        <profile>Carmignac - Top Management</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Opportunity_Buy_List_Placement_Layout</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Opportunity</pageOrSobjectType>
-        <recordType>Opportunity.x6Distribution_Agreement_Opportunity</recordType>
-        <type>Flexipage</type>
         <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>Tab</actionName>
-        <content>Carmignac_HOC_BD_Home_Page_V2</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>standard-home</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Campaign Automation</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Account_GlobalAccount</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Investor Services</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Ultimate_Parent</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Account_GlobalAccount</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - System Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Ultimate_Parent</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Business Developer</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Ultimate_Parent</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Standard User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Ultimate_Parent</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Contributor</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Opportunity_Buy_List_Placement_Layout</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Opportunity</pageOrSobjectType>
-        <recordType>Opportunity.x6Distribution_Agreement_Opportunity</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Top Management</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -354,10 +170,19 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>GAMRecordPage</content>
+        <content>Opportunity_Buy_List_Placement_Layout</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Account_GlobalAccount</recordType>
+        <pageOrSobjectType>Opportunity</pageOrSobjectType>
+        <recordType>Opportunity.x6Distribution_Agreement_Opportunity</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Interface</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Opportunity_Buy_List_Placement_Layout</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Opportunity</pageOrSobjectType>
+        <recordType>Opportunity.x6Distribution_Agreement_Opportunity</recordType>
         <type>Flexipage</type>
         <profile>Admin</profile>
     </profileActionOverrides>
@@ -368,276 +193,70 @@
         <pageOrSobjectType>Opportunity</pageOrSobjectType>
         <recordType>Opportunity.x6Distribution_Agreement_Opportunity</recordType>
         <type>Flexipage</type>
-        <profile>Carmignac - Interface</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Account_GlobalAccount</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - CRM</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Account_GlobalAccount</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Top Management</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Ultimate_Parent</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - System Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>Tab</actionName>
-        <content>Carmignac_HOC_BD_Home_Page_V2</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>standard-home</pageOrSobjectType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Contributor</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Account_GlobalAccount</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Business Developer</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Account_GlobalAccount</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Contributor</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Account_GlobalAccount</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - CRM</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Account_GlobalAccount</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Interface</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Account_GlobalAccount</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Top Management</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Account_GlobalAccount</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Investor Services</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Account_GlobalAccount</recordType>
-        <type>Flexipage</type>
         <profile>Carmignac - Standard User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Account_GlobalAccount</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Ultimate_Parent</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Business Developer</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Ultimate_Parent</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Contributor</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Ultimate_Parent</recordType>
+        <content>Opportunity_Buy_List_Placement_Layout</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Opportunity</pageOrSobjectType>
+        <recordType>Opportunity.x6Distribution_Agreement_Opportunity</recordType>
         <type>Flexipage</type>
         <profile>Carmignac - CRM</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Ultimate_Parent</recordType>
+        <content>Work_Together_Process_Record_Page_Admin_MI</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.RFP_RFI_Questionnaire</recordType>
         <type>Flexipage</type>
-        <profile>Carmignac - Interface</profile>
+        <profile>Carmignac - Market Intelligence</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>GAMRecordPage</content>
+        <content>Work_Together_Process_Record_Page_Admin_MI</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Ultimate_Parent</recordType>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.RFP_RFI_Questionnaire</recordType>
         <type>Flexipage</type>
-        <profile>Carmignac - Top Management</profile>
+        <profile>Carmignac - Market Intelligence</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Ultimate_Parent</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Investor Services</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Ultimate_Parent</recordType>
+        <content>Work_Together_Process_Record_Page_Admin_MI</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.RFP_RFI_Questionnaire</recordType>
         <type>Flexipage</type>
         <profile>Carmignac - System Administrator</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>GAMRecordPage</content>
+        <content>Work_Together_Process_Record_Page_Admin_MI</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Ultimate_Parent</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Standard User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Ultimate_Parent</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Account_GlobalAccount</recordType>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.RFP_RFI_Questionnaire</recordType>
         <type>Flexipage</type>
         <profile>Carmignac - System Administrator</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>GAMRecordPage</content>
+        <content>Work_Together_Process_Record_Page_Admin_MI</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Account_GlobalAccount</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Contributor</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Opportunity_Buy_List_Placement_Layout</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Opportunity</pageOrSobjectType>
-        <recordType>Opportunity.x6Distribution_Agreement_Opportunity</recordType>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.RFP_RFI_Questionnaire</recordType>
         <type>Flexipage</type>
         <profile>Admin</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Account_GlobalAccount</recordType>
+        <content>Work_Together_Process_Record_Page_Admin_MI</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.RFP_RFI_Questionnaire</recordType>
         <type>Flexipage</type>
-        <profile>Carmignac - Interface</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Opportunity_Buy_List_Placement_Layout</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Opportunity</pageOrSobjectType>
-        <recordType>Opportunity.x6Distribution_Agreement_Opportunity</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Standard User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Ultimate_Parent</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Top Management</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Opportunity_Buy_List_Placement_Layout</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Opportunity</pageOrSobjectType>
-        <recordType>Opportunity.x6Distribution_Agreement_Opportunity</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - CRM</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Ultimate_Parent</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - CRM</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>GAMRecordPage</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Account_GlobalAccount</recordType>
-        <type>Flexipage</type>
-        <profile>Carmignac - Standard User</profile>
+        <profile>Admin</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -803,21 +422,381 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Work_Together_Process_Record_Page_Admin_MI</content>
-        <formFactor>Small</formFactor>
+        <content>Case_Publication_Lightning_Page</content>
+        <formFactor>Large</formFactor>
         <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.RFP_RFI_Questionnaire</recordType>
+        <recordType>Case.Sub_Publication_Request</recordType>
         <type>Flexipage</type>
-        <profile>Carmignac - Top Management</profile>
+        <profile>Carmignac - Business Developer</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Work_Together_Process_Record_Page_Admin_MI</content>
+        <content>Case_Publication_Lightning_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.RFP_RFI_Questionnaire</recordType>
+        <recordType>Case.Sub_Publication_Request</recordType>
         <type>Flexipage</type>
-        <profile>Carmignac - Top Management</profile>
+        <profile>Carmignac - Campaign Automation</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Publication_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Sub_Publication_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Contributor</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Publication_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Sub_Publication_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - CRM</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Publication_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Sub_Publication_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Event</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Publication_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Sub_Publication_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Interface</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Publication_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Sub_Publication_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Interface Etouches</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Publication_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Sub_Publication_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Investment Solutions</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Publication_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Sub_Publication_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Investor Services</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Publication_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Sub_Publication_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Legal and Compliance</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Publication_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Sub_Publication_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Market Intelligence</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Publication_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Sub_Publication_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Standard User</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Publication_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Sub_Publication_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Publication_Lightning_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Sub_Publication_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Translation_Child_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Sub_Translation_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Business Developer</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Translation_Child_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Sub_Translation_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Campaign Automation</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Translation_Child_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Sub_Translation_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Contributor</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Translation_Child_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Sub_Translation_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - CRM</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Translation_Child_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Sub_Translation_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Event</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Translation_Child_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Sub_Translation_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Interface</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Translation_Child_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Sub_Translation_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Interface Etouches</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Translation_Child_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Sub_Translation_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Investment Solutions</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Translation_Child_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Sub_Translation_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Investor Services</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Translation_Child_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Sub_Translation_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Legal and Compliance</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Translation_Child_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Sub_Translation_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Market Intelligence</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Translation_Child_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Sub_Translation_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Standard User</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Translation_Child_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Sub_Translation_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Translation_Child_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.Sub_Translation_Request</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Translation_Request_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.TranslationRequest</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Business Developer</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Translation_Request_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.TranslationRequest</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Campaign Automation</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Translation_Request_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.TranslationRequest</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Contributor</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Translation_Request_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.TranslationRequest</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - CRM</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Translation_Request_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.TranslationRequest</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Event</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Translation_Request_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.TranslationRequest</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Interface</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Translation_Request_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.TranslationRequest</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Interface Etouches</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Translation_Request_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.TranslationRequest</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Investment Solutions</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Translation_Request_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.TranslationRequest</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Investor Services</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Translation_Request_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.TranslationRequest</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Legal and Compliance</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Translation_Request_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.TranslationRequest</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Market Intelligence</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Translation_Request_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.TranslationRequest</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Standard User</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Translation_Request_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.TranslationRequest</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - System Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Case_Translation_Request_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Case</pageOrSobjectType>
+        <recordType>Case.TranslationRequest</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
     </profileActionOverrides>
     <tabs>standard-home</tabs>
     <tabs>standard-Account</tabs>
@@ -841,5 +820,6 @@
     <tabs>Data_Solutions_Report_Type__c</tabs>
     <tabs>Salesforce_update__c</tabs>
     <tabs>NDA__c</tabs>
+    <tabs>ShareclassRegistration_Website__c</tabs>
     <uiType>Lightning</uiType>
 </CustomApplication>

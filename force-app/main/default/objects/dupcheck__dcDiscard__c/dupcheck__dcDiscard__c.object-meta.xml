@@ -154,13 +154,13 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ReadWrite</externalSharingModel>
-    <label>DC Discard</label>
+    <label>Plauti Deduplicate Discard</label>
     <nameField>
         <displayFormat>DCDIS{00000000}</displayFormat>
-        <label>Duplicate Check Discard Name</label>
+        <label>Plauti Deduplicate Discard Name</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>DC Discards</pluralLabel>
+    <pluralLabel>Plauti Deduplicate Discards</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

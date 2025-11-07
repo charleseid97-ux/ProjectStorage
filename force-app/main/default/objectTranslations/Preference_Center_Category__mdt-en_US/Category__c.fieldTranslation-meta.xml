@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Category --></label>
+    <name>Category__c</name>
+    <picklistValues>
+        <masterLabel>Communication Type</masterLabel>
+        <translation><!-- Communication Type --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Interest</masterLabel>
+        <translation><!-- Interest --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Preference</masterLabel>
+        <translation><!-- Preference --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Region</masterLabel>
+        <translation><!-- Region --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

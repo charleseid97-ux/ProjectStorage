@@ -154,13 +154,13 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ReadWrite</externalSharingModel>
-    <label>Duplicate Check Temp File</label>
+    <label>Plauti Deduplicate Temp File</label>
     <nameField>
         <displayFormat>DCT{0}</displayFormat>
-        <label>Duplicate Check Temp File Name</label>
+        <label>Plauti Deduplicate Temp File Name</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Duplicate Check Temp Files</pluralLabel>
+    <pluralLabel>Plauti Deduplicate Temp Files</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

@@ -105,6 +105,12 @@
         <style>CustomLinks</style>
     </layoutSections>
     <relatedLists>
+        <fields>WhoName</fields>
+        <fields>ActivityType</fields>
+        <fields>ActivityDate</fields>
+        <relatedList>RelatedEngagementHistoryVirtualList</relatedList>
+    </relatedLists>
+    <relatedLists>
         <fields>TASK.SUBJECT</fields>
         <fields>TASK.WHO_NAME</fields>
         <fields>ACTIVITY.TASK</fields>

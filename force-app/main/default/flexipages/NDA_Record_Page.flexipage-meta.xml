@@ -10,9 +10,6 @@
                             <value>Edit</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>NDA__c.Add_existing_WTP</value>
-                        </valueListItems>
-                        <valueListItems>
                             <value>FeedItem.TextPost</value>
                         </valueListItems>
                         <valueListItems>
@@ -827,6 +824,10 @@
                     <value>Facet-b47e9f73-d52e-4c80-8d0f-13a60afbf570</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>label</name>
                     <value>Fields</value>
                 </componentInstanceProperties>
@@ -861,6 +862,10 @@
                     <value>Facet-2ae3a566-100d-43a6-8674-a8de9dd6d4ca</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>label</name>
                     <value>General Information</value>
                 </componentInstanceProperties>
@@ -880,6 +885,10 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-6b79c0eb-aa7f-441d-aed0-c65c41a4b510</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
@@ -903,6 +912,10 @@
                     <value>Facet-8149903c-9113-4f59-b0c7-92cace565ca1</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>label</name>
                     <value>Description</value>
                 </componentInstanceProperties>
@@ -922,6 +935,10 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-955e79e9-ece2-4c8e-a4bc-c502d32812f8</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>

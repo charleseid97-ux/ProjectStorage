@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RAG__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF( TEXT(Status__c) = &quot;Completed&quot;, &quot;✅ &quot;, 
+			IF(TODAY() &gt; EndDate__c , &quot;🚨&quot;,  
+  									IF( AND(EndDate__c - TODAY() &lt;= OverduePercent__c ,TEXT(Status__c) &lt;&gt; &quot;Completed&quot; ) 
+														, &quot;⚠️&quot;
+														, &quot;🟠&quot; ) ) )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Phase Status Indicator</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

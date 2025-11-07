@@ -17,6 +17,7 @@
                 <elementReference>$Record.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>NDA__c.NDA_Document_Upload</nameSegment>
     </actionCalls>
     <actionCalls>
         <name>Send_new_NDA</name>
@@ -32,6 +33,7 @@
                 <elementReference>$Record.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>NDA__c.New_NDA_Request</nameSegment>
     </actionCalls>
     <actionCalls>
         <name>SendModifiedNDA</name>
@@ -47,6 +49,7 @@
                 <elementReference>$Record.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>NDA__c.NDA_Modified</nameSegment>
     </actionCalls>
     <actionCalls>
         <name>Signed_version_uploaded</name>
@@ -62,6 +65,7 @@
                 <elementReference>$Record.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>NDA__c.The_Signed_NDA_has_been_Uploaded</nameSegment>
     </actionCalls>
     <apiVersion>56.0</apiVersion>
     <assignments>

@@ -3,15 +3,30 @@
     <fullName>InvestmentSolutionProduct__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <description>Products only for Investment Solution opportunities.</description>
-    <externalId>false</externalId>
     <label>Investment Solution Product</label>
     <lookupFilter>
         <active>true</active>
+        <booleanFilter>(1 AND 2) OR (3 AND 4 AND 5)</booleanFilter>
         <errorMessage>You have to choose a product of the type Dummy Products.</errorMessage>
         <filterItems>
             <field>Product__c.RecordType.Name</field>
             <operation>equals</operation>
             <value>Dummy Products</value>
+        </filterItems>
+        <filterItems>
+            <field>Product__c.Validity__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </filterItems>
+        <filterItems>
+            <field>Product__c.RecordType.Name</field>
+            <operation>equals</operation>
+            <value>Strategy</value>
+        </filterItems>
+        <filterItems>
+            <field>Product__c.Product_Name__c</field>
+            <operation>equals</operation>
+            <value>Investment Solutions Generic Strategy</value>
         </filterItems>
         <filterItems>
             <field>Product__c.Validity__c</field>

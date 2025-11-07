@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help></help>
-    <label></label>
+    <help><!-- Precise if the Due Diligence is mainly about corporate, products (in-house) or mandates (IS). --></help>
+    <label><!-- Focus --></label>
     <name>Focus__c</name>
     <picklistValues>
         <masterLabel>DD Corporate</masterLabel>
-        <translation></translation>
+        <translation><!-- DD Corporate --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>DD Investment Solutions</masterLabel>
-        <translation></translation>
+        <translation><!-- DD Investment Solutions --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>DD Product</masterLabel>
-        <translation></translation>
+        <translation><!-- DD Product --></translation>
     </picklistValues>
 </CustomFieldTranslation>

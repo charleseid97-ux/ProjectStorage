@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR03_AMFESGCommunicationMandatory</fullName>
+    <active>false</active>
+    <description>Display &amp; Mandatory ONLY If ((SFDRcategory=8 OR 9) AND (LegalForm=FCP OR SICAV))
+&gt; Conflit avec Display conditionnel</description>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+$Permission.PRPESG,
+RecordType.DeveloperName = &apos;DesignAndProposal&apos;,
+OR(ISPICKVAL(ProjectProductParent__r.SFDRcategory__c, &apos;8&apos;), ISPICKVAL(ProjectProductParent__r.SFDRcategory__c, &apos;9&apos;)),
+OR(ISPICKVAL(ProjectProductParent__r.LegalForm__c, &apos;FCP&apos;), ISPICKVAL(ProjectProductParent__r.LegalForm__c, &apos;SICAV&apos;)),
+ISBLANK(TEXT(AMFESGCommunication__c))
+	
+	)</errorConditionFormula>
+    <errorDisplayField>AMFESGCommunication__c</errorDisplayField>
+    <errorMessage>If SFDR Category = 8 or 9 AND Legal Form = FCP or SICAV, please provide a value for AMF ESG Communication (60400).</errorMessage>
+</ValidationRule>

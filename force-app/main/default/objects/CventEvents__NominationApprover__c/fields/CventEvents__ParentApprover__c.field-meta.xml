@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
     <description>Stores the parent group-type approver in case this approver is a group member.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Stores the parent group-type approver in case this approver is a group member.</inlineHelpText>
     <label>Parent Approver</label>
     <referenceTo>CventEvents__NominationApprover__c</referenceTo>

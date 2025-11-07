@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Data Solutions Subtype --></label>
+    <name>DataSolutionsSubtype__c</name>
+    <picklistValues>
+        <masterLabel>Allocations</masterLabel>
+        <translation><!-- Allocations --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Characteristics</masterLabel>
+        <translation><!-- Characteristics --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Financial Metrics</masterLabel>
+        <translation><!-- Financial Metrics --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Holdings</masterLabel>
+        <translation><!-- Holdings --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Other</masterLabel>
+        <translation><!-- Other --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>PCA</masterLabel>
+        <translation><!-- PCA --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Performance</masterLabel>
+        <translation><!-- Performance --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Regulatory</masterLabel>
+        <translation><!-- Regulatory --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Risk</masterLabel>
+        <translation><!-- Risk --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

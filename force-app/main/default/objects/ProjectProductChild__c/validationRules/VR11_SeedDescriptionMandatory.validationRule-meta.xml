@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR11_SeedDescriptionMandatory</fullName>
+    <active>true</active>
+    <description>Display &amp; Mandatory ONLY if IsSeeded = True</description>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+$Permission.PRPProductStrategy,
+Name = &apos;Proposal&apos;,
+ISPICKVAL(IsSeeded__c, &apos;true&apos;),
+ISBLANK(SeedDescription__c)
+				)</errorConditionFormula>
+    <errorDisplayField>SeedDescription__c</errorDisplayField>
+    <errorMessage>If IsSeeded = True, please provide a value for Seed Description.</errorMessage>
+</ValidationRule>

@@ -44,9 +44,11 @@ public class ProductHierarchyControllerTest
     {
             
         
-        	Id prodId1 = [SELECT Id, Name, SRI__c, Record_Type_Name__c, Sub_Asset_Class__r.Name, Sub_Asset_Class__r.Record_Type_Name__c, Sub_Asset_Class__r.Validity__c, Sub_Asset_Class__c, Asset_Class__r.Record_Type_Name__c, Asset_Class__r.Name, Asset_Class__r.Validity__c, Asset_Class__c, Strategy__c, Strategy__r.Name, Strategy__r.SRI__c, Strategy__r.Record_Type_Name__c, Strategy__r.Investment_Style__c, Strategy__r.Validity__c, Investment_Style__c, Validity__c FROM Product__c 
+        	Id prodId1 = [SELECT Id, Name, SRI__c, Record_Type_Name__c, Sub_Asset_Class__r.Name, Sub_Asset_Class__r.Record_Type_Name__c, Sub_Asset_Class__r.Validity__c, Sub_Asset_Class__c, Asset_Class__r.Record_Type_Name__c, Asset_Class__r.Name, Asset_Class__r.Validity__c, Asset_Class__c, Strategy__c, Strategy__r.Name, 
+                          Strategy__r.SRI__c, Strategy__r.Record_Type_Name__c, Strategy__r.Investment_Style__c, Strategy__r.Validity__c, Investment_Style__c, Validity__c 
+                          FROM Product__c 
                           WHERE Record_Type_Name__c = 'Fund' 
-                          AND Strategy__c != null 
+                          AND Strategy__c != null AND Validity__c = true
                           LIMIT 1].Id;
             
             Id prodId2 = [SELECT Id, Name, SRI__c, Record_Type_Name__c, Sub_Asset_Class__r.Name, Sub_Asset_Class__r.Record_Type_Name__c, Sub_Asset_Class__r.Validity__c, Sub_Asset_Class__c, Asset_Class__r.Record_Type_Name__c, Asset_Class__r.Name, Asset_Class__r.Validity__c, Asset_Class__c, Strategy__c, Strategy__r.Name, Strategy__r.SRI__c, Strategy__r.Record_Type_Name__c, Strategy__r.Investment_Style__c, Strategy__r.Validity__c, Investment_Style__c, Validity__c FROM Product__c 

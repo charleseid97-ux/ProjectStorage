@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>65.0</apiVersion>
+    <choices>
+        <description>Actual Management Fees</description>
+        <name>ActualManagementFees</name>
+        <choiceText>Actual Management Fees</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>ActualManagementFees__c</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <description>Clawback</description>
+        <name>Clawback</name>
+        <choiceText>Clawback</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Clawback__c</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <description>Effective Management Fees</description>
+        <name>EffectiveManagementFees</name>
+        <choiceText>Effective Management Fees</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>EffectiveManagementFees__c</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <description>Effective Perf Fees</description>
+        <name>EffectivePerfFees</name>
+        <choiceText>Effective Perf Fees</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>EffectivePerfFees__c</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <description>Effective Service Fees</description>
+        <name>EffectiveServiceFees</name>
+        <choiceText>Effective Service Fees	&lt;p&gt;&lt;br&gt;&lt;/p&gt;</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>EffectiveServiceFees__c</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <description>Has Perf Fees</description>
+        <name>HasPerfFees</name>
+        <choiceText>Has Perf Fees</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>HasPerfFees__c</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <description>Is Paying Trailer Fees</description>
+        <name>IsPayingTrailerFees</name>
+        <choiceText>Is Paying Trailer Fees</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>IsPayingTrailerFees__c</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <description>Max Conversion Fee</description>
+        <name>MaxConversionFee</name>
+        <choiceText>Max Conversion Fee</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>MaxConversionFee__c</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <description>Max Indirect fees</description>
+        <name>MaxIndirectFees</name>
+        <choiceText>Max Indirect fees</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>MaxIndirectFees__c</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <description>Max Management Fees</description>
+        <name>MaxManagementFees</name>
+        <choiceText>Max Management Fees</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>MaxManagementFees__c</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <description>Max Perf Fees</description>
+        <name>MaxPerfFees</name>
+        <choiceText>Max Perf Fees</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>MaxPerfFees__c</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <description>Max Redemption Fee</description>
+        <name>MaxRedemptionFee</name>
+        <choiceText>Max Redemption Fee</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>MaxRedemptionFee__c</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <description>Max Service Fees</description>
+        <name>MaxServiceFees</name>
+        <choiceText>Max Service Fees</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>MaxServiceFees__c</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <description>Max Subscription Fee</description>
+        <name>MaxSubscriptionFee</name>
+        <choiceText>Max Subscription Fee</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>MaxSubscriptionFee__c</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <description>Name</description>
+        <name>Name</name>
+        <choiceText>Name</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Name__c</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <description>Mgt fees and other admin or operat costs</description>
+        <name>OngoingCostsExante</name>
+        <choiceText>Mgt fees and other admin or operat costs</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>OngoingCostsExante__c</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <description>Ongoing Costs Ex-post</description>
+        <name>OngoingCostsExpost</name>
+        <choiceText>Ongoing Costs Ex-post</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>OngoingCostsExpost__c</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <description>Perf FeesCrystallisation Date</description>
+        <name>PerfFeesCrystallisationDate</name>
+        <choiceText>Perf FeesCrystallisation Date</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>PerfFeesCrystallisationDate__c</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <description>Perf Fees Crystallisation Freq</description>
+        <name>PerfFeesCrystallisationFreq</name>
+        <choiceText>Perf Fees Crystallisation Freq</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>PerfFeesCrystallisationFreq__c</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <description>Perf Fees Ref Period</description>
+        <name>PerfFeesRefPeriod</name>
+        <choiceText>Perf Fees Ref Period</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>PerfFeesRefPeriod__c</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <description>Performance Fee Method</description>
+        <name>PerformanceFeeMethod</name>
+        <choiceText>Performance Fee Method</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>PerformanceFeeMethod__c</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <description>SRI</description>
+        <name>SRI</name>
+        <choiceText>SRI</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>SRI__c</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <description>SRRI</description>
+        <name>SRRI</name>
+        <choiceText>SRRI</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>SRRI__c</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <description>Transaction Costs Ex-ante</description>
+        <name>TransactionCosts</name>
+        <choiceText>Transaction Costs Ex-ante	&lt;p&gt;&lt;br&gt;&lt;/p&gt;</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>TransactionCosts__c</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <description>Transaction Costs Ex-post</description>
+        <name>TransactionCostsExpost</name>
+        <choiceText>Transaction Costs Ex-post</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>TransactionCostsExpost__c</stringValue>
+        </value>
+    </choices>
+    <description>show Fund_Field_ApplicabilityHistory with filters</description>
+    <environments>Default</environments>
+    <interviewLabel>Fund_Field_ApplicabilityHistory {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Fund_Field_ApplicabilityHistoryFlow</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <name>Get_Histoy</name>
+        <label>Get Histoy</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Crea</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Share_Class_Reference__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>FieldAPIName__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Select_Field</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Fund_Field_ApplicabilityHistory__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <screens>
+        <name>Crea</name>
+        <label>Select Item</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>History</name>
+            <dataTypeMappings>
+                <typeName>T</typeName>
+                <typeValue>Fund_Field_ApplicabilityHistory__c</typeValue>
+            </dataTypeMappings>
+            <extensionName>flowruntime:datatable</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>label</name>
+                <value>
+                    <stringValue>Data Table</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>selectionMode</name>
+                <value>
+                    <stringValue>NO_SELECTION</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>minRowSelection</name>
+                <value>
+                    <numberValue>0.0</numberValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>tableData</name>
+                <value>
+                    <elementReference>Get_Histoy</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>keyField</name>
+                <value/>
+            </inputParameters>
+            <inputParameters>
+                <name>isShowSearchBar</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>columns</name>
+                <value>
+                    <stringValue>[{&quot;apiName&quot;:&quot;Field_Name__c&quot;,&quot;guid&quot;:&quot;column-de12&quot;,&quot;editable&quot;:false,&quot;hasCustomHeaderLabel&quot;:false,&quot;customHeaderLabel&quot;:&quot;&quot;,&quot;wrapText&quot;:true,&quot;order&quot;:0,&quot;label&quot;:&quot;Field Name&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;apiName&quot;:&quot;Old_Value__c&quot;,&quot;guid&quot;:&quot;column-2779&quot;,&quot;editable&quot;:false,&quot;hasCustomHeaderLabel&quot;:false,&quot;customHeaderLabel&quot;:&quot;&quot;,&quot;wrapText&quot;:true,&quot;order&quot;:1,&quot;label&quot;:&quot;Old Value&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;apiName&quot;:&quot;New_Value__c&quot;,&quot;guid&quot;:&quot;column-40c1&quot;,&quot;editable&quot;:false,&quot;hasCustomHeaderLabel&quot;:false,&quot;customHeaderLabel&quot;:&quot;&quot;,&quot;wrapText&quot;:true,&quot;order&quot;:2,&quot;label&quot;:&quot;New Value&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;apiName&quot;:&quot;Start_Date__c&quot;,&quot;guid&quot;:&quot;column-f672&quot;,&quot;editable&quot;:false,&quot;hasCustomHeaderLabel&quot;:false,&quot;customHeaderLabel&quot;:&quot;&quot;,&quot;wrapText&quot;:true,&quot;order&quot;:3,&quot;label&quot;:&quot;Start Date&quot;,&quot;type&quot;:&quot;date-local&quot;},{&quot;apiName&quot;:&quot;End_Date__c&quot;,&quot;guid&quot;:&quot;column-f1e4&quot;,&quot;editable&quot;:false,&quot;hasCustomHeaderLabel&quot;:false,&quot;customHeaderLabel&quot;:&quot;&quot;,&quot;wrapText&quot;:true,&quot;order&quot;:4,&quot;label&quot;:&quot;End Date&quot;,&quot;type&quot;:&quot;date-local&quot;},{&quot;apiName&quot;:&quot;User_name__c&quot;,&quot;guid&quot;:&quot;column-2e1b&quot;,&quot;editable&quot;:false,&quot;hasCustomHeaderLabel&quot;:false,&quot;customHeaderLabel&quot;:&quot;&quot;,&quot;wrapText&quot;:true,&quot;order&quot;:5,&quot;label&quot;:&quot;User name&quot;,&quot;type&quot;:&quot;customRichText&quot;},{&quot;apiName&quot;:&quot;Source__c&quot;,&quot;guid&quot;:&quot;column-510a&quot;,&quot;editable&quot;:false,&quot;hasCustomHeaderLabel&quot;:false,&quot;customHeaderLabel&quot;:&quot;&quot;,&quot;wrapText&quot;:true,&quot;order&quot;:6,&quot;label&quot;:&quot;Source&quot;,&quot;type&quot;:&quot;text&quot;}]</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>columnReferences</name>
+                <value/>
+            </inputParameters>
+            <inputParameters>
+                <name>maxRowSelection</name>
+                <value>
+                    <numberValue>0.0</numberValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>selectFieldScreen</name>
+        <label>selectFieldScreen</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Get_Histoy</targetReference>
+        </connector>
+        <fields>
+            <name>Select_Field</name>
+            <choiceReferences>ActualManagementFees</choiceReferences>
+            <choiceReferences>Clawback</choiceReferences>
+            <choiceReferences>EffectiveManagementFees</choiceReferences>
+            <choiceReferences>EffectivePerfFees</choiceReferences>
+            <choiceReferences>EffectiveServiceFees</choiceReferences>
+            <choiceReferences>MaxManagementFees</choiceReferences>
+            <choiceReferences>MaxServiceFees</choiceReferences>
+            <choiceReferences>SRI</choiceReferences>
+            <choiceReferences>SRRI</choiceReferences>
+            <choiceReferences>TransactionCosts</choiceReferences>
+            <choiceReferences>MaxIndirectFees</choiceReferences>
+            <choiceReferences>OngoingCostsExpost</choiceReferences>
+            <choiceReferences>TransactionCostsExpost</choiceReferences>
+            <choiceReferences>HasPerfFees</choiceReferences>
+            <choiceReferences>IsPayingTrailerFees</choiceReferences>
+            <choiceReferences>MaxConversionFee</choiceReferences>
+            <choiceReferences>MaxPerfFees</choiceReferences>
+            <choiceReferences>MaxRedemptionFee</choiceReferences>
+            <choiceReferences>MaxSubscriptionFee</choiceReferences>
+            <choiceReferences>Name</choiceReferences>
+            <choiceReferences>PerfFeesCrystallisationDate</choiceReferences>
+            <choiceReferences>PerfFeesCrystallisationFreq</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Select Field</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>false</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>selectFieldScreen</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>availableFields</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>filtredHistory</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Fund_Field_ApplicabilityHistory__c</objectType>
+    </variables>
+    <variables>
+        <name>HistoryData</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>FieldHistoryArchive</objectType>
+    </variables>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>selectedField</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

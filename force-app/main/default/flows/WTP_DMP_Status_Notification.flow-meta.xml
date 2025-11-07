@@ -20,6 +20,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Case.WTP_DPM_Status_Notification</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -41,6 +42,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Case.You_have_been_assigned_to_this_WTP</nameSegment>
     </actionCalls>
     <apiVersion>56.0</apiVersion>
     <decisions>

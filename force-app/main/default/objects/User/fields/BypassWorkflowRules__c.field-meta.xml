@@ -3,8 +3,8 @@
     <fullName>BypassWorkflowRules__c</fullName>
     <defaultValue>false</defaultValue>
     <description>Checkbox used to bypass workflows on a user basis without having to deactivate workflow rules</description>
-    <externalId>false</externalId>
     <label>Bypass Workflow Rules</label>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <type>Checkbox</type>
 </CustomField>

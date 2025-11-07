@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FundInvestCountries__c</fullName>
+    <inlineHelpText>Depositary/settlement platform foreseen</inlineHelpText>
+    <label>Fund Invest Countries</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Domestic</fullName>
+                <default>false</default>
+                <label>Domestic</label>
+            </value>
+            <value>
+                <fullName>Clearstream Luxemburg</fullName>
+                <default>false</default>
+                <label>Clearstream Luxemburg</label>
+            </value>
+            <value>
+                <fullName>Euroclear Belgium</fullName>
+                <default>false</default>
+                <label>Euroclear Belgium</label>
+            </value>
+            <value>
+                <fullName>Segregated Markets</fullName>
+                <default>false</default>
+                <label>Segregated Markets</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

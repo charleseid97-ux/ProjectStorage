@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help>
+        <!-- Time limit until which transactions (subscriptions, redemptions, switch in and out) will be included in the day&apos;s settlement.
+
+This is the official cut-off time as defined by the Transfer Agent (TA). Please note that each distributor may have its own cut-off time. For clients subscribing via Luxembourg, the Prime TA cut-off time may apply. -->
+    </help>
+    <label><!-- Cut Off Time --></label>
+    <name>CutOffTime__c</name>
+    <picklistValues>
+        <masterLabel>09:00 CET</masterLabel>
+        <translation><!-- 09:00 CET --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>13:00 CET</masterLabel>
+        <translation><!-- 13:00 CET --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>13:30 CET</masterLabel>
+        <translation><!-- 13:30 CET --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>15:00 CET</masterLabel>
+        <translation><!-- 15:00 CET --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>16:00 CET</masterLabel>
+        <translation><!-- 16:00 CET --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>16:30 CET</masterLabel>
+        <translation><!-- 16:30 CET --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>18:00 CET</masterLabel>
+        <translation><!-- 18:00 CET --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

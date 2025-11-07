@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Batch Type --></label>
+    <name>BatchType__c</name>
+    <picklistValues>
+        <masterLabel>FundCreation</masterLabel>
+        <translation><!-- FundCreation --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>FundShareclassModification</masterLabel>
+        <translation><!-- FundShareclassModification --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ShareclassCreation</masterLabel>
+        <translation><!-- ShareclassCreation --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Regional Focus --></label>
+    <name>RegionalFocus__c</name>
+    <picklistValues>
+        <masterLabel>Emerging</masterLabel>
+        <translation><!-- Emerging --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Emerging Asia ex China</masterLabel>
+        <translation><!-- Emerging Asia ex China --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Europe</masterLabel>
+        <translation><!-- Europe --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Global</masterLabel>
+        <translation><!-- Global --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Greater China</masterLabel>
+        <translation><!-- Greater China --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>North America</masterLabel>
+        <translation><!-- North America --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

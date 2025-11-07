@@ -32,6 +32,7 @@ Please contact your admin if you want to change the BD…</stringValue>
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>chatterPost</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -130,6 +131,7 @@ Please contact your admin if you want to change the BD…</stringValue>
                 <elementReference>myCollection_myRule_1_A2recipientIds</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>customNotificationAction</nameSegment>
     </actionCalls>
     <apiVersion>49.0</apiVersion>
     <assignments>

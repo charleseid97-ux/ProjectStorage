@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help></help>
-    <label></label>
+    <help>
+        <!-- Select your priority : 
+Minor = Nice to have, not urgent
+Major = Has to be resolved quickly
+Blocking = Urgent / Blocking to do my work
+(depending of the issue, administration can change the level of priority) -->
+    </help>
+    <label><!-- Priority / Severity --></label>
     <name>PrioritySeverity__c</name>
     <picklistValues>
         <masterLabel>Blocking</masterLabel>
-        <translation></translation>
+        <translation><!-- Blocking --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Major</masterLabel>
-        <translation></translation>
+        <translation><!-- Major --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Minor</masterLabel>
-        <translation></translation>
+        <translation><!-- Minor --></translation>
     </picklistValues>
 </CustomFieldTranslation>

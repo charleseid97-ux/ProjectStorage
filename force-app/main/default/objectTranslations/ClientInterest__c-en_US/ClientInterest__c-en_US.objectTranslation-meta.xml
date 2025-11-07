@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Client Interest</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Client Interests</value>
+    </caseValues>
+    <layouts>
+        <layout>Client Interest Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- The field value must be between 1 and 5. --></errorMessage>
+        <name>VR_ClientInterestRating</name>
+    </validationRules>
+</CustomObjectTranslation>

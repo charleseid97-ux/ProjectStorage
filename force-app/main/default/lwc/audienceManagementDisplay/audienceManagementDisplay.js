@@ -1,11 +1,24 @@
+/**
+ * @description       : 
+ * @author            : Thanina YAYA
+ * @last modified on  : 22-05-2024
+ * @last modified by  : Khadija EL GDAOUNI
+**/
 import { LightningElement, wire, track } from 'lwc';
 import getContacts from '@salesforce/apex/CTL_AudienceManagement.getContacts';
 import getCampaigns from '@salesforce/apex/CTL_AudienceManagement.getCampaigns';
 import addToCampaign from '@salesforce/apex/CTL_AudienceManagement.addToCampaign';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-
+import { CurrentPageReference } from 'lightning/navigation';
+import WarningQueryResults from '@salesforce/label/c.WarningQueryResults';
+import WarningInvitation from '@salesforce/label/c.WarningInvitationOptOut';
+import WarningNewsletter from '@salesforce/label/c.WarningNewsletterOptOut';
+import { getRecord } from 'lightning/uiRecordApi';
 import { subscribe, unsubscribe, MessageContext } from 'lightning/messageService';
 import amQuery from "@salesforce/messageChannel/audienceManagementQuery__c";
+
+//Get Selected Campaign RecType
+const campaignFields = ['Campaign.RecordType.Name'];
 
 //Columns to display
 const columns = [
@@ -24,13 +37,21 @@ const columnsExport = [
     { label: 'Phone', fieldName: 'Phone', sortable: "true"}
 ]
 
+//Columns for the export
+const columnsEmailExport = [
+    { label: 'email', fieldName: 'email', sortable: "true"},
+    { label: 'company', fieldName: 'company', sortable: "true" },
+    { label: 'name', fieldName: 'name', sortable: "true"},
+    { label: 'firstName', fieldName: 'firstName', sortable: "true"},
+    { label: 'lastName', fieldName: 'lastName', sortable: "true"}
+]
+
 export default class AudienceManagementDisplay extends LightningElement {
     subscriptionQuery = null;
 
     showSpinner = false;
     showSpinnerCampaign = false;
     showAddToCampaignModal = false;
-    addButtonDisabled = true;
 
     //List of parameters for the campaign lookup
     @track allCampaigns;
@@ -47,14 +68,73 @@ export default class AudienceManagementDisplay extends LightningElement {
     totalRecountCount = 0; //total record count received from all retrieved records
     totalPage = 1; //total number of page is needed to display all records
     selectedRows = [];
+    mapAllCont = {};
     @track sortBy;
     @track sortDirection;
 
     //Parameter for the Select all contacts button
     allSelected = false;
+    campaignId;
+    //Need to save the selected RecType Name
+    campaignRecType = '';
+    //filtredContact In case of Newsletters/Events Campaign 
+    filtredContacts = [];
+
+    get helpTextContent(){
+        return WarningQueryResults;
+    }
+
+    get addButtonDisabled(){
+        if(this.selectedCampaign) return false;
+        return true;
+    }
+
+    //get selected Record Id
+    get campainRecId(){
+        return this.selectedCampaign?.id;
+    }
+
+    get dispWarningTypeCampaign(){
+
+        if(this.selectedRows.length > 0 && "Events,Newsletters".includes(this.campaignRecType)){
+            let filtredData = [];
+            filtredData = [...(this.selectedRows.filter(selected => (this.campaignRecType === "Events" && this.mapAllCont.get(selected).Invitation_Opt_Out__c === false) 
+            || (this.campaignRecType === "Newsletters" && this.mapAllCont.get(selected).Newsletter_Opt_Out__c === false) ))];
+            
+            this.filtredContacts = [...filtredData];
+            console.log('@@FiltredContact!:',this.filtredContacts); 
+        }
+
+        return ("Events,Newsletters".includes(this.campaignRecType));
+    }
+    //In case of Event/Newsletter Campaign
+    get messageWarning(){
+        let message = ("Events".includes(this.campaignRecType))?WarningInvitation:("Newsletters".includes(this.campaignRecType))?WarningNewsletter:"";
+        return message;
+    }
 
     @wire(MessageContext)
     MessageContext;
+
+    //get Selected Campaign Rec Type
+    /*@wire (getRecord,{recordId:'$campainRecId',fields:campaignFields}) 
+    wiredCampaign({data,error}){
+        if (data && data.fields){
+            this.campaignRecType = data.fields?.RecordType?.displayValue;
+            console.log('@@campaign RecordType Name: ',this.campaignRecType);
+        }else if(error){
+            console.log('@@Get Campaign RecordType Error!');
+        }
+    }*/
+
+    //get URLs Params if exist 
+    @wire(CurrentPageReference)
+    getUrlParam(currentPageReference) {
+        console.log('@@page ref:',currentPageReference);
+        if(currentPageReference && currentPageReference.state && currentPageReference.state.c__campaignid) {
+            this.campaignId = currentPageReference.state.c__campaignid;
+        }
+    }
 
     //Retrieves all campaign on load
     @wire(getCampaigns, {})
@@ -74,6 +154,8 @@ export default class AudienceManagementDisplay extends LightningElement {
             console.log('@err getCampaigns:',error);
         }
     }
+
+    
 
     //Subscribes to the message channel audience Management Query
     subscribeToMessageChannel() {
@@ -106,11 +188,16 @@ export default class AudienceManagementDisplay extends LightningElement {
     //Retrieves the contacts based on the query and initializes the datatable with these records
     getContactsList(query) {
         this.showSpinner = true;
+        this.selectedRows = [];
+        this.selectedCampaign = '';
         getContacts ({request: query})
         .then(data => {
             this.items = data.map(
-                row => { return {...row, AccountName: row.Account.Name}}
+                row => { return {...row, AccountName: row.Account?.Name}}
             );
+            let mapContacts = new Map(data.map((cont) => [cont.Id, cont]));
+            this.mapAllCont = mapContacts;
+            console.log('@@map Contacts: ',this.mapAllCont);
             this.totalRecountCount = data.length;
             this.totalPage = Math.ceil(this.totalRecountCount / this.pageSize);
             //here we slice the data according page size
@@ -127,12 +214,13 @@ export default class AudienceManagementDisplay extends LightningElement {
         .catch(error => {
             this.error = error;
             this.data = undefined;
-            var errorStr = error.body.message;
+            let errorStr = error?.body?.message;
+            console.log('@@Error:',error);
             //User friendly error message if the result of the query is over 50000 records
-            if(errorStr.includes('Too many rows')) {
+            if(errorStr?.includes('Too many rows')) {
                 errorStr = 'Your query is too large, please add filters.';
             }
-            this.showToast(errorStr, 'Error', 'Error'); //show toast for error
+            this.showToast((errorStr)?errorStr:error?.toString() , 'Error', 'Error'); //show toast for error
         })
         .finally(() => {
             this.showSpinner = false;
@@ -214,6 +302,7 @@ export default class AudienceManagementDisplay extends LightningElement {
         this.items.map((ele) => {
             updatedItemsSet.add(ele.Id);
         });
+        
         // Add any new items to the selectedRows list
         updatedItemsSet.forEach((id) => {
             if (!selectedItemsSet.has(id)) {
@@ -230,7 +319,7 @@ export default class AudienceManagementDisplay extends LightningElement {
     }
 
     get noContacts() {
-        return this.items.length == 0;
+        return this.items.length === 0;
     }
 
     //Retrieves the column and the direction to sort by and call the sorting method 
@@ -259,6 +348,14 @@ export default class AudienceManagementDisplay extends LightningElement {
 
     //Open the campaign selection modal
     openAddToCampaign() {
+        if(this.campaignId) {
+            let campaign = this.mapCampaigns[this.campaignId];
+            //Need to check if campaign is active before displaying it as selected one.
+            if(campaign) {
+                this.selectedCampaign = {id:this.campaignId, name:campaign?.Name};
+                this.campaignRecType = campaign.RecordType?.Name;
+            }
+        }
         if(this.selectedRows.length > 0) {
             this.showAddToCampaignModal = true;
         } else {
@@ -272,6 +369,9 @@ export default class AudienceManagementDisplay extends LightningElement {
 
     //Adds the selected contacts to the selected campaign
     handleAddToCampaign() {
+        if("Events,Newsletters".includes(this.campaignRecType) && this.filtredContacts.length > 0 &&  this.filtredContacts.length !== this.selectedRows.length){
+            this.selectedRows = [...this.filtredContacts];
+        }
         this.showSpinnerCampaign = true;
         addToCampaign({campaignId: this.selectedCampaign.id, contactIds: this.selectedRows})
         .then(result => {
@@ -297,50 +397,44 @@ export default class AudienceManagementDisplay extends LightningElement {
     }
 
     handleSelectedCampaign(event) {
-        var campaign = this.mapCampaigns[event.detail.selectedValues];
+        let campaign = this.mapCampaigns[event.detail.selectedValues];
         if(campaign) {
             this.selectedCampaign = {id:event.detail.selectedValues, name:campaign.Name};
-            this.addButtonDisabled = this.selectedCampaign ? false : true;
-        }
-
-        //construct Pills part 
-        var campaign = this.mapCampaigns[event.detail.selectedValues];
-        if(campaign) {
-            this.selectedCampaign = {id:event.detail.selectedValues, name:campaign.Name};
-            this.addButtonDisabled = this.selectedCampaign ? false : true;
+            this.campaignRecType = campaign.RecordType?.Name;
         }
     }
 
     handleRemoveSelectedCampaign() {
         this.selectedCampaign = null;
-        this.addButtonDisabled = this.selectedCampaign ? false : true;
     }
 
     // exports the table as csv
     handleExport() { 
         // Prepare a csv
-        let doc = '';
+        let doc = 'Id';
        
         // Adds the header columns
         columnsExport.forEach(element => {
-            if(doc == '') {
+            if(doc === '') {
                 doc += element.label;
             } else {
                 doc+= ',' + element.label;
             }        
         });
         doc += '\n';
+        
         // Add the data rows
         this.items.forEach(record => {
-            doc += '\'' + record.FirstName + '\''; 
-            doc += ',\'' + record.LastName + '\'';
-            doc += ',\'' + record.Account.Name + '\''; 
-            doc += ',\'' + record.Email + '\''; 
-            doc += ',\'' + record.Phone + '\''; 
+            doc += '' + record.Id + ''; 
+            doc += ',' + record.FirstName + ''; 
+            doc += ',' + record.LastName + '';
+            doc += ',' + record.Account?.Name + ''; 
+            doc += ',' + record.Email + ''; 
+            doc += ',' + record.Phone + ''; 
             doc += '\n';
         });
         // Creates the doc and starts the download
-        var element = 'data:text/csv;charset=utf-8,' + encodeURIComponent(doc);
+        let element = 'data:text/csv;charset=utf-8,' + encodeURIComponent(doc);
         let downloadElement = document.createElement('a');
         downloadElement.href = element;
         downloadElement.target = '_self';
@@ -351,6 +445,46 @@ export default class AudienceManagementDisplay extends LightningElement {
         downloadElement.click();
     }
 
+    // Export contacts for email blast
+    handleExportEmailBlast() { 
+        // Prepare a csv
+        let doc = '';
+       
+        // Add the header columns
+        columnsEmailExport.forEach(element => {
+            if(doc === '') {
+                doc += element.label;
+            } else {
+                doc+= ',' + element.label;
+            }        
+        });
+        doc += '\n';
+        
+        // Add the data rows 
+        this.items.forEach(record => {
+            doc +=  record.Email + ''; 
+            doc += ',' + record.Account?.Name + '';
+            doc += ',' + record.FirstName + ' ' + record.LastName + ''; 
+            doc += ',' + record.FirstName + ''; 
+            doc += ',' + record.LastName + ''; 
+            doc += '\n';
+        });
+        // Creates the doc and starts the download
+        let element = 'data:text/csv;charset=utf-8,' + encodeURIComponent(doc);
+        let downloadElement = document.createElement('a');
+        downloadElement.href = element;
+        downloadElement.target = '_self';
+        
+        var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+        var localISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0, -1);
+    
+        console.log(localISOTime);
+        const dateStr = localISOTime.substring(0,localISOTime.lastIndexOf('.')).replaceAll('-', '').replaceAll(':', '').replace('T', '_');
+        downloadElement.download = 'ImportContactSeismic_' + dateStr + '.csv';
+        document.body.appendChild(downloadElement);
+        downloadElement.click();
+    }
+    
     showToast(message, variant, title) {
         const event = new ShowToastEvent({
             title: title,
@@ -361,6 +495,7 @@ export default class AudienceManagementDisplay extends LightningElement {
         this.dispatchEvent(event);
     }
 
+    // eslint-disable-next-line @lwc/lwc/no-dupe-class-members, no-dupe-class-members
     showToast(message, variant, title, messageData) {
         const event = new ShowToastEvent({
             title: title,

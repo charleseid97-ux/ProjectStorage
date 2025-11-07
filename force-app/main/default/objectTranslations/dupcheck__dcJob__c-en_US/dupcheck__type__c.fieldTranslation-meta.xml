@@ -1,53 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Type --></label>
     <name>dupcheck__type__c</name>
     <picklistValues>
         <masterLabel>convert</masterLabel>
-        <translation></translation>
+        <translation><!-- convert --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>delta</masterLabel>
-        <translation></translation>
+        <translation><!-- delta --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>deltasingle</masterLabel>
-        <translation></translation>
+        <translation><!-- deltasingle --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>direct</masterLabel>
-        <translation></translation>
+        <translation><!-- direct --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>index</masterLabel>
-        <translation></translation>
+        <translation><!-- index --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>localindex</masterLabel>
-        <translation></translation>
+        <translation><!-- localindex --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>merge</masterLabel>
-        <translation></translation>
+        <translation><!-- merge --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>search</masterLabel>
-        <translation></translation>
+        <translation><!-- search --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>search-ext</masterLabel>
-        <translation></translation>
+        <translation><!-- search-ext --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>setformerge</masterLabel>
-        <translation></translation>
+        <translation><!-- setformerge --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>unique</masterLabel>
-        <translation></translation>
+        <translation><!-- unique --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>web2lead</masterLabel>
-        <translation></translation>
+        <translation><!-- web2lead --></translation>
     </picklistValues>
 </CustomFieldTranslation>

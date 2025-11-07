@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Shareclass type --></label>
+    <name>Type__c</name>
+    <picklistValues>
+        <masterLabel>A</masterLabel>
+        <translation><!-- A --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>AW</masterLabel>
+        <translation><!-- AW --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>AW-R</masterLabel>
+        <translation><!-- AW-R --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Afer</masterLabel>
+        <translation><!-- Afer --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>B</masterLabel>
+        <translation><!-- B --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>E</masterLabel>
+        <translation><!-- E --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>F</masterLabel>
+        <translation><!-- F --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>FW</masterLabel>
+        <translation><!-- FW --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>FW-R</masterLabel>
+        <translation><!-- FW-R --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>I</masterLabel>
+        <translation><!-- I --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IW</masterLabel>
+        <translation><!-- IW --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>M</masterLabel>
+        <translation><!-- M --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>X</masterLabel>
+        <translation><!-- X --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>X1</masterLabel>
+        <translation><!-- X1 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>X2</masterLabel>
+        <translation><!-- X2 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Z</masterLabel>
+        <translation><!-- Z --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

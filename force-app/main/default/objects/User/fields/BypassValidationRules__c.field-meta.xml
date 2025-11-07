@@ -2,8 +2,8 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>BypassValidationRules__c</fullName>
     <defaultValue>false</defaultValue>
-    <externalId>false</externalId>
     <label>Bypass Validation Rules</label>
     <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
     <type>Checkbox</type>
 </CustomField>

@@ -3,7 +3,6 @@
     <fullName>CventEvents__Type__c</fullName>
     <deprecated>false</deprecated>
     <description>Indicates the Nomination Rule type.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Indicates the Nomination Rule type.</inlineHelpText>
     <label>Type</label>
     <required>false</required>
@@ -22,6 +21,16 @@
                 <fullName>Public Group</fullName>
                 <default>false</default>
                 <label>Public Group</label>
+            </value>
+            <value>
+                <fullName>Account Owner</fullName>
+                <default>false</default>
+                <label>Account Owner</label>
+            </value>
+            <value>
+                <fullName>Record Owner</fullName>
+                <default>false</default>
+                <label>Record Owner</label>
             </value>
         </valueSetDefinition>
     </valueSet>

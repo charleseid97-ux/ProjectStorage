@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EET20080__c</fullName>
+    <description>20080_Financial_Instrument_%_Of_Minimum_SFDR_Art_9_Funds</description>
+    <label>20080 Financial Instrument % Of Minimum</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Section --></label>
+    <name>Section__c</name>
+    <picklistValues>
+        <masterLabel>Contact and Company filters</masterLabel>
+        <translation><!-- Contact and Company filters --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Customer Interests</masterLabel>
+        <translation><!-- Customer Interests --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Digital Interactions</masterLabel>
+        <translation><!-- Digital Interactions --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Event Preferences</masterLabel>
+        <translation><!-- Event Preferences --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Product Interests Management</masterLabel>
+        <translation><!-- Product Interests Management --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Subscription Management</masterLabel>
+        <translation><!-- Subscription Management --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

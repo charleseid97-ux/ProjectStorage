@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EventAction__c</fullName>
+    <inlineHelpText>Content delivery method.</inlineHelpText>
+    <label>Event Action</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Email</fullName>
+                <default>false</default>
+                <label>Email</label>
+            </value>
+            <value>
+                <fullName>Digital sales room</fullName>
+                <default>false</default>
+                <label>Digital sales room</label>
+            </value>
+            <value>
+                <fullName>Link</fullName>
+                <default>false</default>
+                <label>Link</label>
+            </value>
+            <value>
+                <fullName>Send by Email Blast</fullName>
+                <default>false</default>
+                <label>Send by Email Blast</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

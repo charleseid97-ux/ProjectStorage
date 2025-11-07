@@ -1,8 +1,8 @@
 <!--
-  @description       : 
+  @description       :
   @author            : Thanina YAYA
-  @last modified on  : 04-09-2023
-  @last modified by  : Thanina YAYA
+  @last modified on  : 10-25-2024
+  @last modified by  : SILA Nicolas
 -->
 <template>
     <div class="slds-form-element">
@@ -10,17 +10,32 @@
              <div class="slds-combobox_container">
                 <div  class={mainDivClass} aria-expanded="false" aria-haspopup="listbox" role="combobox" >
                     <div  style="width:100%;" onclick={handleClick} >
+                         <template if:true={requiredLabel}>
+                            <label for="inputSearch" class="slds-form-element__label"><abbr class="slds-required" title="required">* </abbr>{label}</label>
+                         </template>
+                         <template if:false={requiredLabel}>
+                            <label for="inputSearch" class="slds-form-element__label">{label}</label>
+                         </template>
+                         <template if:true={helptext} >
+                            <lightning-helptext content={helptext}></lightning-helptext>
+                        </template>
                          <lightning-input
+                                id="inputSearch"
                                 name="searchAll"
-                                label={label}
+                                variant="label-hidden"
                                 type="search"
                                 value={searchKey}
                                 autocomplete="off"
-                                onchange={handleChangeSearch}>       
+                                onchange={handleChangeSearch}
+                                disabled={disabled}
+                                >
+                                     
                          </lightning-input>
+                         
                     </div>
                     <div  class={dropdownOuterStyle} role="listbox"  style="height:12rem; overflow: scroll;" onmouseleave={closeDropdown} >
-                         <template if:false={monoSelect} >
+                        <template if:true={options} >
+                        <template if:false={monoSelect} >
                              <lightning-checkbox-group name="Checkbox Group"
                                                        label=""
                                                        options={options}
@@ -39,9 +54,24 @@
                              >
                              </lightning-radio-group>
                          </template>
+                        </template>
                     </div>
                 </div>
              </div>
          </div>
-     </div>
+    </div>
+    <template if:true={showPills}>
+        <template if:true={isTranslationComponent}>
+            <div>
+                <lightning-pill-container items={pills} onitemremove={handleItemRemove} is-collapsible="true" is-expanded="false">
+                </lightning-pill-container>
+            </div>
+        </template>
+        <template if:false={isTranslationComponent}>
+            <div style="max-height: 3rem;overflow:scroll;">
+                <lightning-pill-container items={pills} onitemremove={handleItemRemove} is-collapsible="true" is-expanded="false">
+                </lightning-pill-container>
+            </div>
+        </template>
+    </template>
 </template>

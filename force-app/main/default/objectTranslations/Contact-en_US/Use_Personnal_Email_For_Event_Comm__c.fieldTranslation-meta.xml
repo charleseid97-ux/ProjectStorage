@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help></help>
-    <label></label>
+    <help><!-- The professional email is used by default. Tick the box and the personal email will be used for Event communications. --></help>
+    <label><!-- Select Personal Email for Events --></label>
     <name>Use_Personnal_Email_For_Event_Comm__c</name>
 </CustomFieldTranslation>

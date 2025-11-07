@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Engagement Type --></label>
+    <name>Engagement_Type__c</name>
+    <picklistValues>
+        <masterLabel>Events</masterLabel>
+        <translation><!-- Events --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>LinkedIn</masterLabel>
+        <translation><!-- LinkedIn --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Live Webinar</masterLabel>
+        <translation><!-- Live Webinar --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Newsletter</masterLabel>
+        <translation><!-- Newsletter --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Newsletters</masterLabel>
+        <translation><!-- Newsletters --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Prospace</masterLabel>
+        <translation><!-- Prospace --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Replay Webinar</masterLabel>
+        <translation><!-- Replay Webinar --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Seismic</masterLabel>
+        <translation><!-- Seismic --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Subscriptions</masterLabel>
+        <translation><!-- Subscriptions --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Web</masterLabel>
+        <translation><!-- Web --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

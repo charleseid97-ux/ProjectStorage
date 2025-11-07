@@ -5,14 +5,9 @@
     <columns>DUE_DATE</columns>
     <filterScope>Mine</filterScope>
     <filters>
-        <field>IS_CLOSED</field>
-        <operation>equals</operation>
-        <value>0</value>
-    </filters>
-    <filters>
         <field>TYPE</field>
         <operation>equals</operation>
         <value>Business Opportunity</value>
     </filters>
-    <label>Business Opportunities</label>
+    <label>My Business Opportunities</label>
 </ListView>

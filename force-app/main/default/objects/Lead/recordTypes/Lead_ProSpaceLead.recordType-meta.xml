@@ -1018,7 +1018,7 @@
         </values>
         <values>
             <fullName>Event</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
         <values>
             <fullName>Phone Inquiry</fullName>
@@ -1053,6 +1053,10 @@
         </values>
         <values>
             <fullName>Email Inquiry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Events</fullName>
             <default>false</default>
         </values>
         <values>

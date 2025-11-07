@@ -15,7 +15,9 @@ trigger WebCommunicationTrigger on Web_Communication__c (before insert, before u
         if (trigger.isBefore) {
             if (trigger.isInsert) {
                 if (PAD.canTrigger('WebCommunicationBeforeInsertTrigger')) {
+                    System.debug('before Trigger.new => '+Trigger.new);
                     SM029_WebCommunicationTriggerHandler.onBeforeInsert(Trigger.new);
+                    System.debug('after Trigger.new => '+Trigger.new);
                 }
             }
             else if (trigger.isUpdate) {
@@ -27,21 +29,21 @@ trigger WebCommunicationTrigger on Web_Communication__c (before insert, before u
         
         else if (trigger.isAfter) {
             if (trigger.isInsert) {
-                if (PAD.canTrigger('WebCommunicationAfterInsertTrigger') &&
-                        (UserInfo.getUserId() != Label.WebsiteProspaceId)) {//do not trigger for website user
+                if (PAD.canTrigger('WebCommunicationAfterInsertTrigger')){
+                        //(UserInfo.getUserId() != Label.WebsiteProspaceId)) {//do not trigger for website user
                     SM029_WebCommunicationTriggerHandler.onAfterInsert(Trigger.new);
                 }
             }
             else if (trigger.isUpdate) {
-                if (PAD.canTrigger('WebCommunicationAfterUpdateTrigger') &&
-                        (UserInfo.getUserId() != Label.WebsiteProspaceId)) {//do not trigger for website user
+                if (PAD.canTrigger('WebCommunicationAfterUpdateTrigger')){
+                        //(UserInfo.getUserId() != Label.WebsiteProspaceId)) {//do not trigger for website user
                     SM029_WebCommunicationTriggerHandler.onAfterUpdate(Trigger.new, Trigger.oldMap);
                 }
             }
             else if (trigger.isDelete) {
                 if (PAD.canTrigger('WebCommunicationAfterDeleteTrigger') &&
                         (UserInfo.getUserId() != Label.WebsiteProspaceId)) {//do not trigger for website user
-                    SM029_WebCommunicationTriggerHandler.onAfterDelete(Trigger.old);
+                         SM029_WebCommunicationTriggerHandler.onAfterDelete(Trigger.old);
                 }
             }
         }   

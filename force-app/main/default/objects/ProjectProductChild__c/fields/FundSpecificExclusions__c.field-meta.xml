@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FundSpecificExclusions__c</fullName>
+    <description>Fund Specific Exclusions</description>
+    <label>Exclusions</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>AdultEntertainment</fullName>
+                <default>false</default>
+                <label>Adult Entertainment</label>
+            </value>
+            <value>
+                <fullName>Airlines</fullName>
+                <default>false</default>
+                <label>Airlines</label>
+            </value>
+            <value>
+                <fullName>Alcohol10</fullName>
+                <default>false</default>
+                <label>Alcohol (10% revenues threshold)</label>
+            </value>
+            <value>
+                <fullName>Alcohol5</fullName>
+                <default>false</default>
+                <label>Alcohol (5% revenues threshold)</label>
+            </value>
+            <value>
+                <fullName>AnimalWelfare</fullName>
+                <default>false</default>
+                <label>Animal Welfare</label>
+            </value>
+            <value>
+                <fullName>ControversialWeapons</fullName>
+                <default>false</default>
+                <label>Controversial Weapons</label>
+            </value>
+            <value>
+                <fullName>ConventionalandUnconventionalOilandGas</fullName>
+                <default>false</default>
+                <label>Conventional and Unconventional Oil and Gas</label>
+            </value>
+            <value>
+                <fullName>ConventionalWeaponProducers</fullName>
+                <default>false</default>
+                <label>Conventional Weapon Producers</label>
+            </value>
+            <value>
+                <fullName>ConventionalWeapons10</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Conventional Weapons 10%</label>
+            </value>
+            <value>
+                <fullName>ConventionalWeapons5</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Conventional Weapons 5%</label>
+            </value>
+            <value>
+                <fullName>ConventionalWeaponsandSupportServices</fullName>
+                <default>false</default>
+                <label>Conventional Weapons and Support Services</label>
+            </value>
+            <value>
+                <fullName>CountryBelgianLabel</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Country Belgian Label</label>
+            </value>
+            <value>
+                <fullName>CountryFrenchLabel</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Country French Label</label>
+            </value>
+            <value>
+                <fullName>ExtendedPowerGeneration</fullName>
+                <default>false</default>
+                <label>Extended Power Generation</label>
+            </value>
+            <value>
+                <fullName>ExtendedServices</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Extended Services</label>
+            </value>
+            <value>
+                <fullName>ExtendedThermalCoal</fullName>
+                <default>false</default>
+                <label>Extended Thermal Coal</label>
+            </value>
+            <value>
+                <fullName>Firmwide</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Firm Wide</label>
+            </value>
+            <value>
+                <fullName>Gambling</fullName>
+                <default>false</default>
+                <label>Gambling</label>
+            </value>
+            <value>
+                <fullName>NuclearPower</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Nuclear Power</label>
+            </value>
+            <value>
+                <fullName>NuclearPowerProduction</fullName>
+                <default>false</default>
+                <label>Nuclear Power Production</label>
+            </value>
+            <value>
+                <fullName>NuclearWeaponssupport</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Nuclear Weapons support</label>
+            </value>
+            <value>
+                <fullName>OGExtractors</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>O&amp;G Extractors</label>
+            </value>
+            <value>
+                <fullName>OilandGasBE</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Oil &amp; Gas (No tolerance - BE)</label>
+            </value>
+            <value>
+                <fullName>OilandGasFR</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Oil &amp; Gas (No tolerance - FR)</label>
+            </value>
+            <value>
+                <fullName>OilandGasExtraction</fullName>
+                <default>false</default>
+                <label>Oil and Gas Extraction</label>
+            </value>
+            <value>
+                <fullName>PalmOil</fullName>
+                <default>false</default>
+                <label>Palm Oil</label>
+            </value>
+            <value>
+                <fullName>PowerGenerationBE</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Power Generation (No tolerance - BE)</label>
+            </value>
+            <value>
+                <fullName>PowerGenerationFR</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Power Generation (No tolerance - FR)</label>
+            </value>
+            <value>
+                <fullName>PowerGenerators</fullName>
+                <default>false</default>
+                <label>Power Generators</label>
+            </value>
+            <value>
+                <fullName>ThermalCoal</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Thermal Coal (No tolerance)</label>
+            </value>
+            <value>
+                <fullName>ThermalCoalMining</fullName>
+                <default>false</default>
+                <label>Thermal Coal Mining</label>
+            </value>
+            <value>
+                <fullName>Tobacco</fullName>
+                <default>false</default>
+                <label>Tobacco</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>5</visibleLines>
+</CustomField>

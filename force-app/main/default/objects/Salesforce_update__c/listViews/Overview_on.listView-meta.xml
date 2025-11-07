@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Overview_on</fullName>
+    <columns>NAME</columns>
+    <columns>Description__c</columns>
+    <columns>Link_To_Material__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Topic__c</field>
+        <operation>equals</operation>
+        <value>Overview on</value>
+    </filters>
+    <label>Overview on</label>
+</ListView>

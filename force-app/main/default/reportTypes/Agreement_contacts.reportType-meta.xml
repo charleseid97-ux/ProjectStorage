@@ -1701,6 +1701,11 @@
             <field>Convention__c.TECH_ID_18__c</field>
             <table>ConventionRelatedContact__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Agreement_Type__c</field>
+            <table>ConventionRelatedContact__c</table>
+        </columns>
         <masterLabel>Agreement Related Contacts</masterLabel>
     </sections>
 </ReportType>

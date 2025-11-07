@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help></help>
-    <label></label>
+    <help><!-- Expertise checked = YES // Empty = NO --></help>
+    <label><!-- Expertise (Y/N) --></label>
     <name>Expertise_c__c</name>
 </CustomFieldTranslation>

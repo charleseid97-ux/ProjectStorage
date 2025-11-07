@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Stage__c</fullName>
+    <label>Stage</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Design</fullName>
+                <default>false</default>
+                <label>Design</label>
+            </value>
+            <value>
+                <fullName>Proposal</fullName>
+                <default>false</default>
+                <label>Proposal</label>
+            </value>
+            <value>
+                <fullName>Engineering</fullName>
+                <default>false</default>
+                <label>Engineering</label>
+            </value>
+            <value>
+                <fullName>Filing</fullName>
+                <default>false</default>
+                <label>Filing</label>
+            </value>
+            <value>
+                <fullName>SetUp</fullName>
+                <default>false</default>
+                <label>Set-up</label>
+            </value>
+            <value>
+                <fullName>Go Live</fullName>
+                <default>false</default>
+                <label>Go Live</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

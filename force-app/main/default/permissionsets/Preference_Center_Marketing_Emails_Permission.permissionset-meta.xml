@@ -111,6 +111,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.Carmignac_Inflation_Solution_CPI__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.Carmignac_Investissement_CI_PI__c</field>
         <readable>true</readable>
     </fieldPermissions>

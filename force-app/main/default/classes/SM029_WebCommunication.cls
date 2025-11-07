@@ -23,14 +23,14 @@ public class SM029_WebCommunication {
         Set<String> IsinSet = new Set<String>(mapWebComm.values());
 
         List<Share_Class__c> lstQueryShareClass = [
-                SELECT Id, Fund__c, ISIN_Code__c
+                SELECT Id, Fund__c, ISIN__c
                 FROM Share_Class__c
-                WHERE ISIN_Code__c IN :IsinSet
+                WHERE ISIN__c IN :IsinSet
         ];
 
         Map<String, Share_Class__c> shareClassISINMap = new Map<String, Share_Class__c>();
         for(Share_Class__c sc : lstQueryShareClass){
-            shareClassISINMap.put(sc.ISIN_Code__c, sc);
+            shareClassISINMap.put(sc.ISIN__c, sc);
         }
 
         //Map<Web_Communication__c, Share_Class__c> webComByShareClassMap = new Map<Web_Communication__c, Share_Class__c>();
@@ -154,7 +154,7 @@ public class SM029_WebCommunication {
     private static String generateWebCommJson(List<Web_Communication__c> webCommunications) {
 
         //Query all related fields needed
-        List<Web_Communication__c> webCommToSendList = [select Id,ShareClass__r.ISIN_Code__c, AlertTypeRecord__c,
+        List<Web_Communication__c> webCommToSendList = [select Id,ShareClass__r.ISIN__c, AlertTypeRecord__c,
                 AlertTypeRecord__r.Name,  AlertTypeRecord__r.TECH_WebSiteID__c, TECHAlertTypeWebsiteId__c,
                 TECH_WebsiteLeadContactTechId__c
         from Web_Communication__c where Id in :webCommunications];
@@ -168,7 +168,7 @@ public class SM029_WebCommunication {
         for (integer i = 0; i < webCommToSendList.size(); i++) {
 
             gen.writeStartObject();
-            JSONGeneratorChecker.writeStringField(gen, 'ShareIsin', String.valueOf(webCommToSendList[i].ShareClass__r.ISIN_Code__c));
+            JSONGeneratorChecker.writeStringField(gen, 'ShareIsin', String.valueOf(webCommToSendList[i].ShareClass__r.ISIN__c));
             JSONGeneratorChecker.writeStringField(gen, 'AlertType', webCommToSendList[i].TECHAlertTypeWebsiteId__c);
             if(String.isNotBlank(webCommToSendList[i].TECH_WebsiteLeadContactTechId__c)) JSONGeneratorChecker.writeStringField(gen, 'ContactId', webCommToSendList[i].TECH_WebsiteLeadContactTechId__c);
             JSONGeneratorChecker.writeStringField(gen, 'SalesForceId', webCommToSendList[i].Id);
@@ -340,8 +340,16 @@ public class SM029_WebCommunication {
         * @return
         */
     public static List<Share_Class__c> getAllSharesPerCountry(String country) {
-
-        return [SELECT Id, Fund__c, Fund__r.Id, ISIN_Code__c FROM Share_Class__c WHERE Validity__c = true AND Country__c INCLUDES (:country)];
+        List<Id> shareClassCountryids = new List<Id>();
+        
+        for (Country__c c : [
+            SELECT ShareClass__c 
+            FROM Country__c 
+            WHERE Country__c = :country AND ShareClass__c != null
+        ]) {
+            shareClassCountryids.add(c.ShareClass__c);
+        }
+        return [SELECT Id, Fund__c, Fund__r.Id, ISIN__c FROM Share_Class__c WHERE TechIsActive__c = true AND Id In :shareClassCountryids];
     }
 
     /**
@@ -375,7 +383,7 @@ public class SM029_WebCommunication {
                     webComm.Contact__c = aContactRecord.Id;
                     webComm.ShareClass__c = sc.Id;
                     webComm.Fund__c = sc.Fund__r.Id;
-                    webComm.TECH_CommunicationWebsiteId__c = aContactRecord.TECH_WebSiteID__c + '_' + themeNameByIdMap.get(theme).TECH_WebSiteID__c + '_' + sc.ISIN_Code__c;
+                    webComm.TECH_CommunicationWebsiteId__c = aContactRecord.TECH_WebSiteID__c + '_' + themeNameByIdMap.get(theme).TECH_WebSiteID__c + '_' + sc.ISIN__c;
                     webComToCreateList.add(webComm);
                 }
             }
@@ -428,7 +436,7 @@ public class SM029_WebCommunication {
                     webComm.Lead__c = aLeadRecord.Id;
                     webComm.ShareClass__c = sc.Id;
                     webComm.Fund__c = sc.Fund__r.Id;
-                    webComm.TECH_CommunicationWebsiteId__c = aLeadRecord.TECH_WebSiteID__c + '_' + themeNameByIdMap.get(theme).Name + '_' + sc.ISIN_Code__c;
+                    webComm.TECH_CommunicationWebsiteId__c = aLeadRecord.TECH_WebSiteID__c + '_' + themeNameByIdMap.get(theme).Name + '_' + sc.ISIN__c;
                     webComToCreateList.add(webComm);
                 }
             }

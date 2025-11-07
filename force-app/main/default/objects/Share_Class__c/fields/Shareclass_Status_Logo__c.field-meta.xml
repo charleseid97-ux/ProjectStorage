@@ -2,7 +2,11 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Shareclass_Status_Logo__c</fullName>
     <externalId>false</externalId>
-    <formula>IF(Validity__c = true,IMAGE(&quot;/servlet/servlet.FileDownload?file=01558000003Aus5&quot;,&quot;Active&quot;,30,50),IMAGE(&quot;/servlet/servlet.FileDownload?file=01558000003AusK&quot;,&quot;Deactivated&quot;,30,50))</formula>
+    <formula>IF(
+  TEXT(Status__c) = &quot;Active&quot;,
+  IMAGE(&quot;/servlet/servlet.FileDownload?file=01558000003Aus5&quot;, &quot;Active&quot;, 30, 50),
+  IMAGE(&quot;/servlet/servlet.FileDownload?file=01558000003AusK&quot;, &quot;Deactivated&quot;, 30, 50)
+)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Share Class Status Logo</label>
     <required>false</required>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Fund</label>
+    <protected>false</protected>
+    <values>
+        <field>Fields__c</field>
+        <value xsi:type="xsd:string">MinTaxAlignment__c;CarbonTarget__c;InvestmentUniverseReduction__c;SubscriptionSettlementPeriod__c;RedemptionSettlementPeriod__c;SwitchSettlementPeriod__c;CutOffTime__c;NoticePeriod__c;HasPrePaymentPeriod__c;NAVDecimals__c;RegulatoryNumber__c;FXRiskHedging__c;HasADL__c;IsPEA__c;ESGLabel__c;AMFESGCommunication__c;IsUsingPAI__c;SFDRcategory__c;FundSpecificExclusions__c;HasCarbonTarget__c;HasInvestmentUniverseReduction__c;ForeseenEUCategory__c;LegalForm__c;ProductName__c;RegisteredShareLocation__c;MasterFund__c;BenchmarkName__c;HasBenchmark__c;DomiciledIn__c;ParentProduct__c;RecommendedHoldingPeriod__c;RecommendedHoldingPeriodUnit__c;RecommendedHoldingLabel__c;IsFundOfFund__c;InvestmentObjective__c;NAVFrequency__c;PricingMethod__c;BaseCurrency__c;FiscalYearEndDate__c;HasGate__c;NAVPublicationTime__c;RegulatoryApprovalDate__c;IsLeveragedUCITS__c;IsLeveraged__c;HasSwingPricing__c;NAVCalendar__c;Benchmark__c;FundStrategy__c;LeveragewoIRD__c;LeveragewithIRD__c;SustainabilityIndicators__c;MinSustainableInvest__c;CNMVMaxHighYield__c;NAVCalculationDate__c</value>
+    </values>
+    <values>
+        <field>Object__c</field>
+        <value xsi:type="xsd:string">Product__c</value>
+    </values>
+</CustomMetadata>

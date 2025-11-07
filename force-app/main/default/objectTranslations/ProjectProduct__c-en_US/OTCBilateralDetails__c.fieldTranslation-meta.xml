@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- OTC (bilateral) Details --></label>
+    <name>OTCBilateralDetails__c</name>
+    <picklistValues>
+        <masterLabel>Basket</masterLabel>
+        <translation><!-- Basket --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>CDS / CDX</masterLabel>
+        <translation><!-- CDS / CDX --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IRS</masterLabel>
+        <translation><!-- IRS --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Options</masterLabel>
+        <translation><!-- Options --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Swaption</masterLabel>
+        <translation><!-- Swaption --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>TRS</masterLabel>
+        <translation><!-- TRS --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

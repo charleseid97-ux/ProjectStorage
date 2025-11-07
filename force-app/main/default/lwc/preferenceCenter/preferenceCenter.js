@@ -1,8 +1,8 @@
 /**
  * @description       : 
  * @author            : Thanina YAYA
- * @last modified on  : 22-09-2023
- * @last modified by  : Thanina YAYA
+ * @last modified on  : 01-23-2024
+ * @last modified by  : SILA Nicolas
 **/
 import { LightningElement, api, wire, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -14,7 +14,6 @@ import updateFields from '@salesforce/apex/PreferenceCenterController.updateFiel
 import generateTogglesJson from '@salesforce/apex/PreferenceCenterController.generateTogglesJson';
 import getOptOut from '@salesforce/apex/PreferenceCenterController.getOptOut';
 import getSubInterests from '@salesforce/apex/PreferenceCenterController.getSubInterests';
-import getLastModifiedOptOut from '@salesforce/apex/PreferenceCenterController.getLastModifiedOptOut';
 
 //Import Labels
 import generalErrorMsg from '@salesforce/label/c.PreferenceCenter_General_Error_Msg';
@@ -35,6 +34,7 @@ export default class preferenceCenter extends LightningElement {
     @track lastModified;
     @track wiredTogglesRes = [];
 
+    OptReasonLoading = false ;
     isOptOutLoading = false;
     isInterestLoading = false;
     isCommunicationTypeLoading = false;
@@ -42,10 +42,18 @@ export default class preferenceCenter extends LightningElement {
     isRegionLoading = false;
     
     isModalDisplayed = false;
+    optOutModal = false;
     modalTitle;
 
-    @wire(getLastModifiedOptOut, {recordId: '$recordId'})
-    lastModifiedDateOptOut;
+    toggleSection(event) {
+        let buttonid = event.currentTarget.dataset.buttonid;
+        let currentsection = this.template.querySelector('[data-id="' + buttonid + '"]');
+        if (currentsection.className.search('slds-is-open') === -1) {
+            currentsection.className = 'slds-section slds-is-open';
+        } else {
+            currentsection.className = 'slds-section slds-is-close';
+        }
+    }
     
     @wire(getOptOut, {recordId: '$recordId'})
     optOut;
@@ -95,10 +103,11 @@ export default class preferenceCenter extends LightningElement {
             this.showNotification(generalErrorMsg, JSON.stringify(result.error.message), 'error');
         }
     }
+    
+    updateToggle(event, category,nameValue, checkedValue) {
 
-    updateToggle(event, category) {
-        let checked = event.target.checked;
-        let name = event.target.name;
+        let checked = checkedValue != null ? checkedValue : event.target.checked ;
+        let name = nameValue != null ? nameValue : event.target.name;
         updateRecord({recordId: this.recordId, apiName: name, apiValue: checked})
             .then(() => {
                 if (category === 'Communication Type' || category ===  'OptOut') {
@@ -108,7 +117,7 @@ export default class preferenceCenter extends LightningElement {
                             this.parseTogglesData(this.communicationTypeJSON.data, this.communicationTypes);
                         });
                     
-                    refreshApex(this.lastModifiedDateOptOut);
+                    // refreshApex(this.lastModifiedDateOptOut);
                     refreshApex(this.OptOut);
                     if (category === 'Communication Type' && checked === false) {
                         let allFalse = true;
@@ -196,11 +205,6 @@ export default class preferenceCenter extends LightningElement {
         this.updateToggle(event, 'Region');
     }
 
-    updateToggleOptOut(event) {
-        this.isOptOutLoading = true;
-        this.updateToggle(event, 'OptOut');
-    }
-
     openModal(event) {
         this.currentInterest = event.target.value;
         this.modalTitle = event.target.ariaLabel;
@@ -208,7 +212,6 @@ export default class preferenceCenter extends LightningElement {
     }
 
     generateSubInterest(interest) {
-        console.log(interest);
         var newSubInterests = [];
         getSubInterests({recordId: this.recordId, apiName: interest})
             .then(result => {
@@ -274,7 +277,6 @@ export default class preferenceCenter extends LightningElement {
         this.subinterests = [];
         this.currentInterest = '';
     }
-
     checkTogglesValues() {
         let listToCheck = [this.interests, this.communicationTypes, this.preferences, this.regions, this.subinterests];
         listToCheck.forEach(array => {

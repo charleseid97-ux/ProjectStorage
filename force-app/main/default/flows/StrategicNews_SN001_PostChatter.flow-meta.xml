@@ -397,6 +397,7 @@
                 <elementReference>myVariable_current.Company__r.Name</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Post_to_Chatter_Strategic_News</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -753,6 +754,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>Post_to_Chatter_Strategic_News</nameSegment>
     </actionCalls>
     <apiVersion>49.0</apiVersion>
     <assignments>

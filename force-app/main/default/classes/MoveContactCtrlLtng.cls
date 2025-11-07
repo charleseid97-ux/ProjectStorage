@@ -74,7 +74,6 @@ public with sharing class MoveContactCtrlLtng {
                                                   OtherCountry,
                                                   OtherLatitude,
                                                   HasOptedOutOfEmail,
-                                                  Subscriber__c,
                                                   RecordTypeId
                                                   from Contact where id = : oldContactId];
                                   

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help></help>
-    <label></label>
+    <help><!-- Refers to the actual date on which Carmignac will start paying rebates --></help>
+    <label><!-- Effective Date --></label>
     <name>EffectiveDate__c</name>
 </CustomFieldTranslation>

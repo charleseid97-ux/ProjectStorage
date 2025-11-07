@@ -4,9 +4,8 @@
     <defaultValue>false</defaultValue>
     <deprecated>false</deprecated>
     <description>Boolean that determines whether contact hard bounced.</description>
-    <externalId>false</externalId>
     <label>Account Engagement Hard Bounced</label>
     <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <type>Checkbox</type>
 </CustomField>

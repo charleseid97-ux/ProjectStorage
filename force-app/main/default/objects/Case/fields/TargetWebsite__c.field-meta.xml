@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TargetWebsite__c</fullName>
+    <label>Target Website</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <controllingField>Sub_Target_language__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>Austria (DE)</fullName>
+                <default>false</default>
+                <label>Austria (DE)</label>
+            </value>
+            <value>
+                <fullName>Belgium (FR)</fullName>
+                <default>false</default>
+                <label>Belgium (FR)</label>
+            </value>
+            <value>
+                <fullName>Belgium (NL)</fullName>
+                <default>false</default>
+                <label>Belgium (NL)</label>
+            </value>
+            <value>
+                <fullName>Deutschland (DE)</fullName>
+                <default>false</default>
+                <label>Deutschland (DE)</label>
+            </value>
+            <value>
+                <fullName>France (EN)</fullName>
+                <default>false</default>
+                <label>France (EN)</label>
+            </value>
+            <value>
+                <fullName>France (FR)</fullName>
+                <default>false</default>
+                <label>France (FR)</label>
+            </value>
+            <value>
+                <fullName>International (EN)</fullName>
+                <default>false</default>
+                <label>International (EN)</label>
+            </value>
+            <value>
+                <fullName>International (ES)</fullName>
+                <default>false</default>
+                <label>International (ES)</label>
+            </value>
+            <value>
+                <fullName>Intesa (IT)</fullName>
+                <default>false</default>
+                <label>Intesa (IT)</label>
+            </value>
+            <value>
+                <fullName>Italy (IT)</fullName>
+                <default>false</default>
+                <label>Italy (IT)</label>
+            </value>
+            <value>
+                <fullName>Luxembourg (EN)</fullName>
+                <default>false</default>
+                <label>Luxembourg (EN)</label>
+            </value>
+            <value>
+                <fullName>Luxembourg (FR)</fullName>
+                <default>false</default>
+                <label>Luxembourg (FR)</label>
+            </value>
+            <value>
+                <fullName>Nederland (NL)</fullName>
+                <default>false</default>
+                <label>Nederland (NL)</label>
+            </value>
+            <value>
+                <fullName>Portugal (PT)</fullName>
+                <default>false</default>
+                <label>Portugal (PT)</label>
+            </value>
+            <value>
+                <fullName>Spain (ES)</fullName>
+                <default>false</default>
+                <label>Spain (ES)</label>
+            </value>
+            <value>
+                <fullName>Sweden (EN)</fullName>
+                <default>false</default>
+                <label>Sweden (EN)</label>
+            </value>
+            <value>
+                <fullName>Switzerland  (DE)</fullName>
+                <default>false</default>
+                <label>Switzerland  (DE)</label>
+            </value>
+            <value>
+                <fullName>Switzerland (EN)</fullName>
+                <default>false</default>
+                <label>Switzerland (EN)</label>
+            </value>
+            <value>
+                <fullName>Switzerland (FR)</fullName>
+                <default>false</default>
+                <label>Switzerland (FR)</label>
+            </value>
+            <value>
+                <fullName>Switzerland (IT)</fullName>
+                <default>false</default>
+                <label>Switzerland (IT)</label>
+            </value>
+            <value>
+                <fullName>UK (EN)​</fullName>
+                <default>false</default>
+                <label>UK (EN)​</label>
+            </value>
+            <value>
+                <fullName>United Kingdom (EN)</fullName>
+                <default>false</default>
+                <label>United Kingdom (EN)</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>French</controllingFieldValue>
+            <controllingFieldValue>Parent Case</controllingFieldValue>
+            <valueName>Belgium (FR)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>French</controllingFieldValue>
+            <controllingFieldValue>Parent Case</controllingFieldValue>
+            <valueName>France (FR)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>French</controllingFieldValue>
+            <controllingFieldValue>Parent Case</controllingFieldValue>
+            <valueName>Luxembourg (FR)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>French</controllingFieldValue>
+            <controllingFieldValue>Parent Case</controllingFieldValue>
+            <valueName>Switzerland (FR)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Italian</controllingFieldValue>
+            <controllingFieldValue>Parent Case</controllingFieldValue>
+            <valueName>Intesa (IT)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Italian</controllingFieldValue>
+            <controllingFieldValue>Parent Case</controllingFieldValue>
+            <valueName>Italy (IT)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Italian</controllingFieldValue>
+            <controllingFieldValue>Parent Case</controllingFieldValue>
+            <valueName>Switzerland (IT)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Spanish</controllingFieldValue>
+            <controllingFieldValue>Parent Case</controllingFieldValue>
+            <valueName>International (ES)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Spanish</controllingFieldValue>
+            <controllingFieldValue>Parent Case</controllingFieldValue>
+            <valueName>Spain (ES)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Dutch</controllingFieldValue>
+            <controllingFieldValue>Parent Case</controllingFieldValue>
+            <valueName>Belgium (NL)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Dutch</controllingFieldValue>
+            <controllingFieldValue>Parent Case</controllingFieldValue>
+            <valueName>Nederland (NL)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>English</controllingFieldValue>
+            <controllingFieldValue>Parent Case</controllingFieldValue>
+            <valueName>France (EN)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>English</controllingFieldValue>
+            <controllingFieldValue>Parent Case</controllingFieldValue>
+            <valueName>International (EN)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>English</controllingFieldValue>
+            <controllingFieldValue>Parent Case</controllingFieldValue>
+            <valueName>Luxembourg (EN)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>English</controllingFieldValue>
+            <controllingFieldValue>Parent Case</controllingFieldValue>
+            <valueName>Sweden (EN)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>English</controllingFieldValue>
+            <controllingFieldValue>Parent Case</controllingFieldValue>
+            <valueName>Switzerland (EN)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>English</controllingFieldValue>
+            <controllingFieldValue>Parent Case</controllingFieldValue>
+            <valueName>United Kingdom (EN)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>German</controllingFieldValue>
+            <controllingFieldValue>Parent Case</controllingFieldValue>
+            <valueName>Austria (DE)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>German</controllingFieldValue>
+            <controllingFieldValue>Parent Case</controllingFieldValue>
+            <valueName>Deutschland (DE)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>German</controllingFieldValue>
+            <controllingFieldValue>Parent Case</controllingFieldValue>
+            <valueName>Switzerland  (DE)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Portuguese</controllingFieldValue>
+            <controllingFieldValue>Parent Case</controllingFieldValue>
+            <valueName>Portugal (PT)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Parent Case</controllingFieldValue>
+            <valueName>UK (EN)​</valueName>
+        </valueSettings>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

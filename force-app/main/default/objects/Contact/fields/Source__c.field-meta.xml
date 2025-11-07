@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Source__c</fullName>
-    <externalId>false</externalId>
     <inlineHelpText>You can click on the “Source Definition” button at the top right of the page to display the full definition of each source</inlineHelpText>
     <label>Source</label>
     <required>false</required>

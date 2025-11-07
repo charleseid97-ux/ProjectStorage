@@ -1,4 +1,15 @@
+/**
+ * @description       : 
+ * @author            : Thanina YAYA
+ * @last modified on  : 08-02-2024
+ * @last modified by  : Thanina YAYA
+**/
 public with sharing class CTL_AudienceManagement {
+    
+    @AuraEnabled(cacheable=true)
+    public static String getCurrentProfile(String userId) {
+        return [Select Id,Profile.Name from User where Id=:userId].Profile.Name ;
+    }
     
     //Retrieves every contact based on the query passed in parameters
     @AuraEnabled
@@ -8,17 +19,21 @@ public with sharing class CTL_AudienceManagement {
         }
         return Database.query(request);
     }
-
-    //Retrieves every Strategy Product
+    
+    //Retrieves every Active Strategy Product
     @AuraEnabled (cacheable=true)
-    public static List<Product__c> getProducts(){
-        return ([SELECT Id, Name, Product_Name__c, RecordType.Name FROM Product__c WHERE RecordType.Name = 'Strategy' ORDER BY Product_Name__c asc]);
+    public static List<Strategy__c> getProducts(){
+        return ([SELECT Id, Code__c, Name FROM Strategy__c  ORDER BY Code__c asc]);
     }
+
+    /*public static List<Product__c> getProducts(){
+        return ([SELECT Id, Name, Product_Name__c, RecordType.Name FROM Product__c WHERE RecordType.Name = 'Strategy' and Validity__c = true ORDER BY Name asc]);
+    }*/
 
     //Retrieves every active campaign
     @AuraEnabled (cacheable=true)
     public static List<Campaign> getCampaigns(){
-        return ([SELECT Id, Name FROM Campaign WHERE IsActive = true]);
+        return ([SELECT Id, Name, RecordType.Name FROM Campaign WHERE IsActive = true]);
     }
 
     //Retrieves every active users with the Profile 'Carmignac - Business Developer'
@@ -79,7 +94,7 @@ public with sharing class CTL_AudienceManagement {
     //Retrieves the audience management specific filters
     public static List<Filter> getFilterList(){
         try {
-            List<AudienceManagementField__mdt> amfList = [SELECT Id, DeveloperName, Label, Object__c, FieldType__c, FieldName__c, Section__c, MaxNumber__c, Order__c FROM AudienceManagementField__mdt WHERE IsActive__c = true ORDER BY Order__c ASC];
+            List<AudienceManagementField__mdt> amfList = [SELECT Id, DeveloperName, Label, Object__c, FieldType__c, FieldName__c, Section__c, MaxNumber__c,IsMultiSelectLookup__c,IconName__c, Order__c FROM AudienceManagementField__mdt WHERE IsActive__c = true ORDER BY Order__c ASC];
             List<Filter> filterList = new List<Filter>();
             for(AudienceManagementField__mdt amf : amfList) {
                 Filter filter = new Filter();
@@ -89,6 +104,9 @@ public with sharing class CTL_AudienceManagement {
                 filter.type = amf.FieldType__c;
                 filter.fieldName = amf.FieldName__c;
                 filter.section = amf.Section__c;
+                filter.isMultiLookup = amf.IsMultiSelectLookup__c;
+                filter.pillsIcon = amf.IconName__c;
+                filter.selectionSet = new List<String>();
                 switch on amf.FieldType__c {
                     when 'Picklist' {
                         filter.picklistValues = getPicklistValues(amf.Object__c, amf.FieldName__c);
@@ -115,11 +133,33 @@ public with sharing class CTL_AudienceManagement {
             throw new AuraHandledException(e.getMessage());
         }
     }
+    //Retrieves the label and value of a picklist stateCode : global standard picklist
+    @AuraEnabled(cacheable=true)
+    public static List<PicklistValue> getPicklistStateCode(){
+        try {
+            Map<String,PicklistValue> mapVals = new  Map<String,PicklistValue>();
+            Schema.DescribeFieldResult fieldResult = Contact.MailingStateCode.getDescribe();
+            List<Schema.PicklistEntry> ple = fieldResult.getPicklistValues();
+            for( Schema.PicklistEntry f : ple){
+                if(f.isActive()) {
+                    PicklistValue value = new PicklistValue();
+                    value.value = f.getValue();
+                    value.label = f.getLabel();
+                    mapVals.put(f.getValue(),value);
+                }
+            }
+            return mapVals.values();
+        }catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
 
     //Retrieves the label and value of a picklist field
+    @AuraEnabled(cacheable=true)
     public static List<PicklistValue> getPicklistValues(String sObjectName, String fieldName){
         try {
-            List<PicklistValue> values = new List<PicklistValue>();
+            //List<PicklistValue> values = new List<PicklistValue>();
+            Map<String,PicklistValue> mapVals = new  Map<String,PicklistValue>();
             List<Schema.DescribeSObjectResult> results = Schema.describeSObjects(new List<String>{sObjectName});
             for(Schema.DescribeSObjectResult res : results) {
                 for(Schema.PicklistEntry entry : res.fields.getMap().get(fieldName).getDescribe().getPicklistValues()) {
@@ -127,11 +167,11 @@ public with sharing class CTL_AudienceManagement {
                         PicklistValue value = new PicklistValue();
                         value.value = entry.getValue();
                         value.label = entry.getLabel();
-                        values.add(value);
+                        mapVals.put(value.value,value);
                     }
                 }
             }
-            return values;
+            return mapVals.values();
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
@@ -159,7 +199,7 @@ public with sharing class CTL_AudienceManagement {
     @AuraEnabled
     public static List<Id> getCompanyFromProductInterest(String productId){
         Set<Id> companyIds = new Set<Id>();
-        for(AUM__c aum : [SELECT Id, Company__c FROM AUM__c WHERE ShareClass__r.Fund__r.Strategy__c =: productId]) {
+        for(AUM__c aum : [SELECT Id, Company__c FROM AUM__c WHERE ShareClass__r.Fund__r.FundStrategy__c =: productId]) {
             companyIds.add(aum.Company__c);
         }
         if(companyIds.isEmpty()) {
@@ -173,19 +213,38 @@ public with sharing class CTL_AudienceManagement {
     public static String addToCampaign(Id campaignId, List<Id> contactIds){
         //If there is less than 200 contact, we do it synchronously
         //If there is more, we do it asynchronously via a queueable job
+        Savepoint sp = Database.setSavepoint();
         if(contactIds.size() <= 200) {
             try {
                 List<CampaignMember> members = new List<CampaignMember>();
                 for(Id id : contactIds) {
                     members.add(new CampaignMember(CampaignId=campaignId, ContactId=id));
                 }
-                insert members;
+                Database.SaveResult[] saveResults = Database.insert(members, false);
+                // Check for failed inserts
+                for (Integer i = 0; i < saveResults.size(); i++) {
+                    if (!saveResults[i].isSuccess()) {
+                         if ( saveResults[i].getErrors()[0].getStatusCode() != StatusCode.DUPLICATE_VALUE ) {
+                            System.debug('Error inserting CampaignMember for ContactId rollback ' + saveResults[i].getErrors()[0].getMessage());
+                            Database.rollback(sp);
+                            AuraHandledException e = new AuraHandledException(saveResults[i].getErrors()[0].getMessage());
+                            e.setMessage(saveResults[i].getErrors()[0].getMessage());
+                            throw e;
+
+                        }
+                    }
+                }
                 return [SELECT Name FROM Campaign WHERE Id =: campaignId].Name;
+
             } catch (Exception e) {
+                System.debug('Error: '+e.getMessage());
+                Database.rollback(sp);
                 throw new AuraHandledException(e.getMessage());
             }
         } else {
-            Id jobId = System.enqueueJob(new QUEUEABLE001_AudienceManagement(campaignId, contactIds));
+            
+            BATCH_AudienceManagement batchJob = new BATCH_AudienceManagement(campaignId, contactIds,DateTime.now());
+            Id jobId = Database.executeBatch(batchJob, 200); // 200 is the size of each batch, adjust as needed
             System.debug(jobId);
             return ('ENQUEUED');
         }
@@ -214,5 +273,9 @@ public with sharing class CTL_AudienceManagement {
         @auraEnabled public Boolean hasChildren = false;
         @auraEnabled public Boolean hasParent = false;
         @auraEnabled public String parentName;
+        @auraEnabled public Boolean isMultiLookup = false; //used to flag picklist fields that we need to display as lookupFilter
+        @auraEnabled public List<String> selectionSet;
+        @auraEnabled public String pillsIcon='';
+        
     }
 }

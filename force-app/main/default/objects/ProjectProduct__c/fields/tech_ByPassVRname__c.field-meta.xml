@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>tech_ByPassVRname__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>lié à la validation rule limite 14 caractères</description>
+    <label>tech_ByPassVRname</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

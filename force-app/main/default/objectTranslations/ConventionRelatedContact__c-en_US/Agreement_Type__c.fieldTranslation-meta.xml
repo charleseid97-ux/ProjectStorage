@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Agreement Type --></label>
+    <name>Agreement_Type__c</name>
+    <picklistValues>
+        <masterLabel>Distribution Agreement</masterLabel>
+        <translation><!-- Distribution Agreement --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IS Agreement</masterLabel>
+        <translation><!-- IS Agreement --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

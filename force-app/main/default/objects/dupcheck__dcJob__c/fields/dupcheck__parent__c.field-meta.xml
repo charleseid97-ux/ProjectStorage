@@ -3,10 +3,9 @@
     <fullName>dupcheck__parent__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <deprecated>false</deprecated>
-    <externalId>false</externalId>
     <label>Parent Job</label>
     <referenceTo>dupcheck__dcJob__c</referenceTo>
-    <relationshipLabel>Duplicate Check Jobs</relationshipLabel>
+    <relationshipLabel>Plauti Deduplicate Jobs</relationshipLabel>
     <relationshipName>parent</relationshipName>
     <required>false</required>
     <trackTrending>false</trackTrending>

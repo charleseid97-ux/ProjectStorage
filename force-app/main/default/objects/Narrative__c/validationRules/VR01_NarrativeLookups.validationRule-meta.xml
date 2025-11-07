@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR01_NarrativeLookups</fullName>
+    <active>false</active>
+    <description>Un seul champ de rattachement peut être renseigné en même temps</description>
+    <errorConditionFormula>IF(ISBLANK(Product__c), 0, 1) + IF(ISBLANK(ShareClass__c), 0, 1) + IF(ISBLANK(Contact__c), 0, 1) + IF(ISBLANK(Company__c), 0, 1)  != 1</errorConditionFormula>
+    <errorMessage>One and only one of the following lookup fields should be filled : Strategy, Product, Shareclass, Contact, Company, EET</errorMessage>
+</ValidationRule>

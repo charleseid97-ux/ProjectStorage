@@ -1,0 +1,30 @@
+<template>
+    <div class="card-container">
+        <div class="slds-clearfix">
+            <div class="home-container slds-float_left">
+                <template if:true={isShareclass}>
+                    <lightning-icon
+                        icon-name="utility:back"
+                        size="medium"
+                        class="home-icon"
+                        onclick={navigateBack}
+                        title="Go back to product level">
+                    </lightning-icon>
+                </template>
+                <template if:false={isShareclass}>
+                    <lightning-icon
+                        icon-name="standard:home"
+                        size="medium"
+                        class="home-icon"
+                        onclick={navigateBack}>
+                    </lightning-icon>
+                </template>
+            </div>
+        </div>
+        <template for:each={steps} for:item="step">
+            <div key={step.id} class="card" style={step.stylestep} data-id={step.id} onclick={handleStepClick}>
+                <span>{step.name}</span>
+            </div>
+        </template>
+    </div>
+</template>

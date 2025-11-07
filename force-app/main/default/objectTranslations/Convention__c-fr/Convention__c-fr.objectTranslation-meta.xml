@@ -9,388 +9,461 @@
         <value>Agreements</value>
     </caseValues>
     <fieldSets>
-        <label></label>
+        <label><!-- HierarchyAgreement --></label>
         <name>HierarchyAgreement</name>
     </fieldSets>
     <gender>Masculine</gender>
     <layouts>
         <layout>Convention Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Contact Information --></label>
             <section>Contact Information</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Details --></label>
             <section>Details</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Segmentation --></label>
             <section>Segmentation</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>IS Agreement</layout>
+        <sections>
+            <label><!-- BAU Chapter --></label>
+            <section>BAU Chapter</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Description Chapter --></label>
+            <section>Description Chapter</section>
+        </sections>
+        <sections>
+            <label><!-- Governance Chapter --></label>
+            <section>Governance Chapter</section>
+        </sections>
+        <sections>
+            <label><!-- KYD --></label>
+            <section>KYD</section>
+        </sections>
+        <sections>
+            <label><!-- Old fields --></label>
+            <section>Old fields</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Intermediary Agreement Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Distributor --></label>
             <section>Distributor</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Grid Amendment Request --></label>
             <section>Grid Amendment Request</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Reallocation / IS Contact --></label>
             <section>Reallocation / IS Contact</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Rebate/ IS Contact --></label>
             <section>Rebate/ IS Contact</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Rebates --></label>
             <section>Rebates</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Regulatory checks (Investor Services &amp; Compliance) --></label>
             <section>Regulatory checks (Investor Services &amp; Compliance)</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Renewal Request --></label>
             <section>Renewal Request</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Termination Request --></label>
             <section>Termination Request</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Intermediary Agreement Request Full Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Reallocation / IS Contact --></label>
             <section>Reallocation / IS Contact</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Rebate/ IS Contact --></label>
             <section>Rebate/ IS Contact</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Rebates --></label>
             <section>Rebates</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Regulatory checks (Investor Services &amp; Compliance) --></label>
             <section>Regulatory checks (Investor Services &amp; Compliance)</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Request --></label>
             <section>Request</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Intermediary Agreement Request Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Rebates --></label>
             <section>Rebates</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Request --></label>
             <section>Request</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Investor without Agreement Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Hidden Fields in PRD --></label>
             <section>Hidden Fields in PRD</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Regulatory checks (Investor Services &amp; Compliance) --></label>
             <section>Regulatory checks (Investor Services &amp; Compliance)</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Request --></label>
             <section>Request</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Termination Request --></label>
             <section>Termination Request</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Investor without Agreement Request Full Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Regulatory checks (Investor Services &amp; Compliance) --></label>
             <section>Regulatory checks (Investor Services &amp; Compliance)</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Request --></label>
             <section>Request</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Investor without Agreement Request Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Request --></label>
             <section>Request</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Sub-distributor Agreement Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Distributor --></label>
             <section>Distributor</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Grid Amendment Request --></label>
             <section>Grid Amendment Request</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Reallocation / IS Contact --></label>
             <section>Reallocation / IS Contact</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Rebate/ IS Contact --></label>
             <section>Rebate/ IS Contact</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Rebates --></label>
             <section>Rebates</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Regulatory checks (Investor Services &amp; Compliance) --></label>
             <section>Regulatory checks (Investor Services &amp; Compliance)</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Renewal Request --></label>
             <section>Renewal Request</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Termination Request --></label>
             <section>Termination Request</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Sub-distributor Agreement Request Full Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Reallocation / IS Contact --></label>
             <section>Reallocation / IS Contact</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Rebate/ IS Contact --></label>
             <section>Rebate/ IS Contact</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Rebates --></label>
             <section>Rebates</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Regulatory checks (Investor Services &amp; Compliance) --></label>
             <section>Regulatory checks (Investor Services &amp; Compliance)</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Request --></label>
             <section>Request</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Sub-distributor Agreement Request Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Rebates --></label>
             <section>Rebates</section>
         </sections>
         <sections>
-            <label></label>
+            <label><!-- Request --></label>
             <section>Request</section>
         </sections>
     </layouts>
     <layouts>
         <layout>Technical Request Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
     </layouts>
     <quickActions>
-        <label></label>
+        <label><!-- Code Type Definitions --></label>
         <name>Code_Type_Definitions</name>
     </quickActions>
     <quickActions>
-        <label></label>
+        <label><!-- New Agreement Role --></label>
         <name>NewAgreementRole</name>
     </quickActions>
     <quickActions>
-        <label></label>
+        <label><!-- New KYD Due Diligence --></label>
         <name>New_KYD_Due_Diligence</name>
     </quickActions>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- Record type for completed Intermediary Agreement --></description>
+        <label><!-- Intermediary Agreement --></label>
         <name>Agreement</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- Allows to track IS Agreement life from Pre-Governance to Signature --></description>
+        <label><!-- IS Agreement --></label>
+        <name>IS_Agreement</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Record type for completed Investor without Agreements --></description>
+        <label><!-- Investor without Agreement --></label>
         <name>Institutional_Agreement</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- Direct Investor, End Investor, Consultant --></description>
+        <label><!-- Investor without Agreement Request --></label>
         <name>Investor_without_Agreement_Request</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- Record type for processing Investor without Agreement --></description>
+        <label><!-- Investor without Agreement Request Full --></label>
         <name>Investor_without_Agreement_Request_Full</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- Distribution Agreement, French IFA Agreement, Swiss IFA Agreement, Execution only Platform Agreement, Placement Agreement, Platform Master Agreement, Private Placement Agreement, OEIC Distribution Agreement, UK Execution only Platform Agreement --></description>
+        <label><!-- Intermediary Agreement Request --></label>
         <name>Request_Agreement</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- Record type for processing Intermediary Agreement --></description>
+        <label><!-- Intermediary Agreement Request Full --></label>
         <name>Request_Agreement_Full</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- Record type for completed Sub-distributor Agreement --></description>
+        <label><!-- Sub-distributor via Platforms --></label>
         <name>Sub_distributor_Agreement</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- Approval Letter request for sub-distributors operating via a platform --></description>
+        <label><!-- Sub-distributor via Platforms Request --></label>
         <name>Sub_distributor_Agreement_Request</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- Record type for processing Sub-distributor via Platforms --></description>
+        <label><!-- Sub-distributor via Platforms Request Full --></label>
         <name>Sub_distributor_Agreement_Request_Full</name>
     </recordTypes>
     <recordTypes>
-        <description></description>
-        <label></label>
+        <description><!-- Technical Code Request --></description>
+        <label><!-- Technical Code Request --></label>
         <name>Technical_Agreement</name>
     </recordTypes>
     <startsWith>Vowel</startsWith>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- You cannot request a Cancellation of an already Terminated Agreement --></errorMessage>
         <name>Agreement_Cancellation_Date_required</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Only Legal can edit a Code Type --></errorMessage>
         <name>Agreement_Code_Type_locked_to_Legal_edit</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Only Investor Services can edit an Agreement Code --></errorMessage>
         <name>Agreement_Code_locked_to_IS_edit</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Please add at least one Country of Distribution --></errorMessage>
+        <name>Agreement_Countries_of_Distrbution</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- End Date must be after the Effective Date --></errorMessage>
         <name>Agreement_Effective_Date_before_End_Date</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- You must set an End Date only when the Agreement is not Permanent --></errorMessage>
         <name>Agreement_End_Date_NOT_required</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- You must set an End Date when the Agreement is not Permanent --></errorMessage>
         <name>Agreement_End_Date_required</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- You cannot request a Cancellation of an already Terminated Agreement --></errorMessage>
         <name>Agreement_Grid_End_GT_Start</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- You must enter a Grid Start Date when requesting a new Grid --></errorMessage>
         <name>Agreement_Grid_Request_Date_Mandatory</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- If Governance Decision is &quot;Rejected&quot; then Governance Decision Date cannot be blank. --></errorMessage>
+        <name>Agreement_IS_Closed</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- To proceed to &quot;Post Governance&quot; stage, the following criteria need to be met : SPC Status and Gouvernance Decision Date cannot be blank and the Gouvernance Decision must be &apos;Approved&apos;. --></errorMessage>
+        <name>Agreement_IS_PostGovernance</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- To proceed to &quot;Ready for Gouvernance&quot; stage, the following boxes must be checked : Operations Team, GHOS, Legal Team and Copliance Team --></errorMessage>
+        <name>Agreement_IS_ReadyForGouvernance</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage>
+            <!-- To proceed to &quot;Ready to execute&quot; stage, the following criteria need to be met : Risk Team, Finance Team, Tax DAC6 must be checked.
+If Need for an initial DD is set to Yes then the KYD DD Oversight Status must be Completed -->
+        </errorMessage>
+        <name>Agreement_IS_ReadyToExecute</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage>
+            <!-- To proceed to &quot;Ready to execute&quot; stage, SPC Status cannot be &apos;To Do&apos;.
+If SPC Status is &apos;Yes Approved&apos; then you must provide a Validation Date. -->
+        </errorMessage>
+        <name>Agreement_IS_SPC_Validation_Date</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage>
+            <!-- To proceed to &quot;Signed&quot; stage, the following fields cannot be blank : 
+Effective and Signed Dates, Teams Channel 2, Servicing Source, Internal Servicing Code. -->
+        </errorMessage>
+        <name>Agreement_IS_Signed</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Only Users with Legal and Compliance profiles can change the status of an Agreement to signed. --></errorMessage>
+        <name>Agreement_IS_SignedPermission</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- This agreement is terminated and cannot be modified. --></errorMessage>
         <name>Agreement_Lock_terminated_record</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- You must select a Master Agreement for this Code Type --></errorMessage>
         <name>Agreement_Master_Agreement_for_Sub_Dist</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- You cannot select a Master Agreement for this Code Type --></errorMessage>
         <name>Agreement_No_Master_Agreement_for_Type</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- You must select a Preliminary Risk Assessment --></errorMessage>
         <name>Agreement_Risk_Mandatory_for_IS</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- A Signature Date is mandatory for this Status --></errorMessage>
         <name>Agreement_Signature_Date_for_Signed</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Signature Date cannot be after the Effective Data --></errorMessage>
         <name>Agreement_Signature_before_Effective</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Termination Date and Grid End Date required when status is Terminated --></errorMessage>
         <name>Agreement_TerminatedDateRequired</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- You are not authorized to change Agreement Manager of this record --></errorMessage>
         <name>Agreement_VR001_OwnerUpdateNotAllowed</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- You cannot request a Cancellation of an already Terminated Agreement --></errorMessage>
         <name>Agreement_no_Cancellation_if_Terminated</name>
     </validationRules>
     <validationRules>
-        <errorMessage></errorMessage>
+        <errorMessage><!-- Termination Description is Mandatory when requesting a Termination --></errorMessage>
         <name>Termination_Description_Mandatory</name>
     </validationRules>
     <webLinks>
-        <label></label>
+        <label><!-- AUMFlowReport --></label>
         <name>AUMFlowReport</name>
     </webLinks>
     <webLinks>
-        <label></label>
+        <label><!-- TransactionsReport --></label>
         <name>TransactionsReport</name>
     </webLinks>
 </CustomObjectTranslation>

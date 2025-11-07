@@ -1,0 +1,629 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ReportType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <baseObject>Digital_Interaction__c</baseObject>
+    <category>other</category>
+    <deployed>true</deployed>
+    <description>Custom DI and DID</description>
+    <join>
+        <outerJoin>false</outerJoin>
+        <relationship>Digital_Interactions_Details__r</relationship>
+    </join>
+    <label>Digital Interactions with Details - Custom</label>
+    <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>#Pages Viewed</displayNameOverride>
+            <field>Pages_Viewed2__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride># Pages Viewed</displayNameOverride>
+            <field>Pages_Viewed__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>% Attendance</displayNameOverride>
+            <field>attendance__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Action</displayNameOverride>
+            <field>Action__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Attendance Duration (min)</displayNameOverride>
+            <field>Attendance_Duration_Min__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Campaign</displayNameOverride>
+            <field>Campaign__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Campaign Member Id</displayNameOverride>
+            <field>Campaign_Member_Id__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Company</displayNameOverride>
+            <field>Company__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Contact</displayNameOverride>
+            <field>Contact_lu__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>ContactOrLead</displayNameOverride>
+            <field>Contact__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Content Item Name</displayNameOverride>
+            <field>Content_Item_Name__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Created By</displayNameOverride>
+            <field>CreatedBy</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Created Date</displayNameOverride>
+            <field>CreatedDate</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Currency</displayNameOverride>
+            <field>CurrencyIsoCode</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Days Since First Visit</displayNameOverride>
+            <field>Days_Since_First_Visit__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Device</displayNameOverride>
+            <field>Device__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Digital Interaction ID</displayNameOverride>
+            <field>Id</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <displayNameOverride>Digital Interaction Number</displayNameOverride>
+            <field>Name</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Emailing Sent Date</displayNameOverride>
+            <field>Create_Date__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Email Status</displayNameOverride>
+            <field>Email_Status__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Engagement</displayNameOverride>
+            <field>Engagement__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Engagement Type</displayNameOverride>
+            <field>Engagement_Type__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Interaction Date a supprimer</displayNameOverride>
+            <field>Date_of_Interaction__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Interaction Hour</displayNameOverride>
+            <field>Interaction_Hour__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Activity Date</displayNameOverride>
+            <field>LastActivityDate</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Interaction Hour</displayNameOverride>
+            <field>Last_Interaction_Time__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Modified By</displayNameOverride>
+            <field>LastModifiedBy</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Modified Date</displayNameOverride>
+            <field>LastModifiedDate</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Latitude</displayNameOverride>
+            <field>Latitude__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Lead</displayNameOverride>
+            <field>Lead_lu__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Location</displayNameOverride>
+            <field>Location__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Longitude</displayNameOverride>
+            <field>Longitude__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Matomo ExternalId</displayNameOverride>
+            <field>Matomo_External_Id__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>MDS ID</displayNameOverride>
+            <field>MDS_ID__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Owner</displayNameOverride>
+            <field>Owner</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Total Opens</displayNameOverride>
+            <field>Total_Opens__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Product</displayNameOverride>
+            <field>Product__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Product Code</displayNameOverride>
+            <field>Product_Code__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Session ID</displayNameOverride>
+            <field>Session_ID__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Source</displayNameOverride>
+            <field>Source__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Source Detail</displayNameOverride>
+            <field>Key_Word__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Source Subtype</displayNameOverride>
+            <field>Referrer__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Source Type</displayNameOverride>
+            <field>Referrer_Type__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Number of Open</displayNameOverride>
+            <field>Number_of_Open__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Total Clicks</displayNameOverride>
+            <field>Total_Clicks__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Tag</displayNameOverride>
+            <field>Tag__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Task Created</displayNameOverride>
+            <field>TECH_Task_Created__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Thematic</displayNameOverride>
+            <field>Thematic__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Time Spent (sec)</displayNameOverride>
+            <field>Time_Spent__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Total downloads</displayNameOverride>
+            <field>Total_downloads__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mandrill External Id</displayNameOverride>
+            <field>Mandrill_External_Id__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Content</displayNameOverride>
+            <field>Content__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Type</displayNameOverride>
+            <field>Type__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>URL</displayNameOverride>
+            <field>URL__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>UTM Campaign</displayNameOverride>
+            <field>UTM_Campaign__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Interaction Date</displayNameOverride>
+            <field>Last_Interaction_Date__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>UTM Content</displayNameOverride>
+            <field>UTM_Content__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>UTM Medium</displayNameOverride>
+            <field>UTM_Medium__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>UTM Source</displayNameOverride>
+            <field>UTM_Source__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>UTM Term</displayNameOverride>
+            <field>UTM_Term__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Video Watch</displayNameOverride>
+            <field>Video_Watch__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Digital Interaction : Contact : Persona</displayNameOverride>
+            <field>Contact_lu__c.Persona__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Digital Interaction : Contact : Team</displayNameOverride>
+            <field>Contact_lu__c.Team__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>TECH_LastInteractionDate</displayNameOverride>
+            <field>TECH_LastInteractionDate__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>TECH Time Spent</displayNameOverride>
+            <field>TECH_Time_Spent__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Interaction Date</displayNameOverride>
+            <field>Interaction_Date__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Full Name</displayNameOverride>
+            <field>ContactOrLeadFullName__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Contact or Lead Id</displayNameOverride>
+            <field>ContactOrLeadId__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Professional Email</displayNameOverride>
+            <field>ContactOrLeadEmail__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Account Team</displayNameOverride>
+            <field>Contact_lu__c.Account.Team__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Digital Interaction : Contact : Website Language</displayNameOverride>
+            <field>Contact_lu__c.WebsiteLanguage__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Contact Website Language</displayNameOverride>
+            <field>Tech_ContactWebsiteLanguage__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Contct/Lead Name</displayNameOverride>
+            <field>Contct_Lead_Name__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Digital Interaction : Contact : Contact ID</displayNameOverride>
+            <field>Contact_lu__c.Id</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Digital Interaction : Contact : Contact ID 15</displayNameOverride>
+            <field>Contact_lu__c.Contact_ID_15__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Digital Interaction : Contact : Contact ID 18</displayNameOverride>
+            <field>Contact_lu__c.ContactId18__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Digital Interaction : Contact : Company Name Text Only</displayNameOverride>
+            <field>Contact_lu__c.Company_Name_Text_Only__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Digital Interaction : Contact : Full Name</displayNameOverride>
+            <field>Contact_lu__c.Name</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Digital Interaction : Contact : Country</displayNameOverride>
+            <field>Contact_lu__c.Country__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Digital Interaction : Contact : Job Function</displayNameOverride>
+            <field>Contact_lu__c.JobFunction__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Digital Interaction : Contact : Job Title</displayNameOverride>
+            <field>Contact_lu__c.JobTitle__c</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Contact_lu__c.Owner</field>
+            <table>Digital_Interaction__c</table>
+        </columns>
+        <masterLabel>Digital Interactions</masterLabel>
+    </sections>
+    <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Action</displayNameOverride>
+            <field>Type__c</field>
+            <table>Digital_Interaction__c.Digital_Interactions_Details__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Created By</displayNameOverride>
+            <field>CreatedBy</field>
+            <table>Digital_Interaction__c.Digital_Interactions_Details__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Created Date</displayNameOverride>
+            <field>CreatedDate</field>
+            <table>Digital_Interaction__c.Digital_Interactions_Details__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Currency</displayNameOverride>
+            <field>CurrencyIsoCode</field>
+            <table>Digital_Interaction__c.Digital_Interactions_Details__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Details Date</displayNameOverride>
+            <field>Details_Date__c</field>
+            <table>Digital_Interaction__c.Digital_Interactions_Details__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Digital Interaction Details ID</displayNameOverride>
+            <field>Id</field>
+            <table>Digital_Interaction__c.Digital_Interactions_Details__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <displayNameOverride>Digital Interaction Details Name</displayNameOverride>
+            <field>Name</field>
+            <table>Digital_Interaction__c.Digital_Interactions_Details__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Activity Date</displayNameOverride>
+            <field>LastActivityDate</field>
+            <table>Digital_Interaction__c.Digital_Interactions_Details__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Modified By</displayNameOverride>
+            <field>LastModifiedBy</field>
+            <table>Digital_Interaction__c.Digital_Interactions_Details__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Last Modified Date</displayNameOverride>
+            <field>LastModifiedDate</field>
+            <table>Digital_Interaction__c.Digital_Interactions_Details__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Matomo ExternalId</displayNameOverride>
+            <field>Matomo_External_Id__c</field>
+            <table>Digital_Interaction__c.Digital_Interactions_Details__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Page Title</displayNameOverride>
+            <field>Page_Title__c</field>
+            <table>Digital_Interaction__c.Digital_Interactions_Details__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Tag</displayNameOverride>
+            <field>Tag__c</field>
+            <table>Digital_Interaction__c.Digital_Interactions_Details__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Techlog</displayNameOverride>
+            <field>Techlog__c</field>
+            <table>Digital_Interaction__c.Digital_Interactions_Details__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Fund Name</displayNameOverride>
+            <field>FundName__c</field>
+            <table>Digital_Interaction__c.Digital_Interactions_Details__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Tech URL text</displayNameOverride>
+            <field>Tech_URL_text__c</field>
+            <table>Digital_Interaction__c.Digital_Interactions_Details__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Mandrill External Id</displayNameOverride>
+            <field>Mandrill_External_Id__c</field>
+            <table>Digital_Interaction__c.Digital_Interactions_Details__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Time Spent (sec)</displayNameOverride>
+            <field>Time_Spent__c</field>
+            <table>Digital_Interaction__c.Digital_Interactions_Details__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>URL</displayNameOverride>
+            <field>URL__c</field>
+            <table>Digital_Interaction__c.Digital_Interactions_Details__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Visitor Id</displayNameOverride>
+            <field>Visitor_Id__c</field>
+            <table>Digital_Interaction__c.Digital_Interactions_Details__r</table>
+        </columns>
+        <masterLabel>Digital Interactions Details</masterLabel>
+    </sections>
+</ReportType>

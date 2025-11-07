@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : SILA Nicolas
+ * @group             : 
+ * @last modified on  : 03-18-2024
+ * @last modified by  : SILA Nicolas
+**/
 @isTest
 private class CTL_SearchSubscriptionProductTest {
     @TestSetup
@@ -15,5 +22,8 @@ private class CTL_SearchSubscriptionProductTest {
         CTL_SearchSubscriptionProduct.saveProspaceAlerts(new List<Web_Communication__c>());
         CTL_SearchSubscriptionProduct.getAlertTypes('Publication');
         CTL_SearchSubscriptionProduct.getShareClassesByCountryWithSub('FR', 'Report', c.id, 0);
+        CTL_SearchSubscriptionProduct.getFundsWithSub('Report', c.id, 0);
+        CTL_SearchSubscriptionProduct.getDistinctValues();
+
     }
 }

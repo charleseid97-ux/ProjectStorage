@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Category type --></label>
     <name>Category_type__c</name>
     <picklistValues>
         <masterLabel>TBC</masterLabel>
-        <translation></translation>
+        <translation><!-- TBC --></translation>
     </picklistValues>
 </CustomFieldTranslation>

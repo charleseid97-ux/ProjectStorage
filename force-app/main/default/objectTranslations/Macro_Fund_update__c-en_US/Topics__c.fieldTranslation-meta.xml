@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Topics --></label>
+    <name>Topics__c</name>
+    <picklistValues>
+        <masterLabel>Alternative</masterLabel>
+        <translation><!-- Alternative --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Diversified</masterLabel>
+        <translation><!-- Diversified --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Economic &amp; Markets Updates</masterLabel>
+        <translation><!-- Economic &amp; Markets Updates --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Equities</masterLabel>
+        <translation><!-- Equities --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Fixed Income</masterLabel>
+        <translation><!-- Fixed Income --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Investment Solutions</masterLabel>
+        <translation><!-- Investment Solutions --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Market Analysis</masterLabel>
+        <translation><!-- Market Analysis --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Others</masterLabel>
+        <translation><!-- Others --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Sustainable Investing</masterLabel>
+        <translation><!-- Sustainable Investing --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

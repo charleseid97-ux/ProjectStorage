@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Last_update_contact_or_lead__c</fullName>
     <encryptionScheme>None</encryptionScheme>
-    <externalId>false</externalId>
     <inlineHelpText>tracks last update done on contact or lead referenced in campaign member record</inlineHelpText>
     <label>Last update contact or lead</label>
     <required>false</required>

@@ -32,6 +32,7 @@
                 <elementReference>myVariable_current.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>chatterPost</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -134,6 +135,7 @@
                 <elementReference>myCollection_myRule_1_A2recipientIds</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>customNotificationAction</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -236,6 +238,7 @@
                 <elementReference>myCollection_myRule_5_A2recipientIds</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>customNotificationAction</nameSegment>
     </actionCalls>
     <actionCalls>
         <processMetadataValues>
@@ -338,6 +341,7 @@
                 <elementReference>myCollection_myRule_9_A2recipientIds</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>customNotificationAction</nameSegment>
     </actionCalls>
     <apiVersion>49.0</apiVersion>
     <assignments>

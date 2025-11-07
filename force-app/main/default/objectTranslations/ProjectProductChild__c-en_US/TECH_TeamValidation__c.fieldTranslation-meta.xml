@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- TECH_TeamValidation --></label>
+    <name>TECH_TeamValidation__c</name>
+    <picklistValues>
+        <masterLabel>Communication</masterLabel>
+        <translation><!-- Communication --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Compliance</masterLabel>
+        <translation><!-- Compliance --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>DCO</masterLabel>
+        <translation><!-- DCO --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>DCR</masterLabel>
+        <translation><!-- DCR --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ESG</masterLabel>
+        <translation><!-- ESG --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Finance</masterLabel>
+        <translation><!-- Finance --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IS</masterLabel>
+        <translation><!-- IS --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>InvestmentPerf</masterLabel>
+        <translation><!-- InvestmentPerf --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Legal</masterLabel>
+        <translation><!-- Legal --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>OPS</masterLabel>
+        <translation><!-- OPS --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>ProductStrategy</masterLabel>
+        <translation><!-- ProductStrategy --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Risk</masterLabel>
+        <translation><!-- Risk --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Tax</masterLabel>
+        <translation><!-- Tax --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Technology</masterLabel>
+        <translation><!-- Technology --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

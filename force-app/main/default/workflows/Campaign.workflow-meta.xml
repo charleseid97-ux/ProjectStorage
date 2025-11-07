@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
     <alerts>
+        <fullName>Belgium_KPI_Email_Alert</fullName>
+        <ccEmails>beneluxnordics.professionalclients@carmignac.com</ccEmails>
+        <description>Belgium KPI Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Belgium</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/KPI_Newsletter_Campaign</template>
+    </alerts>
+    <alerts>
+        <fullName>France_KPI_Email_Alert</fullName>
+        <description>France KPI Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>France</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/KPI_Newsletter_Campaign</template>
+    </alerts>
+    <alerts>
+        <fullName>Germany_KPI_Email_Alert</fullName>
+        <description>Germany KPI Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Germany</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/KPI_Newsletter_Campaign</template>
+    </alerts>
+    <alerts>
         <fullName>Inform_Marketing_user_that_the_template_is_rejected_by_the_BD_CRM</fullName>
         <description>Send email rejected to marketing user</description>
         <protected>false</protected>
@@ -10,6 +44,40 @@
         </recipients>
         <senderType>CurrentUser</senderType>
         <template>unfiled$public/Campaign_Approval_rejected_by_CRM_BD</template>
+    </alerts>
+    <alerts>
+        <fullName>International_KPI_Email_Alert</fullName>
+        <description>International KPI Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>International</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/KPI_Newsletter_Campaign</template>
+    </alerts>
+    <alerts>
+        <fullName>Italy_KPI_Email_Alert</fullName>
+        <description>Italy KPI Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Italy</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/KPI_Newsletter_Campaign</template>
+    </alerts>
+    <alerts>
+        <fullName>Lux_and_Netherlands_KPI_Email_Alert</fullName>
+        <ccEmails>beneluxnordics.professionalclients@carmignac.com</ccEmails>
+        <description>Lux and Netherlands KPI Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Luxembourg</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/KPI_Newsletter_Campaign</template>
     </alerts>
     <alerts>
         <fullName>New_Newsletter_created</fullName>
@@ -32,6 +100,39 @@
         </recipients>
         <senderType>CurrentUser</senderType>
         <template>unfiled$public/Campaign_approved_leslie</template>
+    </alerts>
+    <alerts>
+        <fullName>SpainPortugal_KPI_Email_Alert</fullName>
+        <description>Spain &amp; Portugal KPI Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Spain</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/KPI_Newsletter_Campaign</template>
+    </alerts>
+    <alerts>
+        <fullName>Switzerland_KPI_Email_Alert</fullName>
+        <description>Switzerland KPI Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Switzerland</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/KPI_Newsletter_Campaign</template>
+    </alerts>
+    <alerts>
+        <fullName>UK_KPI_Email_Alert</fullName>
+        <description>UK KPI Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>UnitedKingdom</recipient>
+            <type>group</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/KPI_Newsletter_Campaign</template>
     </alerts>
     <fieldUpdates>
         <fullName>Campaign_Active</fullName>

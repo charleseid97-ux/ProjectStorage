@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Event type --></label>
+    <name>Event_type__c</name>
+    <picklistValues>
+        <masterLabel>Exclusive Event</masterLabel>
+        <translation><!-- Exclusive Event --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Fund Selector Day</masterLabel>
+        <translation><!-- Fund Selector Day --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Investment Seminars</masterLabel>
+        <translation><!-- Investment Seminars --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Partnership</masterLabel>
+        <translation><!-- Partnership --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Quarterly Meeting 1st part</masterLabel>
+        <translation><!-- Quarterly Meeting 1st part --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Quarterly Meeting 2nd part</masterLabel>
+        <translation><!-- Quarterly Meeting 2nd part --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Sales Presentation</masterLabel>
+        <translation><!-- Sales Presentation --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Thematic Lunch</masterLabel>
+        <translation><!-- Thematic Lunch --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

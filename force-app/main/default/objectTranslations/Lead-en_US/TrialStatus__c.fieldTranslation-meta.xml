@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Trial Status --></label>
     <name>TrialStatus__c</name>
     <picklistValues>
         <masterLabel>Trial Accepted</masterLabel>
-        <translation></translation>
+        <translation><!-- Trial Accepted --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Trial Expired</masterLabel>
-        <translation></translation>
+        <translation><!-- Trial Expired --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Waiting For Validation</masterLabel>
-        <translation></translation>
+        <translation><!-- Waiting For Validation --></translation>
     </picklistValues>
 </CustomFieldTranslation>

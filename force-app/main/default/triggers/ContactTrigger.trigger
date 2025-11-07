@@ -15,10 +15,7 @@ trigger ContactTrigger on Contact (after insert, after update, after undelete, b
             SM007_ContactTriggerHandler.onBeforeInsert(Trigger.new);
         }
     }
-    if (Trigger.isUpdate && Trigger.isBefore && PAD.canTrigger('ContactBeforeUpdate')){
-        SM007_ContactTriggerHandler.onBeforeUpdate(Trigger.new, Trigger.oldMap);
 
-    }
     if (Trigger.isUpdate && Trigger.isBefore && PAD.canTrigger('ContactBeforeUpdate') && !Pad.SKIP_STRIGGER_MAP.containsKey('ContactBeforeUpdate')) {
         system.debug('BGU IS isUPDATE / isBefore');
 
@@ -35,6 +32,8 @@ trigger ContactTrigger on Contact (after insert, after update, after undelete, b
 
         }
 
+        SM007_ContactTriggerHandler.onBeforeUpdate(Trigger.new, Trigger.oldMap);
+        OptOutHelper.getLastModifiedOptOut(Trigger.new, Trigger.oldMap);
 
         if (contactStatusList.size() > 0) {
             SM007_ContactTriggerHandler.onBeforeUpdateStatus(contactStatusList);

@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
     <sharingCriteriaRules>
+        <fullName>Investment_Solutions</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>only on record type investment solutions</description>
+        <label>Investment Solutions</label>
+        <sharedTo>
+            <role>Investment_Solutions</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>RecordTypeId</field>
+            <operation>equals</operation>
+            <value>IS Agreement</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>Region_Belgium</fullName>
         <accessLevel>Edit</accessLevel>
         <description>Share agreements records associated to business region Belgium with public group Belgium</description>

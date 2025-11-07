@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Exclude Agreement RecordType --></label>
+    <name>ExcludeAgreementRecordType__c</name>
+    <picklistValues>
+        <masterLabel>Agreement</masterLabel>
+        <translation><!-- Agreement --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IS_Agreement</masterLabel>
+        <translation><!-- IS_Agreement --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Institutional_Agreement</masterLabel>
+        <translation><!-- Institutional_Agreement --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Investor_without_Agreement_Request</masterLabel>
+        <translation><!-- Investor_without_Agreement_Request --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Investor_without_Agreement_Request_Full</masterLabel>
+        <translation><!-- Investor_without_Agreement_Request_Full --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Request_Agreement</masterLabel>
+        <translation><!-- Request_Agreement --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Request_Agreement_Full</masterLabel>
+        <translation><!-- Request_Agreement_Full --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Sub_distributor_Agreement</masterLabel>
+        <translation><!-- Sub_distributor_Agreement --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Sub_distributor_Agreement_Request</masterLabel>
+        <translation><!-- Sub_distributor_Agreement_Request --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Sub_distributor_Agreement_Request_Full</masterLabel>
+        <translation><!-- Sub_distributor_Agreement_Request_Full --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Technical_Agreement</masterLabel>
+        <translation><!-- Technical_Agreement --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

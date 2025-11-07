@@ -1,0 +1,32 @@
+<template>
+    <div class="slds-box slds-theme_default">
+        <div class="slds-page-header">
+            <div class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center">
+                <div class="slds-media slds-media_center">
+                    <div class="slds-media__figure">
+                        <lightning-icon icon-name="utility:description" alternative-text="Project phases management" size="medium"></lightning-icon>
+                    </div>
+                    <div class="slds-media__body">
+                        <h1 class="slds-page-header__title slds-truncate" title="Project phases management">
+                            Project phases management
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+ 
+        <div>
+            <div class="datatable-container">
+                <c-datatable-picklist
+                    key-field="Id"
+                    data={data}
+                    columns={columns}
+                    draft-values={draftValues}
+                    onsave={handleSave}
+                    onrowaction={handleRowAction}
+                    hide-checkbox-column>
+                </c-datatable-picklist>
+            </div>
+        </div>
+    </div>
+</template>

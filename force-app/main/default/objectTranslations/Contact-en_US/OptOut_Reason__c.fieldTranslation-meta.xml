@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Opt out Reason --></label>
+    <name>OptOut_Reason__c</name>
+    <picklistValues>
+        <masterLabel>Change in interests</masterLabel>
+        <translation><!-- Change in interests --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Content not relevant</masterLabel>
+        <translation><!-- Content not relevant --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Desactivated Contact</masterLabel>
+        <translation><!-- Desactivated Contact --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Excessive email communications</masterLabel>
+        <translation><!-- Excessive email communications --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Job/Role Change</masterLabel>
+        <translation><!-- Job/Role Change --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Other Unsubscribe Request</masterLabel>
+        <translation><!-- Other Unsubscribe Request --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <label></label>
+    <label><!-- Registration Status --></label>
     <name>Registration_Status__c</name>
     <picklistValues>
         <masterLabel>Annulled</masterLabel>
-        <translation></translation>
+        <translation><!-- Annulled --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Duplicate</masterLabel>
-        <translation></translation>
+        <translation><!-- Duplicate --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Issued</masterLabel>
-        <translation></translation>
+        <translation><!-- Issued --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Lapsed</masterLabel>
-        <translation></translation>
+        <translation><!-- Lapsed --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Merged</masterLabel>
-        <translation></translation>
+        <translation><!-- Merged --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Pending Archival</masterLabel>
-        <translation></translation>
+        <translation><!-- Pending Archival --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Pending Transfer</masterLabel>
-        <translation></translation>
+        <translation><!-- Pending Transfer --></translation>
     </picklistValues>
     <picklistValues>
         <masterLabel>Retired</masterLabel>
-        <translation></translation>
+        <translation><!-- Retired --></translation>
     </picklistValues>
 </CustomFieldTranslation>

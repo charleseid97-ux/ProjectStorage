@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Internal_Organisation</fullName>
     <active>true</active>
+    <compactLayoutAssignment>Account_Compact_2023</compactLayoutAssignment>
     <description>Specific Record Type to reflect the Internal Organisation - for the purpose of relating Employee Contacts</description>
     <label>Internal Company</label>
     <picklistValues>
@@ -54,6 +55,10 @@
         </values>
         <values>
             <fullName>BP_IN</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BP_IP</fullName>
             <default>false</default>
         </values>
         <values>
@@ -399,6 +404,73 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Potential_AUM__c</picklist>
+        <values>
+            <fullName>%3C10</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>%3C200</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>%3C50</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>%3E%3D200</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>0</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Question_1__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Question_2__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Question_3__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Question_4__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Rating</picklist>
         <values>
             <fullName>Chaud</fullName>
@@ -644,6 +716,119 @@
         </values>
         <values>
             <fullName>Sovereign Wealth Fund</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Team__c</picklist>
+        <values>
+            <fullName>Belgium</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>France</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fund Marketing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Germany</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>International</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Italy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Japan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LATAM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Luxembourg</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Netherlands</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nordics</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Private Equity</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Spain</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Switzerland</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Taiwan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>United Kingdom</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Tiering__c</picklist>
+        <values>
+            <fullName>Bronze</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Copper</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Gold</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Platinum</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Silver</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Total_Adressable_AUM__c</picklist>
+        <values>
+            <fullName>%3C10bn</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>%3C1bn</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>%3C200</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>%3C3bn</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>%3E%3D10bn</fullName>
             <default>false</default>
         </values>
     </picklistValues>

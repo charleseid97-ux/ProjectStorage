@@ -12,13 +12,22 @@
     <layouts>
         <layout>Meeting Note Layout</layout>
         <sections>
-            <label></label>
+            <label><!-- Custom Links --></label>
             <section>Custom Links</section>
         </sections>
     </layouts>
+    <nameFieldLabel><!-- Title --></nameFieldLabel>
     <quickActions>
-        <label></label>
+        <label><!-- Delete Note --></label>
+        <name>DeleteNote</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Meeting Note Definitions --></label>
         <name>Meeting_Note_Definitions</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Update Meeting Note --></label>
+        <name>UpdateMeetingDescripion</name>
     </quickActions>
     <startsWith>Consonant</startsWith>
 </CustomObjectTranslation>

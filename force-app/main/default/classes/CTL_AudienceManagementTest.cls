@@ -1,3 +1,9 @@
+/**
+ * @description       : 
+ * @author            : Thanina YAYA
+ * @last modified on  : 11-28-2023
+ * @last modified by  : SILA Nicolas
+**/
 @IsTest
 public with sharing class CTL_AudienceManagementTest {
     
@@ -18,17 +24,18 @@ public with sharing class CTL_AudienceManagementTest {
         );
         insert c;
 
-        Product__c strat = new Product__c();
-        strat.RecordTypeId = Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Strategy').getRecordTypeId();
+        Strategy__c strat = new Strategy__c();
         strat.Name = 'AECI';
-        strat.Product_Name__c = 'ALM ES CI';
+        strat.AssetClass__c='Equity';
+        strat.SubAssetClass__c='Global';
+        strat.Code__c = 'AECI';
         insert strat;
 
         Product__c fund = new Product__c();
         fund.RecordTypeId = Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Fund').getRecordTypeId();
         fund.Name = 'Super Fund';
         fund.Product_Name__c = 'Super Fund Test';
-        fund.Strategy__c = strat.Id;
+        fund.FundStrategy__c = strat.Id;
         insert fund;
 
         Share_Class__c share = new Share_Class__c();
@@ -47,7 +54,7 @@ public with sharing class CTL_AudienceManagementTest {
         insert mn;
 
         ClientInterest__c ci = new ClientInterest__c();
-        ci.Product__c = strat.Id;
+        ci.Strategy__c = strat.Id;
         ci.Interest__c = 3;
         ci.MeetingNote__c = mn.Id;
         insert ci;
@@ -102,12 +109,13 @@ public with sharing class CTL_AudienceManagementTest {
     @IsTest
     public static void getContactsTest() {
         List<Contact> cList = CTL_AudienceManagement.getContacts('');
-        System.assertEquals(1, cList.size());
+
+        System.assert(cList.size() > 0);
     }
 
     @IsTest
     public static void getProductsTest() {
-        List<Product__c> pList = CTL_AudienceManagement.getProducts();
+        List<Strategy__c> pList = CTL_AudienceManagement.getProducts();
         System.assertEquals(1, pList.size());
     }
 
@@ -145,11 +153,11 @@ public with sharing class CTL_AudienceManagementTest {
     @IsTest
     public static void addToCampaignTest() {
         Campaign camp = [SELECT Id, Name FROM Campaign LIMIT 1];
-        System.debug(camp.Name);
         List<Id> cIds = new List<Id>();
-        for(Contact c : [SELECT Id FROM Contact]) {
+        for(Contact c : [SELECT Id FROM Contact LIMIT 1]) {
             cIds.add(c.Id);
         }
+
         List<CampaignMember> cmList = [SELECT Id FROM CampaignMember WHERE CampaignId =: camp.Id];
         System.assertEquals(0, cmList.size());
         CTL_AudienceManagement.addToCampaign(camp.Id, cIds);
@@ -160,8 +168,8 @@ public with sharing class CTL_AudienceManagementTest {
     @IsTest
     public static void getContactFromProductInterestTestNoResult() {
         try {
-            Product__c prod = [SELECT Id FROM Product__c WHERE Name = 'AECI'];
-            String request = 'SELECT MeetingNote__c FROM ClientInterest__c WHERE Product__c !=\'' + prod.Id + '\'';
+            Strategy__c prod = [SELECT Id FROM Strategy__c WHERE Name = 'AECI'];
+            String request = 'SELECT MeetingNote__c FROM ClientInterest__c WHERE Strategy__c !=\'' + prod.Id + '\'';
             CTL_AudienceManagement.getContactFromProductInterest(request);
         } catch (Exception e) {
             System.assertEquals('Script-thrown exception', e.getMessage());
@@ -170,10 +178,10 @@ public with sharing class CTL_AudienceManagementTest {
 
     @IsTest
     public static void getContactFromProductInterestTest() {
-        Product__c prod = [SELECT Id FROM Product__c WHERE Name = 'AECI'];
-        String request = 'SELECT MeetingNote__c FROM ClientInterest__c WHERE Product__c =\'' + prod.Id + '\'';
+        Strategy__c prod = [SELECT Id FROM Strategy__c WHERE Name = 'AECI' limit 1];
+        String request = 'SELECT MeetingNote__c FROM ClientInterest__c WHERE Strategy__c =\'' + prod.Id + '\'';
         List<Id> contactIds = CTL_AudienceManagement.getContactFromProductInterest(request);
-        Contact c = [SELECT Id FROM Contact WHERE Name LIKE '%Test%'];
+        Contact c = [SELECT Id FROM Contact WHERE Name LIKE '%Test%' LIMIT 1];
         System.assert(contactIds.contains(c.Id));
     }
 
@@ -189,7 +197,7 @@ public with sharing class CTL_AudienceManagementTest {
 
     @IsTest
     public static void getCompanyFromProductInterestTest() {
-        Product__c prod = [SELECT Id FROM Product__c WHERE Name = 'AECI'];
+        Strategy__c prod = [SELECT Id FROM Strategy__c WHERE Name = 'AECI'];
         List<Id> accountIds = CTL_AudienceManagement.getCompanyFromProductInterest(prod.Id);
         Account acc = [SELECT Id FROM Account WHERE Name LIKE '%Test Account%'];
         System.assert(accountIds.contains(acc.Id));

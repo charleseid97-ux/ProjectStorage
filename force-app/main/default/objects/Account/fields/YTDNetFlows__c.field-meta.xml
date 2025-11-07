@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>YTDNetFlows__c</fullName>
     <description>Roll Up Summary field for Net flows of AUM object</description>
-    <externalId>false</externalId>
     <label>YTD Net Flows</label>
     <summarizedField>AUM__c.YTDNetFlows__c</summarizedField>
     <summaryForeignKey>AUM__c.Company__c</summaryForeignKey>

@@ -4,6 +4,7 @@
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
     <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
+    <isOmniPinnedViewEnabled>false</isOmniPinnedViewEnabled>
     <label>Data Manager</label>
     <navType>Standard</navType>
     <profileActionOverrides>
@@ -130,19 +131,11 @@
         <pageOrSobjectType>Case</pageOrSobjectType>
         <recordType>Case.Data_Performance_Management_Request</recordType>
         <type>Flexipage</type>
-        <profile>Carmignac - Top Management</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Work_Together_Process_Record_PageDPM</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Case</pageOrSobjectType>
-        <recordType>Case.Data_Performance_Management_Request</recordType>
-        <type>Flexipage</type>
         <profile>Admin</profile>
     </profileActionOverrides>
     <tabs>standard-AnalyticsDataManager</tabs>
     <tabs>Salesforce_update__c</tabs>
     <tabs>NDA__c</tabs>
+    <tabs>ShareclassRegistration_Website__c</tabs>
     <uiType>Lightning</uiType>
 </CustomApplication>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- DAC6 --></label>
+    <name>DAC6__c</name>
+    <picklistValues>
+        <masterLabel>Non Reportable</masterLabel>
+        <translation><!-- Non Reportable --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Ongoing Analysis</masterLabel>
+        <translation><!-- Ongoing Analysis --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Reportable</masterLabel>
+        <translation><!-- Reportable --></translation>
+    </picklistValues>
+</CustomFieldTranslation>
