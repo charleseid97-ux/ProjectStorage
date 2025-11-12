@@ -1,0 +1,209 @@
+# -------------------------------------------------------------------
+# Salesforce CI/CD - UAT (manifest/package.xml via MDAPI) – Azure Pipelines
+# -------------------------------------------------------------------
+
+trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - checkout: self
+
+  # 1) Secure file: JWT key
+  - task: DownloadSecureFile@1
+    name: sfdxJwtKey
+    inputs:
+      secureFile: 'SF_UAT_key.pem'
+
+  # 2) Node + Salesforce CLI (unified 'sf')
+  - task: NodeTool@0
+    displayName: 'Install Node.js'
+    inputs:
+      versionSpec: '18.x'
+
+  - script: |
+      npm i -g @salesforce/cli
+      sf --version
+      sf plugins --core
+    displayName: 'Install Salesforce CLI'
+
+  # 3) jq
+  - script: |
+      sudo apt-get update -y
+      sudo apt-get install -y jq
+    displayName: 'Install jq'
+
+  # 4) Auth + sanity checks
+  - script: |
+      set -euo pipefail
+      set -x
+
+      if [[ -z "${SFDX_CLIENT_ID:-}" ]]; then set +x; echo "ERREUR: SFDX_CLIENT_ID manquant"; exit 11; fi
+      if [[ -z "${SFDX_USERNAME:-}" ]]; then set +x; echo "ERREUR: SFDX_USERNAME manquant"; exit 12; fi
+      if [[ -z "${SF_ORG_INSTANCE_URL:-}" ]]; then set +x; echo "ERREUR: SF_ORG_INSTANCE_URL manquant"; exit 13; fi
+
+      set +x
+      sf org login jwt \
+        --client-id "$(SFDX_CLIENT_ID)" \
+        --jwt-key-file "$(sfdxJwtKey.secureFilePath)" \
+        --username "$(SFDX_USERNAME)" \
+        --instance-url "$SF_ORG_INSTANCE_URL" \
+        --alias uat
+      set -x
+
+      sf org display --target-org uat
+    displayName: 'Authenticate Salesforce (JWT UAT)'
+    env:
+      SFDX_CLIENT_ID: $(SFDX_CLIENT_ID)
+      SFDX_USERNAME: $(SFDX_USERNAME)
+      SF_ORG_INSTANCE_URL: $(SF_ORG_INSTANCE_URL)
+
+  # 5) Validation check-only via MDAPI (manifest only)
+  - script: |
+      set -euo pipefail
+      set -x
+
+      MANIFEST_PATH="manifest/package.xml"
+      MDAPI_DIR="mdapi_pkg"
+      MDAPI_FALLBACK_DIR="mdapi_out"
+
+      [[ -f "$MANIFEST_PATH" ]] || { echo "ERREUR: $MANIFEST_PATH introuvable"; exit 21; }
+
+      rm -rf "$MDAPI_DIR" "$MDAPI_FALLBACK_DIR"
+
+      # ---- Tentative 1 : conversion filtrée par le manifeste (idéal)
+      set +e
+      sf project convert source \
+        --manifest "$MANIFEST_PATH" \
+        --output-dir "$MDAPI_DIR" > convert1.out 2> convert1.err
+      CONVERT1_EXIT=$?
+      set -e
+
+      echo "=== convert1.out ==="; cat convert1.out || true
+      echo "=== convert1.err ==="; cat convert1.err || true
+
+      if [[ $CONVERT1_EXIT -ne 0 || ! -d "$MDAPI_DIR" || -z "$(ls -A "$MDAPI_DIR" 2>/dev/null || true)" ]]; then
+        echo "Conversion filtrée par manifeste indisponible ou vide → Fallback conversion complète + filtre au deploy"
+        # ---- Tentative 2 : conversion complète
+        sf project convert source \
+          --root-dir force-app \
+          --output-dir "$MDAPI_FALLBACK_DIR"
+        USE_DIR="$MDAPI_FALLBACK_DIR"
+        USE_MANIFEST="--manifest $MANIFEST_PATH"
+      else
+        USE_DIR="$MDAPI_DIR"
+        USE_MANIFEST=""   # inutile: le dossier est déjà filtré
+      fi
+
+      echo "Contenu utilisé pour la validation: $USE_DIR"
+      find "$USE_DIR" -maxdepth 3 -type d -print
+
+      # Validation check-only
+      set +e
+      sf deploy metadata \
+        --metadata-dir "$USE_DIR" \
+        ${USE_MANIFEST} \
+        --target-org uat \
+        --test-level RunLocalTests \
+        --dry-run \
+        --wait 60 \
+        --json > validate.json 2> validate.err
+      SF_EXIT=$?
+      set -e
+
+      echo "=== validate.json (pretty) ==="
+      jq . validate.json || { echo "validate.json brut:"; cat validate.json; }
+      echo "=== STDERR (validate.err) ==="
+      cat validate.err || true
+
+      JOB_ID="$(jq -r '.result.id // empty' validate.json 2>/dev/null || true)"
+      if [[ -n "$JOB_ID" ]]; then
+        sf project deploy report --job-id "$JOB_ID" || true
+      fi
+
+      if [[ $SF_EXIT -ne 0 ]]; then
+        echo "Validation (check-only) en échec (code=$SF_EXIT)."
+        exit $SF_EXIT
+      fi
+    displayName: 'Validate (manifest/package.xml → MDAPI, check-only)'
+
+  # 6) Déploiement réel (même répertoire MDAPI et même filtrage)
+  - script: |
+      set -euo pipefail
+      set -x
+
+      MANIFEST_PATH="manifest/package.xml"
+      MDAPI_DIR="mdapi_pkg"
+      MDAPI_FALLBACK_DIR="mdapi_out"
+
+      if [[ -d "$MDAPI_DIR" && -n "$(ls -A "$MDAPI_DIR" 2>/dev/null || true)" ]]; then
+        USE_DIR="$MDAPI_DIR"
+        USE_MANIFEST=""
+      else
+        USE_DIR="$MDAPI_FALLBACK_DIR"
+        USE_MANIFEST="--manifest $MANIFEST_PATH"
+      fi
+
+      set +e
+      sf deploy metadata \
+        --metadata-dir "$USE_DIR" \
+        ${USE_MANIFEST} \
+        --target-org uat \
+        --test-level RunLocalTests \
+        --wait 120 \
+        --json > deploy.json 2> deploy.err
+      SF_EXIT=$?
+      set -e
+
+      echo "=== deploy.json (pretty) ==="
+      jq . deploy.json || { echo "deploy.json brut:"; cat deploy.json; }
+      echo "=== STDERR (deploy.err) ==="
+      cat deploy.err || true
+
+      JOB_ID="$(jq -r '.result.id // empty' deploy.json 2>/dev/null || true)"
+      if [[ -n "$JOB_ID" ]]; then
+        sf project deploy report --job-id "$JOB_ID" || true
+      fi
+
+      if [[ $SF_EXIT -ne 0 ]]; then
+        echo "Déploiement en échec (code=$SF_EXIT)."
+        exit $SF_EXIT
+      fi
+    displayName: 'Deploy (manifest/package.xml → MDAPI)'
+
+  # 7) Tests Apex (JUnit)
+  - script: |
+      set -euo pipefail
+      set -x
+      mkdir -p test-results
+      sf apex run test \
+        --target-org uat \
+        --test-level RunLocalTests \
+        --result-format junit \
+        --output-dir test-results \
+        --wait 60
+      echo "##vso[task.setvariable variable=SFDX_TEST_OUTPUT_PATH]test-results/*.xml"
+    condition: always()
+    timeoutInMinutes: 15
+    displayName: 'Run Apex Tests (JUnit output)'
+
+  # 8) Publication des artefacts (logs & mdapi utilisés)
+  - task: PublishTestResults@2
+    displayName: 'Publish Test Results'
+    condition: always()
+    inputs:
+      testRunner: JUnit
+      testResultsFiles: '$(SFDX_TEST_OUTPUT_PATH)'
+      testRunTitle: '[UAT] Salesforce Deployment'
+      failTaskOnFailedTests: true
+      platform: 'UAT'
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish validate/deploy logs + mdapi dirs'
+    condition: always()
+    inputs:
+      PathtoPublish: '.'
+      ArtifactName: 'sf-logs'
+      publishLocation: 'Container'
