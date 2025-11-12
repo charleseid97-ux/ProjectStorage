@@ -5,12 +5,12 @@
 trigger:
   branches:
     include:
-      - UAT
+      - uat
 
 pr:
   branches:
     include:
-      - UAT
+      - uat
 
 pool:
   vmImage: 'ubuntu-latest'
