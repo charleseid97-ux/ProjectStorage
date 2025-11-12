@@ -27,6 +27,9 @@ yarn-error.log*
 # Dependency directories
 node_modules/
 
+# VSCode settings
+.vscode/
+
 # Eslint cache
 .eslintcache
 
