@@ -1,6 +1,6 @@
 # -------------------------------------------------------------------
-# Salesforce CI/CD - UAT (manifest/package.xml via MDAPI)
-# Déploiement direct (NoTestRun) + DEBUG du package.xml avant déploiement
+# Salesforce CI/CD - UAT Deployment (NoTestRun)
+# Lightweight version – only core logs uploaded
 # -------------------------------------------------------------------
 
 trigger:
@@ -65,7 +65,7 @@ steps:
       SFDX_USERNAME: $(SFDX_USERNAME)
       SF_ORG_INSTANCE_URL: $(SF_ORG_INSTANCE_URL)
 
-  # 5) Conversion vers MDAPI (manifest-first, fallback si besoin)
+  # 5) Conversion vers MDAPI
   - script: |
       set -euo pipefail
       set -x
@@ -78,7 +78,6 @@ steps:
 
       rm -rf "$MDAPI_DIR" "$MDAPI_FALLBACK_DIR"
 
-      # Tentative 1 : conversion filtrée par manifeste
       set +e
       sf project convert source \
         --manifest "$MANIFEST_PATH" \
@@ -87,7 +86,7 @@ steps:
       set -e
 
       if [[ $CONVERT1_EXIT -ne 0 || ! -d "$MDAPI_DIR" || -z "$(ls -A "$MDAPI_DIR" 2>/dev/null || true)" ]]; then
-        echo "Conversion filtrée indisponible ou vide → fallback complet"
+        echo "Conversion filtrée indisponible → fallback complet"
         sf project convert source \
           --root-dir force-app \
           --output-dir "$MDAPI_FALLBACK_DIR"
@@ -99,59 +98,29 @@ steps:
       fi
     displayName: 'Convert to MDAPI (manifest-first with fallback)'
 
-  # 6) DEBUG : lister les éléments du package.xml + fichiers MDAPI
+  # 6) DEBUG : lister les éléments du package.xml (léger)
   - script: |
       set -euo pipefail
-      set -x
       source use_dir.env
       MANIFEST_PATH="manifest/package.xml"
 
-      echo "=== DEBUG package.xml ==="
-
-      echo "=== RÉSUMÉ PAR TYPE (nom + nombre de membres) ==="
+      echo "=== RÉSUMÉ PAR TYPE ==="
       xmlstarlet sel -t \
         -m "//*[local-name()='types']" \
         -v "concat('• ',normalize-space(./*[local-name()='name']),' (',count(./*[local-name()='members']),')')" -n \
-        "$MANIFEST_PATH" || echo "(info) Aucun type trouvé dans le manifest"
+        "$MANIFEST_PATH" || echo "(info) Aucun type trouvé"
 
       echo ""
-      echo "=== DÉTAIL DES MEMBRES PAR TYPE ==="
+      echo "=== DÉTAILS PAR TYPE ==="
       xmlstarlet sel -t \
         -m "//*[local-name()='types']" \
         -v "concat('# ',normalize-space(./*[local-name()='name']))" -n \
         -m "./*[local-name()='members']" \
         -v "concat('  - ',normalize-space(.))" -n \
         "$MANIFEST_PATH" || echo "(info) Aucun membre trouvé"
+    displayName: 'DEBUG: Liste du package.xml'
 
-      echo ""
-      echo "=== APERÇU DES FICHIERS MDAPI ==="
-      if [[ -d "$USE_DIR" ]]; then
-        find "$USE_DIR" -type f | sed 's#^#  - #'
-      else
-        echo "(Attention) Dossier $USE_DIR introuvable"
-      fi
-
-      # Sauvegardes des résultats pour artefacts
-      {
-        echo "Résumé par type:"
-        xmlstarlet sel -t \
-          -m "//*[local-name()='types']" \
-          -v "concat('• ',normalize-space(./*[local-name()='name']),' (',count(./*[local-name()='members']),')')" -n \
-          "$MANIFEST_PATH" || true
-      } > manifest.summary.txt
-
-      {
-        echo "Détail des membres:"
-        xmlstarlet sel -t \
-          -m "//*[local-name()='types']" \
-          -v "concat('# ',normalize-space(./*[local-name()='name']))" -n \
-          -m "./*[local-name()='members']" \
-          -v "concat('  - ',normalize-space(.))" -n \
-          "$MANIFEST_PATH" || true
-      } > manifest.members.txt
-    displayName: 'DEBUG: Liste des éléments du package.xml + fichiers MDAPI'
-
-  # 7) Déploiement (sans tests)
+  # 7) Déploiement UAT (NoTestRun)
   - script: |
       set -euo pipefail
       set -x
@@ -165,9 +134,7 @@ steps:
         --wait 120 \
         --json > deploy.json 2> deploy.err || SF_EXIT=$?
 
-      echo "=== deploy.json (pretty) ==="
       jq . deploy.json || cat deploy.json
-      echo "=== STDERR (deploy.err) ==="
       cat deploy.err || true
 
       JOB_ID=$(jq -r '.result.id // empty' deploy.json || true)
@@ -178,11 +145,15 @@ steps:
       exit ${SF_EXIT:-0}
     displayName: 'Deploy to UAT (NoTestRun)'
 
-  # 8) Artefacts
+  # 8) Publish minimal logs only
   - task: PublishBuildArtifacts@1
-    displayName: 'Publish logs + manifest debug'
+    displayName: 'Publish minimal logs'
     condition: always()
     inputs:
-      PathtoPublish: '.'
+      PathtoPublish: |
+        deploy.json
+        deploy.err
+        manifest.summary.txt
+        manifest.members.txt
       ArtifactName: 'sf-logs'
       publishLocation: 'Container'
