@@ -12,11 +12,11 @@ pr: none
 pool:
   vmImage: 'ubuntu-latest'
 
-# 👇 Add a deployment job (environment: UAT)
+#  Add a deployment job (environment: UAT)
 jobs:
   - deployment: Deploy_UAT
     displayName: 'Deploy to Salesforce UAT'
-    environment: 'UAT'     # 🔥 this links to your Azure DevOps Environment
+    environment: 'UAT Salesforce'     #  this links to  Azure DevOps Environment
     strategy:
       runOnce:
         deploy:
