@@ -1,15 +1,14 @@
 # -------------------------------------------------------------------
 # Salesforce CI/CD - UAT (manifest/package.xml via MDAPI) – Azure Pipelines
-# Déploiement direct (NoTestRun) + Debug du package.xml avant déploiement
-# Déclenchement: à chaque commit fusionné dans la branche UAT
+# Déploiement direct (NoTestRun) + DEBUG liste package.xml avant déploiement
 # -------------------------------------------------------------------
 
 trigger:
   branches:
     include:
-      - UAT       # ⚠️ respecte exactement le nom de ta branche
+      - UAT
 
-pr: none          # optionnel: n'exécute pas le pipeline sur les PR ouvertes
+pr: none
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -23,7 +22,7 @@ steps:
     inputs:
       secureFile: 'SF_UAT_key.pem'
 
-  # 2) Node + Salesforce CLI (unified 'sf')
+  # 2) Node + Salesforce CLI
   - task: NodeTool@0
     displayName: 'Install Node.js'
     inputs:
@@ -35,14 +34,13 @@ steps:
       sf plugins --core
     displayName: 'Install Salesforce CLI'
 
-  # 3) jq + xmlstarlet (pour parser le package.xml)
+  # 3) jq
   - script: |
-      set -euo pipefail
       sudo apt-get update -y
-      sudo apt-get install -y jq xmlstarlet
-    displayName: 'Install jq + xmlstarlet'
+      sudo apt-get install -y jq
+    displayName: 'Install jq'
 
-  # 4) Auth + sanity checks
+  # 4) Auth
   - script: |
       set -euo pipefail
       set -x
@@ -67,7 +65,7 @@ steps:
       SFDX_USERNAME: $(SFDX_USERNAME)
       SF_ORG_INSTANCE_URL: $(SF_ORG_INSTANCE_URL)
 
-  # 5) Conversion vers MDAPI (manifest-first, fallback si besoin)
+  # 5) Conversion MDAPI
   - script: |
       set -euo pipefail
       set -x
@@ -80,7 +78,6 @@ steps:
 
       rm -rf "$MDAPI_DIR" "$MDAPI_FALLBACK_DIR"
 
-      # Tentative 1 : conversion filtrée par manifeste
       set +e
       sf project convert source \
         --manifest "$MANIFEST_PATH" \
@@ -88,11 +85,7 @@ steps:
       CONVERT1_EXIT=$?
       set -e
 
-      echo "=== convert1.out ==="; cat convert1.out || true
-      echo "=== convert1.err ==="; cat convert1.err || true
-
       if [[ $CONVERT1_EXIT -ne 0 || ! -d "$MDAPI_DIR" || -z "$(ls -A "$MDAPI_DIR" 2>/dev/null || true)" ]]; then
-        echo "Conversion filtrée indisponible ou vide → Fallback conversion complète + filtre au deploy"
         sf project convert source \
           --root-dir force-app \
           --output-dir "$MDAPI_FALLBACK_DIR"
@@ -104,90 +97,87 @@ steps:
       fi
     displayName: 'Convert to MDAPI (manifest-first with fallback)'
 
-  # 6) DEBUG : lister précisément les éléments du package.xml + aperçu fichiers MDAPI
+  # 6) DEBUG : analyse du package.xml (Python)
   - script: |
       set -euo pipefail
       set -x
-
       source use_dir.env
       MANIFEST_PATH="manifest/package.xml"
 
-      echo "=== RÉSUMÉ PAR TYPE (nom + nombre de membres) ==="
-      xmlstarlet sel -t \
-        -m "/*[local-name()='Package']/*[local-name()='types']" \
-        -v "concat('• ', normalize-space(./*[local-name()='name']), ' (', count(./*[local-name()='members']), ')')" -n \
-        "$MANIFEST_PATH"
+      echo "=== DEBUG package.xml ==="
 
-      echo ""
-      echo "=== DÉTAIL DES MEMBRES PAR TYPE ==="
-      xmlstarlet sel -t \
-        -m "/*[local-name()='Package']/*[local-name()='types']" \
-        -v "concat('# ', normalize-space(./*[local-name()='name']))" -n \
-        -m "./*[local-name()='members']" \
-        -v "concat('  - ', normalize-space(.))" -n \
-        "$MANIFEST_PATH"
+      cat << 'PY' > manifest_debug.py
+import os, sys, xml.etree.ElementTree as ET
+MANIFEST_PATH = "manifest/package.xml"
+USE_DIR = os.environ.get("USE_DIR", "")
+try:
+    tree = ET.parse(MANIFEST_PATH)
+except Exception as e:
+    print(f"ERREUR: parsing {MANIFEST_PATH} : {e}")
+    sys.exit(22)
+root = tree.getroot()
+ns_uri = None
+if "}" in root.tag:
+    ns_uri = root.tag.split("}")[0].strip("{")
+def q(n): return f"{{{ns_uri}}}{n}" if ns_uri else n
+types = []
+for t in root.findall(q("types")):
+    name = (t.findtext(q("name")) or "UNKNOWN").strip()
+    members = [ (m.text or "").strip() for m in t.findall(q("members")) if (m.text or "").strip() ]
+    types.append((name, members))
+print("=== RÉSUMÉ PAR TYPE ===")
+for name, members in types:
+    print(f"• {name} ({len(members)})")
+print("\n=== DÉTAILS ===")
+for name, members in types:
+    print(f"# {name}")
+    for m in members:
+        print(f"  - {m}")
+with open("manifest.summary.txt","w",encoding="utf-8") as f:
+    for n,m in types: f.write(f"• {n} ({len(m)})\n")
+with open("manifest.members.txt","w",encoding="utf-8") as f:
+    for n,m in types:
+        f.write(f"# {n}\n")
+        for mm in m: f.write(f"  - {mm}\n")
+print("\n=== FICHIERS MDAPI ===")
+if USE_DIR and os.path.isdir(USE_DIR):
+    count = 0
+    for dp,_,files in os.walk(USE_DIR):
+        for fn in files:
+            print("  - "+os.path.join(dp,fn))
+            count+=1
+    print(f"Total fichiers: {count}")
+else:
+    print(f"(Attention) dossier {USE_DIR} introuvable")
+PY
 
-      echo ""
-      echo "=== APERÇU DES FICHIERS MDAPI QUI SERONT PRIS EN COMPTE ==="
-      find "$USE_DIR" -type f | sed -e 's#^#  - #'
-
-      # Sauvegarde pour artefacts
-      {
-        echo "Résumé par type:"
-        xmlstarlet sel -t \
-          -m "/*[local-name()='Package']/*[local-name()='types']" \
-          -v "concat('• ', normalize-space(./*[local-name()='name']), ' (', count(./*[local-name()='members']), ')')" -n \
-          "$MANIFEST_PATH"
-      } > manifest.summary.txt
-
-      {
-        echo "Détail membres:"
-        xmlstarlet sel -t \
-          -m "/*[local-name()='Package']/*[local-name()='types']" \
-          -v "concat('# ', normalize-space(./*[local-name()='name']))" -n \
-          -m "./*[local-name()='members']" \
-          -v "concat('  - ', normalize-space(.))" -n \
-          "$MANIFEST_PATH"
-      } > manifest.members.txt
+      python3 manifest_debug.py
     displayName: 'DEBUG: Liste des éléments du package.xml + fichiers MDAPI'
 
-  # 7) Déploiement réel en UAT (SANS TESTS)
+  # 7) Déploiement
   - script: |
       set -euo pipefail
       set -x
-
       source use_dir.env
-
-      set +e
       sf deploy metadata \
         --metadata-dir "$USE_DIR" \
         ${USE_MANIFEST} \
         --target-org uat \
         --test-level NoTestRun \
         --wait 120 \
-        --json > deploy.json 2> deploy.err
-      SF_EXIT=$?
-      set -e
-
-      echo "=== deploy.json (pretty) ==="
-      jq . deploy.json || { echo "deploy.json brut:"; cat deploy.json; }
-      echo "=== STDERR (deploy.err) ==="
+        --json > deploy.json 2> deploy.err || SF_EXIT=$?
+      jq . deploy.json || cat deploy.json
       cat deploy.err || true
-
-      JOB_ID="$(jq -r '.result.id // empty' deploy.json 2>/dev/null || true)"
+      JOB_ID=$(jq -r '.result.id // empty' deploy.json || true)
       if [[ -n "$JOB_ID" ]]; then
         sf project deploy report --job-id "$JOB_ID" || true
       fi
-
-      if [[ $SF_EXIT -ne 0 ]]; then
-        echo "Déploiement en échec (code=$SF_EXIT)."
-        exit $SF_EXIT
-      fi
+      exit ${SF_EXIT:-0}
     displayName: 'Deploy to UAT (NoTestRun)'
 
-  # 8) Publication des artefacts
+  # 8) Artefacts
   - task: PublishBuildArtifacts@1
-    displayName: 'Publish logs + mdapi dirs + manifest debug'
+    displayName: 'Publish logs + manifest debug'
     condition: always()
     inputs:
       PathtoPublish: '.'
