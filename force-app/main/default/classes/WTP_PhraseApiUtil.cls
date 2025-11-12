@@ -47,7 +47,7 @@ public with sharing class WTP_PhraseApiUtil {
         return sourceFileName;
     }
 
-    // Télécharge le fichier cible et renvoie un ContentVersion prêt à insérer
+    // Télécharge le fichier cible et renvoie un ContentVersion prêt à insérer  
     public static ContentVersion downloadTargetAsContentVersion(
         String token, String projectUid, String jobUid, Id caseId, String sourceFileName
     ) {

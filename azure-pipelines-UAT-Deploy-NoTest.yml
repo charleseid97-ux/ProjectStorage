@@ -1,6 +1,6 @@
 # -------------------------------------------------------------------
 # Salesforce CI/CD - UAT Deployment (NoTestRun)
-# Lightweight version – only core logs uploaded
+# Minimal version – only essential logs uploaded
 # -------------------------------------------------------------------
 
 trigger:
@@ -145,15 +145,21 @@ steps:
       exit ${SF_EXIT:-0}
     displayName: 'Deploy to UAT (NoTestRun)'
 
-  # 8) Publish minimal logs only
+  # 8) Collect and publish minimal logs
+  - script: |
+      set -euo pipefail
+      mkdir -p run-logs
+      for f in deploy.json deploy.err manifest.summary.txt manifest.members.txt; do
+        if [ -f "$f" ]; then cp -f "$f" run-logs/; fi
+      done
+      if [ -z "$(ls -A run-logs)" ]; then echo "No logs produced." > run-logs/README.txt; fi
+    displayName: 'Collect minimal logs'
+    condition: always()
+
   - task: PublishBuildArtifacts@1
     displayName: 'Publish minimal logs'
     condition: always()
     inputs:
-      PathtoPublish: |
-        deploy.json
-        deploy.err
-        manifest.summary.txt
-        manifest.members.txt
+      PathtoPublish: 'run-logs'
       ArtifactName: 'sf-logs'
       publishLocation: 'Container'
