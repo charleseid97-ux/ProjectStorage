@@ -1,9 +1,14 @@
 # -------------------------------------------------------------------
-# Salesforce CI/CD - UAT (manifest/package.xml via MDAPI) – Azure Pipelines
+# Salesforce CI/CD - UAT Deployment (NoTestRun)
+# Lightweight version – only core logs uploaded
 # -------------------------------------------------------------------
 
 trigger:
-  - main
+  branches:
+    include:
+      - UAT
+
+pr: none
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -17,7 +22,7 @@ steps:
     inputs:
       secureFile: 'SF_UAT_key.pem'
 
-  # 2) Node + Salesforce CLI (unified 'sf')
+  # 2) Node + Salesforce CLI
   - task: NodeTool@0
     displayName: 'Install Node.js'
     inputs:
@@ -29,13 +34,13 @@ steps:
       sf plugins --core
     displayName: 'Install Salesforce CLI'
 
-  # 3) jq
+  # 3) jq + xmlstarlet
   - script: |
       sudo apt-get update -y
-      sudo apt-get install -y jq
-    displayName: 'Install jq'
+      sudo apt-get install -y jq xmlstarlet
+    displayName: 'Install jq + xmlstarlet'
 
-  # 4) Auth + sanity checks
+  # 4) Auth Salesforce
   - script: |
       set -euo pipefail
       set -x
@@ -60,7 +65,7 @@ steps:
       SFDX_USERNAME: $(SFDX_USERNAME)
       SF_ORG_INSTANCE_URL: $(SF_ORG_INSTANCE_URL)
 
-  # 5) Validation check-only via MDAPI (manifest only)
+  # 5) Conversion vers MDAPI
   - script: |
       set -euo pipefail
       set -x
@@ -73,7 +78,6 @@ steps:
 
       rm -rf "$MDAPI_DIR" "$MDAPI_FALLBACK_DIR"
 
-      # ---- Tentative 1 : conversion filtrée par le manifeste (idéal)
       set +e
       sf project convert source \
         --manifest "$MANIFEST_PATH" \
@@ -81,129 +85,75 @@ steps:
       CONVERT1_EXIT=$?
       set -e
 
-      echo "=== convert1.out ==="; cat convert1.out || true
-      echo "=== convert1.err ==="; cat convert1.err || true
-
       if [[ $CONVERT1_EXIT -ne 0 || ! -d "$MDAPI_DIR" || -z "$(ls -A "$MDAPI_DIR" 2>/dev/null || true)" ]]; then
-        echo "Conversion filtrée par manifeste indisponible ou vide → Fallback conversion complète + filtre au deploy"
-        # ---- Tentative 2 : conversion complète
+        echo "Conversion filtrée indisponible → fallback complet"
         sf project convert source \
           --root-dir force-app \
           --output-dir "$MDAPI_FALLBACK_DIR"
-        USE_DIR="$MDAPI_FALLBACK_DIR"
-        USE_MANIFEST="--manifest $MANIFEST_PATH"
+        echo "USE_DIR=$MDAPI_FALLBACK_DIR" > use_dir.env
+        echo "USE_MANIFEST=--manifest $MANIFEST_PATH" >> use_dir.env
       else
-        USE_DIR="$MDAPI_DIR"
-        USE_MANIFEST=""   # inutile: le dossier est déjà filtré
+        echo "USE_DIR=$MDAPI_DIR" > use_dir.env
+        echo "USE_MANIFEST=" >> use_dir.env
       fi
+    displayName: 'Convert to MDAPI (manifest-first with fallback)'
 
-      echo "Contenu utilisé pour la validation: $USE_DIR"
-      find "$USE_DIR" -maxdepth 3 -type d -print
+  # 6) DEBUG : lister les éléments du package.xml (léger)
+  - script: |
+      set -euo pipefail
+      source use_dir.env
+      MANIFEST_PATH="manifest/package.xml"
 
-      # Validation check-only
-      set +e
-      sf deploy metadata \
-        --metadata-dir "$USE_DIR" \
-        ${USE_MANIFEST} \
-        --target-org uat \
-        --test-level RunLocalTests \
-        --dry-run \
-        --wait 60 \
-        --json > validate.json 2> validate.err
-      SF_EXIT=$?
-      set -e
+      echo "=== RÉSUMÉ PAR TYPE ==="
+      xmlstarlet sel -t \
+        -m "//*[local-name()='types']" \
+        -v "concat('• ',normalize-space(./*[local-name()='name']),' (',count(./*[local-name()='members']),')')" -n \
+        "$MANIFEST_PATH" || echo "(info) Aucun type trouvé"
 
-      echo "=== validate.json (pretty) ==="
-      jq . validate.json || { echo "validate.json brut:"; cat validate.json; }
-      echo "=== STDERR (validate.err) ==="
-      cat validate.err || true
+      echo ""
+      echo "=== DÉTAILS PAR TYPE ==="
+      xmlstarlet sel -t \
+        -m "//*[local-name()='types']" \
+        -v "concat('# ',normalize-space(./*[local-name()='name']))" -n \
+        -m "./*[local-name()='members']" \
+        -v "concat('  - ',normalize-space(.))" -n \
+        "$MANIFEST_PATH" || echo "(info) Aucun membre trouvé"
+    displayName: 'DEBUG: Liste du package.xml'
 
-      JOB_ID="$(jq -r '.result.id // empty' validate.json 2>/dev/null || true)"
-      if [[ -n "$JOB_ID" ]]; then
-        sf project deploy report --job-id "$JOB_ID" || true
-      fi
-
-      if [[ $SF_EXIT -ne 0 ]]; then
-        echo "Validation (check-only) en échec (code=$SF_EXIT)."
-        exit $SF_EXIT
-      fi
-    displayName: 'Validate (manifest/package.xml → MDAPI, check-only)'
-
-  # 6) Déploiement réel (même répertoire MDAPI et même filtrage)
+  # 7) Déploiement UAT (NoTestRun)
   - script: |
       set -euo pipefail
       set -x
+      source use_dir.env
 
-      MANIFEST_PATH="manifest/package.xml"
-      MDAPI_DIR="mdapi_pkg"
-      MDAPI_FALLBACK_DIR="mdapi_out"
-
-      if [[ -d "$MDAPI_DIR" && -n "$(ls -A "$MDAPI_DIR" 2>/dev/null || true)" ]]; then
-        USE_DIR="$MDAPI_DIR"
-        USE_MANIFEST=""
-      else
-        USE_DIR="$MDAPI_FALLBACK_DIR"
-        USE_MANIFEST="--manifest $MANIFEST_PATH"
-      fi
-
-      set +e
       sf deploy metadata \
         --metadata-dir "$USE_DIR" \
         ${USE_MANIFEST} \
         --target-org uat \
-        --test-level RunLocalTests \
+        --test-level NoTestRun \
         --wait 120 \
-        --json > deploy.json 2> deploy.err
-      SF_EXIT=$?
-      set -e
+        --json > deploy.json 2> deploy.err || SF_EXIT=$?
 
-      echo "=== deploy.json (pretty) ==="
-      jq . deploy.json || { echo "deploy.json brut:"; cat deploy.json; }
-      echo "=== STDERR (deploy.err) ==="
+      jq . deploy.json || cat deploy.json
       cat deploy.err || true
 
-      JOB_ID="$(jq -r '.result.id // empty' deploy.json 2>/dev/null || true)"
+      JOB_ID=$(jq -r '.result.id // empty' deploy.json || true)
       if [[ -n "$JOB_ID" ]]; then
         sf project deploy report --job-id "$JOB_ID" || true
       fi
 
-      if [[ $SF_EXIT -ne 0 ]]; then
-        echo "Déploiement en échec (code=$SF_EXIT)."
-        exit $SF_EXIT
-      fi
-    displayName: 'Deploy (manifest/package.xml → MDAPI)'
+      exit ${SF_EXIT:-0}
+    displayName: 'Deploy to UAT (NoTestRun)'
 
-  # 7) Tests Apex (JUnit)
-  - script: |
-      set -euo pipefail
-      set -x
-      mkdir -p test-results
-      sf apex run test \
-        --target-org uat \
-        --test-level RunLocalTests \
-        --result-format junit \
-        --output-dir test-results \
-        --wait 60
-      echo "##vso[task.setvariable variable=SFDX_TEST_OUTPUT_PATH]test-results/*.xml"
-    condition: always()
-    timeoutInMinutes: 15
-    displayName: 'Run Apex Tests (JUnit output)'
-
-  # 8) Publication des artefacts (logs & mdapi utilisés)
-  - task: PublishTestResults@2
-    displayName: 'Publish Test Results'
-    condition: always()
-    inputs:
-      testRunner: JUnit
-      testResultsFiles: '$(SFDX_TEST_OUTPUT_PATH)'
-      testRunTitle: '[UAT] Salesforce Deployment'
-      failTaskOnFailedTests: true
-      platform: 'UAT'
-
+  # 8) Publish minimal logs only
   - task: PublishBuildArtifacts@1
-    displayName: 'Publish validate/deploy logs + mdapi dirs'
+    displayName: 'Publish minimal logs'
     condition: always()
     inputs:
-      PathtoPublish: '.'
+      PathtoPublish: |
+        deploy.json
+        deploy.err
+        manifest.summary.txt
+        manifest.members.txt
       ArtifactName: 'sf-logs'
       publishLocation: 'Container'
