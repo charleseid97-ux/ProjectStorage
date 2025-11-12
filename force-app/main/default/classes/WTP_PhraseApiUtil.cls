@@ -22,6 +22,7 @@ public with sharing class WTP_PhraseApiUtil {
             r.setMethod('GET');
             r.setHeader('Authorization', WS_WTPSendFileToWordclass.authHeader(token));
             r.setHeader('Accept', 'application/json');
+            r.setTimeout(120000);
             HttpResponse resp = new Http().send(r);
             if (resp.getStatusCode() != 200) return null;
 
@@ -59,6 +60,7 @@ public with sharing class WTP_PhraseApiUtil {
             req.setHeader('Authorization', WS_WTPSendFileToWordclass.authHeader(token));
             req.setHeader('Accept', 'application/octet-stream');
             req.setHeader('User-Agent', 'Salesforce-Carmignac/1.0');
+            req.setTimeout(120000);
 
             HttpResponse res = new Http().send(req);
             if (res.getStatusCode() != 200) {
