@@ -1,6 +1,6 @@
 # -------------------------------------------------------------------
-# Salesforce CI/CD - UAT (manifest/package.xml via MDAPI) – Azure Pipelines
-# Déploiement direct (NoTestRun) + DEBUG liste package.xml avant déploiement
+# Salesforce CI/CD - UAT (manifest/package.xml via MDAPI)
+# Déploiement direct (NoTestRun) + DEBUG du package.xml avant déploiement
 # -------------------------------------------------------------------
 
 trigger:
@@ -34,13 +34,13 @@ steps:
       sf plugins --core
     displayName: 'Install Salesforce CLI'
 
-  # 3) jq
+  # 3) jq + xmlstarlet
   - script: |
       sudo apt-get update -y
-      sudo apt-get install -y jq
-    displayName: 'Install jq'
+      sudo apt-get install -y jq xmlstarlet
+    displayName: 'Install jq + xmlstarlet'
 
-  # 4) Auth
+  # 4) Auth Salesforce
   - script: |
       set -euo pipefail
       set -x
@@ -65,7 +65,7 @@ steps:
       SFDX_USERNAME: $(SFDX_USERNAME)
       SF_ORG_INSTANCE_URL: $(SF_ORG_INSTANCE_URL)
 
-  # 5) Conversion MDAPI
+  # 5) Conversion vers MDAPI (manifest-first, fallback si besoin)
   - script: |
       set -euo pipefail
       set -x
@@ -78,6 +78,7 @@ steps:
 
       rm -rf "$MDAPI_DIR" "$MDAPI_FALLBACK_DIR"
 
+      # Tentative 1 : conversion filtrée par manifeste
       set +e
       sf project convert source \
         --manifest "$MANIFEST_PATH" \
@@ -86,6 +87,7 @@ steps:
       set -e
 
       if [[ $CONVERT1_EXIT -ne 0 || ! -d "$MDAPI_DIR" || -z "$(ls -A "$MDAPI_DIR" 2>/dev/null || true)" ]]; then
+        echo "Conversion filtrée indisponible ou vide → fallback complet"
         sf project convert source \
           --root-dir force-app \
           --output-dir "$MDAPI_FALLBACK_DIR"
@@ -97,7 +99,7 @@ steps:
       fi
     displayName: 'Convert to MDAPI (manifest-first with fallback)'
 
-  # 6) DEBUG : analyse du package.xml (Python)
+  # 6) DEBUG : lister les éléments du package.xml + fichiers MDAPI
   - script: |
       set -euo pipefail
       set -x
@@ -106,59 +108,55 @@ steps:
 
       echo "=== DEBUG package.xml ==="
 
-      cat << 'PY' > manifest_debug.py
-import os, sys, xml.etree.ElementTree as ET
-MANIFEST_PATH = "manifest/package.xml"
-USE_DIR = os.environ.get("USE_DIR", "")
-try:
-    tree = ET.parse(MANIFEST_PATH)
-except Exception as e:
-    print(f"ERREUR: parsing {MANIFEST_PATH} : {e}")
-    sys.exit(22)
-root = tree.getroot()
-ns_uri = None
-if "}" in root.tag:
-    ns_uri = root.tag.split("}")[0].strip("{")
-def q(n): return f"{{{ns_uri}}}{n}" if ns_uri else n
-types = []
-for t in root.findall(q("types")):
-    name = (t.findtext(q("name")) or "UNKNOWN").strip()
-    members = [ (m.text or "").strip() for m in t.findall(q("members")) if (m.text or "").strip() ]
-    types.append((name, members))
-print("=== RÉSUMÉ PAR TYPE ===")
-for name, members in types:
-    print(f"• {name} ({len(members)})")
-print("\n=== DÉTAILS ===")
-for name, members in types:
-    print(f"# {name}")
-    for m in members:
-        print(f"  - {m}")
-with open("manifest.summary.txt","w",encoding="utf-8") as f:
-    for n,m in types: f.write(f"• {n} ({len(m)})\n")
-with open("manifest.members.txt","w",encoding="utf-8") as f:
-    for n,m in types:
-        f.write(f"# {n}\n")
-        for mm in m: f.write(f"  - {mm}\n")
-print("\n=== FICHIERS MDAPI ===")
-if USE_DIR and os.path.isdir(USE_DIR):
-    count = 0
-    for dp,_,files in os.walk(USE_DIR):
-        for fn in files:
-            print("  - "+os.path.join(dp,fn))
-            count+=1
-    print(f"Total fichiers: {count}")
-else:
-    print(f"(Attention) dossier {USE_DIR} introuvable")
-PY
+      echo "=== RÉSUMÉ PAR TYPE (nom + nombre de membres) ==="
+      xmlstarlet sel -t \
+        -m "//*[local-name()='types']" \
+        -v "concat('• ',normalize-space(./*[local-name()='name']),' (',count(./*[local-name()='members']),')')" -n \
+        "$MANIFEST_PATH" || echo "(info) Aucun type trouvé dans le manifest"
 
-      python3 manifest_debug.py
+      echo ""
+      echo "=== DÉTAIL DES MEMBRES PAR TYPE ==="
+      xmlstarlet sel -t \
+        -m "//*[local-name()='types']" \
+        -v "concat('# ',normalize-space(./*[local-name()='name']))" -n \
+        -m "./*[local-name()='members']" \
+        -v "concat('  - ',normalize-space(.))" -n \
+        "$MANIFEST_PATH" || echo "(info) Aucun membre trouvé"
+
+      echo ""
+      echo "=== APERÇU DES FICHIERS MDAPI ==="
+      if [[ -d "$USE_DIR" ]]; then
+        find "$USE_DIR" -type f | sed 's#^#  - #'
+      else
+        echo "(Attention) Dossier $USE_DIR introuvable"
+      fi
+
+      # Sauvegardes des résultats pour artefacts
+      {
+        echo "Résumé par type:"
+        xmlstarlet sel -t \
+          -m "//*[local-name()='types']" \
+          -v "concat('• ',normalize-space(./*[local-name()='name']),' (',count(./*[local-name()='members']),')')" -n \
+          "$MANIFEST_PATH" || true
+      } > manifest.summary.txt
+
+      {
+        echo "Détail des membres:"
+        xmlstarlet sel -t \
+          -m "//*[local-name()='types']" \
+          -v "concat('# ',normalize-space(./*[local-name()='name']))" -n \
+          -m "./*[local-name()='members']" \
+          -v "concat('  - ',normalize-space(.))" -n \
+          "$MANIFEST_PATH" || true
+      } > manifest.members.txt
     displayName: 'DEBUG: Liste des éléments du package.xml + fichiers MDAPI'
 
-  # 7) Déploiement
+  # 7) Déploiement (sans tests)
   - script: |
       set -euo pipefail
       set -x
       source use_dir.env
+
       sf deploy metadata \
         --metadata-dir "$USE_DIR" \
         ${USE_MANIFEST} \
@@ -166,12 +164,17 @@ PY
         --test-level NoTestRun \
         --wait 120 \
         --json > deploy.json 2> deploy.err || SF_EXIT=$?
+
+      echo "=== deploy.json (pretty) ==="
       jq . deploy.json || cat deploy.json
+      echo "=== STDERR (deploy.err) ==="
       cat deploy.err || true
+
       JOB_ID=$(jq -r '.result.id // empty' deploy.json || true)
       if [[ -n "$JOB_ID" ]]; then
         sf project deploy report --job-id "$JOB_ID" || true
       fi
+
       exit ${SF_EXIT:-0}
     displayName: 'Deploy to UAT (NoTestRun)'
 
