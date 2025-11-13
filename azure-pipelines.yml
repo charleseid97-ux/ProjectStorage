@@ -333,7 +333,6 @@ stages:
                     --test-level "$(TEST_LEVEL_PROD)" \
                     --dry-run \
                     --wait 180 \
-                    --no-quick-deploy
                     --json > deploy_prod_validate.json 2> deploy_prod_validate.err || SF_EXIT=$?
 
                   jq . deploy_prod_validate.json || cat deploy_prod_validate.json
