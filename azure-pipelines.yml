@@ -21,13 +21,13 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  # Optionnel : ajuste le niveau de tests pour la validation PROD
+  # ajuste le niveau de tests pour la validation PROD
   TEST_LEVEL_PROD: 'RunLocalTests' # ou 'RunAllTestsInOrg'
 
 stages:
 
 # =========================
-# Stage 1 : UAT (inchangé)
+# Stage 1 : UAT 
 # =========================
 - stage: UAT
   displayName: 'UAT Stage'
@@ -327,11 +327,10 @@ stages:
 
                   # --checkonly = validation sans écriture
                   # TEST_LEVEL_PROD = RunLocalTests ou RunAllTestsInOrg
-                  sf deploy metadata \
+                  sf deploy validate  \
                     --metadata-dir "$USE_DIR" \
                     ${USE_MANIFEST} \
                     --target-org prod \
-                    --checkonly \
                     --test-level "$(TEST_LEVEL_PROD)" \
                     --wait 180 \
                     --json > deploy_prod_validate.json 2> deploy_prod_validate.err || SF_EXIT=$?
