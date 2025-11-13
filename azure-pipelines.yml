@@ -364,3 +364,152 @@ stages:
                   PathtoPublish: 'run-logs'
                   ArtifactName: 'sf-logs-prod-validate'
                   publishLocation: 'Container'
+# ===========================================
+# Stage 3 : UAT Nightly Validation (Scheduled, tests executed)
+# ===========================================
+- stage: UAT_Validate_Nightly
+  displayName: 'UAT Nightly Validation (Run Tests)'
+  dependsOn: []
+  condition: |
+    and(
+      eq(variables['Build.Reason'], 'Schedule'),
+      eq(variables['Build.SourceBranch'], 'refs/heads/uat')
+    )
+  variables:
+    TEST_LEVEL_UAT_NIGHTLY: 'RunAllTestsInOrg'  # or 'RunLocalTests' if preferred
+  jobs:
+    - deployment: Validate_UAT_DryRun
+      displayName: 'Validate on Salesforce UAT (no deploy, run tests)'
+      environment: 'UAT Salesforce'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - checkout: self
+
+              # 1) Secure file: JWT key (UAT)
+              - task: DownloadSecureFile@1
+                name: sfdxJwtKeyUatNightly
+                inputs:
+                  secureFile: 'SF_UAT_key.pem'
+
+              # 2) Node + Salesforce CLI
+              - task: NodeTool@0
+                displayName: 'Install Node.js'
+                inputs:
+                  versionSpec: '18.x'
+
+              - script: |
+                  npm i -g @salesforce/cli
+                  sf --version
+                  sf plugins --core
+                displayName: 'Install Salesforce CLI'
+
+              # 3) jq + xmlstarlet
+              - script: |
+                  sudo apt-get update -y
+                  sudo apt-get install -y jq xmlstarlet
+                displayName: 'Install jq + xmlstarlet'
+
+              # 4) Auth Salesforce (UAT)
+              - script: |
+                  set -euo pipefail
+                  set -x
+
+                  if [[ -z "${SFDX_CLIENT_ID:-}" ]]; then set +x; echo "ERREUR: SFDX_CLIENT_ID manquant"; exit 11; fi
+                  if [[ -z "${SFDX_USERNAME:-}" ]]; then set +x; echo "ERREUR: SFDX_USERNAME manquant"; exit 12; fi
+                  if [[ -z "${SF_ORG_INSTANCE_URL:-}" ]]; then set +x; echo "ERREUR: SF_ORG_INSTANCE_URL manquant"; exit 13; fi
+
+                  set +x
+                  sf org login jwt \
+                    --client-id "$(SFDX_CLIENT_ID)" \
+                    --jwt-key-file "$(sfdxJwtKeyUatNightly.secureFilePath)" \
+                    --username "$(SFDX_USERNAME)" \
+                    --instance-url "$SF_ORG_INSTANCE_URL" \
+                    --alias uat
+                  set -x
+
+                  sf org display --target-org uat
+                displayName: 'Authenticate Salesforce (JWT UAT)'
+                env:
+                  SFDX_CLIENT_ID: $(SFDX_CLIENT_ID)
+                  SFDX_USERNAME: $(SFDX_USERNAME)
+                  SF_ORG_INSTANCE_URL: $(SF_ORG_INSTANCE_URL)
+
+              # 5) Convert to MDAPI (same logic as your other stages)
+              - script: |
+                  set -euo pipefail
+                  set -x
+
+                  MANIFEST_PATH="manifest/package.xml"
+                  MDAPI_DIR="mdapi_pkg"
+                  MDAPI_FALLBACK_DIR="mdapi_out"
+
+                  [[ -f "$MANIFEST_PATH" ]] || { echo "ERREUR: $MANIFEST_PATH introuvable"; exit 21; }
+
+                  rm -rf "$MDAPI_DIR" "$MDAPI_FALLBACK_DIR"
+
+                  set +e
+                  sf project convert source \
+                    --manifest "$MANIFEST_PATH" \
+                    --output-dir "$MDAPI_DIR" > convert1.out 2> convert1.err
+                  CONVERT1_EXIT=$?
+                  set -e
+
+                  if [[ $CONVERT1_EXIT -ne 0 || ! -d "$MDAPI_DIR" || -z "$(ls -A "$MDAPI_DIR" 2>/dev/null || true)" ]]; then
+                    echo "Conversion filtrée indisponible → fallback complet"
+                    sf project convert source \
+                      --root-dir force-app \
+                      --output-dir "$MDAPI_FALLBACK_DIR"
+                    echo "USE_DIR=$MDAPI_FALLBACK_DIR" > use_dir.env
+                    echo "USE_MANIFEST=--manifest $MANIFEST_PATH" >> use_dir.env
+                  else
+                    echo "USE_DIR=$MDAPI_DIR" > use_dir.env
+                    echo "USE_MANIFEST=" >> use_dir.env
+                  fi
+                displayName: 'Convert to MDAPI (manifest-first with fallback)'
+
+              # 6) UAT validation (no deploy) WITH tests
+              - script: |
+                  set -euo pipefail
+                  set -x
+                  source use_dir.env
+
+                  # Official validation path in the new CLI:
+                  sf project deploy validate \
+                    ${USE_MANIFEST} \
+                    --metadata-dir "$USE_DIR" \
+                    --target-org uat \
+                    --test-level "$(TEST_LEVEL_UAT_NIGHTLY)" \
+                    --wait 180 \
+                    --json > deploy_uat_nightly_validate.json 2> deploy_uat_nightly_validate.err || SF_EXIT=$?
+
+                  jq . deploy_uat_nightly_validate.json || cat deploy_uat_nightly_validate.json
+                  cat deploy_uat_nightly_validate.err || true
+
+                  JOB_ID=$(jq -r '.result.id // empty' deploy_uat_nightly_validate.json || true)
+                  if [[ -n "$JOB_ID" ]]; then
+                    sf project deploy report --job-id "$JOB_ID" || true
+                  fi
+
+                  exit ${SF_EXIT:-0}
+                displayName: 'Validate on UAT (tests executed)'
+
+              # 7) Artifacts
+              - script: |
+                  set -euo pipefail
+                  mkdir -p run-logs
+                  for f in deploy_uat_nightly_validate.json deploy_uat_nightly_validate.err manifest.summary.txt manifest.members.txt; do
+                    if [ -f "$f" ]; then cp -f "$f" run-logs/; fi
+                  done
+                  if [ -z "$(ls -A run-logs)" ]; then echo "No logs produced." > run-logs/README.txt; fi
+                displayName: 'Collect minimal logs (UAT nightly)'
+                condition: always()
+
+              - task: PublishBuildArtifacts@1
+                displayName: 'Publish minimal logs (UAT nightly)'
+                condition: always()
+                inputs:
+                  PathtoPublish: 'run-logs'
+                  ArtifactName: 'sf-logs-uat-nightly'
+                  publishLocation: 'Container'
