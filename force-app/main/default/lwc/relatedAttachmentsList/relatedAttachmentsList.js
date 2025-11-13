@@ -215,7 +215,7 @@ export default class RelatedAttachmentsList extends NavigationMixin(
         this.showConfirmPopUp = false;
       }
       if(this.showConfirmPopUp==false){
-        this.updateStatusRecord("Closed");
+        //this.updateStatusRecord("Closed");
         // setTimeout(function () {
         this[NavigationMixin.Navigate]({
           type: 'standard__recordPage',

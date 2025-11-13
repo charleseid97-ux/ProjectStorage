@@ -2,8 +2,12 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">    
     <version>60.0</version>
     <types>
-        <members>WTP_PhraseApiUtil</members>
+        <members>relatedAttachmentsList</members>
+        <members>projectChildTeamValidation</members>
+        <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>ProjectChildTeamValidationController</members>
         <name>ApexClass</name>
     </types>
-    <!-- Add other metadata for next release -->
 </Package>

@@ -53,10 +53,7 @@
                                                     onclick={handleOpenModal} data-file-id={attachment.Id}
                                                     class="slds-m-left_x-small">
                                                 </lightning-button>
-                                                <lightning-button variant="destructive" label="Delete File"
-                                                    onclick={handleDeleteFile} data-file-id={attachment.Id}
-                                                    class="slds-m-left_x-small">
-                                                </lightning-button>
+                                               
                                             </template>
                                         </template>
                                     </div>
@@ -66,7 +63,7 @@
                     </template>
                 </div>
             </template>
-            <template if:true={isDeepLPro}>
+            <!--template if:true={isDeepLPro}>
                 <template if:false={isSource}>
                     <template if:false={statusClosed}>
                         <c-file-upload-multi-l-w-c class="file-selector-large" multiple-files="false" file-prefix="Target_"
@@ -75,7 +72,7 @@
                         </c-file-upload-multi-l-w-c>
                     </template>
                 </template>
-            </template>
+            </template-->
             <template if:false={isDeepLPro}>
                 <template if:false={attachmentExist}>
                         <c-file-upload-multi-l-w-c class="file-selector-large" multiple-files="false" file-prefix="Target_"

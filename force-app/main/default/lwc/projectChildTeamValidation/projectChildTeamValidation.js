@@ -29,6 +29,7 @@ export default class ProjectChildTeamValidation extends NavigationMixin(Lightnin
     @track isModalOpen = false;
     @track isEmptyRequiredFields = false;
     @track emptyFundRequiredFields;
+    @track isEmptyFundRequiredFields = false;
     @track emptySCRequiredFields;
     @track shouldDisplay = false; // Nouveau boolean pour afficher ou non le composant
     @track currentRecordId;
@@ -313,17 +314,21 @@ export default class ProjectChildTeamValidation extends NavigationMixin(Lightnin
         })
         .then((data) => {
                 console.log('data', JSON.stringify(data));
+                console.log('data.Fund before refresh ', data.Fund);
+                console.log('data', JSON.stringify(data));
                 refreshApex(this.fund);
                 refreshApex(this.shareClasses);
+                console.log('data.Fund after refresh ', data.Fund);
                 
             // Traitement FUND
                 if (data.Fund && data.Fund.length > 0) {
-                
+                    console.log('data.Fund inside if ', data.Fund);
                     this.emptyFundRequiredFields = data.Fund.map(map => {
                     const [key, fields] = Object.entries(map)[0];
                     return { name: key, fields: fields };
                 });
                 } else {
+                    console.log('data.Fund Empty');
                     this.emptyFundRequiredFields = [];
                 }
 
@@ -337,19 +342,33 @@ export default class ProjectChildTeamValidation extends NavigationMixin(Lightnin
                     if(rule) {
                         IsMandatory = this.evaluateMandatoryRuleCondition(rule, this.fund);
                     }
-                    if(IsMandatory && this.fund[element] === "" && this.emptyFundRequiredFields.length > 0) {  
-                        this.isEmptyRequiredFields = true;
-                        const fieldMetadata = this.availableFields.find(f => f.value === element.toLowerCase());
-                        // console.log('fieldMetadata', fieldMetadata);
-                        // console.log('element.fieldApiName', element.fieldApiName);
-                        // console.log('this.emptyFundRequiredFields', this.emptyFundRequiredFields);
-                        this.emptyFundRequiredFields[0].fields.push(fieldMetadata ? fieldMetadata.label : element);
+                    if(IsMandatory && this.fund[element] === "" ) {  
+                        
+
+                        // si le bloc Fund n’existe pas encore, on le crée à la volée
+                        if (this.emptyFundRequiredFields.length != 0) {
+                            this.isEmptyRequiredFields = true;
+                            this.isEmptyFundRequiredFields = false;
+                            //this.emptyFundRequiredFields.push({ name: 'FundName', fields: [] }); // ou 'Fund' selon ton choix
+                            const fieldMetadata = this.availableFields.find(f => f.value === element.toLowerCase());
+
+                            console.log('fieldMetadata', fieldMetadata);
+                            // console.log('element.fieldApiName', element.fieldApiName);
+                            // console.log('this.emptyFundRequiredFields', this.emptyFundRequiredFields);
+                            this.emptyFundRequiredFields[0].fields.push(fieldMetadata ? fieldMetadata.label : element);
+                        }else{
+                            this.isEmptyFundRequiredFields = true;
+                        }
+
+                        
 
                     }
                 });
+                console.log('emptyFundRequiredFields', this.emptyFundRequiredFields);
 
                 // Traitement SHARECLASS
                 if (data.ShareClass && data.ShareClass.length > 0) {
+                    console.log('data.ShareClass inside if ', data.ShareClass);
                     this.emptySCRequiredFields = data.ShareClass.map(map => {
                         const [key, fields] = Object.entries(map)[0];
                         return { name: key, fields: fields, id: key };

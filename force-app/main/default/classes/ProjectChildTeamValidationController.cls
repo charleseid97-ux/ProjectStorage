@@ -14,8 +14,11 @@ public without sharing class ProjectChildTeamValidationController {
         }
 
         // Sinon, charger les champs à exclure depuis PMTExcludeFieldSCValidation__mdt
-        PMTExcludeFieldSCValidation__mdt excludeSettings = PMTExcludeFieldSCValidation__mdt.getInstance('ProjectProduct');
+        PMTExcludeFieldSCValidation__mdt excludeSettings = [SELECT FieldsToExclude__c FROM PMTExcludeFieldSCValidation__mdt WHERE developerName = 'ProjectProduct'];
         if (excludeSettings != null && excludeSettings.FieldsToExclude__c != null) {
+            for(String s : excludeSettings.FieldsToExclude__c.split(';')){
+                system.debug('*************field to exclude : '+s);
+            }
             fieldsToExclude.addAll(excludeSettings.FieldsToExclude__c.split(';'));
         }
 
@@ -554,11 +557,13 @@ if (record.get(fieldName) == null) {
         //Liste d'exclusion de certains champs dispo dans une custom metadata (Dans le cas de ShareclassCreation, cf la fonction)
         Set<String> excludedFields = getExcludedFieldsForValidation(fundRecordConverted.TECH_ProjectRecordType__c);
         for(String requiredfield : requiredFieldsFund) {
+           
             if(excludedFields.contains(requiredfield)){
                 //On passe directement au champ suivant (Dans le cas de ShareclassCreation car on ne veut pas que certains champs de ProjectProduct bloque)
                 continue;
             }
             if(fundrecord[0].get(requiredfield) == null || fundrecord[0].get(requiredfield) == '' ){
+                system.debug('### [DEBUG] checkRequiredFieldsClassic - requiredfield: ' + requiredfield);
                 allRequiredFielsnotEmpty=false;
                 Schema.DescribeFieldResult fieldResultF = mfieldsFund.get(requiredfield).getDescribe();
                 String labelfieldFund= fieldResultF.getLabel();
@@ -566,15 +571,15 @@ if (record.get(fieldName) == null) {
             }
         }
         Map< String , List <String>> requiredFielsFundMap= new Map< String , List <String>>();
-        requiredFielsFundMap.put('FundName', requiredFieldsEmptyFund);
-        requiredFieldsEmpty.put('Fund' , new List<Map< String , List <String>>>{requiredFielsFundMap});
+        //requiredFielsFundMap.put('FundName', requiredFieldsEmptyFund);
+        //requiredFieldsEmpty.put('Fund' , new List<Map< String , List <String>>>{requiredFielsFundMap});
 
         if(requiredFieldsEmptyFund.size()>0) {
             requiredFielsFundMap= new Map< String , List <String>>();
             requiredFielsFundMap.put('FundName', requiredFieldsEmptyFund);
             requiredFieldsEmpty.put('Fund' , new List<Map< String , List <String>>> {requiredFielsFundMap});
         }
-
+        System.debug('requiredFieldsEmpty = ' + requiredFieldsEmpty);
         List<Map< String , List <String>>>  requiredFEparSC= new List<Map< String , List <String>>>();
         for(ProjectShareclassChild__c shareclassChild: shareclassChildsRT){
             List<String> requiredFieldsEmptySC = new  List<String>();
@@ -595,6 +600,7 @@ if (record.get(fieldName) == null) {
         if(requiredFEparSC.size() > 0){
             requiredFieldsEmpty.put('ShareClass',requiredFEparSC);
         }
+        System.debug('requiredFieldsEmpty = ' + requiredFieldsEmpty);
         return requiredFieldsEmpty;
     }
 
