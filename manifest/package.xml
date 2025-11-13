@@ -2,8 +2,7 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">    
     <version>60.0</version>
     <types>
-        <members>WTP_PhraseApiUtil</members>
-        <name>ApexClass</name>
+        <members>relatedAttachmentsList</members>
+        <name>LightningComponentBundle</name>
     </types>
-    <!-- Add  metadata for next release -->
 </Package>
