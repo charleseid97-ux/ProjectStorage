@@ -10,12 +10,15 @@ trigger:
     include:
       - uat
       - release
+      - main
+
 
 pr:
   branches:
     include:
       - uat
       - release
+      - main
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -196,14 +199,21 @@ stages:
 
 # ===========================================
 # Stage 2 : PROD - Validation (Dry Run only)
+# Triggers: push/PR to 'main' or 'release'
 # ===========================================
 - stage: PROD_Validate
   displayName: 'PROD Validation (Dry Run)'
   dependsOn: []
   condition: |
     or(
-      eq(variables['Build.SourceBranch'], 'refs/heads/release'),
-      eq(variables['System.PullRequest.TargetBranch'], 'refs/heads/release')
+      or(
+        eq(variables['Build.SourceBranch'], 'refs/heads/main'),
+        eq(variables['Build.SourceBranch'], 'refs/heads/release')
+      ),
+      or(
+        eq(variables['System.PullRequest.TargetBranch'], 'refs/heads/main'),
+        eq(variables['System.PullRequest.TargetBranch'], 'refs/heads/release')
+      )
     )
   jobs:
     - deployment: Validate_PROD_DryRun
@@ -344,7 +354,7 @@ stages:
                   fi
 
                   exit ${SF_EXIT:-0}
-                displayName: 'Validate on PROD (--checkonly)'
+                displayName: 'Validate on PROD (checkonly)'
 
               # 8) Publish minimal logs
               - script: |
