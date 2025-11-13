@@ -325,13 +325,13 @@ stages:
                   set -x
                   source use_dir.env
 
-                  # --checkonly = validation sans écriture
                   # TEST_LEVEL_PROD = RunLocalTests ou RunAllTestsInOrg
-                  sf deploy validate  \
+                  sf project deploy start \
                     --metadata-dir "$USE_DIR" \
                     ${USE_MANIFEST} \
                     --target-org prod \
                     --test-level "$(TEST_LEVEL_PROD)" \
+                    --dry-run \
                     --wait 180 \
                     --json > deploy_prod_validate.json 2> deploy_prod_validate.err || SF_EXIT=$?
 
