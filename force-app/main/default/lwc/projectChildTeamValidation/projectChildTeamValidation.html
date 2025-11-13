@@ -88,24 +88,26 @@
 
                             <!-- FUND SECTION -->
                             <template if:true={emptyFundRequiredFields}>
-                                <div class="slds-m-top_medium">
-                                    <h3 class="slds-text-title_bold slds-m-bottom_small">FUND:</h3>
-                                    <ul class="slds-list_dotted slds-m-left_medium">
-                                        <template for:each={emptyFundRequiredFields} for:item="item">
-                                            <li key={item.name}>
-                                                <!-- <a href="javascript:void(0);" class="slds-text-link_bold"
-                                                    onclick={handleFundClick} data-name={item.name}>
-                                                    {item.name}
-                                                </a> -->
-                                                <ul class="slds-list_dotted slds-m-left_medium">
-                                                    <template for:each={item.fields} for:item="field">
-                                                        <p key={field}>{field}</p>
-                                                    </template>
-                                                </ul>
-                                            </li>
-                                        </template>
-                                    </ul>
-                                </div>
+                                <template if:false={isEmptyFundRequiredFields}>
+                                    <div class="slds-m-top_medium">
+                                        <h3 class="slds-text-title_bold slds-m-bottom_small">FUND:</h3>
+                                        <ul class="slds-list_dotted slds-m-left_medium">
+                                            <template for:each={emptyFundRequiredFields} for:item="item">
+                                                <li key={item.name}>
+                                                    <!-- <a href="javascript:void(0);" class="slds-text-link_bold"
+                                                        onclick={handleFundClick} data-name={item.name}>
+                                                        {item.name}
+                                                    </a> -->
+                                                    <ul class="slds-list_dotted slds-m-left_medium">
+                                                        <template for:each={item.fields} for:item="field">
+                                                            <p key={field}>{field}</p>
+                                                        </template>
+                                                    </ul>
+                                                </li>
+                                            </template>
+                                        </ul>
+                                    </div>
+                                </template>
                             </template>
 
                             <!-- SHARECLASS SECTION -->
