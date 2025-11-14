@@ -11,7 +11,7 @@
         <inputParameters>
             <name>email</name>
             <value>
-                <elementReference>emailTEAMS</elementReference>
+                <elementReference>TESTThomas</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -27,9 +27,102 @@
             </value>
         </inputParameters>
         <nameSegment>WS_QueueableLauncher</nameSegment>
-        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <name>Send_email_to_tax_team</name>
+        <label>Send email to tax team</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>recipientAddresses</name>
+            <value/>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>$Label.NoReplayWideAddress</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>composeEmailContent</name>
+            <value>
+                <stringValue>True</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>EmailSubjectTax</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>EmailBodyTax</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
     </actionCalls>
     <apiVersion>64.0</apiVersion>
+    <decisions>
+        <name>Check_Notify_All</name>
+        <label>Check Notify All</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>True</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>GET_DOCUMENT.NotifyAllTeamOwners__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Send_chat_message</targetReference>
+            </connector>
+            <label>True</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_Portfolio_Model_type</name>
+        <label>Is Portfolio Model type?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Portfolio Model</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Send_email_to_tax_team</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
     <description>This flow allows users to share a document or meeting summary via Microsoft Teams directly from a PMT project.
 If the user selects the “Notify All” checkbox, the content will be sent to all Team Owners associated with the project via Teams notification.
 If the checkbox is not selected, the message is sent only to the team(s) explicitly selected.</description>
@@ -97,9 +190,14 @@ IF(ISBLANK({!GETPMT.Technology__r.Email}), &apos;&apos;, {!GETPMT.Technology__r.
         <expression>{!$Record.Project_product__r.Id}</expression>
     </formulas>
     <formulas>
+        <name>ProjectLink</name>
+        <dataType>String</dataType>
+        <expression>LEFT($Api.Partner_Server_URL_520, FIND(&quot;/services&quot;, $Api.Partner_Server_URL_520)) &amp; &quot;/lightning/r/ProjectProduct__c/&quot; &amp; {!$Record.Project_product__c} &amp; &quot;/view&quot;</expression>
+    </formulas>
+    <formulas>
         <name>TESTThomas</name>
         <dataType>String</dataType>
-        <expression>&quot;thomas.coullon@carmignac.com&quot;</expression>
+        <expression>&quot;sihem.mokhtari.external@carmignac.com&quot;</expression>
     </formulas>
     <interviewLabel>PMT_Teams Send Message - {!$Flow.CurrentDateTime}</interviewLabel>
     <label>PMT - Teams Notification - CheckboxNotifyAll</label>
@@ -129,7 +227,7 @@ IF(ISBLANK({!GETPMT.Technology__r.Email}), &apos;&apos;, {!GETPMT.Technology__r.
         <locationY>0</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Send_chat_message</targetReference>
+            <targetReference>GET_DOCUMENT</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -144,11 +242,35 @@ IF(ISBLANK({!GETPMT.Technology__r.Email}), &apos;&apos;, {!GETPMT.Technology__r.
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>GET_DOCUMENT</name>
+        <label>GET DOCUMENT</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_Notify_All</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ProjectDocuments__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_EmailTemplate</name>
         <label>Get EmailTemplate</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Is_Portfolio_Model_type</targetReference>
+        </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>DeveloperName</field>
@@ -188,12 +310,19 @@ IF(ISBLANK({!GETPMT.Technology__r.Email}), &apos;&apos;, {!GETPMT.Technology__r.
         <connector>
             <targetReference>Get_EmailTemplate</targetReference>
         </connector>
-        <filterLogic>and</filterLogic>
+        <filterLogic>1 OR 2</filterLogic>
         <filters>
             <field>NotifyAllTeamOwners__c</field>
             <operator>EqualTo</operator>
             <value>
                 <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Portfolio Model</stringValue>
             </value>
         </filters>
         <object>ProjectDocuments__c</object>
@@ -208,9 +337,19 @@ IF(ISBLANK({!GETPMT.Technology__r.Email}), &apos;&apos;, {!GETPMT.Technology__r.
     </start>
     <status>Active</status>
     <textTemplates>
+        <name>EmailBodyTax</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;Hello TAX Team,&lt;/p&gt;&lt;p&gt;A&amp;nbsp;&lt;strong&gt;Portfolio Model document&lt;/strong&gt;&amp;nbsp;has just been uploaded on a PMT project.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Project information&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Project name:&lt;/strong&gt;&amp;nbsp;&lt;a href=&quot;{!ProjectLink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;{!$Record.Project_product__r.Name}&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Project type:&lt;/strong&gt;&amp;nbsp;{!$Record.Project_product__r.RecordType.Name}&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Launch date :&lt;/strong&gt;&amp;nbsp;{!$Record.Project_product__r.EndDate__c}&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;strong&gt;Action required:&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;Please review the uploaded Portfolio Model for validation or next steps.&lt;/p&gt;&lt;p&gt;Many thanks,&lt;/p&gt;&lt;p&gt;Salesforce – PMT&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>EmailSubjectTax</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>New Portfolio Model uploaded – [PMT Project: {!$Record.Project_product__r.Name}]</text>
+    </textTemplates>
+    <textTemplates>
         <name>EmailTest</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>nicolas.rossignol@carmignac.com;sihem.mokhtari.external@carmignac.com;thomas.coullon@carmignac.com</text>
+        <text>nicolas.rossignol@carmignac.com;sihem.mokhtari.external@carmignac.com;thomas.coullon@carmignac.com;najlaa.jebbour@carmignac.com</text>
     </textTemplates>
     <textTemplates>
         <name>TESTEmails</name>
