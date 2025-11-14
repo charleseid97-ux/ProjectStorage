@@ -46,7 +46,7 @@ public class PMTTestFactoryData {
         FundManagerAssignment__c fma = new FundManagerAssignment__c(
             ProductManagementTool__c = projId,
             FundManager__c = fundManagerId,
-            RepOrder__c = 1
+            RepOrder__c = '1'
         );
         insert fma;
         return fma;
