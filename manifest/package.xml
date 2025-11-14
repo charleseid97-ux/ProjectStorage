@@ -3,6 +3,11 @@
     <version>60.0</version>
     <types>
         <members>relatedAttachmentsList</members>
+        <members>projectChildTeamValidation</members>
         <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>ProjectChildTeamValidationController</members>
+        <name>ApexClass</name>
     </types>
 </Package>
