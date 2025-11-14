@@ -2,7 +2,24 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">    
     <version>60.0</version>
     <types>
+        <members>relatedAttachmentsList</members>
+        <members>projectChildTeamValidation</members>
+        <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>ProjectChildTeamValidationController</members>
         <members>PMTTestFactoryData</members>
-        <name>ApexClass</name> 
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>PMT_Teams_Send_Message</members>
+        <members>PMT_ProductManagerAssignment_Prevent_Duplicate_PM_by_Period</members>
+        <members>PMT_FundManagerAssignment_RepOrder_Control</members>
+        <name>flow</name>
+    </types>
+    <types>
+        <members>FundManagerAssignment__c.VR1_RepOrder_Must_Be_Blank_When_EndDate</members>
+        <members>FundManagerAssignment__c.VR2_RepOrder_Required_When_EndDate_Empty</members>
+        <name>ValidationRule</name>
     </types>
 </Package>
