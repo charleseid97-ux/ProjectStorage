@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR1_RepOrder_Must_Be_Blank_When_EndDate</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  NOT(ISBLANK(EndDate__c)),
+  NOT(ISBLANK(TEXT(RepOrder__c)))
+)</errorConditionFormula>
+    <errorDisplayField>RepOrder__c</errorDisplayField>
+    <errorMessage>RepOrder must be blank when End Date is filled.</errorMessage>
+</ValidationRule>
