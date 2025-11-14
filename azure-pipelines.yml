@@ -1,8 +1,9 @@
 # -------------------------------------------------------------------
 # Salesforce CI/CD - UAT Deploy (NoTestRun) + PROD Validation (Dry Run)
-# Branch routing:
+# Branch routing :
 #  - uat      => Deploy_UAT
 #  - release  => Validate_PROD_DryRun
+#  - main     => Validate_PROD_DryRun
 # -------------------------------------------------------------------
 
 trigger:
