@@ -10,4 +10,8 @@
         <members>ProjectChildTeamValidationController</members>
         <name>ApexClass</name>
     </types>
+    <types>
+        <members>PMT_Teams_Send_Message</members>
+        <name>flow</name>
+    </types>
 </Package>
