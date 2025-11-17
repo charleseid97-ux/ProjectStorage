@@ -27,10 +27,17 @@ implements Database.Batchable<SObject>, Database.Stateful, Database.AllowsCallou
         try {
             token = WS_WTPSendFileToWordclass.login();
         } catch (Exception e) {
+            System.enqueueJob(new WTP_NotifyQueueable(
+                new WTP_Notify.Notice(
+                    'WS_WTPWorldclassBatch.execute Login',
+                    'Login Echoue',
+                    e.getMessage()
+                )
+            ));
             System.debug('Login Phrase KO: ' + e.getMessage());
             return;
         }
-
+        if(String.isBlank(token)) return;
         Set<Id> candidateCases = new Set<Id>();
         List<WorldclassJob__c> completedJobs = new List<WorldclassJob__c>();
         List<ContentVersion>   cvsToInsert = new List<ContentVersion>();
@@ -94,18 +101,47 @@ implements Database.Batchable<SObject>, Database.Stateful, Database.AllowsCallou
                         );
                     }
                 }
-            } catch (Exception e) { System.debug('Insert CV KO: ' + e.getMessage()); }
+            } catch (Exception e) { 
+                System.debug('Insert CV KO: ' + e.getMessage()); 
+                // ❌ Notif échec
+                System.enqueueJob(new WTP_NotifyQueueable(
+                    new WTP_Notify.Notice(
+                        'WS_WTPWorldclassBatch.insert(ContentVersion)',
+                        'Erreur insertion fichiers',
+                        e.getMessage() 
+                    )
+                ));
+            }
         }
         if (!completedUpdatesToApply.isEmpty()) {
             try {
                 Database.update(completedUpdatesToApply, /* allOrNone */ false);
             } catch (Exception e) {
                 System.debug('Update jobs KO: ' + e.getMessage());
+                System.enqueueJob(new WTP_NotifyQueueable(
+                    new WTP_Notify.Notice(
+                        'WS_WTPWorldclassBatch.update(WorldclassJob__c)',
+                        'Exception lors de la mise à jour des jobs → COMPLETED',
+                        e.getMessage() 
+                    )
+                ));
             }
         }
 
         // >>> ICI : vérifier et marquer les cases "Translated" si tout est complété
-        WTP_PhraseApiUtil.markTranslatedIfAllJobsCompleted(candidateCases);
+        try{
+            WTP_PhraseApiUtil.markTranslatedIfAllJobsCompleted(candidateCases);
+        } catch (Exception e) {
+            System.enqueueJob(new WTP_NotifyQueueable(
+                    new WTP_Notify.Notice(
+                        'WTP_PhraseApiUtil.markTranslatedIfAllJobsCompleted',
+                        'Update Cases KO',
+                        e.getMessage()
+                    )
+                ));
+        }
+        
+        
     }
 
     global void finish(Database.BatchableContext bc) {
