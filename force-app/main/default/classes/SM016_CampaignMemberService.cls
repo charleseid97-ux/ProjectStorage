@@ -177,20 +177,11 @@ public with sharing class SM016_CampaignMemberService {
             Set<Id> cmIdsToSend = new Set<Id>();
             Set<Id> cmIdsToGet = new Set<Id>();
             
-            // Récupérer les CampaignMembers avec LastModifiedBy
-            Map<Id, CampaignMember> cmWithLastModifiedBy = new Map<Id, CampaignMember>([
-                SELECT Id, LyytiId__c, LastModifiedBy.Username,Campaign.LyytiId__c, Campaign.Status
-                FROM CampaignMember
-                WHERE Id IN :newItems
-            ]);
-            
             if(oldItems != null){
                 system.debug('>>>>>>>>>>> oldItems + '+oldItems);
                 system.debug('>>>>>>>>>>> new + '+newItems);
-                system.debug('>>>>>>>>>>> cmWithLastModifiedBy + '+cmWithLastModifiedBy);
                 for(CampaignMember cm :newItems){
-                    CampaignMember cmWithUser = cmWithLastModifiedBy.get(cm.Id);
-                    if(cmWithUser.LastModifiedBy.Username != System.label.Username_Lyyti && cm.LyytiId__c != null && cm.status != 'Invited' && cm.status != 'Cancelled' && ((cm.status != oldItems.get(cm.Id).status && ((cm.status == 'Declined' && !cm.Cancelled__c) || cm.status != 'Declined')) || (cm.Cancelled__c && !oldItems.get(cm.Id).Cancelled__c)) ){
+                    if(cm.LastModifiedById != System.label.UsernameId_Lyyti && cm.LyytiId__c != null && cm.status != 'Invited' && cm.status != 'Cancelled' && ((cm.status != oldItems.get(cm.Id).status && ((cm.status == 'Declined' && !cm.Cancelled__c) || cm.status != 'Declined')) || (cm.Cancelled__c && !oldItems.get(cm.Id).Cancelled__c)) ){
                         
                             cmIdsToSend.add(cm.Id);
                         
@@ -199,9 +190,8 @@ public with sharing class SM016_CampaignMemberService {
             }else{
                 system.debug('>>>>>>>>>>> newItems + '+newItems);
                 for(CampaignMember cm :newItems){
-                    CampaignMember cmWithUser = cmWithLastModifiedBy.get(cm.Id);
-                	if(cm.LyytiId__c==null && cmWithUser.Campaign.LyytiId__c!=null ){
-                        if(cmWithUser.LastModifiedBy.Username != System.label.Username_Lyyti){
+                	if(cm.LyytiId__c==null && cm.LastModifiedById!=null ){
+                        if(cm.LastModifiedById != System.label.UsernameId_Lyyti){
                             //cmIdsToSend.add(cm.Id);
                         }else{
                             //Case : participant created by Lyyti
