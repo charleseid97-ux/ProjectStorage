@@ -55,7 +55,7 @@ public class SM029_WebCommunicationResponseParser {
                     }
                 }
             }
-            if(successRecords != null) break;
+            
         }
         
         methodName = 'SM029_WebCommunicationResponseParser';    
@@ -89,14 +89,14 @@ public class SM029_WebCommunicationResponseParser {
         
     }
     // ---- (1) Parse
-    private static List<RefParts> parseSuccess(List<SuccessRecords> list) {
+    private static List<RefParts> parseSuccess(List<SuccessRecords> listSuccess) {
         List<RefParts> out = new List<RefParts>();
-        for (SuccessRecords s : list) if (s != null && !String.isBlank(s.ReferenceId)) out.add(RefParts.parse(s.ReferenceId));
+        for (SuccessRecords s : listSuccess) if (s != null && !String.isBlank(s.ReferenceId)) out.add(parseRefParts(s.ReferenceId));
         return out;
     }
-    private static List<ErrParts> parseErrors(List<ErrorRecords> list) {
+    private static List<ErrParts> parseErrors(List<ErrorRecords> listErrors) {
         List<ErrParts> out = new List<ErrParts>();
-        for (ErrorRecords e : list) if (e != null) out.add(new ErrParts(e));
+        for (ErrorRecords e : listErrors) if (e != null) out.add(new ErrParts(e));
         return out;
     }
 
@@ -151,9 +151,10 @@ public class SM029_WebCommunicationResponseParser {
 
     // ----- (4) Fetch candidats -----
     private class WebComSets {
-        List<Web_Communication__c> withIsin = new List<Web_Communication__c>();
-        List<Web_Communication__c> noIsin   = new List<Web_Communication__c>();
+        Map<String, Web_Communication__c> withIsin = new Map<String, Web_Communication__c>();
+        Map<String, Web_Communication__c> noIsin   = new Map<String, Web_Communication__c>();
     }
+
     private static WebComSets fetchCandidates(KeySets keys) {
         WebComSets wcSets  = new WebComSets();
         if (!keys.withIsin.isEmpty()) {
@@ -196,23 +197,7 @@ public class SM029_WebCommunicationResponseParser {
         return wcSets;
     }
 
-    // ----- (5) Réduction -----
-    private static WebComSets pickLatest(WebComSets cs, KeySets keys) {
-        WebComSets ls = new WebComSets();
-        for (Web_Communication__c wc : cs.withIsin) {
-            String k = key3(wc.TECH_WebsiteLeadContactTechId__c, wc.AlertType__c, wc.TECH_WebISINCode__c);
-            if (!keys.withIsin.contains(k)) continue;
-            Web_Communication__c cur = ls.withIsin.get(k);
-            if (cur == null || wc.CreatedDate > cur.CreatedDate) ls.withIsin.put(k, wc);
-        }
-        for (Web_Communication__c wc : cs.noIsin) {
-            String k = key2(wc.TECH_WebsiteLeadContactTechId__c, wc.AlertType__c);
-            if (!keys.noIsin.contains(k)) continue;
-            Web_Communication__c cur = ls.noIsin.get(k);
-            if (cur == null || wc.CreatedDate > cur.CreatedDate) ls.noIsin.put(k, wc);
-        }
-        return ls;
-    }
+    
 
     // ----- (6) Updates -----
     private static List<Web_Communication__c> buildSuccessUpdates(List<RefParts> sParts, Map<String,String> mapDev, WebComSets latest) {
@@ -251,7 +236,7 @@ public class SM029_WebCommunicationResponseParser {
     }
 
     
-    public void updateWebCommunicationWebsiteResponse(List<SuccessRecords> aSuccessList, List<ErrorRecords> aErrorList){
+    /*public void updateWebCommunicationWebsiteResponse(List<SuccessRecords> aSuccessList, List<ErrorRecords> aErrorList){
         
                     String methodName = 'updateWebCommunicationWebsiteResponse';    
             ObjectUtil.debugLogBegin(CLASS_NAME, methodName, ' [aSuccessList] : ' + aSuccessList);
@@ -301,19 +286,21 @@ public class SM029_WebCommunicationResponseParser {
         //System.debug('DEV - -- - - WebCom before update ' + webCommToUpdateList[0].TECH_CommunicationWebsiteId__c + 'xx' + webCommToUpdateList[1].TECH_CommunicationWebsiteId__c+ 'xx'+ webCommToUpdateList[2].TECH_CommunicationWebsiteId__c+ 'xx' + webCommToUpdateList[3].TECH_CommunicationWebsiteId__c);
         Database.update(webCommToUpdateList, true);
         
-    }
+    }*/
     
-    public class ErrorRecords {
-
-        public String message {get;set;}
-        public ErrorData data {get;set;}
-
-        public class ErrorData {
+     public class ErrorData {
             public String ContactId   {get;set;}
             public String ShareIsin   {get;set;}
             public String AlertType   {get;set;}
             public Boolean IsActive   {get;set;}
         }
+
+    public class ErrorRecords {
+
+        public String message {get;set;}
+        public ErrorData data {get;set;}
+
+       
         
         public ErrorRecords(JSONParser parser) {
             String methodName = 'ErrorRecords';    
@@ -398,6 +385,30 @@ public class SM029_WebCommunicationResponseParser {
         }
         return res;
     }
+
+    // DANS LA CLASSE PRINCIPALE (pas dans RefParts)
+    private static RefParts parseRefParts(String referenceId) {
+        RefParts r = new RefParts();
+        r.referenceId = referenceId;
+        List<String> parts = referenceId.split('_');
+        Integer size = parts.size();
+
+        if (size == 3) {
+            r.contactId = parts[0];
+            r.alertKey  = parts[1];
+            r.isin      = parts[2];
+        } else if (size == 4) {
+            r.contactId = parts[0];
+            r.alertKey  = parts[1] + '_' + parts[2];
+            r.isin      = parts[3];
+        } else {
+            r.contactId = parts[0];
+            if (size > 1) r.alertKey = parts[1];
+        }
+        r.isKeyNumeric = (r.alertKey != null && Pattern.matches('^\\d+$', r.alertKey));
+        return r;
+    }
+
     
     private static String key3(String c, String w, String i) { return (c + '|' + w + '|' + i); }
     private static String key2(String c, String w)          { return (c + '|' + w); }
@@ -405,35 +416,7 @@ public class SM029_WebCommunicationResponseParser {
     private class RefParts {
         String referenceId, contactId, alertKey, isin;
         Boolean isKeyNumeric;
-        static RefParts parse(String referenceId) {
-            RefParts r = new RefParts();
-            r.referenceId = referenceId;
-            List<String> parts = referenceId.split('_');
-            Integer size = parts.size();
-
-             if (size == 3) {
-                // Exemple: 12345_eet_FR00123
-                r.contactId = parts[0];
-                r.alertKey  = parts[1];
-                r.isin      = parts[2];
-            } else if (size == 4) {
-                // Exemple: 12345_daily_nav_FR00123
-                r.contactId = parts[0];
-                r.alertKey  = parts[1] + '_' + parts[2]; // ✅ fusionne daily + nav
-                r.isin      = parts[3];
-            } else if (size > 4) {
-                // Cas de sécurité: on fusionne tout entre 2ème et avant-dernier
-                r.contactId = parts[0];
-                r.isin      = parts[size - 1];
-                r.alertKey  = String.join(parts.subList(1, size - 1), '_');
-            } else {
-                // Cas de fallback (ex: 12345_152)
-                r.contactId = parts[0];
-                if (size > 1) r.alertKey = parts[1];
-            }
-            r.isKeyNumeric = r.alertKey != null && r.alertKey.matches('^\\d+$');
-            return r;
-        }
+        
     }
     private class ErrParts {
         String message, contactId, alertType, isin;
