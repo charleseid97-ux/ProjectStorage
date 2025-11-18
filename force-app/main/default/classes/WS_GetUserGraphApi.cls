@@ -1,5 +1,19 @@
 public class WS_GetUserGraphApi {
     
+    // Default Value
+    public static final String DEFAULT_NC = 'MicrosoftGraph';
+
+    private static String safeNc(String nc) {
+        return String.isBlank(nc) ? DEFAULT_NC : nc.trim();
+    }
+
+    private static String buildEndpoint(String nc, String pathAndQuery) {
+        String base = 'callout:' + safeNc(nc);
+        if (!pathAndQuery.startsWith('/')) pathAndQuery = '/' + pathAndQuery;
+        return base + pathAndQuery;
+    }
+    
+    
     private static String encodeURIComponent(String value) {
         return EncodingUtil.urlEncode(value, 'UTF-8')
             .replace('+', '%20')
@@ -7,7 +21,7 @@ public class WS_GetUserGraphApi {
             .replace('%7E', '~');
     }
     
-    public static String getUserByEmail(String email){
+    public static String getUserByEmail(String namedCredentialName, String email){
         
         HttpRequest req = new HttpRequest();
         
@@ -16,7 +30,7 @@ public class WS_GetUserGraphApi {
         String filter = 'mail eq \'' + email + '\'';
         
         String encodedFilter = encodeURIComponent(filter);
-        req.setEndpoint('callout:MicrosoftGraph/users?$filter='+encodedFilter);
+        req.setEndpoint(buildEndpoint(namedCredentialName, '/users?$filter=' + encodedFilter));
         
         req.setMethod('GET');
         
@@ -59,21 +73,23 @@ public class WS_GetUserGraphApi {
         }
     }
     
-    public static String getCurrentUserId() {
+    public static String getCurrentUserId(String namedCredentialName) {
         HttpRequest request = new HttpRequest();
-        request.setEndpoint('callout:MicrosoftGraph/me');
+        request.setEndpoint(buildEndpoint(namedCredentialName, '/me'));
         request.setMethod('GET');
         request.setHeader('Content-Type', 'application/json');
-        
         Http http = new Http();
         try {
             HttpResponse response = http.send(request);
+            system.debug('body : ' + response.getBody());
             if (response.getStatusCode() == 200) {
                 Map<String, Object> userInfo = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
                 system.debug(userInfo.get('id'));
                 system.debug(userInfo.get('displayName'));
                 return (String) userInfo.get('id');
             }
+            system.debug('response.getStatusCode() :'+response.getStatusCode());
+            
         } catch (Exception e) {
             System.debug('Error getting current user ID: ' + e.getMessage());
         }
@@ -106,21 +122,12 @@ public class WS_GetUserGraphApi {
     }
     
     
-    public static String createChat(String currentUserId, String recipientId) {
-        /*String recipientId = getUserByEmail(email);
-        String currentUserId = getCurrentUserId();
-        system.debug('currentUserId :'+currentUserId);
-        system.debug('recipientId :'+recipientId);
-        if (currentUserId == null || recipientId == null) {
-            System.debug('Error: User IDs are null');
-            return null;
-        }*/
-        
-        
+    public static String createChat(String namedCredentialName, String currentUserId, String recipientId) {
+   
         String requestBody = buildChatRequestBody(currentUserId, recipientId);
         
         HttpRequest request = new HttpRequest();
-        request.setEndpoint('callout:MicrosoftGraph/chats');
+        request.setEndpoint(buildEndpoint(namedCredentialName, '/chats'));
         request.setMethod('POST');
         request.setHeader('Content-Type', 'application/json');
         request.setBody(requestBody);
@@ -195,11 +202,11 @@ public class WS_GetUserGraphApi {
     */
     
     
-    public static void sendTeamsMessage(String chatId, String messageBody) {
+    public static void sendTeamsMessage(String namedCredentialName, String chatId, String messageBody) {
         HttpRequest req = new HttpRequest();
         Http http = new Http();
         
-        req.setEndpoint('callout:MicrosoftGraph/chats/' + chatId + '/messages');
+        req.setEndpoint(buildEndpoint(namedCredentialName, '/chats/' + chatId + '/messages'));
         req.setMethod('POST');
         req.setHeader('Content-Type', 'application/json');
         req.setHeader('Accept', 'application/json');       
