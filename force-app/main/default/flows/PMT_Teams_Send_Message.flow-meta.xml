@@ -11,7 +11,7 @@
         <inputParameters>
             <name>email</name>
             <value>
-                <elementReference>TESTThomas</elementReference>
+                <elementReference>emailTEAMS</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -37,8 +37,10 @@
         <actionType>emailSimple</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
-            <name>recipientAddresses</name>
-            <value/>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>EmailRecipientsPtfModel</elementReference>
+            </value>
         </inputParameters>
         <inputParameters>
             <name>senderType</name>
@@ -50,12 +52,6 @@
             <name>senderAddress</name>
             <value>
                 <elementReference>$Label.NoReplayWideAddress</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>composeEmailContent</name>
-            <value>
-                <stringValue>True</stringValue>
             </value>
         </inputParameters>
         <inputParameters>
@@ -127,6 +123,11 @@
 If the user selects the “Notify All” checkbox, the content will be sent to all Team Owners associated with the project via Teams notification.
 If the checkbox is not selected, the message is sent only to the team(s) explicitly selected.</description>
     <environments>Default</environments>
+    <formulas>
+        <name>EmailRecipientsPtfModel</name>
+        <dataType>String</dataType>
+        <expression>&apos;operationalexcellence.technology@carmignac.com&apos;&amp;&apos;,&apos;&amp;&apos;tax.generalsecretary@carmignac.com&apos;&amp;&apos;,&apos;&amp;&apos;middleofficefunds2@carmignac.com&apos;</expression>
+    </formulas>
     <formulas>
         <description>Ne contient pas l&apos;équipe IS (à terme il faut ajouter une condition suivant le vehicule type et remplacer PS par IS) et l&apos;équipe INvestment Management (Laurent Mathieu) qui contribue indirectement à PMT en ajoutant des Product Manager si nécessaire ou en faisant les modifications d&apos;assignation.</description>
         <name>emailTEAMS</name>
@@ -349,7 +350,7 @@ IF(ISBLANK({!GETPMT.Technology__r.Email}), &apos;&apos;, {!GETPMT.Technology__r.
     <textTemplates>
         <name>EmailTest</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>nicolas.rossignol@carmignac.com;sihem.mokhtari.external@carmignac.com;thomas.coullon@carmignac.com;najlaa.jebbour@carmignac.com</text>
+        <text>sihem.mokhtari.external@carmignac.com;thomas.coullon@carmignac.com;najlaa.jebbour@carmignac.com</text>
     </textTemplates>
     <textTemplates>
         <name>TESTEmails</name>
