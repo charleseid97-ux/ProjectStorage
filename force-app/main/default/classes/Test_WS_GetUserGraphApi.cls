@@ -29,8 +29,10 @@ public class Test_WS_GetUserGraphApi {
         // Préparation de l'entrée Flow
         WS_QueueableLauncher.MessageInput input = new WS_QueueableLauncher.MessageInput();
         input.email = 'test.user@example.com';
-        input.templateId = tpl.Id;
-        input.recordId = acc.Id;
+        //input.templateId = tpl.Id;
+        //input.recordId = acc.Id;
+        input.namedCredentialName = 'MicrosoftGraphSF';
+        input.message = 'message';
 
         List<WS_QueueableLauncher.MessageInput> inputs = new List<WS_QueueableLauncher.MessageInput>{ input };
 

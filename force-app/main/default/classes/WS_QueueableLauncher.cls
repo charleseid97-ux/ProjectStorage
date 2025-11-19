@@ -4,11 +4,17 @@ public class WS_QueueableLauncher {
         @InvocableVariable(required=true)
         public String email;
         
-        @InvocableVariable(required=true)
+        @InvocableVariable(required=false)
         public String templateId;
         
-        @InvocableVariable(required=true)
+        @InvocableVariable(required=false)
+        public String message;
+        
+        @InvocableVariable(required=false)
         public Id recordId;
+        
+        @InvocableVariable(required=false)
+        public String namedCredentialName; 
     }
 
     @InvocableMethod(label='Send Teams Message via Queueable (auto-batched)')
@@ -21,7 +27,9 @@ public class WS_QueueableLauncher {
                 WS_GetUserGraphApi_Queueable.MessageData md = new WS_GetUserGraphApi_Queueable.MessageData();
                 md.email = email.trim();
                 md.templateId = input.templateId;
+                md.message = input.message;
                 md.recordId = input.recordId;
+                md.namedCredentialName = input.namedCredentialName;
                 allMessages.add(md);
             }
         }
