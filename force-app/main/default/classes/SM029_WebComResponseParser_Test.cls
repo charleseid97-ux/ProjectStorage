@@ -16,7 +16,7 @@ public class SM029_WebComResponseParser_Test {
             prd.Validity__c = true;
             insert prd;
         
-        Share_Class__c sc = new Share_Class__c(Name = 'SC', ISIN__c = isin,Fund__c = prd.Id);
+        Share_Class__c sc = new Share_Class__c(Name = 'SC', ISIN__c = isin, ISIN_Code__c = isin, Fund__c = prd.Id);
         insert sc;
         return sc;
     }
