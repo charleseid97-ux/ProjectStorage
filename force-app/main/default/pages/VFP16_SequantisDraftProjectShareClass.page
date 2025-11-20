@@ -1,0 +1,50 @@
+<apex:page standardController="ProjectProduct__c"
+extensions="VFC16_SequantisGenerateDraft"
+showHeader="false"
+sidebar="false"
+standardStylesheets="false"
+docType="html-5.0"
+cache="false">
+<script src="/soap/ajax/57.0/connection.js" type="text/javascript"></script>
+    <style>
+        html, body { height: 100%; margin: 0; padding: 0; }
+        /* occupe tout le viewport */
+        #pdf {
+           /* position: fixed; /* colle aux bords de la fenêtre */
+            inset: 0;        /* top/right/bottom/left: 0 */
+            width: 100vw;
+            height: 90vh;
+            border: 0;
+        }
+    </style>
+    <body>
+        <div id="status">
+            <apex:form >
+                 <apex:outputLabel value="Share Class : " for="shareclass"/>
+                <apex:selectList value="{!selectedRecordId}" size="1">
+                    <apex:selectOptions value="{!shareclassOptions}"/>
+                    <apex:actionSupport event="onchange" action="{!genPDF}" rerender="pdfContainer"/>
+                </apex:selectList>
+            </apex:form>
+            <!-- object (mieux supporté qu’embed)-->
+        </div>
+        <apex:outputPanel id="pdfContainer">    
+                <apex:outputText value="{!infoMessage}" style="color:green; font-weight:bold;" rendered="{!NOT(ISBLANK(infoMessage))}"/>
+                <apex:outputText value="{!errorMessage}" style="color:rgb(170, 55, 55); font-weight:bold;" rendered="{!NOT(ISBLANK(errorMessage))}"/>
+            
+   <apex:outputText value="{!payloadString}" style="color:rgb(27, 87, 165); font-weight:bold;" rendered="{!NOT(ISBLANK(payloadString))}"/> 
+
+                
+             <apex:outputPanel id="pdfPanel" rendered="{!showPDF}"> 
+                <object id="pdf"
+                    type="application/pdf"
+                    data="data:application/pdf;base64,{!pdf}" 
+                    width="50%" height="50%">
+                    <!-- Fallback lien si le viewer PDF du navigateur est indisponible -->
+                    <a href="data:application/pdf;base64,{!pdf}" target="_blank">Ouvrir le PDF</a>
+                </object> 
+            </apex:outputPanel>
+        </apex:outputPanel>
+            
+    </body>
+</apex:page>

@@ -3,14 +3,16 @@
     <version>60.0</version>
    
     <types>
-        <members>PE_VideoCall_GenerateMeetingNotes</members>
-        <name>Flow</name>
+        <members>VFP16_SequantisDraftProjectShareClass	</members>
+        <name>ApexPage</name>
     </types>
     <types>
-        <members>WS_QueueableLauncher</members>
-        <members>WS_GetUserGraphApi</members>
-        <members>WS_GetUserGraphApi_Queueable</members>
-        <members>Test_WS_GetUserGraphApi</members>
+        <members>VFC16_SequantisGenerateDraft</members>
         <name>ApexClass</name>
+    </types>
+    <!-- retrieve quick action metadata -->
+    <types>
+        <members>ProjectProduct__c.Generate_Draft_KID</members>
+        <name>QuickAction</name>
     </types>
 </Package>
