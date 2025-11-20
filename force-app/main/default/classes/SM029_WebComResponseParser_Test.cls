@@ -14,7 +14,6 @@ public class SM029_WebComResponseParser_Test {
             prd.Name = 'Prod123';
             prd.Product_Name__c = 'Product Test';
             prd.Validity__c = true;
-            prd.DefaultLanguage__c = 'FR';
             insert prd;
         
         Share_Class__c sc = new Share_Class__c(Name = 'SC', ISIN__c = isin,Fund__c = prd.Id);
