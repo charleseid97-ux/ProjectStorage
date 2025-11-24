@@ -145,12 +145,17 @@
                 
                 
             }else{
+                var errors = response.getError();
+                var msg = $A.get("$Label.c.ADD_TO_EVENT_ERROR"); // fallback
+                if (errors && errors[0] && errors[0].message) {
+                    msg = errors[0].message; // ← message exact de ta VR
+        }
                 console.log('Problem getting account, response state: ' + state);
                 // Prepare a toast UI message
                 var resultsToast = $A.get("e.force:showToast");
                 resultsToast.setParams({
                     "title": state,
-                    "message": $A.get("$Label.c.ADD_TO_EVENT_ERROR"),                    
+                    "message": msg,                    
                     "type": "error"
                 });
                 

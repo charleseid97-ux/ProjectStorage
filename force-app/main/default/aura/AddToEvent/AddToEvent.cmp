@@ -1,3 +1,10 @@
+<!--
+  @description       : 
+  @author            : Khadija EL GDAOUNI
+  @group             : 
+  @last modified on  : 13-09-2024
+  @last modified by  : Khadija EL GDAOUNI
+-->
 <aura:component controller="VFC04_AddToEventController" implements="force:lightningQuickActionWithoutHeader,force:hasRecordId,flexipage:availableForAllPageTypes,force:hasSObjectName" access="global">
     
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
@@ -37,7 +44,7 @@
                             <c:customLookup objectAPIName="Campaign" IconName="standard:campaign" selectedRecord="{!v.selectedLookUpRecord}" label="{!$Label.c.ADD_TO_EVENT_CAMPAIGN}"/> 
                             
                             <!-- CATEGORY PICKLIST populate upon campaign selection -->
-                            <lightning:select aura:id="category" value="{!v.options[0].Id}"  name="select" label="Category" required="true" messageWhenValueMissing="{!$Label.c.ADD_TO_EVENT_SELECT_CATEG}">
+                            <lightning:select aura:id="category" value="{!v.options[0].Id}"  name="select" label="Category"  messageWhenValueMissing="{!$Label.c.ADD_TO_EVENT_SELECT_CATEG}">
                                 <aura:iteration items="{!v.options}" var="item">
                                     <option value="{!item.Id}" text="{!item.Name}"></option>
                                 </aura:iteration>

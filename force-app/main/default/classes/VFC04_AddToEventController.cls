@@ -97,7 +97,7 @@ public class VFC04_AddToEventController {
      */
     @AuraEnabled
     public static boolean addToCampaign(Id iCampaignId, Id iCategory,String sMemberStatus, List<SObject> contactsOrLeads, String sobjecttype) {
-        
+         try {
         //Mettre true par defaut pour bKeepExistingStatus
         boolean bKeepExistingStatus = false;
         System.debug('//JLC addToCampaign iCampaignId : '+ iCampaignId);
@@ -169,6 +169,13 @@ public class VFC04_AddToEventController {
         insert listCampaignMemberAdd;
 
         return true;
+             } catch (DmlException e) {
+                // Renvoie le message exact (inclut celui de la VR)
+                // e.getDmlMessage(0) est souvent plus précis que e.getMessage()
+                throw new AuraHandledException(e.getDmlMessage(0));
+            } catch (Exception e) {
+                throw new AuraHandledException(e.getMessage());
+            }
     }    
     
     /*
