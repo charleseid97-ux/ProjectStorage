@@ -10,6 +10,7 @@ import { getObjectInfo } from "lightning/uiObjectInfoApi";
 import { NavigationMixin } from "lightning/navigation";
 
 import getFilteredAttachments from "@salesforce/apex/AttachmentController.getFilteredAttachments";
+import deleteFile from "@salesforce/apex/AttachmentController.deleteFile";
 import { refreshApex } from "@salesforce/apex";
 import {
   deleteRecord,
@@ -200,6 +201,7 @@ export default class RelatedAttachmentsList extends NavigationMixin(
   }
 
   handleUploadFile() {
+    console.log('upload file');
     const fileId = this.currentFileId;
     this.template
       .querySelector("c-file-upload-multi-l-w-c")
@@ -217,23 +219,40 @@ export default class RelatedAttachmentsList extends NavigationMixin(
       if(this.showConfirmPopUp==false){
         //this.updateStatusRecord("Closed");
         // setTimeout(function () {
-        this[NavigationMixin.Navigate]({
+        /*this[NavigationMixin.Navigate]({
           type: 'standard__recordPage',
           attributes: {
               recordId: getFieldValue(this.case.data, PARENTID_FIELD),
               objectApiName: 'Case',
               actionName: 'view'
           },
-        });
+        });*/
       }
       
     
     }
 
     if (fileId != null) {
-      deleteRecord(fileId)
+      return deleteFile({ contentDocumentId: fileId })
         .then(() => {
+          this.updateStatusRecord("Proofreading Validation");
           this.refreshAttachments();
+          this.dispatchEvent(
+              new ShowToastEvent({
+                title: "Success",
+                message: "File updated successfully",
+                variant: "success"
+              })
+            );
+            //window.location.reload();
+            this[NavigationMixin.Navigate]({
+              type: 'standard__recordPage',
+              attributes: {
+                recordId: this.recordId,
+                objectApiName: 'Case', // ou autre objet selon ton composant
+                actionName: 'view'
+              },
+            });
         })
         .catch((error) => {
           console.log("fileId", fileId);
