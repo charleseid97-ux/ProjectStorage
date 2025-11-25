@@ -54,6 +54,25 @@ private class AttachmentControllerTest {
         insert parentLink;
     }
     
+    @IsTest
+    static void testDeleteFile_success() {
+        Id docId = [
+            SELECT Id
+            FROM ContentDocument
+        ].Id;
+
+        System.assertNotEquals(null, docId, 'Le ContentDocumentId ne doit pas être nul');
+
+        System.assertEquals(1, [SELECT COUNT() FROM ContentDocument WHERE Id = :docId]);
+
+        Test.startTest();
+        AttachmentController.deleteFile(docId);
+        Test.stopTest();
+
+        Integer remaining = [SELECT COUNT() FROM ContentDocument WHERE Id = :docId];
+        System.assertEquals(0, remaining, 'Le fichier aurait dû être supprimé');
+    }
+    
     @isTest
     static void testGetFilteredAttachments() {
         // Get the parent and child Case records
