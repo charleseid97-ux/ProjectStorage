@@ -204,6 +204,7 @@ public with sharing class WS_WTPSendFileToWordclass {
         req.setHeader('Authorization', authHeader(token));
         req.setHeader('Content-Type', 'application/octet-stream');
         req.setHeader('User-Agent', 'Salesforce-Carmignac/1.0');
+        req.setTimeout(120000);
         
         String baseName = buildUploadFilename(cv);
         String fileNameRFC5987 = 'UTF-8\'\'' + EncodingUtil.urlEncode(baseName, 'UTF-8');
