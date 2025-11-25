@@ -27,13 +27,12 @@ implements Database.Batchable<SObject>, Database.Stateful, Database.AllowsCallou
         try {
             token = WS_WTPSendFileToWordclass.login();
         } catch (Exception e) {
-            System.enqueueJob(new WTP_NotifyQueueable(
-                new WTP_Notify.Notice(
+            WTP_NotifyBuffer.add(new WTP_Notify.Notice(
                     'WS_WTPWorldclassBatch.execute Login',
                     'Login Echoue',
                     e.getMessage()
-                )
             ));
+            WTP_NotifyBuffer.flushAsync('WS_WTPWorldclassBatch.execute');
             System.debug('Login Phrase KO: ' + e.getMessage());
             return;
         }
@@ -104,12 +103,8 @@ implements Database.Batchable<SObject>, Database.Stateful, Database.AllowsCallou
             } catch (Exception e) { 
                 System.debug('Insert CV KO: ' + e.getMessage()); 
                 // ❌ Notif échec
-                System.enqueueJob(new WTP_NotifyQueueable(
-                    new WTP_Notify.Notice(
-                        'WS_WTPWorldclassBatch.insert(ContentVersion)',
-                        'Erreur insertion fichiers',
-                        e.getMessage() 
-                    )
+                WTP_NotifyBuffer.add(new WTP_Notify.Notice(
+                        'WS_WTPWorldclassBatch.insert(ContentVersion)','Erreur insertion fichiers',e.getMessage() 
                 ));
             }
         }
@@ -118,12 +113,8 @@ implements Database.Batchable<SObject>, Database.Stateful, Database.AllowsCallou
                 Database.update(completedUpdatesToApply, /* allOrNone */ false);
             } catch (Exception e) {
                 System.debug('Update jobs KO: ' + e.getMessage());
-                System.enqueueJob(new WTP_NotifyQueueable(
-                    new WTP_Notify.Notice(
-                        'WS_WTPWorldclassBatch.update(WorldclassJob__c)',
-                        'Exception lors de la mise à jour des jobs → COMPLETED',
-                        e.getMessage() 
-                    )
+                WTP_NotifyBuffer.add(new WTP_Notify.Notice(
+                        'WS_WTPWorldclassBatch.update(WorldclassJob__c)','Exception lors de la mise à jour des jobs → COMPLETED',e.getMessage() 
                 ));
             }
         }
@@ -132,15 +123,11 @@ implements Database.Batchable<SObject>, Database.Stateful, Database.AllowsCallou
         try{
             WTP_PhraseApiUtil.markTranslatedIfAllJobsCompleted(candidateCases);
         } catch (Exception e) {
-            System.enqueueJob(new WTP_NotifyQueueable(
-                    new WTP_Notify.Notice(
-                        'WTP_PhraseApiUtil.markTranslatedIfAllJobsCompleted',
-                        'Update Cases KO',
-                        e.getMessage()
-                    )
+            WTP_NotifyBuffer.add(new WTP_Notify.Notice(
+                        'WTP_PhraseApiUtil.markTranslatedIfAllJobsCompleted','Update Cases KO', e.getMessage()
                 ));
         }
-        
+        WTP_NotifyBuffer.flushAsync('WS_WTPWorldclassBatch.execute');
         
     }
 

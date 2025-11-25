@@ -361,13 +361,13 @@ public with sharing class WS_WTPSendFileToWordclass {
         } catch (Exception e) {
             // Si le login échoue, on log et on stoppe pour éviter des 401 en boucle
             System.debug('Login Phrase échoué: ' + e.getMessage());
-            System.enqueueJob(new WTP_NotifyQueueable(
+            WTP_NotifyBuffer.add(
                 new WTP_Notify.Notice(
                     'WS_WTPSendFileToWordclass.sendForCases',
                     'Login Echoue',
                     e.getMessage()
-                )
             ));
+            WTP_NotifyBuffer.flushAsync('WS_WTPSendFileToWordclass.sendForCases');
             return;
         }
         
@@ -447,12 +447,11 @@ public with sharing class WS_WTPSendFileToWordclass {
                 parentsToUpdate.add(new Case(Id = parent.Id, WorldclassProjectId__c = projectUid));
                 
             } catch (Exception ex) {
-                System.enqueueJob(new WTP_NotifyQueueable(
+                WTP_NotifyBuffer.add(
                     new WTP_Notify.Notice(
                         'WS_WTPSendFileToWordclass.sendForCases',
                         'Erreur Send Files',
                         ex.getMessage()
-                    )
                 ));
                 System.debug('Erreur parent ' + parent.Id + ' : ' + ex.getMessage());
             }
@@ -464,12 +463,11 @@ public with sharing class WS_WTPSendFileToWordclass {
                 insert jobsToInsert;
                 System.debug('📝 ' + jobsToInsert.size() + 'WorldclassJob insertion avec UID Phrase.');
             } catch (Exception e) {
-                System.enqueueJob(new WTP_NotifyQueueable(
+                WTP_NotifyBuffer.add(
                     new WTP_Notify.Notice(
                         'WS_WTPSendFileToWordclass.sendForCases.insertJobs',
                         'Insert WorldclassJob KO',
                         e.getMessage()
-                    )
                 ));
                 System.debug('Erreur insert WorldclassJob: ' + e.getMessage());
             }
@@ -479,16 +477,17 @@ public with sharing class WS_WTPSendFileToWordclass {
                 update parentsToUpdate;
                 System.debug('📝 ' + parentsToUpdate.size() + 'Parent Cases mises à jour avec UID Phrase.');
             } catch (Exception e) {
-                System.enqueueJob(new WTP_NotifyQueueable(
+                WTP_NotifyBuffer.add(
                     new WTP_Notify.Notice(
                         'WS_WTPSendFileToWordclass.sendForCases.updateParents',
                         'Update Parent Cases KO',
                         e.getMessage()
-                    )
                 ));
                 System.debug('Erreur update Parent Cases: ' + e.getMessage());
             }
         }
+        
+        WTP_NotifyBuffer.flushAsync('WS_WTPSendFileToWordclass.sendForCases');
         
     }
     
