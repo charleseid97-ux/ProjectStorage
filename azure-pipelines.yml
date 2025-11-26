@@ -1,9 +1,11 @@
 # -------------------------------------------------------------------
 # Salesforce CI/CD - UAT Deploy (NoTestRun) + PROD Validation (Dry Run)
+# + SonarCloud analysis sur scope package.xml
+#
 # Branch routing :
-#  - uat      => Deploy_UAT
-#  - release  => Validate_PROD_DryRun
-#  - main     => Validate_PROD_DryRun
+#  - uat      => UAT Stage        (Deploy_UAT + Sonar_Analysis_UAT)
+#  - release  => PROD_Validate    (Validate_PROD_DryRun + Sonar_Analysis_PROD)
+#  - main     => PROD_Validate    (Validate_PROD_DryRun + Sonar_Analysis_PROD)
 # -------------------------------------------------------------------
 
 trigger:
@@ -12,7 +14,6 @@ trigger:
       - uat
       - release
       - main
-
 
 pr:
   branches:
@@ -41,6 +42,109 @@ stages:
       eq(variables['System.PullRequest.TargetBranch'], 'refs/heads/uat')
     )
   jobs:
+    # ---------------------------------------
+    # Job 0 : Analyse Sonar sur le scope package.xml
+    # (s'exécute dès que le stage UAT s'exécute : push ou PR vers uat)
+    # ---------------------------------------
+    - job: Sonar_Analysis_UAT
+      displayName: 'SonarCloud analysis (scope = package.xml)'
+      pool:
+        vmImage: 'ubuntu-latest'
+      steps:
+        - checkout: self
+          fetchDepth: 0
+
+        # Install xmlstarlet pour lire le package.xml
+        - script: |
+            set -euo pipefail
+            sudo apt-get update -y
+            sudo apt-get install -y xmlstarlet
+          displayName: 'Install xmlstarlet'
+
+        # Construire un répertoire filtré contenant UNIQUEMENT le code analysable
+        # à partir du package.xml (ApexClass / ApexTrigger, extensible si besoin)
+        - script: |
+            set -euo pipefail
+            set -x
+
+            MANIFEST="manifest/package.xml"
+            SONAR_ROOT="sonar-scope"
+
+            [[ -f "$MANIFEST" ]] || { echo "ERREUR: $MANIFEST introuvable"; exit 21; }
+
+            rm -rf "$SONAR_ROOT"
+            mkdir -p "$SONAR_ROOT"
+
+            # Parcours de tous les <types> du package.xml
+            while IFS=';' read -r TYPE MEMBER; do
+              case "$TYPE" in
+                ApexClass)
+                  SRC="force-app/main/default/classes/${MEMBER}.cls"
+                  ;;
+                ApexTrigger)
+                  SRC="force-app/main/default/triggers/${MEMBER}.trigger"
+                  ;;
+                # TODO : ajouter d'autres metadata "code" si souhaité :
+                # ApexPage) SRC="force-app/main/default/pages/${MEMBER}.page" ;;
+                # ApexComponent) SRC="force-app/main/default/components/${MEMBER}.component" ;;
+                # LightningComponentBundle) SRC="force-app/main/default/lwc/${MEMBER}" ;;
+                # AuraDefinitionBundle) SRC="force-app/main/default/aura/${MEMBER}" ;;
+                *)
+                  SRC=""
+                  ;;
+              esac
+
+              if [[ -n "$SRC" && -e "$SRC" ]]; then
+                DEST="$SONAR_ROOT/$SRC"
+                mkdir -p "$(dirname "$DEST")"
+                cp -R "$SRC" "$DEST"
+              else
+                echo "INFO: Pas de fichier source pour $TYPE / $MEMBER (ignoré)."
+              fi
+            done < <(
+              xmlstarlet sel -t \
+                -m "//*[local-name()='types']" \
+                -v "concat(normalize-space(./*[local-name()='name']),';',./*[local-name()='members'])" -n \
+                "$MANIFEST"
+            )
+
+            echo "Contenu filtré pour Sonar :"
+            find "$SONAR_ROOT" -type f || echo "Aucun fichier analysable."
+          displayName: 'Construire le scope Sonar à partir du package.xml'
+
+        # Préparation SonarCloud
+        - task: SonarCloudPrepare@3
+          displayName: 'Prepare SonarCloud analysis (UAT)'
+          env:
+            SONAR_TOKEN: $(SONAR_TOKEN)
+          inputs:
+            SonarCloud: 'SF-SonarCloud'          # Nom du service connection SonarCloud
+            organization: 'sonarcloudtools'      # Ton organization SonarCloud
+            scannerMode: 'cli'
+            configMode: 'manual'
+            cliProjectKey: 'DBS.SalesForce'
+            cliProjectName: 'DBS.SalesForce'
+            sonarToken: '$(SONAR_TOKEN)'
+            # On pointe sur le répertoire filtré (même structure que force-app)
+            cliSources: 'sonar-scope/force-app/main/default'
+            extraProperties: |
+              sonar.sourceEncoding=UTF-8
+              # Contexte PR (si Build.Reason == PullRequest, ces variables seront renseignées)
+              sonar.pullrequest.key=$(System.PullRequest.PullRequestId)
+              sonar.pullrequest.branch=$(System.PullRequest.SourceBranch)
+              sonar.pullrequest.base=$(System.PullRequest.TargetBranch)
+
+        # Lancer l'analyse Sonar
+        - task: SonarCloudAnalyze@3
+          displayName: 'Run SonarCloud analysis (UAT)'
+          env:
+            SONAR_TOKEN: $(SONAR_TOKEN)
+          inputs:
+            jdkversion: 'JAVA_HOME_21_X64'
+
+    # ---------------------------------------
+    # Job 1 : Deploy_UAT (inchangé)
+    # ---------------------------------------
     - deployment: Deploy_UAT
       displayName: 'Deploy to Salesforce UAT'
       environment: 'UAT Salesforce'
@@ -217,6 +321,96 @@ stages:
       )
     )
   jobs:
+    # ---------------------------------------
+    # Job 0 : Analyse Sonar sur le scope package.xml
+    # (s'exécute dès que le stage PROD_Validate s'exécute : push ou PR vers main/release)
+    # ---------------------------------------
+    - job: Sonar_Analysis_PROD
+      displayName: 'SonarCloud analysis (scope = package.xml)'
+      pool:
+        vmImage: 'ubuntu-latest'
+      steps:
+        - checkout: self
+          fetchDepth: 0
+
+        - script: |
+            set -euo pipefail
+            sudo apt-get update -y
+            sudo apt-get install -y xmlstarlet
+          displayName: 'Install xmlstarlet'
+
+        - script: |
+            set -euo pipefail
+            set -x
+
+            MANIFEST="manifest/package.xml"
+            SONAR_ROOT="sonar-scope"
+
+            [[ -f "$MANIFEST" ]] || { echo "ERREUR: $MANIFEST introuvable"; exit 21; }
+
+            rm -rf "$SONAR_ROOT"
+            mkdir -p "$SONAR_ROOT"
+
+            while IFS=';' read -r TYPE MEMBER; do
+              case "$TYPE" in
+                ApexClass)
+                  SRC="force-app/main/default/classes/${MEMBER}.cls"
+                  ;;
+                ApexTrigger)
+                  SRC="force-app/main/default/triggers/${MEMBER}.trigger"
+                  ;;
+                *)
+                  SRC=""
+                  ;;
+              esac
+
+              if [[ -n "$SRC" && -e "$SRC" ]]; then
+                DEST="$SONAR_ROOT/$SRC"
+                mkdir -p "$(dirname "$DEST")"
+                cp -R "$SRC" "$DEST"
+              else
+                echo "INFO: Pas de fichier source pour $TYPE / $MEMBER (ignoré)."
+              fi
+            done < <(
+              xmlstarlet sel -t \
+                -m "//*[local-name()='types']" \
+                -v "concat(normalize-space(./*[local-name()='name']),';',./*[local-name()='members'])" -n \
+                "$MANIFEST"
+            )
+
+            echo "Contenu filtré pour Sonar :"
+            find "$SONAR_ROOT" -type f || echo "Aucun fichier analysable."
+          displayName: 'Construire le scope Sonar à partir du package.xml'
+
+        - task: SonarCloudPrepare@3
+          displayName: 'Prepare SonarCloud analysis (PROD)'
+          env:
+            SONAR_TOKEN: $(SONAR_TOKEN)
+          inputs:
+            SonarCloud: 'SF-SonarCloud'
+            organization: 'sonarcloudtools'
+            scannerMode: 'cli'
+            configMode: 'manual'
+            cliProjectKey: 'DBS.SalesForce'
+            cliProjectName: 'DBS.SalesForce'
+            sonarToken: '$(SONAR_TOKEN)'
+            cliSources: 'sonar-scope/force-app/main/default'
+            extraProperties: |
+              sonar.sourceEncoding=UTF-8
+              sonar.pullrequest.key=$(System.PullRequest.PullRequestId)
+              sonar.pullrequest.branch=$(System.PullRequest.SourceBranch)
+              sonar.pullrequest.base=$(System.PullRequest.TargetBranch)
+
+        - task: SonarCloudAnalyze@3
+          displayName: 'Run SonarCloud analysis (PROD)'
+          env:
+            SONAR_TOKEN: $(SONAR_TOKEN)
+          inputs:
+            jdkversion: 'JAVA_HOME_21_X64'
+
+    # ---------------------------------------
+    # Job 1 : Validation PROD (dry run)
+    # ---------------------------------------
     - deployment: Validate_PROD_DryRun
       displayName: 'Validate on Salesforce PROD (checkonly)'
       environment: 'PROD Salesforce'
@@ -375,6 +569,7 @@ stages:
                   PathtoPublish: 'run-logs'
                   ArtifactName: 'sf-logs-prod-validate'
                   publishLocation: 'Container'
+
 # ===========================================
 # Stage 3 : UAT Nightly Validation (Scheduled, tests executed)
 # ===========================================
@@ -389,6 +584,10 @@ stages:
   variables:
     TEST_LEVEL_UAT_NIGHTLY: 'RunAllTestsInOrg'  # or 'RunLocalTests' if preferred
   jobs:
+    # Pas de Sonar ici pour l'instant (tu m’avais parlé surtout des 3 branches pour le scope déployé).
+    # Si tu veux aussi Sonar sur le nightly, on pourra rajouter un job Sonar_Analysis_UAT_Nightly
+    # identique à Sonar_Analysis_UAT, sans les propriétés PR si tu préfères.
+
     - deployment: Validate_UAT_DryRun
       displayName: 'Validate on Salesforce UAT (no deploy, run tests)'
       environment: 'UAT Salesforce'
