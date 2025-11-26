@@ -128,18 +128,40 @@
             console.log("state : "+state);
             
             if(state === "SUCCESS") {
-
-                // Prepare a toast UI message
-                var resultsToast = $A.get("e.force:showToast");
-              
-                resultsToast.setParams({
-                    "title": "Message",                    
-                    "message": $A.get("$Label.c.ADD_TO_EVENT_SUCCESS"),                    
-                    "type": "success"
-                });
+                var errorMsg = response.getReturnValue();
+                console.log('errorMsg from server : ', errorMsg);
+                if (errorMsg) {
+                    // 🔴 CAS ERREUR (au moins un CM KO → VR, opt out, etc.)
+                    var toast = $A.get("e.force:showToast");
+                    if (toast) {
+                        toast.setParams({
+                            "title": "ERROR",
+                            "message": errorMsg,
+                            "type": "error"
+                        });
+                        toast.fire();
+                        try {
+                            window.postMessage({ type: "ADD_TO_EVENT_ERROR", message: errorMsg }, "*");
+                        } catch (e) {
+                            alert(errorMsg); // dernier recours
+                        }
+                    }else {
+                        // VF / Lightning Out → simple alert
+                        alert(errorMsg);
+                    }
+                }
+                else {
+                    // Prepare a toast UI message
+                    var resultsToast = $A.get("e.force:showToast");
                 
-                resultsToast.fire();
-                
+                    resultsToast.setParams({
+                        "title": "Message",                    
+                        "message": $A.get("$Label.c.ADD_TO_EVENT_SUCCESS"),                    
+                        "type": "success"
+                    });
+                    
+                    resultsToast.fire();
+                }
                 $A.get("e.force:closeQuickAction").fire();
                 $A.get("e.force:refreshView").fire();
                 
@@ -149,19 +171,33 @@
                 var msg = $A.get("$Label.c.ADD_TO_EVENT_ERROR"); // fallback
                 if (errors && errors[0] && errors[0].message) {
                     msg = errors[0].message; // ← message exact de ta VR
-        }
+                }
                 console.log('Problem getting account, response state: ' + state);
+                console.log('msg ' + msg);
                 // Prepare a toast UI message
-                var resultsToast = $A.get("e.force:showToast");
-                resultsToast.setParams({
-                    "title": state,
-                    "message": msg,                    
-                    "type": "error"
-                });
+                var toast = $A.get("e.force:showToast");
+                if (toast) {
+                    console.log('toast');
+                    toast.setParams({
+                        "title": state,
+                        "message": msg,                    
+                        "type": "error"
+                    });
+                    toast.fire();
+                    // Fermer/réactualiser seulement si on est en quick action
+                    var closeQA = $A.get("e.force:closeQuickAction");
+                    if (closeQA) closeQA.fire();
+                } 
+                    console.log('vf');
+                    // 2) Fallback VF : envoyer le message au parent
+                    try {
+                        window.postMessage({ type: "ADD_TO_EVENT_ERROR", message: msg }, "*");
+                    } catch (e) {
+                        alert(msg); // dernier recours
+                    }
                 
-                // Update the UI: close panel, show toast, refresh account page
-                resultsToast.fire();
-                 $A.get("e.force:closeQuickAction").fire();
+
+                
                 //$A.get("e.force:refreshView").fire();
             }                       
         });

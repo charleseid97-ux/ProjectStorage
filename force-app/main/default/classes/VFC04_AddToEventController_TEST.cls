@@ -158,11 +158,11 @@ public class VFC04_AddToEventController_TEST {
             
             //public static boolean addToCampaign(Id iCampaignId, Id iCategory,String sMemberStatus,boolean bKeepExistingStatus, List<Contact> lContacts)
 	        
-	        boolean b1 = VFC04_AddToEventController.addToCampaign(oCampaign.ID, listCategEvent[0].ID,sLabelMemberStatus[0], listContact1, 'Contact');
-	        system.assertEquals(true, b1 , '=====> VFC04_AddToEventController_TEST -> Test1 ERROR addToCampaign should be true ');
+	        String b1 = VFC04_AddToEventController.addToCampaign(oCampaign.ID, listCategEvent[0].ID,sLabelMemberStatus[0], listContact1, 'Contact');
+	        system.assertEquals(null, b1 , '=====> VFC04_AddToEventController_TEST -> Test1 ERROR addToCampaign should be true ');
             
-            boolean b2 = VFC04_AddToEventController.addToCampaign(oCampaign2.ID, listCategEvent[0].ID,sLabelMemberStatus[0],listLead, 'Lead');
-	        system.assertEquals(true, b1 , '=====> VFC04_AddToEventController_TEST -> Test1 ERROR addToCampaign should be true ');
+            String b2 = VFC04_AddToEventController.addToCampaign(oCampaign2.ID, listCategEvent[0].ID,sLabelMemberStatus[0],listLead, 'Lead');
+	        system.assertEquals(null, b1 , '=====> VFC04_AddToEventController_TEST -> Test1 ERROR addToCampaign should be true ');
             
             system.assertEquals(null, addToEventController.getSelectedValues()); 
 
