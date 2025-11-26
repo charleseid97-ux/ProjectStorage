@@ -10,8 +10,8 @@ variables:
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
-  # Working Directory
-  workingDirectory: '$(System.DefaultWorkingDirectory)/'
+  # Working Directory = racine du repo
+  workingDirectory: '$(Build.SourcesDirectory)'
 
 stages:
 - stage: Build
@@ -26,19 +26,32 @@ stages:
     steps:
     - checkout: self
       fetchDepth: 0
+
+    # Préparation SonarCloud
     - task: SonarCloudPrepare@3
+      displayName: 'Prepare SonarCloud analysis'
+      env:
+        SONAR_TOKEN: $(SONAR_TOKEN)
       inputs:
-        SonarQube: 'SF-SonarCloud'
-        organization: 'sonarcloudtools'
+        SonarCloud: 'SF-SonarCloud'          # Nom du service connection SonarCloud
+        organization: 'sonarcloudtools'      # Ton organization SonarCloud
         scannerMode: 'cli'
         configMode: 'manual'
         cliProjectKey: 'DBS.SalesForce'
         cliProjectName: 'DBS.SalesForce'
         sonarToken: '$(SONAR_TOKEN)'
-        cliSources: '../'
+        # Chemin vers les classes à analyser, relatif à la racine du repo
+        cliSources: 'force-app/main/default/classes'
+
+    # Analyse SonarCloud
     - task: SonarCloudAnalyze@3
+      displayName: 'Run SonarCloud analysis'
+      env:
+        SONAR_TOKEN: $(SONAR_TOKEN)
       inputs:
         jdkversion: 'JAVA_HOME_21_X64'
+
+    # Build des extensions .NET si le projet existe
     - bash: |
         if [ -f extensions.csproj ]
         then
@@ -47,6 +60,7 @@ stages:
       workingDirectory: $(workingDirectory)
       displayName: 'Build extensions'
 
+    # Archive des fichiers
     - task: ArchiveFiles@2
       displayName: 'Archive files'
       inputs:
@@ -56,5 +70,6 @@ stages:
         archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
         replaceExistingArchive: true
 
+    # Publication de l’artifact
     - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
       artifact: drop
