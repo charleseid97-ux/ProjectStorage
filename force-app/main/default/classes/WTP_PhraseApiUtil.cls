@@ -24,12 +24,32 @@ public with sharing class WTP_PhraseApiUtil {
             r.setHeader('Accept', 'application/json');
             r.setTimeout(120000);
             HttpResponse resp = new Http().send(r);
-            if (resp.getStatusCode() != 200) return null;
+            system.debug('>>>>>>>> status:'+resp.getStatusCode() + ' '+ jobUid);
+            if (resp.getStatusCode() != 200) {
+                 system.debug('>>>>>>>> inside'+ ' '+ jobUid);
+                // 🔔 Alerte en cas de statut HTTP inattendu
+                WTP_NotifyBuffer.add(new WTP_Notify.Notice(
+                        'WTP_PhraseApiUtil.getJobStatus',
+                        'Lecture statut job KO (' + resp.getStatusCode() + ')',
+                        resp.getBody()
+                    
+                ));
+                return null;
+            }
 
             Map<String,Object> m = (Map<String,Object>) JSON.deserializeUntyped(resp.getBody());
             Object s = m.get('status');
             return (s == null) ? null : String.valueOf(s);
         } catch (Exception e) {
+            system.debug('>>>>>>>> catch'+ ' '+ jobUid);
+            System.debug('getJobStatus error: ' + e.getMessage());
+            // 🔔 Alerte en cas d'exception HTTP/désérialisation
+            WTP_NotifyBuffer.add(new WTP_Notify.Notice( 
+                    'WTP_PhraseApiUtil.getJobStatus',
+                    'Exception lors de la lecture du statut du job',
+                    e.getMessage()
+                
+            ));
             System.debug('getJobStatus error: ' + e.getMessage());
             return null;
         }
@@ -64,6 +84,13 @@ public with sharing class WTP_PhraseApiUtil {
 
             HttpResponse res = new Http().send(req);
             if (res.getStatusCode() != 200) {
+                // 🔔 Alerte téléchargement KO
+                WTP_NotifyBuffer.add(new WTP_Notify.Notice(
+                        'WTP_PhraseApiUtil.downloadTargetAsContentVersion',
+                        'Téléchargement targetFile KO (' + res.getStatusCode() + ')',
+                        res.getBody()
+                    
+                ));
                 System.debug('Download KO ' + res.getStatusCode() + ' : ' + res.getBody());
                 return null;
             }
@@ -82,6 +109,13 @@ public with sharing class WTP_PhraseApiUtil {
             return cv;
 
         } catch (Exception e) {
+            // 🔔 Alerte exception
+            WTP_NotifyBuffer.add(new WTP_Notify.Notice(
+                    'WTP_PhraseApiUtil.downloadTargetAsContentVersion',
+                    'Exception lors du téléchargement du fichier cible',
+                    e.getMessage()
+                
+            ));
             System.debug('downloadTargetAsContentVersion error: ' + e.getMessage());
             return null;
         }
@@ -133,7 +167,13 @@ public with sharing class WTP_PhraseApiUtil {
             toUpdate.add(c);
         }
         if (!toUpdate.isEmpty()) {
-            update toUpdate;
+            try {
+                update toUpdate;
+            } catch (DmlException e) {
+                // 🔔 Alerte DML KO
+                
+                throw e;
+            }
         }
     }
 
