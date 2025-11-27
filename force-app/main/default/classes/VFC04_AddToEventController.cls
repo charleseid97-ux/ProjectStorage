@@ -96,8 +96,8 @@ public class VFC04_AddToEventController {
      * if record already a member and bKeepExistingStatus fagged then do not update status)
      */
     @AuraEnabled
-    public static boolean addToCampaign(Id iCampaignId, Id iCategory,String sMemberStatus, List<SObject> contactsOrLeads, String sobjecttype) {
-        
+    public static string addToCampaign(Id iCampaignId, Id iCategory,String sMemberStatus, List<SObject> contactsOrLeads, String sobjecttype) {
+         
         //Mettre true par defaut pour bKeepExistingStatus
         boolean bKeepExistingStatus = false;
         System.debug('//JLC addToCampaign iCampaignId : '+ iCampaignId);
@@ -165,10 +165,41 @@ public class VFC04_AddToEventController {
         
         System.debug('//JLC avant insert et update listCampaignMemberUpd =  '+ listCampaignMemberUpd);
         System.debug('//JLC avant insert et update listCampaignMemberAdd =  '+ listCampaignMemberAdd);
-        update listCampaignMemberUpd;
-        insert listCampaignMemberAdd;
 
-        return true;
+        List<String> errorMessages = new List<String>();
+
+        // UPDATE partiel
+        if (!listCampaignMemberUpd.isEmpty()) {
+            Database.SaveResult[] updResults = Database.update(listCampaignMemberUpd, false);
+            for (Integer i = 0; i < updResults.size(); i++) {
+                if (!updResults[i].isSuccess()) {
+                    for (Database.Error err : updResults[i].getErrors()) {
+                        errorMessages.add(err.getMessage());
+                    }
+                }
+            }
+        }
+
+        // INSERT partiel
+        if (!listCampaignMemberAdd.isEmpty()) {
+            Database.SaveResult[] insResults = Database.insert(listCampaignMemberAdd, false);
+            for (Integer i = 0; i < insResults.size(); i++) {
+                if (!insResults[i].isSuccess()) {
+                    for (Database.Error err : insResults[i].getErrors()) {
+                        errorMessages.add(err.getMessage());
+                    }
+                }
+            }
+        }
+
+        // S'il y a au moins une erreur (VR opt-out, etc.), on renvoie les messages
+        if (!errorMessages.isEmpty()) {
+            return String.join(errorMessages, '\n');
+        }
+
+        // Sinon tout est OK
+        return null;
+             
     }    
     
     /*

@@ -19,6 +19,13 @@
             fallbackAction();
         }
     };
+
+    window.addEventListener("message", function(e){
+        
+        if (!e || !e.data || e.data.type !== "ADD_TO_EVENT_ERROR") return;
+        var msg = e.data.message || "Erreur";
+        alert(msg);
+    }, false);
     
     $Lightning.use("c:AddToEventApp", function() {
         $Lightning.createComponent("c:AddToEvent",{"sobjecttype" : "Contact", "recordId" : sContactIds},"lightning",function(cmp){

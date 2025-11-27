@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">    
     <version>60.0</version>
+
     <types>
         <members>AttachmentControllerTest</members>
         <members>AttachmentController</members>
@@ -10,10 +11,26 @@
         <members>WTP_Notify</members>
         <members>WTP_NotifyBuffer</members>
         <members>WTP_NotifyQueueable</members>
+        <members>VFC04_AddToEventController_TEST</members>
+        <members>VFC04_AddToEventController</members>
         <name>ApexClass</name>
     </types>
     <types>
         <members>relatedAttachmentsList</members>
         <name>LightningComponentBundle</name>
+    </types>
+
+    <types>
+        <members>AddToEvent</members>
+        <name>AuraDefinitionBundle</name>
+    </types>
+    <types>
+        <members>CampaignMember_OptOutValidation</members>
+        <name>Flow</name>
+    </types>
+
+    <types>
+        <members>VFP04_AddToEventController</members>
+        <name>ApexPage</name>
     </types>
 </Package>
