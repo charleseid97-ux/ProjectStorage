@@ -2,8 +2,12 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">    
     <version>60.0</version>
     <types>
-        <members>SM029_WebCommunicationResponseParser</members>
-        <members>SM029_WebComResponseParser_Test</members>
+        <members>AttachmentControllerTest</members>
+        <members>AttachmentController</members>
         <name>ApexClass</name>
+    </types>
+    <types>
+        <members>relatedAttachmentsList</members>
+        <name>LightningComponentBundle</name>
     </types>
 </Package>
