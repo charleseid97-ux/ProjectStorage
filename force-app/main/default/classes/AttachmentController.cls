@@ -8,6 +8,23 @@
 public with sharing class AttachmentController {
     private static final Id subPublicationRecordTypeId = Schema.SObjectType.Case.getRecordTypeInfosByName().get('Sub Publication Request').getRecordTypeId();
 
+     @AuraEnabled
+    public static void deleteFile(Id contentDocumentId) {
+        // Appelle une sous-classe système pour exécuter la suppression
+        new FileDeleter().deleteAsSystem(contentDocumentId);
+    }
+
+    // Sous-classe interne qui s'exécute sans sharing
+    private without sharing class FileDeleter {
+        public void deleteAsSystem(Id contentDocumentId) {
+            try {
+                delete [SELECT Id FROM ContentDocument WHERE Id = :contentDocumentId];
+            } catch (Exception e) {
+                throw new AuraHandledException('Erreur suppression fichier : ' + e.getMessage());
+            }
+        }
+    }
+
     @AuraEnabled(cacheable= true)
     public static List<FileWrapper> getFilteredAttachments(String parentId, Boolean isPublication,Boolean isSource) {
         // Query to fetch the files linked to the parent record
