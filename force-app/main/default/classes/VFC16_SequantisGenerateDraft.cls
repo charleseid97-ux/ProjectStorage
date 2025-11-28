@@ -15,29 +15,31 @@ public with sharing class VFC16_SequantisGenerateDraft {
     public static String infoMessage {get; set;} // Message d'info pour l'utilisateur 
     public static String errorMessage {get; set;} // Message d'erreur pour l'utilisateur
     public static Map<String, Object> payloadDebug  {get; set;} // Payload pour l'appel du service Sequantis
-     public static List<String> payloadKeys { get; set; }
-     public static String payloadString { get; set; }
-     private static List <ProjectShareclass__c> shareclasses ;
+    public static List<String> payloadKeys { get; set; }
+    public static String payloadString { get; set; }
+    private  List <ProjectShareclass__c> shareclasses { get; set; }
 
 
     public VFC16_SequantisGenerateDraft(ApexPages.standardController con){
         showPDF = false;
         recordId = con.getId();
         system.debug('====VFC16_SequantisGenerateDraft=======recordId = ' + recordId);
-         shareclasses= [Select Id,Name,Name__c from ProjectShareclass__c where ProjectProduct__c   =: recordId];
+        shareclasses= [Select Id,Name,Name__c from ProjectShareclass__c where ProjectProduct__c   =: recordId];
         shareclassOptions = new List<SelectOption>();
         shareclassOptions.add(new SelectOption('None','--- Select ---'));
-        //shareclassOptions.add(new SelectOption('updateAll','Update All ShareClass'));
+        shareclassOptions.add(new SelectOption('updateAll','Update All ShareClass'));
         for(ProjectShareclass__c sc : shareclasses){
             String optionLabel = sc.Name__c != null ? sc.Name__c : sc.Name;
             shareclassOptions.add(new SelectOption(sc.Id, optionLabel));            
         }   
+        system.debug('====VFC16_SequantisGenerateDraft=======shareclasses = ' + shareclasses);
     }
     
     
 
     // Bouton Draft : génère le PDF et le met dans pdf (base64)
     public  void genPDF() {
+        system.debug('====genPDF=======shareclasses = ' + shareclasses);
         if(selectedRecordId == 'updateAll'){
             updateAllShareClasses();
             showPDF = false;
@@ -49,9 +51,13 @@ public with sharing class VFC16_SequantisGenerateDraft {
             // Étape 1 — Récupération du token OAuth2
             String token = fetchAccessToken('/rest/authentication');
             
-            // Étape 2 — Appel du service pour générer le PDF
-            String pdfString = callSequantisService(token, selectedRecordId, true);
-            
+            // Étape 2 — Appel du secallSequantisServicervice pour générer le PDF
+            String pdfString = callSequantisService(token, selectedRecordId,true);
+            if(pdfString.startsWith('<br/> generation failed')){
+                errorMessage = pdfString;
+                showPDF = false;
+                return;
+            }
             // Étape 3 — Encodage base64 pour renvoi au LWC
             pdf = pdfString;
             showPDF = true;
@@ -62,47 +68,40 @@ public with sharing class VFC16_SequantisGenerateDraft {
         }*/
     }
 
-    private void updateAllShareClasses() {
-        try {
+    private void updateAllShareClasses() {   
+        errorMessage = ''; 
+        infoMessage = '';  
             // Step 1 — Fetch authentication token
             String token = fetchAccessToken('/rest/authentication');
-            
+
             // Step 2 — Iterate through all share class IDs
             for (ProjectShareclass__c shareClass : shareClasses) {
                 Id shareClassId = shareClass.Id;
-                try {
+               // try {
                     // Call the external Sequantis API for each share class
-                    String pdfString = callSequantisService(token, shareClassId, false);
-                    
-                    // Optional: process or store the result
-                    // e.g., savePDFToRecord(shareClassId, pdfString);
-                    
-                } catch (Exception innerEx) {
+                    String response = callSequantisService(token, shareClassId, false);
+                    if (response == 'OK') {
+                        infoMessage += '<br/>ShareClass '+shareClass.Name__c+' updated successfully.';
+                    } else {
+                        errorMessage+= '<br/>Error updating ShareClass with ID ' + shareClassId + ': ' + response;
+                    }                                    
+               // } catch (Exception innerEx) {
                     // Log or handle per-share-class failure
-                    System.debug('Error updating ShareClass with ID ' + shareClassId + ': ' + innerEx.getMessage());
-                }
+                   // System.debug('Error updating ShareClass with ID ' + shareClassId + ': ' + innerEx.getMessage());
+                //}
             }
-
-            // Step 3 — Set messages and flags for UI feedback
-            showPDF = false;
-            infoMessage = 'All Share Classes updated.';
-            errorMessage = null;
-            
-        } catch (Exception ex) {
-            // Handle top-level failure (e.g., token fetch or global issue)
-            showPDF = false;
-            infoMessage = null;
-            errorMessage = 'There was an error during update of all Share Classes: ' + ex.getMessage();
-            System.debug('Global error in updateAllShareClasses: ' + ex.getMessage());
-        }
+            if (errorMessage == '') {
+                infoMessage = 'All ShareClasses processed.';
+            }        
     }
     public  String callSequantisService(String token, String projectShareClassId,Boolean returnPDF) {
+        system.debug('====callSequantisService=======projectShareClassId = ' + projectShareClassId);
         Http httpReq = new Http();
         HttpRequest req = new HttpRequest();
         String endpoint;
         Map<String, Object> payload  = new Map<String, Object>();
 
-        // Requetage des champs
+        // Requetage des champs 
         projectShareClass__c projectShareClassRec = [SELECT Id, Name,Name__c, ISIN__c, Currency__c, MaxRedemptionFee__c, EffectivePerfFees__c, MaxSubscriptionFee__c, EffectiveManagementFees__c, EffectiveServiceFees__c, TransactionCosts__c,
                                 ProxyRisk__c, CurrencyHedging__c, HasPerfFees__c, DividendPolicy__c, Status__c, 
                                 Retail__c, Professional__c, EligibleCounterparty__c, Basic__c, Informed__c, Advanced__c, ExpertGermany__c, LowestRiskTolGer__c, CanNot__c, CanLimited__c, NoNeedCapGuarantee__c, CanNoLimit__c, Preservation__c, CapitalGrowth__c, Income__c,
@@ -112,19 +111,30 @@ public with sharing class VFC16_SequantisGenerateDraft {
                                 FROM projectShareClass__c
                                 WHERE id = :projectShareClassId];
         
-        ProjectProduct__c ProjectProductRec = [SELECT Id, Name, ProductName__c, NAVFrequency__c, RecommendedHoldingPeriod__c, DomiciledIn__c, LegalForm__c,
+        ProjectProduct__c ProjectProductRec = [SELECT Id, Name, ProductName__c, NAVFrequency__c, RecommendedHoldingPeriod__c,RecommendedHoldingPeriodUnit__c, DomiciledIn__c, LegalForm__c,
                                 BenchmarkName__c, MaturityDate__c, CutOffTime__c, AssetClass__c, LEICode__c, ESGLabel__c,
                                 MinSustainableInvest__c, MinTaxAlignment__c, SFDRCategory__c, IsUsingPAI__c, EET20080__c, EET20190__c, 
                                 EET20200__c, EET20210__c, EET20400__c, EET20430__c, EET20460__c, EET20250__c, AMFESGCommunication__c, HasCarbonTarget__c, EET60440__c, FundSpecificExclusions__c,
                                 EndDate__c, Product__c,ParentProduct__c,InvestmentObjective__c,IntentedRetailInvestor__c,ReasonForRHP__c,RedeemCondition__c,LMT__c,
-                                internalShortName__c,TECH_RTName__c, BaseCurrency__c
+                                internalShortName__c,TECH_RTName__c, BaseCurrency__c,RecordTypeId,DefaultLanguage__c
                             FROM ProjectProduct__c
                             WHERE Id = :projectShareClassRec.ProjectProduct__c];
-        String language = 'en_LU' ; 
-        if (ProjectProductRec.ParentProduct__c ==  'a1VaT000000vyvXUAQ' || ProjectProductRec.DomiciledIn__c == 'FR' ){
-            language = 'fr_FR';
-        }                   
-
+                  
+        // if internalShortName__c , RecommendedHoldingPeriod__c et RecommendedHoldingPeriodUnit__c  empty return error message
+        String errorMsg = '';
+        if (ProjectProductRec.internalShortName__c == null ){
+            errorMsg += '<br/> Internal Short Name is required. ';            
+        }
+        if (ProjectProductRec.RecommendedHoldingPeriod__c == null ){
+            errorMsg += '<br/> Recommended Holding Period is required. ';
+        }
+        if (ProjectProductRec.RecommendedHoldingPeriodUnit__c == null ){
+            errorMsg += '<br/> Recommended Holding Period Unit is required. ';
+        }   
+        if (errorMsg != ''){
+            errorMsg = '<br/> generation failed due to missing required fields '+projectShareClassRec.Name__c+' : '+errorMsg;
+            return errorMsg;
+        }
         // Ajout des champs
         payload.put('genereKID', returnPDF);
         
@@ -202,7 +212,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
 
         
         payload.put('maxPerformanceFees', projectShareClassRec.MaxPerfFees__c);
-        payload.put('language', language);
+        payload.put('language', ProjectProductRec.DefaultLanguage__c);
         //payload.put('performanceFeeMethod', projectShareClassRec.PerformanceFeeMethod__c  ); 
         String projectInvestmentObjectiveNoHTML = escapeHTML(ProjectProductRec.InvestmentObjective__c );
         String shareClassInvestmentObjectiveNoHTML = escapeHTML(projectShareClassRec.ShareclassInvestmentObjective__c);
@@ -211,17 +221,24 @@ public with sharing class VFC16_SequantisGenerateDraft {
         payload.put('internalShortName',  ProjectProductRec.internalShortName__c);
 
     // add only if project type is not Modification
-         Id fundShareClassModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();
+     Id fundShareClassModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();
+     Id fundCreationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundCreation').getRecordTypeId();
+     Id shareclassCreationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('ShareclassCreation').getRecordTypeId();
 
-        if (ProjectProductRec.recordTypeId != fundShareClassModificationRecordTypeId) {
-            payload.put('typeInvestisseur', ProjectProductRec.IntentedRetailInvestor__c);
-            payload.put('shareClassInvestmentObjective', shareClassInvestmentObjectiveNoHTML);
-            payload.put('performanceFeesComment', projectShareClassRec.PerformanceFeeUCITSKIID__c);
-            payload.put('performanceFeesCommentEPT', projectShareClassRec.PerformanceFeeEPTKID__c);
-            payload.put('sortieAnticipee1', ProjectProductRec.ReasonForRHP__c);
-            payload.put('sortieAnticipee2', ProjectProductRec.RedeemCondition__c);
-            payload.put('sortieAnticipee3', ProjectProductRec.LMT__c);
-        }
+       Id rtId = ProjectProductRec.RecordTypeId;
+
+if (rtId == fundCreationRecordTypeId) {
+    payload.put('sortieAnticipee1', ProjectProductRec.ReasonForRHP__c);
+    payload.put('typeInvestisseur', ProjectProductRec.IntentedRetailInvestor__c);
+    payload.put('shareClassInvestmentObjective', shareClassInvestmentObjectiveNoHTML);
+    payload.put('performanceFeesCommentEPT', projectShareClassRec.PerformanceFeeEPTKID__c);
+    payload.put('performanceFeesComment', projectShareClassRec.PerformanceFeeUCITSKIID__c);
+}
+else if (rtId == shareclassCreationRecordTypeId) {
+    payload.put('shareClassInvestmentObjective', shareClassInvestmentObjectiveNoHTML);
+    payload.put('performanceFeesCommentEPT', projectShareClassRec.PerformanceFeeEPTKID__c);
+    payload.put('performanceFeesComment', projectShareClassRec.PerformanceFeeUCITSKIID__c);
+}
        // payload.put('fundcurrency',  ProjectProductRec.BaseCurrency__c); //champ pas encore créé coté Sequantis
         //payload.put('????'  shareClassInvestmentObjectiveNoHTML
         //payload.put('riskNarrative', 'L\'indicateur synthétique de risque indique la probabilité que ce produit...');
@@ -243,8 +260,9 @@ public with sharing class VFC16_SequantisGenerateDraft {
         HttpResponse res = httpReq.send(req);
         system.debug('==============Response status: ' + res.getStatusCode());
         system.debug('==============Response body: ' + res.getBody());    
-        
-        if (res.getStatusCode() != 200) {
+        if( res.getStatusCode() == 202 ){
+            return ('OK')   ;            
+        }else if (res.getStatusCode() != 200) {
             throw new CalloutException('Erreur génération PDF (' + res.getStatusCode() + ') : ' + res.getBody());
         }
 

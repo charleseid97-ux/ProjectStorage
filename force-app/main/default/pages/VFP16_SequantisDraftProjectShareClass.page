@@ -29,10 +29,10 @@ cache="false">
             <!-- object (mieux supporté qu’embed)-->
         </div>
         <apex:outputPanel id="pdfContainer">    
-                <apex:outputText value="{!infoMessage}" style="color:green; font-weight:bold;" rendered="{!NOT(ISBLANK(infoMessage))}"/>
-                <apex:outputText value="{!errorMessage}" style="color:rgb(170, 55, 55); font-weight:bold;" rendered="{!NOT(ISBLANK(errorMessage))}"/>
+                <apex:outputText value="{!infoMessage}" style="color:green; font-weight:bold;"  escape="false" rendered="{!NOT(ISBLANK(infoMessage))}"/>
+                <apex:outputText value="{!errorMessage}" style="color:rgb(170, 55, 55); font-weight:bold;"  escape="false" rendered="{!NOT(ISBLANK(errorMessage))}"/>
             
-   <apex:outputText value="{!payloadString}" style="color:rgb(27, 87, 165); font-weight:bold;" rendered="{!NOT(ISBLANK(payloadString))}"/> 
+   <!--<apex:outputText value="{!payloadString}" style="color:rgb(27, 87, 165); font-weight:bold;" rendered="{!NOT(ISBLANK(payloadString))}"/> -->
 
                 
              <apex:outputPanel id="pdfPanel" rendered="{!showPDF}"> 

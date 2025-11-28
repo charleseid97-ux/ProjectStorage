@@ -1,36 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">    
-    <version>60.0</version>
+    <version>60.0</version>   
+    <types>
+        <members>VFP16_SequantisDraftProjectShareClass	</members>
+        <name>ApexPage</name>
+    </types>
 
     <types>
-        <members>AttachmentControllerTest</members>
-        <members>AttachmentController</members>
-        <members>WS_WTPSendFileToWordclass</members>
-        <members>WS_WTPWorldclassBatch</members>
-        <members>WTP_PhraseApiUtil</members>
-        <members>WTP_Notify</members>
-        <members>WTP_NotifyBuffer</members>
-        <members>WTP_NotifyQueueable</members>
-        <members>VFC04_AddToEventController_TEST</members>
-        <members>VFC04_AddToEventController</members>
+        <members>VFC16_SequantisGenerateDraft</members>
+        <members>VFC16_SequantisGenerateDraftTest</members>
         <name>ApexClass</name>
     </types>
+    <!-- retrieve quick action metadata -->
     <types>
-        <members>relatedAttachmentsList</members>
-        <name>LightningComponentBundle</name>
-    </types>
-
-    <types>
-        <members>AddToEvent</members>
-        <name>AuraDefinitionBundle</name>
+        <members>ProjectProduct__c.Generate_Draft_KID</members>
+        <name>QuickAction</name>
     </types>
     <types>
-        <members>CampaignMember_OptOutValidation</members>
-        <name>Flow</name>
-    </types>
-
-    <types>
-        <members>VFP04_AddToEventController</members>
-        <name>ApexPage</name>
+        <members>ProjectProduct__c.defaultlanguage__c</members>
+        <name>customfield</name>
     </types>
 </Package>
