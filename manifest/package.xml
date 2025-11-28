@@ -5,6 +5,7 @@
         <members>VFP16_SequantisDraftProjectShareClass	</members>
         <name>ApexPage</name>
     </types>
+
     <types>
         <members>VFC16_SequantisGenerateDraft</members>
         <members>VFC16_SequantisGenerateDraftTest</members>
@@ -18,9 +19,5 @@
     <types>
         <members>ProjectProduct__c.DefaultLanguage__c</members>
         <name>customfield</name>
-    </types>
-    <types>
-        <members>FundFieldApplicabilityHistoryProduct</members>
-        <name>Flow</name>
     </types>
 </Package>
