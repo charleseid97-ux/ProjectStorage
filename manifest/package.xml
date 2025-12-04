@@ -2,8 +2,14 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">    
     <version>60.0</version>   
     <types>
-        <members>preferenceCenter</members>
-        <name>LightningComponentBundle</name>
-    </types>
+    <members>prospaceAlerts</members>
+    <members>preferenceCenter</members>
+    <name>LightningComponentBundle</name>
+</types>
 
+    <types>
+        <members>SM029_WebCommunication</members>
+        <name>ApexClass</name>
+    </types>
+    
 </Package>
