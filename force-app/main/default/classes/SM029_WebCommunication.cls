@@ -185,6 +185,18 @@ public class SM029_WebCommunication {
 
     }
 
+    public static void sendErrorEmail(String subject, String body) {
+        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+        mail.setToAddresses(new String[]{
+            'salesforcesupport@carmignac.com' // TODO : à adapter (ou une DL)
+        });
+        mail.setSubject(subject);
+        mail.setPlainTextBody(body);
+        mail.setSaveAsActivity(false);
+
+        Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ mail });
+    }
+
     /**
     * Perform HTTP request and add JSON body; Update WebCommunication fields with website response
     *
@@ -212,25 +224,75 @@ public class SM029_WebCommunication {
                 res = mockContactWS.syncWebCommunication(req, aWebsiteMethod, 'success', aWebComToSentList[0]);
 
             }
+
+            Integer status = res.getStatusCode();
+            String body   = res.getBody();
+
             System.debug('res.getBody()!' +res.getBody());
+
+            if (status != 200 && status != 400) {
+
+                String ids = '';
+                for (Web_Communication__c wc : aWebComToSentList) {
+                    ids += (ids == '' ? '' : ',') + String.valueOf(wc.Id);
+                }
+
+                sendErrorEmail(
+                    '[WebComm] Erreur HTTP ' + status,
+                    'Endpoint  : ' + aWebsiteEndpoint +
+                    '\nMéthode   : ' + aWebsiteMethod +
+                    '\nHTTP msg  : ' + res.getStatus() +
+                    '\nWebCom Ids: ' + ids +
+                    '\nBody      : ' + body
+                );
+                return; // on ne parse pas
+            }
             if (res.getStatusCode() == 200 || res.getStatusCode() == 400 ) {
 
                 System.debug('Success!');
                 if (aWebsiteMethod == 'DELETE') {
                     return;
                 }
+                if (String.isBlank(body)) {
+                    sendErrorEmail(
+                        '[WebComm] Erreur : réponse vide (HTTP ' + status + ')',
+                        'Endpoint : ' + aWebsiteEndpoint +
+                        '\nMéthode  : ' + aWebsiteMethod +
+                        '\nMessage HTTP : ' + res.getStatus()
+                    );
+                    return;
+                }
 
                 if (res.getBody() != '' && res.getBody() != null) {
 
-                    SM029_WebCommunicationResponseParser.parse(res.getBody());
+                    SM029_WebCommunicationResponseParser parser = SM029_WebCommunicationResponseParser.parse(res.getBody());
+                    if (parser.errorRecords != null && !parser.errorRecords.isEmpty()) {
+                        List<String> msgs = new List<String>();
+                        for (SM029_WebCommunicationResponseParser.ErrorRecords er : parser.errorRecords) {
+                            system.debug('>>>>>>>>>>>> message : '+er.message);
+                            if ( er != null && !String.isBlank(er.message) ) {
+                                String line = er.message;
+                                if (er.data != null) {
+                                    line += ' (ContactId=' + er.data.ContactId + ', AlertType=' + er.data.AlertType + ', ISIN=' + er.data.ShareIsin + ')';
+                                }
+                                msgs.add(line);
+                            }
+                        }
 
+                        sendErrorEmail(
+                            '[WebComm] Erreurs métier sur batch (' + parser.errorRecords.size() + ')',
+                            'Endpoint : ' + aWebsiteEndpoint +
+                            '\nMéthode  : ' + aWebsiteMethod +
+                            '\nNombre d\'erreurs : ' + parser.errorRecords.size() +
+                            '\nDétail :\n - ' + String.join(msgs, '\n - ')
+                        );
+                    }
                 }
-            }else{
-                System.debug('Error!');
             }
 
         } catch (System.CalloutException e) {
             //Log interface
+            sendErrorEmail('[WebComm] Exception lors de la synchro','Endpoint : ' + aWebsiteEndpoint + '\nMéthode  : ' + aWebsiteMethod +'\nMessage  : ' + e.getMessage());
             System.debug('Callout error: ' + e);
             EM023_Log.errorToLog newErro = ObjectUtil.GetErrorToLog(res, req, '', 'SM029_WebCommunication', 'connectAndSendWebComm');
             listLogError.add(newErro);
