@@ -228,7 +228,6 @@ TEXT( YEAR( DATEVALUE( {!Get_Meeting_Note.VideoCall__r.StartDateTime} ) ) )</exp
         <connector>
             <targetReference>Create_MeetingNotes_from_APex</targetReference>
         </connector>
-        <flowRunAsUser>DefaultWorkflowUser</flowRunAsUser>
         <object>VideoCallWithTranscript__e</object>
         <triggerType>PlatformEvent</triggerType>
     </start>
