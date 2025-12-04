@@ -35,31 +35,48 @@
                         </template>
                         <template for:each={preferences} for:item="preference">
                             <div key={preference}
-                                class="slds-form-element slds-p-around_x-small slds-align_absolute-center">
-                                <label class="slds-checkbox_toggle slds-grid">
-                                    <div class="slds-col slds-size_1-of-1 slds-large-size_2-of-12">
-                                        <lightning-input data-id={preference.checkboxAPI} type="toggle"
-                                            value={preference.checkboxAPI} message-toggle-active=""
-                                            message-toggle-inactive="" label="" name={preference.checkboxAPI}
-                                            aria-label={preference.checkboxLabel} onchange={updateTogglePreference}
-                                            checked={preference.checkboxValue}>
+                                class="slds-form-element slds-p-around_x-small">
+                                <div class="slds-grid slds-grid_vertical-align-center slds-wrap">
+
+                                    <!-- 1️⃣ TOGGLE -->
+                                    <div class="slds-col slds-size_2-of-12 slds-text-align_center">
+                                        <lightning-input data-id={preference.checkboxAPI}
+                                                        type="toggle"
+                                                        value={preference.checkboxAPI}
+                                                        label=""
+                                                        message-toggle-active=""
+                                                        message-toggle-inactive="" 
+                                                        name={preference.checkboxAPI}
+                                                        aria-label={preference.checkboxLabel}
+                                                        onchange={updateTogglePreference}
+                                                        checked={preference.checkboxValue}>
                                         </lightning-input>
                                     </div>
-                                    <div
-                                        class="slds-col slds-size_1-of-1 slds-large-size_4-of-12 slds-text-align_left">
-                                        <span class="slds-form-element__label">
-                                            <lightning-button-icon icon-name="utility:edit" size="small"
-                                                value={preference.checkboxAPI} variant="bare"
-                                                alternative-text="Preference" title="Preference" onclick={openModal}
-                                                aria-label={preference.checkboxLabel} tooltip="Edit Interests">
-                                            </lightning-button-icon>
-                                        </span>
-                                        <span
-                                            class="slds-form-element__label slds-m-bottom_none">{preference.checkboxLabel}</span>
+
+                                    <!-- 2️⃣ CRAYON -->
+                                    <div class="slds-col slds-size_1-of-12 slds-text-align_center">
+                                        <lightning-button-icon icon-name="utility:edit"
+                                                            size="small"
+                                                            value={preference.checkboxAPI}
+                                                            variant="bare"
+                                                            alternative-text="Preference"
+                                                            title="Preference"
+                                                            onclick={openModal}
+                                                            aria-label={preference.checkboxLabel}>
+                                        </lightning-button-icon>
                                     </div>
-                                </label>
+
+                                    <!-- 3️⃣ TEXTE -->
+                                    <div class="slds-col slds-size_9-of-12 slds-text-align_left">
+                                        <span class="slds-form-element__label slds-m-bottom_none">
+                                            {preference.checkboxLabel}
+                                        </span>
+                                    </div>
+
+                                </div>
                             </div>
                         </template>
+
                     </div>
                 </div>
                 <!-- END : Preference Section -->
@@ -74,22 +91,34 @@
                         </template>
                         <template for:each={interests} for:item="interest">
                             <div key={interest} class="slds-form-element slds-p-around_x-small">
-                                <label class="slds-checkbox_toggle slds-grid">
-                                    <div class="slds-col slds-size_1-of-1 slds-large-size_2-of-12">
-                                        <lightning-input data-id={interest.checkboxAPI} aria-label="interestLabel"
-                                            type="toggle" message-toggle-active="" message-toggle-inactive=""
-                                            name={interest.checkboxAPI} onchange={updateToggleInterest}
-                                            checked={interest.checkboxValue}>
+                                <div class="slds-grid slds-grid_vertical-align-center">
+
+                                    <!-- Toggle à gauche -->
+                                    <div class="slds-col slds-size_2-of-12">
+                                        <lightning-input
+                                            type="toggle"
+                                            data-id={interest.checkboxAPI}
+                                            name={interest.checkboxAPI}
+                                            aria-label="interestLabel"
+                                            onchange={updateToggleInterest}
+                                            checked={interest.checkboxValue}
+                                            label=""
+                                            message-toggle-active=""
+                                            message-toggle-inactive="">
                                         </lightning-input>
                                     </div>
-                                    <div
-                                        class="slds-col slds-size_1-of-1 slds-large-size_3-of-12 slds-text-align_left">
-                                        <span
-                                            class="slds-form-element__label slds-m-bottom_none">{interest.checkboxLabel}</span>
+
+                                    <!-- Texte à droite -->
+                                    <div class="slds-col slds-size_10-of-12 slds-text-align_left slds-p-left_small">
+                                        <span class="slds-form-element__label">
+                                            {interest.checkboxLabel}
+                                        </span>
                                     </div>
-                                </label>
+
+                                </div>
                             </div>
                         </template>
+
                     </div>
                 </div>
                 <!-- END : Other interests Type -->
@@ -104,22 +133,34 @@
                         </template>
                         <template for:each={regions} for:item="region">
                             <div key={region} class="slds-form-element slds-p-around_x-small">
-                                <label class="slds-checkbox_toggle slds-grid">
-                                    <div class="slds-col slds-size_1-of-1 slds-large-size_2-of-12">
-                                        <lightning-input data-id={region.checkboxAPI} aria-label="regionLabel"
-                                            type="toggle" message-toggle-active="" message-toggle-inactive=""
-                                            name={region.checkboxAPI} onchange={updateToggleInterest}
-                                            checked={region.checkboxValue}>
+                                <div class="slds-grid slds-grid_vertical-align-center">
+
+                                    <!-- Toggle à gauche -->
+                                    <div class="slds-col slds-size_2-of-12">
+                                        <lightning-input
+                                            type="toggle"
+                                            data-id={region.checkboxAPI}
+                                            name={region.checkboxAPI}
+                                            aria-label="regionLabel"
+                                            onchange={updateToggleInterest}
+                                            checked={region.checkboxValue}
+                                            label=""
+                                            message-toggle-active=""
+                                            message-toggle-inactive="">
                                         </lightning-input>
                                     </div>
-                                    <div
-                                        class="slds-col slds-size_1-of-1 slds-large-size_3-of-12 slds-text-align_left">
-                                        <span
-                                            class="slds-form-element__label slds-m-bottom_none">{region.checkboxLabel}</span>
+
+                                    <!-- Texte à droite -->
+                                    <div class="slds-col slds-size_10-of-12 slds-text-align_left slds-p-left_small">
+                                        <span class="slds-form-element__label">
+                                            {region.checkboxLabel}
+                                        </span>
                                     </div>
-                                </label>
+
+                                </div>
                             </div>
                         </template>
+
                     </div>
                 </div>
                 <!-- END : Region Type -->
