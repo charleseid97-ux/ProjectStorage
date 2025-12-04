@@ -29,6 +29,7 @@ export default class prospaceAlerts extends LightningElement {
     @track navs = [];
     @track reports = [];
     @track performances = [];
+    @track kids = [];
     @track funds = [];
     @track holdings = [];
     @track publications = [];
@@ -41,6 +42,7 @@ export default class prospaceAlerts extends LightningElement {
 
     fundOnly = false;
     isPerformance = false;
+    isKid = false;
     isLoading = true;
     isModalDisplayed = false;
     modalTitle;
@@ -66,6 +68,7 @@ export default class prospaceAlerts extends LightningElement {
         this.navs = [];
         this.reports = [];
         this.performances = [];
+        this.kids = [];
         this.funds = [];
         this.holdings = [];
         this.publications = [];
@@ -75,7 +78,7 @@ export default class prospaceAlerts extends LightningElement {
             let arr;
             JSON.parse(result.data).forEach(element => {
                 console.log(element.checkboxValue);
-                arr = element.checkboxCategory === 'Nav' ? this.navs : element.checkboxCategory === 'Report' ? this.reports : element.checkboxCategory === 'Performance' ? this.performances : element.checkboxCategory === 'Fund' ? this.funds : element.checkboxCategory === 'Holdings' ? this.holdings : element.checkboxCategory === 'Regularity' ? this.regularities : this.publications;
+                arr = element.checkboxCategory === 'Nav' ? this.navs : element.checkboxCategory === 'Report' ? this.reports : element.checkboxCategory === 'Performance' ? this.performances : element.checkboxCategory === 'KID' ? this.kids : element.checkboxCategory === 'Fund' ? this.funds : element.checkboxCategory === 'Holdings' ? this.holdings : element.checkboxCategory === 'Regularity' ? this.regularities : this.publications;
                 arr.push({
                     checkboxLabel: element.checkboxLabel,
                     checkboxAPI: element.checkboxAPI,
@@ -95,14 +98,22 @@ export default class prospaceAlerts extends LightningElement {
         if(event.target.title == 'Fund' || event.target.title == 'Holdings'){
             this.fundOnly = true;
             this.isPerformance = false;
+            this.isKid = false;
             this.modalTitle = event.target.name ;
         }else if(event.target.title == 'Performance'){
             this.isPerformance = true;
+            this.isKid = false;
+            this.fundOnly = false;
+            this.modalTitle = event.target.name;
+        }else if(event.target.title == 'KID'){
+            this.isPerformance = false;
+            this.isKid = true;
             this.fundOnly = false;
             this.modalTitle = event.target.name;
         }else{
             this.isPerformance = false;
             this.fundOnly = false;
+            this.isKid = false;
             this.modalTitle = event.target.title + ' Subscription';
         }
         this.isModalDisplayed = true;
