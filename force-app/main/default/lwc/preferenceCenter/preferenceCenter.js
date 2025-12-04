@@ -7,6 +7,7 @@
 import { LightningElement, api, wire, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { refreshApex } from '@salesforce/apex';
+import LightningConfirm from 'lightning/confirm';
 
 //Import Apex Methods
 import updateRecord from '@salesforce/apex/PreferenceCenterController.updateRecord';
@@ -178,8 +179,47 @@ export default class preferenceCenter extends LightningElement {
 
     @wire(generateTogglesJson, {recordId: '$recordId', category: 'Preference'})
     preferenceJSON;
-    
-    updateTogglePreference(event) {
+
+
+
+    async updateTogglePreference(event) {
+        // 1) Capturer tout de suite les valeurs dont on aura besoin
+        const { name, value, checked } = event.target;
+        const ariaLabel = event.target.ariaLabel;
+
+        // ON = on ouvre le modal comme avant (pas d'attente ici)
+        if (checked) {
+            // on peut appeler openModal avec un petit objet "mock" si elle lit event.target
+            this.openModal({ target: { value, ariaLabel } });
+            return;
+        }
+
+        // OFF = demander confirmation
+        const confirmed = await LightningConfirm.open({
+            message: 'Cela va supprimer cette préférence et toutes ses sous-intérêts. Continuer ?',
+            label: 'Confirmer la suppression',
+            theme: 'warning'
+        });
+
+        if (confirmed) {
+            this.isPreferenceLoading = true;
+            // 2) Appel sans dépendre de event à l’intérieur
+            this.updateToggle(
+                null,           // pas d'event
+                'Preference',   // category
+                name,           // nameValue: API du champ
+                false           // checkedValue
+            );
+        } else {
+            // Recocher visuellement le toggle (aucun appel serveur)
+            setTimeout(() => {
+                const input = this.template.querySelector(`lightning-input[data-id="${name}"]`);
+                if (input) input.checked = true;
+            }, 0);
+        }
+    }
+
+    /*updateTogglePreference(event) {
         if (event.target.checked) {
             this.openModal(event);
         }
@@ -187,7 +227,7 @@ export default class preferenceCenter extends LightningElement {
             this.isPreferenceLoading = true;
             this.updateToggle(event, 'Preference');
         }
-    }
+    }*/
 
     @wire(generateTogglesJson, {recordId: '$recordId', category: 'Interest'})
     interestJSON;
