@@ -86,7 +86,14 @@ public class FlowEmailNotificationCtrl {
                     for (ProductProjectSettings__c ppc : matriceRecords) {
                         if ((ppc.RequiredFields__c != null && ppc.RequiredFields__c.contains(field)) ||
                         (ppc.NonRequiredFieldsFund__c != null && ppc.NonRequiredFieldsFund__c.contains(field))) {
-                            teamOwner.add(ppc.Team__c);
+                            // if ppc.Team__c == IS && projectProduct.IS__c!=null || ppc.Team__c == PS && projectProduct.PS__c!=null
+                            if((ppc.Team__c == 'IS' && projectProduct.IS__c!=null) || (ppc.Team__c == 'Product Strategy' && projectProduct.ProductStrategy__c!=null) || (ppc.Team__c != 'IS' && ppc.Team__c != 'Product Strategy'))
+                            {
+                                system.debug('ppc.Team__c : ' + ppc.Team__c);
+                                system.debug('projectProduct IS '+ projectProduct.IS__c);
+                                system.debug('projectProduct PS '+ projectProduct.ProductStrategy__c);
+                                teamOwner.add(ppc.Team__c);
+                            }
                         }
                     }
                 }
@@ -98,7 +105,10 @@ public class FlowEmailNotificationCtrl {
                     for (ProductProjectSettings__c ppc : matriceRecords) {
                         if ((ppc.RequiredFieldsShareClass__c != null && ppc.RequiredFieldsShareClass__c.contains(field)) ||
                         (ppc.NonRequiredFieldsShareClass__c != null && ppc.NonRequiredFieldsShareClass__c.contains(field))) {
-                            teamOwner.add(ppc.Team__c);
+                            if((ppc.Team__c == 'IS' && projectProduct.IS__c!=null) || (ppc.Team__c == 'Product Strategy' && projectProduct.ProductStrategy__c!=null) || (ppc.Team__c != 'IS' && ppc.Team__c != 'Product Strategy'))
+                            {
+                                teamOwner.add(ppc.Team__c);
+                            }
                         }
                     }
                 }
