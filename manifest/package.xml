@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">    
     <version>60.0</version>   
-    <types>
-    <members>prospaceAlerts</members>
-    <members>preferenceCenter</members>
-    <name>LightningComponentBundle</name>
-</types>
 
     <types>
-        <members>SM029_WebCommunication</members>
+        <members>FlowEmailNotificationCtrl</members>
         <name>ApexClass</name>
     </types>
     
