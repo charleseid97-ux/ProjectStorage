@@ -1,6 +1,10 @@
 @IsTest
 private class VFC16_SequantisGenerateDraftTest {
 
+    // === Constants to avoid duplicated literals ===
+    private static final String TOKEN_OK = 'TOKEN-OK';
+    private static final String SC_FIELDS_CURRENCY_TYPE = 'CurrencyIsoCode;Type__c';
+
     // === Record Type ids resolved exactly like your batch test ===
     private static final Id fundCreationRtId = Schema.SObjectType.ProjectProduct__c
         .getRecordTypeInfosByDeveloperName().get('FundCreation').getRecordTypeId();
@@ -80,7 +84,7 @@ private class VFC16_SequantisGenerateDraftTest {
         update pp;
 
         // 4) Create ONE shareclass via your factory (exactly like your batch tests)
-        ProjectShareclass__c sc = PMTTestFactoryData.createProjectShareclass(pp.Id, 'CurrencyIsoCode;Type__c');
+        ProjectShareclass__c sc = PMTTestFactoryData.createProjectShareclass(pp.Id, SC_FIELDS_CURRENCY_TYPE);
 
         return new DataBundle(pp, sc);
     }
@@ -95,7 +99,7 @@ private class VFC16_SequantisGenerateDraftTest {
         VFC16_SequantisGenerateDraft.selectedRecordId = d.sc.Id;
 
         Test.setMock(HttpCalloutMock.class,
-            new SequantisHttpMock(200, 'TOKEN-OK', 200, 'IGNORED', true));
+            new SequantisHttpMock(200, TOKEN_OK, 200, 'IGNORED', true));
 
         Test.startTest(); ctrl.genPDF(); Test.stopTest();
 
@@ -108,14 +112,14 @@ private class VFC16_SequantisGenerateDraftTest {
     static void test_updateAll_202_info_no_pdf() {
         DataBundle d = arrangeFundCreationData();
         // create a second SC to exercise "Update All" like real use
-        PMTTestFactoryData.createProjectShareclass(d.pp.Id, 'CurrencyIsoCode;Type__c');
+        PMTTestFactoryData.createProjectShareclass(d.pp.Id, SC_FIELDS_CURRENCY_TYPE);
 
         ApexPages.StandardController std = new ApexPages.StandardController(d.pp);
         VFC16_SequantisGenerateDraft ctrl = new VFC16_SequantisGenerateDraft(std);
         VFC16_SequantisGenerateDraft.selectedRecordId = 'updateAll';
 
         Test.setMock(HttpCalloutMock.class,
-            new SequantisHttpMock(200, 'TOKEN-OK', 202, 'Accepted', false));
+            new SequantisHttpMock(200, TOKEN_OK, 202, 'Accepted', false));
 
         Test.startTest(); ctrl.genPDF(); Test.stopTest();
 
@@ -137,14 +141,14 @@ private class VFC16_SequantisGenerateDraftTest {
         }
         update pp;
 
-        ProjectShareclass__c sc = PMTTestFactoryData.createProjectShareclass(pp.Id, 'CurrencyIsoCode;Type__c');
+        ProjectShareclass__c sc = PMTTestFactoryData.createProjectShareclass(pp.Id, SC_FIELDS_CURRENCY_TYPE);
 
         ApexPages.StandardController std = new ApexPages.StandardController(pp);
         VFC16_SequantisGenerateDraft ctrl = new VFC16_SequantisGenerateDraft(std);
         VFC16_SequantisGenerateDraft.selectedRecordId = sc.Id;
 
         Test.setMock(HttpCalloutMock.class,
-            new SequantisHttpMock(200, 'TOKEN-OK', 200, 'IGNORED', true));
+            new SequantisHttpMock(200, TOKEN_OK, 200, 'IGNORED', true));
 
         Test.startTest(); ctrl.genPDF(); Test.stopTest();
 
@@ -164,7 +168,7 @@ private class VFC16_SequantisGenerateDraftTest {
         VFC16_SequantisGenerateDraft.selectedRecordId = d.sc.Id;
 
         Test.setMock(HttpCalloutMock.class,
-            new SequantisHttpMock(200, 'TOKEN-OK', 500, 'Server error', false));
+            new SequantisHttpMock(200, TOKEN_OK, 500, 'Server error', false));
 
         try {
             Test.startTest(); ctrl.genPDF(); System.assert(false, 'Expected exception');
