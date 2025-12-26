@@ -32,22 +32,38 @@ private class VFC16_SequantisGenerateDraftTest {
         Integer tokenCode; String tokenBody;
         Integer projectCode; String projectBody;
         Boolean returnPdf;
+
         SequantisHttpMock(Integer tCode, String tBody, Integer pCode, String pBody, Boolean retPdf) {
-            tokenCode = tCode; tokenBody = tBody; projectCode = pCode; projectBody = pBody; returnPdf = retPdf;
+            tokenCode = tCode;
+            tokenBody = tBody;
+            projectCode = pCode;
+            projectBody = pBody;
+            returnPdf = retPdf;
         }
+
         public HTTPResponse respond(HTTPRequest req) {
             HttpResponse res = new HttpResponse();
             String ep = req.getEndpoint() == null ? '' : req.getEndpoint();
+
             if (ep.contains('callout:Sequantis/rest/authentication')) {
-                res.setStatusCode(tokenCode); res.setBody(tokenBody); return res;
-            }
-            if (ep.contains('callout:Sequantis/rest/CARMIGNAC_PROJECT')) {
-                res.setStatusCode(projectCode);
-                if (projectCode == 200 && returnPdf) res.setBodyAsBlob(Blob.valueOf('PDF-BYTES'));
-                else res.setBody(projectBody);
+                res.setStatusCode(tokenCode);
+                res.setBody(tokenBody);
                 return res;
             }
-            res.setStatusCode(404); res.setBody('Unknown endpoint: ' + ep); return res;
+
+            if (ep.contains('callout:Sequantis/rest/CARMIGNAC_PROJECT')) {
+                res.setStatusCode(projectCode);
+                if (projectCode == 200 && returnPdf) {
+                    res.setBodyAsBlob(Blob.valueOf('PDF-BYTES'));
+                } else {
+                    res.setBody(projectBody);
+                }
+                return res;
+            }
+
+            res.setStatusCode(404);
+            res.setBody('Unknown endpoint: ' + ep);
+            return res;
         }
     }
 
@@ -55,36 +71,35 @@ private class VFC16_SequantisGenerateDraftTest {
     private class DataBundle {
         ProjectProduct__c pp;
         ProjectShareclass__c sc;
-        DataBundle(ProjectProduct__c p, ProjectShareclass__c s) { pp = p; sc = s; }
+        DataBundle(ProjectProduct__c p, ProjectShareclass__c s) {
+            pp = p;
+            sc = s;
+        }
     }
 
-    // === Build data EXACTLY like Test_ProjectProductBatch, with a single safe addition:
-    // set Name to a 3-part value BEFORE the update to avoid your trigger split error,
-    // and add the 3 fields VFC16 requires.
+    // === Build data EXACTLY like Test_ProjectProductBatch ===
     private static DataBundle arrangeFundCreationData() {
-        // 1) Create the ProjectProduct via your factory (same as in your batch test)
         ProjectProduct__c pp = PMTTestFactoryData.createProjectProductWithAllFields(fundCreationRtId);
 
-        // 2) Do the SAME modifications your batch test does (EndDate), plus the MINIMAL safe additions:
         pp.EndDate__c = Date.today();
 
-        // ★ Minimal safe addition to prevent BeforeUpdate crash:
         if (Schema.sObjectType.ProjectProduct__c.fields.getMap().containsKey('Product_Name__c')) {
             pp.Name = 'PRD - ' + (pp.Name == null ? 'Fund' : pp.Name) + ' - EUR';
         }
-        // ★ Only the 3 fields your VFC16 controller requires
+
         pp.internalShortName__c = 'PP-INT';
         pp.RecommendedHoldingPeriod__c = 5;
+
         if (Schema.sObjectType.ProjectProduct__c.fields.getMap().containsKey('RecommendedHoldingPeriodUnit__c')) {
             pp.RecommendedHoldingPeriodUnit__c =
-                pickOneOf(ProjectProduct__c.RecommendedHoldingPeriodUnit__c, new List<String>{'Years','Year','Ans'});
+                pickOneOf(ProjectProduct__c.RecommendedHoldingPeriodUnit__c,
+                    new List<String>{ 'Years', 'Year', 'Ans' });
         }
 
-        // 3) Update (still the same step pattern as your batch test)
         update pp;
 
-        // 4) Create ONE shareclass via your factory (exactly like your batch tests)
-        ProjectShareclass__c sc = PMTTestFactoryData.createProjectShareclass(pp.Id, SC_FIELDS_CURRENCY_TYPE);
+        ProjectShareclass__c sc =
+            PMTTestFactoryData.createProjectShareclass(pp.Id, SC_FIELDS_CURRENCY_TYPE);
 
         return new DataBundle(pp, sc);
     }
@@ -101,17 +116,18 @@ private class VFC16_SequantisGenerateDraftTest {
         Test.setMock(HttpCalloutMock.class,
             new SequantisHttpMock(200, TOKEN_OK, 200, 'IGNORED', true));
 
-        Test.startTest(); ctrl.genPDF(); Test.stopTest();
+        Test.startTest();
+        ctrl.genPDF();
+        Test.stopTest();
 
-        System.assert(ctrl.showPDF, 'PDF should be available');
-        System.assertNotEquals(null, VFC16_SequantisGenerateDraft.pdf, 'Base64 PDF must be filled');
-        System.assertEquals(null, VFC16_SequantisGenerateDraft.errorMessage, 'No error expected');
+        System.assert(ctrl.showPDF);
+        System.assertNotEquals(null, VFC16_SequantisGenerateDraft.pdf);
+        System.assertEquals(null, VFC16_SequantisGenerateDraft.errorMessage);
     }
 
     @IsTest
     static void test_updateAll_202_info_no_pdf() {
         DataBundle d = arrangeFundCreationData();
-        // create a second SC to exercise "Update All" like real use
         PMTTestFactoryData.createProjectShareclass(d.pp.Id, SC_FIELDS_CURRENCY_TYPE);
 
         ApexPages.StandardController std = new ApexPages.StandardController(d.pp);
@@ -121,27 +137,29 @@ private class VFC16_SequantisGenerateDraftTest {
         Test.setMock(HttpCalloutMock.class,
             new SequantisHttpMock(200, TOKEN_OK, 202, 'Accepted', false));
 
-        Test.startTest(); ctrl.genPDF(); Test.stopTest();
+        Test.startTest();
+        ctrl.genPDF();
+        Test.stopTest();
 
-        System.assertEquals(false, ctrl.showPDF, 'No PDF in Update All mode');
-        System.assertEquals(true, String.isBlank(VFC16_SequantisGenerateDraft.errorMessage), 'No error if 202');
-        System.assertEquals(false, String.isBlank(VFC16_SequantisGenerateDraft.infoMessage), 'Info message expected');
+        System.assertEquals(false, ctrl.showPDF);
+        System.assert(String.isBlank(VFC16_SequantisGenerateDraft.errorMessage));
+        System.assert(!String.isBlank(VFC16_SequantisGenerateDraft.infoMessage));
     }
 
     @IsTest
     static void test_missing_required_fields_sets_error() {
-        // EXACT same pattern as your batch test: create via factory, set EndDate, update
-        ProjectProduct__c pp = PMTTestFactoryData.createProjectProductWithAllFields(fundCreationRtId);
+        ProjectProduct__c pp =
+            PMTTestFactoryData.createProjectProductWithAllFields(fundCreationRtId);
+
         pp.EndDate__c = Date.today();
 
-        // Keep the safe 3-part value ONLY to avoid your trigger crash on update,
-        // but intentionally do NOT set the 3 required fields so VFC16 reports the error.
         if (Schema.sObjectType.ProjectProduct__c.fields.getMap().containsKey('Product_Name__c')) {
             pp.Product_Name__c = 'PRD - Fund ABC - EUR';
         }
         update pp;
 
-        ProjectShareclass__c sc = PMTTestFactoryData.createProjectShareclass(pp.Id, SC_FIELDS_CURRENCY_TYPE);
+        ProjectShareclass__c sc =
+            PMTTestFactoryData.createProjectShareclass(pp.Id, SC_FIELDS_CURRENCY_TYPE);
 
         ApexPages.StandardController std = new ApexPages.StandardController(pp);
         VFC16_SequantisGenerateDraft ctrl = new VFC16_SequantisGenerateDraft(std);
@@ -150,13 +168,14 @@ private class VFC16_SequantisGenerateDraftTest {
         Test.setMock(HttpCalloutMock.class,
             new SequantisHttpMock(200, TOKEN_OK, 200, 'IGNORED', true));
 
-        Test.startTest(); ctrl.genPDF(); Test.stopTest();
+        Test.startTest();
+        ctrl.genPDF();
+        Test.stopTest();
 
-        System.assertEquals(false, ctrl.showPDF, 'No PDF when required PP fields missing');
+        System.assertEquals(false, ctrl.showPDF);
         System.assert(
             VFC16_SequantisGenerateDraft.errorMessage != null &&
-            VFC16_SequantisGenerateDraft.errorMessage.startsWith('<br/> generation failed'),
-            'Error message must start with "<br/> generation failed"'
+            VFC16_SequantisGenerateDraft.errorMessage.startsWith('<br/> generation failed')
         );
     }
 
@@ -171,10 +190,14 @@ private class VFC16_SequantisGenerateDraftTest {
             new SequantisHttpMock(200, TOKEN_OK, 500, 'Server error', false));
 
         try {
-            Test.startTest(); ctrl.genPDF(); System.assert(false, 'Expected exception');
+            Test.startTest();
+            ctrl.genPDF();
+            System.assert(false, 'Expected exception');
         } catch (CalloutException e) {
             System.assert(e.getMessage().contains('Erreur génération PDF (500)'));
-        } finally { Test.stopTest(); }
+        } finally {
+            Test.stopTest();
+        }
     }
 
     @IsTest
@@ -188,9 +211,13 @@ private class VFC16_SequantisGenerateDraftTest {
             new SequantisHttpMock(401, 'Bad creds', 200, 'IGNORED', true));
 
         try {
-            Test.startTest(); ctrl.genPDF(); System.assert(false, 'Expected token error');
+            Test.startTest();
+            ctrl.genPDF();
+            System.assert(false, 'Expected token error');
         } catch (CalloutException e) {
             System.assert(e.getMessage().contains('OAuth token request failed'));
-        } finally { Test.stopTest(); }
+        } finally {
+            Test.stopTest();
+        }
     }
 }
