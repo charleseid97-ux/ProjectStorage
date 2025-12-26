@@ -3,11 +3,7 @@
 # 1) SonarCloud (scoped to manifest/package.xml) runs on every commit / PR (any branch)
 # 2) Deployment stages run only on routed branches (uat / release / main)
 # 3) Hard gate: if New Code has >= 1 BLOCKER or CRITICAL issue -> pipeline fails (red X) and no deployment
-#
-# Branch routing (deploy):
-#  - uat      => Deploy_UAT
-#  - release  => Validate_PROD_DryRun
-#  - main     => Validate_PROD_DryRun
+# 4) Gate logs print the list of blocking issues (file:line + message)
 # -------------------------------------------------------------------
 
 trigger:
@@ -46,6 +42,7 @@ stages:
 # - Build sonar.inclusions from package.xml
 # - Run SonarCloud analysis
 # - Gate: fail pipeline if BLOCKER/CRITICAL found on New Code
+# - Prints details of blocking issues in logs
 # =========================
 - stage: SONAR
   displayName: 'SonarCloud + Gate (BLOCKER/CRITICAL)'
@@ -56,14 +53,13 @@ stages:
     - checkout: self
       fetchDepth: 0
 
-    # Tools used by scripts
     - script: |
         set -euo pipefail
         sudo apt-get update -y
         sudo apt-get install -y jq xmlstarlet curl
       displayName: 'Install jq + xmlstarlet + curl'
 
-    # 1) Build sonar.inclusions from manifest/package.xml (Apex, Triggers, VF, Aura, LWC)
+    # 1) Build sonar.inclusions from manifest/package.xml
     - bash: |
         set -euo pipefail
         set -x
@@ -73,7 +69,6 @@ stages:
 
         [[ -f "$MANIFEST" ]] || { echo "ERREUR: $MANIFEST introuvable"; exit 21; }
 
-        # helper: get members for a given metadata type
         members_of () {
           local t="$1"
           xmlstarlet sel -t \
@@ -87,7 +82,6 @@ stages:
         add_incl () { echo "$1" >> sonar-inclusions.txt; }
 
         add_folder_or_specific () {
-          # $1 = members list, $2 = folder, $3 = suffix pattern (optional)
           local members="$1"
           local folder="$2"
           local suffix="${3:-}"
@@ -155,17 +149,15 @@ stages:
           add_folder_or_specific "$AURA_BUNDLES" "$ROOT/aura"
         fi
 
-        # Cleanup + unique
         sort -u sonar-inclusions.txt -o sonar-inclusions.txt
         [[ -s sonar-inclusions.txt ]] || { echo "ERREUR: aucune inclusion Sonar générée depuis package.xml."; exit 22; }
 
-        # Convert to CSV for sonar.inclusions
         SONAR_INCLUSIONS="$(paste -sd, sonar-inclusions.txt)"
         echo "##vso[task.setvariable variable=SONAR_INCLUSIONS]$SONAR_INCLUSIONS"
       displayName: 'Build Sonar inclusions from package.xml'
       workingDirectory: $(workingDirectory)
 
-    # 2) SonarCloud Prepare (CLI mode) with dynamic sonar.inclusions
+    # 2) SonarCloud Prepare
     - task: SonarCloudPrepare@3
       displayName: 'Prepare SonarCloud analysis (package.xml-only)'
       env:
@@ -192,7 +184,7 @@ stages:
       inputs:
         jdkversion: 'JAVA_HOME_21_X64'
 
-    # 3) Gate: fail pipeline if New Code has any BLOCKER or CRITICAL issue
+    # 3) Gate: list blocking issues then fail pipeline
     - bash: |
         set -euo pipefail
 
@@ -217,6 +209,8 @@ stages:
         echo "Sonar branch : $BRANCH"
 
         API="https://sonarcloud.io/api/issues/search"
+
+        # Facets for counts
         RESP=$(curl -sS -u "${TOKEN}:" \
           --get "$API" \
           --data-urlencode "organization=$ORG" \
@@ -243,20 +237,39 @@ stages:
         echo ""
         echo "Blocking (BLOCKER+CRITICAL) on New Code: $BLOCKING"
 
+        # List blocking issues (file:line + message)
         if [[ "$BLOCKING" -gt 0 ]]; then
+          echo ""
+          echo "=== BLOCKING ISSUES (NEW CODE) ==="
+          DETAIL=$(curl -sS -u "${TOKEN}:" \
+            --get "$API" \
+            --data-urlencode "organization=$ORG" \
+            --data-urlencode "projects=$PROJECT" \
+            --data-urlencode "branch=$BRANCH" \
+            --data-urlencode "inNewCodePeriod=true" \
+            --data-urlencode "resolved=false" \
+            --data-urlencode "severities=BLOCKER,CRITICAL" \
+            --data-urlencode "s=SEVERITY" \
+            --data-urlencode "ps=100")
+
+          # Print one line per issue
+          echo "$DETAIL" | jq -r '
+            .issues[] |
+            "- [\(.severity)] \(.type) | \(.component):\(.line // "?") | \(.message)"
+          ' || true
+
+          echo ""
           echo "##vso[task.logissue type=error]Sonar Gate failed: $BLOCKING blocking issue(s) found (BLOCKER/CRITICAL). Deployment stopped."
           exit 42
         fi
 
         echo "Sonar Gate OK: no BLOCKER/CRITICAL on New Code."
-      displayName: 'Gate: stop deploy if BLOCKER/CRITICAL > 0'
+      displayName: 'Gate: stop deploy if BLOCKER/CRITICAL > 0 (print details)'
       env:
         SONAR_TOKEN: $(SONAR_TOKEN)
 
 # =========================
 # Stage 1 : UAT
-# - Triggers: push/PR to 'uat'
-# - Runs only if SONAR stage succeeded
 # =========================
 - stage: UAT
   displayName: 'UAT Stage'
@@ -429,8 +442,6 @@ stages:
 
 # ===========================================
 # Stage 2 : PROD - Validation (Dry Run only)
-# - Triggers: push/PR to 'main' or 'release'
-# - Runs only if SONAR stage succeeded
 # ===========================================
 - stage: PROD_Validate
   displayName: 'PROD Validation (Dry Run)'
