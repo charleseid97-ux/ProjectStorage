@@ -3,7 +3,11 @@
 # 1) SonarCloud (scoped to manifest/package.xml) runs on every commit / PR (any branch)
 # 2) Deployment stages run only on routed branches (uat / release / main)
 # 3) Hard gate: if New Code has >= 1 BLOCKER or CRITICAL issue -> pipeline fails (red X) and no deployment
-# 4) Gate logs print the list of blocking issues (file:line + message)
+#
+# Branch routing (deploy):
+#  - uat      => Deploy_UAT
+#  - release  => Validate_PROD_DryRun
+#  - main     => Validate_PROD_DryRun
 # -------------------------------------------------------------------
 
 trigger:
@@ -42,7 +46,6 @@ stages:
 # - Build sonar.inclusions from package.xml
 # - Run SonarCloud analysis
 # - Gate: fail pipeline if BLOCKER/CRITICAL found on New Code
-# - Prints details of blocking issues in logs
 # =========================
 - stage: SONAR
   displayName: 'SonarCloud + Gate (BLOCKER/CRITICAL)'
@@ -53,13 +56,14 @@ stages:
     - checkout: self
       fetchDepth: 0
 
+    # Tools used by scripts
     - script: |
         set -euo pipefail
         sudo apt-get update -y
         sudo apt-get install -y jq xmlstarlet curl
       displayName: 'Install jq + xmlstarlet + curl'
 
-    # 1) Build sonar.inclusions from manifest/package.xml
+    # 1) Build sonar.inclusions from manifest/package.xml (Apex, Triggers, VF, Aura, LWC)
     - bash: |
         set -euo pipefail
         set -x
@@ -69,6 +73,7 @@ stages:
 
         [[ -f "$MANIFEST" ]] || { echo "ERREUR: $MANIFEST introuvable"; exit 21; }
 
+        # helper: get members for a given metadata type
         members_of () {
           local t="$1"
           xmlstarlet sel -t \
@@ -82,6 +87,7 @@ stages:
         add_incl () { echo "$1" >> sonar-inclusions.txt; }
 
         add_folder_or_specific () {
+          # $1 = members list, $2 = folder, $3 = suffix pattern (optional)
           local members="$1"
           local folder="$2"
           local suffix="${3:-}"
@@ -149,15 +155,17 @@ stages:
           add_folder_or_specific "$AURA_BUNDLES" "$ROOT/aura"
         fi
 
+        # Cleanup + unique
         sort -u sonar-inclusions.txt -o sonar-inclusions.txt
         [[ -s sonar-inclusions.txt ]] || { echo "ERREUR: aucune inclusion Sonar générée depuis package.xml."; exit 22; }
 
+        # Convert to CSV for sonar.inclusions
         SONAR_INCLUSIONS="$(paste -sd, sonar-inclusions.txt)"
         echo "##vso[task.setvariable variable=SONAR_INCLUSIONS]$SONAR_INCLUSIONS"
       displayName: 'Build Sonar inclusions from package.xml'
       workingDirectory: $(workingDirectory)
 
-    # 2) SonarCloud Prepare
+    # 2) SonarCloud Prepare (CLI mode) with dynamic sonar.inclusions
     - task: SonarCloudPrepare@3
       displayName: 'Prepare SonarCloud analysis (package.xml-only)'
       env:
@@ -184,7 +192,7 @@ stages:
       inputs:
         jdkversion: 'JAVA_HOME_21_X64'
 
-    # 3) Gate: list blocking issues then fail pipeline
+    # 3) Gate: version B (target branch on PR) + debug like version A (print details)
     - bash: |
         set -euo pipefail
 
@@ -195,7 +203,7 @@ stages:
         [[ -n "${TOKEN:-}" ]] || { echo "ERREUR: SONAR_TOKEN vide"; exit 31; }
 
         # Branch detection:
-        # - PR build: use target branch
+        # - PR build: use target branch (version B)
         # - Branch build: use current branch name
         if [[ -n "${SYSTEM_PULLREQUEST_TARGETBRANCH:-}" ]]; then
           BRANCH="${SYSTEM_PULLREQUEST_TARGETBRANCH#refs/heads/}"
@@ -270,6 +278,8 @@ stages:
 
 # =========================
 # Stage 1 : UAT
+# - Triggers: push/PR to 'uat'
+# - Runs only if SONAR stage succeeded
 # =========================
 - stage: UAT
   displayName: 'UAT Stage'
@@ -442,6 +452,8 @@ stages:
 
 # ===========================================
 # Stage 2 : PROD - Validation (Dry Run only)
+# - Triggers: push/PR to 'main' or 'release'
+# - Runs only if SONAR stage succeeded
 # ===========================================
 - stage: PROD_Validate
   displayName: 'PROD Validation (Dry Run)'
