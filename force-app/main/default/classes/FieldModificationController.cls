@@ -4,6 +4,8 @@
 public without sharing class FieldModificationController {
     @AuraEnabled(cacheable=true)
     public static List<Map<String, String>> getFieldsToModify(String recordId, String objectApiName) {
+        system.debug('>>>>>>>>>>>>>>>>>>>>>>>>>>recordId: '+recordId);
+        system.debug('>>>>>>>>>>>>>>>>>>>>>>>>>>objectApiName: '+objectApiName);
         List<Map<String, String>> fieldList = new List<Map<String, String>>();
         Map<String, String> teamOwners = new Map<String, String>();
         Map<String, String> phases = new Map<String, String>();
@@ -16,15 +18,18 @@ public without sharing class FieldModificationController {
         Map<String, String> shareClassIds = new Map<String, String>();
 
         String parent ='ProjectProductParent__c';
+        Boolean isFund = false;
         if(objectApiName == 'Product__c'){
-            ProjectProduct__c pp = [SELECT TECH_FieldsToModify__c,Product__c FROM ProjectProduct__c WHERE id =:recordId LIMIT 1];
+            ProjectProduct__c pp = [SELECT TECH_FieldsToModify__c,Product__c,VehicleType__c FROM ProjectProduct__c WHERE id =:recordId LIMIT 1];
+            isFund = (pp.VehicleType__c == 'Funds');
+
             fieldString = pp.TECH_FieldsToModify__c;
             outputString = String.join(fieldString.split(';'), ',');
             String query = 'SELECT Id, ' + outputString + ' FROM Product__c WHERE Id =\''+pp.Product__c+'\'' ;
             productFromRef = Database.query(query);
         }else {
             Set<String> shIds = new Set<String>();        
-            for(ProjectChildJunction__c junc : [SELECT Id, ProjectShareclass__c, 
+            for(ProjectChildJunction__c junc : [SELECT Id, ProjectShareclass__c,  ProjectProductChild__r.VehicleType__c,
                                                     ProjectShareclass__r.name, 
                                                     ProjectShareclass__r.Share_Class_Name__c, 
                                                     ProjectShareclass__r.TECH_FieldsToModify__c,
@@ -33,6 +38,7 @@ public without sharing class FieldModificationController {
                                                     ProjectProductChild__r.Name
                                                     FROM ProjectChildJunction__c 
                                                     WHERE ProjectProductChild__r.ProjectProductParent__c =:recordId]){
+                isFund = (junc.ProjectProductChild__r.VehicleType__c == 'Funds');                                       
                 fieldString +=  junc.ProjectShareclass__r.TECH_FieldsToModify__c + ';' ;
                 shIds.add(junc.ProjectShareclass__r.Tech_ShareClass__c );
                 shareClassIds.put(junc.ProjectShareclass__c,junc.ProjectShareclass__r.Tech_ShareClass__c );
@@ -95,6 +101,21 @@ public without sharing class FieldModificationController {
                 }
             }
         }
+        // --- Override global : Fonds => PS remplace IS ---  US-17744   ----
+        system.debug('>>>>>>>>>>>>>>>>>>>>>>>>>>isFund before: '+isFund);
+        if (isFund) {
+            system.debug('>>>>>>>>>>>>>>>>>>>>>>>>>>isFund: '+isFund);
+            // On itère sur une copie des clés (évite toute surprise si la map évolue)
+            for (String fieldApi : new List<String>(teamOwners.keySet())) {
+                String owner = teamOwners.get(fieldApi);
+                system.debug('>>>>>>>>>>>>>>>>>>>>>>>>>>fieldApi: '+fieldApi+' | owner: '+owner);
+                if (owner != null && owner.trim().equalsIgnoreCase('IS')) {
+                    teamOwners.put(fieldApi, 'Product Strategy');
+                }
+            }
+        }
+        // --------------------------------------------------
+
         
         String query = 'SELECT Id,TECH_Childtype__c,TECH_TeamValidation__c, ' + outputString + ' FROM  '+childObjectName+'  WHERE '+parent+' =\''+recordId+'\'' ;
         Map<String, String> stageToChildRecord = new Map<String, String>();

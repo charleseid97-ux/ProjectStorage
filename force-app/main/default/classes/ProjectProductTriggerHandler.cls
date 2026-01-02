@@ -2,8 +2,9 @@ public class ProjectProductTriggerHandler {
     public static Boolean isBlankingFields = false;
 
     public static void handleBeforeInsert(List<ProjectProduct__c> newProjectProduct) {
-        new ProjectProductSetupHandler().getOwnersTeam(newProjectProduct);
         ProjectProductSetupHandler.cloneFund(newProjectProduct);
+        new ProjectProductSetupHandler().getOwnersTeam(newProjectProduct);
+        
     }
     
     public static void handleBeforeUpdate(Map<Id, ProjectProduct__c> newProjectProduct, Map<Id, ProjectProduct__c> oldProjectProduct) {
@@ -39,7 +40,7 @@ public class ProjectProductTriggerHandler {
         if(!recalNbOfFields.isEmpty()){
             ProjectProductSetupHandler.nbOfFieldsGoal(recalNbOfFields);
             isBlankingFields = true;
-            ProjectProductSetupHandlerUtilities.validateSteps(recalNbOfFields , oldProjectProduct);
+            ProjectProductSetupHandlerUtilities.validateSteps(recalNbOfFields , oldProjectProduct);            
             ProjectProductSetupHandlerUtilities.emptyFields(recalNbOfFields , oldProjectProduct);
             isBlankingFields = false;
         }
