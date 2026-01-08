@@ -69,22 +69,30 @@ public class MilestoneHandler {
             for(String field : fieldsToModifyProduct.split(';')) {
                 for(ProductProjectSettings__c ppc : matriceRecords) {
                     if((ppc.RequiredFields__c != null && ppc.RequiredFields__c.contains(field)) || (ppc.NonRequiredFieldsFund__c != null && ppc.NonRequiredFieldsFund__c.contains(field))){
+                        system.debug('field : '+field + ' team : '+ ppc.Team__c);
                         if(!teamOwner.containsKey(ppc.Team__c)){
                             teamOwner.put(ppc.Team__c,ppc.TeamOwner__c);
-                            break;
+                            
                         }
+                        break;
                     }
                 }
             }
-            for(String field : fieldsToModifySC.split(';')) {
-                for(ProductProjectSettings__c ppc : matriceRecords) {
-                    if((ppc.RequiredFieldsShareClass__c != null && ppc.RequiredFieldsShareClass__c.contains(field)) || (ppc.NonRequiredFieldsShareClass__c != null && ppc.NonRequiredFieldsShareClass__c.contains(field))){
-                        if(!teamOwner.containsKey(ppc.Team__c)){
-                            teamOwner.put(ppc.Team__c,ppc.TeamOwner__c);
-                            break;
+            if(!String.isEmpty(fieldsToModifySC)){
+                for(String field : fieldsToModifySC.split(';')) {
+                         system.debug('field');
+                        for(ProductProjectSettings__c ppc : matriceRecords) {
+                            if((ppc.RequiredFieldsShareClass__c != null && ppc.RequiredFieldsShareClass__c.contains(field)) || (ppc.NonRequiredFieldsShareClass__c != null && ppc.NonRequiredFieldsShareClass__c.contains(field))){
+                                system.debug('field : '+field + ' team : '+ ppc.Team__c);
+                                if(!teamOwner.containsKey(ppc.Team__c)){
+                                    teamOwner.put(ppc.Team__c,ppc.TeamOwner__c);
+                                    break;
+                                }
+                            }
                         }
-                    }
+                    
                 }
+            
             }
             system.debug('fieldsToModifyProduct: ' + fieldsToModifyProduct);
             system.debug('fieldsToModifySC: ' + fieldsToModifySC);

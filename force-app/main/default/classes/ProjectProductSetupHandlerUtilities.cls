@@ -126,20 +126,11 @@ public class ProjectProductSetupHandlerUtilities {
             Id parentId = child.ProjectProductParent__c;
     
             if (String.isNotBlank(junction.ProjectShareclass__r.TECH_FieldsToModify__c)) {
-                //fieldsToModify.addAll(junction.ProjectShareclass__r.TECH_FieldsToModify__c.split(';'));
+                fieldsToModify.addAll(junction.ProjectShareclass__r.TECH_FieldsToModify__c.split(';'));
             }
-            String newVal = newProjectProduct.get(parentId)?.TECH_FieldsToModify__c;
-            String oldVal = oldProjectProduct.get(parentId)?.TECH_FieldsToModify__c;
-    
-            Set<String> newSet = splitToSet(newVal);
-            Set<String> oldSet = splitToSet(oldVal);
-
-            // Champs ajoutés
-            Set<String> added = new Set<String>(newSet);
-            added.removeAll(oldSet);
-            if (added.isEmpty()) return;
+       
             if (String.isNotBlank(newProjectProduct.get(parentId)?.TECH_FieldsToModify__c)) {
-                fieldsToModify.addAll(added);
+                fieldsToModify.addAll(newProjectProduct.get(parentId).TECH_FieldsToModify__c.split(';'));
             }
             Set<String> remainingTeams = new Set<String>(allTeams);
             System.debug('fieldsToModify=>' + fieldsToModify);
