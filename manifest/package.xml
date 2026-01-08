@@ -1,27 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">    
     <version>60.0</version>   
+
     <types>
-        <members>VFP16_SequantisDraftProjectShareClass	</members>
-        <name>ApexPage</name>
-    </types>
-    <types>
-        <members>VFC16_SequantisGenerateDraft</members>
-        <members>VFC16_SequantisGenerateDraftTest</members>
+        <members>ProjectProductBatchController</members>
         <name>ApexClass</name>
     </types>
-    <!-- retrieve quick action metadata -->
-    <types>
-        <members>ProjectProduct__c.Generate_Draft_KID</members>
-        <name>QuickAction</name>
-    </types>
-    <types>
-        <members>ProjectProduct__c.DefaultLanguage__c</members>
-        <name>customfield</name>
-    </types>
-    <types>
-        <members>seqlgn</members>
-        <members>seqpwd</members>
-        <name>customlabel</name>
-    </types>
+
 </Package>
