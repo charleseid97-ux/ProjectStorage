@@ -322,7 +322,7 @@ public with sharing class WS_WTPSendFileToWordclass {
                 'french'     => 'fr',
                 'german'     => 'de',
                 'italian'    => 'it',
-                'portuguese' => 'pt',  
+                'portuguese' => 'pt_pt',  
                 'spanish'    => 'es',
                 'swedish'    => 'sv',
                 'finnish'    => 'fi'
