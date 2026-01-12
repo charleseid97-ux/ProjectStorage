@@ -3,12 +3,8 @@
     <version>60.0</version>   
 
     <types>
-        <members>FieldModificationController</members>
-        <members>ProjectProductSetupHandlerUtilities</members>
-        <members>ProjectProductTriggerHandler</members>
-        <members>ProjectShareclassHandler</members>
-        <members>MilestoneHandler</members>
+        <members>ProjectProductBatchController</members>
         <name>ApexClass</name>
     </types>
-    
+
 </Package>
