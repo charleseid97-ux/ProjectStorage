@@ -128,6 +128,7 @@ public class ProjectShareclassHandler {
                    ProjectProductChild__r.ProjectProductParent__r.TECH_FieldsToModify__c,
                    ProjectProductChild__r.TECH_TeamValidation__c,
                    ProjectProductChild__r.TECH_Childtype__c,
+                   ProjectProductChild__r.VehicleType__c,
                    ProjectProductChild__r.Name
             FROM ProjectChildJunction__c
             WHERE ProjectShareclass__c IN :modifiedShareClassIds
@@ -138,11 +139,22 @@ public class ProjectShareclassHandler {
             List<String> allTeams = new List<String>(child.TECH_TeamValidation__c.split(';'));
 
             Set<String> fields = new Set<String>();
-            String shareClassFields = newMap.get(junction.ProjectShareclass__c)?.TECH_FieldsToModify__c;
-            String fundFields = junction.ProjectProductChild__r.ProjectProductParent__r?.TECH_FieldsToModify__c;
+            //String shareClassFields = newMap.get(junction.ProjectShareclass__c)?.TECH_FieldsToModify__c;
+            //String fundFields = junction.ProjectProductChild__r.ProjectProductParent__r?.TECH_FieldsToModify__c;
     
-            if (String.isNotBlank(shareClassFields)) fields.addAll(shareClassFields.split(';'));
-            if (String.isNotBlank(fundFields)) fields.addAll(fundFields.split(';'));
+            String newVal = newMap.get(junction.ProjectShareclass__c)?.TECH_FieldsToModify__c;
+            String oldVal = oldMap.get(junction.ProjectShareclass__c)?.TECH_FieldsToModify__c;
+    
+            Set<String> newSet = splitToSet(newVal);
+            Set<String> oldSet = splitToSet(oldVal);
+
+            // Champs ajoutés
+            Set<String> added = new Set<String>(newSet);
+            added.removeAll(oldSet);
+            if (added.isEmpty()) return;
+
+            fields.addAll(added);
+            //if (String.isNotBlank(fundFields)) fields.addAll(fundFields.split(';'));
     
             Set<String> remainingTeams = new Set<String>(allTeams);
     
@@ -154,6 +166,11 @@ public class ProjectShareclassHandler {
                     String team = teamFields.get(field);
                     if (team != null) {
                         remainingTeams.remove(team.replaceAll(' ', ''));
+                        if(junction.ProjectProductChild__r.VehicleType__c == 'Funds' && team.trim().equalsIgnoreCase('IS')){
+                            remainingTeams.remove('ProductStrategy');
+                        }else{
+                            remainingTeams.remove(team.replaceAll(' ', ''));
+                        }
                     }
                 }
             }
@@ -167,6 +184,16 @@ public class ProjectShareclassHandler {
         }
     }
 
+    private static Set<String> splitToSet(String s) {
+        Set<String> out = new Set<String>();
+        if (String.isBlank(s)) return out;
+
+        for (String token : s.split(';')) {
+            token = token != null ? token.trim() : null;
+            if (String.isNotBlank(token)) out.add(token);
+        }
+        return out;
+    }
 
     public static void emptyFields(Map<Id, ProjectShareclass__c> newMap, Map<Id, ProjectShareclass__c> oldMap) {
         Set<Id> changedIds = new Set<Id>();
