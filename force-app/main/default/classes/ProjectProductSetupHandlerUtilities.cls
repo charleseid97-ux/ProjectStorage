@@ -83,7 +83,7 @@ public class ProjectProductSetupHandlerUtilities {
     
     public static void validateSteps(Map<Id, ProjectProduct__c> newProjectProduct, Map<Id, ProjectProduct__c> oldProjectProduct) {
         Set<Id> changedProjectIds = new Set<Id>();
-    
+        system.debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Start validateSteps');
         for (Id id : newProjectProduct.keySet()) {
             System.debug('validateSteps.TECH_FieldsToModify__c => ' + newProjectProduct.get(id).TECH_FieldsToModify__c);
             System.debug('validateSteps.TECH_FieldsToModify__c => ' + oldProjectProduct.get(id)?.TECH_FieldsToModify__c);
@@ -109,6 +109,7 @@ public class ProjectProductSetupHandlerUtilities {
 
         for (ProjectChildJunction__c junction : [
             SELECT ProjectProductChild__r.Id,
+                    ProjectProductChild__r.VehicleType__c,
                    ProjectProductChild__r.ProjectProductParent__c,
                    ProjectProductChild__r.TECH_TeamValidation__c,
                    ProjectProductChild__r.TECH_Childtype__c,
@@ -127,7 +128,7 @@ public class ProjectProductSetupHandlerUtilities {
             if (String.isNotBlank(junction.ProjectShareclass__r.TECH_FieldsToModify__c)) {
                 fieldsToModify.addAll(junction.ProjectShareclass__r.TECH_FieldsToModify__c.split(';'));
             }
-    
+       
             if (String.isNotBlank(newProjectProduct.get(parentId)?.TECH_FieldsToModify__c)) {
                 fieldsToModify.addAll(newProjectProduct.get(parentId).TECH_FieldsToModify__c.split(';'));
             }
@@ -143,7 +144,15 @@ public class ProjectProductSetupHandlerUtilities {
                 if (child.TECH_Childtype__c == stage) {
                     String team = teamFields.get(field);
                     if (team != null) {
-                        remainingTeams.remove(team.replaceAll(' ', ''));
+                        //remainingTeams.remove(team.replaceAll(' ', ''));
+                        
+                        System.debug('field=>' + field + ' team=>' + team );
+                        if(junction.ProjectProductChild__r.VehicleType__c == 'Funds' && team.trim().equalsIgnoreCase('IS')){
+                            remainingTeams.remove('ProductStrategy');
+                        }else{
+                            remainingTeams.remove(team.replaceAll(' ', ''));
+                        }
+                        
                     }
                 }
             }
@@ -157,6 +166,18 @@ public class ProjectProductSetupHandlerUtilities {
         if (!updates.isEmpty()) {
             update updates.values();
         }
+        system.debug('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> END validateSteps');
+    }
+
+    private static Set<String> splitToSet(String s) {
+        Set<String> out = new Set<String>();
+        if (String.isBlank(s)) return out;
+
+        for (String token : s.split(';')) {
+            token = token != null ? token.trim() : null;
+            if (String.isNotBlank(token)) out.add(token);
+        }
+        return out;
     }
 
     public static void emptyFields(Map<Id, ProjectProduct__c> newProjectProduct, Map<Id, ProjectProduct__c> oldProjectProduct) {
