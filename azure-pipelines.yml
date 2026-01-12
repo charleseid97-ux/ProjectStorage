@@ -1,44 +1,264 @@
-# -------------------------------------------------------------------
-# Salesforce CI/CD - UAT Deploy (NoTestRun) + PROD Validation (Dry Run)
-# Branch routing :
-#  - uat      => Deploy_UAT
-#  - release  => Validate_PROD_DryRun
-#  - main     => Validate_PROD_DryRun
-# -------------------------------------------------------------------
-
 trigger:
   branches:
     include:
-      - uat
-      - release
-      - main
-
+      - '*'
 
 pr:
   branches:
     include:
-      - uat
-      - release
-      - main
+      - '*'
 
 pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  # ajuste le niveau de tests pour la validation PROD
+  # Ajuste le niveau de tests pour la validation PROD
   TEST_LEVEL_PROD: 'RunLocalTests' # ou 'RunAllTestsInOrg'
+
+  # -----------------
+  # SonarCloud
+  # -----------------
+  workingDirectory: '$(Build.SourcesDirectory)'
+  SONAR_ORG: 'sonarcloudtools'
+  SONAR_PROJECT_KEY: 'DBS.SalesForce'
+  SONAR_PROJECT_NAME: 'DBS.SalesForce'
+
+  # Salesforce paths (Sonar inclusions via package.xml)
+  MANIFEST_PATH: 'manifest/package.xml'
+  SFDX_ROOT: 'force-app/main/default'
 
 stages:
 
 # =========================
-# Stage 1 : UAT 
+# Stage 0 : SONAR (Always)
+# - Build sonar.inclusions from package.xml
+# - Run SonarCloud analysis
+# - Gate: fail pipeline if BLOCKER/CRITICAL found on New Code
+# - Prints details of blocking issues in logs
+# =========================
+- stage: SONAR
+  displayName: 'SonarCloud + Gate (BLOCKER/CRITICAL)'
+  jobs:
+  - job: Sonar
+    displayName: 'Sonar analysis + blocking gate'
+    steps:
+    - checkout: self
+      fetchDepth: 0
+
+    - script: |
+        set -euo pipefail
+        sudo apt-get update -y
+        sudo apt-get install -y jq xmlstarlet curl
+      displayName: 'Install jq + xmlstarlet + curl'
+
+    - bash: |
+        set -euo pipefail
+        set -x
+
+        MANIFEST="$(MANIFEST_PATH)"
+        ROOT="$(SFDX_ROOT)"
+
+        [[ -f "$MANIFEST" ]] || { echo "ERREUR: $MANIFEST introuvable"; exit 21; }
+
+        members_of () {
+          local t="$1"
+          xmlstarlet sel -t \
+            -m "//*[local-name()='types'][./*[local-name()='name']='$t']/*[local-name()='members']" \
+            -v "normalize-space(.)" -n "$MANIFEST" 2>/dev/null | sed '/^$/d' || true
+        }
+
+        rm -f sonar-inclusions.txt
+        touch sonar-inclusions.txt
+
+        add_incl () { echo "$1" >> sonar-inclusions.txt; }
+
+        add_folder_or_specific () {
+          local members="$1"
+          local folder="$2"
+          local suffix="${3:-}"
+          local has_all=0
+
+          while IFS= read -r m; do
+            [[ -z "$m" ]] && continue
+            if [[ "$m" == "*" ]]; then
+              has_all=1
+            else
+              if [[ -n "$suffix" ]]; then
+                add_incl "$folder/$m$suffix"
+              else
+                add_incl "$folder/$m/**"
+              fi
+            fi
+          done <<< "$members"
+
+          if [[ $has_all -eq 1 ]]; then
+            if [[ -n "$suffix" ]]; then
+              add_incl "$folder/**$suffix"
+            else
+              add_incl "$folder/**"
+            fi
+          fi
+        }
+
+        APEX_CLASSES="$(members_of ApexClass)"
+        if [[ -n "$APEX_CLASSES" ]]; then
+          add_folder_or_specific "$APEX_CLASSES" "$ROOT/classes" ".cls"
+          add_folder_or_specific "$APEX_CLASSES" "$ROOT/classes" ".cls-meta.xml"
+        fi
+
+        APEX_TRIGGERS="$(members_of ApexTrigger)"
+        if [[ -n "$APEX_TRIGGERS" ]]; then
+          add_folder_or_specific "$APEX_TRIGGERS" "$ROOT/triggers" ".trigger"
+          add_folder_or_specific "$APEX_TRIGGERS" "$ROOT/triggers" ".trigger-meta.xml"
+        fi
+
+        VF_PAGES="$(members_of ApexPage)"
+        if [[ -n "$VF_PAGES" ]]; then
+          add_folder_or_specific "$VF_PAGES" "$ROOT/pages" ".page"
+          add_folder_or_specific "$VF_PAGES" "$ROOT/pages" ".page-meta.xml"
+        fi
+
+        VF_CMPS="$(members_of ApexComponent)"
+        if [[ -n "$VF_CMPS" ]]; then
+          add_folder_or_specific "$VF_CMPS" "$ROOT/components" ".component"
+          add_folder_or_specific "$VF_CMPS" "$ROOT/components" ".component-meta.xml"
+        fi
+
+        LWC_BUNDLES="$(members_of LightningComponentBundle)"
+        if [[ -n "$LWC_BUNDLES" ]]; then
+          add_folder_or_specific "$LWC_BUNDLES" "$ROOT/lwc"
+        fi
+
+        AURA_BUNDLES="$(members_of AuraDefinitionBundle)"
+        if [[ -n "$AURA_BUNDLES" ]]; then
+          add_folder_or_specific "$AURA_BUNDLES" "$ROOT/aura"
+        fi
+
+        sort -u sonar-inclusions.txt -o sonar-inclusions.txt
+        [[ -s sonar-inclusions.txt ]] || { echo "ERREUR: aucune inclusion Sonar générée depuis package.xml."; exit 22; }
+
+        SONAR_INCLUSIONS="$(paste -sd, sonar-inclusions.txt)"
+        echo "##vso[task.setvariable variable=SONAR_INCLUSIONS]$SONAR_INCLUSIONS"
+      displayName: 'Build Sonar inclusions from package.xml'
+      workingDirectory: $(workingDirectory)
+
+    - task: SonarCloudPrepare@3
+      displayName: 'Prepare SonarCloud analysis (package.xml-only)'
+      env:
+        SONAR_TOKEN: $(SONAR_TOKEN)
+      inputs:
+        SonarCloud: 'SF-SonarCloud'
+        organization: '$(SONAR_ORG)'
+        scannerMode: 'cli'
+        configMode: 'manual'
+        cliProjectKey: '$(SONAR_PROJECT_KEY)'
+        cliProjectName: '$(SONAR_PROJECT_NAME)'
+        sonarToken: '$(SONAR_TOKEN)'
+        cliSources: '.'
+        extraProperties: |
+          sonar.inclusions=$(SONAR_INCLUSIONS)
+          sonar.scanner.skipJreProvisioning=true
+          sonar.sourceEncoding=UTF-8
+          sonar.exclusions=**/.git/**,**/node_modules/**,**/bin/**,**/obj/**
+
+    - task: SonarCloudAnalyze@3
+      displayName: 'Run SonarCloud analysis'
+      env:
+        SONAR_TOKEN: $(SONAR_TOKEN)
+      inputs:
+        jdkversion: 'JAVA_HOME_21_X64'
+
+    - bash: |
+        set -euo pipefail
+
+        ORG="$(SONAR_ORG)"
+        PROJECT="$(SONAR_PROJECT_KEY)"
+        TOKEN="$(SONAR_TOKEN)"
+
+        [[ -n "${TOKEN:-}" ]] || { echo "ERREUR: SONAR_TOKEN vide"; exit 31; }
+
+        if [[ -n "${SYSTEM_PULLREQUEST_TARGETBRANCH:-}" ]]; then
+          BRANCH="${SYSTEM_PULLREQUEST_TARGETBRANCH#refs/heads/}"
+          CONTEXT="PR target branch"
+        else
+          BRANCH="${BUILD_SOURCEBRANCHNAME}"
+          CONTEXT="branch build"
+        fi
+
+        echo "Sonar context: $CONTEXT"
+        echo "Sonar branch : $BRANCH"
+
+        API="https://sonarcloud.io/api/issues/search"
+
+        RESP=$(curl -sS -u "${TOKEN}:" \
+          --get "$API" \
+          --data-urlencode "organization=$ORG" \
+          --data-urlencode "projects=$PROJECT" \
+          --data-urlencode "branch=$BRANCH" \
+          --data-urlencode "inNewCodePeriod=true" \
+          --data-urlencode "resolved=false" \
+          --data-urlencode "facets=types,severities" \
+          --data-urlencode "ps=1")
+
+        echo ""
+        echo "=== NEW CODE - ALERTS PAR TYPE ==="
+        echo "$RESP" | jq -r '(.facets[] | select(.property=="types") | .values[] | "\(.val): \(.count)")' || true
+
+        echo ""
+        echo "=== NEW CODE - ALERTS PAR SEVERITE ==="
+        echo "$RESP" | jq -r '(.facets[] | select(.property=="severities") | .values[] | "\(.val): \(.count)")' || true
+
+        BLOCKING=$(echo "$RESP" | jq '
+          (.facets[] | select(.property=="severities") | .values
+            | map(select(.val=="BLOCKER" or .val=="CRITICAL") | .count)
+            | add) // 0')
+
+        echo ""
+        echo "Blocking (BLOCKER+CRITICAL) on New Code: $BLOCKING"
+
+        if [[ "$BLOCKING" -gt 0 ]]; then
+          echo ""
+          echo "=== BLOCKING ISSUES (NEW CODE) ==="
+
+          DETAIL=$(curl -sS -u "${TOKEN}:" \
+            --get "$API" \
+            --data-urlencode "organization=$ORG" \
+            --data-urlencode "projects=$PROJECT" \
+            --data-urlencode "branch=$BRANCH" \
+            --data-urlencode "inNewCodePeriod=true" \
+            --data-urlencode "resolved=false" \
+            --data-urlencode "severities=BLOCKER,CRITICAL" \
+            --data-urlencode "s=SEVERITY" \
+            --data-urlencode "ps=100")
+
+          echo "$DETAIL" | jq -r '
+            .issues[] |
+            "- [\(.severity)] \(.type) | \(.component):\(.line // "?") | \(.message)"
+          ' || true
+
+          echo ""
+          echo "##vso[task.logissue type=error]Sonar Gate failed: $BLOCKING blocking issue(s) found (BLOCKER/CRITICAL). Deployment stopped."
+          exit 42
+        fi
+
+        echo "Sonar Gate OK: no BLOCKER/CRITICAL on New Code."
+      displayName: 'Gate: stop deploy if BLOCKER/CRITICAL > 0 (print details)'
+      env:
+        SONAR_TOKEN: $(SONAR_TOKEN)
+
+# =========================
+# Stage 1 : UAT
 # =========================
 - stage: UAT
   displayName: 'UAT Stage'
+  dependsOn: SONAR
   condition: |
-    or(
-      eq(variables['Build.SourceBranch'], 'refs/heads/uat'),
-      eq(variables['System.PullRequest.TargetBranch'], 'refs/heads/uat')
+    and(
+      succeeded('SONAR'),
+      or(
+        eq(variables['Build.SourceBranch'], 'refs/heads/uat'),
+        eq(variables['System.PullRequest.TargetBranch'], 'refs/heads/uat')
+      )
     )
   jobs:
     - deployment: Deploy_UAT
@@ -50,13 +270,11 @@ stages:
             steps:
               - checkout: self
 
-              # 1) Secure file: JWT key (UAT)
               - task: DownloadSecureFile@1
                 name: sfdxJwtKeyUat
                 inputs:
                   secureFile: 'SF_UAT_key.pem'
 
-              # 2) Node + Salesforce CLI
               - task: NodeTool@0
                 displayName: 'Install Node.js'
                 inputs:
@@ -68,13 +286,11 @@ stages:
                   sf plugins --core
                 displayName: 'Install Salesforce CLI'
 
-              # 3) jq + xmlstarlet
               - script: |
                   sudo apt-get update -y
                   sudo apt-get install -y jq xmlstarlet
                 displayName: 'Install jq + xmlstarlet'
 
-              # 4) Auth Salesforce (UAT)
               - script: |
                   set -euo pipefail
                   set -x
@@ -99,7 +315,6 @@ stages:
                   SFDX_USERNAME: $(SFDX_USERNAME)
                   SF_ORG_INSTANCE_URL: $(SF_ORG_INSTANCE_URL)
 
-              # 5) Conversion vers MDAPI
               - script: |
                   set -euo pipefail
                   set -x
@@ -132,7 +347,6 @@ stages:
                   fi
                 displayName: 'Convert to MDAPI (manifest-first with fallback)'
 
-              # 6) DEBUG : package.xml
               - script: |
                   set -euo pipefail
                   source use_dir.env
@@ -154,7 +368,6 @@ stages:
                     "$MANIFEST_PATH" || echo "(info) Aucun membre trouvé"
                 displayName: 'DEBUG: Liste du package.xml'
 
-              # 7) Déploiement UAT
               - script: |
                   set -euo pipefail
                   set -x
@@ -179,7 +392,6 @@ stages:
                   exit ${SF_EXIT:-0}
                 displayName: 'Deploy to UAT (NoTestRun)'
 
-              # 8) Publish minimal logs
               - script: |
                   set -euo pipefail
                   mkdir -p run-logs
@@ -200,20 +412,22 @@ stages:
 
 # ===========================================
 # Stage 2 : PROD - Validation (Dry Run only)
-# Triggers: push/PR to 'main' or 'release'
 # ===========================================
 - stage: PROD_Validate
   displayName: 'PROD Validation (Dry Run)'
-  dependsOn: []
+  dependsOn: SONAR
   condition: |
-    or(
+    and(
+      succeeded('SONAR'),
       or(
-        eq(variables['Build.SourceBranch'], 'refs/heads/main'),
-        eq(variables['Build.SourceBranch'], 'refs/heads/release')
-      ),
-      or(
-        eq(variables['System.PullRequest.TargetBranch'], 'refs/heads/main'),
-        eq(variables['System.PullRequest.TargetBranch'], 'refs/heads/release')
+        or(
+          eq(variables['Build.SourceBranch'], 'refs/heads/main'),
+          eq(variables['Build.SourceBranch'], 'refs/heads/release')
+        ),
+        or(
+          eq(variables['System.PullRequest.TargetBranch'], 'refs/heads/main'),
+          eq(variables['System.PullRequest.TargetBranch'], 'refs/heads/release')
+        )
       )
     )
   jobs:
@@ -226,13 +440,11 @@ stages:
             steps:
               - checkout: self
 
-              # 1) Secure file: JWT key (PROD)
               - task: DownloadSecureFile@1
                 name: sfdxJwtKeyProd
                 inputs:
                   secureFile: 'SF_PRD_key.pem'
 
-              # 2) Node + Salesforce CLI
               - task: NodeTool@0
                 displayName: 'Install Node.js'
                 inputs:
@@ -244,13 +456,11 @@ stages:
                   sf plugins --core
                 displayName: 'Install Salesforce CLI'
 
-              # 3) jq + xmlstarlet
               - script: |
                   sudo apt-get update -y
                   sudo apt-get install -y jq xmlstarlet
                 displayName: 'Install jq + xmlstarlet'
 
-              # 4) Auth Salesforce (PROD)
               - script: |
                   set -euo pipefail
                   set -x
@@ -275,7 +485,6 @@ stages:
                   SFDX_USERNAME_PRD: $(SFDX_USERNAME_PRD)
                   SF_ORG_INSTANCE_URL_PRD: $(SF_ORG_INSTANCE_URL_PRD)
 
-              # 5) Conversion vers MDAPI (réutilise la même logique)
               - script: |
                   set -euo pipefail
                   set -x
@@ -308,7 +517,6 @@ stages:
                   fi
                 displayName: 'Convert to MDAPI (manifest-first with fallback)'
 
-              # 6) DEBUG : package.xml
               - script: |
                   set -euo pipefail
                   source use_dir.env
@@ -330,13 +538,11 @@ stages:
                     "$MANIFEST_PATH" || echo "(info) Aucun membre trouvé"
                 displayName: 'DEBUG: Liste du package.xml'
 
-              # 7) Validation PROD (dry run)
               - script: |
                   set -euo pipefail
                   set -x
                   source use_dir.env
 
-                  # TEST_LEVEL_PROD = RunLocalTests ou RunAllTestsInOrg
                   sf project deploy start \
                     --metadata-dir "$USE_DIR" \
                     ${USE_MANIFEST} \
@@ -357,7 +563,6 @@ stages:
                   exit ${SF_EXIT:-0}
                 displayName: 'Validate on PROD (checkonly)'
 
-              # 8) Publish minimal logs
               - script: |
                   set -euo pipefail
                   mkdir -p run-logs
@@ -375,19 +580,21 @@ stages:
                   PathtoPublish: 'run-logs'
                   ArtifactName: 'sf-logs-prod-validate'
                   publishLocation: 'Container'
+
 # ===========================================
 # Stage 3 : UAT Nightly Validation (Scheduled, tests executed)
 # ===========================================
 - stage: UAT_Validate_Nightly
   displayName: 'UAT Nightly Validation (Run Tests)'
-  dependsOn: []
+  dependsOn: SONAR
   condition: |
     and(
+      succeeded('SONAR'),
       eq(variables['Build.Reason'], 'Schedule'),
       eq(variables['Build.SourceBranch'], 'refs/heads/uat')
     )
   variables:
-    TEST_LEVEL_UAT_NIGHTLY: 'RunAllTestsInOrg'  # or 'RunLocalTests' if preferred
+    TEST_LEVEL_UAT_NIGHTLY: 'RunAllTestsInOrg'
   jobs:
     - deployment: Validate_UAT_DryRun
       displayName: 'Validate on Salesforce UAT (no deploy, run tests)'
@@ -398,13 +605,11 @@ stages:
             steps:
               - checkout: self
 
-              # 1) Secure file: JWT key (UAT)
               - task: DownloadSecureFile@1
                 name: sfdxJwtKeyUatNightly
                 inputs:
                   secureFile: 'SF_UAT_key.pem'
 
-              # 2) Node + Salesforce CLI
               - task: NodeTool@0
                 displayName: 'Install Node.js'
                 inputs:
@@ -416,13 +621,11 @@ stages:
                   sf plugins --core
                 displayName: 'Install Salesforce CLI'
 
-              # 3) jq + xmlstarlet
               - script: |
                   sudo apt-get update -y
                   sudo apt-get install -y jq xmlstarlet
                 displayName: 'Install jq + xmlstarlet'
 
-              # 4) Auth Salesforce (UAT)
               - script: |
                   set -euo pipefail
                   set -x
@@ -447,7 +650,6 @@ stages:
                   SFDX_USERNAME: $(SFDX_USERNAME)
                   SF_ORG_INSTANCE_URL: $(SF_ORG_INSTANCE_URL)
 
-              # 5) Convert to MDAPI (same logic as your other stages)
               - script: |
                   set -euo pipefail
                   set -x
@@ -480,13 +682,11 @@ stages:
                   fi
                 displayName: 'Convert to MDAPI (manifest-first with fallback)'
 
-              # 6) UAT validation (no deploy) WITH tests
               - script: |
                   set -euo pipefail
                   set -x
                   source use_dir.env
 
-                  # Official validation path in the new CLI:
                   sf project deploy validate \
                     ${USE_MANIFEST} \
                     --metadata-dir "$USE_DIR" \
@@ -506,7 +706,6 @@ stages:
                   exit ${SF_EXIT:-0}
                 displayName: 'Validate on UAT (tests executed)'
 
-              # 7) Artifacts
               - script: |
                   set -euo pipefail
                   mkdir -p run-logs
