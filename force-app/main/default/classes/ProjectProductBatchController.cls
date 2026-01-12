@@ -266,6 +266,12 @@ public class ProjectProductBatchController {
                 recordsFailed[0]++;
                 return;
             }
+            
+            // --- NEW: préparation sync narrative Investment Objective ---
+            // productId -> (new InvestmentObjective value + language)
+            Map<Id, String> invObjByProductId = new Map<Id, String>();
+            Map<Id, String> languageByProductId = new Map<Id, String>();
+            // --- NEW
 
             for (ProjectProduct__c pp : listWithFields) {
                 Product__c product = productMap.get(pp.Product__c);
@@ -281,6 +287,15 @@ public class ProjectProductBatchController {
                         }
                     }
                     productsToUpdate.add(product);
+                    
+                    // --- NEW: si InvestmentObjective__c est dans les champs à modifier ---
+                    if (pp.TECH_FieldsToModify__c.contains('InvestmentObjective__c')) {
+                        String lang = (pp.DomiciledIn__c == 'FR') ? 'French' : 'English';
+                        languageByProductId.put(product.Id, lang);
+                        invObjByProductId.put(product.Id, (String) pp.get('InvestmentObjective__c'));
+                        system.debug('[NARRATIVE] InvestmentObjective__c flagged for sync on Product ' + product.Id + ' (' + lang + ')');
+                    }
+                    // --- NEW
                 }
 
                 for (ProjectShareclass__c sc : pp.ProjectShareclasses__r) {
@@ -306,6 +321,76 @@ public class ProjectProductBatchController {
                 update productsToUpdate;
                 debugInformation.add('[UPDATE] Products updated: ' + productsToUpdate);
             }
+
+            // ====== NEW: sync Narrative Investment Objective après update Product ======
+            if (!invObjByProductId.isEmpty()) {
+                Id narrativeRecordTypeId = Schema.SObjectType.Narrative__c
+                    .getRecordTypeInfosByDeveloperName()
+                    .get('Narrative')
+                    .getRecordTypeId();
+    
+                // Query narratives existants (on filtre Type + Product + Language)
+                // (SubType 'Description' est cohérent avec createNarratives)
+                List<Narrative__c> existing = [
+                    SELECT Id, Product__c, Language__c, Type__c, SubType__c
+                    FROM Narrative__c
+                    WHERE Product__c IN :invObjByProductId.keySet()
+                      AND Type__c = 'Investment Objective'
+                      //AND SubType__c = 'Description'
+                      AND Language__c IN :new Set<String>(languageByProductId.values())
+                ];
+    
+                // indexer par clé ProductId|Language
+                Map<String, Narrative__c> existingByKey = new Map<String, Narrative__c>();
+                for (Narrative__c n : existing) {
+                    system.debug('Narrative Id '+ n.Id);
+                    system.debug('Narrative Product__c '+ n.Product__c);
+                    system.debug('Narrative Language__c '+ n.Language__c);
+                    existingByKey.put(String.valueOf(n.Product__c) + '|' + n.Language__c, n);
+                }
+    
+                List<Narrative__c> narrativesToUpsert = new List<Narrative__c>();
+    
+                for (Id prodId : invObjByProductId.keySet()) {
+                    String lang = languageByProductId.get(prodId);
+                    String content = invObjByProductId.get(prodId);
+    
+                    if (String.isBlank(content)) {
+                        debugInformation.add('[NARRATIVE] InvestmentObjective__c is blank for Product ' + prodId + ' → skip narrative sync.');
+                        continue;
+                    }
+    
+                    String key = String.valueOf(prodId) + '|' + lang;
+                    system.debug('key '+ key);
+                    Narrative__c n = existingByKey.get(key);
+    
+                    if (n == null) {
+                        system.debug('null ');
+                        n = new Narrative__c();
+                        n.RecordTypeId = narrativeRecordTypeId;
+                        n.Name = 'Investment Objective Description';
+                        n.Type__c = 'Investment Objective';
+                        n.SubType__c = 'Description';
+                        n.Language__c = lang;
+                        n.Product__c = prodId;
+                        debugInformation.add('[NARRATIVE] Create Investment Objective narrative for Product ' + prodId + ' (' + lang + ')');
+                    } else {
+                        system.debug('not null ');
+                        debugInformation.add('[NARRATIVE] Update Investment Objective narrative ' + n.Id + ' for Product ' + prodId + ' (' + lang + ')');
+                    }
+    
+                    n.Content__c = content;
+                    n.StartDate__c = System.today();
+    				system.debug('id '+n.Id);
+                    narrativesToUpsert.add(n);
+                }
+    
+                if (!narrativesToUpsert.isEmpty()) {
+                    update narrativesToUpsert;
+                }
+            }
+			// --- NEW
+            
             if (!shareclassesToUpdate.isEmpty()) {
                 update shareclassesToUpdate;
                 debugInformation.add('[UPDATE] Shareclasses updated: ' + shareclassesToUpdate);
