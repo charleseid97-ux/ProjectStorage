@@ -8,34 +8,30 @@ pr:
     include:
       - '*'
 
+schedules:
+  - cron: '0 23 * * *'
+    displayName: 'nightly'
+    branches:
+      include:
+        - uat
+        - release
+    always: true
+
 pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  # Ajuste le niveau de tests pour la validation PROD
-  TEST_LEVEL_PROD: 'RunLocalTests' # ou 'RunAllTestsInOrg'
+  TEST_LEVEL_PROD: 'RunLocalTests'
 
-  # -----------------
-  # SonarCloud
-  # -----------------
   workingDirectory: '$(Build.SourcesDirectory)'
   SONAR_ORG: 'sonarcloudtools'
   SONAR_PROJECT_KEY: 'DBS.SalesForce'
   SONAR_PROJECT_NAME: 'DBS.SalesForce'
 
-  # Salesforce paths (Sonar inclusions via package.xml)
   MANIFEST_PATH: 'manifest/package.xml'
   SFDX_ROOT: 'force-app/main/default'
 
 stages:
-
-# =========================
-# Stage 0 : SONAR (Always)
-# - Build sonar.inclusions from package.xml
-# - Run SonarCloud analysis
-# - Gate: fail pipeline if BLOCKER/CRITICAL found on New Code
-# - Prints details of blocking issues in logs
-# =========================
 - stage: SONAR
   displayName: 'SonarCloud + Gate (BLOCKER/CRITICAL)'
   jobs:
@@ -60,10 +56,13 @@ stages:
 
         [[ -f "$MANIFEST" ]] || { echo "ERREUR: $MANIFEST introuvable"; exit 21; }
 
+        lower () { echo "$1" | tr '[:upper:]' '[:lower:]'; }
+
         members_of () {
-          local t="$1"
+          local t_lc
+          t_lc="$(lower "$1")"
           xmlstarlet sel -t \
-            -m "//*[local-name()='types'][./*[local-name()='name']='$t']/*[local-name()='members']" \
+            -m "//*[local-name()='types'][translate(./*[local-name()='name'],'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')='${t_lc}']/*[local-name()='members']" \
             -v "normalize-space(.)" -n "$MANIFEST" 2>/dev/null | sed '/^$/d' || true
         }
 
@@ -175,18 +174,13 @@ stages:
         PROJECT="$(SONAR_PROJECT_KEY)"
         TOKEN="$(SONAR_TOKEN)"
 
-        [[ -n "${TOKEN:-}" ]] || { echo "ERREUR: SONAR_TOKEN vide"; exit 31; }
-
-        if [[ -n "${SYSTEM_PULLREQUEST_TARGETBRANCH:-}" ]]; then
-          BRANCH="${SYSTEM_PULLREQUEST_TARGETBRANCH#refs/heads/}"
-          CONTEXT="PR target branch"
+        if [[ -n "${SYSTEM_PULLREQUEST_SOURCEBRANCH:-}" ]]; then
+          BRANCH="${SYSTEM_PULLREQUEST_SOURCEBRANCH#refs/heads/}"
         else
           BRANCH="${BUILD_SOURCEBRANCHNAME}"
-          CONTEXT="branch build"
         fi
 
-        echo "Sonar context: $CONTEXT"
-        echo "Sonar branch : $BRANCH"
+        sleep 25
 
         API="https://sonarcloud.io/api/issues/search"
 
@@ -246,9 +240,6 @@ stages:
       env:
         SONAR_TOKEN: $(SONAR_TOKEN)
 
-# =========================
-# Stage 1 : UAT
-# =========================
 - stage: UAT
   displayName: 'UAT Stage'
   dependsOn: SONAR
@@ -295,10 +286,6 @@ stages:
                   set -euo pipefail
                   set -x
 
-                  if [[ -z "${SFDX_CLIENT_ID:-}" ]]; then set +x; echo "ERREUR: SFDX_CLIENT_ID manquant"; exit 11; fi
-                  if [[ -z "${SFDX_USERNAME:-}" ]]; then set +x; echo "ERREUR: SFDX_USERNAME manquant"; exit 12; fi
-                  if [[ -z "${SF_ORG_INSTANCE_URL:-}" ]]; then set +x; echo "ERREUR: SF_ORG_INSTANCE_URL manquant"; exit 13; fi
-
                   set +x
                   sf org login jwt \
                     --client-id "$(SFDX_CLIENT_ID)" \
@@ -335,7 +322,6 @@ stages:
                   set -e
 
                   if [[ $CONVERT1_EXIT -ne 0 || ! -d "$MDAPI_DIR" || -z "$(ls -A "$MDAPI_DIR" 2>/dev/null || true)" ]]; then
-                    echo "Conversion filtrée indisponible → fallback complet"
                     sf project convert source \
                       --root-dir force-app \
                       --output-dir "$MDAPI_FALLBACK_DIR"
@@ -346,27 +332,6 @@ stages:
                     echo "USE_MANIFEST=" >> use_dir.env
                   fi
                 displayName: 'Convert to MDAPI (manifest-first with fallback)'
-
-              - script: |
-                  set -euo pipefail
-                  source use_dir.env
-                  MANIFEST_PATH="manifest/package.xml"
-
-                  echo "=== RÉSUMÉ PAR TYPE ==="
-                  xmlstarlet sel -t \
-                    -m "//*[local-name()='types']" \
-                    -v "concat('• ',normalize-space(./*[local-name()='name']),' (',count(./*[local-name()='members']),')')" -n \
-                    "$MANIFEST_PATH" || echo "(info) Aucun type trouvé"
-
-                  echo ""
-                  echo "=== DÉTAILS PAR TYPE ==="
-                  xmlstarlet sel -t \
-                    -m "//*[local-name()='types']" \
-                    -v "concat('# ',normalize-space(./*[local-name()='name']))" -n \
-                    -m "./*[local-name()='members']" \
-                    -v "concat('  - ',normalize-space(.))" -n \
-                    "$MANIFEST_PATH" || echo "(info) Aucun membre trouvé"
-                displayName: 'DEBUG: Liste du package.xml'
 
               - script: |
                   set -euo pipefail
@@ -395,7 +360,7 @@ stages:
               - script: |
                   set -euo pipefail
                   mkdir -p run-logs
-                  for f in deploy.json deploy.err manifest.summary.txt manifest.members.txt; do
+                  for f in deploy.json deploy.err; do
                     if [ -f "$f" ]; then cp -f "$f" run-logs/; fi
                   done
                   if [ -z "$(ls -A run-logs)" ]; then echo "No logs produced." > run-logs/README.txt; fi
@@ -410,9 +375,6 @@ stages:
                   ArtifactName: 'sf-logs-uat'
                   publishLocation: 'Container'
 
-# ===========================================
-# Stage 2 : PROD - Validation (Dry Run only)
-# ===========================================
 - stage: PROD_Validate
   displayName: 'PROD Validation (Dry Run)'
   dependsOn: SONAR
@@ -465,10 +427,6 @@ stages:
                   set -euo pipefail
                   set -x
 
-                  if [[ -z "${SFDX_CLIENT_ID_PRD:-}" ]]; then set +x; echo "ERREUR: SFDX_CLIENT_ID_PRD manquant"; exit 11; fi
-                  if [[ -z "${SFDX_USERNAME_PRD:-}" ]]; then set +x; echo "ERREUR: SFDX_USERNAME_PRD manquant"; exit 12; fi
-                  if [[ -z "${SF_ORG_INSTANCE_URL_PRD:-}" ]]; then set +x; echo "ERREUR: SF_ORG_INSTANCE_URL_PRD manquant"; exit 13; fi
-
                   set +x
                   sf org login jwt \
                     --client-id "$(SFDX_CLIENT_ID_PRD)" \
@@ -505,7 +463,6 @@ stages:
                   set -e
 
                   if [[ $CONVERT1_EXIT -ne 0 || ! -d "$MDAPI_DIR" || -z "$(ls -A "$MDAPI_DIR" 2>/dev/null || true)" ]]; then
-                    echo "Conversion filtrée indisponible → fallback complet"
                     sf project convert source \
                       --root-dir force-app \
                       --output-dir "$MDAPI_FALLBACK_DIR"
@@ -516,27 +473,6 @@ stages:
                     echo "USE_MANIFEST=" >> use_dir.env
                   fi
                 displayName: 'Convert to MDAPI (manifest-first with fallback)'
-
-              - script: |
-                  set -euo pipefail
-                  source use_dir.env
-                  MANIFEST_PATH="manifest/package.xml"
-
-                  echo "=== RÉSUMÉ PAR TYPE ==="
-                  xmlstarlet sel -t \
-                    -m "//*[local-name()='types']" \
-                    -v "concat('• ',normalize-space(./*[local-name()='name']),' (',count(./*[local-name()='members']),')')" -n \
-                    "$MANIFEST_PATH" || echo "(info) Aucun type trouvé"
-
-                  echo ""
-                  echo "=== DÉTAILS PAR TYPE ==="
-                  xmlstarlet sel -t \
-                    -m "//*[local-name()='types']" \
-                    -v "concat('# ',normalize-space(./*[local-name()='name']))" -n \
-                    -m "./*[local-name()='members']" \
-                    -v "concat('  - ',normalize-space(.))" -n \
-                    "$MANIFEST_PATH" || echo "(info) Aucun membre trouvé"
-                displayName: 'DEBUG: Liste du package.xml'
 
               - script: |
                   set -euo pipefail
@@ -566,7 +502,7 @@ stages:
               - script: |
                   set -euo pipefail
                   mkdir -p run-logs
-                  for f in deploy_prod_validate.json deploy_prod_validate.err manifest.summary.txt manifest.members.txt; do
+                  for f in deploy_prod_validate.json deploy_prod_validate.err; do
                     if [ -f "$f" ]; then cp -f "$f" run-logs/; fi
                   done
                   if [ -z "$(ls -A run-logs)" ]; then echo "No logs produced." > run-logs/README.txt; fi
@@ -581,9 +517,6 @@ stages:
                   ArtifactName: 'sf-logs-prod-validate'
                   publishLocation: 'Container'
 
-# ===========================================
-# Stage 3 : UAT Nightly Validation (Scheduled, tests executed)
-# ===========================================
 - stage: UAT_Validate_Nightly
   displayName: 'UAT Nightly Validation (Run Tests)'
   dependsOn: SONAR
@@ -591,7 +524,10 @@ stages:
     and(
       succeeded('SONAR'),
       eq(variables['Build.Reason'], 'Schedule'),
-      eq(variables['Build.SourceBranch'], 'refs/heads/uat')
+      or(
+        eq(variables['Build.SourceBranch'], 'refs/heads/uat'),
+        eq(variables['Build.SourceBranch'], 'refs/heads/release')
+      )
     )
   variables:
     TEST_LEVEL_UAT_NIGHTLY: 'RunAllTestsInOrg'
@@ -630,10 +566,6 @@ stages:
                   set -euo pipefail
                   set -x
 
-                  if [[ -z "${SFDX_CLIENT_ID:-}" ]]; then set +x; echo "ERREUR: SFDX_CLIENT_ID manquant"; exit 11; fi
-                  if [[ -z "${SFDX_USERNAME:-}" ]]; then set +x; echo "ERREUR: SFDX_USERNAME manquant"; exit 12; fi
-                  if [[ -z "${SF_ORG_INSTANCE_URL:-}" ]]; then set +x; echo "ERREUR: SF_ORG_INSTANCE_URL manquant"; exit 13; fi
-
                   set +x
                   sf org login jwt \
                     --client-id "$(SFDX_CLIENT_ID)" \
@@ -670,7 +602,6 @@ stages:
                   set -e
 
                   if [[ $CONVERT1_EXIT -ne 0 || ! -d "$MDAPI_DIR" || -z "$(ls -A "$MDAPI_DIR" 2>/dev/null || true)" ]]; then
-                    echo "Conversion filtrée indisponible → fallback complet"
                     sf project convert source \
                       --root-dir force-app \
                       --output-dir "$MDAPI_FALLBACK_DIR"
@@ -709,7 +640,7 @@ stages:
               - script: |
                   set -euo pipefail
                   mkdir -p run-logs
-                  for f in deploy_uat_nightly_validate.json deploy_uat_nightly_validate.err manifest.summary.txt manifest.members.txt; do
+                  for f in deploy_uat_nightly_validate.json deploy_uat_nightly_validate.err; do
                     if [ -f "$f" ]; then cp -f "$f" run-logs/; fi
                   done
                   if [ -z "$(ls -A run-logs)" ]; then echo "No logs produced." > run-logs/README.txt; fi
