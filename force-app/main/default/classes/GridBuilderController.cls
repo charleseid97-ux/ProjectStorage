@@ -11,7 +11,8 @@ public with sharing class GridBuilderController {
         Boolean gridBuilderFound = false;
         List<GridBuilderSetting__mdt> gridSetting = [SELECT Id, AgreementSelectionMode__c
                                                      FROM GridBuilderSetting__mdt
-                                                     WHERE DeveloperName = :gridBuilderSettingName];
+                                                     WHERE DeveloperName = :gridBuilderSettingName
+                                                     LIMIT 1];
         if(gridSetting != null && !gridSetting.isEmpty()) {
             gridBuilderFound = true;
             agreementSelectionMode = String.isNotBlank(gridSetting[0].AgreementSelectionMode__c)? gridSetting[0].AgreementSelectionMode__c : agreementSelectionMode;
@@ -36,7 +37,7 @@ public with sharing class GridBuilderController {
                                         FROM Convention__c
                                         WHERE Team__c != null
                                         AND (Team__c IN :userSecondaryTeams OR Team__c = :userPrimaryTeam)
-                                        ORDER BY Team__c ASC, Name ASC]) {
+                                        ORDER BY Team__c ASC, Name ASC LIMIT 5000]) {
             agreementLabel = String.isNotBlank(agreement.ConventionName__c)? agreement.ConventionName__c + ' (' + agreement.Name + ')' : agreement.Name;
             agreementOptions.add(new AgreementWrapper(agreement.Id, agreementLabel, agreement.Team__c));
             availableTeams.add(agreement.Team__c);
@@ -51,7 +52,7 @@ public with sharing class GridBuilderController {
                           FROM Grid__c 
                           WHERE ActiveGrid__c = true
                           AND Team__c = :selectedTeam
-                          ORDER BY Name ASC]) {
+                          ORDER BY Name ASC LIMIT 1000]) {
             gridOptions.add(new Map<String, String>{'label' => g.Name, 'value' => g.Id});
         }
         return gridOptions;

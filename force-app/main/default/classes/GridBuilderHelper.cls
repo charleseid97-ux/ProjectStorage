@@ -38,11 +38,11 @@ public with sharing class GridBuilderHelper {
         List<GridBuilderSetting__mdt> gridSetting = [SELECT Id, (SELECT Id, DeveloperName, ObjectApiName__c, FieldApiNames__c, SortOrder__c 
                                                                 FROM GridCriteriaSettings__r
                                                                 WHERE IsActive__c = true
-                                                                ORDER BY SortOrder__c ASC), FilterLimit__c, FilterDefaultLogic__c, FilterValueSeparator__c,
+                                                                ORDER BY SortOrder__c ASC LIMIT 10), FilterLimit__c, FilterDefaultLogic__c, FilterValueSeparator__c,
                                                                     AllShareTypeOptions__c, DefaultShareTypeInclusion__c, DefinitiveShareTypeExclusion__c,
                                                                     FieldsToDisplay__c, DefaultSortFields__c
                                                      FROM GridBuilderSetting__mdt
-                                                     WHERE DeveloperName = :gridBuilderSettingName];
+                                                     WHERE DeveloperName = :gridBuilderSettingName LIMIT 1];
         if (gridSetting == null || gridSetting.isEmpty()) {
             return null;
         }
@@ -74,7 +74,7 @@ public with sharing class GridBuilderHelper {
         List<FilterObjectWrapper> filterObjects = new List<FilterObjectWrapper>();
         for (GridCriteriaSetting__mdt criteriaSetting : criteriaSettings) {
             if(criteriaSetting.FieldApiNames__c != null) {
-                filterObjects.add(new FilterObjectWrapper(criteriaSetting.ObjectApiName__c, criteriaSetting.FieldApiNames__c.remove(' ').split(','), selectedTeam, shareTypeWrp, objectToFieldToValuesMap.get(criteriaSetting.ObjectApiName__c)));
+                filterObjects.add(new FilterObjectWrapper(criteriaSetting.ObjectApiName__c, criteriaSetting.FieldApiNames__c.remove(' ').split(','), objectToFieldToValuesMap.get(criteriaSetting.ObjectApiName__c)));
             }
         }
         return filterObjects;
@@ -90,7 +90,7 @@ public with sharing class GridBuilderHelper {
         return logics;
     }
 
-    private static List<FilterFieldWrapper> getFields(String objectApiName, List<String> fieldApiNames, String selectedTeam, ShareTypeWrapper shareTypeWrp, Map<String, Map<String, String>> mapFieldToValues) {
+    private static List<FilterFieldWrapper> getFields(String objectApiName, List<String> fieldApiNames, Map<String, Map<String, String>> mapFieldToValues) {
         List<FilterFieldWrapper> result = new List<FilterFieldWrapper>();
         Map<String, Schema.SObjectField> fieldMap = Schema.getGlobalDescribe().get(objectApiName).getDescribe().fields.getMap();
 
@@ -146,22 +146,6 @@ public with sharing class GridBuilderHelper {
             mapObjectToFieldToValues.get(objectApiName).put(fieldApiName, mapFieldToValues.get(fieldApiName));
         }
         return mapObjectToFieldToValues;
-    }
-
-    private static Map<String, String> getPicklistValuesForField(Schema.DescribeFieldResult describeFieldResult, String fieldApiName, Map<String, Map<String, String>> mapFieldToValues) {
-        Map<String, String> values = new Map<String, String>();
-        Schema.DisplayType fieldType = describeFieldResult.getType();
-        if (fieldType == Schema.DisplayType.Picklist || fieldType == Schema.DisplayType.MultiPicklist) {
-            for (Schema.PicklistEntry entry : describeFieldResult.getPicklistValues()) {
-                if (entry.isActive()) {
-                    values.put(entry.getLabel(), entry.getValue());
-                }
-            }
-        }
-        else if(fieldType == Schema.DisplayType.String) {
-            values = mapFieldToValues.get(fieldApiName);
-        }
-        return values;
     }
 
     private static Map<String, String> buildOperatorsForType(Schema.DisplayType type) {
@@ -418,10 +402,10 @@ public with sharing class GridBuilderHelper {
         @AuraEnabled public String objectLabel { get; set; }
         @AuraEnabled public String objectApiName { get; set; }
         @AuraEnabled public List<FilterFieldWrapper> fields { get; set; }
-        public FilterObjectWrapper(String objectApiName, List<String> fieldApiNames, String selectedTeam, ShareTypeWrapper shareTypeWrp, Map<String, Map<String, String>> mapFieldToValues) {
+        public FilterObjectWrapper(String objectApiName, List<String> fieldApiNames, Map<String, Map<String, String>> mapFieldToValues) {
             this.objectLabel    =   Schema.getGlobalDescribe().get(objectApiName).getDescribe().getLabel();
             this.objectApiName  =   objectApiName;
-            this.fields         =   getFields(objectApiName, fieldApiNames, selectedTeam, shareTypeWrp, mapFieldToValues);
+            this.fields         =   getFields(objectApiName, fieldApiNames, mapFieldToValues);
         }
     }
 
