@@ -135,70 +135,86 @@ export default class FilterBuilder extends LightningElement {
     }
 
     updateDetails(id, field, value, multiValue) {
-        const details = [];
-        for (let i = 0; i < this.criteriaState.details.length; i++) {
-            const d = this.criteriaState.details[i];
-            if (d.id === id) {
-                const clone = this.setNewCriteriaDetails(d.id, d.filterNumber, d.objectApi, d.fieldApi, d.operator, d.value, d.fieldOptions, d.fieldInputDisabled, d.operatorOptions, d.operatorInputDisabled, d.picklistValues, d.isPicklistField, d.operatorExpectsMulti, d.multiValue);
-                clone[field] = value;
-                if (field === 'value' && multiValue !== undefined) {
-                    clone.multiValue = multiValue;
-                }
-
-                if (field === 'objectApi') {
-                    clone.fieldApi = null;
-                    clone.fieldOptions = this.getFieldOptionsForObject(value);
-                    clone.operator = null;
-                    clone.operatorOptions = [];
-                    clone.fieldInputDisabled = false;
-                    clone.operatorInputDisabled = true;
-                    clone.picklistValues = [];
-                    clone.isPicklistField = false;
-                    clone.operatorExpectsMulti = false;
-                    clone.value = '';
-                    clone.multiValue = [];
-                }
-
-                if (field === 'fieldApi') {
-                    clone.operatorOptions = this.getOperatorOptionsForField(clone.objectApi, value);
-                    const operatorStillValid = clone.operatorOptions.some(o => o.value === clone.operator);
-                    clone.operator = operatorStillValid ? clone.operator : null;
-                    clone.operatorInputDisabled = false;
-                    clone.picklistValues = [...this.getPicklistValuesForField(clone.objectApi, value)];
-                    clone.isPicklistField = this.checkIfFieldIsPicklist(clone, value);
-                    clone.operatorExpectsMulti = clone.isPicklistField && (clone.operator === 'IN' || clone.operator === 'NOT IN');
-                    clone.multiValue = [];
-                    if (clone.operatorExpectsMulti) {
-                        clone.picklistValues = (clone.picklistValues || []).filter(opt => opt.value !== '');
-                    }
-                }
-
-                if (field === 'operator') {
-                    clone.isPicklistField = this.checkIfFieldIsPicklist(clone, clone.fieldApi);
-                    clone.operatorExpectsMulti = clone.isPicklistField && (value === 'IN' || value === 'NOT IN');
-                    const picklistValuesCopy = Array.isArray(clone.picklistValues) ? [...clone.picklistValues] : [];
-                    if (clone.operatorExpectsMulti) {
-                        const filtered = picklistValuesCopy.filter(opt => opt.value !== '');
-                        clone.picklistValues = filtered;
-                        if (clone.multiValue.length === 0 && clone.value && clone.picklistValues.some(opt => opt.value === clone.value)) {
-                            clone.multiValue.push(clone.value);
-                        }
-                        clone.value = clone.multiValue.join(this.filterValueSeparator);
-                    } else {
-                        if (!picklistValuesCopy.some(opt => opt.value === '')) {
-                            picklistValuesCopy.unshift(this.filterPicklistEmptyVal);
-                        }
-                        clone.picklistValues = picklistValuesCopy;
-                        clone.value = clone.value && clone.value.length > 0 ? clone.value.split(this.filterValueSeparator)[0] : '';
-                    }
-                }
-
-                details.push(clone);
-            } else {
-                details.push(d);
+        return this.criteriaState.details.map(d => {
+            if (d.id !== id) {
+                return d;
             }
+            let clone = this.cloneDetail(d);
+            clone = this.applyDetailChange(clone, field, value, multiValue);
+            return clone;
+        });
+    }
+
+    cloneDetail(detail) {
+        return this.setNewCriteriaDetails(detail.id, detail.filterNumber, detail.objectApi, detail.fieldApi, detail.operator, detail.value, detail.fieldOptions, detail.fieldInputDisabled, detail.operatorOptions, detail.operatorInputDisabled, detail.picklistValues, detail.isPicklistField, detail.operatorExpectsMulti, detail.multiValue);
+    }
+
+    applyDetailChange(clone, field, value, multiValue) {
+        clone[field] = value;
+        if (field === 'value' && multiValue !== undefined) {
+            clone.multiValue = multiValue;
         }
-        return details;
+        switch (field) {
+            case 'objectApi':
+                return this.applyObjectChange(clone, value);
+            case 'fieldApi':
+                return this.applyFieldApiChange(clone, value);
+            case 'operator':
+                return this.applyOperatorChange(clone, value);
+            default:
+                return clone;
+        }
+    }
+
+    applyObjectChange(clone, objectApi) {
+        clone.fieldApi = null;
+        clone.fieldOptions = this.getFieldOptionsForObject(objectApi);
+        clone.operator = null;
+        clone.operatorOptions = [];
+        clone.fieldInputDisabled = false;
+        clone.operatorInputDisabled = true;
+        clone.picklistValues = [];
+        clone.isPicklistField = false;
+        clone.operatorExpectsMulti = false;
+        clone.value = '';
+        clone.multiValue = [];
+        return clone;
+    }
+
+    applyFieldApiChange(clone, fieldApi) {
+        clone.operatorOptions = this.getOperatorOptionsForField(clone.objectApi, fieldApi);
+        const operatorStillValid = clone.operatorOptions.some(o => o.value === clone.operator);
+        clone.operator = operatorStillValid ? clone.operator : null;
+        clone.operatorInputDisabled = false;
+        clone.picklistValues = [...this.getPicklistValuesForField(clone.objectApi, fieldApi)];
+        clone.isPicklistField = this.checkIfFieldIsPicklist(clone, fieldApi);
+        clone.operatorExpectsMulti = clone.isPicklistField && (clone.operator === 'IN' || clone.operator === 'NOT IN');
+        clone.multiValue = [];
+        if (clone.operatorExpectsMulti) {
+            clone.picklistValues = (clone.picklistValues || []).filter(opt => opt.value !== '');
+        }
+        return clone;
+    }
+
+    applyOperatorChange(clone, operator) {
+        clone.isPicklistField = this.checkIfFieldIsPicklist(clone, clone.fieldApi);
+        clone.operatorExpectsMulti = clone.isPicklistField && (operator === 'IN' || operator === 'NOT IN');
+        const picklistValuesCopy = Array.isArray(clone.picklistValues) ? [...clone.picklistValues] : [];
+        if (clone.operatorExpectsMulti) {
+            const filtered = picklistValuesCopy.filter(opt => opt.value !== '');
+            clone.picklistValues = filtered;
+            if (clone.multiValue.length === 0 && clone.value && clone.picklistValues.some(opt => opt.value === clone.value)) {
+                clone.multiValue.push(clone.value);
+            }
+            clone.value = clone.multiValue.join(this.filterValueSeparator);
+        } else {
+            if (!picklistValuesCopy.some(opt => opt.value === '')) {
+                picklistValuesCopy.unshift(this.filterPicklistEmptyVal);
+            }
+            clone.picklistValues = picklistValuesCopy;
+            clone.value = clone.value && clone.value.length > 0 ? clone.value.split(this.filterValueSeparator)[0] : '';
+        }
+        return clone;
     }
 
     checkIfFieldIsPicklist(clone, value) {
