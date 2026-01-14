@@ -71,7 +71,7 @@ export default class StandardGridBuilder extends LightningElement {
 
     async connectedCallback() {
         try {
-            var agreementSettings = await getAgreementSelectionPageSettings({
+            let agreementSettings = await getAgreementSelectionPageSettings({
                 gridBuilderSettingName: this.gridBuilderSettingName
             });
             if (agreementSettings) {
@@ -100,7 +100,7 @@ export default class StandardGridBuilder extends LightningElement {
     async loadGridSettings() {
         try {
             this.isLoading = true;
-            var gridSettings = await getGridSettings({
+            let gridSettings = await getGridSettings({
                 gridBuilderSettingName: this.gridBuilderSettingName,
                 selectedTeam: this.selectedTeam
             });
@@ -117,21 +117,21 @@ export default class StandardGridBuilder extends LightningElement {
     }
 
     setGridSettings(gridSettings) {
-        var objectLabelsAndAPINames = [];
-        var fieldsByObjectMap = {};
-        var operatorsByFieldMap = {};
-        var picklistValuesByFieldMap = {};
+        let objectLabelsAndAPINames = [];
+        let fieldsByObjectMap = {};
+        let operatorsByFieldMap = {};
+        let picklistValuesByFieldMap = {};
 
-        var filterObjects = gridSettings.filterObjects;
-        var obj, fieldIndex, field;
-        for (var index in filterObjects) {
+        let filterObjects = gridSettings.filterObjects;
+        let obj, fieldIndex, field;
+        for (let index in filterObjects) {
             if (filterObjects.hasOwnProperty(index)) {
                 obj = filterObjects[index];
                 objectLabelsAndAPINames.push({label: obj.objectLabel, value: obj.objectApiName}); // Object picklist option
 
                 // Field options for this object
-                var fieldOptions = [];
-                var fields = obj.fields;
+                let fieldOptions = [];
+                let fields = obj.fields;
                 if (fields) {
                     for (fieldIndex in fields) {
                         if (fields.hasOwnProperty(fieldIndex)) {
@@ -142,7 +142,7 @@ export default class StandardGridBuilder extends LightningElement {
                                 type: field.fieldType
                             });
 
-                            var opMapKey = obj.objectApiName + '.' + field.fieldApiName; // Key by "ObjectApi.FieldApi"
+                            let opMapKey = obj.objectApiName + '.' + field.fieldApiName; // Key by "ObjectApi.FieldApi"
                             operatorsByFieldMap[opMapKey] = this.setOperatorOptions(field.operators); // Operator options for this field
                             picklistValuesByFieldMap[opMapKey] = this.setPicklistValuesIfApplicable(field.fieldType, field.fieldValuesAvailable); // Picklist values for this field if field is picklist type
                         }
@@ -170,9 +170,9 @@ export default class StandardGridBuilder extends LightningElement {
     }
 
     setOperatorOptions(ops) {
-        var opOptions = [];
+        let opOptions = [];
         if(ops) {
-            for (var opKey in ops) {
+            for (let opKey in ops) {
                 opOptions.push({label: opKey, value: ops[opKey]});
             }
         }
@@ -180,10 +180,10 @@ export default class StandardGridBuilder extends LightningElement {
     }
 
     setPicklistValuesIfApplicable(fieldType, fieldValuesAvailable) {
-        var picklistValues = [];
+        let picklistValues = [];
         if (fieldType === 'PICKLIST' || fieldType === 'MULTIPICKLIST' || fieldType === 'STRING') {
             picklistValues.push(this.filterPicklistEmptyVal);
-            for (var valKey in fieldValuesAvailable) {
+            for (let valKey in fieldValuesAvailable) {
                 picklistValues.push({label: valKey, value: fieldValuesAvailable[valKey]});
             }
         }
@@ -193,7 +193,7 @@ export default class StandardGridBuilder extends LightningElement {
     async loadGrids() {
         try {
             this.isLoading = true;
-            var grids = await getAvailableGrids({
+            let grids = await getAvailableGrids({
                 selectedTeam: this.selectedTeam
             });
             if(grids && grids.length > 0) {
@@ -249,7 +249,7 @@ export default class StandardGridBuilder extends LightningElement {
     }
 
     setNewCriteria(selectedGrid, criteriaFilterLogicType, criteriaFilterLogicText, criteriaDetails) {
-        var newCriteria = {
+        let newCriteria = {
             grid: selectedGrid,
             filterLogicType: criteriaFilterLogicType,
             filterLogicText: criteriaFilterLogicText,
@@ -356,7 +356,7 @@ export default class StandardGridBuilder extends LightningElement {
 
     buildResultColumnsList(fieldsApiToInfoMap) {
         const resultCols = Object.keys(fieldsApiToInfoMap).map(apiName => {
-            var fieldInfo = fieldsApiToInfoMap[apiName];
+            let fieldInfo = fieldsApiToInfoMap[apiName];
             return { 
                 apiName: apiName, 
                 label: fieldInfo.label,
@@ -412,10 +412,10 @@ export default class StandardGridBuilder extends LightningElement {
     }
 
     buildCriteriaReference() {
-        var gridId = this.selectedGrid;
-        var gridLabel = this.getGridLabelById(this.selectedGrid);
-        var criteriaObj = this.getCriteriaSObject();
-        var criteriaDetailsList = this.getCriteriaDetailSObject();
+        let gridId = this.selectedGrid;
+        let gridLabel = this.getGridLabelById(this.selectedGrid);
+        let criteriaObj = this.getCriteriaSObject();
+        let criteriaDetailsList = this.getCriteriaDetailSObject();
         const key = JSON.stringify({
             gridId: gridId,
             filterLogicType: criteriaObj?.FilterLogic__c,
@@ -555,8 +555,8 @@ export default class StandardGridBuilder extends LightningElement {
 
     // ------------------------------------ Page Handling methods ------------------------------------
     async handleAgreementsNext(event) {
-        var alreadySelectedAgreements = JSON.stringify(this.selectedAgreements);
-        var alreadySelectedTeam = this.selectedTeam;
+        let alreadySelectedAgreements = JSON.stringify(this.selectedAgreements);
+        let alreadySelectedTeam = this.selectedTeam;
         this.selectedAgreements = event.detail?.agreements || [];
         this.agreementStartDate = event.detail?.startDate;
         this.selectedTeam = event.detail?.team || this.selectedTeam;

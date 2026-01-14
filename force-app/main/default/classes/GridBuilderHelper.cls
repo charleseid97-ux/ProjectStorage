@@ -25,30 +25,40 @@ public with sharing class GridBuilderHelper {
     };
 
     public static GridSettings getGridSettings(String gridBuilderSettingName, String selectedTeam) {
-        GridSettings settings;
+        GridBuilderSetting__mdt gridSetting = loadGridBuilderSetting(gridBuilderSettingName);
+        if (gridSetting == null) {
+            return null;
+        }
+        GridSettings settings = buildGridSettings(gridSetting);
+        settings.filterObjects = buildFilterObjectWrappers(gridSetting.GridCriteriaSettings__r, selectedTeam, settings.shareTypeWrp);
+        return settings;
+    }
+
+    private static GridBuilderSetting__mdt loadGridBuilderSetting(String gridBuilderSettingName) {
         List<GridBuilderSetting__mdt> gridSetting = [SELECT Id, (SELECT Id, DeveloperName, ObjectApiName__c, FieldApiNames__c, SortOrder__c 
                                                                 FROM GridCriteriaSettings__r
                                                                 WHERE IsActive__c = true
-                                                                ORDER BY SortOrder__c ASC), FilterLimit__c, FilterDefaultLogic__c, FilterValueSeparator__c,
+                                                                ORDER BY SortOrder__c ASC LIMIT 10), FilterLimit__c, FilterDefaultLogic__c, FilterValueSeparator__c,
                                                                     AllShareTypeOptions__c, DefaultShareTypeInclusion__c, DefinitiveShareTypeExclusion__c,
                                                                     FieldsToDisplay__c, DefaultSortFields__c
                                                      FROM GridBuilderSetting__mdt
-                                                     WHERE DeveloperName = :gridBuilderSettingName];
-        if(gridSetting != null && !gridSetting.isEmpty()) {
-            Integer filterLimit = gridSetting[0].FilterLimit__c != null ? Integer.valueOf(gridSetting[0].FilterLimit__c) : defaultMaxFilterDetails;
-            String onLoadFilterLogic = (String.isNotBlank(gridSetting[0].FilterDefaultLogic__c)) ? gridSetting[0].FilterDefaultLogic__c : defaultFilterLogic;
-            String filterValueSeparator = (String.isNotBlank(gridSetting[0].FilterValueSeparator__c)) ? ' '+gridSetting[0].FilterValueSeparator__c+' ' : defaultFilterValueSeparator;
-            String allShareTypes = (String.isNotBlank(gridSetting[0].AllShareTypeOptions__c)) ? gridSetting[0].AllShareTypeOptions__c : '';
-            String shareTypeInclusion = (String.isNotBlank(gridSetting[0].DefaultShareTypeInclusion__c)) ? gridSetting[0].DefaultShareTypeInclusion__c : '';
-            String shareTypeExclusion = (String.isNotBlank(gridSetting[0].DefinitiveShareTypeExclusion__c)) ? gridSetting[0].DefinitiveShareTypeExclusion__c : '';
-            String fieldsToDisplay = (String.isNotBlank(gridSetting[0].FieldsToDisplay__c)) ? gridSetting[0].FieldsToDisplay__c : defaultFieldsToDisplay;
-            String sortingFields = (String.isNotBlank(gridSetting[0].DefaultSortFields__c)) ? gridSetting[0].DefaultSortFields__c : defaultSortingFields;
-
-            settings = new GridSettings(filterLimit, onLoadFilterLogic, filterValueSeparator, allShareTypes, shareTypeInclusion, shareTypeExclusion, fieldsToDisplay, sortingFields);
-            settings.filterObjects = buildFilterObjectWrappers(gridSetting[0].GridCriteriaSettings__r, selectedTeam, settings.shareTypeWrp);
+                                                     WHERE DeveloperName = :gridBuilderSettingName LIMIT 1];
+        if (gridSetting == null || gridSetting.isEmpty()) {
+            return null;
         }
+        return gridSetting[0];
+    }
 
-        return settings;
+    private static GridSettings buildGridSettings(GridBuilderSetting__mdt gridSetting) {
+        Integer filterLimit = gridSetting.FilterLimit__c != null ? Integer.valueOf(gridSetting.FilterLimit__c) : defaultMaxFilterDetails;
+        String onLoadFilterLogic = (String.isNotBlank(gridSetting.FilterDefaultLogic__c)) ? gridSetting.FilterDefaultLogic__c : defaultFilterLogic;
+        String filterValueSeparator = (String.isNotBlank(gridSetting.FilterValueSeparator__c)) ? ' ' + gridSetting.FilterValueSeparator__c + ' ' : defaultFilterValueSeparator;
+        String allShareTypes = (String.isNotBlank(gridSetting.AllShareTypeOptions__c)) ? gridSetting.AllShareTypeOptions__c : '';
+        String shareTypeInclusion = (String.isNotBlank(gridSetting.DefaultShareTypeInclusion__c)) ? gridSetting.DefaultShareTypeInclusion__c : '';
+        String shareTypeExclusion = (String.isNotBlank(gridSetting.DefinitiveShareTypeExclusion__c)) ? gridSetting.DefinitiveShareTypeExclusion__c : '';
+        String fieldsToDisplay = (String.isNotBlank(gridSetting.FieldsToDisplay__c)) ? gridSetting.FieldsToDisplay__c : defaultFieldsToDisplay;
+        String sortingFields = (String.isNotBlank(gridSetting.DefaultSortFields__c)) ? gridSetting.DefaultSortFields__c : defaultSortingFields;
+        return new GridSettings(filterLimit, onLoadFilterLogic, filterValueSeparator, allShareTypes, shareTypeInclusion, shareTypeExclusion, fieldsToDisplay, sortingFields);
     }
 
     private static List<FilterObjectWrapper> buildFilterObjectWrappers(List<GridCriteriaSetting__mdt> criteriaSettings, String selectedTeam, ShareTypeWrapper shareTypeWrp) {
@@ -64,7 +74,7 @@ public with sharing class GridBuilderHelper {
         List<FilterObjectWrapper> filterObjects = new List<FilterObjectWrapper>();
         for (GridCriteriaSetting__mdt criteriaSetting : criteriaSettings) {
             if(criteriaSetting.FieldApiNames__c != null) {
-                filterObjects.add(new FilterObjectWrapper(criteriaSetting.ObjectApiName__c, criteriaSetting.FieldApiNames__c.remove(' ').split(','), selectedTeam, shareTypeWrp, objectToFieldToValuesMap.get(criteriaSetting.ObjectApiName__c)));
+                filterObjects.add(new FilterObjectWrapper(criteriaSetting.ObjectApiName__c, criteriaSetting.FieldApiNames__c.remove(' ').split(','), objectToFieldToValuesMap.get(criteriaSetting.ObjectApiName__c)));
             }
         }
         return filterObjects;
@@ -80,7 +90,7 @@ public with sharing class GridBuilderHelper {
         return logics;
     }
 
-    private static List<FilterFieldWrapper> getFields(String objectApiName, List<String> fieldApiNames, String selectedTeam, ShareTypeWrapper shareTypeWrp, Map<String, Map<String, String>> mapFieldToValues) {
+    private static List<FilterFieldWrapper> getFields(String objectApiName, List<String> fieldApiNames, Map<String, Map<String, String>> mapFieldToValues) {
         List<FilterFieldWrapper> result = new List<FilterFieldWrapper>();
         Map<String, Schema.SObjectField> fieldMap = Schema.getGlobalDescribe().get(objectApiName).getDescribe().fields.getMap();
 
@@ -138,43 +148,29 @@ public with sharing class GridBuilderHelper {
         return mapObjectToFieldToValues;
     }
 
-    private static Map<String, String> getPicklistValuesForField(Schema.DescribeFieldResult describeFieldResult, String fieldApiName, Map<String, Map<String, String>> mapFieldToValues) {
-        Map<String, String> values = new Map<String, String>();
-        Schema.DisplayType fieldType = describeFieldResult.getType();
-        if (fieldType == Schema.DisplayType.Picklist || fieldType == Schema.DisplayType.MultiPicklist) {
-            for (Schema.PicklistEntry entry : describeFieldResult.getPicklistValues()) {
-                if (entry.isActive()) {
-                    values.put(entry.getLabel(), entry.getValue());
-                }
-            }
-        }
-        else if(fieldType == Schema.DisplayType.String) {
-            values = mapFieldToValues.get(fieldApiName);
-        }
-        return values;
-    }
-
     private static Map<String, String> buildOperatorsForType(Schema.DisplayType type) {
         Map<String, String> ops = new Map<String, String>();
+        Set<String> inOps = new Set<String>{ 'IN', 'NOT IN' };
+        Set<String> compareOps = new Set<String>{ '>', '>=', '<', '<=' };
+        Set<String> likeOps = new Set<String>{ 'LIKE', 'NOT {_} LIKE' };
+        Boolean isInType = type == Schema.DisplayType.String || type == Schema.DisplayType.Picklist || type == Schema.DisplayType.MultiPicklist || type == Schema.DisplayType.Id;
+        Boolean isCompareType = type == Schema.DisplayType.Date || type == Schema.DisplayType.DateTime || type == Schema.DisplayType.Double || type == Schema.DisplayType.Integer || type == Schema.DisplayType.Currency;
+        Boolean isStringType = type == Schema.DisplayType.String;
         for (Schema.PicklistEntry entry : GridCriteriaDetail__c.Logic__c.getDescribe().getPicklistValues()) {
             if (entry.isActive()) {
-                if(entry.getValue() == 'IN' || entry.getValue() == 'NOT IN') { // IN/NOT IN only for specific types
-                    if (type == Schema.DisplayType.String || type == Schema.DisplayType.Picklist || type == Schema.DisplayType.MultiPicklist || type == Schema.DisplayType.Id) {
-                        ops.put(entry.getLabel(), entry.getValue());
-                    }
+                String op = entry.getValue();
+                Boolean allow = true;
+                if (inOps.contains(op)) {
+                    allow = isInType;
                 }
-                else if (entry.getValue() == '>' || entry.getValue() == '>=' || entry.getValue() == '<' || entry.getValue() == '<=') { // Comparison only for specific types
-                    if (type == Schema.DisplayType.Date || type == Schema.DisplayType.DateTime || type == Schema.DisplayType.Double || type == Schema.DisplayType.Integer || type == Schema.DisplayType.Currency) {
-                        ops.put(entry.getLabel(), entry.getValue());
-                    }
+                else if (compareOps.contains(op)) {
+                    allow = isCompareType;
                 }
-                else if(entry.getValue() == 'LIKE' || entry.getValue() == 'NOT {_} LIKE') { // LIKE/NOT LIKE only for String
-                    if (type == Schema.DisplayType.String) {
-                        ops.put(entry.getLabel(), entry.getValue());
-                    }
+                else if (likeOps.contains(op)) {
+                    allow = isStringType;
                 }
-                else {
-                    ops.put(entry.getLabel(), entry.getValue());
+                if (allow) {
+                    ops.put(entry.getLabel(), op);
                 }
             }
         }
@@ -183,27 +179,31 @@ public with sharing class GridBuilderHelper {
 
     public static Map<String, FieldInfo> buildFieldsApiToInfoMap(String objectsToFieldsString) {
         Map<String, Map<String, Schema.SObjectField>> objectToFieldsMap = new Map<String, Map<String, Schema.SObjectField>>();
-        Schema.DescribeFieldResult describeFieldResult;
         Map<String, FieldInfo> fieldsApiToInfoMap = new Map<String, FieldInfo>();
-        List<String> parts;
-        String objectApi, fieldApi, relationshipFieldPath;
         for (String line : objectsToFieldsString.split('\n')) {
-            if (String.isNotBlank(line) && line.contains('=>')) {
-                parts = line.split('=>');
-                objectApi = parts[0].trim();
-                if(Schema.getGlobalDescribe().containsKey(objectApi)) {
-                    if (!objectToFieldsMap.containsKey(objectApi)) {
-                        objectToFieldsMap.put(objectApi, Schema.getGlobalDescribe().get(objectApi).getDescribe().fields.getMap());
-                    }
-                    fieldApi = parts[1].trim();
-                    if(objectToFieldsMap.get(objectApi).containsKey(fieldApi)) {
-                        describeFieldResult = objectToFieldsMap.get(objectApi).get(fieldApi).getDescribe();
-                        relationshipFieldPath = getRelationshipPath(objectApi) + fieldApi;
-                        if(!fieldsApiToInfoMap.containsKey(relationshipFieldPath)) {
-                            fieldsApiToInfoMap.put(relationshipFieldPath, new FieldInfo(describeFieldResult.getLabel(), describeFieldResult.getType(), describeFieldResult.isSortable(), fieldApi, objectApi));
-                        }
-                    }
-                }
+            if (String.isBlank(line) || !line.contains('=>')) {
+                continue;
+            }
+            List<String> parts = line.split('=>');
+            if (parts.size() < 2) {
+                continue;
+            }
+            String objectApi = parts[0].trim();
+            String fieldApi = parts[1].trim();
+            if (String.isBlank(objectApi) || String.isBlank(fieldApi) || !Schema.getGlobalDescribe().containsKey(objectApi)) {
+                continue;
+            }
+            if (!objectToFieldsMap.containsKey(objectApi)) {
+                objectToFieldsMap.put(objectApi, Schema.getGlobalDescribe().get(objectApi).getDescribe().fields.getMap());
+            }
+            Map<String, Schema.SObjectField> fieldMap = objectToFieldsMap.get(objectApi);
+            if (!fieldMap.containsKey(fieldApi)) {
+                continue;
+            }
+            Schema.DescribeFieldResult describeFieldResult = fieldMap.get(fieldApi).getDescribe();
+            String relationshipFieldPath = getRelationshipPath(objectApi) + fieldApi;
+            if (!fieldsApiToInfoMap.containsKey(relationshipFieldPath)) {
+                fieldsApiToInfoMap.put(relationshipFieldPath, new FieldInfo(describeFieldResult.getLabel(), describeFieldResult.getType(), describeFieldResult.isSortable(), fieldApi, objectApi));
             }
         }
         return fieldsApiToInfoMap;
@@ -255,12 +255,17 @@ public with sharing class GridBuilderHelper {
         allQuery += (String.isNotBlank(finalWhere)) ? ' WHERE ' + finalWhere : '';
         allQuery += (String.isNotBlank(finalOrderBy)) ? ' ORDER BY ' + finalOrderBy : '';
 
+        List<ProductWrapper> productWrapperList = buildProductIdToWrapper(allQuery, filteredIds, fieldsApiToInfoMap, aumByShareClass, onlyIncludeSCInAgreement);
+        return new ProductSelectionResult(fieldsApiToInfoMap, productWrapperList);
+    }
+
+    private static List<ProductWrapper> buildProductIdToWrapper(String allQuery, Set<Id> filteredIds, Map<String, FieldInfo> fieldsApiToInfoMap, Map<Id, String> aumByShareClass, Boolean onlyIncludeSCInAgreement) {
         Map<Id, ProductWrapper> productIdToWrapper = new Map<Id, ProductWrapper>();
         Id prodId;
         String productLabel;
         for (Share_Class__c sc : Database.query(allQuery)) {
             prodId = (Id)sc.get('Fund__c');
-            if (prodId != null && (onlyIncludeSCInAgreement && aumByShareClass.containsKey(sc.Id) || !onlyIncludeSCInAgreement || filteredIds.contains(sc.Id))) {
+            if ((onlyIncludeSCInAgreement && aumByShareClass.containsKey(sc.Id) || !onlyIncludeSCInAgreement || filteredIds.contains(sc.Id))) {
                 if (!productIdToWrapper.containsKey(prodId)) {
                     productLabel = (String)sc.getSObject('Fund__r')?.get('ProductName__c')+' ('+(String)sc.getSObject('Fund__r')?.get('InternalShortName__c')+')';
                     productLabel = String.isNotBlank(productLabel) ? productLabel : 'Unnamed Product. Internal Short Name: ' + (String)sc.getSObject('Fund__r')?.get('InternalShortName__c');
@@ -269,12 +274,12 @@ public with sharing class GridBuilderHelper {
                 productIdToWrapper.get(prodId).shareClasses.add(new ShareClassWrapper(sc, filteredIds, fieldsApiToInfoMap, aumByShareClass));
             }
         }
-
-        return new ProductSelectionResult(fieldsApiToInfoMap, productIdToWrapper.values());
+        return productIdToWrapper.values();
     }
 
     public static List<String> buildDefaultConditions(Boolean excludeJPY, Boolean onlyAddSharesFromRegisteredCountries, String selectedTeam, ShareTypeWrapper shareTypeWrp, Boolean alwaysIncludeDefaultShareTypeInclusion) {
         List<String> whereFragments = new List<String>();
+        whereFragments.add('Fund__c != null');
         if(excludeJPY) {
             whereFragments.add('Currency__c != \'JPY\'');
         }
@@ -397,10 +402,10 @@ public with sharing class GridBuilderHelper {
         @AuraEnabled public String objectLabel { get; set; }
         @AuraEnabled public String objectApiName { get; set; }
         @AuraEnabled public List<FilterFieldWrapper> fields { get; set; }
-        public FilterObjectWrapper(String objectApiName, List<String> fieldApiNames, String selectedTeam, ShareTypeWrapper shareTypeWrp, Map<String, Map<String, String>> mapFieldToValues) {
+        public FilterObjectWrapper(String objectApiName, List<String> fieldApiNames, Map<String, Map<String, String>> mapFieldToValues) {
             this.objectLabel    =   Schema.getGlobalDescribe().get(objectApiName).getDescribe().getLabel();
             this.objectApiName  =   objectApiName;
-            this.fields         =   getFields(objectApiName, fieldApiNames, selectedTeam, shareTypeWrp, mapFieldToValues);
+            this.fields         =   getFields(objectApiName, fieldApiNames, mapFieldToValues);
         }
     }
 

@@ -52,16 +52,16 @@ export default class GridAgreementsSelection extends LightningElement {
     }
 
     get isNextDisabled() {
-        var hasAgreements = this.selectedValues && this.selectedValues.length;
-        var hasDate = this.startDate != null;
-        var hasTeam = !this.showTeamPicker || !!this.selectedTeam;
+        let hasAgreements = this.selectedValues && this.selectedValues.length;
+        let hasDate = this.startDate != null;
+        let hasTeam = !this.showTeamPicker || !!this.selectedTeam;
         return !(hasAgreements && hasDate && hasTeam);
     }
 
     getOptionsByValue() {
-        var optionsByValue = {};
-        for (var i = 0; i < (this._options || []).length; i++) {
-            var o = this._options[i];
+        let optionsByValue = {};
+        for (let i = 0; i < (this._options || []).length; i++) {
+            let o = this._options[i];
             if (o && o.value) {
                 optionsByValue[o.value] = o;
             }
@@ -70,9 +70,9 @@ export default class GridAgreementsSelection extends LightningElement {
     }
 
     getFinalOptionsList() {
-        var finalOptionsList = [];
+        let finalOptionsList = [];
         if (this.effectiveHasTeamSelection) {
-            var team = this.selectedTeam || this.primaryTeam || (this.availableTeams && this.availableTeams[0]);
+            let team = this.selectedTeam || this.primaryTeam || (this.availableTeams && this.availableTeams[0]);
             if (!team) {
                 finalOptionsList = this._options || [];
             } 
@@ -83,7 +83,7 @@ export default class GridAgreementsSelection extends LightningElement {
                 });
             }
             if(refreshChild) {
-                var child = this.template.querySelector('c-multi-select-search-list');
+                let child = this.template.querySelector('c-multi-select-search-list');
                 if (child) {
                     child.refreshOptions(finalOptionsList);
                 }
@@ -96,12 +96,12 @@ export default class GridAgreementsSelection extends LightningElement {
     }
 
     getPills() {
-        var res = [];
-        var selected = this.selectedValues || [];
+        let res = [];
+        let selected = this.selectedValues || [];
 
-        for (var i = 0; i < selected.length; i++) {
-            var val = selected[i];
-            var opt = this.optionsByValue ? this.optionsByValue[val] : null;
+        for (let i = 0; i < selected.length; i++) {
+            let val = selected[i];
+            let opt = this.optionsByValue ? this.optionsByValue[val] : null;
 
             res.push({
                 type: 'icon',
@@ -117,8 +117,8 @@ export default class GridAgreementsSelection extends LightningElement {
     }
 
     handleAgreementsChange(event) {
-        var isSearchChange = event.detail && event.detail.isSearchChange;
-        var selected = (event.detail && event.detail.selectedValues) ? event.detail.selectedValues : [];
+        let isSearchChange = event.detail && event.detail.isSearchChange;
+        let selected = (event.detail && event.detail.selectedValues) ? event.detail.selectedValues : [];
         if (!isSearchChange) {
             this.selectedValues = selected? (Array.isArray(selected)? selected : [selected]) : [];
             this.pills = this.getPills();
@@ -133,7 +133,7 @@ export default class GridAgreementsSelection extends LightningElement {
     }
 
     handlePillRemove(event) {
-        var name = event.detail?.item?.name;
+        let name = event.detail?.item?.name;
         if (!name) return;
         this.selectedValues = (this.selectedValues || []).filter(v => v !== name);
         this.pills = this.getPills();
@@ -144,9 +144,9 @@ export default class GridAgreementsSelection extends LightningElement {
     }
 
     handleNext() {
-        var derivedTeam = null;
+        let derivedTeam = null;
         if (!this.effectiveHasTeamSelection) {
-            var firstId = (this.selectedValues && this.selectedValues.length) ? this.selectedValues[0] : null;
+            let firstId = (this.selectedValues && this.selectedValues.length) ? this.selectedValues[0] : null;
             derivedTeam = firstId && this.optionsByValue[firstId] ? this.optionsByValue[firstId].teamCountry : null;
         }
 

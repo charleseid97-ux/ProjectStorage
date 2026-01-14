@@ -54,7 +54,7 @@ export default class GridValidationPage extends LightningElement {
     }
 
     async runValidation() {
-        const idsKey = (this.selectedShareClasses || []).map(r => r.id).sort().join(',') + '|' + (this.selectedAgreements || []).sort().join(',');
+        const idsKey = (this.selectedShareClasses || []).map(r => r.id).join(',') + '|' + (this.selectedAgreements || []).join(',');
         if (idsKey === this.previousIdsKey) {
             return;
         }
