@@ -202,8 +202,8 @@ export default class FilterBuilder extends LightningElement {
     }
 
     checkIfFieldIsPicklist(clone, value) {
-        var fieldTypeIsPicklist = clone.fieldOptions.some(o => o.value === value && (o.type === 'PICKLIST' || o.type === 'MULTIPICKLIST'));
-        var fieldTypeIsString = clone.fieldOptions.some(o => o.value === value && (o.type === 'STRING'));
+        let fieldTypeIsPicklist = clone.fieldOptions.some(o => o.value === value && (o.type === 'PICKLIST' || o.type === 'MULTIPICKLIST'));
+        let fieldTypeIsString = clone.fieldOptions.some(o => o.value === value && (o.type === 'STRING'));
         return (fieldTypeIsPicklist || (fieldTypeIsString && (clone.objectApi == 'Product__c' || clone.objectApi == 'Strategy__c') && !(clone.operator === 'LIKE' || clone.operator === 'NOT {_} LIKE')));
     }
 

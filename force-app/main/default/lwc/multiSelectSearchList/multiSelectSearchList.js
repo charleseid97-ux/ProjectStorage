@@ -56,7 +56,7 @@ export default class MultiSelectSearchList extends LightningElement {
     }
  
     get mainDivClass(){
-      var style = ' slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click ';
+      let style = ' slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click ';
       return this.isOpen ? ' slds-is-open ' + style : style;
     }
  
