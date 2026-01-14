@@ -37,7 +37,7 @@ public with sharing class GridBuilderController {
                                         FROM Convention__c
                                         WHERE Team__c != null
                                         AND (Team__c IN :userSecondaryTeams OR Team__c = :userPrimaryTeam)
-                                        ORDER BY Team__c ASC, Name ASC LIMIT 5000]) {
+                                        ORDER BY ConventionName__c ASC, Name ASC, Team__c ASC LIMIT 5000]) {
             agreementLabel = String.isNotBlank(agreement.ConventionName__c)? agreement.ConventionName__c + ' (' + agreement.Name + ')' : agreement.Name;
             agreementOptions.add(new AgreementWrapper(agreement.Id, agreementLabel, agreement.Team__c));
             availableTeams.add(agreement.Team__c);
