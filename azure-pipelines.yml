@@ -33,8 +33,9 @@ stages:
 # Stage 0 : SONAR (Always)
 # - Build sonar.inclusions from package.xml
 # - Run SonarCloud analysis
+# - Wait Sonar processing (prevents "1 commit delay")
 # - Gate: fail pipeline if BLOCKER/CRITICAL found on New Code
-# - Prints details of blocking issues in logs
+# - PR mode: query issues by pullRequest id (not target branch)
 # =========================
 - stage: SONAR
   displayName: 'SonarCloud + Gate (BLOCKER/CRITICAL)'
@@ -60,15 +61,19 @@ stages:
 
         [[ -f "$MANIFEST" ]] || { echo "ERREUR: $MANIFEST introuvable"; exit 21; }
 
+        # Case-insensitive lookup on <name> in package.xml (avoids apexClass vs ApexClass issues)
         members_of () {
           local t="$1"
+          local tlc
+          tlc="$(echo "$t" | tr '[:upper:]' '[:lower:]')"
+
           xmlstarlet sel -t \
-            -m "//*[local-name()='types'][./*[local-name()='name']='$t']/*[local-name()='members']" \
+            -m "//*[local-name()='types'][translate(normalize-space(./*[local-name()='name']), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')='$tlc']/*[local-name()='members']" \
             -v "normalize-space(.)" -n "$MANIFEST" 2>/dev/null | sed '/^$/d' || true
         }
 
         rm -f sonar-inclusions.txt
-        touch sonar-inclusions.txt
+        : > sonar-inclusions.txt
 
         add_incl () { echo "$1" >> sonar-inclusions.txt; }
 
@@ -137,6 +142,9 @@ stages:
         sort -u sonar-inclusions.txt -o sonar-inclusions.txt
         [[ -s sonar-inclusions.txt ]] || { echo "ERREUR: aucune inclusion Sonar générée depuis package.xml."; exit 22; }
 
+        echo "---- sonar-inclusions.txt ----"
+        cat sonar-inclusions.txt
+
         SONAR_INCLUSIONS="$(paste -sd, sonar-inclusions.txt)"
         echo "##vso[task.setvariable variable=SONAR_INCLUSIONS]$SONAR_INCLUSIONS"
       displayName: 'Build Sonar inclusions from package.xml'
@@ -168,37 +176,54 @@ stages:
       inputs:
         jdkversion: 'JAVA_HOME_21_X64'
 
+    # IMPORTANT: wait for SonarCloud server-side processing (prevents "results shifted by 1 commit")
+    - task: SonarCloudPublish@3
+      displayName: 'Wait for SonarCloud processing (Quality Gate)'
+      inputs:
+        pollingTimeoutSec: '300'
+
     - bash: |
         set -euo pipefail
 
         ORG="$(SONAR_ORG)"
         PROJECT="$(SONAR_PROJECT_KEY)"
         TOKEN="$(SONAR_TOKEN)"
-
         [[ -n "${TOKEN:-}" ]] || { echo "ERREUR: SONAR_TOKEN vide"; exit 31; }
-
-        if [[ -n "${SYSTEM_PULLREQUEST_TARGETBRANCH:-}" ]]; then
-          BRANCH="${SYSTEM_PULLREQUEST_TARGETBRANCH#refs/heads/}"
-          CONTEXT="PR target branch"
-        else
-          BRANCH="${BUILD_SOURCEBRANCHNAME}"
-          CONTEXT="branch build"
-        fi
-
-        echo "Sonar context: $CONTEXT"
-        echo "Sonar branch : $BRANCH"
 
         API="https://sonarcloud.io/api/issues/search"
 
-        RESP=$(curl -sS -u "${TOKEN}:" \
-          --get "$API" \
-          --data-urlencode "organization=$ORG" \
-          --data-urlencode "projects=$PROJECT" \
-          --data-urlencode "branch=$BRANCH" \
-          --data-urlencode "inNewCodePeriod=true" \
-          --data-urlencode "resolved=false" \
-          --data-urlencode "facets=types,severities" \
-          --data-urlencode "ps=1")
+        # PR: query by pullRequest id (NOT by target branch)
+        if [[ -n "${SYSTEM_PULLREQUEST_PULLREQUESTID:-}" ]]; then
+          PR_ID="${SYSTEM_PULLREQUEST_PULLREQUESTID}"
+          CONTEXT="pull request"
+          echo "Sonar context: $CONTEXT"
+          echo "Sonar PR id  : $PR_ID"
+
+          RESP=$(curl -sS -u "${TOKEN}:" \
+            --get "$API" \
+            --data-urlencode "organization=$ORG" \
+            --data-urlencode "projects=$PROJECT" \
+            --data-urlencode "pullRequest=$PR_ID" \
+            --data-urlencode "inNewCodePeriod=true" \
+            --data-urlencode "resolved=false" \
+            --data-urlencode "facets=types,severities" \
+            --data-urlencode "ps=1)
+        else
+          BRANCH="${BUILD_SOURCEBRANCHNAME}"
+          CONTEXT="branch build"
+          echo "Sonar context: $CONTEXT"
+          echo "Sonar branch : $BRANCH"
+
+          RESP=$(curl -sS -u "${TOKEN}:" \
+            --get "$API" \
+            --data-urlencode "organization=$ORG" \
+            --data-urlencode "projects=$PROJECT" \
+            --data-urlencode "branch=$BRANCH" \
+            --data-urlencode "inNewCodePeriod=true" \
+            --data-urlencode "resolved=false" \
+            --data-urlencode "facets=types,severities" \
+            --data-urlencode "ps=1)
+        fi
 
         echo ""
         echo "=== NEW CODE - ALERTS PAR TYPE ==="
@@ -220,16 +245,31 @@ stages:
           echo ""
           echo "=== BLOCKING ISSUES (NEW CODE) ==="
 
-          DETAIL=$(curl -sS -u "${TOKEN}:" \
-            --get "$API" \
-            --data-urlencode "organization=$ORG" \
-            --data-urlencode "projects=$PROJECT" \
-            --data-urlencode "branch=$BRANCH" \
-            --data-urlencode "inNewCodePeriod=true" \
-            --data-urlencode "resolved=false" \
-            --data-urlencode "severities=BLOCKER,CRITICAL" \
-            --data-urlencode "s=SEVERITY" \
-            --data-urlencode "ps=100")
+          if [[ -n "${SYSTEM_PULLREQUEST_PULLREQUESTID:-}" ]]; then
+            PR_ID="${SYSTEM_PULLREQUEST_PULLREQUESTID}"
+            DETAIL=$(curl -sS -u "${TOKEN}:" \
+              --get "$API" \
+              --data-urlencode "organization=$ORG" \
+              --data-urlencode "projects=$PROJECT" \
+              --data-urlencode "pullRequest=$PR_ID" \
+              --data-urlencode "inNewCodePeriod=true" \
+              --data-urlencode "resolved=false" \
+              --data-urlencode "severities=BLOCKER,CRITICAL" \
+              --data-urlencode "s=SEVERITY" \
+              --data-urlencode "ps=100)
+          else
+            BRANCH="${BUILD_SOURCEBRANCHNAME}"
+            DETAIL=$(curl -sS -u "${TOKEN}:" \
+              --get "$API" \
+              --data-urlencode "organization=$ORG" \
+              --data-urlencode "projects=$PROJECT" \
+              --data-urlencode "branch=$BRANCH" \
+              --data-urlencode "inNewCodePeriod=true" \
+              --data-urlencode "resolved=false" \
+              --data-urlencode "severities=BLOCKER,CRITICAL" \
+              --data-urlencode "s=SEVERITY" \
+              --data-urlencode "ps=100)
+          fi
 
           echo "$DETAIL" | jq -r '
             .issues[] |
