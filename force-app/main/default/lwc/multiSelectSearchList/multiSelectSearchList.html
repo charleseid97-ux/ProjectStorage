@@ -1,8 +1,9 @@
 <!--
-  @description       :
-  @author            : Thanina YAYA
-  @last modified on  : 10-25-2024
-  @last modified by  : SILA Nicolas
+    @description       :
+    @author            : Thanina YAYA
+    @history
+    [25-10-2024]      [SILA Nicolas]
+    [16-12-2025]      [EID Charles]    [Add showValuesWhenNotSelecting feature]
 -->
 <template>
     <div class="slds-form-element">
@@ -11,10 +12,10 @@
                 <div  class={mainDivClass} aria-expanded="false" aria-haspopup="listbox" role="combobox" >
                     <div  style="width:100%;" onclick={handleClick} >
                          <template if:true={requiredLabel}>
-                            <label for="inputSearch" class="slds-form-element__label"><abbr class="slds-required" title="required">* </abbr>{label}</label>
+                            <label for="inputSearch" class={labelStyle}><abbr class="slds-required" title="required">* </abbr>{label}</label>
                          </template>
                          <template if:false={requiredLabel}>
-                            <label for="inputSearch" class="slds-form-element__label">{label}</label>
+                            <label for="inputSearch" class={labelStyle}>{label}</label>
                          </template>
                          <template if:true={helptext} >
                             <lightning-helptext content={helptext}></lightning-helptext>
@@ -27,9 +28,7 @@
                                 value={searchKey}
                                 autocomplete="off"
                                 onchange={handleChangeSearch}
-                                disabled={disabled}
-                                >
-                                     
+                                disabled={disabled}>
                          </lightning-input>
                          
                     </div>
@@ -51,7 +50,7 @@
                                                        value={value}
                                                        onchange={handleChange}
                                                        class="slds-truncate"
-                             >
+                                                       onfocus={closeDropdown}>
                              </lightning-radio-group>
                          </template>
                         </template>

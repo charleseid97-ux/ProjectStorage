@@ -1,0 +1,138 @@
+<template>
+    <template if:true={showFiltersSection}>
+        <div class="filtersDiv">
+            <div class="displayFlex_ColumnGap">
+                <div class="slds-col slds-size_3-of-12 granularColumn">
+                    <div class="slds-col slds-size_6-of-12">Object</div>
+                    <div class="slds-col slds-size_6-of-12">Field</div>
+                </div>
+                <div class="slds-col slds-size_1-of-12">Operator</div>
+                <div class="slds-col slds-size_7-of-12">Value</div>
+                <div>Filter #</div>
+            </div>
+
+            <template for:each={criteriaState.details} for:item="detail">
+                <div key={detail.id} class="displayFlex_ColumnGap">
+                    <div class="slds-col slds-size_3-of-12 granularColumn">
+                        <div class="slds-col slds-size_6-of-12">
+                            <lightning-combobox name="object"
+                                                value={detail.objectApi}
+                                                options={objectOptions}
+                                                data-id={detail.id}
+                                                data-field="objectApi"
+                                                variant="label-hidden"
+                                                onchange={handleDetailChange}>
+                            </lightning-combobox>
+                        </div>
+                        <div class="slds-col slds-size_6-of-12">
+                            <lightning-combobox name="field"
+                                                value={detail.fieldApi}
+                                                options={detail.fieldOptions}
+                                                data-id={detail.id}
+                                                data-field="fieldApi"
+                                                variant="label-hidden"
+                                                disabled={detail.fieldInputDisabled}
+                                                onchange={handleDetailChange}>
+                            </lightning-combobox>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-12">
+                        <lightning-combobox name="operator"
+                                            value={detail.operator}
+                                            options={detail.operatorOptions}
+                                            data-id={detail.id}
+                                            data-field="operator"
+                                            variant="label-hidden"
+                                            disabled={detail.operatorInputDisabled}
+                                            onchange={handleDetailChange}>
+                        </lightning-combobox>
+                    </div>
+
+                    <div class="slds-col slds-size_7-of-12">
+                        <template if:true={detail.isPicklistField}>
+                            <template if:true={detail.operatorExpectsMulti}>
+                                <c-multi-select-search-list variant="label-hidden"
+                                                            options={detail.picklistValues}
+                                                            value={detail.multiValue}
+                                                            data-id={detail.id}
+                                                            onchange={handleMultiSelection}
+                                                            show-values-when-not-selecting={showValuesWhenNotSelecting}
+                                                            dropdown-value-separator={filterValueSeparator}>
+                                </c-multi-select-search-list>
+                            </template>
+                            <template if:false={detail.operatorExpectsMulti}>
+                                <lightning-combobox name="value"
+                                                    value={detail.value}
+                                                    options={detail.picklistValues}
+                                                    data-id={detail.id}
+                                                    data-field="value"
+                                                    variant="label-hidden"
+                                                    onchange={handleDetailChange}>
+                                </lightning-combobox>
+                            </template>
+                        </template>
+                        <template if:false={detail.isPicklistField}>
+                            <lightning-input type="text"
+                                            name="value"
+                                            value={detail.value}
+                                            data-id={detail.id}
+                                            data-field="value"
+                                            variant="label-hidden"
+                                            onchange={handleDetailChange}>
+                            </lightning-input>
+                        </template>
+                    </div>
+
+                    <div class="slds-col slds-size_1-of-12 displayFlex_ColumnGap">
+                        <div class="filterNumber">
+                            <lightning-input value={detail.filterNumber} variant="label-hidden" disabled></lightning-input>
+                        </div>
+
+                        <div class="removeBtn">
+                            <template if:true={haveMoreThanOneFilter}>
+                                <lightning-button-icon icon-name="utility:delete"
+                                                    alternative-text="Remove filter"
+                                                    title="Remove filter"
+                                                    data-id={detail.id}
+                                                    onclick={handleRemoveFilter}>
+                                </lightning-button-icon>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <div class="displayFlex_ColumnGap">
+                <template if:true={canAddFilter}>
+                    <lightning-button label="+ Add Filter" variant="neutral" onclick={handleAddFilter}></lightning-button>
+                </template>
+                <div class="slds-col slds-size_7-of-12 granularColumn">
+                    <template if:true={haveMoreThanOneFilter}>
+                        <div class="slds-col slds-size_3-of-12">
+                            <lightning-combobox name="filterLogicType"
+                                                variant="label-hidden"
+                                                value={criteriaState.filterLogicType}
+                                                options={filterLogicOptions}
+                                                onchange={handleFilterLogicTypeChange}>
+                            </lightning-combobox>
+                        </div>
+                        <template if:true={showFilterLogicExpression}>
+                            <div class="slds-col slds-size_6-of-12">
+                                <lightning-input name="filterLogicText"
+                                                variant="label-hidden"
+                                                placeholder="Filter Logic Expression"
+                                                value={criteriaState.filterLogicText}
+                                                onchange={handleFilterLogicTextChange}>
+                                </lightning-input>
+                            </div>
+                        </template>
+                    </template>
+                    <div class="applyResetFilterBtns">
+                        <lightning-button label="Apply Filters" variant="brand" onclick={handleApplyFilters} disabled={applyFiltersDisabled}></lightning-button>
+                        <lightning-button label="Reset Filters" variant="neutral" onclick={handleResetFilters}></lightning-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+</template>

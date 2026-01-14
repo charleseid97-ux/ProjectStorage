@@ -1,10 +1,67 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Package xmlns="http://soap.sforce.com/2006/04/metadata">    
-    <version>60.0</version>   
-
-    <types>
-        <members>ProjectProductBatchController</members>
-        <name>ApexClass</name>
-    </types>
-
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+	<types>
+		<members>GridBuilderController</members>
+		<members>GridBuilderHelper</members>
+		<members>GridValidationController</members>
+		<name>ApexClass</name>
+	</types>
+	<types>
+		<members>Grid</members>
+		<name>CustomApplication</name>
+	</types>
+	<types>
+		<members>GridBuilderSetting.StandardGridBuilderSetting</members>
+		<members>GridCriteriaSetting.Product</members>
+		<members>GridCriteriaSetting.ShareClass</members>
+		<members>GridCriteriaSetting.Strategy</members>
+		<name>CustomMetadata</name>
+	</types>
+	<types>
+		<members>GridBuilderSetting__mdt</members>
+		<members>GridCriteriaDetail__c</members>
+		<members>GridCriteriaSetting__mdt</members>
+		<members>GridCriteria__c</members>
+		<members>GridDetail__c</members>
+		<members>Grid__c</members>
+		<name>CustomObject</name>
+	</types>
+	<types>
+		<members>BuildNewGrid</members>
+		<members>GridCriteriaDetail__c</members>
+		<members>GridCriteria__c</members>
+		<members>GridDetail__c</members>
+		<members>Grid__c</members>
+		<name>CustomTab</name>
+	</types>
+	<types>
+		<members>BuildNewGrid</members>
+		<members>GridCriteriaDetailRecordPage</members>
+		<members>GridCriteriaRecordPage</members>
+		<name>FlexiPage</name>
+	</types>
+	<types>
+		<members>GridBuilderSetting__mdt-Grid Builder Setting Layout</members>
+		<members>GridCriteriaDetail__c-Grid Criteria Detail Layout</members>
+		<members>GridCriteriaSetting__mdt-Grid Criteria Setting Layout</members>
+		<members>GridCriteria__c-Grid Criteria Layout</members>
+		<members>GridDetail__c-Grid Detail Layout</members>
+		<members>Grid__c-Grid Layout</members>
+		<name>Layout</name>
+	</types>
+	<types>
+		<members>filterBuilder</members>
+		<members>gridAgreementsSelection</members>
+		<members>gridSelectionDisplayPanel</members>
+		<members>gridValidationPage</members>
+		<members>multiSelectSearchList</members>
+		<members>resultsTable</members>
+		<members>standardGridBuilder</members>
+		<name>LightningComponentBundle</name>
+	</types>
+	<types>
+		<members>GridBuilderPermissions</members>
+		<name>PermissionSet</name>
+	</types>
+	<version>66.0</version>
 </Package>

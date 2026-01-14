@@ -1,0 +1,58 @@
+.mainDiv {
+    max-width: 100%;
+    padding: 0 1rem 0 1rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+.centerSpinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+}
+
+.displayFlex_ColumnGap {
+    display: flex;
+    column-gap: 15px;
+}
+
+.granularColumn {
+    display: flex;
+    column-gap: 15px;
+    padding-right: 15px;
+}
+
+.gridBuilderClass {
+    display: flex;
+}
+
+.builderLeftSection {
+    width: 80%;
+    padding-right: 10px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+.builderRightSection {
+    width: 20%;
+    height: 100%;
+}
+
+.buttonsCss {
+    margin-bottom: 2px;
+    align-self: flex-end;
+}
+
+.shareTypeSelectionLabel{
+    display: flex;
+    column-gap: 5px;
+}

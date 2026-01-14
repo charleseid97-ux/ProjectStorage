@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>65.0</apiVersion>
+    <masterLabel>Standard Grid Builder</masterLabel>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__AppPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__AppPage">
+            <property name="gridBuilderSettingName"
+                      type="String"
+                      label="Grid Builder Setting Name"
+                      description="API name of the GridBuilderSetting__mdt to use for this component."
+                      default="StandardGridBuilderSetting"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

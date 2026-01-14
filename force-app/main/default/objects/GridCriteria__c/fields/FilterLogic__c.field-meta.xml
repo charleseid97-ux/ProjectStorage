@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FilterLogic__c</fullName>
+    <description>Determines how the filter conditions within this Grid Criteria are combined.
+• AND – all conditions must be true
+• OR – at least one condition must be true
+• Custom Logic – use a custom expression to define how conditions interact. Example: &apos;1 AND (2 OR 3)&apos;</description>
+    <inlineHelpText>Use AND if products must match all conditions.
+Use OR if products only need to match at least one condition.
+Use Custom Logic to combine conditions using a formula such as 1 AND (2 OR 3).</inlineHelpText>
+    <label>Filter Logic</label>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>AND</fullName>
+                <default>false</default>
+                <label>AND</label>
+            </value>
+            <value>
+                <fullName>OR</fullName>
+                <default>false</default>
+                <label>OR</label>
+            </value>
+            <value>
+                <fullName>Custom Logic</fullName>
+                <default>false</default>
+                <label>Custom Logic</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
