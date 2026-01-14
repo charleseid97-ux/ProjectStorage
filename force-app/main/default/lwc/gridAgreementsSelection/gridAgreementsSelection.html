@@ -1,0 +1,40 @@
+<template>
+    <div class="gridAgreementSelectionPage">
+        <template if:true={showTeamPicker}>
+            <div>
+                <lightning-combobox name="teamPicklist"
+                                    label="Team"
+                                    value={selectedTeam}
+                                    options={availableTeams}
+                                    onchange={handleTeamChange}>
+                </lightning-combobox>
+            </div>
+        </template>
+        <div>
+            <template if:true={finalOptionsList}>
+                <c-multi-select-search-list label="Agreements"
+                                            options={finalOptionsList}
+                                            value={selectedValues}
+                                            onchange={handleAgreementsChange}
+                                            mono-select={isMonoSelect}>
+                </c-multi-select-search-list>
+            </template>
+            <template if:true={pills}>
+                <lightning-pill-container items={pills}
+                                          onitemremove={handlePillRemove}
+                                          variant="bare">
+                </lightning-pill-container>
+            </template>
+        </div>
+        <div>
+            <lightning-input type="date"
+                             label="Start Date"
+                             value={startDate}
+                             onchange={handleDateChange}>
+            </lightning-input>
+        </div>
+        <div>
+            <lightning-button label="Next" variant="brand" onclick={handleNext} disabled={isNextDisabled}></lightning-button>
+        </div>
+    </div>
+</template>

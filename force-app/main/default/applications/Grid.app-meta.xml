@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <brand>
+        <headerColor>#0070D2</headerColor>
+        <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
+    </brand>
+    <description>Provides a centralized workspace for creating, configuring, and managing all Grid-related objects and business rules, including criteria, filters, agreements, and product mappings.</description>
+    <formFactors>Small</formFactors>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
+    <isOmniPinnedViewEnabled>false</isOmniPinnedViewEnabled>
+    <label>Grid</label>
+    <navType>Standard</navType>
+    <tabs>Grid__c</tabs>
+    <tabs>GridCriteria__c</tabs>
+    <tabs>Strategy__c</tabs>
+    <tabs>Product__c</tabs>
+    <tabs>Share_Class__c</tabs>
+    <tabs>Convention__c</tabs>
+    <uiType>Lightning</uiType>
+    <utilityBar>Grid_UtilityBar</utilityBar>
+</CustomApplication>

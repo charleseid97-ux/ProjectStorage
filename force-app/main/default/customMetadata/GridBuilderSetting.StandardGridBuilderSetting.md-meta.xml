@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Standard Grid Builder Setting</label>
+    <protected>false</protected>
+    <values>
+        <field>AgreementSelectionMode__c</field>
+        <value xsi:type="xsd:string">Single</value>
+    </values>
+    <values>
+        <field>AllShareTypeOptions__c</field>
+        <value xsi:type="xsd:string">AW-R, FW-R, X, XP, X2, AFER, B, M, A, AW, E, F, FW, I, IW</value>
+    </values>
+    <values>
+        <field>DefaultShareTypeInclusion__c</field>
+        <value xsi:type="xsd:string">A, AW, E, F, FW, I, IW</value>
+    </values>
+    <values>
+        <field>DefaultSortFields__c</field>
+        <value xsi:type="xsd:string">Strategy__c =&gt; AssetClass__c
+Product__c =&gt; ProductName__c
+Share_Class__c =&gt; ISIN__c</value>
+    </values>
+    <values>
+        <field>DefinitiveShareTypeExclusion__c</field>
+        <value xsi:type="xsd:string">Z</value>
+    </values>
+    <values>
+        <field>FieldsToDisplay__c</field>
+        <value xsi:type="xsd:string">Strategy__c =&gt; AssetClass__c
+Product__c =&gt; LegalForm__c
+Product__c =&gt; InternalShortName__c 
+Product__c =&gt; ProductName__c
+Share_Class__c =&gt; Name
+Share_Class__c =&gt; Type__c
+Share_Class__c =&gt; EffectiveManagementFees__c</value>
+    </values>
+    <values>
+        <field>FilterDefaultLogic__c</field>
+        <value xsi:type="xsd:string">OR</value>
+    </values>
+    <values>
+        <field>FilterLimit__c</field>
+        <value xsi:type="xsd:double">5.0</value>
+    </values>
+    <values>
+        <field>FilterValueSeparator__c</field>
+        <value xsi:type="xsd:string">;</value>
+    </values>
+</CustomMetadata>

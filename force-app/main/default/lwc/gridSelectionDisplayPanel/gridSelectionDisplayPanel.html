@@ -1,0 +1,146 @@
+<template>
+    <section class={backdropClass} onclick={handleBackdropClick}>
+        <div class="selection-panel">
+            <header class="selection-panel-header slds-grid slds-grid_align-spread slds-border_bottom">
+                <div>
+                    <h2 class="slds-text-heading_small">Products Recap</h2>
+                </div>
+                <div>
+                    <lightning-button-icon icon-name="utility:close"
+                                           alternative-text="Close"
+                                           title="Close"
+                                           onclick={handleClose}>
+                    </lightning-button-icon>
+                </div>
+            </header>
+
+            <div class="selection-panel-body">
+                <div class="selected-table-wrapper">
+                    <div class="section-heading section-heading-included section-heading-row">
+                        <span>Included Products ({productSelectedCount})</span>
+                        <lightning-button label={includedToggleLabel} variant="neutral" onclick={handleToggleIncluded}></lightning-button>
+                    </div>
+                    <template if:true={includedProducts.length}>
+                        <div class="custom-accordion">
+                            <template for:each={includedProducts} for:item="prod">
+                                <div key={prod.productId} class="custom-accordion-item">
+                                    <div class="custom-accordion-header">
+                                        <button class="accordion-toggle-button" data-id={prod.productId} aria-expanded={prod.isOpen} onclick={handleToggleProduct}>
+                                            <div class="main-header-left">
+                                                <lightning-icon class="accordion-toggle-icon" icon-name={prod.toggleIconName} alternative-text="Toggle section" size="x-small"></lightning-icon>
+                                                <div class="header-left">
+                                                    <span class="header-title header-title--large">{prod.productLabel}</span>
+                                                    <div class="header-grids">
+                                                        <template if:true={prod.gridLabelText}>
+                                                            <span class="header-sep">—</span>
+                                                            <span class="header-grids-label">{prod.gridLabelText}</span>
+                                                        </template>
+                                                        <span class="header-sep">—</span>
+                                                    </div>
+                                                    <span class="header-counts">Share classes selected: {prod.selectedCount} / {prod.totalShareClasses} total</span>
+                                                </div>
+                                            </div>
+                                        </button>
+                                        <lightning-button-icon class="remove-product-button"
+                                                               icon-name="utility:delete"
+                                                               alternative-text="Remove product"
+                                                               title="Remove product"
+                                                               data-id={prod.productId}
+                                                               onclick={handleRemoveProduct}>
+                                        </lightning-button-icon>
+                                    </div>
+                                    <template if:true={prod.isOpen}>
+                                        <div class="table-scroll-container">
+                                            <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                                                <thead>
+                                                    <tr class="slds-line-height_reset">
+                                                        <template for:each={columns} for:item="col">
+                                                            <th key={col.apiName} scope="col">
+                                                                <div class="slds-truncate" title={col.label}>{col.label}</div>
+                                                            </th>
+                                                        </template>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <template for:each={prod.shareClasses} for:item="row">
+                                                        <tr key={row.id} class={row.rowClass}>
+                                                            <template for:each={row.cells} for:item="cell">
+                                                                <td key={cell.label} data-label={cell.label}>
+                                                                    <div class="slds-truncate" title={cell.value}>{cell.value}</div>
+                                                                </td>
+                                                            </template>
+                                                        </tr>
+                                                    </template>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                    <template if:false={includedProducts.length}>
+                        <div class="noProductDisplay">
+                            No products selected yet.
+                        </div>
+                    </template>
+
+                    <div class="section-heading section-heading-excluded section-heading-row">
+                        <span>Excluded Product ({productExcludedCount})</span>
+                        <lightning-button label={excludedToggleLabel} variant="neutral" onclick={handleToggleExcluded}></lightning-button>
+                    </div>
+                    <template if:true={excludedProducts.length}>
+                        <div class="custom-accordion">
+                            <template for:each={excludedProducts} for:item="prod">
+                                <div key={prod.productId} class="custom-accordion-item">
+                                    <div class="custom-accordion-header">
+                                        <button class="accordion-toggle-button" data-id={prod.productId} aria-expanded={prod.isOpen} onclick={handleToggleProduct}>
+                                            <div class="main-header-left">
+                                                <lightning-icon class="accordion-toggle-icon" icon-name={prod.toggleIconName} alternative-text="Toggle section" size="x-small"></lightning-icon>
+                                                <div class="header-left">
+                                                    <span class="header-title header-title--large">{prod.productLabel}</span>
+                                                    <span class="header-counts">{prod.totalShareClasses} total share classes</span>
+                                                </div>
+                                            </div>
+                                        </button>
+                                    </div>
+                                    <template if:true={prod.isOpen}>
+                                        <div class="table-scroll-container">
+                                            <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                                                <thead>
+                                                    <tr class="slds-line-height_reset">
+                                                        <template for:each={columns} for:item="col">
+                                                            <th key={col.apiName} scope="col">
+                                                                <div class="slds-truncate" title={col.label}>{col.label}</div>
+                                                            </th>
+                                                        </template>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <template for:each={prod.shareClasses} for:item="row">
+                                                        <tr key={row.id}>
+                                                            <template for:each={row.cells} for:item="cell">
+                                                                <td key={cell.label} data-label={cell.label}>
+                                                                    <div class="slds-truncate" title={cell.value}>{cell.value}</div>
+                                                                </td>
+                                                            </template>
+                                                        </tr>
+                                                    </template>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                    <template if:false={excludedProducts.length}>
+                        <div class="noProductDisplay">
+                            No excluded products to display.
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </section>
+</template>

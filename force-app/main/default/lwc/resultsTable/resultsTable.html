@@ -1,0 +1,52 @@
+<template>
+    <template if:true={showTable}>
+        <div class="accordion-controls">
+            <lightning-button label={toggleAllLabel} variant="neutral" onclick={handleToggleAll}></lightning-button>
+        </div>
+        <div class="custom-accordion">
+            <template for:each={productGroups} for:item="prod">
+                <div key={prod.productId} class="custom-accordion-item">
+                    <button class="custom-accordion-header" data-id={prod.productId} aria-expanded={prod.isOpen} onclick={handleToggleProduct}>
+                        <div class="main-header-left">
+                            <lightning-icon class="accordion-toggle-icon" icon-name={prod.toggleIconName} alternative-text="Toggle section" size="x-small"></lightning-icon>
+                            <div class="header-left">
+                                <span class="header-title header-title--large">{prod.productLabel}</span>
+                            </div>
+                        </div>
+                    </button>
+                    <template if:true={prod.isOpen}>
+                        <div class="table-scroll-container">
+                            <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <template for:each={columns} for:item="col">
+                                            <th key={col.apiName} scope="col">
+                                                <div class="slds-truncate" title={col.label}>{col.label}</div>
+                                            </th>
+                                        </template>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={prod.shareClasses} for:item="row">
+                                        <tr key={row.id}>
+                                            <template for:each={row.cells} for:item="cell">
+                                                <td key={cell.label} data-label={cell.label}>
+                                                    <div class="slds-truncate" title={cell.value}>{cell.value}</div>
+                                                </td>
+                                            </template>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+                </div>
+            </template>
+        </div>
+    </template>
+    <template if:false={showTable}>
+        <div class="slds-text-color_weak">
+            No products to display yet.
+        </div>
+    </template>
+</template>

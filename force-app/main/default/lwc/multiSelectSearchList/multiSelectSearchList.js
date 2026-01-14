@@ -1,9 +1,10 @@
 /* eslint-disable @lwc/lwc/no-api-reassignments */
 /**
- * @description       :
- * @author            : Thanina YAYA
- * @last modified on  : 10-25-2024
- * @last modified by  : SILA Nicolas
+ * @description	:
+ * @author		: Thanina YAYA
+ * @history
+ * [25-10-2024]		[SILA Nicolas]
+ * [16-12-2025]		[EID Charles]	[Add showValuesWhenNotSelecting feature]
 **/
 import { LightningElement, api, track } from 'lwc';
 
@@ -29,6 +30,9 @@ export default class MultiSelectSearchList extends LightningElement {
 
     @api isTranslationComponent = false;
 
+    @api showValuesWhenNotSelecting = false;
+	  @api dropdownValueSeparator = ';';
+
     //@track pills=[];
     @track optionsSaved = [];
 
@@ -36,6 +40,7 @@ export default class MultiSelectSearchList extends LightningElement {
     inDropdown = false;
     isOpen = false;
     searchKey;
+	  savedSearchKey;
     isListMouseEnt = false;
     isListMouseLeav = false;
     isDivMouseEnt = false;
@@ -66,12 +71,17 @@ export default class MultiSelectSearchList extends LightningElement {
       } else listPills = undefined;
        return listPills;
     }
- 
+	
+	connectedCallback() {
+		if(this.showValuesWhenNotSelecting) {
+			this.searchKey = this.value.join(this.dropdownValueSeparator);
+		}
+	}
    
     renderedCallback(){
-      if(!(this.optionsSaved && this.optionsSaved.length)){
-        this.optionsSaved = [...this.options];
-      }
+		if(!(this.optionsSaved && this.optionsSaved.length)){
+			this.optionsSaved = [...this.options];
+      	}
     }
    
     @api refreshOptions(newoptions){
@@ -81,19 +91,30 @@ export default class MultiSelectSearchList extends LightningElement {
    
  
     openDropdown(){
-      this.isOpen = true;
+		this.isOpen = true;
+		if(this.showValuesWhenNotSelecting) {
+			this.searchKey = this.savedSearchKey;
+		}
     }
-    closeDropdown(){
-      this.isOpen = false;
+    closeDropdown(event){
+		if(this.showValuesWhenNotSelecting) {
+			this.isOpen = (event?.type === 'focus');
+			this.savedSearchKey = this.searchKey;
+			this.searchKey = this.value.join(this.dropdownValueSeparator);
+		} 
+		else {
+			this.isOpen = false;
+		}
     }
  
     handleClick(event){
- 
-      if(this.isOpen === true) this.closeDropdown();
-      else {
-            event.stopImmediatePropagation();
-            this.openDropdown();
-      }
+		if(this.isOpen === true) {
+			this.closeDropdown();
+		} 
+		else {
+			event.stopImmediatePropagation();
+			this.openDropdown();
+		}
     }
     handleMouseEntDiv(){
        this.isDivMouseEnt = true;
@@ -128,9 +149,9 @@ export default class MultiSelectSearchList extends LightningElement {
             //let listPills = [];
             this.value = event.detail.value;
             if(this.monoSelect) this.selectedLabelFind(); //needed only in monoSelect Case;
-            this.searchKey = '';
+            this.searchKey = this.showValuesWhenNotSelecting && !this.isOpen? this.value.join(this.dropdownValueSeparator) : '';
             this.options = [...this.optionsSaved];
-            this.dispatchSearchChange(event);
+            this.dispatchSearchChange(event, false);
     }
  
     handleChangeSearch(event)
@@ -154,7 +175,7 @@ export default class MultiSelectSearchList extends LightningElement {
       else{
           this.options = [...this.optionsSaved];
       }
-      this.dispatchSearchChange(event);
+      this.dispatchSearchChange(event, true);
       }
  
       searchInOtherFields(word,key)
@@ -186,13 +207,13 @@ export default class MultiSelectSearchList extends LightningElement {
         let valueCopy = [...this.value];
         valueCopy.splice(index,1);
         this.value = [...valueCopy];
-        this.dispatchSearchChange(e);
+        this.dispatchSearchChange(e, false);
       }
  
-      dispatchSearchChange(event){
+      dispatchSearchChange(event, isSearchChange){
               event.preventDefault();
               event.stopPropagation();
-              const selectedEvent = new CustomEvent('change', { detail: {searchKey: this.searchKey,selectedValues: this.value,selectedLabel: this.selectedLabel} } );
+              const selectedEvent = new CustomEvent('change', { detail: {searchKey: this.searchKey, selectedValues: this.value, selectedLabel: this.selectedLabel, isSearchChange: isSearchChange} } );
               this.dispatchEvent(selectedEvent);
       }
 }

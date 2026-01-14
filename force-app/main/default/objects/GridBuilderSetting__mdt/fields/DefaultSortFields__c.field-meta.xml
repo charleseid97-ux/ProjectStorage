@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DefaultSortFields__c</fullName>
+    <description>Defines the default sort order for the Grid Builder result table.
+
+The Grid Builder will automatically apply these sort fields to search results when no user-defined sorting is applied.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Enter one field per line using the format ObjectApiName =&gt; FieldApiName.
+Example:
+Strategy__c =&gt; AssetClass__c
+Share_Class__c =&gt; ISIN__c
+
+Each line represents one sorting level, where the first line is the primary sort field, the second line is the secondary sort field, and so on.
+
+The Grid Builder will automatically apply these sort fields to search results when no user-defined sorting is applied.</inlineHelpText>
+    <label>Default Sort Fields</label>
+    <length>4096</length>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>
