@@ -7,7 +7,7 @@ import importFromJson from '@salesforce/apex/GridExcelImportService.importFromJs
 export default class GridExcelImporter extends LightningElement {
 
 	@track scopeHeaders = ['Grid', 'Agreement', 'Country', 'PtfCode'];
-	@track ruleHeaders = ['Grid', 'Include', 'Exclude', 'Comment', 'RuleToApply', 'FeesType', 'RuleValue', 'OtherShareType'];
+	@track ruleHeaders = ['Grid', 'Include', 'Exclude', 'Comment', 'RuleToApply', 'FeesType', 'RuleValue', 'ShareType', 'OtherShareType'];
 
 	file;
 	importedFileName;

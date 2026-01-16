@@ -1,36 +1,4 @@
 public with sharing class GridCriteriaExpressionParser {
-    public class TokenMapping {
-        public String objectApiName;
-        public String fieldApiName;
-        public TokenMapping(String objectApiName, String fieldApiName) {
-            this.objectApiName = objectApiName;
-            this.fieldApiName = fieldApiName;
-        }
-    }
-
-    public class ParsedCondition {
-        public Integer filterNumber;
-        public String token;
-        public String logic;
-        public String value;
-        public String objectApiName;
-        public String fieldApiName;
-    }
-
-    public class ParseResult {
-        public List<ParsedCondition> conditions = new List<ParsedCondition>();
-        public String filterLogicExpression;
-        public List<String> errors = new List<String>();
-        public Boolean hasErrors() {
-            return !errors.isEmpty();
-        }
-    }
-
-    private class SegmentResult {
-        public Integer count = 0;
-        public String expression;
-        public List<String> operators = new List<String>();
-    }
 
     private static final Map<String, TokenMapping> TOKEN_MAP = buildTokenMap();
 
@@ -105,31 +73,18 @@ public with sharing class GridCriteriaExpressionParser {
     private static ParsedCondition parseCondition(String rawCondition, Boolean isExclude, Integer filterNumber, ParseResult result) {
         String working = rawCondition.trim();
         String upper = working.toUpperCase();
-        Integer opIndex;
-        String opToken;
-        String opPattern;
-
-        if (upper.contains(' NOT IN ')) {
-            opToken = 'NOT IN';
-            opPattern = ' NOT IN ';
-            opIndex = upper.indexOf(opPattern);
-        } else if (upper.contains(' IN ')) {
-            opToken = 'IN';
-            opPattern = ' IN ';
-            opIndex = upper.indexOf(opPattern);
-        } else if (upper.contains('!=')) {
-            opToken = '!=';
-            opPattern = '!=';
-            opIndex = upper.indexOf(opPattern);
-        } else if (upper.contains('=')) {
-            opToken = '=';
-            opPattern = '=';
-            opIndex = upper.indexOf(opPattern);
-        } else {
+        Matcher opMatcher = Pattern.compile('\\s+(NOT IN|IN)\\s+|!=|<>|=').matcher(upper);
+        if (!opMatcher.find()) {
             result.errors.add('Unsupported operator in condition: "' + rawCondition + '".');
             return null;
         }
 
+        String opToken = opMatcher.group(1) != null ? opMatcher.group(1) : opMatcher.group(0);
+        if (opToken == '<>') {
+            opToken = '!=';
+        }
+        String opPattern = opMatcher.group(0);
+        Integer opIndex = opMatcher.start();
         String token = working.substring(0, opIndex).trim();
         String right = working.substring(opIndex + opPattern.length()).trim();
 
@@ -146,11 +101,7 @@ public with sharing class GridCriteriaExpressionParser {
 
         String logic = opToken;
         if (isExclude) {
-            if (logic == '=') {
-                logic = '!=';
-            } else if (logic == 'IN') {
-                logic = 'NOT IN';
-            }
+            logic = (logic == '=')? '!=' : (logic == 'IN')? 'NOT IN' : logic;
         }
 
         String value;
@@ -166,7 +117,8 @@ public with sharing class GridCriteriaExpressionParser {
                 return null;
             }
             value = String.join(values, ';');
-        } else {
+        } 
+        else {
             value = stripQuotes(right);
             if (String.isBlank(value)) {
                 result.errors.add('Value is blank in condition: "' + rawCondition + '".');
@@ -174,14 +126,7 @@ public with sharing class GridCriteriaExpressionParser {
             }
         }
 
-        ParsedCondition parsed = new ParsedCondition();
-        parsed.filterNumber = filterNumber;
-        parsed.token = token;
-        parsed.logic = logic;
-        parsed.value = value;
-        parsed.objectApiName = mapping.objectApiName;
-        parsed.fieldApiName = mapping.fieldApiName;
-        return parsed;
+        return new ParsedCondition(filterNumber, token, logic, value, mapping.objectApiName, mapping.fieldApiName);
     }
 
     private static String buildExpression(List<String> operators, Integer startIndex, Integer count) {
@@ -227,7 +172,50 @@ public with sharing class GridCriteriaExpressionParser {
         mapping.put('legalstatus', new TokenMapping('Product__c', 'Legal_Status__c'));
         mapping.put('shctype', new TokenMapping('Share_Class__c', 'Type__c'));
         mapping.put('ptfcode', new TokenMapping('Product__c', 'InternalShortName__c'));
+        mapping.put('pfcode', new TokenMapping('Product__c', 'InternalShortName__c'));
         mapping.put('isin', new TokenMapping('Share_Class__c', 'ISIN__c'));
         return mapping;
+    }
+
+    // ------------------------------------ WRAPPERS ------------------------------------
+    public class TokenMapping {
+        public String objectApiName;
+        public String fieldApiName;
+        public TokenMapping(String objectApiName, String fieldApiName) {
+            this.objectApiName = objectApiName;
+            this.fieldApiName = fieldApiName;
+        }
+    }
+
+    public class ParsedCondition {
+        public Integer filterNumber;
+        public String token;
+        public String logic;
+        public String value;
+        public String objectApiName;
+        public String fieldApiName;
+        public ParsedCondition(Integer filterNumber, String token, String logic, String value, String objectApiName, String fieldApiName) {
+            this.filterNumber   =   filterNumber;
+            this.token          =   token;
+            this.logic          =   logic;
+            this.value          =   value;
+            this.objectApiName  =   objectApiName;
+            this.fieldApiName   =   fieldApiName;
+        }
+    }
+
+    public class ParseResult {
+        public List<ParsedCondition> conditions = new List<ParsedCondition>();
+        public String filterLogicExpression;
+        public List<String> errors = new List<String>();
+        public Boolean hasErrors() {
+            return !errors.isEmpty();
+        }
+    }
+
+    private class SegmentResult {
+        public Integer count = 0;
+        public String expression;
+        public List<String> operators = new List<String>();
     }
 }

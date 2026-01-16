@@ -3,7 +3,6 @@ private class GridExcelImportServiceTest {
     @IsTest
     static void testImportFromJson() {
         insert new Grid__c(Name = 'S1');
-        insert new Grid__c(Name = 'S5+');
 
         GridExcelImportService.Payload payload = new GridExcelImportService.Payload();
         payload.scopes = new List<GridExcelImportService.ScopeRow>();
@@ -34,6 +33,7 @@ private class GridExcelImportServiceTest {
         rule1.RuleToApply = 'Percentage of Fees';
         rule1.FeesType = 'EffectiveManagementFees';
         rule1.RuleValue = '33,00%';
+        rule1.ShareType = null;
         rule1.OtherShareType = null;
         payload.rules.add(rule1);
 
@@ -46,6 +46,7 @@ private class GridExcelImportServiceTest {
         rule2.RuleToApply = 'Take Rebates Rate - Other Share Type + Fees';
         rule2.FeesType = 'EffectiveManagementFees';
         rule2.RuleValue = '15%';
+        rule2.ShareType = 'AW';
         rule2.OtherShareType = 'AW';
         payload.rules.add(rule2);
 
@@ -58,6 +59,7 @@ private class GridExcelImportServiceTest {
         rule3.RuleToApply = 'Take Rebates Rate - Other Grid Rule';
         rule3.FeesType = 'EffectiveManagementFees';
         rule3.RuleValue = 'S1-Rule-A';
+        rule3.ShareType = null;
         rule3.OtherShareType = null;
         payload.rules.add(rule3);
 
@@ -76,9 +78,20 @@ private class GridExcelImportServiceTest {
         List<GridScope__c> scopes = [SELECT Id, GridName__c FROM GridScope__c WHERE GridName__c IN ('S1', 'S5+')];
         System.assertEquals(2, scopes.size(), 'Expected scopes to be inserted.');
 
+        Map<String, Id> scopeIdsByName = new Map<String, Id>();
+        for (GridScope__c scope : scopes) {
+            scopeIdsByName.put(scope.GridName__c, scope.Id);
+        }
+
+        List<Grid__c> grids = [SELECT Id, Name, GridScope__c FROM Grid__c WHERE Name IN ('S1', 'S5+')];
+        System.assertEquals(2, grids.size(), 'Expected grids to be present.');
+        for (Grid__c grid : grids) {
+            System.assertEquals(scopeIdsByName.get(grid.Name), grid.GridScope__c, 'Grid should reference matching GridScope__c.');
+        }
+
         List<GridRuleLine__c> ruleLines = [
             SELECT Id, GridScope__c, GridCriteria__c, RuleToApply__c, FeesType__c,
-                   PercentageOfFees__c, OtherShareType__c, OtherGridRule__c
+                   PercentageOfFees__c, ShareType__c, OtherShareType__c, OtherGridRule__c
             FROM GridRuleLine__c
         ];
         System.assertEquals(3, ruleLines.size(), 'Expected rule lines to be inserted.');
@@ -92,9 +105,11 @@ private class GridExcelImportServiceTest {
             if (line.RuleToApply__c == 'Percentage of Fees') {
                 percentRuleFound = true;
                 System.assertEquals(33, line.PercentageOfFees__c, 'Percent parsing should keep 33,00% as 33.');
+                System.assertEquals(null, line.ShareType__c, 'ShareType should be blank for Percentage of Fees.');
             }
             if (line.RuleToApply__c == 'Take Rebates Rate - Other Share Type + Fees') {
                 otherShareTypeFeesFound = true;
+                System.assertEquals('AW', line.ShareType__c, 'ShareType should be populated from column.');
                 System.assertEquals('AW', line.OtherShareType__c, 'OtherShareType should be populated from column.');
                 System.assertEquals(15, line.PercentageOfFees__c, 'RuleValue should populate PercentageOfFees__c.');
             }

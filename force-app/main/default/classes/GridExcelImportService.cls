@@ -4,9 +4,14 @@ public with sharing class GridExcelImportService {
 
     private static final Map<String, String> RULE_TO_APPLY_MAP = new Map<String, String>{
         'percentage of fees' => 'Percentage of Fees',
+        '%offees' => 'Percentage of Fees',
         'take rebates rate - other share type' => 'Take Rebates Rate - Other Share Type',
+        'takerebatesrate' => 'Take Rebates Rate - Other Share Type',
         'take rebates rate - other share type + fees' => 'Take Rebates Rate - Other Share Type + Fees',
-        'take rebates rate - other grid rule' => 'Take Rebates Rate - Other Grid Rule'
+        'rebatesa + fees(e-a)' => 'Take Rebates Rate - Other Share Type + Fees',
+        'rebatesaw + fees(e-aw)' => 'Take Rebates Rate - Other Share Type + Fees',
+        'take rebates rate - other grid rule' => 'Take Rebates Rate - Other Grid Rule',
+        'gridrule' => 'Take Rebates Rate - Other Grid Rule'
     };
 
     private static final Map<String, String> FEES_TYPE_MAP = new Map<String, String>{
@@ -23,7 +28,8 @@ public with sharing class GridExcelImportService {
         Payload payload;
         try {
             payload = (Payload) JSON.deserialize(payloadJson, Payload.class);
-        } catch (Exception ex) {
+        } 
+        catch (Exception ex) {
             throw new AuraHandledException('Invalid JSON payload: ' + ex.getMessage());
         }
 
@@ -45,6 +51,7 @@ public with sharing class GridExcelImportService {
                 addError(result, 'GridScopes', rowNumber, 'Grid is required.');
                 continue;
             }
+            gridNames.add(gridName);
 
             GridScope__c scope = scopesByName.get(gridName);
             if (scope == null) {
@@ -76,13 +83,7 @@ public with sharing class GridExcelImportService {
         }
 
         Map<String, Id> scopeIdByName = upsertScopes(scopesByName, scopeRowByName, scopeRuleRowByName, result);
-
-        Map<String, Id> gridIdByName = new Map<String, Id>();
-        if (!gridNames.isEmpty()) {
-            for (Grid__c grid : [SELECT Id, Name FROM Grid__c WHERE Name IN :gridNames]) {
-                gridIdByName.put(grid.Name, grid.Id);
-            }
-        }
+        Map<String, Id> gridIdByName = upsertGrids(gridNames, scopeIdByName, scopeRowByName, scopeRuleRowByName, result);
 
         List<RuleContext> ruleContexts = new List<RuleContext>();
         for (RuleRow row : ruleRows) {
@@ -94,7 +95,7 @@ public with sharing class GridExcelImportService {
 
             Id gridId = gridIdByName.get(gridName);
             if (gridId == null) {
-                addError(result, 'GridRules', rowNumber, 'Grid__c not found for Grid "' + gridName + '".');
+                addError(result, 'GridRules', rowNumber, 'Grid__c not found or failed to create for Grid "' + gridName + '".');
                 continue;
             }
 
@@ -104,14 +105,14 @@ public with sharing class GridExcelImportService {
                 continue;
             }
 
-            String ruleToApply = mapRuleToApply(row.RuleToApply);
+            String ruleToApply = getValueFromMap(row.RuleToApply, RULE_TO_APPLY_MAP);
             if (ruleToApply == null) {
                 addError(result, 'GridRules', rowNumber, 'Unsupported RuleToApply "' + normalize(row.RuleToApply) + '".');
                 continue;
             }
 
-            String feesType = mapFeesType(row.FeesType);
-            if (String.isNotBlank(normalize(row.FeesType)) && feesType == null) {
+            String feesType = getValueFromMap(row.FeesType, FEES_TYPE_MAP);
+            if (String.isNotBlank(row.FeesType) && feesType == null) {
                 addError(result, 'GridRules', rowNumber, 'FeesType must be "EffectiveManagementFees" when provided.');
                 continue;
             }
@@ -124,14 +125,7 @@ public with sharing class GridExcelImportService {
                 continue;
             }
 
-            RuleContext ctx = new RuleContext();
-            ctx.rowNumber = rowNumber;
-            ctx.gridName = gridName;
-            ctx.gridId = gridId;
-            ctx.scopeId = scopeId;
-            ctx.ruleToApply = ruleToApply;
-            ctx.feesType = feesType;
-            ctx.conditions = parseResult.conditions;
+            RuleContext ctx = new RuleContext(rowNumber, gridName, gridId, scopeId, ruleToApply, feesType, parseResult.conditions);
 
             String valueError = applyRuleValue(ctx, row);
             if (valueError != null) {
@@ -167,7 +161,8 @@ public with sharing class GridExcelImportService {
             if (criteriaResults[i].isSuccess()) {
                 result.criteriaCreated++;
                 ctx.criteriaId = criteriaToInsert[i].Id;
-            } else {
+            } 
+            else {
                 ctx.hasErrors = true;
                 addError(result, 'GridRules', ctx.rowNumber, 'Failed to create GridCriteria__c: ' + criteriaResults[i].getErrors()[0].getMessage());
             }
@@ -199,7 +194,8 @@ public with sharing class GridExcelImportService {
                 DetailContext detailContext = detailContexts[i];
                 if (detailResults[i].isSuccess()) {
                     result.criteriaDetailsCreated++;
-                } else {
+                } 
+                else {
                     detailContext.context.detailError = true;
                     addError(result, 'GridRules', detailContext.context.rowNumber, 'Failed to create GridCriteriaDetail__c: ' + detailResults[i].getErrors()[0].getMessage());
                 }
@@ -218,6 +214,7 @@ public with sharing class GridExcelImportService {
             line.RuleToApply__c = ctx.ruleToApply;
             line.FeesType__c = ctx.feesType;
             line.PercentageOfFees__c = ctx.percentageOfFees;
+            line.ShareType__c = ctx.shareType;
             line.OtherShareType__c = ctx.otherShareType;
             line.OtherGridRule__c = ctx.otherGridRule;
             ruleLines.add(line);
@@ -230,7 +227,8 @@ public with sharing class GridExcelImportService {
                 RuleContext ctx = ruleLineContexts[i];
                 if (ruleLineResults[i].isSuccess()) {
                     result.ruleLinesCreated++;
-                } else {
+                } 
+                else {
                     addError(result, 'GridRules', ctx.rowNumber, 'Failed to create GridRuleLine__c: ' + ruleLineResults[i].getErrors()[0].getMessage());
                 }
             }
@@ -239,12 +237,7 @@ public with sharing class GridExcelImportService {
         return result;
     }
 
-    private static Map<String, Id> upsertScopes(
-        Map<String, GridScope__c> scopesByName,
-        Map<String, Integer> scopeRowByName,
-        Map<String, Integer> scopeRuleRowByName,
-        ImportResult result
-    ) {
+    private static Map<String, Id> upsertScopes(Map<String, GridScope__c> scopesByName, Map<String, Integer> scopeRowByName, Map<String, Integer> scopeRuleRowByName, ImportResult result) {
         Map<String, Id> scopeIdByName = new Map<String, Id>();
         if (scopesByName.isEmpty()) {
             return scopeIdByName;
@@ -270,10 +263,9 @@ public with sharing class GridExcelImportService {
             if (results[i].isSuccess()) {
                 result.scopesUpserted++;
                 scopeIdByName.put(scope.GridName__c, scope.Id);
-            } else {
-                Integer rowNumber = scopeRowByName.containsKey(scope.GridName__c)
-                    ? scopeRowByName.get(scope.GridName__c)
-                    : scopeRuleRowByName.get(scope.GridName__c);
+            } 
+            else {
+                Integer rowNumber = scopeRowByName.containsKey(scope.GridName__c)? scopeRowByName.get(scope.GridName__c) : scopeRuleRowByName.get(scope.GridName__c);
                 String sheetName = scopeRowByName.containsKey(scope.GridName__c) ? 'GridScopes' : 'GridRules';
                 addError(result, sheetName, rowNumber, 'Failed to upsert GridScope__c for Grid "' + scope.GridName__c + '": ' + results[i].getErrors()[0].getMessage());
             }
@@ -282,82 +274,140 @@ public with sharing class GridExcelImportService {
         return scopeIdByName;
     }
 
+    private static Map<String, Id> upsertGrids(Set<String> gridNames, Map<String, Id> scopeIdByName, Map<String, Integer> scopeRowByName, Map<String, Integer> scopeRuleRowByName, ImportResult result) {
+        Map<String, Id> gridIdByName = new Map<String, Id>();
+        if (gridNames.isEmpty()) {
+            return gridIdByName;
+        }
+
+        Map<String, Id> existingGridIdsByName = new Map<String, Id>();
+        for (Grid__c grid : [SELECT Id, Name FROM Grid__c WHERE Name IN :gridNames]) {
+            existingGridIdsByName.put(grid.Name, grid.Id);
+        }
+
+        List<Grid__c> toUpsert = new List<Grid__c>();
+        List<String> namesForUpsert = new List<String>();
+        for (String gridName : gridNames) {
+            Id scopeId = scopeIdByName.get(gridName);
+            if (scopeId == null) {
+                Integer rowNumber = scopeRowByName.containsKey(gridName) ? scopeRowByName.get(gridName) : scopeRuleRowByName.get(gridName);
+                String sheetName = scopeRowByName.containsKey(gridName) ? 'GridScopes' : 'GridRules';
+                addError(result, sheetName, rowNumber, 'GridScope__c not found or failed to create for Grid "' + gridName + '".');
+                continue;
+            }
+
+            Grid__c grid = new Grid__c();
+            grid.Name = gridName;
+            grid.GridScope__c = scopeId;
+            Id existingId = existingGridIdsByName.get(gridName);
+            if (existingId != null) {
+                grid.Id = existingId;
+            }
+            toUpsert.add(grid);
+            namesForUpsert.add(gridName);
+        }
+
+        if (toUpsert.isEmpty()) {
+            return gridIdByName;
+        }
+
+        Database.UpsertResult[] results = Database.upsert(toUpsert, false);
+        for (Integer i = 0; i < results.size(); i++) {
+            String gridName = namesForUpsert[i];
+            if (results[i].isSuccess()) {
+                gridIdByName.put(gridName, toUpsert[i].Id);
+            } 
+            else {
+                Integer rowNumber = scopeRowByName.containsKey(gridName) ? scopeRowByName.get(gridName) : scopeRuleRowByName.get(gridName);
+                String sheetName = scopeRowByName.containsKey(gridName) ? 'GridScopes' : 'GridRules';
+                addError(result, sheetName, rowNumber, 'Failed to upsert Grid__c for Grid "' + gridName + '": ' + results[i].getErrors()[0].getMessage());
+            }
+        }
+
+        return gridIdByName;
+    }
+
+    private static String getValueFromMap(String value, Map<String, String> referenceMap) {
+        String key = String.isNotBlank(value)? normalize(value).toLowerCase() : null;
+        return referenceMap.containsKey(key)? referenceMap.get(key) : null;
+    }
+
     private static String normalize(String value) {
-        if (value == null) {
-            return null;
-        }
-        String trimmed = value.trim();
-        return String.isBlank(trimmed) ? null : trimmed;
-    }
-
-    private static String mapRuleToApply(String value) {
-        String key = normalize(value);
-        if (key == null) {
-            return null;
-        }
-        return RULE_TO_APPLY_MAP.get(key.toLowerCase());
-    }
-
-    private static String mapFeesType(String value) {
-        String key = normalize(value);
-        if (key == null) {
-            return null;
-        }
-        return FEES_TYPE_MAP.get(key.toLowerCase());
+        return String.isNotBlank(value)? value.trim() : null;
     }
 
     private static String applyRuleValue(RuleContext ctx, RuleRow row) {
         String ruleValue = normalize(row.RuleValue);
+        String shareType = normalize(row.ShareType);
         String otherShareType = normalize(row.OtherShareType);
 
-        if (ctx.ruleToApply == 'Percentage of Fees') {
-            if (String.isBlank(ruleValue)) {
-                return 'RuleValue is required for Percentage of Fees.';
+        String pctError = validatePercentage(ruleValue);
+        switch on ctx.ruleToApply {
+            when 'Percentage of Fees' {
+                if (pctError != null) {
+                    return pctError;
+                }
+                ctx.percentageOfFees = parsePercent(ruleValue);
+                ctx.otherShareType = null;
+                ctx.otherGridRule = null;
+                return null;
             }
-            Decimal pct = parsePercent(ruleValue);
-            if (pct == null) {
-                return 'RuleValue "' + ruleValue + '" is not a valid percentage.';
+            when 'Take Rebates Rate - Other Share Type' {
+                String otherTypeError = requireValue(otherShareType, 'OtherShareType is required for Other Share Type.');
+                if (otherTypeError != null) {
+                    return otherTypeError;
+                }
+                ctx.otherShareType = otherShareType;
+                ctx.percentageOfFees = null;
+                ctx.otherGridRule = null;
+                return null;
             }
-            ctx.percentageOfFees = pct;
-            ctx.otherShareType = null;
-            ctx.otherGridRule = null;
-            return null;
+            when 'Take Rebates Rate - Other Share Type + Fees' {
+                String otherTypeError = requireValue(otherShareType, 'OtherShareType is required for Other Share Type + Fees.');
+                if (otherTypeError != null) {
+                    return otherTypeError;
+                }
+                String shareTypeError = requireValue(shareType, 'ShareType is required for Other Share Type + Fees.');
+                if (shareTypeError != null) {
+                    return shareTypeError;
+                }
+                if (pctError != null) {
+                    return pctError;
+                }
+                ctx.shareType = shareType;
+                ctx.otherShareType = otherShareType;
+                ctx.percentageOfFees = parsePercent(ruleValue);
+                ctx.otherGridRule = null;
+                return null;
+            }
+            when 'Take Rebates Rate - Other Grid Rule' {
+                String gridRuleError = requireValue(ruleValue, 'RuleValue is required for Other Grid Rule.');
+                if (gridRuleError != null) {
+                    return gridRuleError;
+                }
+                ctx.otherGridRule = ruleValue;
+                ctx.percentageOfFees = null;
+                ctx.otherShareType = null;
+                return null;
+            }
+            when else {
+                return 'Unsupported RuleToApply "' + ctx.ruleToApply + '".';
+            }
         }
-        if (ctx.ruleToApply == 'Take Rebates Rate - Other Share Type') {
-            if (String.isBlank(otherShareType)) {
-                return 'OtherShareType is required for Other Share Type.';
-            }
-            ctx.otherShareType = otherShareType;
-            ctx.percentageOfFees = null;
-            ctx.otherGridRule = null;
-            return null;
+    }
+
+    private static String requireValue(String value, String message) {
+        return String.isBlank(value) ? message : null;
+    }
+
+    private static String validatePercentage(String value) {
+        if (String.isBlank(value)) {
+            return 'RuleValue is required for Percentage of Fees.';
         }
-        if (ctx.ruleToApply == 'Take Rebates Rate - Other Share Type + Fees') {
-            if (String.isBlank(otherShareType)) {
-                return 'OtherShareType is required for Other Share Type + Fees.';
-            }
-            if (String.isBlank(ruleValue)) {
-                return 'RuleValue is required for Other Share Type + Fees.';
-            }
-            Decimal pct = parsePercent(ruleValue);
-            if (pct == null) {
-                return 'RuleValue "' + ruleValue + '" is not a valid percentage.';
-            }
-            ctx.otherShareType = otherShareType;
-            ctx.percentageOfFees = pct;
-            ctx.otherGridRule = null;
-            return null;
+        if (parsePercent(value) == null) {
+            return 'RuleValue "' + value + '" is not a valid percentage.';
         }
-        if (ctx.ruleToApply == 'Take Rebates Rate - Other Grid Rule') {
-            if (String.isBlank(ruleValue)) {
-                return 'RuleValue is required for Other Grid Rule.';
-            }
-            ctx.otherGridRule = ruleValue;
-            ctx.percentageOfFees = null;
-            ctx.otherShareType = null;
-            return null;
-        }
-        return 'Unsupported RuleToApply "' + ctx.ruleToApply + '".';
+        return null;
     }
 
     private static Decimal parsePercent(String raw) {
@@ -384,6 +434,7 @@ public with sharing class GridExcelImportService {
         result.errors.add(new ImportError(sheetName, rowNumber, message));
     }
 
+    // ------------------------------------ WRAPPERS ------------------------------------
     public class ImportResult {
         @AuraEnabled public Integer scopesUpserted = 0;
         @AuraEnabled public Integer criteriaCreated = 0;
@@ -425,6 +476,7 @@ public with sharing class GridExcelImportService {
         public String RuleToApply;
         public String FeesType;
         public String RuleValue;
+        public String ShareType;
         public String OtherShareType;
     }
 
@@ -436,6 +488,7 @@ public with sharing class GridExcelImportService {
         public String ruleToApply;
         public String feesType;
         public Decimal percentageOfFees;
+        public String shareType;
         public String otherShareType;
         public String otherGridRule;
         public GridCriteria__c criteria;
@@ -443,6 +496,15 @@ public with sharing class GridExcelImportService {
         public List<GridCriteriaExpressionParser.ParsedCondition> conditions;
         public Boolean hasErrors = false;
         public Boolean detailError = false;
+        public RuleContext(Integer rowNumber, String gridName, Id gridId, Id scopeId, String ruleToApply, String feesType, List<GridCriteriaExpressionParser.ParsedCondition> conditions) {
+            this.rowNumber = rowNumber;
+            this.gridName = gridName;
+            this.gridId = gridId;
+            this.scopeId = scopeId;
+            this.ruleToApply = ruleToApply;
+            this.feesType = feesType;
+            this.conditions = conditions;
+        }
     }
 
     private class DetailContext {
