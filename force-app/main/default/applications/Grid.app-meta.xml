@@ -10,10 +10,10 @@
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
     <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
-    <isOmniPinnedViewEnabled>false</isOmniPinnedViewEnabled>
     <label>Grid</label>
     <navType>Standard</navType>
     <tabs>Grid__c</tabs>
+    <tabs>GridExcelImport</tabs>
     <tabs>GridCriteria__c</tabs>
     <tabs>Strategy__c</tabs>
     <tabs>Product__c</tabs>
