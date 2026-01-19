@@ -2,10 +2,10 @@
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>All</fullName>
     <columns>NAME</columns>
-    <columns>GridTag__c</columns>
-    <columns>GridScope__c</columns>
-    <columns>Team__c</columns>
-    <columns>ActiveGrid__c</columns>
+    <columns>GridName__c</columns>
+    <columns>Agreement__c</columns>
+    <columns>Country__c</columns>
+    <columns>ProductCode__c</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
 </ListView>

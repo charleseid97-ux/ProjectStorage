@@ -13,12 +13,13 @@
     <label>Grid</label>
     <navType>Standard</navType>
     <tabs>Grid__c</tabs>
-    <tabs>GridExcelImport</tabs>
+    <tabs>GridScope__c</tabs>
     <tabs>GridCriteria__c</tabs>
     <tabs>Convention__c</tabs>
     <tabs>Strategy__c</tabs>
     <tabs>Product__c</tabs>
     <tabs>Share_Class__c</tabs>
+    <tabs>GridExcelImport</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Grid_UtilityBar</utilityBar>
 </CustomApplication>

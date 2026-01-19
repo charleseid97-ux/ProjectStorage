@@ -76,8 +76,8 @@
         <name>main</name>
         <type>Region</type>
     </flexiPageRegions>
-    <masterLabel>Grid Criteria Detail Record Page</masterLabel>
-    <sobjectType>GridCriteriaDetail__c</sobjectType>
+    <masterLabel>Grid Detail Record Page</masterLabel>
+    <sobjectType>GridDetail__c</sobjectType>
     <template>
         <name>flexipage:recordHomeSimpleViewTemplate</name>
     </template>

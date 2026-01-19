@@ -56,6 +56,7 @@ public with sharing class GridExcelImportService {
             GridScope__c scope = scopesByName.get(gridName);
             if (scope == null) {
                 scope = new GridScope__c();
+                scope.Name = buildGridScopeName(gridName);
                 scope.GridName__c = gridName;
                 scopesByName.put(gridName, scope);
             }
@@ -76,6 +77,7 @@ public with sharing class GridExcelImportService {
 
             if (!scopesByName.containsKey(gridName)) {
                 GridScope__c scope = new GridScope__c();
+                scope.Name = buildGridScopeName(gridName);
                 scope.GridName__c = gridName;
                 scopesByName.put(gridName, scope);
                 scopeRuleRowByName.put(gridName, rowNumber);
@@ -135,7 +137,6 @@ public with sharing class GridExcelImportService {
 
             GridCriteria__c criteria = new GridCriteria__c();
             criteria.Name = buildCriteriaName(gridName, rowNumber);
-            criteria.Grid__c = gridId;
             criteria.Comment__c = normalize(row.Comment);
             criteria.StartDate__c = START_DATE;
             criteria.EndDate__c = END_DATE;
@@ -182,7 +183,7 @@ public with sharing class GridExcelImportService {
                 detail.Value__c = cond.value;
                 detail.Object__c = cond.objectApiName;
                 detail.Field__c = cond.fieldApiName;
-                detail.TECHOrigin__c = 'System';
+                detail.TECHOrigin__c = 'Excel Import';
                 detailsToInsert.add(detail);
                 detailContexts.add(new DetailContext(detail, ctx));
             }
@@ -428,6 +429,11 @@ public with sharing class GridExcelImportService {
             rowNumber = -1;
         }
         return 'CRIT-' + gridName + '-' + String.valueOf(rowNumber);
+    }
+
+    private static String buildGridScopeName(String gridName) {
+        String creationDate = Date.today().format();
+        return 'Grid Scope for ' + gridName + ' - ' + creationDate;
     }
 
     private static void addError(ImportResult result, String sheetName, Integer rowNumber, String message) {

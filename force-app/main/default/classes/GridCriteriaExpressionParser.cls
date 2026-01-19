@@ -14,21 +14,19 @@ public with sharing class GridCriteriaExpressionParser {
             result.errors.add('Include and Exclude are both empty. At least one condition is required.');
             return result;
         }
-
         if (result.hasErrors()) {
             return result;
         }
 
-        String includeExprBuilt = includeSegment.count > 0 ? includeSegment.expression : null;
-        String excludeExprBuilt = excludeSegment.count > 0 ? excludeSegment.expression : null;
-
-        if (String.isNotBlank(includeExprBuilt) && String.isNotBlank(excludeExprBuilt)) {
-            result.filterLogicExpression = '(' + includeExprBuilt + ') AND (' + excludeExprBuilt + ')';
-        } else if (String.isNotBlank(includeExprBuilt)) {
-            result.filterLogicExpression = includeSegment.count > 1 ? '(' + includeExprBuilt + ')' : includeExprBuilt;
-        } else {
-            result.filterLogicExpression = excludeSegment.count > 1 ? '(' + excludeExprBuilt + ')' : excludeExprBuilt;
+        List<String> expressions = new List<String>();
+        if(includeSegment.count > 0) {
+            expressions.add((includeSegment.count > 1 ? '(' + includeSegment.expression + ')' : includeSegment.expression));
         }
+        if(excludeSegment.count > 0) {
+            expressions.add((excludeSegment.count > 1 ? '(' + excludeSegment.expression + ')' : excludeSegment.expression));
+        }
+
+        result.filterLogicExpression = String.join(expressions, ' AND ');
 
         return result;
     }
@@ -159,8 +157,7 @@ public with sharing class GridCriteriaExpressionParser {
             return null;
         }
         String cleaned = value.trim();
-        if ((cleaned.startsWith('"') && cleaned.endsWith('"')) ||
-            (cleaned.startsWith('\'') && cleaned.endsWith('\''))) {
+        if ((cleaned.startsWith('"') && cleaned.endsWith('"')) || (cleaned.startsWith('\'') && cleaned.endsWith('\''))) {
             cleaned = cleaned.substring(1, cleaned.length() - 1).trim();
         }
         return cleaned;
@@ -168,7 +165,6 @@ public with sharing class GridCriteriaExpressionParser {
 
     private static Map<String, TokenMapping> buildTokenMap() {
         Map<String, TokenMapping> mapping = new Map<String, TokenMapping>();
-        // TODO: Update field API names if the org uses different ones.
         mapping.put('legalstatus', new TokenMapping('Product__c', 'Legal_Status__c'));
         mapping.put('shctype', new TokenMapping('Share_Class__c', 'Type__c'));
         mapping.put('ptfcode', new TokenMapping('Product__c', 'InternalShortName__c'));

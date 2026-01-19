@@ -75,12 +75,18 @@ private class GridExcelImportServiceTest {
         System.assertEquals(6, result.criteriaDetailsCreated, 'Expected six criteria details created.');
         System.assertEquals(3, result.ruleLinesCreated, 'Expected three rule lines created.');
 
-        List<GridScope__c> scopes = [SELECT Id, GridName__c FROM GridScope__c WHERE GridName__c IN ('S1', 'S5+')];
+        List<GridScope__c> scopes = [SELECT Id, GridName__c, Name FROM GridScope__c WHERE GridName__c IN ('S1', 'S5+')];
         System.assertEquals(2, scopes.size(), 'Expected scopes to be inserted.');
 
+        String expectedDate = Date.today().format();
         Map<String, Id> scopeIdsByName = new Map<String, Id>();
         for (GridScope__c scope : scopes) {
             scopeIdsByName.put(scope.GridName__c, scope.Id);
+            System.assertEquals(
+                'Grid Scope for ' + scope.GridName__c + ' - ' + expectedDate,
+                scope.Name,
+                'GridScope name should match the required format.'
+            );
         }
 
         List<Grid__c> grids = [SELECT Id, Name, GridScope__c FROM Grid__c WHERE Name IN ('S1', 'S5+')];

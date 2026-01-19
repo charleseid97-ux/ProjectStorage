@@ -2,6 +2,7 @@
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
     <excludeButtons>AssignRecordLabel</excludeButtons>
     <excludeButtons>ChangeRecordType</excludeButtons>
+    <excludeButtons>OpenSlackRecordChannel</excludeButtons>
     <excludeButtons>Submit</excludeButtons>
     <layoutSections>
         <customLabel>false</customLabel>
@@ -11,33 +12,37 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Required</behavior>
+                <field>GridScope__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
                 <field>GridCriteria__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>FilterNumber__c</field>
+                <field>RuleToApply__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>TECHOrigin__c</field>
+                <behavior>Edit</behavior>
+                <field>ShareType__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>Object__c</field>
+                <behavior>Edit</behavior>
+                <field>FeesType__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>Field__c</field>
+                <behavior>Edit</behavior>
+                <field>PercentageOfFees__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>Logic__c</field>
+                <behavior>Edit</behavior>
+                <field>OtherShareType__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>Value__c</field>
+                <behavior>Edit</behavior>
+                <field>OtherGridRule__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -106,11 +111,6 @@
             <actionType>StandardButton</actionType>
             <sortOrder>4</sortOrder>
         </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Submit</actionName>
-            <actionType>StandardButton</actionType>
-            <sortOrder>5</sortOrder>
-        </platformActionListItems>
     </platformActionList>
     <quickActionList/>
     <showEmailCheckbox>false</showEmailCheckbox>
@@ -119,7 +119,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00hG5000006Ye7d</masterLabel>
+        <masterLabel>00hG50000074979</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
