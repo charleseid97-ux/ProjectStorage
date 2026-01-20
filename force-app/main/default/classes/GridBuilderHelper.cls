@@ -223,7 +223,7 @@ public with sharing class GridBuilderHelper {
         return recordResults;
     }
 
-    private static Object getFieldValue(SObject record, List<String> fieldApiPath, Integer index) {
+    public static Object getFieldValue(SObject record, List<String> fieldApiPath, Integer index) {
         if (record == null) {
             return null;
         }

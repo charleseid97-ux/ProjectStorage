@@ -127,7 +127,7 @@ public with sharing class GridExcelImportService {
                 continue;
             }
 
-            RuleContext ctx = new RuleContext(rowNumber, gridName, gridId, scopeId, ruleToApply, feesType, parseResult.conditions);
+            RuleContext ctx = new RuleContext(rowNumber, gridName, gridId, scopeId, ruleToApply, feesType, normalize(row.ShareType), parseResult.conditions);
 
             String valueError = applyRuleValue(ctx, row);
             if (valueError != null) {
@@ -224,13 +224,25 @@ public with sharing class GridExcelImportService {
 
         if (!ruleLines.isEmpty()) {
             Database.SaveResult[] ruleLineResults = Database.insert(ruleLines, false);
+            Set<Id> successfulRuleLineIds = new Set<Id>();
             for (Integer i = 0; i < ruleLineResults.size(); i++) {
                 RuleContext ctx = ruleLineContexts[i];
                 if (ruleLineResults[i].isSuccess()) {
                     result.ruleLinesCreated++;
+                    successfulRuleLineIds.add(ruleLines[i].Id);
                 } 
                 else {
                     addError(result, 'GridRules', ctx.rowNumber, 'Failed to create GridRuleLine__c: ' + ruleLineResults[i].getErrors()[0].getMessage());
+                }
+            }
+            if (!successfulRuleLineIds.isEmpty()) {
+                GridDetailBuilder.BuildResult detailResult = GridDetailBuilder.buildForRuleLines(successfulRuleLineIds);
+                result.gridDetailsCreated += detailResult.gridDetailsCreated;
+                if (detailResult.errors != null) {
+                    for (GridDetailBuilder.BuildError detailError : detailResult.errors) {
+                        String suffix = detailError.ruleLineId != null ? ' (RuleLine ' + detailError.ruleLineId + ')' : '';
+                        addError(result, 'GridDetails', null, detailError.message + suffix);
+                    }
                 }
             }
         }
@@ -375,7 +387,6 @@ public with sharing class GridExcelImportService {
                 if (pctError != null) {
                     return pctError;
                 }
-                ctx.shareType = shareType;
                 ctx.otherShareType = otherShareType;
                 ctx.percentageOfFees = parsePercent(ruleValue);
                 ctx.otherGridRule = null;
@@ -446,6 +457,7 @@ public with sharing class GridExcelImportService {
         @AuraEnabled public Integer criteriaCreated = 0;
         @AuraEnabled public Integer criteriaDetailsCreated = 0;
         @AuraEnabled public Integer ruleLinesCreated = 0;
+        @AuraEnabled public Integer gridDetailsCreated = 0;
         @AuraEnabled public List<ImportError> errors;
     }
 
@@ -502,13 +514,14 @@ public with sharing class GridExcelImportService {
         public List<GridCriteriaExpressionParser.ParsedCondition> conditions;
         public Boolean hasErrors = false;
         public Boolean detailError = false;
-        public RuleContext(Integer rowNumber, String gridName, Id gridId, Id scopeId, String ruleToApply, String feesType, List<GridCriteriaExpressionParser.ParsedCondition> conditions) {
+        public RuleContext(Integer rowNumber, String gridName, Id gridId, Id scopeId, String ruleToApply, String feesType, String shareType, List<GridCriteriaExpressionParser.ParsedCondition> conditions) {
             this.rowNumber = rowNumber;
             this.gridName = gridName;
             this.gridId = gridId;
             this.scopeId = scopeId;
             this.ruleToApply = ruleToApply;
             this.feesType = feesType;
+            this.shareType = shareType;
             this.conditions = conditions;
         }
     }

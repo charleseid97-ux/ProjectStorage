@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
     <excludeButtons>AssignRecordLabel</excludeButtons>
-    <excludeButtons>OpenSlackRecordChannel</excludeButtons>
     <excludeButtons>Submit</excludeButtons>
     <layoutSections>
         <customLabel>false</customLabel>
@@ -142,10 +141,10 @@
     <relatedLists>
         <fields>NAME</fields>
         <fields>ShareClass__c</fields>
+        <fields>GridRuleLine__c</fields>
         <fields>GridCriteria__c</fields>
         <fields>GridRate__c</fields>
-        <fields>RebateRate__c</fields>
-        <fields>EffectiveManagementFees__c</fields>
+        <fields>Rebate__c</fields>
         <fields>StartDate__c</fields>
         <fields>EndDate__c</fields>
         <relatedList>GridDetail__c.Grid__c</relatedList>

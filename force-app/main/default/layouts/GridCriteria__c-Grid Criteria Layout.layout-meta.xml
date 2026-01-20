@@ -13,7 +13,7 @@
                 <field>Name</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>Grid__c</field>
             </layoutItems>
             <layoutItems>
@@ -124,6 +124,7 @@
         <fields>Value__c</fields>
         <fields>TECHOrigin__c</fields>
         <fields>FilterNumber__c</fields>
+        <fields>CREATED_DATE</fields>
         <relatedList>GridCriteriaDetail__c.GridCriteria__c</relatedList>
         <sortField>FilterNumber__c</sortField>
         <sortOrder>Asc</sortOrder>
@@ -137,6 +138,7 @@
         <fields>ShareType__c</fields>
         <fields>OtherShareType__c</fields>
         <fields>OtherGridRule__c</fields>
+        <fields>CREATED_DATE</fields>
         <relatedList>GridRuleLine__c.GridCriteria__c</relatedList>
         <sortField>NAME</sortField>
         <sortOrder>Asc</sortOrder>
@@ -144,12 +146,12 @@
     <relatedLists>
         <fields>NAME</fields>
         <fields>Grid__c</fields>
-        <fields>GridRate__c</fields>
         <fields>ShareClass__c</fields>
-        <fields>EffectiveManagementFees__c</fields>
-        <fields>RebateRate__c</fields>
+        <fields>GridRuleLine__c</fields>
+        <fields>Rebate__c</fields>
         <fields>StartDate__c</fields>
         <fields>EndDate__c</fields>
+        <fields>CREATED_DATE</fields>
         <relatedList>GridDetail__c.GridCriteria__c</relatedList>
         <sortField>NAME</sortField>
         <sortOrder>Asc</sortOrder>
