@@ -157,7 +157,7 @@ export default class TextProcessor extends LightningElement {
             let products =[];
             let mapProducts = {};
             data.forEach(product =>{
-                products.push({label:product.Name+" | "+product.Product_Name__c,value:product.Id,code:product.Name});
+                products.push({label:product.Code__c+" | "+product.Name,value:product.Id,code:product.Code__c});
                 mapProducts[product.Id] = product;
             });
             this.allProducts = [...products];

@@ -50,7 +50,7 @@ public without sharing class CTL_TextProcessor {
             System.debug('Error in CTL_TextProcessor: ' + e.getMessage());
             throw new AuraHandledException('An error occurred: ' + e.getMessage());
         }
-    }
+    } 
 
     @AuraEnabled
     public static String productOverview(Id strategyId , String period) {
@@ -102,8 +102,8 @@ public without sharing class CTL_TextProcessor {
     }
 
     @AuraEnabled(cacheable=true)
-    public static List<Product__c> getDemoProducts(String statFilter){
-        return ([SELECT Id,Name, Product_Name__c, RecordType.Name FROM Product__c WHERE RecordType.Name = 'Strategy' AND Validity__c = true AND Dedicated_Fund__c = False AND Validity__c = True order by Name asc]);
+    public static List<Strategy__c> getDemoProducts(String statFilter){
+        return ([SELECT Id,Name, Code__c FROM Strategy__c order by Code__c asc]);
     }
 
     @AuraEnabled(cacheable=false)
