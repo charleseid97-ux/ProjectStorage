@@ -398,7 +398,7 @@ public without sharing class CTL_MeetingNotes {
                 for (ProductInsights prod : productsInsight) {
                     if (prod.product_Id != 'unknown' && prod.product_Id != null && prod.product_Id != '') {
                         Meeting_Note_Insight__c dmo = new Meeting_Note_Insight__c();
-                        dmo.Product__c = prod.product_Id;
+                        dmo.Strategy__c = prod.product_Id;
                         dmo.Sentiment__c = prod.sentiment;
                         dmo.Meeting_Note__c = prod.meetingNote_Id;
                         dmo.Inisghts__c = prod.key_highlights;
