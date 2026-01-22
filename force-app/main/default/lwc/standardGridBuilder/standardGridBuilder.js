@@ -37,6 +37,7 @@ export default class StandardGridBuilder extends LightningElement {
 
     objectOptions = [];
     fieldsByObject = {};
+    defaultFilterOperator = 'IN';
     operatorsByField = {};
     picklistValuesByField = {};
     showValuesWhenNotSelecting = true;
@@ -54,12 +55,8 @@ export default class StandardGridBuilder extends LightningElement {
     @track criteriaList = [];
     criteriaCounter = 0;
 
-    @track criteria = {
-        grid: null,
-        filterLogicType: '',
-        filterLogicText: '',
-        details: []
-    };
+    criteriaDefVal = {grid: null, filterLogicType: '', filterLogicText: '', details: []};
+    @track criteria = {};
 
     get addToGridDisabled() {
         return !this.selectedGrid || !(this.shareClasses && this.shareClasses.length > 0);
@@ -155,13 +152,15 @@ export default class StandardGridBuilder extends LightningElement {
 
         this.filterLogicOptions = gridSettings.filterLogics || this.filterLogicOptions;
         this.startingLogicType = gridSettings.onLoadFilterLogic || this.startingLogicType;
+        this.criteria = this.criteriaDefVal;
         this.criteria.filterLogicType = this.startingLogicType;
         this.filterLimit = gridSettings.filterLimit || this.filterLimit;
         this.filterValueSeparator = gridSettings.filterValueSeparator || this.filterValueSeparator;
 
-        this.allShareTypeOptions = gridSettings.shareTypeWrp.allShareTypeOptions;
-        this.defaultShareTypeValues = gridSettings.shareTypeWrp.defaultShareTypeValues;
-        this.selectedShareTypes = this.defaultShareTypeValues;
+        const shareTypeWrp = gridSettings.shareTypeWrp || {};
+        this.allShareTypeOptions = shareTypeWrp.allShareTypeOptions || [];
+        this.defaultShareTypeValues = shareTypeWrp.defaultShareTypeValues || [];
+        this.selectedShareTypes = [...this.defaultShareTypeValues];
 
         this.objectOptions = objectLabelsAndAPINames;
         this.fieldsByObject = fieldsByObjectMap;
@@ -218,8 +217,8 @@ export default class StandardGridBuilder extends LightningElement {
             const hasFields = productSelection?.fieldsApiToInfoMap && Object.keys(productSelection.fieldsApiToInfoMap).length > 0;
             const hasProducts = productSelection?.products && productSelection.products.length > 0;
             if (hasFields && hasProducts) {
-                this.allQueriedShareClasses = this.buildShareClassesFromProducts(productSelection.fieldsApiToInfoMap, productSelection.products);
-                this.selectedResultColumns = this.buildResultColumnsList(productSelection.fieldsApiToInfoMap);
+                this.allQueriedShareClasses = this.buildShareClassesFromProducts(productSelection.fieldsApiToInfoMap, productSelection.products, null, true);
+                this.selectedResultColumns = this.buildResultColumnsList(productSelection.fieldsApiToInfoMap, true);
             }
         }
         catch (error) {
@@ -262,21 +261,42 @@ export default class StandardGridBuilder extends LightningElement {
         this.selectedShareTypes = event.detail.value;
     }
 
+    handleRemoveProductFromResults(event) {
+        const productId = event.detail?.productId;
+        if (!productId) {
+            return;
+        }
+        const currentRows = this.shareClasses || [];
+        const removedRows = currentRows.filter(row => row.productId === productId);
+        if (!removedRows.length) {
+            return;
+        }
+        const productName = this.getProductNameFromRows(removedRows);
+        this.shareClasses = currentRows.filter(row => row.productId !== productId);
+        if (!productName) {
+            return;
+        }
+        const updatedCriteria = this.applySystemProductExclusion(this.criteria, productName);
+        this.criteria = updatedCriteria;
+    }
+
     handleApplyFilters(event) {
         const criteriaFromChild = event.detail?.criteria;
         if (criteriaFromChild) {
-            this.criteria = this.setNewCriteria(this.selectedGrid, criteriaFromChild.filterLogicType, criteriaFromChild.filterLogicText, criteriaFromChild.details || []);
+            const systemDetail = this.getSystemProductExclusionDetail(this.criteria?.details);
+            const mergeResult = this.mergeSystemDetail(criteriaFromChild, systemDetail);
+            this.criteria = this.setNewCriteria(this.selectedGrid, mergeResult.filterLogicType, mergeResult.filterLogicText, mergeResult.details || []);
         }
         this.handleSearchProducts();
     }
 
     handleFilterReset() {
-        this.resetResults();
+        this.resetResults(true);
     }
 
     async handleSearchProducts() {
         this.isLoading = true;
-        this.resetResults();
+        this.resetResults(false);
         
         try {
             const productSelection = await getProductsAndShareClasses({
@@ -290,11 +310,11 @@ export default class StandardGridBuilder extends LightningElement {
             const hasFields = productSelection?.fieldsApiToInfoMap && Object.keys(productSelection.fieldsApiToInfoMap).length > 0;
             const hasProducts = productSelection?.products && productSelection.products.length > 0;
             if (hasFields && hasProducts) {
-                this.resultColumns = this.buildResultColumnsList(productSelection.fieldsApiToInfoMap);
-                this.shareClasses = this.buildShareClassesFromProducts(productSelection.fieldsApiToInfoMap, productSelection.products);
+                this.resultColumns = this.buildResultColumnsList(productSelection.fieldsApiToInfoMap, false);
+                this.shareClasses = this.buildShareClassesFromProducts(productSelection.fieldsApiToInfoMap, productSelection.products, null, false);
             }
             else {
-                this.resetResults();
+                this.resetResults(false);
                 this.showToastFunction('No Products Found', 'No products matched the search criteria.', 'info');
             }
         }
@@ -325,12 +345,12 @@ export default class StandardGridBuilder extends LightningElement {
 
             if (hasFields && hasProducts) {
                 const existingMap = new Map(existingRows.map(row => [row.id, row]));
-                const allRows = this.buildShareClassesFromProducts(productSelection.fieldsApiToInfoMap, productSelection.products, existingMap);
+                const allRows = this.buildShareClassesFromProducts(productSelection.fieldsApiToInfoMap, productSelection.products, existingMap, true);
 
                 const criteriaRef = this.buildCriteriaReference();
 
                 this.selectedShareClasses = this.buildSelectedShareClasses(allRows, existingMap, criteriaRef);
-                this.selectedResultColumns = this.buildResultColumnsList(productSelection.fieldsApiToInfoMap);
+                this.selectedResultColumns = this.buildResultColumnsList(productSelection.fieldsApiToInfoMap, true);
                 this.allQueriedShareClasses = allRows;
 
                 const addedCount = Math.max(this.selectedShareClasses.length - previousCount, 0);
@@ -345,16 +365,12 @@ export default class StandardGridBuilder extends LightningElement {
             this.showToastFunction('Error', 'Error retrieving products, error message: ' + this.reduceError(error), 'error');
         }
         finally {
-            this.resetResults();
+            this.resetResults(true);
             this.isLoading = false;
-            const filterBuilder = this.template.querySelector('c-filter-builder');
-            if (filterBuilder) {
-                filterBuilder.handleResetFilters();
-            }
         }
     }
 
-    buildResultColumnsList(fieldsApiToInfoMap) {
+    buildResultColumnsList(fieldsApiToInfoMap, addGridCol) {
         const resultCols = Object.keys(fieldsApiToInfoMap).map(apiName => {
             let fieldInfo = fieldsApiToInfoMap[apiName];
             return { 
@@ -364,11 +380,13 @@ export default class StandardGridBuilder extends LightningElement {
                 isSortable: fieldInfo.isSortable
             };
         });
-        resultCols.push({apiName: 'GridSelection', label: 'Grid', type: 'String', isSortable: false});
+        if(addGridCol) {
+            resultCols.push({apiName: 'GridSelection', label: 'Grid', type: 'String', isSortable: false});
+        }
         return resultCols;
     }
 
-    buildShareClassesFromProducts(fieldApiToInfoMap, products, existingMap) {
+    buildShareClassesFromProducts(fieldApiToInfoMap, products, existingMap, addGridCol) {
         if (!products || products.length === 0) {
             return [];
         }
@@ -392,7 +410,9 @@ export default class StandardGridBuilder extends LightningElement {
                         value: recordResults[apiName] != null ? recordResults[apiName] : ''
                     };
                 });
-                cells.push({ label: 'Grid', value: effectiveGridLabel });
+                if(addGridCol) {
+                    cells.push({ label: 'Grid', value: effectiveGridLabel });
+                }
 
                 rows.push({
                     id: sc.shareClassId,
@@ -469,13 +489,20 @@ export default class StandardGridBuilder extends LightningElement {
         return selectedRows;
     }
 
-    resetResults() {
+    resetResults(resetFilter) {
         this.resultColumns = [];
         this.shareClasses = [];
         this.selectedGrid = null;
         const resultsTable = this.template.querySelector('c-results-table');
         if (resultsTable) {
             resultsTable.resetProductExpansions();
+        }
+        if(resetFilter) {
+            this.criteria = this.criteriaDefVal;
+            const filterBuilder = this.template.querySelector('c-filter-builder');
+            if (filterBuilder) {
+                filterBuilder.handleResetFilters();
+            }
         }
     }
 
@@ -562,7 +589,7 @@ export default class StandardGridBuilder extends LightningElement {
         this.selectedTeam = event.detail?.team || this.selectedTeam;
 
         if((alreadySelectedAgreements != JSON.stringify(this.selectedAgreements)) || (alreadySelectedTeam != this.selectedTeam)) {
-            this.resetResults();
+            this.resetResults(true);
             this.selectedShareClasses = [];
             this.criteriaList = [];
             await this.loadGridSettings();
@@ -581,7 +608,7 @@ export default class StandardGridBuilder extends LightningElement {
     }
 
     handleBackToBuilder() {
-        this.resetResults();
+        this.resetResults(true);
         this.handlePages(false, true, false);
     }
 
@@ -609,9 +636,131 @@ export default class StandardGridBuilder extends LightningElement {
                 Logic__c: detail.operator,
                 Value__c: detail.value,
                 FilterNumber__c: detail.filterNumber,
-                TECHOrigin__c: 'User-Defined'
+                TECHOrigin__c: detail.TECHOrigin__c || 'User-Defined'
             };
         });
+    }
+
+    getProductNameLabel() {
+        const productFields = this.fieldsByObject?.Product__c || [];
+        const match = productFields.find(field => field.value === 'ProductName__c');
+        return match ? match.label : 'Product Name';
+    }
+
+    getProductNameFromRows(rows) {
+        const firstRow = rows && rows.length ? rows[0] : null;
+        if (!firstRow) {
+            return null;
+        }
+        const label = this.getProductNameLabel();
+        const cellValue = (firstRow.cells || []).find(cell => cell.label === label)?.value;
+        if (cellValue) {
+            return cellValue;
+        }
+        const fallbackLabel = firstRow.productLabel || '';
+        const separatorIndex = fallbackLabel.indexOf(' (');
+        if (separatorIndex > 0) {
+            return fallbackLabel.substring(0, separatorIndex);
+        }
+        return fallbackLabel || null;
+    }
+
+    applySystemProductExclusion(criteria, productName) {
+        const current = criteria || this.criteria;
+        const details = Array.isArray(current?.details) ? current.details.map(d => ({ ...d })) : [];
+        const systemDetail = this.getSystemProductExclusionDetail(details);
+        const names = this.getValuesFromDetail(systemDetail);
+        if (!names.includes(productName)) {
+            names.push(productName);
+        }
+        const nextDetail = {
+            id: systemDetail?.id || 'sys-product-exclusion',
+            objectApi: 'Product__c',
+            fieldApi: 'ProductName__c',
+            operator: 'NOT IN',
+            value: names.join(this.filterValueSeparator),
+            TECHOrigin__c: 'System'
+        };
+        const updatedDetails = this.upsertSystemDetail(details, nextDetail);
+        const logicUpdate = this.appendCustomLogicIfNeeded(current?.filterLogicType, current?.filterLogicText, updatedDetails, systemDetail == null);
+        return this.setNewCriteria(current?.grid, logicUpdate.filterLogicType, logicUpdate.filterLogicText, updatedDetails);
+    }
+
+    mergeSystemDetail(criteriaFromChild, systemDetail) {
+        const details = Array.isArray(criteriaFromChild?.details) ? criteriaFromChild.details.map(d => ({ ...d })) : [];
+        const updatedDetails = !systemDetail? this.reindexCriteriaDetails(details) : this.upsertSystemDetail(details, { ...systemDetail });
+        return {
+            filterLogicType: criteriaFromChild?.filterLogicType,
+            filterLogicText: criteriaFromChild?.filterLogicText,
+            details: updatedDetails
+        };
+    }
+
+    getSystemProductExclusionDetail(details) {
+        return (details || []).find(detail =>
+            detail &&
+            detail.objectApi === 'Product__c' &&
+            detail.fieldApi === 'ProductName__c' &&
+            detail.operator === 'NOT IN' &&
+            detail.TECHOrigin__c === 'System'
+        );
+    }
+
+    getValuesFromDetail(detail) {
+        if (!detail || !detail.value) {
+            return [];
+        }
+        const separator = this.filterValueSeparator || ';';
+        return detail.value.split(separator).map(value => value.trim()).filter(value => value);
+    }
+
+    upsertSystemDetail(details, systemDetail) {
+        const filtered = (details || []).filter(detail => !this.isSystemProductExclusionDetail(detail));
+        filtered.push({ ...systemDetail, TECHOrigin__c: 'System' });
+        return this.reindexCriteriaDetails(filtered);
+    }
+
+    isSystemProductExclusionDetail(detail) {
+        return detail &&
+            detail.objectApi === 'Product__c' &&
+            detail.fieldApi === 'ProductName__c' &&
+            detail.operator === 'NOT IN' &&
+            detail.TECHOrigin__c === 'System';
+    }
+
+    reindexCriteriaDetails(details) {
+        const updated = [];
+        (details || []).forEach((detail, index) => {
+            updated.push({
+                ...detail,
+                filterNumber: index + 1
+            });
+        });
+        return updated;
+    }
+
+    appendCustomLogicIfNeeded(filterLogicType, filterLogicText, updatedDetails, addedSystemDetail) {
+        if (!addedSystemDetail || filterLogicType !== 'Custom Logic') {
+            return { filterLogicType: filterLogicType, filterLogicText: filterLogicText };
+        }
+        const systemDetail = this.getSystemProductExclusionDetail(updatedDetails);
+        const systemNumber = systemDetail?.filterNumber;
+        if (!systemNumber) {
+            return { filterLogicType: filterLogicType, filterLogicText: filterLogicText };
+        }
+        const baseExpression = filterLogicText && filterLogicText.trim()
+            ? filterLogicText.trim()
+            : this.buildDefaultLogicExpression(updatedDetails.length - 1, 'AND');
+        const nextExpression = baseExpression ? `(${baseExpression}) AND ${systemNumber}` : String(systemNumber);
+        return { filterLogicType: 'Custom Logic', filterLogicText: nextExpression };
+    }
+
+    buildDefaultLogicExpression(count, logicType) {
+        if (count <= 0) {
+            return '';
+        }
+        const op = logicType === 'OR' ? 'OR' : 'AND';
+        return Array.from({ length: count }, (_, index) => index + 1).join(` ${op} `);
     }
 
     // ------------------------------------ Helper functions ------------------------------------

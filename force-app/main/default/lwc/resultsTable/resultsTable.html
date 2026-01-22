@@ -6,14 +6,23 @@
         <div class="custom-accordion">
             <template for:each={productGroups} for:item="prod">
                 <div key={prod.productId} class="custom-accordion-item">
-                    <button class="custom-accordion-header" data-id={prod.productId} aria-expanded={prod.isOpen} onclick={handleToggleProduct}>
-                        <div class="main-header-left">
-                            <lightning-icon class="accordion-toggle-icon" icon-name={prod.toggleIconName} alternative-text="Toggle section" size="x-small"></lightning-icon>
-                            <div class="header-left">
-                                <span class="header-title header-title--large">{prod.productLabel}</span>
+                    <div class="custom-accordion-header">
+                        <button class="accordion-toggle-button" data-id={prod.productId} aria-expanded={prod.isOpen} onclick={handleToggleProduct}>
+                            <div class="main-header-left">
+                                <lightning-icon class="accordion-toggle-icon" icon-name={prod.toggleIconName} alternative-text="Toggle section" size="x-small"></lightning-icon>
+                                <div class="header-left">
+                                    <span class="header-title header-title--large">{prod.productLabel}</span>
+                                </div>
                             </div>
-                        </div>
-                    </button>
+                        </button>
+                        <lightning-button-icon class="remove-product-button"
+                                               icon-name="utility:delete"
+                                               alternative-text="Remove product"
+                                               title="Remove product"
+                                               data-id={prod.productId}
+                                               onclick={handleRemoveProduct}>
+                        </lightning-button-icon>
+                    </div>
                     <template if:true={prod.isOpen}>
                         <div class="table-scroll-container">
                             <table class="slds-table slds-table_cell-buffer slds-table_bordered">

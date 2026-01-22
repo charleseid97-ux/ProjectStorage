@@ -1,0 +1,48 @@
+<template>
+    <div class="shareTypeSelectionLabel">
+        <div class="shareTypeSelectionLeft">
+            <span>Select Share Types</span>
+            <div>
+                <lightning-helptext content="This filter is applied independently of other filter logic"></lightning-helptext>
+            </div>
+        </div>
+        <div class="addRestrictedSCBtnClass">
+            <lightning-button label="Add restricted share types"
+                            variant="neutral"
+                            onclick={toggleRestrictedShareTypePicker}
+                            disabled={disableRestrictedShareTypesButton}>
+            </lightning-button>
+        </div>
+    </div>
+    <template if:true={showRestrictedShareTypePicker}>
+        <div class="restrictedShareTypePanel">
+            <div class="restrictedShareTypeList">
+                <lightning-checkbox-group name="restrictedShareTypes"
+                                          options={restrictedShareTypeOptions}
+                                          value={selectedRestrictedShareTypes}
+                                          onchange={handleRestrictedShareTypeSelection}>
+                </lightning-checkbox-group>
+            </div>
+            <div class="restrictedShareTypeActions">
+                <lightning-button label="Add"
+                                  variant="brand"
+                                  onclick={handleAddRestrictedShareTypes}
+                                  disabled={addRestrictedShareTypesDisabled}>
+                </lightning-button>
+                <lightning-button label="Cancel"
+                                  variant="neutral"
+                                  onclick={handleCancelRestrictedShareTypes}>
+                </lightning-button>
+            </div>
+        </div>
+    </template>
+    <lightning-dual-listbox name="shareTypes"
+                            variant="label-hidden"
+                            source-label="Excluded"
+                            selected-label="Included"
+                            options={displayShareTypeOptions}
+                            value={selectedShareTypes}
+                            size="4"
+                            onchange={handleShareTypeSelection}>
+    </lightning-dual-listbox>
+</template>

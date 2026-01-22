@@ -10,6 +10,7 @@ public with sharing class GridBuilderHelper {
     public static final String defaultSortingFields = 'Strategy__c => AssetClass__c\n'+
                                                       'Product__c => ProductName__c\n'+
                                                       'Share_Class__c => ISIN__c';
+    public static final String defaultFilterOperators = '=, !=, IN, NOT IN, LIKE, NOT {_} LIKE';
     public static final Map<String, List<String>> countriesMap = new Map<String, List<String>>{
         'France' => new List<String>{ 'FR' },
         'United Kingdom' => new List<String>{ 'GB' },
@@ -35,7 +36,7 @@ public with sharing class GridBuilderHelper {
     }
 
     private static GridBuilderSetting__mdt loadGridBuilderSetting(String gridBuilderSettingName) {
-        List<GridBuilderSetting__mdt> gridSetting = [SELECT Id, (SELECT Id, DeveloperName, ObjectApiName__c, FieldApiNames__c, SortOrder__c 
+        List<GridBuilderSetting__mdt> gridSetting = [SELECT Id, (SELECT Id, DeveloperName, ObjectApiName__c, FieldApiNames__c, SortOrder__c, AllowedOperators__c
                                                                 FROM GridCriteriaSettings__r
                                                                 WHERE IsActive__c = true
                                                                 ORDER BY SortOrder__c ASC LIMIT 10), FilterLimit__c, FilterDefaultLogic__c, FilterValueSeparator__c,
@@ -74,7 +75,7 @@ public with sharing class GridBuilderHelper {
         List<FilterObjectWrapper> filterObjects = new List<FilterObjectWrapper>();
         for (GridCriteriaSetting__mdt criteriaSetting : criteriaSettings) {
             if(criteriaSetting.FieldApiNames__c != null) {
-                filterObjects.add(new FilterObjectWrapper(criteriaSetting.ObjectApiName__c, criteriaSetting.FieldApiNames__c.remove(' ').split(','), objectToFieldToValuesMap.get(criteriaSetting.ObjectApiName__c)));
+                filterObjects.add(new FilterObjectWrapper(criteriaSetting, objectToFieldToValuesMap.get(criteriaSetting.ObjectApiName__c)));
             }
         }
         return filterObjects;
@@ -90,10 +91,13 @@ public with sharing class GridBuilderHelper {
         return logics;
     }
 
-    private static List<FilterFieldWrapper> getFields(String objectApiName, List<String> fieldApiNames, Map<String, Map<String, String>> mapFieldToValues) {
-        List<FilterFieldWrapper> result = new List<FilterFieldWrapper>();
+    private static List<FilterFieldWrapper> getFields(GridCriteriaSetting__mdt criteriaSetting, Map<String, Map<String, String>> mapFieldToValues) {
+        String objectApiName = criteriaSetting.ObjectApiName__c;
+        List<String> fieldApiNames = criteriaSetting.FieldApiNames__c.remove(' ').split(',');
+        List<String> allowedOperators = stringToList(criteriaSetting.AllowedOperators__c, ',');
         Map<String, Schema.SObjectField> fieldMap = Schema.getGlobalDescribe().get(objectApiName).getDescribe().fields.getMap();
 
+        List<FilterFieldWrapper> result = new List<FilterFieldWrapper>();
         String fieldLabel;
         Schema.DisplayType type;
         Map<String, String> ops, fieldValsAvl;
@@ -103,7 +107,7 @@ public with sharing class GridBuilderHelper {
                 fieldLabel = f.getLabel();
                 type = f.getType();
                 fieldValsAvl = mapFieldToValues.containsKey(fieldApiName)? mapFieldToValues.get(fieldApiName) : new Map<String, String>();
-                ops = buildOperatorsForType(type);
+                ops = buildOperatorsForType(type, allowedOperators);
 
                 result.add(new FilterFieldWrapper(fieldLabel, fieldApiName, type, fieldValsAvl, ops));
             }
@@ -148,16 +152,18 @@ public with sharing class GridBuilderHelper {
         return mapObjectToFieldToValues;
     }
 
-    private static Map<String, String> buildOperatorsForType(Schema.DisplayType type) {
-        Map<String, String> ops = new Map<String, String>();
+    private static Map<String, String> buildOperatorsForType(Schema.DisplayType type, List<String> allowedOperators) {
         Set<String> inOps = new Set<String>{ 'IN', 'NOT IN' };
         Set<String> compareOps = new Set<String>{ '>', '>=', '<', '<=' };
         Set<String> likeOps = new Set<String>{ 'LIKE', 'NOT {_} LIKE' };
+        
         Boolean isInType = type == Schema.DisplayType.String || type == Schema.DisplayType.Picklist || type == Schema.DisplayType.MultiPicklist || type == Schema.DisplayType.Id;
         Boolean isCompareType = type == Schema.DisplayType.Date || type == Schema.DisplayType.DateTime || type == Schema.DisplayType.Double || type == Schema.DisplayType.Integer || type == Schema.DisplayType.Currency;
         Boolean isStringType = type == Schema.DisplayType.String;
+
+        Map<String, String> ops = new Map<String, String>();
         for (Schema.PicklistEntry entry : GridCriteriaDetail__c.Logic__c.getDescribe().getPicklistValues()) {
-            if (entry.isActive()) {
+            if (entry.isActive() && allowedOperators.contains(entry.getValue())) {
                 String op = entry.getValue();
                 Boolean allow = true;
                 if (inOps.contains(op)) {
@@ -254,6 +260,7 @@ public with sharing class GridBuilderHelper {
                          ' FROM Share_Class__c';
         allQuery += (String.isNotBlank(finalWhere)) ? ' WHERE ' + finalWhere : '';
         allQuery += (String.isNotBlank(finalOrderBy)) ? ' ORDER BY ' + finalOrderBy : '';
+        System.debug('@@@ allQuery: ' + allQuery);
 
         List<ProductWrapper> productWrapperList = buildProductIdToWrapper(allQuery, filteredIds, fieldsApiToInfoMap, aumByShareClass, onlyIncludeSCInAgreement);
         return new ProductSelectionResult(fieldsApiToInfoMap, productWrapperList);
@@ -402,10 +409,10 @@ public with sharing class GridBuilderHelper {
         @AuraEnabled public String objectLabel { get; set; }
         @AuraEnabled public String objectApiName { get; set; }
         @AuraEnabled public List<FilterFieldWrapper> fields { get; set; }
-        public FilterObjectWrapper(String objectApiName, List<String> fieldApiNames, Map<String, Map<String, String>> mapFieldToValues) {
-            this.objectLabel    =   Schema.getGlobalDescribe().get(objectApiName).getDescribe().getLabel();
-            this.objectApiName  =   objectApiName;
-            this.fields         =   getFields(objectApiName, fieldApiNames, mapFieldToValues);
+        public FilterObjectWrapper(GridCriteriaSetting__mdt criteriaSetting, Map<String, Map<String, String>> mapFieldToValues) {
+            this.objectLabel    =   Schema.getGlobalDescribe().get(criteriaSetting.ObjectApiName__c).getDescribe().getLabel();
+            this.objectApiName  =   criteriaSetting.ObjectApiName__c;
+            this.fields         =   getFields(criteriaSetting, mapFieldToValues);
         }
     }
 

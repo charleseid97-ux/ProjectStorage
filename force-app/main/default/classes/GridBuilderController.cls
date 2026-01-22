@@ -70,8 +70,8 @@ public with sharing class GridBuilderController {
         List<GridCriteriaDetail__c> criteriaDetails = (List<GridCriteriaDetail__c>)JSON.deserialize(gridCriteriaDetailsJson, List<GridCriteriaDetail__c>.class);
 
         Map<String, GridBuilderHelper.FieldInfo> fieldsApiToInfoMap = GridBuilderHelper.buildFieldsApiToInfoMap(gridSettings.fieldsToDisplay + GridBuilderHelper.getAdditionalQueryColumns());
-        List<String> filterFragments = buildWhereFragments(criteriaDetails, gridSettings.filterValueSeparator);
-        String finalWhere = buildWhereClause(gridSettings, criteria.FilterLogic__c, criteria.FilterLogicExpression__c, filterFragments, selectedTeam, selectedShareTypes);
+        FilterFragments filterFragments = buildWhereFragments(criteriaDetails, gridSettings.filterValueSeparator);
+        String finalWhere = buildWhereClause(gridSettings, criteria, filterFragments, selectedTeam, selectedShareTypes);
 
         if(getAllProductsWithSelection) {
             String filteredQuery = 'SELECT Id, ' + String.join(fieldsApiToInfoMap.keySet(), ', ') + 
@@ -90,15 +90,26 @@ public with sharing class GridBuilderController {
         }
     }
 
-    private static List<String> buildWhereFragments(List<GridCriteriaDetail__c> criteriaDetails, String filterValueSeparator) {
-        List<String> filterFragments = new List<String>();
+    private static FilterFragments buildWhereFragments(List<GridCriteriaDetail__c> criteriaDetails, String filterValueSeparator) {
+        FilterFragments filterFragments = new FilterFragments();
         String fieldPath, value, fragment;
+        String detObject, detField, detLogic, detValue, detTechOrigin;
         for (GridCriteriaDetail__c d : criteriaDetails) {
-            if(String.isNotBlank(d.Object__c) && String.isNotBlank(d.Field__c) && String.isNotBlank(d.Logic__c)) {
-                fieldPath = GridBuilderHelper.getRelationshipPath(d.Object__c) + d.Field__c;
-                value = formatValueForSoql(d.Logic__c, d.Value__c, filterValueSeparator);
-                fragment = (d.Logic__c == 'NOT {_} LIKE') ? d.Logic__c.replace('{_}', fieldPath) + value : fieldPath + ' ' + d.Logic__c + ' ' + value;
-                filterFragments.add(fragment);
+            detObject = d.Object__c;
+            detField = d.Field__c;
+            detValue = d.Value__c;
+            detLogic = String.isBlank(detValue)? (d.Logic__c == 'IN'? '=' : (d.Logic__c == 'NOT IN'? '!=' : d.Logic__c)) : d.Logic__c;
+            detTechOrigin = d.TECHOrigin__c;
+            if(String.isNotBlank(detObject) && String.isNotBlank(detField) && String.isNotBlank(detLogic)) {
+                fieldPath = GridBuilderHelper.getRelationshipPath(detObject) + detField;
+                value = formatValueForSoql(detLogic, detValue, filterValueSeparator);
+                fragment = (detLogic == 'NOT {_} LIKE') ? detLogic.replace('{_}', fieldPath) + value : fieldPath + ' ' + detLogic + ' ' + value;
+                if(detTechOrigin == 'User-Defined') {
+                    filterFragments.userDefinedFragments.add(fragment);
+                }
+                else if(detTechOrigin == 'System') {
+                    filterFragments.systemDefinedFragments.add(fragment);
+                }
             }
         }
         return filterFragments;
@@ -106,8 +117,11 @@ public with sharing class GridBuilderController {
 
     private static String formatValueForSoql(String op, String rawValue, String separator) {
         String formattedValue;
+        if(String.isBlank(rawValue)) {
+            formattedValue = '\'\'';
+        }
         //Multi-value operators
-        if (op == 'IN' || op == 'NOT IN') {
+        else if (op == 'IN' || op == 'NOT IN') {
             formattedValue = GridBuilderHelper.toSoqlInListLiteral(rawValue, separator);
         }
         // Single-value operators
@@ -120,7 +134,7 @@ public with sharing class GridBuilderController {
         return formattedValue;
     }
 
-    private static String buildWhereClause(GridBuilderHelper.GridSettings gridSettings, String logic, String customLogic, List<String> filterFragments, String selectedTeam, List<String> selectedShareTypes) {
+    private static String buildWhereClause(GridBuilderHelper.GridSettings gridSettings, GridCriteria__c criteria, FilterFragments filterFragments, String selectedTeam, List<String> selectedShareTypes) {
         //Build default conditions
         List<String> whereFragments = GridBuilderHelper.buildDefaultConditions(true, true, selectedTeam, gridSettings.shareTypeWrp, false);
 
@@ -132,26 +146,41 @@ public with sharing class GridBuilderController {
 
         //Build filters conditions
         String filtersWhere = '';
-        if (!filterFragments.isEmpty()) {
-            if (logic == 'AND') { // AND logic
-                filtersWhere = String.join(filterFragments, ' AND ');
-            }
-            else if (logic == 'OR') { // OR logic
-                filtersWhere = String.join(filterFragments, ' OR ');
-            }
-            else if (logic == 'Custom Logic' && String.isNotBlank(customLogic)) { // Custom logic: replace numbers with filterFragments
-                String temp = customLogic;
-                for (Integer i = 0; i < filterFragments.size(); i++) {
-                    String nbr = String.valueOf(i + 1);
-                    temp = temp.replace(nbr, '(' + filterFragments[i] + ')');
+        if (filterFragments != null) {
+            if(!filterFragments.userDefinedFragments.isEmpty()) {
+                List<String> userDefFrags = filterFragments.userDefinedFragments;
+                String logic = criteria.FilterLogic__c;
+                String customLogic = criteria.FilterLogicExpression__c;
+                if (logic == 'AND') { // AND logic
+                    filtersWhere = String.join(userDefFrags, ' AND ');
                 }
-                filtersWhere = temp;
+                else if (logic == 'OR') { // OR logic
+                    filtersWhere = String.join(userDefFrags, ' OR ');
+                }
+                else if (logic == 'Custom Logic' && String.isNotBlank(customLogic)) { // Custom logic: replace numbers with userDefFrags
+                    String temp = customLogic;
+                    String nbr;
+                    for (Integer i = 0; i < userDefFrags.size(); i++) {
+                        nbr = String.valueOf(i + 1);
+                        temp = temp.replace(nbr, '~F' + nbr + '~');
+                    }
+                    System.debug('@@@ temp before replacement: ' + temp);
+                    for (Integer i = 0; i < userDefFrags.size(); i++) {
+                        nbr = '~F' + String.valueOf(i + 1) + '~';
+                        temp = temp.replace(nbr, '(' + userDefFrags[i] + ')');
+                    }
+                    System.debug('@@@ temp after replacement: ' + temp);
+                    filtersWhere = temp;
+                }
+                else {
+                    filtersWhere = String.join(userDefFrags, ' AND '); // Fallback: AND everything
+                }
+                if(String.isNotBlank(filtersWhere)) {
+                    whereFragments.add('(' + filtersWhere + ')');
+                }
             }
-            else {
-                filtersWhere = String.join(filterFragments, ' AND '); // Fallback: AND everything
-            }
-            if(String.isNotBlank(filtersWhere)) {
-                whereFragments.add('(' + filtersWhere + ')');
+            if(!filterFragments.systemDefinedFragments.isEmpty()) {
+                whereFragments.addAll(filterFragments.systemDefinedFragments);
             }
         }
         
@@ -192,6 +221,15 @@ public with sharing class GridBuilderController {
             this.value          =   val;
             this.label          =   label;
             this.teamCountry    =   team;
+        }
+    }
+
+    public class FilterFragments {
+        public List<String> userDefinedFragments { get; set; }
+        public List<String> systemDefinedFragments { get; set; }
+        public FilterFragments() {
+            this.userDefinedFragments       =   new List<String>();
+            this.systemDefinedFragments     =   new List<String>();
         }
     }
 }

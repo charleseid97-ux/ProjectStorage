@@ -18,7 +18,7 @@
         <field>DefaultSortFields__c</field>
         <value xsi:type="xsd:string">Strategy__c =&gt; AssetClass__c
 Product__c =&gt; ProductName__c
-Share_Class__c =&gt; ISIN__c</value>
+Share_Class__c =&gt; Name__c</value>
     </values>
     <values>
         <field>DefinitiveShareTypeExclusion__c</field>
@@ -30,13 +30,14 @@ Share_Class__c =&gt; ISIN__c</value>
 Product__c =&gt; LegalForm__c
 Product__c =&gt; InternalShortName__c 
 Product__c =&gt; ProductName__c
-Share_Class__c =&gt; Name
+Share_Class__c =&gt; Name__c
+Share_Class__c =&gt; ISIN__c
 Share_Class__c =&gt; Type__c
 Share_Class__c =&gt; EffectiveManagementFees__c</value>
     </values>
     <values>
         <field>FilterDefaultLogic__c</field>
-        <value xsi:type="xsd:string">OR</value>
+        <value xsi:type="xsd:string">AND</value>
     </values>
     <values>
         <field>FilterLimit__c</field>

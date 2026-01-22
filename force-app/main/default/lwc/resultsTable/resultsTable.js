@@ -72,6 +72,17 @@ export default class ResultsTable extends LightningElement {
         }
     }
 
+    handleRemoveProduct(event) {
+        event.stopPropagation();
+        const productId = event.currentTarget.dataset.id;
+        if (!productId) {
+            return;
+        }
+        this.dispatchEvent(new CustomEvent('removeproduct', {
+            detail: { productId: productId }
+        }));
+    }
+
     @api resetProductExpansions() {
         this.openProductIds = new Set();
     }

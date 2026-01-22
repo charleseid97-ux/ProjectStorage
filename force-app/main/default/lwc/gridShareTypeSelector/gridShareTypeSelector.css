@@ -1,0 +1,45 @@
+.shareTypeSelectionLabel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.shareTypeSelectionLeft {
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+}
+
+.addRestrictedSCBtnClass {
+    --slds-c-button-line-height: 20px;
+}
+
+.restrictedShareTypePanel {
+    margin-top: 8px;
+    padding: 5px 10px 10px 10px;
+    border: 1px solid #dddbda;
+    border-radius: 0.25rem;
+    background: #ffffff;
+    position: absolute;
+    right: 15px;
+    z-index: 5;
+    width: 20%;
+    height: 230px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.restrictedShareTypeList {
+    max-height: 180px;
+    overflow-y: auto;
+}
+
+.restrictedShareTypeActions {
+    display: flex;
+    justify-content: flex-end;
+    column-gap: 0.5rem;
+    margin-top: 0.5rem;
+    --slds-c-button-line-height: 25px;
+}

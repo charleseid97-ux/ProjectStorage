@@ -26,6 +26,7 @@
                                           show-values-when-not-selecting={showValuesWhenNotSelecting}
                                           filter-value-separator={filterValueSeparator}
                                           fields-by-object={fieldsByObject}
+                                          default-filter-operator={defaultFilterOperator}
                                           operators-by-field={operatorsByField}
                                           picklist-values-by-field={picklistValuesByField}
                                           filter-limit={filterLimit}
@@ -56,22 +57,17 @@
                     </div>
 
                     <div class="builderRightSection">
-                        <div class="shareTypeSelectionLabel">
-                            <span>Select Share Types</span>
-                            <div><lightning-helptext content="This filter is applied independently of other filter logic"></lightning-helptext></div>
-                        </div>
-                        <lightning-dual-listbox name="shareTypes"
-                                                variant="label-hidden"
-                                                source-label="Available"
-                                                selected-label="Selected"
-                                                options={allShareTypeOptions}
-                                                value={defaultShareTypeValues}
-                                                onchange={handleShareTypeSelection}>
-                        </lightning-dual-listbox>
+                        <c-grid-share-type-selector all-share-type-options={allShareTypeOptions}
+                                                    selected-share-types={selectedShareTypes}
+                                                    onsharetypeschanged={handleShareTypeSelection}>
+                        </c-grid-share-type-selector>
                     </div>
                 </div>
 
-                <c-results-table columns={resultColumns} rows={shareClasses}> </c-results-table>
+                <c-results-table columns={resultColumns}
+                                 rows={shareClasses}
+                                 onremoveproduct={handleRemoveProductFromResults}>
+                </c-results-table>
 
                 <!-- RIGHT COLUMN: Selected products panel -->
                 <c-grid-selection-display-panel columns={selectedResultColumns}

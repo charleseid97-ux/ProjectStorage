@@ -3,6 +3,10 @@
     <label>Strategy</label>
     <protected>false</protected>
     <values>
+        <field>AllowedOperators__c</field>
+        <value xsi:type="xsd:string">IN, NOT IN</value>
+    </values>
+    <values>
         <field>FieldApiNames__c</field>
         <value xsi:type="xsd:string">AssetClass__c</value>
     </values>
