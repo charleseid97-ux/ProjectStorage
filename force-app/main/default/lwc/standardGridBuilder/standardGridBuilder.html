@@ -18,77 +18,82 @@
                 </c-grid-agreements-selection>
             </template>
 
-            <template if:true={showGridBuilderPage}>
-                <div class="gridBuilderClass">
-                    <div class="builderLeftSection">
-                        <c-filter-builder object-options={objectOptions}
-                                          filter-logic-options={filterLogicOptions}
-                                          show-values-when-not-selecting={showValuesWhenNotSelecting}
-                                          filter-value-separator={filterValueSeparator}
-                                          fields-by-object={fieldsByObject}
-                                          default-filter-operator={defaultFilterOperator}
-                                          operators-by-field={operatorsByField}
-                                          picklist-values-by-field={picklistValuesByField}
-                                          filter-limit={filterLimit}
-                                          starting-logic-type={startingLogicType}
-                                          filter-picklist-empty-val={filterPicklistEmptyVal}
-                                          onapplyfilters={handleApplyFilters}
-                                          onresetfilters={handleFilterReset}>
-                        </c-filter-builder>
+            <template if:true={isGridBuilderOrValidationPage}>
+                <template if:true={showGridBuilderPage}>
+                    <div class="gridBuilderClass">
+                        <div class="builderLeftSection">
+                            <c-filter-builder object-options={objectOptions}
+                                            filter-logic-options={filterLogicOptions}
+                                            show-values-when-not-selecting={showValuesWhenNotSelecting}
+                                            filter-value-separator={filterValueSeparator}
+                                            fields-by-object={fieldsByObject}
+                                            default-filter-operator={defaultFilterOperator}
+                                            operators-by-field={operatorsByField}
+                                            picklist-values-by-field={picklistValuesByField}
+                                            filter-limit={filterLimit}
+                                            starting-logic-type={startingLogicType}
+                                            filter-picklist-empty-val={filterPicklistEmptyVal}
+                                            onapplyfilters={handleApplyFilters}
+                                            onresetfilters={handleFilterReset}>
+                            </c-filter-builder>
 
-                        <div class="displayFlex_ColumnGap">
-                            <div class="slds-col slds-size_9-of-12 granularColumn">
-                                <div class="slds-col slds-size_3-of-12">
-                                    <lightning-combobox name="grid"
-                                                        value={selectedGrid}
-                                                        options={gridOptions}
-                                                        label="Grid"
-                                                        onchange={handleGridChange}>
-                                    </lightning-combobox>
-                                </div>
-                                <div class="buttonsCss granularColumn">
-                                    <lightning-button label="Add to Grid" variant="brand" onclick={handleAddAllToSelection} disabled={addToGridDisabled}></lightning-button>
-                                    <lightning-button label="View Recap" variant="neutral" onclick={handleOpenSelectedPanel}></lightning-button>
-                                    <lightning-button label="Back" variant="neutral" onclick={handleBackToAgreementSelection}></lightning-button>
-                                    <lightning-button label="Next" variant="brand" onclick={handleGridValidation} disabled={validateGridDisabled}></lightning-button>
+                            <div class="displayFlex_ColumnGap">
+                                <div class="slds-col slds-size_9-of-12 granularColumn">
+                                    <div class="slds-col slds-size_3-of-12">
+                                        <lightning-combobox name="grid"
+                                                            value={selectedGrid}
+                                                            options={gridOptions}
+                                                            label="Grid"
+                                                            onchange={handleGridChange}>
+                                        </lightning-combobox>
+                                    </div>
+                                    <div class="buttonsCss granularColumn">
+                                        <lightning-button label="Add to Grid" variant="brand" onclick={handleAddAllToSelection} disabled={addToGridDisabled}></lightning-button>
+                                        <lightning-button label="View Recap" variant="neutral" onclick={handleOpenSelectedPanel}></lightning-button>
+                                        <lightning-button label="Back" variant="neutral" onclick={handleBackToAgreementSelection}></lightning-button>
+                                        <lightning-button label="Next" variant="brand" onclick={handleGridValidation} disabled={validateGridDisabled}></lightning-button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="builderRightSection">
+                            <c-grid-share-type-selector all-share-type-options={allShareTypeOptions}
+                                                        selected-share-types={selectedShareTypes}
+                                                        onsharetypeschanged={handleShareTypeSelection}>
+                            </c-grid-share-type-selector>
+                        </div>
                     </div>
 
-                    <div class="builderRightSection">
-                        <c-grid-share-type-selector all-share-type-options={allShareTypeOptions}
-                                                    selected-share-types={selectedShareTypes}
-                                                    onsharetypeschanged={handleShareTypeSelection}>
-                        </c-grid-share-type-selector>
-                    </div>
-                </div>
-
-                <c-results-table columns={resultColumns}
-                                 rows={shareClasses}
-                                 onremoveproduct={handleRemoveProductFromResults}>
-                </c-results-table>
-
+                    <c-results-table columns={resultColumns}
+                                    rows={shareClasses}
+                                    selected-share-classes={selectedShareClasses}
+                                    onremoveproduct={handleRemoveProductFromResults}>
+                    </c-results-table>
+                </template>
+                
+                <template if:true={showValidationPage}>
+                    <c-grid-validation-page grid-builder-setting-name={gridBuilderSettingName}
+                                            selected-team={selectedTeam}
+                                            selected-share-classes={selectedShareClasses}
+                                            selected-agreements={selectedAgreements} 
+                                            criteria-list={criteriaList}
+                                            onselectionchange={handleValidationSelectionChange}
+                                            onremoveproduct={handleRemoveProductFromSelection}
+                                            onviewrecap={handleOpenSelectedPanelFromValidation}
+                                            onback={handleBackToBuilder}>
+                    </c-grid-validation-page>
+                </template>
                 <!-- RIGHT COLUMN: Selected products panel -->
                 <c-grid-selection-display-panel columns={selectedResultColumns}
                                                 rows={selectedShareClasses}
                                                 all-rows={allQueriedShareClasses}
+                                                criteria-list={criteriaList}
+                                                show-excluded-only={showRecapExcludedOnly}
                                                 is-open={showSelectedPanel}
                                                 onremoveproduct={handleRemoveProductFromSelection}
                                                 onclose={handleCloseSelectedPanel}>
                 </c-grid-selection-display-panel>
-            </template>
-            
-            <template if:true={showValidationPage}>
-                <c-grid-validation-page grid-builder-setting-name={gridBuilderSettingName}
-                                        selected-team={selectedTeam}
-                                        selected-share-classes={selectedShareClasses}
-                                        selected-agreements={selectedAgreements} 
-                                        criteria-list={criteriaList}
-                                        onselectionchange={handleValidationSelectionChange}
-                                        onremoveproduct={handleRemoveProductFromSelection}
-                                        onback={handleBackToBuilder}>
-                </c-grid-validation-page>
             </template>
         </div>
     </lightning-card>

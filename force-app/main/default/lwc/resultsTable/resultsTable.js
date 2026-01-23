@@ -3,10 +3,12 @@ import { LightningElement, api, track } from 'lwc';
 export default class ResultsTable extends LightningElement {
     @api columns = [];
     @api rows = [];
+    @api selectedShareClasses = [];
     @api paginationInfo = {};
     @track openProductIds = new Set();
 
     get productGroups() {
+        const selectedIds = new Set((this.selectedShareClasses || []).map(row => row.id));
         const map = new Map();
         (this.rows || []).forEach(row => {
             const productId = row.productId || 'unknown';
@@ -15,10 +17,16 @@ export default class ResultsTable extends LightningElement {
                 map.set(productId, {
                     productId,
                     productLabel,
-                    shareClasses: []
+                    shareClasses: [],
+                    hasSelected: false
                 });
             }
-            map.get(productId).shareClasses.push({...row});
+            const group = map.get(productId);
+            const isAlreadySelected = selectedIds.has(row.id);
+            group.shareClasses.push({ ...row, isAlreadySelected: isAlreadySelected });
+            if (isAlreadySelected) {
+                group.hasSelected = true;
+            }
         });
         return Array.from(map.values()).map(prod => {
             const isOpen = this.openProductIds.has(prod.productId);

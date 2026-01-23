@@ -51,6 +51,7 @@ export default class StandardGridBuilder extends LightningElement {
     @track allQueriedShareClasses = [];
     @track selectedShareClasses = [];
     @track showSelectedPanel = false;
+    @track showRecapExcludedOnly = false;
 
     @track criteriaList = [];
     criteriaCounter = 0;
@@ -64,6 +65,10 @@ export default class StandardGridBuilder extends LightningElement {
 
     get validateGridDisabled() {
         return !this.selectedShareClasses || this.selectedShareClasses.length === 0;
+    }
+
+    get isGridBuilderOrValidationPage() {
+        return this.showGridBuilderPage || this.showValidationPage;
     }
 
     async connectedCallback() {
@@ -291,7 +296,7 @@ export default class StandardGridBuilder extends LightningElement {
     }
 
     handleFilterReset() {
-        this.resetResults(true);
+        this.resetResults(false);
     }
 
     async handleSearchProducts() {
@@ -419,6 +424,7 @@ export default class StandardGridBuilder extends LightningElement {
                     cells: cells,
                     gridId: effectiveGridId,
                     effManFees: recordResults['EffectiveManagementFees__c'],
+                    isin: recordResults['ISIN__c'],
                     isSelected: effectiveSelected,
                     productId: product.productId,
                     productLabel: product.productLabel,
@@ -435,19 +441,22 @@ export default class StandardGridBuilder extends LightningElement {
         let gridId = this.selectedGrid;
         let gridLabel = this.getGridLabelById(this.selectedGrid);
         let criteriaObj = this.getCriteriaSObject();
-        let criteriaDetailsList = this.getCriteriaDetailSObject();
+        let criteriaDetailsList = this.decorateCriteriaDetails(this.getCriteriaDetailSObject());
+        const shareTypes = Array.isArray(this.selectedShareTypes) ? [...this.selectedShareTypes] : [];
+        const shareTypeKey = this.buildShareTypesKey(shareTypes);
         const key = JSON.stringify({
             gridId: gridId,
             filterLogicType: criteriaObj?.FilterLogic__c,
             filterLogicText: criteriaObj?.FilterLogicExpression__c,
-            details: criteriaDetailsList
+            details: criteriaDetailsList,
+            shareTypes: shareTypeKey
         });
         const existingIndex = this.criteriaList.findIndex(c => c.key === key);
         let criteriaRef;
         if (existingIndex >= 0) {
             const existing = this.criteriaList[existingIndex];
             const cleanedDetails = (existing.criteriaDetails || []).filter(d => d.TECHOrigin__c !== 'System');
-            criteriaRef = { ...existing, criteriaDetails: cleanedDetails };
+            criteriaRef = { ...existing, criteriaDetails: this.decorateCriteriaDetails(cleanedDetails), shareTypes: existing.shareTypes || shareTypes };
             this.criteriaList = [
                 ...this.criteriaList.slice(0, existingIndex),
                 criteriaRef,
@@ -462,7 +471,8 @@ export default class StandardGridBuilder extends LightningElement {
                 gridId: gridId,
                 gridLabel: gridLabel,
                 criteria: criteriaObj,
-                criteriaDetails: criteriaDetailsList
+                criteriaDetails: criteriaDetailsList,
+                shareTypes: shareTypes
             };
             this.criteriaList = [...this.criteriaList, criteriaRef];
         }
@@ -507,11 +517,18 @@ export default class StandardGridBuilder extends LightningElement {
     }
 
     handleOpenSelectedPanel() {
+        this.showRecapExcludedOnly = false;
+        this.showSelectedPanel = true;
+    }
+
+    handleOpenSelectedPanelFromValidation() {
+        this.showRecapExcludedOnly = true;
         this.showSelectedPanel = true;
     }
 
     handleCloseSelectedPanel() {
         this.showSelectedPanel = false;
+        this.showRecapExcludedOnly = false;
     }
 
     handleRemoveProductFromSelection(event) {
@@ -534,34 +551,46 @@ export default class StandardGridBuilder extends LightningElement {
                     if (!row.criteriaRefId) {
                         return;
                     }
+                    const isin = this.getIsinFromRow(row);
+                    if (!isin) {
+                        return;
+                    }
                     if (!removedByCriteria.has(row.criteriaRefId)) {
                         removedByCriteria.set(row.criteriaRefId, new Set());
                     }
-                    removedByCriteria.get(row.criteriaRefId).add(row.id);
+                    removedByCriteria.get(row.criteriaRefId).add(isin);
                 });
                 this.criteriaList = this.criteriaList.map(entry => {
-                    const ids = removedByCriteria.get(entry.id);
-                    if (!ids || !ids.size) {
+                    const isins = removedByCriteria.get(entry.id);
+                    if (!isins || !isins.size) {
                         return entry;
                     }
                     const details = (entry.criteriaDetails || []).slice();
-                    ids.forEach(shareClassId => {
-                        const idx = details.findIndex(d => d.Object__c === 'Share_Class__c' && d.Field__c === 'Id' && d.Value__c === shareClassId && d.TECHOrigin__c === 'System');
-                        if (idx >= 0) {
-                            if (details[idx].Logic__c !== '!=') {
-                                details[idx] = { ...details[idx], Logic__c: '!=' };
-                            }
-                        }
-                        else {
-                            details.push({
-                                Object__c: 'Share_Class__c',
-                                Field__c: 'Id',
-                                Logic__c: '!=',
-                                Value__c: shareClassId,
-                                TECHOrigin__c: 'System'
-                            });
-                        }
-                    });
+                    const idx = details.findIndex(d =>
+                        d.Object__c === 'Share_Class__c' &&
+                        d.Field__c === 'ISIN__c' &&
+                        d.Logic__c === 'NOT IN' &&
+                        d.TECHOrigin__c === 'System'
+                    );
+                    const currentValues = idx >= 0 ? this.splitCriteriaValues(details[idx].Value__c) : [];
+                    const valueSet = new Set(currentValues);
+                    isins.forEach(isin => valueSet.add(isin));
+                    const nextValues = Array.from(valueSet);
+                    const detail = {
+                        Object__c: 'Share_Class__c',
+                        Field__c: 'ISIN__c',
+                        Logic__c: 'NOT IN',
+                        Value__c: nextValues.join(' '+this.filterValueSeparator+' '),
+                        TECHOrigin__c: 'System',
+                        objectLabel: 'Share Class',
+                        fieldLabel: 'ISIN'
+                    };
+                    if (idx >= 0) {
+                        details[idx] = { ...details[idx], ...detail };
+                    }
+                    else {
+                        details.push(detail);
+                    }
                     return { ...entry, criteriaDetails: details };
                 });
             }
@@ -641,6 +670,35 @@ export default class StandardGridBuilder extends LightningElement {
         });
     }
 
+    decorateCriteriaDetails(details) {
+        return (details || []).map(detail => {
+            const objectApi = detail.Object__c || detail.objectApi || '';
+            const fieldApi = detail.Field__c || detail.fieldApi || '';
+            return {
+                ...detail,
+                objectLabel: this.getObjectLabel(objectApi),
+                fieldLabel: this.getFieldLabel(objectApi, fieldApi)
+            };
+        });
+    }
+
+    getObjectLabel(objectApi) {
+        const match = (this.objectOptions || []).find(opt => opt.value === objectApi);
+        return match ? match.label : 'Unknown Object';
+    }
+
+    getFieldLabel(objectApi, fieldApi) {
+        const fields = this.fieldsByObject?.[objectApi] || [];
+        const match = fields.find(field => field.value === fieldApi);
+        return match ? match.label : 'Unknown Field';
+    }
+
+    buildShareTypesKey(shareTypes) {
+        const values = Array.isArray(shareTypes) ? [...shareTypes] : [];
+        values.sort();
+        return values.join('|');
+    }
+
     getProductNameLabel() {
         const productFields = this.fieldsByObject?.Product__c || [];
         const match = productFields.find(field => field.value === 'ProductName__c');
@@ -663,6 +721,27 @@ export default class StandardGridBuilder extends LightningElement {
             return fallbackLabel.substring(0, separatorIndex);
         }
         return fallbackLabel || null;
+    }
+
+    getIsinFromRow(row) {
+        if (!row) {
+            return null;
+        }
+        if (row.isin) {
+            return row.isin;
+        }
+        const cells = row.cells || [];
+        const cell = cells.find(c => (c.label || '').toLowerCase() === 'isin') ||
+            cells.find(c => (c.label || '').toLowerCase().includes('isin'));
+        return cell ? cell.value : null;
+    }
+
+    splitCriteriaValues(rawValue) {
+        if (!rawValue) {
+            return [];
+        }
+        const separator = this.filterValueSeparator || ';';
+        return rawValue.split(separator).map(value => value.trim()).filter(value => value);
     }
 
     applySystemProductExclusion(criteria, productName) {

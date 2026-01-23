@@ -16,73 +16,126 @@
 
             <div class="selection-panel-body">
                 <div class="selected-table-wrapper">
-                    <div class="section-heading section-heading-included section-heading-row">
-                        <span>Included Products ({productSelectedCount})</span>
-                        <lightning-button label={includedToggleLabel} variant="neutral" onclick={handleToggleIncluded}></lightning-button>
-                    </div>
-                    <template if:true={includedProducts.length}>
-                        <div class="custom-accordion">
-                            <template for:each={includedProducts} for:item="prod">
-                                <div key={prod.productId} class="custom-accordion-item">
-                                    <div class="custom-accordion-header">
-                                        <button class="accordion-toggle-button" data-id={prod.productId} aria-expanded={prod.isOpen} onclick={handleToggleProduct}>
-                                            <div class="main-header-left">
-                                                <lightning-icon class="accordion-toggle-icon" icon-name={prod.toggleIconName} alternative-text="Toggle section" size="x-small"></lightning-icon>
-                                                <div class="header-left">
-                                                    <span class="header-title header-title--large">{prod.productLabel}</span>
-                                                    <div class="header-grids">
-                                                        <template if:true={prod.gridLabelText}>
-                                                            <span class="header-sep">—</span>
-                                                            <span class="header-grids-label">{prod.gridLabelText}</span>
-                                                        </template>
-                                                        <span class="header-sep">—</span>
-                                                    </div>
-                                                    <span class="header-counts">Share classes selected: {prod.selectedCount} / {prod.totalShareClasses} total</span>
-                                                </div>
-                                            </div>
-                                        </button>
-                                        <lightning-button-icon class="remove-product-button"
-                                                               icon-name="utility:delete"
-                                                               alternative-text="Remove product"
-                                                               title="Remove product"
-                                                               data-id={prod.productId}
-                                                               onclick={handleRemoveProduct}>
-                                        </lightning-button-icon>
-                                    </div>
-                                    <template if:true={prod.isOpen}>
-                                        <div class="table-scroll-container">
-                                            <table class="slds-table slds-table_cell-buffer slds-table_bordered">
-                                                <thead>
-                                                    <tr class="slds-line-height_reset">
-                                                        <template for:each={columns} for:item="col">
-                                                            <th key={col.apiName} scope="col">
-                                                                <div class="slds-truncate" title={col.label}>{col.label}</div>
-                                                            </th>
-                                                        </template>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <template for:each={prod.shareClasses} for:item="row">
-                                                        <tr key={row.id} class={row.rowClass}>
-                                                            <template for:each={row.cells} for:item="cell">
-                                                                <td key={cell.label} data-label={cell.label}>
-                                                                    <div class="slds-truncate" title={cell.value}>{cell.value}</div>
-                                                                </td>
-                                                            </template>
-                                                        </tr>
+                    <template if:false={showExcludedOnly}>
+                        <div class="section-heading section-heading-included section-heading-row">
+                            <span>Included Products ({productSelectedCount})</span>
+                            <div class="section-heading-actions">
+                                <lightning-button label="Criteria history"
+                                                variant="neutral"
+                                                onclick={toggleCriteriaHistory}
+                                                disabled={disabledCriteriaHistory}>
+                                </lightning-button>
+                                <lightning-button label={includedToggleLabel} variant="neutral" onclick={handleToggleIncluded}></lightning-button>
+                            </div>
+                        </div>
+                        <template if:true={showCriteriaHistory}>
+                            <div class="criteria-history-panel">
+                                <template if:true={hasCriteriaHistory}>
+                                    <div class="criteria-history-list">
+                                        <template for:each={criteriaHistory} for:item="item">
+                                            <div key={item.number} class="criteria-history-item">
+                                                <div class="criteria-history-title">
+                                                    Criteria {item.number}
+                                                    <template if:true={item.gridLabel}>
+                                                        <span class="criteria-history-grid">({item.gridLabel})</span>
                                                     </template>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </template>
+                                                </div>
+                                                <template if:true={item.logicType}>
+                                                    <div class="criteria-history-meta">Logic: {item.logicType} {item.logicExpression}</div>
+                                                </template>
+                                                <div class="criteria-history-meta">Share Types: {item.shareTypesText}</div>
+                                                <template for:each={item.userDetails} for:item="detail">
+                                                    <div key={detail.key} class="criteria-history-detail">
+                                                        <span class="criteria-object">{detail.objectLabel}</span>, <span>{detail.fieldLabel} </span> <span class={detail.operatorClass}>{detail.operatorText} </span> <span class="criteria-value">{detail.valueText}</span>
+                                                    </div>
+                                                </template>
+                                                <template if:true={item.systemDetails.length}>
+                                                    <div class="criteria-history-system-label">System filters</div>
+                                                    <template for:each={item.systemDetails} for:item="detail">
+                                                        <div key={detail.key} class="criteria-history-detail">
+                                                            <span class="criteria-object">{detail.objectLabel}</span>, <span>{detail.fieldLabel} </span> <span class={detail.operatorClass}>{detail.operatorText} </span> <span class="criteria-value">{detail.valueText}</span>
+                                                        </div>
+                                                    </template>
+                                                </template>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </template>
+                                <div class="criteria-history-actions">
+                                    <lightning-button label="Close" variant="neutral" onclick={closeCriteriaHistory}></lightning-button>
                                 </div>
-                            </template>
-                        </div>
-                    </template>
-                    <template if:false={includedProducts.length}>
-                        <div class="noProductDisplay">
-                            No products selected yet.
-                        </div>
+                            </div>
+                        </template>
+                        <template if:true={includedProducts.length}>
+                            <div class="custom-accordion">
+                                <template for:each={includedProducts} for:item="prod">
+                                    <div key={prod.productId} class="custom-accordion-item">
+                                        <div class="custom-accordion-header">
+                                            <button class="accordion-toggle-button" data-id={prod.productId} aria-expanded={prod.isOpen} onclick={handleToggleProduct}>
+                                                <div class="main-header-left">
+                                                    <lightning-icon class="accordion-toggle-icon" icon-name={prod.toggleIconName} alternative-text="Toggle section" size="x-small"></lightning-icon>
+                                                    <div class="header-left">
+                                                        <span class="header-title header-title--large">{prod.productLabel}</span>
+                                                        <div class="header-grids">
+                                                            <template if:true={prod.gridLabelText}>
+                                                                <span class="header-sep">—</span>
+                                                                <span class="header-grids-label">{prod.gridLabelText}</span>
+                                                            </template>
+                                                            <span class="header-sep">—</span>
+                                                        </div>
+                                                        <span class="header-counts">Share classes selected: {prod.selectedCount} / {prod.totalShareClasses} total</span>
+                                                    </div>
+                                                </div>
+                                            </button>
+                                            <lightning-button-icon class="remove-product-button"
+                                                                icon-name="utility:delete"
+                                                                alternative-text="Remove product"
+                                                                title="Remove product"
+                                                                data-id={prod.productId}
+                                                                onclick={handleRemoveProduct}>
+                                            </lightning-button-icon>
+                                        </div>
+                                        <template if:true={prod.isOpen}>
+                                            <div class="table-scroll-container">
+                                                <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                                                    <thead>
+                                                        <tr class="slds-line-height_reset">
+                                                            <template for:each={columns} for:item="col">
+                                                                <th key={col.apiName} scope="col">
+                                                                    <div class="slds-truncate" title={col.label}>{col.label}</div>
+                                                                </th>
+                                                            </template>
+                                                            <th scope="col">
+                                                                <div class="slds-truncate" title="Criteria #">Criteria #</div>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <template for:each={prod.shareClasses} for:item="row">
+                                                            <tr key={row.id} class={row.rowClass}>
+                                                                <template for:each={row.cells} for:item="cell">
+                                                                    <td key={cell.label} data-label={cell.label}>
+                                                                        <div class="slds-truncate" title={cell.value}>{cell.value}</div>
+                                                                    </td>
+                                                                </template>
+                                                                <td data-label="Criteria #">
+                                                                    <div class="slds-truncate" title={row.criteriaNumber}>{row.criteriaNumber}</div>
+                                                                </td>
+                                                            </tr>
+                                                        </template>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                        <template if:false={includedProducts.length}>
+                            <div class="noProductDisplay">
+                                No products selected yet.
+                            </div>
+                        </template>
                     </template>
 
                     <div class="section-heading section-heading-excluded section-heading-row">

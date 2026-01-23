@@ -35,7 +35,9 @@
 
 .header-left {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: baseline;
+    column-gap: 15px;
 }
 
 .header-title {
@@ -44,6 +46,20 @@
 
 .header-title--large {
     font-size: 0.95rem;
+}
+
+.already-selected-warning {
+    font-size: 0.8rem;
+}
+
+.warning-label {
+    color: #c23934;
+    font-weight: 700;
+}
+
+.selection-status {
+    color: #c23934;
+    font-style: italic;
 }
 
 .header-counts {

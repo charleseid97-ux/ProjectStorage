@@ -221,13 +221,17 @@ export default class GridValidationPage extends LightningElement {
                 if (!row.criteriaRefId) {
                     return;
                 }
+                const isin = this.getIsinFromRow(row);
+                if (!isin) {
+                    return;
+                }
                 if (!byCriteria.has(row.criteriaRefId)) {
                     byCriteria.set(row.criteriaRefId, []);
                 }
-                byCriteria.get(row.criteriaRefId).push(row.id);
+                byCriteria.get(row.criteriaRefId).push(isin);
             });
             byCriteria.forEach((ids, criteriaRefId) => {
-                this.criteriaList = this.updateCriteria(ids, criteriaRefId, '!=');
+                this.criteriaList = this.updateCriteria(ids, criteriaRefId, 'NOT IN');
             });
         }
         this.selectedShareClasses = next;
@@ -311,7 +315,8 @@ export default class GridValidationPage extends LightningElement {
     }
 
     applyAddShareClass(shareClass, productId, gridOption) {
-        this.criteriaList = this.updateCriteria([shareClass.shareClassId], gridOption.criteriaRefId, '=');
+        const isin = shareClass.isin || (shareClass.recordResults ? shareClass.recordResults['ISIN__c'] : null);
+        this.criteriaList = this.updateCriteria([isin], gridOption.criteriaRefId, 'IN');
         const newRow = this.buildSelectionRowFromShareClass(shareClass, gridOption);
         const existingMap = new Map(this.selectedShareClasses.map(r => [r.id, r]));
         existingMap.set(newRow.id, newRow);
@@ -323,7 +328,7 @@ export default class GridValidationPage extends LightningElement {
     removeShareClass(shareClassId, productId) {
         const target = (this.selectedShareClasses || []).find(r => r.id === shareClassId);
         if (target && target.criteriaRefId) {
-            this.criteriaList = this.updateCriteria([shareClassId], target.criteriaRefId, '!=');
+            this.criteriaList = this.updateCriteria([target.isin], target.criteriaRefId, 'NOT IN');
         }
         this.selectedShareClasses = (this.selectedShareClasses || []).filter(r => r.id !== shareClassId);
         this.updateValidationProducts(productId, shareClassId, false, '');
@@ -388,34 +393,65 @@ export default class GridValidationPage extends LightningElement {
         });
     }
 
-    updateCriteria(shareClassIds, criteriaRefId, logic) {
-        const ids = Array.isArray(shareClassIds) ? shareClassIds : [];
-        if (!ids.length) {
+    updateCriteria(shareClassIsins, criteriaRefId, logic) {
+        const isins = (Array.isArray(shareClassIsins) ? shareClassIsins : []).filter(val => val);
+        if (!isins.length) {
             return this.criteriaList;
         }
+        const separator = ';';
         const updated = this.criteriaList.map(entry => {
             if (entry.id !== criteriaRefId) {
                 return entry;
             }
             const details = (entry.criteriaDetails || []).slice();
-            ids.forEach(shareClassId => {
-                const idx = details.findIndex(d => d.Object__c === 'Share_Class__c' && d.Field__c === 'Id' && d.Value__c === shareClassId && d.TECHOrigin__c === 'System');
-                if (idx >= 0) {
-                    details.splice(idx, 1);
-                } 
+            const idx = details.findIndex(d => d.Object__c === 'Share_Class__c' && d.Field__c === 'ISIN__c' && d.Logic__c === logic && d.TECHOrigin__c === 'System');
+            const currentValues = idx >= 0 && details[idx].Value__c ? details[idx].Value__c.split(separator).map(val => val.trim()).filter(val => val) : [];
+            const valueSet = new Set(currentValues);
+            isins.forEach(isin => {
+                if (valueSet.has(isin)) {
+                    valueSet.delete(isin);
+                }
                 else {
-                    details.push({
-                        Object__c: 'Share_Class__c',
-                        Field__c: 'Id',
-                        Logic__c: logic,
-                        Value__c: shareClassId,
-                        TECHOrigin__c: 'System'
-                    });
+                    valueSet.add(isin);
                 }
             });
+            const nextValues = Array.from(valueSet);
+            if (nextValues.length) {
+                const detail = {
+                    Object__c: 'Share_Class__c',
+                    Field__c: 'ISIN__c',
+                    Logic__c: logic,
+                    Value__c: nextValues.join(' '+separator+' '),
+                    TECHOrigin__c: 'System',
+                    objectLabel: 'Share Class',
+                    fieldLabel: 'ISIN'
+                };
+                if (idx >= 0) {
+                    details[idx] = { ...details[idx], ...detail };
+                }
+                else {
+                    details.push(detail);
+                }
+            }
+            else if (idx >= 0) {
+                details.splice(idx, 1);
+            }
             return { ...entry, criteriaDetails: details };
         });
         return updated;
+    }
+
+    getIsinFromRow(row) {
+        if (!row) {
+            return null;
+        }
+        if (row.isin) {
+            return row.isin;
+        }
+        const cells = row.cells || [];
+        const cell = cells.find(c => (c.label || '').toLowerCase() === 'isin') ||
+            cells.find(c => (c.label || '').toLowerCase().includes('isin'));
+        return cell ? cell.value : null;
     }
 
     buildProductGridOptions(selectedRows) {
@@ -463,6 +499,7 @@ export default class GridValidationPage extends LightningElement {
             cells: cells,
             gridId: gridOption.gridId,
             effManFees: sc.recordResults ? sc.recordResults['EffectiveManagementFees__c'] : null,
+            isin: sc.isin || (sc.recordResults ? sc.recordResults['ISIN__c'] : null),
             isSelected: true,
             productId: sc.productId,
             productLabel: sc.productLabel,
@@ -479,6 +516,10 @@ export default class GridValidationPage extends LightningElement {
 
     handleBack() {
         this.dispatchEvent(new CustomEvent('back'));
+    }
+
+    handleViewRecap() {
+        this.dispatchEvent(new CustomEvent('viewrecap'));
     }
 
     showToast(title, message, variant) {

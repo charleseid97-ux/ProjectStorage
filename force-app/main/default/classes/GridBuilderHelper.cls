@@ -368,7 +368,8 @@ public with sharing class GridBuilderHelper {
     }
 
     public static String getAdditionalQueryColumns() {
-        return '\nShare_Class__c => EffectiveManagementFees__c';
+        return '\nShare_Class__c => ISIN__c' +
+        '\nShare_Class__c => EffectiveManagementFees__c';
     }
 
     // ------------------------------------ WRAPPERS ------------------------------------

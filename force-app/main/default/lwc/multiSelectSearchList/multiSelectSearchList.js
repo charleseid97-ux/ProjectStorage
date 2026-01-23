@@ -4,7 +4,8 @@
  * @author		: Thanina YAYA
  * @history
  * [25-10-2024]		[SILA Nicolas]
- * [16-12-2025]		[EID Charles]	[Add showValuesWhenNotSelecting feature]
+ * [16-12-2025]		[EID Charles]	  [Add showValuesWhenNotSelecting feature]
+ * [23-01-2025]		[EID Charles]	  [Add enableSelectAll feature]
 **/
 import { LightningElement, api, track } from 'lwc';
 
@@ -23,6 +24,7 @@ export default class MultiSelectSearchList extends LightningElement {
     @api requiredLabel = false;
     @api moreSearchingFields=[];
     @api disabled =false;
+    @api enableSelectAll = false;
 
     @api pillIcon = '';
     @api disPillsAsLink = false;
@@ -54,7 +56,7 @@ export default class MultiSelectSearchList extends LightningElement {
     get dropdownOuterStyle(){
       return 'slds-var-p-left_x-small slds-dropdown slds-dropdown_fluid slds-dropdown_length-' + this.dropdownLength;
     }
- 
+
     get mainDivClass(){
       let style = ' slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click ';
       return this.isOpen ? ' slds-is-open ' + style : style;
@@ -64,6 +66,24 @@ export default class MultiSelectSearchList extends LightningElement {
       if(this.diplayPills && this.pills && this.pills.length) return true;
       return false;
     }
+
+    get showSelectAll(){
+      return this.enableSelectAll && !this.monoSelect;
+    }
+
+    get selectAllLabel(){
+      return this.isAllSelected ? 'Deselect all' : 'Select all';
+    }
+
+    get isAllSelected(){
+      const allValues = this.getAllOptionValues();
+      if (!allValues.length) {
+        return false;
+      }
+      const selected = Array.isArray(this.value) ? this.value : [];
+      return allValues.every(val => selected.includes(val));
+    }
+
     get pills(){
        let listPills = [];
        if(!this.monoSelect && this.value.length){
@@ -152,6 +172,23 @@ export default class MultiSelectSearchList extends LightningElement {
             this.searchKey = this.showValuesWhenNotSelecting && !this.isOpen? this.value.join(this.dropdownValueSeparator) : '';
             this.options = [...this.optionsSaved];
             this.dispatchSearchChange(event, false);
+    }
+
+    handleSelectAllToggle(event) {
+      if (this.disabled) {
+        return;
+      }
+      const checked = event.target.checked;
+      const allValues = this.getAllOptionValues();
+      this.value = checked ? [...allValues] : [];
+      this.searchKey = this.showValuesWhenNotSelecting && !this.isOpen ? this.value.join(this.dropdownValueSeparator) : '';
+      this.options = [...this.optionsSaved];
+      this.dispatchSearchChange(event, false);
+    }
+
+    getAllOptionValues() {
+      const source = (this.optionsSaved && this.optionsSaved.length) ? this.optionsSaved : (this.options || []);
+      return source.map(option => option.value);
     }
  
     handleChangeSearch(event)
