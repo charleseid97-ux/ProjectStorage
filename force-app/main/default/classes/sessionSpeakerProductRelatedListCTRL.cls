@@ -37,34 +37,61 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
             LIMIT 5000
         ];
 
-        Map<Id, SpeakerBlock> grouped = new Map<Id, SpeakerBlock>();
-        List<Id> speakerOrder = new List<Id>();
+        GroupBuild gb = groupRowsBySpeaker(rows);
+
+        List<SpeakerBlock> result = finalizeSpeakerBlocks(gb.grouped, gb.speakerOrder);
+
+        System.debug(LoggingLevel.INFO, 'sessionSpeakerProductRelatedListCTRL.getByEvent - END groups=' + result.size());
+        return result;
+    }
+
+    private class GroupBuild {
+        Map<Id, SpeakerBlock> grouped;
+        List<Id> speakerOrder;
+
+        GroupBuild() {
+            grouped = new Map<Id, SpeakerBlock>();
+            speakerOrder = new List<Id>();
+        }
+    }
+
+    private static GroupBuild groupRowsBySpeaker(List<sessionSpeakerProduct__c> rows) {
+        GroupBuild gb = new GroupBuild();
 
         for (sessionSpeakerProduct__c r : rows) {
             if (r.speakerContact__c == null) continue;
 
-            SpeakerBlock block = grouped.get(r.speakerContact__c);
+            SpeakerBlock block = gb.grouped.get(r.speakerContact__c);
             if (block == null) {
                 block = new SpeakerBlock();
                 block.speakerId = r.speakerContact__c;
                 block.speakerName = (r.speakerContact__r != null && String.isNotBlank(r.speakerContact__r.Name))
                     ? r.speakerContact__r.Name
                     : '—';
-                grouped.put(r.speakerContact__c, block);
-                speakerOrder.add(r.speakerContact__c);
+                gb.grouped.put(r.speakerContact__c, block);
+                gb.speakerOrder.add(r.speakerContact__c);
             }
 
-            if (r.Product__c != null) {
-                ProductItem p = new ProductItem();
-                p.linkId = r.Id;
-                p.productId = r.Product__c;
-                p.productName = (r.Product__r != null && String.isNotBlank(r.Product__r.Name))
-                    ? r.Product__r.Name
-                    : '—';
-                block.products.add(p);
-            }
+            ProductItem p = toProductItem(r);
+            if (p != null) block.products.add(p);
         }
 
+        return gb;
+    }
+
+    private static ProductItem toProductItem(sessionSpeakerProduct__c r) {
+        if (r.Product__c == null) return null;
+
+        ProductItem p = new ProductItem();
+        p.linkId = r.Id;
+        p.productId = r.Product__c;
+        p.productName = (r.Product__r != null && String.isNotBlank(r.Product__r.Name))
+            ? r.Product__r.Name
+            : '—';
+        return p;
+    }
+
+    private static List<SpeakerBlock> finalizeSpeakerBlocks(Map<Id, SpeakerBlock> grouped, List<Id> speakerOrder) {
         List<SpeakerBlock> result = new List<SpeakerBlock>();
         for (Id speakerId : speakerOrder) {
             SpeakerBlock b = grouped.get(speakerId);
@@ -72,8 +99,6 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
             b.productCount = b.products.size();
             result.add(b);
         }
-
-        System.debug(LoggingLevel.INFO, 'sessionSpeakerProductRelatedListCTRL.getByEvent - END groups=' + result.size());
         return result;
     }
 
@@ -96,20 +121,24 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
 
         List<Map<String, Object>> out = new List<Map<String, Object>>();
         for (sessionSpeakerProduct__c r : rows) {
-            Map<String, Object> o = new Map<String, Object>();
-            o.put('attributes', new Map<String, Object>{ 'type' => 'sessionSpeakerProduct__c' });
-            // Keep Id so the parent can keep it if needed (even if current repeater ignores it)
-            o.put('Id', r.Id);
-            o.put('speakerContact__c', r.speakerContact__c);
-            o.put('Product__c', r.Product__c);
-            o.put('Language__c', r.Language__c);
-            o.put('Session__c', eventId);
-            out.add(o);
+            out.add(toRepeaterRowMap(eventId, r));
         }
 
         String jsonOut = JSON.serialize(out);
         System.debug(LoggingLevel.INFO, 'sessionSpeakerProductRelatedListCTRL.getRepeaterInputByEvent - END rows=' + out.size());
         return jsonOut;
+    }
+
+    private static Map<String, Object> toRepeaterRowMap(Id eventId, sessionSpeakerProduct__c r) {
+        Map<String, Object> o = new Map<String, Object>();
+        o.put('attributes', new Map<String, Object>{ 'type' => 'sessionSpeakerProduct__c' });
+        // Keep Id so the parent can keep it if needed (even if current repeater ignores it)
+        o.put('Id', r.Id);
+        o.put('speakerContact__c', r.speakerContact__c);
+        o.put('Product__c', r.Product__c);
+        o.put('Language__c', r.Language__c);
+        o.put('Session__c', eventId);
+        return o;
     }
 
     /**
@@ -129,14 +158,34 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
 
         if (eventId == null) throw new AuraHandledException('Event Id is required.');
 
-        List<Object> raw;
+        List<Object> raw = parseRepeaterJson(payloadJson);
+
+        // Current DB state
+        Map<String, sessionSpeakerProduct__c> existingByKey = loadExistingByKey(eventId);
+
+        IncomingBuild incoming = buildIncoming(raw);
+        List<sessionSpeakerProduct__c> toInsert = buildToInsert(eventId, incoming, existingByKey);
+        List<sessionSpeakerProduct__c> toDelete = buildToDelete(incoming.incomingKeys, existingByKey);
+
+        System.debug(LoggingLevel.INFO, 'Insert=' + toInsert.size() + ' Delete=' + toDelete.size());
+
+        if (!toDelete.isEmpty()) delete toDelete;
+        if (!toInsert.isEmpty()) insert toInsert;
+
+        Integer impacted = toInsert.size() + toDelete.size();
+        System.debug(LoggingLevel.INFO, 'sessionSpeakerProductRelatedListCTRL.saveFromRepeaterJson - END impacted=' + impacted);
+        return impacted;
+    }
+
+    private static List<Object> parseRepeaterJson(String payloadJson) {
         try {
-            raw = (List<Object>) JSON.deserializeUntyped(payloadJson);
+            return (List<Object>) JSON.deserializeUntyped(payloadJson);
         } catch (Exception e) {
             throw new AuraHandledException('Invalid JSON payload: ' + e.getMessage());
         }
+    }
 
-        // Current DB state
+    private static Map<String, sessionSpeakerProduct__c> loadExistingByKey(Id eventId) {
         List<sessionSpeakerProduct__c> existing = [
             SELECT Id, speakerContact__c, Product__c, Language__c, Session__c
             FROM sessionSpeakerProduct__c
@@ -148,56 +197,94 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         for (sessionSpeakerProduct__c r : existing) {
             existingByKey.put(makeKey(r.speakerContact__c, r.Product__c, r.Language__c), r);
         }
+        return existingByKey;
+    }
 
+    private class IncomingBuild {
         Set<String> incomingKeys = new Set<String>();
-        List<sessionSpeakerProduct__c> toInsert = new List<sessionSpeakerProduct__c>();
+        List<LinkParts> incomingParts = new List<LinkParts>();
+    }
+
+    private class LinkParts {
+        Id speakerId;
+        Id productId;
+        String lang;
+        Integer rowIndex;
+    }
+
+    private static IncomingBuild buildIncoming(List<Object> raw) {
+        IncomingBuild incoming = new IncomingBuild();
 
         Integer rowIndex = 0;
         for (Object o : raw) {
             rowIndex++;
-            Map<String, Object> m = (Map<String, Object>) o;
+            LinkParts parts = parseRowToParts(o, rowIndex);
+            String key = makeKey(parts.speakerId, parts.productId, parts.lang);
 
-            Id speakerId = (m.get('speakerContact__c') != null) ? (Id) String.valueOf(m.get('speakerContact__c')) : null;
-            Id productId = (m.get('Product__c') != null) ? (Id) String.valueOf(m.get('Product__c')) : null;
-            String lang = (m.get('Language__c') != null) ? String.valueOf(m.get('Language__c')) : null;
-
-            if (speakerId == null || productId == null) {
-                throw new AuraHandledException('Missing speakerContact__c or Product__c at row ' + rowIndex + '.');
-            }
-
-            String key = makeKey(speakerId, productId, lang);
-            if (incomingKeys.contains(key)) {
+            if (incoming.incomingKeys.contains(key)) {
                 // Ignore duplicates in the payload
                 continue;
             }
-            incomingKeys.add(key);
-
-            if (!existingByKey.containsKey(key)) {
-                sessionSpeakerProduct__c rec = new sessionSpeakerProduct__c();
-                rec.Session__c = eventId;
-                rec.speakerContact__c = speakerId;
-                rec.Product__c = productId;
-                rec.Language__c = lang;
-                toInsert.add(rec);
-            }
+            incoming.incomingKeys.add(key);
+            incoming.incomingParts.add(parts);
         }
 
-        // Delete records that are not present anymore
+        return incoming;
+    }
+
+    private static LinkParts parseRowToParts(Object o, Integer rowIndex) {
+        Map<String, Object> m = (Map<String, Object>) o;
+
+        Id speakerId = (m.get('speakerContact__c') != null) ? (Id) String.valueOf(m.get('speakerContact__c')) : null;
+        Id productId = (m.get('Product__c') != null) ? (Id) String.valueOf(m.get('Product__c')) : null;
+        String lang = (m.get('Language__c') != null) ? String.valueOf(m.get('Language__c')) : null;
+
+        if (speakerId == null || productId == null) {
+            throw new AuraHandledException('Missing speakerContact__c or Product__c at row ' + rowIndex + '.');
+        }
+
+        LinkParts parts = new LinkParts();
+        parts.speakerId = speakerId;
+        parts.productId = productId;
+        parts.lang = lang;
+        parts.rowIndex = rowIndex;
+        return parts;
+    }
+
+    private static List<sessionSpeakerProduct__c> buildToInsert(
+        Id eventId,
+        IncomingBuild incoming,
+        Map<String, sessionSpeakerProduct__c> existingByKey
+    ) {
+        List<sessionSpeakerProduct__c> toInsert = new List<sessionSpeakerProduct__c>();
+
+        for (LinkParts parts : incoming.incomingParts) {
+            String key = makeKey(parts.speakerId, parts.productId, parts.lang);
+            if (existingByKey.containsKey(key)) continue;
+
+            sessionSpeakerProduct__c rec = new sessionSpeakerProduct__c();
+            rec.Session__c = eventId;
+            rec.speakerContact__c = parts.speakerId;
+            rec.Product__c = parts.productId;
+            rec.Language__c = parts.lang;
+            toInsert.add(rec);
+        }
+
+        return toInsert;
+    }
+
+    // Delete records that are not present anymore
+    private static List<sessionSpeakerProduct__c> buildToDelete(
+        Set<String> incomingKeys,
+        Map<String, sessionSpeakerProduct__c> existingByKey
+    ) {
         List<sessionSpeakerProduct__c> toDelete = new List<sessionSpeakerProduct__c>();
         for (String key : existingByKey.keySet()) {
             if (!incomingKeys.contains(key)) {
                 toDelete.add(existingByKey.get(key));
             }
         }
-
-        System.debug(LoggingLevel.INFO, 'Insert=' + toInsert.size() + ' Delete=' + toDelete.size());
-
-        if (!toDelete.isEmpty()) delete toDelete;
-        if (!toInsert.isEmpty()) insert toInsert;
-
-        Integer impacted = toInsert.size() + toDelete.size();
-        System.debug(LoggingLevel.INFO, 'sessionSpeakerProductRelatedListCTRL.saveFromRepeaterJson - END impacted=' + impacted);
-        return impacted;
+        return toDelete;
     }
 
     private static String makeKey(Id speakerId, Id productId, String lang) {

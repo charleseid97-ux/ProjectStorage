@@ -86,42 +86,52 @@ public with sharing class EventColorService {
         Id MEETINGDAYS_RT_ID = rtMeetingDays != null ? rtMeetingDays.getRecordTypeId() : null;
         Id ONETOONE_RT_ID    = rtOneToOne != null    ? rtOneToOne.getRecordTypeId()    : null;
 
+        // Assignment based on RecordType mapping
+        Map<Id, String> rtKeyById = new Map<Id, String>();
+        if (MEETINGDAYS_RT_ID != null) rtKeyById.put(MEETINGDAYS_RT_ID, 'MEETING_DAYS');
+        if (ONETOONE_RT_ID != null)    rtKeyById.put(ONETOONE_RT_ID, 'ONE_TO_ONE');
+        if (EVENT_RT_ID != null)       rtKeyById.put(EVENT_RT_ID, 'EVENT');
+
         for (Event__c e : events) {
 
             // A Sales Team must be defined to determine colors
-            if (String.isBlank(e.SalesTeam__c)) {
-                continue;
-            }
-
-            SalesTeamColors colors =
-                configuredColors.get(e.SalesTeam__c.trim().toUpperCase());
-
+            SalesTeamColors colors = getSalesTeamColors(configuredColors, e);
             if (colors == null) {
-                // No color configuration exists for this Sales Team
                 continue;
             }
 
-            String selectedColor;
-
-            // Assignment based on RecordType mapping
-            if (e.RecordTypeId == MEETINGDAYS_RT_ID) {
-                selectedColor = colors.meetingColor;
-            }
-            else if (e.RecordTypeId == ONETOONE_RT_ID) {
-                selectedColor = colors.oneToOneColor;
-            }
-            else if (e.RecordTypeId == EVENT_RT_ID) {
-                selectedColor = colors.eventColor;
-            }
-            else {
-                // Unsupported or unmanaged RecordType
+            // Unsupported or unmanaged RecordType
+            String rtKey = rtKeyById.get(e.RecordTypeId);
+            if (rtKey == null) {
                 continue;
             }
+
+            String selectedColor = selectColor(colors, rtKey);
 
             if (!String.isBlank(selectedColor)) {
                 e.Color__c = selectedColor;
             }
         }
+    }
+
+    // A Sales Team must be defined to determine colors
+    // No color configuration exists for this Sales Team
+    private static SalesTeamColors getSalesTeamColors(Map<String, SalesTeamColors> configuredColors, Event__c e) {
+        if (e == null || String.isBlank(e.SalesTeam__c)) {
+            return null;
+        }
+        return configuredColors.get(e.SalesTeam__c.trim().toUpperCase());
+    }
+
+    // Assignment based on RecordType mapping
+    private static String selectColor(SalesTeamColors colors, String rtKey) {
+        if (colors == null || String.isBlank(rtKey)) {
+            return null;
+        }
+        if (rtKey == 'MEETING_DAYS') return colors.meetingColor;
+        if (rtKey == 'ONE_TO_ONE')   return colors.oneToOneColor;
+        if (rtKey == 'EVENT')        return colors.eventColor;
+        return null;
     }
 
     /**

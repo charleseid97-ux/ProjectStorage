@@ -2,13 +2,13 @@ public with sharing class EventAttendee_InsertFromIds {
 
     public class InputWrapper {
         @InvocableVariable(required=true)
-        public Id eventId;            // Event__c Id
+        public Id eventId;
 
         @InvocableVariable
-        public String contactIdsJson; // e.g. ["003..","003.."]
+        public String contactIdsJson;
 
         @InvocableVariable
-        public String contactIdsCsv;  // e.g. 003..,003..
+        public String contactIdsCsv;
     }
 
     public class ResultWrapper {
@@ -22,18 +22,85 @@ public with sharing class EventAttendee_InsertFromIds {
     )
     public static List<ResultWrapper> execute(List<InputWrapper> inputs) {
 
-        List<ResultWrapper> results = new List<ResultWrapper>();
-
-        // ===== DEBUG INPUTS =====
         System.debug('=== [EventAttendee_InsertFromIds] START ===');
 
+        List<ResultWrapper> results = new List<ResultWrapper>();
         if (inputs == null) {
             System.debug('Inputs = null');
+            System.debug('=== [EventAttendee_InsertFromIds] END ===');
             return results;
         }
 
-        System.debug('Inputs size = ' + String.valueOf(inputs.size()));
+        debugInputs(inputs);
 
+        List<EventAttendee__c> allToInsert = new List<EventAttendee__c>();
+        List<Integer> countsPerInput = new List<Integer>();
+
+        for (InputWrapper input : inputs) {
+            results.add(processInput(input, allToInsert, countsPerInput));
+        }
+
+        if (!allToInsert.isEmpty()) {
+            insert allToInsert;
+        }
+
+        for (Integer i = 0; i < results.size(); i++) {
+            if (results[i].errorMessage == null) {
+                results[i].insertedCount = countsPerInput[i];
+            }
+        }
+
+        System.debug('=== [EventAttendee_InsertFromIds] END ===');
+        return results;
+    }
+
+    // ----------------------------
+    // Per-input processing
+    // ----------------------------
+    private static ResultWrapper processInput(
+        InputWrapper input,
+        List<EventAttendee__c> allToInsert,
+        List<Integer> countsPerInput
+    ) {
+        ResultWrapper res = new ResultWrapper();
+        Integer localCount = 0;
+
+        try {
+            if (input == null || input.eventId == null) {
+                res.insertedCount = 0;
+                res.errorMessage = 'Missing eventId';
+                countsPerInput.add(0);
+                return res;
+            }
+
+            List<Id> contactIds = parseIds(input.contactIdsJson, input.contactIdsCsv);
+
+            for (Id cid : contactIds) {
+                allToInsert.add(new EventAttendee__c(
+                    Event__c = input.eventId,
+                    Contact__c = cid
+                ));
+                localCount++;
+            }
+
+            res.errorMessage = null;
+            countsPerInput.add(localCount);
+            // insertedCount will be set after the single DML
+
+        } catch (Exception e) {
+            res.insertedCount = 0;
+            res.errorMessage = e.getMessage();
+            countsPerInput.add(0);
+        }
+
+        return res;
+    }
+
+    // ----------------------------
+    // Debug helpers
+    // ----------------------------
+    private static void debugInputs(List<InputWrapper> inputs) {
+        System.debug('Inputs size = ' + String.valueOf(inputs.size()));
         for (Integer i = 0; i < inputs.size(); i++) {
             InputWrapper inw = inputs[i];
             System.debug('--- Input #' + i + ' ---');
@@ -41,53 +108,6 @@ public with sharing class EventAttendee_InsertFromIds {
             System.debug('contactIdsJson = ' + String.valueOf(inw == null ? null : inw.contactIdsJson));
             System.debug('contactIdsCsv = ' + String.valueOf(inw == null ? null : inw.contactIdsCsv));
         }
-
-        // ===== MAIN LOGIC =====
-        for (InputWrapper input : inputs) {
-
-            ResultWrapper res = new ResultWrapper();
-            List<EventAttendee__c> toInsert = new List<EventAttendee__c>();
-
-            try {
-                if (input == null || input.eventId == null) {
-                    res.insertedCount = 0;
-                    res.errorMessage = 'Missing eventId';
-                    results.add(res);
-                    continue;
-                }
-
-                // Parse Contact Ids
-                List<Id> contactIds = parseIds(input.contactIdsJson, input.contactIdsCsv);
-
-                System.debug('Parsed contactIds = ' + contactIds);
-
-                for (Id cid : contactIds) {
-                    EventAttendee__c ea = new EventAttendee__c();
-                    ea.Event__c = input.eventId;
-                    ea.Contact__c = cid;
-                    toInsert.add(ea);
-                }
-
-                System.debug('Records to insert = ' + toInsert.size());
-
-                if (!toInsert.isEmpty()) {
-                    insert toInsert;
-                }
-
-                res.insertedCount = toInsert.size();
-                res.errorMessage = null;
-
-            } catch (Exception e) {
-                System.debug('ERROR: ' + e.getMessage());
-                res.insertedCount = 0;
-                res.errorMessage = e.getMessage();
-            }
-
-            results.add(res);
-        }
-
-        System.debug('=== [EventAttendee_InsertFromIds] END ===');
-        return results;
     }
 
     // ============================================================
@@ -95,30 +115,59 @@ public with sharing class EventAttendee_InsertFromIds {
     // ============================================================
     private static List<Id> parseIds(String json, String csv) {
 
+        List<Id> jsonIds = parseJsonIds(json);
+        if (!jsonIds.isEmpty()) {
+            return jsonIds;
+        }
+
+        return parseCsvIds(csv);
+    }
+
+    private static List<Id> parseJsonIds(String json) {
+        if (String.isBlank(json)) {
+            return new List<Id>();
+        }
+
+        Object parsed = System.JSON.deserializeUntyped(json);
+        if (!(parsed instanceof List<Object>)) {
+            return new List<Id>();
+        }
+
+        return toIdList((List<Object>) parsed);
+    }
+
+    private static List<Id> parseCsvIds(String csv) {
+        if (String.isBlank(csv)) {
+            return new List<Id>();
+        }
+
         List<Id> out = new List<Id>();
-
-        // Prefer JSON
-        if (!String.isBlank(json)) {
-            Object parsed = System.JSON.deserializeUntyped(json);
-            if (parsed instanceof List<Object>) {
-                for (Object o : (List<Object>)parsed) {
-                    if (o == null) continue;
-                    String s = String.valueOf(o).trim();
-                    if (String.isBlank(s)) continue;
-                    out.add((Id)s);
-                }
-                return out;
+        for (String part : csv.split(',')) {
+            Id maybeId = toId(part);
+            if (maybeId != null) {
+                out.add(maybeId);
             }
         }
-
-        // Fallback CSV
-        if (!String.isBlank(csv)) {
-            for (String part : csv.split(',')) {
-                if (String.isBlank(part)) continue;
-                out.add((Id)part.trim());
-            }
-        }
-
         return out;
+    }
+
+    private static List<Id> toIdList(List<Object> raw) {
+        List<Id> out = new List<Id>();
+        for (Object o : raw) {
+            Id maybeId = toId(o);
+            if (maybeId != null) {
+                out.add(maybeId);
+            }
+        }
+        return out;
+    }
+
+    private static Id toId(Object v) {
+        if (v == null) return null;
+
+        String s = String.valueOf(v).trim();
+        if (String.isBlank(s)) return null;
+
+        return (Id) s;
     }
 }

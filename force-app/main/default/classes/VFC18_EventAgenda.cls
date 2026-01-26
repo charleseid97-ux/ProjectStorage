@@ -54,20 +54,7 @@ public without sharing class VFC18_EventAgenda {
 
         String targetTz = String.isBlank(p.Timezone__c) ? TZ_UTC00 : p.Timezone__c;
 
-        parent = new ParentVM();
-        parent.id = p.Id;
-        parent.title = safeStr(p.Title__c);
-        parent.company = (p.Company__r != null) ? safeStr(p.Company__r.Name) : '';
-        parent.timezone = targetTz;
-        parent.salesTeam = safeStr(p.SalesTeam__c);
-        parent.meetingBackground = safeStr(p.MeetingBackground__c);
-        parent.meetingGoal = safeStr(p.MeetingGoal__c);
-
-        DateTime pStart = buildDateTime(p.StartDate__c, p.StartTime__c);
-        DateTime pEnd   = buildDateTime(p.EndDate__c,   p.EndTime__c);
-
-        parent.startLabel = (pStart == null) ? '' : pStart.format('dd/MM/yyyy HH:mm');
-        parent.endLabel   = (pEnd   == null) ? '' : pEnd.format('dd/MM/yyyy HH:mm');
+        parent = buildParentVM(p, targetTz);
 
         // 2) Children (ORDER BY start date/time)
         List<Event__c> children = [
@@ -79,7 +66,7 @@ public without sharing class VFC18_EventAgenda {
                    EndTime__c,
                    Timezone__c,
                    MeetingBackground__c,
-                   MeetingGoal__c,                   
+                   MeetingGoal__c,
                    MeetingNote__c,
                    MeetingNote__r.Note__c
             FROM Event__c
@@ -89,8 +76,7 @@ public without sharing class VFC18_EventAgenda {
 
         System.debug(LoggingLevel.INFO, '======children.size=' + children.size());
 
-        Set<Id> childIds = new Set<Id>();
-        for (Event__c c : children) childIds.add(c.Id);
+        Set<Id> childIds = collectIds(children);
 
         // 3) Preload ALL required data (attendees + speakers/products)
         AccessData acc = testAccessibility(childIds);
@@ -100,64 +86,13 @@ public without sharing class VFC18_EventAgenda {
         }
 
         // 4) Group by converted day and build rows
-        Map<Date, DayGroupVM> byDay = new Map<Date, DayGroupVM>();
-
-        for (Event__c c : children) {
-            String srcTz = String.isBlank(c.Timezone__c) ? targetTz : c.Timezone__c;
-
-            DateTime childStart = buildDateTime(c.StartDate__c, c.StartTime__c);
-            DateTime childEnd   = buildDateTime(c.EndDate__c,   c.EndTime__c);
-
-            DateTime startConv = convertUtcOffset(childStart, srcTz, targetTz);
-            DateTime endConv   = convertUtcOffset(childEnd,   srcTz, targetTz);
-
-            if (startConv == null) continue;
-
-            Date dayKey = startConv.date();
-
-            DayGroupVM g = byDay.get(dayKey);
-            if (g == null) {
-                g = new DayGroupVM();
-                g.day = dayKey;
-                g.dayLabel = formatDaySeparator(dayKey);
-                g.rows = new List<RowVM>();
-                byDay.put(dayKey, g);
-            }
-
-            RowVM r = new RowVM();
-            r.startSort = startConv;
-            r.timeRange = buildTimeRange(startConv, endConv);
-            r.title = String.isBlank(c.Title__c) ? DEFAULT_TITLE : c.Title__c;
-
-            r.bgGoal = buildBgGoalLabel(safeStr(c.MeetingBackground__c), safeStr(c.MeetingGoal__c));
-           r.note = (c.MeetingNote__r != null) ? safeStr(c.MeetingNote__r.Note__c) : '-';
-
-            r.attendees = acc.attendeesByEvent.containsKey(c.Id)
-                ? acc.attendeesByEvent.get(c.Id)
-                : new List<String>();
-
-            r.speakers = acc.speakersByEvent.containsKey(c.Id)
-                ? acc.speakersByEvent.get(c.Id)
-                : new List<SpeakerLineVM>();
-
-            g.rows.add(r);
-        }
+        Map<Date, DayGroupVM> byDay = groupChildrenByDay(children, acc, targetTz);
 
         // 5) Sort rows INSIDE each day by start datetime
-        for (DayGroupVM g : byDay.values()) {
-            if (g.rows != null && !g.rows.isEmpty()) {
-                g.rows.sort(new RowStartComparator());
-            }
-        }
+        sortRowsByStart(byDay);
 
         // 6) Sort days and add to output list
-        List<Date> keys = new List<Date>();
-        keys.addAll(byDay.keySet());
-        keys.sort();
-
-        for (Date d : keys) {
-            days.add(byDay.get(d));
-        }
+        addDaysToOutput(byDay);
 
         System.debug(LoggingLevel.INFO, '======days.size=' + days.size());
     }
@@ -184,22 +119,166 @@ public without sharing class VFC18_EventAgenda {
         if (childIds == null) childIds = new Set<Id>();
 
         // 1) Attendees
-        List<EventAttendee__c> attendeeLinks;
+        List<EventAttendee__c> attendeeLinks = queryAttendees(childIds);
+        if (attendeeLinks == null) return null;
+
+        System.debug(LoggingLevel.INFO, '======attendeeLinks.size=' + attendeeLinks.size());
+
+        Map<Id, String> contactNameById = loadAttendeeNames(attendeeLinks);
+
+        buildAttendeesByEvent(data, attendeeLinks, contactNameById);
+
+        // 2) Speaker/Product links
+        List<SessionSpeakerProduct__c> links = querySpeakerProductLinks(childIds);
+        if (links == null) return null;
+
+        System.debug(LoggingLevel.INFO, '======speakerProductLinks.size=' + links.size());
+
+        SpeakerProductPrep prep = groupSpeakerProductLinks(links);
+
+        // Resolve speaker names (best effort)
+        Map<Id, String> speakerNameById = loadSpeakerNames(prep.speakerIds);
+
+        // Resolve Product__c names (best effort)
+        Map<Id, String> productNameById = loadProductNames(prep.productIds);
+
+        // Build speakersByEvent
+        buildSpeakersByEvent(data, prep.tmp, speakerNameById, productNameById);
+
+        return data;
+    }
+
+    // -----------------------
+    // Data loading helpers
+    // -----------------------
+    private static ParentVM buildParentVM(Event__c p, String targetTz) {
+        ParentVM vm = new ParentVM();
+        vm.id = p.Id;
+        vm.title = safeStr(p.Title__c);
+        vm.company = (p.Company__r != null) ? safeStr(p.Company__r.Name) : '';
+        vm.timezone = targetTz;
+        vm.salesTeam = safeStr(p.SalesTeam__c);
+        vm.meetingBackground = safeStr(p.MeetingBackground__c);
+        vm.meetingGoal = safeStr(p.MeetingGoal__c);
+
+        DateTime pStart = buildDateTime(p.StartDate__c, p.StartTime__c);
+        DateTime pEnd   = buildDateTime(p.EndDate__c,   p.EndTime__c);
+
+        vm.startLabel = (pStart == null) ? '' : pStart.format('dd/MM/yyyy HH:mm');
+        vm.endLabel   = (pEnd   == null) ? '' : pEnd.format('dd/MM/yyyy HH:mm');
+
+        return vm;
+    }
+
+    private static Set<Id> collectIds(List<Event__c> children) {
+        Set<Id> ids = new Set<Id>();
+        for (Event__c c : children) ids.add(c.Id);
+        return ids;
+    }
+
+    private Map<Date, DayGroupVM> groupChildrenByDay(List<Event__c> children, AccessData acc, String targetTz) {
+        Map<Date, DayGroupVM> byDay = new Map<Date, DayGroupVM>();
+
+        for (Event__c c : children) {
+            DayRowBuildResult built = buildDayAndRow(c, acc, targetTz);
+            if (built == null) continue;
+
+            DayGroupVM g = byDay.get(built.dayKey);
+            if (g == null) {
+                g = new DayGroupVM();
+                g.day = built.dayKey;
+                g.dayLabel = formatDaySeparator(built.dayKey);
+                g.rows = new List<RowVM>();
+                byDay.put(built.dayKey, g);
+            }
+            g.rows.add(built.row);
+        }
+
+        return byDay;
+    }
+
+    private class DayRowBuildResult {
+        Date dayKey;
+        RowVM row;
+    }
+
+    private DayRowBuildResult buildDayAndRow(Event__c c, AccessData acc, String targetTz) {
+        String srcTz = String.isBlank(c.Timezone__c) ? targetTz : c.Timezone__c;
+
+        DateTime childStart = buildDateTime(c.StartDate__c, c.StartTime__c);
+        DateTime childEnd   = buildDateTime(c.EndDate__c,   c.EndTime__c);
+
+        DateTime startConv = convertUtcOffset(childStart, srcTz, targetTz);
+        DateTime endConv   = convertUtcOffset(childEnd,   srcTz, targetTz);
+
+        if (startConv == null) return null;
+
+        RowVM r = new RowVM();
+        r.startSort = startConv;
+        r.timeRange = buildTimeRange(startConv, endConv);
+        r.title = String.isBlank(c.Title__c) ? DEFAULT_TITLE : c.Title__c;
+
+        r.bgGoal = buildBgGoalLabel(safeStr(c.MeetingBackground__c), safeStr(c.MeetingGoal__c));
+        r.note = (c.MeetingNote__r != null) ? safeStr(c.MeetingNote__r.Note__c) : '-';
+
+        r.attendees = acc.attendeesByEvent.containsKey(c.Id)
+            ? acc.attendeesByEvent.get(c.Id)
+            : new List<String>();
+
+        r.speakers = acc.speakersByEvent.containsKey(c.Id)
+            ? acc.speakersByEvent.get(c.Id)
+            : new List<SpeakerLineVM>();
+
+        DayRowBuildResult out = new DayRowBuildResult();
+        out.dayKey = startConv.date();
+        out.row = r;
+        return out;
+    }
+
+    private static void sortRowsByStart(Map<Date, DayGroupVM> byDay) {
+        for (DayGroupVM g : byDay.values()) {
+            if (g.rows != null && !g.rows.isEmpty()) {
+                g.rows.sort(new RowStartComparator());
+            }
+        }
+    }
+
+    private void addDaysToOutput(Map<Date, DayGroupVM> byDay) {
+        List<Date> keys = new List<Date>();
+        keys.addAll(byDay.keySet());
+        keys.sort();
+
+        for (Date d : keys) {
+            days.add(byDay.get(d));
+        }
+    }
+
+    // -----------------------
+    // Accessibility helpers
+    // -----------------------
+    // 1) Attendees
+    private List<EventAttendee__c> queryAttendees(Set<Id> childIds) {
         try {
-            attendeeLinks = [
+            return [
                 SELECT Id, Event__c, Contact__c
                 FROM EventAttendee__c
                 WHERE Event__c IN :childIds
             ];
-            System.debug(LoggingLevel.INFO, '======attendeeLinks.size=' + attendeeLinks.size());
         } catch (Exception e) {
             errorMessage = 'Access error on EventAttendee__c query: ' + e.getMessage();
             System.debug(LoggingLevel.ERROR, e);
             return null;
         }
+    }
 
-        Set<Id> attendeeContactIds = new Set<Id>();
-        for (EventAttendee__c a : attendeeLinks) if (a.Contact__c != null) attendeeContactIds.add(a.Contact__c);
+    private static Set<Id> collectAttendeeContactIds(List<EventAttendee__c> attendeeLinks) {
+        Set<Id> ids = new Set<Id>();
+        for (EventAttendee__c a : attendeeLinks) if (a.Contact__c != null) ids.add(a.Contact__c);
+        return ids;
+    }
+
+    private Map<Id, String> loadAttendeeNames(List<EventAttendee__c> attendeeLinks) {
+        Set<Id> attendeeContactIds = collectAttendeeContactIds(attendeeLinks);
 
         Map<Id, String> contactNameById = new Map<Id, String>();
         if (!attendeeContactIds.isEmpty()) {
@@ -220,6 +299,10 @@ public without sharing class VFC18_EventAgenda {
             }
         }
 
+        return contactNameById;
+    }
+
+    private static void buildAttendeesByEvent(AccessData data, List<EventAttendee__c> attendeeLinks, Map<Id, String> contactNameById) {
         for (EventAttendee__c a : attendeeLinks) {
             if (a.Event__c == null) continue;
 
@@ -238,45 +321,61 @@ public without sharing class VFC18_EventAgenda {
         for (Id eid : data.attendeesByEvent.keySet()) {
             data.attendeesByEvent.get(eid).sort();
         }
+    }
 
-        // 2) Speaker/Product links
-        List<SessionSpeakerProduct__c> links;
+    // 2) Speaker/Product links
+    private List<SessionSpeakerProduct__c> querySpeakerProductLinks(Set<Id> childIds) {
         try {
-            links = [
+            return [
                 SELECT Session__c, SpeakerContact__c, Product__c
                 FROM SessionSpeakerProduct__c
                 WHERE Session__c IN :childIds
             ];
-            System.debug(LoggingLevel.INFO, '======speakerProductLinks.size=' + links.size());
         } catch (Exception e) {
             errorMessage = 'Access error on SessionSpeakerProduct__c query: ' + e.getMessage();
             System.debug(LoggingLevel.ERROR, e);
             return null;
         }
+    }
+
+    private class SpeakerProductPrep {
+        Map<Id, Map<Id, Set<Id>>> tmp;
+        Set<Id> speakerIds;
+        Set<Id> productIds;
+
+        SpeakerProductPrep() {
+            tmp = new Map<Id, Map<Id, Set<Id>>>();
+            speakerIds = new Set<Id>();
+            productIds = new Set<Id>();
+        }
+    }
+
+    private static SpeakerProductPrep groupSpeakerProductLinks(List<SessionSpeakerProduct__c> links) {
+        SpeakerProductPrep prep = new SpeakerProductPrep();
 
         // Group: session -> speakerId -> set(productIds)
-        Map<Id, Map<Id, Set<Id>>> tmp = new Map<Id, Map<Id, Set<Id>>>();
-        Set<Id> speakerIds = new Set<Id>();
-        Set<Id> productIds = new Set<Id>();
-
         for (SessionSpeakerProduct__c l : links) {
             if (l.Session__c == null) continue;
 
-            if (!tmp.containsKey(l.Session__c)) tmp.put(l.Session__c, new Map<Id, Set<Id>>());
-            Map<Id, Set<Id>> bySpeaker = tmp.get(l.Session__c);
+            if (!prep.tmp.containsKey(l.Session__c)) prep.tmp.put(l.Session__c, new Map<Id, Set<Id>>());
+            Map<Id, Set<Id>> bySpeaker = prep.tmp.get(l.Session__c);
 
             Id spId = l.SpeakerContact__c;
             if (!bySpeaker.containsKey(spId)) bySpeaker.put(spId, new Set<Id>());
 
-            if (spId != null) speakerIds.add(spId);
+            if (spId != null) prep.speakerIds.add(spId);
 
             if (l.Product__c != null) {
                 bySpeaker.get(spId).add(l.Product__c);
-                productIds.add(l.Product__c);
+                prep.productIds.add(l.Product__c);
             }
         }
 
-        // Resolve speaker names (best effort)
+        return prep;
+    }
+
+    // Resolve speaker names (best effort)
+    private Map<Id, String> loadSpeakerNames(Set<Id> speakerIds) {
         Map<Id, String> speakerNameById = new Map<Id, String>();
         if (!speakerIds.isEmpty()) {
             try {
@@ -287,8 +386,11 @@ public without sharing class VFC18_EventAgenda {
                 System.debug(LoggingLevel.WARN, 'Cannot read Contact (speakers): ' + e.getMessage());
             }
         }
+        return speakerNameById;
+    }
 
-        // Resolve Product__c names (best effort)
+    // Resolve Product__c names (best effort)
+    private Map<Id, String> loadProductNames(Set<Id> productIds) {
         Map<Id, String> productNameById = new Map<Id, String>();
         if (!productIds.isEmpty()) {
             try {
@@ -303,47 +405,82 @@ public without sharing class VFC18_EventAgenda {
                 System.debug(LoggingLevel.WARN, 'Cannot read Product__c: ' + e.getMessage());
             }
         }
+        return productNameById;
+    }
 
         // Build speakersByEvent
+    private static void buildSpeakersByEvent(
+        AccessData data,
+        Map<Id, Map<Id, Set<Id>>> tmp,
+        Map<Id, String> speakerNameById,
+        Map<Id, String> productNameById
+    ) {
         for (Id sessionId : tmp.keySet()) {
             Map<Id, Set<Id>> bySpeaker = tmp.get(sessionId);
+            data.speakersByEvent.put(sessionId, buildSpeakerLines(bySpeaker, speakerNameById, productNameById));
+        }
+    }
 
-            List<SpeakerLineVM> lines = new List<SpeakerLineVM>();
+    private static List<SpeakerLineVM> buildSpeakerLines(
+        Map<Id, Set<Id>> bySpeaker,
+        Map<Id, String> speakerNameById,
+        Map<Id, String> productNameById
+    ) {
+        List<SpeakerLineVM> lines = new List<SpeakerLineVM>();
+        if (bySpeaker == null || bySpeaker.isEmpty()) return lines;
 
-            // Sort speakers by resolved name (best effort)
-            List<Id> spKeys = new List<Id>();
-            spKeys.addAll(bySpeaker.keySet());
-            spKeys.sort();
+        // Sort speakers by resolved name (best effort)
+        List<Id> spKeys = new List<Id>();
+        spKeys.addAll(bySpeaker.keySet());
+        spKeys.sort();
 
-            for (Id spId : spKeys) {
-                String spName = (spId != null && speakerNameById.containsKey(spId))
-                    ? speakerNameById.get(spId)
-                    : '-';
-
-                // Only resolved product names; no "Product" fallback
-                Set<String> prodSet = new Set<String>();
-                for (Id pid : bySpeaker.get(spId)) {
-                    if (pid != null && productNameById.containsKey(pid)) {
-                        prodSet.add(productNameById.get(pid));
-                    }
-                }
-
-                List<String> prodNames = new List<String>();
-                prodNames.addAll(prodSet);
-                prodNames.sort();
-
-                SpeakerLineVM line = new SpeakerLineVM();
-                line.speakerName = spName;
-                line.productsLabel = prodNames.isEmpty() ? '' : String.join(prodNames, ', ');
-
-                lines.add(line);
-            }
-
-            data.speakersByEvent.put(sessionId, lines);
+        for (Id spId : spKeys) {
+            lines.add(buildSpeakerLine(spId, bySpeaker.get(spId), speakerNameById, productNameById));
         }
 
-        return data;
+        return lines;
     }
+
+    private static SpeakerLineVM buildSpeakerLine(
+        Id spId,
+        Set<Id> productIds,
+        Map<Id, String> speakerNameById,
+        Map<Id, String> productNameById
+    ) {
+        String spName = resolveSpeakerName(spId, speakerNameById);
+
+        // Only resolved product names; no "Product" fallback
+        List<String> prodNames = resolveProductNames(productIds, productNameById);
+
+        SpeakerLineVM line = new SpeakerLineVM();
+        line.speakerName = spName;
+        line.productsLabel = prodNames.isEmpty() ? '' : String.join(prodNames, ', ');
+        return line;
+    }
+
+    private static String resolveSpeakerName(Id spId, Map<Id, String> speakerNameById) {
+        if (spId != null && speakerNameById != null && speakerNameById.containsKey(spId)) {
+            return speakerNameById.get(spId);
+        }
+        return '-';
+    }
+
+    private static List<String> resolveProductNames(Set<Id> productIds, Map<Id, String> productNameById) {
+        Set<String> prodSet = new Set<String>();
+        if (productIds != null && productNameById != null) {
+            for (Id pid : productIds) {
+                if (pid != null && productNameById.containsKey(pid)) {
+                    prodSet.add(productNameById.get(pid));
+                }
+            }
+        }
+
+        List<String> prodNames = new List<String>();
+        prodNames.addAll(prodSet);
+        prodNames.sort();
+        return prodNames;
+    }
+
 
     // -----------------------
     // Date+Time helpers
