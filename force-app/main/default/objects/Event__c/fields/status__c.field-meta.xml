@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>status__c</fullName>
+    <label>Status</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Draft</fullName>
+                <default>true</default>
+                <label>Draft</label>
+            </value>
+            <value>
+                <fullName>EventFullyApproved</fullName>
+                <default>false</default>
+                <label>Event Fully Approved</label>
+            </value>
+            <value>
+                <fullName>InvitationsSent</fullName>
+                <default>false</default>
+                <label>Invitations Sent</label>
+            </value>
+            <value>
+                <fullName>SubmittedToEventTeam</fullName>
+                <default>false</default>
+                <label>Submitted to Event Team</label>
+            </value>
+            <value>
+                <fullName>WaitingForSpeakerApprovals</fullName>
+                <default>false</default>
+                <label>Waiting for Speaker Approvals</label>
+            </value>
+            <value>
+                <fullName>Cancelled</fullName>
+                <default>false</default>
+                <label>Cancelled</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

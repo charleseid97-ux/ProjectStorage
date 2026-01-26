@@ -1,0 +1,221 @@
+<template>
+<!-- =========================
+     DISPLAY
+     ========================= -->
+<template if:false={isEvent}>
+  <div class="slds-p-horizontal_medium slds-p-vertical_x-small">
+    <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-center">
+      <!-- Time Zone -->
+      <div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12">
+        <lightning-combobox
+          label="Time zone"
+          variant="label-hidden"
+          placeholder="Time zone"
+          value={selectedTimezone}
+          options={allTimezones}
+          onchange={handleTimezoneChange}>
+        </lightning-combobox>
+      </div>
+    </div>
+  </div>
+</template>
+
+  <!-- =========================
+       FILTERS
+       ========================= -->
+  <template if:false={isEvent}>
+    <lightning-card title="Filters v2">
+      <div class="slds-p-around_medium">
+        <div class="slds-grid slds-wrap slds-gutters">
+
+          <!-- Speakers (multi-select with pills) -->
+          <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-2">
+            <div class="slds-var-m-around_x-small">
+              <template if:true={hasSpeakers}>
+                <c-multi-select-search-list
+                  label="Speakers"
+                  options={allSpeakers}
+                  value={selectedSpeakerContactIds}
+                  data-id="Speakers"
+                  onchange={handleMultiSelection}>
+                </c-multi-select-search-list>
+              </template>
+
+              <template if:true={dispSelectionPills.Speakers}>
+                <div style="max-height: 3rem;">
+                  <lightning-pill-container
+                    items={speakerPills}
+                    onitemremove={handleMultiItemRemove}
+                    is-collapsible="true"
+                    is-expanded="false"
+                    data-id="Speakers">
+                  </lightning-pill-container>
+                </div>
+              </template>
+            </div>
+          </div>
+
+          <!-- Sales Teams (multi-select with pills) -->
+          <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-2">
+            <div class="slds-var-m-around_x-small">
+              <template if:true={hasSalesTeams}>
+                <c-multi-select-search-list
+                  label="Sales teams"
+                  options={allSalesTeams}
+                  value={selectedCountries}
+                  data-id="SalesTeams"
+                  onchange={handleMultiSelection}>
+                </c-multi-select-search-list>
+              </template>
+
+              <template if:true={dispSelectionPills.SalesTeams}>
+                <div style="max-height: 3rem;">
+                  <lightning-pill-container
+                    items={salesTeamPills}
+                    onitemremove={handleMultiItemRemove}
+                    is-collapsible="true"
+                    is-expanded="false"
+                    data-id="SalesTeams">
+                  </lightning-pill-container>
+                </div>
+              </template>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="slds-m-top_small slds-grid slds-grid_align-spread">
+          <lightning-button label="Clear" onclick={handleClear}></lightning-button>
+
+          <div>
+            <lightning-button
+              class="slds-m-right_x-small"
+              label="Print"
+              variant="neutral"
+              onclick={openPrintVF}>
+            </lightning-button>
+
+            <lightning-button
+              variant="brand"
+              label="Apply Filters"
+              onclick={applyFilters}>
+            </lightning-button>
+          </div>
+        </div>
+      </div>
+    </lightning-card>
+  </template>
+
+  <template if:true={isEvent}>
+    <lightning-button
+        label="Open Agenda"
+        icon-name="utility:preview"
+        variant="brand"
+        onclick={openRecap}>
+    </lightning-button>
+
+    <!-- Modal (child LWC) -->
+    <c-event-recap-modal></c-event-recap-modal>
+</template>
+
+  <!-- Main 2/3 + 1/3 layout -->
+  <div class="slds-grid slds-wrap slds-gutters slds-p-top_medium">
+    <!-- Calendar (2/3) -->
+    <div class="slds-col slds-size_1-of-1 slds-large-size_2-of-3">
+      <c-calendar
+        record-id={recordId}
+        ondatechange={handleDateChange}
+        onfceventclick={handleEventClick}>
+      </c-calendar>
+    </div>
+
+    <!-- Details (1/3) -->
+    <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-3">
+      <lightning-card title="Selection" icon-name="standard:record">
+        <template if:true={selectedRecordId}>
+          <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+            <lightning-button
+              variant="neutral"
+              label="Open Record"
+              onclick={openRecord}>
+            </lightning-button>
+          </div>
+
+          <lightning-record-view-form
+            record-id={selectedRecordId}
+            object-api-name={childObject}>
+
+            <div class="slds-p-around_medium slds-grid slds-wrap slds-gutters">
+
+              <!-- Title -->
+              <div class="slds-col slds-size_1-of-2">
+                <lightning-output-field field-name="title__c"></lightning-output-field>
+              </div>
+
+              <!-- Record Type -->
+              <div class="slds-col slds-size_1-of-2">
+                <lightning-output-field field-name="category__c"></lightning-output-field>
+              </div>
+
+              <!-- Start -->
+              <div class="slds-col slds-size_1-of-2">
+                <lightning-output-field field-name="startDate__c"></lightning-output-field>
+              </div>
+              <div class="slds-col slds-size_1-of-2">
+                <lightning-output-field field-name="startTime__c"></lightning-output-field>
+              </div>
+
+              <!-- End -->
+              <div class="slds-col slds-size_1-of-2">
+                <lightning-output-field field-name="endDate__c"></lightning-output-field>
+              </div>
+              <div class="slds-col slds-size_1-of-2">
+                <lightning-output-field field-name="endTime__c"></lightning-output-field>
+              </div>
+
+              <!-- Timezone / Status -->
+              <div class="slds-col slds-size_1-of-2">
+                <lightning-output-field field-name="timezone__c"></lightning-output-field>
+              </div>
+              <div class="slds-col slds-size_1-of-2">
+                <lightning-output-field field-name="status__c"></lightning-output-field>
+              </div>
+
+              <!-- Sales / Format -->
+              <div class="slds-col slds-size_1-of-2">
+                <lightning-output-field field-name="salesTeam__c"></lightning-output-field>
+              </div>
+              <div class="slds-col slds-size_1-of-2">
+                <lightning-output-field field-name="format__c"></lightning-output-field>
+              </div>
+
+              <!-- Parent / Company -->
+              <div class="slds-col slds-size_1-of-2">
+                <lightning-output-field field-name="parentEvent__c"></lightning-output-field>
+              </div>
+              <div class="slds-col slds-size_1-of-2">
+                <lightning-output-field field-name="company__c"></lightning-output-field>
+              </div>
+
+              <!-- Description (FULL WIDTH, LAST) -->
+              <div class="slds-col slds-size_1-of-1">
+                <lightning-output-field field-name="description__c"></lightning-output-field>
+              </div>
+
+            </div>
+          </lightning-record-view-form>
+
+          <c-speaker-products-by-session
+            selected-record-id={selectedRecordId}>
+          </c-speaker-products-by-session>
+        </template>
+
+        <template if:false={selectedRecordId}>
+          <div class="slds-p-around_medium slds-text-color_weak">
+            Click an event in the calendar to view its details here.
+          </div>
+        </template>
+      </lightning-card>
+    </div>
+  </div>
+</template>

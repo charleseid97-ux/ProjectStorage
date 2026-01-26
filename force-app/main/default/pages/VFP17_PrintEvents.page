@@ -1,0 +1,157 @@
+<apex:page controller="VFC17_PrintEvents"
+           showHeader="false"
+           sidebar="false"
+           standardStylesheets="true"
+           docType="html-5.0">
+
+  <style>
+    @page { size: A4; margin: 12mm 10mm 12mm 10mm; }
+    body { font-family: Arial, sans-serif; font-size: 10pt; color: #111; }
+
+    .page { page-break-after: always; }
+    .page:last-child { page-break-after: auto; }
+
+    table.layout { width: 100%; border-collapse: collapse; table-layout: fixed; }
+
+    td.col {
+      width: 33.33%;
+      vertical-align: top;
+      border-right: 1px solid #BFBFBF;
+      border-left: none;
+      border-top: none;
+      border-bottom: none;
+      padding: 4mm;
+    }
+    td.col:first-child { border-left: 1px solid #BFBFBF; }
+
+    .monthBanner {
+      height: 100pt;
+      border-radius: 6px;
+      margin: 0 0 6px 0;
+      border: 1px solid #D0D0D0;
+      overflow: hidden;
+
+      text-align: center;
+      line-height: 100pt;
+      color: #fff;
+      font-weight: bold;
+      font-size: 12pt;
+      text-transform: uppercase;
+      letter-spacing: 0.5pt;
+      white-space: nowrap;
+    }
+
+    .eventBlock { border:1px solid #D0D0D0; border-radius:6px; margin:0 0 6px 0; overflow:hidden; }
+    .eventColorBar { height: 6pt; }
+    .eventHeader { background:#F2F2F2; padding:6px 8px; font-weight:bold; border-bottom:1px solid #D9D9D9; }
+    .eventHeaderTz { font-weight: normal; color: #666; }
+
+    .conflictIcon {
+      display: inline-block;
+      width: 12pt; height: 12pt; line-height: 12pt;
+      text-align: center;
+      border-radius: 50%;
+      border: 1px solid #C0392B;
+      color: #C0392B;
+      font-weight: bold;
+      font-size: 9pt;
+      margin-left: 6pt;
+    }
+
+    .eventBody { padding:6px 8px; }
+    .title { font-weight:bold; line-height:12pt; height:36pt; overflow:hidden; }
+    .speakers { font-style:italic; color:#444; line-height:12pt; height:24pt; overflow:hidden; margin-top:2px; }
+    .separator { border-top:1px solid #E0E0E0; margin:6px 0; }
+
+    .controls { margin: 0 0 12px 0; padding: 10px; border: 1px solid #DDD; border-radius: 8px; }
+    .controls label { margin-right: 6px; }
+    .controls .field { display:inline-block; margin-right: 12px; }
+    .controls .dateInput { width: 160px; }
+  </style>
+
+  <apex:form id="f">
+
+    <!-- Auto refresh  without button click -->
+    <apex:actionFunction name="refreshNow"
+                         action="{!applyDates}"
+                         rerender="printArea"/>
+
+    <div class="controls">
+      <span class="field">
+        <label>Start:</label>
+        <apex:input id="startDt" value="{!startDate}" type="date" styleClass="dateInput"  onchange="refreshNow();"/>
+      </span>
+
+      <span class="field">
+        <label>End:</label>
+        <apex:input id="endDt" value="{!endDate}" type="date" styleClass="dateInput"  onchange="refreshNow();"/>
+      </span>
+
+      <span class="field">
+        <label>Timezone:</label>
+        <apex:selectList value="{!selectedTimezone}" size="1" onchange="refreshNow();">
+          <apex:selectOptions value="{!timezoneOptions}"/>
+        </apex:selectList>
+      </span>
+
+      <apex:commandButton value="Apply" action="{!applyDates}" style="margin-left:10px;"/>
+      <apex:commandLink value="Open PDF"
+                        action="{!openPdf}"
+                        target="_blank"
+                        style="margin-left:10px;"/>
+    </div>
+
+    <apex:outputPanel id="printArea">
+      <apex:repeat value="{!pages}" var="p">
+        <div class="page">
+          <table class="layout">
+            <tr>
+              <apex:repeat value="{!p.columns}" var="col">
+                <td class="col">
+                  <apex:repeat value="{!col.blocks}" var="b">
+
+                    <apex:outputPanel rendered="{!b.isMonthBanner}">
+                      <div class="monthBanner" style="background:{!b.monthColor}">
+                        {!b.monthLabel}
+                      </div>
+                    </apex:outputPanel>
+
+                    <apex:outputPanel rendered="{!NOT(b.isMonthBanner)}">
+                      <div class="eventBlock">
+                        <div class="eventColorBar" style="background:{!b.eventColor}"></div>
+
+                        <div class="eventHeader">
+                          {!b.dayLabel}
+
+                          <apex:outputPanel rendered="{!NOT(ISBLANK(b.timeRangeLabel))}">
+                            <span class="eventHeaderTz"> — {!b.timeRangeLabel}</span>
+                          </apex:outputPanel>
+
+                          <apex:outputPanel rendered="{!NOT(ISBLANK(b.displayTimezone))}">
+                            <span class="eventHeaderTz"> ({!b.displayTimezone})</span>
+                          </apex:outputPanel>
+
+                          <apex:outputPanel rendered="{!b.isSpeakerConflict}">
+                            <span class="conflictIcon">!</span>
+                          </apex:outputPanel>
+                        </div>
+
+                        <div class="eventBody">
+                          <div class="title">{!b.title}</div>
+                          <div class="separator"></div>
+                          <div class="speakers">{!b.speakersLabel}</div>
+                        </div>
+                      </div>
+                    </apex:outputPanel>
+
+                  </apex:repeat>
+                </td>
+              </apex:repeat>
+            </tr>
+          </table>
+        </div>
+      </apex:repeat>
+    </apex:outputPanel>
+
+  </apex:form>
+</apex:page>

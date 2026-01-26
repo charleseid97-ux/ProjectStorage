@@ -1,0 +1,109 @@
+<!-- Event approval notification — tailored to fields used in VFC18_EventAgenda controller -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Approval request — {!Event__c.title__c}</title>
+    <style>
+      body { font-family: Arial, Helvetica, sans-serif; color: #222; line-height:1.45; }
+      .container{max-width:680px;margin:0 auto;padding:20px;}
+      .card{border:1px solid #e8edf2;border-radius:8px;padding:18px;}
+      .brand{font-weight:700;font-size:16px;color:#0b4d8a}
+      h1{font-size:20px;margin:8px 0 14px}
+      .muted{color:#6b6f76;font-size:13px}
+      .details{width:100%;border-collapse:collapse;margin-top:12px}
+      .details td{padding:8px 6px;vertical-align:top;border-bottom:1px solid #f3f5f7}
+      .label{width:180px;font-weight:600;color:#333}
+      .value{color:#111}
+      .cta{display:block;text-align:center;margin:18px 0}
+      .btn{display:inline-block;padding:12px 22px;border-radius:6px;text-decoration:none;font-weight:700;background:#1976d2;color:#fff}
+      .footer{margin-top:14px;font-size:12px;color:#8b8f95}
+      @media (max-width:480px){.container{padding:12px}.label{width:120px}h1{font-size:18px}}
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+          <div class="brand">Carmignac — Event Approval</div>
+          <div class="muted">Approval requested</div>
+        </div>
+
+        <h1>Approval request — {!Event__c.title__c}</h1>
+
+        <p class="muted">A decision is requested for this Event. Review the details below and click <strong>Open approval</strong> to complete the decision in Salesforce.</p>
+
+        <table class="details" role="presentation" cellspacing="0" cellpadding="0">
+          <tr>
+            <td class="label">Event title</td>
+            <td class="value">{!Event__c.title__c}</td>
+          </tr>
+
+          <tr>
+            <td class="label">Period</td>
+            <td class="value">
+              {!Event__c.startDate__c} {!Event__c.startTime__c} — {!Event__c.endDate__c} {!Event__c.endTime__c}
+            </td>
+          </tr>
+
+          <tr>
+            <td class="label">Company / Host</td>
+            <td class="value">{!Event__c.Company__r.Name}</td>
+          </tr>
+
+          <tr>
+            <td class="label">Sales team</td>
+            <td class="value">{!Event__c.salesTeam__c}</td>
+          </tr>
+
+          <tr>
+            <td class="label">Meeting background</td>
+            <td class="value">{!Event__c.meetingBackground__c}</td>
+          </tr>
+
+          <tr>
+            <td class="label">Meeting goal</td>
+            <td class="value">{!Event__c.meetingGoal__c}</td>
+          </tr>
+
+          <tr>
+            <td class="label">Meeting note</td>
+            <td class="value">{!Event__c.MeetingNote__r.Note__c}</td>
+          </tr>
+
+          <tr>
+            <td class="label">Speakers / Products</td>
+            <td class="value">
+              <!-- Best: pass a single string from your Flow (Speakers + products) -->
+              {!SpeakersSummary}
+            </td>
+          </tr>
+
+          <tr>
+            <td class="label">Attendees</td>
+            <td class="value">
+              <!-- Best: pass a single string from Flow listing attendees -->
+              {!AttendeesSummary}
+            </td>
+          </tr>
+
+          <tr>
+            <td class="label">Open approval</td>
+            <td class="value">
+              <a href="{!Approval_Link}" style="word-break:break-all;">Open approval in Salesforce</a>
+            </td>
+          </tr>
+        </table>
+
+        <div class="cta">
+          <a class="btn" href="{!Approval_Link}">Open approval</a>
+        </div>
+
+        <div class="footer">
+          This message was sent by the Event Management system — Carmignac.<br/>
+          Please do not reply to this notification; approvals must be completed in Salesforce.
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>copyAddress__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Use this option if you want to copy the company’s address.</description>
+    <inlineHelpText>Use this option if you want to copy the company’s address.</inlineHelpText>
+    <label>Copy address</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

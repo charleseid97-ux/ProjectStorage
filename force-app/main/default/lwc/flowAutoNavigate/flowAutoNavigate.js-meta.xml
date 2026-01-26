@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+  <apiVersion>60.0</apiVersion>
+  <isExposed>true</isExposed>
+  <masterLabel>Flow Auto Navigate</masterLabel>
+  <description>Generic Flow Screen component that auto-navigates to any record by Id and finishes the flow.</description>
+  <targets>
+    <target>lightning__FlowScreen</target>
+  </targets>
+  <targetConfigs>
+    <targetConfig targets="lightning__FlowScreen">
+      <property name="recordId" type="String" label="Record Id" description="Any Salesforce record Id (15 or 18 chars)." required="true"/>
+      <property name="openInNewTab" type="Boolean" label="Open in new tab" description="Best-effort (may be blocked by browser pop-up settings)." required="false"/>
+    </targetConfig>
+  </targetConfigs>
+</LightningComponentBundle>

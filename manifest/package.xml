@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+
+    <!-- Lightning Web Components -->
+    <types>
+        <members>calendar</members>
+        <members>calendarUtils</members>
+        <members>customCalendar</members>
+        <members>flowAutoNavigate</members>
+        <members>sessionSpeakerProductRepeater</members>
+        <members>speakerProductsBySession</members>
+        <members>eventMeetingNoteQuickAction</members>
+        <members>eventRecapEventCard</members>
+        <members>eventRecapModal</members>
+        <members>genericMultiSelectLookup</members>
+        <members>inlineError</members>
+        <name>LightningComponentBundle</name>
+    </types>    
+
+    <!-- Static Resources -->
+    <types>
+        <members>fullCalendar</members>
+        <name>StaticResource</name>
+    </types>
+
+    <!-- Apex Classes -->
+    <types>
+        <members>CustomCalendarHelper</members>
+        <members>CustomPicklist</members>
+        <members>CustomPicklistTest</members>
+        <members>customEventHandler</members>
+        <members>customEventService</members>
+        <members>customEventAttendeeHandler</members>
+        <members>customEventAttendeeService</members>
+        <members>customEventHandler_Test</members>
+        <members>SessionSpeakerProduct_InsertFromJson</members>
+        <members>VFC17_PrintEvents</members>
+        <members>EventRecapController</members>
+        <members>EventMeetingNoteQuickActionCTRL</members>
+        <members>VFC18_EventAgenda</members>
+        <members>customEventSpeakerApprovalService</members>
+        <members>EventSpeakerApprovalsTriggerHandler</members>
+        <members>EventColorService</members>
+        <members>sessionSpeakerProductRepeaterCTRL</members>
+        <members>GenericMultiSelectCtrl</members>
+        <members>sessionSpeakerProductRelatedListCTRL</members>
+        <members>EventAttendee_InsertFromIds</members>
+        <name>ApexClass</name>
+    </types>
+
+    <!-- Apex Triggers -->
+    <types>
+        <members>customEventTrigger</members>
+        <members>customEventAttendeeTrigger</members>
+        <members>EventSpeakerApprovalsTrigger</members>
+        <name>ApexTrigger</name>
+    </types>
+
+    <!-- Layouts -->
+    <types>
+        <members>Event__c-Event Layout</members>
+        <members>Event__c-Roadshow Layout</members>
+        <members>Event__c-Session Layout</members>
+        <name>Layout</name>
+    </types>
+
+    <!-- Custom Objects -->
+    <types>
+        <members>sessionSpeakerProduct__c</members>
+        <members>Event__c</members>
+        <members>EventColors__c</members>
+        <members>EventSpeakerApprovals__c</members>
+        <members>EventAttendee__c</members>
+        <name>CustomObject</name>
+    </types>
+
+    <!-- Custom Fields -->
+    <types>
+        <members>Contact.SpeakerAssistant__c</members>
+        <name>CustomField</name>
+    </types>
+
+    <!-- Tabs -->
+    <types>
+        <members>EventsOverView</members>
+        <members>Event__c</members>
+        <name>CustomTab</name>
+    </types>
+
+    <!-- Visualforce Pages -->
+    <types>
+        <members>VFP17_PrintEvents</members>
+        <members>VFP17_PrintEvents_PDF</members>
+        <members>VFP18_EventAgenda</members>
+        <name>ApexPage</name>
+    </types>
+
+    <!-- Applications -->
+    <types>
+        <members>EventsManager</members>
+        <name>CustomApplication</name>
+    </types>
+
+    <!-- FlexiPages -->
+    <types>
+        <members>MeetingDaysPage</members>
+        <members>Events_manager_UtilityBar</members>
+        <members>Event_Record_Page</members>
+        <members>Event_Speaker_Approval_Record_Page</members>
+        <name>FlexiPage</name>
+    </types>
+
+    <!-- Quick Actions -->
+    <types>
+        <members>Event__c.updateEventGA</members>
+        <members>Event__c.UpdateSession</members>
+        <members>Event__c.MeetingNote_meetingDays</members>
+        <name>QuickAction</name>
+    </types>
+
+    <!-- Communities / Sites -->
+    <types>
+        <members>EventAgenda</members>
+        <name>CustomSite</name>
+    </types>
+
+    <!-- Profile -->
+    <types>
+        <members>Public Event Agenda Profile</members>
+        <name>Profile</name>
+    </types>
+
+    <!-- Approval Process -->
+    <types>
+        <members>Event__c.EventApprovalProcess</members>
+        <name>ApprovalProcess</name>
+    </types>
+
+    <!-- Workflow Field Updates -->
+    <types>
+        <members>Event__c.EventValidationStatus</members>
+        <name>WorkflowFieldUpdate</name>
+    </types>
+    <types>
+        <members>Event__c</members>
+        <name>Workflow</name>
+    </types>
+    <!-- Flows -->
+    <types>
+        <members>NewEvent</members>
+      <!--    <members>Meeting_days_Approval_process</members>
+        <members>EventSpeakerApprovalFlow</members>
+        <members>EventSpeakerApprovalStatus</members>
+        <members>EventApprovalsStatus</members> -->
+        <name>Flow</name>
+    </types> 
+
+    <!-- Queue -->
+    <types>
+        <members>EventTeamTest</members>
+        <name>Queue</name>
+    </types>
+    <!-- webLinks -->    
+    <types>
+        <members>EventRequest</members>
+        <members>EventRequest/MeetingDaysRequest</members>
+        <name>EmailTemplate</name>
+    </types>
+
+    <version>61.0</version>
+</Package>
