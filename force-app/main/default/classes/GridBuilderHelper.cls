@@ -188,36 +188,40 @@ public with sharing class GridBuilderHelper {
         Map<String, Map<String, Schema.SObjectField>> objectToFieldsMap = new Map<String, Map<String, Schema.SObjectField>>();
         Map<String, FieldInfo> fieldsApiToInfoMap = new Map<String, FieldInfo>();
         for (String line : objectsToFieldsString.split('\n')) {
-            if (String.isBlank(line) || !line.contains('=>')) {
-                continue;
-            }
-            List<String> parts = line.split('=>');
-            if (parts.size() < 2) {
-                continue;
-            }
-            String objectApi = parts[0].trim();
-            String fieldApi = parts[1].trim();
-            if (String.isBlank(objectApi) || String.isBlank(fieldApi) || !Schema.getGlobalDescribe().containsKey(objectApi)) {
-                continue;
-            }
-            if (!objectToFieldsMap.containsKey(objectApi)) {
-                objectToFieldsMap.put(objectApi, Schema.getGlobalDescribe().get(objectApi).getDescribe().fields.getMap());
-            }
-            Map<String, Schema.SObjectField> fieldMap = objectToFieldsMap.get(objectApi);
-            if (!fieldMap.containsKey(fieldApi)) {
-                continue;
-            }
-            Schema.DescribeFieldResult describeFieldResult = fieldMap.get(fieldApi).getDescribe();
-            String relationshipFieldPath = getRelationshipPath(objectApi) + fieldApi;
-            if (!fieldsApiToInfoMap.containsKey(relationshipFieldPath)) {
-                fieldsApiToInfoMap.put(relationshipFieldPath, new FieldInfo(describeFieldResult.getLabel(), describeFieldResult.getType(), describeFieldResult.isSortable(), fieldApi, objectApi));
-            }
+            buildFieldsApiInfoMapFromLine(line, objectToFieldsMap, fieldsApiToInfoMap);
         }
         if(includeRebateRate) {
             Schema.DescribeFieldResult rebateDFR = GridDetail__c.Rebate__c.getDescribe();
             fieldsApiToInfoMap.put(REBATE_RATE_FIELD_KEY, new FieldInfo(rebateDFR.getLabel(), rebateDFR.getType(), false, rebateDFR.getName(), 'GridDetail__c'));
         }
         return fieldsApiToInfoMap;
+    }
+
+    public static void buildFieldsApiInfoMapFromLine(String line, Map<String, Map<String, Schema.SObjectField>> objectToFieldsMap, Map<String, FieldInfo> fieldsApiToInfoMap) {
+        if (String.isBlank(line) || !line.contains('=>')) {
+            return;
+        }
+        List<String> parts = line.split('=>');
+        if (parts.size() < 2) {
+            return;
+        }
+        String objectApi = parts[0].trim();
+        String fieldApi = parts[1].trim();
+        if (String.isBlank(objectApi) || String.isBlank(fieldApi) || !Schema.getGlobalDescribe().containsKey(objectApi)) {
+            return;
+        }
+        if (!objectToFieldsMap.containsKey(objectApi)) {
+            objectToFieldsMap.put(objectApi, Schema.getGlobalDescribe().get(objectApi).getDescribe().fields.getMap());
+        }
+        Map<String, Schema.SObjectField> fieldMap = objectToFieldsMap.get(objectApi);
+        if (!fieldMap.containsKey(fieldApi)) {
+            return;
+        }
+        Schema.DescribeFieldResult describeFieldResult = fieldMap.get(fieldApi).getDescribe();
+        String relationshipFieldPath = getRelationshipPath(objectApi) + fieldApi;
+        if (!fieldsApiToInfoMap.containsKey(relationshipFieldPath)) {
+            fieldsApiToInfoMap.put(relationshipFieldPath, new FieldInfo(describeFieldResult.getLabel(), describeFieldResult.getType(), describeFieldResult.isSortable(), fieldApi, objectApi));
+        }
     }
 
     public static String getRelationshipPath(String objectApiName) {
