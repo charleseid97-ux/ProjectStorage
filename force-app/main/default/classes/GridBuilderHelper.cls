@@ -25,13 +25,13 @@ public with sharing class GridBuilderHelper {
         'Nordics' => new List<String>{ 'FI', 'NO', 'SE' }
     };
 
-    public static GridSettings getGridSettings(String gridBuilderSettingName, String selectedTeam) {
+    public static GridSettings getGridSettings(String gridBuilderSettingName, String selectedTeam, Boolean includeFilterObjects) {
         GridBuilderSetting__mdt gridSetting = loadGridBuilderSetting(gridBuilderSettingName);
         if (gridSetting == null) {
             return null;
         }
         GridSettings settings = buildGridSettings(gridSetting);
-        settings.filterObjects = buildFilterObjectWrappers(gridSetting.GridCriteriaSettings__r, selectedTeam, settings.shareTypeWrp);
+        settings.filterObjects = includeFilterObjects? buildFilterObjectWrappers(gridSetting.GridCriteriaSettings__r, selectedTeam, settings.shareTypeWrp) : null;
         return settings;
     }
 
@@ -248,7 +248,7 @@ public with sharing class GridBuilderHelper {
     }
 
     public static ProductSelectionResult buildProductSelectionResult(String gridBuilderSettingName, String selectedTeam, GridSettings gridSettings, Map<String, FieldInfo> fieldsApiToInfoMap, Set<Id> filteredIds, String finalWhere, Map<Id, String> aumByShareClass, Boolean onlyIncludeSCInAgreement) {
-        gridSettings = gridSettings != null? gridSettings : getGridSettings(gridBuilderSettingName, selectedTeam);
+        gridSettings = gridSettings != null? gridSettings : getGridSettings(gridBuilderSettingName, selectedTeam, false);
         fieldsApiToInfoMap = fieldsApiToInfoMap != null? fieldsApiToInfoMap : buildFieldsApiToInfoMap(gridSettings.fieldsToDisplay + getAdditionalQueryColumns());
 
         Set<String> selectFields = new Set<String>{'Id', 'Fund__c', 'Fund__r.ProductName__c', 'Fund__r.InternalShortName__c'};
@@ -287,6 +287,7 @@ public with sharing class GridBuilderHelper {
     public static List<String> buildDefaultConditions(Boolean excludeJPY, Boolean onlyAddSharesFromRegisteredCountries, String selectedTeam, ShareTypeWrapper shareTypeWrp, Boolean alwaysIncludeDefaultShareTypeInclusion) {
         List<String> whereFragments = new List<String>();
         whereFragments.add('Fund__c != null');
+        whereFragments.add('Fund__r.FundStrategy__c != null');
         if(excludeJPY) {
             whereFragments.add('Currency__c != \'JPY\'');
         }
@@ -350,7 +351,7 @@ public with sharing class GridBuilderHelper {
         return new ShareTypeWrapper(defaultShareTypeInclusion, definitiveShareTypeExclusion, allShareTypeOptions, defaultShareTypeValues);
     }
 
-    private static List<String> stringToList(String str, String separator) {
+    public static List<String> stringToList(String str, String separator) {
         List<String> listVals = new List<String>();
         if(String.isNotBlank(str)) {
             for(String val : str.toUpperCase().split(separator)) {

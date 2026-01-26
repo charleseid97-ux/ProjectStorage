@@ -25,7 +25,7 @@ public with sharing class GridValidationController {
             productIds.add(sc.Fund__c);
         }
 
-        GridBuilderHelper.GridSettings gridSettings = GridBuilderHelper.getGridSettings(gridBuilderSettingName, selectedTeam);
+        GridBuilderHelper.GridSettings gridSettings = GridBuilderHelper.getGridSettings(gridBuilderSettingName, selectedTeam, false);
         Map<String, GridBuilderHelper.FieldInfo> fieldsApiToInfoMap = GridBuilderHelper.buildFieldsApiToInfoMap(gridSettings.fieldsToDisplay+'\nShare_Class__c => ISIN__c' + GridBuilderHelper.getAdditionalQueryColumns());
 
         return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, selectedTeam, gridSettings, fieldsApiToInfoMap, selectedShareClassIdsSet, buildValidationWhereClause(gridSettings, selectedTeam, productIds), aumByShareClass, true);

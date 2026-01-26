@@ -2,7 +2,7 @@ public with sharing class GridBuilderController {
 
     @AuraEnabled(cacheable=true)
     public static GridBuilderHelper.GridSettings getGridSettings(String gridBuilderSettingName, String selectedTeam) {
-        return GridBuilderHelper.getGridSettings(gridBuilderSettingName, selectedTeam);
+        return GridBuilderHelper.getGridSettings(gridBuilderSettingName, selectedTeam, true);
     }
 
     @AuraEnabled(cacheable=true)
@@ -64,7 +64,7 @@ public with sharing class GridBuilderController {
 
     @AuraEnabled
     public static GridBuilderHelper.ProductSelectionResult getProductsAndShareClasses(String gridBuilderSettingName, String selectedTeam, String gridCriteriaJson, String gridCriteriaDetailsJson, Boolean getAllProductsWithSelection, List<String> selectedShareTypes) {
-         GridBuilderHelper.GridSettings gridSettings = GridBuilderHelper.getGridSettings(gridBuilderSettingName, selectedTeam);
+         GridBuilderHelper.GridSettings gridSettings = GridBuilderHelper.getGridSettings(gridBuilderSettingName, selectedTeam, false);
 
         GridCriteria__c criteria = (GridCriteria__c)JSON.deserialize(gridCriteriaJson, GridCriteria__c.class);
         List<GridCriteriaDetail__c> criteriaDetails = (List<GridCriteriaDetail__c>)JSON.deserialize(gridCriteriaDetailsJson, List<GridCriteriaDetail__c>.class);
