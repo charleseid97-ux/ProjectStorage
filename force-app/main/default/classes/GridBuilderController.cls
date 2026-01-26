@@ -84,11 +84,19 @@ public with sharing class GridBuilderController {
                 filteredIds.add(scFiltered.Id);
             }
             
-            return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, selectedTeam, gridSettings, fieldsApiToInfoMap, filteredIds, null, new Map<Id, String>(), false, gridId, true);
+            return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, selectedTeam, gridSettings, fieldsApiToInfoMap, filteredIds, null, new Map<Id, String>(), false, buildShareClassGridIdMap(filteredIds, gridId), true);
         }
         else {
             return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, selectedTeam, gridSettings, fieldsApiToInfoMap, new Set<Id>(), finalWhere, new Map<Id, String>(), false, null, false);
         }
+    }
+
+    private static Map<String, String> buildShareClassGridIdMap(Set<Id> shareClassIds, Id gridId) {
+        Map<String, String> shareClassGridIdMap = new Map<String, String>();
+        for (Id shareClassId : shareClassIds) {
+            shareClassGridIdMap.put(String.valueOf(shareClassId), String.valueOf(gridId));
+        }
+        return shareClassGridIdMap;
     }
 
     private static FilterFragments buildWhereFragments(List<GridCriteriaDetail__c> criteriaDetails, String filterValueSeparator) {

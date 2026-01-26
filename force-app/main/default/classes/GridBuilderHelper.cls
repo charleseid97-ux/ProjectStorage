@@ -254,7 +254,7 @@ public with sharing class GridBuilderHelper {
         return getFieldValue(child, fieldApiPath, index + 1);
     }
 
-    public static ProductSelectionResult buildProductSelectionResult(String gridBuilderSettingName, String selectedTeam, GridSettings gridSettings, Map<String, FieldInfo> fieldsApiToInfoMap, Set<Id> filteredIds, String finalWhere, Map<Id, String> aumByShareClass, Boolean onlyIncludeSCInAgreement, Id gridId, Boolean includeRebateRate) {
+    public static ProductSelectionResult buildProductSelectionResult(String gridBuilderSettingName, String selectedTeam, GridSettings gridSettings, Map<String, FieldInfo> fieldsApiToInfoMap, Set<Id> filteredIds, String finalWhere, Map<Id, String> aumByShareClass, Boolean onlyIncludeSCInAgreement, Map<String, String> shareClassGridIdMap, Boolean includeRebateRate) {
         gridSettings = gridSettings != null? gridSettings : getGridSettings(gridBuilderSettingName, selectedTeam, false);
         fieldsApiToInfoMap = fieldsApiToInfoMap != null? fieldsApiToInfoMap : buildFieldsApiToInfoMap(gridSettings.fieldsToDisplay + getAdditionalQueryColumns(), includeRebateRate);
 
@@ -270,7 +270,7 @@ public with sharing class GridBuilderHelper {
         System.debug('@@@ allQuery: ' + allQuery);
 
         List<Share_Class__c> shareClasses = Database.query(allQuery);
-        Map<Id, String> rebateByShareClass = includeRebateRate && String.isNotBlank(gridId) ? buildRebateRateByShareClass(shareClasses, gridId) : null;
+        Map<Id, String> rebateByShareClass = (includeRebateRate && shareClassGridIdMap != null)? buildRebateRateByShareClass(shareClassGridIdMap) : null;
         List<ProductWrapper> productWrapperList = buildProductIdToWrapper(shareClasses, filteredIds, fieldsApiToInfoMap, aumByShareClass, onlyIncludeSCInAgreement, rebateByShareClass);
         return new ProductSelectionResult(fieldsApiToInfoMap, productWrapperList);
     }
@@ -303,33 +303,41 @@ public with sharing class GridBuilderHelper {
         return selectFields;
     }
 
-    private static Map<Id, String> buildRebateRateByShareClass(List<Share_Class__c> shareClasses, Id gridId) {
+    private static Map<Id, String> buildRebateRateByShareClass(Map<String, String> shareClassGridIdMap) {
         Set<Id> shareClassIds = new Set<Id>();
-        for (Share_Class__c sc : shareClasses) {
-            if (sc.Id != null) {
-                shareClassIds.add(sc.Id);
-            }
+        Set<Id> gridIds = new Set<Id>();
+        for (String shareClassId : shareClassGridIdMap.keySet()) {
+            shareClassIds.add((Id)shareClassId);
+            gridIds.add((Id)shareClassGridIdMap.get(shareClassId));
         }
 
         Map<Id, String> rebateByShareClass = new Map<Id, String>();
-        for (GridDetail__c detail : [SELECT ShareClass__c, Rebate__c
+        for (GridDetail__c detail : [SELECT ShareClass__c, Grid__c, Rebate__c, StartDate__c, CreatedDate
                                      FROM GridDetail__c
                                      WHERE ShareClass__c IN :shareClassIds
-                                     AND Grid__c = :gridId
-                                     ORDER BY ShareClass__c]) {
-            if (!rebateByShareClass.containsKey(detail.ShareClass__c)) {
+                                     AND Grid__c IN :gridIds
+                                     AND Rebate__c != null
+                                     ORDER BY Grid__c, ShareClass__c, StartDate__c DESC, CreatedDate DESC]) {
+            if (!rebateByShareClass.containsKey(detail.ShareClass__c) && shareClassGridIdMap.get(detail.ShareClass__c) == detail.Grid__c) {
                 rebateByShareClass.put(detail.ShareClass__c, formatPercent(detail.Rebate__c));
             }
         }
         return rebateByShareClass;
     }
 
-    public static String formatPercent(Decimal value) {
+    public static String formatDecimal(Decimal value) {
         if (value == null) {
             return null;
         }
         Decimal scaled = value.setScale(2, RoundingMode.HALF_UP);
-        return scaled.format() + '%';
+        return scaled.format();
+    }
+
+    public static String formatPercent(Decimal value) {
+        if (value == null) {
+            return null;
+        }
+        return formatDecimal(value) + '%';
     }
 
     public static List<String> buildDefaultConditions(Boolean excludeJPY, Boolean onlyAddSharesFromRegisteredCountries, String selectedTeam, ShareTypeWrapper shareTypeWrp, Boolean alwaysIncludeDefaultShareTypeInclusion) {

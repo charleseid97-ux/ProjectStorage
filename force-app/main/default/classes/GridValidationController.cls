@@ -1,7 +1,7 @@
 public with sharing class GridValidationController {
 
     @AuraEnabled
-    public static GridBuilderHelper.ProductSelectionResult getProducts(String gridBuilderSettingName, String selectedTeam, List<Id> selectedShareClassIds, List<Id> agreementIds) {
+    public static GridBuilderHelper.ProductSelectionResult getProducts(String gridBuilderSettingName, String selectedTeam, List<Id> selectedShareClassIds, List<Id> agreementIds, Map<String, String> shareClassGridIdMap) {
         Map<Id, String> aumByShareClass = buildAumByShareClass(agreementIds);
 
         Set<Id> selectedShareClassIdsSet = new Set<Id>(selectedShareClassIds);
@@ -14,7 +14,7 @@ public with sharing class GridValidationController {
         }
 
         GridBuilderHelper.GridSettings gridSettings = GridBuilderHelper.getGridSettings(gridBuilderSettingName, selectedTeam, false);
-        return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, selectedTeam, gridSettings, null, selectedShareClassIdsSet, buildValidationWhereClause(gridSettings, selectedTeam, productIds), aumByShareClass, true, null, true);
+        return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, selectedTeam, gridSettings, null, selectedShareClassIdsSet, buildValidationWhereClause(gridSettings, selectedTeam, productIds), aumByShareClass, true, shareClassGridIdMap, true);
     }
 
     private static Map<Id, String> buildAumByShareClass(List<Id> agreementIds) {
@@ -27,7 +27,7 @@ public with sharing class GridValidationController {
                                        GROUP BY ShareClass__c]) {
                 totalAum = (Decimal)ar.get('totalAmount');
                 totalAum = totalAum == null? 0 : totalAum >= 100000? totalAum.setScale(0) : totalAum;
-                aumByShareClass.put((Id)ar.get('scId'), GridBuilderHelper.formatPercent(totalAum));
+                aumByShareClass.put((Id)ar.get('scId'), GridBuilderHelper.formatDecimal(totalAum));
             }
         }
         return aumByShareClass;

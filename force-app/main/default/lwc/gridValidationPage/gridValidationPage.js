@@ -54,7 +54,7 @@ export default class GridValidationPage extends LightningElement {
     }
 
     async runValidation() {
-        const idsKey = (this.selectedShareClasses || []).map(r => r.id).join(',') + '|' + (this.selectedAgreements || []).join(',');
+        const idsKey = (this.selectedShareClasses || []).map(r => `${r.id}:${r.gridId || ''}`).join(',') + '|' + (this.selectedAgreements || []).join(',');
         if (idsKey === this.previousIdsKey) {
             return;
         }
@@ -72,11 +72,13 @@ export default class GridValidationPage extends LightningElement {
             const shareClassIds = this.selectedShareClasses.map(row => row.id);
             this.productGridOptions = this.buildProductGridOptions(this.selectedShareClasses);
 
+            const shareClassGridIdMap = this.buildShareClassGridIdMap(this.selectedShareClasses);
             const validationResult = await getProducts({
                 gridBuilderSettingName: this.gridBuilderSettingName,
                 selectedTeam: this.selectedTeam,
                 selectedShareClassIds: shareClassIds, 
-                agreementIds: this.selectedAgreements 
+                agreementIds: this.selectedAgreements,
+                shareClassGridIdMap: shareClassGridIdMap
             });
             const fieldsApiToInfoMap = validationResult?.fieldsApiToInfoMap || {};
             const products = validationResult?.products || [];
@@ -481,6 +483,16 @@ export default class GridValidationPage extends LightningElement {
             }
         });
         return mapByProduct;
+    }
+
+    buildShareClassGridIdMap(selectedRows) {
+        const shareClassGridIdMap = {};
+        (selectedRows || []).forEach(row => {
+            if (row?.id && row?.gridId) {
+                shareClassGridIdMap[row.id] = row.gridId;
+            }
+        });
+        return shareClassGridIdMap;
     }
 
     buildSelectionRowFromShareClass(sc, gridOption) {
