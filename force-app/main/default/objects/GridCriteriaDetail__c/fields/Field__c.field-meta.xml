@@ -2,30 +2,13 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Field__c</fullName>
     <description>The specific field on the chosen Object used for filtering.</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
     <label>Field</label>
+    <length>255</length>
     <required>true</required>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Picklist</type>
-    <valueSet>
-        <restricted>true</restricted>
-        <valueSetDefinition>
-            <sorted>false</sorted>
-            <value>
-                <fullName>Type__c</fullName>
-                <default>false</default>
-                <label>Type</label>
-            </value>
-            <value>
-                <fullName>CurrencyIsoCode</fullName>
-                <default>false</default>
-                <label>Currency</label>
-            </value>
-            <value>
-                <fullName>InternalShortName__c</fullName>
-                <default>false</default>
-                <label>Internal Short Name</label>
-            </value>
-        </valueSetDefinition>
-    </valueSet>
+    <type>Text</type>
+    <unique>false</unique>
 </CustomField>
