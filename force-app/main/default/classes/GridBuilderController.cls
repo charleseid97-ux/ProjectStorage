@@ -59,22 +59,23 @@ public with sharing class GridBuilderController {
 
     @AuraEnabled(cacheable=true)
     public static GridBuilderHelper.ProductSelectionResult getAllProductsForSelection(String gridBuilderSettingName, String selectedTeam) {
-        return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, selectedTeam, null, null, new Set<Id>(), null);
+        return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, selectedTeam, null, null, new Set<Id>(), null, new Map<Id, String>(), false, null, false);
     }
 
     @AuraEnabled
     public static GridBuilderHelper.ProductSelectionResult getProductsAndShareClasses(String gridBuilderSettingName, String selectedTeam, String gridCriteriaJson, String gridCriteriaDetailsJson, Boolean getAllProductsWithSelection, List<String> selectedShareTypes) {
-         GridBuilderHelper.GridSettings gridSettings = GridBuilderHelper.getGridSettings(gridBuilderSettingName, selectedTeam, false);
+        GridBuilderHelper.GridSettings gridSettings = GridBuilderHelper.getGridSettings(gridBuilderSettingName, selectedTeam, false);
 
         GridCriteria__c criteria = (GridCriteria__c)JSON.deserialize(gridCriteriaJson, GridCriteria__c.class);
         List<GridCriteriaDetail__c> criteriaDetails = (List<GridCriteriaDetail__c>)JSON.deserialize(gridCriteriaDetailsJson, List<GridCriteriaDetail__c>.class);
+        Id gridId = criteria != null ? criteria.Grid__c : null;
 
-        Map<String, GridBuilderHelper.FieldInfo> fieldsApiToInfoMap = GridBuilderHelper.buildFieldsApiToInfoMap(gridSettings.fieldsToDisplay + GridBuilderHelper.getAdditionalQueryColumns());
+        Map<String, GridBuilderHelper.FieldInfo> fieldsApiToInfoMap = GridBuilderHelper.buildFieldsApiToInfoMap(gridSettings.fieldsToDisplay + GridBuilderHelper.getAdditionalQueryColumns(), getAllProductsWithSelection);
         FilterFragments filterFragments = buildWhereFragments(criteriaDetails, gridSettings.filterValueSeparator);
         String finalWhere = buildWhereClause(gridSettings, criteria, filterFragments, selectedTeam, selectedShareTypes);
 
         if(getAllProductsWithSelection) {
-            String filteredQuery = 'SELECT Id, ' + String.join(fieldsApiToInfoMap.keySet(), ', ') + 
+            String filteredQuery = 'SELECT Id, ' + String.join(GridBuilderHelper.getSelectableFieldSet(fieldsApiToInfoMap), ', ') + 
                                   ' FROM Share_Class__c ';
             filteredQuery += (String.isNotBlank(finalWhere)) ? ' WHERE ' + finalWhere : '';
 
@@ -83,10 +84,10 @@ public with sharing class GridBuilderController {
                 filteredIds.add(scFiltered.Id);
             }
             
-            return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, selectedTeam, gridSettings, fieldsApiToInfoMap, filteredIds, null);
+            return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, selectedTeam, gridSettings, fieldsApiToInfoMap, filteredIds, null, new Map<Id, String>(), false, gridId, true);
         }
         else {
-            return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, selectedTeam, gridSettings, fieldsApiToInfoMap, new Set<Id>(), finalWhere);
+            return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, selectedTeam, gridSettings, fieldsApiToInfoMap, new Set<Id>(), finalWhere, new Map<Id, String>(), false, null, false);
         }
     }
 

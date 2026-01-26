@@ -2,19 +2,7 @@ public with sharing class GridValidationController {
 
     @AuraEnabled
     public static GridBuilderHelper.ProductSelectionResult getProducts(String gridBuilderSettingName, String selectedTeam, List<Id> selectedShareClassIds, List<Id> agreementIds) {
-
-        Map<Id, String> aumByShareClass = new Map<Id, String>();
-        Decimal totalAum;
-        if (agreementIds != null && !agreementIds.isEmpty()) {
-            for (AggregateResult ar : [SELECT ShareClass__c scId, SUM(AmountEUR__c) totalAmount
-                                       FROM AUM__c
-                                       WHERE Convention__c IN :agreementIds
-                                       GROUP BY ShareClass__c]) {
-                totalAum = (Decimal)ar.get('totalAmount');
-                totalAum = totalAum == null? 0 : totalAum >= 100000? totalAum.setScale(0) : totalAum.setScale(2, RoundingMode.HALF_UP);
-                aumByShareClass.put((Id)ar.get('scId'), totalAum.format());
-            }
-        }
+        Map<Id, String> aumByShareClass = buildAumByShareClass(agreementIds);
 
         Set<Id> selectedShareClassIdsSet = new Set<Id>(selectedShareClassIds);
         Set<Id> allShareClassIdsSet = new Set<Id>();
@@ -26,9 +14,23 @@ public with sharing class GridValidationController {
         }
 
         GridBuilderHelper.GridSettings gridSettings = GridBuilderHelper.getGridSettings(gridBuilderSettingName, selectedTeam, false);
-        Map<String, GridBuilderHelper.FieldInfo> fieldsApiToInfoMap = GridBuilderHelper.buildFieldsApiToInfoMap(gridSettings.fieldsToDisplay+'\nShare_Class__c => ISIN__c' + GridBuilderHelper.getAdditionalQueryColumns());
+        return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, selectedTeam, gridSettings, null, selectedShareClassIdsSet, buildValidationWhereClause(gridSettings, selectedTeam, productIds), aumByShareClass, true, null, true);
+    }
 
-        return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, selectedTeam, gridSettings, fieldsApiToInfoMap, selectedShareClassIdsSet, buildValidationWhereClause(gridSettings, selectedTeam, productIds), aumByShareClass, true);
+    private static Map<Id, String> buildAumByShareClass(List<Id> agreementIds) {
+        Map<Id, String> aumByShareClass = new Map<Id, String>();
+        Decimal totalAum;
+        if (agreementIds != null && !agreementIds.isEmpty()) {
+            for (AggregateResult ar : [SELECT ShareClass__c scId, SUM(AmountEUR__c) totalAmount
+                                       FROM AUM__c
+                                       WHERE Convention__c IN :agreementIds
+                                       GROUP BY ShareClass__c]) {
+                totalAum = (Decimal)ar.get('totalAmount');
+                totalAum = totalAum == null? 0 : totalAum >= 100000? totalAum.setScale(0) : totalAum;
+                aumByShareClass.put((Id)ar.get('scId'), GridBuilderHelper.formatPercent(totalAum));
+            }
+        }
+        return aumByShareClass;
     }
 
     private static String buildValidationWhereClause(GridBuilderHelper.GridSettings gridSettings, String selectedTeam, Set<Id> productIds) {

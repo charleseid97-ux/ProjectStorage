@@ -11,6 +11,7 @@ public with sharing class GridBuilderHelper {
                                                       'Product__c => ProductName__c\n'+
                                                       'Share_Class__c => ISIN__c';
     public static final String defaultFilterOperators = '=, !=, IN, NOT IN, LIKE, NOT {_} LIKE';
+    private static final String REBATE_RATE_FIELD_KEY = 'RebateRate';
     public static final Map<String, List<String>> countriesMap = new Map<String, List<String>>{
         'France' => new List<String>{ 'FR' },
         'United Kingdom' => new List<String>{ 'GB' },
@@ -71,7 +72,7 @@ public with sharing class GridBuilderHelper {
                 }
             }
         }
-        Map<String, Map<String, Map<String, String>>> objectToFieldToValuesMap = getMapObjectToFieldToValues(buildFieldsApiToInfoMap(objectsToFieldsString), selectedTeam, shareTypeWrp);
+        Map<String, Map<String, Map<String, String>>> objectToFieldToValuesMap = getMapObjectToFieldToValues(buildFieldsApiToInfoMap(objectsToFieldsString, false), selectedTeam, shareTypeWrp);
         List<FilterObjectWrapper> filterObjects = new List<FilterObjectWrapper>();
         for (GridCriteriaSetting__mdt criteriaSetting : criteriaSettings) {
             if(criteriaSetting.FieldApiNames__c != null) {
@@ -183,7 +184,7 @@ public with sharing class GridBuilderHelper {
         return ops;
     }
 
-    public static Map<String, FieldInfo> buildFieldsApiToInfoMap(String objectsToFieldsString) {
+    public static Map<String, FieldInfo> buildFieldsApiToInfoMap(String objectsToFieldsString, Boolean includeRebateRate) {
         Map<String, Map<String, Schema.SObjectField>> objectToFieldsMap = new Map<String, Map<String, Schema.SObjectField>>();
         Map<String, FieldInfo> fieldsApiToInfoMap = new Map<String, FieldInfo>();
         for (String line : objectsToFieldsString.split('\n')) {
@@ -212,6 +213,10 @@ public with sharing class GridBuilderHelper {
                 fieldsApiToInfoMap.put(relationshipFieldPath, new FieldInfo(describeFieldResult.getLabel(), describeFieldResult.getType(), describeFieldResult.isSortable(), fieldApi, objectApi));
             }
         }
+        if(includeRebateRate) {
+            Schema.DescribeFieldResult rebateDFR = GridDetail__c.Rebate__c.getDescribe();
+            fieldsApiToInfoMap.put(REBATE_RATE_FIELD_KEY, new FieldInfo(rebateDFR.getLabel(), rebateDFR.getType(), false, rebateDFR.getName(), 'GridDetail__c'));
+        }
         return fieldsApiToInfoMap;
     }
 
@@ -221,10 +226,13 @@ public with sharing class GridBuilderHelper {
                (objectApiName == 'Strategy__c')? 'Fund__r.FundStrategy__r.' : '';
     }
 
-    public static Map<String, Object> buildRecordResults(Set<String> selectFieldsApiSet, Share_Class__c sc) {
+    public static Map<String, Object> buildRecordResults(Set<String> selectFieldsApiSet, Share_Class__c sc, Map<Id, String> rebateByShareClass) {
         Map<String, Object> recordResults = new Map<String, Object>();
         for(String field : selectFieldsApiSet) {
             recordResults.put(field, getFieldValue(sc, field.split('\\.'), 0));
+        }
+        if (rebateByShareClass != null && sc != null) {
+            recordResults.put(REBATE_RATE_FIELD_KEY, rebateByShareClass.get(sc.Id));
         }
         return recordResults;
     }
@@ -235,24 +243,23 @@ public with sharing class GridBuilderHelper {
         }
         
         String segment = fieldApiPath[index];
+        Object value;
         if (index == fieldApiPath.size() - 1) { // Last segment → normal field
-            return record.get(segment);
+            value = record.get(segment);
+            value = (record.getSObjectType() == Schema.Share_Class__c.getSObjectType() && segment == 'EffectiveManagementFees__c') ? formatPercent((Decimal)value) : value;
+            return value;
         }
 
         SObject child = record.getSObject(segment); // Intermediate segment → relationship
         return getFieldValue(child, fieldApiPath, index + 1);
     }
 
-    public static ProductSelectionResult buildProductSelectionResult(String gridBuilderSettingName, String selectedTeam, GridSettings gridSettings, Map<String, FieldInfo> fieldsApiToInfoMap, Set<Id> filteredIds, String finalWhere) {
-        return buildProductSelectionResult(gridBuilderSettingName, selectedTeam, gridSettings, fieldsApiToInfoMap, filteredIds, finalWhere, new Map<Id, String>(), false);
-    }
-
-    public static ProductSelectionResult buildProductSelectionResult(String gridBuilderSettingName, String selectedTeam, GridSettings gridSettings, Map<String, FieldInfo> fieldsApiToInfoMap, Set<Id> filteredIds, String finalWhere, Map<Id, String> aumByShareClass, Boolean onlyIncludeSCInAgreement) {
+    public static ProductSelectionResult buildProductSelectionResult(String gridBuilderSettingName, String selectedTeam, GridSettings gridSettings, Map<String, FieldInfo> fieldsApiToInfoMap, Set<Id> filteredIds, String finalWhere, Map<Id, String> aumByShareClass, Boolean onlyIncludeSCInAgreement, Id gridId, Boolean includeRebateRate) {
         gridSettings = gridSettings != null? gridSettings : getGridSettings(gridBuilderSettingName, selectedTeam, false);
-        fieldsApiToInfoMap = fieldsApiToInfoMap != null? fieldsApiToInfoMap : buildFieldsApiToInfoMap(gridSettings.fieldsToDisplay + getAdditionalQueryColumns());
+        fieldsApiToInfoMap = fieldsApiToInfoMap != null? fieldsApiToInfoMap : buildFieldsApiToInfoMap(gridSettings.fieldsToDisplay + getAdditionalQueryColumns(), includeRebateRate);
 
         Set<String> selectFields = new Set<String>{'Id', 'Fund__c', 'Fund__r.ProductName__c', 'Fund__r.InternalShortName__c'};
-        selectFields.addAll(fieldsApiToInfoMap.keySet());
+        selectFields.addAll(getSelectableFieldSet(fieldsApiToInfoMap));
         finalWhere = String.isNotBlank(finalWhere)? finalWhere : String.join(buildDefaultConditions(true, true, selectedTeam, gridSettings.shareTypeWrp, false), ' AND ');
         String finalOrderBy = buildOrderByClause(gridSettings.sortingFields);
 
@@ -262,15 +269,17 @@ public with sharing class GridBuilderHelper {
         allQuery += (String.isNotBlank(finalOrderBy)) ? ' ORDER BY ' + finalOrderBy : '';
         System.debug('@@@ allQuery: ' + allQuery);
 
-        List<ProductWrapper> productWrapperList = buildProductIdToWrapper(allQuery, filteredIds, fieldsApiToInfoMap, aumByShareClass, onlyIncludeSCInAgreement);
+        List<Share_Class__c> shareClasses = Database.query(allQuery);
+        Map<Id, String> rebateByShareClass = includeRebateRate && String.isNotBlank(gridId) ? buildRebateRateByShareClass(shareClasses, gridId) : null;
+        List<ProductWrapper> productWrapperList = buildProductIdToWrapper(shareClasses, filteredIds, fieldsApiToInfoMap, aumByShareClass, onlyIncludeSCInAgreement, rebateByShareClass);
         return new ProductSelectionResult(fieldsApiToInfoMap, productWrapperList);
     }
 
-    private static List<ProductWrapper> buildProductIdToWrapper(String allQuery, Set<Id> filteredIds, Map<String, FieldInfo> fieldsApiToInfoMap, Map<Id, String> aumByShareClass, Boolean onlyIncludeSCInAgreement) {
+    private static List<ProductWrapper> buildProductIdToWrapper(List<Share_Class__c> shareClasses, Set<Id> filteredIds, Map<String, FieldInfo> fieldsApiToInfoMap, Map<Id, String> aumByShareClass, Boolean onlyIncludeSCInAgreement, Map<Id, String> rebateByShareClass) {
         Map<Id, ProductWrapper> productIdToWrapper = new Map<Id, ProductWrapper>();
         Id prodId;
         String productLabel;
-        for (Share_Class__c sc : Database.query(allQuery)) {
+        for (Share_Class__c sc : shareClasses) {
             prodId = (Id)sc.get('Fund__c');
             if ((onlyIncludeSCInAgreement && aumByShareClass.containsKey(sc.Id) || !onlyIncludeSCInAgreement || filteredIds.contains(sc.Id))) {
                 if (!productIdToWrapper.containsKey(prodId)) {
@@ -278,10 +287,49 @@ public with sharing class GridBuilderHelper {
                     productLabel = String.isNotBlank(productLabel) ? productLabel : 'Unnamed Product. Internal Short Name: ' + (String)sc.getSObject('Fund__r')?.get('InternalShortName__c');
                     productIdToWrapper.put(prodId, new ProductWrapper(prodId, productLabel));
                 }
-                productIdToWrapper.get(prodId).shareClasses.add(new ShareClassWrapper(sc, filteredIds, fieldsApiToInfoMap, aumByShareClass));
+                productIdToWrapper.get(prodId).shareClasses.add(new ShareClassWrapper(sc, filteredIds, fieldsApiToInfoMap, aumByShareClass, rebateByShareClass));
             }
         }
         return productIdToWrapper.values();
+    }
+
+    public static Set<String> getSelectableFieldSet(Map<String, FieldInfo> fieldsApiToInfoMap) {
+        Set<String> selectFields = new Set<String>();
+        for (String fieldKey : fieldsApiToInfoMap.keySet()) {
+            if (fieldKey != REBATE_RATE_FIELD_KEY) {
+                selectFields.add(fieldKey);
+            }
+        }
+        return selectFields;
+    }
+
+    private static Map<Id, String> buildRebateRateByShareClass(List<Share_Class__c> shareClasses, Id gridId) {
+        Set<Id> shareClassIds = new Set<Id>();
+        for (Share_Class__c sc : shareClasses) {
+            if (sc.Id != null) {
+                shareClassIds.add(sc.Id);
+            }
+        }
+
+        Map<Id, String> rebateByShareClass = new Map<Id, String>();
+        for (GridDetail__c detail : [SELECT ShareClass__c, Rebate__c
+                                     FROM GridDetail__c
+                                     WHERE ShareClass__c IN :shareClassIds
+                                     AND Grid__c = :gridId
+                                     ORDER BY ShareClass__c]) {
+            if (!rebateByShareClass.containsKey(detail.ShareClass__c)) {
+                rebateByShareClass.put(detail.ShareClass__c, formatPercent(detail.Rebate__c));
+            }
+        }
+        return rebateByShareClass;
+    }
+
+    public static String formatPercent(Decimal value) {
+        if (value == null) {
+            return null;
+        }
+        Decimal scaled = value.setScale(2, RoundingMode.HALF_UP);
+        return scaled.format() + '%';
     }
 
     public static List<String> buildDefaultConditions(Boolean excludeJPY, Boolean onlyAddSharesFromRegisteredCountries, String selectedTeam, ShareTypeWrapper shareTypeWrp, Boolean alwaysIncludeDefaultShareTypeInclusion) {
@@ -321,7 +369,7 @@ public with sharing class GridBuilderHelper {
         Map<String, String> orderByMap = new Map<String, String>();
         String appendOrderWith;
         Schema.DisplayType fieldType;
-        Map<String, FieldInfo> fieldsApiToInfoMap = buildFieldsApiToInfoMap(sortingFields);
+        Map<String, FieldInfo> fieldsApiToInfoMap = buildFieldsApiToInfoMap(sortingFields, false);
         for (String field : fieldsApiToInfoMap.keySet()) {
             if(fieldsApiToInfoMap.get(field).isSortable && !orderByMap.containsKey(field)) {
                 fieldType = fieldsApiToInfoMap.get(field).type;
@@ -474,11 +522,11 @@ public with sharing class GridBuilderHelper {
         @AuraEnabled public Boolean isSelected { get; set; }
         @AuraEnabled public Map<String, Object> recordResults { get; set; }
         @AuraEnabled public String amountAUM { get; set; }
-        public ShareClassWrapper(Share_Class__c sc, Set<Id> selectedShareClassIds, Map<String, FieldInfo> fieldsApiToInfoMap, Map<Id, String> aumByShareClass) {
+        public ShareClassWrapper(Share_Class__c sc, Set<Id> selectedShareClassIds, Map<String, FieldInfo> fieldsApiToInfoMap, Map<Id, String> aumByShareClass, Map<Id, String> rebateByShareClass) {
             this.shareClassId   =   sc.Id;
             this.isSelected     =   selectedShareClassIds.contains(sc.Id);
-            this.recordResults  =   buildRecordResults(fieldsApiToInfoMap.keySet(), sc);
-            this.amountAUM      =   aumByShareClass.containsKey(sc.Id) ? aumByShareClass.get(sc.Id) : '0';
+            this.recordResults  =   buildRecordResults(getSelectableFieldSet(fieldsApiToInfoMap), sc, rebateByShareClass);
+            this.amountAUM      =   (aumByShareClass != null && aumByShareClass.containsKey(sc.Id)) ? aumByShareClass.get(sc.Id) : '0';
         }
     }
 
