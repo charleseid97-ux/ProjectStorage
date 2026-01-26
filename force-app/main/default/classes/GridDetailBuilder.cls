@@ -224,28 +224,33 @@ public with sharing class GridDetailBuilder {
 
         Integer remaining = assignmentBuild.assignments.size();
         for (Integer pass = 0; pass < 6 && remaining > 0; pass++) {
-            Integer computedInPass = 0;
-            for (RuleAssignment assignment : assignmentBuild.assignments) {
-                if (assignment.hasError || rebatesByGridShareKey.containsKey(assignment.gridShareKey)) {
-                    continue;
-                }
-                Decimal rebate = computeRebate(assignment, assignmentBuild.assignmentByGridShareKey, rebatesByGridShareKey, existingRebates, shareTypeLookupCache, shareData.shareClasses, shareData.shareClassById, gridIdByName, result);
-                if (assignment.hasError) {
-                    continue;
-                }
-                if (rebate != null) {
-                    assignment.rebate = rebate;
-                    rebatesByGridShareKey.put(assignment.gridShareKey, rebate);
-                    computedInPass++;
-                    remaining--;
-                }
-            }
+            Integer computedInPass = computeRebatesPass(assignmentBuild, shareData, gridIdByName, existingRebates, shareTypeLookupCache, rebatesByGridShareKey, result);
             if (computedInPass == 0) {
                 break;
             }
+            remaining -= computedInPass;
         }
 
         return rebatesByGridShareKey;
+    }
+
+    private static Integer computeRebatesPass(AssignmentBuildResult assignmentBuild, ShareClassData shareData, Map<String, Id> gridIdByName, Map<String, Decimal> existingRebates, Map<String, Map<String, Id>> shareTypeLookupCache, Map<String, Decimal> rebatesByGridShareKey, BuildResult result) {
+        Integer computedInPass = 0;
+        for (RuleAssignment assignment : assignmentBuild.assignments) {
+            if (assignment.hasError || rebatesByGridShareKey.containsKey(assignment.gridShareKey)) {
+                continue;
+            }
+            Decimal rebate = computeRebate(assignment, assignmentBuild.assignmentByGridShareKey, rebatesByGridShareKey, existingRebates, shareTypeLookupCache, shareData.shareClasses, shareData.shareClassById, gridIdByName, result);
+            if (assignment.hasError) {
+                continue;
+            }
+            if (rebate != null) {
+                assignment.rebate = rebate;
+                rebatesByGridShareKey.put(assignment.gridShareKey, rebate);
+                computedInPass++;
+            }
+        }
+        return computedInPass;
     }
 
     private static void addMissingRebateErrors(List<RuleAssignment> assignments, Map<String, Decimal> rebatesByGridShareKey, BuildResult result) {
