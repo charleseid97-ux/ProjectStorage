@@ -3,6 +3,11 @@
 	<types>
 		<members>GridBuilderController</members>
 		<members>GridBuilderHelper</members>
+		<members>GridCriteriaExpressionParser</members>
+		<members>GridDetailBuilder</members>
+		<members>GridDetailTableController</members>
+		<members>GridExcelImportService</members>
+		<members>GridExcelImportServiceTest</members>
 		<members>GridValidationController</members>
 		<name>ApexClass</name>
 	</types>
@@ -23,6 +28,8 @@
 		<members>GridCriteriaSetting__mdt</members>
 		<members>GridCriteria__c</members>
 		<members>GridDetail__c</members>
+		<members>GridRuleLine__c</members>
+		<members>GridScope__c</members>
 		<members>Grid__c</members>
 		<name>CustomObject</name>
 	</types>
@@ -31,6 +38,9 @@
 		<members>GridCriteriaDetail__c</members>
 		<members>GridCriteria__c</members>
 		<members>GridDetail__c</members>
+		<members>GridExcelImport</members>
+		<members>GridRuleLine__c</members>
+		<members>GridScope__c</members>
 		<members>Grid__c</members>
 		<name>CustomTab</name>
 	</types>
@@ -38,6 +48,11 @@
 		<members>BuildNewGrid</members>
 		<members>GridCriteriaDetailRecordPage</members>
 		<members>GridCriteriaRecordPage</members>
+		<members>GridDetailRecordPage</members>
+		<members>GridExcelImport</members>
+		<members>GridRecordPage</members>
+		<members>GridRuleLineRecordPage</members>
+		<members>GridScopeRecordPage</members>
 		<members>Grid_UtilityBar</members>
 		<name>FlexiPage</name>
 	</types>
@@ -47,12 +62,16 @@
 		<members>GridCriteriaSetting__mdt-Grid Criteria Setting Layout</members>
 		<members>GridCriteria__c-Grid Criteria Layout</members>
 		<members>GridDetail__c-Grid Detail Layout</members>
+		<members>GridRuleLine__c-Grid Rule Line Layout</members>
+		<members>GridScope__c-Grid Scope Layout</members>
 		<members>Grid__c-Grid Layout</members>
 		<name>Layout</name>
 	</types>
 	<types>
 		<members>filterBuilder</members>
 		<members>gridAgreementsSelection</members>
+		<members>gridDetailTable</members>
+		<members>gridExcelImporter</members>
 		<members>gridSelectionDisplayPanel</members>
 		<members>gridShareTypeSelector</members>
 		<members>gridValidationPage</members>
@@ -64,6 +83,10 @@
 	<types>
 		<members>GridBuilderPermissions</members>
 		<name>PermissionSet</name>
+	</types>
+	<types>
+		<members>sheetjs</members>
+		<name>StaticResource</name>
 	</types>
 	<version>66.0</version>
 </Package>

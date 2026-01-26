@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>FieldApiNames__c</field>
-        <value xsi:type="xsd:string">AssetClass__c</value>
+        <value xsi:type="xsd:string">Name,AssetClass__c,Code__c,RegionalFocus__c</value>
     </values>
     <values>
         <field>GridBuilderSetting__c</field>
