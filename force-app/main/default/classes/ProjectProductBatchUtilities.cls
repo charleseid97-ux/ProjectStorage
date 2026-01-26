@@ -104,7 +104,12 @@ public class ProjectProductBatchUtilities {
             String query = 'SELECT ' + RecordCloneHelper.getAllFieldNames('ProjectProduct__c') + ','
                 + ' (SELECT ' + RecordCloneHelper.getAllFieldNames('ProjectShareclass__c')  + ' FROM ProjectShareclasses__r),'
                 + ' (SELECT Id FROM Fund_Manager_Assignments__r),'
-                + ' (SELECT Id FROM Narratives__r WHERE Type__c = \'Third Party\')'
+                + ' (SELECT Id FROM Narratives__r WHERE Type__c = \'Third Party\'),'
+                + ' (SELECT Id, ProjectShareclass__c, ProjectProduct__c, Product__c, ShareClass__c, Type__c, Status__c, Source__c '
+                + '    FROM Tax_Data__r '
+                + '    WHERE Source__c = \'PMT\' AND Type__c = \'Transparency\' AND Status__c = \'Requested\' '
+                + '      AND (Product__c = NULL OR ShareClass__c = NULL)'
+                + ' )'
                 + ' FROM ProjectProduct__c WHERE Id IN :setProjetctIds';
             System.debug('query: ' + query);
             List<ProjectProduct__c> listProjectProductWFields = Database.query(query);
