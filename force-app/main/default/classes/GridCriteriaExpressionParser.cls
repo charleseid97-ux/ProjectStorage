@@ -70,22 +70,14 @@ public with sharing class GridCriteriaExpressionParser {
 
     private static ParsedCondition parseCondition(String rawCondition, Boolean isExclude, Integer filterNumber, ParseResult result) {
         String working = rawCondition.trim();
-        String upper = working.toUpperCase();
-        Matcher opMatcher = Pattern.compile('\\s+(NOT IN|IN)\\s+|!=|<>|=').matcher(upper);
-        if (!opMatcher.find()) {
+        OperatorParse op = getOperatorParse(working);
+        if (op == null) {
             result.errors.add('Unsupported operator in condition: "' + rawCondition + '".');
             return null;
         }
 
-        String opToken = opMatcher.group(1) != null ? opMatcher.group(1) : opMatcher.group(0);
-        if (opToken == '<>') {
-            opToken = '!=';
-        }
-        String opPattern = opMatcher.group(0);
-        Integer opIndex = opMatcher.start();
-        String token = working.substring(0, opIndex).trim();
-        String right = working.substring(opIndex + opPattern.length()).trim();
-
+        String token = working.substring(0, op.index).trim();
+        String right = working.substring(op.index + op.pattern.length()).trim();
         if (String.isBlank(token) || String.isBlank(right)) {
             result.errors.add('Invalid condition format: "' + rawCondition + '".');
             return null;
@@ -97,12 +89,36 @@ public with sharing class GridCriteriaExpressionParser {
             return null;
         }
 
-        String logic = opToken;
-        if (isExclude) {
-            logic = (logic == '=')? '!=' : (logic == 'IN')? 'NOT IN' : logic;
+        String logic = normalizeLogic(op.token, isExclude);
+        String value = parseConditionValue(rawCondition, right, logic, result);
+        if (value == null) {
+            return null;
         }
 
-        String value;
+        return new ParsedCondition(filterNumber, token, logic, value, mapping.objectApiName, mapping.fieldApiName);
+    }
+
+    private static OperatorParse getOperatorParse(String working) {
+        String upper = working.toUpperCase();
+        Matcher opMatcher = Pattern.compile('\\s+(NOT IN|IN)\\s+|!=|<>|=').matcher(upper);
+        if (!opMatcher.find()) {
+            return null;
+        }
+        String opToken = opMatcher.group(1) != null ? opMatcher.group(1) : opMatcher.group(0);
+        if (opToken == '<>') {
+            opToken = '!=';
+        }
+        return new OperatorParse(opToken, opMatcher.group(0), opMatcher.start());
+    }
+
+    private static String normalizeLogic(String opToken, Boolean isExclude) {
+        if (!isExclude) {
+            return opToken;
+        }
+        return (opToken == '=') ? '!=' : (opToken == 'IN') ? 'NOT IN' : opToken;
+    }
+
+    private static String parseConditionValue(String rawCondition, String right, String logic, ParseResult result) {
         if (logic == 'IN' || logic == 'NOT IN') {
             if (!right.startsWith('(') || !right.endsWith(')')) {
                 result.errors.add('IN/NOT IN values must be wrapped in parentheses in: "' + rawCondition + '".');
@@ -114,17 +130,14 @@ public with sharing class GridCriteriaExpressionParser {
                 result.errors.add('IN/NOT IN values are empty in: "' + rawCondition + '".');
                 return null;
             }
-            value = String.join(values, ';');
-        } 
-        else {
-            value = stripQuotes(right);
-            if (String.isBlank(value)) {
-                result.errors.add('Value is blank in condition: "' + rawCondition + '".');
-                return null;
-            }
+            return String.join(values, ';');
         }
-
-        return new ParsedCondition(filterNumber, token, logic, value, mapping.objectApiName, mapping.fieldApiName);
+        String value = stripQuotes(right);
+        if (String.isBlank(value)) {
+            result.errors.add('Value is blank in condition: "' + rawCondition + '".');
+            return null;
+        }
+        return value;
     }
 
     private static String buildExpression(List<String> operators, Integer startIndex, Integer count) {
@@ -213,5 +226,16 @@ public with sharing class GridCriteriaExpressionParser {
         public Integer count = 0;
         public String expression;
         public List<String> operators = new List<String>();
+    }
+
+    private class OperatorParse {
+        public String token;
+        public String pattern;
+        public Integer index;
+        public OperatorParse(String token, String pattern, Integer index) {
+            this.token = token;
+            this.pattern = pattern;
+            this.index = index;
+        }
     }
 }

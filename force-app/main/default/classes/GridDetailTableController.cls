@@ -3,7 +3,6 @@ public with sharing class GridDetailTableController {
     private static final String RULE_OTHER_SHARE = 'Take Rebates Rate - Other Share Type';
     private static final String RULE_OTHER_SHARE_FEES = 'Take Rebates Rate - Other Share Type + Fees';
     private static final String RULE_OTHER_GRID = 'Take Rebates Rate - Other Grid Rule';
-    private static final String ALL_TOKEN = 'ALL';
 
     @AuraEnabled(cacheable=true)
     public static GridDetailResult getGridDetails(Id gridId) {
@@ -16,12 +15,9 @@ public with sharing class GridDetailTableController {
             return result;
         }
 
-        Grid__c grid = [
-            SELECT Id, GridScope__c, GridScope__r.Agreement__c
-            FROM Grid__c
-            WHERE Id = :gridId
-            LIMIT 1
-        ];
+        Grid__c grid = [SELECT Id, GridScope__c, GridScope__r.Agreement__c
+                        FROM Grid__c
+                        WHERE Id = :gridId LIMIT 1];
 
         AgreementSelection agreementSelection;
         if (grid.GridScope__c == null) {
@@ -29,24 +25,22 @@ public with sharing class GridDetailTableController {
             agreementSelection.all = false;
             agreementSelection.agreementIds = new Set<Id>();
             result.errors.add('GridScope__c is missing on this Grid. AUM will be blank.');
-        } else {
-            agreementSelection = parseAgreementSelection(grid.GridScope__r != null ? grid.GridScope__r.Agreement__c : null, result);
+        } 
+        else {
+            agreementSelection = parseAgreementSelection(grid.GridScope__r.Agreement__c, result);
         }
 
-        List<GridDetail__c> details = [
-            SELECT Id, ShareClass__c, ShareClass__r.Name__c, ShareClass__r.Type__c, ShareClass__r.Currency__c,
-                   ShareClass__r.ISIN__c, ShareClass__r.EffectiveManagementFees__c,
-                   ShareClass__r.Fund__r.Strategy__r.AssetClass__c, ShareClass__r.Fund__r.Strategy__r.Name,
-                   ShareClass__r.Fund__r.Legal_Status__c, ShareClass__r.Fund__r.InternalShortName__c,
-                   ShareClass__r.Fund__r.ProductName__c,
-                   GridRuleLine__r.RuleToApply__c, GridRuleLine__r.PercentageOfFees__c,
-                   GridRuleLine__r.OtherGridRule__c, GridRuleLine__r.OtherShareType__c,
-                   StartDate__c, Rebate__c
-            FROM GridDetail__c
-            WHERE Grid__c = :gridId
-            ORDER BY ShareClass__r.Fund__r.ProductName__c, ShareClass__r.Name__c
-        ];
-
+        List<GridDetail__c> details = [SELECT Id, ShareClass__c, ShareClass__r.Name__c, ShareClass__r.Type__c, ShareClass__r.Currency__c,
+                                        ShareClass__r.ISIN__c, ShareClass__r.EffectiveManagementFees__c,
+                                        ShareClass__r.Fund__r.Strategy__r.AssetClass__c, ShareClass__r.Fund__r.Strategy__r.Name,
+                                        ShareClass__r.Fund__r.Legal_Status__c, ShareClass__r.Fund__r.InternalShortName__c,
+                                        ShareClass__r.Fund__r.ProductName__c,
+                                        GridRuleLine__r.RuleToApply__c, GridRuleLine__r.PercentageOfFees__c,
+                                        GridRuleLine__r.OtherGridRule__c, GridRuleLine__r.OtherShareType__c,
+                                        StartDate__c, Rebate__c
+                                       FROM GridDetail__c
+                                       WHERE Grid__c = :gridId
+                                       ORDER BY ShareClass__r.Fund__r.ProductName__c, ShareClass__r.Name__c];
         Set<Id> shareClassIds = new Set<Id>();
         for (GridDetail__c detail : details) {
             if (detail.ShareClass__c != null) {
@@ -55,33 +49,8 @@ public with sharing class GridDetailTableController {
         }
 
         Map<Id, String> aumByShareClass = buildAumByShareClass(shareClassIds, agreementSelection, result);
-
         for (GridDetail__c detail : details) {
-            Share_Class__c share = detail.ShareClass__r;
-            GridRuleLine__c ruleLine = detail.GridRuleLine__r;
-
-            GridDetailRow row = new GridDetailRow();
-            row.id = detail.Id;
-            row.assetType = getShareValue(share, 'Fund__r.Strategy__r.AssetClass__c');
-            row.strategy = getShareValue(share, 'Fund__r.Strategy__r.Name');
-            row.legalStatus = getShareValue(share, 'Fund__r.Legal_Status__c');
-            row.internalShortName = getShareValue(share, 'Fund__r.InternalShortName__c');
-            row.portfolio = getShareValue(share, 'Fund__r.ProductName__c');
-            row.shareClass = getShareValue(share, 'Name__c');
-            row.shareType = getShareValue(share, 'Type__c');
-            row.scCurrency = getShareValue(share, 'Currency__c');
-            row.isin = getShareValue(share, 'ISIN__c');
-            row.aum = aumByShareClass.containsKey(detail.ShareClass__c) ? aumByShareClass.get(detail.ShareClass__c) : '0';
-            row.effMgtFeeDate = detail.StartDate__c;
-
-            Decimal effFee = share != null ? share.EffectiveManagementFees__c : null;
-            row.effMgtFee = formatPercent(effFee);
-            row.rebateRate = formatPercent(detail.Rebate__c);
-            row.netMargin = formatPercent(calculateNetMargin(effFee, detail.Rebate__c));
-            row.profitability = formatPercent(ruleLine != null ? ruleLine.PercentageOfFees__c : null);
-            row.gridRule = ruleLine != null ? ruleLine.RuleToApply__c : null;
-            row.ruleValue = buildRuleValue(ruleLine);
-            result.rows.add(row);
+            result.rows.add(new GridDetailRow(detail, aumByShareClass));
         }
 
         return result;
@@ -89,7 +58,7 @@ public with sharing class GridDetailTableController {
 
     private static AgreementSelection parseAgreementSelection(String rawValue, GridDetailResult result) {
         AgreementSelection selection = new AgreementSelection();
-        selection.all = String.isBlank(rawValue) || rawValue.trim().equalsIgnoreCase(ALL_TOKEN);
+        selection.all = String.isBlank(rawValue) || rawValue.trim().equalsIgnoreCase('ALL');
         selection.agreementIds = new Set<Id>();
         if (selection.all) {
             return selection;
@@ -101,7 +70,8 @@ public with sharing class GridDetailTableController {
         for (String token : tokens) {
             if (isSalesforceId(token)) {
                 idTokens.add((Id)token);
-            } else {
+            } 
+            else {
                 nameTokens.add(token);
             }
         }
@@ -110,21 +80,11 @@ public with sharing class GridDetailTableController {
 
         if (!nameTokens.isEmpty()) {
             Map<String, Convention__c> foundByToken = new Map<String, Convention__c>();
-            for (Convention__c agreement : [
-                SELECT Id, Name, ConventionName__c, Agreement_Code__c
-                FROM Convention__c
-                WHERE Name IN :nameTokens OR ConventionName__c IN :nameTokens OR Agreement_Code__c IN :nameTokens
-            ]) {
+            for (Convention__c agreement : [SELECT Id, Name
+                                            FROM Convention__c
+                                            WHERE Name IN :nameTokens]) {
                 selection.agreementIds.add(agreement.Id);
-                if (String.isNotBlank(agreement.Name)) {
-                    foundByToken.put(agreement.Name, agreement);
-                }
-                if (String.isNotBlank(agreement.ConventionName__c)) {
-                    foundByToken.put(agreement.ConventionName__c, agreement);
-                }
-                if (String.isNotBlank(agreement.Agreement_Code__c)) {
-                    foundByToken.put(agreement.Agreement_Code__c, agreement);
-                }
+                foundByToken.put(agreement.Name, agreement);
             }
 
             Set<String> missing = new Set<String>(nameTokens);
@@ -148,26 +108,15 @@ public with sharing class GridDetailTableController {
             return aumByShareClass;
         }
 
-        List<AggregateResult> aumResults;
-        if (selection.all) {
-            aumResults = [
-                SELECT ShareClass__c scId, SUM(AmountEUR__c) totalAmount
-                FROM AUM__c
-                WHERE ShareClass__c IN :shareClassIds
-                GROUP BY ShareClass__c
-            ];
-        } else {
-            aumResults = [
-                SELECT ShareClass__c scId, SUM(AmountEUR__c) totalAmount
-                FROM AUM__c
-                WHERE ShareClass__c IN :shareClassIds
-                AND Convention__c IN :selection.agreementIds
-                GROUP BY ShareClass__c
-            ];
-        }
+        String aumQuery = 'SELECT ShareClass__c scId, SUM(AmountEUR__c) totalAmount ' +
+                       'FROM AUM__c ' +
+                       'WHERE ShareClass__c IN :shareClassIds ';
+        aumQuery += selection.all ? '' : 'AND Convention__c IN :selection.agreementIds ';
+        aumQuery += 'GROUP BY ShareClass__c';
 
-        for (AggregateResult ar : aumResults) {
-            Decimal totalAum = (Decimal)ar.get('totalAmount');
+        Decimal totalAum;
+        for (AggregateResult ar : Database.query(aumQuery)) {
+            totalAum = (Decimal)ar.get('totalAmount');
             aumByShareClass.put((Id)ar.get('scId'), formatAum(totalAum));
         }
 
@@ -175,13 +124,7 @@ public with sharing class GridDetailTableController {
     }
 
     private static Decimal calculateNetMargin(Decimal effMgtFee, Decimal rebateRate) {
-        if (effMgtFee == null) {
-            return null;
-        }
-        if (rebateRate == null) {
-            return effMgtFee;
-        }
-        return effMgtFee - rebateRate;
+        return (effMgtFee != null && rebateRate != null)? effMgtFee - rebateRate : (rebateRate == null)? effMgtFee : null;
     }
 
     private static String buildRuleValue(GridRuleLine__c ruleLine) {
@@ -282,5 +225,29 @@ public with sharing class GridDetailTableController {
         @AuraEnabled public String profitability;
         @AuraEnabled public String gridRule;
         @AuraEnabled public String ruleValue;
+        public GridDetailRow(GridDetail__c detail, Map<Id, String> aumByShareClass) {
+            Share_Class__c share        =   detail.ShareClass__r;
+            GridRuleLine__c ruleLine    =   detail.GridRuleLine__r;
+            Decimal effFee              =   share != null ? share.EffectiveManagementFees__c : null;
+
+            this.id                     =   detail.Id;
+            this.assetType              =   getShareValue(share, 'Fund__r.Strategy__r.AssetClass__c');
+            this.strategy               =   getShareValue(share, 'Fund__r.Strategy__r.Name');
+            this.legalStatus            =   getShareValue(share, 'Fund__r.Legal_Status__c');
+            this.internalShortName      =   getShareValue(share, 'Fund__r.InternalShortName__c');
+            this.portfolio              =   getShareValue(share, 'Fund__r.ProductName__c');
+            this.shareClass             =   getShareValue(share, 'Name__c');
+            this.shareType              =   getShareValue(share, 'Type__c');
+            this.scCurrency             =   getShareValue(share, 'Currency__c');
+            this.isin                   =   getShareValue(share, 'ISIN__c');
+            this.aum                    =   aumByShareClass.containsKey(detail.ShareClass__c) ? aumByShareClass.get(detail.ShareClass__c) : '0';
+            this.effMgtFeeDate          =   detail.StartDate__c;
+            this.effMgtFee              =   formatPercent(effFee);
+            this.rebateRate             =   formatPercent(detail.Rebate__c);
+            this.netMargin              =   formatPercent(calculateNetMargin(effFee, detail.Rebate__c));
+            this.profitability          =   formatPercent(ruleLine != null ? ruleLine.PercentageOfFees__c : null);
+            this.gridRule               =   ruleLine != null ? ruleLine.RuleToApply__c : null;
+            this.ruleValue              =   buildRuleValue(ruleLine);
+        }
     }
 }

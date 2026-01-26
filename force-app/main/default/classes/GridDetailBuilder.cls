@@ -83,6 +83,26 @@ public with sharing class GridDetailBuilder {
             return result;
         }
 
+        ensureOtherGridIds(ruleLines, gridIdByName);
+        Map<Id, List<GridCriteriaDetail__c>> detailsByCriteriaId = loadCriteriaDetails(ruleLines);
+        ShareClassData shareData = loadShareClasses();
+        List<RuleLineContext> contexts = buildRuleLineContexts(ruleLines, gridIdByScopeId, detailsByCriteriaId, result);
+        if (contexts.isEmpty()) {
+            return result;
+        }
+
+        AssignmentBuildResult assignmentBuild = buildAssignments(contexts, shareData, result);
+        if (assignmentBuild.assignments.isEmpty()) {
+            return result;
+        }
+
+        Map<String, Decimal> rebatesByGridShareKey = computeRebatesForAssignments(assignmentBuild, shareData, gridIdByName, result);
+        addMissingRebateErrors(assignmentBuild.assignments, rebatesByGridShareKey, result);
+        insertGridDetails(assignmentBuild.assignments, result);
+        return result;
+    }
+
+    private static void ensureOtherGridIds(List<GridRuleLine__c> ruleLines, Map<String, Id> gridIdByName) {
         Set<String> otherGridNames = new Set<String>();
         for (GridRuleLine__c line : ruleLines) {
             if (line.RuleToApply__c == RULE_OTHER_GRID && String.isNotBlank(line.OtherGridRule__c)) {
@@ -92,7 +112,9 @@ public with sharing class GridDetailBuilder {
         if (!otherGridNames.isEmpty()) {
             ensureGridIds(otherGridNames, gridIdByName);
         }
+    }
 
+    private static Map<Id, List<GridCriteriaDetail__c>> loadCriteriaDetails(List<GridRuleLine__c> ruleLines) {
         Set<Id> criteriaIds = new Set<Id>();
         for (GridRuleLine__c line : ruleLines) {
             if (line.GridCriteria__c != null) {
@@ -101,27 +123,35 @@ public with sharing class GridDetailBuilder {
         }
 
         Map<Id, List<GridCriteriaDetail__c>> detailsByCriteriaId = new Map<Id, List<GridCriteriaDetail__c>>();
-        if (!criteriaIds.isEmpty()) {
-            for (GridCriteriaDetail__c detail : [SELECT GridCriteria__c, FilterNumber__c, Logic__c, Value__c, Object__c, Field__c
-                                                 FROM GridCriteriaDetail__c
-                                                 WHERE GridCriteria__c IN :criteriaIds
-                                                 ORDER BY FilterNumber__c ASC]) {
-                if (!detailsByCriteriaId.containsKey(detail.GridCriteria__c)) {
-                    detailsByCriteriaId.put(detail.GridCriteria__c, new List<GridCriteriaDetail__c>());
-                }
-                detailsByCriteriaId.get(detail.GridCriteria__c).add(detail);
-            }
+        if (criteriaIds.isEmpty()) {
+            return detailsByCriteriaId;
         }
 
-        List<Share_Class__c> shareClasses = [SELECT Id, Type__c, ISIN__c, EffectiveManagementFees__c, Fund__c, Fund__r.Legal_Status__c, Fund__r.InternalShortName__c
-                                             FROM Share_Class__c
-                                             WHERE EffectiveManagementFees__c != null
-                                             AND Type__c != null];
+        for (GridCriteriaDetail__c detail : [SELECT GridCriteria__c, FilterNumber__c, Logic__c, Value__c, Object__c, Field__c
+                                             FROM GridCriteriaDetail__c
+                                             WHERE GridCriteria__c IN :criteriaIds
+                                             ORDER BY FilterNumber__c ASC]) {
+            if (!detailsByCriteriaId.containsKey(detail.GridCriteria__c)) {
+                detailsByCriteriaId.put(detail.GridCriteria__c, new List<GridCriteriaDetail__c>());
+            }
+            detailsByCriteriaId.get(detail.GridCriteria__c).add(detail);
+        }
+        return detailsByCriteriaId;
+    }
 
-        Map<Id, Share_Class__c> shareClassById = new Map<Id, Share_Class__c>(shareClasses);
-        Set<Id> allShareClassIds = new Set<Id>(shareClassById.keySet());
-        Map<String, Map<String, Set<Id>>> indexByField = buildShareClassIndex(shareClasses);
+    private static ShareClassData loadShareClasses() {
+        ShareClassData data = new ShareClassData();
+        data.shareClasses = [SELECT Id, Type__c, ISIN__c, EffectiveManagementFees__c, Fund__c, Fund__r.Legal_Status__c, Fund__r.InternalShortName__c
+                             FROM Share_Class__c
+                             WHERE EffectiveManagementFees__c != null
+                             AND Type__c != null];
+        data.shareClassById = new Map<Id, Share_Class__c>(data.shareClasses);
+        data.allShareClassIds = new Set<Id>(data.shareClassById.keySet());
+        data.indexByField = buildShareClassIndex(data.shareClasses);
+        return data;
+    }
 
+    private static List<RuleLineContext> buildRuleLineContexts(List<GridRuleLine__c> ruleLines, Map<Id, Id> gridIdByScopeId, Map<Id, List<GridCriteriaDetail__c>> detailsByCriteriaId, BuildResult result) {
         List<RuleLineContext> contexts = new List<RuleLineContext>();
         for (GridRuleLine__c line : ruleLines) {
             RuleLineContext ctx = new RuleLineContext(line);
@@ -142,62 +172,64 @@ public with sharing class GridDetailBuilder {
             }
             contexts.add(ctx);
         }
+        return contexts;
+    }
 
-        if (contexts.isEmpty()) {
-            return result;
-        }
-
-        Map<String, RuleAssignment> assignmentByGridShareKey = new Map<String, RuleAssignment>();
-        List<RuleAssignment> assignments = new List<RuleAssignment>();
+    private static AssignmentBuildResult buildAssignments(List<RuleLineContext> contexts, ShareClassData shareData, BuildResult result) {
+        AssignmentBuildResult assignmentBuild = new AssignmentBuildResult();
 
         for (RuleLineContext ctx : contexts) {
             if (ctx.hasErrors) {
                 continue;
             }
 
-            Set<Id> matches = evaluateCriteria(ctx, indexByField, allShareClassIds, result);
+            Set<Id> matches = evaluateCriteria(ctx, shareData.indexByField, shareData.allShareClassIds, result);
             if (ctx.hasErrors || matches.isEmpty()) {
                 continue;
             }
 
-            if (RULE_OTHER_SHARE_FEES == ctx.ruleLine.RuleToApply__c && String.isNotBlank(ctx.ruleLine.ShareType__c)) {
-                Set<Id> filtered = new Set<Id>();
-                for (Id shareId : matches) {
-                    Share_Class__c share = shareClassById.get(shareId);
-                    if (share != null && share.Type__c == ctx.ruleLine.ShareType__c) {
-                        filtered.add(shareId);
-                    }
-                }
-                matches = filtered;
-            }
-
+            matches = filterByShareTypeIfNeeded(ctx, matches, shareData.shareClassById);
             for (Id shareId : matches) {
                 String gridShareKey = buildGridShareKey(ctx.gridId, shareId);
-                if (assignmentByGridShareKey.containsKey(gridShareKey)) {
+                if (assignmentBuild.assignmentByGridShareKey.containsKey(gridShareKey)) {
                     continue;
                 }
                 RuleAssignment assignment = new RuleAssignment(ctx, shareId);
-                assignmentByGridShareKey.put(gridShareKey, assignment);
-                assignments.add(assignment);
+                assignmentBuild.assignmentByGridShareKey.put(gridShareKey, assignment);
+                assignmentBuild.assignments.add(assignment);
             }
         }
 
-        if (assignments.isEmpty()) {
-            return result;
-        }
+        return assignmentBuild;
+    }
 
-        Map<String, Decimal> existingRebates = loadExistingRebates(assignments, gridIdByName, assignmentByGridShareKey.keySet());
+    private static Set<Id> filterByShareTypeIfNeeded(RuleLineContext ctx, Set<Id> matches, Map<Id, Share_Class__c> shareClassById) {
+        if (RULE_OTHER_SHARE_FEES != ctx.ruleLine.RuleToApply__c || String.isBlank(ctx.ruleLine.ShareType__c)) {
+            return matches;
+        }
+        Set<Id> filtered = new Set<Id>();
+        for (Id shareId : matches) {
+            Share_Class__c share = shareClassById.get(shareId);
+            if (share != null && share.Type__c == ctx.ruleLine.ShareType__c) {
+                filtered.add(shareId);
+            }
+        }
+        return filtered;
+    }
+
+    private static Map<String, Decimal> computeRebatesForAssignments(AssignmentBuildResult assignmentBuild, ShareClassData shareData, Map<String, Id> gridIdByName, BuildResult result) {
         Map<String, Decimal> rebatesByGridShareKey = new Map<String, Decimal>();
+        Map<String, Decimal> existingRebates = loadExistingRebates(assignmentBuild.assignments, gridIdByName, assignmentBuild.assignmentByGridShareKey.keySet());
         Map<String, Map<String, Id>> shareTypeLookupCache = new Map<String, Map<String, Id>>();
 
-        Integer remaining = assignments.size();
+        Integer remaining = assignmentBuild.assignments.size();
         for (Integer pass = 0; pass < 6 && remaining > 0; pass++) {
             Integer computedInPass = 0;
-            for (RuleAssignment assignment : assignments) {
+            for (RuleAssignment assignment : assignmentBuild.assignments) {
                 if (assignment.hasError || rebatesByGridShareKey.containsKey(assignment.gridShareKey)) {
                     continue;
                 }
-                Decimal rebate = computeRebate(assignment, assignmentByGridShareKey, rebatesByGridShareKey, existingRebates, shareTypeLookupCache, shareClasses, shareClassById, gridIdByName, result);
+                Decimal rebate = computeRebate(assignment, assignmentBuild.assignmentByGridShareKey, rebatesByGridShareKey, existingRebates, shareTypeLookupCache, shareData.shareClasses, shareData.shareClassById, gridIdByName, result);
                 if (assignment.hasError) {
                     continue;
                 }
@@ -213,6 +245,10 @@ public with sharing class GridDetailBuilder {
             }
         }
 
+        return rebatesByGridShareKey;
+    }
+
+    private static void addMissingRebateErrors(List<RuleAssignment> assignments, Map<String, Decimal> rebatesByGridShareKey, BuildResult result) {
         for (RuleAssignment assignment : assignments) {
             if (assignment.hasError) {
                 continue;
@@ -222,7 +258,9 @@ public with sharing class GridDetailBuilder {
                 result.errors.add(new BuildError(assignment.ruleLineId, 'Unable to resolve a rebate value for GridRuleLine__c. Check dependent rules or missing matching share classes.'));
             }
         }
+    }
 
+    private static void insertGridDetails(List<RuleAssignment> assignments, BuildResult result) {
         List<GridDetail__c> detailsToInsert = new List<GridDetail__c>();
         List<RuleAssignment> assignmentsForInsert = new List<RuleAssignment>();
         Date startDate = Date.today();
@@ -242,19 +280,19 @@ public with sharing class GridDetailBuilder {
             assignmentsForInsert.add(assignment);
         }
 
-        if (!detailsToInsert.isEmpty()) {
-            Database.SaveResult[] insertResults = Database.insert(detailsToInsert, false);
-            for (Integer i = 0; i < insertResults.size(); i++) {
-                RuleAssignment assignment = assignmentsForInsert[i];
-                if (insertResults[i].isSuccess()) {
-                    result.gridDetailsCreated++;
-                } else {
-                    result.errors.add(new BuildError(assignment.ruleLineId, 'Failed to create GridDetail__c: ' + insertResults[i].getErrors()[0].getMessage()));
-                }
-            }
+        if (detailsToInsert.isEmpty()) {
+            return;
         }
 
-        return result;
+        Database.SaveResult[] insertResults = Database.insert(detailsToInsert, false);
+        for (Integer i = 0; i < insertResults.size(); i++) {
+            RuleAssignment assignment = assignmentsForInsert[i];
+            if (insertResults[i].isSuccess()) {
+                result.gridDetailsCreated++;
+            } else {
+                result.errors.add(new BuildError(assignment.ruleLineId, 'Failed to create GridDetail__c: ' + insertResults[i].getErrors()[0].getMessage()));
+            }
+        }
     }
 
     private static Set<Id> evaluateCriteria(RuleLineContext ctx, Map<String, Map<String, Set<Id>>> indexByField, Set<Id> allShareClassIds, BuildResult result) {
@@ -336,49 +374,86 @@ public with sharing class GridDetailBuilder {
             return new Set<Id>();
         }
 
+        List<String> output = toPostfix(tokens, result, ruleLineId);
+        if (output == null) {
+            return new Set<Id>();
+        }
+        return evaluatePostfix(output, conditionSets, result, ruleLineId);
+    }
+
+    private static List<String> toPostfix(List<String> tokens, BuildResult result, Id ruleLineId) {
         List<String> output = new List<String>();
         List<String> operators = new List<String>();
-        Map<String, Integer> precedence = new Map<String, Integer>{ 'AND' => 2, 'OR' => 1 };
 
         for (String token : tokens) {
             if (isNumberToken(token)) {
                 output.add(token);
-            } 
-            else if (token == 'AND' || token == 'OR') {
-                while (!operators.isEmpty() && operators[operators.size() - 1] != '(' &&
-                       precedence.get(operators[operators.size() - 1]) >= precedence.get(token)) {
-                    output.add(operators.remove(operators.size() - 1));
-                }
-                operators.add(token);
-            } 
-            else if (token == '(') {
-                operators.add(token);
-            } 
-            else if (token == ')') {
-                while (!operators.isEmpty() && operators[operators.size() - 1] != '(') {
-                    output.add(operators.remove(operators.size() - 1));
-                }
-                if (operators.isEmpty() || operators[operators.size() - 1] != '(') {
-                    result.errors.add(new BuildError(ruleLineId, 'Unbalanced parentheses in FilterLogicExpression__c.'));
-                    return new Set<Id>();
-                }
-                operators.remove(operators.size() - 1);
-            } 
-            else {
-                result.errors.add(new BuildError(ruleLineId, 'Unsupported token "' + token + '" in FilterLogicExpression__c.'));
-                return new Set<Id>();
+                continue;
             }
+            if (isLogicToken(token)) {
+                applyOperatorToken(token, operators, output);
+                continue;
+            }
+            if (token == '(') {
+                operators.add(token);
+                continue;
+            }
+            if (token == ')') {
+                if (!flushUntilOpenParen(operators, output, result, ruleLineId)) {
+                    return null;
+                }
+                continue;
+            }
+            result.errors.add(new BuildError(ruleLineId, 'Unsupported token "' + token + '" in FilterLogicExpression__c.'));
+            return null;
         }
 
+        if (!flushRemainingOperators(operators, output, result, ruleLineId)) {
+            return null;
+        }
+        return output;
+    }
+
+    private static Boolean flushUntilOpenParen(List<String> operators, List<String> output, BuildResult result, Id ruleLineId) {
+        while (!operators.isEmpty() && operators[operators.size() - 1] != '(') {
+            output.add(operators.remove(operators.size() - 1));
+        }
+        if (operators.isEmpty() || operators[operators.size() - 1] != '(') {
+            result.errors.add(new BuildError(ruleLineId, 'Unbalanced parentheses in FilterLogicExpression__c.'));
+            return false;
+        }
+        operators.remove(operators.size() - 1);
+        return true;
+    }
+
+    private static Boolean flushRemainingOperators(List<String> operators, List<String> output, BuildResult result, Id ruleLineId) {
         while (!operators.isEmpty()) {
             String op = operators.remove(operators.size() - 1);
             if (op == '(' || op == ')') {
                 result.errors.add(new BuildError(ruleLineId, 'Unbalanced parentheses in FilterLogicExpression__c.'));
-                return new Set<Id>();
+                return false;
             }
             output.add(op);
         }
+        return true;
+    }
 
+    private static void applyOperatorToken(String token, List<String> operators, List<String> output) {
+        while (!operators.isEmpty() && operators[operators.size() - 1] != '(' && getPrecedence(operators[operators.size() - 1]) >= getPrecedence(token)) {
+            output.add(operators.remove(operators.size() - 1));
+        }
+        operators.add(token);
+    }
+
+    private static Integer getPrecedence(String token) {
+        return token == 'AND' ? 2 : 1;
+    }
+
+    private static Boolean isLogicToken(String token) {
+        return token == 'AND' || token == 'OR';
+    }
+
+    private static Set<Id> evaluatePostfix(List<String> output, Map<Integer, Set<Id>> conditionSets, BuildResult result, Id ruleLineId) {
         List<Set<Id>> stack = new List<Set<Id>>();
         for (String token : output) {
             if (isNumberToken(token)) {
@@ -389,8 +464,9 @@ public with sharing class GridDetailBuilder {
                     return new Set<Id>();
                 }
                 stack.add(setValue);
-            } 
-            else if (token == 'AND' || token == 'OR') {
+                continue;
+            }
+            if (isLogicToken(token)) {
                 if (stack.size() < 2) {
                     result.errors.add(new BuildError(ruleLineId, 'Invalid FilterLogicExpression__c evaluation.'));
                     return new Set<Id>();
@@ -401,7 +477,6 @@ public with sharing class GridDetailBuilder {
                 stack.add(combined);
             }
         }
-
         return stack.isEmpty() ? new Set<Id>() : stack[0];
     }
 
@@ -409,86 +484,95 @@ public with sharing class GridDetailBuilder {
         GridRuleLine__c line = assignment.context.ruleLine;
         Share_Class__c share = shareClassById.get(assignment.shareClassId);
         if (share == null) {
-            assignment.hasError = true;
-            result.errors.add(new BuildError(assignment.ruleLineId, 'Share_Class__c not found for assignment.'));
+            setAssignmentError(assignment, result, 'Share_Class__c not found for assignment.');
             return null;
         }
 
         if (line.RuleToApply__c == RULE_PERCENTAGE) {
-            if (share.EffectiveManagementFees__c == null || line.PercentageOfFees__c == null) {
-                assignment.hasError = true;
-                result.errors.add(new BuildError(assignment.ruleLineId, 'EffectiveManagementFees__c and PercentageOfFees__c are required to compute the rebate.'));
-                return null;
-            }
-            return (share.EffectiveManagementFees__c * line.PercentageOfFees__c / 100).setScale(5);
+            return computePercentageRebate(assignment, share, line, result);
         }
 
         if (line.RuleToApply__c == RULE_OTHER_SHARE || line.RuleToApply__c == RULE_OTHER_SHARE_FEES) {
-            String otherShareType = line.OtherShareType__c;
-            if (String.isBlank(otherShareType)) {
-                assignment.hasError = true;
-                result.errors.add(new BuildError(assignment.ruleLineId, 'OtherShareType__c is required for this rule.'));
-                return null;
-            }
-
-            Id otherShareId = findOtherShareTypeShareClass(assignment, otherShareType, shareTypeLookupCache, shareClasses, shareClassById);
-            if (otherShareId == null) {
-                assignment.hasError = true;
-                result.errors.add(new BuildError(assignment.ruleLineId, 'No matching Share_Class__c found for OtherShareType__c "' + otherShareType + '".'));
-                return null;
-            }
-
-            String otherKey = buildGridShareKey(assignment.gridId, otherShareId);
-            Decimal baseRebate = rebatesByGridShareKey.get(otherKey);
-            if (baseRebate == null) {
-                baseRebate = existingRebates.get(otherKey);
-            }
-            if (baseRebate == null) {
-                return null;
-            }
-
-            if (line.RuleToApply__c == RULE_OTHER_SHARE) {
-                return baseRebate;
-            }
-
-            Share_Class__c otherShare = shareClassById.get(otherShareId);
-            if (otherShare == null || otherShare.EffectiveManagementFees__c == null || share.EffectiveManagementFees__c == null) {
-                assignment.hasError = true;
-                result.errors.add(new BuildError(assignment.ruleLineId, 'EffectiveManagementFees__c is required for both share types to compute the rebate.'));
-                return null;
-            }
-            if (line.PercentageOfFees__c == null) {
-                assignment.hasError = true;
-                result.errors.add(new BuildError(assignment.ruleLineId, 'PercentageOfFees__c is required for Other Share Type + Fees.'));
-                return null;
-            }
-            Decimal deltaFees = share.EffectiveManagementFees__c - otherShare.EffectiveManagementFees__c;
-            return (baseRebate + (deltaFees * line.PercentageOfFees__c / 100)).setScale(5);
+            return computeOtherShareRebate(assignment, share, line, rebatesByGridShareKey, existingRebates, shareTypeLookupCache, shareClasses, shareClassById, result);
         }
 
         if (line.RuleToApply__c == RULE_OTHER_GRID) {
-            if (String.isBlank(line.OtherGridRule__c)) {
-                assignment.hasError = true;
-                result.errors.add(new BuildError(assignment.ruleLineId, 'OtherGridRule__c is required for Other Grid Rule.'));
-                return null;
-            }
-            Id otherGridId = gridIdByName.get(line.OtherGridRule__c);
-            if (otherGridId == null) {
-                assignment.hasError = true;
-                result.errors.add(new BuildError(assignment.ruleLineId, 'Grid__c not found for OtherGridRule__c "' + line.OtherGridRule__c + '".'));
-                return null;
-            }
-            String otherKey = buildGridShareKey(otherGridId, assignment.shareClassId);
-            Decimal otherRebate = rebatesByGridShareKey.get(otherKey);
-            if (otherRebate == null) {
-                otherRebate = existingRebates.get(otherKey);
-            }
-            return otherRebate;
+            return computeOtherGridRebate(assignment, line, rebatesByGridShareKey, existingRebates, gridIdByName, result);
         }
 
-        assignment.hasError = true;
-        result.errors.add(new BuildError(assignment.ruleLineId, 'Unsupported RuleToApply__c "' + line.RuleToApply__c + '".'));
+        setAssignmentError(assignment, result, 'Unsupported RuleToApply__c "' + line.RuleToApply__c + '".');
         return null;
+    }
+
+    private static Decimal computePercentageRebate(RuleAssignment assignment, Share_Class__c share, GridRuleLine__c line, BuildResult result) {
+        if (share.EffectiveManagementFees__c == null || line.PercentageOfFees__c == null) {
+            setAssignmentError(assignment, result, 'EffectiveManagementFees__c and PercentageOfFees__c are required to compute the rebate.');
+            return null;
+        }
+        return (share.EffectiveManagementFees__c * line.PercentageOfFees__c / 100).setScale(5);
+    }
+
+    private static Decimal computeOtherShareRebate(RuleAssignment assignment, Share_Class__c share, GridRuleLine__c line, Map<String, Decimal> rebatesByGridShareKey, Map<String, Decimal> existingRebates, Map<String, Map<String, Id>> shareTypeLookupCache, List<Share_Class__c> shareClasses, Map<Id, Share_Class__c> shareClassById, BuildResult result) {
+        String otherShareType = line.OtherShareType__c;
+        if (String.isBlank(otherShareType)) {
+            setAssignmentError(assignment, result, 'OtherShareType__c is required for this rule.');
+            return null;
+        }
+
+        Id otherShareId = findOtherShareTypeShareClass(assignment, otherShareType, shareTypeLookupCache, shareClasses, shareClassById);
+        if (otherShareId == null) {
+            setAssignmentError(assignment, result, 'No matching Share_Class__c found for OtherShareType__c "' + otherShareType + '".');
+            return null;
+        }
+
+        String otherKey = buildGridShareKey(assignment.gridId, otherShareId);
+        Decimal baseRebate = resolveRebate(otherKey, rebatesByGridShareKey, existingRebates);
+        if (baseRebate == null) {
+            return null;
+        }
+
+        if (line.RuleToApply__c == RULE_OTHER_SHARE) {
+            return baseRebate;
+        }
+
+        Share_Class__c otherShare = shareClassById.get(otherShareId);
+        if (otherShare == null || otherShare.EffectiveManagementFees__c == null || share.EffectiveManagementFees__c == null) {
+            setAssignmentError(assignment, result, 'EffectiveManagementFees__c is required for both share types to compute the rebate.');
+            return null;
+        }
+        if (line.PercentageOfFees__c == null) {
+            setAssignmentError(assignment, result, 'PercentageOfFees__c is required for Other Share Type + Fees.');
+            return null;
+        }
+        Decimal deltaFees = share.EffectiveManagementFees__c - otherShare.EffectiveManagementFees__c;
+        return (baseRebate + (deltaFees * line.PercentageOfFees__c / 100)).setScale(5);
+    }
+
+    private static Decimal computeOtherGridRebate(RuleAssignment assignment, GridRuleLine__c line, Map<String, Decimal> rebatesByGridShareKey, Map<String, Decimal> existingRebates, Map<String, Id> gridIdByName, BuildResult result) {
+        if (String.isBlank(line.OtherGridRule__c)) {
+            setAssignmentError(assignment, result, 'OtherGridRule__c is required for Other Grid Rule.');
+            return null;
+        }
+        Id otherGridId = gridIdByName.get(line.OtherGridRule__c);
+        if (otherGridId == null) {
+            setAssignmentError(assignment, result, 'Grid__c not found for OtherGridRule__c "' + line.OtherGridRule__c + '".');
+            return null;
+        }
+        String otherKey = buildGridShareKey(otherGridId, assignment.shareClassId);
+        return resolveRebate(otherKey, rebatesByGridShareKey, existingRebates);
+    }
+
+    private static Decimal resolveRebate(String gridShareKey, Map<String, Decimal> rebatesByGridShareKey, Map<String, Decimal> existingRebates) {
+        Decimal rebate = rebatesByGridShareKey.get(gridShareKey);
+        if (rebate == null) {
+            rebate = existingRebates.get(gridShareKey);
+        }
+        return rebate;
+    }
+
+    private static void setAssignmentError(RuleAssignment assignment, BuildResult result, String message) {
+        assignment.hasError = true;
+        result.errors.add(new BuildError(assignment.ruleLineId, message));
     }
 
     private static Id findOtherShareTypeShareClass(RuleAssignment assignment, String desiredShareType, Map<String, Map<String, Id>> lookupCache, List<Share_Class__c> shareClasses, Map<Id, Share_Class__c> shareClassById) {
@@ -537,41 +621,57 @@ public with sharing class GridDetailBuilder {
             return existing;
         }
 
-        Set<String> otherGridNames = new Set<String>();
-        Set<Id> shareClassIds = new Set<Id>();
-        Set<Id> targetGridIds = new Set<Id>();
+        LoadExistingContext ctx = buildLoadExistingContext(assignments, targetGridShareKeys, gridIdByName);
+        if (ctx.shareClassIds.isEmpty() || ctx.externalGridIds.isEmpty()) {
+            return existing;
+        }
+        return queryExistingRebates(ctx.externalGridIds, ctx.shareClassIds, existing);
+    }
 
+    private static LoadExistingContext buildLoadExistingContext(List<RuleAssignment> assignments, Set<String> targetGridShareKeys, Map<String, Id> gridIdByName) {
+        LoadExistingContext ctx = new LoadExistingContext();
+        ctx.targetGridIds = parseTargetGridIds(targetGridShareKeys);
+        collectOtherGridNamesAndShares(assignments, ctx);
+        ctx.externalGridIds = resolveExternalGridIds(ctx.otherGridNames, ctx.targetGridIds, gridIdByName);
+        return ctx;
+    }
+
+    private static Set<Id> parseTargetGridIds(Set<String> targetGridShareKeys) {
+        Set<Id> targetGridIds = new Set<Id>();
         for (String key : targetGridShareKeys) {
             List<String> parts = key.split(':');
             if (parts.size() == 2) {
                 targetGridIds.add((Id)parts[0]);
             }
         }
+        return targetGridIds;
+    }
 
+    private static void collectOtherGridNamesAndShares(List<RuleAssignment> assignments, LoadExistingContext ctx) {
         for (RuleAssignment assignment : assignments) {
             GridRuleLine__c line = assignment.context.ruleLine;
             if (line.RuleToApply__c == RULE_OTHER_GRID && String.isNotBlank(line.OtherGridRule__c)) {
-                otherGridNames.add(line.OtherGridRule__c);
-                shareClassIds.add(assignment.shareClassId);
+                ctx.otherGridNames.add(line.OtherGridRule__c);
+                ctx.shareClassIds.add(assignment.shareClassId);
             }
         }
+    }
 
-        if (otherGridNames.isEmpty() || shareClassIds.isEmpty()) {
-            return existing;
-        }
-
+    private static Set<Id> resolveExternalGridIds(Set<String> otherGridNames, Set<Id> targetGridIds, Map<String, Id> gridIdByName) {
         Set<Id> externalGridIds = new Set<Id>();
+        if (otherGridNames.isEmpty()) {
+            return externalGridIds;
+        }
         for (String gridName : otherGridNames) {
             Id gridId = gridIdByName.get(gridName);
             if (gridId != null && !targetGridIds.contains(gridId)) {
                 externalGridIds.add(gridId);
             }
         }
+        return externalGridIds;
+    }
 
-        if (externalGridIds.isEmpty()) {
-            return existing;
-        }
-
+    private static Map<String, Decimal> queryExistingRebates(Set<Id> externalGridIds, Set<Id> shareClassIds, Map<String, Decimal> existing) {
         for (GridDetail__c detail : [SELECT Grid__c, ShareClass__c, Rebate__c
                                      FROM GridDetail__c
                                      WHERE Grid__c IN :externalGridIds AND ShareClass__c IN :shareClassIds]) {
@@ -579,7 +679,6 @@ public with sharing class GridDetailBuilder {
                 existing.put(buildGridShareKey(detail.Grid__c, detail.ShareClass__c), detail.Rebate__c);
             }
         }
-
         return existing;
     }
 
@@ -678,7 +777,7 @@ public with sharing class GridDetailBuilder {
         Integer i = 0;
         while (i < expression.length()) {
             String ch = expression.substring(i, i + 1);
-            if (ch == ' ' || ch == '\t' || ch == '\n' || ch == '\r') {
+            if (isWhitespace(ch)) {
                 i++;
                 continue;
             }
@@ -687,20 +786,11 @@ public with sharing class GridDetailBuilder {
                 i++;
                 continue;
             }
-            if (Pattern.matches('\\d', ch)) {
-                Integer start = i;
-                while (i < expression.length() && Pattern.matches('\\d', expression.substring(i, i + 1))) {
-                    i++;
-                }
-                tokens.add(expression.substring(start, i));
-                continue;
-            }
-            if (Pattern.matches('[A-Za-z]', ch)) {
-                Integer start = i;
-                while (i < expression.length() && Pattern.matches('[A-Za-z]', expression.substring(i, i + 1))) {
-                    i++;
-                }
-                tokens.add(expression.substring(start, i).toUpperCase());
+            Integer endInt = readTokenEnd(expression, i, ch);
+            if (endInt > i) {
+                String token = expression.substring(i, endInt);
+                tokens.add(isLetterToken(ch) ? token.toUpperCase() : token);
+                i = endInt;
                 continue;
             }
             result.errors.add(new BuildError(ruleLineId, 'Unsupported character "' + ch + '" in FilterLogicExpression__c.'));
@@ -708,6 +798,36 @@ public with sharing class GridDetailBuilder {
         }
 
         return tokens;
+    }
+
+    private static Boolean isWhitespace(String ch) {
+        return ch == ' ' || ch == '\t' || ch == '\n' || ch == '\r';
+    }
+
+    private static Integer readTokenEnd(String expression, Integer start, String firstChar) {
+        if (isDigitToken(firstChar)) {
+            return scanWhileMatch(expression, start, '\\d');
+        }
+        if (isLetterToken(firstChar)) {
+            return scanWhileMatch(expression, start, '[A-Za-z]');
+        }
+        return start;
+    }
+
+    private static Integer scanWhileMatch(String expression, Integer start, String regex) {
+        Integer i = start;
+        while (i < expression.length() && Pattern.matches(regex, expression.substring(i, i + 1))) {
+            i++;
+        }
+        return i;
+    }
+
+    private static Boolean isDigitToken(String ch) {
+        return Pattern.matches('\\d', ch);
+    }
+
+    private static Boolean isLetterToken(String ch) {
+        return Pattern.matches('[A-Za-z]', ch);
     }
 
     private static Boolean isNumberToken(String token) {
@@ -779,5 +899,24 @@ public with sharing class GridDetailBuilder {
             this.criteriaId = context.ruleLine.GridCriteria__c;
             this.gridShareKey = buildGridShareKey(context.gridId, shareClassId);
         }
+    }
+
+    private class LoadExistingContext {
+        public Set<String> otherGridNames = new Set<String>();
+        public Set<Id> shareClassIds = new Set<Id>();
+        public Set<Id> targetGridIds = new Set<Id>();
+        public Set<Id> externalGridIds = new Set<Id>();
+    }
+
+    private class ShareClassData {
+        public List<Share_Class__c> shareClasses = new List<Share_Class__c>();
+        public Map<Id, Share_Class__c> shareClassById = new Map<Id, Share_Class__c>();
+        public Set<Id> allShareClassIds = new Set<Id>();
+        public Map<String, Map<String, Set<Id>>> indexByField = new Map<String, Map<String, Set<Id>>>();
+    }
+
+    private class AssignmentBuildResult {
+        public Map<String, RuleAssignment> assignmentByGridShareKey = new Map<String, RuleAssignment>();
+        public List<RuleAssignment> assignments = new List<RuleAssignment>();
     }
 }

@@ -695,7 +695,7 @@ export default class StandardGridBuilder extends LightningElement {
 
     buildShareTypesKey(shareTypes) {
         const values = Array.isArray(shareTypes) ? [...shareTypes] : [];
-        values.sort();
+        values.sort((a, b) => a.localeCompare(b));
         return values.join('|');
     }
 

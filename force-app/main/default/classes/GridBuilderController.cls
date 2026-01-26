@@ -98,7 +98,7 @@ public with sharing class GridBuilderController {
             detObject = d.Object__c;
             detField = d.Field__c;
             detValue = d.Value__c;
-            detLogic = String.isBlank(detValue)? (d.Logic__c == 'IN'? '=' : (d.Logic__c == 'NOT IN'? '!=' : d.Logic__c)) : d.Logic__c;
+            detLogic = getDetailLogic(d);
             detTechOrigin = d.TECHOrigin__c;
             if(String.isNotBlank(detObject) && String.isNotBlank(detField) && String.isNotBlank(detLogic)) {
                 fieldPath = GridBuilderHelper.getRelationshipPath(detObject) + detField;
@@ -113,6 +113,10 @@ public with sharing class GridBuilderController {
             }
         }
         return filterFragments;
+    }
+
+    private static String getDetailLogic(GridCriteriaDetail__c d) {
+        return String.isBlank(d.Value__c)? (d.Logic__c == 'IN'? '=' : (d.Logic__c == 'NOT IN'? '!=' : d.Logic__c)) : d.Logic__c;
     }
 
     private static String formatValueForSoql(String op, String rawValue, String separator) {
@@ -148,33 +152,7 @@ public with sharing class GridBuilderController {
         String filtersWhere = '';
         if (filterFragments != null) {
             if(!filterFragments.userDefinedFragments.isEmpty()) {
-                List<String> userDefFrags = filterFragments.userDefinedFragments;
-                String logic = criteria.FilterLogic__c;
-                String customLogic = criteria.FilterLogicExpression__c;
-                if (logic == 'AND') { // AND logic
-                    filtersWhere = String.join(userDefFrags, ' AND ');
-                }
-                else if (logic == 'OR') { // OR logic
-                    filtersWhere = String.join(userDefFrags, ' OR ');
-                }
-                else if (logic == 'Custom Logic' && String.isNotBlank(customLogic)) { // Custom logic: replace numbers with userDefFrags
-                    String temp = customLogic;
-                    String nbr;
-                    for (Integer i = 0; i < userDefFrags.size(); i++) {
-                        nbr = String.valueOf(i + 1);
-                        temp = temp.replace(nbr, '~F' + nbr + '~');
-                    }
-                    System.debug('@@@ temp before replacement: ' + temp);
-                    for (Integer i = 0; i < userDefFrags.size(); i++) {
-                        nbr = '~F' + String.valueOf(i + 1) + '~';
-                        temp = temp.replace(nbr, '(' + userDefFrags[i] + ')');
-                    }
-                    System.debug('@@@ temp after replacement: ' + temp);
-                    filtersWhere = temp;
-                }
-                else {
-                    filtersWhere = String.join(userDefFrags, ' AND '); // Fallback: AND everything
-                }
+                filtersWhere = buildUserDefinedFiltersWhere(criteria, filterFragments);
                 if(String.isNotBlank(filtersWhere)) {
                     whereFragments.add('(' + filtersWhere + ')');
                 }
@@ -187,6 +165,35 @@ public with sharing class GridBuilderController {
         return String.join(whereFragments, ' AND ');
     }
 
+    private static String buildUserDefinedFiltersWhere(GridCriteria__c criteria, FilterFragments filterFragments) {
+        String filtersWhere;
+        List<String> userDefFrags = filterFragments.userDefinedFragments;
+        String logic = criteria.FilterLogic__c;
+        String customLogic = criteria.FilterLogicExpression__c;
+        if (logic == 'AND') { // AND logic
+            filtersWhere = String.join(userDefFrags, ' AND ');
+        }
+        else if (logic == 'OR') { // OR logic
+            filtersWhere = String.join(userDefFrags, ' OR ');
+        }
+        else if (logic == 'Custom Logic' && String.isNotBlank(customLogic)) { // Custom logic: replace numbers with userDefFrags
+            String temp = customLogic;
+            String nbr;
+            for (Integer i = 0; i < userDefFrags.size(); i++) {
+                nbr = String.valueOf(i + 1);
+                temp = temp.replace(nbr, '~F' + nbr + '~');
+            }
+            for (Integer i = 0; i < userDefFrags.size(); i++) {
+                nbr = '~F' + String.valueOf(i + 1) + '~';
+                temp = temp.replace(nbr, '(' + userDefFrags[i] + ')');
+            }
+            filtersWhere = temp;
+        }
+        else {
+            filtersWhere = String.join(userDefFrags, ' AND '); // Fallback: AND everything
+        }
+        return filtersWhere;
+    }
     private static List<String> buildAvailableTeams(String primaryTeam, Set<String> setAvailableTeams) {
         List<String> availableTeams = new List<String>{primaryTeam};
 
