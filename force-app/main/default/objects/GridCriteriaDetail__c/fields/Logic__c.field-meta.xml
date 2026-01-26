@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Logic__c</fullName>
     <description>The comparison operator: = (equals), != (not equals), IN (value is in list), NOT IN (value not in list).</description>
+    <externalId>false</externalId>
     <label>Logic</label>
     <required>true</required>
     <trackHistory>false</trackHistory>

@@ -3,6 +3,10 @@
     <label>Product</label>
     <protected>false</protected>
     <values>
+        <field>AllowedOperators__c</field>
+        <value xsi:type="xsd:string">IN, NOT IN</value>
+    </values>
+    <values>
         <field>FieldApiNames__c</field>
         <value xsi:type="xsd:string">ProductName__c,LegalForm__c,InternalShortName__c,DomiciledIn__c</value>
     </values>

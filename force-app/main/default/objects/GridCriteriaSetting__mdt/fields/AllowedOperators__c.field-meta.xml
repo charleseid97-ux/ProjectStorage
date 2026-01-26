@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AllowedOperators__c</fullName>
+    <description>Defines which filter operators are available for this field in the Grid Builder.</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Comma-separated list of filter operators allowed for this field.
+Operators available: =, !=, IN, NOT IN, LIKE, NOT {_} LIKE</inlineHelpText>
+    <label>Allowed Operators</label>
+    <length>255</length>
+    <required>true</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

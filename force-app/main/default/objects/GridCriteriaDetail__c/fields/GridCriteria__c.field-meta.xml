@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>GridCriteria__c</fullName>
     <description>The parent Grid Criteria record this filter belongs to.</description>
+    <externalId>false</externalId>
     <label>Grid Criteria</label>
     <referenceTo>GridCriteria__c</referenceTo>
     <relationshipLabel>Grid Criteria Details</relationshipLabel>

@@ -44,8 +44,9 @@
 }
 
 .selected-table-wrapper {
-    max-height: calc(100vh - 100px);
+    max-height: calc(100vh - 60px);
     overflow: auto;
+    position: relative;
 }
 
 .section-heading {
@@ -58,6 +59,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.section-heading-actions {
+    display: flex;
+    align-items: center;
+    column-gap: 0.5rem;
 }
 
 .section-heading-included {
@@ -153,10 +160,100 @@
     overflow: auto;
 }
 
-.row-selected {
-    background: #faffbd;
+.row-unselected {
+    background: #ffe1e1;
 }
 
 .noProductDisplay {
     padding: 5px 10px 5px 10px;
+}
+
+.criteria-history-panel {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #dddbda;
+    border-radius: 5px;
+    background: #ffffff;
+    position: absolute;
+    z-index: 5;
+    width: calc(100% - 25px);
+}
+
+.criteria-history-list {
+    max-height: 220px;
+    overflow-y: auto;
+    background-color: rgb(203 224 210 / 25%);
+    padding: 0px 10px;
+    border-radius: 5px;
+}
+
+.criteria-history-item {
+    padding: 10px 0px;
+    border-bottom: 1px solid #c9c9c9;
+}
+
+.criteria-history-item:last-child {
+    border-bottom: none;
+}
+
+.criteria-history-title {
+    font-weight: 600;
+}
+
+.criteria-history-grid {
+    margin-left: 0.25rem;
+    color: #16325c;
+}
+
+.criteria-history-meta {
+    color: #5f7387;
+    font-size: 0.8rem;
+    margin-top: 0.1rem;
+}
+
+.criteria-history-detail {
+    font-size: 0.85rem;
+    margin-top: 0.15rem;
+}
+
+.criteria-history-system-label {
+    margin-top: 0.5rem;
+    font-weight: 700;
+    color: #5f7387;
+}
+
+.criteria-object {
+    font-weight: 600;
+}
+
+.criteria-operator {
+    color: #5f7387;
+    font-weight: 700;
+}
+
+.op-negative {
+    color: rgb(150, 0, 0);
+}
+
+.op-positive {
+    color: rgb(0 150 0);
+}
+
+.op-neutral{
+    color: #5f7387;
+}
+
+.criteria-value {
+    font-style: italic;
+}
+
+.criteria-history-empty {
+    color: #5f7387;
+}
+
+.criteria-history-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.5rem;
+    --slds-c-button-line-height: 20px;
 }

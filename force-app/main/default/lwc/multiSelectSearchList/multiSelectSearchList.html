@@ -2,8 +2,9 @@
     @description       :
     @author            : Thanina YAYA
     @history
-    [25-10-2024]      [SILA Nicolas]
-    [16-12-2025]      [EID Charles]    [Add showValuesWhenNotSelecting feature]
+    [25-10-2024]    [SILA Nicolas]
+    [16-12-2025]    [EID Charles]   [Add showValuesWhenNotSelecting feature]
+    [23-01-2025]	[EID Charles]   [Add enableSelectAll feature]
 -->
 <template>
     <div class="slds-form-element">
@@ -35,6 +36,16 @@
                     <div  class={dropdownOuterStyle} role="listbox"  style="height:12rem; overflow: scroll;" onmouseleave={closeDropdown} >
                         <template if:true={options} >
                         <template if:false={monoSelect} >
+                            <template if:true={showSelectAll}>
+                                <div class="select-all-row">
+                                    <lightning-input type="checkbox"
+                                                     label={selectAllLabel}
+                                                     checked={isAllSelected}
+                                                     onchange={handleSelectAllToggle}
+                                                     disabled={disabled}>
+                                    </lightning-input>
+                                </div>
+                            </template>
                              <lightning-checkbox-group name="Checkbox Group"
                                                        label=""
                                                        options={options}

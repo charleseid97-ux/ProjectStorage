@@ -1,0 +1,58 @@
+<template>
+    <section class="slds-card cardContainer">
+        <div class="slds-card__header slds-grid headerClass">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <lightning-icon icon-name={iconName} size="small" class="relatedIcon"></lightning-icon>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <span class="slds-truncate" title="Grid Details">Grid Details</span>
+                    </h2>
+                    <p class="slds-text-body_small slds-text-color_weak">
+                        <span>{rowCountLabel}</span>
+                        <span class="headerDot">&bull;</span>
+                        <span>Sorted by {sortedByLabel}</span>
+                    </p>
+                </div>
+            </header>
+            <div class="slds-no-flex">
+                <lightning-button-icon
+                    icon-name="utility:refresh"
+                    variant="border"
+                    alternative-text="Refresh"
+                    title="Refresh"
+                    onclick={handleRefresh}
+                ></lightning-button-icon>
+            </div>
+        </div>
+        <div class="tableContainer">
+            <template if:true={isLoading}>
+                <div class="centerSpinner">
+                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                </div>
+            </template>
+            <div class="slds-card__body slds-card__body_inner">
+                <template if:true={hasErrors}>
+                    <div class="slds-text-color_error slds-m-bottom_small">
+                        <p>Errors:</p>
+                        <ul class="slds-list_dotted">
+                            <template for:each={errors} for:item="err">
+                                <li key={err}>{err}</li>
+                            </template>
+                        </ul>
+                    </div>
+                </template>
+                <template if:true={hasRows}>
+                    <div class="slds-scrollable_x">
+                        <lightning-datatable key-field="id" data={rows} columns={columns} hide-checkbox-column>
+                        </lightning-datatable>
+                    </div>
+                </template>
+                <template if:false={hasRows}>
+                    <p class="slds-text-color_weak">No grid details found.</p>
+                </template>
+            </div>
+        </div>
+    </section>
+</template>

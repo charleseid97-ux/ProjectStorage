@@ -8,8 +8,13 @@
     <div class="validationPage">
         <template if:true={hasValidationResults}>
             <div class="validation-controls">
-                <lightning-button label={toggleAllLabel} variant="neutral" onclick={handleToggleAllSections}></lightning-button>
-                <lightning-button label="Add Products" onclick={handleBack}></lightning-button>
+                <div class="validation-controls-left">
+                    <lightning-button label={toggleAllLabel} variant="neutral" onclick={handleToggleAllSections}></lightning-button>
+                </div>
+                <div class="validation-controls-right">
+                    <lightning-button label="View Excluded Products" variant="neutral" onclick={handleViewRecap}></lightning-button>
+                    <lightning-button label="Add Products" variant="brand" onclick={handleBack}></lightning-button>
+                </div>
             </div>
             <div class="custom-accordion">
                 <template for:each={validationProducts} for:item="prod">

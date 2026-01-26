@@ -161,10 +161,10 @@
     <externalSharingModel>ControlledByParent</externalSharingModel>
     <label>Grid Criteria Detail</label>
     <nameField>
-        <encryptionScheme>None</encryptionScheme>
-        <label>Grid Criteria Detail Name</label>
+        <displayFormat>GCD-{00000000}</displayFormat>
+        <label>Grid Criteria Detail Number</label>
         <trackHistory>false</trackHistory>
-        <type>Text</type>
+        <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Grid Criteria Details</pluralLabel>
     <searchLayouts></searchLayouts>

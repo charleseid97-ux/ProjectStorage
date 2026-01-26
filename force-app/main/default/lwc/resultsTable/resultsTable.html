@@ -6,14 +6,26 @@
         <div class="custom-accordion">
             <template for:each={productGroups} for:item="prod">
                 <div key={prod.productId} class="custom-accordion-item">
-                    <button class="custom-accordion-header" data-id={prod.productId} aria-expanded={prod.isOpen} onclick={handleToggleProduct}>
-                        <div class="main-header-left">
-                            <lightning-icon class="accordion-toggle-icon" icon-name={prod.toggleIconName} alternative-text="Toggle section" size="x-small"></lightning-icon>
-                            <div class="header-left">
-                                <span class="header-title header-title--large">{prod.productLabel}</span>
+                    <div class="custom-accordion-header">
+                        <button class="accordion-toggle-button" data-id={prod.productId} aria-expanded={prod.isOpen} onclick={handleToggleProduct}>
+                            <div class="main-header-left">
+                                <lightning-icon class="accordion-toggle-icon" icon-name={prod.toggleIconName} alternative-text="Toggle section" size="x-small"></lightning-icon>
+                                <div class="header-left">
+                                    <span class="header-title header-title--large">{prod.productLabel}</span>
+                                    <template if:true={prod.hasSelected}>
+                                        <span class="already-selected-warning">(<span class="warning-label">Warning</span>: Contains already selected shares, to reselect those shares, the product must be removed from the Recap)</span>
+                                    </template>
+                                </div>
                             </div>
-                        </div>
-                    </button>
+                        </button>
+                        <lightning-button-icon class="remove-product-button"
+                                               icon-name="utility:delete"
+                                               alternative-text="Remove product"
+                                               title="Remove product"
+                                               data-id={prod.productId}
+                                               onclick={handleRemoveProduct}>
+                        </lightning-button-icon>
+                    </div>
                     <template if:true={prod.isOpen}>
                         <div class="table-scroll-container">
                             <table class="slds-table slds-table_cell-buffer slds-table_bordered">
@@ -24,6 +36,9 @@
                                                 <div class="slds-truncate" title={col.label}>{col.label}</div>
                                             </th>
                                         </template>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title="Selection">Selection</div>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -34,6 +49,11 @@
                                                     <div class="slds-truncate" title={cell.value}>{cell.value}</div>
                                                 </td>
                                             </template>
+                                            <td data-label="Selection">
+                                                <template if:true={row.isAlreadySelected}>
+                                                    <div class="slds-truncate selection-status" title="Already selected">Already selected</div>
+                                                </template>
+                                            </td>
                                         </tr>
                                     </template>
                                 </tbody>

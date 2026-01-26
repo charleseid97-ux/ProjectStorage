@@ -7,6 +7,7 @@ export default class FilterBuilder extends LightningElement {
     @api filterValueSeparator = ';';
     @api fieldsByObject = {};
     @api operatorsByField = {};
+    @api defaultFilterOperator = 'IN';
     @api picklistValuesByField = {};
     @api filterLimit = 10;
     @api startingLogicType;
@@ -68,15 +69,24 @@ export default class FilterBuilder extends LightningElement {
         const id = event.currentTarget.dataset.id;
         const field = event.currentTarget.dataset.field;
         const value = event.detail.value;
-
         this.criteriaState = { ...this.criteriaState, details: this.updateDetails(id, field, value) };
     }
 
     handleMultiSelection(event) {
-        const id = event.currentTarget.dataset.id;
-        const selectedValues = event.detail.selectedValues || [];
-        const value = selectedValues.join(this.filterValueSeparator);
-        this.criteriaState = { ...this.criteriaState, details: this.updateDetails(id, 'value', value, selectedValues) };
+        let isSearchChange = event.detail && event.detail.isSearchChange;
+        if(!isSearchChange) {
+            const id = event.currentTarget.dataset.id;
+            const selectedValues = event.detail.selectedValues || [];
+            const value = selectedValues.join(this.filterValueSeparator);
+            this.criteriaState = { ...this.criteriaState, details: this.updateDetails(id, 'value', value, selectedValues)};
+        }
+    }
+
+    handleRefreshMultiSelectSearchList(id, multiSelectSearchRefreshArray) {
+        const multiSelectSearchList = this.template.querySelector('c-multi-select-search-list[data-id=' + id + ']');
+        if (multiSelectSearchList) {
+            multiSelectSearchList.refreshOptions(multiSelectSearchRefreshArray);
+        }
     }
 
     handleAddFilter() {
@@ -184,7 +194,8 @@ export default class FilterBuilder extends LightningElement {
     applyFieldApiChange(clone, fieldApi) {
         clone.operatorOptions = this.getOperatorOptionsForField(clone.objectApi, fieldApi);
         const operatorStillValid = clone.operatorOptions.some(o => o.value === clone.operator);
-        clone.operator = operatorStillValid ? clone.operator : null;
+        const defaultOperatorValid = clone.operatorOptions.some(o => o.value === this.defaultFilterOperator);
+        clone.operator = operatorStillValid ? clone.operator : defaultOperatorValid? this.defaultFilterOperator : null;
         clone.operatorInputDisabled = false;
         clone.picklistValues = [...this.getPicklistValuesForField(clone.objectApi, fieldApi)];
         clone.isPicklistField = this.checkIfFieldIsPicklist(clone, fieldApi);
@@ -193,6 +204,8 @@ export default class FilterBuilder extends LightningElement {
         if (clone.operatorExpectsMulti) {
             clone.picklistValues = (clone.picklistValues || []).filter(opt => opt.value !== '');
         }
+        clone = this.applyOperatorChange(clone, clone.operator);
+        this.handleRefreshMultiSelectSearchList(clone.id, clone.picklistValues);
         return clone;
     }
 
@@ -227,6 +240,7 @@ export default class FilterBuilder extends LightningElement {
         return {
             id: id,
             filterNumber: filterNumber,
+            filterCode: '~F' + filterNumber + '~',
             objectApi: objectApi,
             fieldApi: fieldApi,
             operator: operator,

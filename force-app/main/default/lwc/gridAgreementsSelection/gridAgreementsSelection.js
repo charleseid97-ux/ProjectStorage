@@ -118,8 +118,8 @@ export default class GridAgreementsSelection extends LightningElement {
 
     handleAgreementsChange(event) {
         let isSearchChange = event.detail && event.detail.isSearchChange;
-        let selected = (event.detail && event.detail.selectedValues) ? event.detail.selectedValues : [];
         if (!isSearchChange) {
+            let selected = (event.detail && event.detail.selectedValues) ? event.detail.selectedValues : [];
             this.selectedValues = selected? (Array.isArray(selected)? selected : [selected]) : [];
             this.pills = this.getPills();
         }

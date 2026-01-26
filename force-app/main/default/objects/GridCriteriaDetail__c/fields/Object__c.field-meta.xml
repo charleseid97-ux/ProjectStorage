@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Object__c</fullName>
     <description>The object on which the filter applies.</description>
+    <externalId>false</externalId>
     <label>Object</label>
     <required>true</required>
     <trackHistory>false</trackHistory>

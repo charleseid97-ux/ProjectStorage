@@ -4,8 +4,11 @@ export default class GridSelectionDisplayPanel extends LightningElement {
     @api columns = [];
     @api rows = [];
     @api allRows = [];
+    @api criteriaList = [];
     @api isOpen = false;
+    @api showExcludedOnly = false;
     openProductIds = [];
+    showCriteriaHistory = false;
 
     get productSelectedCount() {
         return this.includedProducts.length;
@@ -34,9 +37,13 @@ export default class GridSelectionDisplayPanel extends LightningElement {
     get productGroups() {
         const rows = (this.allRows && this.allRows.length) ? this.allRows : (this.rows || []);
         const selectedIds = this.selectedIds;
+        const criteriaNumberMap = this.buildCriteriaNumberMap();
+        const selectedRowMap = this.buildSelectedRowMap();
         const groupMap = new Map();
 
         rows.forEach(row => {
+            const selectedRow = selectedRowMap.get(row.id);
+            const effectiveRow = selectedRow ? { ...row, ...selectedRow } : row;
             const productId = row.productId || 'unknown';
             const productLabel = row.productLabel || 'Product';
             if (!groupMap.has(productId)) {
@@ -50,23 +57,31 @@ export default class GridSelectionDisplayPanel extends LightningElement {
                 });
             }
             const group = groupMap.get(productId);
-            const isSelected = selectedIds.has(row.id);
+            const isSelected = selectedIds.has(effectiveRow.id);
+            const criteriaNumber = isSelected ? this.getCriteriaNumber(effectiveRow.criteriaRefId, criteriaNumberMap) : '';
             group.totalShareClasses += 1;
             if (isSelected) {
                 group.selectedCount += 1;
-                const gridLabel = row.gridLabel || (row.cells || []).find(c => c.label === 'Grid')?.value || '';
+                const gridLabel = effectiveRow.gridLabel || (effectiveRow.cells || []).find(c => c.label === 'Grid')?.value || '';
                 if (gridLabel) {
                     group.gridLabels.add(gridLabel);
                 }
             }
             group.shareClasses.push({
-                ...row,
-                rowClass: isSelected ? 'row-selected' : ''
+                ...effectiveRow,
+                isSelected: isSelected,
+                criteriaNumber: criteriaNumber,
+                rowClass: isSelected ? '' : 'row-unselected'
             });
         });
 
         const openSet = new Set(this.openProductIds);
         return Array.from(groupMap.values()).map(group => {
+            group.shareClasses.sort((left, right) => {
+                const leftSelected = left.isSelected ? 1 : 0;
+                const rightSelected = right.isSelected ? 1 : 0;
+                return rightSelected - leftSelected;
+            });
             const isOpen = openSet.has(group.productId);
             return {
                 ...group,
@@ -93,6 +108,38 @@ export default class GridSelectionDisplayPanel extends LightningElement {
     get excludedAllExpanded() {
         const ids = this.excludedProducts.map(p => p.productId);
         return ids.length > 0 && ids.every(id => this.openProductIds.includes(id));
+    }
+
+    get criteriaHistory() {
+        const criteriaEntries = this.criteriaList || [];
+        return criteriaEntries.map((entry, index) => {
+            const number = index + 1;
+            const gridLabel = entry.gridLabel || '';
+            const criteria = entry.criteria || {};
+            const logicType = criteria.FilterLogic__c || '';
+            const logicExpression = criteria.FilterLogicExpression__c || '';
+            const details = (entry.criteriaDetails || []).map(detail => this.formatCriteriaDetail(detail)).filter(detail => detail);
+            const userDetails = details.filter(detail => detail.techOrigin !== 'System');
+            const systemDetails = details.filter(detail => detail.techOrigin === 'System');
+            const shareTypes = Array.isArray(entry.shareTypes) ? entry.shareTypes : [];
+            return {
+                number,
+                gridLabel,
+                logicType,
+                logicExpression,
+                userDetails,
+                systemDetails,
+                shareTypesText: shareTypes.length ? shareTypes.join('; ') : 'N/A'
+            };
+        });
+    }
+
+    get hasCriteriaHistory() {
+        return this.criteriaHistory.length > 0;
+    }
+
+    get disabledCriteriaHistory() {
+        return !this.hasCriteriaHistory;
     }
 
     handleToggleProduct(event) {
@@ -134,7 +181,16 @@ export default class GridSelectionDisplayPanel extends LightningElement {
         }));
     }
 
+    toggleCriteriaHistory() {
+        this.showCriteriaHistory = !this.showCriteriaHistory;
+    }
+
+    closeCriteriaHistory() {
+        this.showCriteriaHistory = false;
+    }
+
     handleClose() {
+        this.showCriteriaHistory = false;
         this.dispatchEvent(new CustomEvent('close'));
     }
 
@@ -142,5 +198,63 @@ export default class GridSelectionDisplayPanel extends LightningElement {
         if (event.target.classList.contains('selection-panel-backdrop')) {
             this.handleClose();
         }
+    }
+
+    buildCriteriaNumberMap() {
+        const map = new Map();
+        (this.criteriaList || []).forEach((entry, index) => {
+            if (entry?.id) {
+                map.set(entry.id, index + 1);
+            }
+        });
+        return map;
+    }
+
+    getCriteriaNumber(criteriaRefId, mapRef) {
+        if (!criteriaRefId || !mapRef) {
+            return '';
+        }
+        return mapRef.get(criteriaRefId) || '';
+    }
+
+    formatCriteriaDetail(detail) {
+        if (!detail) {
+            return null;
+        }
+        const rawObjectLabel = detail.objectLabel ?? detail.ObjectLabel__c;
+        const rawFieldLabel = detail.fieldLabel ?? detail.FieldLabel__c;
+        const objectLabel = rawObjectLabel || 'Unknown Object';
+        const fieldLabel = rawFieldLabel || 'Unknown Field';
+        const objectBlank = !rawObjectLabel || !rawObjectLabel.trim();
+        const fieldBlank = !rawFieldLabel || !rawFieldLabel.trim();
+        if ((objectBlank && fieldBlank) || (objectLabel === 'Unknown Object' && fieldLabel === 'Unknown Field')) {
+            return null;
+        }
+        const operatorText = detail.Logic__c || detail.operator || detail.Operator__c || detail.logic || '';
+        const value = detail.Value__c || detail.value || '';
+        const displayValue = value && value.trim() ? value : 'N/A';
+        const techOrigin = detail.TECHOrigin__c || detail.techOrigin || '';
+        const keyParts = [objectLabel, fieldLabel, operatorText, displayValue, techOrigin].filter(part => part);
+        const operatorClassMap = {'=': 'op-positive', 'IN': 'op-positive', 'LIKE': 'op-positive',
+                                  '!=': 'op-negative', 'NOT IN': 'op-negative', 'NOT LIKE': 'op-negative'};
+        return {
+            key: keyParts.join('|'),
+            objectLabel: objectLabel,
+            fieldLabel: fieldLabel,
+            operatorText: operatorText,
+            operatorClass: `criteria-operator ${operatorClassMap[operatorText] || 'op-neutral'}`,
+            valueText: displayValue,
+            techOrigin: techOrigin
+        };
+    }
+
+    buildSelectedRowMap() {
+        const map = new Map();
+        (this.rows || []).forEach(row => {
+            if (row?.id) {
+                map.set(row.id, row);
+            }
+        });
+        return map;
     }
 }

@@ -2,7 +2,6 @@
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
     <excludeButtons>AssignRecordLabel</excludeButtons>
     <excludeButtons>ChangeRecordType</excludeButtons>
-    <excludeButtons>OpenSlackRecordChannel</excludeButtons>
     <excludeButtons>Submit</excludeButtons>
     <layoutSections>
         <customLabel>false</customLabel>
@@ -10,10 +9,6 @@
         <editHeading>true</editHeading>
         <label>Information</label>
         <layoutColumns>
-            <layoutItems>
-                <behavior>Required</behavior>
-                <field>GridCriteria__c</field>
-            </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
                 <field>Grid__c</field>
@@ -33,8 +28,8 @@
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>EffectiveManagementFees__c</field>
+                <behavior>Required</behavior>
+                <field>GridCriteria__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -42,7 +37,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>RebateRate__c</field>
+                <field>GridRuleLine__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Rebate__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -84,9 +83,6 @@
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
-    <miniLayout>
-        <fields>GridCriteria__c</fields>
-    </miniLayout>
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>

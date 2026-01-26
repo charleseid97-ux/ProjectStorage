@@ -158,3 +158,8 @@
     align-items: center;
     --slds-c-button-line-height: 25px;
 }
+
+.validation-controls-right {
+    display: flex;
+    column-gap: 10px;
+}

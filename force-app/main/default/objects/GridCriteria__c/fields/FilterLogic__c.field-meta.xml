@@ -5,6 +5,7 @@
 • AND – all conditions must be true
 • OR – at least one condition must be true
 • Custom Logic – use a custom expression to define how conditions interact. Example: &apos;1 AND (2 OR 3)&apos;</description>
+    <externalId>false</externalId>
     <inlineHelpText>Use AND if products must match all conditions.
 Use OR if products only need to match at least one condition.
 Use Custom Logic to combine conditions using a formula such as 1 AND (2 OR 3).</inlineHelpText>
