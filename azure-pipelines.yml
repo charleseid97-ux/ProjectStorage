@@ -134,7 +134,11 @@ stages:
         fi
 
         sort -u sonar-inclusions.txt -o sonar-inclusions.txt
-        [[ -s sonar-inclusions.txt ]] || { echo "ERREUR: aucune inclusion Sonar générée depuis package.xml."; exit 22; }
+        if [[ ! -s sonar-inclusions.txt ]]; then
+          echo "INFO: aucun composant scannable (Apex/LWC/Aura/VF) dans package.xml -> Sonar stage skipped."
+          echo "##vso[task.setvariable variable=SKIP_SONAR]true"
+          exit 0
+        fi
 
         SONAR_INCLUSIONS="$(paste -sd, sonar-inclusions.txt)"
         echo "##vso[task.setvariable variable=SONAR_INCLUSIONS]$SONAR_INCLUSIONS"
