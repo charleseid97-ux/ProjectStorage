@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <!-- Contact fields -->
+    <types>
+        <members>Contact.TechEventCall__c</members>
+        <members>Contact.TechEventDate__c</members>
+        <members>Contact.TechEventFeedback__c</members>
+        <members>Contact.TechEventScore__c</members>
+        <members>Contact.TechEventId__c</members>
+        <name>CustomField</name>
+    </types>
+
+    <!-- CampaignMember fields -->
+    <types>
+        <members>CampaignMember.EventCall__c</members>
+        <members>CampaignMember.EventFeedback__c</members>
+        <members>CampaignMember.EventScore__c</members>
+        <name>CustomField</name>
+    </types>
+
+    <!-- Flow -->
+    <types>
+        <members>Copy_Tech_Event_fields_from_Contact_to_Campaign_Member</members>
+        <name>Flow</name>
+    </types>
+
+    <version>60.0</version>
+</Package>
