@@ -27,9 +27,6 @@ public abstract class RestCallout {
             
             //Helpful debug messages
             System.debug('STATUS_CODE:' + res.getStatusCode());
-            String responseJSON = res.getBody();
-            System.debug('responseJSON:' + responseJSON);
-
             
             processResponse(res);
         }catch(Exception e){
