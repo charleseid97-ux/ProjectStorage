@@ -12,13 +12,26 @@ public class WS_GetEventParticipants extends RestCallout{
     public String publicKey;
     public Map<String, String> idEmailMap;
     public String privateKey;
+    public Set<String> targetEmails;
+    public Integer limitSize;
+    public Integer offsetSize;
+    public Set<String> remainingEmails;
+    public Integer pageItemCount; // combien d'items dans "results" sur la page
 
-    public WS_GetEventParticipants(Campaign recordToTreat) {
+    public WS_GetEventParticipants(Campaign recordToTreat, Set<String> targetEmails, Integer limitSize, Integer offsetSize) {
         this.recordToTreat = recordToTreat;
         this.timestamp = System.now().getTime() / 1000;
         this.idEmailMap = new Map<String, String>();
         this.publicKey = LyytiCredentials__mdt.getInstance('Authentication').PublicKey__c;
         this.privateKey = LyytiCredentials__mdt.getInstance('Authentication').PrivateKey__c;
+        this.targetEmails = (targetEmails == null) ? new Set<String>() : targetEmails;
+
+        this.limitSize = (limitSize == null || limitSize <= 0) ? 200 : limitSize;  // <-- 200 (ou 500)
+        this.offsetSize = (offsetSize == null || offsetSize < 0) ? 0 : offsetSize;
+
+        this.remainingEmails = new Set<String>();
+        this.remainingEmails.addAll(this.targetEmails);
+        this.pageItemCount = 0;
     }
 
     public override String getMethod(){
@@ -53,7 +66,7 @@ public class WS_GetEventParticipants extends RestCallout{
         req.setHeader( 'Accept', 'application/json; charset=utf-8' );
         req.setHeader( 'Content-Type', 'application/json' );
         req.setHeader( 'Authorization', 'LYYTI-API-V2 public_key='+this.publicKey+', timestamp='+this.timestamp+', signature='+getSignature() );
-        req.setEndpoint(LyytiCredentials__mdt.getInstance('Authentication').URL__c+'/events/'+recordToTreat.LyytiId__c+'/participants' );
+        req.setEndpoint(LyytiCredentials__mdt.getInstance('Authentication').URL__c+'/events/'+recordToTreat.LyytiId__c+'/participants'+ '?limit=' + String.valueOf(this.limitSize) + '&offset=' + String.valueOf(this.offsetSize) );
         //req.setBody(setJsonBody());
         return req;
     }
@@ -62,25 +75,86 @@ public class WS_GetEventParticipants extends RestCallout{
         return '';       
     }
 
-    public override void processResponse(HttpResponse response){
-        
-        
+    public override void processResponse(HttpResponse response) {
+        this.pageItemCount = 0;
+
         if (response.getStatusCode() != 200) {
-            System.debug('The status code returned was not expected: ' +
-                    response.getStatusCode() + ' ' + response.getStatus());   
-        }else{
-            // Get Json Body Result
-            String jsonReceived = response.getBody(); 
-            
-            Map<String, Object> parsedJson = (Map<String, Object>) JSON.deserializeUntyped(jsonReceived);
-            Map<String, Object> results = (Map<String, Object>) parsedJson.get('results');
-            
-            for (String key : results.keySet()) {
-                Map<String, Object> participant = (Map<String, Object>) results.get(key);
-                String id = String.valueOf(participant.get('uid'));
-                String email = (String) participant.get('email');
-                system.debug('uid :'+id);
-                this.idEmailMap.put(email, id); 
+            System.debug('Unexpected status: ' + response.getStatusCode() + ' ' + response.getStatus());
+            return;
+        }
+        if (this.remainingEmails == null || this.remainingEmails.isEmpty()) {
+            return;
+        }
+
+        JSONParser p = JSON.createParser(response.getBody());
+
+        String currentField;
+        Boolean inResultsObject = false;
+        Boolean inParticipantObj = false;
+
+        String email;
+        String uid;
+
+        while (p.nextToken() != null) {
+            JSONToken t = p.getCurrentToken();
+
+            // capter les noms de champs
+            if (t == JSONToken.FIELD_NAME) {
+                currentField = p.getText();
+                continue;
+            }
+
+            // 1) Entrer dans "results": { ... }
+            if (!inResultsObject) {
+                if (currentField == 'results' && t == JSONToken.START_OBJECT) {
+                    inResultsObject = true;
+                }
+                continue;
+            }
+
+            // 2) Dans results, chaque entrée est:  "123": { participant... }
+            // Le FIELD_NAME "123" est lu plus haut, ici on attend START_OBJECT = participant object
+            if (t == JSONToken.START_OBJECT && !inParticipantObj) {
+                inParticipantObj = true;
+                email = null;
+                uid = null;
+                continue;
+            }
+
+            // 3) Fin d'un participant
+            if (t == JSONToken.END_OBJECT && inParticipantObj) {
+                this.pageItemCount++;
+
+                if (email != null && uid != null && this.remainingEmails.contains(email)) {
+                    this.idEmailMap.put(email, uid);
+                    this.remainingEmails.remove(email);
+
+                    if (this.remainingEmails.isEmpty()) {
+                        break; // trouvé tout ce qu'on cherche
+                    }
+                }
+
+                inParticipantObj = false;
+                continue;
+            }
+
+            // 4) Fin de l'objet results (quand on n'est pas dans un participant)
+            if (t == JSONToken.END_OBJECT && inResultsObject && !inParticipantObj) {
+                break;
+            }
+
+            // 5) Lire les champs du participant
+            if (inParticipantObj) {
+                if (currentField == 'email') {
+                    if (t == JSONToken.VALUE_STRING) {
+                        email = p.getText();
+                        if (email != null) email = email.trim().toLowerCase();
+                    } else if (t == JSONToken.VALUE_NULL) {
+                        email = null; // explicite
+                    }
+                } else if (currentField == 'uid' && t == JSONToken.VALUE_STRING) {
+                    uid = p.getText();
+                }
             }
         }
     }
