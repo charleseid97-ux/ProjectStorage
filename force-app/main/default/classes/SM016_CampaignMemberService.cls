@@ -215,37 +215,69 @@ public with sharing class SM016_CampaignMemberService {
     
         @future(callout=true)
         public static void callWS(Set<Id> memberIds, Boolean fromLyyti) {
-            List<CampaignMember> cmToProcess = [SELECT Id, CampaignId, Campaign.LyytiId__c,FirstName,Campaign.Tech_ParticipantType__c,Cancelled__c,Category_Event_lookup__r.Name,
-                                            LastName,Email,Status,LyytiId__c,Contact.Owner.Name,Lead.Owner.Name,Language__c,CompanyOrAccount,LastModifiedBy.Username,Category_name__c,
-                                            Contact.Invitation_Opt_Out__c,Lead.Event_Opt_Out__c
-                                            FROM CampaignMember 
-                                            WHERE Id IN :memberIds LIMIT 50];
      
             List<CampaignMember> cmToUpdate = new List<CampaignMember>();
             if(fromLyyti){
-                Set<Id> campaignIds = new Set<Id>();
+                List<CampaignMember> cmToProcess = [SELECT Id, CampaignId, Campaign.LyytiId__c,FirstName,Campaign.Tech_ParticipantType__c,Cancelled__c,Category_Event_lookup__r.Name,
+                                            LastName,Email,Status,LyytiId__c,Contact.Owner.Name,Lead.Owner.Name,Language__c,CompanyOrAccount,LastModifiedBy.Username,Category_name__c,
+                                            Contact.Invitation_Opt_Out__c,Lead.Event_Opt_Out__c
+                                            FROM CampaignMember 
+                                            WHERE Id IN :memberIds];
+
+                Map<Id, Set<String>> emailsByCampaign = new Map<Id, Set<String>>();
                 
                 for (CampaignMember cm : cmToProcess) {
-                    campaignIds.add(cm.CampaignId);
+                    if (cm.CampaignId == null || String.isBlank(cm.Email)) continue;
+                    
+                    String email = cm.Email.trim().toLowerCase();
+
+                    if (!emailsByCampaign.containsKey(cm.CampaignId)) {
+                        emailsByCampaign.put(cm.CampaignId, new Set<String>());
+                    }
+                    emailsByCampaign.get(cm.CampaignId).add(email);
                 }
                 List<Campaign> campaigns = [SELECT Id, LyytiId__c,(SELECT Id, CampaignId, Campaign.LyytiId__c,FirstName,
                                                                 LastName,Email,Status,LyytiId__c,Contact.Owner.Name,Lead.Owner.Name,Language__c,CompanyOrAccount  
                                                                 FROM CampaignMembers WHERE ID IN :memberIds)
                                             FROM Campaign 
-                                            WHERE Id IN :campaignIds];
+                                            WHERE Id IN :emailsByCampaign.keySet()];
                 for (Campaign c : campaigns) {
-                    WS_GetEventParticipants sender = new WS_GetEventParticipants(c);
-                    sender.sendInDataToExternalService();
+                    Set<String> targetEmails = emailsByCampaign.get(c.Id);
+                    Integer LIMIT_SIZE = 500; // ou 500
+                    Integer offset = 0;
+                    if (targetEmails == null || targetEmails.isEmpty()) continue;
+
+                    WS_GetEventParticipants sender = new WS_GetEventParticipants(c, targetEmails, LIMIT_SIZE, offset);
+
+                    while (true) {
+                        sender.offsetSize = offset;           // avancer la page
+                        sender.sendInDataToExternalService(); // remplit idEmailMap + retire de remainingEmails
+
+                        // Stop si tout trouvé
+                        if (sender.remainingEmails.isEmpty()) break;
+
+                        // Stop si la page est vide / incomplète => plus rien à paginer
+                        if (sender.pageItemCount == null || sender.pageItemCount < LIMIT_SIZE) break;
+
+                        offset += LIMIT_SIZE;
+
+                        // Sécurité anti-boucle infinie (optionnel)
+                        if (offset > 200000) break;
+                    }
+
                     for(CampaignMember cm :c.CampaignMembers){
-                        if(sender.idEmailMap.containsKey(cm.Email)){
-                            if(cm.LyytiId__c==null){
-                                CampaignMember cMember = new CampaignMember(Id=cm.Id, LyytiId__c=sender.idEmailMap.get(cm.Email));
-                                cmToUpdate.add(cMember);
-                            }
+                        String cmEmail = (cm.Email == null) ? null : cm.Email.trim().toLowerCase();
+                        if (cmEmail != null && sender.idEmailMap.containsKey(cmEmail) && cm.LyytiId__c == null) {
+                            cmToUpdate.add(new CampaignMember(Id = cm.Id, LyytiId__c = sender.idEmailMap.get(cmEmail)));
                         }
                     }
                 }
             }else{
+                List<CampaignMember> cmToProcess = [SELECT Id, CampaignId, Campaign.LyytiId__c,FirstName,Campaign.Tech_ParticipantType__c,Cancelled__c,Category_Event_lookup__r.Name,
+                                            LastName,Email,Status,LyytiId__c,Contact.Owner.Name,Lead.Owner.Name,Language__c,CompanyOrAccount,LastModifiedBy.Username,Category_name__c,
+                                            Contact.Invitation_Opt_Out__c,Lead.Event_Opt_Out__c
+                                            FROM CampaignMember 
+                                            WHERE Id IN :memberIds LIMIT 50];
                 cmToUpdate = getCMToUpdate(cmToProcess,null,null);
             }
             if(cmToUpdate.size()>0){
