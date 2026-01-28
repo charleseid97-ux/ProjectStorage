@@ -24,7 +24,6 @@
             </value>
         </inputParameters>
         <nameSegment>SessionSpeakerProduct_InsertFromJson</nameSegment>
-        <offset>0</offset>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
     <actionCalls>
@@ -51,7 +50,6 @@
             </value>
         </inputParameters>
         <nameSegment>SessionSpeakerProduct_InsertFromJson</nameSegment>
-        <offset>0</offset>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
     <actionCalls>
@@ -78,7 +76,6 @@
             </value>
         </inputParameters>
         <nameSegment>EventAttendee_InsertFromIds</nameSegment>
-        <offset>0</offset>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
     <actionCalls>
@@ -105,7 +102,6 @@
             </value>
         </inputParameters>
         <nameSegment>SessionSpeakerProduct_InsertFromJson</nameSegment>
-        <offset>0</offset>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
     <apiVersion>65.0</apiVersion>
@@ -200,6 +196,30 @@
         </assignmentItems>
         <connector>
             <targetReference>Copy_1_of_Meeting_Meeting_days_Details</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Copy_2_of_setStartEndDates</name>
+        <label>Copy 2 of setStartEndDates</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>MasterEvent.startTime__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Copy_1_of_Start1</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterEvent.endTime__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Copy_1_of_End1</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Copy_1_of_Speakers_Products</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -1168,7 +1188,6 @@
                     <dataType>String</dataType>
                     <fieldText>Start time</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -1196,7 +1215,6 @@
                     <dataType>String</dataType>
                     <fieldText>End time</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -1265,7 +1283,6 @@
                     <defaultSelectedChoiceReference>Attendes_s_address</defaultSelectedChoiceReference>
                     <fieldText>Address</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -1754,7 +1771,6 @@
                     </defaultValue>
                     <fieldText>Start time</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -1785,7 +1801,6 @@
                     </defaultValue>
                     <fieldText>End Time</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -1844,7 +1859,6 @@
                     <defaultSelectedChoiceReference>Attendes_s_address</defaultSelectedChoiceReference>
                     <fieldText>Address</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2112,8 +2126,7 @@
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <isGoTo>true</isGoTo>
-            <targetReference>setStartEndDates</targetReference>
+            <targetReference>Copy_2_of_setStartEndDates</targetReference>
         </connector>
         <fields>
             <name>Copy_2_of_Copy_1_of_Event_DetailsSection</name>
@@ -2299,7 +2312,6 @@
                     <dataType>String</dataType>
                     <fieldText>Start time</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2327,7 +2339,6 @@
                     <dataType>String</dataType>
                     <fieldText>End time</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2396,7 +2407,6 @@
                     <defaultSelectedChoiceReference>CompanyAddress</defaultSelectedChoiceReference>
                     <fieldText>Address</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2947,7 +2957,6 @@
                     <dataType>String</dataType>
                     <fieldText>Start time</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2975,7 +2984,6 @@
                     <dataType>String</dataType>
                     <fieldText>End time</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -3381,7 +3389,6 @@
             <defaultSelectedChoiceReference>Event</defaultSelectedChoiceReference>
             <fieldText>Event type</fieldText>
             <fieldType>DropdownBox</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>false</isRequired>
             <styleProperties>
                 <verticalAlignment>
