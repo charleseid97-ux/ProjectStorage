@@ -1,0 +1,257 @@
+<apex:page controller="VFC18_EventAgenda"
+           showHeader="false"
+           sidebar="false"
+           standardStylesheets="false"
+           docType="html-5.0">
+
+  <style>
+    /* A4 portrait look */
+    html, body { margin:0; padding:0; }
+    body {
+      font-family: Arial, sans-serif;
+      color:#111;
+      font-size:9pt;
+      background:#FFF;
+    }
+
+    /* margins A4 */
+    .pagePad { padding: 10mm 10mm 12mm 10mm; }
+
+    /* Top banner (compact) */
+    .banner {
+      border-bottom: 2px solid #111827;
+      padding-bottom: 6px;
+      margin-bottom: 8px;
+    }
+    .banner h1 {
+      margin: 0 0 4px 0;
+      font-size: 12.5pt;
+      font-weight: 800;
+    }
+
+    .metaTable {
+      width:100%;
+      border-collapse: collapse;
+      font-size: 8.6pt;
+      color:#222;
+    }
+    .metaTable td {
+      padding: 2px 6px 2px 0;
+      vertical-align: top;
+    }
+    .label { font-weight:700; color:#111; }
+
+    /* Day header (thin bar, compact) */
+    .daySeparator {
+      margin: 10px 0 6px 0;
+      padding: 4px 6px;
+      font-size: 9.5pt;
+      font-weight: 800;
+      color:#111827;
+      background:#F3F4F6;
+      border-left: 4px solid #111827;
+    }
+
+    /* Each agenda block */
+    .slot {
+      border: 1px solid #E5E7EB;
+      margin-bottom: 6px;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    /* Fixed 3 columns in table = best for VF PDF */
+    .slotTable {
+      width:100%;
+      border-collapse: collapse;
+      table-layout: fixed; /* fixed widths */
+    }
+
+    /* Column widths tuned for A4 portrait */
+    .colTime   { width: 22%; }
+    .colMiddle { width: 40%; }
+    .colRight  { width: 38%; }
+
+    .slotTable td {
+      vertical-align: top;
+      padding: 6px 7px;
+    }
+
+    /* vertical separators */
+    .slotTable td + td { border-left: 1px solid #EEF0F2; }
+
+    /* LEFT column */
+    .timeRange {
+      font-size: 10pt;
+      font-weight: 800;
+      color:#111827;
+      margin-bottom: 4px;
+    }
+    .attendees {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .attendees li {
+      padding: 1px 0;
+      font-size: 8.6pt;
+      color:#111827;
+    }
+
+    /* MIDDLE column */
+    .title {
+      font-weight: 800;
+      font-size: 9.3pt;
+      margin: 0 0 4px 0;
+    }
+
+    .speakerLine {
+      font-size: 8.6pt;
+      margin: 0 0 2px 0;
+      color:#111827;
+    }
+    .speakerName { font-weight:700; }
+    .products { color:#374151; }
+
+    .noteBox {
+      margin-top: 5px;
+      padding-top: 5px;
+      border-top: 1px dashed #E5E7EB;
+    }
+    .noteLabel {
+      font-weight: 800;
+      font-size: 8.4pt;
+      color:#9A3412;
+      margin: 0 0 2px 0;
+    }
+    .noteBody {
+      white-space: pre-wrap;
+      font-size: 8.6pt;
+      line-height: 1.35;
+      color:#7C2D12;
+    }
+
+    /* RIGHT column */
+    .rightHeader {
+      font-weight: 800;
+      font-size: 8.8pt;
+      margin: 0 0 3px 0;
+      color:#111827;
+    }
+    .bgGoalFull {
+      white-space: pre-wrap;
+      font-size: 8.6pt;
+      line-height: 1.35;
+      color:#1F2937;
+    }
+
+    /* Error */
+    .error {
+      padding: 8px;
+      border: 1px solid #C0392B;
+      color: #C0392B;
+      background: #FFF5F5;
+      font-size: 9pt;
+    }
+
+    /* Print helpers */
+    @media print {
+      .pagePad { padding: 0; }
+    }
+  </style>
+
+  <div class="pagePad">
+
+    <apex:outputPanel rendered="{!NOT(ISBLANK(errorMessage))}">
+      <div class="error">{!errorMessage}</div>
+    </apex:outputPanel>
+
+    <apex:outputPanel rendered="{!ISBLANK(errorMessage)}">
+
+      <!-- Parent banner (compact) -->
+      <div class="banner">
+        <h1>{!parent.title}</h1>
+
+        <table class="metaTable">
+          <tr>
+            <td><span class="label">Main company:</span> {!parent.company}</td>
+            <td><span class="label">Timezone:</span> {!parent.timezone}</td>
+          </tr>
+          <tr>
+            <td><span class="label">SalesTeam:</span> {!parent.salesTeam}</td>
+            <td><span class="label">Start:</span> {!parent.startLabel}</td>
+          </tr>
+          <tr>
+            <td><span class="label">End:</span> {!parent.endLabel}</td>
+            <td><span class="label">Roadshow background:</span> {!parent.meetingBackground}</td>
+          </tr>
+          <tr>
+            <td colspan="2"><span class="label">Roadshow Goal:</span> {!parent.meetingGoal}</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Days -->
+      <apex:repeat value="{!days}" var="d">
+        <div class="daySeparator">{!d.dayLabel}</div>
+
+        <apex:repeat value="{!d.rows}" var="r">
+          <div class="slot">
+            <table class="slotTable">
+              <tr>
+                <!-- LEFT -->
+                <td class="colTime">
+                  <div class="timeRange">{!r.timeRange}</div>
+
+                  <apex:outputPanel rendered="{!NOT(ISNULL(r.attendees)) && r.attendees.size > 0}">
+                    <ul class="attendees">
+                      <apex:repeat value="{!r.attendees}" var="aName">
+                        <li>{!aName}</li>
+                      </apex:repeat>
+                    </ul>
+                  </apex:outputPanel>
+                </td>
+
+                <!-- MIDDLE -->
+                <td class="colMiddle">
+                  <div class="title">{!r.title}</div>
+
+                  <apex:outputPanel rendered="{!NOT(ISNULL(r.speakers)) && r.speakers.size > 0}">
+                    <apex:repeat value="{!r.speakers}" var="sp">
+                      <div class="speakerLine">
+                        <span class="speakerName">{!sp.speakerName}</span>
+                        <apex:outputPanel rendered="{!NOT(ISBLANK(sp.productsLabel))}">
+                          : <span class="products">{!sp.productsLabel}</span>
+                        </apex:outputPanel>
+                      </div>
+                    </apex:repeat>
+                  </apex:outputPanel>
+
+                  <apex:outputPanel rendered="{!showMeetingNote && NOT(ISBLANK(r.note))}">
+                    <div class="noteBox">
+                      <div class="noteLabel">Meeting Note</div>
+                      <div class="noteBody">
+                        <apex:outputText value="{!r.note}" escape="false"/>
+                      </div>
+                    </div>
+                  </apex:outputPanel>
+                </td>
+
+                <!-- RIGHT -->
+                <td class="colRight">
+                  <div class="rightHeader">Meeting Background / Goals</div>
+                  <div class="bgGoalFull">
+                    <apex:outputText value="{!r.bgGoal}"/>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </apex:repeat>
+
+      </apex:repeat>
+
+    </apex:outputPanel>
+  </div>
+
+</apex:page>
