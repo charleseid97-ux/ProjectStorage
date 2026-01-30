@@ -48,7 +48,9 @@ public class WS_GetEventParticipants extends RestCallout {
     }
 
     public String getSignature() {
-        String callString = 'events/' + recordToTreat.LyytiId__c + '/participants';
+        String callString = 'events/' + recordToTreat.LyytiId__c + '/participants' +
+        '?limit=' + String.valueOf(this.limitSize) +
+        '&offset=' + String.valueOf(this.offsetSize);
 
         String msg = String.join(new List<String>{
             this.publicKey,
@@ -63,6 +65,8 @@ public class WS_GetEventParticipants extends RestCallout {
     }
 
     public HttpRequest setHeaderAndEndpoint() {
+        this.timestamp = System.now().getTime() / 1000;
+
         HttpRequest req = new HttpRequest();
 
         req.setHeader('Accept', 'application/json; charset=utf-8');
