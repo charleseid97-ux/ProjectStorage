@@ -165,7 +165,7 @@ public class MilestoneHandler {
             }
         }
 
-        List<ProjectShareclass__c> scs = [SELECT Id, UKReportingStatus__c, CHKurliste__c, ITWhitelist__c, ATTransparency__c, ProjectProduct__c, ProjectProduct__r.Name, Name
+        List<ProjectShareclass__c> scs = [SELECT Id, UKReportingStatus__c, CHKurliste__c, ITWhitelist__c, ATTransparency__c, BE__c, ProjectProduct__c, ProjectProduct__r.Name, Name
                                             FROM ProjectShareclass__c  
                                             WHERE ProjectProduct__c IN :projectIds];
 
@@ -183,6 +183,7 @@ public class MilestoneHandler {
             if (sc.CHKurliste__c)       countries.add('CH');
             if (sc.ITWhitelist__c)      countries.add('IT');
             if (sc.ATTransparency__c)   countries.add('AT');
+            if (sc.BE__c)   countries.add('BE');
 
             if (countries.isEmpty()) continue;
             scIdToCountries.put(sc.Id, countries);

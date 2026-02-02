@@ -364,6 +364,12 @@ public class ProjectProductBatchController {
                 ProjectProductBatchUtilities.UpsertDebugResult result = ProjectProductBatchUtilities.logUpsertResults(listNewShareClass);
                 debugInformation.add('[UPSERT] ' + result.successRecords.size() + ' Shareclasses created.');
                 for (SObject currentSObject : result.successRecords.values()) {
+                    Share_Class__c sc = (Share_Class__c) currentSObject;
+                    Id projScId = (Id) sc.get('ProjectShareclass__c'); 
+                    if (projScId != null) {
+                        mapProjSCIdToSCId.put(projScId, sc.Id);
+                    }
+
                     String objectType = currentSObject.getSObjectType().getDescribe().getName();
                     debugInformation.add('[UPSERTED] Type: ' + objectType + ' (Id: ' + currentSObject.get('Id') + ')');
                     insertedRecords.add((String)currentSObject.get('Id') );
@@ -373,6 +379,43 @@ public class ProjectProductBatchController {
                     errorMessages.add('[ERROR] Shareclass insert failed: ' + err);
                     recordsFailed[0]++;
                     throw new DmlException('Shareclass insert failed: ' + err);
+                }
+            }
+
+            List<TaxData__c> taxDataToUpdate = new List<TaxData__c>();
+
+            for (ProjectProduct__c pp : projectProducts) {
+                Product__c product = productMap.get(pp.Product__c);
+                
+                if (pp.Tax_Data__r == null) continue;
+                for (TaxData__c td : pp.Tax_Data__r) {
+                    if (td.Product__c == null) {
+                        td.Product__c = product.Id;
+                    }
+                    if (td.ShareClass__c == null) {
+                        td.ShareClass__c = mapProjSCIdToSCId.get(td.ProjectShareclass__c);
+                    }
+                    taxDataToUpdate.add(td);
+                }
+            }
+
+            if (!taxDataToUpdate.isEmpty()) {
+                ProjectProductBatchUtilities.UpsertDebugResult result = ProjectProductBatchUtilities.logUpsertResults(taxDataToUpdate);
+                debugInformation.add('[UPSERT] ' + result.successRecords.size() + ' records upserted.');
+                for (SObject currentSObject : result.successRecords.values()) {
+                    String objectType = currentSObject.getSObjectType().getDescribe().getName();
+                    insertedRecords.add((String)currentSObject.get('Id'));
+
+                    debugInformation.add('[UPSERTED] Type: ' + objectType + ' (Id: ' + currentSObject.get('Id') + ')');
+                }
+                if (!result.errorMap.isEmpty()) {
+                    errorMessages.add('[ERROR] ' + result.errorMap.size() + ' upserts failed.');
+                    for (String err : result.errorMap.values()) {
+                        errorMessages.add(err);
+                        recordsFailed[0]++; 
+                        throw new DmlException('[ERROR] ' + result.errorMap.size() + ' upserts failed.');
+
+                    }
                 }
             }
 
