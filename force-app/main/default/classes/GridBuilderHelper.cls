@@ -1,3 +1,12 @@
+/**
+ * @description Shared utility class for Grid Builder and Grid Validation components. 
+ *              Provides common functionality for retrieving grid settings from custom metadata, filtering products 
+ *              and share classes based on criteria, handling relationship paths, and formatting data for display. 
+ *              Supports complex filter logic evaluation and dynamic field value extraction.
+ * @author Charles EID
+ * @testClass GridBuilderControllerTest, GridValidationControllerTest
+ * @coverage 96% (Combined coverage from both test classes)
+ */
 public with sharing class GridBuilderHelper {
     public static final String defaultFilterValueSeparator = ';';
     public static final String defaultFilterLogic = 'AND';

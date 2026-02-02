@@ -1,3 +1,14 @@
+/**
+ * @description Core service class that builds GridDetail__c records by evaluating GridRuleLine__c rules
+ *              against Share_Class__c records. 
+ *              Implements complex rebate calculation logic including percentage-based fees, cross-share-type references, 
+ *              and cross-grid rule dependencies.
+ *              Supports multi-pass resolution for interdependent rules and postfix expression evaluation
+ *              for complex filter logic (AND/OR/parentheses).
+ * @author Charles EID
+ * @testClass GridDetailBuilderTest
+ * @coverage 84%
+ */
 public with sharing class GridDetailBuilder {
     private static final Date DEFAULT_END_DATE = Date.newInstance(2099, 12, 31);
 

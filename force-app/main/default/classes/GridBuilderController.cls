@@ -1,3 +1,12 @@
+/**
+ * @description Lightning Web Component controller for the Grid Builder interface. 
+ *              Provides methods for retrieving grid settings, available grids, products, 
+ *                  share classes, and agreement selection page configuration. 
+ *              Works in conjunction with GridBuilderHelper for data filtering and formatting.
+ * @author Charles EID
+ * @testClass GridBuilderControllerTest
+ * @coverage 97%
+ */
 public with sharing class GridBuilderController {
 
     @AuraEnabled(cacheable=true)
@@ -129,22 +138,9 @@ public with sharing class GridBuilderController {
     }
 
     private static String formatValueForSoql(String op, String rawValue, String separator) {
-        String formattedValue;
-        if(String.isBlank(rawValue)) {
-            formattedValue = '\'\'';
-        }
-        //Multi-value operators
-        else if (op == 'IN' || op == 'NOT IN') {
-            formattedValue = GridBuilderHelper.toSoqlInListLiteral(rawValue, separator);
-        }
-        // Single-value operators
-        else if (op == 'LIKE' || op == 'NOT {_} LIKE') {
-            formattedValue = '\'' + String.escapeSingleQuotes(rawValue) + '\'';
-        }
-        else {
-            formattedValue = '\'' + String.escapeSingleQuotes(rawValue) + '\'';
-        }
-        return formattedValue;
+        return (String.isBlank(rawValue))? '\'\'' :
+               (op == 'IN' || op == 'NOT IN')? GridBuilderHelper.toSoqlInListLiteral(rawValue, separator) : //Multi-value operators
+                '\'' + String.escapeSingleQuotes(rawValue) + '\''; // Single-value operators
     }
 
     private static String buildWhereClause(GridBuilderHelper.GridSettings gridSettings, GridCriteria__c criteria, FilterFragments filterFragments, String selectedTeam, List<String> selectedShareTypes) {

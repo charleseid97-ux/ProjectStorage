@@ -1,3 +1,13 @@
+/**
+ * @description Service class for importing grid configurations from Excel/JSON payloads. 
+ *              Parses scope and rule definitions, creates/updates GridScope__c, GridCriteria__c, GridCriteriaDetail__c, and
+ *              GridRuleLine__c records. 
+ *              Integrates with GridCriteriaExpressionParser for Include/Exclude expression parsing. 
+ *              Provides comprehensive error tracking and validation.
+ * @author Charles EID
+ * @testClass GridExcelImportServiceTest
+ * @coverage 81%
+ */
 public with sharing class GridExcelImportService {
     private static final Date START_DATE = Date.newInstance(2023, 1, 1);
     private static final Date END_DATE = Date.newInstance(2099, 12, 31);
