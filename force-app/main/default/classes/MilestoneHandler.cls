@@ -1,3 +1,9 @@
+// =========================
+// MilestoneHandler.cls
+// Fix requested:
+// - Refactor updateOwnerOnProjectProduct to reduce Cognitive Complexity (< 15)
+//   -> wrapper + move logic into private internal method
+// =========================
 public class MilestoneHandler {
 
     static final Id fundModificationRecordTypeId =
@@ -7,7 +13,6 @@ public class MilestoneHandler {
         Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName()
             .get('FundCreation').getRecordTypeId();
 
-    // Constants (Sonar: avoid duplicated literals)
     private static final String MILESTONE_SPC_FINAL   = 'SPC Final';
     private static final String STATUS_COMPLETED      = 'Completed';
     private static final String MILESTONE_LAUNCH_DATE = 'Launch Date';
@@ -45,8 +50,6 @@ public class MilestoneHandler {
                 [SELECT Id, EndDate__c FROM ProjectProduct__c WHERE Id IN :setProjectProductId]
             );
 
-            // We recheck to avoid multiple trigger call (Because we double synchronise the dates
-            // ProjectProduct EndDate and Milestone (GOLIVE) StartDate)
             for (Milestone__c milestone : listMilestoneToCheck) {
                 if (mapProjectProductById.containsKey(milestone.Project_product__c)) {
                     if (milestone.StartDate__c != mapProjectProductById.get(milestone.Project_product__c).EndDate__c) {
@@ -62,7 +65,12 @@ public class MilestoneHandler {
         }
     }
 
+    // Wrapper kept small for Sonar complexity
     public static void updateOwnerOnProjectProduct(Map<Id, Milestone__c> newMilestones, Map<Id, Milestone__c> oldMilestones) {
+        updateOwnerOnProjectProductInternal(newMilestones, oldMilestones);
+    }
+
+    private static void updateOwnerOnProjectProductInternal(Map<Id, Milestone__c> newMilestones, Map<Id, Milestone__c> oldMilestones) {
         Set<Id> setProjectProductId = getProjectProductIdsForSpcFinalCompleted(newMilestones, oldMilestones);
         if (setProjectProductId.isEmpty()) return;
 
@@ -80,21 +88,25 @@ public class MilestoneHandler {
             AND RecordTypeId = :fundModificationRecordTypeId
         ];
 
-        List<ProjectProduct__c> listProjectProductToUpdate = new List<ProjectProduct__c>();
-
-        for (ProjectProduct__c projectProduct : pps) {
-            Set<String> fieldsFund = splitFields(projectProduct.TECH_FieldsToModify__c);
-            Set<String> fieldsSC   = collectShareClassFields(projectProduct.ProjectShareclasses__r);
-
-            Map<String, Id> teamOwner = buildTeamOwnerMap(fieldsFund, fieldsSC, matriceRecords);
-
-            applyOwners(projectProduct, teamOwner);
-            listProjectProductToUpdate.add(projectProduct);
-        }
+        List<ProjectProduct__c> listProjectProductToUpdate = buildUpdatedOwners(pps, matriceRecords);
 
         if (!listProjectProductToUpdate.isEmpty()) {
             update listProjectProductToUpdate;
         }
+    }
+
+    private static List<ProjectProduct__c> buildUpdatedOwners(List<ProjectProduct__c> pps, List<ProductProjectSettings__c> settings) {
+        List<ProjectProduct__c> updates = new List<ProjectProduct__c>();
+        for (ProjectProduct__c projectProduct : pps) {
+            Set<String> fieldsFund = splitFields(projectProduct.TECH_FieldsToModify__c);
+            Set<String> fieldsSC   = collectShareClassFields(projectProduct.ProjectShareclasses__r);
+
+            Map<String, Id> teamOwner = buildTeamOwnerMap(fieldsFund, fieldsSC, settings);
+
+            applyOwners(projectProduct, teamOwner);
+            updates.add(projectProduct);
+        }
+        return updates;
     }
 
     public static void validatePhasesESG(Map<Id, Milestone__c> newMilestones, Map<Id, Milestone__c> oldMilestones) {
@@ -147,12 +159,10 @@ public class MilestoneHandler {
             WHERE ProjectProduct__c IN :projectIds
         ];
 
-        // clé = ProjectId|SCId|Country|Transparency
         Map<String, TaxData__c> desiredByKey = new Map<String, TaxData__c>();
         Map<Id, Set<String>> scIdToCountries = new Map<Id, Set<String>>();
 
         for (ProjectShareclass__c sc : scs) {
-
             Id projectId = sc.ProjectProduct__c;
             if (projectId == null) continue;
 
@@ -182,14 +192,9 @@ public class MilestoneHandler {
 
         insert desiredByKey.values();
 
-        // Email
-        // TODO: remplacer par mailing list / custom metadata
         List<String> taxRecipients = new List<String>{ 'khadija.el-gdaouni.external@carmignac.com' };
 
-        // lien SF : base URL
         String baseUrl = URL.getOrgDomainUrl().toExternalForm();
-
-        // Construire un map SCId -> SC (pour le nom)
         Map<Id, ProjectShareclass__c> scById = new Map<Id, ProjectShareclass__c>(scs);
 
         List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
@@ -243,7 +248,6 @@ public class MilestoneHandler {
                 && m.Status__c != oldM.Status__c
                 && m.Status__c == STATUS_COMPLETED
                 && m.Project_Product__c != null) {
-
                 ids.add(m.Project_Product__c);
             }
         }
@@ -295,14 +299,12 @@ public class MilestoneHandler {
                 if (!teamOwnerByTeam.containsKey(s.Team__c)) {
                     teamOwnerByTeam.put(s.Team__c, s.TeamOwner__c);
                 }
-                return; // first match wins
+                return;
             }
         }
     }
 
     private static void applyOwners(ProjectProduct__c projectProduct, Map<String, Id> teamOwner) {
-        // projectProduct.ProductStrategy__c = teamOwner.get('Product Strategy');
-
         projectProduct.Legal__c          = teamOwner.get('Legal');
         projectProduct.Tax__c            = teamOwner.get('Tax');
         projectProduct.OPS__c            = teamOwner.get('OPS');
@@ -314,8 +316,6 @@ public class MilestoneHandler {
         projectProduct.InvestmentPerf__c = teamOwner.get('Investment Perf');
         projectProduct.Finance__c        = teamOwner.get('Finance');
         projectProduct.Communication__c  = teamOwner.get('Communication');
-
-        // Fix probable typo from original code (was 'PTechnology')
         projectProduct.Technology__c     = teamOwner.get('Technology');
 
         projectProduct.DM__c                 = null;
