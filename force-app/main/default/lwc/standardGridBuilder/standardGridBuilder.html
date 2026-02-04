@@ -14,6 +14,7 @@
                                              primary-team={primaryTeam}
                                              selected-team={selectedTeam}
                                              start-date={agreementStartDate}
+                                             rec-id={recId}
                                              onagreementsnext={handleAgreementsNext}>
                 </c-grid-agreements-selection>
             </template>
@@ -47,11 +48,28 @@
                                                             onchange={handleGridChange}>
                                         </lightning-combobox>
                                     </div>
-                                    <div class="buttonsCss granularColumn">
+                                    <div class="granularColumn">
                                         <lightning-button label="Add to Grid" variant="brand" onclick={handleAddAllToSelection} disabled={addToGridDisabled}></lightning-button>
                                         <lightning-button label="View Recap" variant="neutral" onclick={handleOpenSelectedPanel}></lightning-button>
-                                        <lightning-button label="Back" variant="neutral" onclick={handleBackToAgreementSelection}></lightning-button>
+                                        <template if:true={showBackToAgreementSelectionBtn}>
+                                            <lightning-button label="Back" variant="neutral" onclick={handleBackToAgreementSelection}></lightning-button>
+                                        </template>
                                         <lightning-button label="Next" variant="brand" onclick={handleGridValidation} disabled={validateGridDisabled}></lightning-button>
+                                    </div>
+                                    <div>
+                                        <span class="toggle-label">Grid Update Mode</span>
+                                        <div class="toggle-row">
+                                            <lightning-input type="toggle"
+                                                            variant="label-hidden"
+                                                            message-toggle-active=""
+                                                            message-toggle-inactive=""
+                                                            checked={isAutoGridUpdate}
+                                                            onchange={handleGridUpdateToggle}>
+                                            </lightning-input>
+                                            <span class="message-toggle-label">
+                                                {toggleLabel}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

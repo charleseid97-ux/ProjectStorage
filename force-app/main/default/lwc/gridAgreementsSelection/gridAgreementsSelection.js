@@ -9,6 +9,7 @@ export default class GridAgreementsSelection extends LightningElement {
     @api availableTeams = [];
     @api primaryTeam;
     @api selectedTeam;
+    @api recId;
 
     _options = [];
     optionsByValue = {};
@@ -58,6 +59,17 @@ export default class GridAgreementsSelection extends LightningElement {
         return !(hasAgreements && hasDate && hasTeam);
     }
 
+    get gridAgreementSelectionPageClass() {
+        return 'gridAgreementSelectionPage'+ (this.recId ? ' gridAgreementSelectionPageInvisible' : '');
+    }
+
+    connectedCallback() {
+        if (this.recId) {
+            this.selectedValues = [this.recId];
+            this.handleNext();
+        }
+    }
+
     getOptionsByValue() {
         let optionsByValue = {};
         for (let i = 0; i < (this._options || []).length; i++) {
@@ -67,6 +79,22 @@ export default class GridAgreementsSelection extends LightningElement {
             }
         }
         return optionsByValue;
+    }
+
+    findOptionById(id) {
+        if (!id) return null;
+        // Direct match (same length IDs)
+        if (this.optionsByValue[id]) {
+            return this.optionsByValue[id];
+        }
+        // Fallback: compare first 15 characters (handles 15 vs 18 char ID mismatch)
+        const id15 = id.substring(0, 15);
+        for (const key of Object.keys(this.optionsByValue)) {
+            if (key.substring(0, 15) === id15) {
+                return this.optionsByValue[key];
+            }
+        }
+        return null;
     }
 
     getFinalOptionsList() {
@@ -147,7 +175,8 @@ export default class GridAgreementsSelection extends LightningElement {
         let derivedTeam = null;
         if (!this.effectiveHasTeamSelection) {
             let firstId = (this.selectedValues && this.selectedValues.length) ? this.selectedValues[0] : null;
-            derivedTeam = firstId && this.optionsByValue[firstId] ? this.optionsByValue[firstId].teamCountry : null;
+            let option = this.findOptionById(firstId);
+            derivedTeam = option ? option.teamCountry : '';
         }
 
         this.dispatchEvent(new CustomEvent('agreementsnext', {

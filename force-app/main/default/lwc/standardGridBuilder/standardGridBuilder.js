@@ -25,6 +25,8 @@ export default class StandardGridBuilder extends LightningElement {
     @track agreementStartDate;
     
     // Second Page: Grid Builder
+    @track isAutoGridUpdate = true;
+
     startingLogicType = 'AND';
     filterValueSeparator = ';';
     filterLogicOptions = [{label: 'AND', value:'AND'},{label: 'OR', value: 'OR'}];
@@ -59,6 +61,8 @@ export default class StandardGridBuilder extends LightningElement {
     criteriaDefVal = {grid: null, filterLogicType: '', filterLogicText: '', details: []};
     @track criteria = {};
 
+    recId;
+
     get addToGridDisabled() {
         return !this.selectedGrid || !(this.shareClasses && this.shareClasses.length > 0);
     }
@@ -71,10 +75,20 @@ export default class StandardGridBuilder extends LightningElement {
         return this.showGridBuilderPage || this.showValidationPage;
     }
 
+    get showBackToAgreementSelectionBtn() {
+        return !this.recId;
+    }
+
+    get toggleLabel() {
+        return this.isAutoGridUpdate ? 'Automatic' : 'Manual';
+    }
+
     async connectedCallback() {
         try {
+            this.recId = this.getQueryParam('c__recordId');
             let agreementSettings = await getAgreementSelectionPageSettings({
-                gridBuilderSettingName: this.gridBuilderSettingName
+                gridBuilderSettingName: this.gridBuilderSettingName,
+                agreementId: this.recId
             });
             if (agreementSettings) {
                 if(!agreementSettings.gridBuilderFound) {
@@ -97,6 +111,15 @@ export default class StandardGridBuilder extends LightningElement {
         finally {
             this.isLoading = false;
         }
+    }
+
+    getQueryParam(paramName) {
+        let params = new URLSearchParams(window.location.search);
+        let value = params.get(paramName);
+        if (value) {
+            return value;
+        }
+        return null;
     }
 
     async loadGridSettings() {
@@ -232,6 +255,10 @@ export default class StandardGridBuilder extends LightningElement {
         finally {
             this.isLoading = false;
         }
+    }
+
+    handleGridUpdateToggle(event) {
+        this.isAutoGridUpdate = event.target.checked;
     }
 
     handleGridChange(event) {
@@ -615,7 +642,7 @@ export default class StandardGridBuilder extends LightningElement {
         let alreadySelectedTeam = this.selectedTeam;
         this.selectedAgreements = event.detail?.agreements || [];
         this.agreementStartDate = event.detail?.startDate;
-        this.selectedTeam = event.detail?.team || this.selectedTeam;
+        this.selectedTeam = event.detail?.team;
 
         if((alreadySelectedAgreements != JSON.stringify(this.selectedAgreements)) || (alreadySelectedTeam != this.selectedTeam)) {
             this.resetResults(true);

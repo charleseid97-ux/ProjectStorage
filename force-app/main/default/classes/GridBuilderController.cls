@@ -15,7 +15,7 @@ public with sharing class GridBuilderController {
     }
 
     @AuraEnabled(cacheable=true)
-    public static AgreementSelectionPageSettings getAgreementSelectionPageSettings(String gridBuilderSettingName) {
+    public static AgreementSelectionPageSettings getAgreementSelectionPageSettings(String gridBuilderSettingName, String agreementId) {
         String agreementSelectionMode = 'Single';
         Boolean gridBuilderFound = false;
         List<GridBuilderSetting__mdt> gridSetting = [SELECT Id, AgreementSelectionMode__c
@@ -38,14 +38,15 @@ public with sharing class GridBuilderController {
             userSecondaryTeams.addAll(usr.Secondary_Teams__c.split(';'));
         }
 
+        String agreementQuery = 'SELECT Id, ConventionName__c, Name, Team__c '+
+                                ' FROM Convention__c ';
+        agreementQuery += ' WHERE ' + (agreementId != null? 'Id = :agreementId' : 'Team__c != null AND (Team__c IN :userSecondaryTeams OR Team__c = :userPrimaryTeam)');
+        agreementQuery += ' ORDER BY ConventionName__c ASC, Name ASC, Team__c ASC LIMIT 5000';
+
         List<AgreementWrapper> agreementOptions = new List<AgreementWrapper>();
         Set<String> availableTeams = new Set<String>();
         String agreementLabel;
-        for (Convention__c agreement : [SELECT Id, ConventionName__c, Name, Team__c
-                                        FROM Convention__c
-                                        WHERE Team__c != null
-                                        AND (Team__c IN :userSecondaryTeams OR Team__c = :userPrimaryTeam)
-                                        ORDER BY ConventionName__c ASC, Name ASC, Team__c ASC LIMIT 5000]) {
+        for (Convention__c agreement : Database.query(agreementQuery)) {
             agreementLabel = String.isNotBlank(agreement.ConventionName__c)? agreement.ConventionName__c + ' (' + agreement.Name + ')' : agreement.Name;
             agreementOptions.add(new AgreementWrapper(agreement.Id, agreementLabel, agreement.Team__c));
             availableTeams.add(agreement.Team__c);
