@@ -5,12 +5,14 @@ public class ProjectProductBatchUtilities {
         String investmentStrategy = projectProduct.InvestmentStrategy__c;
         String investmentObjective = projectProduct.InvestmentObjective__c;
         String riskAssociatedMultiPicklist = projectProduct.RiskAssociated__c;
-        String redeemCondition = projectProduct.RedeemCondition__c;
-        String lmt = projectProduct.LMT__c;
+        String intendedRetail = projectProduct.IntentedRetailInvestor__c;
+        String reasonForRHP = projectProduct.ReasonForRHP__c;
+        /*String redeemCondition = projectProduct.RedeemCondition__c;
+        String lmt = projectProduct.LMT__c;*/
 
         if (investmentObjective != '') {
-            Narrative__c investmentObjectiveNarrative = new Narrative__c(Name = 'Investment Objective Description', RecordTypeId = recordTypeId, 
-                                                                        Type__c = 'Investment Objective', SubType__c = 'Description', Language__c = language, 
+            Narrative__c investmentObjectiveNarrative = new Narrative__c(Name = 'Investment Objective PRIIPS', RecordTypeId = recordTypeId, 
+                                                                        Type__c = 'Investment Objective', SubType__c = 'PRIIPS', Language__c = language, 
                                                                         Product__c = productId, Content__c = investmentObjective, StartDate__c = System.today());
             newNarrative.add(investmentObjectiveNarrative);
         }
@@ -30,7 +32,21 @@ public class ProjectProductBatchUtilities {
             newNarrative.add(riskAssociatedMultiPicklistNarrative);
         }
 
-        if (redeemCondition != '') {
+        if (intendedRetail != '') {
+            Narrative__c intendedRetailNarrative = new Narrative__c(Name = 'PRIIPs Intended Retail Investor', RecordTypeId = recordTypeId, 
+                                                                        Type__c = 'PRIIPs', SubType__c = 'INTENDED_RETAIL_INVESTOR', Language__c = language, 
+                                                                        Product__c = productId, Content__c = intendedRetail, StartDate__c = System.today());
+            newNarrative.add(intendedRetailNarrative);
+        }
+
+        if (reasonForRHP != '') {
+            Narrative__c reasonForRHPNarrative = new Narrative__c(Name = 'PRIIPs Reason For PHP', RecordTypeId = recordTypeId, 
+                                                                        Type__c = 'PRIIPs', SubType__c = 'REASON_FOR_PHP', Language__c = language, 
+                                                                        Product__c = productId, Content__c = reasonForRHP, StartDate__c = System.today());
+            newNarrative.add(reasonForRHPNarrative);
+        }
+
+        /*if (redeemCondition != '') {
             Narrative__c redeemConditionNarrative = new Narrative__c(Name = 'PRIIPs Redeem Condition', RecordTypeId = recordTypeId, 
                                                                         Type__c = 'PRIIPs', SubType__c = 'REDEEM_CONDITION', Language__c = language, 
                                                                         Product__c = productId, Content__c = redeemCondition, StartDate__c = System.today());
@@ -42,7 +58,7 @@ public class ProjectProductBatchUtilities {
                                                                         Type__c = 'PRIIPs', SubType__c = 'LMT', Language__c = language, 
                                                                         Product__c = productId, Content__c = lmt, StartDate__c = System.today());
             newNarrative.add(lmtNarrative);
-        }
+        }*/
 
 
         return newNarrative;
@@ -247,7 +263,146 @@ public class ProjectProductBatchUtilities {
         System.debug('[DEBUG] getProjectProductIds returned null');
         return null;
     }
+    
 
+    /**
+     * Retourne le contenu à mettre dans la narrative pour un ProjectProduct et un champ donné.
+     * - pour RiskAssociated__c : utilise getRiskNarrativeContent()
+     * - pour les autres : retourne la valeur brute (ou '' si null)
+     */
+    public static String getContentForField(ProjectProduct__c pp, String fieldApiName) {
+        if (pp == null || String.isBlank(fieldApiName)) return '';
+
+        try {
+            if (fieldApiName == 'RiskAssociated__c') {
+                String raw = (String) pp.get('RiskAssociated__c');
+                return getRiskNarrativeContent(raw);
+            } else {
+                Object val = pp.get(fieldApiName);
+                return val == null ? '' : String.valueOf(val);
+            }
+        } catch (Exception e) {
+            System.debug('[ERROR] getContentForField: ' + e.getMessage());
+            return '';
+        }
+    }
+
+    public static String narrativeKey(Id productId, String language, String typeVal, String subTypeVal) {
+        return String.valueOf(productId) + '|' + language + '|' + typeVal + '|' + subTypeVal;
+    }
+
+    /**
+     * Construit (sans DML) la liste des Narrative__c à upsert pour un champ.
+     * - existingByKey : map des narratives existants indexés par Product|Lang|Type|SubType
+     */
+    public static List<Narrative__c> buildNarrativesForField(
+        Map<Id, String> contentByProductId,
+        Map<Id, String> languageByProductId,
+        Map<String, Narrative__c> existingByKey,
+        String typeVal,
+        String subTypeVal,
+        String nameVal,
+        Id narrativeRecordTypeId,
+        List<String> debugInformation
+    ) {
+        List<Narrative__c> out = new List<Narrative__c>();
+        if (contentByProductId == null || contentByProductId.isEmpty()) return out;
+
+        for (Id prodId : contentByProductId.keySet()) {
+            String content = contentByProductId.get(prodId);
+            if (String.isBlank(content)) continue;
+
+            String lang = languageByProductId.containsKey(prodId) ? languageByProductId.get(prodId) : 'English';
+            String key = narrativeKey(prodId, lang, typeVal, subTypeVal);
+
+            Narrative__c existing = existingByKey.get(key);
+
+            if (existing == null) {
+                Narrative__c n = new Narrative__c();
+                n.RecordTypeId = narrativeRecordTypeId;
+                n.Name = nameVal;
+                n.Type__c = typeVal;
+                n.SubType__c = subTypeVal;
+                n.Language__c = lang;
+                n.Product__c = prodId;
+                n.Content__c = content;
+                n.StartDate__c = System.today();
+                out.add(n);
+
+                debugInformation.add('[NARRATIVE] CREATE ' + typeVal + '/' + subTypeVal + ' for Product ' + prodId + ' (' + lang + ')');
+            } else if (existing.Content__c == null || existing.Content__c != content) {
+                existing.Content__c = content;
+                existing.StartDate__c = System.today();
+                out.add(existing);
+
+                debugInformation.add('[NARRATIVE] UPDATE ' + existing.Id + ' ' + typeVal + '/' + subTypeVal + ' for Product ' + prodId + ' (' + lang + ')');
+            }
+        }
+
+        return out;
+    }
+
+    public static String scNarrativeKey(Id shareClassId, String language, String typeVal, String subTypeVal) {
+        return String.valueOf(shareClassId) + '|' + language + '|' + typeVal + '|' + subTypeVal;
+    }
+
+    /**
+     * Construit (sans DML) des narratives liés à une ShareClass (ShareClass__c),
+     * et conserve Product__c pour le reporting.
+     *
+     * contentByShareClassId : ShareClassId -> contenu
+     * productByShareClassId : ShareClassId -> ProductId
+     */
+    public static List<Narrative__c> buildShareClassNarrativesForField(
+        Map<Id, String> contentByShareClassId,
+        Map<Id, String> productByShareClassId,
+        Map<Id, String> languageByShareClassId,
+        Map<String, Narrative__c> existingByKey,
+        String typeVal,
+        String subTypeVal,
+        String nameVal,
+        Id narrativeRecordTypeId,
+        List<String> debugInformation
+    ) {
+        List<Narrative__c> out = new List<Narrative__c>();
+        if (contentByShareClassId == null || contentByShareClassId.isEmpty()) return out;
+
+        for (Id scId : contentByShareClassId.keySet()) {
+            String content = contentByShareClassId.get(scId);
+            if (String.isBlank(content)) continue;
+
+            String lang = languageByShareClassId.containsKey(scId) ? languageByShareClassId.get(scId) : 'English';
+            String key  = scNarrativeKey(scId, lang, typeVal, subTypeVal);
+
+            Narrative__c existing = existingByKey.get(key);
+
+            if (existing == null) {
+                Narrative__c n = new Narrative__c();
+                n.RecordTypeId  = narrativeRecordTypeId;
+                n.Name          = nameVal;
+                n.Type__c       = typeVal;
+                n.SubType__c    = subTypeVal;
+                n.Language__c   = lang;
+                n.ShareClass__c = scId;
+                //n.Product__c    = productByShareClassId.get(scId); // reporting
+                n.Content__c    = content;
+                n.StartDate__c  = System.today();
+                out.add(n);
+
+                debugInformation.add('[NARRATIVE][SC] CREATE ' + typeVal + '/' + subTypeVal + ' for ShareClass ' + scId + ' (' + lang + ')');
+            } else if (existing.Content__c == null || existing.Content__c != content) {
+                existing.Content__c   = content;
+                existing.StartDate__c = System.today();
+                // si tu veux forcer le reporting à jour :
+                //existing.Product__c   = productByShareClassId.get(scId);
+
+                out.add(existing);
+                debugInformation.add('[NARRATIVE][SC] UPDATE ' + existing.Id + ' ' + typeVal + '/' + subTypeVal + ' for ShareClass ' + scId + ' (' + lang + ')');
+            }
+        }
+
+        return out;
+    }
 
 
     /****** WRAPPER LOGS SOBJECT ******/
