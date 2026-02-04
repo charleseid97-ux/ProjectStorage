@@ -168,6 +168,7 @@ public class ProjectProductBatchController {
                 }
             }
             List<Narrative__c> priipsShareclassNarratives = new List<Narrative__c>();
+            List<TaxData__c> taxDataToUpdate = new List<TaxData__c>();
 
             for (ProjectProduct__c projectProduct : listProjectProductWFields) {
                 Product__c insertedProduct = mapProjectByProductId.get(projectProduct.Id);
@@ -199,7 +200,7 @@ public class ProjectProductBatchController {
                     addSCNarrativeIfNotBlank(
                         priipsShareclassNarratives,'PRIIPs Share Class Investment Objective',
                         narrativeRecordTypeId,'PRIIPs', 'Share_Class_Investment_Objective',
-                        language, productId, scId, psc.ShareClassInvestmentObjective__c
+                        language, productId, scId, psc.ShareclassInvestmentObjective__c
                     );
                     addSCNarrativeIfNotBlank(
                         priipsShareclassNarratives,'PRIIPs Performance fee UCITS KIID',
@@ -212,12 +213,24 @@ public class ProjectProductBatchController {
                         language, productId, scId, psc.PerformanceFeeEPTKID__c
                     );
                 }
+
+                if (projectProduct.Tax_Data__r == null) continue;
+                for (TaxData__c td : projectProduct.Tax_Data__r) {
+                    if (td.Product__c == null) {
+                        td.Product__c = productId;
+                    }
+                    if (td.ShareClass__c == null) {
+                        td.ShareClass__c = mapProjSCIdToSCId.get(td.ProjectShareclass__c);
+                    }
+                    taxDataToUpdate.add(td);
+                }
             }
 
             List<SObject> toUpsert = new List<SObject>();
             toUpsert.addAll(priipsShareclassNarratives);
             toUpsert.addAll(listFundManagerAssignmentToUpdate);
             toUpsert.addAll(listNarrative);
+            toUpsert.addAll(taxDataToUpdate);
 
             if (!toUpsert.isEmpty()) {
                 ProjectProductBatchUtilities.UpsertDebugResult result = ProjectProductBatchUtilities.logUpsertResults(toUpsert);
@@ -250,9 +263,16 @@ public class ProjectProductBatchController {
         }
     }
 
-    public static void updateFundShareclassModification(List<ProjectProduct__c> listMods, List<String> debugInformation, List<String> errorMessages, Integer[] recordsFailed,List<Id> insertedRecords) {
+public static void updateFundShareclassModification(
+    List<ProjectProduct__c> listMods,
+    List<String> debugInformation,
+    List<String> errorMessages,
+    Integer[] recordsFailed,
+    List<Id> insertedRecords
+) {
         debugInformation.add('[INIT] Fund/Shareclass modification - ' + listMods.size() + ' ProjectProduct(s) to process.');
         Savepoint sp = Database.setSavepoint();
+
         try {
             List<Product__c> productsToUpdate = new List<Product__c>();
             List<Share_Class__c> shareclassesToUpdate = new List<Share_Class__c>();
@@ -267,40 +287,94 @@ public class ProjectProductBatchController {
                 return;
             }
             
-            // --- NEW: préparation sync narrative Investment Objective ---
-            // productId -> (new InvestmentObjective value + language)
-            Map<Id, String> invObjByProductId = new Map<Id, String>();
-            Map<Id, String> languageByProductId = new Map<Id, String>();
-            // --- NEW
+            // --- Préparations pour les synchronisations de narratives ---
+            Map<Id, String> mapInvObj = new Map<Id, String>();
+            Map<Id, String> mapRisk = new Map<Id, String>();
+            Map<Id, String> mapIntendedRetail = new Map<Id, String>();
+            Map<Id, String> mapReasonForRHP = new Map<Id, String>();
+            Map<Id, String> languageByProductId = new Map<Id, String>();      // ProductId -> Language ('French'|'English')
+
+            // =====================
+            // SHARECLASS NARRATIVES (PRIIPs) - single SOQL + single UPSERT
+            // =====================
+            Map<Id, String> scLangById = new Map<Id, String>();      // ShareClassId -> Language
+            Map<Id, Id>     productByScId = new Map<Id, Id>();       // ShareClassId -> ProductId (reporting)
+
+            Map<Id, String> mapSCInvObj = new Map<Id, String>();     // ShareClassId -> content
+            Map<Id, String> mapSCPerfUCITS = new Map<Id, String>();
+            Map<Id, String> mapSCPerfEPT = new Map<Id, String>();
 
             for (ProjectProduct__c pp : listWithFields) {
                 Product__c product = productMap.get(pp.Product__c);
-                if (!String.isEmpty(pp.TECH_FieldsToModify__c)) {
-                    for (String field : pp.TECH_FieldsToModify__c.split(';')) {
-                        if (!EXCLUDED_FIELDS.contains(field)) {
-                            try {
+
+                Id prodId = pp.Product__c;
+                String lang = (pp.DomiciledIn__c == 'FR') ? 'French' : 'English';
+                languageByProductId.put(prodId, lang);
+
+                List<String> fieldsToModify = new List<String>();
+                if (!String.isBlank(pp.TECH_FieldsToModify__c)) {
+                    for (String f : pp.TECH_FieldsToModify__c.split(';')) {
+                        if (f != null) fieldsToModify.add(f.trim());
+                    }
+                }
+
+                if (fieldsToModify.contains('InvestmentObjective__c')) {
+                    mapInvObj.put(prodId, ProjectProductBatchUtilities.getContentForField(pp, 'InvestmentObjective__c'));
+                }
+                if (fieldsToModify.contains('RiskAssociated__c')) {
+                    mapRisk.put(prodId, ProjectProductBatchUtilities.getContentForField(pp, 'RiskAssociated__c'));
+                }
+                if (fieldsToModify.contains('IntentedRetailInvestor__c')) {
+                    mapIntendedRetail.put(prodId, ProjectProductBatchUtilities.getContentForField(pp, 'IntentedRetailInvestor__c'));
+                }
+                if (fieldsToModify.contains('ReasonForRHP__c')) {
+                    mapReasonForRHP.put(prodId, ProjectProductBatchUtilities.getContentForField(pp, 'ReasonForRHP__c'));
+                }
+
+                // Appliquer les modifications sur le Product (comme avant)
+                for (String field : fieldsToModify) {
+                    if (String.isBlank(field) || EXCLUDED_FIELDS.contains(field)) continue;                            
+                    try {
                                 product.put(field, pp.get(field));
                             } catch (Exception e) {
                                 errorMessages.add('[ERROR] Field skipped: ' + field + ' → ' + e.getMessage());
                                 recordsFailed[0]++;
-                            }
                         }
                     }
                     productsToUpdate.add(product);
-                    
-                    // --- NEW: si InvestmentObjective__c est dans les champs à modifier ---
-                    if (pp.TECH_FieldsToModify__c.contains('InvestmentObjective__c')) {
-                        String lang = (pp.DomiciledIn__c == 'FR') ? 'French' : 'English';
-                        languageByProductId.put(product.Id, lang);
-                        invObjByProductId.put(product.Id, (String) pp.get('InvestmentObjective__c'));
-                        system.debug('[NARRATIVE] InvestmentObjective__c flagged for sync on Product ' + product.Id + ' (' + lang + ')');
-                    }
-                    // --- NEW
-                }
+                
 
                 for (ProjectShareclass__c sc : pp.ProjectShareclasses__r) {
                     if (sc.TECH_ShareClass__c != null && shareclassMap.containsKey(Id.valueOf(sc.TECH_ShareClass__c))) {
                         Share_Class__c scToUpdate = shareclassMap.get(Id.valueOf(sc.TECH_ShareClass__c));
+                        
+                        Id scId = scToUpdate.Id;
+
+                        scLangById.put(scId, lang);
+                        productByScId.put(scId, prodId);
+
+                        Set<String> scFieldsToModify = new Set<String>();
+                        if (!String.isBlank(sc.TECH_FieldsToModify__c)) {
+                            for (String f : sc.TECH_FieldsToModify__c.split(';')) {
+                                if (!String.isBlank(f)) scFieldsToModify.add(f.trim());
+                            }
+                        }
+                        // 1) ShareClassInvestmentObjective__c
+                        if (scFieldsToModify.contains('ShareclassInvestmentObjective__c') && !String.isBlank(sc.ShareclassInvestmentObjective__c)) {
+                            mapSCInvObj.put(scId, sc.ShareclassInvestmentObjective__c);
+                        }
+
+                        // 2) PerformanceFeeUCITSKIID__c
+                        if (scFieldsToModify.contains('PerformanceFeeUCITSKIID__c') && !String.isBlank(sc.PerformanceFeeUCITSKIID__c)) {
+                            mapSCPerfUCITS.put(scId, sc.PerformanceFeeUCITSKIID__c);
+                        }
+
+                        // 3) PerformanceFeeEPTKID__c
+                        if (scFieldsToModify.contains('PerformanceFeeEPTKID__c') && !String.isBlank(sc.PerformanceFeeEPTKID__c)) {
+                            mapSCPerfEPT.put(scId, sc.PerformanceFeeEPTKID__c);
+                        }
+
+
                         scToUpdate.ESMAApplicationStartDate__c = pp.EndDate__c;
                         if (!String.isEmpty(sc.TECH_FieldsToModify__c)) {
                             for (String field : sc.TECH_FieldsToModify__c.split(';')) {
@@ -317,83 +391,136 @@ public class ProjectProductBatchController {
                 }
             }
 
+
+            // --- DML: Products ---
             if (!productsToUpdate.isEmpty()) {
                 update productsToUpdate;
-                debugInformation.add('[UPDATE] Products updated: ' + productsToUpdate);
+                debugInformation.add('[UPDATE] Products updated: ' + productsToUpdate.size());
+            }
+            
+            // 2) Union des ProductIds à considérer
+            Set<Id> prodIdsForNarratives = new Set<Id>();
+            prodIdsForNarratives.addAll(mapInvObj.keySet());
+            prodIdsForNarratives.addAll(mapRisk.keySet());
+            prodIdsForNarratives.addAll(mapIntendedRetail.keySet());
+            prodIdsForNarratives.addAll(mapReasonForRHP.keySet());
+
+            if (!prodIdsForNarratives.isEmpty()) {
+                // 3) RecordType Narrative
+                Id narrativeRecordTypeId = Schema.SObjectType.Narrative__c
+                    .getRecordTypeInfosByDeveloperName().get('Narrative')
+                    .getRecordTypeId();
+
+                // 4) 1 seule query pour les 4 couples Type/SubType
+                List<Narrative__c> existingNarratives = [
+                    SELECT Id, Product__c, Language__c, Type__c, SubType__c, Content__c
+                    FROM Narrative__c
+                    WHERE Product__c IN :prodIdsForNarratives
+                    AND (
+                            (Type__c = 'Investment Objective' AND SubType__c = 'PRIIPS')
+                        OR (Type__c = 'Risk'               AND SubType__c = 'Main Risk of the Fund')
+                        OR (Type__c = 'PRIIPs'             AND SubType__c = 'INTENDED_RETAIL_INVESTOR')
+                        OR (Type__c = 'PRIIPs'             AND SubType__c = 'REASON_FOR_PHP')
+                    )
+                ];
+
+                // 5) Index existing par Product|Lang|Type|SubType
+                Map<String, Narrative__c> existingByKey = new Map<String, Narrative__c>();
+                for (Narrative__c n : existingNarratives) {
+                    String key = ProjectProductBatchUtilities.narrativeKey(n.Product__c, n.Language__c, n.Type__c, n.SubType__c);
+                    existingByKey.put(key, n);
+                }
+
+                // 6) Construire une SEULE liste globale à upsert
+                List<Narrative__c> narrativesToUpsert = new List<Narrative__c>();
+
+                narrativesToUpsert.addAll(ProjectProductBatchUtilities.buildNarrativesForField(
+                    mapInvObj, languageByProductId, existingByKey,
+                    'Investment Objective', 'PRIIPS', 'Investment Objective PRIIPS',
+                    narrativeRecordTypeId, debugInformation
+                ));
+
+                narrativesToUpsert.addAll(ProjectProductBatchUtilities.buildNarrativesForField(
+                    mapRisk, languageByProductId, existingByKey,
+                    'Risk', 'Main Risk of the Fund', 'Risk Main Risk of the Fund',
+                    narrativeRecordTypeId, debugInformation
+                ));
+
+                narrativesToUpsert.addAll(ProjectProductBatchUtilities.buildNarrativesForField(
+                    mapIntendedRetail, languageByProductId, existingByKey,
+                    'PRIIPs', 'INTENDED_RETAIL_INVESTOR', 'PRIIPs Intended Retail Investor',
+                    narrativeRecordTypeId, debugInformation
+                ));
+
+                narrativesToUpsert.addAll(ProjectProductBatchUtilities.buildNarrativesForField(
+                    mapReasonForRHP, languageByProductId, existingByKey,
+                    'PRIIPs', 'REASON_FOR_PHP', 'PRIIPs Reason For PHP',
+                    narrativeRecordTypeId, debugInformation
+                ));
+
+                // 7) 1 seul DML
+                if (!narrativesToUpsert.isEmpty()) {
+                    upsert narrativesToUpsert;
+                    debugInformation.add('[UPSERT] Narratives upserted (single DML): ' + narrativesToUpsert.size());
+                }
             }
 
-            // ====== NEW: sync Narrative Investment Objective après update Product ======
-            if (!invObjByProductId.isEmpty()) {
-                Id narrativeRecordTypeId = Schema.SObjectType.Narrative__c
-                    .getRecordTypeInfosByDeveloperName()
-                    .get('Narrative')
-                    .getRecordTypeId();
-    
-                // Query narratives existants (on filtre Type + Product + Language)
-                // (SubType 'Description' est cohérent avec createNarratives)
-                List<Narrative__c> existing = [
-                    SELECT Id, Product__c, Language__c, Type__c, SubType__c
-                    FROM Narrative__c
-                    WHERE Product__c IN :invObjByProductId.keySet()
-                      AND Type__c = 'Investment Objective'
-                      //AND SubType__c = 'Description'
-                      AND Language__c IN :new Set<String>(languageByProductId.values())
-                ];
-    
-                // indexer par clé ProductId|Language
-                Map<String, Narrative__c> existingByKey = new Map<String, Narrative__c>();
-                for (Narrative__c n : existing) {
-                    system.debug('Narrative Id '+ n.Id);
-                    system.debug('Narrative Product__c '+ n.Product__c);
-                    system.debug('Narrative Language__c '+ n.Language__c);
-                    existingByKey.put(String.valueOf(n.Product__c) + '|' + n.Language__c, n);
-                }
-    
-                List<Narrative__c> narrativesToUpsert = new List<Narrative__c>();
-    
-                for (Id prodId : invObjByProductId.keySet()) {
-                    String lang = languageByProductId.get(prodId);
-                    String content = invObjByProductId.get(prodId);
-    
-                    if (String.isBlank(content)) {
-                        debugInformation.add('[NARRATIVE] InvestmentObjective__c is blank for Product ' + prodId + ' → skip narrative sync.');
-                        continue;
-                    }
-    
-                    String key = String.valueOf(prodId) + '|' + lang;
-                    system.debug('key '+ key);
-                    Narrative__c n = existingByKey.get(key);
-    
-                    if (n == null) {
-                        system.debug('null ');
-                        n = new Narrative__c();
-                        n.RecordTypeId = narrativeRecordTypeId;
-                        n.Name = 'Investment Objective Description';
-                        n.Type__c = 'Investment Objective';
-                        n.SubType__c = 'Description';
-                        n.Language__c = lang;
-                        n.Product__c = prodId;
-                        debugInformation.add('[NARRATIVE] Create Investment Objective narrative for Product ' + prodId + ' (' + lang + ')');
-                    } else {
-                        system.debug('not null ');
-                        debugInformation.add('[NARRATIVE] Update Investment Objective narrative ' + n.Id + ' for Product ' + prodId + ' (' + lang + ')');
-                    }
-    
-                    n.Content__c = content;
-                    n.StartDate__c = System.today();
-    				system.debug('id '+n.Id);
-                    narrativesToUpsert.add(n);
-                }
-    
-                if (!narrativesToUpsert.isEmpty()) {
-                    update narrativesToUpsert;
-                }
-            }
-			// --- NEW
-            
+            // --- DML: Shareclasses ---
             if (!shareclassesToUpdate.isEmpty()) {
                 update shareclassesToUpdate;
-                debugInformation.add('[UPDATE] Shareclasses updated: ' + shareclassesToUpdate);
+                debugInformation.add('[UPDATE] Shareclasses updated: ' + shareclassesToUpdate.size());
+            }
+
+            // Union des ShareClassIds concernés
+            Set<Id> scIdsForNarratives = new Set<Id>();
+            scIdsForNarratives.addAll(mapSCInvObj.keySet());
+            scIdsForNarratives.addAll(mapSCPerfUCITS.keySet());
+            scIdsForNarratives.addAll(mapSCPerfEPT.keySet());
+
+            if (!scIdsForNarratives.isEmpty()) {
+                Id narrativeRecordTypeId = Schema.SObjectType.Narrative__c
+                    .getRecordTypeInfosByDeveloperName().get('Narrative')
+                    .getRecordTypeId();
+
+                // 1 SOQL pour les 3 couples Type/SubType (PRIIPs)
+                List<Narrative__c> existingSCNarratives = [
+                    SELECT Id, ShareClass__c, Language__c, Type__c, SubType__c, Content__c, Product__c
+                    FROM Narrative__c
+                    WHERE ShareClass__c IN :scIdsForNarratives
+                    AND Type__c = 'PRIIPs'
+                    AND SubType__c IN ('Share_Class_Investment_Objective', 'Performance_fee_UCITS_KIID', 'Performance_fee_EPT/KID')
+                ];
+
+                Map<String, Narrative__c> existingByKey = new Map<String, Narrative__c>();
+                for (Narrative__c n : existingSCNarratives) {
+                    String key = ProjectProductBatchUtilities.scNarrativeKey(n.ShareClass__c, n.Language__c, n.Type__c, n.SubType__c);
+                    existingByKey.put(key, n);
+                }
+
+                List<Narrative__c> narrativesToUpsert = new List<Narrative__c>();
+
+                narrativesToUpsert.addAll(ProjectProductBatchUtilities.buildShareClassNarrativesForField(
+                    mapSCInvObj, productByScId, scLangById, existingByKey,
+                    'PRIIPs', 'Share_Class_Investment_Objective', 'PRIIPs Share Class Investment Objective',
+                    narrativeRecordTypeId, debugInformation
+                ));
+
+                narrativesToUpsert.addAll(ProjectProductBatchUtilities.buildShareClassNarrativesForField(
+                    mapSCPerfUCITS, productByScId, scLangById, existingByKey,
+                    'PRIIPs', 'Performance_fee_UCITS_KIID', 'PRIIPs Performance fee UCITS KIID',
+                    narrativeRecordTypeId, debugInformation
+                ));
+
+                narrativesToUpsert.addAll(ProjectProductBatchUtilities.buildShareClassNarrativesForField(
+                    mapSCPerfEPT, productByScId, scLangById, existingByKey,
+                    'PRIIPs', 'Performance_fee_EPT/KID', 'PRIIPs Performance fee EPT/KID',
+                    narrativeRecordTypeId, debugInformation
+                ));
+
+                if (!narrativesToUpsert.isEmpty()) {
+                    upsert narrativesToUpsert; // ✅ 1 seul DML
+                    debugInformation.add('[UPSERT][SC] Narratives upserted (single DML): ' + narrativesToUpsert.size());
+                }
             }
 
             debugInformation.add('[END] Fund/Shareclass modification complete.');
@@ -406,8 +533,8 @@ public class ProjectProductBatchController {
             debugInformation.add('[ROLLBACK] ⚠️ Transaction rolled back. Previous logs invalid.');
             debugInformation.add('[ROLLBACK] Reason: ' + e.getMessage());
         }
-
     }
+
 
     public static void createShareclasses(List<ProjectProduct__c> listShareclassCreation, List<String> debugInformation, List<String> errorMessages, Integer[] recordsFailed, List<Id> insertedRecords) {
         debugInformation.add('[INIT] Shareclass creation for ' + listShareclassCreation.size() + ' ProjectProduct(s).');
@@ -431,11 +558,21 @@ public class ProjectProductBatchController {
                     debugInformation.add('[PREPARE] New Shareclass from ProjectShareclass: ' + sc.Id);
                 }
             }
+             Map<Id,Id> mapProjSCIdToSCId = new Map<Id,Id>();
+            Id narrativeRecordTypeId = Schema.SObjectType.Narrative__c
+                    .getRecordTypeInfosByDeveloperName().get('Narrative')
+                    .getRecordTypeId();
 
             if (!listNewShareClass.isEmpty()) {
                 ProjectProductBatchUtilities.UpsertDebugResult result = ProjectProductBatchUtilities.logUpsertResults(listNewShareClass);
                 debugInformation.add('[UPSERT] ' + result.successRecords.size() + ' Shareclasses created.');
                 for (SObject currentSObject : result.successRecords.values()) {
+                    Share_Class__c sc = (Share_Class__c) currentSObject;
+                    Id projScId = (Id) sc.get('ProjectShareclass__c'); 
+                    if (projScId != null) {
+                        mapProjSCIdToSCId.put(projScId, sc.Id);
+                    }
+
                     String objectType = currentSObject.getSObjectType().getDescribe().getName();
                     debugInformation.add('[UPSERTED] Type: ' + objectType + ' (Id: ' + currentSObject.get('Id') + ')');
                     insertedRecords.add((String)currentSObject.get('Id') );
@@ -445,6 +582,76 @@ public class ProjectProductBatchController {
                     errorMessages.add('[ERROR] Shareclass insert failed: ' + err);
                     recordsFailed[0]++;
                     throw new DmlException('Shareclass insert failed: ' + err);
+                }
+            }
+
+            List<TaxData__c> taxDataToUpdate = new List<TaxData__c>();
+
+            for (ProjectProduct__c pp : projectProducts) {
+                Product__c product = productMap.get(pp.Product__c);
+                
+                if (pp.Tax_Data__r == null) continue;
+                for (TaxData__c td : pp.Tax_Data__r) {
+                    if (td.Product__c == null) {
+                        td.Product__c = product.Id;
+                    }
+                    if (td.ShareClass__c == null) {
+                        td.ShareClass__c = mapProjSCIdToSCId.get(td.ProjectShareclass__c);
+                    }
+                    taxDataToUpdate.add(td);
+                }
+            }
+
+            List<Narrative__c> priipsShareclassNarratives = new List<Narrative__c>();
+
+            for (ProjectProduct__c pp : projectProducts) {
+                Product__c product = productMap.get(pp.Product__c);
+                Id productId = product.Id;
+                String language = (pp.DomiciledIn__c == 'FR') ? 'French' : 'English';
+                        
+                for (ProjectShareclass__c psc : pp.ProjectShareclasses__r) {
+                    // retrouver l'Id de la Share_Class créée pour ce ProjectShareclass
+                    Id scId = mapProjSCIdToSCId.get(psc.Id);
+            
+                    // 1 Narrative par champ RTF non vide
+                    addSCNarrativeIfNotBlank(
+                        priipsShareclassNarratives,'PRIIPs Share Class Investment Objective',
+                        narrativeRecordTypeId,'PRIIPs', 'Share_Class_Investment_Objective',
+                        language, productId, scId, psc.ShareclassInvestmentObjective__c
+                    );
+                    addSCNarrativeIfNotBlank(
+                        priipsShareclassNarratives,'PRIIPs Performance fee UCITS KIID',
+                        narrativeRecordTypeId, 'PRIIPs', 'Performance_fee_UCITS_KIID',
+                        language, productId, scId, psc.PerformanceFeeUCITSKIID__c
+                    );
+                    addSCNarrativeIfNotBlank(
+                        priipsShareclassNarratives,'PRIIPs Performance fee EPT/KID',
+                        narrativeRecordTypeId, 'PRIIPs', 'Performance_fee_EPT/KID',
+                        language, productId, scId, psc.PerformanceFeeEPTKID__c
+                    );
+                }
+            }
+            List<SObject> toUpsert = new List<SObject>();
+            toUpsert.addAll(priipsShareclassNarratives);
+            toUpsert.addAll(taxDataToUpdate);
+
+            if (!toUpsert.isEmpty()) {
+                ProjectProductBatchUtilities.UpsertDebugResult result = ProjectProductBatchUtilities.logUpsertResults(toUpsert);
+                debugInformation.add('[UPSERT] ' + result.successRecords.size() + ' records upserted.');
+                for (SObject currentSObject : result.successRecords.values()) {
+                    String objectType = currentSObject.getSObjectType().getDescribe().getName();
+                    insertedRecords.add((String)currentSObject.get('Id'));
+
+                    debugInformation.add('[UPSERTED] Type: ' + objectType + ' (Id: ' + currentSObject.get('Id') + ')');
+                }
+                if (!result.errorMap.isEmpty()) {
+                    errorMessages.add('[ERROR] ' + result.errorMap.size() + ' upserts failed.');
+                    for (String err : result.errorMap.values()) {
+                        errorMessages.add(err);
+                        recordsFailed[0]++; 
+                        throw new DmlException('[ERROR] ' + result.errorMap.size() + ' upserts failed.');
+
+                    }
                 }
             }
 
@@ -478,7 +685,7 @@ public class ProjectProductBatchController {
         n.Type__c        = typeVal;         // 'PRIIPs'
         n.SubType__c     = subtypeVal;      // ex: 'Performance fee UCITS KIID'
         n.Language__c    = language;
-        n.Product__c     = productId;       // utile pour le reporting
+        //n.Product__c     = productId;       // utile pour le reporting
         n.ShareClass__c  = shareClassId;    // lien vers la SC créée
         n.Content__c     = richText;        // <-- remplace par l'API du champ RTF sur Narrative si différent
         n.StartDate__c   = System.today();
