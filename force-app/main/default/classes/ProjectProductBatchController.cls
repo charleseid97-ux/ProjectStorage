@@ -2,66 +2,50 @@ public class ProjectProductBatchController {
 
     private static final Set<String> EXCLUDED_FIELDS = new Set<String>{ 'Name' };
 
-    // =========================
-    // Sonar constants (no duplicated literals)
-    // =========================
-    private static final String NAME_PRIIPS_SC_INVESTMENT_OBJECTIVE = 'PRIIPs Share Class Investment Objective';
-    private static final String NAME_PRIIPS_PERF_FEE_UCITS_KIID      = 'PRIIPs Performance fee UCITS KIID';
-    private static final String NAME_PRIIPS_PERF_FEE_EPT_KID         = 'PRIIPs Performance fee EPT/KID';
-
-    private static final String SUBTYPE_PERF_FEE_EPT_KID             = 'Performance_fee_EPT/KID';
-    private static final String SUBTYPE_PERF_FEE_UCITS_KIID          = 'Performance_fee_UCITS_KIID';
-    private static final String SUBTYPE_SC_INV_OBJ                   = 'Share_Class_Investment_Objective';
-
-    private static final String LOG_UPSERT                           = '[UPSERT] ';
-    private static final String LOG_UPSERTED_TYPE                     = '[UPSERTED] Type: ';
-    private static final String LOG_ERROR                             = '[ERROR] ';
-    private static final String LOG_UPSERTS_FAILED_SUFFIX             = ' upserts failed.';
-
     public static Boolean canProcessProjectProduct(ProjectProduct__c pp, List<String> debugInformation, List<String> errorMessages) {
-        Boolean isValid = true;
+    Boolean isValid = true;
 
-        // Condition : Milestone "Launch Date" = Completed
-        Boolean milestoneCompleted = false;
-        if (pp.Milestones__r != null && !pp.Milestones__r.isEmpty()) {
-            milestoneCompleted = (pp.Milestones__r[0].Status__c == 'Completed');
-        }
-
-        // Condition: Tous les Project_Product_Childs__r.Status__c = Completed
-        // On requête dans la query avant le execute, si la liste est vide c'est que tout les records sont completed --> (SELECT Id, Status__c FROM Project_Product_Childs__r WHERE Status__c != 'Completed')
-        Boolean allChildCompleted = true;
-        if (pp.Project_Product_Childs__r != null && !pp.Project_Product_Childs__r.isEmpty()) {
-            allChildCompleted = false;
-        }
-
-        if (!milestoneCompleted) {
-            String msg = LOG_ERROR + 'ProjectProduct ' + pp.Id + ' Milestone "Launch Date" not Completed.';
-            debugInformation.add(msg);
-            errorMessages.add(msg);
-            isValid = false;
-        }
-
-        if (!allChildCompleted) {
-            System.debug('pp.Project_Product_Childs__r:' + pp.Project_Product_Childs__r);
-            String msg = LOG_ERROR + 'ProjectProduct ' + pp.Id + ' has incomplete Project Product Childs.';
-            debugInformation.add(msg);
-            errorMessages.add(msg);
-            isValid = false;
-        }
-
-        if (isValid) {
-            debugInformation.add('[CHECK PASSED] ProjectProduct ' + pp.Id + ' ready for processing.');
-        } else {
-            debugInformation.add('[SKIP] ProjectProduct ' + pp.Id + ' will not be processed.');
-        }
-
-        return isValid;
+    // Condition : Milestone "Launch Date" = Completed
+    Boolean milestoneCompleted = false;
+    if(pp.Milestones__r != null && !pp.Milestones__r.isEmpty()) {
+        milestoneCompleted = (pp.Milestones__r[0].Status__c == 'Completed');
     }
 
-    public static void createFundShareclass(List<ProjectProduct__c> listFundCreation, List<String> debugInformation, List<String> errorMessages, Integer[] recordsFailed, List<Id> insertedRecords) {
+    // Condition: Tous les Project_Product_Childs__r.Status__c = Completed
+    // On requête dans la query avant le execute, si la liste est vide c'est que tout les records sont completed --> (SELECT Id, Status__c FROM Project_Product_Childs__r WHERE Status__c != 'Completed')
+    Boolean allChildCompleted = true;
+    if(pp.Project_Product_Childs__r != null && !pp.Project_Product_Childs__r.isEmpty()) {
+        allChildCompleted = false;
+    }
+
+    if (!milestoneCompleted) {
+        String msg = '[ERROR] ProjectProduct ' + pp.Id + ' Milestone "Launch Date" not Completed.';
+        debugInformation.add(msg);
+        errorMessages.add(msg);
+        isValid = false;
+    }
+
+    if (!allChildCompleted) {
+        System.debug('pp.Project_Product_Childs__r:' + pp.Project_Product_Childs__r);
+        String msg = '[ERROR] ProjectProduct ' + pp.Id + ' has incomplete Project Product Childs.';
+        debugInformation.add(msg);
+        errorMessages.add(msg);
+        isValid = false;
+    }
+
+    if (isValid) {
+        debugInformation.add('[CHECK PASSED] ProjectProduct ' + pp.Id + ' ready for processing.');
+    } else {
+        debugInformation.add('[SKIP] ProjectProduct ' + pp.Id + ' will not be processed.');
+    }
+
+    return isValid;
+}
+
+    public static void createFundShareclass(List<ProjectProduct__c> listFundCreation, List<String> debugInformation, List<String> errorMessages, Integer[] recordsFailed,List<Id> insertedRecords) {
         debugInformation.add('[INIT] Fund/Shareclass creation - ' + listFundCreation.size() + ' ProjectProduct(s) to process.');
         Savepoint sp = Database.setSavepoint();
-        try {
+        try{
             Id fundRecordTypeId = Schema.SObjectType.Product__c.getRecordTypeInfosByDeveloperName().get('Fund').getRecordTypeId();
             List<ProjectProduct__c> listProjectProductWFields = ProjectProductBatchUtilities.getProjectProduct(listFundCreation);
 
@@ -72,7 +56,7 @@ public class ProjectProductBatchController {
             Map<Id, Product__c> mapProjectByProductId = new Map<Id, Product__c>();
 
             if (listProjectProductWFields == null || listProjectProductWFields.isEmpty()) {
-                String msg = LOG_ERROR + 'No ProjectProduct enriched. Skipping creation.';
+                String msg = '[ERROR] No ProjectProduct enriched. Skipping creation.';
                 errorMessages.add(msg);
                 debugInformation.add(msg);
                 recordsFailed[0]++;
@@ -95,15 +79,16 @@ public class ProjectProductBatchController {
             if (!listNewProduct.isEmpty()) {
                 ProjectProductBatchUtilities.UpsertDebugResult result = ProjectProductBatchUtilities.logUpsertResults(listNewProduct);
                 for (SObject sObj : result.successRecords.values()) {
-                    Product__c prod = (Product__c) sObj;
+                    Product__c prod = (Product__c)sObj;
                     insertedProducts.put(prod.Id, prod);
                     insertedRecords.add(prod.Id);
                     debugInformation.add('[SUCCESS] Product inserted: ' + prod.Name + ' (Id: ' + prod.Id + ')');
                 }
                 for (String err : result.errorMap.values()) {
-                    errorMessages.add(LOG_ERROR + 'Product insert failed: ' + err);
-                    recordsFailed[0]++;
-                    throw new DmlException(LOG_ERROR + 'Product insert failed: ' + err);
+                    errorMessages.add('[ERROR] Product insert failed: ' + err);
+                    recordsFailed[0]++; 
+                    throw new DmlException('[ERROR] Product insert failed: ' + err);
+
                 }
             }
 
@@ -128,8 +113,9 @@ public class ProjectProductBatchController {
                     newSC.ProjectShareclass__c = sc.Id;
                     Decimal mgmtFees = sc.EffectiveManagementFees__c != null ? sc.EffectiveManagementFees__c : 0;
                     Decimal serviceFees = sc.EffectiveServiceFees__c != null ? sc.EffectiveServiceFees__c : 0;
-
+                    
                     newSC.OngoingCostsExante__c = mgmtFees + serviceFees;
+                    //newSC.OngoingCostsExante__c = sc.EffectiveManagementFees__c + sc.EffectiveServiceFees__c;
                     listNewShareClass.add(newSC);
                     debugInformation.add('[PREPARE] Shareclass from ProjectShareclass ' + sc.Id + ' prepared.');
                 }
@@ -141,7 +127,7 @@ public class ProjectProductBatchController {
                     debugInformation.add('[PREPARE] Fund Manager Assignment linked to product ' + productId);
                 }
 
-                // THIRD PARTIES
+                //THIRD PARTIES
                 for (Narrative__c projectThirdParty : projectProduct.Narratives__r) {
                     projectThirdParty.Product__c = productId;
                     listNarrative.add(projectThirdParty);
@@ -155,17 +141,16 @@ public class ProjectProductBatchController {
                 );
                 listNarrative.addAll(autoNarratives);
             }
-
             Map<Id, Id> mapProjSCIdToSCId = new Map<Id, Id>(); // ProjectShareclass__c.Id -> Share_Class__c.Id
 
             if (!listNewShareClass.isEmpty()) {
                 ProjectProductBatchUtilities.UpsertDebugResult scResult =
                     ProjectProductBatchUtilities.logUpsertResults(listNewShareClass);
-
+            
                 // succès : construire le mapping PSC -> SC
                 for (SObject sObj : scResult.successRecords.values()) {
                     Share_Class__c sc = (Share_Class__c) sObj;
-                    Id projScId = (Id) sc.get('ProjectShareclass__c');
+                    Id projScId = (Id) sc.get('ProjectShareclass__c'); // tu le renseignes plus haut: newSC.ProjectShareclass__c = sc.Id
                     if (projScId != null) {
                         mapProjSCIdToSCId.put(projScId, sc.Id);
                     }
@@ -173,32 +158,32 @@ public class ProjectProductBatchController {
 
                     debugInformation.add('[SUCCESS] Shareclass inserted: ' + sc.Id + ' (from ProjectShareclass ' + projScId + ')');
                 }
-
+            
                 // erreurs : log + compteur
                 for (String err : scResult.errorMap.values()) {
-                    errorMessages.add(LOG_ERROR + 'Shareclass insert failed: ' + err);
+                    errorMessages.add('[ERROR] Shareclass insert failed: ' + err);
                     recordsFailed[0]++;
-                    throw new DmlException(LOG_ERROR + 'Shareclass insert failed: ' + err);
+                    throw new DmlException('[ERROR] Shareclass insert failed: ' + err);
+
                 }
             }
-
             List<Narrative__c> priipsShareclassNarratives = new List<Narrative__c>();
             List<TaxData__c> taxDataToUpdate = new List<TaxData__c>();
 
             for (ProjectProduct__c projectProduct : listProjectProductWFields) {
                 Product__c insertedProduct = mapProjectByProductId.get(projectProduct.Id);
-
+                
                 if (insertedProduct == null) {
-                    errorMessages.add(LOG_ERROR + 'Missing Product for ProjectProduct ' + projectProduct.Id);
+                    errorMessages.add('[ERROR] Missing Product for ProjectProduct ' + projectProduct.Id);
                     recordsFailed[0]++;
                     continue;
                 }
 
                 Id productId = insertedProduct.Id;
                 String language = (projectProduct.DomiciledIn__c == 'FR') ? 'French' : 'English';
-
+            
                 if (projectProduct.ProjectShareclasses__r == null) continue;
-
+            
                 for (ProjectShareclass__c psc : projectProduct.ProjectShareclasses__r) {
                     // retrouver l'Id de la Share_Class créée pour ce ProjectShareclass
                     Id scId = mapProjSCIdToSCId.get(psc.Id);
@@ -206,25 +191,25 @@ public class ProjectProductBatchController {
                         try { scId = Id.valueOf(psc.TECH_ShareClass__c); } catch (Exception e) {}
                     }
                     if (scId == null) {
-                        errorMessages.add(LOG_ERROR + 'Missing Share_Class__c Id for ProjectShareclass ' + psc.Id);
+                        errorMessages.add('[ERROR] Missing Share_Class__c Id for ProjectShareclass ' + psc.Id);
                         recordsFailed[0]++;
                         continue;
                     }
-
+            
                     // 1 Narrative par champ RTF non vide
                     addSCNarrativeIfNotBlank(
-                        priipsShareclassNarratives, NAME_PRIIPS_SC_INVESTMENT_OBJECTIVE,
-                        narrativeRecordTypeId, 'PRIIPs', SUBTYPE_SC_INV_OBJ,
+                        priipsShareclassNarratives,'PRIIPs Share Class Investment Objective',
+                        narrativeRecordTypeId,'PRIIPs', 'Share_Class_Investment_Objective',
                         language, productId, scId, psc.ShareclassInvestmentObjective__c
                     );
                     addSCNarrativeIfNotBlank(
-                        priipsShareclassNarratives, NAME_PRIIPS_PERF_FEE_UCITS_KIID,
-                        narrativeRecordTypeId, 'PRIIPs', SUBTYPE_PERF_FEE_UCITS_KIID,
+                        priipsShareclassNarratives,'PRIIPs Performance fee UCITS KIID',
+                        narrativeRecordTypeId, 'PRIIPs', 'Performance_fee_UCITS_KIID',
                         language, productId, scId, psc.PerformanceFeeUCITSKIID__c
                     );
                     addSCNarrativeIfNotBlank(
-                        priipsShareclassNarratives, NAME_PRIIPS_PERF_FEE_EPT_KID,
-                        narrativeRecordTypeId, 'PRIIPs', SUBTYPE_PERF_FEE_EPT_KID,
+                        priipsShareclassNarratives,'PRIIPs Performance fee EPT/KID',
+                        narrativeRecordTypeId, 'PRIIPs', 'Performance_fee_EPT/KID',
                         language, productId, scId, psc.PerformanceFeeEPTKID__c
                     );
                 }
@@ -249,19 +234,20 @@ public class ProjectProductBatchController {
 
             if (!toUpsert.isEmpty()) {
                 ProjectProductBatchUtilities.UpsertDebugResult result = ProjectProductBatchUtilities.logUpsertResults(toUpsert);
-                debugInformation.add(LOG_UPSERT + result.successRecords.size() + ' records upserted.');
+                debugInformation.add('[UPSERT] ' + result.successRecords.size() + ' records upserted.');
                 for (SObject currentSObject : result.successRecords.values()) {
                     String objectType = currentSObject.getSObjectType().getDescribe().getName();
-                    insertedRecords.add((String) currentSObject.get('Id'));
+                    insertedRecords.add((String)currentSObject.get('Id'));
 
-                    debugInformation.add(LOG_UPSERTED_TYPE + objectType + ' (Id: ' + currentSObject.get('Id') + ')');
+                    debugInformation.add('[UPSERTED] Type: ' + objectType + ' (Id: ' + currentSObject.get('Id') + ')');
                 }
                 if (!result.errorMap.isEmpty()) {
-                    errorMessages.add(LOG_ERROR + result.errorMap.size() + LOG_UPSERTS_FAILED_SUFFIX);
+                    errorMessages.add('[ERROR] ' + result.errorMap.size() + ' upserts failed.');
                     for (String err : result.errorMap.values()) {
                         errorMessages.add(err);
-                        recordsFailed[0]++;
-                        throw new DmlException(LOG_ERROR + result.errorMap.size() + LOG_UPSERTS_FAILED_SUFFIX);
+                        recordsFailed[0]++; 
+                        throw new DmlException('[ERROR] ' + result.errorMap.size() + ' upserts failed.');
+
                     }
                 }
             }
@@ -269,7 +255,7 @@ public class ProjectProductBatchController {
             debugInformation.add('[END] Fund/Shareclass creation complete.');
         } catch (Exception e) {
             Database.rollback(sp);
-            errorMessages.add(LOG_ERROR + 'Exception: ' + e.getMessage());
+            errorMessages.add('[ERROR] Exception: ' + e.getMessage());
             recordsFailed[0]++;
             debugInformation.add('----------------------------------');
             debugInformation.add('[ROLLBACK] ⚠️ Transaction rolled back. Previous logs invalid.');
@@ -277,13 +263,13 @@ public class ProjectProductBatchController {
         }
     }
 
-    public static void updateFundShareclassModification(
-        List<ProjectProduct__c> listMods,
-        List<String> debugInformation,
-        List<String> errorMessages,
-        Integer[] recordsFailed,
-        List<Id> insertedRecords
-    ) {
+public static void updateFundShareclassModification(
+    List<ProjectProduct__c> listMods,
+    List<String> debugInformation,
+    List<String> errorMessages,
+    Integer[] recordsFailed,
+    List<Id> insertedRecords
+) {
         debugInformation.add('[INIT] Fund/Shareclass modification - ' + listMods.size() + ' ProjectProduct(s) to process.');
         Savepoint sp = Database.setSavepoint();
 
@@ -296,25 +282,25 @@ public class ProjectProductBatchController {
             Map<Id, Share_Class__c> shareclassMap = ProjectProductBatchUtilities.getMapShareClassByShareclassId(listWithFields);
 
             if (productMap == null) {
-                errorMessages.add(LOG_ERROR + 'mapProductByProductId is null.');
+                errorMessages.add('[ERROR] mapProductByProductId is null.');
                 recordsFailed[0]++;
                 return;
             }
-
+            
             // --- Préparations pour les synchronisations de narratives ---
             Map<Id, String> mapInvObj = new Map<Id, String>();
             Map<Id, String> mapRisk = new Map<Id, String>();
             Map<Id, String> mapIntendedRetail = new Map<Id, String>();
             Map<Id, String> mapReasonForRHP = new Map<Id, String>();
-            Map<Id, String> languageByProductId = new Map<Id, String>(); // ProductId -> Language ('French'|'English')
+            Map<Id, String> languageByProductId = new Map<Id, String>();      // ProductId -> Language ('French'|'English')
 
             // =====================
             // SHARECLASS NARRATIVES (PRIIPs) - single SOQL + single UPSERT
             // =====================
-            Map<Id, String> scLangById = new Map<Id, String>(); // ShareClassId -> Language
-            Map<Id, Id> productByScId = new Map<Id, Id>(); // ShareClassId -> ProductId (reporting)
+            Map<Id, String> scLangById = new Map<Id, String>();      // ShareClassId -> Language
+            Map<Id, Id>     productByScId = new Map<Id, Id>();       // ShareClassId -> ProductId (reporting)
 
-            Map<Id, String> mapSCInvObj = new Map<Id, String>(); // ShareClassId -> content
+            Map<Id, String> mapSCInvObj = new Map<Id, String>();     // ShareClassId -> content
             Map<Id, String> mapSCPerfUCITS = new Map<Id, String>();
             Map<Id, String> mapSCPerfEPT = new Map<Id, String>();
 
@@ -347,20 +333,21 @@ public class ProjectProductBatchController {
 
                 // Appliquer les modifications sur le Product (comme avant)
                 for (String field : fieldsToModify) {
-                    if (String.isBlank(field) || EXCLUDED_FIELDS.contains(field)) continue;
+                    if (String.isBlank(field) || EXCLUDED_FIELDS.contains(field)) continue;                            
                     try {
-                        product.put(field, pp.get(field));
-                    } catch (Exception e) {
-                        errorMessages.add(LOG_ERROR + 'Field skipped: ' + field + ' → ' + e.getMessage());
-                        recordsFailed[0]++;
+                                product.put(field, pp.get(field));
+                            } catch (Exception e) {
+                                errorMessages.add('[ERROR] Field skipped: ' + field + ' → ' + e.getMessage());
+                                recordsFailed[0]++;
+                        }
                     }
-                }
-                productsToUpdate.add(product);
+                    productsToUpdate.add(product);
+                
 
                 for (ProjectShareclass__c sc : pp.ProjectShareclasses__r) {
                     if (sc.TECH_ShareClass__c != null && shareclassMap.containsKey(Id.valueOf(sc.TECH_ShareClass__c))) {
                         Share_Class__c scToUpdate = shareclassMap.get(Id.valueOf(sc.TECH_ShareClass__c));
-
+                        
                         Id scId = scToUpdate.Id;
 
                         scLangById.put(scId, lang);
@@ -387,13 +374,14 @@ public class ProjectProductBatchController {
                             mapSCPerfEPT.put(scId, sc.PerformanceFeeEPTKID__c);
                         }
 
+
                         scToUpdate.ESMAApplicationStartDate__c = pp.EndDate__c;
                         if (!String.isEmpty(sc.TECH_FieldsToModify__c)) {
                             for (String field : sc.TECH_FieldsToModify__c.split(';')) {
                                 try {
                                     scToUpdate.put(field, sc.get(field));
                                 } catch (Exception e) {
-                                    errorMessages.add(LOG_ERROR + 'Shareclass field skipped: ' + field + ' → ' + e.getMessage());
+                                    errorMessages.add('[ERROR] Shareclass field skipped: ' + field + ' → ' + e.getMessage());
                                     recordsFailed[0]++;
                                 }
                             }
@@ -403,12 +391,13 @@ public class ProjectProductBatchController {
                 }
             }
 
+
             // --- DML: Products ---
             if (!productsToUpdate.isEmpty()) {
                 update productsToUpdate;
                 debugInformation.add('[UPDATE] Products updated: ' + productsToUpdate.size());
             }
-
+            
             // 2) Union des ProductIds à considérer
             Set<Id> prodIdsForNarratives = new Set<Id>();
             prodIdsForNarratives.addAll(mapInvObj.keySet());
@@ -428,7 +417,7 @@ public class ProjectProductBatchController {
                     FROM Narrative__c
                     WHERE Product__c IN :prodIdsForNarratives
                     AND (
-                        (Type__c = 'Investment Objective' AND SubType__c = 'PRIIPS')
+                            (Type__c = 'Investment Objective' AND SubType__c = 'PRIIPS')
                         OR (Type__c = 'Risk'               AND SubType__c = 'Main Risk of the Fund')
                         OR (Type__c = 'PRIIPs'             AND SubType__c = 'INTENDED_RETAIL_INVESTOR')
                         OR (Type__c = 'PRIIPs'             AND SubType__c = 'REASON_FOR_PHP')
@@ -472,7 +461,7 @@ public class ProjectProductBatchController {
                 // 7) 1 seul DML
                 if (!narrativesToUpsert.isEmpty()) {
                     upsert narrativesToUpsert;
-                    debugInformation.add(LOG_UPSERT + 'Narratives upserted (single DML): ' + narrativesToUpsert.size());
+                    debugInformation.add('[UPSERT] Narratives upserted (single DML): ' + narrativesToUpsert.size());
                 }
             }
 
@@ -512,33 +501,33 @@ public class ProjectProductBatchController {
 
                 narrativesToUpsert.addAll(ProjectProductBatchUtilities.buildShareClassNarrativesForField(
                     mapSCInvObj, productByScId, scLangById, existingByKey,
-                    'PRIIPs', SUBTYPE_SC_INV_OBJ, NAME_PRIIPS_SC_INVESTMENT_OBJECTIVE,
+                    'PRIIPs', 'Share_Class_Investment_Objective', 'PRIIPs Share Class Investment Objective',
                     narrativeRecordTypeId, debugInformation
                 ));
 
                 narrativesToUpsert.addAll(ProjectProductBatchUtilities.buildShareClassNarrativesForField(
                     mapSCPerfUCITS, productByScId, scLangById, existingByKey,
-                    'PRIIPs', SUBTYPE_PERF_FEE_UCITS_KIID, NAME_PRIIPS_PERF_FEE_UCITS_KIID,
+                    'PRIIPs', 'Performance_fee_UCITS_KIID', 'PRIIPs Performance fee UCITS KIID',
                     narrativeRecordTypeId, debugInformation
                 ));
 
                 narrativesToUpsert.addAll(ProjectProductBatchUtilities.buildShareClassNarrativesForField(
                     mapSCPerfEPT, productByScId, scLangById, existingByKey,
-                    'PRIIPs', SUBTYPE_PERF_FEE_EPT_KID, NAME_PRIIPS_PERF_FEE_EPT_KID,
+                    'PRIIPs', 'Performance_fee_EPT/KID', 'PRIIPs Performance fee EPT/KID',
                     narrativeRecordTypeId, debugInformation
                 ));
 
                 if (!narrativesToUpsert.isEmpty()) {
                     upsert narrativesToUpsert; // ✅ 1 seul DML
-                    debugInformation.add(LOG_UPSERT + '[SC] Narratives upserted (single DML): ' + narrativesToUpsert.size());
+                    debugInformation.add('[UPSERT][SC] Narratives upserted (single DML): ' + narrativesToUpsert.size());
                 }
             }
 
             debugInformation.add('[END] Fund/Shareclass modification complete.');
-
+    
         } catch (Exception e) {
             Database.rollback(sp);
-            errorMessages.add(LOG_ERROR + 'Exception: ' + e.getMessage());
+            errorMessages.add('[ERROR] Exception: ' + e.getMessage());
             recordsFailed[0]++;
             debugInformation.add('----------------------------------');
             debugInformation.add('[ROLLBACK] ⚠️ Transaction rolled back. Previous logs invalid.');
@@ -546,10 +535,11 @@ public class ProjectProductBatchController {
         }
     }
 
+
     public static void createShareclasses(List<ProjectProduct__c> listShareclassCreation, List<String> debugInformation, List<String> errorMessages, Integer[] recordsFailed, List<Id> insertedRecords) {
         debugInformation.add('[INIT] Shareclass creation for ' + listShareclassCreation.size() + ' ProjectProduct(s).');
         Savepoint sp = Database.setSavepoint();
-        try {
+        try{
 
             List<Share_Class__c> listNewShareClass = new List<Share_Class__c>();
             List<ProjectProduct__c> projectProducts = ProjectProductBatchUtilities.getProjectProduct(listShareclassCreation);
@@ -568,27 +558,28 @@ public class ProjectProductBatchController {
                     debugInformation.add('[PREPARE] New Shareclass from ProjectShareclass: ' + sc.Id);
                 }
             }
-            Map<Id, Id> mapProjSCIdToSCId = new Map<Id, Id>();
+             Map<Id,Id> mapProjSCIdToSCId = new Map<Id,Id>();
             Id narrativeRecordTypeId = Schema.SObjectType.Narrative__c
-                .getRecordTypeInfosByDeveloperName().get('Narrative')
-                .getRecordTypeId();
+                    .getRecordTypeInfosByDeveloperName().get('Narrative')
+                    .getRecordTypeId();
 
             if (!listNewShareClass.isEmpty()) {
                 ProjectProductBatchUtilities.UpsertDebugResult result = ProjectProductBatchUtilities.logUpsertResults(listNewShareClass);
-                debugInformation.add(LOG_UPSERT + result.successRecords.size() + ' Shareclasses created.');
+                debugInformation.add('[UPSERT] ' + result.successRecords.size() + ' Shareclasses created.');
                 for (SObject currentSObject : result.successRecords.values()) {
                     Share_Class__c sc = (Share_Class__c) currentSObject;
-                    Id projScId = (Id) sc.get('ProjectShareclass__c');
+                    Id projScId = (Id) sc.get('ProjectShareclass__c'); 
                     if (projScId != null) {
                         mapProjSCIdToSCId.put(projScId, sc.Id);
                     }
 
                     String objectType = currentSObject.getSObjectType().getDescribe().getName();
-                    debugInformation.add(LOG_UPSERTED_TYPE + objectType + ' (Id: ' + currentSObject.get('Id') + ')');
-                    insertedRecords.add((String) currentSObject.get('Id'));
+                    debugInformation.add('[UPSERTED] Type: ' + objectType + ' (Id: ' + currentSObject.get('Id') + ')');
+                    insertedRecords.add((String)currentSObject.get('Id') );
+
                 }
                 for (String err : result.errorMap.values()) {
-                    errorMessages.add(LOG_ERROR + 'Shareclass insert failed: ' + err);
+                    errorMessages.add('[ERROR] Shareclass insert failed: ' + err);
                     recordsFailed[0]++;
                     throw new DmlException('Shareclass insert failed: ' + err);
                 }
@@ -598,7 +589,7 @@ public class ProjectProductBatchController {
 
             for (ProjectProduct__c pp : projectProducts) {
                 Product__c product = productMap.get(pp.Product__c);
-
+                
                 if (pp.Tax_Data__r == null) continue;
                 for (TaxData__c td : pp.Tax_Data__r) {
                     if (td.Product__c == null) {
@@ -617,48 +608,49 @@ public class ProjectProductBatchController {
                 Product__c product = productMap.get(pp.Product__c);
                 Id productId = product.Id;
                 String language = (pp.DomiciledIn__c == 'FR') ? 'French' : 'English';
-
+                        
                 for (ProjectShareclass__c psc : pp.ProjectShareclasses__r) {
                     // retrouver l'Id de la Share_Class créée pour ce ProjectShareclass
                     Id scId = mapProjSCIdToSCId.get(psc.Id);
-
+            
+                    // 1 Narrative par champ RTF non vide
                     addSCNarrativeIfNotBlank(
-                        priipsShareclassNarratives, NAME_PRIIPS_SC_INVESTMENT_OBJECTIVE,
-                        narrativeRecordTypeId, 'PRIIPs', SUBTYPE_SC_INV_OBJ,
+                        priipsShareclassNarratives,'PRIIPs Share Class Investment Objective',
+                        narrativeRecordTypeId,'PRIIPs', 'Share_Class_Investment_Objective',
                         language, productId, scId, psc.ShareclassInvestmentObjective__c
                     );
                     addSCNarrativeIfNotBlank(
-                        priipsShareclassNarratives, NAME_PRIIPS_PERF_FEE_UCITS_KIID,
-                        narrativeRecordTypeId, 'PRIIPs', SUBTYPE_PERF_FEE_UCITS_KIID,
+                        priipsShareclassNarratives,'PRIIPs Performance fee UCITS KIID',
+                        narrativeRecordTypeId, 'PRIIPs', 'Performance_fee_UCITS_KIID',
                         language, productId, scId, psc.PerformanceFeeUCITSKIID__c
                     );
                     addSCNarrativeIfNotBlank(
-                        priipsShareclassNarratives, NAME_PRIIPS_PERF_FEE_EPT_KID,
-                        narrativeRecordTypeId, 'PRIIPs', SUBTYPE_PERF_FEE_EPT_KID,
+                        priipsShareclassNarratives,'PRIIPs Performance fee EPT/KID',
+                        narrativeRecordTypeId, 'PRIIPs', 'Performance_fee_EPT/KID',
                         language, productId, scId, psc.PerformanceFeeEPTKID__c
                     );
                 }
             }
-
             List<SObject> toUpsert = new List<SObject>();
             toUpsert.addAll(priipsShareclassNarratives);
             toUpsert.addAll(taxDataToUpdate);
 
             if (!toUpsert.isEmpty()) {
                 ProjectProductBatchUtilities.UpsertDebugResult result = ProjectProductBatchUtilities.logUpsertResults(toUpsert);
-                debugInformation.add(LOG_UPSERT + result.successRecords.size() + ' records upserted.');
+                debugInformation.add('[UPSERT] ' + result.successRecords.size() + ' records upserted.');
                 for (SObject currentSObject : result.successRecords.values()) {
                     String objectType = currentSObject.getSObjectType().getDescribe().getName();
-                    insertedRecords.add((String) currentSObject.get('Id'));
+                    insertedRecords.add((String)currentSObject.get('Id'));
 
-                    debugInformation.add(LOG_UPSERTED_TYPE + objectType + ' (Id: ' + currentSObject.get('Id') + ')');
+                    debugInformation.add('[UPSERTED] Type: ' + objectType + ' (Id: ' + currentSObject.get('Id') + ')');
                 }
                 if (!result.errorMap.isEmpty()) {
-                    errorMessages.add(LOG_ERROR + result.errorMap.size() + LOG_UPSERTS_FAILED_SUFFIX);
+                    errorMessages.add('[ERROR] ' + result.errorMap.size() + ' upserts failed.');
                     for (String err : result.errorMap.values()) {
                         errorMessages.add(err);
-                        recordsFailed[0]++;
-                        throw new DmlException(LOG_ERROR + result.errorMap.size() + LOG_UPSERTS_FAILED_SUFFIX);
+                        recordsFailed[0]++; 
+                        throw new DmlException('[ERROR] ' + result.errorMap.size() + ' upserts failed.');
+
                     }
                 }
             }
@@ -666,7 +658,7 @@ public class ProjectProductBatchController {
             debugInformation.add('[END] Shareclass creation complete.');
         } catch (Exception e) {
             Database.rollback(sp);
-            errorMessages.add(LOG_ERROR + 'Exception: ' + e.getMessage());
+            errorMessages.add('[ERROR] Exception: ' + e.getMessage());
             recordsFailed[0]++;
             debugInformation.add('----------------------------------');
             debugInformation.add('[ROLLBACK] ⚠️ Transaction rolled back. Previous logs invalid.');
@@ -684,19 +676,19 @@ public class ProjectProductBatchController {
         Id productId,
         Id shareClassId,
         String richText
-    ) {
+    ){
         if (String.isBlank(richText)) return;
 
         Narrative__c n = new Narrative__c();
-        n.RecordTypeId  = recordTypeId;
-        n.Name          = Name;
-        n.Type__c       = typeVal;      // 'PRIIPs'
-        n.SubType__c    = subtypeVal;   // ex: 'Performance fee UCITS KIID'
-        n.Language__c   = language;
-        // n.Product__c  = productId;    // utile pour le reporting
-        n.ShareClass__c = shareClassId; // lien vers la SC créée
-        n.Content__c    = richText;
-        n.StartDate__c  = System.today();
+        n.RecordTypeId   = recordTypeId;
+        n.Name           = Name;
+        n.Type__c        = typeVal;         // 'PRIIPs'
+        n.SubType__c     = subtypeVal;      // ex: 'Performance fee UCITS KIID'
+        n.Language__c    = language;
+        //n.Product__c     = productId;       // utile pour le reporting
+        n.ShareClass__c  = shareClassId;    // lien vers la SC créée
+        n.Content__c     = richText;        // <-- remplace par l'API du champ RTF sur Narrative si différent
+        n.StartDate__c   = System.today();
         bucket.add(n);
     }
 }
