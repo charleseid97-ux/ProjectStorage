@@ -634,8 +634,6 @@ public static void updateFundShareclassModification(
             List<SObject> toUpsert = new List<SObject>();
             toUpsert.addAll(priipsShareclassNarratives);
             toUpsert.addAll(taxDataToUpdate);
-            toUpsert.addAll(listNarrative);
-            toUpsert.addAll(taxDataToUpdate);
 
             if (!toUpsert.isEmpty()) {
                 ProjectProductBatchUtilities.UpsertDebugResult result = ProjectProductBatchUtilities.logUpsertResults(toUpsert);
