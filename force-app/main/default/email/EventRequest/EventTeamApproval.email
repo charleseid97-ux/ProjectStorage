@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+  <body style="margin:0; padding:0; background:#ffffff; font-family: Arial, Helvetica, sans-serif; color:#111827;">
+    <div style="max-width:780px; margin:0 auto; padding:18px;">
+      
+      <div style="padding:14px 16px; border:1px solid #e5e7eb; border-radius:12px;">
+        <div style="font-size:12px; color:#6b7280; margin-bottom:6px;">
+          Carmignac Gestion • Event Team Approval
+        </div>
+
+        <h2 style="margin:0; font-size:20px; line-height:1.25;">
+          Approval request — {!Event__c.title__c}
+        </h2>
+
+        <div style="margin-top:8px; font-size:13px; color:#374151;">
+          Status: <b>{!Event__c.status__c}</b>
+          &nbsp;•&nbsp; Type: <b>{!Event__c.category__c}</b>
+          &nbsp;•&nbsp; Format: <b>{!Event__c.format__c}</b>
+          &nbsp;•&nbsp; Sales team: <b>{!Event__c.salesTeam__c}</b>
+        </div>
+      </div>
+
+      <div style="height:12px;"></div>
+
+      <div style="padding:14px 16px; border:1px solid #e5e7eb; border-radius:12px;">
+        <h3 style="margin:0 0 10px 0; font-size:16px;">Event details</h3>
+
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+          <tr>
+            <td style="padding:4px 0; width:160px; color:#6b7280;">When</td>
+            <td style="padding:4px 0;">
+              {!Event__c.startDate__c} {!Event__c.startTime__c}
+              — {!Event__c.endDate__c} {!Event__c.endTime__c}
+              ({!Event__c.timezone__c})
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:4px 0; color:#6b7280;">Language</td>
+            <td style="padding:4px 0;">{!Event__c.language__c}</td>
+          </tr>
+          <tr>
+            <td style="padding:4px 0; color:#6b7280;">Location</td>
+            <td style="padding:4px 0;">{!Event__c.location__c} {!Event__c.locationName__c}</td>
+          </tr>
+          <tr>
+            <td style="padding:4px 0; color:#6b7280;">Company</td>
+            <td style="padding:4px 0;">{!Event__c.company__c}</td>
+          </tr>
+        </table>
+
+        <div style="margin-top:12px;">
+          <div style="font-size:14px; font-weight:bold; margin-bottom:6px;">Meeting goal</div>
+          <div style="white-space:pre-line; font-size:13px; color:#111827;">{!Event__c.meetingGoal__c}</div>
+        </div>
+
+        <div style="margin-top:12px;">
+          <div style="font-size:14px; font-weight:bold; margin-bottom:6px;">Meeting background</div>
+          <div style="white-space:pre-line; font-size:13px; color:#111827;">{!Event__c.meetingBackground__c}</div>
+        </div>
+      </div>
+
+      <div style="height:12px;"></div>
+
+      <div style="padding:14px 16px; border:1px solid #e5e7eb; border-radius:12px;">
+        <h3 style="margin:0 0 10px 0; font-size:16px;">Speakers</h3>
+
+        <!-- Filled by Apex -->
+        {{SPEAKERS_HTML}}
+      </div>
+
+      <div style="height:12px;"></div>
+
+      <div style="padding:14px 16px; border:1px solid #e5e7eb; border-radius:12px;">
+        <h3 style="margin:0 0 10px 0; font-size:16px;">Actions</h3>
+
+        <div style="font-size:13px; margin-bottom:10px;">
+          <a href="{{RECORD_URL}}" style="color:#2563eb; text-decoration:none;">Open Event record</a>
+        </div>
+
+        <table cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+          <tr>
+            <td style="padding-right:10px;">
+              <a href="{{APPROVE_URL}}"
+                 style="display:inline-block; padding:10px 14px; background:#16a34a; color:#ffffff; text-decoration:none; border-radius:10px; font-weight:bold; font-size:13px;">
+                Approve
+              </a>
+            </td>
+            <td>
+              <a href="{{REJECT_URL}}"
+                 style="display:inline-block; padding:10px 14px; background:#dc2626; color:#ffffff; text-decoration:none; border-radius:10px; font-weight:bold; font-size:13px;">
+                Reject
+              </a>
+            </td>
+          </tr>
+        </table>
+
+        <div style="margin-top:10px; font-size:12px; color:#6b7280;">
+          Note: you must be logged in to Salesforce to approve or reject.
+        </div>
+      </div>
+
+      <div style="margin-top:14px; font-size:11px; color:#9ca3af;">
+        This email was generated automatically.
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,50 +1,194 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-   
+
+    <!-- Apex Classes -->
     <types>
-        <members>ProjectProductBatchUtilities</members>
+        <members>CustomCalendarHelper</members>
+        <members>CustomPicklist</members>
+        <members>CustomPicklistTest</members>
+        <members>EventAttendee_InsertFromIds</members>
+        <members>EventColorService</members>
+        <members>EventMeetingNoteQuickActionCTRL</members>
+        <members>EventRecapController</members>
+        <members>EventSpeakerApprovalsTriggerHandler</members>
+        <members>EventSpeakerApprovalsService</members>
+        <members>customEventNotificationService</members>
+        <members>GenericMultiSelectCtrl</members>
+        <members>PAD</members>
+        <members>SessionSpeakerProduct_InsertFromJson</members>
+        <members>VFC17_PrintEvents</members>
+        <members>VFC18_EventAgenda</members>
+        <members>customEventAttendeeHandler</members>
+        <members>customEventAttendeeService</members>
+        <members>customEventHandler</members>
+        <members>customEventHandler_Test</members>
+        <members>customEventService</members>
+        <members>customEventSpeakerApprovalService</members>
+        <members>sessionSpeakerProductRelatedListCTRL</members>
+        <members>sessionSpeakerProductRepeaterCTRL</members>
         <name>ApexClass</name>
     </types>
 
     <!-- Custom Object -->
     <types>
-        <members>TaxData__c</members>
-        <name>CustomObject</name>
+        <members>EventSpeakerApprovalsTrigger</members>
+        <members>customEventAttendeeTrigger</members>
+        <members>customEventTrigger</members>
+        <name>ApexTrigger</name>
     </types>
 
-    <!-- Custom Fields (TaxData__c) -->
+    <!-- Approval Process -->
     <types>
-        <members>TaxData__c.Comment__c</members>
-        <members>TaxData__c.Country__c</members>
-        <members>TaxData__c.EndDate__c</members>
-        <members>TaxData__c.Product__c</members>
-        <members>TaxData__c.ProjectProduct__c</members>
-        <members>TaxData__c.ProjectShareclass__c</members>
-        <members>TaxData__c.ShareClass__c</members>
-        <members>TaxData__c.Source__c</members>
-        <members>TaxData__c.StartDate__c</members>
-        <members>TaxData__c.Status__c</members>
-        <members>TaxData__c.Type__c</members>
+        <members>Event__c.EventApprovalProcess</members>
+        <name>ApprovalProcess</name>
+    </types>
+
+    <!-- Applications -->
+    <types>
+        <members>EventsManager</members>
+        <name>CustomApplication</name>
+    </types>
+
+    <!-- Custom Fields -->
+    <types>
+        <members>Contact.IsValidSpeaker__c</members>
+        <members>Contact.SpeakerAssistant__c</members>
         <name>CustomField</name>
     </types>
 
-    <!-- Layout -->
+    <!-- Custom Objects -->
     <types>
-        <members>TaxData__c-Tax Data Layout</members>
-        <name>Layout</name>
+        <members>EventAttendee__c</members>
+        <members>EventColors__c</members>
+        <members>EventSpeakerApprovals__c</members>
+        <members>Event__c</members>
+        <members>sessionSpeakerProduct__c</members>
+        <name>CustomObject</name>
     </types>
 
-    <!-- List View -->
+    <!-- Communities / Sites -->
     <types>
-        <members>TaxData__c.All</members>
-        <name>ListView</name>
+        <members>EventAgenda</members>
+        <name>CustomSite</name>
     </types>
 
-    <!-- Custom Tab -->
+    <!-- Custom Tabs -->
     <types>
-        <members>TaxData__c</members>
+        <members>Event__c</members>
+        <members>EventsOverView</members>
         <name>CustomTab</name>
     </types>
 
-    <version>59.0</version>
+    <!-- Email Templates -->
+    <types>
+        <members>EventRequest</members>
+        <members>EventRequest/speakerApprvoal</members>
+        <members>EventRequest/EventTeamApproval</members>
+        <name>EmailTemplate</name>
+    </types>
+
+    <!-- FlexiPages -->
+    <types>
+        <members>Event_Record_Page</members>
+        <members>Event_Speaker_Approval_Record_Page</members>
+        <members>Events_manager_UtilityBar</members>
+        <members>MeetingDaysPage</members>
+        <members>Approval Submission Detail Record Page</members>
+        <name>FlexiPage</name>
+    </types>
+
+    <!-- Flows -->
+    <types>
+        <members>EventApprovalsStatus</members>
+        <members>EventSpeakerApprovalFlow</members>
+        <members>EventSpeakerApprovalStatus</members>
+        <members>Meeting_days_Approval_process</members>
+        <members>NewEvent</members>
+        <name>Flow</name>
+    </types>
+
+    <!-- Layouts -->
+    <types>
+        <members>Event__c-Event Layout</members>
+        <members>Event__c-Roadshow Layout</members>
+        <members>Event__c-Session Layout</members>
+        <name>Layout</name>
+    </types>
+
+    <!-- Lightning Web Components -->
+    <types>
+        <members>calendar</members>
+        <members>calendarUtils</members>
+        <members>customCalendar</members>
+        <members>eventMeetingNoteQuickAction</members>
+        <members>eventRecapEventCard</members>
+        <members>eventRecapModal</members>
+        <members>flowAutoNavigate</members>
+        <members>genericMultiSelectLookup</members>
+        <members>inlineError</members>
+        <members>sessionSpeakerProductRepeater</members>
+        <members>speakerProductsBySession</members>
+        <name>LightningComponentBundle</name>
+    </types>
+
+    <!-- List Views -->
+    <types>
+        <members>Event__c.EventTeamTest_Event1</members>
+        <name>ListView</name>
+    </types>
+
+    <!-- Permission Sets -->
+    <types>
+        <members>EventManager</members>
+        <name>PermissionSet</name>
+    </types>
+
+    <!-- Profiles -->
+    <types>
+        <members>Public Event Agenda Profile</members>
+        <name>Profile</name>
+    </types>
+
+    <!-- Queues -->
+    <types>
+        <members>EventTeam</members>
+        <name>Queue</name>
+    </types>
+
+    <!-- Quick Actions -->
+    <types>
+        <members>Event__c.MeetingNote_meetingDays</members>
+        <members>Event__c.UpdateSession</members>
+        <members>Event__c.updateEventGA</members>
+        <name>QuickAction</name>
+    </types>
+
+    <!-- Static Resources -->
+    <types>
+        <members>fullCalendar</members>
+        <name>StaticResource</name>
+    </types>
+
+    <!-- Visualforce Pages -->
+    <types>
+        <members>VFP17_PrintEvents</members>
+        <members>VFP17_PrintEvents_PDF</members>
+        <members>VFP18_EventAgenda</members>
+        <members>VFP18_EventAgendaPDF</members>
+        <name>ApexPage</name>
+    </types>
+
+    <!-- Workflow -->
+    <types>
+        <members>Event__c</members>
+        <name>Workflow</name>
+    </types>
+
+    <!-- Workflow Field Updates -->
+    <types>
+        <members>Event__c.EventValidationStatus</members>
+        <name>WorkflowFieldUpdate</name>
+    </types>
+
+    <version>66.0</version>
 </Package>

@@ -79,6 +79,12 @@
                 <identifier>RecordmeetingBackground__cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.Campaign__c</fieldItem>
+                <identifier>RecordCampaign__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-0571644c-5d2c-41b9-9e5e-7244d801a69e</name>
         <type>Facet</type>
     </flexiPageRegions>

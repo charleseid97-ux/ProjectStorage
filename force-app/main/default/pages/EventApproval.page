@@ -1,0 +1,29 @@
+<apex:page controller="EventApprovalController"
+           action="{!run}"
+           showHeader="true"
+           sidebar="false"
+           docType="html-5.0">
+
+    <apex:pageMessages />
+
+    <apex:outputPanel rendered="{!showResult}">
+        <div style="max-width:720px; margin:30px auto; font-family:Arial, Helvetica, sans-serif;">
+
+            <h2>{!resultTitle}</h2>
+
+            <p style="font-size:14px;">
+                {!resultMessage}
+            </p>
+
+            <apex:outputPanel rendered="{!NOT(ISBLANK(recordUrl))}">
+                <p style="margin-top:20px;">
+                    <a href="{!recordUrl}" target="_blank">
+                        Open Event record
+                    </a>
+                </p>
+            </apex:outputPanel>
+
+        </div>
+    </apex:outputPanel>
+
+</apex:page>

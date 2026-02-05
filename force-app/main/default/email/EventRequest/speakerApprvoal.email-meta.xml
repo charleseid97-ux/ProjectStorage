@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Speaker Apprvoal</name>
+    <style>none</style>
+    <subject>Event Request</subject>
+    <textOnly>Carmignac Gestion • Event Team Approval
+Speaker approval required: {!Speaker__r.FirstName} {!Speaker__r.LastName}
+Approval request — {!Event__c.title__c}
+Status: {!Event__c.status__c} •  Type: {!Event__c.category__c} •  Format: {!Event__c.format__c} •  Sales team: {!Event__c.salesTeam__c}
+Event details
+
+When   {!Event__c.startDate__c} {!Event__c.startTime__c} — {!Event__c.endDate__c} {!Event__c.endTime__c} ({!Event__c.timezone__c})
+Language  {!Event__c.language__c}
+Location  {!Event__c.location__c} {!Event__c.locationName__c}
+Company  {!Event__c.company__c}
+
+Meeting goal
+{!Event__c.meetingGoal__c}
+Meeting background
+{!Event__c.meetingBackground__c}
+Speakers {{SPEAKERS_HTML}}
+Actions
+Open Event record
+
+Approve      Reject
+
+Note: you must be logged in to Salesforce to approve or reject.
+This email was generated automatically.</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

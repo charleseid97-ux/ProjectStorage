@@ -487,7 +487,7 @@ public with sharing class CustomCalendarHelper {
         for (Contact c : [
             SELECT Id, Name
             FROM Contact
-            WHERE isValidSpeaker__c = true
+            WHERE isValidSpeaker__c = true and SpeakerAssistant__c != null
             ORDER BY Name
             LIMIT 2000
         ]) {

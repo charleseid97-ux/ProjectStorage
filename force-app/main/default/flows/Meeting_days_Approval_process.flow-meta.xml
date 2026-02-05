@@ -78,7 +78,7 @@
             <actionType>stepApproval</actionType>
             <assignees>
                 <assignee>
-                    <stringValue>Event_queue</stringValue>
+                    <stringValue>EventTeam</stringValue>
                 </assignee>
                 <assigneeType>Queue</assigneeType>
             </assignees>
@@ -184,5 +184,5 @@
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Obsolete</status>
+    <status>Active</status>
 </Flow>

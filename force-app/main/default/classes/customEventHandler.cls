@@ -23,16 +23,38 @@ public with sharing class customEventHandler implements ITriggerHandler {
     public void BeforeDelete(Map<Id, SObject> oldItems) {}
 
     public void AfterInsert(Map<Id, SObject> newItems) {
+        Map<Id, Event__c> newEvents = (Map<Id, Event__c>) newItems;
+
         customEventSpeakerApprovalService.createOrUpdateSpeakerApprovals(
-            (Map<Id, Event__c>) newItems,
+            newEvents,
+            null
+        );
+
+        // Send approval notification email if inserted with status = SubmittedToEventTeam
+        customEventNotificationService.manageNotifications(
+            newEvents,
             null
         );
     }
 
     public void AfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
+        Map<Id, Event__c> newEvents = (Map<Id, Event__c>) newItems;
+        Map<Id, Event__c> oldEvents = (Map<Id, Event__c>) oldItems;
+
         customEventSpeakerApprovalService.createOrUpdateSpeakerApprovals(
-            (Map<Id, Event__c>) newItems,
-            (Map<Id, Event__c>) oldItems
+            newEvents,
+            oldEvents
+        );
+
+        // Send approval notification email if status changes to SubmittedToEventTeam
+        customEventNotificationService.manageNotifications(
+            newEvents,
+            oldEvents
+        );
+        // Create Campaign when Event is fully approved
+        customEventService.createCampaign(
+            new List<Event__c>(newEvents.values()),
+            oldEvents
         );
     }
 
