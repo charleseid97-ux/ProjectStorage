@@ -94,12 +94,16 @@
                     <c-grid-validation-page grid-builder-setting-name={gridBuilderSettingName}
                                             selected-team={selectedTeam}
                                             selected-share-classes={selectedShareClasses}
-                                            selected-agreements={selectedAgreements} 
+                                            selected-agreements={selectedAgreements}
                                             criteria-list={criteriaList}
+                                            is-auto-grid-update={isAutoGridUpdate}
+                                            agreement-start-date={agreementStartDate}
+                                            agreement-names={selectedAgreementNames}
                                             onselectionchange={handleValidationSelectionChange}
                                             onremoveproduct={handleRemoveProductFromSelection}
                                             onviewrecap={handleOpenSelectedPanelFromValidation}
-                                            onback={handleBackToBuilder}>
+                                            onback={handleBackToBuilder}
+                                            ongridsaved={handleGridSaved}>
                     </c-grid-validation-page>
                 </template>
                 <!-- RIGHT COLUMN: Selected products panel -->

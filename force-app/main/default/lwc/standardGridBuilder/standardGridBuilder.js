@@ -1,12 +1,13 @@
 import { LightningElement, api, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { NavigationMixin } from 'lightning/navigation';
 import getGridSettings from '@salesforce/apex/GridBuilderController.getGridSettings';
 import getAvailableGrids from '@salesforce/apex/GridBuilderController.getAvailableGrids';
 import getAgreementSelectionPageSettings from '@salesforce/apex/GridBuilderController.getAgreementSelectionPageSettings';
 import getAllProductsForSelection from '@salesforce/apex/GridBuilderController.getAllProductsForSelection';
 import getProductsAndShareClasses from '@salesforce/apex/GridBuilderController.getProductsAndShareClasses';
 
-export default class StandardGridBuilder extends LightningElement {
+export default class StandardGridBuilder extends NavigationMixin(LightningElement) {
     @api gridBuilderSettingName = 'StandardGridBuilderSetting';
 
     @track isLoading = true;
@@ -81,6 +82,16 @@ export default class StandardGridBuilder extends LightningElement {
 
     get toggleLabel() {
         return this.isAutoGridUpdate ? 'Automatic' : 'Manual';
+    }
+
+    get selectedAgreementNames() {
+        if (!this.selectedAgreements || !this.selectedAgreements.length || !this.agreementOptions) {
+            return '';
+        }
+        return this.selectedAgreements.map(id => {
+            const opt = this.agreementOptions.find(a => a.value === id);
+            return opt ? opt.label : null;
+        }).filter(Boolean).join(', ');
     }
 
     async connectedCallback() {
@@ -666,6 +677,23 @@ export default class StandardGridBuilder extends LightningElement {
     handleBackToBuilder() {
         this.resetResults(true);
         this.handlePages(false, true, false);
+    }
+
+    handleGridSaved(event) {
+        const { gridName, agreementId } = event.detail || {};
+        this.showToastFunction('Success', `Grid "${gridName}" saved successfully.`, 'success');
+
+        // Navigate to the first agreement record
+        if (agreementId) {
+            this[NavigationMixin.Navigate]({
+                type: 'standard__recordPage',
+                attributes: {
+                    recordId: agreementId,
+                    objectApiName: 'Convention__c',
+                    actionName: 'view'
+                }
+            });
+        }
     }
 
     handlePages(showGridAgreementSelectionP, showGridBuilderP, showValidationP) {

@@ -1,7 +1,7 @@
 import { LightningElement, api, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getProducts from '@salesforce/apex/GridValidationController.getProducts';
-// import saveGrid from '@salesforce/apex/GridValidationController.saveGrid';
+import saveGrid from '@salesforce/apex/GridValidationController.saveGrid';
 
 export default class GridValidationPage extends LightningElement {
     @api gridBuilderSettingName = 'StandardGridBuilderSetting';
@@ -9,6 +9,9 @@ export default class GridValidationPage extends LightningElement {
     @api selectedShareClasses = [];
     @api selectedAgreements = [];
     @api criteriaList = [];
+    @api isAutoGridUpdate = false;
+    @api agreementStartDate;
+    @api agreementNames;
 
     @track validationProducts = [];
     @track validationColumns = [];
@@ -48,9 +51,78 @@ export default class GridValidationPage extends LightningElement {
         this.runValidation();
     }
 
-    handleValidate() {
-        this.runValidation();
-        //this.saveGridToServer();
+    async handleValidate() {
+        this.isLoading = true;
+        try {
+            const request = this.buildSaveRequest();
+            const result = await saveGrid({ requestJson: JSON.stringify(request) });
+
+            if (result.success) {
+                this.showToast('Success', `Grid "${result.gridName}" created successfully`, 'success');
+                // Dispatch event to parent to handle navigation
+                const firstAgreementId = this.selectedAgreements && this.selectedAgreements.length > 0
+                    ? this.selectedAgreements[0]
+                    : null;
+                this.dispatchEvent(new CustomEvent('gridsaved', {
+                    detail: { gridId: result.gridId, gridName: result.gridName, agreementId: firstAgreementId }
+                }));
+            } else {
+                this.showToast('Error', result.errors.join('\n'), 'error');
+            }
+        } catch (error) {
+            this.showToast('Error', 'Error saving grid: ' + this.reduceError(error), 'error');
+            console.error('Error saving grid', error);
+        } finally {
+            this.isLoading = false;
+        }
+    }
+
+    buildGridName() {
+        const names = this.agreementNames || 'Unknown';
+        const mode = this.isAutoGridUpdate ? 'Auto' : 'Manual';
+        const dateStr = this.agreementStartDate || new Date().toISOString().split('T')[0];
+        return `Custom - ${names} - ${mode} - ${dateStr}`;
+    }
+
+    buildSaveRequest() {
+        const grid = {
+            Name: this.buildGridName(),
+            Team__c: this.selectedTeam,
+            ActiveGrid__c: true
+        };
+
+        // Group share classes by criteriaRefId
+        const criteriaMap = new Map();
+        (this.selectedShareClasses || []).forEach(sc => {
+            if (!criteriaMap.has(sc.criteriaRefId)) {
+                const entry = (this.criteriaList || []).find(c => c.id === sc.criteriaRefId);
+                criteriaMap.set(sc.criteriaRefId, {
+                    criteriaRefId: sc.criteriaRefId,
+                    criteria: {
+                        Grid__c: entry?.criteria?.Grid__c,
+                        FilterLogic__c: entry?.criteria?.FilterLogic__c || 'AND',
+                        FilterLogicExpression__c: entry?.criteria?.FilterLogicExpression__c || null,
+                        StartDate__c: this.agreementStartDate || null
+                    },
+                    details: (entry?.criteriaDetails || []).map(d => ({
+                        Object__c: d.Object__c,
+                        Field__c: d.Field__c,
+                        Logic__c: d.Logic__c,
+                        Value__c: d.Value__c,
+                        FilterNumber__c: d.FilterNumber__c,
+                        TECHOrigin__c: d.TECHOrigin__c
+                    })),
+                    shareClassIds: []
+                });
+            }
+            criteriaMap.get(sc.criteriaRefId).shareClassIds.push(sc.id);
+        });
+
+        return {
+            grid: grid,
+            criteriaList: Array.from(criteriaMap.values()),
+            agreementIds: this.selectedAgreements || []
+        };
     }
 
     async runValidation() {
