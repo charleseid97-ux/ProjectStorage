@@ -12,6 +12,7 @@ public class CaseTriggerHandler implements ITriggerHandler{
         Map<Id, Case> oldCases = (Map<Id, Case>) oldItems;
         List<Case> closedCase = new List<Case>();
         CaseTranslationProcess.switchTranslationToPublication(newCases, oldCases) ;
+        CaseTranslationProcess.resetStatus(newCases, oldCases) ;
 
     }
 
