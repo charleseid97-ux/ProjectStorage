@@ -104,6 +104,51 @@ public with sharing class CampaignService {
             update cmToUpdate;
         }*/
     }
+
+    public static void setCanceledStatus(List<Campaign> newList, Map<Id, Campaign> oldMap) {
+        
+        List<CampaignMember> cmToUpdate = new List<CampaignMember>();
+
+        Set<Id> closedCampaignIds = new Set<Id>();
+        for (Campaign cNew : newList) {
+            Campaign cOld = oldMap.get(cNew.Id);
+            if (cOld == null) continue;
+            if (cOld.Status != 'Closed' && cNew.Status == 'Closed' && cOld.Status != cNew.Status) {
+                closedCampaignIds.add(cNew.Id);
+            }
+        }
+
+        if (closedCampaignIds.isEmpty()) return;
+
+        List<CampaignMember> cmsToUpdate = [
+            SELECT Id, CampaignId, Status, Cancelled__c
+            FROM CampaignMember
+            WHERE CampaignId IN :closedCampaignIds
+              AND Cancelled__c = true
+              AND Status != 'Cancelled'
+        ];
+
+        if (cmsToUpdate.isEmpty()) return;
+
+        for (CampaignMember cm : cmsToUpdate) {
+            cm.Status = 'Cancelled';
+        }
+
+        Database.SaveResult[] results = Database.update(cmsToUpdate, false);
+
+        // 5) Log des erreurs (System.debug ici ; remplacer par logging métier si nécessaire)
+        for (Integer i = 0; i < results.size(); i++) {
+            if (!results[i].isSuccess()) {
+                String cmId = String.valueOf(cmsToUpdate[i].Id);
+                for (Database.Error err : results[i].getErrors()) {
+                    System.debug(
+                        'CampaignTriggerHandler - Error updating CampaignMember Id=' + cmId +
+                        ' : ' + err.getStatusCode() + ' - ' + err.getMessage()
+                    );
+                }
+            }
+        }
+    }
     /**
      * @author Noor
      * @date 08/11/2022
