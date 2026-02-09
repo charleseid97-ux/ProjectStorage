@@ -12,6 +12,52 @@ public class MilestoneHandler {
         }
     }
 
+    public static void blockSPCFinal(Map<Id, Milestone__c> newMilestones, Map<Id, Milestone__c> oldMilestones){
+
+        Set<Id> setProjectProductId = new Set<Id>();
+        for (Milestone__c milestone : newMilestones.values()) {
+            if (milestone.Name == 'SPC Final' && milestone.Status__c != oldMilestones.get(milestone.Id).Status__c && milestone.Status__c == 'Completed') {
+                setProjectProductId.add(milestone.Project_Product__c);
+            }
+        }
+        
+        if (setProjectProductId.isEmpty()) {
+            return;
+        }
+        // 2) Charger les ProjectProduct + construire une map
+        Map<Id, ProjectProduct__c> ppById = new Map<Id, ProjectProduct__c>(
+            [
+                SELECT Id, LettreRequise__c
+                FROM ProjectProduct__c
+                WHERE Id IN :setProjectProductId
+            ]
+        );
+
+        // 3) Bloquer les milestones non conformes
+        for (Milestone__c milestone : newMilestones.values()) {
+            Milestone__c oldMs = oldMilestones.get(milestone.Id);
+
+            Boolean isSpcFinalToCompleted =
+                milestone.Name == 'SPC Final'
+                && milestone.Project_Product__c != null
+                && milestone.Status__c == 'Completed'
+                && oldMs != null
+                && milestone.Status__c != oldMs.Status__c;
+
+            if (!isSpcFinalToCompleted) continue;
+
+            ProjectProduct__c pp = ppById.get(milestone.Project_Product__c);
+
+            // Si PP introuvable ou LettreRequise__c non renseigné => blocage
+            if (pp == null || String.isBlank(String.valueOf(pp.LettreRequise__c))) {
+                milestone.addError(
+                    'Impossible de compléter "SPC Final" tant que la décision "Lettre aux porteurs requise ? (Yes/No)" n\'est pas renseignée sur le Project Product.'
+                );
+            }
+        }
+
+    }
+
     public static void updateProjectLaunchDate(Map<Id, Milestone__c> newMilestone, Map<Id, Milestone__c> oldMilestone) {
         List<Milestone__c> listMilestoneToCheck = new List<Milestone__c>();
         List<ProjectProduct__c> listProjectProductToUpdate = new List<ProjectProduct__c>();
