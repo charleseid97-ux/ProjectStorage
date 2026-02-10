@@ -30,6 +30,7 @@ public class MilestoneHandler {
                 SELECT Id, LettreRequise__c
                 FROM ProjectProduct__c
                 WHERE Id IN :setProjectProductId
+                AND RecordTypeId =: fundModificationRecordTypeId
             ]
         );
 
@@ -51,7 +52,7 @@ public class MilestoneHandler {
             // Si PP introuvable ou LettreRequise__c non renseigné => blocage
             if (pp == null || String.isBlank(String.valueOf(pp.LettreRequise__c))) {
                 milestone.addError(
-                    'Impossible de compléter "SPC Final" tant que la décision "Lettre aux porteurs requise ? (Yes/No)" n\'est pas renseignée sur le Project Product.'
+                    'SPC Final cannot be completed until the Legal team has assessed whether a Notice to Shareholders is required and recorded the decision (Yes / No) on the project.'
                 );
             }
         }
