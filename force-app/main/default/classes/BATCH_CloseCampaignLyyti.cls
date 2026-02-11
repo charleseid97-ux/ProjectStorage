@@ -8,6 +8,8 @@
 public class BATCH_CloseCampaignLyyti implements Database.Batchable<sObject>, Database.AllowsCallouts{
     
     public Database.QueryLocator start(Database.BatchableContext BC) {
+
+        String todayStr = formatDate(Date.today()); // YYYY/MM/DD
         
         return Database.getQueryLocator([ 
             SELECT Id, Name, Event_Local_End_Time__c, Status, (
@@ -15,20 +17,25 @@ public class BATCH_CloseCampaignLyyti implements Database.Batchable<sObject>, Da
                 FROM CampaignMembers 
                 WHERE Cancelled__c = true) 
             FROM Campaign 
-            WHERE Status != 'Closed' AND LyytiId__c!=null ORDER BY Event_Local_End_Time__c ASC ]);
+            WHERE Status != 'Closed' 
+            AND LyytiId__c!=null 
+            AND Event_Local_End_Time__c LIKE :todayStr + '%'
+            ORDER BY Event_Local_End_Time__c ASC ]);
     }
     
     
     public void execute(Database.BatchableContext BC, List<Campaign> campaigns) {
         List<Campaign> campaignsToUpdate = new List<Campaign>();
         List<CampaignMember> membersToUpdate = new List<CampaignMember>();
-        Date yesterday = Date.today().addDays(-1);
-        String yesterdayStr = formatDate(yesterday);
+
+        String todayStr = formatDate(Date.today());
         
         for (Campaign campaign : campaigns) {
-            if(campaign.Event_Local_End_Time__c!=null && campaign.Event_Local_End_Time__c!= ''){
-                String campaignDateStr = campaign.Event_Local_End_Time__c.substringBefore(' ');
-                if (campaignDateStr <= yesterdayStr) {
+            if (String.isBlank(campaign.Event_Local_End_Time__c)) continue;
+                        
+            String campaignDateStr = campaign.Event_Local_End_Time__c.substringBefore(' ');
+
+                if (campaignDateStr == todayStr) {
                     campaign.Status = 'Closed';
                     campaignsToUpdate.add(campaign);
                     
@@ -37,17 +44,18 @@ public class BATCH_CloseCampaignLyyti implements Database.Batchable<sObject>, Da
                         membersToUpdate.add(member);
                     }
                 }
-            }
             
+            
+        }
+
+        if (!membersToUpdate.isEmpty()) {
+            Database.SaveResult[] srMembers = Database.update(membersToUpdate, false);
         }
         
         if (!campaignsToUpdate.isEmpty()) {
             Database.SaveResult[] srCampaigns = Database.update(campaignsToUpdate, false);
         }
         
-        if (!membersToUpdate.isEmpty()) {
-            Database.SaveResult[] srMembers = Database.update(membersToUpdate, false);
-        }
     }
     
     public void finish(Database.BatchableContext BC) {
