@@ -3,8 +3,10 @@
 
     <!-- Apex Classes -->
     <types>
-        <members>CaseTranslationProcess</members>
-        <members>CaseTriggerHandler</members>
+        <members>BATCH_CloseCampaignLyyti</members>
+        <members>CampaignService</members>
+        <members>CampaignTriggerHandler</members>
+        <members>Batch_CloseCampaignLyytiTest</members>
         <name>ApexClass</name>
     </types>
 
