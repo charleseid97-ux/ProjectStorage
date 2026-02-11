@@ -50,7 +50,7 @@ public class MilestoneHandler {
             ProjectProduct__c pp = ppById.get(milestone.Project_Product__c);
 
             // Si PP introuvable ou LettreRequise__c non renseigné => blocage
-            if (pp == null || String.isBlank(String.valueOf(pp.LettreRequise__c))) {
+            if (pp != null && String.isBlank(String.valueOf(pp.LettreRequise__c))) {
                 milestone.addError(
                     'SPC Final cannot be completed until the Legal team has assessed whether a Notice to Shareholders is required and recorded the decision (Yes / No) on the project.'
                 );
