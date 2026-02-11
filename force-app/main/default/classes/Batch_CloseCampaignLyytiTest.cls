@@ -12,7 +12,7 @@ private class Batch_CloseCampaignLyytiTest {
     static void setupTestData() {
         // Create test campaigns
         List<Campaign> campaigns = new List<Campaign>();
-        Date d =  Date.today().addDays(-1);
+        Date d =  Date.today();
         String year = String.valueOf(d.year()); 
         String month = (d.month() < 10 ? '0' : '') + String.valueOf(d.month()); 
         String day = (d.day() < 10 ? '0' : '') + String.valueOf(d.day()); 
@@ -90,7 +90,7 @@ private class Batch_CloseCampaignLyytiTest {
             SELECT Id, Status, 
                    (SELECT Id, Status FROM CampaignMembers WHERE Cancelled__c = true)
             FROM Campaign 
-            WHERE Event_Local_End_Time__c LIKE :(batchJob.formatDate(Date.today().addDays(-1)))+'%'
+            WHERE Event_Local_End_Time__c LIKE :(batchJob.formatDate(Date.today()))+'%'
         ];
         
         // Assertions
