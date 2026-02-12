@@ -2,13 +2,18 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
 		<members>GridBuilderController</members>
+		<members>GridBuilderControllerTest</members>
 		<members>GridBuilderHelper</members>
 		<members>GridCriteriaExpressionParser</members>
 		<members>GridDetailBuilder</members>
+		<members>GridDetailBuilderTest</members>
 		<members>GridDetailTableController</members>
+		<members>GridDetailTableControllerTest</members>
 		<members>GridExcelImportService</members>
 		<members>GridExcelImportServiceTest</members>
+		<members>GridTestSetupHelper</members>
 		<members>GridValidationController</members>
+		<members>GridValidationControllerTest</members>
 		<name>ApexClass</name>
 	</types>
 	<types>
@@ -69,6 +74,7 @@
 		<name>Layout</name>
 	</types>
 	<types>
+		<members>customCombobox</members>
 		<members>filterBuilder</members>
 		<members>gridAgreementsSelection</members>
 		<members>gridDetailTable</members>
