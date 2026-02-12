@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 
-    <!-- Apex Classes -->
     <types>
-        <members>BATCH_CloseCampaignLyyti</members>
-        <members>CampaignService</members>
-        <members>CampaignTriggerHandler</members>
-        <members>Batch_CloseCampaignLyytiTest</members>
-        <name>ApexClass</name>
+        <members>projectChildTeamValidation</members>
+        <name>LightningComponentBundle</name>
     </types>
 
     <version>66.0</version>

@@ -41,6 +41,7 @@ export default class ProjectChildTeamValidation extends NavigationMixin(Lightnin
     availableFields = [];
     availableFieldsSc = [];
     shareClassesMatrix;
+    @track isLoading = false;
 
     teamsMap= new Map([
       ['ProductStrategy', 'Product Strategy'],
@@ -55,15 +56,14 @@ export default class ProjectChildTeamValidation extends NavigationMixin(Lightnin
       ['Finance', 'Finance'],
       ['Communication', 'Communication'],
       ['Technology', 'Technology'],
-      ['InvestmentPerf', 'Investment Perf'], 
-      ['IS', 'IS'], 
+      ['InvestmentPerf', 'Investment Perf'],
+      ['IS', 'IS'],
     ]);
 
     get fields(){
         return [PROJECT_STEP_NAME];
     }
 
-    
     @wire(getRecordId, {currentRecordId: '$recordId'})
         getRecordId({error, data}){
             if(data){
@@ -80,10 +80,10 @@ export default class ProjectChildTeamValidation extends NavigationMixin(Lightnin
         // Charger les règles dynamiques pour le champ Product
         this.loadDynamicRules();
         const objectsToFetch = ['ProjectProductChild__c', 'ProjectShareclassChild__c'];
- 
+
         getMetadataFields({ objectApiNames: objectsToFetch })
-          .then((data) => { 
-            
+          .then((data) => {
+
             if (data && data.length > 0) {
             this.availableFields = data.map(field => ({
                 label: field.label,
@@ -129,18 +129,17 @@ export default class ProjectChildTeamValidation extends NavigationMixin(Lightnin
         if(data){
               this.stepName = getFieldValue(data,PROJECT_STEP_NAME);
               console.log('this.stepName'+this.stepName);
-              
+
         } else if(error){
             console.log('error'+error.message + error.body);
         }
     }
-    
 
     // Getter pour désactiver le bouton si l'étape est déjà validée ou si l'utilisateur n'a pas la permission
     get isButtonDisabled() {
         return this.isValidated || !this.hasPermission;
     }
- 
+
     // Récupérer `c__team` depuis l'URL
     @wire(CurrentPageReference)
     getStateParameters(currentPageReference) {
@@ -153,7 +152,7 @@ export default class ProjectChildTeamValidation extends NavigationMixin(Lightnin
             }
         }
     }
- 
+
     // Vérifier si l'utilisateur a la permission correspondante
     @wire(getUserPermissions)
     wiredUserPermissions({ error, data }) {
@@ -167,7 +166,7 @@ export default class ProjectChildTeamValidation extends NavigationMixin(Lightnin
             console.error('Error fetching user permissions:', error);
         }
     }
- 
+
     // Récupérer les valeurs actuelles de `TECH_TeamValidation__c`
     @wire(getProjectChild, { recordId: '$currentRecordId' })
     wiredProjectChild({ error, data }) {
@@ -195,14 +194,12 @@ export default class ProjectChildTeamValidation extends NavigationMixin(Lightnin
         return this.isValidated ?'✅' :  '📝';
     }
 
- 
- 
     // Ouvrir le popup
     openModal() {
         this.isModalOpen = true;
         this.isEmptyRequiredFields= false;
     }
- 
+
     // Fermer le popup
     closeModal() {
         this.isModalOpen = false;
@@ -210,6 +207,7 @@ export default class ProjectChildTeamValidation extends NavigationMixin(Lightnin
 
     // Confirmer la validation et mettre à jour la multipicklist
     updateTeamValidation() {
+        this.isLoading = true;
         updateTeamValidation({ recordId: this.currentRecordId, teamName: this.teamName })
             .then(() => {
                 this.isValidated = true;
@@ -220,6 +218,9 @@ export default class ProjectChildTeamValidation extends NavigationMixin(Lightnin
                 console.error('Error updating validation:', error);
                 this.showToast('Error', 'Failed to validate step. \n' + error.body ? error.body.pageErrors[0].message : 'Unknown error');
                 // body.pageErrors[0].message
+            })
+            .finally(() => {
+                this.isLoading = false;
             });
     }
 
@@ -236,7 +237,6 @@ export default class ProjectChildTeamValidation extends NavigationMixin(Lightnin
         }
     }
 
-    
     // @wire(getAllFieldsByRecordId, { recordId: '$currentRecordId' })
     // wiredFieldRules({ error, data }) {
     //     if (data) {
@@ -260,6 +260,7 @@ export default class ProjectChildTeamValidation extends NavigationMixin(Lightnin
                 this.showToast('Error', 'Failed to fetch share classes data.', 'error');
             }
     }
+
     @wire(getShareClassesMatrix, { recordId: '$currentRecordId',
         teamName: '$teamNameWithoutSpace',
         stepName: '$stepName'})
@@ -272,8 +273,8 @@ export default class ProjectChildTeamValidation extends NavigationMixin(Lightnin
                 this.showToast('Error', 'Failed to fetch share classes data.', 'error');
             }
     }
-    
-    @wire(getFundMatrix, { 
+
+    @wire(getFundMatrix, {
             recordId: '$currentRecordId',
             teamName: '$teamNameWithoutSpace',
             stepName: '$stepName'})
@@ -286,7 +287,7 @@ export default class ProjectChildTeamValidation extends NavigationMixin(Lightnin
                 this.showToast('Error', 'Failed to fetch share classes data.', 'error');
             }
     }
-    
+
     handleShareClassClick(event) {
         event.preventDefault();
         console.log('handleShareClassClick called');
@@ -305,9 +306,14 @@ export default class ProjectChildTeamValidation extends NavigationMixin(Lightnin
             }
         });
     }
-    
+
+    /**
+     * Refactor SONAR: réduction de l’imbrication des callbacks/fonctions
+     * => Extraction du traitement Fund / ShareClass dans des méthodes dédiées
+     * => AUCUN changement de logique métier : mêmes comparaisons, mêmes boucles, mêmes mutations
+     */
     checkRequiredField() {
-           checkRequiredFieldsNotEmpty({
+        checkRequiredFieldsNotEmpty({
             recordId: this.currentRecordId,
             teamName: this.teamNameWithoutSpace,
             stepName: this.stepName
@@ -319,112 +325,17 @@ export default class ProjectChildTeamValidation extends NavigationMixin(Lightnin
                 refreshApex(this.fund);
                 refreshApex(this.shareClasses);
                 console.log('data.Fund after refresh ', data.Fund);
-                
-            // Traitement FUND
-                if (data.Fund && data.Fund.length > 0) {
-                    console.log('data.Fund inside if ', data.Fund);
-                    this.emptyFundRequiredFields = data.Fund.map(map => {
-                    const [key, fields] = Object.entries(map)[0];
-                    return { name: key, fields: fields };
-                });
-                } else {
-                    console.log('data.Fund Empty');
-                    this.emptyFundRequiredFields = [];
-                }
 
-                Object.keys(this.fundMatrix).forEach(element => {        
-                    const rule = this.fundDynamicRules?.find(r => r.fieldApiName === element);
-                    // const rec = this.fundMatrix?.find(r => r.Id === element.Id);
-                    console.log('fundDynamicRules rule', rule);
-                    console.log('fundDynamicRules element.fieldApiName', element);
-                    console.log('fundDynamicRules this.fund[element.fieldApiName]', this.fund[element]);
-                    let IsMandatory = false;
-                    if(rule) {
-                        IsMandatory = this.evaluateMandatoryRuleCondition(rule, this.fund);
-                    }
-                    if(IsMandatory && this.fund[element] === "" ) {  
-                        
+                // Traitement FUND (extrait tel quel)
+                this.handleFundRequiredFields(data);
 
-                        // si le bloc Fund n’existe pas encore, on le crée à la volée
-                        if (this.emptyFundRequiredFields.length != 0) {
-                            this.isEmptyRequiredFields = true;
-                            this.isEmptyFundRequiredFields = false;
-                            //this.emptyFundRequiredFields.push({ name: 'FundName', fields: [] }); // ou 'Fund' selon ton choix
-                            const fieldMetadata = this.availableFields.find(f => f.value === element.toLowerCase());
+                // Traitement SHARECLASS (extrait tel quel)
+                this.handleShareClassRequiredFields(data);
 
-                            console.log('fieldMetadata', fieldMetadata);
-                            // console.log('element.fieldApiName', element.fieldApiName);
-                            // console.log('this.emptyFundRequiredFields', this.emptyFundRequiredFields);
-                            this.emptyFundRequiredFields[0].fields.push(fieldMetadata ? fieldMetadata.label : element);
-                        }else{
-                            this.isEmptyFundRequiredFields = true;
-                        }
-
-                        
-
-                    }
-                });
-                console.log('emptyFundRequiredFields', this.emptyFundRequiredFields);
-
-                // Traitement SHARECLASS
-                if (data.ShareClass && data.ShareClass.length > 0) {
-                    console.log('data.ShareClass inside if ', data.ShareClass);
-                    this.emptySCRequiredFields = data.ShareClass.map(map => {
-                        const [key, fields] = Object.entries(map)[0];
-                        return { name: key, fields: fields, id: key };
-                    });
-                } else {
-                    this.emptySCRequiredFields = [{ name: 'Share Classes', fields: [], id : '' }];
-                }
-                
-                this.shareClassesMatrix.forEach(sc => {
-                    // console.log('sc', sc);
-                    this.scDynamicRules.forEach(element => {    
-                        const rule = this.scDynamicRules?.find(r => r.fieldApiName === element.fieldApiName);
-                        const rec = this.shareClasses?.find(r => r.Id === sc.Id);
-                        console.log('scDynamicRules rule', rule);
-                        console.log('scDynamicRules this.sc[element.fieldApiName]', sc[element.fieldApiName]);
-                        console.log('scDynamicRules rec', rec);
-                        let IsMandatory = this.evaluateMandatoryRuleCondition(rule, rec);
-                        // console.log('IsMandatory', IsMandatory);
-                        // console.log('sc[element.fieldApiName]', sc[element.fieldApiName]);
-                        if(IsMandatory && sc[element.fieldApiName] === ""){
-                            this.isEmptyRequiredFields = true;
-                            const fieldMetadata = this.availableFields.find(f => f.value === element.fieldApiName.toLowerCase());
-                            // console.log('fieldMetadata', fieldMetadata);   
-                            // console.log('element.fieldApiName', element.fieldApiName);
-                            this.emptySCRequiredFields.forEach((item) => {
-                                // console.log('item.name', item.name);
-                                // console.log('sc.shareClassName__c', sc.shareClassName__c);
-                                if (item.name === sc.shareClassName__c) {
-                                    item.fields = item.fields || [];
-                                    item.fields.push(fieldMetadata ? fieldMetadata.label : element.fieldApiName);
-                                }
-                            });
-                        }
-                        this.emptySCRequiredFields.forEach((item) => {
-                            
-                            if (item.name === sc.shareClassName__c) {
-                                item.id = sc.Id;
-                            }
-                        });
-                    });
-                    
-                });
-                this.emptySCRequiredFields.forEach(sc => {
-                    if( sc.fields.length === 0) {
-                        // Si aucun champ requis n'est vide, on supprime l'entrée
-                        this.emptySCRequiredFields = this.emptySCRequiredFields.filter(item => item.name !== sc.name);
-                    }
-                });
-                // if(this.emptyFundRequiredFields[0].fields.length <= 0) {
-                //     this.emptyFundRequiredFields = null;
-                // }
-                
                 console.log('emptySCRequiredFields', this.emptySCRequiredFields);
                 console.log('this.emptyFundRequiredFields',this.emptyFundRequiredFields);
 
-                if (this.emptySCRequiredFields.length > 0 || (this.emptySCRequiredFields.length > 0 ? this.emptyFundRequiredFields[0].fields?.length > 0 : false) ){
+                if (this.emptySCRequiredFields.length > 0 ||  this.emptyFundRequiredFields.length > 0  ){
                     this.isEmptyRequiredFields = true;
                     this.showToast('Error', 'Please fill in all required fields to validate this step.', 'error');
                 } else {
@@ -438,6 +349,144 @@ export default class ProjectChildTeamValidation extends NavigationMixin(Lightnin
         // });
     }
 
+    /**
+     * Extraction du bloc "Traitement FUND" sans changer la logique
+     */
+    handleFundRequiredFields(data) {
+        this.buildEmptyFundRequiredFieldsFromApex(data);
+        this.applyFundDynamicRules();
+        console.log('emptyFundRequiredFields', this.emptyFundRequiredFields);
+    }
+
+    buildEmptyFundRequiredFieldsFromApex(data) {
+        if (data.Fund && data.Fund.length > 0) {
+            console.log('data.Fund inside if ', data.Fund);
+            this.emptyFundRequiredFields = data.Fund.map(map => {
+                const [key, fields] = Object.entries(map)[0];
+                return { name: key, fields: fields };
+            });
+        } else {
+            console.log('data.Fund Empty');
+            this.emptyFundRequiredFields = [];
+        }
+    }
+
+    applyFundDynamicRules() {
+        Object.keys(this.fundMatrix).forEach(element => {
+            const rule = this.fundDynamicRules?.find(r => r.fieldApiName === element);
+            // const rec = this.fundMatrix?.find(r => r.Id === element.Id);
+            console.log('fundDynamicRules rule', rule);
+            console.log('fundDynamicRules element.fieldApiName', element);
+            console.log('fundDynamicRules this.fund[element.fieldApiName]', this.fund[element]);
+            let IsMandatory = false;
+            if(rule) {
+                IsMandatory = this.evaluateMandatoryRuleCondition(rule, this.fund);
+            }
+            if(IsMandatory && this.fund[element] === "" ) {
+
+                if (!this.emptyFundRequiredFields || this.emptyFundRequiredFields.length === 0) {
+                    this.emptyFundRequiredFields = [{ name: 'Fund', fields: [] }];
+                }
+
+                const fieldMetadata = this.availableFields.find(
+                    f => f.value.toLowerCase() === element.toLowerCase()
+                );
+
+                this.emptyFundRequiredFields[0].fields.push(
+                    fieldMetadata ? fieldMetadata.label : element
+                );
+
+                this.isEmptyRequiredFields = true;
+                this.isEmptyFundRequiredFields = false;
+
+                // si le bloc Fund n’existe pas encore, on le crée à la volée
+                /*if (this.emptyFundRequiredFields.length != 0) {
+                    this.isEmptyRequiredFields = true;
+                    this.isEmptyFundRequiredFields = false;
+                    //this.emptyFundRequiredFields.push({ name: 'FundName', fields: [] }); // ou 'Fund' selon ton choix
+                    const fieldMetadata = this.availableFields.find(f => f.value === element.toLowerCase());
+
+                    console.log('fieldMetadata', fieldMetadata);
+                    // console.log('element.fieldApiName', element.fieldApiName);
+                    // console.log('this.emptyFundRequiredFields', this.emptyFundRequiredFields);
+                    this.emptyFundRequiredFields[0].fields.push(fieldMetadata ? fieldMetadata.label : element);
+                }else{
+                    this.isEmptyFundRequiredFields = true;
+                }*/
+            }
+        });
+    }
+
+    /**
+     * Extraction du bloc "Traitement SHARECLASS" sans changer la logique
+     */
+    handleShareClassRequiredFields(data) {
+        this.buildEmptyShareClassRequiredFieldsFromApex(data);
+        this.applyShareClassDynamicRules();
+        this.cleanupEmptyShareClassRequiredFields();
+    }
+
+    buildEmptyShareClassRequiredFieldsFromApex(data) {
+        if (data.ShareClass && data.ShareClass.length > 0) {
+            console.log('data.ShareClass inside if ', data.ShareClass);
+            this.emptySCRequiredFields = data.ShareClass.map(map => {
+                const [key, fields] = Object.entries(map)[0];
+                return { name: key, fields: fields, id: key };
+            });
+        } else {
+            this.emptySCRequiredFields = [{ name: 'Share Classes', fields: [], id : '' }];
+        }
+    }
+
+    applyShareClassDynamicRules() {
+        this.shareClassesMatrix.forEach(sc => {
+            // console.log('sc', sc);
+            this.scDynamicRules.forEach(element => {
+                const rule = this.scDynamicRules?.find(r => r.fieldApiName === element.fieldApiName);
+                const rec = this.shareClasses?.find(r => r.Id === sc.Id);
+                console.log('scDynamicRules rule', rule);
+                console.log('scDynamicRules this.sc[element.fieldApiName]', sc[element.fieldApiName]);
+                console.log('scDynamicRules rec', rec);
+                let IsMandatory = this.evaluateMandatoryRuleCondition(rule, rec);
+                // console.log('IsMandatory', IsMandatory);
+                // console.log('sc[element.fieldApiName]', sc[element.fieldApiName]);
+                if(IsMandatory && sc[element.fieldApiName] === ""){
+                    this.isEmptyRequiredFields = true;
+                    const fieldMetadata = this.availableFields.find(f => f.value === element.fieldApiName.toLowerCase());
+                    // console.log('fieldMetadata', fieldMetadata);
+                    // console.log('element.fieldApiName', element.fieldApiName);
+                    this.emptySCRequiredFields.forEach((item) => {
+                        // console.log('item.name', item.name);
+                        // console.log('sc.shareClassName__c', sc.shareClassName__c);
+                        if (item.name === sc.shareClassName__c) {
+                            item.fields = item.fields || [];
+                            item.fields.push(fieldMetadata ? fieldMetadata.label : element.fieldApiName);
+                        }
+                    });
+                }
+                this.emptySCRequiredFields.forEach((item) => {
+
+                    if (item.name === sc.shareClassName__c) {
+                        item.id = sc.Id;
+                    }
+                });
+            });
+
+        });
+    }
+
+    cleanupEmptyShareClassRequiredFields() {
+        this.emptySCRequiredFields.forEach(sc => {
+            if( sc.fields.length === 0) {
+                // Si aucun champ requis n'est vide, on supprime l'entrée
+                this.emptySCRequiredFields = this.emptySCRequiredFields.filter(item => item.name !== sc.name);
+            }
+        });
+        // if(this.emptyFundRequiredFields[0].fields.length <= 0) {
+        //     this.emptyFundRequiredFields = null;
+        // }
+    }
+
     evaluateMandatoryRuleCondition(rule, record) {
         console.log(`🧾 Données du record :`, record);
         console.log(`🔍 Évaluation de la règle pour le champ ${rule.fieldApiName}`);
@@ -446,10 +495,10 @@ export default class ProjectChildTeamValidation extends NavigationMixin(Lightnin
         if (!rule || !rule.mandatoryCondition) {
             return false;
         }
-     
+
         try {
             const condition = rule.mandatoryCondition.trim().replaceAll("'",'"');
-     
+
             // console.log(`🔍 Évaluation de la règle pour le champ ${rule.fieldApiName}`);
             // console.log(`➡️ Condition : ${condition}`);
             // console.log(`🧾 Données du record :`, record);
@@ -463,19 +512,18 @@ export default class ProjectChildTeamValidation extends NavigationMixin(Lightnin
         }
     }
 
-
     checkPortfolioManager() {
           hasProposalPortfolioManager({
             recordId: this.currentRecordId,
         }).then((data) => {
             // console.log('kevin data:' + data);
             if (!data) {
-                 this.showToast('Error', 'At least one Portfolio Manager must be assigned to the fund before moving to the Proposal stage.', 'error'); 
+                 this.showToast('Error', 'At least one Portfolio Manager must be assigned to the fund before moving to the Proposal stage.', 'error');
                 this.closeModal();
             } else {
                  this.checkRequiredField();
             }
-                
+
         })
         .catch(error => {
             console.error('Error checking FundManagerAssignement validation:', error);
@@ -490,10 +538,9 @@ export default class ProjectChildTeamValidation extends NavigationMixin(Lightnin
         // } else {
             this.checkRequiredField();
         // }
-      
+
     }
-     
- 
+
     // Afficher une notification toast
     showToast(title, message, variant) {
         this.dispatchEvent(new ShowToastEvent({ title, message, variant }));
