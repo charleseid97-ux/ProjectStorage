@@ -9,6 +9,7 @@ export default class ResultsTable extends LightningElement {
 
     get productGroups() {
         const selectedIds = new Set((this.selectedShareClasses || []).map(row => row.id));
+        const selectedProductIds = new Set((this.selectedShareClasses || []).map(row => row.productId));
         const map = new Map();
         (this.rows || []).forEach(row => {
             const productId = row.productId || 'unknown';
@@ -24,7 +25,7 @@ export default class ResultsTable extends LightningElement {
             const group = map.get(productId);
             const isAlreadySelected = selectedIds.has(row.id);
             group.shareClasses.push({ ...row, isAlreadySelected: isAlreadySelected });
-            if (isAlreadySelected) {
+            if (isAlreadySelected || selectedProductIds.has(productId)) {
                 group.hasSelected = true;
             }
         });

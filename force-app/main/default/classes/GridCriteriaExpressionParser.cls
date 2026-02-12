@@ -1,3 +1,13 @@
+/**
+ * @description Parser for Grid Criteria Include/Exclude expressions. Converts Excel-friendly shorthand notation
+ *              (e.g., "PtfCode IN (FCP,SICAV) AND ShcType = A") into GridCriteriaDetail__c records with proper
+ *              Object__c, Field__c, Logic__c, and Value__c mappings. 
+ *              Supports logical operators (AND, OR, NOT IN), parentheses, and multi-value lists. 
+ *              Validates expressions and provides detailed error messages.
+ * @author Charles EID
+ * @testClass GridExcelImportServiceTest, GridDetailBuilderTest
+ * @coverage 83% (Combined coverage from test classes)
+ */
 public with sharing class GridCriteriaExpressionParser {
 
     private static final Map<String, TokenMapping> TOKEN_MAP = buildTokenMap();

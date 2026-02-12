@@ -17,8 +17,8 @@
                 <field>Grid__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Rate__c</field>
+                <behavior>Edit</behavior>
+                <field>StandardGrid__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -146,6 +146,7 @@
     <relatedLists>
         <fields>NAME</fields>
         <fields>Grid__c</fields>
+        <fields>StandardGrid__c</fields>
         <fields>ShareClass__c</fields>
         <fields>GridRuleLine__c</fields>
         <fields>Rebate__c</fields>

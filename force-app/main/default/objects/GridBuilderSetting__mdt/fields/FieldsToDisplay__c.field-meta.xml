@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>FieldsToDisplay__c</fullName>
     <description>Defines which fields appear as columns in the results table</description>
+    <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <inlineHelpText>Enter one field per line using the format ObjectApiName =&gt; FieldApiName.
 Example:

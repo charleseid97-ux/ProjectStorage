@@ -9,18 +9,39 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>GridExcelImportService</apexClass>
+        <apexClass>GridDetailBuilder</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>GridDetailBuilder</apexClass>
+        <apexClass>GridDetailBuilderTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>GridDetailTableController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>GridDetailTableControllerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>GridExcelImportService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>GridExcelImportServiceTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>GridTestSetupHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <description>Grants access to Grid Excel import objects, tab, and Apex services.</description>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>GridCriteriaDetail__c.Value__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>GridCriteria__c.Comment__c</field>
@@ -38,7 +59,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>GridCriteria__c.Rate__c</field>
+        <field>GridCriteria__c.Grid__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>GridCriteria__c.StandardGrid__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -58,17 +84,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>GridDetail__c.GridRate__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>GridDetail__c.GridRuleLine__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>GridDetail__c.Rebate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>GridDetail__c.StandardGrid__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -123,32 +149,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Grid__c.AutomaticGridUpdate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Grid__c.GridScope__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Grid__c.GridTag__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Grid__c.RelatedToGAM__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Grid__c.TECH_GridExternalID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Grid__c.TECH_UserID__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Grid__c.Team__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
@@ -207,6 +218,14 @@
         <object>Grid__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
+    <recordTypeVisibilities>
+        <recordType>Grid__c.CustomGrid</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Grid__c.StandardGrid</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
     <tabSettings>
         <tab>GridExcelImport</tab>
         <visibility>Visible</visibility>
@@ -217,6 +236,10 @@
     </tabSettings>
     <tabSettings>
         <tab>GridScope__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>Grid__c</tab>
         <visibility>Visible</visibility>
     </tabSettings>
 </PermissionSet>

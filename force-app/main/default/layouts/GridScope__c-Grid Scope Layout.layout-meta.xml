@@ -114,8 +114,6 @@
     <quickActionList/>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>GridTag__c</fields>
-        <fields>Team__c</fields>
         <fields>ActiveGrid__c</fields>
         <relatedList>Grid__c.GridScope__c</relatedList>
         <sortField>NAME</sortField>

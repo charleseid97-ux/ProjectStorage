@@ -14,10 +14,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>GridTag__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>GridScope__c</field>
             </layoutItems>
         </layoutColumns>
@@ -25,10 +21,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>ActiveGrid__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Team__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -128,9 +120,9 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>StandardGrid__c</fields>
         <fields>FilterLogic__c</fields>
         <fields>FilterLogicExpression__c</fields>
-        <fields>Rate__c</fields>
         <fields>StartDate__c</fields>
         <fields>EndDate__c</fields>
         <fields>Comment__c</fields>
@@ -141,9 +133,8 @@
     <relatedLists>
         <fields>NAME</fields>
         <fields>ShareClass__c</fields>
-        <fields>GridRuleLine__c</fields>
         <fields>GridCriteria__c</fields>
-        <fields>GridRate__c</fields>
+        <fields>GridRuleLine__c</fields>
         <fields>Rebate__c</fields>
         <fields>StartDate__c</fields>
         <fields>EndDate__c</fields>
@@ -151,13 +142,22 @@
         <sortField>StartDate__c</sortField>
         <sortOrder>Asc</sortOrder>
     </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>ShareClass__c</fields>
+        <fields>Grid__c</fields>
+        <fields>GridCriteria__c</fields>
+        <fields>StartDate__c</fields>
+        <fields>EndDate__c</fields>
+        <relatedList>GridDetail__c.StandardGrid__c</relatedList>
+    </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
     <showInteractionLogPanel>false</showInteractionLogPanel>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h580000029ib8</masterLabel>
+        <masterLabel>00hG5000007FhdJ</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

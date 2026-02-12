@@ -6,16 +6,16 @@
     </template>
 
     <div class="validationPage">
-        <template if:true={hasValidationResults}>
-            <div class="validation-controls">
-                <div class="validation-controls-left">
-                    <lightning-button label={toggleAllLabel} variant="neutral" onclick={handleToggleAllSections}></lightning-button>
-                </div>
-                <div class="validation-controls-right">
-                    <lightning-button label="View Excluded Products" variant="neutral" onclick={handleViewRecap}></lightning-button>
-                    <lightning-button label="Add Products" variant="brand" onclick={handleBack}></lightning-button>
-                </div>
+        <div class="validation-controls">
+            <div class="validation-controls-left">
+                <lightning-button label={toggleAllLabel} variant="neutral" onclick={handleToggleAllSections}></lightning-button>
             </div>
+            <div class="validation-controls-right">
+                <lightning-button label="View Excluded Products" variant="neutral" onclick={handleViewRecap}></lightning-button>
+                <lightning-button label="Back" variant="brand" onclick={handleBack}></lightning-button>
+            </div>
+        </div>
+        <template if:true={hasValidationResults}>
             <div class="custom-accordion">
                 <template for:each={validationProducts} for:item="prod">
                     <div key={prod.productId} class="custom-accordion-item">
@@ -96,7 +96,7 @@
 
         <div class="slds-border_top centerButtons">
             <div class="granularColumn">
-                <lightning-button label="Validate Grid" variant="brand" onclick={handleValidate}></lightning-button>
+                <lightning-button label="Validate Grid" variant="brand" onclick={handleValidate} disabled={isValidateButtonDisabled}></lightning-button>
             </div>
         </div>
     </div>

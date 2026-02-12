@@ -166,9 +166,7 @@
         <type>Text</type>
     </nameField>
     <pluralLabel>Grids</pluralLabel>
-    <searchLayouts>
-        <listViewButtons>BuildNewGrid</listViewButtons>
-    </searchLayouts>
+    <searchLayouts></searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

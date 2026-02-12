@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>FilterDefaultLogic__c</fullName>
     <description>Defines the default logical operator applied between filter criteria. (Used when a user adds multiple filter rows)</description>
+    <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <label>Filter Default Logic</label>
     <required>true</required>

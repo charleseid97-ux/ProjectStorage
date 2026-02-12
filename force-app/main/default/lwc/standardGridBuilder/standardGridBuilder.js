@@ -1,12 +1,13 @@
 import { LightningElement, api, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { NavigationMixin } from 'lightning/navigation';
 import getGridSettings from '@salesforce/apex/GridBuilderController.getGridSettings';
 import getAvailableGrids from '@salesforce/apex/GridBuilderController.getAvailableGrids';
 import getAgreementSelectionPageSettings from '@salesforce/apex/GridBuilderController.getAgreementSelectionPageSettings';
 import getAllProductsForSelection from '@salesforce/apex/GridBuilderController.getAllProductsForSelection';
 import getProductsAndShareClasses from '@salesforce/apex/GridBuilderController.getProductsAndShareClasses';
 
-export default class StandardGridBuilder extends LightningElement {
+export default class StandardGridBuilder extends NavigationMixin(LightningElement) {
     @api gridBuilderSettingName = 'StandardGridBuilderSetting';
 
     @track isLoading = true;
@@ -18,13 +19,17 @@ export default class StandardGridBuilder extends LightningElement {
     // First Page: Agreement Selection
     @track agreementSelectionMode = 'Single';
     @track agreementOptions = [];
+    @track selectedAgreementNames = [];
     @track availableTeams = [];
     @track primaryTeam;
     @track selectedTeam;
+    @track countriesOfDistribution;
     @track selectedAgreements = [];
     @track agreementStartDate;
     
     // Second Page: Grid Builder
+    @track isAutoGridUpdate = true;
+
     startingLogicType = 'AND';
     filterValueSeparator = ';';
     filterLogicOptions = [{label: 'AND', value:'AND'},{label: 'OR', value: 'OR'}];
@@ -34,6 +39,7 @@ export default class StandardGridBuilder extends LightningElement {
     allShareTypeOptions = [];
     defaultShareTypeValues = [];
     selectedShareTypes = [];
+    enabledShareTypeValues = [];
 
     objectOptions = [];
     fieldsByObject = {};
@@ -52,12 +58,16 @@ export default class StandardGridBuilder extends LightningElement {
     @track selectedShareClasses = [];
     @track showSelectedPanel = false;
     @track showRecapExcludedOnly = false;
+    @track showConfirmationModal = false;
+    @track confirmationContext = { action: '', title: '', message: '' };
 
     @track criteriaList = [];
     criteriaCounter = 0;
 
     criteriaDefVal = {grid: null, filterLogicType: '', filterLogicText: '', details: []};
     @track criteria = {};
+
+    recId;
 
     get addToGridDisabled() {
         return !this.selectedGrid || !(this.shareClasses && this.shareClasses.length > 0);
@@ -71,10 +81,38 @@ export default class StandardGridBuilder extends LightningElement {
         return this.showGridBuilderPage || this.showValidationPage;
     }
 
+    get showBackToAgreementSelectionBtn() {
+        return !this.recId;
+    }
+
+    get toggleLabel() {
+        return this.isAutoGridUpdate ? 'Automatic' : 'Manual';
+    }
+
+    get isToggleDisabled() {
+        if (this.isAutoGridUpdate) return false;
+        if (!(this.selectedShareClasses || []).length) return false;
+        const usedGridIds = new Set((this.selectedShareClasses || []).map(sc => sc.gridId));
+        return usedGridIds.size >= 2 || (this.selectedGrid && !usedGridIds.has(this.selectedGrid));
+    }
+
+    get computedGridOptions() {
+        if (!this.isAutoGridUpdate || !(this.selectedShareClasses || []).length) {
+            return this.gridOptions || [];
+        }
+        const lockedGridId = this.selectedShareClasses[0].gridId;
+        return (this.gridOptions || []).map(opt => ({
+            ...opt,
+            disabled: opt.value !== lockedGridId
+        }));
+    }
+
     async connectedCallback() {
         try {
+            this.recId = this.getQueryParam('c__recordId');
             let agreementSettings = await getAgreementSelectionPageSettings({
-                gridBuilderSettingName: this.gridBuilderSettingName
+                gridBuilderSettingName: this.gridBuilderSettingName,
+                agreementId: this.recId
             });
             if (agreementSettings) {
                 if(!agreementSettings.gridBuilderFound) {
@@ -99,12 +137,21 @@ export default class StandardGridBuilder extends LightningElement {
         }
     }
 
+    getQueryParam(paramName) {
+        let params = new URLSearchParams(window.location.search);
+        let value = params.get(paramName);
+        if (value) {
+            return value;
+        }
+        return null;
+    }
+
     async loadGridSettings() {
         try {
             this.isLoading = true;
             let gridSettings = await getGridSettings({
                 gridBuilderSettingName: this.gridBuilderSettingName,
-                selectedTeam: this.selectedTeam
+                countriesOfDistribution: this.countriesOfDistribution
             });
             if (gridSettings && gridSettings.filterObjects && gridSettings.filterObjects.length > 0) {
                 this.setGridSettings(gridSettings);
@@ -198,7 +245,8 @@ export default class StandardGridBuilder extends LightningElement {
         try {
             this.isLoading = true;
             let grids = await getAvailableGrids({
-                selectedTeam: this.selectedTeam
+                countriesOfDistribution: this.countriesOfDistribution,
+                agreementNames: this.selectedAgreementNames
             });
             if(grids && grids.length > 0) {
                 this.gridOptions = grids;
@@ -217,7 +265,7 @@ export default class StandardGridBuilder extends LightningElement {
             this.isLoading = true;
             const productSelection = await getAllProductsForSelection({
                 gridBuilderSettingName: this.gridBuilderSettingName,
-                selectedTeam: this.selectedTeam
+                countriesOfDistribution: this.countriesOfDistribution
             });
             const hasFields = productSelection?.fieldsApiToInfoMap && Object.keys(productSelection.fieldsApiToInfoMap).length > 0;
             const hasProducts = productSelection?.products && productSelection.products.length > 0;
@@ -231,6 +279,13 @@ export default class StandardGridBuilder extends LightningElement {
         }
         finally {
             this.isLoading = false;
+        }
+    }
+
+    handleGridUpdateToggle(event) {
+        this.isAutoGridUpdate = event.target.checked;
+        if (this.isAutoGridUpdate && (this.selectedShareClasses || []).length) {
+            this.selectedGrid = this.selectedShareClasses[0].gridId;
         }
     }
 
@@ -264,6 +319,10 @@ export default class StandardGridBuilder extends LightningElement {
 
     handleShareTypeSelection(event) {
         this.selectedShareTypes = event.detail.value;
+    }
+
+    handleEnabledShareTypesChanged(event) {
+        this.enabledShareTypeValues = event.detail.value;
     }
 
     handleRemoveProductFromResults(event) {
@@ -306,7 +365,7 @@ export default class StandardGridBuilder extends LightningElement {
         try {
             const productSelection = await getProductsAndShareClasses({
                 gridBuilderSettingName: this.gridBuilderSettingName,
-                selectedTeam: this.selectedTeam,
+                countriesOfDistribution: this.countriesOfDistribution,
                 gridCriteriaJson: JSON.stringify(this.getCriteriaSObject()),
                 gridCriteriaDetailsJson: JSON.stringify(this.getCriteriaDetailSObject()),
                 getAllProductsWithSelection: false,
@@ -338,7 +397,7 @@ export default class StandardGridBuilder extends LightningElement {
         try {
             const productSelection = await getProductsAndShareClasses({
                 gridBuilderSettingName: this.gridBuilderSettingName,
-                selectedTeam: this.selectedTeam,
+                countriesOfDistribution: this.countriesOfDistribution,
                 gridCriteriaJson: JSON.stringify(this.getCriteriaSObject()),
                 gridCriteriaDetailsJson: JSON.stringify(this.getCriteriaDetailSObject()),
                 getAllProductsWithSelection: true,
@@ -354,13 +413,24 @@ export default class StandardGridBuilder extends LightningElement {
 
                 const criteriaRef = this.buildCriteriaReference();
 
-                this.selectedShareClasses = this.buildSelectedShareClasses(allRows, existingMap, criteriaRef);
+                const { selectedRows, skippedCount } = this.buildSelectedShareClasses(allRows, existingMap, criteriaRef);
+                this.selectedShareClasses = selectedRows;
                 this.selectedResultColumns = this.buildResultColumnsList(productSelection.fieldsApiToInfoMap, true);
-                this.allQueriedShareClasses = allRows;
+
+                const selectedIds = new Set(selectedRows.map(r => r.id));
+                this.allQueriedShareClasses = allRows.map(row => {
+                    if (!selectedIds.has(row.id) && !existingMap.has(row.id)) {
+                        return { ...row, gridId: '', gridLabel: '', isSelected: false, cells: (row.cells || []).map(c => c.label === 'Grid' ? { ...c, value: '' } : c) };
+                    }
+                    return row;
+                });
 
                 const addedCount = Math.max(this.selectedShareClasses.length - previousCount, 0);
                 const message = addedCount > 0 ? addedCount + ' share classes have been added to the Grid.' : 'No new share classes were added.';
                 this.showToastFunction('Share classes added', message, addedCount > 0 ? 'success' : 'info');
+                if (skippedCount > 0) {
+                    this.showToastFunction('Warning', skippedCount + ' share class(es) were not added because their product is already assigned to a different grid.', 'warning');
+                }
             }
             else {
                 this.showToastFunction('No share classes found', 'No share classes found to add to the Grid.', 'info');
@@ -481,12 +551,26 @@ export default class StandardGridBuilder extends LightningElement {
 
     buildSelectedShareClasses(allRows, existingMap, criteriaRef) {
         const selectedRows = [];
+        let skippedCount = 0;
+
+        const productGridMap = new Map();
+        existingMap.forEach(row => {
+            if (row.productId && row.gridId) {
+                productGridMap.set(row.productId, row.gridId);
+            }
+        });
+
         allRows.forEach(row => {
             const existing = existingMap.get(row.id);
             if (existing) {
                 selectedRows.push({ ...existing, isSelected: true });
-            } 
+            }
             else if (row.isSelected) {
+                const existingGridForProduct = productGridMap.get(row.productId);
+                if (existingGridForProduct && existingGridForProduct !== criteriaRef.gridId) {
+                    skippedCount++;
+                    return;
+                }
                 selectedRows.push({
                     ...row,
                     gridId: criteriaRef.gridId,
@@ -496,13 +580,15 @@ export default class StandardGridBuilder extends LightningElement {
                 });
             }
         });
-        return selectedRows;
+        return { selectedRows, skippedCount };
     }
 
     resetResults(resetFilter) {
         this.resultColumns = [];
         this.shareClasses = [];
-        this.selectedGrid = null;
+        if (!this.isAutoGridUpdate || !(this.selectedShareClasses || []).length) {
+            this.selectedGrid = null;
+        }
         const resultsTable = this.template.querySelector('c-results-table');
         if (resultsTable) {
             resultsTable.resetProductExpansions();
@@ -609,18 +695,58 @@ export default class StandardGridBuilder extends LightningElement {
         }
     }
 
+    getSelectedAgreementNames() {
+        if (!this.selectedAgreements || !this.selectedAgreements.length || !this.agreementOptions) {
+            return '';
+        }
+        return this.selectedAgreements.map(id => {
+            const opt = this.agreementOptions.find(a => a.value === id || a.value.substring(0, 15) === id);
+            return opt ? opt.name : null;
+        }).filter(Boolean).join(', ');
+    }
+
+    resetAll(showToast) {
+        this.selectedShareClasses = [];
+        this.criteriaList = [];
+        this.resetResults(true);
+        if(showToast)
+            this.showToastFunction('Success', 'All selections and criteria have been reset.', 'success');
+    }
+
+    // ------------------------------------ Confirmation Modal methods ------------------------------------
+    openConfirmation(action, title, message) {
+        this.confirmationContext = { action, title, message };
+        this.showConfirmationModal = true;
+    }
+
+    handleConfirmationConfirm() {
+        const action = this.confirmationContext.action;
+        this.showConfirmationModal = false;
+        if (action === 'resetAll') {
+            this.resetAll(true);
+        }
+    }
+
+    handleConfirmationCancel() {
+        this.showConfirmationModal = false;
+    }
+
+    handleResetAllClick() {
+        this.openConfirmation('resetAll', 'Reset All', 'Are you sure you want to reset all selected share classes and criteria? This action cannot be undone.');
+    }
+
     // ------------------------------------ Page Handling methods ------------------------------------
     async handleAgreementsNext(event) {
         let alreadySelectedAgreements = JSON.stringify(this.selectedAgreements);
         let alreadySelectedTeam = this.selectedTeam;
         this.selectedAgreements = event.detail?.agreements || [];
         this.agreementStartDate = event.detail?.startDate;
-        this.selectedTeam = event.detail?.team || this.selectedTeam;
+        this.selectedTeam = event.detail?.team;
+        this.countriesOfDistribution = event.detail?.countriesOfDistribution;
+        this.selectedAgreementNames = this.getSelectedAgreementNames();
 
         if((alreadySelectedAgreements != JSON.stringify(this.selectedAgreements)) || (alreadySelectedTeam != this.selectedTeam)) {
-            this.resetResults(true);
-            this.selectedShareClasses = [];
-            this.criteriaList = [];
+            this.resetAll(false);
             await this.loadGridSettings();
             await this.loadGrids();
             await this.loadAllProductsForSelection();
@@ -641,6 +767,23 @@ export default class StandardGridBuilder extends LightningElement {
         this.handlePages(false, true, false);
     }
 
+    handleGridSaved(event) {
+        const { gridName, agreementId } = event.detail || {};
+        this.showToastFunction('Success', `Grid "${gridName}" saved successfully.`, 'success');
+
+        // Navigate to the first agreement record
+        if (agreementId) {
+            this[NavigationMixin.Navigate]({
+                type: 'standard__recordPage',
+                attributes: {
+                    recordId: agreementId,
+                    objectApiName: 'Convention__c',
+                    actionName: 'view'
+                }
+            });
+        }
+    }
+
     handlePages(showGridAgreementSelectionP, showGridBuilderP, showValidationP) {
         this.showAgreementsPage = showGridAgreementSelectionP;
         this.showGridBuilderPage = showGridBuilderP;
@@ -650,7 +793,7 @@ export default class StandardGridBuilder extends LightningElement {
     // ------------------------------------ Criteria -> SObject ------------------------------------
     getCriteriaSObject() {
         return {
-            Grid__c: this.criteria.grid,
+            StandardGrid__c: this.criteria.grid,
             FilterLogic__c: this.criteria.filterLogicType,
             FilterLogicExpression__c: this.criteria.filterLogicText
         };

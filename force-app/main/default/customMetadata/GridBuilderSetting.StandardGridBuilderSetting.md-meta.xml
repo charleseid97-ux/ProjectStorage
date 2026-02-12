@@ -3,6 +3,12 @@
     <label>Standard Grid Builder Setting</label>
     <protected>false</protected>
     <values>
+        <field>AgreementQueryConditions__c</field>
+        <value xsi:type="xsd:string">Status__c IN (&apos;Signed&apos;, &apos;Expired&apos;, &apos;In Negotiation&apos;)
+AND
+RecordType.Name != &apos;IS Agreement&apos;</value>
+    </values>
+    <values>
         <field>AgreementSelectionMode__c</field>
         <value xsi:type="xsd:string">Single</value>
     </values>
