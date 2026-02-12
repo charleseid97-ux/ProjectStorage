@@ -142,29 +142,25 @@ public with sharing class GridValidationController {
     }
 
     private static void insertGridDetails(GridSaveRequest request, Map<String, GridCriteria__c> criteriaRefToRecordMap, Map<String, String> shareClassGridIdMap) {
-        System.debug('@@@shareClassGridIdMap: '+shareClassGridIdMap);
         Map<Id, Map<String, Object>> rebateByShareClass = (shareClassGridIdMap != null && !shareClassGridIdMap.isEmpty()) ? GridBuilderHelper.buildRebateRateByShareClass(shareClassGridIdMap) : new Map<Id, Map<String, Object>>();
-        System.debug('@@@rebateByShareClass: '+ rebateByShareClass);
         List<GridDetail__c> gridDetailsToInsert = new List<GridDetail__c>();
+        Date criteriaStartDate;
         for (CriteriaWrapper cw : request.criteriaList) {
+            criteriaStartDate = cw.criteria != null ? cw.criteria.StartDate__c : null;
             if (cw.shareClassIds != null) {
                 GridCriteria__c criteriaRecord = criteriaRefToRecordMap.get(cw.criteriaRefId);
                 for (Id scId : cw.shareClassIds) {
-                    GridDetail__c detail = new GridDetail__c(
+                    gridDetailsToInsert.add(new GridDetail__c(
                         Grid__c = request.grid.Id,
                         ShareClass__c = scId,
                         StandardGrid__c = criteriaRecord.StandardGrid__c,
                         GridCriteria__c = criteriaRecord.Id,
-                        StartDate__c = cw.criteria != null ? cw.criteria.StartDate__c : null
-                    );
-                    if (rebateByShareClass.containsKey(scId)) {
-                        detail.Rebate__c = (Decimal)rebateByShareClass.get(scId).get('value');
-                    }
-                    gridDetailsToInsert.add(detail);
+                        StartDate__c = criteriaStartDate,
+                        Rebate__c = (rebateByShareClass.containsKey(scId))? (Decimal)rebateByShareClass.get(scId).get('value') : 0
+                    ));
                 }
             }
         }
-        System.debug('@@@gridDetailsToInsert: '+ gridDetailsToInsert);
         if (!gridDetailsToInsert.isEmpty()) {
             insert gridDetailsToInsert;
         }

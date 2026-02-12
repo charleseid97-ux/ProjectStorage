@@ -144,7 +144,7 @@ public without sharing class SM034_AgreementService {
             System.debug('//NGO a.Agreement_Type__c : ' + a);
             //commented by Nina 10-01
             if(!(a.RecordTypeId == AgreementUtil.IS_RECTYPE_ID)) {
-                // AgreementUtil.validateGRID(a);
+                AgreementUtil.validateGRID(a);
                 //Agreement code and increment generation
                 AgreementUtil.agreementCodeGeneration(a, currentCodeTop, currentCodeSub, masterAgreements, thisRecordTypeName);
                 currentCodeTop = Integer.valueOf(a.Code_Top_Level__c);
@@ -221,9 +221,9 @@ Role__c = rC.Role__c));
             }
         }
         
-        // if (!roles.isEmpty()) {
-        //     insert roles;
-        // }
+        if (!roles.isEmpty()) {
+            insert roles;
+        }
     }
     
     /*public static void createAgreementRoles(Map<Id, Convention__c> newItems) {
