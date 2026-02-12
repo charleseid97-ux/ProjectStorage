@@ -97,9 +97,9 @@ public class GridTestSetupHelper {
 
             // 7. Create Grids (3)
             List<Grid__c> grids = new List<Grid__c>{
-                createGrid(GRID_NAME_S1, scopes[0].Id, TEST_TEAM_FR, true),
-                createGrid(GRID_NAME_S5_PLUS, scopes[1].Id, TEST_TEAM_UK, true),
-                createGrid(GRID_NAME_TEST, scopes[2].Id, TEST_TEAM_DE, true)
+                createGrid(GRID_NAME_S1, scopes[0].Id, TEST_TEAM_FR, true, GridBuilderHelper.RT_STANDARD_GRID),
+                createGrid(GRID_NAME_S5_PLUS, scopes[1].Id, TEST_TEAM_UK, true, GridBuilderHelper.RT_STANDARD_GRID),
+                createGrid(GRID_NAME_TEST, scopes[2].Id, TEST_TEAM_DE, true, GridBuilderHelper.RT_STANDARD_GRID)
             };
             insert grids;
 
@@ -295,23 +295,23 @@ public class GridTestSetupHelper {
         );
     }
 
-    public static Grid__c createGrid(String name, Id scopeId, String team, Boolean active) {
+    public static Grid__c createGrid(String name, Id scopeId, String team, Boolean active, String recordTypeDeveloperName) {
         return new Grid__c(
             Name = name,
             GridScope__c = scopeId,
-            Team__c = team,
-            ActiveGrid__c = active
+            ActiveGrid__c = active,
+            RecordTypeId = Schema.SObjectType.Grid__c.getRecordTypeInfosByDeveloperName().get(recordTypeDeveloperName).getRecordTypeId()
         );
     }
 
     public static List<Grid__c> getTestGrids() {
-        return [SELECT Id, Name, GridScope__c, Team__c, ActiveGrid__c
+        return [SELECT Id, Name, GridScope__c, ActiveGrid__c
                 FROM Grid__c
                 ORDER BY Name];
     }
 
     public static Grid__c getTestGridByName(String name) {
-        List<Grid__c> grids = [SELECT Id, Name, GridScope__c, Team__c, ActiveGrid__c
+        List<Grid__c> grids = [SELECT Id, Name, GridScope__c, ActiveGrid__c
                                FROM Grid__c
                                WHERE Name = :name
                                LIMIT 1];

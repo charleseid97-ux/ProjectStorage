@@ -24,9 +24,10 @@ public with sharing class GridDetailTableController {
             return result;
         }
 
-        Grid__c grid = [SELECT Id, GridScope__c, GridScope__r.Agreement__c
+        Grid__c grid = [SELECT Id, GridScope__c, GridScope__r.Agreement__c, RecordType.DeveloperName
                         FROM Grid__c
                         WHERE Id = :gridId LIMIT 1];
+        result.isCustomGrid = grid.RecordType.DeveloperName == GridBuilderHelper.RT_CUSTOM_GRID;
 
         AgreementSelection agreementSelection;
         if (grid.GridScope__c == null) {
@@ -124,10 +125,8 @@ public with sharing class GridDetailTableController {
         aumQuery += selection.all ? '' : 'AND Convention__c IN :agreementIdsSet ';
         aumQuery += 'GROUP BY ShareClass__c';
 
-        Decimal totalAum;
         for (AggregateResult ar : Database.query(aumQuery)) {
-            totalAum = (Decimal)ar.get('totalAmount');
-            aumByShareClass.put((Id)ar.get('scId'), formatAum(totalAum));
+            aumByShareClass.put((Id)ar.get('scId'), GridBuilderHelper.formatAum((Decimal)ar.get('totalAmount')));
         }
 
         return aumByShareClass;
@@ -148,13 +147,13 @@ public with sharing class GridDetailTableController {
             return ruleLine.OtherShareType__c;
         }
         if (ruleLine.RuleToApply__c == RULE_OTHER_SHARE_FEES) {
-            String pct = formatPercent(ruleLine.PercentageOfFees__c);
+            String pct = GridBuilderHelper.formatPercent(ruleLine.PercentageOfFees__c);
             if (String.isNotBlank(ruleLine.OtherShareType__c) && String.isNotBlank(pct)) {
                 return ruleLine.OtherShareType__c + ' + ' + pct;
             }
             return String.isNotBlank(pct) ? pct : ruleLine.OtherShareType__c;
         }
-        return formatPercent(ruleLine.PercentageOfFees__c);
+        return GridBuilderHelper.formatPercent(ruleLine.PercentageOfFees__c);
     }
 
     private static String getShareValue(Share_Class__c share, String fieldPath) {
@@ -163,22 +162,6 @@ public with sharing class GridDetailTableController {
         }
         Object rawValue = GridBuilderHelper.getFieldValue(share, fieldPath.split('\\.'), 0);
         return rawValue == null ? null : String.valueOf(rawValue);
-    }
-
-    private static String formatAum(Decimal totalAum) {
-        if (totalAum == null) {
-            return '0';
-        }
-        Decimal scaled = totalAum >= 100000 ? totalAum.setScale(0) : totalAum.setScale(2, RoundingMode.HALF_UP);
-        return scaled.format();
-    }
-
-    private static String formatPercent(Decimal value) {
-        if (value == null) {
-            return null;
-        }
-        Decimal scaled = value.setScale(2, RoundingMode.HALF_UP);
-        return scaled.format() + '%';
     }
 
     private static Set<String> splitTokens(String raw) {
@@ -214,6 +197,7 @@ public with sharing class GridDetailTableController {
     public class GridDetailResult {
         @AuraEnabled public List<GridDetailRow> rows;
         @AuraEnabled public List<String> errors;
+        @AuraEnabled public Boolean isCustomGrid;
     }
 
     public class GridDetailRow {
@@ -252,10 +236,10 @@ public with sharing class GridDetailTableController {
             this.isin                   =   getShareValue(share, 'ISIN__c');
             this.aum                    =   aumByShareClass.containsKey(detail.ShareClass__c) ? aumByShareClass.get(detail.ShareClass__c) : '0';
             this.effMgtFeeDate          =   detail.StartDate__c;
-            this.effMgtFee              =   formatPercent(effFee);
-            this.rebateRate             =   formatPercent(detail.Rebate__c);
-            this.netMargin              =   formatPercent(calculateNetMargin(effFee, detail.Rebate__c));
-            this.profitability          =   formatPercent(ruleLine != null ? ruleLine.PercentageOfFees__c : null);
+            this.effMgtFee              =   GridBuilderHelper.formatPercent(effFee);
+            this.rebateRate             =   GridBuilderHelper.formatPercent(detail.Rebate__c);
+            this.netMargin              =   GridBuilderHelper.formatPercent(calculateNetMargin(effFee, detail.Rebate__c));
+            this.profitability          =   GridBuilderHelper.formatPercent(ruleLine != null ? ruleLine.PercentageOfFees__c : null);
             this.gridRule               =   ruleLine != null ? ruleLine.RuleToApply__c : null;
             this.ruleValue              =   buildRuleValue(ruleLine);
         }

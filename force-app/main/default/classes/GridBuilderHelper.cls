@@ -5,9 +5,12 @@
  *              Supports complex filter logic evaluation and dynamic field value extraction.
  * @author Charles EID
  * @testClass GridBuilderControllerTest, GridValidationControllerTest
- * @coverage 96% (Combined coverage from both test classes)
+ * @coverage 95% (Combined coverage from both test classes)
  */
 public with sharing class GridBuilderHelper {
+    public static final String RT_STANDARD_GRID = 'StandardGrid';
+    public static final String RT_CUSTOM_GRID = 'CustomGrid';
+    public static final String defaultAgreementSelectionMode = 'Single';
     public static final String defaultFilterValueSeparator = ';';
     public static final String defaultFilterLogic = 'AND';
     public static final Integer defaultMaxFilterDetails = 10;
@@ -21,27 +24,13 @@ public with sharing class GridBuilderHelper {
                                                       'Share_Class__c => ISIN__c';
     public static final String defaultFilterOperators = '=, !=, IN, NOT IN, LIKE, NOT {_} LIKE';
     private static final String REBATE_RATE_FIELD_KEY = 'RebateRate';
-    public static final Map<String, List<String>> countriesMap = new Map<String, List<String>>{
-        'France' => new List<String>{ 'FR' },
-        'United Kingdom' => new List<String>{ 'GB' },
-        'Germany' => new List<String>{ 'DE' },
-        'Italy' => new List<String>{ 'IT' },
-        'Switzerland' => new List<String>{ 'CH' },
-        'Belgium' => new List<String>{ 'BE' },
-        'Spain' => new List<String>{ 'ES' },
-        'Luxembourg' => new List<String>{ 'LU' },
-        'Netherlands' => new List<String>{ 'NL' },
-        'Taiwan' => new List<String>{ 'TW' },
-        'Nordics' => new List<String>{ 'FI', 'NO', 'SE' }
-    };
-
-    public static GridSettings getGridSettings(String gridBuilderSettingName, String selectedTeam, Boolean includeFilterObjects) {
+    public static GridSettings getGridSettings(String gridBuilderSettingName, String countriesOfDistribution, Boolean includeFilterObjects) {
         GridBuilderSetting__mdt gridSetting = loadGridBuilderSetting(gridBuilderSettingName);
         if (gridSetting == null) {
             return null;
         }
         GridSettings settings = buildGridSettings(gridSetting);
-        settings.filterObjects = includeFilterObjects? buildFilterObjectWrappers(gridSetting.GridCriteriaSettings__r, selectedTeam, settings.shareTypeWrp) : null;
+        settings.filterObjects = includeFilterObjects? buildFilterObjectWrappers(gridSetting.GridCriteriaSettings__r, countriesOfDistribution, settings.shareTypeWrp) : null;
         return settings;
     }
 
@@ -51,7 +40,7 @@ public with sharing class GridBuilderHelper {
                                                                 WHERE IsActive__c = true
                                                                 ORDER BY SortOrder__c ASC LIMIT 10), FilterLimit__c, FilterDefaultLogic__c, FilterValueSeparator__c,
                                                                     AllShareTypeOptions__c, DefaultShareTypeInclusion__c, DefinitiveShareTypeExclusion__c,
-                                                                    FieldsToDisplay__c, DefaultSortFields__c
+                                                                    FieldsToDisplay__c, DefaultSortFields__c, AgreementSelectionMode__c, AgreementQueryConditions__c
                                                      FROM GridBuilderSetting__mdt
                                                      WHERE DeveloperName = :gridBuilderSettingName LIMIT 1];
         if (gridSetting == null || gridSetting.isEmpty()) {
@@ -61,18 +50,20 @@ public with sharing class GridBuilderHelper {
     }
 
     private static GridSettings buildGridSettings(GridBuilderSetting__mdt gridSetting) {
-        Integer filterLimit = gridSetting.FilterLimit__c != null ? Integer.valueOf(gridSetting.FilterLimit__c) : defaultMaxFilterDetails;
-        String onLoadFilterLogic = (String.isNotBlank(gridSetting.FilterDefaultLogic__c)) ? gridSetting.FilterDefaultLogic__c : defaultFilterLogic;
-        String filterValueSeparator = (String.isNotBlank(gridSetting.FilterValueSeparator__c)) ? ' ' + gridSetting.FilterValueSeparator__c + ' ' : defaultFilterValueSeparator;
-        String allShareTypes = (String.isNotBlank(gridSetting.AllShareTypeOptions__c)) ? gridSetting.AllShareTypeOptions__c : '';
-        String shareTypeInclusion = (String.isNotBlank(gridSetting.DefaultShareTypeInclusion__c)) ? gridSetting.DefaultShareTypeInclusion__c : '';
-        String shareTypeExclusion = (String.isNotBlank(gridSetting.DefinitiveShareTypeExclusion__c)) ? gridSetting.DefinitiveShareTypeExclusion__c : '';
-        String fieldsToDisplay = (String.isNotBlank(gridSetting.FieldsToDisplay__c)) ? gridSetting.FieldsToDisplay__c : defaultFieldsToDisplay;
-        String sortingFields = (String.isNotBlank(gridSetting.DefaultSortFields__c)) ? gridSetting.DefaultSortFields__c : defaultSortingFields;
-        return new GridSettings(filterLimit, onLoadFilterLogic, filterValueSeparator, allShareTypes, shareTypeInclusion, shareTypeExclusion, fieldsToDisplay, sortingFields);
+        String agreementSelectionMode   =   (String.isNotBlank(gridSetting.AgreementSelectionMode__c))? gridSetting.AgreementSelectionMode__c : defaultAgreementSelectionMode;
+        String agreementQueryConditions =   (String.isNotBlank(gridSetting.AgreementQueryConditions__c))? gridSetting.AgreementQueryConditions__c : '';
+        Integer filterLimit             =   gridSetting.FilterLimit__c != null ? Integer.valueOf(gridSetting.FilterLimit__c) : defaultMaxFilterDetails;
+        String onLoadFilterLogic        =   (String.isNotBlank(gridSetting.FilterDefaultLogic__c)) ? gridSetting.FilterDefaultLogic__c : defaultFilterLogic;
+        String filterValueSeparator     =   (String.isNotBlank(gridSetting.FilterValueSeparator__c)) ? ' ' + gridSetting.FilterValueSeparator__c + ' ' : defaultFilterValueSeparator;
+        String allShareTypes            =   (String.isNotBlank(gridSetting.AllShareTypeOptions__c)) ? gridSetting.AllShareTypeOptions__c : '';
+        String shareTypeInclusion       =   (String.isNotBlank(gridSetting.DefaultShareTypeInclusion__c)) ? gridSetting.DefaultShareTypeInclusion__c : '';
+        String shareTypeExclusion       =   (String.isNotBlank(gridSetting.DefinitiveShareTypeExclusion__c)) ? gridSetting.DefinitiveShareTypeExclusion__c : '';
+        String fieldsToDisplay          =   (String.isNotBlank(gridSetting.FieldsToDisplay__c)) ? gridSetting.FieldsToDisplay__c : defaultFieldsToDisplay;
+        String sortingFields            =   (String.isNotBlank(gridSetting.DefaultSortFields__c)) ? gridSetting.DefaultSortFields__c : defaultSortingFields;
+        return new GridSettings(agreementSelectionMode, agreementQueryConditions, filterLimit, onLoadFilterLogic, filterValueSeparator, allShareTypes, shareTypeInclusion, shareTypeExclusion, fieldsToDisplay, sortingFields);
     }
 
-    private static List<FilterObjectWrapper> buildFilterObjectWrappers(List<GridCriteriaSetting__mdt> criteriaSettings, String selectedTeam, ShareTypeWrapper shareTypeWrp) {
+    private static List<FilterObjectWrapper> buildFilterObjectWrappers(List<GridCriteriaSetting__mdt> criteriaSettings, String countriesOfDistribution, ShareTypeWrapper shareTypeWrp) {
         String objectsToFieldsString = '';
         for (GridCriteriaSetting__mdt criteriaSetting : criteriaSettings) {
             if(criteriaSetting.FieldApiNames__c != null) {
@@ -81,7 +72,7 @@ public with sharing class GridBuilderHelper {
                 }
             }
         }
-        Map<String, Map<String, Map<String, String>>> objectToFieldToValuesMap = getMapObjectToFieldToValues(buildFieldsApiToInfoMap(objectsToFieldsString, false), selectedTeam, shareTypeWrp);
+        Map<String, Map<String, Map<String, String>>> objectToFieldToValuesMap = getMapObjectToFieldToValues(buildFieldsApiToInfoMap(objectsToFieldsString, false), countriesOfDistribution, shareTypeWrp);
         List<FilterObjectWrapper> filterObjects = new List<FilterObjectWrapper>();
         for (GridCriteriaSetting__mdt criteriaSetting : criteriaSettings) {
             if(criteriaSetting.FieldApiNames__c != null) {
@@ -125,8 +116,8 @@ public with sharing class GridBuilderHelper {
         return result;
     }
 
-    private static Map<String, Map<String, Map<String, String>>> getMapObjectToFieldToValues(Map<String, FieldInfo> fieldsApiToInfoMap, String selectedTeam, ShareTypeWrapper shareTypeWrp) {
-        String whereClause = String.join(buildDefaultConditions(true, true, selectedTeam, shareTypeWrp, false), ' AND ');
+    private static Map<String, Map<String, Map<String, String>>> getMapObjectToFieldToValues(Map<String, FieldInfo> fieldsApiToInfoMap, String countriesOfDistribution, ShareTypeWrapper shareTypeWrp) {
+        String whereClause = String.join(buildDefaultConditions(true, true, countriesOfDistribution, shareTypeWrp, false), ' AND ');
         String query = 'SELECT Id, ' + String.join(fieldsApiToInfoMap.keySet(), ', ') + 
                       ' FROM Share_Class__c ';
         query += String.isNotBlank(whereClause)? ' WHERE ' + whereClause : '';
@@ -239,13 +230,13 @@ public with sharing class GridBuilderHelper {
                (objectApiName == 'Strategy__c')? 'Fund__r.FundStrategy__r.' : '';
     }
 
-    public static Map<String, Object> buildRecordResults(Set<String> selectFieldsApiSet, Share_Class__c sc, Map<Id, String> rebateByShareClass) {
+    public static Map<String, Object> buildRecordResults(Set<String> selectFieldsApiSet, Share_Class__c sc, Map<Id, Map<String, Object>> rebateByShareClass) {
         Map<String, Object> recordResults = new Map<String, Object>();
         for(String field : selectFieldsApiSet) {
             recordResults.put(field, getFieldValue(sc, field.split('\\.'), 0));
         }
-        if (rebateByShareClass != null && sc != null) {
-            recordResults.put(REBATE_RATE_FIELD_KEY, rebateByShareClass.get(sc.Id));
+        if (rebateByShareClass != null && sc != null && rebateByShareClass.containsKey(sc.Id)) {
+            recordResults.put(REBATE_RATE_FIELD_KEY, (String)rebateByShareClass.get(sc.Id).get('formatted'));
         }
         return recordResults;
     }
@@ -267,13 +258,13 @@ public with sharing class GridBuilderHelper {
         return getFieldValue(child, fieldApiPath, index + 1);
     }
 
-    public static ProductSelectionResult buildProductSelectionResult(String gridBuilderSettingName, String selectedTeam, GridSettings gridSettings, Map<String, FieldInfo> fieldsApiToInfoMap, Set<Id> filteredIds, String finalWhere, Map<Id, String> aumByShareClass, Boolean onlyIncludeSCInAgreement, Map<String, String> shareClassGridIdMap, Boolean includeRebateRate) {
-        gridSettings = gridSettings != null? gridSettings : getGridSettings(gridBuilderSettingName, selectedTeam, false);
+    public static ProductSelectionResult buildProductSelectionResult(String gridBuilderSettingName, String countriesOfDistribution, GridSettings gridSettings, Map<String, FieldInfo> fieldsApiToInfoMap, Set<Id> filteredIds, String finalWhere, Map<Id, String> aumByShareClass, Boolean onlyIncludeSCInAgreement, Map<String, String> shareClassGridIdMap, Boolean includeRebateRate) {
+        gridSettings = gridSettings != null? gridSettings : getGridSettings(gridBuilderSettingName, countriesOfDistribution, false);
         fieldsApiToInfoMap = fieldsApiToInfoMap != null? fieldsApiToInfoMap : buildFieldsApiToInfoMap(gridSettings.fieldsToDisplay + getAdditionalQueryColumns(), includeRebateRate);
 
         Set<String> selectFields = new Set<String>{'Id', 'Fund__c', 'Fund__r.ProductName__c', 'Fund__r.InternalShortName__c'};
         selectFields.addAll(getSelectableFieldSet(fieldsApiToInfoMap));
-        finalWhere = String.isNotBlank(finalWhere)? finalWhere : String.join(buildDefaultConditions(true, true, selectedTeam, gridSettings.shareTypeWrp, false), ' AND ');
+        finalWhere = String.isNotBlank(finalWhere)? finalWhere : String.join(buildDefaultConditions(true, true, countriesOfDistribution, gridSettings.shareTypeWrp, false), ' AND ');
         String finalOrderBy = buildOrderByClause(gridSettings.sortingFields);
 
         String allQuery = 'SELECT ' + String.join(new List<String>(selectFields), ', ') + 
@@ -283,12 +274,12 @@ public with sharing class GridBuilderHelper {
         System.debug('@@@ allQuery: ' + allQuery);
 
         List<Share_Class__c> shareClasses = Database.query(allQuery);
-        Map<Id, String> rebateByShareClass = (includeRebateRate && shareClassGridIdMap != null)? buildRebateRateByShareClass(shareClassGridIdMap) : null;
+        Map<Id, Map<String, Object>> rebateByShareClass = (includeRebateRate && shareClassGridIdMap != null)? buildRebateRateByShareClass(shareClassGridIdMap) : null;
         List<ProductWrapper> productWrapperList = buildProductIdToWrapper(shareClasses, filteredIds, fieldsApiToInfoMap, aumByShareClass, onlyIncludeSCInAgreement, rebateByShareClass);
         return new ProductSelectionResult(fieldsApiToInfoMap, productWrapperList);
     }
 
-    private static List<ProductWrapper> buildProductIdToWrapper(List<Share_Class__c> shareClasses, Set<Id> filteredIds, Map<String, FieldInfo> fieldsApiToInfoMap, Map<Id, String> aumByShareClass, Boolean onlyIncludeSCInAgreement, Map<Id, String> rebateByShareClass) {
+    private static List<ProductWrapper> buildProductIdToWrapper(List<Share_Class__c> shareClasses, Set<Id> filteredIds, Map<String, FieldInfo> fieldsApiToInfoMap, Map<Id, String> aumByShareClass, Boolean onlyIncludeSCInAgreement, Map<Id, Map<String, Object>> rebateByShareClass) {
         Map<Id, ProductWrapper> productIdToWrapper = new Map<Id, ProductWrapper>();
         Id prodId;
         String productLabel;
@@ -316,7 +307,8 @@ public with sharing class GridBuilderHelper {
         return selectFields;
     }
 
-    private static Map<Id, String> buildRebateRateByShareClass(Map<String, String> shareClassGridIdMap) {
+    public static Map<Id, Map<String, Object>> buildRebateRateByShareClass(Map<String, String> shareClassGridIdMap) {
+        System.debug('@@@shareClassGridIdMap: '+shareClassGridIdMap);
         Set<Id> shareClassIds = new Set<Id>();
         Set<Id> gridIds = new Set<Id>();
         for (String shareClassId : shareClassGridIdMap.keySet()) {
@@ -324,17 +316,20 @@ public with sharing class GridBuilderHelper {
             gridIds.add((Id)shareClassGridIdMap.get(shareClassId));
         }
 
-        Map<Id, String> rebateByShareClass = new Map<Id, String>();
+        Map<Id, Map<String, Object>> rebateByShareClass = new Map<Id, Map<String, Object>>();
+        String standardGridRT = RT_STANDARD_GRID;
         for (GridDetail__c detail : [SELECT ShareClass__c, Grid__c, Rebate__c, StartDate__c, CreatedDate
                                      FROM GridDetail__c
                                      WHERE ShareClass__c IN :shareClassIds
                                      AND Grid__c IN :gridIds
                                      AND Rebate__c != null
+                                     AND Grid__r.RecordType.DeveloperName = :standardGridRT
                                      ORDER BY Grid__c, ShareClass__c, StartDate__c DESC, CreatedDate DESC]) {
             if (!rebateByShareClass.containsKey(detail.ShareClass__c) && shareClassGridIdMap.get(detail.ShareClass__c) == detail.Grid__c) {
-                rebateByShareClass.put(detail.ShareClass__c, formatPercent(detail.Rebate__c));
+                rebateByShareClass.put(detail.ShareClass__c, new Map<String, Object>{'formatted' => formatPercent(detail.Rebate__c), 'value' => detail.Rebate__c});
             }
         }
+        System.debug('@@@rebateByShareClass: '+rebateByShareClass);
         return rebateByShareClass;
     }
 
@@ -346,6 +341,14 @@ public with sharing class GridBuilderHelper {
         return scaled.format();
     }
 
+    public static String formatAum(Decimal totalAum) {
+        if (totalAum == null) {
+            return '0';
+        }
+        Decimal scaled = totalAum >= 100000 ? totalAum.setScale(0) : totalAum.setScale(2, RoundingMode.HALF_UP);
+        return scaled.format();
+    }
+
     public static String formatPercent(Decimal value) {
         if (value == null) {
             return null;
@@ -353,15 +356,15 @@ public with sharing class GridBuilderHelper {
         return formatDecimal(value) + '%';
     }
 
-    public static List<String> buildDefaultConditions(Boolean excludeJPY, Boolean onlyAddSharesFromRegisteredCountries, String selectedTeam, ShareTypeWrapper shareTypeWrp, Boolean alwaysIncludeDefaultShareTypeInclusion) {
+    public static List<String> buildDefaultConditions(Boolean excludeJPY, Boolean onlyAddSharesFromRegisteredCountries, String countriesOfDistribution, ShareTypeWrapper shareTypeWrp, Boolean alwaysIncludeDefaultShareTypeInclusion) {
         List<String> whereFragments = new List<String>();
         whereFragments.add('Fund__c != null');
         whereFragments.add('Fund__r.FundStrategy__c != null');
         if(excludeJPY) {
             whereFragments.add('Currency__c != \'JPY\'');
         }
-        if(String.isNotBlank(selectedTeam) && onlyAddSharesFromRegisteredCountries) {
-            whereFragments.add(getRegisteredCountriesCondition(selectedTeam));
+        if(String.isNotBlank(countriesOfDistribution) && onlyAddSharesFromRegisteredCountries) {
+            whereFragments.add(getRegisteredCountriesCondition(countriesOfDistribution));
         }
         if(String.isNotBlank(shareTypeWrp.defaultShareTypeInclusion) && alwaysIncludeDefaultShareTypeInclusion) {
             whereFragments.add('(Type__c IN '+ toSoqlInListLiteral(shareTypeWrp.defaultShareTypeInclusion, ',') +' OR Type__c = null)');
@@ -430,9 +433,8 @@ public with sharing class GridBuilderHelper {
         return listVals;
     }
 
-    private static String getRegisteredCountriesCondition(String selectedTeam) {
-        List<String> countries = countriesMap.containsKey(selectedTeam) ? countriesMap.get(selectedTeam) : new List<String>();
-        String countriesInListLiteral = toSoqlInListLiteral(String.join(countries, ','), ',');
+    private static String getRegisteredCountriesCondition(String countriesOfDistribution) {
+        String countriesInListLiteral = toSoqlInListLiteral(countriesOfDistribution, ';');
         String condition = String.isNotBlank(countriesInListLiteral) ? 'Id IN (SELECT ShareClass__c FROM Country__c WHERE RegistrationStatus__c = \'REG\' and ShareClass__c != null AND Country__c IN '+countriesInListLiteral+')' : '';
         return condition;
     }
@@ -444,6 +446,8 @@ public with sharing class GridBuilderHelper {
 
     // ------------------------------------ WRAPPERS ------------------------------------
     public class GridSettings {
+        @AuraEnabled public String agreementSelectionMode { get; set; }
+        @AuraEnabled public String agreementQueryConditions { get; set; }
         @AuraEnabled public List<FilterObjectWrapper> filterObjects { get; set; }
         @AuraEnabled public Integer filterLimit { get; set; }
         @AuraEnabled public List<Map<String, String>> filterLogics { get; set; }
@@ -452,14 +456,16 @@ public with sharing class GridBuilderHelper {
         @AuraEnabled public String fieldsToDisplay { get; set; }
         @AuraEnabled public String sortingFields { get; set; }
         @AuraEnabled public ShareTypeWrapper shareTypeWrp { get; set; }
-        public GridSettings(Integer filterLimit, String filterLogic, String filterValueSeparator, String allShareTypes, String dfltShareTypeInclusion, String defShareTypeExclusion, String fieldsToDisplay, String sortingFields) {
-            this.filterLimit            =   filterLimit;
-            this.filterLogics           =   getFilterLogics();
-            this.onLoadFilterLogic      =   filterLogic;
-            this.filterValueSeparator   =   filterValueSeparator;
-            this.shareTypeWrp           =   buildShareTypeWrapper(allShareTypes, dfltShareTypeInclusion, defShareTypeExclusion);
-            this.fieldsToDisplay        =   fieldsToDisplay;
-            this.sortingFields          =   sortingFields;
+        public GridSettings(String agrSelectionMode, String agrQueryConditions, Integer filterLimit, String filterLogic, String filterValueSeparator, String allShareTypes, String dfltShareTypeInclusion, String defShareTypeExclusion, String fieldsToDisplay, String sortingFields) {
+            this.agreementSelectionMode     =   agrSelectionMode;
+            this.agreementQueryConditions   =   agrQueryConditions;
+            this.filterLimit                =   filterLimit;
+            this.filterLogics               =   getFilterLogics();
+            this.onLoadFilterLogic          =   filterLogic;
+            this.filterValueSeparator       =   filterValueSeparator;
+            this.shareTypeWrp               =   buildShareTypeWrapper(allShareTypes, dfltShareTypeInclusion, defShareTypeExclusion);
+            this.fieldsToDisplay            =   fieldsToDisplay;
+            this.sortingFields              =   sortingFields;
         }
     }
 
@@ -543,7 +549,7 @@ public with sharing class GridBuilderHelper {
         @AuraEnabled public Boolean isSelected { get; set; }
         @AuraEnabled public Map<String, Object> recordResults { get; set; }
         @AuraEnabled public String amountAUM { get; set; }
-        public ShareClassWrapper(Share_Class__c sc, Set<Id> selectedShareClassIds, Map<String, FieldInfo> fieldsApiToInfoMap, Map<Id, String> aumByShareClass, Map<Id, String> rebateByShareClass) {
+        public ShareClassWrapper(Share_Class__c sc, Set<Id> selectedShareClassIds, Map<String, FieldInfo> fieldsApiToInfoMap, Map<Id, String> aumByShareClass, Map<Id, Map<String, Object>> rebateByShareClass) {
             this.shareClassId   =   sc.Id;
             this.isSelected     =   selectedShareClassIds.contains(sc.Id);
             this.recordResults  =   buildRecordResults(getSelectableFieldSet(fieldsApiToInfoMap), sc, rebateByShareClass);

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AgreementQueryConditions__c</fullName>
+    <description>Defines additional filter conditions used when querying Agreements.</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Enter additional SOQL-style conditions to refine the Agreement query.
+These conditions are appended to the base query logic.
+
+Example:
+Status__c = &apos;Active&apos; AND Country__c IN (&apos;France&apos;, &apos;Luxembourg&apos;)
+
+Do not include the WHERE keyword.</inlineHelpText>
+    <label>Agreement Query Conditions</label>
+    <length>4096</length>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

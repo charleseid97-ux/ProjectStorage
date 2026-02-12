@@ -4,6 +4,7 @@
     <description>Defines the default sort order for the Grid Builder result table.
 
 The Grid Builder will automatically apply these sort fields to search results when no user-defined sorting is applied.</description>
+    <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <inlineHelpText>Enter one field per line using the format ObjectApiName =&gt; FieldApiName.
 Example:

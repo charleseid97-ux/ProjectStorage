@@ -1,35 +1,37 @@
 /**
- * @description Test class for GridBuilderController and GridBuilderHelper. 
- *              Validates all methods including grid settings retrieval, available grids filtering, product/share class selection 
+ * @description Test class for GridBuilderController and GridBuilderHelper.
+ *              Validates all methods including grid settings retrieval, available grids filtering, product/share class selection
  *              with criteria filtering (AND/OR/Custom Logic), and agreement selection page settings.
  * @author Charles EID
- * @testCoverage GridBuilderController (97%), GridBuilderHelper (96% partial)
+ * @testCoverage GridBuilderController (95%), GridBuilderHelper (95% partial)
  */
 @IsTest
 private class GridBuilderControllerTest {
 
     private static final String GRID_BUILDER_SETTING = 'StandardGridBuilderSetting';
-    
+    private static final String TEST_COUNTRIES = 'FR';
+    private static final String TEST_AGREEMENT_NAME = 'AGR-FR';
+
     @TestSetup
     static void makeData() {
        	GridTestSetupHelper.setupTestData();
-    } 
+    }
 
     @IsTest
     static void testGetGridSettings() {
         Test.startTest();
-        
-        GridBuilderHelper.GridSettings result = GridBuilderController.getGridSettings(GRID_BUILDER_SETTING, GridTestSetupHelper.TEST_TEAM_FR);
-        
+
+        GridBuilderHelper.GridSettings result = GridBuilderController.getGridSettings(GRID_BUILDER_SETTING, TEST_COUNTRIES);
+
         Test.stopTest();
     }
 
     @IsTest
     static void testGetAgreementSelectionPageSettings() {
         Test.startTest();
-        
-        GridBuilderController.AgreementSelectionPageSettings result = GridBuilderController.getAgreementSelectionPageSettings(GRID_BUILDER_SETTING);
-        
+
+        GridBuilderController.AgreementSelectionPageSettings result = GridBuilderController.getAgreementSelectionPageSettings(GRID_BUILDER_SETTING, null);
+
         Test.stopTest();
     }
 
@@ -37,8 +39,8 @@ private class GridBuilderControllerTest {
     static void testGetAvailableGrids() {
         Test.startTest();
 
-        List<Map<String, String>> result = GridBuilderController.getAvailableGrids(GridTestSetupHelper.TEST_TEAM_FR);
-        
+        List<Map<String, String>> result = GridBuilderController.getAvailableGrids(TEST_COUNTRIES, TEST_AGREEMENT_NAME);
+
         Test.stopTest();
     }
 
@@ -46,8 +48,8 @@ private class GridBuilderControllerTest {
     static void testGetAllProductsForSelection() {
         Test.startTest();
 
-        GridBuilderHelper.ProductSelectionResult result = GridBuilderController.getAllProductsForSelection(GRID_BUILDER_SETTING, GridTestSetupHelper.TEST_TEAM_FR);
-        
+        GridBuilderHelper.ProductSelectionResult result = GridBuilderController.getAllProductsForSelection(GRID_BUILDER_SETTING, TEST_COUNTRIES);
+
         Test.stopTest();
     }
 
@@ -96,7 +98,7 @@ private class GridBuilderControllerTest {
 
         Test.startTest();
 
-        GridBuilderHelper.ProductSelectionResult result = GridBuilderController.getProductsAndShareClasses(GRID_BUILDER_SETTING, GridTestSetupHelper.TEST_TEAM_FR, JSON.serialize(criteria), JSON.serialize(criteriaDetails), getAll, selectedShareTypes);
+        GridBuilderHelper.ProductSelectionResult result = GridBuilderController.getProductsAndShareClasses(GRID_BUILDER_SETTING, TEST_COUNTRIES, JSON.serialize(criteria), JSON.serialize(criteriaDetails), getAll, selectedShareTypes);
 
         Test.stopTest();
     }

@@ -5,26 +5,18 @@
  *              Works in conjunction with GridBuilderHelper for data filtering and formatting.
  * @author Charles EID
  * @testClass GridBuilderControllerTest
- * @coverage 97%
+ * @coverage 95%
  */
 public with sharing class GridBuilderController {
 
     @AuraEnabled(cacheable=true)
-    public static GridBuilderHelper.GridSettings getGridSettings(String gridBuilderSettingName, String selectedTeam) {
-        return GridBuilderHelper.getGridSettings(gridBuilderSettingName, selectedTeam, true);
+    public static GridBuilderHelper.GridSettings getGridSettings(String gridBuilderSettingName, String countriesOfDistribution) {
+        return GridBuilderHelper.getGridSettings(gridBuilderSettingName, countriesOfDistribution, true);
     }
 
     @AuraEnabled(cacheable=true)
     public static AgreementSelectionPageSettings getAgreementSelectionPageSettings(String gridBuilderSettingName, String agreementId) {
-        String agreementSelectionMode = 'Single';
-        Boolean gridBuilderFound = false;
-        List<GridBuilderSetting__mdt> gridSetting = [SELECT Id, AgreementSelectionMode__c
-                                                     FROM GridBuilderSetting__mdt
-                                                     WHERE DeveloperName = :gridBuilderSettingName LIMIT 1];
-        if(gridSetting != null && !gridSetting.isEmpty()) {
-            gridBuilderFound = true;
-            agreementSelectionMode = String.isNotBlank(gridSetting[0].AgreementSelectionMode__c)? gridSetting[0].AgreementSelectionMode__c : agreementSelectionMode;
-        }
+        GridBuilderHelper.GridSettings gridSettings = GridBuilderHelper.getGridSettings(gridBuilderSettingName, null, false);
 
         String userPrimaryTeam = '';
         List<String> userSecondaryTeams = new List<String>();
@@ -38,51 +30,95 @@ public with sharing class GridBuilderController {
             userSecondaryTeams.addAll(usr.Secondary_Teams__c.split(';'));
         }
 
-        String agreementQuery = 'SELECT Id, ConventionName__c, Name, Team__c '+
+        String agreementWhere = buildAgreementWhereClause(agreementId, userPrimaryTeam, userSecondaryTeams, gridSettings?.agreementQueryConditions);
+        String agreementQuery = 'SELECT Id, ConventionName__c, Name, Team__c, Countries_of_Distribution__c '+
                                 ' FROM Convention__c ';
-        agreementQuery += ' WHERE ' + (agreementId != null? 'Id = :agreementId' : 'Team__c != null AND (Team__c IN :userSecondaryTeams OR Team__c = :userPrimaryTeam)');
-        agreementQuery += ' ORDER BY ConventionName__c ASC, Name ASC, Team__c ASC LIMIT 5000';
+        agreementQuery +=       ' WHERE ' + agreementWhere;
+        agreementQuery +=       ' ORDER BY ConventionName__c ASC, Name ASC, Team__c ASC LIMIT 5000';
 
         List<AgreementWrapper> agreementOptions = new List<AgreementWrapper>();
         Set<String> availableTeams = new Set<String>();
-        String agreementLabel;
         for (Convention__c agreement : Database.query(agreementQuery)) {
-            agreementLabel = String.isNotBlank(agreement.ConventionName__c)? agreement.ConventionName__c + ' (' + agreement.Name + ')' : agreement.Name;
-            agreementOptions.add(new AgreementWrapper(agreement.Id, agreementLabel, agreement.Team__c));
+            agreementOptions.add(new AgreementWrapper(agreement));
             availableTeams.add(agreement.Team__c);
         }
-        return new AgreementSelectionPageSettings(gridBuilderFound, agreementSelectionMode, userPrimaryTeam, availableTeams, agreementOptions);
+        return new AgreementSelectionPageSettings((gridSettings != null), gridSettings?.agreementSelectionMode, userPrimaryTeam, availableTeams, agreementOptions);
     }
 
-    @AuraEnabled(cacheable=true)
-    public static List<Map<String, String>> getAvailableGrids(String selectedTeam) {
+    private static String buildAgreementWhereClause(String agreementId, String userPrimaryTeam, List<String> userSecondaryTeams, String agreementQueryConditions) {
+        String agreementWhere = '';
+        // Redirection from Agreement directly
+        if (String.isNotBlank(agreementId)) {
+            agreementWhere = 'Id = :agreementId';
+        }
+        // Initial agreement selection screen
+        else {
+            List<String> whereFragments = new List<String>{'(Team__c != null AND (Team__c IN :userSecondaryTeams OR Team__c = :userPrimaryTeam))'};
+            if(String.isNotBlank(agreementQueryConditions)) {
+                whereFragments.add('(' + agreementQueryConditions + ')');
+            }
+            agreementWhere = String.join(whereFragments, ' AND ');
+        }
+        return agreementWhere;
+    }
+
+    @AuraEnabled
+    public static List<Map<String, String>> getAvailableGrids(String countriesOfDistribution, String agreementNames) {
         List<Map<String, String>> gridOptions = new List<Map<String, String>>();
-        for (Grid__c g : [SELECT Id, Name 
-                          FROM Grid__c 
+        String standardGridRT = GridBuilderHelper.RT_STANDARD_GRID;
+
+        for (Grid__c g : [SELECT Id, Name, GridScope__c, GridScope__r.Country__c, GridScope__r.Agreement__c
+                          FROM Grid__c
                           WHERE ActiveGrid__c = true
-                          AND Team__c = :selectedTeam
+                          AND GridScope__c != null
+                          AND RecordType.DeveloperName = :standardGridRT
                           ORDER BY Name ASC LIMIT 5000]) {
-            gridOptions.add(new Map<String, String>{'label' => g.Name, 'value' => g.Id});
+            if (matchesScope(g.GridScope__r.Country__c, GridBuilderHelper.stringToList(countriesOfDistribution, ';'), g.GridScope__r.Agreement__c, GridBuilderHelper.stringToList(agreementNames, ','))) {
+                gridOptions.add(new Map<String, String>{'label' => g.Name, 'value' => g.Id});
+            }
         }
         return gridOptions;
     }
 
+    private static Boolean matchesScope(String scopeCountry, List<String> countryList, String scopeAgreement, List<String> agreementNameList) {
+        Boolean scopeMatch = false;
+        if (String.isNotBlank(scopeCountry) && scopeCountry.trim() == 'ALL') {
+            scopeMatch = true;
+        }
+        else if (String.isNotBlank(scopeAgreement) && !agreementNameList.isEmpty()) {
+            scopeMatch = checkScopeToAgreementMatch(scopeAgreement, agreementNameList);
+        }
+        else if (String.isNotBlank(scopeCountry) && !countryList.isEmpty()) {
+            scopeMatch = checkScopeToAgreementMatch(scopeCountry, countryList);
+        }
+        return scopeMatch;
+    }
+
+    private static Boolean checkScopeToAgreementMatch(String scopeParameters, List<String> agreementParamaters) {
+        for (String c : scopeParameters.split('[,;]')) {
+            if (agreementParamaters.contains(c.trim())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @AuraEnabled(cacheable=true)
-    public static GridBuilderHelper.ProductSelectionResult getAllProductsForSelection(String gridBuilderSettingName, String selectedTeam) {
-        return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, selectedTeam, null, null, new Set<Id>(), null, new Map<Id, String>(), false, null, false);
+    public static GridBuilderHelper.ProductSelectionResult getAllProductsForSelection(String gridBuilderSettingName, String countriesOfDistribution) {
+        return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, countriesOfDistribution, null, null, new Set<Id>(), null, new Map<Id, String>(), false, null, false);
     }
 
     @AuraEnabled
-    public static GridBuilderHelper.ProductSelectionResult getProductsAndShareClasses(String gridBuilderSettingName, String selectedTeam, String gridCriteriaJson, String gridCriteriaDetailsJson, Boolean getAllProductsWithSelection, List<String> selectedShareTypes) {
-        GridBuilderHelper.GridSettings gridSettings = GridBuilderHelper.getGridSettings(gridBuilderSettingName, selectedTeam, false);
+    public static GridBuilderHelper.ProductSelectionResult getProductsAndShareClasses(String gridBuilderSettingName, String countriesOfDistribution, String gridCriteriaJson, String gridCriteriaDetailsJson, Boolean getAllProductsWithSelection, List<String> selectedShareTypes) {
+        GridBuilderHelper.GridSettings gridSettings = GridBuilderHelper.getGridSettings(gridBuilderSettingName, null, false);
 
         GridCriteria__c criteria = (GridCriteria__c)JSON.deserialize(gridCriteriaJson, GridCriteria__c.class);
         List<GridCriteriaDetail__c> criteriaDetails = (List<GridCriteriaDetail__c>)JSON.deserialize(gridCriteriaDetailsJson, List<GridCriteriaDetail__c>.class);
-        Id gridId = criteria != null ? criteria.Grid__c : null;
+        Id gridId = criteria != null ? criteria.StandardGrid__c : null;
 
         Map<String, GridBuilderHelper.FieldInfo> fieldsApiToInfoMap = GridBuilderHelper.buildFieldsApiToInfoMap(gridSettings.fieldsToDisplay + GridBuilderHelper.getAdditionalQueryColumns(), getAllProductsWithSelection);
         FilterFragments filterFragments = buildWhereFragments(criteriaDetails, gridSettings.filterValueSeparator);
-        String finalWhere = buildWhereClause(gridSettings, criteria, filterFragments, selectedTeam, selectedShareTypes);
+        String finalWhere = buildWhereClause(gridSettings, criteria, filterFragments, countriesOfDistribution, selectedShareTypes);
 
         if(getAllProductsWithSelection) {
             String filteredQuery = 'SELECT Id, ' + String.join(GridBuilderHelper.getSelectableFieldSet(fieldsApiToInfoMap), ', ') + 
@@ -94,10 +130,10 @@ public with sharing class GridBuilderController {
                 filteredIds.add(scFiltered.Id);
             }
             
-            return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, selectedTeam, gridSettings, fieldsApiToInfoMap, filteredIds, null, new Map<Id, String>(), false, buildShareClassGridIdMap(filteredIds, gridId), true);
+            return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, countriesOfDistribution, gridSettings, fieldsApiToInfoMap, filteredIds, null, new Map<Id, String>(), false, buildShareClassGridIdMap(filteredIds, gridId), true);
         }
         else {
-            return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, selectedTeam, gridSettings, fieldsApiToInfoMap, new Set<Id>(), finalWhere, new Map<Id, String>(), false, null, false);
+            return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, countriesOfDistribution, gridSettings, fieldsApiToInfoMap, new Set<Id>(), finalWhere, new Map<Id, String>(), false, null, false);
         }
     }
 
@@ -144,9 +180,9 @@ public with sharing class GridBuilderController {
                 '\'' + String.escapeSingleQuotes(rawValue) + '\''; // Single-value operators
     }
 
-    private static String buildWhereClause(GridBuilderHelper.GridSettings gridSettings, GridCriteria__c criteria, FilterFragments filterFragments, String selectedTeam, List<String> selectedShareTypes) {
+    private static String buildWhereClause(GridBuilderHelper.GridSettings gridSettings, GridCriteria__c criteria, FilterFragments filterFragments, String countriesOfDistribution, List<String> selectedShareTypes) {
         //Build default conditions
-        List<String> whereFragments = GridBuilderHelper.buildDefaultConditions(true, true, selectedTeam, gridSettings.shareTypeWrp, false);
+        List<String> whereFragments = GridBuilderHelper.buildDefaultConditions(true, true, countriesOfDistribution, gridSettings.shareTypeWrp, false);
 
         //Build selected share types condition
         String selectedShareTypesWhere = '';
@@ -228,12 +264,16 @@ public with sharing class GridBuilderController {
     }
     public class AgreementWrapper {
         @AuraEnabled public String value { get; set; }
+        @AuraEnabled public String name { get; set; }
         @AuraEnabled public String label { get; set; }
         @AuraEnabled public String teamCountry { get; set; }
-        public AgreementWrapper(String val, String label, String team) {
-            this.value          =   val;
-            this.label          =   label;
-            this.teamCountry    =   team;
+        @AuraEnabled public String countriesOfDistribution { get; set; }
+        public AgreementWrapper(Convention__c agr) {
+            this.value                      =   agr.Id;
+            this.name                       =   agr.Name;
+            this.label                      =   String.isNotBlank(agr.ConventionName__c)? agr.ConventionName__c + ' (' + agr.Name + ')' : agr.Name;
+            this.teamCountry                =   agr.Team__c;
+            this.countriesOfDistribution    =   agr.Countries_of_Distribution__c;
         }
     }
 

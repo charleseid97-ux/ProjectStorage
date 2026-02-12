@@ -3,8 +3,8 @@ import { LightningElement, api, track } from 'lwc';
 export default class GridShareTypeSelector extends LightningElement {
     _allShareTypeOptions = [];
     _selectedShareTypes = [];
-    enabledShareTypeValues = [];
-    initialized = false;
+    _refreshScheduled = false;
+    @api enabledShareTypeValues = [];
 
     @track displayShareTypeOptions = [];
     @track restrictedShareTypeOptions = [];
@@ -17,8 +17,7 @@ export default class GridShareTypeSelector extends LightningElement {
     }
     set allShareTypeOptions(value) {
         this._allShareTypeOptions = Array.isArray(value) ? value : [];
-        this.initialized = false;
-        this.refreshOptions();
+        this.scheduleRefresh();
     }
 
     @api
@@ -27,7 +26,17 @@ export default class GridShareTypeSelector extends LightningElement {
     }
     set selectedShareTypes(value) {
         this._selectedShareTypes = Array.isArray(value) ? value : [];
-        this.refreshOptions();
+        this.scheduleRefresh();
+    }
+
+    scheduleRefresh() {
+        if (!this._refreshScheduled) {
+            this._refreshScheduled = true;
+            Promise.resolve().then(() => {
+                this._refreshScheduled = false;
+                this.refreshOptions();
+            });
+        }
     }
 
     get hasRestrictedShareTypes() {
@@ -46,12 +55,7 @@ export default class GridShareTypeSelector extends LightningElement {
         const options = this._allShareTypeOptions || [];
         const selected = this._selectedShareTypes || [];
 
-        if (!this.initialized) {
-            this.enabledShareTypeValues = selected.filter(value => options.some(opt => opt.value === value));
-            this.initialized = true;
-        }
-
-        const enabled = new Set(this.enabledShareTypeValues || []);
+        const enabled = new Set(this.enabledShareTypeValues.length > 0 ? this.enabledShareTypeValues : selected.filter(value => options.some(opt => opt.value === value)));
         selected.forEach(value => enabled.add(value));
         this.enabledShareTypeValues = Array.from(enabled);
         this.displayShareTypeOptions = options.filter(opt => enabled.has(opt.value));
@@ -65,9 +69,9 @@ export default class GridShareTypeSelector extends LightningElement {
 
     handleShareTypeSelection(event) {
         this._selectedShareTypes = event.detail.value;
-        this.dispatchEvent(new CustomEvent('sharetypeschanged', {
-            detail: { value: this._selectedShareTypes }
-        }));
+        this.enabledShareTypeValues = this.displayShareTypeOptions.map(opt => opt.value);
+        this.dispatchEnabledChanged();
+        this.dispatchChanged();
     }
 
     toggleRestrictedShareTypePicker() {
@@ -96,6 +100,19 @@ export default class GridShareTypeSelector extends LightningElement {
         this.restrictedShareTypeOptions = this._allShareTypeOptions.filter(opt => !enabled.has(opt.value));
         this.selectedRestrictedShareTypes = [];
         this.showRestrictedShareTypePicker = false;
+        this.dispatchEnabledChanged();
+    }
+
+    dispatchChanged() {
+        this.dispatchEvent(new CustomEvent('sharetypeschanged', {
+            detail: { value: this._selectedShareTypes }
+        }));
+    }
+
+    dispatchEnabledChanged() {
+        this.dispatchEvent(new CustomEvent('enabledchanged', {
+            detail: { value: this.enabledShareTypeValues }
+        }));
     }
 
     handleCancelRestrictedShareTypes() {

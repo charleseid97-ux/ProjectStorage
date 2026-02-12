@@ -30,6 +30,10 @@ export default class GridValidationPage extends LightningElement {
         return this.validationProducts && this.validationProducts.length > 0;
     }
 
+    get isValidateButtonDisabled() {
+        return !this.hasValidationResults;
+    }
+
     get validationColumnWidthStyle() {
         const totalCols = (this.validationColumns?.length || 0);
         if (!totalCols) {
@@ -55,7 +59,11 @@ export default class GridValidationPage extends LightningElement {
         this.isLoading = true;
         try {
             const request = this.buildSaveRequest();
-            const result = await saveGrid({ requestJson: JSON.stringify(request) });
+            const shareClassGridIdMap = this.buildShareClassGridIdMap(this.selectedShareClasses);
+            const result = await saveGrid({ 
+                requestJson: JSON.stringify(request),
+                shareClassGridIdMap: shareClassGridIdMap
+            });
 
             if (result.success) {
                 this.showToast('Success', `Grid "${result.gridName}" created successfully`, 'success');
@@ -88,7 +96,8 @@ export default class GridValidationPage extends LightningElement {
         const grid = {
             Name: this.buildGridName(),
             Team__c: this.selectedTeam,
-            ActiveGrid__c: true
+            ActiveGrid__c: true,
+            AutomaticGridUpdate__c: this.isAutoGridUpdate
         };
 
         // Group share classes by criteriaRefId
@@ -99,7 +108,7 @@ export default class GridValidationPage extends LightningElement {
                 criteriaMap.set(sc.criteriaRefId, {
                     criteriaRefId: sc.criteriaRefId,
                     criteria: {
-                        Grid__c: entry?.criteria?.Grid__c,
+                        StandardGrid__c: entry?.criteria?.StandardGrid__c,
                         FilterLogic__c: entry?.criteria?.FilterLogic__c || 'AND',
                         FilterLogicExpression__c: entry?.criteria?.FilterLogicExpression__c || null,
                         StartDate__c: this.agreementStartDate || null

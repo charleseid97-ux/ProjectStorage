@@ -179,12 +179,33 @@ export default class GridAgreementsSelection extends LightningElement {
             derivedTeam = option ? option.teamCountry : '';
         }
 
+        let countriesOfDistribution = this.buildCountriesOfDistribution();
+
         this.dispatchEvent(new CustomEvent('agreementsnext', {
             detail: {
                 agreements: this.selectedValues,
                 startDate: this.startDate,
-                team: this.effectiveHasTeamSelection ? this.selectedTeam : derivedTeam
+                team: this.effectiveHasTeamSelection ? this.selectedTeam : derivedTeam,
+                countriesOfDistribution: countriesOfDistribution
             }
         }));
+    }
+
+    buildCountriesOfDistribution() {
+        let allCountries = new Set();
+        let selected = this.selectedValues || [];
+        for (let i = 0; i < selected.length; i++) {
+            let option = this.findOptionById(selected[i]);
+            if (option && option.countriesOfDistribution) {
+                let parts = option.countriesOfDistribution.split(';');
+                for (let j = 0; j < parts.length; j++) {
+                    let trimmed = parts[j].trim();
+                    if (trimmed) {
+                        allCountries.add(trimmed);
+                    }
+                }
+            }
+        }
+        return Array.from(allCountries).join(';');
     }
 }

@@ -167,7 +167,7 @@ private class GridDetailBuilderTest {
     @IsTest
     static void testBuildForGrids() {
         Grid__c grid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S1);
-        Grid__c gridNoScope = GridTestSetupHelper.createGrid('NoScopeGrid', null, GridTestSetupHelper.TEST_TEAM_FR, true);
+        Grid__c gridNoScope = GridTestSetupHelper.createGrid('NoScopeGrid', null, GridTestSetupHelper.TEST_TEAM_FR, true, GridBuilderHelper.RT_STANDARD_GRID);
         insert gridNoScope;
 
         List<GridScope__c> scopes = [SELECT Id FROM GridScope__c WHERE GridName__c = :GridTestSetupHelper.GRID_NAME_S1 LIMIT 1];

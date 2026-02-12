@@ -41,15 +41,16 @@
                             <div class="displayFlex_ColumnGap">
                                 <div class="slds-col slds-size_9-of-12 granularColumn">
                                     <div class="slds-col slds-size_3-of-12">
-                                        <lightning-combobox name="grid"
-                                                            value={selectedGrid}
-                                                            options={gridOptions}
-                                                            label="Grid"
-                                                            onchange={handleGridChange}>
-                                        </lightning-combobox>
+                                        <c-custom-combobox name="grid"
+                                                          value={selectedGrid}
+                                                          options={computedGridOptions}
+                                                          label="Grid"
+                                                          onchange={handleGridChange}>
+                                        </c-custom-combobox>
                                     </div>
                                     <div class="granularColumn">
                                         <lightning-button label="Add to Grid" variant="brand" onclick={handleAddAllToSelection} disabled={addToGridDisabled}></lightning-button>
+                                        <lightning-button label="Reset All" variant="destructive" onclick={handleResetAllClick}></lightning-button>
                                         <lightning-button label="View Recap" variant="neutral" onclick={handleOpenSelectedPanel}></lightning-button>
                                         <template if:true={showBackToAgreementSelectionBtn}>
                                             <lightning-button label="Back" variant="neutral" onclick={handleBackToAgreementSelection}></lightning-button>
@@ -64,11 +65,13 @@
                                                             message-toggle-active=""
                                                             message-toggle-inactive=""
                                                             checked={isAutoGridUpdate}
+                                                            disabled={isToggleDisabled}
                                                             onchange={handleGridUpdateToggle}>
                                             </lightning-input>
                                             <span class="message-toggle-label">
                                                 {toggleLabel}
                                             </span>
+                                            <lightning-helptext content="With Automatic Grid Update, only 1 Standard Grid can be used across all criteria."></lightning-helptext>
                                         </div>
                                     </div>
                                 </div>
@@ -78,7 +81,9 @@
                         <div class="builderRightSection">
                             <c-grid-share-type-selector all-share-type-options={allShareTypeOptions}
                                                         selected-share-types={selectedShareTypes}
-                                                        onsharetypeschanged={handleShareTypeSelection}>
+                                                        enabled-share-type-values={enabledShareTypeValues}
+                                                        onsharetypeschanged={handleShareTypeSelection}
+                                                        onenabledchanged={handleEnabledShareTypesChanged}>
                             </c-grid-share-type-selector>
                         </div>
                     </div>
@@ -92,7 +97,7 @@
                 
                 <template if:true={showValidationPage}>
                     <c-grid-validation-page grid-builder-setting-name={gridBuilderSettingName}
-                                            selected-team={selectedTeam}
+                                            countries-of-distribution={countriesOfDistribution}
                                             selected-share-classes={selectedShareClasses}
                                             selected-agreements={selectedAgreements}
                                             criteria-list={criteriaList}
@@ -118,5 +123,13 @@
                 </c-grid-selection-display-panel>
             </template>
         </div>
+        <c-modal is-visible-modal={showConfirmationModal}
+                 confirm-button-label="Confirm"
+                 close-button-label="Cancel"
+                 onconfirm={handleConfirmationConfirm}
+                 onclose={handleConfirmationCancel}>
+            <h2 slot="header">{confirmationContext.title}</h2>
+            <p slot="body">{confirmationContext.message}</p>
+        </c-modal>
     </lightning-card>
 </template>

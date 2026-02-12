@@ -180,13 +180,14 @@ public with sharing class GridExcelImportService {
             return null;
         }
 
-        ctx.criteria = buildCriteria(gridName, rowNumber, row, parseResult.filterLogicExpression);
+        ctx.criteria = buildCriteria(gridName, gridId, rowNumber, row, parseResult.filterLogicExpression);
         return ctx;
     }
 
-    private static GridCriteria__c buildCriteria(String gridName, Integer rowNumber, RuleRow row, String logicExpression) {
+    private static GridCriteria__c buildCriteria(String gridName, String gridId, Integer rowNumber, RuleRow row, String logicExpression) {
         GridCriteria__c criteria = new GridCriteria__c();
         criteria.Name = buildCriteriaName(gridName, rowNumber);
+        criteria.Grid__c = gridId;
         criteria.Comment__c = normalize(row.Comment);
         criteria.StartDate__c = START_DATE;
         criteria.EndDate__c = END_DATE;
@@ -377,6 +378,7 @@ public with sharing class GridExcelImportService {
             Grid__c grid = new Grid__c();
             grid.Name = gridName;
             grid.GridScope__c = scopeId;
+            grid.RecordTypeId = Schema.SObjectType.Grid__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_STANDARD_GRID).getRecordTypeId();
             Id existingId = existingGridIdsByName.get(gridName);
             if (existingId != null) {
                 grid.Id = existingId;
