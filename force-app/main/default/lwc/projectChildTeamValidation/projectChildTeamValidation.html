@@ -41,6 +41,7 @@
 
         <!-- MODAL CONTENT -->
         <template if:true={isModalOpen}>
+            
             <section role="dialog" class="slds-modal slds-fade-in-open">
                 <div class="slds-modal__container">
                     <header class="slds-modal__header">
@@ -83,9 +84,12 @@
                     <template if:true={isEmptyRequiredFields}>
                         <div class="slds-modal__content slds-p-around_medium"
                             style="max-height: 400px; overflow-y: auto;">
+                            <template if:true={isLoading}>
+                                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                            </template>
                             <p class="slds-text-body_regular">Please fill in all required fields to validate this step.
                             </p>
-
+                            
                             <!-- FUND SECTION -->
                             <template if:true={emptyFundRequiredFields}>
                                 <template if:false={isEmptyFundRequiredFields}>
