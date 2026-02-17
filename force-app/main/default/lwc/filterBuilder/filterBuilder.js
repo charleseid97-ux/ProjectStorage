@@ -1,4 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
+import { LABELS } from 'c/gridBuilderUtils';
 
 export default class FilterBuilder extends LightningElement {
     @api objectOptions = [];
@@ -16,6 +17,7 @@ export default class FilterBuilder extends LightningElement {
     @track criteriaState = { filterLogicType: null, filterLogicText: '', details: [] };
 
     nextId = 1;
+    labels = LABELS;
 
     connectedCallback() {
         this.startingLogicType = this.startingLogicType || 'AND';

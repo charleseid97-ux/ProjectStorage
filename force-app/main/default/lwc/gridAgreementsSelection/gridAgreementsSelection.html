@@ -3,7 +3,7 @@
         <template if:true={showTeamPicker}>
             <div>
                 <lightning-combobox name="teamPicklist"
-                                    label="Team"
+                                    label={labels.Grid_Team}
                                     value={selectedTeam}
                                     options={availableTeams}
                                     onchange={handleTeamChange}>
@@ -12,7 +12,7 @@
         </template>
         <div>
             <template if:true={finalOptionsList}>
-                <c-multi-select-search-list label="Agreements"
+                <c-multi-select-search-list label={labels.Grid_Agreements}
                                             options={finalOptionsList}
                                             value={selectedValues}
                                             onchange={handleAgreementsChange}
@@ -28,13 +28,13 @@
         </div>
         <div>
             <lightning-input type="date"
-                             label="Start Date"
+                             label={labels.Grid_StartDate}
                              value={startDate}
                              onchange={handleDateChange}>
             </lightning-input>
         </div>
         <div>
-            <lightning-button label="Next" variant="brand" onclick={handleNext} disabled={isNextDisabled}></lightning-button>
+            <lightning-button label={labels.UI_Next} variant="brand" onclick={handleNext} disabled={isNextDisabled}></lightning-button>
         </div>
     </div>
 </template>

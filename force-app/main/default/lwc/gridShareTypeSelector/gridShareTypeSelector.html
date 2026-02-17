@@ -1,13 +1,13 @@
 <template>
     <div class="shareTypeSelectionLabel">
         <div class="shareTypeSelectionLeft">
-            <span>Select Share Types</span>
+            <span>{labels.Grid_SelectShareTypes}</span>
             <div>
-                <lightning-helptext content="This filter is applied independently of other filter logic"></lightning-helptext>
+                <lightning-helptext content={labels.Grid_ShareTypeFilterIndependentInfo}></lightning-helptext>
             </div>
         </div>
         <div class="addRestrictedSCBtnClass">
-            <lightning-button label="Add restricted share types"
+            <lightning-button label={labels.Grid_AddRestrictedShareTypes}
                             variant="neutral"
                             onclick={toggleRestrictedShareTypePicker}
                             disabled={disableRestrictedShareTypesButton}>
@@ -24,12 +24,12 @@
                 </lightning-checkbox-group>
             </div>
             <div class="restrictedShareTypeActions">
-                <lightning-button label="Add"
+                <lightning-button label={labels.UI_Add}
                                   variant="brand"
                                   onclick={handleAddRestrictedShareTypes}
                                   disabled={addRestrictedShareTypesDisabled}>
                 </lightning-button>
-                <lightning-button label="Cancel"
+                <lightning-button label={labels.UI_Cancel}
                                   variant="neutral"
                                   onclick={handleCancelRestrictedShareTypes}>
                 </lightning-button>
@@ -38,8 +38,8 @@
     </template>
     <lightning-dual-listbox name="shareTypes"
                             variant="label-hidden"
-                            source-label="Excluded"
-                            selected-label="Included"
+                            source-label={labels.UI_Excluded}
+                            selected-label={labels.UI_Included}
                             options={displayShareTypeOptions}
                             value={selectedShareTypes}
                             size="4"

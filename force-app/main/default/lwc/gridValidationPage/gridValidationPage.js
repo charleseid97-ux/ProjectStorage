@@ -1,7 +1,8 @@
 import { LightningElement, api, track } from 'lwc';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getProducts from '@salesforce/apex/GridValidationController.getProducts';
 import saveGrid from '@salesforce/apex/GridValidationController.saveGrid';
+import {LABELS, reduceError, showToast, buildShareClassGridIdMap, buildProductGridOptions, buildResultColumnsList, updateCriteriaListWithIsins, 
+    addIsinExclusionsFromRows} from 'c/gridBuilderUtils';
 
 export default class GridValidationPage extends LightningElement {
     @api gridBuilderSettingName = 'StandardGridBuilderSetting';
@@ -22,6 +23,7 @@ export default class GridValidationPage extends LightningElement {
     @track gridPickerShareClass;
     @track gridPickerProductId;
 
+    labels = LABELS;
     previousIdsKey;
     validationFieldsMap;
     productGridOptions = new Map();
@@ -48,7 +50,7 @@ export default class GridValidationPage extends LightningElement {
     }
 
     get toggleAllLabel() {
-        return this.allExpanded ? 'Collapse All' : 'Expand All';
+        return this.allExpanded ? this.labels.UI_CollapseAll : this.labels.UI_ExpandAll;
     }
 
     connectedCallback() {
@@ -59,14 +61,14 @@ export default class GridValidationPage extends LightningElement {
         this.isLoading = true;
         try {
             const request = this.buildSaveRequest();
-            const shareClassGridIdMap = this.buildShareClassGridIdMap(this.selectedShareClasses);
+            const shareClassGridIdMap = buildShareClassGridIdMap(this.selectedShareClasses);
             const result = await saveGrid({ 
                 requestJson: JSON.stringify(request),
                 shareClassGridIdMap: shareClassGridIdMap
             });
 
             if (result.success) {
-                this.showToast('Success', `Grid "${result.gridName}" created successfully`, 'success');
+                showToast(this, this.labels.UI_Success, this.labels.Grid_CreatedSuccess.replace('{0}', result.gridName), 'success');
                 // Dispatch event to parent to handle navigation
                 const firstAgreementId = this.selectedAgreements && this.selectedAgreements.length > 0
                     ? this.selectedAgreements[0]
@@ -75,10 +77,10 @@ export default class GridValidationPage extends LightningElement {
                     detail: { gridId: result.gridId, gridName: result.gridName, agreementId: firstAgreementId }
                 }));
             } else {
-                this.showToast('Error', result.errors.join('\n'), 'error');
+                showToast(this, this.labels.UI_Error, result.errors.join('\n'), 'error');
             }
         } catch (error) {
-            this.showToast('Error', 'Error saving grid: ' + this.reduceError(error), 'error');
+            showToast(this, this.labels.UI_Error, this.labels.Grid_ErrorSavingGrid + ', ' + this.labels.UI_ErrorMessage + ': ' + reduceError(error), 'error');
             console.error('Error saving grid', error);
         } finally {
             this.isLoading = false;
@@ -144,16 +146,16 @@ export default class GridValidationPage extends LightningElement {
         if (!this.selectedShareClasses || !this.selectedShareClasses.length) {
             this.validationProducts = [];
             this.validationColumns = [];
-            this.showToast('No products found', 'No products found to validate with the current selection.', 'info');
+            showToast(this, this.labels.Grid_NoProductsFound, this.labels.Grid_NoProductsFoundValidation, 'info');
             return;
         }
 
         this.isLoading = true;
         try {
             const shareClassIds = this.selectedShareClasses.map(row => row.id);
-            this.productGridOptions = this.buildProductGridOptions(this.selectedShareClasses);
+            this.productGridOptions = buildProductGridOptions(this.selectedShareClasses);
 
-            const shareClassGridIdMap = this.buildShareClassGridIdMap(this.selectedShareClasses);
+            const shareClassGridIdMap = buildShareClassGridIdMap(this.selectedShareClasses);
             const validationResult = await getProducts({
                 gridBuilderSettingName: this.gridBuilderSettingName,
                 selectedTeam: this.selectedTeam,
@@ -171,35 +173,20 @@ export default class GridValidationPage extends LightningElement {
             );
 
             this.validationFieldsMap = fieldsApiToInfoMap;
-            this.validationColumns = this.buildResultColumnsList(fieldsApiToInfoMap);
+            this.validationColumns = buildResultColumnsList(fieldsApiToInfoMap, true, true, true, true);
             this.validationProducts = products.map(prod => this.buildProductWithStatus(prod, fieldsApiToInfoMap, selectedGridMap));
 
             if (!this.validationProducts.length) {
-                this.showToast('No products found', 'No products found to validate with the current selection.', 'info');
+                showToast(this, this.labels.Grid_NoProductsFound, this.labels.Grid_NoProductsFoundValidation, 'info');
             }
         } catch (error) {
             this.validationProducts = [];
             this.validationColumns = [];
-            this.showToast('Error', 'Error validating products, ' + this.reduceError(error), 'error');
-            console.error('Error validating products', this.reduceError(error));
+            showToast(this, this.labels.UI_Error, this.labels.Grid_ErrorValidatingProducts + ', ' + this.labels.UI_ErrorMessage + ': ' + reduceError(error), 'error');
+            console.error('Error validating products', reduceError(error));
         } finally {
             this.isLoading = false;
         }
-    }
-
-    buildResultColumnsList(fieldsApiToInfoMap) {
-        const resultCols = Object.keys(fieldsApiToInfoMap || {}).map(apiName => {
-            const fieldInfo = fieldsApiToInfoMap[apiName];
-            return {
-                apiName: apiName,
-                label: fieldInfo.label
-            };
-        });
-        resultCols.push({ apiName: 'Grid', label: 'Grid' });
-        resultCols.push({ apiName: 'Status', label: 'Status' });
-        resultCols.push({ apiName: 'AUM', label: 'AUM (Eur)', class: 'alignRight' });
-        resultCols.push({ apiName: 'Action', label: 'Action', class: 'alignCenter' });
-        return resultCols;
     }
 
     buildProductWithStatus(prod, fieldsApiToInfoMap, selectedGridMap) {
@@ -214,10 +201,10 @@ export default class GridValidationPage extends LightningElement {
         const sectionStyle = hasIssues ? 'background: #ffc8c8;' : '';
         const headerMessages = [];
         if (missingShareClasses) {
-            headerMessages.push('Missing share class(es)');
+            headerMessages.push(this.labels.Grid_MissingShareClasses);
         }
         if (gridMismatch) {
-            headerMessages.push('Different Grids selected');
+            headerMessages.push(this.labels.Grid_DifferentGridsSelected);
         }
         const headerGrid = (!gridMismatch && distinctSelectedGrids.length === 1) ? distinctSelectedGrids[0] : '';
         const headerMessagesText = headerMessages.length ? headerMessages.join(' | ') : '';
@@ -253,7 +240,7 @@ export default class GridValidationPage extends LightningElement {
                 class: 'slds-truncate'
             }));
             cells.push({ label: 'Grid', value: gridLabel, class: 'slds-truncate'});
-            cells.push({ label: 'Status', value: sc.isSelected ? 'Included in grid' : 'Missing share class', class: 'slds-truncate'});
+            cells.push({ label: 'Status', value: sc.isSelected ? this.labels.Grid_IncludedInGrid : this.labels.Grid_MissingShareClass, class: 'slds-truncate'});
             cells.push({ label: 'AUM', value: sc.amountAUM != null ? sc.amountAUM : 0, class: 'slds-truncate alignRight'});
             return {
                 ...sc,
@@ -265,7 +252,7 @@ export default class GridValidationPage extends LightningElement {
                 isin: recordResults.ISIN__c || recordResults['ISIN__c'] || '',
                 rowClass: sc.isSelected ? '' : 'missing-share-class',
                 cells: cells,
-                actionLabel: sc.isSelected ? 'Remove' : 'Add',
+                actionLabel: sc.isSelected ? this.labels.UI_Remove : this.labels.UI_Add,
                 actionVariant: sc.isSelected ? 'neutral' : 'brand'
             };
         });
@@ -289,36 +276,16 @@ export default class GridValidationPage extends LightningElement {
     handleRemoveProduct(event) {
         event.stopPropagation();
         const productId = event.currentTarget.dataset.id;
-        if (!productId) {
-            return;
-        }
+        if (!productId) return;
         const current = this.selectedShareClasses || [];
         const removedRows = current.filter(row => row.productId === productId);
         const next = current.filter(row => row.productId !== productId);
-        if (next.length === current.length) {
-            return;
-        }
+        if (next.length === current.length) return;
         if (removedRows.length && this.criteriaList?.length) {
-            const byCriteria = new Map();
-            removedRows.forEach(row => {
-                if (!row.criteriaRefId) {
-                    return;
-                }
-                const isin = this.getIsinFromRow(row);
-                if (!isin) {
-                    return;
-                }
-                if (!byCriteria.has(row.criteriaRefId)) {
-                    byCriteria.set(row.criteriaRefId, []);
-                }
-                byCriteria.get(row.criteriaRefId).push(isin);
-            });
-            byCriteria.forEach((ids, criteriaRefId) => {
-                this.criteriaList = this.updateCriteria(ids, criteriaRefId, 'NOT IN');
-            });
+            this.criteriaList = addIsinExclusionsFromRows(this.criteriaList, removedRows);
         }
         this.selectedShareClasses = next;
-        this.dispatchEvent(new CustomEvent('removeproduct', { detail: { productId: productId, criteriaList: this.criteriaList } }));
+        this.dispatchEvent(new CustomEvent('removeproduct', { detail: { productId, criteriaList: this.criteriaList } }));
         this.runValidation();
     }
 
@@ -355,7 +322,7 @@ export default class GridValidationPage extends LightningElement {
     handleAddShareClass(shareClass, productId) {
         const gridOptions = this.productGridOptions.get(productId) || [];
         if (!gridOptions.length) {
-            this.showToast('No grid available', 'No grid selection found for this product.', 'warning');
+            showToast(this, this.labels.Grid_NoGridAvailable, this.labels.Grid_NoGridSelectionFound, 'warning');
             return;
         }
         if (gridOptions.length === 1) {
@@ -399,7 +366,7 @@ export default class GridValidationPage extends LightningElement {
 
     applyAddShareClass(shareClass, productId, gridOption) {
         const isin = shareClass.isin || (shareClass.recordResults ? shareClass.recordResults['ISIN__c'] : null);
-        this.criteriaList = this.updateCriteria([isin], gridOption.criteriaRefId, 'IN');
+        this.criteriaList = updateCriteriaListWithIsins(this.criteriaList, gridOption.criteriaRefId, [isin], 'IN');
         const newRow = this.buildSelectionRowFromShareClass(shareClass, gridOption);
         const existingMap = new Map(this.selectedShareClasses.map(r => [r.id, r]));
         existingMap.set(newRow.id, newRow);
@@ -411,7 +378,7 @@ export default class GridValidationPage extends LightningElement {
     removeShareClass(shareClassId, productId) {
         const target = (this.selectedShareClasses || []).find(r => r.id === shareClassId);
         if (target && target.criteriaRefId) {
-            this.criteriaList = this.updateCriteria([target.isin], target.criteriaRefId, 'NOT IN');
+            this.criteriaList = updateCriteriaListWithIsins(this.criteriaList, target.criteriaRefId, [target.isin], 'NOT IN');
         }
         this.selectedShareClasses = (this.selectedShareClasses || []).filter(r => r.id !== shareClassId);
         this.updateValidationProducts(productId, shareClassId, false, '');
@@ -428,7 +395,7 @@ export default class GridValidationPage extends LightningElement {
                     return sc;
                 }
                 const newCells = (sc.cells || []).map(cell => cell.label === 'Grid' ? { ...cell, value: gridLabel } : cell);
-                const statusCell = { label: 'Status', value: isSelected ? 'Included in grid' : 'Missing share class', class: 'slds-truncate'};
+                const statusCell = { label: 'Status', value: isSelected ? this.labels.Grid_IncludedInGrid : this.labels.Grid_MissingShareClass, class: 'slds-truncate'};
                 const aumCell = { label: 'AUM', value: sc.amountAUM != null ? sc.amountAUM : 0, class: 'slds-truncate alignRight' };
                 const filteredCells = newCells.filter(c => c.label !== 'Status').filter(c => c.label !== 'AUM');
                 filteredCells.push(statusCell);
@@ -440,7 +407,7 @@ export default class GridValidationPage extends LightningElement {
                     criteriaRefId: sc.criteriaRefId || null,
                     rowClass: isSelected ? '' : 'missing-share-class',
                     cells: filteredCells,
-                    actionLabel: isSelected ? 'Remove' : 'Add',
+                    actionLabel: isSelected ? this.labels.UI_Remove : this.labels.UI_Add,
                     actionVariant: isSelected ? 'neutral' : 'brand'
                 };
             });
@@ -453,10 +420,10 @@ export default class GridValidationPage extends LightningElement {
             const hasIssues = missingShareClasses || gridMismatch;
             const headerMessages = [];
             if (missingShareClasses) {
-                headerMessages.push('Missing share class(es)');
+                headerMessages.push(this.labels.Grid_MissingShareClasses);
             }
             if (gridMismatch) {
-                headerMessages.push('Different Grids selected');
+                headerMessages.push(this.labels.Grid_DifferentGridsSelected);
             }
             const headerGrid = (!gridMismatch && distinctSelectedGrids.length === 1) ? distinctSelectedGrids[0] : '';
             const headerMessagesText = headerMessages.length ? headerMessages.join(' | ') : '';
@@ -474,106 +441,6 @@ export default class GridValidationPage extends LightningElement {
                 shareClasses: updatedShareClasses
             };
         });
-    }
-
-    updateCriteria(shareClassIsins, criteriaRefId, logic) {
-        const isins = (Array.isArray(shareClassIsins) ? shareClassIsins : []).filter(val => val);
-        if (!isins.length) {
-            return this.criteriaList;
-        }
-        const separator = ';';
-        const updated = this.criteriaList.map(entry => {
-            if (entry.id !== criteriaRefId) {
-                return entry;
-            }
-            const details = (entry.criteriaDetails || []).slice();
-            const idx = details.findIndex(d => d.Object__c === 'Share_Class__c' && d.Field__c === 'ISIN__c' && d.Logic__c === logic && d.TECHOrigin__c === 'System');
-            const currentValues = idx >= 0 && details[idx].Value__c ? details[idx].Value__c.split(separator).map(val => val.trim()).filter(val => val) : [];
-            const valueSet = new Set(currentValues);
-            isins.forEach(isin => {
-                if (valueSet.has(isin)) {
-                    valueSet.delete(isin);
-                }
-                else {
-                    valueSet.add(isin);
-                }
-            });
-            const nextValues = Array.from(valueSet);
-            if (nextValues.length) {
-                const detail = {
-                    Object__c: 'Share_Class__c',
-                    Field__c: 'ISIN__c',
-                    Logic__c: logic,
-                    Value__c: nextValues.join(' '+separator+' '),
-                    TECHOrigin__c: 'System',
-                    objectLabel: 'Share Class',
-                    fieldLabel: 'ISIN'
-                };
-                if (idx >= 0) {
-                    details[idx] = { ...details[idx], ...detail };
-                }
-                else {
-                    details.push(detail);
-                }
-            }
-            else if (idx >= 0) {
-                details.splice(idx, 1);
-            }
-            return { ...entry, criteriaDetails: details };
-        });
-        return updated;
-    }
-
-    getIsinFromRow(row) {
-        if (!row) {
-            return null;
-        }
-        if (row.isin) {
-            return row.isin;
-        }
-        const cells = row.cells || [];
-        const cell = cells.find(c => (c.label || '').toLowerCase() === 'isin') ||
-            cells.find(c => (c.label || '').toLowerCase().includes('isin'));
-        return cell ? cell.value : null;
-    }
-
-    buildProductGridOptions(selectedRows) {
-        const mapByProduct = new Map();
-        (selectedRows || []).forEach(row => {
-            const productId = row.productId;
-            if (!productId) {
-                return;
-            }
-            const gridId = row.gridId;
-            const gridLabel = (row.cells || []).find(c => c.label === 'Grid')?.value || '';
-            const criteriaRefId = row.criteriaRefId;
-            if (!gridId || !gridLabel) {
-                return;
-            }
-            const key = productId;
-            if (!mapByProduct.has(key)) {
-                mapByProduct.set(key, []);
-            }
-            const existing = mapByProduct.get(key);
-            if (!existing.find(g => g.gridId === gridId)) {
-                existing.push({
-                    gridId: gridId,
-                    gridLabel: gridLabel,
-                    criteriaRefId: criteriaRefId || null
-                });
-            }
-        });
-        return mapByProduct;
-    }
-
-    buildShareClassGridIdMap(selectedRows) {
-        const shareClassGridIdMap = {};
-        (selectedRows || []).forEach(row => {
-            if (row?.id && row?.gridId) {
-                shareClassGridIdMap[row.id] = row.gridId;
-            }
-        });
-        return shareClassGridIdMap;
     }
 
     buildSelectionRowFromShareClass(sc, gridOption) {
@@ -613,27 +480,5 @@ export default class GridValidationPage extends LightningElement {
 
     handleViewRecap() {
         this.dispatchEvent(new CustomEvent('viewrecap'));
-    }
-
-    showToast(title, message, variant) {
-        this.dispatchEvent(new ShowToastEvent({
-            title: title,
-            message: message,
-            variant: variant
-        }));
-    }
-
-    reduceError(error) {
-        if (!error) return 'Unknown error';
-        if (Array.isArray(error.body)) {
-            return error.body.map(e => e.message).join(', ');
-        }
-        if (error.body && typeof error.body.message === 'string') {
-            return error.body.message;
-        }
-        if (typeof error.message === 'string') {
-            return error.message;
-        }
-        return 'Unknown error';
     }
 }

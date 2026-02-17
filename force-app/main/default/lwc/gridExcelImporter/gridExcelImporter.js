@@ -1,14 +1,16 @@
 import { LightningElement, track } from 'lwc';
 import { loadScript } from 'lightning/platformResourceLoader';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { reduceError, showToast } from 'c/gridBuilderUtils';
 import SheetJs from '@salesforce/resourceUrl/sheetjs';
 import importFromJson from '@salesforce/apex/GridExcelImportService.importFromJson';
+import { LABELS } from 'c/gridBuilderUtils';
 
 export default class GridExcelImporter extends LightningElement {
 
 	@track scopeHeaders = ['Grid', 'Agreement', 'Country', 'PtfCode'];
 	@track ruleHeaders = ['Grid', 'Include', 'Exclude', 'Comment', 'RuleToApply', 'FeesType', 'RuleValue', 'ShareType', 'OtherShareType'];
 
+	labels = LABELS;
 	file;
 	importedFileName;
 	isLoading = false;
@@ -40,7 +42,7 @@ export default class GridExcelImporter extends LightningElement {
 		loadScript(this, SheetJs).then(() => {
 			this.sheetJsReady = true;
 		}).catch((error) => {
-			this.errors = [`Failed to load SheetJS static resource: ${this.normalizeError(error)}`];
+			this.errors = [`${this.labels.Grid_FailedToLoadSheetJS}: ${reduceError(error)}`];
 		});
 	}
 
@@ -57,16 +59,14 @@ export default class GridExcelImporter extends LightningElement {
 		this.result = null;
 
 		if (!this.file) {
-			this.errors = ['Select an .xlsx file to import.'];
-			this.showToast('Import failed', this.errors[0], 'error');
+			this.errors = [this.labels.Grid_SelectExcelFile];
+			showToast(this, this.labels.Grid_ImportFailed, this.labels.Grid_SelectExcelFile, 'error');
 			return;
 		}
 
 		if (!this.sheetJsReady || !window.XLSX) {
-			this.errors = [
-				'SheetJS is not available. Deploy the "sheetjs" static resource first.'
-			];
-			this.showToast('Import failed', this.errors[0], 'error');
+			this.errors = [this.labels.Grid_FailedToLoadSheetJS];
+			showToast(this, this.labels.Grid_ImportFailed, this.labels.Grid_FailedToLoadSheetJS, 'error');
 			return;
 		}
 
@@ -80,7 +80,7 @@ export default class GridExcelImporter extends LightningElement {
 
 			this.errors = [...scopeParse.errors, ...ruleParse.errors];
 			if (this.errors.length > 0) {
-				this.showToast('Import failed', 'Fix the validation errors before importing.', 'error');
+				showToast(this, this.labels.Grid_ImportFailed, this.labels.Grid_FixValidationErrors, 'error');
 				return;
 			}
 
@@ -101,20 +101,16 @@ export default class GridExcelImporter extends LightningElement {
 			this.result = result;
 
 			if (this.hasResultErrors) {
-				this.showToast(
-					'Import completed with errors',
-					'Some rows failed. Review details below.',
-					'warning'
-				);
+				showToast(this, this.labels.Grid_ImportCompletedWithErrors, this.labels.Grid_SomeRowsFailed, 'warning');
 			} 
 			else {
-				this.showToast('Import completed', 'All rows imported.', 'success');
+				showToast(this, this.labels.Grid_ImportCompleted, this.labels.Grid_AllRowsImported, 'success');
 			}
 		} 
 		catch (error) {
-			const message = this.normalizeError(error);
+			const message = reduceError(error);
 			this.errors = [message];
-			this.showToast('Import failed', message, 'error');
+			showToast(this, this.labels.Grid_ImportFailed, message, 'error');
 		} 
 		finally {
 			this.isLoading = false;
@@ -134,13 +130,14 @@ export default class GridExcelImporter extends LightningElement {
 		const result = { rows: [], errors: [] };
 		const sheet = workbook.Sheets[sheetName];
 		if (!sheet) {
-			result.errors.push(`Missing sheet "${sheetName}".`);
+			// Use the Import Failed label as prefix to keep it localized, then give the detail
+			result.errors.push(`${this.labels.Grid_ImportFailed}: Missing sheet "${sheetName}".`);
 			return result;
 		}
 
 		const raw = window.XLSX.utils.sheet_to_json(sheet, {header: 1, defval: ''});
 		if (!raw.length) {
-			result.errors.push(`Sheet "${sheetName}" is empty.`);
+			result.errors.push(`${this.labels.Grid_ImportFailed}: Sheet "${sheetName}" is empty.`);
 			return result;
 		}
 
@@ -154,7 +151,7 @@ export default class GridExcelImporter extends LightningElement {
 
 		requiredHeaders.forEach((header) => {
 			if (!headerIndex.has(header)) {
-				result.errors.push(`Sheet "${sheetName}" is missing required column "${header}".`);
+				result.errors.push(`${this.labels.Grid_ImportFailed}: Sheet "${sheetName}" is missing required column "${header}".`);
 			}
 		});
 
@@ -197,25 +194,5 @@ export default class GridExcelImporter extends LightningElement {
 			return true;
 		}
 		return row.every((cell) => cell === null || cell === undefined || String(cell).trim() === '');
-	}
-
-	showToast(title, message, variant) {
-		this.dispatchEvent(new ShowToastEvent({ title, message, variant }));
-	}
-
-	normalizeError(error) {
-		if (!error) {
-			return 'Unknown error.';
-		}
-		if (Array.isArray(error.body)) {
-			return error.body.map((e) => e.message).join(' ');
-		}
-		if (error.body && typeof error.body.message === 'string') {
-			return error.body.message;
-		}
-		if (error.message) {
-			return error.message;
-		}
-		return String(error);
 	}
 }

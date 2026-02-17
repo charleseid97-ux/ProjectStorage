@@ -1,7 +1,7 @@
 <template>
     <template if:true={isLoading}>
         <div class="centerSpinner">
-            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            <lightning-spinner alternative-text={labels.UI_Loading} size="medium"></lightning-spinner>
         </div>
     </template>
 
@@ -11,8 +11,8 @@
                 <lightning-button label={toggleAllLabel} variant="neutral" onclick={handleToggleAllSections}></lightning-button>
             </div>
             <div class="validation-controls-right">
-                <lightning-button label="View Excluded Products" variant="neutral" onclick={handleViewRecap}></lightning-button>
-                <lightning-button label="Back" variant="brand" onclick={handleBack}></lightning-button>
+                <lightning-button label={labels.Grid_ViewExcludedProducts} variant="neutral" onclick={handleViewRecap}></lightning-button>
+                <lightning-button label={labels.UI_Back} variant="brand" onclick={handleBack}></lightning-button>
             </div>
         </div>
         <template if:true={hasValidationResults}>
@@ -40,8 +40,8 @@
                                 </template>
                                 <lightning-button-icon class="remove-product-button"
                                                        icon-name="utility:delete"
-                                                       alternative-text="Remove product"
-                                                       title="Remove product"
+                                                       alternative-text={labels.Grid_RemoveProduct}
+                                                       title={labels.Grid_RemoveProduct}
                                                        data-id={prod.productId}
                                                        onclick={handleRemoveProduct}
                                                        disabled={prod.noShareClassesSelected}>
@@ -90,13 +90,13 @@
 
         <template if:false={hasValidationResults}>
             <div class="slds-p-around_medium slds-text-color_weak">
-                No products to validate.
+                {labels.Grid_NoProductsToValidate}
             </div>
         </template>
 
         <div class="slds-border_top centerButtons">
             <div class="granularColumn">
-                <lightning-button label="Validate Grid" variant="brand" onclick={handleValidate} disabled={isValidateButtonDisabled}></lightning-button>
+                <lightning-button label={labels.Grid_ValidateGrid} variant="brand" onclick={handleValidate} disabled={isValidateButtonDisabled}></lightning-button>
             </div>
         </div>
     </div>
@@ -105,13 +105,13 @@
         <section class="slds-modal slds-fade-in-open">
             <div class="slds-modal__container">
                 <header class="slds-modal__header">
-                    <h2 class="slds-modal__title">Select Grid</h2>
+                    <h2 class="slds-modal__title">{labels.Grid_SelectGrid}</h2>
                 </header>
                 <div class="slds-modal__content slds-p-around_medium">
                     <lightning-radio-group name="gridPick" options={gridPickerOptions} onchange={handleGridPick}></lightning-radio-group>
                 </div>
                 <footer class="slds-modal__footer">
-                    <lightning-button variant="neutral" label="Cancel" onclick={handleCancelGridPick}></lightning-button>
+                    <lightning-button variant="neutral" label={labels.UI_Cancel} onclick={handleCancelGridPick}></lightning-button>
                 </footer>
             </div>
         </section>

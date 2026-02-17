@@ -1,4 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
+import { LABELS } from 'c/gridBuilderUtils';
 
 export default class GridAgreementsSelection extends LightningElement {
     @api hasTeamSelection = false;
@@ -11,6 +12,7 @@ export default class GridAgreementsSelection extends LightningElement {
     @api selectedTeam;
     @api recId;
 
+    labels = LABELS;
     _options = [];
     optionsByValue = {};
     @api
@@ -136,7 +138,7 @@ export default class GridAgreementsSelection extends LightningElement {
                 label: opt ? opt.label : val,
                 name: val,
                 iconName: 'custom:custom16',
-                alternativeText: 'Agreement',
+                alternativeText: this.labels.Grid_Agreements,
                 isLink: true,
                 href: '/' + val
             });

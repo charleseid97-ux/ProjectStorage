@@ -1,16 +1,18 @@
 import { LightningElement, api, track } from 'lwc';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { NavigationMixin } from 'lightning/navigation';
 import getGridSettings from '@salesforce/apex/GridBuilderController.getGridSettings';
 import getAvailableGrids from '@salesforce/apex/GridBuilderController.getAvailableGrids';
 import getAgreementSelectionPageSettings from '@salesforce/apex/GridBuilderController.getAgreementSelectionPageSettings';
 import getAllProductsForSelection from '@salesforce/apex/GridBuilderController.getAllProductsForSelection';
 import getProductsAndShareClasses from '@salesforce/apex/GridBuilderController.getProductsAndShareClasses';
+import {LABELS, reduceError, showToast, buildShareTypesKey, getProductNameFromRows, getQueryParam, getSystemProductExclusionDetail, 
+    applySystemProductExclusion, mergeSystemDetail, addIsinExclusionsFromRows} from 'c/gridBuilderUtils';
 
 export default class StandardGridBuilder extends NavigationMixin(LightningElement) {
     @api gridBuilderSettingName = 'StandardGridBuilderSetting';
 
     @track isLoading = true;
+    labels = LABELS;
 
     @track showAgreementsPage = false;
     @track showGridBuilderPage = false;
@@ -86,7 +88,7 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
     }
 
     get toggleLabel() {
-        return this.isAutoGridUpdate ? 'Automatic' : 'Manual';
+        return this.isAutoGridUpdate ? this.labels.UI_On : this.labels.UI_Off;
     }
 
     get isToggleDisabled() {
@@ -109,14 +111,14 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
 
     async connectedCallback() {
         try {
-            this.recId = this.getQueryParam('c__recordId');
+            this.recId = getQueryParam('c__recordId');
             let agreementSettings = await getAgreementSelectionPageSettings({
                 gridBuilderSettingName: this.gridBuilderSettingName,
                 agreementId: this.recId
             });
             if (agreementSettings) {
                 if(!agreementSettings.gridBuilderFound) {
-                    this.showToastFunction('Error', 'The Grid Builder Setting "' + this.gridBuilderSettingName + '" was not found. Please contact your system administrator.', 'error');
+                    showToast(this, this.labels.UI_Error, this.labels.Grid_SettingNotFound.replace('{0}', this.gridBuilderSettingName), 'error');
                     return;
                 }
                 this.agreementSelectionMode = agreementSettings.agreementSelectionMode;
@@ -130,20 +132,11 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
             }
         }
         catch (error) {
-            this.showToastFunction('Error', 'Error on agreement settings loading, ' + this.reduceError(error), 'error');
+            showToast(this, this.labels.UI_Error, this.labels.Grid_AgreementErrorLoadingSettings + ', ' + this.labels.UI_ErrorMessage + ': ' + reduceError(error), 'error');
         }
         finally {
             this.isLoading = false;
         }
-    }
-
-    getQueryParam(paramName) {
-        let params = new URLSearchParams(window.location.search);
-        let value = params.get(paramName);
-        if (value) {
-            return value;
-        }
-        return null;
     }
 
     async loadGridSettings() {
@@ -158,7 +151,7 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
             }
         }
         catch (error) {
-            this.showToastFunction('Error', 'Error on grid settings loading, ' + this.reduceError(error), 'error');
+            showToast(this, this.labels.UI_Error, this.labels.Grid_ErrorLoadingSettings + ', ' + this.labels.UI_ErrorMessage + ': ' + reduceError(error), 'error');
         }
         finally {
             this.isLoading = false;
@@ -253,7 +246,7 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
             }
         }
         catch (error) {
-            this.showToastFunction('Error', 'Error on grid loading, ' + this.reduceError(error), 'error');
+            showToast(this, this.labels.UI_Error, this.labels.Grid_ErrorLoadingGrids + ', ' + this.labels.UI_ErrorMessage + ': ' + reduceError(error), 'error');
         }
         finally {
             this.isLoading = false;
@@ -275,7 +268,7 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
             }
         }
         catch (error) {
-            this.showToastFunction('Error', 'Error loading products, error message: ' + this.reduceError(error), 'error');
+            showToast(this, this.labels.UI_Error, this.labels.Grid_ErrorLoadingProducts + ', ' + this.labels.UI_ErrorMessage + ': ' + reduceError(error), 'error');
         }
         finally {
             this.isLoading = false;
@@ -291,7 +284,7 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
 
     handleGridChange(event) {
         this.selectedGrid = event.detail.value;
-        this.criteria = this.setNewCriteria(this.selectedGrid, this.criteria.filterLogicType, this.criteria.filterLogicText, this.criteria.details);
+        this.criteria = { grid: this.selectedGrid, filterLogicType: this.criteria.filterLogicType, filterLogicText: this.criteria.filterLogicText, details: this.criteria.details };
 
         if (this.shareClasses?.length) {
             this.shareClasses = this.shareClasses.map(row => ({
@@ -305,16 +298,6 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
     getGridLabelById(gridId) {
         const match = (this.gridOptions || []).find(opt => opt.value === gridId);
         return match ? match.label : '';
-    }
-
-    setNewCriteria(selectedGrid, criteriaFilterLogicType, criteriaFilterLogicText, criteriaDetails) {
-        let newCriteria = {
-            grid: selectedGrid,
-            filterLogicType: criteriaFilterLogicType,
-            filterLogicText: criteriaFilterLogicText,
-            details: criteriaDetails
-        };
-        return newCriteria;
     }
 
     handleShareTypeSelection(event) {
@@ -335,21 +318,20 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
         if (!removedRows.length) {
             return;
         }
-        const productName = this.getProductNameFromRows(removedRows);
+        const productName = getProductNameFromRows(removedRows, this.getProductNameLabel());
         this.shareClasses = currentRows.filter(row => row.productId !== productId);
         if (!productName) {
             return;
         }
-        const updatedCriteria = this.applySystemProductExclusion(this.criteria, productName);
-        this.criteria = updatedCriteria;
+        this.criteria = applySystemProductExclusion(this.criteria, productName, this.filterValueSeparator);
     }
 
     handleApplyFilters(event) {
         const criteriaFromChild = event.detail?.criteria;
         if (criteriaFromChild) {
-            const systemDetail = this.getSystemProductExclusionDetail(this.criteria?.details);
-            const mergeResult = this.mergeSystemDetail(criteriaFromChild, systemDetail);
-            this.criteria = this.setNewCriteria(this.selectedGrid, mergeResult.filterLogicType, mergeResult.filterLogicText, mergeResult.details || []);
+            const systemDetail = getSystemProductExclusionDetail(this.criteria?.details);
+            const mergeResult = mergeSystemDetail(criteriaFromChild, systemDetail);
+            this.criteria = { grid: this.selectedGrid, filterLogicType: mergeResult.filterLogicType, filterLogicText: mergeResult.filterLogicText, details: mergeResult.details || [] };
         }
         this.handleSearchProducts();
     }
@@ -379,11 +361,11 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
             }
             else {
                 this.resetResults(false);
-                this.showToastFunction('No Products Found', 'No products matched the search criteria.', 'info');
+                showToast(this, this.labels.Grid_NoProductsFound, this.labels.Grid_NoProductsMatched, 'info');
             }
         }
         catch (error) {
-            this.showToastFunction('Error', 'Error retrieving products, error message: ' + this.reduceError(error), 'error');
+            showToast(this, this.labels.UI_Error, this.labels.Grid_ErrorRetrievingProducts + ', ' + this.labels.UI_ErrorMessage + ': ' + reduceError(error), 'error');
         }
         finally {
             this.isLoading = false;
@@ -426,18 +408,18 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
                 });
 
                 const addedCount = Math.max(this.selectedShareClasses.length - previousCount, 0);
-                const message = addedCount > 0 ? addedCount + ' share classes have been added to the Grid.' : 'No new share classes were added.';
-                this.showToastFunction('Share classes added', message, addedCount > 0 ? 'success' : 'info');
+                const message = addedCount > 0 ? this.labels.Grid_ShareClassesAdded.replace('{0}', addedCount) : this.labels.Grid_NoNewShareClassesAdded;
+                showToast(this, this.labels.Grid_ShareClassesAddedTitle, message, addedCount > 0 ? 'success' : 'info');
                 if (skippedCount > 0) {
-                    this.showToastFunction('Warning', skippedCount + ' share class(es) were not added because their product is already assigned to a different grid.', 'warning');
+                    showToast(this, this.labels.UI_Warning, this.labels.Grid_ShareClassesNotAdded_DifferentGrid.replace('{0}', skippedCount), 'warning');
                 }
             }
             else {
-                this.showToastFunction('No share classes found', 'No share classes found to add to the Grid.', 'info');
+                showToast(this, this.labels.Grid_NoShareClassesFound, this.labels.Grid_NoShareClassesToAdd, 'info');
             }
         }
         catch (error) {
-            this.showToastFunction('Error', 'Error retrieving products, error message: ' + this.reduceError(error), 'error');
+            showToast(this, this.labels.UI_Error, this.labels.Grid_ErrorRetrievingProducts + ', ' + this.labels.UI_ErrorMessage + ': ' + reduceError(error), 'error');
         }
         finally {
             this.resetResults(true);
@@ -513,7 +495,7 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
         let criteriaObj = this.getCriteriaSObject();
         let criteriaDetailsList = this.decorateCriteriaDetails(this.getCriteriaDetailSObject());
         const shareTypes = Array.isArray(this.selectedShareTypes) ? [...this.selectedShareTypes] : [];
-        const shareTypeKey = this.buildShareTypesKey(shareTypes);
+        const shareTypeKey = buildShareTypesKey(shareTypes);
         const key = JSON.stringify({
             gridId: gridId,
             filterLogicType: criteriaObj?.FilterLogic__c,
@@ -527,11 +509,7 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
             const existing = this.criteriaList[existingIndex];
             const cleanedDetails = (existing.criteriaDetails || []).filter(d => d.TECHOrigin__c !== 'System');
             criteriaRef = { ...existing, criteriaDetails: this.decorateCriteriaDetails(cleanedDetails), shareTypes: existing.shareTypes || shareTypes };
-            this.criteriaList = [
-                ...this.criteriaList.slice(0, existingIndex),
-                criteriaRef,
-                ...this.criteriaList.slice(existingIndex + 1)
-            ];
+            this.criteriaList = [...this.criteriaList.slice(0, existingIndex), criteriaRef, ...this.criteriaList.slice(existingIndex + 1)];
         }
         else {
             const stableId = 'crit_' + (++this.criteriaCounter);
@@ -619,9 +597,7 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
 
     handleRemoveProductFromSelection(event) {
         const productId = event.detail?.productId;
-        if (!productId) {
-            return;
-        }
+        if (!productId) return;
         const updatedCriteria = event.detail?.criteriaList;
         const hasExternalCriteria = Array.isArray(updatedCriteria);
         if (hasExternalCriteria) {
@@ -630,58 +606,11 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
         const current = this.selectedShareClasses || [];
         const removedRows = current.filter(row => row.productId === productId);
         const next = current.filter(row => row.productId !== productId);
-        if (next.length !== current.length) {
-            if (!hasExternalCriteria && removedRows.length && this.criteriaList?.length) {
-                const removedByCriteria = new Map();
-                removedRows.forEach(row => {
-                    if (!row.criteriaRefId) {
-                        return;
-                    }
-                    const isin = this.getIsinFromRow(row);
-                    if (!isin) {
-                        return;
-                    }
-                    if (!removedByCriteria.has(row.criteriaRefId)) {
-                        removedByCriteria.set(row.criteriaRefId, new Set());
-                    }
-                    removedByCriteria.get(row.criteriaRefId).add(isin);
-                });
-                this.criteriaList = this.criteriaList.map(entry => {
-                    const isins = removedByCriteria.get(entry.id);
-                    if (!isins || !isins.size) {
-                        return entry;
-                    }
-                    const details = (entry.criteriaDetails || []).slice();
-                    const idx = details.findIndex(d =>
-                        d.Object__c === 'Share_Class__c' &&
-                        d.Field__c === 'ISIN__c' &&
-                        d.Logic__c === 'NOT IN' &&
-                        d.TECHOrigin__c === 'System'
-                    );
-                    const currentValues = idx >= 0 ? this.splitCriteriaValues(details[idx].Value__c) : [];
-                    const valueSet = new Set(currentValues);
-                    isins.forEach(isin => valueSet.add(isin));
-                    const nextValues = Array.from(valueSet);
-                    const detail = {
-                        Object__c: 'Share_Class__c',
-                        Field__c: 'ISIN__c',
-                        Logic__c: 'NOT IN',
-                        Value__c: nextValues.join(' '+this.filterValueSeparator+' '),
-                        TECHOrigin__c: 'System',
-                        objectLabel: 'Share Class',
-                        fieldLabel: 'ISIN'
-                    };
-                    if (idx >= 0) {
-                        details[idx] = { ...details[idx], ...detail };
-                    }
-                    else {
-                        details.push(detail);
-                    }
-                    return { ...entry, criteriaDetails: details };
-                });
-            }
-            this.selectedShareClasses = next;
+        if (next.length === current.length) return;
+        if (!hasExternalCriteria && removedRows.length && this.criteriaList?.length) {
+            this.criteriaList = addIsinExclusionsFromRows(this.criteriaList, removedRows, this.filterValueSeparator);
         }
+        this.selectedShareClasses = next;
     }
 
     handleValidationSelectionChange(event) {
@@ -705,12 +634,12 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
         }).filter(Boolean).join(', ');
     }
 
-    resetAll(showToast) {
+    resetAll(notify) {
         this.selectedShareClasses = [];
         this.criteriaList = [];
         this.resetResults(true);
-        if(showToast)
-            this.showToastFunction('Success', 'All selections and criteria have been reset.', 'success');
+        if(notify)
+            showToast(this, this.labels.UI_Success, this.labels.Grid_ResetAll_Success, 'success');
     }
 
     // ------------------------------------ Confirmation Modal methods ------------------------------------
@@ -732,7 +661,7 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
     }
 
     handleResetAllClick() {
-        this.openConfirmation('resetAll', 'Reset All', 'Are you sure you want to reset all selected share classes and criteria? This action cannot be undone.');
+        this.openConfirmation('resetAll', this.labels.Grid_ResetAll, this.labels.Grid_ResetAll_Confirm);
     }
 
     // ------------------------------------ Page Handling methods ------------------------------------
@@ -769,7 +698,7 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
 
     handleGridSaved(event) {
         const { gridName, agreementId } = event.detail || {};
-        this.showToastFunction('Success', `Grid "${gridName}" saved successfully.`, 'success');
+        showToast(this, this.labels.UI_Success, this.labels.Grid_Saved_Success.replace('{0}', gridName), 'success');
 
         // Navigate to the first agreement record
         if (agreementId) {
@@ -827,185 +756,18 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
 
     getObjectLabel(objectApi) {
         const match = (this.objectOptions || []).find(opt => opt.value === objectApi);
-        return match ? match.label : 'Unknown Object';
+        return match ? match.label : this.labels.UI_UnknownObject;
     }
 
     getFieldLabel(objectApi, fieldApi) {
         const fields = this.fieldsByObject?.[objectApi] || [];
         const match = fields.find(field => field.value === fieldApi);
-        return match ? match.label : 'Unknown Field';
-    }
-
-    buildShareTypesKey(shareTypes) {
-        const values = Array.isArray(shareTypes) ? [...shareTypes] : [];
-        values.sort((a, b) => a.localeCompare(b));
-        return values.join('|');
+        return match ? match.label : this.labels.UI_UnknownObject;
     }
 
     getProductNameLabel() {
         const productFields = this.fieldsByObject?.Product__c || [];
         const match = productFields.find(field => field.value === 'ProductName__c');
-        return match ? match.label : 'Product Name';
-    }
-
-    getProductNameFromRows(rows) {
-        const firstRow = rows && rows.length ? rows[0] : null;
-        if (!firstRow) {
-            return null;
-        }
-        const label = this.getProductNameLabel();
-        const cellValue = (firstRow.cells || []).find(cell => cell.label === label)?.value;
-        if (cellValue) {
-            return cellValue;
-        }
-        const fallbackLabel = firstRow.productLabel || '';
-        const separatorIndex = fallbackLabel.indexOf(' (');
-        if (separatorIndex > 0) {
-            return fallbackLabel.substring(0, separatorIndex);
-        }
-        return fallbackLabel || null;
-    }
-
-    getIsinFromRow(row) {
-        if (!row) {
-            return null;
-        }
-        if (row.isin) {
-            return row.isin;
-        }
-        const cells = row.cells || [];
-        const cell = cells.find(c => (c.label || '').toLowerCase() === 'isin') ||
-            cells.find(c => (c.label || '').toLowerCase().includes('isin'));
-        return cell ? cell.value : null;
-    }
-
-    splitCriteriaValues(rawValue) {
-        if (!rawValue) {
-            return [];
-        }
-        const separator = this.filterValueSeparator || ';';
-        return rawValue.split(separator).map(value => value.trim()).filter(value => value);
-    }
-
-    applySystemProductExclusion(criteria, productName) {
-        const current = criteria || this.criteria;
-        const details = Array.isArray(current?.details) ? current.details.map(d => ({ ...d })) : [];
-        const systemDetail = this.getSystemProductExclusionDetail(details);
-        const names = this.getValuesFromDetail(systemDetail);
-        if (!names.includes(productName)) {
-            names.push(productName);
-        }
-        const nextDetail = {
-            id: systemDetail?.id || 'sys-product-exclusion',
-            objectApi: 'Product__c',
-            fieldApi: 'ProductName__c',
-            operator: 'NOT IN',
-            value: names.join(this.filterValueSeparator),
-            TECHOrigin__c: 'System'
-        };
-        const updatedDetails = this.upsertSystemDetail(details, nextDetail);
-        const logicUpdate = this.appendCustomLogicIfNeeded(current?.filterLogicType, current?.filterLogicText, updatedDetails, systemDetail == null);
-        return this.setNewCriteria(current?.grid, logicUpdate.filterLogicType, logicUpdate.filterLogicText, updatedDetails);
-    }
-
-    mergeSystemDetail(criteriaFromChild, systemDetail) {
-        const details = Array.isArray(criteriaFromChild?.details) ? criteriaFromChild.details.map(d => ({ ...d })) : [];
-        const updatedDetails = !systemDetail? this.reindexCriteriaDetails(details) : this.upsertSystemDetail(details, { ...systemDetail });
-        return {
-            filterLogicType: criteriaFromChild?.filterLogicType,
-            filterLogicText: criteriaFromChild?.filterLogicText,
-            details: updatedDetails
-        };
-    }
-
-    getSystemProductExclusionDetail(details) {
-        return (details || []).find(detail =>
-            detail &&
-            detail.objectApi === 'Product__c' &&
-            detail.fieldApi === 'ProductName__c' &&
-            detail.operator === 'NOT IN' &&
-            detail.TECHOrigin__c === 'System'
-        );
-    }
-
-    getValuesFromDetail(detail) {
-        if (!detail || !detail.value) {
-            return [];
-        }
-        const separator = this.filterValueSeparator || ';';
-        return detail.value.split(separator).map(value => value.trim()).filter(value => value);
-    }
-
-    upsertSystemDetail(details, systemDetail) {
-        const filtered = (details || []).filter(detail => !this.isSystemProductExclusionDetail(detail));
-        filtered.push({ ...systemDetail, TECHOrigin__c: 'System' });
-        return this.reindexCriteriaDetails(filtered);
-    }
-
-    isSystemProductExclusionDetail(detail) {
-        return detail &&
-            detail.objectApi === 'Product__c' &&
-            detail.fieldApi === 'ProductName__c' &&
-            detail.operator === 'NOT IN' &&
-            detail.TECHOrigin__c === 'System';
-    }
-
-    reindexCriteriaDetails(details) {
-        const updated = [];
-        (details || []).forEach((detail, index) => {
-            updated.push({
-                ...detail,
-                filterNumber: index + 1
-            });
-        });
-        return updated;
-    }
-
-    appendCustomLogicIfNeeded(filterLogicType, filterLogicText, updatedDetails, addedSystemDetail) {
-        if (!addedSystemDetail || filterLogicType !== 'Custom Logic') {
-            return { filterLogicType: filterLogicType, filterLogicText: filterLogicText };
-        }
-        const systemDetail = this.getSystemProductExclusionDetail(updatedDetails);
-        const systemNumber = systemDetail?.filterNumber;
-        if (!systemNumber) {
-            return { filterLogicType: filterLogicType, filterLogicText: filterLogicText };
-        }
-        const baseExpression = filterLogicText && filterLogicText.trim()
-            ? filterLogicText.trim()
-            : this.buildDefaultLogicExpression(updatedDetails.length - 1, 'AND');
-        const nextExpression = baseExpression ? `(${baseExpression}) AND ${systemNumber}` : String(systemNumber);
-        return { filterLogicType: 'Custom Logic', filterLogicText: nextExpression };
-    }
-
-    buildDefaultLogicExpression(count, logicType) {
-        if (count <= 0) {
-            return '';
-        }
-        const op = logicType === 'OR' ? 'OR' : 'AND';
-        return Array.from({ length: count }, (_, index) => index + 1).join(` ${op} `);
-    }
-
-    // ------------------------------------ Helper functions ------------------------------------
-    showToastFunction(title, message, variant) {
-        this.dispatchEvent(new ShowToastEvent({
-            title: title,
-            message: message,
-            variant: variant
-        }));
-        console.error(title, message);
-    }
-
-    reduceError(error) {
-        if (!error) return 'Unknown error';
-        if (Array.isArray(error.body)) {
-            return error.body.map(e => e.message).join(', ');
-        }
-        if (error.body && typeof error.body.message === 'string') {
-            return error.body.message;
-        }
-        if (typeof error.message === 'string') {
-            return error.message;
-        }
-        return 'Unknown error';
+        return match ? match.label : this.labels.Grid_ProductNameLabel;
     }
 }
