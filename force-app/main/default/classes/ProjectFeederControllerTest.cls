@@ -1,6 +1,10 @@
 @IsTest
 private class ProjectFeederControllerTest {
 
+    // Constants to avoid duplicated literals (fix Sonar CODE_SMELL)
+    private static final String ASSERT_NOT_NULL_MSG = 'DTO list should not be null';
+    private static final String FEEDER_PRODUCT_NAME = 'Feeder Product';
+
     @TestSetup
     static void setupData() {
         // Create ProjectProduct records
@@ -16,8 +20,8 @@ private class ProjectFeederControllerTest {
 
         // Create feeder product (custom Product__c used in your org)
         Product__c feeder = new Product__c(
-            Name = 'Feeder Product',
-            ProductName__c = 'Feeder Product',
+            Name = FEEDER_PRODUCT_NAME,
+            ProductName__c = FEEDER_PRODUCT_NAME,
             Validity__c = true
         );
         insert feeder;
@@ -58,14 +62,14 @@ private class ProjectFeederControllerTest {
         Test.stopTest();
 
         // Expect one DTO corresponding to the shareclass that has a feeder
-        System.assertNotEquals(null, dtos, 'DTO list should not be null');
+        System.assertNotEquals(null, dtos, ASSERT_NOT_NULL_MSG);
         System.assertEquals(1, dtos.size(), 'Expected exactly 1 feeder DTO');
 
         ProjectFeederController.FeederLineDTO dto = dtos[0];
         System.assertNotEquals(null, dto.shareclassId, 'shareclassId must be populated');
         System.assert( dto.shareclassName.contains('X'), 'shareclassName should match');
         System.assertNotEquals(null, dto.feederId, 'feederId must be populated');
-        System.assertEquals('Feeder Product', dto.feederName, 'feederName should match ProductName__c');
+        System.assertEquals(FEEDER_PRODUCT_NAME, dto.feederName, 'feederName should match ProductName__c');
     }
 
     @IsTest
@@ -81,7 +85,7 @@ private class ProjectFeederControllerTest {
         Test.stopTest();
 
         // No feeders expected for this project
-        System.assertNotEquals(null, dtos, 'DTO list should not be null');
+        System.assertNotEquals(null, dtos, ASSERT_NOT_NULL_MSG);
         System.assertEquals(0, dtos.size(), 'Expected 0 feeder DTOs for project with no feeders');
     }
 
@@ -91,7 +95,7 @@ private class ProjectFeederControllerTest {
         List<ProjectFeederController.FeederLineDTO> dtos = ProjectFeederController.getFeeders(null);
         Test.stopTest();
 
-        System.assertNotEquals(null, dtos, 'DTO list should not be null');
+        System.assertNotEquals(null, dtos, ASSERT_NOT_NULL_MSG);
         System.assertEquals(0, dtos.size(), 'Expected 0 DTOs when passing null projectId');
     }
 }

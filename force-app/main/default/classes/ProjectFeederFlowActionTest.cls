@@ -1,6 +1,9 @@
 @IsTest
 private class ProjectFeederFlowActionTest {
 
+    // Constant to avoid duplicated literal (fix Sonar CODE_SMELL)
+    private static final String FEEDER_PRODUCT_NAME = 'Feeder Product';
+
     @TestSetup
     static void setupData() {
 
@@ -17,8 +20,8 @@ private class ProjectFeederFlowActionTest {
 
         // Create Feeder product (lookup target)
         Product__c feederProduct = new Product__c(
-            Name = 'Feeder Product',
-            ProductName__c = 'Feeder Product',
+            Name = FEEDER_PRODUCT_NAME,
+            ProductName__c = FEEDER_PRODUCT_NAME,
             Validity__c = true
         );
         insert feederProduct;
@@ -64,7 +67,7 @@ private class ProjectFeederFlowActionTest {
 
         System.assertNotEquals('', res.feedersHtml, 'HTML should not be empty');
         System.assert(res.feedersHtml.contains('X'), 'Should contain share class name');
-        System.assert(res.feedersHtml.contains('Feeder Product'), 'Should contain feeder name');
+        System.assert(res.feedersHtml.contains(FEEDER_PRODUCT_NAME), 'Should contain feeder name');
 
     }
 

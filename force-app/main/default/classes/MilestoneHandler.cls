@@ -1,5 +1,9 @@
 public class MilestoneHandler {
-    
+
+    // Constants to avoid duplicated literals (fix Sonar CODE_SMELL)
+    private static final String SPC_FINAL = 'SPC Final';
+    private static final String STATUS_COMPLETED = 'Completed';
+
     static final Id fundModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();  
     static final Id fundCreationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundCreation').getRecordTypeId();  
 
@@ -16,7 +20,7 @@ public class MilestoneHandler {
 
         Set<Id> setProjectProductId = new Set<Id>();
         for (Milestone__c milestone : newMilestones.values()) {
-            if (milestone.Name == 'SPC Final' && milestone.Status__c != oldMilestones.get(milestone.Id).Status__c && milestone.Status__c == 'Completed') {
+            if (milestone.Name == SPC_FINAL && milestone.Status__c != oldMilestones.get(milestone.Id).Status__c && milestone.Status__c == STATUS_COMPLETED) {
                 setProjectProductId.add(milestone.Project_Product__c);
             }
         }
@@ -39,9 +43,9 @@ public class MilestoneHandler {
             Milestone__c oldMs = oldMilestones.get(milestone.Id);
 
             Boolean isSpcFinalToCompleted =
-                milestone.Name == 'SPC Final'
+                milestone.Name == SPC_FINAL
                 && milestone.Project_Product__c != null
-                && milestone.Status__c == 'Completed'
+                && milestone.Status__c == STATUS_COMPLETED
                 && oldMs != null
                 && milestone.Status__c != oldMs.Status__c;
 
@@ -92,7 +96,7 @@ public class MilestoneHandler {
         List<ProjectProduct__c> listProjectProductToUpdate = new List<ProjectProduct__c>();
         Set<Id> setProjectProductId = new Set<Id>();
         for (Milestone__c milestone : newMilestones.values()) {
-            if (milestone.Name == 'SPC Final' && milestone.Status__c != oldMilestones.get(milestone.Id).Status__c && milestone.Status__c == 'Completed') {
+            if (milestone.Name == SPC_FINAL && milestone.Status__c != oldMilestones.get(milestone.Id).Status__c && milestone.Status__c == STATUS_COMPLETED) {
                 setProjectProductId.add(milestone.Project_Product__c);
             }
         }
@@ -177,9 +181,9 @@ public class MilestoneHandler {
     public static void validatePhasesESG(Map<Id, Milestone__c> newMilestones, Map<Id, Milestone__c> oldMilestones){
         Set<Id> projectIds = new Set<Id>();
         for (Milestone__c milestone : newMilestones.values()) {
-            if(milestone.Name == 'SPC Final' && 
+            if(milestone.Name == SPC_FINAL && 
                 milestone.Status__c != oldMilestones.get(milestone.Id).Status__c 
-                && milestone.Status__c == 'Completed' 
+                && milestone.Status__c == STATUS_COMPLETED 
                 ){
                     system.debug('milestone.Project_Product__c: ' + milestone.Project_Product__c);
                     projectIds.add(milestone.Project_Product__c);
