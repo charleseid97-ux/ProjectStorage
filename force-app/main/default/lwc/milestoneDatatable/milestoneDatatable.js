@@ -83,12 +83,16 @@ this.data = data.map(row => {
                 return refreshApex(this._wiredMilestonesResult);
             })
             .catch(error => {
+                // if Apex throws AuraHandledException, error.body.message contient le texte
+                const message = (error && error.body && error.body.message) ? error.body.message : 'Unexpected error';
                 this.dispatchEvent(new ShowToastEvent({
                     title: 'Error updating milestones',
-                    message: error.body.message,
-                    variant: 'error'
+                    message,
+                    variant: 'error',
+                    mode: 'sticky'
                 }));
             });
+
     }
  
     handleRowAction(event) {
