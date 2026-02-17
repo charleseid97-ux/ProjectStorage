@@ -55,12 +55,27 @@ public without sharing class CTL_MeetingNotes {
         return ([select Id , Name, Account.Name from Opportunity WHERE IsClosed=false]);
     }
 
+         
+    @AuraEnabled(cacheable=false)
+    public static Id getEventIdByMeetingNote(Id meetingNoteId) {
+        if (meetingNoteId == null) return null;
+        Event evt = [
+            SELECT Id
+            FROM Event
+            WHERE Meeting_Note__c = :meetingNoteId
+            LIMIT 1
+        ];
+        return evt.Id;
+    }
+    
     @AuraEnabled
     public static CreationWrapper createRelatedObjects(Event evt, List<String> participants, List<ClientInterest__c> prodInterest,List<Task> tasks){
         Savepoint sp = Database.setSavepoint(); // rollback in case of error
         Boolean success = false;
-        try {
+        // try {
             List<EventRelation> evtRelation = new List<EventRelation>();
+            System.debug('evt => '+evt);
+
             insert evt;
             //add Client contact and Internal as Who Ids on the event.
             for(String cont:participants){
@@ -70,6 +85,7 @@ public without sharing class CTL_MeetingNotes {
                                                  IsParent=true,
                                                  RelationId = cont));
             }
+            System.debug('evtRelation => '+evtRelation);
 
             //add Client Interest Object  and tasks .....
             if(tasks.size() > 0) insert tasks;
@@ -78,11 +94,11 @@ public without sharing class CTL_MeetingNotes {
 
             success = true;
 
-        } catch (Exception e) {
-            Database.rollback(sp);
-            delete (new Meeting_Note__c(Id = evt.Meeting_Note__c)); //we delete the created meeting note created when we got an error for related objects. 
-            System.debug('####CTL_MeetingNotes:createRelatedObjects => '+e.getMessage());
-        }
+        // } catch (Exception e) {
+        //     Database.rollback(sp);
+        //     delete (new Meeting_Note__c(Id = evt.Meeting_Note__c)); //we delete the created meeting note created when we got an error for related objects. 
+        //     System.debug('####CTL_MeetingNotes:createRelatedObjects => '+e.getMessage());
+        // }
         CreationWrapper response = new CreationWrapper(tasks,success);
         return response;
     }
@@ -135,7 +151,6 @@ public without sharing class CTL_MeetingNotes {
                  EndDateTime, 
                  Description, 
                  IntelligenceScore, 
-                 (SELECT Summary FROM Summaries LIMIT 1),
                  (SELECT RelatedPersonId,RelatedPerson.Name, RelatedPerson.Email FROM VideoCalls) 
              FROM VideoCall 
              WHERE Id = :videoCallId
@@ -145,7 +160,6 @@ public without sharing class CTL_MeetingNotes {
          wrapper.Name = vc.Name;
          wrapper.EndDateTime = vc.EndDateTime != null ? vc.EndDateTime.format() : null;
          wrapper.Description = vc.Description;
-         wrapper.Summary = vc.Summaries.size() > 0 ? vc.Summaries[0].Summary : null;
          List<ProductFeedback> productsAndRatings = parseFeedback(getProductsAndRatings(wrapper.Summary));
          List<Contact> contactIds = new List<Contact>();
          for (VideoCallParticipant participant : vc.VideoCalls) {
@@ -177,7 +191,6 @@ public without sharing class CTL_MeetingNotes {
                 StartDateTime,
                 Description, 
                 IntelligenceScore, 
-                (SELECT Summary FROM Summaries LIMIT 1),
                 (SELECT RelatedPersonId,RelatedPerson.Name, RelatedPerson.Email FROM VideoCalls WHERE RelatedPersonId IN (SELECT id FROM Contact)) 
             FROM VideoCall 
             WHERE Id = :videoCallId
@@ -187,7 +200,6 @@ public without sharing class CTL_MeetingNotes {
 
         meetingNote.Name = vc.Name;
         meetingNote.Date__c = vc.EndDateTime != null ? vc.EndDateTime.date() : null;
-        meetingNote.Note__c  = vc.Summaries.size() > 0 ? vc.Summaries[0].Summary : null;
 
         insert meetingNote;
         system.debug('meetingNote=>'+meetingNote);
@@ -247,7 +259,6 @@ public without sharing class CTL_MeetingNotes {
                 StartDateTime, 
                 Description, 
                 IntelligenceScore, 
-                (SELECT Summary FROM Summaries Order by CreatedDate DESC LIMIT 1),
                 (SELECT RelatedPersonId, RelatedPerson.Name, RelatedPerson.Email FROM VideoCalls WHERE RelatedPersonId IN (SELECT Id FROM Contact))
             FROM VideoCall 
             WHERE Id IN :videoCallIds
@@ -270,7 +281,6 @@ public without sharing class CTL_MeetingNotes {
             meetingNote.Name = vc.Name; 
             meetingNote.SalesPresentation__c = true; 
             meetingNote.Date__c = vc.EndDateTime != null ? vc.EndDateTime.date() : null;
-            meetingNote.Note__c = vc.Summaries.size() > 0 ? vc.Summaries[0].Summary : null;
             meetingNotes.add(meetingNote);
             meetingNotesMap.put(vc.Id, meetingNote);
             // Create Event
