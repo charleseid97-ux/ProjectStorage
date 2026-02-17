@@ -1,0 +1,1267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_12</activeVersionIdentifier>
+    <description>Use this template to generate a custom notification based on the Meeting Notes</description>
+    <developerName>flex_GenerateMeetingNotesNotification</developerName>
+    <masterLabel>flex_GenerateMeetingNotesNotification</masterLabel>
+    <templateVersions>
+        <content>You are an email HTML generator.  
+Produce only HTML code, using the template below.  
+
+Dynamic variables:  
+- {{products}} → generate `&lt;tr&gt;...&lt;/tr&gt;` rows for each product, with stars + numeric score  
+- {{meeting_note_link}} → insert the URL in the button  
+
+⚠️ Important:  
+If {{products}} is empty or contains no rows, then do not render the &quot;📊 Client Interest Summary&quot; section at all (both the title and the table).  
+
+Transform raw product data (example: {&quot;ProductName&quot;:&quot;Asia Discovery&quot;,&quot;Interest&quot;:&quot;4/5&quot;}) into a star rating:  
+- 1/5 → ⭐☆☆☆☆  
+- 2/5 → ⭐⭐☆☆☆  
+- 3/5 → ⭐⭐⭐☆☆  
+- 4/5 → ⭐⭐⭐⭐☆  
+- 5/5 → ⭐⭐⭐⭐⭐  
+
+---
+### RAW DATA &amp; meeting_note_link
+{!$Flow:PT_MeetingNotes_AddClientInterestsToPrompt.Prompt}
+### RAW DATA
+
+
+### HTML Template:
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+ &lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot; /&gt;
+  &lt;title&gt;Client Interest Summary&lt;/title&gt;
+  &lt;meta name=&quot;x-apple-disable-message-reformatting&quot; /&gt;
+ &lt;/head&gt;
+ &lt;body style=&quot;Margin:0;padding:0;background:#f4f6f8;&quot;&gt;
+  &lt;center style=&quot;width:100%;background:#f4f6f8;&quot;&gt;
+   &lt;table role=&quot;presentation&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; width=&quot;100%&quot;&gt;
+    &lt;tr&gt;
+     &lt;td align=&quot;center&quot; style=&quot;padding:24px 12px;&quot;&gt;
+      &lt;table role=&quot;presentation&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; width=&quot;600&quot; style=&quot;max-width:600px;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e6e9ec;&quot;&gt;
+       &lt;!-- Header --&gt;
+       &lt;tr&gt;
+        &lt;td style=&quot;padding:20px 24px;background:#537459;color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:18px;font-weight:700;&quot;&gt;
+         Please Check
+        &lt;/td&gt;
+       &lt;/tr&gt;
+       &lt;!-- Checklist (static) --&gt;
+       &lt;tr&gt;
+        &lt;td style=&quot;padding:20px 24px;font-family:Arial,Helvetica,sans-serif;color:#0f172a;font-size:15px;line-height:1.55;&quot;&gt;
+         &lt;ol style=&quot;margin:0;padding-left:20px;&quot;&gt;
+          &lt;li style=&quot;margin-bottom:8px;&quot;&gt;Review the note&lt;/li&gt;
+          &lt;li&gt;Verify Client Interest ratings&lt;/li&gt;
+         &lt;/ol&gt;
+        &lt;/td&gt;
+       &lt;/tr&gt;
+       &lt;!-- Divider --&gt;
+       &lt;tr&gt;
+        &lt;td style=&quot;padding:0 24px;&quot;&gt;
+         &lt;hr style=&quot;border:none;border-top:1px solid #e6e9ec;margin:0;&quot; /&gt;
+        &lt;/td&gt;
+       &lt;/tr&gt;
+       &lt;!-- Client Interests (only if products not empty) --&gt;
+       {{#if products}}
+       &lt;tr&gt;
+        &lt;td style=&quot;padding:16px 24px 8px 24px;font-family:Arial,Helvetica,sans-serif;color:#0f172a;&quot;&gt;
+         &lt;div style=&quot;font-size:16px;font-weight:700;margin-bottom:4px;&quot;&gt;📊 Client Interest Summary&lt;/div&gt;
+        &lt;/td&gt;
+       &lt;/tr&gt;
+       &lt;tr&gt;
+        &lt;td style=&quot;padding:0 16px 20px 16px;&quot;&gt;
+         &lt;table role=&quot;presentation&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; width=&quot;100%&quot;&gt;
+          {{products}}
+         &lt;/table&gt;
+        &lt;/td&gt;
+       &lt;/tr&gt;
+       {{/if}}
+       &lt;!-- Call to action (dynamic link) --&gt;
+       &lt;tr&gt;
+        &lt;td align=&quot;center&quot; style=&quot;padding:20px;&quot;&gt;
+         &lt;table role=&quot;presentation&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot;&gt;
+          &lt;tr&gt;
+           &lt;td align=&quot;center&quot;&gt;
+            &lt;a href=&quot;{{meeting_note_link}}&quot; target=&quot;_blank&quot; 
+              style=&quot;display:inline-block;padding:12px 20px;font-family:Arial,Helvetica,sans-serif;
+
+</content>
+        <inputs>
+            <apiName>Meeting_Note</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting Note</masterLabel>
+            <referenceName>Input:Meeting_Note</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_MeetingNotes_AddClientInterestsToPrompt</definition>
+            <parameters>
+                <definition>SOBJECT://Meeting_Note__c</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Meeting_Note</parameterName>
+                <valueExpression>{!$Input:Meeting_Note}</valueExpression>
+            </parameters>
+            <referenceName>Flow:PT_MeetingNotes_AddClientInterestsToPrompt</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_1</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an email HTML generator.  
+Produce only HTML code, using the template below.  
+
+Dynamic variables:  
+- {{products}} → generate `&lt;tr&gt;...&lt;/tr&gt;` rows for each product, with stars + numeric score  
+- {{meeting_note_link}} → insert the URL in the button  
+
+⚠️ Important:  
+If {{products}} is empty or contains no rows, then do not render the &quot;📊 Client Interest Summary&quot; section at all (both the title and the table).  
+
+Transform raw product data (example: {&quot;ProductName&quot;:&quot;Asia Discovery&quot;,&quot;Interest&quot;:&quot;4/5&quot;}) into a star rating:  
+- 1/5 → ⭐☆☆☆☆  
+- 2/5 → ⭐⭐☆☆☆  
+- 3/5 → ⭐⭐⭐☆☆  
+- 4/5 → ⭐⭐⭐⭐☆  
+- 5/5 → ⭐⭐⭐⭐⭐  
+
+---
+### RAW DATA &amp; meeting_note_link
+{!$Flow:PT_MeetingNotes_AddClientInterestsToPrompt.Prompt}
+### RAW DATA
+
+
+### HTML Template:
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+ &lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot; /&gt;
+  &lt;title&gt;Client Interest Summary&lt;/title&gt;
+  &lt;meta name=&quot;x-apple-disable-message-reformatting&quot; /&gt;
+ &lt;/head&gt;
+ &lt;body style=&quot;Margin:0;padding:0;background:#f4f6f8;&quot;&gt;
+  &lt;center style=&quot;width:100%;background:#f4f6f8;&quot;&gt;
+   &lt;table role=&quot;presentation&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; width=&quot;100%&quot;&gt;
+    &lt;tr&gt;
+     &lt;td align=&quot;center&quot; style=&quot;padding:24px 12px;&quot;&gt;
+      &lt;table role=&quot;presentation&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; width=&quot;600&quot; style=&quot;max-width:600px;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e6e9ec;&quot;&gt;
+       &lt;!-- Header --&gt;
+       &lt;tr&gt;
+        &lt;td style=&quot;padding:20px 24px;background:#537459;color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:18px;font-weight:700;&quot;&gt;
+         Please Check
+        &lt;/td&gt;
+       &lt;/tr&gt;
+       &lt;!-- Checklist (static) --&gt;
+       &lt;tr&gt;
+        &lt;td style=&quot;padding:20px 24px;font-family:Arial,Helvetica,sans-serif;color:#0f172a;font-size:15px;line-height:1.55;&quot;&gt;
+         &lt;ol style=&quot;margin:0;padding-left:20px;&quot;&gt;
+          &lt;li style=&quot;margin-bottom:8px;&quot;&gt;Review the note&lt;/li&gt;
+          &lt;li&gt;Verify Client Interest ratings&lt;/li&gt;
+         &lt;/ol&gt;
+        &lt;/td&gt;
+       &lt;/tr&gt;
+       &lt;!-- Divider --&gt;
+       &lt;tr&gt;
+        &lt;td style=&quot;padding:0 24px;&quot;&gt;
+         &lt;hr style=&quot;border:none;border-top:1px solid #e6e9ec;margin:0;&quot; /&gt;
+        &lt;/td&gt;
+       &lt;/tr&gt;
+       &lt;!-- Client Interests (only if products not empty) --&gt;
+       {{#if products}}
+       &lt;tr&gt;
+        &lt;td style=&quot;padding:16px 24px 8px 24px;font-family:Arial,Helvetica,sans-serif;color:#0f172a;&quot;&gt;
+         &lt;div style=&quot;font-size:16px;font-weight:700;margin-bottom:4px;&quot;&gt;📊 Client Interest Summary&lt;/div&gt;
+        &lt;/td&gt;
+       &lt;/tr&gt;
+       &lt;tr&gt;
+        &lt;td style=&quot;padding:0 16px 20px 16px;&quot;&gt;
+         &lt;table role=&quot;presentation&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; width=&quot;100%&quot;&gt;
+          {{products}}
+         &lt;/table&gt;
+        &lt;/td&gt;
+       &lt;/tr&gt;
+       {{/if}}
+       &lt;!-- Call to action (dynamic link) --&gt;
+       &lt;tr&gt;
+        &lt;td align=&quot;center&quot; style=&quot;padding:20px;&quot;&gt;
+         &lt;table role=&quot;presentation&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot;&gt;
+          &lt;tr&gt;
+           &lt;td align=&quot;center&quot;&gt;
+            &lt;a href=&quot;{{meeting_note_link}}&quot; target=&quot;_blank&quot; 
+              style=&quot;display:inline-block;padding:12px 20px;font-family:Arial,Helvetica,sans-serif;
+
+</content>
+        <inputs>
+            <apiName>Meeting_Note</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting Note</masterLabel>
+            <referenceName>Input:Meeting_Note</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_MeetingNotes_AddClientInterestsToPrompt</definition>
+            <parameters>
+                <definition>SOBJECT://Meeting_Note__c</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Meeting_Note</parameterName>
+                <valueExpression>{!$Input:Meeting_Note}</valueExpression>
+            </parameters>
+            <referenceName>Flow:PT_MeetingNotes_AddClientInterestsToPrompt</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_2</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an email HTML generator.  
+Produce only HTML code, using the template below.  
+
+Dynamic variables:  
+- {{products}} → generate `&lt;tr&gt;...&lt;/tr&gt;` rows for each product, with stars + numeric score  
+- {{meeting_note_link}} → insert the URL in the button  
+
+⚠️ Important:  
+If {{products}} is empty or contains no rows, then do not render the &quot;📊 Client Interest Summary&quot; section at all (both the title and the table).  
+
+Transform raw product data (example: {&quot;ProductName&quot;:&quot;Asia Discovery&quot;,&quot;Interest&quot;:&quot;4/5&quot;}) into a star rating:  
+- 1/5 → ⭐☆☆☆☆  
+- 2/5 → ⭐⭐☆☆☆  
+- 3/5 → ⭐⭐⭐☆☆  
+- 4/5 → ⭐⭐⭐⭐☆  
+- 5/5 → ⭐⭐⭐⭐⭐  
+
+---
+### RAW DATA &amp; meeting_note_link
+{!$Flow:PT_MeetingNotes_AddClientInterestsToPrompt.Prompt}
+### RAW DATA
+
+
+### HTML Template:
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+ &lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot; /&gt;
+  &lt;title&gt;Client Interest Summary&lt;/title&gt;
+  &lt;meta name=&quot;x-apple-disable-message-reformatting&quot; /&gt;
+ &lt;/head&gt;
+ &lt;body style=&quot;Margin:0;padding:0;background:#f4f6f8;&quot;&gt;
+  &lt;center style=&quot;width:100%;background:#f4f6f8;&quot;&gt;
+   &lt;table role=&quot;presentation&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; width=&quot;100%&quot;&gt;
+    &lt;tr&gt;
+     &lt;td align=&quot;center&quot; style=&quot;padding:16px 10px;&quot;&gt;
+      &lt;table role=&quot;presentation&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; width=&quot;600&quot; style=&quot;width:100%;max-width:600px;background:#ffffff;border-radius:10px;overflow:hidden;border:1px solid #e6e9ec;&quot;&gt;
+       &lt;!-- Header --&gt;
+       &lt;tr&gt;
+        &lt;td style=&quot;padding:12px 16px;background:#537459;color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:700;&quot;&gt;
+         Please Check
+        &lt;/td&gt;
+       &lt;/tr&gt;
+       &lt;!-- Checklist (static) --&gt;
+       &lt;tr&gt;
+        &lt;td style=&quot;padding:12px 16px;font-family:Arial,Helvetica,sans-serif;color:#0f172a;font-size:13px;line-height:1.4;&quot;&gt;
+         &lt;ol style=&quot;margin:0;padding-left:18px;&quot;&gt;
+          &lt;li style=&quot;margin-bottom:6px;&quot;&gt;Review the note&lt;/li&gt;
+          &lt;li&gt;Verify Client Interest ratings&lt;/li&gt;
+         &lt;/ol&gt;
+        &lt;/td&gt;
+       &lt;/tr&gt;
+       &lt;!-- Divider --&gt;
+       &lt;tr&gt;
+        &lt;td style=&quot;padding:0 16px;&quot;&gt;
+         &lt;hr style=&quot;border:none;border-top:1px solid #e6e9ec;margin:0;&quot; /&gt;
+        &lt;/td&gt;
+       &lt;/tr&gt;
+
+       &lt;!-- Client Interests (only if products not empty) --&gt;
+       {{#if products}}
+       &lt;tr&gt;
+        &lt;td style=&quot;padding:12px 16px 6px 16px;font-family:Arial,Helvetica,sans-serif;color:#0f172a;&quot;&gt;
+         &lt;div style=&quot;font-size:14px;font-weight:700;margin:0;&quot;&gt;📊 Client Interest Summary&lt;/div&gt;
+        &lt;/td&gt;
+       &lt;/tr&gt;
+       &lt;tr&gt;
+        &lt;td style=&quot;padding:0 12px 12px 12px;&quot;&gt;
+         &lt;table role=&quot;presentation&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; width=&quot;100%&quot;&gt;
+          {{products}}
+         &lt;/table&gt;
+        &lt;/td&gt;
+       &lt;/tr&gt;
+       {{/if}}
+
+       &lt;!-- Call to action (dynamic link) --&gt;
+       &lt;tr&gt;
+        &lt;td align=&quot;center&quot; style=&quot;padding:16px;&quot;&gt;
+         &lt;table role=&quot;presentation&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot;&gt;
+          &lt;tr&gt;
+           &lt;td align=&quot;center&quot;&gt;
+            &lt;a href=&quot;{{meeting_note_link}}&quot; target=&quot;_blank&quot;
+              style=&quot;display:inline-block;padding:10px 16px;font-family:Arial,Helvetica,sans-serif;
+                 font-size:13px;font-weight:600;color:#ffffff;background:#537459;
+                 text-decoration:none;border-radius:4px;&quot;&gt;
+             Open the Meeting Note
+            &lt;/a&gt;
+           &lt;/td&gt;
+          &lt;/tr&gt;
+         &lt;/table&gt;
+        &lt;/td&gt;
+       &lt;/tr&gt;
+      &lt;/table&gt;
+     &lt;/td&gt;
+    &lt;/tr&gt;
+   &lt;/table&gt;
+  &lt;/center&gt;
+ &lt;/body&gt;
+&lt;/html&gt;
+
+
+---
+
+🚫 Do not add anything after the closing `&lt;/html&gt;` tag.  
+Return **only the HTML code** above, with no footer, comments, or extra text.
+
+</content>
+        <inputs>
+            <apiName>Meeting_Note</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting Note</masterLabel>
+            <referenceName>Input:Meeting_Note</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5Mini</primaryModel>
+        <responseFormat>HTML</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_MeetingNotes_AddClientInterestsToPrompt</definition>
+            <parameters>
+                <definition>SOBJECT://Meeting_Note__c</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Meeting_Note</parameterName>
+                <valueExpression>{!$Input:Meeting_Note}</valueExpression>
+            </parameters>
+            <referenceName>Flow:PT_MeetingNotes_AddClientInterestsToPrompt</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_3</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an email HTML generator.  
+Produce only HTML code, using the template below.  
+
+Dynamic variables:  
+- {{products}} → generate `&lt;tr&gt;...&lt;/tr&gt;` rows for each product, with stars + numeric score  
+- {{meeting_note_link}} → insert the URL in the button  
+
+⚠️ Important:  
+If {{products}} is empty or contains no rows, then do not render the &quot;📊 Client Interest Summary&quot; section at all (both the title and the table).  
+
+Transform raw product data (example: {&quot;ProductName&quot;:&quot;Asia Discovery&quot;,&quot;Interest&quot;:&quot;4/5&quot;}) into a star rating:  
+- 1/5 → ⭐☆☆☆☆  
+- 2/5 → ⭐⭐☆☆☆  
+- 3/5 → ⭐⭐⭐☆☆  
+- 4/5 → ⭐⭐⭐⭐☆  
+- 5/5 → ⭐⭐⭐⭐⭐  
+
+---
+### RAW DATA &amp; meeting_note_link
+{!$Flow:PT_MeetingNotes_AddClientInterestsToPrompt.Prompt}
+### RAW DATA
+
+
+### HTML Template:
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+ &lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot; /&gt;
+  &lt;title&gt;Client Interest Summary&lt;/title&gt;
+  &lt;meta name=&quot;x-apple-disable-message-reformatting&quot; /&gt;
+ &lt;/head&gt;
+ &lt;body style=&quot;Margin:0;padding:0;background:#f4f6f8;&quot;&gt;
+  &lt;center style=&quot;width:100%;background:#f4f6f8;&quot;&gt;
+   &lt;table role=&quot;presentation&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; width=&quot;100%&quot;&gt;
+    &lt;tr&gt;
+     &lt;td align=&quot;center&quot; style=&quot;padding:16px 10px;&quot;&gt;
+      &lt;table role=&quot;presentation&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; width=&quot;600&quot; style=&quot;width:100%;max-width:600px;background:#ffffff;border-radius:10px;overflow:hidden;border:1px solid #e6e9ec;&quot;&gt;
+
+       &lt;!-- Header with button --&gt;
+       &lt;tr&gt;
+        &lt;td style=&quot;padding:12px 16px;background:#537459;color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:700;&quot;&gt;
+         &lt;a href=&quot;{{meeting_note_link}}&quot; target=&quot;_blank&quot;
+           style=&quot;display:inline-block;margin-bottom:6px;padding:8px 14px;font-family:Arial,Helvetica,sans-serif;
+              font-size:13px;font-weight:600;color:#537459;background:#ffffff;
+              text-decoration:none;border-radius:4px;&quot;&gt;
+          Open the Meeting Note
+         &lt;/a&gt;
+         &lt;div style=&quot;margin-top:6px;color:#ffffff;font-size:16px;font-weight:700;&quot;&gt;
+          Please Check
+         &lt;/div&gt;
+        &lt;/td&gt;
+       &lt;/tr&gt;
+
+       &lt;!-- Checklist (static) --&gt;
+       &lt;tr&gt;
+        &lt;td style=&quot;padding:12px 16px;font-family:Arial,Helvetica,sans-serif;color:#0f172a;font-size:13px;line-height:1.4;&quot;&gt;
+         &lt;ol style=&quot;margin:0;padding-left:18px;&quot;&gt;
+          &lt;li style=&quot;margin-bottom:6px;&quot;&gt;Review the note&lt;/li&gt;
+          &lt;li&gt;Verify Client Interest ratings&lt;/li&gt;
+         &lt;/ol&gt;
+         &lt;p style=&quot;margin-top:8px;font-size:12px;color:#555555;&quot;&gt;
+          Thank you for your quick validation – this ensures we capture client needs accurately.
+         &lt;/p&gt;
+        &lt;/td&gt;
+       &lt;/tr&gt;
+
+       &lt;!-- Divider --&gt;
+       &lt;tr&gt;
+        &lt;td style=&quot;padding:0 16px;&quot;&gt;
+         &lt;hr style=&quot;border:none;border-top:1px solid #e6e9ec;margin:0;&quot; /&gt;
+        &lt;/td&gt;
+       &lt;/tr&gt;
+
+       &lt;!-- Client Interests (only if products not empty) --&gt;
+       {{#if products}}
+       &lt;tr&gt;
+        &lt;td style=&quot;padding:12px 16px 6px 16px;font-family:Arial,Helvetica,sans-serif;color:#0f172a;&quot;&gt;
+         &lt;div style=&quot;font-size:14px;font-weight:700;margin:0;&quot;&gt;📊 Client Interest Summary&lt;/div&gt;
+        &lt;/td&gt;
+       &lt;/tr&gt;
+       &lt;tr&gt;
+        &lt;td style=&quot;padding:0 12px 12px 12px;&quot;&gt;
+         &lt;table role=&quot;presentation&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; width=&quot;100%&quot;&gt;
+          {{products}}
+         &lt;/table&gt;
+        &lt;/td&gt;
+       &lt;/tr&gt;
+       {{/if}}
+
+      &lt;/table&gt;
+     &lt;/td&gt;
+    &lt;/tr&gt;
+   &lt;/table&gt;
+  &lt;/center&gt;
+ &lt;/body&gt;
+&lt;/html&gt;
+
+
+---
+
+🚫 Do not add anything after the closing `&lt;/html&gt;` tag.  
+Return **only the HTML code** above, with no footer, comments, or extra text.
+
+</content>
+        <inputs>
+            <apiName>Meeting_Note</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting Note</masterLabel>
+            <referenceName>Input:Meeting_Note</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5Mini</primaryModel>
+        <responseFormat>HTML</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_MeetingNotes_AddClientInterestsToPrompt</definition>
+            <parameters>
+                <definition>SOBJECT://Meeting_Note__c</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Meeting_Note</parameterName>
+                <valueExpression>{!$Input:Meeting_Note}</valueExpression>
+            </parameters>
+            <referenceName>Flow:PT_MeetingNotes_AddClientInterestsToPrompt</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_4</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an email HTML generator.  
+Produce only HTML code, using the template below.  
+
+Dynamic variables:  
+- {{products}} → generate `&lt;tr&gt;...&lt;/tr&gt;` rows for each product, with stars + numeric score  
+- {{meeting_note_link}} → insert the URL in the button  
+
+⚠️ Important:  
+If {{products}} is empty or contains no rows, then do not render the &quot;📊 Client Interest Summary&quot; section at all (both the title and the table).  
+
+Transform raw product data (example: {&quot;ProductName&quot;:&quot;Asia Discovery&quot;,&quot;Interest&quot;:&quot;4/5&quot;}) into a star rating:  
+- 1/5 → ⭐☆☆☆☆  
+- 2/5 → ⭐⭐☆☆☆  
+- 3/5 → ⭐⭐⭐☆☆  
+- 4/5 → ⭐⭐⭐⭐☆  
+- 5/5 → ⭐⭐⭐⭐⭐  
+
+---
+### RAW DATA &amp; meeting_note_link
+{!$Flow:PT_MeetingNotes_AddClientInterestsToPrompt.Prompt}
+### RAW DATA
+
+
+### HTML Template:
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+ &lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot; /&gt;
+  &lt;title&gt;Client Interest Summary&lt;/title&gt;
+  &lt;meta name=&quot;x-apple-disable-message-reformatting&quot; /&gt;
+ &lt;/head&gt;
+ &lt;body style=&quot;Margin:0;padding:0;background:#f4f6f8;&quot;&gt;
+  &lt;center style=&quot;width:100%;background:#f4f6f8;&quot;&gt;
+   &lt;table role=&quot;presentation&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; width=&quot;100%&quot;&gt;
+    &lt;tr&gt;
+     &lt;td align=&quot;center&quot; style=&quot;padding:16px 10px;&quot;&gt;
+      &lt;table role=&quot;presentation&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; width=&quot;600&quot; style=&quot;width:100%;max-width:600px;background:#ffffff;border-radius:10px;overflow:hidden;border:1px solid #e6e9ec;&quot;&gt;
+
+       &lt;!-- Header with button --&gt;
+       &lt;tr&gt;
+        &lt;td style=&quot;padding:12px 16px;background:#537459;color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:700;&quot;&gt;
+         &lt;a href=&quot;{{meeting_note_link}}&quot; target=&quot;_blank&quot;
+           style=&quot;display:inline-block;margin-bottom:6px;padding:8px 14px;font-family:Arial,Helvetica,sans-serif;
+              font-size:13px;font-weight:600;color:#537459;background:#ffffff;
+              text-decoration:none;border-radius:4px;&quot;&gt;
+          Open the Meeting Note
+         &lt;/a&gt;
+         &lt;div style=&quot;margin-top:6px;color:#ffffff;font-size:16px;font-weight:700;&quot;&gt;
+          Please Check
+         &lt;/div&gt;
+        &lt;/td&gt;
+       &lt;/tr&gt;
+
+       &lt;!-- Checklist (static) --&gt;
+       &lt;tr&gt;
+        &lt;td style=&quot;padding:12px 16px;font-family:Arial,Helvetica,sans-serif;color:#0f172a;font-size:13px;line-height:1.4;&quot;&gt;
+         &lt;ol style=&quot;margin:0;padding-left:18px;&quot;&gt;
+          &lt;li style=&quot;margin-bottom:6px;&quot;&gt;Review the note&lt;/li&gt;
+          &lt;li&gt;Verify Client Interest ratings&lt;/li&gt;
+         &lt;/ol&gt;
+         &lt;p style=&quot;margin-top:8px;font-size:12px;color:#555555;&quot;&gt;
+          Thank you for your quick validation – this ensures we capture client needs accurately.
+         &lt;/p&gt;
+        &lt;/td&gt;
+       &lt;/tr&gt;
+
+       &lt;!-- Divider --&gt;
+       &lt;tr&gt;
+        &lt;td style=&quot;padding:0 16px;&quot;&gt;
+         &lt;hr style=&quot;border:none;border-top:1px solid #e6e9ec;margin:0;&quot; /&gt;
+        &lt;/td&gt;
+       &lt;/tr&gt;
+
+       &lt;!-- Client Interests (only if products not empty) --&gt;
+       {{#if products}}
+       &lt;tr&gt;
+        &lt;td style=&quot;padding:12px 16px 6px 16px;font-family:Arial,Helvetica,sans-serif;color:#0f172a;&quot;&gt;
+         &lt;div style=&quot;font-size:14px;font-weight:700;margin:0;&quot;&gt;📊 Client Interest Summary&lt;/div&gt;
+        &lt;/td&gt;
+       &lt;/tr&gt;
+       &lt;tr&gt;
+        &lt;td style=&quot;padding:0 12px 12px 12px;&quot;&gt;
+         &lt;table role=&quot;presentation&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot; border=&quot;0&quot; width=&quot;100%&quot;&gt;
+          {{products}}
+         &lt;/table&gt;
+        &lt;/td&gt;
+       &lt;/tr&gt;
+       {{/if}}
+
+      &lt;/table&gt;
+     &lt;/td&gt;
+    &lt;/tr&gt;
+   &lt;/table&gt;
+  &lt;/center&gt;
+ &lt;/body&gt;
+&lt;/html&gt;
+
+
+---
+
+🚫 Do not add anything after the closing `&lt;/html&gt;` tag.  
+Return **only the HTML code** above, with no footer, comments, or extra text.
+
+</content>
+        <inputs>
+            <apiName>Meeting_Note</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting Note</masterLabel>
+            <referenceName>Input:Meeting_Note</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_MeetingNotes_AddClientInterestsToPrompt</definition>
+            <parameters>
+                <definition>SOBJECT://Meeting_Note__c</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Meeting_Note</parameterName>
+                <valueExpression>{!$Input:Meeting_Note}</valueExpression>
+            </parameters>
+            <referenceName>Flow:PT_MeetingNotes_AddClientInterestsToPrompt</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_5</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an email HTML generator.  
+Produce only HTML code with simple tags (&lt;p&gt;, &lt;ol&gt;, &lt;li&gt;, &lt;b&gt;, &lt;a&gt;, &lt;ul&gt;, &lt;br&gt;, &lt;div&gt;), no complex tables.  
+The output must be lightweight and email-safe.
+
+Dynamic variables:  
+- {{products}} → generate `&lt;li&gt;` rows inside a `&lt;ul&gt;` for each product, with stars + numeric score  
+- {{meeting_note_link}} → insert the URL in the &quot;Open the Meeting Note&quot; link  
+
+⚠️ Important:  
+If {{products}} is empty or contains no rows, then do not render the &quot;📊 Client Interest Summary&quot; section at all.  
+
+Transform raw product data (example: {&quot;ProductName&quot;:&quot;Asia Discovery&quot;,&quot;Interest&quot;:&quot;4/5&quot;}) into a star rating:  
+- 1/5 → ⭐☆☆☆☆  
+- 2/5 → ⭐⭐☆☆☆  
+- 3/5 → ⭐⭐⭐☆☆  
+- 4/5 → ⭐⭐⭐⭐☆  
+- 5/5 → ⭐⭐⭐⭐⭐  
+
+---
+### RAW DATA &amp; meeting_note_link
+{!$Flow:PT_MeetingNotes_AddClientInterestsToPrompt.Prompt}
+### RAW DATA
+
+---
+
+### HTML Template:
+
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+ &lt;head&gt;&lt;/head&gt;
+ &lt;body style=&quot;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;&quot;&gt;
+  &lt;!-- Header block with green background --&gt;
+  &lt;div style=&quot;background:#537459;color:#ffffff;padding:16px;&quot;&gt;
+   &lt;p&gt;&lt;a href=&quot;{{meeting_note_link}}&quot; style=&quot;color:#537459;background:#ffffff;
+     padding:6px 12px;text-decoration:none;border-radius:4px;font-weight:bold;&quot;&gt;
+     Open the Meeting Note&lt;/a&gt;&lt;/p&gt;
+   &lt;p style=&quot;margin:8px 0 0 0;font-size:16px;font-weight:bold;color:#ffffff;&quot;&gt;
+    Please Check
+   &lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;div style=&quot;padding:12px;background:#ffffff;color:#0f172a;&quot;&gt;
+   &lt;ol style=&quot;margin:0 0 8px 12px;padding:0;&quot;&gt;
+    &lt;li style=&quot;margin-bottom:6px;&quot;&gt;Review the note&lt;/li&gt;
+    &lt;li&gt;Verify Client Interest ratings&lt;/li&gt;
+   &lt;/ol&gt;
+   &lt;p style=&quot;font-size:13px;color:#555555;margin:4px 0;&quot;&gt;
+    Thank you for your quick validation – this ensures we capture client needs accurately.
+   &lt;/p&gt;
+  &lt;/div&gt;
+
+  {{#if products}}
+  &lt;div style=&quot;padding:12px;background:#ffffff;color:#0f172a;&quot;&gt;
+   &lt;br&gt;
+   &lt;p style=&quot;font-weight:bold;margin:0 0 6px 0;&quot;&gt;📊 Client Interest Summary&lt;/p&gt;
+   &lt;ul style=&quot;margin:0;padding-left:18px;&quot;&gt;
+    {{products}}
+   &lt;/ul&gt;
+  &lt;/div&gt;
+  {{/if}}
+ &lt;/body&gt;
+&lt;/html&gt;
+
+---
+
+🚫 Do not add anything after the closing `&lt;/html&gt;` tag.  
+Return **only the HTML code** above, with no footer, comments, or extra text.
+
+</content>
+        <inputs>
+            <apiName>Meeting_Note</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting Note</masterLabel>
+            <referenceName>Input:Meeting_Note</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_MeetingNotes_AddClientInterestsToPrompt</definition>
+            <parameters>
+                <definition>SOBJECT://Meeting_Note__c</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Meeting_Note</parameterName>
+                <valueExpression>{!$Input:Meeting_Note}</valueExpression>
+            </parameters>
+            <referenceName>Flow:PT_MeetingNotes_AddClientInterestsToPrompt</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_6</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an email HTML generator.  
+Produce only HTML code with simple tags (&lt;p&gt;, &lt;ol&gt;, &lt;li&gt;, &lt;b&gt;, &lt;a&gt;, &lt;ul&gt;, &lt;br&gt;, &lt;div&gt;), lightweight and email-safe.  
+Use a centered container with max-width:600px so the content does not span the full width of the email.  
+
+Dynamic variables:  
+- {{products}} → generate `&lt;li&gt;` rows inside a `&lt;ul&gt;` for each product, with stars + numeric score  
+- {{meeting_note_link}} → insert the URL in the &quot;Open the Meeting Note&quot; link  
+
+⚠️ Important:  
+If {{products}} is empty or contains no rows, then do not render the &quot;📊 Client Interest Summary&quot; section at all.  
+
+Transform raw product data (example: {&quot;ProductName&quot;:&quot;Asia Discovery&quot;,&quot;Interest&quot;:&quot;4/5&quot;}) into a star rating:  
+- 1/5 → ⭐☆☆☆☆  
+- 2/5 → ⭐⭐☆☆☆  
+- 3/5 → ⭐⭐⭐☆☆  
+- 4/5 → ⭐⭐⭐⭐☆  
+- 5/5 → ⭐⭐⭐⭐⭐  
+
+---
+### RAW DATA &amp; meeting_note_link
+{!$Flow:PT_MeetingNotes_AddClientInterestsToPrompt.Prompt}
+### RAW DATA
+
+---
+
+### HTML Template:
+
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+ &lt;head&gt;&lt;/head&gt;
+ &lt;body style=&quot;margin:0;padding:0;background:#f4f6f8;font-family:Arial,Helvetica,sans-serif;&quot;&gt;
+  &lt;div style=&quot;max-width:600px;margin:20px auto;background:#ffffff;border:1px solid #e6e9ec;border-radius:8px;overflow:hidden;&quot;&gt;
+    
+   &lt;!-- Header block with green background --&gt;
+   &lt;div style=&quot;background:#537459;color:#ffffff;padding:16px;&quot;&gt;
+    &lt;p&gt;
+     &lt;a href=&quot;{{meeting_note_link}}&quot; style=&quot;color:#537459;background:#ffffff;
+       padding:6px 12px;text-decoration:none;border-radius:4px;font-weight:bold;&quot;&gt;
+       Open the Meeting Note
+     &lt;/a&gt;
+    &lt;/p&gt;
+    &lt;p style=&quot;margin:8px 0 0 0;font-size:16px;font-weight:bold;color:#ffffff;&quot;&gt;
+     Please Check
+    &lt;/p&gt;
+   &lt;/div&gt;
+
+   &lt;!-- Checklist --&gt;
+   &lt;div style=&quot;padding:16px;color:#0f172a;&quot;&gt;
+    &lt;ol style=&quot;margin:0 0 8px 18px;padding:0;&quot;&gt;
+     &lt;li style=&quot;margin-bottom:6px;&quot;&gt;Review the note&lt;/li&gt;
+     &lt;li&gt;Verify Client Interest ratings&lt;/li&gt;
+    &lt;/ol&gt;
+    &lt;p style=&quot;font-size:13px;color:#555555;margin:8px 0;&quot;&gt;
+     Thank you for your quick validation – this ensures we capture client needs accurately.
+    &lt;/p&gt;
+   &lt;/div&gt;
+
+   &lt;!-- Client Interests (only if products not empty) --&gt;
+   {{#if products}}
+   &lt;div style=&quot;padding:16px;color:#0f172a;&quot;&gt;
+    &lt;br&gt;
+    &lt;p style=&quot;font-weight:bold;margin:0 0 6px 0;&quot;&gt;📊 Client Interest Summary&lt;/p&gt;
+    &lt;ul style=&quot;margin:0;padding-left:18px;&quot;&gt;
+     {{products}}
+    &lt;/ul&gt;
+   &lt;/div&gt;
+   {{/if}}
+  &lt;/div&gt;
+ &lt;/body&gt;
+&lt;/html&gt;
+
+---
+
+🚫 Do not add anything after the closing `&lt;/html&gt;` tag.  
+Return **only the HTML code** above, with no footer, comments, or extra text.
+
+</content>
+        <inputs>
+            <apiName>Meeting_Note</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting Note</masterLabel>
+            <referenceName>Input:Meeting_Note</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_MeetingNotes_AddClientInterestsToPrompt</definition>
+            <parameters>
+                <definition>SOBJECT://Meeting_Note__c</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Meeting_Note</parameterName>
+                <valueExpression>{!$Input:Meeting_Note}</valueExpression>
+            </parameters>
+            <referenceName>Flow:PT_MeetingNotes_AddClientInterestsToPrompt</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_7</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an email HTML generator.  
+Produce only HTML code with simple tags (&lt;p&gt;, &lt;ol&gt;, &lt;li&gt;, &lt;b&gt;, &lt;a&gt;, &lt;ul&gt;, &lt;br&gt;, &lt;div&gt;), lightweight and email-safe.  
+Use a centered container with max-width:600px, white background, and no colored backgrounds.  
+
+Dynamic variables:  
+- {{products}} → generate `&lt;li&gt;` rows inside a `&lt;ul&gt;` for each product, with stars + numeric score  
+- {{meeting_note_link}} → insert the URL in the &quot;Open the Meeting Note&quot; link  
+
+⚠️ Important:  
+If {{products}} is empty or contains no rows, then do not render the &quot;📊 Client Interest Summary&quot; section at all.  
+
+Transform raw product data (example: {&quot;ProductName&quot;:&quot;Asia Discovery&quot;,&quot;Interest&quot;:&quot;4/5&quot;}) into a star rating:  
+- 1/5 → ⭐☆☆☆☆  
+- 2/5 → ⭐⭐☆☆☆  
+- 3/5 → ⭐⭐⭐☆☆  
+- 4/5 → ⭐⭐⭐⭐☆  
+- 5/5 → ⭐⭐⭐⭐⭐  
+
+---
+### RAW DATA &amp; meeting_note_link
+{!$Flow:PT_MeetingNotes_AddClientInterestsToPrompt.Prompt}
+### RAW DATA
+
+---
+
+### HTML Template:
+
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+ &lt;head&gt;&lt;/head&gt;
+ &lt;body style=&quot;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;background:#f4f6f8;&quot;&gt;
+  &lt;div style=&quot;max-width:600px;margin:20px auto;background:#ffffff;border:1px solid #e6e9ec;border-radius:8px;padding:16px;&quot;&gt;
+    
+   &lt;!-- Header --&gt;
+   &lt;p&gt;
+    &lt;a href=&quot;{{meeting_note_link}}&quot; style=&quot;text-decoration:none;font-weight:bold;&quot;&gt;
+     Open the Meeting Note
+    &lt;/a&gt;
+   &lt;/p&gt;
+   &lt;br&gt;
+   &lt;p&gt;&lt;b&gt;Please Check:&lt;/b&gt;&lt;/p&gt;
+   &lt;ol&gt;
+    &lt;li&gt;Review the note&lt;/li&gt;
+    &lt;li&gt;Verify Client Interest ratings&lt;/li&gt;
+   &lt;/ol&gt;
+   &lt;p style=&quot;font-size:13px;color:#555555;&quot;&gt;
+    Thank you for your quick validation – this ensures we capture client needs accurately.
+   &lt;/p&gt;
+
+   &lt;!-- Client Interests (only if products not empty) --&gt;
+   {{#if products}}
+   &lt;br&gt;
+   &lt;p&gt;&lt;b&gt;📊 Client Interest Summary&lt;/b&gt;&lt;/p&gt;
+   &lt;ul&gt;
+    {{products}}
+   &lt;/ul&gt;
+   {{/if}}
+  &lt;/div&gt;
+ &lt;/body&gt;
+&lt;/html&gt;
+
+---
+
+🚫 Do not add anything after the closing `&lt;/html&gt;` tag.  
+Return **only the HTML code** above, with no footer, comments, or extra text.
+
+</content>
+        <inputs>
+            <apiName>Meeting_Note</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting Note</masterLabel>
+            <referenceName>Input:Meeting_Note</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_MeetingNotes_AddClientInterestsToPrompt</definition>
+            <parameters>
+                <definition>SOBJECT://Meeting_Note__c</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Meeting_Note</parameterName>
+                <valueExpression>{!$Input:Meeting_Note}</valueExpression>
+            </parameters>
+            <referenceName>Flow:PT_MeetingNotes_AddClientInterestsToPrompt</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_8</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an email HTML generator.  
+Produce only HTML code with simple tags (&lt;p&gt;, &lt;ol&gt;, &lt;li&gt;, &lt;b&gt;, &lt;a&gt;, &lt;ul&gt;, &lt;br&gt;), no CSS colors, no backgrounds.  
+The output must be lightweight and email-safe.
+
+Dynamic variables:  
+- {{products}} → generate `&lt;li&gt;` rows inside a `&lt;ul&gt;` for each product, with stars + numeric score  
+- {{meeting_note_link}} → insert the URL in the &quot;Open the Meeting Note&quot; link  
+
+⚠️ Important:  
+If {{products}} is empty or contains no rows, then do not render the &quot;📊 Client Interest Summary&quot; section at all.  
+
+Transform raw product data (example: {&quot;ProductName&quot;:&quot;Asia Discovery&quot;,&quot;Interest&quot;:&quot;4/5&quot;}) into a star rating:  
+- 1/5 → ⭐☆☆☆☆  
+- 2/5 → ⭐⭐☆☆☆  
+- 3/5 → ⭐⭐⭐☆☆  
+- 4/5 → ⭐⭐⭐⭐☆  
+- 5/5 → ⭐⭐⭐⭐⭐  
+
+---
+### RAW DATA &amp; meeting_note_link
+{!$Flow:PT_MeetingNotes_AddClientInterestsToPrompt.Prompt}
+### RAW DATA
+
+---
+
+### HTML Template:
+
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+ &lt;head&gt;&lt;/head&gt;
+ &lt;body style=&quot;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;&quot;&gt;
+  &lt;p&gt;
+   &lt;a href=&quot;{{meeting_note_link}}&quot; style=&quot;text-decoration:none;font-weight:bold;&quot;&gt;
+    Open the Meeting Note
+   &lt;/a&gt;
+  &lt;/p&gt;
+  &lt;br&gt;
+  &lt;p&gt;&lt;b&gt;Please Check:&lt;/b&gt;&lt;/p&gt;
+  &lt;ol&gt;
+   &lt;li&gt;Review the note&lt;/li&gt;
+   &lt;li&gt;Verify Client Interest ratings&lt;/li&gt;
+  &lt;/ol&gt;
+  &lt;p&gt;
+   Thank you for your quick validation – this ensures we capture client needs accurately.
+  &lt;/p&gt;
+
+  {{#if products}}
+  &lt;br&gt;
+  &lt;p&gt;&lt;b&gt;📊 Client Interest Summary&lt;/b&gt;&lt;/p&gt;
+  &lt;ul&gt;
+   {{products}}
+  &lt;/ul&gt;
+  {{/if}}
+ &lt;/body&gt;
+&lt;/html&gt;
+
+---
+
+🚫 Do not add anything after the closing `&lt;/html&gt;` tag.  
+Return **only the HTML code** above, with no footer, comments, or extra text.
+
+</content>
+        <inputs>
+            <apiName>Meeting_Note</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting Note</masterLabel>
+            <referenceName>Input:Meeting_Note</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_MeetingNotes_AddClientInterestsToPrompt</definition>
+            <parameters>
+                <definition>SOBJECT://Meeting_Note__c</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Meeting_Note</parameterName>
+                <valueExpression>{!$Input:Meeting_Note}</valueExpression>
+            </parameters>
+            <referenceName>Flow:PT_MeetingNotes_AddClientInterestsToPrompt</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_9</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an email HTML generator.  
+Produce only HTML code with simple tags (&lt;p&gt;, &lt;ol&gt;, &lt;li&gt;, &lt;b&gt;, &lt;a&gt;, &lt;ul&gt;, &lt;br&gt;), no CSS colors, no backgrounds.  
+The output must be lightweight and email-safe.
+
+Dynamic variables:  
+- {{products}} → generate `&lt;li&gt;` rows inside a `&lt;ul&gt;` for each product, with stars + numeric score  
+- {{meeting_note_link}} → insert the URL in the &quot;Open the Meeting Note&quot; link  
+
+⚠️ Important:  
+If {{products}} is empty or contains no rows, then do not render the &quot;📊 Client Interest Summary&quot; section at all.  
+
+Transform raw product data (example: {&quot;ProductName&quot;:&quot;Asia Discovery&quot;,&quot;Interest&quot;:&quot;4/5&quot;}) into a star rating:  
+- 1/5 → ⭐☆☆☆☆  
+- 2/5 → ⭐⭐☆☆☆  
+- 3/5 → ⭐⭐⭐☆☆  
+- 4/5 → ⭐⭐⭐⭐☆  
+- 5/5 → ⭐⭐⭐⭐⭐  
+
+---
+### RAW DATA &amp; meeting_note_link
+{!$Flow:PT_MeetingNotes_AddClientInterestsToPrompt.Prompt}
+### RAW DATA
+
+---
+### HTML Template:
+
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+&lt;head&gt;&lt;/head&gt;
+&lt;body style=&quot;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;&quot;&gt;
+
+ &lt;!-- Header message --&gt;
+ &lt;p style=&quot;font-size:14px;&quot;&gt;
+  A new meeting note has been created from &lt;b&gt;SalesforceGPT&lt;/b&gt; for the client 
+  &lt;b&gt;{{client_name}}&lt;/b&gt;.  
+  Please click below to review the content.
+ &lt;/p&gt;
+
+ &lt;!-- Button-style link --&gt;
+ &lt;p&gt;
+  &lt;a href=&quot;{{meeting_note_link}}&quot; 
+    style=&quot;background-color:#0a66c2;color:#fff;padding:10px 16px;border-radius:4px;
+       text-decoration:none;font-weight:bold;display:inline-block;&quot;&gt;
+   Open the Meeting Note
+  &lt;/a&gt;
+ &lt;/p&gt;
+
+ &lt;br&gt;
+
+ &lt;!-- Validation instructions --&gt;
+ &lt;p&gt;&lt;b&gt;Please Check:&lt;/b&gt;&lt;/p&gt;
+ &lt;ol&gt;
+  &lt;li&gt;Review the meeting note&lt;/li&gt;
+  &lt;li&gt;Verify Client Interest ratings ⭐&lt;/li&gt;
+ &lt;/ol&gt;
+
+ &lt;p&gt;
+  Thank you for your quick validation — this ensures we capture client needs accurately.
+ &lt;/p&gt;
+
+ &lt;!-- Client Interest --&gt;
+ {{#if products}}
+ &lt;br&gt;
+ &lt;p&gt;&lt;b&gt;📊 Client Interest Summary&lt;/b&gt;&lt;/p&gt;
+ &lt;ul&gt;
+  {{products}}
+ &lt;/ul&gt;
+ {{/if}}
+
+&lt;/body&gt;
+&lt;/html&gt;
+
+
+---
+
+
+🚫 Do not add anything after the closing `&lt;/html&gt;` tag.  
+Return **only the HTML code** above, with no footer, comments, or extra text.
+
+</content>
+        <inputs>
+            <apiName>Meeting_Note</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting Note</masterLabel>
+            <referenceName>Input:Meeting_Note</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_MeetingNotes_AddClientInterestsToPrompt</definition>
+            <parameters>
+                <definition>SOBJECT://Meeting_Note__c</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Meeting_Note</parameterName>
+                <valueExpression>{!$Input:Meeting_Note}</valueExpression>
+            </parameters>
+            <referenceName>Flow:PT_MeetingNotes_AddClientInterestsToPrompt</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_10</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an email HTML generator.  
+Produce only HTML code with simple tags (&lt;p&gt;, &lt;ol&gt;, &lt;li&gt;, &lt;b&gt;, &lt;a&gt;, &lt;ul&gt;, &lt;br&gt;), no CSS colors, no backgrounds.  
+The output must be lightweight and email-safe.
+
+Dynamic variables:  
+- {{client}} → insert the value provided inside the &lt;Client&gt; section
+- {{products}} → generate `&lt;li&gt;` rows inside a `&lt;ul&gt;` for each product, with stars + numeric score  
+- {{meeting_note_link}} → insert the URL in the &quot;Open the Meeting Note&quot; link  
+
+⚠️ Important:  
+If {{products}} is empty or contains no rows, then do not render the &quot;📊 Client Interest Summary&quot; section at all.  
+
+Transform raw product data (example: {&quot;ProductName&quot;:&quot;Asia Discovery&quot;,&quot;Interest&quot;:&quot;4/5&quot;}) into a star rating:  
+- 1/5 → ⭐☆☆☆☆  
+- 2/5 → ⭐⭐☆☆☆  
+- 3/5 → ⭐⭐⭐☆☆  
+- 4/5 → ⭐⭐⭐⭐☆  
+- 5/5 → ⭐⭐⭐⭐⭐  
+
+---
+### RAW DATA &amp; meeting_note_link
+{!$Flow:PT_MeetingNotes_AddClientInterestsToPrompt.Prompt}
+### RAW DATA
+
+---
+### HTML Template:
+
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+&lt;head&gt;&lt;/head&gt;
+&lt;body style=&quot;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;&quot;&gt;
+
+ &lt;!-- Header message --&gt;
+ &lt;p style=&quot;font-size:14px;&quot;&gt;
+  A new meeting note has been created from &lt;b&gt;SalesforceGPT&lt;/b&gt; for the client 
+  &lt;b&gt;{{client}}&lt;/b&gt;.  
+  Please click below to review the content.
+ &lt;/p&gt;
+
+ &lt;!-- Button-style link --&gt;
+ &lt;p&gt;
+  &lt;a href=&quot;{{meeting_note_link}}&quot; 
+    style=&quot;background-color:#0a66c2;color:#fff;padding:10px 16px;border-radius:4px;
+       text-decoration:none;font-weight:bold;display:inline-block;&quot;&gt;
+   Open the Meeting Note
+  &lt;/a&gt;
+ &lt;/p&gt;
+
+ &lt;br&gt;
+
+ &lt;!-- Validation instructions --&gt;
+ &lt;p&gt;&lt;b&gt;Please Check:&lt;/b&gt;&lt;/p&gt;
+ &lt;ol&gt;
+  &lt;li&gt;Review the meeting note&lt;/li&gt;
+  &lt;li&gt;Verify Client Interest ratings ⭐&lt;/li&gt;
+ &lt;/ol&gt;
+
+ &lt;p&gt;
+  Thank you for your quick validation — this ensures we capture client needs accurately.
+ &lt;/p&gt;
+
+ &lt;!-- Client Interest --&gt;
+ {{#if products}}
+ &lt;br&gt;
+ &lt;p&gt;&lt;b&gt;📊 Client Interest Summary&lt;/b&gt;&lt;/p&gt;
+ &lt;ul&gt;
+  {{products}}
+ &lt;/ul&gt;
+ {{/if}}
+
+&lt;/body&gt;
+&lt;/html&gt;
+
+
+---
+
+
+🚫 Do not add anything after the closing `&lt;/html&gt;` tag.  
+Return **only the HTML code** above, with no footer, comments, or extra text.
+
+</content>
+        <inputs>
+            <apiName>Meeting_Note</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting Note</masterLabel>
+            <referenceName>Input:Meeting_Note</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_MeetingNotes_AddClientInterestsToPrompt</definition>
+            <parameters>
+                <definition>SOBJECT://Meeting_Note__c</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Meeting_Note</parameterName>
+                <valueExpression>{!$Input:Meeting_Note}</valueExpression>
+            </parameters>
+            <referenceName>Flow:PT_MeetingNotes_AddClientInterestsToPrompt</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_11</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an email HTML generator.  
+Produce only HTML code with simple tags (&lt;p&gt;, &lt;ol&gt;, &lt;li&gt;, &lt;b&gt;, &lt;a&gt;, &lt;ul&gt;, &lt;br&gt;), no CSS colors, no backgrounds.  
+The output must be lightweight and email-safe.
+
+Dynamic variables:  
+- {{products}} → generate `&lt;li&gt;` rows inside a `&lt;ul&gt;` for each product, with stars + numeric score  
+- {{meeting_note_link}} → insert the URL in the &quot;Open the Meeting Note&quot; link  
+
+⚠️ Important:  
+If {{products}} is empty or contains no rows, then do not render the &quot;📊 Client Interest Summary&quot; section at all.  
+
+Transform raw product data (example: {&quot;ProductName&quot;:&quot;Asia Discovery&quot;,&quot;Interest&quot;:&quot;4/5&quot;}) into a star rating:  
+- 1/5 → ⭐☆☆☆☆  
+- 2/5 → ⭐⭐☆☆☆  
+- 3/5 → ⭐⭐⭐☆☆  
+- 4/5 → ⭐⭐⭐⭐☆  
+- 5/5 → ⭐⭐⭐⭐⭐  
+
+---
+### RAW DATA &amp; meeting_note_link
+{!$Flow:PT_MeetingNotes_AddClientInterestsToPrompt.Prompt}
+### RAW DATA
+
+---
+
+### HTML Template:
+
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+ &lt;head&gt;&lt;/head&gt;
+ &lt;body style=&quot;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;&quot;&gt;
+&lt;p&gt;Hello,&lt;/p&gt;
+&lt;p&gt;
+A new meeting note has just been created following your Teams meeting with your client.
+&lt;/p&gt;  
+&lt;p&gt;
+   &lt;a href=&quot;{{meeting_note_link}}&quot; style=&quot;text-decoration:none;font-weight:bold;&quot;&gt;
+    Open the Meeting Note
+   &lt;/a&gt;
+  &lt;/p&gt;
+  &lt;br&gt;
+  &lt;p&gt;&lt;b&gt;Please Review:&lt;/b&gt;&lt;/p&gt;
+  &lt;ol&gt;
+   &lt;li&gt;The meeting note&lt;/li&gt;
+   &lt;li&gt;The Client Interest ratings&lt;/li&gt;
+  &lt;/ol&gt;
+  &lt;p&gt;
+ Thank you,&lt;br/&gt;
+ Salesforce Admin Team
+  &lt;/p&gt;
+
+  {{#if products}}
+  &lt;br&gt;
+  &lt;p&gt;&lt;b&gt;📊 Client Interest Summary&lt;/b&gt;&lt;/p&gt;
+  &lt;ul&gt;
+   {{products}}
+  &lt;/ul&gt;
+  {{/if}}
+ &lt;/body&gt;
+&lt;/html&gt;
+
+---
+
+🚫 Do not add anything after the closing `&lt;/html&gt;` tag.  
+Return **only the HTML code** above, with no footer, comments, or extra text.
+
+</content>
+        <inputs>
+            <apiName>Meeting_Note</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting Note</masterLabel>
+            <referenceName>Input:Meeting_Note</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_MeetingNotes_AddClientInterestsToPrompt</definition>
+            <parameters>
+                <definition>SOBJECT://Meeting_Note__c</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Meeting_Note</parameterName>
+                <valueExpression>{!$Input:Meeting_Note}</valueExpression>
+            </parameters>
+            <referenceName>Flow:PT_MeetingNotes_AddClientInterestsToPrompt</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_12</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

@@ -1,0 +1,1300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_12</activeVersionIdentifier>
+    <description>Use this template to generate a Video Call Summary</description>
+    <developerName>flex_VideoCallSummary</developerName>
+    <masterLabel>flex_VideoCallSummary</masterLabel>
+    <templateVersions>
+        <content>do a summary of this video meeting
+</content>
+        <inputs>
+            <apiName>VideoCall</apiName>
+            <definition>SOBJECT://VideoCall</definition>
+            <masterLabel>VideoCall</masterLabel>
+            <referenceName>Input:VideoCall</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_1</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are analyzing a client meeting transcript on behalf of Carmignac.
+ 
+About Carmignac:
+- Carmignac is a European independent asset management company founded in 1989.
+- We manage a wide range of UCITS funds and discretionary mandates across equities, fixed income, multi-asset, alternatives, and private equity.
+- Our private equity offering includes the Carmignac Private Equity Group (CPEG), which invests in long-term opportunities outside of public markets.
+- Our DNA is long-term active management, independence, and strong alignment with clients’ interests.
+- We position ourselves as trusted partners for professional investors, with emphasis on performance, risk management, and client proximity.
+ 
+About our clients:
+- Carmignac works exclusively with B2B professional investors: distributors, private banks, family offices, wealth managers, institutional investors, and corporate treasurers.
+- Clients are highly knowledgeable about markets and products, expect precise, fact-based communication, and value clarity, transparency, and expertise.
+- Meetings often involve product updates, market views, performance reviews, allocation discussions, and identifying investment opportunities.
+ 
+Context for analysis:
+- Focus on capturing **investment interests, needs, concerns, and opportunities**.
+- Pay attention to **mentions of Carmignac products/funds**, including CPEG (private equity), UCITS funds, mandates, and alternative strategies.
+- Highlight **signals of appetite or hesitation**, especially when clients compare Carmignac products to competitors.
+- Identify **clear follow-up actions** and deadlines whenever mentioned.
+- Write the synthesis in **English**, with a professional, concise style suitable for a portfolio manager or institutional sales audience.
+- Never invent details: if data is missing, explicitly state “No data”.
+
+###YOUR GOAL###
+Analyze the transcript of this client meeting by following the structure below. 
+For each section, use only the information explicitly present in the transcript. 
+If the information is not available, write &quot;No data&quot;. 
+Do not infer or invent any details.
+ 
+Meeting Details
+Provide the date, time, duration, and list of participants (with their roles) if available.
+ 
+Meeting Objectives
+State the main objectives of the meeting (e.g., presentation of new funds, discussion of performance), 
+or write &quot;No data&quot; if none were specified.
+ 
+Key Discussion Points
+Summarize the topics discussed (e.g., fund performance, new investment opportunities, market conditions). 
+Include all points mentioned, whether many or few.
+ 
+Products/Funds Discussed
+List the products or funds that were mentioned (name, characteristics, performance). 
+If none were discussed, write &quot;No data&quot;. 
+For each product/fund, indicate the sentiment expressed by the client (positive, neutral, negative) if available.
+ 
+Client Needs and Expectations
+Note the client’s key needs and expectations (e.g., types of funds sought, performance criteria, support required), 
+or write &quot;No data&quot;.
+ 
+Client Questions and Concerns
+List all client questions and concerns, along with any responses provided. 
+If none were raised, write &quot;No data&quot;.
+ 
+Suggested Actions and Follow-ups
+List the specific actions to be taken after the meeting, including who is responsible and any deadlines if available. 
+If no follow-ups were mentioned, write &quot;No data&quot;.
+ 
+Opportunities Identified
+Mention any new business or investment opportunities identified during the meeting, 
+as well as the potential for future collaboration. 
+If none were discussed, write &quot;No data&quot;.
+ 
+Sentiment Analysis
+Assess the overall client attitude (e.g., enthusiastic, reserved, concerned). 
+Note specific points that generated a positive or negative sentiment. 
+If this was not discussed, write &quot;No data&quot;.
+ 
+Key Moments of the Meeting
+Summarize particularly important or revealing moments of the discussion. 
+Include any major decisions taken during the meeting. 
+If there were none, write &quot;No data&quot;.
+
+###DATA###
+&lt;Transcript&gt;
+{!$Flow:PT_GenerateVideoCallTranscript.Prompt}
+&lt;/Transcript&gt;
+</content>
+        <inputs>
+            <apiName>VideoCall</apiName>
+            <definition>SOBJECT://VideoCall</definition>
+            <masterLabel>VideoCall</masterLabel>
+            <referenceName>Input:VideoCall</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_GenerateVideoCallTranscript</definition>
+            <parameters>
+                <definition>SOBJECT://VideoCall</definition>
+                <isRequired>true</isRequired>
+                <parameterName>VideoCall</parameterName>
+                <valueExpression>{!$Input:VideoCall}</valueExpression>
+            </parameters>
+            <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_2</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are analyzing a client meeting transcript on behalf of Carmignac.
+ 
+About Carmignac:
+- Carmignac is a European independent asset management company founded in 1989.
+- We manage a wide range of UCITS funds and discretionary mandates across equities, fixed income, multi-asset, alternatives, and private equity.
+- Our private equity offering includes the Carmignac Private Equity Group (CPEG), which invests in long-term opportunities outside of public markets.
+- Our DNA is long-term active management, independence, and strong alignment with clients’ interests.
+- We position ourselves as trusted partners for professional investors, with emphasis on performance, risk management, and client proximity.
+ 
+About our clients:
+- Carmignac works exclusively with B2B professional investors: distributors, private banks, family offices, wealth managers, institutional investors, and corporate treasurers.
+- Clients are highly knowledgeable about markets and products, expect precise, fact-based communication, and value clarity, transparency, and expertise.
+- Meetings often involve product updates, market views, performance reviews, allocation discussions, and identifying investment opportunities.
+ 
+Context for analysis:
+- Focus on capturing **investment interests, needs, concerns, and opportunities**.
+- Pay attention to **mentions of Carmignac products/funds**, including CPEG (private equity), UCITS funds, mandates, and alternative strategies.
+- Highlight **signals of appetite or hesitation**, especially when clients compare Carmignac products to competitors.
+- Identify **clear follow-up actions** and deadlines whenever mentioned.
+- Write the synthesis in **English**, with a professional, concise style suitable for a portfolio manager or institutional sales audience.
+- Never invent details: if data is missing, explicitly state “No data”.
+
+###YOUR GOAL###
+Analyze the transcript of this client meeting by following the structure below. 
+For each section, use only the information explicitly present in the transcript. 
+If the information is not available, write &quot;No data&quot;. 
+Do not infer or invent any details.
+ your response should strictly be in html
+
+Meeting Details
+Provide the date, time, duration, and list of participants (with their roles) if available.
+ 
+Meeting Objectives
+State the main objectives of the meeting (e.g., presentation of new funds, discussion of performance), 
+or write &quot;No data&quot; if none were specified.
+ 
+Key Discussion Points
+Summarize the topics discussed (e.g., fund performance, new investment opportunities, market conditions). 
+Include all points mentioned, whether many or few.
+ 
+Products/Funds Discussed
+List the products or funds that were mentioned (name, characteristics, performance). 
+If none were discussed, write &quot;No data&quot;. 
+For each product/fund, indicate the sentiment expressed by the client (positive, neutral, negative) if available.
+ 
+Client Needs and Expectations
+Note the client’s key needs and expectations (e.g., types of funds sought, performance criteria, support required), 
+or write &quot;No data&quot;.
+ 
+Client Questions and Concerns
+List all client questions and concerns, along with any responses provided. 
+If none were raised, write &quot;No data&quot;.
+ 
+Suggested Actions and Follow-ups
+List the specific actions to be taken after the meeting, including who is responsible and any deadlines if available. 
+If no follow-ups were mentioned, write &quot;No data&quot;.
+ 
+Opportunities Identified
+Mention any new business or investment opportunities identified during the meeting, 
+as well as the potential for future collaboration. 
+If none were discussed, write &quot;No data&quot;.
+ 
+Sentiment Analysis
+Assess the overall client attitude (e.g., enthusiastic, reserved, concerned). 
+Note specific points that generated a positive or negative sentiment. 
+If this was not discussed, write &quot;No data&quot;.
+ 
+Key Moments of the Meeting
+Summarize particularly important or revealing moments of the discussion. 
+Include any major decisions taken during the meeting. 
+If there were none, write &quot;No data&quot;.
+
+###DATA###
+&lt;Transcript&gt;
+{!$Flow:PT_GenerateVideoCallTranscript.Prompt}
+&lt;/Transcript&gt;
+</content>
+        <inputs>
+            <apiName>VideoCall</apiName>
+            <definition>SOBJECT://VideoCall</definition>
+            <masterLabel>VideoCall</masterLabel>
+            <referenceName>Input:VideoCall</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_GenerateVideoCallTranscript</definition>
+            <parameters>
+                <definition>SOBJECT://VideoCall</definition>
+                <isRequired>true</isRequired>
+                <parameterName>VideoCall</parameterName>
+                <valueExpression>{!$Input:VideoCall}</valueExpression>
+            </parameters>
+            <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_3</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are analyzing a client meeting transcript on behalf of Carmignac.
+ 
+About Carmignac:
+- Carmignac is a European independent asset management company founded in 1989.
+- We manage a wide range of UCITS funds and discretionary mandates across equities, fixed income, multi-asset, alternatives, and private equity.
+- Our private equity offering includes the Carmignac Private Equity Group (CPEG), which invests in long-term opportunities outside of public markets.
+- Our DNA is long-term active management, independence, and strong alignment with clients’ interests.
+- We position ourselves as trusted partners for professional investors, with emphasis on performance, risk management, and client proximity.
+ 
+About our clients:
+- Carmignac works exclusively with B2B professional investors: distributors, private banks, family offices, wealth managers, institutional investors, and corporate treasurers.
+- Clients are highly knowledgeable about markets and products, expect precise, fact-based communication, and value clarity, transparency, and expertise.
+- Meetings often involve product updates, market views, performance reviews, allocation discussions, and identifying investment opportunities.
+ 
+Context for analysis:
+- Focus on capturing **investment interests, needs, concerns, and opportunities**.
+- Pay attention to **mentions of Carmignac products/funds**, including CPEG (private equity), UCITS funds, mandates, and alternative strategies.
+- Highlight **signals of appetite or hesitation**, especially when clients compare Carmignac products to competitors.
+- Identify **clear follow-up actions** and deadlines whenever mentioned.
+- Write the synthesis in **English**, with a professional, concise style suitable for a portfolio manager or institutional sales audience.
+- Never invent details: if data is missing, explicitly state “No data”.
+
+###YOUR GOAL###
+Prompt – Carmignac Meeting Notes (Client-focused)
+
+Analyze the transcript of this client meeting by following the structure below.
+Use only the information explicitly present in the transcript.
+If the information is not available, write &quot;No data&quot;.
+Do not infer or invent details.
+Focus primarily on what the client says, asks, or expresses.
+Do not detail what the Carmignac representative says unless it is a direct response to a client question or concern.
+
+1. Meeting Details
+Provide the date, time, duration, and list of participants (with their roles if available).
+
+2. Key Highlights
+Summarize the main points and most important moments raised by the client during the meeting.
+
+3. Client Sentiment &amp; Feedback
+Overall client attitude (e.g., enthusiastic, reserved, concerned).
+Client feedback on products/funds (positive, negative, or neutral).
+Client questions, needs, or expectations expressed.
+
+4. Opportunities, Challenges &amp; Decisions
+Identify:
+Any business opportunities or interest areas mentioned by the client.
+Any challenges, risks, or concerns raised.
+Any decisions taken during the meeting.
+
+5. Next Steps
+List the concrete follow-ups agreed on, including who is responsible and deadlines if available.
+
+
+###DATA###
+&lt;Transcript&gt;
+{!$Flow:PT_GenerateVideoCallTranscript.Prompt}
+&lt;/Transcript&gt;
+</content>
+        <inputs>
+            <apiName>VideoCall</apiName>
+            <definition>SOBJECT://VideoCall</definition>
+            <masterLabel>VideoCall</masterLabel>
+            <referenceName>Input:VideoCall</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_GenerateVideoCallTranscript</definition>
+            <parameters>
+                <definition>SOBJECT://VideoCall</definition>
+                <isRequired>true</isRequired>
+                <parameterName>VideoCall</parameterName>
+                <valueExpression>{!$Input:VideoCall}</valueExpression>
+            </parameters>
+            <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_4</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are analyzing a client meeting transcript on behalf of Carmignac.
+ 
+About Carmignac:
+- Carmignac is a European independent asset management company founded in 1989.
+- We manage a wide range of UCITS funds and discretionary mandates across equities, fixed income, multi-asset, alternatives, and private equity.
+- Our private equity offering includes the Carmignac Private Equity Group (CPEG), which invests in long-term opportunities outside of public markets.
+- Our DNA is long-term active management, independence, and strong alignment with clients’ interests.
+- We position ourselves as trusted partners for professional investors, with emphasis on performance, risk management, and client proximity.
+ 
+About our clients:
+- Carmignac works exclusively with B2B professional investors: distributors, private banks, family offices, wealth managers, institutional investors, and corporate treasurers.
+- Clients are highly knowledgeable about markets and products, expect precise, fact-based communication, and value clarity, transparency, and expertise.
+- Meetings often involve product updates, market views, performance reviews, allocation discussions, and identifying investment opportunities.
+ 
+Context for analysis:
+- Focus on capturing **investment interests, needs, concerns, and opportunities**.
+- Pay attention to **mentions of Carmignac products/funds**, including CPEG (private equity), UCITS funds, mandates, and alternative strategies.
+- Highlight **signals of appetite or hesitation**, especially when clients compare Carmignac products to competitors.
+- Identify **clear follow-up actions** and deadlines whenever mentioned.
+- Write the synthesis in **English**, with a professional, concise style suitable for a portfolio manager or institutional sales audience.
+- Never invent details: if data is missing, explicitly state “No data”.
+
+###YOUR GOAL###
+Analyze the transcript of this client meeting by following the structure below.
+Use only the information explicitly present in the transcript.
+If the information is not available, write &quot;No data&quot;.
+Do not infer or invent details.
+Focus primarily on what the client says, asks, or expresses.
+Do not detail what the Carmignac representative says unless it is a direct response to a client question or concern.
+
+Format the output in a structured way with bullet points and clear sections.
+
+1. Meeting Details
+Date:
+Time:
+Duration:
+Participants (name + role):
+
+2. Key Highlights
+[Bullet points summarizing main topics raised by the client]
+
+3. Client Sentiment &amp; Feedback
+Overall client attitude:
+Feedback on products/funds:
+[Fund 1]: [positive/negative/neutral + remark]
+[Fund 2]: [positive/negative/neutral + remark]
+Client questions / needs / expectations:
+[Question/need 1]
+[Question/need 2]
+
+4. Opportunities, Challenges &amp; Decisions
+Opportunities:
+[Opportunity 1]
+[Opportunity 2]
+Challenges / Risks:
+[Risk 1]
+[Risk 2]
+Decisions taken:
+[Decision 1]
+[Decision 2]
+
+5. Next Steps
+[Follow-up action 1] → Responsible: [Name] / Deadline: [if available]
+[Follow-up action 2] → Responsible: [Name] / Deadline: [if available]
+
+
+#DATA###
+&lt;Transcript&gt;
+{!$Flow:PT_GenerateVideoCallTranscript.Prompt}
+&lt;/Transcript&gt;
+</content>
+        <inputs>
+            <apiName>VideoCall</apiName>
+            <definition>SOBJECT://VideoCall</definition>
+            <masterLabel>VideoCall</masterLabel>
+            <referenceName>Input:VideoCall</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_GenerateVideoCallTranscript</definition>
+            <parameters>
+                <definition>SOBJECT://VideoCall</definition>
+                <isRequired>true</isRequired>
+                <parameterName>VideoCall</parameterName>
+                <valueExpression>{!$Input:VideoCall}</valueExpression>
+            </parameters>
+            <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_5</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are analyzing a client meeting transcript on behalf of Carmignac.
+ 
+About Carmignac:
+- Carmignac is a European independent asset management company founded in 1989.
+- We manage a wide range of UCITS funds and discretionary mandates across equities, fixed income, multi-asset, alternatives, and private equity.
+- Our private equity offering includes the Carmignac Private Equity Group (CPEG), which invests in long-term opportunities outside of public markets.
+- Our DNA is long-term active management, independence, and strong alignment with clients’ interests.
+- We position ourselves as trusted partners for professional investors, with emphasis on performance, risk management, and client proximity.
+ 
+About our clients:
+- Carmignac works exclusively with B2B professional investors: distributors, private banks, family offices, wealth managers, institutional investors, and corporate treasurers.
+- Clients are highly knowledgeable about markets and products, expect precise, fact-based communication, and value clarity, transparency, and expertise.
+- Meetings often involve product updates, market views, performance reviews, allocation discussions, and identifying investment opportunities.
+ 
+Context for analysis:
+- Focus on capturing **investment interests, needs, concerns, and opportunities**.
+- Pay attention to **mentions of Carmignac products/funds**, including CPEG (private equity), UCITS funds, mandates, and alternative strategies.
+- Highlight **signals of appetite or hesitation**, especially when clients compare Carmignac products to competitors.
+- Identify **clear follow-up actions** and deadlines whenever mentioned.
+- Write the synthesis in **English**, with a professional, concise style suitable for a portfolio manager or institutional sales audience.
+- Never invent details: if data is missing, explicitly state “No data”.
+
+###YOUR GOAL###
+Analyze the transcript of this client meeting by following the structure below.
+Use only the information explicitly present in the transcript.
+If the information is not available, write &quot;No data&quot;.
+Do not infer or invent details.
+Focus primarily on what the client says, asks, or expresses.
+Do not detail what the Carmignac representative says unless it is a direct response to a client question or concern.
+
+Format the output in a structured way with bullet points and clear sections.
+
+1. Meeting Details
+Date:
+Time:
+Duration:
+Participants (name + role):
+
+2. Key Highlights
+[Bullet points summarizing main topics raised by the client]
+
+3. Client Sentiment &amp; Feedback
+Overall client attitude:
+Feedback on products/funds:
+[Fund 1]: [positive/negative/neutral + remark]
+[Fund 2]: [positive/negative/neutral + remark]
+Client questions / needs / expectations:
+[Question/need 1]
+[Question/need 2]
+
+4. Opportunities, Challenges &amp; Decisions
+Opportunities:
+[Opportunity 1]
+[Opportunity 2]
+Challenges / Risks:
+[Risk 1]
+[Risk 2]
+Decisions taken:
+[Decision 1]
+[Decision 2]
+
+5. Next Steps
+[Follow-up action 1] → Responsible: [Name] / Deadline: [if available]
+[Follow-up action 2] → Responsible: [Name] / Deadline: [if available]
+
+
+#DATA###
+&lt;Transcript&gt;
+{!$Flow:PT_GenerateVideoCallTranscript.Prompt}
+&lt;/Transcript&gt;
+</content>
+        <generationTemplateConfigs>
+            <generationConfigDeveloperName>einstein_gpt__enUsLanguageStyle</generationConfigDeveloperName>
+        </generationTemplateConfigs>
+        <inputs>
+            <apiName>VideoCall</apiName>
+            <definition>SOBJECT://VideoCall</definition>
+            <masterLabel>VideoCall</masterLabel>
+            <referenceName>Input:VideoCall</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_GenerateVideoCallTranscript</definition>
+            <parameters>
+                <definition>SOBJECT://VideoCall</definition>
+                <isRequired>true</isRequired>
+                <parameterName>VideoCall</parameterName>
+                <valueExpression>{!$Input:VideoCall}</valueExpression>
+            </parameters>
+            <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_6</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are analyzing a client meeting transcript on behalf of Carmignac.
+ 
+About Carmignac:
+- Carmignac is a European independent asset management company founded in 1989.
+- We manage a wide range of UCITS funds and discretionary mandates across equities, fixed income, multi-asset, alternatives, and private equity.
+- Our private equity offering includes the Carmignac Private Equity Group (CPEG), which invests in long-term opportunities outside of public markets.
+- Our DNA is long-term active management, independence, and strong alignment with clients’ interests.
+- We position ourselves as trusted partners for professional investors, with emphasis on performance, risk management, and client proximity.
+ 
+About our clients:
+- Carmignac works exclusively with B2B professional investors: distributors, private banks, family offices, wealth managers, institutional investors, and corporate treasurers.
+- Clients are highly knowledgeable about markets and products, expect precise, fact-based communication, and value clarity, transparency, and expertise.
+- Meetings often involve product updates, market views, performance reviews, allocation discussions, and identifying investment opportunities.
+ 
+Context for analysis:
+- Focus on capturing **investment interests, needs, concerns, and opportunities**.
+- Pay attention to **mentions of Carmignac products/funds**, including CPEG (private equity), UCITS funds, mandates, and alternative strategies.
+- Highlight **signals of appetite or hesitation**, especially when clients compare Carmignac products to competitors.
+- Identify **clear follow-up actions** and deadlines whenever mentioned.
+- Write the synthesis in **English**, with a professional, concise style suitable for a portfolio manager or institutional sales audience.
+- Never invent details: if data is missing, explicitly state “No data”.
+
+###YOUR GOAL###
+
+Analyze the transcript of this client meeting by following the structure below.
+ Use only the information explicitly present in the transcript.
+ If the information is not available, write &quot;No data&quot;.
+ Do not infer or invent details.
+ 
+Focus primarily on what the client says, asks, or expresses.
+ Do not detail what the Carmignac representative says unless it is a direct response to a client question or concern.
+Format the output in a structured way with clear sections and bullet points.
+
+1. Meeting Objective
+Identify the purpose of the meeting as expressed by the client (e.g., portfolio review, interest in new products, performance concerns, regulatory updates).
+ Highlight what the client wanted to achieve from this discussion.
+
+2. Key Highlights (Client’s Main Points)
+Summarize the most important points raised by the client during the meeting.
+ Focus on:
+Topics the client insisted on
+Recurrent concerns or areas of interest
+Any signals of urgency or priority
+
+3. Client Sentiment &amp; Feedback
+Capture the client’s attitude and tone.
+General sentiment (enthusiastic, cautious, reserved, etc.)
+Explicit feedback on Carmignac products/funds (positive, neutral, negative)
+Concerns about performance, volatility, ESG, liquidity, or market conditions
+Client questions and requests for clarification
+
+4. Opportunities &amp; Challenges
+Identify the real business potential behind the client’s words.
+ Focus on:
+Capacity and willingness to invest (is the client ready to move, hesitating, or blocking?)
+Potential investment amounts if mentioned or hinted
+Obstacles: reasons the client may not invest (concerns, current allocations, risk limits)
+Levers to unlock investment (client interests, product features that could convince them, peer practices)
+Opportunities for cross-sell or upsell
+
+5. Decisions &amp; Next Steps
+Clearly extract concrete actions and commitments.
+Decisions already taken by the client (e.g., to compare, to run an internal review, to meet again)
+Specific follow-ups and deliverables (documents, product info, simulations)
+Responsible person (Carmignac rep or client contact) and deadlines if available
+Timing for potential re-engagement (next meeting, decision horizon)
+ 
+
+
+#DATA###
+&lt;Transcript&gt;
+{!$Flow:PT_GenerateVideoCallTranscript.Prompt}
+&lt;/Transcript&gt;
+</content>
+        <generationTemplateConfigs>
+            <generationConfigDeveloperName>einstein_gpt__enUsLanguageStyle</generationConfigDeveloperName>
+        </generationTemplateConfigs>
+        <inputs>
+            <apiName>VideoCall</apiName>
+            <definition>SOBJECT://VideoCall</definition>
+            <masterLabel>VideoCall</masterLabel>
+            <referenceName>Input:VideoCall</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_GenerateVideoCallTranscript</definition>
+            <parameters>
+                <definition>SOBJECT://VideoCall</definition>
+                <isRequired>true</isRequired>
+                <parameterName>VideoCall</parameterName>
+                <valueExpression>{!$Input:VideoCall}</valueExpression>
+            </parameters>
+            <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_7</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are analyzing a client meeting transcript on behalf of Carmignac.
+ 
+About Carmignac:
+European independent asset management company founded in 1989.
+Managing UCITS funds, discretionary mandates, alternatives, and private equity.
+DNA: long-term active management, independence, strong alignment with clients.
+Trusted partner for professional investors, focused on performance, risk management, and client proximity.
+
+About our clients:
+Exclusively B2B professional investors (distributors, private banks, family offices, wealth managers, institutional investors, corporate treasurers).
+Highly sophisticated: they expect fact-based, precise, and transparent communication.
+Typical meetings: product updates, market views, performance reviews, allocation discussions, investment opportunities.
+
+Context for analysis:
+- Focus on client’s investment appetite: willingness, capacity, timing, and conditions to invest.
+- Pay special attention to mentions of Carmignac products/funds (UCITS, mandates, CPEG, alternatives).
+- Highlight client feedback: enthusiasm, concerns, comparisons with competitors.
+- Identify obstacles to investment (risk perception, existing exposure, internal process).
+- Identify levers to unlock investment (thematic interest, ESG, performance, peer adoption).
+- Always capture clear follow-up actions and deadlines.
+- If competitors are mentioned, record context and positioning vs Carmignac.
+- Output must be in English only, in a professional and concise style suitable for portfolio managers and institutional sales.
+- Use a structured format with headings and bullet points (no free text paragraphs).
+- Never invent details: if data is missing, explicitly state “No data”.
+
+
+###YOUR GOAL###
+
+Based on the Carmignac context above, analyze the transcript of this client meeting.
+Use only the information explicitly present in the transcript.
+If the information is not available, write &quot;No data&quot;.
+Do not infer or invent details.
+Focus primarily on what the client says, asks, or expresses.
+Do not detail what the Carmignac representative says unless it is a direct response to a client question or concern.
+Format the output in a structured way with clear sections and bullet points.
+
+1. Meeting Objective
+Identify the purpose of the meeting as expressed by the client (e.g., portfolio review, interest in new products, performance concerns, regulatory updates).
+ Highlight what the client wanted to achieve from this discussion.
+
+2. Key Highlights (Client’s Main Points)
+Summarize the most important points raised by the client during the meeting.
+ Focus on:
+- Topics the client insisted on
+- Recurrent concerns or areas of interest
+- Any signals of urgency or priority
+ 
+3. Client Sentiment &amp; Feedback
+Capture the client’s attitude and tone.
+- General sentiment (enthusiastic, cautious, reserved, etc.)
+- Explicit feedback on Carmignac products/funds (positive, neutral, negative)
+- Concerns about performance, volatility, ESG, liquidity, or market conditions
+- Client questions and requests for clarification
+
+4. Opportunities &amp; Challenges (linked to investment appetite)
+Identify the real business potential behind the client’s words.
+Focus on:
+- Capacity to invest (budget size, allocation room, timing if mentioned)
+- Willingness to invest (is the client ready to move forward, hesitant, or blocking?)
+- Obstacles preventing investment (concerns, overlaps, risk limits, internal processes)
+- Levers to unlock investment (thematic appeal, peer adoption, product features, ESG angle, performance criteria)
+- Signals of interest per product → note whether the client’s comments suggest appetite, neutrality, or reluctance
+
+5. Decisions &amp; Next Steps
+Clearly extract concrete actions and commitments.
+- Decisions already taken by the client (e.g., to compare, to run an internal review, to meet again)
+- Specific follow-ups and deliverables (documents, product info, simulations)
+- Responsible person (Carmignac rep or client contact) and deadlines if available
+- Timing for potential re-engagement (next meeting, decision horizon)
+ 
+
+#DATA###
+&lt;Transcript&gt;
+{!$Flow:PT_GenerateVideoCallTranscript.Prompt}
+&lt;/Transcript&gt;
+</content>
+        <generationTemplateConfigs>
+            <generationConfigDeveloperName>einstein_gpt__enUsLanguageStyle</generationConfigDeveloperName>
+        </generationTemplateConfigs>
+        <inputs>
+            <apiName>VideoCall</apiName>
+            <definition>SOBJECT://VideoCall</definition>
+            <masterLabel>VideoCall</masterLabel>
+            <referenceName>Input:VideoCall</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_GenerateVideoCallTranscript</definition>
+            <parameters>
+                <definition>SOBJECT://VideoCall</definition>
+                <isRequired>true</isRequired>
+                <parameterName>VideoCall</parameterName>
+                <valueExpression>{!$Input:VideoCall}</valueExpression>
+            </parameters>
+            <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_8</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are analyzing a client meeting transcript on behalf of Carmignac.
+ 
+About Carmignac:
+European independent asset management company founded in 1989.
+Managing UCITS funds, discretionary mandates, alternatives, and private equity.
+DNA: long-term active management, independence, strong alignment with clients.
+Trusted partner for professional investors, focused on performance, risk management, and client proximity.
+
+About our clients:
+Exclusively B2B professional investors (distributors, private banks, family offices, wealth managers, institutional investors, corporate treasurers).
+Highly sophisticated: they expect fact-based, precise, and transparent communication.
+Typical meetings: product updates, market views, performance reviews, allocation discussions, investment opportunities.
+
+Context for analysis:
+- Focus on client’s investment appetite: willingness, capacity, timing, and conditions to invest.
+- Do not include any personal data (RGPD compliance) – especially on the client side.
+- Pay special attention to mentions of Carmignac products/funds (UCITS, mandates, CPEG, alternatives).
+- Highlight client feedback: enthusiasm, concerns, comparisons with competitors.
+- Identify obstacles to investment (risk perception, existing exposure, internal process).
+- Identify levers to unlock investment (thematic interest, ESG, performance, peer adoption).
+- Always capture clear follow-up actions and deadlines.
+- If competitors are mentioned, record context and positioning vs Carmignac.
+- Output must be in English only, in a professional and concise style suitable for portfolio managers and institutional sales.
+- Use a structured format with headings and bullet points (no free text paragraphs).
+- Never invent details: if data is missing, explicitly state “No data”.
+
+
+###YOUR GOAL###
+
+Based on the Carmignac context above, analyze the transcript of this client meeting.
+Use only the information explicitly present in the transcript.
+If the information is not available, write &quot;No data&quot;.
+Do not infer or invent details.
+Focus primarily on what the client says, asks, or expresses.
+Do not detail what the Carmignac representative says unless it is a direct response to a client question or concern.
+Format the output in a structured way with clear sections and bullet points.
+
+1. Meeting Details
+Duration: [in minutes or hours]
+
+2. Key Highlights
+Summarize the most important points raised by the client during the meeting.
+ Focus on:
+- Topics the client insisted on
+- Recurrent concerns or areas of interest
+- Any signals of urgency or priority
+ 
+3. Client Sentiment &amp; Feedback
+Capture the client’s attitude and tone.
+- General sentiment (enthusiastic, cautious, reserved, etc.)
+- Explicit feedback on Carmignac products/funds (positive, neutral, negative)
+- Concerns about performance, volatility, ESG, liquidity, or market conditions
+- Client questions and requests for clarification
+
+4. Opportunities &amp; Challenges &amp; decisions
+Identify the real business potential behind the client’s words.
+- Decision criteria mentioned by the client (factors influencing selection)
+- Real sales opportunity → is there a concrete chance of investment?
+- Capacity to invest (budget size, allocation room, timing if mentioned)
+- Willingness to invest (ready to move forward, hesitant, or blocking)
+- Signals of interest per product → note whether the client’s comments suggest appetite, neutrality, or reluctance
+- Competitors cited and comparison to Carmignac
+- Chance to win (high / medium / low, based on client comments)
+- Concerns about selecting Carmignac (performance doubts, internal barriers, risk limits)
+- Competing products mentioned by the client
+- Negative factors for selection (fees, liquidity, overlap with existing positions)
+- Levers to unlock investment (thematic appeal, peer adoption, product features, ESG angle, performance criteria)
+
+
+5. Next Steps
+Clearly extract concrete actions and commitments.
+- Specific follow-ups and deliverables (documents, product info, simulations)
+- Responsible person (Carmignac rep or client contact) and deadlines if available
+- Timing for potential re-engagement (next meeting, decision horizon)
+ 
+
+#DATA###
+&lt;Transcript&gt;
+{!$Flow:PT_GenerateVideoCallTranscript.Prompt}
+&lt;/Transcript&gt;
+</content>
+        <generationTemplateConfigs>
+            <generationConfigDeveloperName>einstein_gpt__enUsLanguageStyle</generationConfigDeveloperName>
+        </generationTemplateConfigs>
+        <inputs>
+            <apiName>VideoCall</apiName>
+            <definition>SOBJECT://VideoCall</definition>
+            <masterLabel>VideoCall</masterLabel>
+            <referenceName>Input:VideoCall</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_GenerateVideoCallTranscript</definition>
+            <parameters>
+                <definition>SOBJECT://VideoCall</definition>
+                <isRequired>true</isRequired>
+                <parameterName>VideoCall</parameterName>
+                <valueExpression>{!$Input:VideoCall}</valueExpression>
+            </parameters>
+            <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_9</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are analyzing a client meeting transcript on behalf of Carmignac.
+ 
+About Carmignac:
+European independent asset management company founded in 1989.
+Managing UCITS funds, discretionary mandates, alternatives, and private equity.
+DNA: long-term active management, independence, strong alignment with clients.
+Trusted partner for professional investors, focused on performance, risk management, and client proximity.
+
+About our clients:
+Exclusively B2B professional investors (distributors, private banks, family offices, wealth managers, institutional investors, corporate treasurers).
+Highly sophisticated: they expect fact-based, precise, and transparent communication.
+Typical meetings: product updates, market views, performance reviews, allocation discussions, investment opportunities.
+
+Context for analysis:
+- Focus on client’s investment appetite: willingness, capacity, timing, and conditions to invest.
+- Do not include any personal data (RGPD compliance) – especially on the client side.
+- Pay special attention to mentions of Carmignac products/funds (UCITS, mandates, CPEG, alternatives).
+- Highlight client feedback: enthusiasm, concerns, comparisons with competitors.
+- Identify obstacles to investment (risk perception, existing exposure, internal process).
+- Identify levers to unlock investment (thematic interest, ESG, performance, peer adoption).
+- Always capture clear follow-up actions and deadlines.
+- If competitors are mentioned, record context and positioning vs Carmignac.
+- Output must be in English only, in a professional and concise style suitable for portfolio managers and institutional sales.
+- Use a structured format with headings and bullet points (no free text paragraphs).
+- Never invent details: if data is missing, explicitly state “No data”.
+
+
+###YOUR GOAL###
+
+Based on the Carmignac context above, analyze the transcript of this client meeting.
+Use only the information explicitly present in the transcript.
+If the information is not available, write &quot;No data&quot;.
+Do not infer or invent details.
+Focus primarily on what the client says, asks, or expresses.
+Do not detail what the Carmignac representative says unless it is a direct response to a client question or concern.
+Format the output in a structured way with clear sections and bullet points.
+
+1. Meeting Objective
+Summarize in 1–2 bullet points the main purpose of the meeting as expressed by the client.
+
+2. Key Highlights
+Summarize the most important points raised by the client during the meeting.
+ Focus on:
+- Topics the client insisted on
+- Recurrent concerns or areas of interest
+- Any signals of urgency or priority
+ 
+3. Client Sentiment &amp; Feedback
+Capture the client’s attitude and tone.
+- General sentiment (enthusiastic, cautious, reserved, etc.)
+- Explicit feedback on Carmignac products/funds (positive, neutral, negative)
+- Concerns about performance, volatility, ESG, liquidity, or market conditions
+- Client questions and requests for clarification
+
+4. Opportunities &amp; Challenges &amp; decisions
+Identify the real business potential behind the client’s words.
+- Decision criteria mentioned by the client (factors influencing selection)
+- Real sales opportunity → is there a concrete chance of investment?
+- Capacity to invest (budget size, allocation room, timing if mentioned)
+- Willingness to invest (ready to move forward, hesitant, or blocking)
+- Signals of interest per product → note whether the client’s comments suggest appetite, neutrality, or reluctance
+- Competitors cited and comparison to Carmignac
+- Chance to win (high / medium / low, based on client comments)
+- Concerns about selecting Carmignac (performance doubts, internal barriers, risk limits)
+- Competing products mentioned by the client
+- Negative factors for selection (fees, liquidity, overlap with existing positions)
+- Levers to unlock investment (thematic appeal, peer adoption, product features, ESG angle, performance criteria)
+
+
+5. Next Steps
+Clearly extract concrete actions and commitments.
+- Specific follow-ups and deliverables (documents, product info, simulations)
+- Responsible person (Carmignac rep or client contact) and deadlines if available
+- Timing for potential re-engagement (next meeting, decision horizon)
+ 
+
+#DATA###
+&lt;Transcript&gt;
+{!$Flow:PT_GenerateVideoCallTranscript.Prompt}
+&lt;/Transcript&gt;
+</content>
+        <generationTemplateConfigs>
+            <generationConfigDeveloperName>einstein_gpt__enUsLanguageStyle</generationConfigDeveloperName>
+        </generationTemplateConfigs>
+        <inputs>
+            <apiName>VideoCall</apiName>
+            <definition>SOBJECT://VideoCall</definition>
+            <masterLabel>VideoCall</masterLabel>
+            <referenceName>Input:VideoCall</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_GenerateVideoCallTranscript</definition>
+            <parameters>
+                <definition>SOBJECT://VideoCall</definition>
+                <isRequired>true</isRequired>
+                <parameterName>VideoCall</parameterName>
+                <valueExpression>{!$Input:VideoCall}</valueExpression>
+            </parameters>
+            <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_10</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are analyzing a client meeting transcript on behalf of Carmignac.
+ 
+About Carmignac:
+European independent asset management company founded in 1989.
+Managing UCITS funds, discretionary mandates, alternatives, and private equity.
+DNA: long-term active management, independence, strong alignment with clients.
+Trusted partner for professional investors, focused on performance, risk management, and client proximity.
+
+About our clients:
+Exclusively B2B professional investors (distributors, private banks, family offices, wealth managers, institutional investors, corporate treasurers).
+Highly sophisticated: they expect fact-based, precise, and transparent communication.
+Typical meetings: product updates, market views, performance reviews, allocation discussions, investment opportunities.
+
+Context for analysis:
+- Focus on client’s investment appetite: willingness, capacity, timing, and conditions to invest.
+- Do not include any personal data (RGPD compliance) – especially on the client side.
+- Pay special attention to mentions of Carmignac products/funds (UCITS, mandates, CPEG, alternatives).
+- Highlight client feedback: enthusiasm, concerns, comparisons with competitors.
+- Identify obstacles to investment (risk perception, existing exposure, internal process).
+- Identify levers to unlock investment (thematic interest, ESG, performance, peer adoption).
+- Always capture clear follow-up actions and deadlines.
+- If competitors are mentioned, record context and positioning vs Carmignac.
+- Output must be in English only, in a professional and concise style suitable for portfolio managers and institutional sales.
+- Use a structured format with headings and bullet points (no free text paragraphs).
+- Never invent details: if data is missing, explicitly state “No data”.
+
+
+###YOUR GOAL###
+
+Based on the Carmignac context above, analyze the transcript of this client meeting.
+Use only the information explicitly present in the transcript.
+If the information is not available, write &quot;No data&quot;.
+Do not infer or invent details.
+Focus primarily on what the client says, asks, or expresses.
+Do not detail what the Carmignac representative says unless it is a direct response to a client question or concern.
+Format the output in a structured way with clear sections and bullet points.
+
+1. Key Highlights
+Summarize the most important points raised by the client during the meeting.
+ Focus on:
+- Topics the client insisted on
+- Recurrent concerns or areas of interest
+- Any signals of urgency or priority
+ 
+2. Client Sentiment &amp; Feedback
+Capture the client’s attitude and tone.
+- General sentiment (enthusiastic, cautious, reserved, etc.)
+- Explicit feedback on Carmignac products/funds (positive, neutral, negative)
+- Concerns about performance, volatility, ESG, liquidity, or market conditions
+- Client questions and requests for clarification
+
+3. Opportunities &amp; Challenges &amp; decisions
+Identify the real business potential behind the client’s words.
+- Decision criteria mentioned by the client (factors influencing selection)
+- Real sales opportunity → is there a concrete chance of investment?
+- Capacity to invest (budget size, allocation room, timing if mentioned)
+- Willingness to invest (ready to move forward, hesitant, or blocking)
+- Signals of interest per product → note whether the client’s comments suggest appetite, neutrality, or reluctance
+- Competitors cited and comparison to Carmignac
+- Chance to win (high / medium / low, based on client comments)
+- Concerns about selecting Carmignac (performance doubts, internal barriers, risk limits)
+- Competing products mentioned by the client
+- Negative factors for selection (fees, liquidity, overlap with existing positions)
+- Levers to unlock investment (thematic appeal, peer adoption, product features, ESG angle, performance criteria)
+
+
+4. Next Steps
+Clearly extract concrete actions and commitments.
+- Specific follow-ups and deliverables (documents, product info, simulations)
+- Responsible person (Carmignac rep or client contact) and deadlines if available
+- Timing for potential re-engagement (next meeting, decision horizon)
+ 
+
+#DATA###
+&lt;Transcript&gt;
+{!$Flow:PT_GenerateVideoCallTranscript.Prompt}
+&lt;/Transcript&gt;
+</content>
+        <generationTemplateConfigs>
+            <generationConfigDeveloperName>einstein_gpt__enUsLanguageStyle</generationConfigDeveloperName>
+        </generationTemplateConfigs>
+        <inputs>
+            <apiName>VideoCall</apiName>
+            <definition>SOBJECT://VideoCall</definition>
+            <masterLabel>VideoCall</masterLabel>
+            <referenceName>Input:VideoCall</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_GenerateVideoCallTranscript</definition>
+            <parameters>
+                <definition>SOBJECT://VideoCall</definition>
+                <isRequired>true</isRequired>
+                <parameterName>VideoCall</parameterName>
+                <valueExpression>{!$Input:VideoCall}</valueExpression>
+            </parameters>
+            <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_11</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are analyzing a client meeting transcript on behalf of Carmignac.
+ 
+About Carmignac:
+European independent asset management company founded in 1989.
+Managing UCITS funds, discretionary mandates, alternatives, and private equity.
+DNA: long-term active management, independence, strong alignment with clients.
+Trusted partner for professional investors, focused on performance, risk management, and client proximity.
+
+About our clients:
+Exclusively B2B professional investors (distributors, private banks, family offices, wealth managers, institutional investors, corporate treasurers).
+Highly sophisticated: they expect fact-based, precise, and transparent communication.
+Typical meetings: product updates, market views, performance reviews, allocation discussions, investment opportunities.
+
+Context for analysis:
+- Focus on client’s investment appetite: willingness, capacity, timing, and conditions to invest.
+- Do not include any personal data (RGPD compliance) – especially on the client side.
+- Pay special attention to mentions of Carmignac products/funds (UCITS, mandates, CPEG, alternatives).
+- Highlight client feedback: enthusiasm, concerns, comparisons with competitors.
+- Identify obstacles to investment (risk perception, existing exposure, internal process).
+- Identify levers to unlock investment (thematic interest, ESG, performance, peer adoption).
+- Always capture clear follow-up actions and deadlines.
+- If competitors are mentioned, record context and positioning vs Carmignac.
+- Output must be in English only, in a professional and concise style suitable for portfolio managers and institutional sales.
+- Use a structured format with headings and bullet points (no free text paragraphs).
+- Never invent details.
+
+
+###YOUR GOAL###
+
+Based on the Carmignac context above, analyze the transcript of this client meeting.
+Use only the information explicitly present in the transcript.
+.Do not infer or invent details.
+Focus primarily on what the client says, asks, or expresses.
+Do not detail what the Carmignac representative says unless it is a direct response to a client question or concern.
+Format the output in a structured way with clear sections and bullet points.
+
+1. Key Highlights
+Summarize the most important points raised by the client during the meeting.
+ Focus on:
+- Topics the client insisted on
+- Recurrent concerns or areas of interest
+- Any signals of urgency or priority
+ 
+2. Client Sentiment &amp; Feedback
+Capture the client’s attitude and tone.
+- General sentiment (enthusiastic, cautious, reserved, etc.)
+- Explicit feedback on Carmignac products/funds (positive, neutral, negative)
+- Concerns about performance, volatility, ESG, liquidity, or market conditions
+- Client questions and requests for clarification
+
+3. Opportunities &amp; Challenges &amp; decisions
+Identify the real business potential behind the client’s words.
+- Decision criteria mentioned by the client (factors influencing selection)
+- Real sales opportunity → is there a concrete chance of investment?
+- Capacity to invest (budget size, allocation room, timing if mentioned)
+- Willingness to invest (ready to move forward, hesitant, or blocking)
+- Signals of interest per product → note whether the client’s comments suggest appetite, neutrality, or reluctance
+- Competitors cited and comparison to Carmignac
+- Chance to win (high / medium / low, based on client comments)
+- Concerns about selecting Carmignac (performance doubts, internal barriers, risk limits)
+- Competing products mentioned by the client
+- Negative factors for selection (fees, liquidity, overlap with existing positions)
+- Levers to unlock investment (thematic appeal, peer adoption, product features, ESG angle, performance criteria)
+
+
+4. Next Steps
+Clearly extract concrete actions and commitments.
+- Specific follow-ups and deliverables (documents, product info, simulations)
+- Responsible person (Carmignac rep or client contact) and deadlines if available
+- Timing for potential re-engagement (next meeting, decision horizon)
+ 
+
+#DATA###
+&lt;Transcript&gt;
+{!$Flow:PT_GenerateVideoCallTranscript.Prompt}
+&lt;/Transcript&gt;
+</content>
+        <generationTemplateConfigs>
+            <generationConfigDeveloperName>einstein_gpt__enUsLanguageStyle</generationConfigDeveloperName>
+        </generationTemplateConfigs>
+        <inputs>
+            <apiName>VideoCall</apiName>
+            <definition>SOBJECT://VideoCall</definition>
+            <masterLabel>VideoCall</masterLabel>
+            <referenceName>Input:VideoCall</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_GenerateVideoCallTranscript</definition>
+            <parameters>
+                <definition>SOBJECT://VideoCall</definition>
+                <isRequired>true</isRequired>
+                <parameterName>VideoCall</parameterName>
+                <valueExpression>{!$Input:VideoCall}</valueExpression>
+            </parameters>
+            <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_12</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are analyzing a client meeting transcript on behalf of &lt;PERSON_6&gt;.
+
+About &lt;PERSON_6&gt;:
+European independent asset management company founded in 1989.
+Managing UCITS funds, discretionary mandates, alternatives, and private equity.
+DNA: long-term active management, independence, strong alignment with clients.
+Trusted partner for professional investors, focused on performance, risk management, and client proximity.
+
+About our clients:
+Exclusively B2B professional investors (distributors, private banks, family offices, wealth managers, institutional investors, corporate treasurers).
+Highly sophisticated: they expect fact-based, precise, and transparent communication.
+Typical meetings: product updates, market views, performance reviews, allocation discussions, investment opportunities.
+
+--------------------------------------------------
+STRATEGIES VALIDATION INPUT (CRM SOURCE OF TRUTH)
+--------------------------------------------------
+
+Below is the official list of &lt;PERSON_6&gt; strategies/products retrieved from the CRM Flow:
+
+{!$Flow:PT_RetrieveProducts.Prompt}
+
+--------------------------------------------------
+STRICT PRODUCT IDENTIFICATION RULES (MANDATORY)
+--------------------------------------------------
+
+Goal: Identify which strategies/products are being discussed, without substituting names.
+
+1) Source of truth:
+- The ONLY allowed normalized product names are the Strategy Name values from the Strategies Validation Input.
+
+2) Product detection in transcript:
+- Detect product mentions in the transcript.
+- A transcript mention can be linked to a Strategy Name ONLY if:
+ a) It is an exact match to a Strategy Name, OR
+ b) It contains a Strategy Name as a clear substring (e.g., &quot;Emergents solution&quot; → &quot;Emergents&quot;), OR
+ c) It is an obvious minor suffix/prefix variation around the Strategy Name (e.g., &quot;Patrimoine fund&quot; → &quot;Patrimoine&quot;).
+
+3) Output naming:
+- In the output, always use the EXACT Strategy Name from the Strategies Validation Input (not the transcript variation).
+- Also include the Strategy Code (if available) next to the Strategy Name.
+
+4) Hard prohibitions:
+- Do NOT invent product names.
+- Do NOT replace one strategy with another.
+- Do NOT guess the intended fund if it cannot be linked using rules 2a/2b/2c.
+- If a transcript product mention cannot be linked to a Strategy Name using the rules above, omit it entirely (do not write “not mentioned”).
+
+Before finalizing the answer, internally verify:
+- Every product in the output exists in the Strategies Validation Input.
+- Every product in the output is explicitly supported by a transcript mention linked via rules 2a/2b/2c.
+- No extra product name has been introduced.
+
+--------------------------------------------------
+ANALYSIS CONTEXT
+--------------------------------------------------
+
+- Focus on the client’s investment appetite: willingness, capacity, timing, and conditions to invest.
+- Use ONLY information explicitly stated in the transcript.
+- Do NOT infer, extrapolate, or invent details.
+- Do NOT use external knowledge.
+- Do NOT assume typical characteristics of a strategy/fund.
+- Do NOT include any personal data (RGPD compliance).
+
+Pay special attention to:
+- Client feedback (positive, cautious, critical)
+- Risk perception
+- Concentration concerns
+- Performance comments
+- Internal constraints
+- Competitive mentions
+- Concrete allocation discussions
+
+If a topic is not explicitly mentioned, omit it entirely.
+Do NOT write placeholder statements such as:
+“Not mentioned”, “No data”, “No evidence”, etc.
+
+Focus primarily on what the client says, asks, or expresses.
+Only reference &lt;PERSON_6&gt; representative statements if:
+- They directly answer a client concern, OR
+- They define a concrete agreed action
+
+--------------------------------------------------
+OUTPUT REQUIREMENTS
+--------------------------------------------------
+
+- English only
+- Professional and concise
+- Institutional tone (portfolio managers / institutional sales)
+- Structured headings
+- Bullet points only
+- No free text paragraphs
+- No narrative commentary
+
+--------------------------------------------------
+OUTPUT STRUCTURE
+--------------------------------------------------
+
+1. Key Highlights
+- Topics strongly emphasized by the client
+- Recurrent concerns
+- Priority areas
+- Signals of urgency
+
+2. Client Sentiment &amp; Feedback
+- Overall tone (if clearly observable)
+- Explicit feedback per validated product
+- Questions raised
+- Concerns about performance, volatility, liquidity, ESG, market conditions (only if explicitly mentioned)
+
+3. Opportunities &amp; Challenges &amp; Decisions
+
+For each validated product (use Strategy Name + Strategy Code):
+
+Investment Appetite
+- Willingness (explicit wording only)
+- Capacity (only if explicitly stated)
+- Timing (only if explicitly stated)
+- Conditions required
+- Decision criteria mentioned
+
+Product-Level Signals
+- Explicit positive signals
+- Explicit concerns
+- Hesitations
+
+Competitive Landscape
+- Competitors mentioned (only if explicitly stated)
+- Context of comparison
+
+Barriers
+- Only explicit concerns mentioned
+
+Levers to Unlock Investment
+- Only explicit client conditions or requests
+
+Chance to Win
+- High → clear intent + allocation size + defined timing
+- Medium → conditional interest + due diligence required
+- Low → strong hesitation or blocking elements
+Do NOT overestimate probability.
+
+4. Next Steps
+- Clearly agreed actions only
+- Who sends what
+- Who organizes what
+- Timeline if explicitly stated
+- Decision horizon if explicitly stated
+
+--------------------------------------------------
+DATA
+--------------------------------------------------
+
+&lt;Transcript&gt;
+{!$Flow:PT_GenerateVideoCallTranscript.Prompt}
+&lt;/Transcript&gt;
+
+</content>
+        <generationTemplateConfigs>
+            <generationConfigDeveloperName>einstein_gpt__enUsLanguageStyle</generationConfigDeveloperName>
+        </generationTemplateConfigs>
+        <inputs>
+            <apiName>VideoCall</apiName>
+            <definition>SOBJECT://VideoCall</definition>
+            <masterLabel>VideoCall</masterLabel>
+            <referenceName>Input:VideoCall</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
+        <status>Draft</status>
+        <templateDataProviders>
+            <definition>flow://PT_GenerateVideoCallTranscript</definition>
+            <parameters>
+                <definition>SOBJECT://VideoCall</definition>
+                <isRequired>true</isRequired>
+                <parameterName>VideoCall</parameterName>
+                <valueExpression>{!$Input:VideoCall}</valueExpression>
+            </parameters>
+            <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>flow://PT_RetrieveProducts</definition>
+            <referenceName>Flow:PT_RetrieveProducts</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_13</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

@@ -1,0 +1,1788 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_25</activeVersionIdentifier>
+    <developerName>Correction_Test</developerName>
+    <masterLabel>Typo Assistant Prompt</masterLabel>
+    <templateVersions>
+        <content>You are tasked with identifying and correcting orthographic errors in a given text.
+Do not modify the structure, tone, punctuation, or formatting of the text.
+
+Instructions:
+
+1. Carefully review the text and correct any spelling or orthographic errors.
+2. Leave everything else, including grammar, word choice, tone, structure, and punctuation, unchanged.
+3. Ensure the corrected output matches the original text exactly, except for the corrected spelling errors.
+
+Input Text:
+{!$Input:InputText}
+
+Output Corrected Text:
+
+[Provide the corrected version of the text, preserving everything except spelling corrections.]
+</content>
+        <inputs>
+            <apiName>InputText</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>InputText</masterLabel>
+            <referenceName>Input:InputText</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT35Turbo</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_1</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with identifying and correcting orthographic errors in a given text.
+Do not modify the structure, tone, punctuation, or formatting of the text.
+
+Instructions:
+
+1. Carefully review the text and correct any spelling or orthographic errors.
+2. Leave everything else, including grammar, word choice, tone, structure, and punctuation, unchanged.
+3. Ensure the corrected output matches the original text exactly, except for the corrected spelling errors.
+
+Input Text:
+{!$Input:InputText}
+
+Output Corrected Text:
+
+[Provide the corrected version of the text, preserving everything except spelling corrections.]
+</content>
+        <inputs>
+            <apiName>InputText</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>InputText</masterLabel>
+            <referenceName>Input:InputText</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_2</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with identifying and correcting orthographic errors in a given text.
+
+Do not modify the structure, tone, punctuation, or formatting of the text, except for adding corrections as specified below.
+
+Instructions:
+
+1. Carefully review the text and correct any spelling or orthographic errors.
+2. In the corrected text, highlight the errors by crossing out the incorrect word (using a strikethrough) and providing the corrected word beside it in parentheses (e.g.,  (error)).
+3. Leave everything else, including grammar, word choice, tone, structure, and punctuation, unchanged.
+4. Provide a detailed JSON output that includes:
+
+The corrected text with strikethroughs and corrections in parentheses.
+A list of all identified errors, each showing the incorrect word, corrected word, and its position in the original text.
+The total number of errors detected.
+
+
+Input Text:
+
+{!$Input:InputText}
+
+
+---
+
+Output Format:
+
+Corrected Text:
+
+[Provide the corrected version of the text with strikethroughs and corrections in parentheses.]
+
+JSON Output:
+
+{
+  &quot;corrected_text&quot;: &quot;[Corrected text with errors highlighted as strikethroughs and corrections]&quot;,
+  &quot;errors&quot;: [
+        {
+      &quot;incorrect_word&quot;: &quot;[Incorrect word]&quot;,
+      &quot;corrected_word&quot;: &quot;[Corrected word]&quot;,
+      &quot;position&quot;: &quot;[Position of the incorrect word]&quot;
+    },
+    ...
+  ],
+  &quot;number_of_errors&quot;: [Total number of errors]
+}
+
+
+---
+
+Example:
+
+Input Text:
+
+The year started of in the same vain as markets finished in 2023.
+
+Corrected Text:
+
+The year started of (off) in the same vain (vein) as markets finished in 2023.
+
+JSON Output:
+
+{
+  &quot;corrected_text&quot;: &quot;The year started of (off) in the same vain (vein) as markets finished in 2023.&quot;,
+  &quot;errors&quot;: [
+    {
+      &quot;incorrect_word&quot;: &quot;of&quot;,
+      &quot;corrected_word&quot;: &quot;off&quot;,
+      &quot;position&quot;: 3
+    },
+    {
+      &quot;incorrect_word&quot;: &quot;vain&quot;,
+      &quot;corrected_word&quot;: &quot;vein&quot;,
+      &quot;position&quot;: 7
+    }
+  ],
+  &quot;number_of_errors&quot;: 2
+}
+
+This enhanced prompt ensures that your corrected text includes visible corrections and provides a structured JSON output for further analysis.
+</content>
+        <inputs>
+            <apiName>InputText</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>InputText</masterLabel>
+            <referenceName>Input:InputText</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_3</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with identifying and correcting orthographic errors in a given text.
+
+Do not modify the structure, tone, punctuation, or formatting of the text, except for adding corrections as specified below.
+
+Instructions:
+
+1. Carefully review the text and correct any spelling or orthographic errors.
+2. In the corrected text, highlight the errors by crossing out the incorrect word (using a strikethrough) and providing the corrected word beside it in parentheses (e.g.,  (error)).
+3. Leave everything else, including grammar, word choice, tone, structure, and punctuation, unchanged.
+4. Provide a detailed JSON output that includes:
+
+The corrected text with strikethroughs and corrections in parentheses.
+A list of all identified errors, each showing the incorrect word, corrected word, and its position in the original text.
+The total number of errors detected.
+
+
+Input Text:
+
+{!$Input:InputText}
+
+
+---
+
+Output Format:
+
+{
+  &quot;corrected_text&quot;: &quot;[Corrected text with errors highlighted as strikethroughs and corrections]&quot;,
+  &quot;errors&quot;: [
+        {
+      &quot;incorrect_word&quot;: &quot;[Incorrect word]&quot;,
+      &quot;corrected_word&quot;: &quot;[Corrected word]&quot;,
+      &quot;position&quot;: &quot;[Position of the incorrect word]&quot;
+    },
+    ...
+  ],
+  &quot;number_of_errors&quot;: [Total number of errors]
+}
+
+
+---
+
+Example:
+
+Input Text:
+
+The year started of in the same vain as markets finished in 2023.
+
+
+
+JSON Output:
+
+{
+  &quot;corrected_text&quot;: &quot;The year started of (off) in the same vain (vein) as markets finished in 2023.&quot;,
+  &quot;errors&quot;: [
+    {
+      &quot;incorrect_word&quot;: &quot;of&quot;,
+      &quot;corrected_word&quot;: &quot;off&quot;,
+      &quot;position&quot;: 3
+    },
+    {
+      &quot;incorrect_word&quot;: &quot;vain&quot;,
+      &quot;corrected_word&quot;: &quot;vein&quot;,
+      &quot;position&quot;: 7
+    }
+  ],
+  &quot;number_of_errors&quot;: 2
+}
+
+This enhanced prompt ensures that your corrected text includes visible corrections and provides a structured JSON output for further analysis.
+</content>
+        <inputs>
+            <apiName>InputText</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>InputText</masterLabel>
+            <referenceName>Input:InputText</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_4</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with identifying and correcting orthographic errors in a given text.
+
+Do not modify the structure, tone, punctuation, or formatting of the text, except for adding corrections as specified below.
+
+Instructions:
+
+1. Carefully review the text and correct any spelling or orthographic errors.
+2. In the corrected text, highlight the errors by crossing out the incorrect word (using a strikethrough) and providing the corrected word beside it in parentheses (e.g.,  (error)).
+3. Leave everything else, including grammar, word choice, tone, structure, and punctuation, unchanged.
+4. Provide a detailed JSON output that includes:
+
+The corrected text with strikethroughs and corrections in parentheses.
+A list of all identified errors, each showing the incorrect word, corrected word, and its position in the original text.
+The total number of errors detected.
+
+
+Input Text:
+
+{!$Input:InputText}
+
+
+---
+
+Output Format:
+
+{
+ &quot;corrected_text_with_errors&quot;: &quot;[Corrected text with errors highlighted as strikethroughs and corrections]&quot;,
+ &quot;corrected_text&quot;: &quot;[Corrected text]&quot;,
+  &quot;errors&quot;: [
+        {
+      &quot;incorrect_word&quot;: &quot;[Incorrect word]&quot;,
+      &quot;corrected_word&quot;: &quot;[Corrected word]&quot;,
+      &quot;position&quot;: &quot;[Position of the incorrect word]&quot;
+    },
+    ...
+  ],
+  &quot;number_of_errors&quot;: [Total number of errors]
+}
+
+
+---
+
+Example:
+
+Input Text:
+
+The year started of in the same vain as markets finished in 2023.
+
+
+
+JSON Output:
+
+{
+  &quot;corrected_text&quot;: &quot;The year started of (off) in the same vain (vein) as markets finished in 2023.&quot;,
+  &quot;errors&quot;: [
+    {
+      &quot;incorrect_word&quot;: &quot;of&quot;,
+      &quot;corrected_word&quot;: &quot;off&quot;,
+      &quot;position&quot;: 3
+    },
+    {
+      &quot;incorrect_word&quot;: &quot;vain&quot;,
+      &quot;corrected_word&quot;: &quot;vein&quot;,
+      &quot;position&quot;: 7
+    }
+  ],
+  &quot;number_of_errors&quot;: 2
+}
+
+This enhanced prompt ensures that your corrected text includes visible corrections and provides a structured JSON output for further analysis.
+</content>
+        <inputs>
+            <apiName>InputText</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>InputText</masterLabel>
+            <referenceName>Input:InputText</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_5</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with identifying and correcting orthographic errors in a given text.
+
+Do not modify the structure, tone, punctuation, or formatting of the text, except for adding corrections as specified below.
+
+Instructions:
+
+1. Carefully review the text and correct any spelling or orthographic errors.
+2. In the corrected text, highlight the errors by crossing out the incorrect word (using a strikethrough) and providing the corrected word beside it in parentheses (e.g.,  (error)).
+3. Leave everything else, including grammar, word choice, tone, structure, and punctuation, unchanged.
+4. Provide a detailed JSON output that includes:
+
+The corrected text with strikethroughs and corrections in parentheses.
+A list of all identified errors, each showing the incorrect word, corrected word, and its position in the original text.
+The total number of errors detected.
+
+
+Input Text:
+
+{!$Input:InputText}
+
+
+---
+
+Output Format:
+
+{
+ &quot;corrected_text_with_errors&quot;: &quot;[Corrected text with errors highlighted as strikethroughs and corrections]&quot;,
+ &quot;corrected_text&quot;: &quot;[Corrected text]&quot;,
+  &quot;errors&quot;: [
+        {
+      &quot;incorrect_word&quot;: &quot;[Incorrect word]&quot;,
+      &quot;corrected_word&quot;: &quot;[Corrected word]&quot;,
+      &quot;position&quot;: &quot;[Position of the incorrect word]&quot;
+    },
+    ...
+  ],
+  &quot;number_of_errors&quot;: [Total number of errors]
+}
+
+
+---
+
+Example:
+
+Input Text:
+
+The year started of in the same vain as markets finished in 2023.
+
+
+
+JSON Output:
+
+{
+  &quot;corrected_text&quot;: &quot;The year started of (off) in the same vain (vein) as markets finished in 2023.&quot;,
+  &quot;errors&quot;: [
+    {
+      &quot;incorrect_word&quot;: &quot;of&quot;,
+      &quot;corrected_word&quot;: &quot;off&quot;,
+      &quot;position&quot;: 3
+    },
+    {
+      &quot;incorrect_word&quot;: &quot;vain&quot;,
+      &quot;corrected_word&quot;: &quot;vein&quot;,
+      &quot;position&quot;: 7
+    }
+  ],
+  &quot;number_of_errors&quot;: 2
+}
+</content>
+        <inputs>
+            <apiName>InputText</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>InputText</masterLabel>
+            <referenceName>Input:InputText</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_6</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with identifying and correcting orthographic errors in a given text.
+
+Do not modify the structure, tone, punctuation, or formatting of the text, except for adding corrections as specified below.
+
+Instructions:
+
+1. Carefully review the text and correct any spelling or orthographic errors.
+2. In the corrected text, highlight the errors by crossing out the incorrect word (using a strikethrough) and providing the corrected word beside it in parentheses (e.g.,  (error)).
+3. Leave everything else, including grammar, word choice, tone, structure, and punctuation, unchanged.
+4. Provide a detailed JSON output that includes:
+
+The corrected text with strikethroughs and corrections in parentheses.
+A list of all identified errors, each showing the incorrect word, corrected word, and its position in the original text.
+The total number of errors detected.
+
+
+Input Text:
+
+{!$Input:InputText}
+
+
+---
+
+Output Format:
+[
+{
+ &quot;corrected_text_with_errors&quot;: &quot;[Corrected text with errors highlighted as strikethroughs and corrections]&quot;,
+ &quot;corrected_text&quot;: &quot;[Corrected text]&quot;,
+  &quot;errors&quot;: [
+        {
+      &quot;incorrect_word&quot;: &quot;[Incorrect word]&quot;,
+      &quot;corrected_word&quot;: &quot;[Corrected word]&quot;,
+      &quot;position&quot;: &quot;[Position of the incorrect word]&quot;
+    },
+    ...
+  ],
+  &quot;number_of_errors&quot;: [Total number of errors]
+}
+]
+
+---
+
+Example:
+
+Input Text:
+
+The year started of in the same vain as markets finished in 2023.
+
+
+
+JSON Output:
+
+{
+  &quot;corrected_text&quot;: &quot;The year started of (off) in the same vain (vein) as markets finished in 2023.&quot;,
+  &quot;errors&quot;: [
+    {
+      &quot;incorrect_word&quot;: &quot;of&quot;,
+      &quot;corrected_word&quot;: &quot;off&quot;,
+      &quot;position&quot;: 3
+    },
+    {
+      &quot;incorrect_word&quot;: &quot;vain&quot;,
+      &quot;corrected_word&quot;: &quot;vein&quot;,
+      &quot;position&quot;: 7
+    }
+  ],
+  &quot;number_of_errors&quot;: 2
+}
+</content>
+        <inputs>
+            <apiName>InputText</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>InputText</masterLabel>
+            <referenceName>Input:InputText</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_7</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with identifying and correcting orthographic errors in a given text.
+
+Do not modify the structure, tone, punctuation, or formatting of the text, except for adding corrections as specified below.
+
+Instructions:
+
+1. Carefully review the text and correct any spelling or orthographic errors.
+2. In the corrected text, highlight the errors by crossing out the incorrect word (using a strikethrough) and providing the corrected word beside it in parentheses (e.g.,  (error)).
+3. Leave everything else, including grammar, word choice, tone, structure, and punctuation, unchanged.
+4. Provide a detailed JSON output that includes:
+
+The corrected text with strikethroughs and corrections in parentheses.
+A list of all identified errors, each showing the incorrect word, corrected word, and its position in the original text.
+The total number of errors detected.
+Return only the JSON output without any additional text, commentary, or formatting.
+
+Input Text:
+
+{!$Input:InputText}
+
+
+---
+
+Output Format:
+[
+{
+ &quot;corrected_text_with_errors&quot;: &quot;[Corrected text with errors highlighted as strikethroughs and corrections]&quot;,
+ &quot;corrected_text&quot;: &quot;[Corrected text]&quot;,
+  &quot;errors&quot;: [
+        {
+      &quot;incorrect_word&quot;: &quot;[Incorrect word]&quot;,
+      &quot;corrected_word&quot;: &quot;[Corrected word]&quot;,
+      &quot;position&quot;: &quot;[Position of the incorrect word]&quot;
+    },
+    ...
+  ],
+  &quot;number_of_errors&quot;: [Total number of errors]
+}
+]
+
+---
+
+Example:
+
+Input Text:
+
+The year started of in the same vain as markets finished in 2023.
+
+
+
+JSON Output:
+
+{
+  &quot;corrected_text&quot;: &quot;The year started of (off) in the same vain (vein) as markets finished in 2023.&quot;,
+  &quot;errors&quot;: [
+    {
+      &quot;incorrect_word&quot;: &quot;of&quot;,
+      &quot;corrected_word&quot;: &quot;off&quot;,
+      &quot;position&quot;: 3
+    },
+    {
+      &quot;incorrect_word&quot;: &quot;vain&quot;,
+      &quot;corrected_word&quot;: &quot;vein&quot;,
+      &quot;position&quot;: 7
+    }
+  ],
+  &quot;number_of_errors&quot;: 2
+}
+</content>
+        <inputs>
+            <apiName>InputText</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>InputText</masterLabel>
+            <referenceName>Input:InputText</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_8</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with identifying and correcting orthographic errors in a given text. Return the output as a clean and valid JSON object.
+
+Instructions:
+1. Do not include any special characters like non-breaking spaces or Unicode characters (\u00A0).
+2. Ensure all field names and values are enclosed in double quotes.
+3. Format the JSON response strictly according to the JSON specification.
+
+Input Text: 
+&quot;The year started of in the same vains as market finiched in 2023.&quot;
+
+Output JSON:
+{
+  &quot;corrected_text_with_errors&quot;: &quot;The year started of (off) in the same vains (veins) as market (markets) finiched (finished) in 2023.&quot;,
+  &quot;corrected_text&quot;: &quot;The year started off in the same veins as markets finished in 2023.&quot;,
+  &quot;errors&quot;: [
+    {
+      &quot;incorrect_word&quot;: &quot;of&quot;,
+      &quot;corrected_word&quot;: &quot;off&quot;,
+      &quot;position&quot;: 3
+    },
+    {
+      &quot;incorrect_word&quot;: &quot;vains&quot;,
+      &quot;corrected_word&quot;: &quot;veins&quot;,
+      &quot;position&quot;: 7
+    },
+    {
+      &quot;incorrect_word&quot;: &quot;market&quot;,
+      &quot;corrected_word&quot;: &quot;markets&quot;,
+      &quot;position&quot;: 9
+    },
+    {
+      &quot;incorrect_word&quot;: &quot;finiched&quot;,
+      &quot;corrected_word&quot;: &quot;finished&quot;,
+      &quot;position&quot;: 10
+    }
+  ],
+  &quot;number_of_errors&quot;: 4
+}
+</content>
+        <inputs>
+            <apiName>InputText</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>InputText</masterLabel>
+            <referenceName>Input:InputText</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_9</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with identifying and correcting orthographic errors in a given text.
+
+Do not modify the structure, tone, punctuation, or formatting of the text, except for adding corrections as specified below.
+
+Instructions:
+
+1. Carefully review the text and correct any spelling or orthographic errors.
+2. In the corrected text, highlight the errors by crossing out the incorrect word (using a strikethrough) and providing the corrected word beside it in parentheses (e.g.,  (error)).
+3. Leave everything else, including grammar, word choice, tone, structure, and punctuation, unchanged.
+4. Provide a detailed JSON output that includes:
+5. Do not include any special characters like non-breaking spaces or Unicode characters (\u00A0).
+6. Ensure all field names and values are enclosed in double quotes.
+7. Format the JSON response strictly according to the JSON specification.
+
+The corrected text with strikethroughs and corrections in parentheses.
+
+A list of all identified errors, each showing the incorrect word, corrected word, and its position in the original text.
+The total number of errors detected.
+
+Return only the JSON output without any additional text, commentary, or formatting.
+
+Input Text:
+
+{!$Input:InputText}
+
+
+---
+
+Output Format:
+[
+{
+ &quot;corrected_text_with_errors&quot;: &quot;[Corrected text with errors highlighted as strikethroughs and corrections]&quot;,
+ &quot;corrected_text&quot;: &quot;[Corrected text]&quot;,
+  &quot;errors&quot;: [
+        {
+      &quot;incorrect_word&quot;: &quot;[Incorrect word]&quot;,
+      &quot;corrected_word&quot;: &quot;[Corrected word]&quot;,
+      &quot;position&quot;: &quot;[Position of the incorrect word]&quot;
+    },
+    ...
+  ],
+  &quot;number_of_errors&quot;: [Total number of errors]
+}
+]
+
+---
+
+Example:
+
+Input Text:
+
+The year started of in the same vain as markets finished in 2023.
+
+
+
+JSON Output:
+
+{
+  &quot;corrected_text&quot;: &quot;The year started of (off) in the same vain (vein) as markets finished in 2023.&quot;,
+  &quot;errors&quot;: [
+    {
+      &quot;incorrect_word&quot;: &quot;of&quot;,
+      &quot;corrected_word&quot;: &quot;off&quot;,
+      &quot;position&quot;: 3
+    },
+    {
+      &quot;incorrect_word&quot;: &quot;vain&quot;,
+      &quot;corrected_word&quot;: &quot;vein&quot;,
+      &quot;position&quot;: 7
+    }
+  ],
+  &quot;number_of_errors&quot;: 2
+}
+</content>
+        <inputs>
+            <apiName>InputText</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>InputText</masterLabel>
+            <referenceName>Input:InputText</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_10</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with identifying and correcting orthographic errors in a given text.
+
+Do not modify the structure, tone, punctuation, or formatting of the text, except for adding corrections as specified below.
+
+Instructions:
+
+1. Carefully review the text and correct any spelling or orthographic errors.
+2. In the corrected text, highlight the errors by crossing out the incorrect word (using a strikethrough) and providing the corrected word beside it in parentheses (e.g.,  (error)).
+3. Leave everything else, including grammar, word choice, tone, structure, and punctuation, unchanged.
+4. Provide a detailed JSON output that includes:
+5. Do not include any special characters like non-breaking spaces or Unicode characters (\u00A0).
+6. Ensure all field names and values are enclosed in double quotes.
+7. Format the JSON response strictly according to the JSON specification.
+
+The corrected text with strikethroughs and corrections in parentheses.
+
+A list of all identified errors, each showing the incorrect word, corrected word, and its position in the original text.
+The total number of errors detected.
+
+Return only the JSON output without any additional text, commentary, or formatting.
+
+Input Text:
+
+{!$Input:InputText}
+
+
+---
+
+Output Format:
+[
+{&quot;corrected_text_with_errors&quot;: &quot;[Corrected text with errors highlighted as strikethroughs and corrections]&quot;,&quot;corrected_text&quot;: &quot;[Corrected text]&quot;,
+&quot;errors&quot;: [{
+&quot;incorrect_word&quot;: &quot;[Incorrect word]&quot;,
+&quot;corrected_word&quot;: &quot;[Corrected word]&quot;, 
+&quot;position&quot;: &quot;[Position of the incorrect word]&quot; },
+...
+],
+&quot;number_of_errors&quot;: [Total number of errors]
+}
+]
+
+---
+
+Example:
+
+Input Text:
+
+The year started of in the same vain as markets finished in 2023.
+
+JSON Output:
+
+{
+&quot;corrected_text&quot;: &quot;The year started of (off) in the same vain (vein) as markets finished in 2023.&quot;,
+&quot;errors&quot;: [{
+&quot;incorrect_word&quot;: &quot;of&quot;,
+&quot;corrected_word&quot;: &quot;off&quot;,
+&quot;position&quot;: 3},
+{
+&quot;incorrect_word&quot;: &quot;vain&quot;,
+&quot;corrected_word&quot;: &quot;vein&quot;,
+&quot;position&quot;: 7
+}
+],
+&quot;number_of_errors&quot;: 2
+}
+</content>
+        <inputs>
+            <apiName>InputText</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>InputText</masterLabel>
+            <referenceName>Input:InputText</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_11</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Instructions:
+
+You are tasked with identifying and correcting orthographic errors in a given text.
+Do not modify the structure, tone, punctuation, or formatting of the text, except for adding corrections as specified below.
+
+Instructions:
+1. Carefully review the text and correct any spelling or orthographic errors.
+2. In the corrected text, highlight the errors by crossing out the incorrect word (using a strikethrough HTML tag &lt;del&gt;) and replacing it directly with the corrected word.
+  - Example: &lt;del&gt;error&lt;/del&gt; corrected.
+3. Leave everything else, including grammar, word choice, tone, structure, and punctuation, unchanged.
+4. Provide a detailed JSON output that includes:
+  - **corrected_text_with_errors:** The text with corrections highlighted in HTML.
+  - **corrected_text:** The text fully corrected without strikethroughs or highlights.
+  - **errors:** A list of all identified errors, each showing the incorrect word, corrected word, and its position in the original text.
+  - **number_of_errors:** The total number of errors detected.
+5. Do not include any special characters like non-breaking spaces or Unicode characters (\u00A0).
+6. Ensure all field names and values are enclosed in double quotes.
+7. Format the JSON response strictly according to the JSON specification.
+
+---
+
+Input Text:
+
+{!$Input:InputText}
+
+Output Format:
+{
+ &quot;corrected_text_with_errors&quot;: &quot;[Corrected text with errors highlighted in HTML]&quot;,
+ &quot;corrected_text&quot;: &quot;[Corrected text without errors]&quot;,
+ &quot;errors&quot;: [
+  {
+   &quot;incorrect_word&quot;: &quot;[Incorrect word]&quot;,
+   &quot;corrected_word&quot;: &quot;[Corrected word]&quot;,
+   &quot;position&quot;: &quot;[Position of the incorrect word]&quot;
+  }
+  ...
+ ],
+ &quot;number_of_errors&quot;: [Total number of errors]
+}
+
+---
+
+Example:
+
+Input Text:
+The year started of in the same vain as markets finished in 2023.
+
+JSON Output:
+{
+ &quot;corrected_text_with_errors&quot;: &quot;The year started &lt;del&gt;of&lt;/del&gt; off in the same &lt;del&gt;vain&lt;/del&gt; vein as markets finished in 2023.&quot;,
+ &quot;corrected_text&quot;: &quot;The year started off in the same vein as markets finished in 2023.&quot;,
+ &quot;errors&quot;: [
+  {
+   &quot;incorrect_word&quot;: &quot;of&quot;,
+   &quot;corrected_word&quot;: &quot;off&quot;,
+   &quot;position&quot;: 3
+  },
+  {
+   &quot;incorrect_word&quot;: &quot;vain&quot;,
+   &quot;corrected_word&quot;: &quot;vein&quot;,
+   &quot;position&quot;: 7
+  }
+ ],
+ &quot;number_of_errors&quot;: 2
+}
+
+</content>
+        <inputs>
+            <apiName>InputText</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>InputText</masterLabel>
+            <referenceName>Input:InputText</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_12</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Instructions:
+
+You are tasked with identifying and correcting orthographic errors in a given text.
+Do not modify the structure, tone, punctuation, or formatting of the text, except for adding corrections as specified below.
+
+Instructions:
+1. Carefully review the text and correct any spelling or orthographic errors.
+2. In the corrected text, highlight the errors by crossing out the incorrect word (using a strikethrough HTML tag &lt;del&gt;) and replacing it directly with the corrected word.
+  - Example: &lt;del&gt;error&lt;/del&gt; corrected.
+3. Leave everything else, including grammar, word choice, tone, structure, and punctuation, unchanged.
+4. Provide a detailed JSON output that includes:
+  - **corrected_text_with_errors:** The text with corrections highlighted in HTML.
+  - **corrected_text:** The text fully corrected without strikethroughs or highlights.
+  - **errors:** A list of all identified errors, each showing the incorrect word, corrected word, and its position in the original text.
+  - **number_of_errors:** The total number of errors detected.
+5. Do not include any special characters like non-breaking spaces or Unicode characters (\u00A0).
+6. Ensure all field names and values are enclosed in double quotes.
+7. Format the JSON response strictly according to the JSON specification.
+
+---
+
+Input Text:
+
+{!$Input:InputText}
+
+Output Format:
+{
+&quot;corrected_text_with_errors&quot;: &quot;[Corrected text with errors highlighted in HTML]&quot;,
+&quot;corrected_text&quot;: &quot;[Corrected text without errors]&quot;,
+ &quot;errors&quot;: [
+{
+&quot;incorrect_word&quot;: &quot;[Incorrect word]&quot;,
+&quot;corrected_word&quot;: &quot;[Corrected word]&quot;,
+&quot;position&quot;: &quot;[Position of the incorrect word]&quot;
+}
+...
+],
+&quot;number_of_errors&quot;: [Total number of errors]
+}
+
+---
+
+Example:
+
+Input Text:
+The year started of in the same vain as markets finished in 2023.
+
+JSON Output:
+{
+&quot;corrected_text_with_errors&quot;: &quot;The year started &lt;del&gt;of&lt;/del&gt; off in the same &lt;del&gt;vain&lt;/del&gt; vein as markets finished in 2023.&quot;,
+&quot;corrected_text&quot;: &quot;The year started off in the same vein as markets finished in 2023.&quot;,
+&quot;errors&quot;: [
+{
+&quot;incorrect_word&quot;: &quot;of&quot;,
+&quot;corrected_word&quot;: &quot;off&quot;,
+&quot;position&quot;: 3
+},
+{
+&quot;incorrect_word&quot;: &quot;vain&quot;,
+&quot;corrected_word&quot;: &quot;vein&quot;,
+&quot;position&quot;: 7
+}
+],
+&quot;number_of_errors&quot;: 2
+}
+
+</content>
+        <inputs>
+            <apiName>InputText</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>InputText</masterLabel>
+            <referenceName>Input:InputText</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_13</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with identifying and correcting **orthographic errors** in a given text.
+
+⚠️ **DO NOT modify**:
+- HTML tags or structure.
+- Punctuation, grammar, word choice, or tone.
+- Any formatting (bold, italics, line breaks, bullet points, or links).
+
+🔹 **Correction Rules:**
+1. Identify **only** spelling and orthographic errors.
+2. Highlight corrections using **strikethrough (&lt;del&gt;)**:
+  - Example: `&lt;del&gt;incorect&lt;/del&gt; correct`.
+3. Provide a **structured JSON response** with:
+  - `&quot;corrected_text_with_errors&quot;` → Text with corrections **highlighted using &lt;del&gt;**.
+  - `&quot;corrected_text&quot;` → Fully corrected text (no highlights).
+  - `&quot;errors&quot;` → A list of detected errors, showing:
+   - `&quot;incorrect_word&quot;` → The misspelled word.
+   - `&quot;corrected_word&quot;` → The fixed word.
+   - `&quot;position&quot;` → Index of the incorrect word.
+  - `&quot;number_of_errors&quot;` → Total count of errors.
+
+🔹 **Input Text (with HTML formatting preserved):**
+
+{!$Input:InputText}
+
+🔹 **Output Format (Strict JSON Specification):**
+{
+&quot;corrected_text_with_errors&quot;:&quot;[CorrectedtextwitherrorshighlightedinHTML]&quot;,
+&quot;corrected_text&quot;:&quot;[Correctedtextwithouterrors]&quot;,
+&quot;errors&quot;:[
+{
+&quot;incorrect_word&quot;:&quot;[Incorrectword]&quot;,
+&quot;corrected_word&quot;:&quot;[Correctedword]&quot;,
+&quot;position&quot;:&quot;[Positionoftheincorrectword]&quot;
+}
+...
+],
+&quot;number_of_errors&quot;:[Totalnumberoferrors]
+}
+
+---
+
+### **Example:**
+#### **Input Text (with HTML)**
+
+&lt;p&gt;The &lt;u&gt; year &lt;/u&gt; started of in the same vain as markets finished in 2023.&lt;/p&gt;
+
+
+#### **JSON Output**
+{
+&quot;corrected_text_with_errors&quot;: &quot;&lt;p&gt;The &lt;u&gt; year &lt;/u&gt; started &lt;del&gt;of&lt;/del&gt; off in the same &lt;del&gt;vain&lt;/del&gt; vein as markets finished in 2023.&lt;/p&gt;&quot;,
+&quot;corrected_text&quot;: &quot;&lt;p&gt;The &lt;u&gt; year &lt;/u&gt; started off in the same vein as markets finished in 2023.&lt;/p&gt;&quot;,
+&quot;errors&quot;:[
+{
+&quot;incorrect_word&quot;: &quot;of&quot;,
+&quot;corrected_word&quot;: &quot;off&quot;,
+&quot;position&quot;: 3
+},
+{
+&quot;incorrect_word&quot;: &quot;vain&quot;,
+&quot;corrected_word&quot;: &quot;vein&quot;,
+&quot;position&quot;: 7
+}
+],
+&quot;number_of_errors&quot;: 2
+}
+</content>
+        <inputs>
+            <apiName>InputText</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>InputText</masterLabel>
+            <referenceName>Input:InputText</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_14</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with identifying and correcting only **spelling and orthographic errors** in a given text.
+
+### **⚠️ DO NOT modify:**
+- **HTML tags or structure** (all formatting must remain intact).
+- **Punctuation, grammar, word choice, or tone** (correct only misspellings).
+- **Line breaks, bullet points, links, bold, or italics** (formatting must be preserved).
+
+---
+
+### **🔹 Correction Rules:**
+1. **Only correct spelling and orthographic errors** (do not change meaning or phrasing).
+2. **Highlight corrections using strikethrough (`&lt;del&gt;`)**:
+   - Example: `&lt;del&gt;incorect&lt;/del&gt; correct`.
+3. **Provide a structured JSON response** containing:
+   - `&quot;corrected_text_with_errors&quot;` → Text with **corrections highlighted** using `&lt;del&gt;`.
+   - `&quot;corrected_text&quot;` → Fully **corrected text** without highlights.
+   - `&quot;errors&quot;` → A list of detected errors with:
+     - `&quot;incorrect_word&quot;` → The misspelled word.
+     - `&quot;corrected_word&quot;` → The fixed word.
+     - `&quot;position&quot;` → **Index of the incorrect word in the tokenized text** (zero-based).
+   - `&quot;number_of_errors&quot;` → Total count of errors (**integer**).
+
+---
+
+### **🔹 Input Text (with HTML formatting preserved):**
+`{!$Input:InputText}`
+
+---
+
+### **🔹 Output Format (Strict JSON Specification)**:
+
+{
+  &quot;corrected_text_with_errors&quot;: &quot;[Corrected text with errors highlighted in &lt;del&gt; tags]&quot;,
+  &quot;corrected_text&quot;: &quot;[Corrected text without errors]&quot;,
+  &quot;errors&quot;: [
+    {
+      &quot;incorrect_word&quot;: &quot;[Incorrect word]&quot;,
+      &quot;corrected_word&quot;: &quot;[Corrected word]&quot;,
+      &quot;position&quot;: [Word index in tokenized text]
+    }
+  ],
+  &quot;number_of_errors&quot;: [Total number of errors]
+}
+</content>
+        <inputs>
+            <apiName>InputText</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>InputText</masterLabel>
+            <referenceName>Input:InputText</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_15</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with identifying and correcting only **spelling and orthographic errors** in a given text.
+
+### **⚠️ DO NOT modify:**
+- **HTML tags or structure** (all formatting must remain intact).
+- **Punctuation, grammar, word choice, or tone** (correct only misspellings).
+- **Line breaks, bullet points, links, bold, or italics** (formatting must be preserved).
+
+---
+
+### **🔹 Correction Rules:**
+1. **Only correct spelling and orthographic errors** (do not change meaning or phrasing).
+2. **The response must be in the same language as the input.**  
+   - No translation or language change should occur.
+3. **Highlight corrections using strikethrough (`&lt;del&gt;`)**:
+   - Example: `&lt;del&gt;incorect&lt;/del&gt; correct`.
+4. **Provide a structured JSON response** containing:
+   - `&quot;corrected_text_with_errors&quot;` → Text with **corrections highlighted** using `&lt;del&gt;`.
+   - `&quot;corrected_text&quot;` → Fully **corrected text** without highlights.
+   - `&quot;errors&quot;` → A list of detected errors with:
+     - `&quot;incorrect_word&quot;` → The misspelled word.
+     - `&quot;corrected_word&quot;` → The fixed word.
+     - `&quot;position&quot;` → **Index of the incorrect word in the tokenized text** (zero-based).
+   - `&quot;number_of_errors&quot;` → Total count of errors (**integer**).
+
+---
+
+### **🔹 Input Text (with HTML formatting preserved):**
+`{!$Input:InputText}`
+
+---
+
+### **🔹 Output Format (Strict JSON Specification)**:
+{
+  &quot;corrected_text_with_errors&quot;: &quot;[Corrected text with errors highlighted in &lt;del&gt; tags]&quot;,
+  &quot;corrected_text&quot;: &quot;[Corrected text without errors]&quot;,
+  &quot;errors&quot;: [
+    {
+      &quot;incorrect_word&quot;: &quot;[Incorrect word]&quot;,
+      &quot;corrected_word&quot;: &quot;[Corrected word]&quot;,
+      &quot;position&quot;: [Word index in tokenized text]
+    }
+  ],
+  &quot;number_of_errors&quot;: [Total number of errors]
+}
+```
+
+---
+
+### **🔹 Example:**
+#### **Input Text (with HTML formatting preserved)**
+```html
+&lt;p&gt;The &lt;u&gt; year &lt;/u&gt; started of in the same vain as markets finished in 2023.&lt;/p&gt;
+```
+
+#### **Expected JSON Output**
+{
+  &quot;corrected_text_with_errors&quot;: &quot;&lt;p&gt;The &lt;u&gt; year &lt;/u&gt; started &lt;del&gt;of&lt;/del&gt; off in the same &lt;del&gt;vain&lt;/del&gt; vein as markets finished in 2023.&lt;/p&gt;&quot;,
+  &quot;corrected_text&quot;: &quot;&lt;p&gt;The &lt;u&gt; year &lt;/u&gt; started off in the same vein as markets finished in 2023.&lt;/p&gt;&quot;,
+  &quot;errors&quot;: [
+    {
+      &quot;incorrect_word&quot;: &quot;of&quot;,
+      &quot;corrected_word&quot;: &quot;off&quot;,
+      &quot;position&quot;: 3
+    },
+    {
+      &quot;incorrect_word&quot;: &quot;vain&quot;,
+      &quot;corrected_word&quot;: &quot;vein&quot;,
+      &quot;position&quot;: 7
+    }
+  ],
+  &quot;number_of_errors&quot;: 2
+}
+</content>
+        <inputs>
+            <apiName>InputText</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>InputText</masterLabel>
+            <referenceName>Input:InputText</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_16</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with identifying and correcting only **spelling and orthographic errors** in a given text.
+
+### **⚠️ DO NOT modify:**
+- **HTML tags or structure** (all formatting must remain intact).
+- **Punctuation, grammar, word choice, or tone** (correct only misspellings).
+- **Line breaks, bullet points, links, bold, or italics** (formatting must be preserved).
+
+---
+
+### **🔹 Correction Rules:**
+1. **Only correct spelling and orthographic errors** (do not change meaning or phrasing).
+2. **The response must be in the same language as the input.**  
+   - No translation or language change should occur.
+3. **Highlight corrections using strikethrough (`&lt;del&gt;`)**:
+   - Example: `&lt;del&gt;incorect&lt;/del&gt; correct`.
+4. **Provide a structured JSON response** containing:
+   - `&quot;corrected_text_with_errors&quot;` → Text with **corrections highlighted** using `&lt;del&gt;`.
+   - `&quot;corrected_text&quot;` → Fully **corrected text** without highlights.
+   - `&quot;errors&quot;` → A list of detected errors with:
+     - `&quot;incorrect_word&quot;` → The misspelled word.
+     - `&quot;corrected_word&quot;` → The fixed word.
+     - `&quot;position&quot;` → **Index of the incorrect word in the tokenized text** (zero-based).
+   - `&quot;number_of_errors&quot;` → Total count of errors (**integer**).
+5. Return only the raw JSON without any markdown or code block formatting (no ` or &apos;&apos;&apos; at the start or end).
+---
+
+### **🔹 Input Text (with HTML formatting preserved):**
+`{!$Input:InputText}`
+
+---
+
+### **🔹 Output Format (Strict JSON Specification)**:
+{
+  &quot;corrected_text_with_errors&quot;: &quot;[Corrected text with errors highlighted in &lt;del&gt; tags]&quot;,
+  &quot;corrected_text&quot;: &quot;[Corrected text without errors]&quot;,
+  &quot;errors&quot;: [
+    {
+      &quot;incorrect_word&quot;: &quot;[Incorrect word]&quot;,
+      &quot;corrected_word&quot;: &quot;[Corrected word]&quot;,
+      &quot;position&quot;: [Word index in tokenized text]
+    }
+  ],
+  &quot;number_of_errors&quot;: [Total number of errors]
+}
+```
+
+---
+
+### **🔹 Example:**
+#### **Input Text (with HTML formatting preserved)**
+
+&lt;p&gt;The &lt;u&gt; year &lt;/u&gt; started of in the same vain as markets finished in 2023.&lt;/p&gt;
+
+
+#### **Expected JSON Output**:
+{
+  &quot;corrected_text_with_errors&quot;: &quot;&lt;p&gt;The &lt;u&gt; year &lt;/u&gt; started &lt;del&gt;of&lt;/del&gt; off in the same &lt;del&gt;vain&lt;/del&gt; vein as markets finished in 2023.&lt;/p&gt;&quot;,
+  &quot;corrected_text&quot;: &quot;&lt;p&gt;The &lt;u&gt; year &lt;/u&gt; started off in the same vein as markets finished in 2023.&lt;/p&gt;&quot;,
+  &quot;errors&quot;: [
+    {
+      &quot;incorrect_word&quot;: &quot;of&quot;,
+      &quot;corrected_word&quot;: &quot;off&quot;,
+      &quot;position&quot;: 3
+    },
+    {
+      &quot;incorrect_word&quot;: &quot;vain&quot;,
+      &quot;corrected_word&quot;: &quot;vein&quot;,
+      &quot;position&quot;: 7
+    }
+  ],
+  &quot;number_of_errors&quot;: 2
+}
+</content>
+        <inputs>
+            <apiName>InputText</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>InputText</masterLabel>
+            <referenceName>Input:InputText</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_17</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with identifying and correcting only spelling and orthographic errors in a given text.
+
+Y DO NOT modify:
+
+HTML tags, hierarchy, nesting, or structure in any way.
+
+Existing tag attributes such as style, class, id, etc.
+
+Line breaks, bullet points, links, bold, or italics (all formatting must remain intact).
+
+Punctuation, grammar, word choice, or tone (correct only misspellings).
+
+
+o Avoid triggering Microsoft Word rendering issues:
+
+Do not insert or modify style attributes (e.g., avoid changes to font-size, background-color, etc.).
+
+Do not add new &lt;span&gt;, &lt;strong&gt;, or other inline tags.
+
+Do not insert empty tags or content like &amp;nbsp;.
+
+
+
+---
+
+u Correction Rules:
+
+1. Only correct spelling and orthographic errors (do not change meaning or phrasing).
+
+
+2. The response must be in the same language as the input.
+
+No translation or language change should occur.
+
+
+
+3. Highlight corrections using strikethrough (&lt;del&gt;):
+
+Example: &lt;del&gt;incorect&lt;/del&gt; correct
+
+
+
+4. Provide a structured JSON response containing:
+
+&quot;corrected_text_with_errors&quot; → Text with corrections highlighted using &lt;del&gt;.
+
+&quot;corrected_text&quot; → Fully corrected text without highlights.
+
+&quot;errors&quot; → A list of detected errors with:
+
+&quot;incorrect_word&quot; → The misspelled word.
+
+&quot;corrected_word&quot; → The fixed word.
+
+&quot;position&quot; → Index of the incorrect word in the tokenized text (zero-based).
+
+
+&quot;number_of_errors&quot; → Total count of errors (integer).
+
+
+
+5. Return only the raw JSON without any markdown or code block formatting (no ` or &apos;&apos;&apos; at the start or end).
+
+
+
+
+---
+
+  Input Text (with HTML formatting preserved):
+
+{!$Input:InputText}
+
+
+---
+
+a Output Format (Strict JSON Specification):
+
+{ &quot;corrected_text_with_errors&quot;: &quot;[Corrected text with errors highlighted in &lt;del&gt; tags]&quot;, &quot;corrected_text&quot;: &quot;[Corrected text without errors]&quot;, &quot;errors&quot;: [ { &quot;incorrect_word&quot;: &quot;[Incorrect word]&quot;, &quot;corrected_word&quot;: &quot;[Corrected word]&quot;, &quot;position&quot;: [Word index in tokenized text] } ], &quot;number_of_errors&quot;: [Total number of errors] }
+</content>
+        <inputs>
+            <apiName>InputText</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>InputText</masterLabel>
+            <referenceName>Input:InputText</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_18</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with identifying and correcting all spelling, orthographic, and grammatical errors in a given text, regardless of its language. This includes errors in subject-verb agreement, gender agreement, number agreement (e.g., plural/singular), and verb conjugation. You must correct incorrect adjective or noun forms that do not match the grammatical context (such as plural adjectives after plural nouns).
+
+HTML formatting must be preserved:
+- Do not alter or remove existing HTML tags, their attributes (style, class, id), or nesting structure.
+- Do not modify or add any inline styles or elements (e.g., &lt;span&gt;, &lt;strong&gt;, &amp;nbsp;).
+- Do not change line breaks, links, lists, bold, or italic formatting.
+
+Punctuation should only be changed if it is clearly incorrect.
+
+Do NOT rephrase or change the meaning or tone of any sentence.
+
+Expected Output:
+1. Correct all spelling and grammar errors (including agreement).
+2. Highlight incorrect words using &lt;del&gt;, followed by the corrected word (e.g., &lt;del&gt;sympathique&lt;/del&gt; sympathiques).
+3. Return a structured JSON with the following fields:
+{
+ &quot;corrected_text_with_errors&quot;: &quot;[Text with corrections highlighted using &lt;del&gt;]&quot;,
+ &quot;corrected_text&quot;: &quot;[Clean corrected version]&quot;,
+ &quot;errors&quot;: [
+  {
+   &quot;incorrect_word&quot;: &quot;[Incorrect word]&quot;,
+   &quot;corrected_word&quot;: &quot;[Corrected word]&quot;,
+   &quot;position&quot;: [Index of incorrect word in tokenized text]
+  }
+ ],
+ &quot;number_of_errors&quot;: [Total count]
+}
+
+Only return raw JSON. No markdown or formatting syntax (` or ```).
+
+---
+Input Text (HTML preserved):
+{!$Input:InputText}
+---
+Output Format:
+{ &quot;corrected_text_with_errors&quot;: &quot;...&quot;, &quot;corrected_text&quot;: &quot;...&quot;, &quot;errors&quot;: [...], &quot;number_of_errors&quot;: ... }
+
+</content>
+        <inputs>
+            <apiName>InputText</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>InputText</masterLabel>
+            <referenceName>Input:InputText</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_19</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with identifying and correcting all spelling, orthographic, and grammatical errors in a given text, regardless of its language. This includes errors in subject-verb agreement, gender agreement, number agreement (e.g., plural/singular), and verb conjugation. You must correct incorrect adjective or noun forms that do not match the grammatical context (such as plural adjectives after plural nouns).
+
+HTML formatting must be preserved:
+- Do not alter or remove existing HTML tags, their attributes (style, class, id), or nesting structure.
+- Do not modify or add any inline styles or elements (e.g., &lt;span&gt;, &lt;strong&gt;, &amp;nbsp;).
+- Do not change line breaks, links, lists, bold, or italic formatting.
+
+Punctuation should only be changed if it is clearly incorrect.
+
+Do NOT rephrase or change the meaning or tone of any sentence.
+
+Expected Output:
+1. Correct all spelling and grammar errors (including agreement).
+2. Highlight incorrect words using &lt;del&gt;, followed by the corrected word (e.g., &lt;del&gt;sympathique&lt;/del&gt; sympathiques).
+3. Return a structured JSON with the following fields:
+{
+ &quot;corrected_text_with_errors&quot;: &quot;[Text with corrections highlighted using &lt;del&gt;]&quot;,
+ &quot;corrected_text&quot;: &quot;[Clean corrected version]&quot;,
+ &quot;errors&quot;: [
+  {
+   &quot;incorrect_word&quot;: &quot;[Incorrect word]&quot;,
+   &quot;corrected_word&quot;: &quot;[Corrected word]&quot;,
+   &quot;position&quot;: [Index of incorrect word in tokenized text]
+  }
+ ],
+ &quot;number_of_errors&quot;: [Total count]
+}
+
+Only return raw JSON. No markdown or formatting syntax (` or ```).
+
+---
+Input Text (HTML preserved):
+{!$Input:InputText}
+---
+Output Format:
+{ &quot;corrected_text_with_errors&quot;: &quot;...&quot;, &quot;corrected_text&quot;: &quot;...&quot;, &quot;errors&quot;: [...], &quot;number_of_errors&quot;: ... }
+
+</content>
+        <inputs>
+            <apiName>InputText</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>InputText</masterLabel>
+            <referenceName>Input:InputText</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_21</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with identifying and correcting all spelling, orthographic, grammatical, and typographic punctuation and number formatting errors in a given text, regardless of its language.
+
+Your corrections must include:
+- Subject-verb agreement
+- Gender and number agreement
+- Correct word forms and verb conjugation
+- Language-specific typographic rules (spacing, quotation marks, punctuation)
+- Language-specific number formatting (decimal and thousand separators, symbol placement)
+
+Detect the input language automatically and apply its rules precisely.
+
+---
+
+TYPOGRAPHIC RULES TO FOLLOW PER LANGUAGE:
+
+**FRENCH**
+- Non-breaking space before: ; ! ?
+- Non-breaking space after « and before »
+- Use « » for quotations
+- Non-breaking space before % and after €
+- Numbers: decimal = comma (1,5), thousand = thin space (1 000)
+
+**ENGLISH**
+- No space before: ; ! ?
+- Use “ ” or ‘ ’ for quotations (no surrounding space)
+- % and $ stick to the number (10%, $10)
+- Numbers: decimal = point (1.5), thousand = comma (1,000)
+
+**GERMAN**
+- No space before: ; ! ?
+- Use „Text“ or »Text« (no surrounding space)
+- No space before %, space after €
+- Numbers: decimal = comma (1,5), thousand = period or space (1.000 or 1 000)
+
+**SPANISH**
+- No space before: ; ! ?
+- Use «texto» or “texto” for quotes (no surrounding space)
+- Use opening marks ¿ and ¡
+- No space before %, space after €
+- Numbers: decimal = comma (1,5), thousand = period or space (1.000 or 1 000)
+
+**ITALIAN**
+- No space before: ; ! ?
+- Use «testo» or “testo” (no surrounding space)
+- No space before %, space after €
+- Numbers: decimal = comma (1,5), thousand = period or space
+
+**DUTCH**
+- No space before: ; ! ?
+- Use „tekst” (no surrounding space)
+- No space before %, space after €
+- Numbers: decimal = comma (1,5), thousand = period or space
+
+---
+
+DO NOT:
+- Modify or remove any HTML tags, attributes (style, class, id), or their nesting.
+- Change formatting: line breaks, bullet points, bold, italic, links must remain intact.
+- Insert new inline elements like &lt;span&gt;, &lt;strong&gt; or &amp;nbsp;
+- Rephrase the text or alter its tone or meaning.
+
+Only correct errors. Punctuation or number format should only be changed if it violates the rules above.
+
+---
+
+OUTPUT INSTRUCTIONS
+
+1. Apply all corrections: spelling, grammar, agreement, typographic punctuation, number formatting.
+2. Highlight incorrect words or expressions using &lt;del&gt; followed by the correction. Example: &lt;del&gt;sympathique&lt;/del&gt; sympathiques.
+3. Return a strict JSON structure:
+{
+ &quot;corrected_text_with_errors&quot;: &quot;[Text with &lt;del&gt; tags]&quot;,
+ &quot;corrected_text&quot;: &quot;[Clean corrected version]&quot;,
+ &quot;errors&quot;: [
+  {
+   &quot;incorrect_word&quot;: &quot;[Incorrect word or punctuation or number format]&quot;,
+   &quot;corrected_word&quot;: &quot;[Corrected version]&quot;,
+   &quot;position&quot;: [Index of incorrect token in tokenized text]
+  }
+ ],
+ &quot;number_of_errors&quot;: [Total count]
+}
+
+⚠️ Return raw JSON only. Do NOT use markdown or code block formatting (` or ```).
+
+---
+Input Text (HTML formatting preserved):
+{!$Input:InputText}
+---
+Output Format (Strict JSON Specification):
+{ &quot;corrected_text_with_errors&quot;: &quot;...&quot;, &quot;corrected_text&quot;: &quot;...&quot;, &quot;errors&quot;: [...], &quot;number_of_errors&quot;: ... }
+
+</content>
+        <inputs>
+            <apiName>InputText</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>InputText</masterLabel>
+            <referenceName>Input:InputText</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_22</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with identifying and correcting all spelling, orthographic, grammatical, and typographic punctuation and number formatting errors in a given text. You must automatically detect the language of the input and apply the corresponding correction rules without altering the meaning or tone of the text.
+
+---
+
+DO NOT modify:
+- HTML tags, hierarchy, nesting, or structure in any way.
+- Existing tag attributes such as style, class, id, etc.
+- Line breaks, bullet points, links, bold, or italics (all formatting must remain intact).
+
+---
+
+Avoid triggering Microsoft Word rendering issues:
+- Do not insert or modify style attributes (e.g., avoid changes to font-size, background-color, etc.).
+- Do not add new &lt;span&gt;, &lt;strong&gt;, or other inline tags.
+- Do not insert empty tags or content like &amp;nbsp;.
+
+---
+
+Correction Rules:
+
+1. Correct all spelling, orthographic, grammatical (e.g., verb tense, subject-verb agreement, gender/number agreement), and typographic punctuation or number formatting errors.
+2. Do not change the meaning, tone, or phrasing beyond necessary corrections.
+3. The response must remain in the same language as the input. No translation or language change is allowed.
+4. Apply the following **language-specific punctuation and formatting rules**:
+
+**French**
+- Add non-breaking space before: ; ! ?
+- Add non-breaking space after « and before »
+- Use « » for quotations
+- Add non-breaking space before % and after € (e.g., 10 €, 10 %)
+- Numbers: decimal = comma (1,5), thousand = thin space (1 000)
+
+**English**
+- No space before ; ! ?
+- Use “ ” or ‘ ’ for quotes, without surrounding space
+- % and $ must be adjacent to the number (e.g., 10%, $10)
+- Numbers: decimal = point (1.5), thousand = comma (1,000)
+
+**German**
+- No space before ; ! ?
+- Use „Text“ or »Text« without surrounding space
+- No space before %, space after € (e.g., 10%, 10 €)
+- Numbers: decimal = comma (1,5), thousand = period or space (1.000 or 1 000)
+
+**Spanish**
+- No space before ; ! ?
+- Use «texto» or “texto” without surrounding space
+- Use opening punctuation: ¿ and ¡
+- No space before %, space after €
+- Numbers: decimal = comma (1,5), thousand = period or space
+
+**Italian**
+- No space before ; ! ?
+- Use «testo» or “testo” without surrounding space
+- No space before %, space after €
+- Numbers: decimal = comma (1,5), thousand = period or space
+
+**Dutch**
+- No space before ; ! ?
+- Use „tekst” without surrounding space
+- No space before %, space after €
+- Numbers: decimal = comma (1,5), thousand = period or space
+
+---
+
+Highlight each correction using strikethrough tags &lt;del&gt; around the incorrect word or punctuation. Example: &lt;del&gt;incorect&lt;/del&gt; correct
+
+---
+
+Provide the result as a structured JSON response containing the following fields:
+{
+ &quot;corrected_text_with_errors&quot;: &quot;[Corrected text with &lt;del&gt; tags]&quot;,
+ &quot;corrected_text&quot;: &quot;[Clean corrected version]&quot;,
+ &quot;errors&quot;: [
+  {
+   &quot;incorrect_word&quot;: &quot;[Incorrect word or punctuation]&quot;,
+   &quot;corrected_word&quot;: &quot;[Corrected word or punctuation]&quot;,
+   &quot;position&quot;: [Index of the incorrect token in the tokenized text]
+  }
+ ],
+ &quot;number_of_errors&quot;: [Total number of errors]
+}
+
+---
+
+Return only the raw JSON output. Do not include markdown or code block formatting (no ` or ```).
+
+---
+
+Input Text (with HTML formatting preserved):
+{!$Input:InputText}
+
+---
+
+Output Format (Strict JSON Specification):
+{ &quot;corrected_text_with_errors&quot;: &quot;...&quot;, &quot;corrected_text&quot;: &quot;...&quot;, &quot;errors&quot;: [...], &quot;number_of_errors&quot;: ... }
+
+</content>
+        <inputs>
+            <apiName>InputText</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>InputText</masterLabel>
+            <referenceName>Input:InputText</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_23</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with identifying and correcting all spelling, orthographic, grammatical, and typographic punctuation and number formatting errors in a given text. You must automatically detect the language of the input and apply the corresponding correction rules without altering the meaning or tone of the text.
+
+---
+
+DO NOT modify:
+- HTML tags, hierarchy, nesting, or structure in any way.
+- Existing tag attributes such as style, class, id, etc.
+- Line breaks, bullet points, links, bold, or italics (all formatting must remain intact).
+
+---
+
+Avoid triggering Microsoft Word rendering issues:
+- Do not insert or modify style attributes (e.g., avoid changes to font-size, background-color, etc.).
+- Do not add new &lt;span&gt;, &lt;strong&gt;, or other inline tags.
+- Do not insert empty tags or content like &amp;nbsp;.
+
+---
+
+Correction Rules:
+
+1. Correct all spelling, orthographic, grammatical (e.g., verb tense, subject-verb agreement, gender/number agreement), and typographic punctuation or number formatting errors.
+2. Do not change the meaning, tone, or phrasing beyond necessary corrections.
+3. The response must remain in the same language as the input. No translation or language change is allowed.
+4. Highlight each correction using strikethrough tags &lt;del&gt; around the incorrect word or punctuation. Example: &lt;del&gt;incorect&lt;/del&gt; correct
+5. Provide a structured JSON response containing: &quot;corrected_text_with_errors&quot; → Text with corrections highlighted using &lt;del&gt;. &quot;corrected_text&quot; → Fully corrected text without highlights. &quot;errors&quot; → A list of detected errors with: &quot;incorrect_word&quot; → The misspelled word. &quot;corrected_word&quot; → The fixed word. &quot;position&quot; → Index of the incorrect word in the tokenized text (zero-based). &quot;number_of_errors&quot; → Total count of errors (integer).
+6. Return only the raw JSON without any markdown or code block formatting (no  or &apos;&apos;&apos; at the start or end)
+
+---
+
+Input Text (with HTML formatting preserved):
+{!$Input:InputText}
+
+---
+
+Output Format (Strict JSON Specification):
+{ &quot;corrected_text_with_errors&quot;: &quot;[Corrected text with errors highlighted in &lt;del&gt; tags]&quot;, &quot;corrected_text&quot;: &quot;[Corrected text without errors]&quot;, &quot;errors&quot;: [ { &quot;incorrect_word&quot;: &quot;[Incorrect word]&quot;, &quot;corrected_word&quot;: &quot;[Corrected word]&quot;, &quot;position&quot;: [Word index in tokenized text] } ], &quot;number_of_errors&quot;: [Total number of errors] }
+
+</content>
+        <inputs>
+            <apiName>InputText</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>InputText</masterLabel>
+            <referenceName>Input:InputText</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_24</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are tasked with identifying and correcting all spelling, orthographic, grammatical, and typographic punctuation and number formatting errors in a given text. You must automatically detect the language of the input and apply the corresponding correction rules without altering the meaning or tone of the text.
+
+---
+
+DO NOT modify:
+- HTML tags, hierarchy, nesting, or structure in any way.
+- Existing tag attributes such as style, class, id, etc.
+- Line breaks, bullet points, links, bold, or italics (all formatting must remain intact).
+
+---
+
+Avoid triggering Microsoft Word rendering issues:
+- Do not insert or modify style attributes (e.g., avoid changes to font-size, background-color, etc.).
+- Do not add new &lt;span&gt;, &lt;strong&gt;, or other inline tags.
+- Do not insert empty tags or content like &amp;nbsp;.
+
+---
+
+Correction Rules:
+
+1. Correct all spelling, orthographic, grammatical (e.g., verb tense, subject-verb agreement, gender/number agreement), and typographic punctuation or number formatting errors.
+2. Do not change the meaning, tone, or phrasing beyond necessary corrections.
+3. The response must remain in the same language as the input. No translation or language change is allowed.
+4. Apply the following **language-specific punctuation and formatting rules**:
+
+**French**
+- Add non-breaking space before: ; ! ?
+- Add non-breaking space after « and before »
+- Use « » for quotations
+- Add non-breaking space before % and after € (e.g., 10 €, 10 %)
+- Numbers: decimal = comma (1,5), thousand = thin space (1 000)
+
+**English**
+- No space before ; ! ?
+- Use “ ” or ‘ ’ for quotes, without surrounding space
+- % and $ must be adjacent to the number (e.g., 10%, $10)
+- Numbers: decimal = point (1.5), thousand = comma (1,000)
+
+**German**
+- No space before ; ! ?
+- Use „Text“ or »Text« without surrounding space
+- No space before %, space after € (e.g., 10%, 10 €)
+- Numbers: decimal = comma (1,5), thousand = period or space (1.000 or 1 000)
+
+**Spanish**
+- No space before ; ! ?
+- Use «texto» or “texto” without surrounding space
+- Use opening punctuation: ¿ and ¡
+- No space before %, space after €
+- Numbers: decimal = comma (1,5), thousand = period or space
+
+**Italian**
+- No space before ; ! ?
+- Use «testo» or “testo” without surrounding space
+- No space before %, space after €
+- Numbers: decimal = comma (1,5), thousand = period or space
+
+**Dutch**
+- No space before ; ! ?
+- Use „tekst” without surrounding space
+- No space before %, space after €
+- Numbers: decimal = comma (1,5), thousand = period or space
+
+5. Highlight each correction using strikethrough tags &lt;del&gt; around the incorrect word or punctuation. Example: &lt;del&gt;incorect&lt;/del&gt; correct
+6. Provide the result as a structured JSON response containing the following fields: &quot;corrected_text_with_errors&quot; → Text with corrections highlighted using &lt;del&gt;. &quot;corrected_text&quot; → Fully corrected text without highlights. &quot;errors&quot; → A list of detected errors with: &quot;incorrect_word&quot; → The misspelled word. &quot;corrected_word&quot; → The fixed word. &quot;position&quot; → Index of the incorrect word in the tokenized text (zero-based). &quot;number_of_errors&quot; → Total count of errors (integer).
+
+7. Return only the raw JSON without any markdown or code block formatting (no  or &apos;&apos;&apos; at the start or end).
+
+---
+
+Input Text (with HTML formatting preserved):
+{!$Input:InputText}
+
+---
+
+Output Format (Strict JSON Specification):
+{ &quot;corrected_text_with_errors&quot;: &quot;[Corrected text with errors highlighted in &lt;del&gt; tags]&quot;, &quot;corrected_text&quot;: &quot;[Corrected text without errors]&quot;, &quot;errors&quot;: [ { &quot;incorrect_word&quot;: &quot;[Incorrect word]&quot;, &quot;corrected_word&quot;: &quot;[Corrected word]&quot;, &quot;position&quot;: [Word index in tokenized text] } ], &quot;number_of_errors&quot;: [Total number of errors] }
+
+
+
+</content>
+        <inputs>
+            <apiName>InputText</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>InputText</masterLabel>
+            <referenceName>Input:InputText</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_25</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

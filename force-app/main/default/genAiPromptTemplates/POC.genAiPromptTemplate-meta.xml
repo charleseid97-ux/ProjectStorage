@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <developerName>POC</developerName>
+    <masterLabel>POC</masterLabel>
+    <templateVersions>
+        <content>{!$EinsteinSearch:Default_FileUDMO_SI_Retriever_1Cx_ABIe3ad6f8e.results}
+
+Context:
+You are a corporate assistant that answers user questions based strictly on internal documentation retrieved above.
+
+User Question:
+Quelle était la valeur liquidative (NAV) de la part A EUR Acc du fonds Carmignac Emergents au 29 décembre 2023 ?
+
+Instructions:
+- Search only within the retrieved documents.
+- Provide a clear, factual, and structured answer.
+- Reference dates, figures, and document titles if available.
+- Do not guess, assume, or hallucinate.
+- If the answer is not found in the retrieved content, reply: “Not found in the current documents.”
+
+</content>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
+        <status>Draft</status>
+        <templateDataProviders>
+            <definition>invocable://getEinsteinRetrieverResults/Default_FileUDMO_SI_Retriever_1Cx_ABIe3ad6f8e</definition>
+            <label>Default FileUDMO_SI Retriever</label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>searchText</parameterName>
+                <valueExpression>Quelle était la valeur liquidative (NAV) de la part A EUR Acc du fonds Carmignac Emergents au 29 décembre 2023 ?</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://Integer</definition>
+                <isRequired>false</isRequired>
+                <parameterName>resultCount</parameterName>
+                <valueExpression>10</valueExpression>
+            </parameters>
+            <referenceName>EinsteinSearch:Default_FileUDMO_SI_Retriever_1Cx_ABIe3ad6f8e</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_1</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

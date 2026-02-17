@@ -1,0 +1,1055 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_11</activeVersionIdentifier>
+    <developerName>Product_Overview_Positive</developerName>
+    <masterLabel>Product Overview - Positive</masterLabel>
+    <templateVersions>
+        <content>Data: 
+
+{!$Flow:Positive_Meeting_Notes_Collection.Prompt}
+
+**Context:**  
+You are tasked with analyzing the positive customer meeting notes regarding our company’s products.  
+These meeting notes contain textual comments on the positive aspects of the products and customer perception ratings (1-5).  
+
+**Objective:**  
+The goal is to identify and rank key positive themes for each product, providing valuable insights to the sales team.  
+This will help refine sales strategies and inform future business planning by emphasizing product strengths.  
+
+**Instructions:**  
+
+**Reading the Notes:**  
+1. Carefully review the provided customer meeting notes with positive sentiment.  
+2. Identify the covered period by noting the oldest and most recent dates in the meeting notes: Period: [{oldest_meeting_date} - {most_recent_meeting_date}]  
+
+**Identifying Themes:**  
+1. Summarize the main positive points for each product.  
+2. Rank these themes in descending order of occurrence.  
+3. For each theme, provide the following:  
+  - A concise description of the theme in 200 characters.  
+  - An example comment that illustrates the theme, including the meeting note record reference or link.  
+  - The number of occurrences of this theme in the notes.  
+
+**Structuring the Results:**  
+1. List the top 5 recurring themes.  
+
+**Sales Strategy Insights:**  
+1. Suggest concrete actions the sales team can take to leverage the positive feedback.  
+2. Highlight the product strengths that should be emphasized in sales pitches.  
+
+**Output Format:**  
+(Ensure all parts from Start Format to End Format are fully completed.)  
+
+```
+Product: &lt;b&gt;[Product Name]&lt;b&gt;  
+Period: &lt;b&gt;[oldest meeting date - most recent meeting date]&lt;b&gt;  
+The number of Client Interest for this product during the period: &lt;b&gt;[number]&lt;b&gt;  
+Average Score for the product on the period: &lt;b&gt;[Average Score of the product]&lt;b&gt;  
+
+&lt;b&gt;Positive Points&lt;b&gt;:  
+#1 - Percentage% (number meeting notes) - [Main Positive Theme 1]  
+Concise description in 200 characters of positive comments on this theme.  
+Example of customer comment: &quot;[Most relevant and/or most recent verbatim related to this theme]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;  
+
+#2 - [Repeat format for additional points up to #5]  
+
+&lt;b&gt;Sales Strategy Insights&lt;b&gt;:  
+- Summarize key actions for the sales team to leverage the positive feedback.  
+- Highlight product strengths that should be emphasized.  
+```
+
+</content>
+        <inputs>
+            <apiName>Product_Id</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Product Id</masterLabel>
+            <referenceName>Input:Product_Id</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Last_x_Months</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Last x Months</masterLabel>
+            <referenceName>Input:Last_x_Months</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Positive_Meeting_Notes_Collection</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Product_Id</parameterName>
+                <valueExpression>{!$Input:Product_Id}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Positive_Meeting_Notes_Collection</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_1</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Data: 
+
+{!$Flow:Positive_Meeting_Notes_Collection.Prompt}
+
+**Context:**  
+You are tasked with analyzing the positive customer meeting notes regarding our company’s products.  
+These meeting notes contain textual comments on the positive aspects of the products and customer perception ratings (1-5).  
+
+**Objective:**  
+The goal is to identify and rank key positive themes for each product, providing valuable insights to the sales team.  
+This will help refine sales strategies and inform future business planning by emphasizing product strengths.  
+
+**Instructions:**  
+
+**Reading the Notes:**  
+1. Carefully review the provided customer meeting notes with positive sentiment.  
+2. Identify the covered period by noting the oldest and most recent dates in the meeting notes: Period: [{oldest_meeting_date} - {most_recent_meeting_date}]  
+
+**Identifying Themes:**  
+1. Summarize the main positive points for each product.  
+2. Rank these themes in descending order of occurrence.  
+3. For each theme, provide the following:  
+  - A concise description of the theme in 200 characters.  
+  - An example comment that illustrates the theme, including the meeting note record reference or link.  
+  - The number of occurrences of this theme in the notes.  
+
+**Structuring the Results:**  
+1. List the top 5 recurring themes.  
+
+**Sales Strategy Insights:**  
+1. Suggest concrete actions the sales team can take to leverage the positive feedback.  
+2. Highlight the product strengths that should be emphasized in sales pitches.  
+
+**Output Format:**  
+(Ensure all parts from Start Format to End Format are fully completed.)  
+
+```
+Product: &lt;b&gt;[Product Name]&lt;b&gt;  
+Period: &lt;b&gt;[oldest meeting date - most recent meeting date]&lt;b&gt;  
+The number of Client Interest for this product during the period: &lt;b&gt;[number]&lt;b&gt;  
+Average Score for the product on the period: &lt;b&gt;[Average Score of the product]&lt;b&gt;  
+
+&lt;b&gt;Positive Points&lt;b&gt;:  
+#1 - Percentage% (number meeting notes) - [Main Positive Theme 1]  
+Concise description in 200 characters of positive comments on this theme.  
+Example of customer comment: &quot;[Most relevant and/or most recent verbatim related to this theme]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;  
+
+#2 - [Repeat format for additional points up to #5]  
+
+&lt;b&gt;Sales Strategy Insights&lt;b&gt;:  
+- Summarize key actions for the sales team to leverage the positive feedback.  
+- Highlight product strengths that should be emphasized.  
+```
+
+</content>
+        <inputs>
+            <apiName>Product_Id</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Product Id</masterLabel>
+            <referenceName>Input:Product_Id</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Last_x_Months</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Last x Months</masterLabel>
+            <referenceName>Input:Last_x_Months</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Positive_Meeting_Notes_Collection</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Last_x_Months</parameterName>
+                <valueExpression>{!$Input:Last_x_Months}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Product_Id</parameterName>
+                <valueExpression>{!$Input:Product_Id}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Positive_Meeting_Notes_Collection</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_2</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Data: 
+
+{!$Flow:Positive_Meeting_Notes_Collection.Prompt}
+
+**Context:**  
+You are tasked with analyzing the positive customer meeting notes regarding our company’s products.  
+These meeting notes contain textual comments on the positive aspects of the products and customer perception ratings (1-5).  
+
+**Objective:**  
+The goal is to identify and rank key positive themes for each product, providing valuable insights to the sales team.  
+This will help refine sales strategies and inform future business planning by emphasizing product strengths.  
+
+**Instructions:**  
+
+**Reading the Notes:**  
+1. Carefully review the provided customer meeting notes with positive sentiment.  
+2. Identify the covered period by noting the oldest and most recent dates in the meeting notes: Period: [{oldest_meeting_date} - {most_recent_meeting_date}]  
+
+**Identifying Themes:**  
+1. Summarize the main positive points for each product.  
+2. Rank these themes in descending order of occurrence.  
+3. For each theme, provide the following:  
+  - A concise description of the theme in 200 characters.  
+  - An example comment that illustrates the theme, including the meeting note record reference or link.  
+  - The number of occurrences of this theme in the notes.  
+
+**Structuring the Results:**  
+1. List the top 5 recurring themes.  
+
+**Sales Strategy Insights:**  
+1. Suggest concrete actions the sales team can take to leverage the positive feedback.  
+2. Highlight the product strengths that should be emphasized in sales pitches.  
+
+**Output Format:**  
+(Ensure all parts from Start Format to End Format are fully completed.)  
+
+```
+Product: &lt;b&gt;[Product Name]&lt;b&gt;  
+Period: &lt;b&gt;[oldest meeting date - most recent meeting date]&lt;b&gt;  
+The number of Client Interest for this product during the period: &lt;b&gt;[number]&lt;b&gt;  
+Average Score for the product on the period: &lt;b&gt;[Average Score of the product]&lt;b&gt;  
+
+&lt;b&gt;Positive Points&lt;b&gt;:  
+#1 - Percentage% (number meeting notes) - [Main Positive Theme 1]  
+Concise description in 200 characters of positive comments on this theme.  
+Example of customer comment: &quot;[Most relevant and/or most recent verbatim related to this theme]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;  
+
+#2 - [Repeat format for additional points up to #5]  
+
+&lt;b&gt;Sales Strategy Insights&lt;b&gt;:  
+- Summarize key actions for the sales team to leverage the positive feedback.  
+- Highlight product strengths that should be emphasized.  
+```
+
+</content>
+        <inputs>
+            <apiName>Product_Id</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Product Id</masterLabel>
+            <referenceName>Input:Product_Id</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Last_x_Months</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Last x Months</masterLabel>
+            <referenceName>Input:Last_x_Months</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Positive_Meeting_Notes_Collection</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Last_x_Months</parameterName>
+                <valueExpression>{!$Input:Last_x_Months}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Product_Id</parameterName>
+                <valueExpression>{!$Input:Product_Id}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Positive_Meeting_Notes_Collection</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_3</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Data: 
+
+{!$Flow:Positive_Meeting_Notes_Collection.Prompt}
+
+**Context:**  
+You are tasked with analyzing the positive customer meeting notes regarding our company’s products.  
+These meeting notes contain textual comments on the positive aspects of the products.  
+
+**Objective:**  
+The goal is to identify and rank key positive themes for each product, providing valuable insights to the sales team.  
+This will help refine sales strategies and inform future business planning by emphasizing product strengths.  
+
+**Instructions:**  
+
+**Reading the Notes:**  
+1. Carefully review the provided customer meeting notes with positive sentiment.  
+2. Identify the covered period by noting the oldest and most recent dates in the meeting notes: Period: [{oldest_meeting_date} - {most_recent_meeting_date}]  
+
+**Identifying Themes:**  
+1. Summarize the main positive points for each product.  
+2. Rank these themes in descending order of occurrence.  
+3. For each theme, provide the following:  
+  - A concise description of the theme in 200 characters.  
+  - An example comment that illustrates the theme, including the meeting note record reference or link.  
+  - The number of occurrences of this theme in the notes.  
+
+**Structuring the Results:**  
+1. List the top 5 recurring themes.  
+
+**Sales Strategy Insights:**  
+1. Suggest concrete actions the sales team can take to leverage the positive feedback.  
+2. Highlight the product strengths that should be emphasized in sales pitches.  
+
+**Output Format:**  
+(Ensure all parts from Start Format to End Format are fully completed.)  
+
+```
+Product: &lt;b&gt;[Product Name]&lt;b&gt;  
+
+&lt;b&gt;Positive Points&lt;b&gt;:  
+#1 - Percentage% (number meeting notes) - [Main Positive Theme 1]  
+Concise description in 200 characters of positive comments on this theme.  
+Example of customer comment: &quot;[Most relevant and/or most recent verbatim related to this theme]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;  
+
+#2 - [Repeat format for additional points up to #5]  
+
+&lt;b&gt;Sales Strategy Insights&lt;b&gt;:  
+- Summarize key actions for the sales team to leverage the positive feedback.  
+- Highlight product strengths that should be emphasized.  
+```
+
+</content>
+        <inputs>
+            <apiName>Product_Id</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Product Id</masterLabel>
+            <referenceName>Input:Product_Id</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Last_x_Months</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Last x Months</masterLabel>
+            <referenceName>Input:Last_x_Months</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Positive_Meeting_Notes_Collection</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Last_x_Months</parameterName>
+                <valueExpression>{!$Input:Last_x_Months}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Product_Id</parameterName>
+                <valueExpression>{!$Input:Product_Id}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Positive_Meeting_Notes_Collection</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_4</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Data: 
+{!$Flow:Positive_Meeting_Notes_Collection.Prompt}
+
+Objective:
+Analyze customer meeting notes to identify and rank key positive themes for each product. The goal is to generate actionable insights for the sales team to refine strategies and highlight product strengths.
+
+---
+
+Instructions for Analysis:
+
+Data Scope:
+
+1. Identify the time period covered in the notes by noting the oldest and most recent dates: Period: [{oldest_meeting_date} - {most_recent_meeting_date}].
+
+Theme Identification and Ranking:
+
+2. Group Positive Comments by Product: Extract positive comments explicitly related to each product.
+
+3. Summarize Key Positive Themes: For each product:
+Identify the top 5 recurring positive themes.
+Rank themes by frequency (percentage and number of occurrences).
+For each theme, provide:
+A concise description of the theme (max 200 characters).
+A representative example comment with the Meeting Note Id and hyperlink format: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+The number of occurrences and percentage of total meeting notes for that product.
+
+---
+
+Output Format:
+
+Product Analysis:
+
+Product: [Product Name]
+Period: [{oldest_meeting_date} - {most_recent_meeting_date}]
+
+Positive Points:
+#1 - [Frequency%] ([Number of Meeting Notes]) - [Main Positive Theme]
+Description: [Concise description of the theme (max 200 characters)].
+Example Comment: &quot;[Customer comment]&quot; &amp; &lt;a href=&quot;/[Meeting Note Id]&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - [Repeat format for additional points up to #5]
+
+---
+
+Sales Strategy Insights:
+
+1. Sales Team Actions: Provide 3-5 actionable strategies for the sales team based on the positive feedback themes.
+2. Product Strengths to Highlight: Summarize the most frequently mentioned product strengths to emphasize in pitches.
+
+---
+
+Enhanced Expectations for Large Data Volumes:
+Scalability: Ensure comments from hundreds of meeting notes are processed and aggregated efficiently.
+Accuracy: Maintain high precision by using percentages and exact counts for themes.
+Clarity: Focus on concise, easy-to-read summaries for sales teams, avoiding repetition.
+---
+
+Example Output with Large Dataset:
+
+Product: CC29
+
+Positive Points:
+#1 - 70% (273 meeting notes) - [High Yield and Attractive Returns]
+Description: Customers consistently highlighted the high yield and attractive returns of CC29 as a preferred choice for long-term investments.
+Example Comment: &quot;Yield is about 0.5% higher than yield of CC27.&quot; &amp; &lt;a href=&quot;/a1haT0000006B2PQAU&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - 60% (234 meeting notes) - [Positive Customer Feedback]
+Description: Many customers expressed satisfaction with CC29’s reliability and performance.
+Example Comment: &quot;Positive feedback on the meeting and the presentation/argumentation for CC29.&quot; &amp; &lt;a href=&quot;/a1hbd000000ZSvHAAW&quot;&gt;Meeting Note&lt;/a&gt;.
+[Continue for #3 to #5]
+
+
+---
+
+Sales Strategy Insights:
+Focus on CC29’s high yield and long-term investment appeal during sales pitches.
+Use the high volume of positive customer feedback to build trust with potential clients.
+Highlight CC29’s inclusion in buy lists as a signal of its reliability and strong market position.
+Promote the product’s appeal to foundations and institutional clients seeking stable returns.
+Target clients looking to switch from lower-performing funds by emphasizing CC29’s superior yields.
+</content>
+        <inputs>
+            <apiName>Product_Id</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Product Id</masterLabel>
+            <referenceName>Input:Product_Id</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Last_x_Months</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Last x Months</masterLabel>
+            <referenceName>Input:Last_x_Months</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Positive_Meeting_Notes_Collection</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Product_Id</parameterName>
+                <valueExpression>{!$Input:Product_Id}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Positive_Meeting_Notes_Collection</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_5</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Data: 
+{!$Flow:Positive_Meeting_Notes_Collection.Prompt}
+
+Objective:
+Analyze customer meeting notes to identify and rank key positive themes for each product. The goal is to generate actionable insights for the sales team to refine strategies and highlight product strengths.
+
+---
+
+Instructions for Analysis:
+
+Data Scope:
+
+1. Identify the time period covered in the notes by noting the oldest and most recent dates: Period: [{oldest_meeting_date} - {most_recent_meeting_date}].
+
+Theme Identification and Ranking:
+
+2. Group Positive Comments by Product: Extract positive comments explicitly related to each product.
+
+3. Summarize Key Positive Themes: For each product:
+Identify the top 5 recurring positive themes.
+For each theme, provide:
+A concise description of the theme (min 200 characters).
+A representative example comment with the Meeting Note Id and hyperlink format: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+
+---
+
+Output Format:
+
+Product Analysis:
+
+Product: [Product Name]
+Period: [{oldest_meeting_date} - {most_recent_meeting_date}]
+
+Positive Points:
+#1 - [Frequency%] ([Number of Meeting Notes]) - [Main Positive Theme]
+Description: [Concise description of the theme (min 200 characters)].
+Example Comment: &quot;[Customer comment]&quot; &amp; &lt;a href=&quot;/[Meeting Note Id]&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - [Repeat format for additional points up to #5]
+
+
+
+Example Output with Large Dataset:
+
+Product: CC29
+
+Positive Points:
+#1 - 70% (273 meeting notes) - [High Yield and Attractive Returns]
+Description: Customers consistently highlighted the high yield and attractive returns of CC29 as a preferred choice for long-term investments.
+Example Comment: &quot;Yield is about 0.5% higher than yield of CC27.&quot; &amp; &lt;a href=&quot;/a1haT0000006B2PQAU&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - 60% (234 meeting notes) - [Positive Customer Feedback]
+Description: Many customers expressed satisfaction with CC29’s reliability and performance.
+Example Comment: &quot;Positive feedback on the meeting and the presentation/argumentation for CC29.&quot; &amp; &lt;a href=&quot;/a1hbd000000ZSvHAAW&quot;&gt;Meeting Note&lt;/a&gt;.
+[Continue for #3 to #5]
+
+</content>
+        <inputs>
+            <apiName>Product_Id</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Product Id</masterLabel>
+            <referenceName>Input:Product_Id</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Last_x_Months</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Last x Months</masterLabel>
+            <referenceName>Input:Last_x_Months</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Positive_Meeting_Notes_Collection</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Product_Id</parameterName>
+                <valueExpression>{!$Input:Product_Id}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Positive_Meeting_Notes_Collection</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_6</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Data: 
+{!$Flow:Positive_Meeting_Notes_Collection.Prompt}
+
+Objective:
+Analyze customer meeting notes to identify and rank key positive themes for each product. The goal is to generate actionable insights for the sales team to refine strategies and highlight product strengths.
+
+---
+
+Instructions for Analysis:
+
+Data Scope:
+
+1. Identify the time period covered in the notes by noting the oldest and most recent dates: Period: [{oldest_meeting_date} - {most_recent_meeting_date}].
+
+Theme Identification and Ranking:
+
+2. Group Positive Comments by Product: Extract positive comments explicitly related to each product.
+
+3. Summarize Key Positive Themes: For each product:
+Identify the top 5 recurring positive themes.
+Rank themes by frequency (percentage and number of occurrences).
+For each theme, provide:
+A concise description of the theme (minimum 200 characters).
+A representative example comment with the Meeting Note Id and hyperlink format: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+The number of occurrences and percentage of total meeting notes for that product.
+
+---
+
+Output Format:
+
+Product Analysis:
+
+Product: [Product Name]
+Period: [{oldest_meeting_date} - {most_recent_meeting_date}]
+
+Positive Feedva:
+#1 - [Frequency%] ([Number of Meeting Notes]) - [Main Positive Theme]
+Description: [Concise description of the theme (minimum 200 characters)].
+Example Comment: &quot;[Customer comment]&quot; &amp; &lt;a href=&quot;/[Meeting Note Id]&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - [Repeat format for additional points up to #5]
+
+---
+
+Enhanced Expectations for Large Data Volumes:
+Scalability: Ensure comments from hundreds of meeting notes are processed and aggregated efficiently.
+Accuracy: Maintain high precision by using percentages and exact counts for themes.
+Clarity: Focus on concise, easy-to-read summaries for sales teams, avoiding repetition.
+---
+
+Example Output with Large Dataset:
+
+Product: CC29
+
+Positive Points:
+#1 - 70% (273 meeting notes) - [High Yield and Attractive Returns]
+Description: Customers consistently highlighted the high yield and attractive returns of CC29 as a preferred choice for long-term investments.
+Example Comment: &quot;Yield is about 0.5% higher than yield of CC27.&quot; &amp; &lt;a href=&quot;/a1haT0000006B2PQAU&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - 60% (234 meeting notes) - [Positive Customer Feedback]
+Description: Many customers expressed satisfaction with CC29’s reliability and performance.
+Example Comment: &quot;Positive feedback on the meeting and the presentation/argumentation for CC29.&quot; &amp; &lt;a href=&quot;/a1hbd000000ZSvHAAW&quot;&gt;Meeting Note&lt;/a&gt;.
+[Continue for #3 to #5]
+
+
+---
+</content>
+        <inputs>
+            <apiName>Product_Id</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Product Id</masterLabel>
+            <referenceName>Input:Product_Id</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Last_x_Months</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Last x Months</masterLabel>
+            <referenceName>Input:Last_x_Months</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Positive_Meeting_Notes_Collection</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Product_Id</parameterName>
+                <valueExpression>{!$Input:Product_Id}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Positive_Meeting_Notes_Collection</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_7</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Data: 
+{!$Flow:Positive_Meeting_Notes_Collection.Prompt}
+
+Objective:
+Analyze customer meeting notes to identify and rank key positive themes for each product. The goal is to generate actionable insights for the sales team to refine strategies and highlight product strengths.
+
+---
+
+Instructions for Analysis:
+
+Data Scope:
+
+1. Identify the time period covered in the notes by noting the oldest and most recent dates: Period: [{oldest_meeting_date} - {most_recent_meeting_date}].
+
+Theme Identification and Ranking:
+
+2. Group Positive Comments by Product: Extract positive comments explicitly related to each product.
+
+3. Summarize Key Positive Themes: For each product:
+Identify the top 5 recurring positive themes.
+Rank themes by frequency (percentage and number of occurrences).
+For each theme, provide:
+A concise description of the theme (minimum 200 characters).
+A representative example comment with the Meeting Note Id and hyperlink format: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+The number of occurrences and percentage of total meeting notes for that product.
+
+---
+
+Output Format:
+
+Product Analysis:
+
+Product: [Product Name]
+Period: [{oldest_meeting_date} - {most_recent_meeting_date}]
+
+Positive Feedbacks:
+#1 - [Frequency%] ([Number of Meeting Notes]) - [Main Positive Theme]
+Description: [Concise description of the theme (minimum 200 characters)].
+Example Comment: &quot;[Customer comment]&quot; &amp; &lt;a href=&quot;/[Meeting Note Id]&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - [Repeat format for additional points up to #5]
+
+---
+
+Enhanced Expectations for Large Data Volumes:
+Scalability: Ensure comments from hundreds of meeting notes are processed and aggregated efficiently.
+Accuracy: Maintain high precision by using percentages and exact counts for themes.
+Clarity: Focus on concise, easy-to-read summaries for sales teams, avoiding repetition.
+---
+
+Example Output with Large Dataset:
+
+Product: CC29
+
+Positive Feedbacks:
+#1 - 70% (273 meeting notes) - [High Yield and Attractive Returns]
+Description: Customers consistently highlighted the high yield and attractive returns of CC29 as a preferred choice for long-term investments.
+Example Comment: &quot;Yield is about 0.5% higher than yield of CC27.&quot; &amp; &lt;a href=&quot;/a1haT0000006B2PQAU&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - 60% (234 meeting notes) - [Positive Customer Feedback]
+Description: Many customers expressed satisfaction with CC29’s reliability and performance.
+Example Comment: &quot;Positive feedback on the meeting and the presentation/argumentation for CC29.&quot; &amp; &lt;a href=&quot;/a1hbd000000ZSvHAAW&quot;&gt;Meeting Note&lt;/a&gt;.
+[Continue for #3 to #5]
+
+
+---
+</content>
+        <inputs>
+            <apiName>Product_Id</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Product Id</masterLabel>
+            <referenceName>Input:Product_Id</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Last_x_Months</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Last x Months</masterLabel>
+            <referenceName>Input:Last_x_Months</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Positive_Meeting_Notes_Collection</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Product_Id</parameterName>
+                <valueExpression>{!$Input:Product_Id}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Positive_Meeting_Notes_Collection</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_8</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Data: 
+{!$Flow:Positive_Meeting_Notes_Collection.Prompt}
+
+Objective:
+Analyze customer meeting notes to identify and rank key positive themes for each product. The goal is to generate actionable insights for the sales team to refine strategies and highlight product strengths.
+
+---
+
+Instructions for Analysis:
+
+Data Scope:
+
+1. Identify the time period covered in the notes by noting the oldest and most recent dates: Period: [{oldest_meeting_date} - {most_recent_meeting_date}].
+
+Theme Identification and Ranking:
+
+2. Group Positive Comments by Product: Extract positive comments explicitly related to each product.
+
+3. Summarize Key Positive Themes: For each product:
+Identify the top 5 recurring positive themes.
+Rank themes by frequency (percentage and number of occurrences).
+For each theme, provide:
+A concise description of the theme (minimum 200 characters).
+A representative example comment with the Meeting Note Id and hyperlink format: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+The number of occurrences and percentage of total meeting notes for that product.
+
+---
+
+Output Format:
+
+Product Analysis:
+
+Product: [Product Name]
+Period: [{oldest_meeting_date} - {most_recent_meeting_date}]
+
+Positive Feedbacks:
+#1 - [Frequency%] ([Number of Meeting Notes]) - [Main Positive Theme]
+Description: [Concise description of the theme (minimum 200 characters)].
+Example Comment: &quot;[Customer comment]&quot; &amp; &lt;a href=&quot;/[Meeting Note Id]&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - [Repeat format for additional points up to #5]
+
+---
+
+Enhanced Expectations for Large Data Volumes:
+Scalability: Ensure comments from hundreds of meeting notes are processed and aggregated efficiently.
+Accuracy: Maintain high precision by using percentages and exact counts for themes.
+Clarity: Focus on concise, easy-to-read summaries for sales teams, avoiding repetition.
+---
+
+Example Output with Large Dataset:
+
+Product: CC29
+
+Positive Feedbacks:
+#1 - 70% (273 meeting notes) - [High Yield and Attractive Returns]
+Description: Customers consistently highlighted the high yield and attractive returns of CC29 as a preferred choice for long-term investments.
+Example Comment: &quot;Yield is about 0.5% higher than yield of CC27.&quot; &amp; &lt;a href=&quot;/a1haT0000006B2PQAU&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - 60% (234 meeting notes) - [Positive Customer Feedback]
+Description: Many customers expressed satisfaction with CC29’s reliability and performance.
+Example Comment: &quot;Positive feedback on the meeting and the presentation/argumentation for CC29.&quot; &amp; &lt;a href=&quot;/a1hbd000000ZSvHAAW&quot;&gt;Meeting Note&lt;/a&gt;.
+[Continue for #3 to #5]
+
+
+---
+</content>
+        <inputs>
+            <apiName>Product_Id</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Product Id</masterLabel>
+            <referenceName>Input:Product_Id</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Last_x_Months</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Last x Months</masterLabel>
+            <referenceName>Input:Last_x_Months</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Positive_Meeting_Notes_Collection</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Last_x_Months</parameterName>
+                <valueExpression>{!$Input:Last_x_Months}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Product_Id</parameterName>
+                <valueExpression>{!$Input:Product_Id}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Positive_Meeting_Notes_Collection</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_9</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Data: 
+{!$Flow:Positive_Meeting_Notes_Collection.Prompt}
+
+Objective:
+Analyze customer meeting notes to identify and rank key positive themes for each product. The goal is to generate actionable insights for the sales team to refine strategies and highlight product strengths.
+
+---
+
+Instructions for Analysis:
+
+Data Scope:
+
+1. Identify the time period covered in the notes by noting the oldest and most recent dates: Period: [{oldest_meeting_date} - {most_recent_meeting_date}].
+
+Theme Identification and Ranking:
+
+2. Group Positive Comments by Product: Extract positive comments explicitly related to each product.
+
+3. Summarize Key Positive Themes: For each product:
+Identify the top 5 recurring positive themes.
+Rank themes by frequency (percentage and number of occurrences).
+For each theme, provide:
+A concise description of the theme (minimum 200 characters).
+A representative example comment with the Meeting Note Id and hyperlink format: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+The number of occurrences and percentage of total meeting notes for that product.
+
+---
+
+Output Format:
+
+Product Analysis:
+
+Product: [Product Name]
+Period: [{oldest_meeting_date} - {most_recent_meeting_date}]
+Number of Positive Meetings: [Number of Positive Meetings]
+
+Positive Feedbacks:
+#1 - [Frequency%] ([Number of Meeting Notes]) - [Main Positive Theme]
+Description: [Concise description of the theme (minimum 200 characters)].
+Example Comment: &quot;[Customer comment]&quot; &amp; &lt;a href=&quot;/[Meeting Note Id]&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - [Repeat format for additional points up to #5]
+
+---
+
+Enhanced Expectations for Large Data Volumes:
+Scalability: Ensure comments from hundreds of meeting notes are processed and aggregated efficiently.
+Accuracy: Maintain high precision by using percentages and exact counts for themes.
+Clarity: Focus on concise, easy-to-read summaries for sales teams, avoiding repetition.
+---
+
+Example Output with Large Dataset:
+
+Product: CC29
+
+Positive Feedbacks:
+#1 - 70% (273 meeting notes) - [High Yield and Attractive Returns]
+Description: Customers consistently highlighted the high yield and attractive returns of CC29 as a preferred choice for long-term investments.
+Example Comment: &quot;Yield is about 0.5% higher than yield of CC27.&quot; &amp; &lt;a href=&quot;/a1haT0000006B2PQAU&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - 60% (234 meeting notes) - [Positive Customer Feedback]
+Description: Many customers expressed satisfaction with CC29’s reliability and performance.
+Example Comment: &quot;Positive feedback on the meeting and the presentation/argumentation for CC29.&quot; &amp; &lt;a href=&quot;/a1hbd000000ZSvHAAW&quot;&gt;Meeting Note&lt;/a&gt;.
+[Continue for #3 to #5]
+
+
+---
+</content>
+        <inputs>
+            <apiName>Product_Id</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Product Id</masterLabel>
+            <referenceName>Input:Product_Id</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Last_x_Months</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Last x Months</masterLabel>
+            <referenceName>Input:Last_x_Months</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Positive_Meeting_Notes_Collection</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Last_x_Months</parameterName>
+                <valueExpression>{!$Input:Last_x_Months}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Product_Id</parameterName>
+                <valueExpression>{!$Input:Product_Id}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Positive_Meeting_Notes_Collection</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_10</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Data: 
+{!$Flow:Positive_Meeting_Notes_Collection.Prompt}
+
+Objective:
+Analyze customer meeting notes to identify and rank key positive themes for each product. The goal is to generate actionable insights for the sales team to refine strategies and highlight product strengths.
+
+---
+
+Instructions for Analysis:
+
+Data Scope:
+
+1. Identify the time period covered in the notes by noting the oldest and most recent dates: Period: [{oldest_meeting_date} - {most_recent_meeting_date}].
+
+Theme Identification and Ranking:
+
+2. Group Positive Comments by Product: Extract positive comments explicitly related to each product.
+
+3. Summarize Key Positive Themes: For each product:
+Identify the top 5 recurring positive themes.
+Rank themes by frequency (percentage and number of occurrences).
+For each theme, provide:
+A concise description of the theme (minimum 200 characters).
+A representative example comment with the Meeting Note Id and hyperlink format: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+The number of occurrences and percentage of total meeting notes for that product.
+
+---
+
+Output Format:
+
+Product Analysis:
+
+Product: [Product Name]
+Period: [{oldest_meeting_date} - {most_recent_meeting_date}]
+Number of Positive Meetings: [Number of Positive Meetings]
+
+Positive Feedbacks:
+#1 - [Frequency%] ([Number of Meeting Notes]) - [Main Positive Theme]
+Description: [Concise description of the theme (minimum 200 characters)].
+Example Comment: &quot;[Customer comment]&quot; &amp; &lt;a href=&quot;/[Meeting Note Id]&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - [Repeat format for additional points up to #5]
+
+---
+
+Enhanced Expectations for Large Data Volumes:
+Scalability: Ensure comments from hundreds of meeting notes are processed and aggregated efficiently.
+Accuracy: Maintain high precision by using percentages and exact counts for themes.
+Clarity: Focus on concise, easy-to-read summaries for sales teams, avoiding repetition.
+---
+
+Example Output with Large Dataset:
+
+Product: CC29
+
+Positive Feedbacks:
+#1 - 70% (273 meeting notes) - [High Yield and Attractive Returns]
+Description: Customers consistently highlighted the high yield and attractive returns of CC29 as a preferred choice for long-term investments.
+Example Comment: &quot;Yield is about 0.5% higher than yield of CC27.&quot; &amp; &lt;a href=&quot;/a1haT0000006B2PQAU&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - 60% (234 meeting notes) - [Positive Customer Feedback]
+Description: Many customers expressed satisfaction with CC29’s reliability and performance.
+Example Comment: &quot;Positive feedback on the meeting and the presentation/argumentation for CC29.&quot; &amp; &lt;a href=&quot;/a1hbd000000ZSvHAAW&quot;&gt;Meeting Note&lt;/a&gt;.
+[Continue for #3 to #5]
+
+
+---
+</content>
+        <inputs>
+            <apiName>Product_Id</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Product Id</masterLabel>
+            <referenceName>Input:Product_Id</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Last_x_Months</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Last x Months</masterLabel>
+            <referenceName>Input:Last_x_Months</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Positive_Meeting_Notes_Collection</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Last_x_Months</parameterName>
+                <valueExpression>{!$Input:Last_x_Months}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Product_Id</parameterName>
+                <valueExpression>{!$Input:Product_Id}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Positive_Meeting_Notes_Collection</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_11</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

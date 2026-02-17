@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_1</activeVersionIdentifier>
+    <developerName>Product_Overview_Cross_Countries_Negative</developerName>
+    <masterLabel>Product Overview Cross Countries - Negative</masterLabel>
+    <templateVersions>
+        <content>Data :
+
+{!$Flow:Negative_Meeting_Notes_Collection.Prompt}
+
+**Context:**  
+You are tasked with analyzing the negative customer meeting notes regarding our company’s products.  
+These meeting notes contain textual comments on the negative aspects of the products and customer perception ratings (1-5).  
+
+**Objective:**  
+The goal is to identify and rank key negative themes for each product, providing valuable insights to the sales team.  
+This will help refine sales strategies and inform future business planning by addressing objections and improving products.  
+
+**Instructions:**  
+
+**Reading the Notes:**  
+1. Carefully review the provided customer meeting notes with negative sentiment.  
+2. Identify the covered period by noting the oldest and most recent dates in the meeting notes: Period: [{oldest_meeting_date} - {most_recent_meeting_date}]  
+
+**Identifying Themes:**  
+1. Summarize the main negative points for each product.  
+2. Rank these themes in descending order of occurrence.  
+3. For each theme, provide the following:  
+   - A concise description of the theme in 200 characters.  
+   - An example comment that illustrates the theme, including the meeting note record reference or link.  
+   - The number of occurrences of this theme in the notes.  
+
+**Structuring the Results:**  
+1. List the top 5 recurring themes.  
+
+**Sales Strategy Insights:**  
+1. Suggest concrete actions the sales team can take to address the negative feedback.  
+2. Identify potential objections and provide counterarguments.  
+
+**Output Format:**  
+(Ensure all parts from Start Format to End Format are fully completed.)  
+
+```
+Product: &lt;b&gt;[Product Name]&lt;b&gt;  
+Period: &lt;b&gt;[oldest meeting date - most recent meeting date]&lt;b&gt;  
+The number of Client Interest for this product during the period: &lt;b&gt;[number]&lt;b&gt;  
+Average Score for the product on the period: &lt;b&gt;[Average Score of the product]&lt;b&gt;  
+
+&lt;b&gt;Negative Points&lt;b&gt;:  
+#1 - Percentage% (number meeting notes) - [Main Negative Theme 1]  
+Concise description in 200 characters of negative comments on this theme.  
+Example of customer comment: &quot;[Most relevant and/or most recent verbatim related to this theme]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;  
+
+#2 - [Repeat format for additional points up to #5]  
+
+&lt;b&gt;Sales Strategy Insights&lt;b&gt;:  
+- Summarize key actions for the sales team to address the negative feedback.  
+- Identify potential objections and provide counterarguments.  
+```
+
+</content>
+        <inputs>
+            <apiName>Product_Id</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Product Id</masterLabel>
+            <referenceName>Input:Product_Id</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Negative_Meeting_Notes_Collection</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Product_Id</parameterName>
+                <valueExpression>{!$Input:Product_Id}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Negative_Meeting_Notes_Collection</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_1</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>
