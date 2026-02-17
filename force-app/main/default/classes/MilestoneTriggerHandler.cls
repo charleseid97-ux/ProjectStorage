@@ -16,6 +16,5 @@ public class MilestoneTriggerHandler {
         MilestoneHandler.updateProjectLaunchDate(newMilestone, oldMilestone);
         MilestoneHandler.updateOwnerOnProjectProduct(newMilestone, oldMilestone);
         MilestoneHandler.validatePhasesESG(newMilestone, oldMilestone);
-        MilestoneHandler.createTaxData(newMilestone, oldMilestone);
     }
 }

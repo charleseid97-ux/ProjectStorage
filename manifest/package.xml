@@ -3,9 +3,21 @@
 
     <!-- Apex Classes -->
     <types>
-        <members>CaseTranslationProcess</members>
-        <members>CaseTriggerHandler</members>
+        <members>MilestoneDatatableController</members>
+        <members>MilestoneHandler</members>
+        <members>MilestoneTriggerHandler</members>
+
+        <members>ProjectFeederController</members>
+        <members>ProjectFeederControllerTest</members>
+        <members>ProjectFeederFlowAction</members>
+        <members>ProjectFeederFlowActionTest</members>
         <name>ApexClass</name>
+    </types>
+    <types>
+        <members>lettrePorteurs</members>
+        <members>FeederSection</members>
+        <members>MilestoneDatatable</members>
+        <name>LightningComponentBundle</name>
     </types>
 
     <version>66.0</version>
