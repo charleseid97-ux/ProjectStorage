@@ -8,7 +8,8 @@ public class Test_RollbackTeamValidationController {
         // Création du ProjectProduct parent
      
         ProjectProduct__c parentProject = PMTTestFactoryData.createProjectProductWithAllFields(fundModificationRecordTypeId);
- 
+        parentProject.LettreRequise__c = 'No';
+        update parentProject;
         Milestone__c milestone = PMTTestFactoryData.createMilestone(parentProject.Id, 'SPC Final', parentProject.EndDate__c);
         milestone.Status__c = 'Completed';
         update milestone;

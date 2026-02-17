@@ -11,6 +11,11 @@
         <members>ProjectFeederControllerTest</members>
         <members>ProjectFeederFlowAction</members>
         <members>ProjectFeederFlowActionTest</members>
+
+		<members>PageLayoutControllerTest</members>
+        <members>Test_MilestoneTrigger</members>
+        <members>Test_ProjectProductChildTriggerHandler</members>
+        <members>Test_RollbackTeamValidationController</members>
         <name>ApexClass</name>
     </types>
     <types>
