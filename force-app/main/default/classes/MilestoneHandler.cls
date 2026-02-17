@@ -1,5 +1,9 @@
 public class MilestoneHandler {
-    
+
+    // Constants to avoid duplicated literals (fix Sonar CODE_SMELL)
+    private static final String SPC_FINAL = 'SPC Final';
+    private static final String STATUS_COMPLETED = 'Completed';
+
     static final Id fundModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();  
     static final Id fundCreationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundCreation').getRecordTypeId();  
 
@@ -10,6 +14,53 @@ public class MilestoneHandler {
                 milestone.Project_Product_Child__c = step.id;
             }
         }
+    }
+
+    public static void blockSPCFinal(Map<Id, Milestone__c> newMilestones, Map<Id, Milestone__c> oldMilestones){
+
+        Set<Id> setProjectProductId = new Set<Id>();
+        for (Milestone__c milestone : newMilestones.values()) {
+            if (milestone.Name == SPC_FINAL && milestone.Status__c != oldMilestones.get(milestone.Id).Status__c && milestone.Status__c == STATUS_COMPLETED) {
+                setProjectProductId.add(milestone.Project_Product__c);
+            }
+        }
+        
+        if (setProjectProductId.isEmpty()) {
+            return;
+        }
+        // 2) Charger les ProjectProduct + construire une map
+        Map<Id, ProjectProduct__c> ppById = new Map<Id, ProjectProduct__c>(
+            [
+                SELECT Id, LettreRequise__c
+                FROM ProjectProduct__c
+                WHERE Id IN :setProjectProductId
+                AND RecordTypeId =: fundModificationRecordTypeId
+            ]
+        );
+
+        // 3) Bloquer les milestones non conformes
+        for (Milestone__c milestone : newMilestones.values()) {
+            Milestone__c oldMs = oldMilestones.get(milestone.Id);
+
+            Boolean isSpcFinalToCompleted =
+                milestone.Name == SPC_FINAL
+                && milestone.Project_Product__c != null
+                && milestone.Status__c == STATUS_COMPLETED
+                && oldMs != null
+                && milestone.Status__c != oldMs.Status__c;
+
+            if (!isSpcFinalToCompleted) continue;
+
+            ProjectProduct__c pp = ppById.get(milestone.Project_Product__c);
+
+            // Si PP introuvable ou LettreRequise__c non renseigné => blocage
+            if (pp != null && String.isBlank(String.valueOf(pp.LettreRequise__c))) {
+                milestone.addError(
+                    'SPC Final cannot be completed until the Legal team has assessed whether a Notice to Shareholders is required and recorded the decision (Yes / No) on the project.'
+                );
+            }
+        }
+
     }
 
     public static void updateProjectLaunchDate(Map<Id, Milestone__c> newMilestone, Map<Id, Milestone__c> oldMilestone) {
@@ -45,7 +96,7 @@ public class MilestoneHandler {
         List<ProjectProduct__c> listProjectProductToUpdate = new List<ProjectProduct__c>();
         Set<Id> setProjectProductId = new Set<Id>();
         for (Milestone__c milestone : newMilestones.values()) {
-            if (milestone.Name == 'SPC Final' && milestone.Status__c != oldMilestones.get(milestone.Id).Status__c && milestone.Status__c == 'Completed') {
+            if (milestone.Name == SPC_FINAL && milestone.Status__c != oldMilestones.get(milestone.Id).Status__c && milestone.Status__c == STATUS_COMPLETED) {
                 setProjectProductId.add(milestone.Project_Product__c);
             }
         }
@@ -130,9 +181,9 @@ public class MilestoneHandler {
     public static void validatePhasesESG(Map<Id, Milestone__c> newMilestones, Map<Id, Milestone__c> oldMilestones){
         Set<Id> projectIds = new Set<Id>();
         for (Milestone__c milestone : newMilestones.values()) {
-            if(milestone.Name == 'SPC Final' && 
+            if(milestone.Name == SPC_FINAL && 
                 milestone.Status__c != oldMilestones.get(milestone.Id).Status__c 
-                && milestone.Status__c == 'Completed' 
+                && milestone.Status__c == STATUS_COMPLETED 
                 ){
                     system.debug('milestone.Project_Product__c: ' + milestone.Project_Product__c);
                     projectIds.add(milestone.Project_Product__c);
@@ -153,101 +204,4 @@ public class MilestoneHandler {
         update children;
     }
 
-    public static void createTaxData(Map<Id, Milestone__c> newMilestones, Map<Id, Milestone__c> oldMilestones){
-        Set<Id> projectIds = new Set<Id>();
-        for (Milestone__c milestone : newMilestones.values()) {
-            if(milestone.Name == 'SPC Final' && 
-                milestone.Status__c != oldMilestones.get(milestone.Id).Status__c 
-                && milestone.Status__c == 'Completed' 
-                ){
-                    system.debug('milestone.Project_Product__c: ' + milestone.Project_Product__c);
-                    projectIds.add(milestone.Project_Product__c);
-            }
-        }
-
-        List<ProjectShareclass__c> scs = [SELECT Id, UKReportingStatus__c, CHKurliste__c, ITWhitelist__c, ATTransparency__c, BE__c, ProjectProduct__c, ProjectProduct__r.Name, Name
-                                            FROM ProjectShareclass__c  
-                                            WHERE ProjectProduct__c IN :projectIds];
-
-        // clé = ProjectId|SCId|Country|Transparency
-        Map<String, TaxData__c> desiredByKey = new Map<String, TaxData__c>();
-        Map<Id, Set<String>> scIdToCountries = new Map<Id, Set<String>>();
-
-        for(ProjectShareclass__c  sc : scs){
-            
-            Id projectId = sc.ProjectProduct__c;
-            if (projectId == null) continue; 
-            
-            Set<String> countries = new Set<String>();
-            if (sc.UKReportingStatus__c) countries.add('UK');
-            if (sc.CHKurliste__c)       countries.add('CH');
-            if (sc.ITWhitelist__c)      countries.add('IT');
-            if (sc.ATTransparency__c)   countries.add('AT');
-            if (sc.BE__c)   countries.add('BE');
-
-            if (countries.isEmpty()) continue;
-            scIdToCountries.put(sc.Id, countries);
-
-            for (String c : countries) {
-                String key = projectId + '|' + sc.Id + '|' + c + '|Transparency';
-                TaxData__c td = new TaxData__c();
-                td.Type__c = 'Transparency';
-                td.Country__c = c;
-                td.Status__c = 'Requested';
-                td.Source__c = 'PMT';
-                td.ProjectProduct__c = projectId;
-                td.ProjectShareclass__c = sc.Id;
-                desiredByKey.put(key, td);
-            }                               
-        }
-        if (desiredByKey.isEmpty()) return;
-        
-        insert desiredByKey.values();
-        
-        // Email 
-        // TODO: remplacer par mailing list / custom metadata 
-        List<String> taxRecipients = new List<String>{ 'khadija.el-gdaouni.external@carmignac.com' };
-
-        // lien SF : base URL
-        String baseUrl = URL.getOrgDomainUrl().toExternalForm();
-
-        // Construire un map SCId -> SC (pour le nom)
-        Map<Id, ProjectShareclass__c> scById = new Map<Id, ProjectShareclass__c>(scs);
-
-        List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
-
-        for (Id scId : scIdToCountries.keySet()) {
-            ProjectShareclass__c sc = scById.get(scId);
-            Set<String> countries = scIdToCountries.get(scId);
-            Id projectId = sc.ProjectProduct__c;
-
-            String scLink = baseUrl + '/' + scId;
-            String projectLink = (projectId != null) ? (baseUrl + '/' + projectId) : null;
-
-            String subject = 'Tax Transparency request – ' +  sc.ProjectProduct__r.Name ;
-
-            String body = ''
-                + '<p>Bonjour,</p>'
-                + '<p>Une demande de <b>Tax Transparency</b> a été créée suite à la validation du <b>SPC Final</b>.</p>'
-                + '<ul>'
-                + '<li><b>Share Class</b> : ' + (sc != null ? sc.Name : '') + '</li>'
-                + '<li><b>Pays demandés</b> : ' + String.join(new List<String>(countries), ', ') + '</li>'
-                + '</ul>'
-                + '<p>'
-                + 'Lien Share Class : <a href="' + scLink + '">' + scLink + '</a><br/>'
-                + (projectLink != null ? ('Lien Projet : <a href="' + projectLink + '">' + projectLink + '</a>') : '')
-                + '</p>'
-                + '<p>Merci,</p>';
-
-            Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
-            msg.setToAddresses(taxRecipients);
-            msg.setSubject(subject);
-            msg.setHtmlBody(body);
-
-            emails.add(msg);
-        }
-        if (!emails.isEmpty()) {
-            //Messaging.sendEmail(emails);
-        }
-    }
 }

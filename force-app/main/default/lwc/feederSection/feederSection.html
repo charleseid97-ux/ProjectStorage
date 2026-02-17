@@ -1,0 +1,22 @@
+<template>
+  <template if:true={hasData}>
+    <div class="box" role="region" aria-label="Feeder detected">
+      <div class="title">Feeder detected:</div>
+      <ul class="list">
+        <template for:each={lines} for:item="l">
+          <li key={l.shareclassId} class="item">
+            <span class="bullet">•</span>
+            <span class="text">
+              {l.shareclassName} – Feeder: {l.feederName}
+            </span>
+          </li>
+        </template>
+      </ul>
+    </div>
+  </template>
+
+  <!-- Optionnel : si tu veux afficher une box vide (sinon ne rien montrer) -->
+  <template if:false={hasData}>
+    <!-- rien -->
+  </template>
+</template>

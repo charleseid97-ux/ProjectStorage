@@ -5,7 +5,7 @@ public class MilestoneTriggerHandler {
     }
     
     public static void handleBeforeUpdate(Map<Id, Milestone__c> newMilestone, Map<Id, Milestone__c> oldMilestone) {
-       
+       MilestoneHandler.blockSPCFinal(newMilestone, oldMilestone);
     }
 
 
@@ -16,6 +16,5 @@ public class MilestoneTriggerHandler {
         MilestoneHandler.updateProjectLaunchDate(newMilestone, oldMilestone);
         MilestoneHandler.updateOwnerOnProjectProduct(newMilestone, oldMilestone);
         MilestoneHandler.validatePhasesESG(newMilestone, oldMilestone);
-        MilestoneHandler.createTaxData(newMilestone, oldMilestone);
     }
 }
