@@ -16,6 +16,56 @@
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
     <sharingCriteriaRules>
+        <fullName>RegionBENELUX</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Region BENELUX</label>
+        <sharedTo>
+            <group>Benelux</group>
+        </sharedTo>
+        <booleanFilter>1 OR 2 OR 3 OR 4 OR 5 OR 6 OR 7 OR 8</booleanFilter>
+        <criteriaItems>
+            <field>TECH_Business_Region__c</field>
+            <operation>equals</operation>
+            <value>BP_BE</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>TECH_Business_Region__c</field>
+            <operation>equals</operation>
+            <value>BP_LU</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>TECH_Business_Region__c</field>
+            <operation>equals</operation>
+            <value>BP_NL</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>TECH_Business_Region__c</field>
+            <operation>equals</operation>
+            <value>BP_NO</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>TECH_All_concerned_Business_Regions__c</field>
+            <operation>contains</operation>
+            <value>BP_BE</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>TECH_All_concerned_Business_Regions__c</field>
+            <operation>contains</operation>
+            <value>BP_LU</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>TECH_All_concerned_Business_Regions__c</field>
+            <operation>contains</operation>
+            <value>BP_NL</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>TECH_All_concerned_Business_Regions__c</field>
+            <operation>contains</operation>
+            <value>BP_NO</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
         <fullName>Region_Belgium</fullName>
         <accessLevel>Edit</accessLevel>
         <description>Share agreements records associated to business region Belgium with public group Belgium</description>
