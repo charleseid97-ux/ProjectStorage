@@ -2,6 +2,10 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 
     <types>
+        <members>AccountPlanTrigger</members>
+        <name>ApexTrigger</name>
+    </types>
+    <types>
         <members>Convention__c.RegionBENELUX</members>
         <name>SharingCriteriaRule</name>
     </types>
