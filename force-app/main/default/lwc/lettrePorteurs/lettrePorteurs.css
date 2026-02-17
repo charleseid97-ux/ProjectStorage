@@ -1,0 +1,41 @@
+.container {
+  padding: 0.75rem;
+}
+
+.title {
+  padding: 6px 8px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.required {
+  color: #c23934; /* rouge Salesforce */
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+
+.radios {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.commentLabelRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.actions {
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-end;
+}

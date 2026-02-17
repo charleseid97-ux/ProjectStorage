@@ -1,0 +1,72 @@
+<template>
+  <lightning-card>
+    <div class="container">
+
+    <!-- Title -->
+    <div class="title">
+        <span class="required">*</span>
+        <span>Notice to Shareholders required</span>
+    </div>
+
+
+      <!-- Radios -->
+      <div class="radios">
+        <lightning-input
+          type="radio"
+          name="lettreRequise"
+          label="Yes"
+          value="Yes"
+          checked={isYes}
+          onchange={handleLettreChange}
+          disabled={isReadOnly}>
+        </lightning-input>
+
+        <lightning-input
+          type="radio"
+          name="lettreRequise"
+          label="No"
+          value="No"
+          checked={isNo}
+          onchange={handleLettreChange}
+          disabled={isReadOnly}>
+        </lightning-input>
+      </div>
+
+      <!-- Comment label -->
+      <div class="commentLabelRow">
+        <span class="commentLabel">Decision Comments</span>
+        <lightning-helptext content="Optional comment to explain the decision"></lightning-helptext>
+      </div>
+
+      <!-- Comment textarea -->
+      <lightning-textarea
+        value={commentaire}
+        onchange={handleCommentChange}
+        disabled={isReadOnly}>
+      </lightning-textarea>
+
+      <!-- Actions -->
+      <template if:false={isReadOnly}>
+        <div class="actions">
+
+          <!-- Spinner during save -->
+          <template if:true={isSaving}>
+            <lightning-spinner size="small"></lightning-spinner>
+          </template>
+
+          <!-- Save button only if modified and not saving -->
+          <template if:true={showSaveButton}>
+            <lightning-button
+              label="Save"
+              variant="brand"
+              onclick={handleSave}
+              disabled={isSaving}>
+            </lightning-button>
+          </template>
+
+        </div>
+      </template>
+
+    </div>
+  </lightning-card>
+</template>
