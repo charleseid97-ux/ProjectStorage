@@ -34,6 +34,7 @@ public class PageLayoutControllerTest {
         
         ProjectProduct__c proj = PMTTestFactoryData.createProjectProductWithAllFields(rtParent);
         proj.Product__c = product.Id;
+        proj.LettreRequise__c = 'No';
         update proj;
         
  
@@ -231,6 +232,7 @@ public class PageLayoutControllerTest {
         
         ProjectProduct__c proj = PMTTestFactoryData.createProjectProductWithAllFields(rtParent);
         proj.Product__c = product.Id;
+        proj.LettreRequise__c = 'No';
         update proj;
         
  
@@ -275,6 +277,7 @@ public class PageLayoutControllerTest {
         
         ProjectProduct__c proj = PMTTestFactoryData.createProjectProductWithAllFields(rtParent);
         proj.Product__c = product.Id;
+        proj.LettreRequise__c = 'No';
         update proj;
         
  
@@ -310,6 +313,7 @@ public class PageLayoutControllerTest {
         
         ProjectProduct__c proj = PMTTestFactoryData.createProjectProductWithAllFields(rtParent);
         proj.Product__c = product.Id;
+        proj.LettreRequise__c = 'No';
         update proj;
         
  

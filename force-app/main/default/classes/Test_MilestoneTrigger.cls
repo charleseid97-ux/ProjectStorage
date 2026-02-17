@@ -92,6 +92,7 @@ public class Test_MilestoneTrigger {
         insert milestoneGoLive;
  
      	project.TECH_FieldsToModify__c = 'MinTaxAlignment__c;NAVFrequency__c';
+        project.LettreRequise__c = 'No';
         update project;
       
         Test.startTest();
