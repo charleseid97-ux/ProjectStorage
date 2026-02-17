@@ -7,12 +7,12 @@
                 </div>
                 <div class="slds-media__body">
                     <h2 class="slds-card__header-title">
-                        <span class="slds-truncate" title="Grid Details">Grid Details</span>
+                        <span class="slds-truncate" title={labels.Grid_DetailsTitle}>{labels.Grid_DetailsTitle}</span>
                     </h2>
                     <p class="slds-text-body_small slds-text-color_weak">
                         <span>{rowCountLabel}</span>
                         <span class="headerDot">&bull;</span>
-                        <span>Sorted by {sortedByLabel}</span>
+                        <span>{labels.Grid_SortedBy} {sortedByLabel}</span>
                     </p>
                 </div>
             </header>
@@ -20,8 +20,8 @@
                 <lightning-button-icon
                     icon-name="utility:refresh"
                     variant="border"
-                    alternative-text="Refresh"
-                    title="Refresh"
+                    alternative-text={labels.UI_Refresh}
+                    title={labels.UI_Refresh}
                     onclick={handleRefresh}
                 ></lightning-button-icon>
             </div>
@@ -29,13 +29,13 @@
         <div class="tableContainer">
             <template if:true={isLoading}>
                 <div class="centerSpinner">
-                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                    <lightning-spinner alternative-text={labels.UI_Loading} size="medium"></lightning-spinner>
                 </div>
             </template>
             <div class="slds-card__body slds-card__body_inner">
                 <template if:true={hasErrors}>
                     <div class="slds-text-color_error slds-m-bottom_small">
-                        <p>Errors:</p>
+                        <p>{labels.Grid_RowErrors}</p>
                         <ul class="slds-list_dotted">
                             <template for:each={errors} for:item="err">
                                 <li key={err}>{err}</li>
@@ -50,7 +50,7 @@
                     </div>
                 </template>
                 <template if:false={hasRows}>
-                    <p class="slds-text-color_weak">No grid details found.</p>
+                    <p class="slds-text-color_weak">{labels.Grid_NoDetailsFound}</p>
                 </template>
             </div>
         </div>

@@ -1,6 +1,8 @@
 import { LightningElement, api, track } from 'lwc';
+import { LABELS } from 'c/gridBuilderUtils';
 
 export default class GridShareTypeSelector extends LightningElement {
+    labels = LABELS;
     _allShareTypeOptions = [];
     _selectedShareTypes = [];
     _refreshScheduled = false;

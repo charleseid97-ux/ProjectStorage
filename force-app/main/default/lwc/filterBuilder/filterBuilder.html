@@ -3,12 +3,12 @@
         <div class="filtersDiv">
             <div class="displayFlex_ColumnGap">
                 <div class="slds-col slds-size_3-of-12 granularColumn">
-                    <div class="slds-col slds-size_6-of-12">Object</div>
-                    <div class="slds-col slds-size_6-of-12">Field</div>
+                    <div class="slds-col slds-size_6-of-12">{labels.UI_Object}</div>
+                    <div class="slds-col slds-size_6-of-12">{labels.UI_Field}</div>
                 </div>
-                <div class="slds-col slds-size_1-of-12">Operator</div>
-                <div class="slds-col slds-size_7-of-12">Value</div>
-                <div>Filter #</div>
+                <div class="slds-col slds-size_1-of-12">{labels.UI_Operator}</div>
+                <div class="slds-col slds-size_7-of-12">{labels.UI_Value}</div>
+                <div>{labels.Grid_FilterNumber}</div>
             </div>
 
             <template for:each={criteriaState.details} for:item="detail">
@@ -92,8 +92,8 @@
                         <div class="removeBtn">
                             <template if:true={haveMoreThanOneFilter}>
                                 <lightning-button-icon icon-name="utility:delete"
-                                                    alternative-text="Remove filter"
-                                                    title="Remove filter"
+                                                    alternative-text={labels.Grid_RemoveFilter}
+                                                    title={labels.Grid_RemoveFilter}
                                                     data-id={detail.id}
                                                     onclick={handleRemoveFilter}>
                                 </lightning-button-icon>
@@ -105,7 +105,7 @@
 
             <div class="displayFlex_ColumnGap">
                 <template if:true={canAddFilter}>
-                    <lightning-button label="+ Add Filter" variant="neutral" onclick={handleAddFilter}></lightning-button>
+                    <lightning-button label={labels.Grid_AddFilter} variant="neutral" onclick={handleAddFilter}></lightning-button>
                 </template>
                 <div class="slds-col slds-size_7-of-12 granularColumn">
                     <template if:true={haveMoreThanOneFilter}>
@@ -121,7 +121,7 @@
                             <div class="slds-col slds-size_6-of-12">
                                 <lightning-input name="filterLogicText"
                                                 variant="label-hidden"
-                                                placeholder="Filter Logic Expression"
+                                                placeholder={labels.Grid_LogicLabel}
                                                 value={criteriaState.filterLogicText}
                                                 onchange={handleFilterLogicTextChange}>
                                 </lightning-input>
@@ -129,8 +129,8 @@
                         </template>
                     </template>
                     <div class="applyResetFilterBtns">
-                        <lightning-button label="Apply Filters" variant="brand" onclick={handleApplyFilters} disabled={applyFiltersDisabled}></lightning-button>
-                        <lightning-button label="Reset Filters" variant="neutral" onclick={handleResetFilters}></lightning-button>
+                        <lightning-button label={labels.Grid_ApplyFilters} variant="brand" onclick={handleApplyFilters} disabled={applyFiltersDisabled}></lightning-button>
+                        <lightning-button label={labels.Grid_ResetFilters} variant="neutral" onclick={handleResetFilters}></lightning-button>
                     </div>
                 </div>
             </div>

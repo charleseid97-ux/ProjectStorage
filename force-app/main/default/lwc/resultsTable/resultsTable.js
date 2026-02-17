@@ -1,4 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
+import { LABELS } from 'c/gridBuilderUtils';
 
 export default class ResultsTable extends LightningElement {
     @api columns = [];
@@ -7,13 +8,15 @@ export default class ResultsTable extends LightningElement {
     @api paginationInfo = {};
     @track openProductIds = new Set();
 
+    labels = LABELS;
+
     get productGroups() {
         const selectedIds = new Set((this.selectedShareClasses || []).map(row => row.id));
         const selectedProductIds = new Set((this.selectedShareClasses || []).map(row => row.productId));
         const map = new Map();
         (this.rows || []).forEach(row => {
             const productId = row.productId || 'unknown';
-            const productLabel = row.productLabel || 'Product';
+            const productLabel = row.productLabel || this.labels.Grid_ProductNameLabel;
             if (!map.has(productId)) {
                 map.set(productId, {
                     productId,
@@ -49,7 +52,7 @@ export default class ResultsTable extends LightningElement {
     }
 
     get toggleAllLabel() {
-        return this.allExpanded ? 'Collapse All' : 'Expand All';
+        return this.allExpanded ? this.labels.UI_CollapseAll : this.labels.UI_ExpandAll;
     }
 
     get allProductIds() {

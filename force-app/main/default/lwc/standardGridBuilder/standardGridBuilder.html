@@ -1,8 +1,8 @@
 <template>
-    <lightning-card title="Grid Builder">
+    <lightning-card title={labels.Grid_Builder}>
         <template if:true={isLoading}>
             <div class="centerSpinner">
-                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                <lightning-spinner alternative-text={labels.UI_Loading} size="medium"></lightning-spinner>
             </div>
         </template>
         <div class="mainDiv">
@@ -39,26 +39,31 @@
                             </c-filter-builder>
 
                             <div class="displayFlex_ColumnGap">
-                                <div class="slds-col slds-size_9-of-12 granularColumn">
-                                    <div class="slds-col slds-size_3-of-12">
+                                <div class="slds-col granularColumn">
+                                    <div class="slds-col slds-size_2-of-12">
                                         <c-custom-combobox name="grid"
                                                           value={selectedGrid}
                                                           options={computedGridOptions}
-                                                          label="Grid"
+                                                          label={labels.Grid_Label}
                                                           onchange={handleGridChange}>
                                         </c-custom-combobox>
                                     </div>
                                     <div class="granularColumn">
-                                        <lightning-button label="Add to Grid" variant="brand" onclick={handleAddAllToSelection} disabled={addToGridDisabled}></lightning-button>
-                                        <lightning-button label="Reset All" variant="destructive" onclick={handleResetAllClick}></lightning-button>
-                                        <lightning-button label="View Recap" variant="neutral" onclick={handleOpenSelectedPanel}></lightning-button>
+                                        <lightning-button label={labels.Grid_AddToGrid} variant="brand" onclick={handleAddAllToSelection} disabled={addToGridDisabled}></lightning-button>
+                                        <lightning-button label={labels.Grid_ResetAll} variant="destructive" onclick={handleResetAllClick}></lightning-button>
+                                        <lightning-button label={labels.Grid_ViewRecap} variant="neutral" onclick={handleOpenSelectedPanel}></lightning-button>
                                         <template if:true={showBackToAgreementSelectionBtn}>
-                                            <lightning-button label="Back" variant="neutral" onclick={handleBackToAgreementSelection}></lightning-button>
+                                            <lightning-button label={labels.UI_Back} variant="neutral" onclick={handleBackToAgreementSelection}></lightning-button>
                                         </template>
-                                        <lightning-button label="Next" variant="brand" onclick={handleGridValidation} disabled={validateGridDisabled}></lightning-button>
+                                        <lightning-button label={labels.UI_Next} variant="brand" onclick={handleGridValidation} disabled={validateGridDisabled}></lightning-button>
                                     </div>
                                     <div>
-                                        <span class="toggle-label">Grid Update Mode</span>
+                                        <div class="toggle-header">
+                                            <span class="toggle-label">{labels.Grid_AutoIncludeLabel}</span>
+                                            <lightning-helptext
+                                                content={labels.Grid_AutoIncludeHelpText}>
+                                            </lightning-helptext>
+                                        </div>
                                         <div class="toggle-row">
                                             <lightning-input type="toggle"
                                                             variant="label-hidden"
@@ -71,7 +76,6 @@
                                             <span class="message-toggle-label">
                                                 {toggleLabel}
                                             </span>
-                                            <lightning-helptext content="With Automatic Grid Update, only 1 Standard Grid can be used across all criteria."></lightning-helptext>
                                         </div>
                                     </div>
                                 </div>
@@ -94,7 +98,7 @@
                                     onremoveproduct={handleRemoveProductFromResults}>
                     </c-results-table>
                 </template>
-                
+
                 <template if:true={showValidationPage}>
                     <c-grid-validation-page grid-builder-setting-name={gridBuilderSettingName}
                                             countries-of-distribution={countriesOfDistribution}
@@ -124,8 +128,8 @@
             </template>
         </div>
         <c-modal is-visible-modal={showConfirmationModal}
-                 confirm-button-label="Confirm"
-                 close-button-label="Cancel"
+                 confirm-button-label={labels.UI_Confirm}
+                 close-button-label={labels.UI_Cancel}
                  onconfirm={handleConfirmationConfirm}
                  onclose={handleConfirmationCancel}>
             <h2 slot="header">{confirmationContext.title}</h2>

@@ -1,4 +1,5 @@
 import { LightningElement, api } from 'lwc';
+import { LABELS } from 'c/gridBuilderUtils';
 
 export default class GridSelectionDisplayPanel extends LightningElement {
     @api columns = [];
@@ -7,6 +8,8 @@ export default class GridSelectionDisplayPanel extends LightningElement {
     @api criteriaList = [];
     @api isOpen = false;
     @api showExcludedOnly = false;
+
+    labels = LABELS;
     openProductIds = [];
     showCriteriaHistory = false;
 
@@ -19,11 +22,11 @@ export default class GridSelectionDisplayPanel extends LightningElement {
     }
 
     get includedToggleLabel() {
-        return this.includedAllExpanded ? 'Collapse All' : 'Expand All';
+        return this.includedAllExpanded ? this.labels.UI_CollapseAll : this.labels.UI_ExpandAll;
     }
 
     get excludedToggleLabel() {
-        return this.excludedAllExpanded ? 'Collapse All' : 'Expand All';
+        return this.excludedAllExpanded ? this.labels.UI_CollapseAll : this.labels.UI_ExpandAll;
     }
 
     get backdropClass() {
@@ -45,7 +48,7 @@ export default class GridSelectionDisplayPanel extends LightningElement {
             const selectedRow = selectedRowMap.get(row.id);
             const effectiveRow = selectedRow ? { ...row, ...selectedRow } : row;
             const productId = row.productId || 'unknown';
-            const productLabel = row.productLabel || 'Product';
+            const productLabel = row.productLabel || this.labels.Grid_ProductNameLabel;
             if (!groupMap.has(productId)) {
                 groupMap.set(productId, {
                     productId: productId,
@@ -129,7 +132,7 @@ export default class GridSelectionDisplayPanel extends LightningElement {
                 logicExpression,
                 userDetails,
                 systemDetails,
-                shareTypesText: shareTypes.length ? shareTypes.join('; ') : 'N/A'
+                shareTypesText: shareTypes.length ? shareTypes.join('; ') : this.labels.UI_NA
             };
         });
     }
@@ -223,16 +226,16 @@ export default class GridSelectionDisplayPanel extends LightningElement {
         }
         const rawObjectLabel = detail.objectLabel ?? detail.ObjectLabel__c;
         const rawFieldLabel = detail.fieldLabel ?? detail.FieldLabel__c;
-        const objectLabel = rawObjectLabel || 'Unknown Object';
-        const fieldLabel = rawFieldLabel || 'Unknown Field';
+        const objectLabel = rawObjectLabel || this.labels.UI_UnknownObject;
+        const fieldLabel = rawFieldLabel || this.labels.UI_UnknownField;
         const objectBlank = !rawObjectLabel || !rawObjectLabel.trim();
         const fieldBlank = !rawFieldLabel || !rawFieldLabel.trim();
-        if ((objectBlank && fieldBlank) || (objectLabel === 'Unknown Object' && fieldLabel === 'Unknown Field')) {
+        if ((objectBlank && fieldBlank) || (objectLabel === this.labels.UI_UnknownObject && fieldLabel === this.labels.UI_UnknownField)) {
             return null;
         }
         const operatorText = detail.Logic__c || detail.operator || detail.Operator__c || detail.logic || '';
         const value = detail.Value__c || detail.value || '';
-        const displayValue = value && value.trim() ? value : 'N/A';
+        const displayValue = value && value.trim() ? value : this.labels.UI_NA;
         const techOrigin = detail.TECHOrigin__c || detail.techOrigin || '';
         const keyParts = [objectLabel, fieldLabel, operatorText, displayValue, techOrigin].filter(part => part);
         const operatorClassMap = {'=': 'op-positive', 'IN': 'op-positive', 'LIKE': 'op-positive',

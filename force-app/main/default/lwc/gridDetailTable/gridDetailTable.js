@@ -1,5 +1,7 @@
 import { LightningElement, api } from 'lwc';
+import { reduceError } from 'c/gridBuilderUtils';
 import getGridDetails from '@salesforce/apex/GridDetailTableController.getGridDetails';
+import { LABELS } from 'c/gridBuilderUtils';
 
 const COLUMNS = [
     { label: 'AssetType', fieldName: 'assetType', type: 'text' },
@@ -26,6 +28,7 @@ const SORTED_BY_LABEL = 'Eff Mgt Fee Date';
 export default class GridDetailTable extends LightningElement {
     @api iconName = 'custom:custom63';
 
+    labels = LABELS;
     columns = COLUMNS;
     rows = [];
     errors = [];
@@ -72,7 +75,7 @@ export default class GridDetailTable extends LightningElement {
             this.errors = result?.errors || [];
         } catch (error) {
             this.rows = [];
-            this.errors = [this.normalizeError(error)];
+            this.errors = [reduceError(error)];
         } finally {
             this.isLoading = false;
         }
@@ -82,21 +85,5 @@ export default class GridDetailTable extends LightningElement {
         if (this._recordId) {
             this.loadRows();
         }
-    }
-
-    normalizeError(error) {
-        if (!error) {
-            return 'Unknown error.';
-        }
-        if (Array.isArray(error.body)) {
-            return error.body.map((e) => e.message).join(' ');
-        }
-        if (error.body && typeof error.body.message === 'string') {
-            return error.body.message;
-        }
-        if (error.message) {
-            return error.message;
-        }
-        return String(error);
     }
 }

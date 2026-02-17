@@ -3,12 +3,12 @@
         <div class="selection-panel">
             <header class="selection-panel-header slds-grid slds-grid_align-spread slds-border_bottom">
                 <div>
-                    <h2 class="slds-text-heading_small">Products Recap</h2>
+                    <h2 class="slds-text-heading_small">{labels.Grid_ProductsRecap}</h2>
                 </div>
                 <div>
                     <lightning-button-icon icon-name="utility:close"
-                                           alternative-text="Close"
-                                           title="Close"
+                                           alternative-text={labels.UI_Close}
+                                           title={labels.UI_Close}
                                            onclick={handleClose}>
                     </lightning-button-icon>
                 </div>
@@ -18,9 +18,9 @@
                 <div class="selected-table-wrapper">
                     <template if:false={showExcludedOnly}>
                         <div class="section-heading section-heading-included section-heading-row">
-                            <span>Included Products ({productSelectedCount})</span>
+                            <span>{labels.Grid_IncludedProducts} ({productSelectedCount})</span>
                             <div class="section-heading-actions">
-                                <lightning-button label="Criteria history"
+                                <lightning-button label={labels.Grid_CriteriaHistory}
                                                 variant="neutral"
                                                 onclick={toggleCriteriaHistory}
                                                 disabled={disabledCriteriaHistory}>
@@ -35,22 +35,22 @@
                                         <template for:each={criteriaHistory} for:item="item">
                                             <div key={item.number} class="criteria-history-item">
                                                 <div class="criteria-history-title">
-                                                    Criteria {item.number}
+                                                    {labels.Grid_CriteriaLabel} {item.number}
                                                     <template if:true={item.gridLabel}>
                                                         <span class="criteria-history-grid">({item.gridLabel})</span>
                                                     </template>
                                                 </div>
                                                 <template if:true={item.logicType}>
-                                                    <div class="criteria-history-meta">Logic: {item.logicType} {item.logicExpression}</div>
+                                                    <div class="criteria-history-meta">{labels.Grid_LogicLabel}: {item.logicType} {item.logicExpression}</div>
                                                 </template>
-                                                <div class="criteria-history-meta">Share Types: {item.shareTypesText}</div>
+                                                <div class="criteria-history-meta">{labels.Grid_ShareTypesLabel}: {item.shareTypesText}</div>
                                                 <template for:each={item.userDetails} for:item="detail">
                                                     <div key={detail.key} class="criteria-history-detail">
                                                         <span class="criteria-object">{detail.objectLabel}</span>, <span>{detail.fieldLabel} </span> <span class={detail.operatorClass}>{detail.operatorText} </span> <span class="criteria-value">{detail.valueText}</span>
                                                     </div>
                                                 </template>
                                                 <template if:true={item.systemDetails.length}>
-                                                    <div class="criteria-history-system-label">System filters</div>
+                                                    <div class="criteria-history-system-label">{labels.Grid_SystemFilters}</div>
                                                     <template for:each={item.systemDetails} for:item="detail">
                                                         <div key={detail.key} class="criteria-history-detail">
                                                             <span class="criteria-object">{detail.objectLabel}</span>, <span>{detail.fieldLabel} </span> <span class={detail.operatorClass}>{detail.operatorText} </span> <span class="criteria-value">{detail.valueText}</span>
@@ -62,7 +62,7 @@
                                     </div>
                                 </template>
                                 <div class="criteria-history-actions">
-                                    <lightning-button label="Close" variant="neutral" onclick={closeCriteriaHistory}></lightning-button>
+                                    <lightning-button label={labels.UI_Close} variant="neutral" onclick={closeCriteriaHistory}></lightning-button>
                                 </div>
                             </div>
                         </template>
@@ -89,8 +89,8 @@
                                             </button>
                                             <lightning-button-icon class="remove-product-button"
                                                                 icon-name="utility:delete"
-                                                                alternative-text="Remove product"
-                                                                title="Remove product"
+                                                                alternative-text={labels.Grid_RemoveProduct}
+                                                                title={labels.Grid_RemoveProduct}
                                                                 data-id={prod.productId}
                                                                 onclick={handleRemoveProduct}>
                                             </lightning-button-icon>
@@ -106,7 +106,7 @@
                                                                 </th>
                                                             </template>
                                                             <th scope="col">
-                                                                <div class="slds-truncate" title="Criteria #">Criteria #</div>
+                                                                <div class="slds-truncate" title={labels.Grid_CriteriaNumber}>{labels.Grid_CriteriaNumber}</div>
                                                             </th>
                                                         </tr>
                                                     </thead>
@@ -118,7 +118,7 @@
                                                                         <div class="slds-truncate" title={cell.value}>{cell.value}</div>
                                                                     </td>
                                                                 </template>
-                                                                <td data-label="Criteria #">
+                                                                <td data-label={labels.Grid_CriteriaNumber}>
                                                                     <div class="slds-truncate" title={row.criteriaNumber}>{row.criteriaNumber}</div>
                                                                 </td>
                                                             </tr>
@@ -133,13 +133,13 @@
                         </template>
                         <template if:false={includedProducts.length}>
                             <div class="noProductDisplay">
-                                No products selected yet.
+                                {labels.Grid_NoProductsSelected}
                             </div>
                         </template>
                     </template>
 
                     <div class="section-heading section-heading-excluded section-heading-row">
-                        <span>Excluded Product ({productExcludedCount})</span>
+                        <span>{labels.Grid_ExcludedProducts} ({productExcludedCount})</span>
                         <lightning-button label={excludedToggleLabel} variant="neutral" onclick={handleToggleExcluded}></lightning-button>
                     </div>
                     <template if:true={excludedProducts.length}>
@@ -189,7 +189,7 @@
                     </template>
                     <template if:false={excludedProducts.length}>
                         <div class="noProductDisplay">
-                            No excluded products to display.
+                            {labels.Grid_NoExcludedProducts}
                         </div>
                     </template>
                 </div>

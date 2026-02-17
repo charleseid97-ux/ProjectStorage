@@ -13,15 +13,15 @@
                                 <div class="header-left">
                                     <span class="header-title header-title--large">{prod.productLabel}</span>
                                     <template if:true={prod.hasSelected}>
-                                        <span class="already-selected-warning">(<span class="warning-label">Warning</span>: This product is already assigned to a grid. New share classes can only be added to the same grid. To reassign, remove the product from the Recap first.)</span>
+                                        <span class="already-selected-warning">(<span class="warning-label">{labels.UI_Warning}</span>: {labels.Grid_ProductAlreadyAssignedWarning})</span>
                                     </template>
                                 </div>
                             </div>
                         </button>
                         <lightning-button-icon class="remove-product-button"
                                                icon-name="utility:delete"
-                                               alternative-text="Remove product"
-                                               title="Remove product"
+                                               alternative-text={labels.Grid_RemoveProduct}
+                                               title={labels.Grid_RemoveProduct}
                                                data-id={prod.productId}
                                                onclick={handleRemoveProduct}>
                         </lightning-button-icon>
@@ -37,7 +37,7 @@
                                             </th>
                                         </template>
                                         <th scope="col">
-                                            <div class="slds-truncate" title="Selection">Selection</div>
+                                            <div class="slds-truncate" title={labels.Grid_Selection}>{labels.Grid_Selection}</div>
                                         </th>
                                     </tr>
                                 </thead>
@@ -49,9 +49,9 @@
                                                     <div class="slds-truncate" title={cell.value}>{cell.value}</div>
                                                 </td>
                                             </template>
-                                            <td data-label="Selection">
+                                            <td data-label={labels.Grid_Selection}>
                                                 <template if:true={row.isAlreadySelected}>
-                                                    <div class="slds-truncate selection-status" title="Already selected">Already selected</div>
+                                                    <div class="slds-truncate selection-status" title={labels.Grid_AlreadySelected}>{labels.Grid_AlreadySelected}</div>
                                                 </template>
                                             </td>
                                         </tr>
@@ -66,7 +66,7 @@
     </template>
     <template if:false={showTable}>
         <div class="slds-text-color_weak">
-            No products to display yet.
+            {labels.Grid_NoProducts}
         </div>
     </template>
 </template>

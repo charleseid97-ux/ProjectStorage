@@ -242,6 +242,622 @@
         <value>Contact&apos;s website country does not correspond to share class selected countries. Please update the share class field.</value>
     </labels>
     <labels>
+        <fullName>Grid_AddFilter</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Button label to add a new filter</shortDescription>
+        <value>+ Add Filter</value>
+    </labels>
+    <labels>
+        <fullName>Grid_AddRestrictedShareTypes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Button/label for adding restricted share types</shortDescription>
+        <value>Add Restricted Share Types</value>
+    </labels>
+    <labels>
+        <fullName>Grid_AddToGrid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Button label to add items to the Grid</shortDescription>
+        <value>Add to Grid</value>
+    </labels>
+    <labels>
+        <fullName>Grid_AgreementErrorLoadingSettings</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error message when agreement settings fail to load</shortDescription>
+        <value>Error loading agreement settings</value>
+    </labels>
+    <labels>
+        <fullName>Grid_Agreements</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Label for agreements section</shortDescription>
+        <value>Agreements</value>
+    </labels>
+    <labels>
+        <fullName>Grid_AllRowsImported</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Success message for full import</shortDescription>
+        <value>All rows imported.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_AlreadySelected</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Status text for already selected items</shortDescription>
+        <value>Already selected</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ApplyFilters</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Button label to apply filters</shortDescription>
+        <value>Apply Filters</value>
+    </labels>
+    <labels>
+        <fullName>Grid_AutoIncludeHelpText</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Help text explaining automatic Grid update behavior</shortDescription>
+        <value>When enabled, any newly created funds or share classes that meet the Grid criteria will be automatically added to the Grid. With Automatic Grid Update, only one Standard Grid can be used across all criteria.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_AutoIncludeLabel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Label for automatic Grid update toggle</shortDescription>
+        <value>Automatically include new funds and share classes in the Grid</value>
+    </labels>
+    <labels>
+        <fullName>Grid_Builder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title of the Grid Builder module</shortDescription>
+        <value>Grid Builder</value>
+    </labels>
+    <labels>
+        <fullName>Grid_CreatedSuccess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Success message after grid creation</shortDescription>
+        <value>Grid &quot;{0}&quot; created successfully</value>
+    </labels>
+    <labels>
+        <fullName>Grid_CriteriaCreated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Result label for import</shortDescription>
+        <value>Criteria created</value>
+    </labels>
+    <labels>
+        <fullName>Grid_CriteriaDetailsCreated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Result label for import</shortDescription>
+        <value>Criteria details created</value>
+    </labels>
+    <labels>
+        <fullName>Grid_CriteriaHistory</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Button label for criteria history</shortDescription>
+        <value>Criteria history</value>
+    </labels>
+    <labels>
+        <fullName>Grid_CriteriaLabel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Label for criteria section</shortDescription>
+        <value>Criteria</value>
+    </labels>
+    <labels>
+        <fullName>Grid_CriteriaNumber</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header for criteria number</shortDescription>
+        <value>Criteria #</value>
+    </labels>
+    <labels>
+        <fullName>Grid_DetailsTitle</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for grid details section</shortDescription>
+        <value>Grid Details</value>
+    </labels>
+    <labels>
+        <fullName>Grid_DifferentGridsSelected</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Warning: different grids selected</shortDescription>
+        <value>Different Grids selected</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ErrorLoadingGrids</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error context for grid loading failure</shortDescription>
+        <value>Error loading grids</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ErrorLoadingProducts</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error message when loading products fails</shortDescription>
+        <value>Error loading products</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ErrorLoadingSettings</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error message when grid settings fail to load</shortDescription>
+        <value>Error loading grid settings</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ErrorRetrievingProducts</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error message when retrieving products fails</shortDescription>
+        <value>Error retrieving products</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ErrorSavingGrid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error context for grid save failure</shortDescription>
+        <value>Error saving grid</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ErrorValidatingProducts</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error context for validation failure</shortDescription>
+        <value>Error validating products</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ExcelImportTitle</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for Excel import page</shortDescription>
+        <value>Grid Excel Import</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ExcludedProducts</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Section heading for excluded products</shortDescription>
+        <value>Excluded Product</value>
+    </labels>
+    <labels>
+        <fullName>Grid_FailedToLoadSheetJS</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error when SheetJS fails to load</shortDescription>
+        <value>Failed to load SheetJS static resource</value>
+    </labels>
+    <labels>
+        <fullName>Grid_FilterNumber</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header for filter number</shortDescription>
+        <value>Filter #</value>
+    </labels>
+    <labels>
+        <fullName>Grid_FixValidationErrors</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Instruction message</shortDescription>
+        <value>Fix the validation errors before importing.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_GridDetailsCreated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Result label for import</shortDescription>
+        <value>Grid details created</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ImportCompleted</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Success toast title</shortDescription>
+        <value>Import completed</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ImportCompletedWithErrors</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Warning toast title</shortDescription>
+        <value>Import completed with errors</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ImportFailed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error toast title for import</shortDescription>
+        <value>Import failed</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ImportedFilePrefix</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Label prefix for imported file name</shortDescription>
+        <value>Imported file</value>
+    </labels>
+    <labels>
+        <fullName>Grid_IncludedInGrid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Status text for included share class</shortDescription>
+        <value>Included in grid</value>
+    </labels>
+    <labels>
+        <fullName>Grid_IncludedProducts</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Section heading for included products</shortDescription>
+        <value>Included Products</value>
+    </labels>
+    <labels>
+        <fullName>Grid_Label</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic label for Grid</shortDescription>
+        <value>Grid</value>
+    </labels>
+    <labels>
+        <fullName>Grid_LogicLabel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Label for filter logic</shortDescription>
+        <value>Filter Logic Expression</value>
+    </labels>
+    <labels>
+        <fullName>Grid_MissingShareClass</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Status text for missing share class</shortDescription>
+        <value>Missing share class</value>
+    </labels>
+    <labels>
+        <fullName>Grid_MissingShareClasses</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Warning for missing share classes</shortDescription>
+        <value>Missing share class(es)</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoDetailsFound</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Empty state for grid details</shortDescription>
+        <value>No grid details found.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoExcludedProducts</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Empty state for excluded products</shortDescription>
+        <value>No excluded products to display.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoGridAvailable</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Toast title when no grid available</shortDescription>
+        <value>No grid available</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoGridSelectionFound</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message when no grid is found</shortDescription>
+        <value>No grid selection found for this product.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoNewShareClassesAdded</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message when no new share classes were added</shortDescription>
+        <value>No new share classes were added.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoProducts</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message displayed when no products are available</shortDescription>
+        <value>No products to display yet.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoProductsFound</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title shown when no products are found</shortDescription>
+        <value>No Products Found</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoProductsFoundValidation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Validation empty state message</shortDescription>
+        <value>No products found to validate with the current selection.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoProductsMatched</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message shown when no products match the search criteria</shortDescription>
+        <value>No products matched the search criteria.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoProductsSelected</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Empty state for product selection</shortDescription>
+        <value>No products selected yet.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoProductsToDisplay</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Empty state for results table</shortDescription>
+        <value>No products to display yet.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoProductsToValidate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Empty state for validation page</shortDescription>
+        <value>No products to validate.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoShareClassesFound</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title when no share classes are found</shortDescription>
+        <value>No share classes found</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoShareClassesToAdd</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message when no share classes are available to add to the Grid</shortDescription>
+        <value>No share classes found to add to the Grid.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ProductAlreadyAssignedWarning</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Warning for grid conflict</shortDescription>
+        <value>This product is already assigned to a grid. New share classes can only be added to the same grid. To reassign, remove the product from the Recap first.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ProductNameLabel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Label for product name field</shortDescription>
+        <value>Product Name</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ProductsRecap</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for products recap panel</shortDescription>
+        <value>Products Recap</value>
+    </labels>
+    <labels>
+        <fullName>Grid_RemoveFilter</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Label for remove filter action</shortDescription>
+        <value>Remove filter</value>
+    </labels>
+    <labels>
+        <fullName>Grid_RemoveProduct</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Action label to remove a product</shortDescription>
+        <value>Remove product</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ResetAll</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Button label to reset all selections</shortDescription>
+        <value>Reset All</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ResetAll_Confirm</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Confirmation text before resetting all selected share classes and criteria</shortDescription>
+        <value>Are you sure you want to reset all selected share classes and criteria? This action cannot be undone.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ResetAll_Success</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Notification shown after all selections and criteria have been reset</shortDescription>
+        <value>All selections and criteria have been reset.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ResetFilters</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Button label to reset filters</shortDescription>
+        <value>Reset Filters</value>
+    </labels>
+    <labels>
+        <fullName>Grid_RowErrors</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Section label for row errors</shortDescription>
+        <value>Row errors</value>
+    </labels>
+    <labels>
+        <fullName>Grid_RuleLinesCreated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Result label for import</shortDescription>
+        <value>Rule lines created</value>
+    </labels>
+    <labels>
+        <fullName>Grid_Saved_Success</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message shown after saving a grid; use {0} as placeholder for the grid name</shortDescription>
+        <value>Grid &quot;{0}&quot; saved successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ScopesUpserted</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Result label for import</shortDescription>
+        <value>Scopes upserted</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SelectExcelFile</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Input label for file selection</shortDescription>
+        <value>Select Excel file</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SelectGrid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Modal title for grid selection</shortDescription>
+        <value>Select Grid</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SelectShareTypes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Label for selecting share types</shortDescription>
+        <value>Select Share Types</value>
+    </labels>
+    <labels>
+        <fullName>Grid_Selection</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header for selection</shortDescription>
+        <value>Selection</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SettingNotFound</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error message when Grid Builder Setting is not found; use {0} for setting name</shortDescription>
+        <value>The Grid Builder Setting {0} was not found. Please contact your system administrator.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ShareClassesAdded</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Success message when share classes are added; use {0} for count</shortDescription>
+        <value>{0} share classes have been added to the Grid.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ShareClassesAddedTitle</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Toast title for added share classes</shortDescription>
+        <value>Share classes added</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ShareClassesNotAdded_DifferentGrid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Warning when share classes cannot be added due to grid conflict</shortDescription>
+        <value>{0} share class(es) were not added because their product is already assigned to a different grid.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ShareTypeFilterIndependentInfo</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Info: this filter is applied independently of other filter logic</shortDescription>
+        <value>This filter is applied independently of other filter logic.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ShareTypesLabel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Label for share types section</shortDescription>
+        <value>Share Types</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SomeRowsFailed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Warning message for partial import</shortDescription>
+        <value>Some rows failed. Review details below.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SortedBy</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Prefix for sorted column label</shortDescription>
+        <value>Sorted by</value>
+    </labels>
+    <labels>
+        <fullName>Grid_StartDate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Label for start date input</shortDescription>
+        <value>Start Date</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SystemFilters</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Label for system-generated filters</shortDescription>
+        <value>System filters</value>
+    </labels>
+    <labels>
+        <fullName>Grid_Team</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Label for team selection</shortDescription>
+        <value>Team</value>
+    </labels>
+    <labels>
+        <fullName>Grid_Title</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Label for Grid section</shortDescription>
+        <value>Grid</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ValidateGrid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Button label to validate Grid</shortDescription>
+        <value>Validate Grid</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ValidationErrors</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Section label for validation errors</shortDescription>
+        <value>Validation errors</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ViewExcludedProducts</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Button label to view excluded products</shortDescription>
+        <value>View Excluded Products</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ViewRecap</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Button label to view recap</shortDescription>
+        <value>View Recap</value>
+    </labels>
+    <labels>
         <fullName>KYCDocStatus</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -634,6 +1250,209 @@
         <protected>false</protected>
         <shortDescription>ToolTip Target Language</shortDescription>
         <value>If you want a publication in the language specified in the &apos;source language&apos; field, make sure it is also included in the &apos;target languages&apos; field. If the source language is missing from the target languages, no publication request will be created for it</value>
+    </labels>
+    <labels>
+        <fullName>UI_Add</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic action: Add</shortDescription>
+        <value>Add</value>
+    </labels>
+    <labels>
+        <fullName>UI_Back</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic navigation: Back</shortDescription>
+        <value>Back</value>
+    </labels>
+    <labels>
+        <fullName>UI_Cancel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic action: Cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>UI_Close</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic action: Close</shortDescription>
+        <value>Close</value>
+    </labels>
+    <labels>
+        <fullName>UI_CollapseAll</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic action: Collapse All</shortDescription>
+        <value>Collapse All</value>
+    </labels>
+    <labels>
+        <fullName>UI_Confirm</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic action: Confirm</shortDescription>
+        <value>Confirm</value>
+    </labels>
+    <labels>
+        <fullName>UI_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic error title</shortDescription>
+        <value>Error</value>
+    </labels>
+    <labels>
+        <fullName>UI_ErrorMessage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic label for error message text</shortDescription>
+        <value>Error message</value>
+    </labels>
+    <labels>
+        <fullName>UI_Errors</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic label: Errors</shortDescription>
+        <value>Errors</value>
+    </labels>
+    <labels>
+        <fullName>UI_Excluded</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic label: Excluded</shortDescription>
+        <value>Excluded</value>
+    </labels>
+    <labels>
+        <fullName>UI_ExpandAll</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic action: Expand All</shortDescription>
+        <value>Expand All</value>
+    </labels>
+    <labels>
+        <fullName>UI_Field</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic label: Field</shortDescription>
+        <value>Field</value>
+    </labels>
+    <labels>
+        <fullName>UI_Import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic action: Import</shortDescription>
+        <value>Import</value>
+    </labels>
+    <labels>
+        <fullName>UI_Included</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic label: Included</shortDescription>
+        <value>Included</value>
+    </labels>
+    <labels>
+        <fullName>UI_Loading</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic label: Loading</shortDescription>
+        <value>Loading</value>
+    </labels>
+    <labels>
+        <fullName>UI_NA</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic label: Not Available</shortDescription>
+        <value>N/A</value>
+    </labels>
+    <labels>
+        <fullName>UI_Next</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic navigation: Next</shortDescription>
+        <value>Next</value>
+    </labels>
+    <labels>
+        <fullName>UI_Object</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic label: Object</shortDescription>
+        <value>Object</value>
+    </labels>
+    <labels>
+        <fullName>UI_Off</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic toggle: Off</shortDescription>
+        <value>Off</value>
+    </labels>
+    <labels>
+        <fullName>UI_On</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic toggle: On</shortDescription>
+        <value>On</value>
+    </labels>
+    <labels>
+        <fullName>UI_Operator</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic label: Operator</shortDescription>
+        <value>Operator</value>
+    </labels>
+    <labels>
+        <fullName>UI_Refresh</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic action: Refresh</shortDescription>
+        <value>Refresh</value>
+    </labels>
+    <labels>
+        <fullName>UI_Remove</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic action: Remove</shortDescription>
+        <value>Remove</value>
+    </labels>
+    <labels>
+        <fullName>UI_SelectOption</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic placeholder: Select an Option</shortDescription>
+        <value>Select an Option</value>
+    </labels>
+    <labels>
+        <fullName>UI_Success</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic success label</shortDescription>
+        <value>Success</value>
+    </labels>
+    <labels>
+        <fullName>UI_UnknownField</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic label for unknown field</shortDescription>
+        <value>Unknown Field</value>
+    </labels>
+    <labels>
+        <fullName>UI_UnknownObject</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic label for unknown object</shortDescription>
+        <value>Unknown Object</value>
+    </labels>
+    <labels>
+        <fullName>UI_Value</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic label: Value</shortDescription>
+        <value>Value</value>
+    </labels>
+    <labels>
+        <fullName>UI_Warning</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic warning title</shortDescription>
+        <value>Warning</value>
     </labels>
     <labels>
         <fullName>UnknownCompetitorAssetsRecordTypeID</fullName>
