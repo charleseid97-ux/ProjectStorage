@@ -1,64 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 
-  <!-- Apex -->
-  <types>
-    <members>CTL_MeetingNotes_UpdateFromRawText</members>
-    <members>CTL_MeetingNotes_UpdateFromRawTextTest</members>
-    <members>CTL_MeetingNotes</members>
-    <members>CTL_MeetingNotesTest</members>
-    <members>MeetingNoteShareController</members>
-    <members>MeetingNoteShareControllerTest</members>
-    <members>DeleteStaleVideoCalls</members>
-    <members>DeleteStaleVideoCallsTest</members>
-    <members>WS_QueueableLauncher</members>
-    <name>ApexClass</name>
-  </types>
-
-  <!-- Lightning Web Components -->
-  <types>
-    <members>meetingNoteShare</members>
-    <members>newTask</members>
-    <members>meetingNoteAI</members>
-    <name>LightningComponentBundle</name>
-  </types>
-   <types>
-    <members>meetingNoteShareWrapper</members>
-    <members>newTaskContainer</members>
-    <name>AuraDefinitionBundle</name>
-  </types>
-
-  <!-- Gen AI Prompt -->
-  <types>
-    <members>flex_GenerateClientInterestsFromRawNote</members>
-    <members>flex_SummaryFromRawNote</members>
-    <name>GenAiPromptTemplate</name>
-  </types>
-
-  <!-- Custom Field -->
-  <types>
-    <members>Meeting_Note__c.Raw_Note__c</members>
-    <name>CustomField</name>
-  </types>
-
-  <!-- Quick Actions -->
-  <types>
-    <members>Event.ShareWith</members>
-    <members>Event.New_Task</members>
-    <members>Meeting_Note__c.Sales_Presentation</members>
-    <name>QuickAction</name>
-  </types>
-
-
-    <!-- Flows -->
-    <types>
-    <members>AI_Meeting_Note_RawText</members>
-    <members>AL_RawText_GeneratePromptsResponses</members>
-    <name>Flow</name>   
+      <types>
+        <members>CTL_SearchSubscriptionProduct</members>
+        <name>ApexClass</name>
     </types>
+
     <types>
-      <members>auraActionWith</members>
-      <name>StaticResource</name>
+        <members>See_Share_Classes_X_et_Z</members>
+        <name>CustomPermission</name>
+    </types>
+
+    <types>
+        <members>Admin_Share_Classes_XZ</members>
+        <name>PermissionSet</name>
     </types>
   <version>65.0</version>
 </Package>
