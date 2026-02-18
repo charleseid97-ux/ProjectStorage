@@ -227,16 +227,28 @@ export default class GridSelectionDisplayPanel extends LightningElement {
         const rawObjectLabel = detail.objectLabel ?? detail.ObjectLabel__c;
         const rawFieldLabel = detail.fieldLabel ?? detail.FieldLabel__c;
         const objectLabel = rawObjectLabel || this.labels.UI_UnknownObject;
-        const fieldLabel = rawFieldLabel || this.labels.UI_UnknownField;
+        let fieldLabel = rawFieldLabel || this.labels.UI_UnknownField;
         const objectBlank = !rawObjectLabel || !rawObjectLabel.trim();
         const fieldBlank = !rawFieldLabel || !rawFieldLabel.trim();
         if ((objectBlank && fieldBlank) || (objectLabel === this.labels.UI_UnknownObject && fieldLabel === this.labels.UI_UnknownField)) {
             return null;
         }
+        const objectApi = detail.Object__c || detail.objectApi || '';
+        const fieldApi = detail.Field__c || detail.fieldApi || '';
         const operatorText = detail.Logic__c || detail.operator || detail.Operator__c || detail.logic || '';
         const value = detail.Value__c || detail.value || '';
-        const displayValue = value && value.trim() ? value : this.labels.UI_NA;
+        let displayValue = value && value.trim() ? value : this.labels.UI_NA;
         const techOrigin = detail.TECHOrigin__c || detail.techOrigin || '';
+
+        if (objectApi === 'Product__c' && fieldApi === 'ProductName__c') {
+            fieldLabel = this.getInternalShortNameLabel();
+            const nameMap = this.buildProductNameToShortNameMap();
+            if (nameMap.size > 0) {
+                const separator = '; ';
+                displayValue = displayValue.split(separator).map(v => nameMap.get(v.trim()) || v.trim()).join(separator);
+            }
+        }
+
         const keyParts = [objectLabel, fieldLabel, operatorText, displayValue, techOrigin].filter(part => part);
         const operatorClassMap = {'=': 'op-positive', 'IN': 'op-positive', 'LIKE': 'op-positive',
                                   '!=': 'op-negative', 'NOT IN': 'op-negative', 'NOT LIKE': 'op-negative'};
@@ -249,6 +261,29 @@ export default class GridSelectionDisplayPanel extends LightningElement {
             valueText: displayValue,
             techOrigin: techOrigin
         };
+    }
+
+    buildProductNameToShortNameMap() {
+        const cols = this.columns || [];
+        const productNameCol = cols.find(c => c.apiName === 'Fund__r.ProductName__c');
+        const shortNameCol = cols.find(c => c.apiName === 'Fund__r.InternalShortName__c');
+        if (!productNameCol || !shortNameCol) return new Map();
+
+        const map = new Map();
+        const rows = (this.allRows && this.allRows.length) ? this.allRows : (this.rows || []);
+        rows.forEach(row => {
+            const pnCell = (row.cells || []).find(c => c.label === productNameCol.label);
+            const snCell = (row.cells || []).find(c => c.label === shortNameCol.label);
+            if (pnCell?.value && snCell?.value) {
+                map.set(pnCell.value, snCell.value);
+            }
+        });
+        return map;
+    }
+
+    getInternalShortNameLabel() {
+        const col = (this.columns || []).find(c => c.apiName === 'Fund__r.InternalShortName__c');
+        return col ? col.label : 'Internal Short Name';
     }
 
     buildSelectedRowMap() {

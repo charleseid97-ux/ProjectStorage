@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>AddGrid</fullName>
+    <fullName>GridRequest</fullName>
     <availability>online</availability>
     <displayType>button</displayType>
     <encodingKey>UTF-8</encodingKey>
@@ -10,7 +10,7 @@
     <height>600</height>
     <isResizable>true</isResizable>
     <linkType>url</linkType>
-    <masterLabel>Add Grid</masterLabel>
+    <masterLabel>Grid Request</masterLabel>
     <openType>newWindow</openType>
     <position>none</position>
     <protected>false</protected>
