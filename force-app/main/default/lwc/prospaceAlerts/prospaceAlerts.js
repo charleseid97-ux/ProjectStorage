@@ -29,6 +29,7 @@ export default class prospaceAlerts extends LightningElement {
     @track navs = [];
     @track reports = [];
     @track performances = [];
+    @track kids = [];
     @track funds = [];
     @track holdings = [];
     @track publications = [];
@@ -41,6 +42,7 @@ export default class prospaceAlerts extends LightningElement {
 
     fundOnly = false;
     isPerformance = false;
+    isKid = false;
     isLoading = true;
     isModalDisplayed = false;
     modalTitle;
@@ -60,49 +62,73 @@ export default class prospaceAlerts extends LightningElement {
             || getFieldValue(this.contact.data, CONTACT_WEBSITEID_FIELD) === undefined);
     }
 
-    @wire(getTooglesValues, {recordId: '$recordId'})
-    wiredToggles(result) {
-        this.isLoading = true;
-        this.navs = [];
-        this.reports = [];
-        this.performances = [];
-        this.funds = [];
-        this.holdings = [];
-        this.publications = [];
-        this.regularities = [];
-        this.wiredProspaceAlerts = result;
-        if (result.data) {
-            let arr;
-            JSON.parse(result.data).forEach(element => {
-                console.log(element.checkboxValue);
-                arr = element.checkboxCategory === 'Nav' ? this.navs : element.checkboxCategory === 'Report' ? this.reports : element.checkboxCategory === 'Performance' ? this.performances : element.checkboxCategory === 'Fund' ? this.funds : element.checkboxCategory === 'Holdings' ? this.holdings : element.checkboxCategory === 'Regularity' ? this.regularities : this.publications;
-                arr.push({
-                    checkboxLabel: element.checkboxLabel,
-                    checkboxAPI: element.checkboxAPI,
-                    checkboxValue: element.checkboxValue,
-                    checkboxWebsiteId: element.checkboxWebsiteId
-                });
+    @wire(getTooglesValues, { recordId: '$recordId' })
+wiredToggles(result) {
+    this.isLoading = true;
+    this.navs = [];
+    this.reports = [];
+    this.performances = [];
+    this.kids = [];
+    this.funds = [];
+    this.holdings = [];
+    this.publications = [];
+    this.regularities = [];
+    this.wiredProspaceAlerts = result;
+
+    if (result.data) {
+        const parsed = JSON.parse(result.data);
+        parsed.forEach((element) => {
+            const arr = this.getTargetArray(element.checkboxCategory);
+            arr.push({
+                checkboxLabel: element.checkboxLabel,
+                checkboxAPI: element.checkboxAPI,
+                checkboxValue: element.checkboxValue,
+                checkboxWebsiteId: element.checkboxWebsiteId
             });
-        }
-        else if (result.error) {
-            console.log(result.error);
-            this.showNotification(result.error, 'error');
-        }
-        this.isLoading = false;
+        });
+    } else if (result.error) {
+        console.log(result.error);
+        this.showNotification(result.error, 'error');
     }
+
+    this.isLoading = false;
+}
+
+// ✅ helper minimal pour supprimer les ternaires imbriqués
+getTargetArray(category) {
+    const map = {
+        Nav: this.navs,
+        Report: this.reports,
+        Performance: this.performances,
+        KID: this.kids,
+        Fund: this.funds,
+        Holdings: this.holdings,
+        Regularity: this.regularities
+    };
+    return map[category] || this.publications;
+}
+
 
     editSubscriptions(event) {
         if(event.target.title == 'Fund' || event.target.title == 'Holdings'){
             this.fundOnly = true;
             this.isPerformance = false;
+            this.isKid = false;
             this.modalTitle = event.target.name ;
         }else if(event.target.title == 'Performance'){
             this.isPerformance = true;
+            this.isKid = false;
+            this.fundOnly = false;
+            this.modalTitle = event.target.name;
+        }else if(event.target.title == 'KID'){
+            this.isPerformance = false;
+            this.isKid = true;
             this.fundOnly = false;
             this.modalTitle = event.target.name;
         }else{
             this.isPerformance = false;
             this.fundOnly = false;
+            this.isKid = false;
             this.modalTitle = event.target.title + ' Subscription';
         }
         this.isModalDisplayed = true;

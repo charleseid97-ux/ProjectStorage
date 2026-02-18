@@ -158,6 +158,51 @@
                         </div>
                     </template>
 
+                    <template for:each={kids} for:item="kid">
+                        <div key={kid} class="slds-form-element slds-p-around_x-small">
+                            <div class="slds-grid slds-grid_vertical-align-center">
+
+                                <!-- 1️⃣ TOGGLE -->
+                                <div class="slds-col slds-size_2-of-12">
+                                    <lightning-input
+                                        type="toggle"
+                                        data-id={kid.checkboxWebsiteId}
+                                        value={kid.checkboxWebsiteId}
+                                        label=""
+                                        message-toggle-active="" message-toggle-inactive=""
+                                        title="KID"
+                                        name={kid.checkboxLabel}
+                                        onchange={openModal}
+                                        checked={kid.checkboxValue}>
+                                    </lightning-input>
+                                </div>
+
+                                <!-- 2️⃣ EDIT -->
+                                <div class="slds-col slds-size_1-of-12 slds-text-align_center">
+                                    <lightning-button-icon
+                                        icon-name="utility:edit"
+                                        size="small"
+                                        value={kid.checkboxWebsiteId}
+                                        variant="bare"
+                                        alternative-text="Open Pop-Up"
+                                        title="KID"
+                                        onclick={editSubscriptions}
+                                        name={kid.checkboxLabel}
+                                        tooltip="Edit Subscriptions">
+                                    </lightning-button-icon>
+                                </div>
+
+                                <!-- 3️⃣ LABEL -->
+                                <div class="slds-col slds-size_9-of-12 slds-text-align_left">
+                                    <span class="slds-form-element__label slds-m-bottom_none">
+                                        {kid.checkboxLabel}
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </template>
+
                 </div>
                 <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
                     <div class="slds-text-title_caps slds-text-title_bold slds-text-align_left slds-p-bottom_x-large">
@@ -339,7 +384,7 @@
                     <h1 class="slds-modal__title slds-hyphenate">{modalTitle}</h1>
                 </div>
                 <div class="slds-modal__content slds-var-p-around_medium">
-                    <c-search-subscription-product onsubscriptionssaved={subscriptionsSaved} fund-only={fundOnly} is-performance={isPerformance} alert-type={alertType} record-id={recordId} show-spinner={showSpinner} counter={counter}>
+                    <c-search-subscription-product onsubscriptionssaved={subscriptionsSaved} fund-only={fundOnly} is-performance={isPerformance} is-kid ={isKid} alert-type={alertType} record-id={recordId} show-spinner={showSpinner} counter={counter}>
                     </c-search-subscription-product>
                 </div> 
                 <div class="slds-modal__footer" data-id="modal_buttons_container">
