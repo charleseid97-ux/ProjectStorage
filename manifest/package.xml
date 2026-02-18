@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 
-      <types>
-        <members>CTL_SearchSubscriptionProduct</members>
-        <name>ApexClass</name>
+    <types>
+        <members>prospaceAlerts</members>
+        <members>searchSubscriptionProduct</members>
+        <name>LightningComponentBundle</name>
     </types>
 
-    <types>
-        <members>See_Share_Classes_X_et_Z</members>
-        <name>CustomPermission</name>
-    </types>
-
-    <types>
-        <members>Admin_Share_Classes_XZ</members>
-        <name>PermissionSet</name>
-    </types>
-  <version>65.0</version>
+    <version>65.0</version>
 </Package>
