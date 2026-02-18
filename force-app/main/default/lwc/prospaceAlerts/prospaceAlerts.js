@@ -62,37 +62,52 @@ export default class prospaceAlerts extends LightningElement {
             || getFieldValue(this.contact.data, CONTACT_WEBSITEID_FIELD) === undefined);
     }
 
-    @wire(getTooglesValues, {recordId: '$recordId'})
-    wiredToggles(result) {
-        this.isLoading = true;
-        this.navs = [];
-        this.reports = [];
-        this.performances = [];
-        this.kids = [];
-        this.funds = [];
-        this.holdings = [];
-        this.publications = [];
-        this.regularities = [];
-        this.wiredProspaceAlerts = result;
-        if (result.data) {
-            let arr;
-            JSON.parse(result.data).forEach(element => {
-                console.log(element.checkboxValue);
-                arr = element.checkboxCategory === 'Nav' ? this.navs : element.checkboxCategory === 'Report' ? this.reports : element.checkboxCategory === 'Performance' ? this.performances : element.checkboxCategory === 'KID' ? this.kids : element.checkboxCategory === 'Fund' ? this.funds : element.checkboxCategory === 'Holdings' ? this.holdings : element.checkboxCategory === 'Regularity' ? this.regularities : this.publications;
-                arr.push({
-                    checkboxLabel: element.checkboxLabel,
-                    checkboxAPI: element.checkboxAPI,
-                    checkboxValue: element.checkboxValue,
-                    checkboxWebsiteId: element.checkboxWebsiteId
-                });
+    @wire(getTooglesValues, { recordId: '$recordId' })
+wiredToggles(result) {
+    this.isLoading = true;
+    this.navs = [];
+    this.reports = [];
+    this.performances = [];
+    this.kids = [];
+    this.funds = [];
+    this.holdings = [];
+    this.publications = [];
+    this.regularities = [];
+    this.wiredProspaceAlerts = result;
+
+    if (result.data) {
+        const parsed = JSON.parse(result.data);
+        parsed.forEach((element) => {
+            const arr = this.getTargetArray(element.checkboxCategory);
+            arr.push({
+                checkboxLabel: element.checkboxLabel,
+                checkboxAPI: element.checkboxAPI,
+                checkboxValue: element.checkboxValue,
+                checkboxWebsiteId: element.checkboxWebsiteId
             });
-        }
-        else if (result.error) {
-            console.log(result.error);
-            this.showNotification(result.error, 'error');
-        }
-        this.isLoading = false;
+        });
+    } else if (result.error) {
+        console.log(result.error);
+        this.showNotification(result.error, 'error');
     }
+
+    this.isLoading = false;
+}
+
+// ✅ helper minimal pour supprimer les ternaires imbriqués
+getTargetArray(category) {
+    const map = {
+        Nav: this.navs,
+        Report: this.reports,
+        Performance: this.performances,
+        KID: this.kids,
+        Fund: this.funds,
+        Holdings: this.holdings,
+        Regularity: this.regularities
+    };
+    return map[category] || this.publications;
+}
+
 
     editSubscriptions(event) {
         if(event.target.title == 'Fund' || event.target.title == 'Holdings'){
