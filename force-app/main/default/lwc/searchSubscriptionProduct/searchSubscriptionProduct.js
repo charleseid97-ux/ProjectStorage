@@ -25,6 +25,7 @@ export default class SearchSubscriptionProduct extends LightningElement {
   @api counter;
   @api fundOnly;
   @api isPerformance;
+  @api isKid;
 
   selectedFrequency;
   frequenciesOptions = [
@@ -221,16 +222,25 @@ export default class SearchSubscriptionProduct extends LightningElement {
             active: false,
             checked: false
           }
+          ,
+          kid: {
+            label: "KID",
+            prospId: "",
+            active: false,
+            checked: false
+          }
         };
 
         let regD = new RegExp("daily", "gi");
         let regW = new RegExp("weekly", "gi");
         let regM = new RegExp("monthly", "gi");
         let regPerf = new RegExp("performance", "gi");
+        let regKid = new RegExp("kid", "gi");
         let isDaily = false,
           isWeekly = false,
           isMonthly = false,
-          isPerf = false;
+          isPerf = false,
+          isKidSubsc = false;
         let ischecked = false;
 
         if (o.WebCommunications__r) {
@@ -293,6 +303,20 @@ export default class SearchSubscriptionProduct extends LightningElement {
                 checked: alert.IsActive__c
               };
               isPerf = true;
+            }
+            if (
+              (regKid.test(alert.AlertType__c) ||
+              regKid.test(alert.AlertTypeRecord__r?.Name)) &&
+              !isKidSubsc
+            ) {
+              ischecked = alert.IsActive__c || ischecked;
+              alerts[o.Id].kid = {
+                label: "KID",
+                prospId: alert.Id,
+                active: alert.IsActive__c,
+                checked: alert.IsActive__c
+              };
+              isKidSubsc = true;
             }
           });
         }
