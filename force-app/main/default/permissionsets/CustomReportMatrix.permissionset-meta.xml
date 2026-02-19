@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Access to the Custom Report Matrix component: Apex controller and metadata configuration</description>
+    <classAccesses>
+        <apexClass>CustomReportMatrixController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>true</enabled>
+        <name>ReportMatrixConfiguration__mdt</name>
+    </customMetadataTypeAccesses>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Custom Report Matrix</label>
+    <license>Salesforce</license>
+</PermissionSet>
