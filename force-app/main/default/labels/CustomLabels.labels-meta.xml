@@ -299,6 +299,48 @@
         <value>Received</value>
     </labels>
     <labels>
+        <fullName>Matrix_Blank</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Matrix Blank Value</shortDescription>
+        <value>(blank)</value>
+    </labels>
+    <labels>
+        <fullName>Matrix_ConfigNotFound</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Matrix Config Not Found</shortDescription>
+        <value>Matrix configuration not found.</value>
+    </labels>
+    <labels>
+        <fullName>Matrix_ConflictStyle</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Matrix Conflict Cell Style</shortDescription>
+        <value>background-color: #ef9a9a; color: #7f0000</value>
+    </labels>
+    <labels>
+        <fullName>Matrix_LoadSuccess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Matrix Load Success</shortDescription>
+        <value>Matrix data loaded successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Matrix_NoData</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Matrix No Data</shortDescription>
+        <value>No data to display.</value>
+    </labels>
+    <labels>
+        <fullName>Matrix_QueryError</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Matrix Query Error</shortDescription>
+        <value>An error occurred while loading matrix data.</value>
+    </labels>
+    <labels>
         <fullName>MissingClientProduct</fullName>
         <categories>New Meeting Note</categories>
         <language>en_US</language>

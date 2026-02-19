@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ColGroup2__c</fullName>
+    <description>Secondary column grouping (sub-headers)</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Optional secondary field for sub-column headers under each top-level group. Leave blank for single-level columns. Example: ShareClass__r.Name__c</inlineHelpText>
+    <label>Column Group 2</label>
+    <length>255</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

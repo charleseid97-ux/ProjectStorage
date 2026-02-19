@@ -1,0 +1,173 @@
+/* ===== Card Shell ===== */
+.matrix-card {
+    border: 1px solid #dddbda;
+    border-radius: 5px;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+.matrix-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid #dddbda;
+    background: #f3f2f2;
+}
+
+.matrix-title {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #181818;
+    margin: 0;
+}
+
+/* ===== Scroll Container ===== */
+.table-scroll-wrapper {
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 75vh;
+    position: relative;
+}
+
+/* ===== Table Base ===== */
+.matrix-table {
+    border-collapse: collapse;
+    width: max-content;
+    min-width: 100%;
+    font-size: 0.8125rem;
+    color: #3e3e3c;
+}
+
+.matrix-table th,
+.matrix-table td {
+    border: 1px solid #dddbda;
+    padding: 6px 10px;
+    white-space: pre-line;
+    vertical-align: middle;
+    text-align: center;
+}
+
+/* ===== Header Rows ===== */
+.matrix-table thead th {
+    background: #f3f2f2;
+    font-weight: 700;
+}
+
+.sticky-header {
+    position: sticky;
+    z-index: 3;
+}
+
+thead tr:nth-child(1) th.sticky-header {
+    top: 0;
+}
+
+thead tr:nth-child(2) th.sticky-header {
+    top: 32px;
+}
+
+thead tr:nth-child(3) th.sticky-header {
+    top: 64px;
+}
+
+.col-group1-header {
+    background: #e8e8e8;
+    color: #000000;
+    text-align: center;
+}
+
+.col-group2-header {
+    background: #f0f0f0;
+    color: #000000;
+    text-align: center;
+}
+
+.value-label-header {
+    background: #f7f7f7;
+    color: #000000;
+    font-style: italic;
+}
+
+/* ===== Sticky Columns ===== */
+.sticky-col {
+    position: sticky;
+    left: 0;
+    z-index: 4;
+    background: #f3f2f2;
+    font-weight: 600;
+    text-align: left;
+    width: 180px;
+    min-width: 180px;
+    max-width: 180px;
+}
+
+.sticky-col-2 {
+    position: sticky;
+    left: 180px;
+    z-index: 4;
+    background: #f9f9f9;
+    text-align: left;
+    min-width: 180px;
+}
+
+/* Corner cells (sticky both top and left) */
+.corner-cell {
+    z-index: 5;
+}
+
+/* ===== Row Cells ===== */
+.row-group1-cell {
+    font-weight: 700;
+    border-right: 2px solid #dddbda;
+    background: #f3f2f2;
+    text-align: left;
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    width: 180px;
+    min-width: 180px;
+    max-width: 180px;
+}
+
+.row-group2-cell {
+    font-weight: 500;
+    border-right: 1px solid #dddbda;
+    background: #f9f9f9;
+    text-align: left;
+    position: sticky;
+    left: 180px;
+    z-index: 2;
+    min-width: 180px;
+}
+
+/* ===== Value Cells ===== */
+.value-cell {
+    min-width: 90px;
+    max-width: 150px;
+    background: #ffffff;
+}
+
+/* ===== States ===== */
+.center-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 0;
+}
+
+.matrix-errors {
+    padding: 8px 16px;
+    color: #c23934;
+    font-size: 0.8125rem;
+}
+
+.error-msg {
+    margin: 4px 0;
+}
+
+.matrix-empty {
+    padding: 16px;
+    color: #706e6b;
+    font-style: italic;
+}

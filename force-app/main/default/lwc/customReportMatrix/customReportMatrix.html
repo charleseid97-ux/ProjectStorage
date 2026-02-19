@@ -1,0 +1,95 @@
+<template>
+    <section class="matrix-card">
+        <!-- Loading Spinner -->
+        <template if:true={_isLoading}>
+            <div class="center-spinner">
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <!-- Errors -->
+        <template if:true={hasErrors}>
+            <div class="matrix-errors">
+                <template for:each={_errors} for:item="err">
+                    <p key={err} class="error-msg">{err}</p>
+                </template>
+            </div>
+        </template>
+
+        <!-- Empty State -->
+        <template if:true={isEmpty}>
+            <p class="matrix-empty">{labels.noData}</p>
+        </template>
+
+        <!-- Matrix Main -->
+        <template if:true={hasData}>
+            <!-- Card Header -->
+            <div class="matrix-header">
+                <h2 class="matrix-title">{title}</h2>
+                <lightning-button-icon icon-name="utility:refresh" variant="border" alternative-text="Refresh" title="Refresh" onclick={handleRefresh}></lightning-button-icon>
+            </div>
+            <!-- Matrix Table -->
+            <div class="table-scroll-wrapper">
+                <table class="matrix-table">
+                    <thead>
+                        <!-- Row 1: colGroup1 label in corner + colGroup1 headers (only when 2-level columns) -->
+                        <template if:true={hasColGroup2}>
+                            <tr>
+                                <th class="corner-cell sticky-col sticky-header col-group1-header" colspan={cornerColspan}>
+                                    {colGroup1Label} &#8594;
+                                </th>
+                                <template for:each={columnGroups} for:item="cg">
+                                    <th key={cg.label} class="col-group1-header sticky-header" colspan={cg.colspan}>
+                                        {cg.label}
+                                    </th>
+                                </template>
+                            </tr>
+                        </template>
+
+                        <!-- Last header row: row group labels in corner + sub column labels -->
+                        <tr>
+                            <th class="corner-cell sticky-col sticky-header col-group2-header">
+                                {rowGroup1Label} &#8595;
+                            </th>
+                            <template if:true={hasRowGroup2}>
+                                <th class="corner-cell sticky-col-2 sticky-header col-group2-header">
+                                    {rowGroup2Label} &#8595;
+                                </th>
+                            </template>
+                            <template for:each={subColumnLabels} for:item="sl">
+                                <th key={sl.key} class="col-group2-header sticky-header">
+                                    {sl.label}
+                                </th>
+                            </template>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <template for:each={displayRows} for:item="row">
+                            <tr key={row.key} class="matrix-row">
+                                <!-- rowGroup1 label: only on first row of group, with rowspan -->
+                                <template if:true={row.isFirstRow}>
+                                    <td class="row-group1-cell sticky-col" rowspan={row.rowspan}>
+                                        {row.rowGroup1Label}
+                                    </td>
+                                </template>
+                                <!-- rowGroup2 label -->
+                                <template if:true={hasRowGroup2}>
+                                    <td class="row-group2-cell sticky-col-2">
+                                        {row.rowGroup2Label}
+                                    </td>
+                                </template>
+                                <!-- Value cells -->
+                                <template for:each={row.values} for:item="cell">
+                                    <td key={cell.key} class={cell.cssClass} style={cell.inlineStyle}>
+                                        {cell.value}
+                                    </td>
+                                </template>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </template>
+    </section>
+</template>
