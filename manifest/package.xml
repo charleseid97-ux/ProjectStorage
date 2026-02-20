@@ -1,11 +1,45 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-
-    <types>
-        <members>prospaceAlerts</members>
-        <members>searchSubscriptionProduct</members>
-        <name>LightningComponentBundle</name>
-    </types>
-
-    <version>65.0</version>
+	<types>
+		<members>CustomReportMatrixController</members>
+		<name>ApexClass</name>
+	</types>
+	<types>
+		<members>Matrix_Blank</members>
+		<members>Matrix_ConfigNotFound</members>
+		<members>Matrix_ConflictStyle</members>
+		<members>Matrix_LoadSuccess</members>
+		<members>Matrix_NoData</members>
+		<members>Matrix_QueryError</members>
+		<name>CustomLabel</name>
+	</types>
+	<types>
+		<members>ReportMatrixConfiguration.CountryRegistrationStatusMatrix</members>
+		<name>CustomMetadata</name>
+	</types>
+	<types>
+		<members>ReportMatrixConfiguration__mdt</members>
+		<name>CustomObject</name>
+	</types>
+	<types>
+		<members>RegistrationStatusMatrix</members>
+		<name>CustomTab</name>
+	</types>
+	<types>
+		<members>RegistrationStatusMatrix</members>
+		<name>FlexiPage</name>
+	</types>
+	<types>
+		<members>customReportMatrix</members>
+		<name>LightningComponentBundle</name>
+	</types>
+	<types>
+		<members>CustomReportMatrix</members>
+		<name>PermissionSet</name>
+	</types>
+	<types>
+		<members>xlsxjsstyle</members>
+		<name>StaticResource</name>
+	</types>
+	<version>65.0</version>
 </Package>

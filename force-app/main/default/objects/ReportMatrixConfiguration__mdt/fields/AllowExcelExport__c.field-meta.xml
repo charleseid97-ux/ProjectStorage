@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AllowExcelExport__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>When enabled, displays the Export to Excel button on the matrix component.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Allow Excel Export</label>
+    <type>Checkbox</type>
+</CustomField>
