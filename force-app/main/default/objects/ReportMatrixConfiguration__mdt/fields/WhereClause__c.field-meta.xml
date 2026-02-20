@@ -2,7 +2,6 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>WhereClause__c</fullName>
     <description>SOQL WHERE condition</description>
-    <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <inlineHelpText>Optional SOQL WHERE condition (without the WHERE keyword). Example: ShareClass__c != null AND RegistrationStatus__c != null</inlineHelpText>
     <label>Where Clause</label>

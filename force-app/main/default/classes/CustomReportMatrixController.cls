@@ -12,12 +12,10 @@ public with sharing class CustomReportMatrixController {
 
     @AuraEnabled(cacheable=false)
     public static MatrixResult getMatrixData(String configName) {
-        MatrixResult result = new MatrixResult();
-        result.errors = new List<String>();
-
         // 1. Read CMDT — SOQL required: getInstance() silently truncates LongTextArea fields
         List<ReportMatrixConfiguration__mdt> configs = [SELECT ObjectName__c, RowGroup1__c, RowGroup2__c, ColGroup1__c, ColGroup2__c,
-                                                          ValueField__c, WhereClause__c, OrderByClause__c, Title__c, CellStyles__c
+                                                          ValueField__c, WhereClause__c, OrderByClause__c, Title__c, CellStyles__c,
+                                                          AllowExcelExport__c
                                                         FROM ReportMatrixConfiguration__mdt
                                                         WHERE DeveloperName = :configName LIMIT 1];
         if (configs.isEmpty()) {
@@ -36,9 +34,7 @@ public with sharing class CustomReportMatrixController {
         Boolean hasRowGroup2    =   String.isNotBlank(rowGroup2);
         Boolean hasColGroup2    =   String.isNotBlank(colGroup2);
 
-        result.title = String.isNotBlank(config.Title__c) ? config.Title__c : configName;
-        result.hasRowGroup2 = hasRowGroup2;
-        result.hasColGroup2 = hasColGroup2;
+        MatrixResult result = new MatrixResult((String.isNotBlank(config.Title__c) ? config.Title__c : configName), hasRowGroup2, hasColGroup2, config.AllowExcelExport__c);
 
         // 2. Build dynamic SOQL
         Set<String> fieldSet = new Set<String>{'Id'};
@@ -323,8 +319,14 @@ public with sharing class CustomReportMatrixController {
         @AuraEnabled public String rowGroup2Label { get; set; }
         @AuraEnabled public Boolean hasColGroup2 { get; set; }
         @AuraEnabled public Boolean hasRowGroup2 { get; set; }
+        @AuraEnabled public Boolean allowExcelExport { get; set; }
         @AuraEnabled public String title { get; set; }
-        @AuraEnabled public List<String> errors { get; set; }
+        public MatrixResult(String title, Boolean hasRowGroup2, Boolean hasColGroup2, Boolean allowExcelExport) {
+            this.title              =   title;
+            this.hasRowGroup2       =   hasRowGroup2;
+            this.hasColGroup2       =   hasColGroup2;
+            this.allowExcelExport   =   allowExcelExport;
+        }
     }
 
     public class ColumnGroup {

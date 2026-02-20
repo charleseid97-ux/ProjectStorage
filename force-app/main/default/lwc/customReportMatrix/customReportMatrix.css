@@ -15,6 +15,12 @@
     background: #f3f2f2;
 }
 
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 .matrix-title {
     font-size: 0.875rem;
     font-weight: 700;

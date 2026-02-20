@@ -1,7 +1,7 @@
 <template>
     <section class="matrix-card">
         <!-- Loading Spinner -->
-        <template if:true={_isLoading}>
+        <template if:true={isLoading}>
             <div class="center-spinner">
                 <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
             </div>
@@ -10,7 +10,7 @@
         <!-- Errors -->
         <template if:true={hasErrors}>
             <div class="matrix-errors">
-                <template for:each={_errors} for:item="err">
+                <template for:each={errors} for:item="err">
                     <p key={err} class="error-msg">{err}</p>
                 </template>
             </div>
@@ -26,7 +26,22 @@
             <!-- Card Header -->
             <div class="matrix-header">
                 <h2 class="matrix-title">{title}</h2>
-                <lightning-button-icon icon-name="utility:refresh" variant="border" alternative-text="Refresh" title="Refresh" onclick={handleRefresh}></lightning-button-icon>
+                <div class="header-actions">
+                    <template if:true={allowExcelExport}>
+                        <lightning-button label="Export to Excel"
+                                          icon-name="utility:download"
+                                          icon-position="left"
+                                          disabled={isExportDisabled}
+                                          onclick={handleExport}>
+                        </lightning-button>
+                    </template>
+                    <lightning-button-icon icon-name="utility:refresh" 
+                                           variant="border" 
+                                           alternative-text="Refresh" 
+                                           title="Refresh" 
+                                           onclick={handleRefresh}>
+                    </lightning-button-icon>
+                </div>
             </div>
             <!-- Matrix Table -->
             <div class="table-scroll-wrapper">
