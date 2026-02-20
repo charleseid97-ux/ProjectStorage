@@ -1,36 +1,31 @@
 public without sharing class CTL_MeetingNotes_AIOrchestrator {
 
     // -------------------- FLOW CONTRACT (from your metadata) --------------------
-    // Flow API name & variable names:
-    private static final String FLOW_NAME            = 'AL_VideoCall_GeneratePromptsResponses';
-    private static final String FLOW_VAR_IN_VIDEOCALL= 'VideoCall';                 // SObject input:contentReference[oaicite:4]{index=4}
-    public static final String FLOW_OUT_SUMMARY     = 'Output_VideoCallSummary';   // String output:contentReference[oaicite:5]{index=5}
-    public static final String FLOW_OUT_INTERESTS   = 'Output_ClientInterests';    // String (JSON) output:contentReference[oaicite:6]{index=6}
+    private static final String FLOW_NAME             = 'AL_VideoCall_GeneratePromptsResponses';
+    private static final String FLOW_VAR_IN_VIDEOCALL = 'VideoCall';
+    public  static final String FLOW_OUT_SUMMARY      = 'Output_VideoCallSummary';
+    public  static final String FLOW_OUT_INTERESTS    = 'Output_ClientInterests';
 
     // -------------------- MEETING NOTE SCHEMA -----------------------------------
-    private static final String MEETING_NOTE_SOBJ    = 'Meeting_Note__c';
-    private static final String FN_NOTE_NAME         = 'Name';
-    private static final String FN_NOTE_DATE         = 'Date__c';
-    private static final String FN_NOTE_SUMMARY      = 'Note__c';                // Will store flow summary
+    private static final String MEETING_NOTE_SOBJ     = 'Meeting_Note__c';
+    private static final String FN_NOTE_NAME          = 'Name';
+    private static final String FN_NOTE_DATE          = 'Date__c';
+    private static final String FN_NOTE_SUMMARY       = 'Note__c';
+    private static final String FN_NOTE_COMPANY       = 'Company__c'; // ✅ NEW
 
     // -------------------- EVENT SCHEMA (standard) --------------------------------
-    // Add/keep your custom lookup from Event -> Meeting Note if you have it:
-    private static final String FN_EVENT_MEETING_NOTE = 'Meeting_Note__c';          // remove if not in your org
+    private static final String FN_EVENT_MEETING_NOTE = 'Meeting_Note__c';
 
     // -------------------- CLIENT INTEREST SCHEMA ---------------------------------
-    private static final String CLIENT_INTEREST_SOBJ = 'ClientInterest__c';         // use your exact API name
-    private static final String FN_CI_MEETING_NOTE   = 'MeetingNote__c';            // link back to meeting note
-    private static final String FN_CI_STRATEGY       = 'Strategy__c';               // will map ProductId to this
-    private static final String FN_CI_INTEREST       = 'Interest__c';               // numeric 1..5 (Rating)
-    // Optional: create if you want to persist more fields
-    // private static final String FN_CI_PRODUCT_NAME = 'ProductName__c';
-    // private static final String FN_CI_WHY         = 'Why__c';
+    private static final String CLIENT_INTEREST_SOBJ  = 'ClientInterest__c';
+    private static final String FN_CI_MEETING_NOTE    = 'MeetingNote__c';
+    private static final String FN_CI_STRATEGY        = 'Strategy__c';
+    private static final String FN_CI_INTEREST        = 'Interest__c';
 
     public interface FlowRunner {
         Map<String, Object> run(VideoCall vc);
     }
 
-    // Implémentation standard (appelle réellement le Flow)
     private class DefaultFlowRunner implements FlowRunner {
         public Map<String, Object> run(VideoCall vc) {
             Flow.Interview iv = Flow.Interview.createInterview(
@@ -38,6 +33,7 @@ public without sharing class CTL_MeetingNotes_AIOrchestrator {
                 new Map<String, Object>{ FLOW_VAR_IN_VIDEOCALL => vc }
             );
             iv.start();
+
             Map<String, Object> out = new Map<String, Object>();
             try { out.put(FLOW_OUT_SUMMARY,   iv.getVariableValue(FLOW_OUT_SUMMARY)); } catch (Exception ignore) {}
             try { out.put(FLOW_OUT_INTERESTS, iv.getVariableValue(FLOW_OUT_INTERESTS)); } catch (Exception ignore) {}
@@ -48,7 +44,6 @@ public without sharing class CTL_MeetingNotes_AIOrchestrator {
     @TestVisible
     static FlowRunner flowRunner = new DefaultFlowRunner();
 
-    // Remplace l’ancienne méthode par un simple pass-through vers le runner
     private static Map<String, Object> runPromptsFlow(VideoCall vc) {
         return flowRunner.run(vc);
     }
@@ -67,24 +62,22 @@ public without sharing class CTL_MeetingNotes_AIOrchestrator {
             this.meetingNoteId = id;
         }
     }
-    
+
     @InvocableMethod(label='Create Meeting Notes from VideoCalls 2')
     public static List<FlowResult> createMeetingNotes(List<FlowInput> inputs) {
         List<FlowResult> results = new List<FlowResult>();
 
-        // 1. Extract all video call IDs
         Set<Id> videoCallIds = new Set<Id>();
         for (FlowInput input : inputs) {
             if (input != null && input.videoCallId != null) {
                 videoCallIds.add(input.videoCallId);
             }
         }
-
         if (videoCallIds.isEmpty()) return results;
 
-        // 2. Query all VideoCalls at once
+        // ✅ NEW: query RelatedRecordId
         Map<Id, VideoCall> videoCallMap = new Map<Id, VideoCall>(
-            [SELECT Name, EndDateTime, StartDateTime, Description, IntelligenceScore,
+            [SELECT Name, EndDateTime, StartDateTime, Description, IntelligenceScore, RelatedRecordId,OwnerId,
                     (SELECT RelatedPersonId, RelatedPerson.Name, RelatedPerson.Email
                      FROM VideoCalls
                      WHERE RelatedPersonId IN (SELECT Id FROM Contact))
@@ -92,7 +85,6 @@ public without sharing class CTL_MeetingNotes_AIOrchestrator {
              WHERE Id IN :videoCallIds]
         );
 
-        // 3. Process each VideoCall
         for (FlowInput input : inputs) {
             Id vcId = input.videoCallId;
             if (!videoCallMap.containsKey(vcId)) {
@@ -121,11 +113,16 @@ public without sharing class CTL_MeetingNotes_AIOrchestrator {
 
         System.debug('Summary: ' + summaryText);
         System.debug('Interests: ' + interestsJson);
-        // Create Meeting Note
+
         Meeting_Note__c meetingNote = new Meeting_Note__c();
         meetingNote.put(FN_NOTE_NAME, vc.Name);
         meetingNote.SalesPresentation__c = true;
-        meetingNote.VideoCall__c = vc.id;
+        meetingNote.VideoCall__c = vc.Id;
+        
+
+        // ✅ NEW: set Company__c from VideoCall.RelatedRecordId (with safety checks)
+        setCompanyFromVideoCall(meetingNote, vc);
+
         if (fieldExists(MEETING_NOTE_SOBJ, FN_NOTE_DATE) && vc.EndDateTime != null) {
             meetingNote.put(FN_NOTE_DATE, vc.EndDateTime.date());
         }
@@ -133,8 +130,13 @@ public without sharing class CTL_MeetingNotes_AIOrchestrator {
             meetingNote.put(FN_NOTE_SUMMARY, summaryText);
         }
         insert meetingNote;
+        try {
+            meetingNote.OwnerId = vc.OwnerId;
+            update meetingNote;
+        } catch (Exception e) {
+            System.debug(LoggingLevel.ERROR, 'Failed to update MeetingNote OwnerId for VC ' + vc.Id + ': ' + e.getMessage());            
+        }
 
-        // Create Event
         Event evt = new Event(
             StartDateTime = vc.StartDateTime,
             EndDateTime   = vc.EndDateTime,
@@ -150,10 +152,14 @@ public without sharing class CTL_MeetingNotes_AIOrchestrator {
         }
 
         System.debug('Insert event: ' + evt);
-
         insert evt;
+        try {
+            evt.OwnerId= vc.OwnerId;
+            update evt; 
+        } catch (Exception e) {
+            System.debug(LoggingLevel.ERROR, 'Failed to update Event after insert for VC ' + vc.Id + ': ' + e.getMessage());
+        }
 
-        // EventRelations
         Set<Id> relationIds = new Set<Id>();
         List<EventRelation> evtRelations = new List<EventRelation>();
         for (SObject child : vc.VideoCalls) {
@@ -170,16 +176,12 @@ public without sharing class CTL_MeetingNotes_AIOrchestrator {
         }
         if (!evtRelations.isEmpty()) {
             System.debug('Insert evtRelations: ' + evtRelations);
-
             insert evtRelations;
         }
 
-        // Client Interests
         List<ClientInterest__c> interests = parseClientInterestsJSON(interestsJson, meetingNote.Id);
-
         if (!interests.isEmpty()) {
             System.debug('Insert interests: ' + interests);
-
             insert interests;
         }
 
@@ -191,9 +193,9 @@ public without sharing class CTL_MeetingNotes_AIOrchestrator {
     public static Id createMeetingNoteFromVideoCall(Id videoCallId) {
         System.assertNotEquals(null, videoCallId, 'videoCallId is required');
 
-        // 1) Query VideoCall with related persons (Contacts) — mirrors your snippet
+        // ✅ NEW: query RelatedRecordId
         VideoCall vc = [
-            SELECT Name, EndDateTime, StartDateTime, Description, IntelligenceScore,
+            SELECT Name, EndDateTime, StartDateTime, Description, IntelligenceScore, RelatedRecordId,
                    (SELECT RelatedPersonId, RelatedPerson.Name, RelatedPerson.Email
                     FROM VideoCalls
                     WHERE RelatedPersonId IN (SELECT Id FROM Contact))
@@ -202,14 +204,16 @@ public without sharing class CTL_MeetingNotes_AIOrchestrator {
             LIMIT 1
         ];
 
-        // 2) Run the flow to get the Summary + ClientInterests JSON
         Map<String, Object> flowOut = runPromptsFlow(vc);
         String summaryText   = (String) flowOut.get(FLOW_OUT_SUMMARY);
         String interestsJson = (String) flowOut.get(FLOW_OUT_INTERESTS);
-        // 3) Create Meeting Note using values from the VideoCall
+
         Meeting_Note__c meetingNote = new Meeting_Note__c();
         meetingNote.put(FN_NOTE_NAME, vc.Name);
-        meetingNote.SalesPresentation__c = true; 
+        meetingNote.SalesPresentation__c = true;
+
+        // ✅ NEW: set Company__c from VideoCall.RelatedRecordId (with safety checks)
+        setCompanyFromVideoCall(meetingNote, vc);
 
         if (fieldExists(MEETING_NOTE_SOBJ, FN_NOTE_DATE) && vc.EndDateTime != null) {
             meetingNote.put(FN_NOTE_DATE, vc.EndDateTime.date());
@@ -219,7 +223,6 @@ public without sharing class CTL_MeetingNotes_AIOrchestrator {
         }
         insert meetingNote;
 
-        // 4) Create Event, link to Meeting Note (if your org has FN_EVENT_MEETING_NOTE)
         Event evt = new Event(
             StartDateTime = vc.StartDateTime,
             EndDateTime   = vc.EndDateTime,
@@ -228,20 +231,19 @@ public without sharing class CTL_MeetingNotes_AIOrchestrator {
         if (fieldExists('Event', FN_EVENT_MEETING_NOTE)) {
             evt.put(FN_EVENT_MEETING_NOTE, meetingNote.get('Id'));
         }
-        // Optionally set WhoId to the first contact, if any
+
         Id firstContactId = getFirstContactId(vc);
         if (firstContactId != null) {
             evt.WhoId = firstContactId;
         }
         insert evt;
 
-        // 5) Create EventRelation for ALL related contacts (client + internal as needed)
         Set<Id> relationIds = new Set<Id>();
         List<EventRelation> evtRelations = new List<EventRelation>();
 
         for (SObject child : vc.VideoCalls) {
             Id relId = (Id) child.get('RelatedPersonId');
-            if (relId != null && relationIds.add(relId) && relId != firstContactId) { // add() returns false if already in set
+            if (relId != null && relationIds.add(relId) && relId != firstContactId) {
                 evtRelations.add(new EventRelation(
                     EventId    = evt.Id,
                     RelationId = relId,
@@ -255,7 +257,6 @@ public without sharing class CTL_MeetingNotes_AIOrchestrator {
             insert evtRelations;
         }
 
-        // 6) Parse the prompt JSON and create Client Interests
         List<ClientInterest__c> cis = parseClientInterestsJSON(interestsJson, (Id) meetingNote.get('Id'));
         if (!cis.isEmpty()) {
             insert cis;
@@ -263,18 +264,36 @@ public without sharing class CTL_MeetingNotes_AIOrchestrator {
 
         return (Id) meetingNote.get('Id');
     }
-    // Grab the first contact from the child relationship for WhoId convenience
+
+    // ✅ NEW helper: sets Company__c from VideoCall.RelatedRecordId safely
+    private static void setCompanyFromVideoCall(Meeting_Note__c note, VideoCall vc) {
+        if (note == null || vc == null) return;
+        if (!fieldExists(MEETING_NOTE_SOBJ, FN_NOTE_COMPANY)) return;
+
+        Id rrId = vc.RelatedRecordId;
+        if (rrId == null) return;
+
+        // If Company__c is a lookup to Account, keep only Account ids (001...)
+        if (String.valueOf(rrId).startsWith('001')) {
+            note.put(FN_NOTE_COMPANY, rrId);
+        } else {
+            // Keep a debug to understand why it didn't populate
+            System.debug(LoggingLevel.WARN,
+                'VideoCall.RelatedRecordId is not an Account (001...). Value=' + rrId
+            );
+        }
+    }
+
     private static Id getFirstContactId(VideoCall vc) {
         for (SObject child : vc.VideoCalls) {
             Id relId = (Id) child.get('RelatedPersonId');
             if (relId != null && String.valueOf(relId).startsWith('003')) {
-                return relId; // Contact Id prefix
+                return relId;
             }
         }
         return null;
     }
 
-    // Parse JSON from the prompt template and build ClientInterest__c rows
     private static List<ClientInterest__c> parseClientInterestsJSON(String jsonString, Id meetingNoteId) {
         List<ClientInterest__c> rows = new List<ClientInterest__c>();
         if (String.isBlank(jsonString)) return rows;
@@ -284,12 +303,14 @@ public without sharing class CTL_MeetingNotes_AIOrchestrator {
             for (ProductFeedback m : arr) {
                 ClientInterest__c ci = new ClientInterest__c();
                 ci.put(FN_CI_MEETING_NOTE, meetingNoteId);
-                ci.put(FN_CI_STRATEGY, m.ProductId);
-                ci.put(FN_CI_INTEREST, m.Rating);
+
+                // Your wrapper uses lowerCamelCase (productId/rating)
+                ci.put(FN_CI_STRATEGY, m.productId);
+                ci.put(FN_CI_INTEREST, m.rating);
+
                 rows.add(ci);
             }
             System.debug('Parsing result: ' + rows);
-
         } catch (Exception e) {
             System.debug(LoggingLevel.ERROR, 'Failed to parse ClientInterests JSON: ' + e.getMessage());
         }
@@ -309,9 +330,9 @@ public without sharing class CTL_MeetingNotes_AIOrchestrator {
 
     public static List<ProductFeedback> parseFeedback(String jsonString) {
         try {
-            // Parse the JSON string into a list of wrapper objects
-            List<ProductFeedback> feedbackList = (List<ProductFeedback>) JSON.deserialize(jsonString, List<ProductFeedback>.class);
-            System.debug('feedbackListc=>'+feedbackList);
+            List<ProductFeedback> feedbackList =
+                (List<ProductFeedback>) JSON.deserialize(jsonString, List<ProductFeedback>.class);
+            System.debug('feedbackListc=>' + feedbackList);
             return feedbackList;
         } catch (Exception e) {
             System.debug('Error parsing JSON: ' + e.getMessage());
@@ -320,9 +341,9 @@ public without sharing class CTL_MeetingNotes_AIOrchestrator {
     }
 
     public class ProductFeedback {
-        public String productId { get; set; }
-        public String productName { get; set; }
-        public Integer rating { get; set; }
-        public String why { get; set; }
+        public String  productId   { get; set; }
+        public String  productName { get; set; }
+        public Integer rating      { get; set; }
+        public String  why         { get; set; }
     }
 }

@@ -1,0 +1,244 @@
+<template>
+  <!-- Loading spinner -->
+  <template if:true={isLoading}>
+    <div class="slds-text-align_center slds-p-vertical_medium">
+      <lightning-spinner alternative-text="Loading" variant="brand" size="medium"></lightning-spinner>
+    </div>
+  </template>
+
+  <!-- Header -->
+  <div class="slds-text-align_center slds-docked-composer__header">
+    <h2><b>AI Meeting Notes Generation v4</b></h2>
+  </div>
+
+  <!-- Record Form -->
+  <lightning-record-edit-form
+    object-api-name="Meeting_Note__c"
+    onsuccess={handleSuccess}
+    onsubmit={handleSubmit}
+    onerror={handleError}>
+
+    <div class="slds-docked-composer__body_form" style="background-color:white;">
+      <lightning-messages></lightning-messages>
+
+      <!-- Title & Date -->
+      <div class="slds-grid slds-gutters slds-m-bottom_small">
+        <div class="slds-col slds-size_1-of-2">
+          <lightning-input-field field-name="Name" label="Title"></lightning-input-field>
+        </div>
+        <div class="slds-col slds-size_1-of-2">
+          <lightning-input-field field-name="Date__c" label="Date"></lightning-input-field>
+        </div>
+      </div>
+
+      <!-- Static Meeting Type Picklist & Owner -->
+      <div class="slds-grid slds-gutters slds-m-bottom_medium">
+        <div class="slds-col slds-size_1-of-2">
+          <lightning-combobox
+            name="meetingTypePicklist"
+            label="Meeting Type"
+            value={meetingTypePicklist}
+            options={meetingTypeOptions}
+            placeholder="Select type"
+            required
+            onchange={handleMeetingTypePicklist}>
+          </lightning-combobox>
+        </div>
+
+        <div class="slds-col slds-size_1-of-2">
+          <lightning-input-field field-name="OwnerId" label="Owner"></lightning-input-field>
+        </div>
+      </div>
+
+      <!-- Meeting Type Details -->
+      <div class="slds-m-vertical_medium">
+        <h3 class="slds-text-title_bold">Meeting Details</h3>
+
+        <div class="slds-grid slds-gutters slds-var-p-top_x-small slds-var-p-bottom_x-small">
+          <div class="slds-col slds-size_1-of-2">
+            <lightning-input-field
+              field-name="SalesPresentation__c"
+              variant="label-hidden"
+              onchange={handleMeetingType}>
+            </lightning-input-field>
+            <label class="slds-form-element__label">Strategy Presentation</label>
+          </div>
+
+          <div class="slds-col slds-size_1-of-2">
+            <lightning-input-field
+              field-name="RelationshipManagement__c"
+              variant="label-hidden"
+              onchange={handleMeetingType}>
+            </lightning-input-field>
+            <label class="slds-form-element__label">Relationship Management</label>
+          </div>
+        </div>
+
+        <!-- Topic -->
+        <template if:true={isRelatMgt}>
+          <div class="slds-var-p-bottom_small">
+            <lightning-input-field
+              field-name="Topic__c"
+              required={isRelatMgt}
+              onchange={handleFieldChange}>
+            </lightning-input-field>
+          </div>
+        </template>
+
+        <!-- Strategies -->
+        <template if:true={isSalesPres}>
+          <template if:true={allProducts}>
+            <c-multi-select-search-list
+              label="Strategies (Short or Long name)"
+              options={allProducts}
+              value={selectedProducts}
+              more-searching-fields={productSearchFields}
+              required-label="true"
+              onchange={handleProducts}>
+            </c-multi-select-search-list>
+          </template>
+
+          <!-- Client Interest -->
+          <template if:true={clientInterest}>
+            <div class="slds-var-p-top_x-small">
+              <template for:each={clientInterest} for:item="item">
+                <div key={item.id} class="slds-grid slds-gutters slds-grid_vertical-align-center slds-var-p-bottom_x-small">
+                  <div class="slds-col slds-size_1-of-3 slds-truncate">
+                    <lightning-icon icon-name={item.icon} size={productIconSize}></lightning-icon>
+                    <span class="slds-var-p-left_small">
+                      <a href={item.href}>{item.label}</a>
+                    </span>
+                  </div>
+
+                  <div class="slds-col slds-size_2-of-3">
+                    <c-stars-rating
+                      selected-rating={item.rating}
+                      data-id={item.id}
+                      data-item={item.index}
+                      size={starIconSize}
+                      onratingclick={handleRating}>
+                    </c-stars-rating>
+                  </div>
+                </div>
+              </template>
+            </div>
+          </template>
+        </template>
+      </div>
+
+      <!-- Attendees -->
+      <div class="slds-m-vertical_small">
+        <h3 class="slds-text-title_bold">Attendees</h3>
+
+        <div class="slds-grid slds-gutters slds-var-p-top_x-small">
+          <div class="slds-col slds-size_1-of-2">
+            <template if:true={externalContacts}>
+              <c-multi-select-search-list
+                label="Clients"
+                required-label="true"
+                options={externalContacts}
+                value={selectedClients}
+                onchange={handleClients}>
+              </c-multi-select-search-list>
+            </template>
+          </div>
+
+          <div class="slds-col slds-size_1-of-2">
+            <template if:true={internalContacts}>
+              <c-multi-select-search-list
+                label="Carmignac"
+                options={internalContacts}
+                value={selectedInternals}
+                onchange={handleInternal}>
+              </c-multi-select-search-list>
+            </template>
+          </div>
+        </div>
+
+        <!-- Attendee Pills -->
+        <div class="slds-grid slds-gutters slds-var-p-bottom_small">
+          <div class="slds-col slds-size_1-of-2">
+            <template if:true={clientPills}>
+              <lightning-pill-container
+                items={clientPills}
+                data-item="Client"
+                onitemremove={handleItemRemove}
+                variant="bare">
+              </lightning-pill-container>
+            </template>
+          </div>
+
+          <div class="slds-col slds-size_1-of-2">
+            <template if:true={internalPills}>
+              <lightning-pill-container
+                items={internalPills}
+                data-item="Internal"
+                onitemremove={handleItemRemove}
+                variant="bare">
+              </lightning-pill-container>
+            </template>
+          </div>
+        </div>
+      </div>
+
+      <!-- Guidance -->
+      <div class="slds-m-vertical_medium slds-theme_default">
+        <div class="slds-grid slds-grid_align-spread slds-p-horizontal_small slds-p-vertical_x-small" onclick={toggleGuidance}>
+          <h3 class="slds-text-title_bold">💡 Tips for Writing a Good Summary</h3>
+          <lightning-button-icon
+            icon-name={guidanceIcon}
+            alternative-text="Toggle"
+            size="small"
+            variant="bare">
+          </lightning-button-icon>
+        </div>
+
+        <template if:true={showGuidance}>
+          <div class="slds-p-around_medium slds-theme_info slds-box">
+            <p>Include products discussed, client interest, opportunities and next steps.</p>
+          </div>
+        </template>
+      </div>
+
+      <!-- Raw Note -->
+      <lightning-input-field
+        field-name="Raw_Note__c"
+        label="Meeting Summary"
+        variant="label-stacked"
+        required>
+      </lightning-input-field>
+
+      <!-- Opportunity Lookup -->
+      <div class="slds-var-p-top_small">
+        <lightning-input-field
+          field-name="Opportunity__c"
+          label="Opportunity"
+          onchange={handleOpport}>
+        </lightning-input-field>
+      </div>
+
+    </div>
+
+    <!-- Footer Actions -->
+    <div class="slds-grid slds-grid_align-end slds-var-p-top_small slds-docked-composer__footer">
+      <div class="slds-col">
+        <lightning-button
+          variant="neutral"
+          label="Cancel"
+          onclick={handleCancel}>
+        </lightning-button>
+      </div>
+
+      <div class="slds-col">
+        <lightning-button
+          icon-name="utility:save"
+          variant="brand"
+          type="submit"
+          label="Generate AI Notes"
+          disabled={isLoading}>
+        </lightning-button>
+      </div>
+    </div>
+
+  </lightning-record-edit-form>
+</template>

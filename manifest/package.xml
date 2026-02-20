@@ -1,11 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 
-    <types>
-        <members>prospaceAlerts</members>
-        <members>searchSubscriptionProduct</members>
-        <name>LightningComponentBundle</name>
-    </types>
+  <!-- Apex -->
+  <types>
+    <members>CTL_MeetingNotes_AIOrchestrator</members>
+    <members>CTL_MeetingNotes_AIOrchestratorTest</members>
+    <members>CTL_MeetingNotes_UpdateFromRawText</members>
+    <members>CTL_MeetingNotes_UpdateFromRawTextTest</members>
+    <members>CTL_MeetingNotes</members>
+    <members>MeetingNoteShareController</members>
+    <members>MeetingNoteShareControllerTest</members>
+    <members>DeleteStaleVideoCalls</members>
+    <members>DeleteStaleVideoCallsTest</members>
+    <members>WS_QueueableLauncher</members>
+    <members>newTaskCTRL</members>
+    <members>newTaskCTRLTest</members>
+    <name>ApexClass</name>
+  </types>
 
-    <version>65.0</version>
+  <!-- Lightning Web Components -->
+  <types>
+    <members>aiMeetingNote</members>
+    <members>meetingNoteShare</members>
+    <members>newTask</members>
+    <members>meetingNoteAI</members>
+    <name>LightningComponentBundle</name>
+  </types>
+   <types>
+    <members>meetingNoteShareWrapper</members>
+    <members>newTaskContainer</members>
+    <members>GenericRelatedList</members>
+    <name>AuraDefinitionBundle</name>
+  </types>
+
+  <!-- Gen AI Prompt -->
+  <types>
+    <members>flex_GenerateClientInterestsFromRawNote</members>
+    <members>flex_SummaryFromRawNote</members>
+    <members>flex_VideoCallSummary</members>
+    <members>flex_GenerateMeetingNotesNotification</members>
+    <name>GenAiPromptTemplate</name>
+  </types>
+
+  <!-- Custom Field -->
+  <types>
+    <members>Meeting_Note__c.Raw_Note__c</members>
+    <name>CustomField</name>
+  </types>
+
+  <!-- Quick Actions -->
+  <types>
+    <members>Contact.AI_Create_Meeting_Note</members>
+    <members>Event.ShareWith</members>
+    <members>Event.New_Task</members>
+    <members>Meeting_Note__c.Sales_Presentation</members>
+    <name>QuickAction</name>
+  </types>
+
+
+    <!-- Flows -->
+    <types>
+   <!-- AL_RawText_GeneratePromptsResponses
+    MeetingNote_AI_Generation?
+    PT_GenerateVideoCallTranscript?
+    VideoCall_AfterCreateAfterUpdate?-->
+    <members>AI_Meeting_Note_RawText</members>
+    <members>AL_RawText_GeneratePromptsResponses</members>
+    <name>Flow</name>   
+    </types>
+    <types>
+      <members>auraActionWith</members>
+      <name>StaticResource</name>
+    </types>
+  <version>66.0</version>
 </Package>

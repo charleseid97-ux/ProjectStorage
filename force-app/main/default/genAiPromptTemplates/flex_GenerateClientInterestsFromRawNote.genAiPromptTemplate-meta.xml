@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>c4ElwQopkBL55yk9AEFEKHyr6yvBO2s5DVtJ9BtmeOQ=_2</activeVersionIdentifier>
+    <description>Use this prompt template to generate a json formated client interests data</description>
+    <developerName>flex_GenerateClientInterestsFromRawNote</developerName>
+    <masterLabel>flex_GenerateClientInterestsFromRawNote</masterLabel>
+    <templateVersions>
+        <content>Here are all the Strategy, Funds, and Share Classes at Carmignac:
+
+&lt;Strategy&gt;
+{!$Flow:PT_RetrieveProducts.Prompt}
+&lt;/Strategy&gt;
+-------------------------------------
+From the transcript below:
+Identify all products mentioned during the call.
+Product names or codes may sometimes appear with typos, missing letters, or separated characters. Try to match them with the exact product name or code when possible.
+If the strategy name or code is not mentioned, do not improvise or invent.
+For each product, assess the client’s actual investment appetite using a rating from 1 to 5:
+1 = Clearly not interested / rejects the product
+2 = Low appetite / product acknowledged but no intention to invest
+3 = Neutral / acknowledges product but no clear stance or action
+4 = Interested / positive remarks, potential openness to invest
+5 = Strong appetite / explicit interest, intention, or conditions for investment
+In addition to the score, explain briefly the client’s position by highlighting:
+Expressed willingness or reluctance to invest
+Any capacity to invest (budget, allocation room, timing if mentioned)
+Obstacles or concerns (volatility, overlap with existing positions, performance doubts, regulation)
+Levers that could increase interest (specific features, thematic appeal, peer usage, ESG, etc.)
+
+&lt;Text&gt;
+{!$Input:Meeting_Note__c.Raw_Note__c}
+&lt;/Text&gt;
+
+
+*Output Requirements:*
+1. The response must strictly be in *valid JSON format*.
+2. Each identified product should include:
+ - ProductId (string): The unique identifier of the product.( Product Id related to the Product Name)
+ - ProductName (string): The Name of the product.( Product Name)
+ - Rating (integer): A value from 1 to 5 indicating the client&apos;s sentiment.
+ - Why&quot;: &quot;why you give me this record and from where in the summary&quot; 
+
+3. The output must be an array of objects, where each object represents a product and its associated rating.
+4. If no products are identified, return an empty JSON array: [].
+
+*Important Note:* The response must contain *only the JSON output* without any additional text, commentary, or formatting.
+
+*Example Output:*
+[
+ {
+ &quot;ProductId&quot;: &quot;123SQF54...&quot;,
+ &quot;ProductName&quot;: &quot;CC27&quot;,
+ &quot;Rating&quot;: 3,
+ &quot;Why&quot;: &quot;why you give me this record&quot;
+ },
+ {
+ &quot;ProductId&quot;: &quot;1223SFQEG454...&quot;,
+ &quot;ProductName&quot;: &quot;CPEG&quot;,
+ &quot;Rating&quot;: 4,
+ &quot;Why&quot;: &quot;why you give me this record&quot;
+
+ }
+]
+</content>
+        <generationTemplateConfigs>
+            <generationConfigDeveloperName>einstein_gpt__enUsLanguageStyle</generationConfigDeveloperName>
+        </generationTemplateConfigs>
+        <inputs>
+            <apiName>Meeting_Note__c</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting_Note__c</masterLabel>
+            <referenceName>Input:Meeting_Note__c</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_RetrieveProducts</definition>
+            <referenceName>Flow:PT_RetrieveProducts</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_3</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>&lt;Strategy&gt; {!$Flow:PT_RetrieveProducts.Prompt} &lt;/Strategy&gt; ------------------------------------- From the transcript below:
+Task Overview (do not output this description):
+ Your goal is to:
+Detect all product references in the transcript.
+Match each referenced product to the corresponding Strategy in the list above.
+For each matched product, assess the client’s investment appetite (1–5) and justify it.
+Output ONLY a valid JSON array as described in Output Requirements.
+Authoritative Product List:
+ The &lt;Strategy&gt; block above is the only authoritative list of products you can use.
+ Each strategy has:
+Strategy Id (unique identifier)
+Strategy Code
+Strategy Name
+You must always use this list to resolve products.
+HProduct Identification Rules (VERY IMPORTANT):
+Exact / near-exact match required
+When a product name or code appears in the transcript and it matches (even approximately) a Strategy Name or Strategy Code from the list, you must link it to that strategy.
+Consider the following equivalences:
+Case-insensitive (e.g. cemp == CEMP)
+Accent-insensitive (e.g. Emergents == Émergents)
+Minor typos or missing characters, as long as the intention is clearly one specific strategy (e.g. Emerging Patrimoin, Emerg Patrimoine → Emerging Patrimoine).
+When in doubt between “match” vs “no product”
+If one strategy is clearly the best candidate (by similarity of name or code), you must choose that strategy and include it in the output.
+Do not ignore a product mention just because of a minor typo, spacing, or accent difference.
+When there is no reasonable match
+Only if you genuinely cannot reasonably map a product mention to any Strategy Name or Strategy Code in the list, then you should skip that product.
+If no products in the transcript can be matched to the strategy list, then (and only then) return [].
+ProductId and ProductName mapping
+ProductId must always be the exact Strategy Id of the matched strategy (e.g. &quot;a3qG500000QyC9JIAV&quot;).
+ProductName should reflect what is used in the transcript, resolved to the official value:
+If the transcript mentions the strategy code (e.g. CC27), set ProductName to the Strategy Code (e.g. &quot;CC27&quot;).
+If the transcript mentions the strategy name (e.g. Emerging Patrimoine), set ProductName to the official Strategy Name (e.g. &quot;Emerging Patrimoine&quot;).
+Never invent a new ProductId or ProductName: always take them from the &lt;Strategy&gt; list.
+Multiple mentions of the same product
+If the same product is mentioned multiple times, aggregate the information into one object with:
+One ProductId
+One ProductName
+One Rating
+One Why explaining the final stance.
+eAppetite Rating Rules (1–5):
+For each identified product, assess the client’s actual investment appetite using a rating from 1 to 5:
+1 = Clearly not interested / rejects the product
+ 2 = Low appetite / product acknowledged but no intention to invest
+ 3 = Neutral / acknowledges product but no clear stance or action
+ 4 = Interested / positive remarks, potential openness to invest
+ 5 = Strong appetite / explicit interest, intention, or conditions for investment
+In your reasoning (for Why), consider:
+Expressed willingness or reluctance to invest
+Any capacity to invest (budget, allocation room, timing if mentioned)
+Obstacles or concerns (volatility, overlap with existing positions, performance doubts, regulation)
+Levers that could increase interest (specific features, thematic appeal, peer usage, ESG, etc.)
+r &lt;Text&gt; {!$Input:Meeting_Note__c.Raw_Note__c}esponse must strictly be in valid JSON format.
+Each identified product should include:
+ProductId (string): The unique identifier of the product. (Product Id related to the Product Name, i.e. the Strategy Id from the list)
+ProductName (string): The Name of the product. (Use the official Strategy Code or Strategy Name that corresponds to what appears in the transcript)
+Rating (integer): A value from 1 to 5 indicating the client&apos;s sentiment.
+Why (string): Explain why you included this product and on which information from the transcript you based the rating (quote or paraphrase the key phrases).
+The output must be an array of objects, where each object represents a product and its associated rating.
+If no products are identified or none can be matched to the strategy list, return an empty JSON array: [].
+Important Note: The response must contain only the JSON output without any additional text, commentary, or formatting.
+Example Output:
+ [
+ {
+ &quot;ProductId&quot;: &quot;123SQF54...&quot;,
+ &quot;ProductName&quot;: &quot;CC27&quot;,
+ &quot;Rating&quot;: 3,
+ &quot;Why&quot;: &quot;why you give me this record&quot;
+ },
+ {
+ &quot;ProductId&quot;: &quot;1223SFQEG454...&quot;,
+ &quot;ProductName&quot;: &quot;CPEG&quot;,
+ &quot;Rating&quot;: 4,
+ &quot;Why&quot;: &quot;why you give me this record&quot;
+ }
+ ]
+</content>
+        <generationTemplateConfigs>
+            <generationConfigDeveloperName>einstein_gpt__enUsLanguageStyle</generationConfigDeveloperName>
+        </generationTemplateConfigs>
+        <inputs>
+            <apiName>Meeting_Note__c</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting_Note__c</masterLabel>
+            <referenceName>Input:Meeting_Note__c</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_RetrieveProducts</definition>
+            <label>PT_RetrieveProducts</label>
+            <referenceName>Flow:PT_RetrieveProducts</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>c4ElwQopkBL55yk9AEFEKHyr6yvBO2s5DVtJ9BtmeOQ=_2</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>&lt;Strategy&gt;
+{!$Flow:PT_RetrieveProducts.Prompt}
+&lt;/Strategy&gt;
+
+-------------------------------------
+From the transcript below:
+
+Task Overview (do not output this description):
+Your goal is to:
+1) Detect all product references in the transcript.
+2) Match each referenced product to the corresponding Strategy in the list above.
+3) For each matched product, assess the client’s investment appetite (1–5) and justify it.
+4) Output ONLY a valid JSON array as described in Output Requirements.
+
+Authoritative Product List:
+The &lt;Strategy&gt; block above is the ONLY authoritative list of products you can use.
+Each strategy has:
+- Strategy Id (unique identifier)
+- Strategy Code
+- Strategy Name
+
+You MUST always use this list to resolve products.
+You MUST NOT invent any product.
+You MUST NOT return an &quot;error&quot; field.
+You MUST return a JSON array (possibly empty).
+
+--------------------------------------------------
+PRODUCT NORMALIZATION RULE (MANDATORY)
+
+Before attempting any match, you MUST normalize product mentions from the transcript:
+
+1) Remove the prefix &quot;Carmignac&quot;
+2) Remove non-distinctive suffixes such as:
+  - &quot;Solution&quot;
+  - &quot;Fund&quot;
+  - &quot;Strategy&quot;
+  - &quot;Portfolio&quot;
+  - &quot;Class&quot;
+3) Trim spaces
+4) Apply case-insensitive comparison
+5) Apply accent-insensitive comparison
+
+Example:
+- &quot;Carmignac Emergents Solution&quot; → normalize to &quot;Emergents&quot;
+- &quot;Carmignac Patrimoine Fund&quot; → normalize to &quot;Patrimoine&quot;
+
+After normalization:
+If a Strategy Name or Strategy Code clearly corresponds, you MUST map to it.
+
+--------------------------------------------------
+PRODUCT IDENTIFICATION RULES (VERY IMPORTANT)
+
+Exact or near-exact match required after normalization.
+
+Accept:
+- Case-insensitive matches (cemp == CEMP)
+- Accent-insensitive matches (Emergents == Émergents)
+- Minor typos if clearly referring to ONE specific strategy
+- Slight truncations if unambiguous
+- Marketing qualifiers removed via normalization
+
+When in doubt between:
+- &quot;match&quot;
+- &quot;no product&quot;
+
+If ONE strategy is clearly the best candidate by similarity,
+YOU MUST choose that strategy.
+
+DO NOT skip a product mention because of:
+- Minor typo
+- Extra word like &quot;Solution&quot;
+- Missing accent
+- Slight wording variation
+
+Only skip a product if there is genuinely NO reasonable mapping possible.
+
+If no products in the transcript can be matched,
+return:
+[]
+
+--------------------------------------------------
+PRODUCTID AND PRODUCTNAME MAPPING RULES
+
+ProductId:
+- MUST be the exact Strategy Id from the &lt;Strategy&gt; list.
+
+ProductName:
+- If transcript uses the Strategy Code → use Strategy Code.
+- If transcript uses the Strategy Name → use the official Strategy Name.
+- If transcript uses a normalized variant (e.g., &quot;Carmignac Emergents Solution&quot;) → use the official Strategy Name from the list.
+
+Never invent values.
+Always take ProductId and ProductName from the &lt;Strategy&gt; list.
+
+--------------------------------------------------
+MULTIPLE MENTIONS
+
+If the same product appears multiple times:
+Aggregate into ONE object with:
+- One ProductId
+- One ProductName
+- One final Rating
+- One consolidated Why
+
+--------------------------------------------------
+APPETITE RATING RULES (1–5)
+
+1 = Clearly rejects the product
+2 = Low appetite
+3 = Neutral
+4 = Interested / open subject to conditions
+5 = Strong appetite / explicit intention
+
+In &quot;Why&quot;, consider:
+- Expressed willingness or reluctance
+- Allocation size mentioned
+- Conditions (due diligence, meeting, risk clarification)
+- Concerns (volatility, performance, concentration, team turnover)
+- Investment horizon
+- Levers that could unlock investment
+
+--------------------------------------------------
+TRANSCRIPT:
+
+&lt;Text&gt;
+{!$Input:Meeting_Note__c.Raw_Note__c}
+&lt;/Text&gt;
+
+--------------------------------------------------
+OUTPUT REQUIREMENTS
+
+Response MUST:
+- Be strictly valid JSON
+- Be an array of objects
+- Contain NO commentary
+- Contain NO markdown
+- Contain NO explanation outside JSON
+- Contain NO &quot;error&quot; field
+
+Each object must contain:
+- &quot;ProductId&quot; (string)
+- &quot;ProductName&quot; (string)
+- &quot;Rating&quot; (integer 1–5)
+- &quot;Why&quot; (string)
+
+If no products are matched:
+Return exactly:
+[]
+
+</content>
+        <generationTemplateConfigs>
+            <generationConfigDeveloperName>einstein_gpt__enUsLanguageStyle</generationConfigDeveloperName>
+        </generationTemplateConfigs>
+        <inputs>
+            <apiName>Meeting_Note__c</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting_Note__c</masterLabel>
+            <referenceName>Input:Meeting_Note__c</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Draft</status>
+        <templateDataProviders>
+            <definition>flow://PT_RetrieveProducts</definition>
+            <label>PT_RetrieveProducts</label>
+            <referenceName>Flow:PT_RetrieveProducts</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_9</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>&lt;Strategy&gt; {!$Flow:PT_RetrieveProducts.Prompt} &lt;/Strategy&gt; ------------------------------------- From the transcript below:
+Task Overview (do not output this description):
+ Your goal is to:
+Detect all product references in the transcript.
+Match each referenced product to the corresponding Strategy in the list above.
+For each matched product, assess the client’s investment appetite (1–5) and justify it.
+Output ONLY a valid JSON array as described in Output Requirements.
+Authoritative Product List:
+ The &lt;Strategy&gt; block above is the only authoritative list of products you can use.
+ Each strategy has:
+Strategy Id (unique identifier)
+Strategy Code
+Strategy Name
+You must always use this list to resolve products.
+HProduct Identification Rules (VERY IMPORTANT):
+Exact / near-exact match required
+When a product name or code appears in the transcript and it matches (even approximately) a Strategy Name or Strategy Code from the list, you must link it to that strategy.
+Consider the following equivalences:
+Case-insensitive (e.g. cemp == CEMP)
+Accent-insensitive (e.g. Emergents == Émergents)
+Minor typos or missing characters, as long as the intention is clearly one specific strategy (e.g. Emerging Patrimoin, Emerg Patrimoine → Emerging Patrimoine).
+When in doubt between “match” vs “no product”
+If one strategy is clearly the best candidate (by similarity of name or code), you must choose that strategy and include it in the output.
+Do not ignore a product mention just because of a minor typo, spacing, or accent difference.
+When there is no reasonable match
+Only if you genuinely cannot reasonably map a product mention to any Strategy Name or Strategy Code in the list, then you should skip that product.
+If no products in the transcript can be matched to the strategy list, then (and only then) return [].
+ProductId and ProductName mapping
+ProductId must always be the exact Strategy Id of the matched strategy (e.g. &quot;a3qG500000QyC9JIAV&quot;).
+ProductName should reflect what is used in the transcript, resolved to the official value:
+If the transcript mentions the strategy code (e.g. CC27), set ProductName to the Strategy Code (e.g. &quot;CC27&quot;).
+If the transcript mentions the strategy name (e.g. Emerging Patrimoine), set ProductName to the official Strategy Name (e.g. &quot;Emerging Patrimoine&quot;).
+Never invent a new ProductId or ProductName: always take them from the &lt;Strategy&gt; list.
+Multiple mentions of the same product
+If the same product is mentioned multiple times, aggregate the information into one object with:
+One ProductId
+One ProductName
+One Rating
+One Why explaining the final stance.
+eAppetite Rating Rules (1–5):
+For each identified product, assess the client’s actual investment appetite using a rating from 1 to 5:
+1 = Clearly not interested / rejects the product
+ 2 = Low appetite / product acknowledged but no intention to invest
+ 3 = Neutral / acknowledges product but no clear stance or action
+ 4 = Interested / positive remarks, potential openness to invest
+ 5 = Strong appetite / explicit interest, intention, or conditions for investment
+In your reasoning (for Why), consider:
+Expressed willingness or reluctance to invest
+Any capacity to invest (budget, allocation room, timing if mentioned)
+Obstacles or concerns (volatility, overlap with existing positions, performance doubts, regulation)
+Levers that could increase interest (specific features, thematic appeal, peer usage, ESG, etc.)
+r &lt;Text&gt; {!$Input:Meeting_Note__c.Raw_Note__c}esponse must strictly be in valid JSON format.
+Each identified product should include:
+ProductId (string): The unique identifier of the product. (Product Id related to the Product Name, i.e. the Strategy Id from the list)
+ProductName (string): The Name of the product. (Use the official Strategy Code or Strategy Name that corresponds to what appears in the transcript)
+Rating (integer): A value from 1 to 5 indicating the client&apos;s sentiment.
+Why (string): Explain why you included this product and on which information from the transcript you based the rating (quote or paraphrase the key phrases).
+The output must be an array of objects, where each object represents a product and its associated rating.
+If no products are identified or none can be matched to the strategy list, return an empty JSON array: [].
+Important Note: The response must contain only the JSON output without any additional text, commentary, or formatting.
+Example Output:
+ [
+ {
+ &quot;ProductId&quot;: &quot;123SQF54...&quot;,
+ &quot;ProductName&quot;: &quot;CC27&quot;,
+ &quot;Rating&quot;: 3,
+ &quot;Why&quot;: &quot;why you give me this record&quot;
+ },
+ {
+ &quot;ProductId&quot;: &quot;1223SFQEG454...&quot;,
+ &quot;ProductName&quot;: &quot;CPEG&quot;,
+ &quot;Rating&quot;: 4,
+ &quot;Why&quot;: &quot;why you give me this record&quot;
+ }
+ ]
+</content>
+        <generationTemplateConfigs>
+            <generationConfigDeveloperName>einstein_gpt__enUsLanguageStyle</generationConfigDeveloperName>
+        </generationTemplateConfigs>
+        <inputs>
+            <apiName>Meeting_Note__c</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting_Note__c</masterLabel>
+            <referenceName>Input:Meeting_Note__c</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>JSON</responseFormat>
+        <status>Draft</status>
+        <templateDataProviders>
+            <definition>flow://PT_RetrieveProducts</definition>
+            <label>PT_RetrieveProducts</label>
+            <referenceName>Flow:PT_RetrieveProducts</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_10</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

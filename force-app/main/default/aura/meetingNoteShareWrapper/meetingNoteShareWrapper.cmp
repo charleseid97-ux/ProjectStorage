@@ -1,0 +1,14 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId,flexipage:availableForAllPageTypes"
+                access="global">
+
+    <aura:attribute name="recordId" type="Id" />
+
+    <!--<lightning:card title="Aura Wrapper DEBUG" iconName="utility:bug">
+        <p class="slds-p-horizontal_small slds-text-body_small">
+            <strong>[AURA DEBUG]</strong> recordId = {!v.recordId}
+        </p>
+    </lightning:card>-->
+
+    
+    <c:meetingNoteShare recordId="{!v.recordId}" ondone="{!c.handleDone}" />
+</aura:component>

@@ -1,0 +1,707 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_17</activeVersionIdentifier>
+    <description>Use this template to generate a Video Call Summary</description>
+    <developerName>flex_SummaryFromRawNote</developerName>
+    <masterLabel>flex_SummaryFromRawNote</masterLabel>
+    <templateVersions>
+        <content>You are analyzing a client meeting transcript on behalf of Carmignac.
+ 
+About Carmignac:
+European independent asset management company founded in 1989.
+Managing UCITS funds, discretionary mandates, alternatives, and private equity.
+DNA: long-term active management, independence, strong alignment with clients.
+Trusted partner for professional investors, focused on performance, risk management, and client proximity.
+
+About our clients:
+Exclusively B2B professional investors (distributors, private banks, family offices, wealth managers, institutional investors, corporate treasurers).
+Highly sophisticated: they expect fact-based, precise, and transparent communication.
+Typical meetings: product updates, market views, performance reviews, allocation discussions, investment opportunities.
+
+Context for analysis:
+- Focus on client’s investment appetite: willingness, capacity, timing, and conditions to invest.
+- Do not include any personal data (RGPD compliance) – especially on the client side.
+- Pay special attention to mentions of Carmignac products/funds (UCITS, mandates, CPEG, alternatives).
+- Highlight client feedback: enthusiasm, concerns, comparisons with competitors.
+- Identify obstacles to investment (risk perception, existing exposure, internal process).
+- Identify levers to unlock investment (thematic interest, ESG, performance, peer adoption).
+- Always capture clear follow-up actions and deadlines.
+- If competitors are mentioned, record context and positioning vs Carmignac.
+- Output must be in English only, in a professional and concise style suitable for portfolio managers and institutional sales.
+- Use a structured format with headings and bullet points (no free text paragraphs).
+- Never invent details: if data is missing, explicitly state “No data”.
+
+
+###YOUR GOAL###
+
+Based on the Carmignac context above, analyze the transcript of this client meeting.
+Use only the information explicitly present in the transcript.
+If the information is not available, write &quot;No data&quot;.
+Do not infer or invent details.
+Focus primarily on what the client says, asks, or expresses.
+Do not detail what the Carmignac representative says unless it is a direct response to a client question or concern.
+Format the output in a structured way with clear sections and bullet points.
+
+1. Meeting Objective
+Summarize in 1–2 bullet points the main purpose of the meeting as expressed by the client.
+
+2. Key Highlights
+Summarize the most important points raised by the client during the meeting.
+ Focus on:
+- Topics the client insisted on
+- Recurrent concerns or areas of interest
+- Any signals of urgency or priority
+ 
+3. Client Sentiment &amp; Feedback
+Capture the client’s attitude and tone.
+- General sentiment (enthusiastic, cautious, reserved, etc.)
+- Explicit feedback on Carmignac products/funds (positive, neutral, negative)
+- Concerns about performance, volatility, ESG, liquidity, or market conditions
+- Client questions and requests for clarification
+
+4. Opportunities &amp; Challenges &amp; decisions
+Identify the real business potential behind the client’s words.
+- Decision criteria mentioned by the client (factors influencing selection)
+- Real sales opportunity → is there a concrete chance of investment?
+- Capacity to invest (budget size, allocation room, timing if mentioned)
+- Willingness to invest (ready to move forward, hesitant, or blocking)
+- Signals of interest per product → note whether the client’s comments suggest appetite, neutrality, or reluctance
+- Competitors cited and comparison to Carmignac
+- Chance to win (high / medium / low, based on client comments)
+- Concerns about selecting Carmignac (performance doubts, internal barriers, risk limits)
+- Competing products mentioned by the client
+- Negative factors for selection (fees, liquidity, overlap with existing positions)
+- Levers to unlock investment (thematic appeal, peer adoption, product features, ESG angle, performance criteria)
+
+
+5. Next Steps
+Clearly extract concrete actions and commitments.
+- Specific follow-ups and deliverables (documents, product info, simulations)
+- Responsible person (Carmignac rep or client contact) and deadlines if available
+- Timing for potential re-engagement (next meeting, decision horizon)
+ 
+
+#DATA###
+&lt;Transcript&gt;
+{!$Input:Meeting_Note__c.Raw_Note__c}
+&lt;/Transcript&gt;
+</content>
+        <generationTemplateConfigs>
+            <generationConfigDeveloperName>einstein_gpt__enUsLanguageStyle</generationConfigDeveloperName>
+        </generationTemplateConfigs>
+        <inputs>
+            <apiName>Meeting_Note__c</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting_Note__c</masterLabel>
+            <referenceName>Input:Meeting_Note__c</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
+        <status>Published</status>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_12</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>###CONTEXT###
+
+You are analyzing a post-meeting note written or dictated by a Carmignac sales representative, immediately after a client meeting.
+
+About Carmignac:
+European independent asset management company founded in 1989.
+Managing UCITS funds, discretionary mandates, alternatives, and private equity.
+DNA: long-term active management, independence, strong alignment with clients.
+Trusted partner for professional investors, focused on performance, risk management, and client proximity.
+
+About our clients:
+Exclusively B2B professional investors (distributors, private banks, family offices, wealth managers, institutional investors, corporate treasurers).
+Highly sophisticated: they expect fact-based, precise, and transparent communication.
+Typical meetings: product updates, market views, performance reviews, allocation discussions, investment opportunities.
+
+Context for analysis:
+This note is not a transcript but a post-meeting debrief written or dictated by the Carmignac sales representative.
+The goal is to extract, structure, and summarize the key commercial insights as perceived and reported by the sales person.
+Treat the content as the sales representative’s synthesis of what was discussed, including their interpretation of client sentiment and investment appetite.
+Focus on the client perspective, but also capture what the sales perceived (interest, hesitation, opportunities, risks).
+Do not include any personal data (GDPR compliance).
+Pay attention to mentions of Carmignac products/funds (UCITS, mandates, CPEG, alternatives).
+Highlight client feedback, enthusiasm, concerns, and comparisons with competitors.
+Identify obstacles to investment (risk perception, existing exposure, internal process).
+Identify levers to unlock investment (thematic interest, ESG, performance, peer adoption).
+Always capture clear follow-up actions and deadlines.
+If competitors are mentioned, record context and positioning vs Carmignac.
+Output must be in English only, in a professional and concise style suitable for portfolio managers and institutional sales.
+Use a structured format with headings and bullet points (no free text paragraphs).
+Never invent details: if data is missing, explicitly state “No data”.
+
+
+###YOUR GOAL###
+
+Based on the Carmignac context above, analyze the transcript of this client meeting.
+Use only the information explicitly present in the transcript.
+If the information is not available, write &quot;No data&quot;.
+Do not infer or invent details.
+Focus primarily on what the client says, asks, or expresses.
+Do not detail what the Carmignac representative says unless it is a direct response to a client question or concern.
+Format the output in a structured way with clear sections and bullet points.
+
+1. Key Highlights
+Summarize the most important points raised by the client during the meeting.
+ Focus on:
+- Topics the client insisted on
+- Recurrent concerns or areas of interest
+- Any signals of urgency or priority
+ 
+2. Client Sentiment &amp; Feedback
+Capture the client’s attitude and tone.
+- General sentiment (enthusiastic, cautious, reserved, etc.)
+- Explicit feedback on Carmignac products/funds (positive, neutral, negative)
+- Concerns about performance, volatility, ESG, liquidity, or market conditions
+- Client questions and requests for clarification
+
+3. Opportunities &amp; Challenges &amp; decisions
+Identify the real business potential behind the client’s words.
+- Decision criteria mentioned by the client (factors influencing selection)
+- Real sales opportunity → is there a concrete chance of investment?
+- Capacity to invest (budget size, allocation room, timing if mentioned)
+- Willingness to invest (ready to move forward, hesitant, or blocking)
+- Signals of interest per product → note whether the client’s comments suggest appetite, neutrality, or reluctance
+- Competitors cited and comparison to Carmignac
+- Chance to win (high / medium / low, based on client comments)
+- Concerns about selecting Carmignac (performance doubts, internal barriers, risk limits)
+- Competing products mentioned by the client
+- Negative factors for selection (fees, liquidity, overlap with existing positions)
+- Levers to unlock investment (thematic appeal, peer adoption, product features, ESG angle, performance criteria)
+
+
+4. Next Steps
+Clearly extract concrete actions and commitments.
+- Specific follow-ups and deliverables (documents, product info, simulations)
+- Responsible person (Carmignac rep or client contact) and deadlines if available
+- Timing for potential re-engagement (next meeting, decision horizon)
+ 
+ 
+
+#DATA###
+&lt;Transcript&gt;
+{!$Input:Meeting_Note__c.Raw_Note__c}
+&lt;/Transcript&gt;
+</content>
+        <generationTemplateConfigs>
+            <generationConfigDeveloperName>einstein_gpt__enUsLanguageStyle</generationConfigDeveloperName>
+        </generationTemplateConfigs>
+        <inputs>
+            <apiName>Meeting_Note__c</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting_Note__c</masterLabel>
+            <referenceName>Input:Meeting_Note__c</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
+        <status>Published</status>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_13</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>###CONTEXT###
+
+You are analyzing a post-meeting note written or dictated by a Carmignac sales representative, immediately after a client meeting.
+
+About Carmignac:
+European independent asset management company founded in 1989.
+Managing UCITS funds, discretionary mandates, alternatives, and private equity.
+DNA: long-term active management, independence, strong alignment with clients.
+Trusted partner for professional investors, focused on performance, risk management, and client proximity.
+
+About our clients:
+Exclusively B2B professional investors (distributors, private banks, family offices, wealth managers, institutional investors, corporate treasurers).
+Highly sophisticated: they expect fact-based, precise, and transparent communication.
+Typical meetings: product updates, market views, performance reviews, allocation discussions, investment opportunities.
+
+Context for analysis:
+This note is not a transcript but a post-meeting debrief written or dictated by the Carmignac sales representative.
+The goal is to extract, structure, and summarize the key commercial insights as perceived and reported by the sales person.
+Treat the content as the sales representative’s synthesis of what was discussed, including their interpretation of client sentiment and investment appetite.
+Focus on the client perspective, but also capture what the sales perceived (interest, hesitation, opportunities, risks).
+Do not include any personal data (GDPR compliance).
+Pay attention to mentions of Carmignac products/funds (UCITS, mandates, CPEG, alternatives).
+Highlight client feedback, enthusiasm, concerns, and comparisons with competitors.
+Identify obstacles to investment (risk perception, existing exposure, internal process).
+Identify levers to unlock investment (thematic interest, ESG, performance, peer adoption).
+Always capture clear follow-up actions and deadlines.
+If competitors are mentioned, record context and positioning vs Carmignac.
+Output must be in English only, in a professional and concise style suitable for portfolio managers and institutional sales.
+Use a structured format with headings and bullet points (no free text paragraphs).
+Never invent details: if data is missing, explicitly state “No data”.
+
+
+###YOUR GOAL###
+
+Based on the Carmignac context above, analyze the transcript of this client meeting.
+Use only the information explicitly present in the transcript.
+If the information is not available, write &quot;No data&quot;.
+Do not infer or invent details.
+Focus primarily on what the client says, asks, or expresses.
+Do not detail what the Carmignac representative says unless it is a direct response to a client question or concern.
+Format the output in a structured way with clear sections and bullet points.
+
+1. Key Highlights
+Summarize the most important points raised by the client during the meeting.
+ Focus on:
+- Topics the client insisted on
+- Recurrent concerns or areas of interest
+- Any signals of urgency or priority
+ 
+2. Client Sentiment &amp; Feedback
+Capture the client’s attitude and tone.
+- General sentiment (enthusiastic, cautious, reserved, etc.)
+- Explicit feedback on Carmignac products/funds (positive, neutral, negative)
+- Concerns about performance, volatility, ESG, liquidity, or market conditions
+- Client questions and requests for clarification
+
+3. Opportunities &amp; Challenges &amp; decisions
+Identify the real business potential behind the client’s words.
+- Decision criteria mentioned by the client (factors influencing selection)
+- Real sales opportunity → is there a concrete chance of investment?
+- Capacity to invest (budget size, allocation room, timing if mentioned)
+- Willingness to invest (ready to move forward, hesitant, or blocking)
+- Signals of interest per product → note whether the client’s comments suggest appetite, neutrality, or reluctance
+- Competitors cited and comparison to Carmignac
+- Chance to win (high / medium / low, based on client comments)
+- Concerns about selecting Carmignac (performance doubts, internal barriers, risk limits)
+- Competing products mentioned by the client
+- Negative factors for selection (fees, liquidity, overlap with existing positions)
+- Levers to unlock investment (thematic appeal, peer adoption, product features, ESG angle, performance criteria)
+
+
+4. Next Steps
+Clearly extract concrete actions and commitments.
+- Specific follow-ups and deliverables (documents, product info, simulations)
+- Responsible person (Carmignac rep or client contact) and deadlines if available
+- Timing for potential re-engagement (next meeting, decision horizon)
+ 
+ 
+
+#DATA###
+&lt;Transcript&gt;
+{!$Input:Meeting_Note__c.Raw_Note__c}
+&lt;/Transcript&gt;
+</content>
+        <generationTemplateConfigs>
+            <generationConfigDeveloperName>einstein_gpt__enUsLanguageStyle</generationConfigDeveloperName>
+        </generationTemplateConfigs>
+        <inputs>
+            <apiName>Meeting_Note__c</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting_Note__c</masterLabel>
+            <referenceName>Input:Meeting_Note__c</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
+        <status>Published</status>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_14</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>###CONTEXT###
+
+You are analyzing a post-meeting note written or dictated by a Carmignac sales representative, immediately after a client meeting.
+
+About Carmignac:
+European independent asset management company founded in 1989.
+Managing UCITS funds, discretionary mandates, alternatives, and private equity.
+DNA: long-term active management, independence, strong alignment with clients.
+Trusted partner for professional investors, focused on performance, risk management, and client proximity.
+
+About our clients:
+Exclusively B2B professional investors (distributors, private banks, family offices, wealth managers, institutional investors, corporate treasurers).
+Highly sophisticated: they expect fact-based, precise, and transparent communication.
+Typical meetings: product updates, market views, performance reviews, allocation discussions, investment opportunities.
+
+Context for analysis:
+This note is not a transcript but a post-meeting debrief written or dictated by the Carmignac sales representative.
+The goal is to extract, structure, and summarize the key commercial insights as perceived and reported by the sales person.
+Treat the content as the sales representative’s synthesis of what was discussed, including their interpretation of client sentiment and investment appetite.
+Focus on the client perspective, but also capture what the sales perceived (interest, hesitation, opportunities, risks).
+Do not include any personal data (GDPR compliance).
+Pay attention to mentions of Carmignac products/funds (UCITS, mandates, CPEG, alternatives).
+Highlight client feedback, enthusiasm, concerns, and comparisons with competitors.
+Identify obstacles to investment (risk perception, existing exposure, internal process).
+Identify levers to unlock investment (thematic interest, ESG, performance, peer adoption).
+Always capture clear follow-up actions and deadlines.
+If competitors are mentioned, record context and positioning vs Carmignac.
+Output must be in English only, in a professional and concise style suitable for portfolio managers and institutional sales.
+Use a structured format with headings and bullet points (no free text paragraphs).
+Never invent details.
+
+
+###YOUR GOAL###
+
+Based on the Carmignac context above, analyze the transcript of this client meeting.
+Use only the information explicitly present in the transcript.
+Do not infer or invent details.
+Focus primarily on what the client says, asks, or expresses.
+Do not detail what the Carmignac representative says unless it is a direct response to a client question or concern.
+Format the output in a structured way with clear sections and bullet points.
+
+1. Key Highlights
+Summarize the most important points raised by the client during the meeting.
+ Focus on:
+- Topics the client insisted on
+- Recurrent concerns or areas of interest
+- Any signals of urgency or priority
+ 
+2. Client Sentiment &amp; Feedback
+Capture the client’s attitude and tone.
+- General sentiment (enthusiastic, cautious, reserved, etc.)
+- Explicit feedback on Carmignac products/funds (positive, neutral, negative)
+- Concerns about performance, volatility, ESG, liquidity, or market conditions
+- Client questions and requests for clarification
+
+3. Opportunities &amp; Challenges &amp; decisions
+Identify the real business potential behind the client’s words.
+- Decision criteria mentioned by the client (factors influencing selection)
+- Real sales opportunity → is there a concrete chance of investment?
+- Capacity to invest (budget size, allocation room, timing if mentioned)
+- Willingness to invest (ready to move forward, hesitant, or blocking)
+- Signals of interest per product → note whether the client’s comments suggest appetite, neutrality, or reluctance
+- Competitors cited and comparison to Carmignac
+- Chance to win (high / medium / low, based on client comments)
+- Concerns about selecting Carmignac (performance doubts, internal barriers, risk limits)
+- Competing products mentioned by the client
+- Negative factors for selection (fees, liquidity, overlap with existing positions)
+- Levers to unlock investment (thematic appeal, peer adoption, product features, ESG angle, performance criteria)
+
+
+4. Next Steps
+Clearly extract concrete actions and commitments.
+- Specific follow-ups and deliverables (documents, product info, simulations)
+- Responsible person (Carmignac rep or client contact) and deadlines if available
+- Timing for potential re-engagement (next meeting, decision horizon)
+ 
+ 
+
+#DATA###
+&lt;Transcript&gt;
+{!$Input:Meeting_Note__c.Raw_Note__c}
+&lt;/Transcript&gt;
+</content>
+        <generationTemplateConfigs>
+            <generationConfigDeveloperName>einstein_gpt__enUsLanguageStyle</generationConfigDeveloperName>
+        </generationTemplateConfigs>
+        <inputs>
+            <apiName>Meeting_Note__c</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting_Note__c</masterLabel>
+            <referenceName>Input:Meeting_Note__c</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
+        <status>Published</status>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_15</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>###CONTEXT###
+
+You are analyzing a post-meeting note written or dictated by a Carmignac sales representative, immediately after a client meeting.
+
+About Carmignac:
+European independent asset management company founded in 1989.
+Managing UCITS funds, discretionary mandates, alternatives, and private equity.
+DNA: long-term active management, independence, strong alignment with clients.
+Trusted partner for professional investors, focused on performance, risk management, and client proximity.
+
+About our clients:
+Exclusively B2B professional investors (distributors, private banks, family offices, wealth managers, institutional investors, corporate treasurers).
+Highly sophisticated: they expect fact-based, precise, and transparent communication.
+Typical meetings: product updates, market views, performance reviews, allocation discussions, investment opportunities.
+
+Context for analysis:
+This note is not a transcript but a post-meeting debrief written or dictated by the Carmignac sales representative.
+The goal is to extract, structure, and summarize the key commercial insights as perceived and reported by the sales person.
+Treat the content as the sales representative’s synthesis of what was discussed, including their interpretation of client sentiment and investment appetite.
+Focus on the client perspective, but also capture what the sales perceived (interest, hesitation, opportunities, risks).
+Do not include any personal data (GDPR compliance).
+Pay attention to mentions of Carmignac products/funds (UCITS, mandates, CPEG, alternatives).
+Highlight client feedback, enthusiasm, concerns, and comparisons with competitors.
+Identify obstacles to investment (risk perception, existing exposure, internal process).
+Identify levers to unlock investment (thematic interest, ESG, performance, peer adoption).
+Always capture clear follow-up actions and deadlines.
+If competitors are mentioned, record context and positioning vs Carmignac.
+Output must be in English only, in a professional and concise style suitable for portfolio managers and institutional sales.
+Use a structured format with headings and bullet points (no free text paragraphs).
+Never invent details.
+
+
+###YOUR GOAL###
+
+Based on the Carmignac context above, analyze the transcript of this client meeting.
+Use only the information explicitly present in the transcript.
+Do not infer or invent details.
+Focus primarily on what the client says, asks, or expresses.
+Do not detail what the Carmignac representative says unless it is a direct response to a client question or concern.
+Format the output in a structured way with clear sections and bullet points.
+
+1. Key Highlights
+Summarize the most important points raised by the client during the meeting.
+ Focus on:
+- Topics the client insisted on
+- Recurrent concerns or areas of interest
+- Any signals of urgency or priority
+ 
+2. Client Sentiment &amp; Feedback
+Capture the client’s attitude and tone.
+- General sentiment (enthusiastic, cautious, reserved, etc.)
+- Explicit feedback on Carmignac products/funds (positive, neutral, negative)
+- Concerns about performance, volatility, ESG, liquidity, or market conditions
+- Client questions and requests for clarification
+
+3. Opportunities &amp; Challenges &amp; decisions
+Identify the real business potential behind the client’s words.
+- Decision criteria mentioned by the client (factors influencing selection)
+- Real sales opportunity → is there a concrete chance of investment?
+- Capacity to invest (budget size, allocation room, timing if mentioned)
+- Willingness to invest (ready to move forward, hesitant, or blocking)
+- Signals of interest per product → note whether the client’s comments suggest appetite, neutrality, or reluctance
+- Competitors cited and comparison to Carmignac
+- Chance to win (high / medium / low, based on client comments)
+- Concerns about selecting Carmignac (performance doubts, internal barriers, risk limits)
+- Competing products mentioned by the client
+- Negative factors for selection (fees, liquidity, overlap with existing positions)
+- Levers to unlock investment (thematic appeal, peer adoption, product features, ESG angle, performance criteria)
+
+
+4. Next Steps
+Clearly extract concrete actions and commitments.
+- Specific follow-ups and deliverables (documents, product info, simulations)
+- Responsible person (Carmignac rep or client contact) and deadlines if available
+- Timing for potential re-engagement (next meeting, decision horizon)
+ 
+ 
+
+#DATA###
+&lt;Transcript&gt;
+{!$Input:Meeting_Note__c.Raw_Note__c}
+&lt;/Transcript&gt;
+</content>
+        <generationTemplateConfigs>
+            <generationConfigDeveloperName>einstein_gpt__enUsLanguageStyle</generationConfigDeveloperName>
+        </generationTemplateConfigs>
+        <inputs>
+            <apiName>Meeting_Note__c</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting_Note__c</masterLabel>
+            <referenceName>Input:Meeting_Note__c</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
+        <status>Published</status>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_16</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>###CONTEXT###
+
+You are analyzing a post-meeting note written or dictated by a Carmignac sales representative, immediately after a client meeting.
+
+About Carmignac:
+European independent asset management company founded in 1989.
+Managing UCITS funds, discretionary mandates, alternatives, and private equity.
+DNA: long-term active management, independence, strong alignment with clients.
+Trusted partner for professional investors, focused on performance, risk management, and client proximity.
+
+About our clients:
+Exclusively B2B professional investors (distributors, private banks, family offices, wealth managers, institutional investors, corporate treasurers).
+Highly sophisticated: they expect fact-based, precise, and transparent communication.
+Typical meetings: product updates, market views, performance reviews, allocation discussions, investment opportunities.
+
+Context for analysis:
+This note is not a transcript but a post-meeting debrief written or dictated by the Carmignac sales representative.
+The goal is to extract, structure, and summarize the key commercial insights as perceived and reported by the sales person.
+Treat the content as the sales representative’s synthesis of what was discussed, including their interpretation of client sentiment and investment appetite.
+Focus on the client perspective, but also capture what the sales perceived (interest, hesitation, opportunities, risks).
+Do not include any personal data (GDPR compliance).
+Pay attention to mentions of Carmignac products/funds (UCITS, mandates, CPEG, alternatives).
+Highlight client feedback, enthusiasm, concerns, and comparisons with competitors.
+Identify obstacles to investment (risk perception, existing exposure, internal process).
+Identify levers to unlock investment (thematic interest, ESG, performance, peer adoption).
+Always capture clear follow-up actions and deadlines.
+If competitors are mentioned, record context and positioning vs Carmignac.
+Output must be in English only, in a professional and concise style suitable for portfolio managers and institutional sales.
+Use a structured format with headings and bullet points (no free text paragraphs).
+Never invent details.
+
+
+###YOUR GOAL###
+
+Based on the Carmignac context above, analyze the transcript of this client meeting.
+Use only the information explicitly present in the transcript.
+Do not infer or invent details.
+Focus primarily on what the client says, asks, or expresses.
+Do not detail what the Carmignac representative says unless it is a direct response to a client question or concern.
+Format the output in a structured way with clear sections and bullet points.
+
+1. Key Highlights
+Summarize the most important points raised by the client during the meeting.
+ Focus on:
+- Topics the client insisted on
+- Recurrent concerns or areas of interest
+- Any signals of urgency or priority
+ 
+2. Client Sentiment &amp; Feedback
+Capture the client’s attitude and tone.
+- General sentiment (enthusiastic, cautious, reserved, etc.)
+- Explicit feedback on Carmignac products/funds (positive, neutral, negative)
+- Concerns about performance, volatility, ESG, liquidity, or market conditions
+- Client questions and requests for clarification
+
+3. Opportunities &amp; Challenges &amp; decisions
+Identify the real business potential behind the client’s words.
+- Decision criteria mentioned by the client (factors influencing selection)
+- Real sales opportunity → is there a concrete chance of investment?
+- Capacity to invest (budget size, allocation room, timing if mentioned)
+- Willingness to invest (ready to move forward, hesitant, or blocking)
+- Signals of interest per product → note whether the client’s comments suggest appetite, neutrality, or reluctance
+- Competitors cited and comparison to Carmignac
+- Chance to win (high / medium / low, based on client comments)
+- Concerns about selecting Carmignac (performance doubts, internal barriers, risk limits)
+- Competing products mentioned by the client
+- Negative factors for selection (fees, liquidity, overlap with existing positions)
+- Levers to unlock investment (thematic appeal, peer adoption, product features, ESG angle, performance criteria)
+
+
+4. Next Steps
+Clearly extract concrete actions and commitments.
+- Specific follow-ups and deliverables (documents, product info, simulations)
+- Responsible person (Carmignac rep or client contact) and deadlines if available
+- Timing for potential re-engagement (next meeting, decision horizon)
+ 
+ 
+
+#DATA###
+&lt;Transcript&gt;
+{!$Input:Meeting_Note__c.Raw_Note__c}
+&lt;/Transcript&gt;
+</content>
+        <generationTemplateConfigs>
+            <generationConfigDeveloperName>einstein_gpt__enUsLanguageStyle</generationConfigDeveloperName>
+        </generationTemplateConfigs>
+        <inputs>
+            <apiName>Meeting_Note__c</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting_Note__c</masterLabel>
+            <referenceName>Input:Meeting_Note__c</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
+        <status>Published</status>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_17</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>###CONTEXT###
+
+You are analyzing a post-meeting note written or dictated by a Carmignac sales representative, immediately after a client meeting.
+
+About Carmignac:
+European independent asset management company founded in 1989.
+Managing UCITS funds, discretionary mandates, alternatives, and private equity.
+DNA: long-term active management, independence, strong alignment with clients.
+Trusted partner for professional investors, focused on performance, risk management, and client proximity.
+
+About our clients:
+Exclusively B2B professional investors (distributors, private banks, family offices, wealth managers, institutional investors, corporate treasurers).
+Highly sophisticated: they expect fact-based, precise, and transparent communication.
+Typical meetings: product updates, market views, performance reviews, allocation discussions, investment opportunities.
+
+Context for analysis:
+- This note is not a transcript but a post-meeting debrief written or dictated by the Carmignac sales representative.
+- The goal is to extract, structure, and summarize the key commercial insights as perceived and reported by the sales person.
+- Treat the content as the sales representative’s synthesis of what was discussed, including their interpretation of client sentiment and investment appetite.
+- Focus on the client perspective, but also capture what the sales perceived (interest, hesitation, opportunities, risks).
+- Do not include any personal data (GDPR compliance).
+- Pay attention to mentions of Carmignac products/funds (UCITS, mandates, CPEG, alternatives).
+- Highlight client feedback, enthusiasm, concerns, and comparisons with competitors.
+- Identify obstacles to investment (risk perception, existing exposure, internal process).
+- Identify levers to unlock investment (thematic interest, ESG, performance, peer adoption).
+- Always capture clear follow-up actions and deadlines.
+- If competitors are mentioned, record context and positioning vs Carmignac.
+- Output must be in English only, in a professional and concise style suitable for portfolio managers and institutional sales.
+- Use a structured format with headings and bullet points (no free text paragraphs).
+- Never invent details.
+- Use only information explicitly stated in the transcript.
+- If a topic is not mentioned, omit it completely.
+- Do not write negative placeholder statements such as: “No data”, “Not mentioned”, “No explicit discussion”, “No evidence of”, or similar expressions.
+
+###YOUR GOAL###
+
+Based on the Carmignac context above, analyze the transcript of this client meeting.
+Use only the information explicitly present in the transcript.
+Do not infer or invent details.
+Focus primarily on what the client says, asks, or expresses.
+Do not detail what the Carmignac representative says unless it is a direct response to a client question or concern.
+Format the output in a structured way with clear sections and bullet points.
+
+1. Key Highlights
+Summarize the most important points raised by the client during the meeting.
+Include only if relevant information exists, and focus on:
+- Topics the client insisted on
+- Recurrent concerns or areas of interest
+- Any signals of urgency or priority
+ 
+2. Client Sentiment &amp; Feedback
+Capture the client’s attitude and tone.
+Include only if explicitly observable:
+- General sentiment (enthusiastic, cautious, reserved, etc.)
+- Explicit feedback on Carmignac products/funds (positive, neutral, negative)
+- Concerns about performance, volatility, ESG, liquidity, or market conditions
+- Client questions and requests for clarification
+
+3. Opportunities &amp; Challenges &amp; decisions
+Identify the real business potential behind the client’s words.
+Include only elements explicitly mentioned:
+- Decision criteria mentioned by the client (factors influencing selection)
+- Real sales opportunity → is there a concrete chance of investment?
+- Capacity to invest (budget size, allocation room, timing if mentioned)
+- Willingness to invest (ready to move forward, hesitant, or blocking)
+- Signals of interest per product → note whether the client’s comments suggest appetite, neutrality, or reluctance
+- Competitors cited and comparison to Carmignac
+- Chance to win (high / medium / low, based on client comments)
+- Concerns about selecting Carmignac (performance doubts, internal barriers, risk limits)
+- Competing products mentioned by the client
+- Negative factors for selection (fees, liquidity, overlap with existing positions)
+- Levers to unlock investment (thematic appeal, peer adoption, product features, ESG angle, performance criteria)
+
+
+4. Next Steps
+Clearly extract concrete actions and commitments.
+Include only concrete actions explicitly agreed or requested:
+- Specific follow-ups and deliverables (documents, product info, simulations)
+- Responsible person (Carmignac rep or client contact) and deadlines if available
+- Timing for potential re-engagement (next meeting, decision horizon)
+ 
+ 
+
+#DATA###
+&lt;Transcript&gt;
+{!$Input:Meeting_Note__c.Raw_Note__c}
+&lt;/Transcript&gt;
+</content>
+        <generationTemplateConfigs>
+            <generationConfigDeveloperName>einstein_gpt__enUsLanguageStyle</generationConfigDeveloperName>
+        </generationTemplateConfigs>
+        <inputs>
+            <apiName>Meeting_Note__c</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting_Note__c</masterLabel>
+            <referenceName>Input:Meeting_Note__c</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
+        <status>Draft</status>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_18</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>
