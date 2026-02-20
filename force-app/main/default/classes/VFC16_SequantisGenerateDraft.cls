@@ -98,6 +98,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
         system.debug('====callSequantisService=======projectShareClassId = ' + projectShareClassId);
         Http httpReq = new Http();
         HttpRequest req = new HttpRequest();
+        req.setTimeout(60000);
         String endpoint;
         Map<String, Object> payload  = new Map<String, Object>();
 
@@ -107,7 +108,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
                                 Retail__c, Professional__c, EligibleCounterparty__c, Basic__c, Informed__c, Advanced__c, ExpertGermany__c, LowestRiskTolGer__c, CanNot__c, CanLimited__c, NoNeedCapGuarantee__c, CanNoLimit__c, Preservation__c, CapitalGrowth__c, Income__c,
                                 LeveragedReturn__c, PensionSchemeGer__c, MayTerminateEarlier__c, ExecutionOnly__c, AppropTest__c, InvestAdvice__c, PortfolioManagement__c,
                                 ProjectProduct__c, ShareclassInvestmentObjective__c, InvestorType__c,PerformanceFeeUCITSKIID__c,PerformanceFeeEPTKID__c, MaxPerfFees__c,
-                                PerformanceFeeMethod__c,MaxRedemptionFeesSubfund__c
+                                PerformanceFeeMethod__c,MaxRedemptionFeesSubfund__c,MaxRedemptionFeesManCo__c
                                 FROM projectShareClass__c
                                 WHERE id = :projectShareClassId];
         
@@ -163,7 +164,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
         payload.put('notForInvestorsWithTheLowestRiskToleranceGermany', formatYesNoField(projectShareClassRec.LowestRiskTolGer__c)); //values : Yes, No, Neutral
         payload.put('expertInvestorGermany', formatYesNoField(projectShareClassRec.ExpertGermany__c )); //values : Yes, No, Neutral
         payload.put('advancedInvestor', formatYesNoField(projectShareClassRec.Advanced__c)); //values : Yes, No, Neutral
-        payload.put('informedInvestor', formatYesNoField(projectShareClassRec.Informed__c )); //values : Yes, No, Neutral
+        payload.put('informedInvestor', formatYesNoField(projectShareClassRec.Informed__c)); //values : Yes, No, Neutral
         payload.put('basicInvestor', formatYesNoField(projectShareClassRec.Basic__c)); //values : Yes, No, Neutral
         payload.put('investorTypeEligibleCounterparty', formatYesNoField(projectShareClassRec.EligibleCounterparty__c )); //values : Yes, No, Neutral
         payload.put('investorTypeProfessional', formatYesNoField(projectShareClassRec.Professional__c)); //values : Yes, No, Neutral
@@ -216,7 +217,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
         payload.put('productId',ProjectProductRec.Product__c);
         payload.put('projectShareClassId',projectShareClassRec.Id);
         payload.put('projectId',ProjectProductRec.Id);
-
+        Payload.put('maxRedemptionFeesManco', projectShareClassRec.MaxRedemptionFeesManCo__c );
         if (ProjectProductRec.ParentProduct__r != null &&
             ProjectProductRec.ParentProduct__r.Product_Name__c != null) {
             payload.put('parentProduct', ProjectProductRec.ParentProduct__r.Product_Name__c);
@@ -267,7 +268,7 @@ else if (rtId == shareclassCreationRecordTypeId) {
         req.setHeader('Content-Type','application/json');
         req.setMethod('POST');
         req.setEndpoint('callout:Sequantis/rest/CARMIGNAC_PROJECT');
-
+        
 
         // Sérialisation du Map en JSON
         system.debug('payload====='+JSON.serialize(payload));
