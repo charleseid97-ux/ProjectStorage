@@ -1,0 +1,30 @@
+.sectionPadding {
+    padding: 10px 10px 10px 10px !important;
+}
+
+.card-header {
+    background-color: rgb(243, 243, 243);
+    border: solid;
+    border-width: 1px;
+    border-radius: var(--lwc-borderRadiusMedium, 0.25rem);
+    border-color: rgb(200 200 200);
+    padding: 10px !important;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    margin-bottom: 0;
+}
+
+.card-body {
+    margin-top: 0;
+    border: solid;
+    border-width: 1px;
+    border-color: rgb(200 200 200);
+    border-top: 0;
+    border-bottom-left-radius: var(--lwc-borderRadiusMedium, 0.25rem);
+    border-bottom-right-radius: var(--lwc-borderRadiusMedium, 0.25rem);
+}
+
+.badge-hover:hover {
+    background-color: var(--slds-c-button-text-color-hover, var(--sds-c-button-text-color-hover, var(--lwc-brandAccessibleActive, rgba(47, 75, 45, 1))));
+    color: white;
+}

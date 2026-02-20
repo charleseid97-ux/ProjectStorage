@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
+		<members>AgreementGridRecapController</members>
 		<members>GridBuilderController</members>
 		<members>GridBuilderControllerTest</members>
 		<members>GridBuilderHelper</members>
@@ -25,12 +26,14 @@
 		<members>Grid_AddRestrictedShareTypes</members>
 		<members>Grid_AddToGrid</members>
 		<members>Grid_AgreementErrorLoadingSettings</members>
+		<members>Grid_AgreementGridHistory</members>
 		<members>Grid_Agreements</members>
 		<members>Grid_AllRowsImported</members>
 		<members>Grid_AlreadySelected</members>
 		<members>Grid_ApplyFilters</members>
 		<members>Grid_AutoIncludeHelpText</members>
 		<members>Grid_AutoIncludeLabel</members>
+		<members>Grid_AutomaticUpdate</members>
 		<members>Grid_Builder</members>
 		<members>Grid_CreatedSuccess</members>
 		<members>Grid_CriteriaCreated</members>
@@ -38,6 +41,8 @@
 		<members>Grid_CriteriaHistory</members>
 		<members>Grid_CriteriaLabel</members>
 		<members>Grid_CriteriaNumber</members>
+		<members>Grid_CurrentGridRecap</members>
+		<members>Grid_AgreementGridRecap</members>
 		<members>Grid_DetailsTitle</members>
 		<members>Grid_DifferentGridsSelected</members>
 		<members>Grid_ErrorLoadingGrids</members>
@@ -52,6 +57,7 @@
 		<members>Grid_FilterNumber</members>
 		<members>Grid_FixValidationErrors</members>
 		<members>Grid_GridDetailsCreated</members>
+		<members>Grid_GridName</members>
 		<members>Grid_ImportCompleted</members>
 		<members>Grid_ImportCompletedWithErrors</members>
 		<members>Grid_ImportFailed</members>
@@ -62,6 +68,7 @@
 		<members>Grid_LogicLabel</members>
 		<members>Grid_MissingShareClass</members>
 		<members>Grid_MissingShareClasses</members>
+		<members>Grid_NoActiveGridAssigned</members>
 		<members>Grid_NoDetailsFound</members>
 		<members>Grid_NoExcludedProducts</members>
 		<members>Grid_NoGridAvailable</members>
@@ -101,6 +108,7 @@
 		<members>Grid_ShareTypesLabel</members>
 		<members>Grid_SomeRowsFailed</members>
 		<members>Grid_SortedBy</members>
+		<members>Grid_StandardGridsSelected</members>
 		<members>Grid_StartDate</members>
 		<members>Grid_SystemFilters</members>
 		<members>Grid_Team</members>
@@ -199,6 +207,7 @@
 	<types>
 		<members>customCombobox</members>
 		<members>filterBuilder</members>
+		<members>agreementGridRecap</members>
 		<members>gridAgreementsSelection</members>
 		<members>gridDetailTable</members>
 		<members>gridExcelImporter</members>

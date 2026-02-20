@@ -46,6 +46,7 @@ import Grid_AlreadySelected from '@salesforce/label/c.Grid_AlreadySelected';
 import Grid_ApplyFilters from '@salesforce/label/c.Grid_ApplyFilters';
 import Grid_AutoIncludeHelpText from '@salesforce/label/c.Grid_AutoIncludeHelpText';
 import Grid_AutoIncludeLabel from '@salesforce/label/c.Grid_AutoIncludeLabel';
+import Grid_AutomaticUpdate from '@salesforce/label/c.Grid_AutomaticUpdate';
 import Grid_Builder from '@salesforce/label/c.Grid_Builder';
 import Grid_CreatedSuccess from '@salesforce/label/c.Grid_CreatedSuccess';
 import Grid_CriteriaCreated from '@salesforce/label/c.Grid_CriteriaCreated';
@@ -53,6 +54,9 @@ import Grid_CriteriaDetailsCreated from '@salesforce/label/c.Grid_CriteriaDetail
 import Grid_CriteriaHistory from '@salesforce/label/c.Grid_CriteriaHistory';
 import Grid_CriteriaLabel from '@salesforce/label/c.Grid_CriteriaLabel';
 import Grid_CriteriaNumber from '@salesforce/label/c.Grid_CriteriaNumber';
+import Grid_AgreementGridHistory from '@salesforce/label/c.Grid_AgreementGridHistory';
+import Grid_AgreementGridRecap from '@salesforce/label/c.Grid_AgreementGridRecap';
+import Grid_CurrentGridRecap from '@salesforce/label/c.Grid_CurrentGridRecap';
 import Grid_DetailsTitle from '@salesforce/label/c.Grid_DetailsTitle';
 import Grid_DifferentGridsSelected from '@salesforce/label/c.Grid_DifferentGridsSelected';
 import Grid_ErrorLoadingGrids from '@salesforce/label/c.Grid_ErrorLoadingGrids';
@@ -67,6 +71,7 @@ import Grid_FailedToLoadSheetJS from '@salesforce/label/c.Grid_FailedToLoadSheet
 import Grid_FilterNumber from '@salesforce/label/c.Grid_FilterNumber';
 import Grid_FixValidationErrors from '@salesforce/label/c.Grid_FixValidationErrors';
 import Grid_GridDetailsCreated from '@salesforce/label/c.Grid_GridDetailsCreated';
+import Grid_GridName from '@salesforce/label/c.Grid_GridName';
 import Grid_ImportCompleted from '@salesforce/label/c.Grid_ImportCompleted';
 import Grid_ImportCompletedWithErrors from '@salesforce/label/c.Grid_ImportCompletedWithErrors';
 import Grid_ImportFailed from '@salesforce/label/c.Grid_ImportFailed';
@@ -77,6 +82,7 @@ import Grid_Label from '@salesforce/label/c.Grid_Label';
 import Grid_LogicLabel from '@salesforce/label/c.Grid_LogicLabel';
 import Grid_MissingShareClass from '@salesforce/label/c.Grid_MissingShareClass';
 import Grid_MissingShareClasses from '@salesforce/label/c.Grid_MissingShareClasses';
+import Grid_NoActiveGridAssigned from '@salesforce/label/c.Grid_NoActiveGridAssigned';
 import Grid_NoDetailsFound from '@salesforce/label/c.Grid_NoDetailsFound';
 import Grid_NoExcludedProducts from '@salesforce/label/c.Grid_NoExcludedProducts';
 import Grid_NoGridAvailable from '@salesforce/label/c.Grid_NoGridAvailable';
@@ -116,6 +122,7 @@ import Grid_ShareTypeFilterIndependentInfo from '@salesforce/label/c.Grid_ShareT
 import Grid_ShareTypesLabel from '@salesforce/label/c.Grid_ShareTypesLabel';
 import Grid_SomeRowsFailed from '@salesforce/label/c.Grid_SomeRowsFailed';
 import Grid_SortedBy from '@salesforce/label/c.Grid_SortedBy';
+import Grid_StandardGridsSelected from '@salesforce/label/c.Grid_StandardGridsSelected';
 import Grid_StartDate from '@salesforce/label/c.Grid_StartDate';
 import Grid_SystemFilters from '@salesforce/label/c.Grid_SystemFilters';
 import Grid_Team from '@salesforce/label/c.Grid_Team';
@@ -131,14 +138,14 @@ export const LABELS = {
     UI_Off, UI_On, UI_Operator, UI_Refresh, UI_Remove, UI_SelectOption, UI_Success, UI_UnknownField, UI_UnknownObject, UI_Value, UI_Warning,
     Grid_AddFilter, Grid_AddRestrictedShareTypes, Grid_AddToGrid, Grid_AgreementErrorLoadingSettings, Grid_Agreements,
     Grid_AllRowsImported, Grid_AlreadySelected, Grid_ApplyFilters, Grid_AutoIncludeHelpText, Grid_AutoIncludeLabel,
-    Grid_Builder, Grid_CreatedSuccess, Grid_CriteriaCreated, Grid_CriteriaDetailsCreated, Grid_CriteriaHistory,
-    Grid_CriteriaLabel, Grid_CriteriaNumber, Grid_DetailsTitle, Grid_DifferentGridsSelected,
+    Grid_AutomaticUpdate, Grid_Builder, Grid_CreatedSuccess, Grid_CriteriaCreated, Grid_CriteriaDetailsCreated, Grid_CriteriaHistory,
+    Grid_CriteriaLabel, Grid_CriteriaNumber, Grid_AgreementGridHistory, Grid_AgreementGridRecap, Grid_CurrentGridRecap, Grid_DetailsTitle, Grid_DifferentGridsSelected,
     Grid_ErrorLoadingGrids, Grid_ErrorLoadingProducts, Grid_ErrorLoadingSettings, Grid_ErrorRetrievingProducts,
     Grid_ErrorSavingGrid, Grid_ErrorValidatingProducts, Grid_ExcelImportTitle, Grid_ExcludedProducts,
-    Grid_FailedToLoadSheetJS, Grid_FilterNumber, Grid_FixValidationErrors, Grid_GridDetailsCreated,
+    Grid_FailedToLoadSheetJS, Grid_FilterNumber, Grid_FixValidationErrors, Grid_GridDetailsCreated, Grid_GridName,
     Grid_ImportCompleted, Grid_ImportCompletedWithErrors, Grid_ImportFailed, Grid_ImportedFilePrefix,
     Grid_IncludedInGrid, Grid_IncludedProducts, Grid_Label, Grid_LogicLabel,
-    Grid_MissingShareClass, Grid_MissingShareClasses, Grid_NoDetailsFound, Grid_NoExcludedProducts,
+    Grid_MissingShareClass, Grid_MissingShareClasses, Grid_NoActiveGridAssigned, Grid_NoDetailsFound, Grid_NoExcludedProducts,
     Grid_NoGridAvailable, Grid_NoGridSelectionFound, Grid_NoNewShareClassesAdded, Grid_NoProducts,
     Grid_NoProductsFound, Grid_NoProductsFoundValidation, Grid_NoProductsMatched, Grid_NoProductsSelected,
     Grid_NoProductsToDisplay, Grid_NoProductsToValidate, Grid_NoShareClassesFound, Grid_NoShareClassesToAdd,
@@ -148,7 +155,7 @@ export const LABELS = {
     Grid_SelectExcelFile, Grid_SelectGrid, Grid_SelectShareTypes, Grid_Selection, Grid_SettingNotFound,
     Grid_ShareClassesAdded, Grid_ShareClassesAddedTitle, Grid_ShareClassesNotAdded_DifferentGrid,
     Grid_ShareTypeFilterIndependentInfo, Grid_ShareTypesLabel, Grid_SomeRowsFailed, Grid_SortedBy,
-    Grid_StartDate, Grid_SystemFilters, Grid_Team, Grid_Title, Grid_ValidateGrid, Grid_ValidationErrors,
+    Grid_StandardGridsSelected, Grid_StartDate, Grid_SystemFilters, Grid_Team, Grid_Title, Grid_ValidateGrid, Grid_ValidationErrors,
     Grid_ViewExcludedProducts, Grid_ViewRecap
 };
 

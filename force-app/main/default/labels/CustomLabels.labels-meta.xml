@@ -312,6 +312,13 @@
         <value>Automatically include new funds and share classes in the Grid</value>
     </labels>
     <labels>
+        <fullName>Grid_AutomaticUpdate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Field label for the Automatic Grid Update flag in Agreement Grid Recap</shortDescription>
+        <value>Automatic Update</value>
+    </labels>
+    <labels>
         <fullName>Grid_Builder</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -359,6 +366,27 @@
         <protected>false</protected>
         <shortDescription>Column header for criteria number</shortDescription>
         <value>Criteria #</value>
+    </labels>
+    <labels>
+        <fullName>Grid_AgreementGridHistory</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header for Agreement Grid History</shortDescription>
+        <value>Agreement Grid History</value>
+    </labels>
+    <labels>
+        <fullName>Grid_AgreementGridRecap</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Section title for the grids recap in the Agreement Grid Recap component</shortDescription>
+        <value>Grids Recap</value>
+    </labels>
+    <labels>
+        <fullName>Grid_CurrentGridRecap</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header for current grid recap</shortDescription>
+        <value>Current Grid</value>
     </labels>
     <labels>
         <fullName>Grid_DetailsTitle</fullName>
@@ -459,6 +487,13 @@
         <value>Grid details created</value>
     </labels>
     <labels>
+        <fullName>Grid_GridName</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Field label for Grid Name in the Agreement Grid Recap component</shortDescription>
+        <value>Grid</value>
+    </labels>
+    <labels>
         <fullName>Grid_ImportCompleted</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -527,6 +562,13 @@
         <protected>false</protected>
         <shortDescription>Warning for missing share classes</shortDescription>
         <value>Missing share class(es)</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoActiveGridAssigned</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Empty state when no active grid is assigned to the agreement</shortDescription>
+        <value>No active grid assigned.</value>
     </labels>
     <labels>
         <fullName>Grid_NoDetailsFound</fullName>
@@ -800,6 +842,13 @@
         <protected>false</protected>
         <shortDescription>Prefix for sorted column label</shortDescription>
         <value>Sorted by</value>
+    </labels>
+    <labels>
+        <fullName>Grid_StandardGridsSelected</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Section label for standard grids in Agreement Grid Recap</shortDescription>
+        <value>Standard Grids</value>
     </labels>
     <labels>
         <fullName>Grid_StartDate</fullName>
