@@ -115,7 +115,7 @@ public with sharing class CTL_SearchSubscriptionProduct {
         '   AND Fund__r.FundStrategy__c != null';
 
         if (!canSeeXZ) {
-            query += ' AND Type__c NOT IN (\'X\',\'Z\')';
+            query += ' AND Dissemination__c != \'Restricted\' AND Dissemination__c != \'No\' ';
         }
 
         query +=
