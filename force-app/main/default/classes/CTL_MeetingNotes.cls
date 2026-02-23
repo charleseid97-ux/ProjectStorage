@@ -150,6 +150,7 @@ public without sharing class CTL_MeetingNotes {
                 mail.setReplyTo(note.Owner.Email);
                 mail.setSenderDisplayName(note.Owner.Name);
                 mail.setWhatId(meetingNoteId);
+                mail.setSaveAsActivity(false);
                 allmsg.add(mail);
             }
             if(allmsg.size() > 0){

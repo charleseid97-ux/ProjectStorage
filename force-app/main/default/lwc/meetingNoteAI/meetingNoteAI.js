@@ -479,7 +479,8 @@ export default class MeetingNote extends NavigationMixin(LightningElement) {
                                 Subject: this.meetingNote.Name,
                                 Meeting_Note__c: this.meetingNote.id,
                                 WhoId: this.allSelectedClients[0],
-                                WhatId: this.companieId
+                                WhatId: this.companieId,
+                                OwnerId: this.selectedOwnerId || userId
                             };
         //Create client interest only in case of salesPresentation Meeting...
         let interestObject = [];

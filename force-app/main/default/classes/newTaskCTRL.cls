@@ -12,8 +12,7 @@ public without sharing class newTaskCTRL {
         // Basic hardening (optional but recommended)
         for (Task t : tasksToInsert) {
             if (String.isBlank(t.Subject)) t.Subject = 'Follow Up - Event';
-            t.type = 'To Do Action';
-            // Add your required checks if needed
+             t.type = 'To Do Action';
         }
 
         insert tasksToInsert;

@@ -118,7 +118,7 @@ public without sharing class CTL_MeetingNotes_AIOrchestrator {
         meetingNote.put(FN_NOTE_NAME, vc.Name);
         meetingNote.SalesPresentation__c = true;
         meetingNote.VideoCall__c = vc.Id;
-        
+        meetingNote.OwnerId = vc.OwnerId;
 
         // ✅ NEW: set Company__c from VideoCall.RelatedRecordId (with safety checks)
         setCompanyFromVideoCall(meetingNote, vc);
@@ -140,7 +140,8 @@ public without sharing class CTL_MeetingNotes_AIOrchestrator {
         Event evt = new Event(
             StartDateTime = vc.StartDateTime,
             EndDateTime   = vc.EndDateTime,
-            Subject       = vc.Name
+            Subject       = vc.Name,
+            OwnerId       = vc.OwnerId
         );
         if (fieldExists('Event', FN_EVENT_MEETING_NOTE)) {
             evt.put(FN_EVENT_MEETING_NOTE, meetingNote.Id);
