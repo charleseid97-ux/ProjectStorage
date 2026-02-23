@@ -41,4 +41,12 @@
         <errorMessage><!-- One and only one of the following lookup fields should be filled : Strategy, Product, Shareclass, Contact, Company, EET --></errorMessage>
         <name>VR01_NarrativeLookups</name>
     </validationRules>
+    <validationRules>
+        <errorMessage><!-- Fund Manager is required for a Biography. --></errorMessage>
+        <name>VR02_BiographyRT_FundManagerRequired</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- The fields Product, Project Contribution at Product level, Narrative, Share Class and Strategy should be empty for Biography records --></errorMessage>
+        <name>VR03_BiographyRT_ProductFieldsEmpty</name>
+    </validationRules>
 </CustomObjectTranslation>

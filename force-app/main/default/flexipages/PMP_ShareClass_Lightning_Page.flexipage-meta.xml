@@ -185,6 +185,33 @@
                 <identifier>RecordDissemination_cField2</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>required</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.DisseminationRecipient__c</fieldItem>
+                <identifier>RecordDisseminationRecipient_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.Dissemination__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Restricted</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Feeder__c</fieldItem>
+                <identifier>RecordFeeder_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-7ugdaoz6mr6</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -234,12 +261,8 @@
         </itemInstances>
         <itemInstances>
             <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.LaunchDate__c</fieldItem>
-                <identifier>RecordLaunchDate_cField</identifier>
+                <fieldItem>Record.Fund__r.LegalForm__c</fieldItem>
+                <identifier>RecordFund_rLegalForm_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -254,8 +277,22 @@
         </itemInstances>
         <itemInstances>
             <fieldInstance>
-                <fieldItem>Record.Fund__r.LegalForm__c</fieldItem>
-                <identifier>RecordFund_rLegalForm_cField</identifier>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.LaunchDate__c</fieldItem>
+                <identifier>RecordLaunchDate_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.CloseDate__c</fieldItem>
+                <identifier>RecordCloseDate_cField3</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-23d9z2wp9bz</name>
@@ -316,6 +353,16 @@
                 <identifier>RecordEFAMAEFCClassificationType_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.LegalType__c</fieldItem>
+                <identifier>RecordLegalType_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-0a113fd5-c73b-4886-ab5d-ba3973bc0e13</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -336,8 +383,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.IsUSEligible__c</fieldItem>
-                <identifier>RecordIsUSEligible_cField2</identifier>
+                <fieldItem>Record.InvestorSubType__c</fieldItem>
+                <identifier>RecordInvestorSubType_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -346,8 +393,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.LegalType__c</fieldItem>
-                <identifier>RecordLegalType_cField</identifier>
+                <fieldItem>Record.IsUSEligible__c</fieldItem>
+                <identifier>RecordIsUSEligible_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-98c46bdd-c0f3-4f4a-8e47-2f33004115fa</name>
@@ -392,15 +439,21 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.DividendFrequency__c</fieldItem>
                 <identifier>RecordDividendFrequency_cField</identifier>
                 <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.DividendPolicy__c}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>Distributing</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.DividendPolicy__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Income</rightValue>
                     </criteria>
                 </visibilityRule>
             </fieldInstance>
@@ -841,25 +894,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.MaxRedemptionFee__c</fieldItem>
-                <identifier>RecordMaxRedemptionFee_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.MaxRedemptionFeesSubfund__c</fieldItem>
-                <identifier>RecordMaxRedemptionFeesSubfund_cField</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.MaxRedemptionFeesSubfund__c}</leftValue>
-                        <operator>GT</operator>
-                        <rightValue>0</rightValue>
-                    </criteria>
-                </visibilityRule>
+                <fieldItem>Record.MaxRedemptionFeesManCo__c</fieldItem>
+                <identifier>RecordMaxRedemptionFeesManCo_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -892,10 +928,47 @@
                 <identifier>RecordTransactionCostsexpost_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.OngoingCostsExante__c</fieldItem>
+                <identifier>RecordOngoingCostsExante_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-553c3eaa-fbf3-4297-bb7f-08a3bd2d5c38</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.MaxRedemptionFee__c</fieldItem>
+                <identifier>RecordMaxRedemptionFee_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.MaxRedemptionFeesSubfund__c</fieldItem>
+                <identifier>RecordMaxRedemptionFeesSubfund_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.MaxRedemptionFeesSubfund__c}</leftValue>
+                        <operator>GT</operator>
+                        <rightValue>0</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
@@ -934,16 +1007,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.MaxIndirectFees__c</fieldItem>
                 <identifier>RecordMaxIndirectFees_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.OngoingCostsExante__c</fieldItem>
-                <identifier>RecordOngoingCostsExante_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-78085cea-ee73-4eb8-a7bc-9ce39b370dfc</name>
@@ -1050,6 +1113,68 @@
             </componentInstance>
         </itemInstances>
         <name>Facet-b64edf59-411c-4fa3-89e3-17c9bd50e9f0</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.TERExclPerfFee__c</fieldItem>
+                <identifier>RecordTERExclPerfFee_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.TERInclPerfFee__c</fieldItem>
+                <identifier>RecordTERInclPerfFee_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-c9a0e832-41d6-4c0f-88bf-2ddd938ceb96</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.TERDate__c</fieldItem>
+                <identifier>RecordTERDate_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-95be670e-e811-4581-99a2-9e183830c384</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-c9a0e832-41d6-4c0f-88bf-2ddd938ceb96</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column21</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-95be670e-e811-4581-99a2-9e183830c384</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column22</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-cb1fdd6e-18df-4144-98d3-17cffc31e9b8</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1237,6 +1362,48 @@
             </componentInstance>
         </itemInstances>
         <name>Facet-1934d299-8f26-4398-a70f-846ba03501e1</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.PRIIPSKIDRedemptionFee__c</fieldItem>
+                <identifier>RecordPRIIPSKIDRedemptionFee_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-0780eba9-b249-4e00-adb3-02c61374f314</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <name>Facet-53636157-695a-4258-906c-dec85e77687e</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-0780eba9-b249-4e00-adb3-02c61374f314</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column23</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-53636157-695a-4258-906c-dec85e77687e</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column24</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-999d0b41-f4e0-4dd4-b7c6-ba53d4d52550</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -1449,6 +1616,24 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
+                    <value>Facet-cb1fdd6e-18df-4144-98d3-17cffc31e9b8</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Fees - Calculated Rate</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection11</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
                     <value>Facet-1934d299-8f26-4398-a70f-846ba03501e1</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -1461,6 +1646,24 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection8</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-999d0b41-f4e0-4dd4-b7c6-ba53d4d52550</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>PRIIPS KID - Fees</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection12</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1724,6 +1927,16 @@
                         <rightValue>7</rightValue>
                     </criteria>
                 </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SRRIDate__c</fieldItem>
+                <identifier>RecordSRRIDate_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-90d94f43-ec25-416f-b07e-a2e87205ce70</name>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>Donner accès à PMT</description>
+    <description>N&apos;est plus utilisée (Delete?)</description>
     <fieldPermissions>
         <editable>true</editable>
         <field>ProjectProduct__c.CFD_Long_Comment__c</field>

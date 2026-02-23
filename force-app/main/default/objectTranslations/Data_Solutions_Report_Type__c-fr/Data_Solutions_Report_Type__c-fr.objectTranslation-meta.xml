@@ -17,4 +17,8 @@
         </sections>
     </layouts>
     <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- You are not allowed to modify these fields. Only the Description field can be updated. --></errorMessage>
+        <name>Restrict_Edits_on_Non_Description_Fields</name>
+    </validationRules>
 </CustomObjectTranslation>

@@ -181,6 +181,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ProjectProductChild__c.InvestmentObjective__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ProjectProductChild__c.LMT__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -245,8 +250,18 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>ProjectProduct__c.CommentaireLettre__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>ProjectProduct__c.EndDate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ProjectProduct__c.LettreRequise__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -257,11 +272,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ProjectShareclassChild__c.CFICode__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>ProjectShareclassChild__c.DividendFrequency__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

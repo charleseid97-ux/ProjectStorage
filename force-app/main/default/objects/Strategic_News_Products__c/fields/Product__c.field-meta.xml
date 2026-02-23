@@ -4,6 +4,15 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <description>junction object Product</description>
     <label>Product</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Product__c.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Fund</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
     <referenceTo>Product__c</referenceTo>
     <relationshipLabel>Strategics News Products</relationshipLabel>
     <relationshipName>Strategics_News_Products</relationshipName>

@@ -381,6 +381,17 @@
         <template>Work_Together_Process/Work_Together_ProcessNew</template>
     </alerts>
     <alerts>
+        <fullName>New_Work_Together_Process_RFP_FRANCE</fullName>
+        <description>New_WorkTogether_Process_RFP_FRANCE</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>ariane.tardieu-crm@carmignac.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Work_Together_Process/Work_Together_ProcessNew</template>
+    </alerts>
+    <alerts>
         <fullName>Notify_Work_Together</fullName>
         <description>Notify Work Together</description>
         <protected>false</protected>

@@ -286,6 +286,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Share_Class__c.DisseminationRecipient__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Share_Class__c.Dissemination__c</field>
         <readable>true</readable>
     </fieldPermissions>

@@ -87,6 +87,59 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>ProjectProduct__c.Generate_Draft_KID</value>
+                            <visibilityRule>
+                                <booleanFilter>(1 OR 2 OR 3 OR 4 OR 6 OR 7 OR 8) AND ( 5 AND 9)</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!$User.Username}</leftValue>
+                                    <operator>CONTAINS</operator>
+                                    <rightValue>leo.pawlicki</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Username}</leftValue>
+                                    <operator>CONTAINS</operator>
+                                    <rightValue>clementine.blanchard</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>CONTAINS</operator>
+                                    <rightValue>Administrator</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Carmignac - Legal and Compliance</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.ProjectStatus__c}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Closed</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Username}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>patrick.temfack-crm@carmignac.com</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Username}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>dana.croize-crm@carmignac.com</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Username}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>arnaud.sankou-crm@carmignac.com</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.LegalForm__c}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>OEIC</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                    </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>collapsed</name>
@@ -315,16 +368,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.ProductName__c</fieldItem>
                 <identifier>RecordProductName_cField2</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ForeseenEUCategory__c</fieldItem>
-                <identifier>RecordEUCategory_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -2133,6 +2176,16 @@
                 <identifier>RecordRegulator_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ForeseenEUCategory__c</fieldItem>
+                <identifier>RecordEUCategory_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-e71f8d0d-2729-46e4-a6a5-aa54e4b29454</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -2247,26 +2300,6 @@
                 <identifier>RecordReasonForRHP_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.RedeemCondition__c</fieldItem>
-                <identifier>RecordRedeemCondition_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.LMT__c</fieldItem>
-                <identifier>RecordLMT_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-45229bf9-ac63-4058-8767-136eff2f9ef7</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -2347,6 +2380,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.IsLeveraged__c</fieldItem>
                 <identifier>RecordIsLeveraged_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.PRIIPSCategory__c</fieldItem>
+                <identifier>RecordPRIIPSCategory_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-c380338f-e7ea-4c24-8c60-b0e6ca3a8958</name>

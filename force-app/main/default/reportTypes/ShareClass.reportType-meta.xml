@@ -316,6 +316,51 @@
             <field>MaxRedemptionFeesSubfund__c</field>
             <table>Share_Class__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>DisseminationRecipient__c</field>
+            <table>Share_Class__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TERExclPerfFee__c</field>
+            <table>Share_Class__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TERInclPerfFee__c</field>
+            <table>Share_Class__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TERDate__c</field>
+            <table>Share_Class__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>InvestorSubType__c</field>
+            <table>Share_Class__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>MaxRedemptionFeesManCo__c</field>
+            <table>Share_Class__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>PRIIPSKIDRedemptionFee__c</field>
+            <table>Share_Class__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>SRRIDate__c</field>
+            <table>Share_Class__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Feeder__c</field>
+            <table>Share_Class__c</table>
+        </columns>
         <masterLabel>Share Classes</masterLabel>
     </sections>
 </ReportType>

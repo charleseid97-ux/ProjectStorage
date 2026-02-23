@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Investor Sub Type --></label>
+    <name>InvestorSubType__c</name>
+    <picklistValues>
+        <masterLabel>All investors</masterLabel>
+        <translation><!-- All investors --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Authorized institutional investors</masterLabel>
+        <translation><!-- Authorized institutional investors --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Authorized investors in Germany and Austria</masterLabel>
+        <translation><!-- Authorized investors in Germany and Austria --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Clean shares eligible investors</masterLabel>
+        <translation><!-- Clean shares eligible investors --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Reserved to funds managed by CG</masterLabel>
+        <translation><!-- Reserved to funds managed by CG --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Reserved to selected institutional investors</masterLabel>
+        <translation><!-- Reserved to selected institutional investors --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Reserved to selected investors</masterLabel>
+        <translation><!-- Reserved to selected investors --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

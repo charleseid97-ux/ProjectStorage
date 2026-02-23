@@ -23,4 +23,12 @@
         </sections>
     </layouts>
     <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- RepOrder must be blank when End Date is filled. --></errorMessage>
+        <name>VR1_RepOrder_Must_Be_Blank_When_EndDate</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Rep Order is required when End Date is empty to define the display order of product managers in reports --></errorMessage>
+        <name>VR2_RepOrder_Required_When_EndDate_Empty</name>
+    </validationRules>
 </CustomObjectTranslation>

@@ -1024,7 +1024,7 @@ IF( {!$Record.Owner:Group.Name} = &apos;Translation Queue UK&apos;,  &apos;workg
         </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Active</status>
+    <status>Draft</status>
     <textTemplates>
         <name>BodyCRMAgencyRequest</name>
         <isViewedAsPlainText>false</isViewedAsPlainText>

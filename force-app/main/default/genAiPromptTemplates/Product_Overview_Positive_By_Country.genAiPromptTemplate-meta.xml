@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
-    <activeVersionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_1</activeVersionIdentifier>
     <developerName>Product_Overview_Positive_By_Country</developerName>
     <masterLabel>Product Overview - Positive - By Country</masterLabel>
     <templateVersions>
@@ -117,7 +116,6 @@ Example Comment: &quot;Positive feedback on the meeting and the presentation/arg
             </parameters>
             <referenceName>Flow:Positive_Meeting_Notes_Collection</referenceName>
         </templateDataProviders>
-        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_1</versionIdentifier>
     </templateVersions>
     <type>einstein_gpt__flex</type>
     <visibility>Global</visibility>

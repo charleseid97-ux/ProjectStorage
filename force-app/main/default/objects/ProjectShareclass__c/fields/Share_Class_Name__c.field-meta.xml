@@ -3,42 +3,102 @@
     <fullName>Share_Class_Name__c</fullName>
     <externalId>false</externalId>
     <formula>IF(
-  ISBLANK(ProjectProduct__r.ProductName__c),
-  ProjectProduct__r.Product__r.Product_Name__c &amp; &quot; &quot;,
-    ProjectProduct__r.ProductName__c &amp; &quot; &quot;
-) &amp;
+AND(
+TEXT(Fund__r.LegalForm__c) = &quot;OEIC&quot;,
+TEXT(DividendPolicy__c) = &quot;Distributing&quot;
+),
+
+/* ================= OEIC + DISTRIBUTING CASE ================= */
+
 IF(
-  ISBLANK(Text(Type__c)),
-  &quot;&quot;,
-  Text(Type__c) &amp; &quot; &quot;
+ISBLANK(ProjectProduct__r.ProductName__c),
+ProjectProduct__r.Product__r.ProductName__c &amp; &quot; &quot;,
+ProjectProduct__r.ProductName__c &amp; &quot; &quot;
 ) &amp;
 
 IF(
-  ISBLANK(Text(Currency__c)),
-  &quot;&quot;,
-  Text(Currency__c)&amp; &quot; &quot;
+ISBLANK(TEXT(Type__c)),
+&quot;&quot;,
+TEXT(Type__c) &amp; &quot; &quot;
 ) &amp;
 
 IF(
-  Text(DividendPolicy__c) = &quot;Accumulating&quot;,
-  &quot;Acc &quot;,
-  IF(
-    Text(DividendPolicy__c)= &quot;Distributing&quot;,
-    CASE(
-      DividendFrequency__c,
-      &quot;Monthly&quot;, &quot;Mdis &quot;,
-      &quot;Quarterly&quot;, &quot;Qdis &quot;,
-      &quot;SemiAnnually&quot;, &quot;Sdis &quot;,
-      &quot;Annually&quot;, &quot;Ydis &quot;,
-      &quot;&quot;
-    ),
-    &quot;&quot;
-  )
+ISBLANK(TEXT(Currency__c)),
+&quot;&quot;,
+TEXT(Currency__c) &amp; &quot; &quot;
 ) &amp;
 
-IF(Text(CurrencyHedging__c )= &quot;True&quot;,
-  &quot;Hdg&quot;,
-  &quot;&quot;
+&quot;Class Income&quot;,
+
+/* ================= ORIGINAL LOGIC ================= */
+
+IF(
+ISBLANK(ProjectProduct__r.ProductName__c),
+ProjectProduct__r.Product__r.ProductName__c &amp; &quot; &quot;,
+ProjectProduct__r.ProductName__c &amp; &quot; &quot;
+) &amp;
+
+/* ---- TYPE ---- */
+IF(
+ISBLANK(TEXT(Type__c)),
+&quot;&quot;,
+TEXT(Type__c) &amp; &quot; &quot;
+) &amp;
+
+/* ---- EXCLUDE EVERYTHING BELOW IF TYPE = MyInvestor ---- */
+IF(
+TEXT(Type__c) = &quot;MyInvestor&quot;,
+&quot;&quot;,
+
+/* ---- Currency ---- */
+IF(
+ISBLANK(TEXT(Currency__c)),
+&quot;&quot;,
+TEXT(Currency__c) &amp; &quot; &quot;
+) &amp;
+
+/* ---- Dividend Policy / Frequency ---- */
+IF(
+TEXT(DividendPolicy__c) = &quot;Accumulating&quot;,
+&quot;Acc &quot;,
+
+IF(
+TEXT(DividendPolicy__c) = &quot;Distributing&quot;,
+CASE(
+TEXT(DividendFrequency__c),
+&quot;Monthly&quot;, &quot;Mdis &quot;,
+&quot;Quarterly&quot;, &quot;Qdis &quot;,
+&quot;Semi-Annually&quot;, &quot;Sdis &quot;,
+&quot;Annually&quot;, &quot;Ydis &quot;,
+&quot;Weekly&quot;, &quot;Wdis &quot;,
+&quot;Daily&quot;, &quot;Ddis &quot;,
+&quot;&quot;
+),
+
+IF(
+TEXT(DividendPolicy__c) = &quot;Income&quot;,
+CASE(
+TEXT(DividendFrequency__c),
+&quot;Monthly&quot;, &quot;Minc &quot;,
+&quot;Quarterly&quot;, &quot;Qinc &quot;,
+&quot;Semi-Annually&quot;, &quot;Sinc &quot;,
+&quot;Annually&quot;, &quot;Yinc &quot;,
+&quot;Weekly&quot;, &quot;Winc &quot;,
+&quot;Daily&quot;, &quot;Dinc &quot;,
+&quot;inc &quot;
+),
+&quot;&quot;
+)
+)
+) &amp;
+
+/* ---- Hedging ---- */
+IF(
+TEXT(CurrencyHedging__c) = &quot;True&quot;,
+&quot;Hdg&quot;,
+&quot;&quot;
+)
+)
 )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Share Class Name</label>

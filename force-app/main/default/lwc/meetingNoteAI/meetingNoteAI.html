@@ -230,22 +230,7 @@
                 </template>
               </div>
             </template>
-            </lightning-accordion-section>
-            <lightning-accordion-section name="Share" label="Sharing" class="slds-var-p-bottom_medium" >
-              <div class="slds-grid slds-gutters slds-grid_vertical-align-center slds-var-p-top_x-small slds-var-p-bottom_small">
-                <!-- Select other carmi contact -->
-                <div class="slds-col slds-size_1-of-1">
-                  <template if:true={allContactShare}>
-                    <c-multi-select-search-list label="Share With" options={allContactShare} value={selectedContactShare} onchange={handleShareOther}>
-                    </c-multi-select-search-list>
-                  </template>
-                  <template if:true={contactPills}>
-                    <lightning-pill-container items={contactPills} data-item="Share" onitemremove={handleItemRemove} variant="bare">
-                    </lightning-pill-container>
-                </template>
-                </div>
-              </div>
-            </lightning-accordion-section>
+            </lightning-accordion-section>            
             </lightning-accordion>
           </div>
               <div class="slds-grid slds-grid_align-end slds-var-p-top_small slds-docked-composer__footer ">

@@ -2,11 +2,11 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>TransactionCosts__c</fullName>
     <description>Transaction Costs Ex-ante</description>
-    <inlineHelpText>The Transaction Costs should be estimated at the creation of the share-class, and then updated during the annual review with the EMT 07130</inlineHelpText>
-    <label>Transaction Costs Ex-ante</label>
+    <inlineHelpText>Transaction Costs (PRIIPS KID) - Transaction_Costs_Ex_Ante, this field is feeded with the EMT 07130- The Transaction Costs should be estimated at the creation of the share-class, and then updated during the annual review with the EMT</inlineHelpText>
+    <label>Transaction Costs</label>
     <precision>18</precision>
     <required>false</required>
-    <scale>2</scale>
+    <scale>4</scale>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Percent</type>

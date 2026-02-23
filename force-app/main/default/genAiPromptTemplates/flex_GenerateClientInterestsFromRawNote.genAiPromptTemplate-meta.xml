@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
-    <activeVersionIdentifier>c4ElwQopkBL55yk9AEFEKHyr6yvBO2s5DVtJ9BtmeOQ=_2</activeVersionIdentifier>
     <description>Use this prompt template to generate a json formated client interests data</description>
     <developerName>flex_GenerateClientInterestsFromRawNote</developerName>
     <masterLabel>flex_GenerateClientInterestsFromRawNote</masterLabel>
@@ -73,13 +72,11 @@ Levers that could increase interest (specific features, thematic appeal, peer us
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
-        <responseFormat>JSON</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_RetrieveProducts</definition>
             <referenceName>Flow:PT_RetrieveProducts</referenceName>
         </templateDataProviders>
-        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_3</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>&lt;Strategy&gt; {!$Flow:PT_RetrieveProducts.Prompt} &lt;/Strategy&gt; ------------------------------------- From the transcript below:
@@ -169,14 +166,12 @@ Example Output:
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
-        <responseFormat>JSON</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_RetrieveProducts</definition>
             <label>PT_RetrieveProducts</label>
             <referenceName>Flow:PT_RetrieveProducts</referenceName>
         </templateDataProviders>
-        <versionIdentifier>c4ElwQopkBL55yk9AEFEKHyr6yvBO2s5DVtJ9BtmeOQ=_2</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>&lt;Strategy&gt;
@@ -340,14 +335,12 @@ Return exactly:
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
-        <responseFormat>JSON</responseFormat>
         <status>Draft</status>
         <templateDataProviders>
             <definition>flow://PT_RetrieveProducts</definition>
             <label>PT_RetrieveProducts</label>
             <referenceName>Flow:PT_RetrieveProducts</referenceName>
         </templateDataProviders>
-        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_9</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>&lt;Strategy&gt; {!$Flow:PT_RetrieveProducts.Prompt} &lt;/Strategy&gt; ------------------------------------- From the transcript below:
@@ -437,14 +430,12 @@ Example Output:
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
-        <responseFormat>JSON</responseFormat>
         <status>Draft</status>
         <templateDataProviders>
             <definition>flow://PT_RetrieveProducts</definition>
             <label>PT_RetrieveProducts</label>
             <referenceName>Flow:PT_RetrieveProducts</referenceName>
         </templateDataProviders>
-        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_10</versionIdentifier>
     </templateVersions>
     <type>einstein_gpt__flex</type>
     <visibility>Global</visibility>

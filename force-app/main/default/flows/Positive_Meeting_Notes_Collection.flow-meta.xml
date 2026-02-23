@@ -21,18 +21,23 @@ Number of meeting notes where positive insights found = {!nbOfMns}
         <name>Add_Prompt_Instructions_1</name>
         <elementSubtype>AddPromptInstructions</elementSubtype>
         <label>Add Prompt Instructions 1</label>
-        <locationX>182</locationX>
-        <locationY>842</locationY>
+        <locationX>270</locationX>
+        <locationY>650</locationY>
         <assignmentItems>
             <assignToReference>$Output.Prompt</assignToReference>
             <operator>Add</operator>
             <value>
-                <stringValue>{!toPrompt}
+                <stringValue>
+{!ClientInterestCounter}- Country: {!Loop_over_MNIs.Meeting_Note__r.Company__r.BillingCountry}
+Meeting Name: {!Loop_over_MNIs.Meeting_Note__r.Name}
+Meeting Note Id: {!Loop_over_MNIs.Meeting_Note__c}
+Notes: {!Loop_over_MNIs.Inisghts__c}
+Date: {!Loop_over_MNIs.Meeting_Note__r.Date__c}
 </stringValue>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>get_meetingNotes</targetReference>
+            <targetReference>Assign_Meeting_notes</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -141,7 +146,7 @@ Number of meeting notes where positive insights found = {!nbOfMns}
         <name>Assign_Meeting_notes</name>
         <label>Assign Meeting notes</label>
         <locationX>270</locationX>
-        <locationY>650</locationY>
+        <locationY>758</locationY>
         <assignmentItems>
             <assignToReference>ClientInterestCounter</assignToReference>
             <operator>Add</operator>
@@ -153,7 +158,7 @@ Number of meeting notes where positive insights found = {!nbOfMns}
             <assignToReference>productName</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Loop_over_MNIs.Product__r.Product_Name__c</elementReference>
+                <elementReference>Loop_over_MNIs.Strategy__r.Name</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -161,13 +166,6 @@ Number of meeting notes where positive insights found = {!nbOfMns}
             <operator>Add</operator>
             <value>
                 <elementReference>Loop_over_MNIs.Meeting_Note__c</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>toPrompt</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>TextTemplateToPrompt</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -247,10 +245,10 @@ Number of meeting notes where positive insights found = {!nbOfMns}
         <collectionReference>Get_Client_Interests</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
-            <targetReference>Assign_Meeting_notes</targetReference>
+            <targetReference>Add_Prompt_Instructions_1</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Add_Prompt_Instructions_1</targetReference>
+            <targetReference>get_meetingNotes</targetReference>
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -283,7 +281,7 @@ Number of meeting notes where positive insights found = {!nbOfMns}
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>Product__c</field>
+            <field>Strategy__c</field>
             <operator>EqualTo</operator>
             <value>
                 <elementReference>Product_Id</elementReference>
@@ -350,12 +348,7 @@ Number of meeting notes where positive insights found = {!nbOfMns}
         </connector>
         <triggerType>Capability</triggerType>
     </start>
-    <status>Draft</status>
-    <textTemplates>
-        <name>TextTemplateToPrompt</name>
-        <isViewedAsPlainText>false</isViewedAsPlainText>
-        <text>&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;{!ClientInterestCounter}- Country: {!Loop_over_MNIs.Meeting_Note__r.Company__r.BillingCountry}&lt;/p&gt;&lt;p&gt;Meeting Name: {!Loop_over_MNIs.Meeting_Note__r.Name}&lt;/p&gt;&lt;p&gt;Meeting Note Id: {!Loop_over_MNIs.Meeting_Note__c}&lt;/p&gt;&lt;p&gt;Notes: {!Loop_over_MNIs.Inisghts__c}&lt;/p&gt;&lt;p&gt;Date: {!Loop_over_MNIs.Meeting_Note__r.Date__c}&lt;/p&gt;</text>
-    </textTemplates>
+    <status>Active</status>
     <variables>
         <name>ClientInterestCounter</name>
         <dataType>Number</dataType>
@@ -434,13 +427,6 @@ Number of meeting notes where positive insights found = {!nbOfMns}
     </variables>
     <variables>
         <name>productName</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>toPrompt</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>

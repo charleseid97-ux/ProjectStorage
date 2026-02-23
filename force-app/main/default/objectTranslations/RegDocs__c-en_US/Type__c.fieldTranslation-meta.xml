@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Regulatory Document Type --></help>
+    <label><!-- Type --></label>
+    <name>Type__c</name>
+    <picklistValues>
+        <masterLabel>Annual Report</masterLabel>
+        <translation><!-- Annual Report --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>EET</masterLabel>
+        <translation><!-- EET --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>EMT</masterLabel>
+        <translation><!-- EMT --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>EPT</masterLabel>
+        <translation><!-- EPT --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Factsheet</masterLabel>
+        <translation><!-- Factsheet --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>KIID UCITS</masterLabel>
+        <translation><!-- KIID UCITS --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>PRIIPS KID</masterLabel>
+        <translation><!-- PRIIPS KID --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Product Sheet</masterLabel>
+        <translation><!-- Product Sheet --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Prospectus</masterLabel>
+        <translation><!-- Prospectus --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>SemiAnnual Report</masterLabel>
+        <translation><!-- SemiAnnual Report --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -774,11 +774,6 @@ Contacts, Accounts, Opportunity</description>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product__c.Domicile__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Product__c.Fiscal_Year_End__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -840,11 +835,6 @@ Contacts, Accounts, Opportunity</description>
     <fieldPermissions>
         <editable>true</editable>
         <field>Product__c.Reference_Indicator__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Product__c.Registration_Mapping__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <excludeButtons>OpenSlackRecordChannel</excludeButtons>
     <excludeButtons>Submit</excludeButtons>
     <layoutSections>
         <customLabel>false</customLabel>
@@ -43,15 +44,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>IsPayingTrailerFees__c</field>
+                <field>InvestorType__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>DividendPolicy__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>DividendFrequency__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -93,7 +90,15 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>InvestorType__c</field>
+                <field>InvestorSubType__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>DividendFrequency__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>IsPayingTrailerFees__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -106,6 +111,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>HedgingRatio__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Feeder__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -168,7 +177,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>MaxRedemptionFeesSubfund__c</field>
+                <field>MaxRedemptionFeesManCo__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -238,6 +247,14 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>MaxRedemptionFeesSubfund__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>PRIIPSKIDRedemptionFee__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>MinSubsequentSub__c</field>
             </layoutItems>
             <layoutItems>
@@ -255,6 +272,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>HasPerfFees__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>EffectivePerfFees__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -347,6 +368,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Dissemination__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>DisseminationRecipient__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns/>

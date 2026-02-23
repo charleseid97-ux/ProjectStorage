@@ -72,6 +72,12 @@
                 <identifier>RecordNationality_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldItem>Record.Picture__c</fieldItem>
+                <identifier>RecordPicture__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-7381659a-b460-49c0-a2c6-0ca1c8b01aff</name>
         <type>Facet</type>
     </flexiPageRegions>

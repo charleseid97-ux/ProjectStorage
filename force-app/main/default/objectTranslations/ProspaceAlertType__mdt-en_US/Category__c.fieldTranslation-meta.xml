@@ -3,6 +3,10 @@
     <label><!-- Category --></label>
     <name>Category__c</name>
     <picklistValues>
+        <masterLabel>KID</masterLabel>
+        <translation><!-- KID --></translation>
+    </picklistValues>
+    <picklistValues>
         <masterLabel>Nav</masterLabel>
         <translation><!-- Nav --></translation>
     </picklistValues>

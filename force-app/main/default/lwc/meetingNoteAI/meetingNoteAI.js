@@ -15,6 +15,7 @@ import { CloseActionScreenEvent } from 'lightning/actions';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import FORM_FACTOR from '@salesforce/client/formFactor';
 import rawNoteMinChar from '@salesforce/label/c.rawNoteMinChar';
+import { NavigationMixin } from 'lightning/navigation';
 
 
 //apex methods
@@ -37,7 +38,7 @@ import MissingDataTitle from '@salesforce/label/c.MissingDataTitle';
 import userId from '@salesforce/user/Id';
 
 
-export default class MeetingNote extends LightningElement {
+export default class MeetingNote extends NavigationMixin(LightningElement) {
 
     @api recordId;
     @api objectApiName;
@@ -454,7 +455,7 @@ export default class MeetingNote extends LightningElement {
         console.log('@Error: Save Meeting Note: '+JSON.stringify(evt.detail));
         this.showToast(JSON.stringify(evt.detail), 'Error', 'Error: Save Meeting Note');  
      }
-     handleSuccess(event){
+    handleSuccess(event){
         //create related Object;
         event.preventDefault();
         let allAttende = [...this.allSelectedClients];
@@ -480,21 +481,22 @@ export default class MeetingNote extends LightningElement {
         if(this.isSalesPres){
             this.clientInterest.forEach(interest => {
                 if(interest.rating && interest.rating > 0 )
-                 interestObject.push({Interest__c:interest.rating,MeetingNote__c:this.meetingNote.id,Strategy__c:interest.id});
+                interestObject.push({Interest__c:interest.rating,MeetingNote__c:this.meetingNote.id,Strategy__c:interest.id});
             });
         }
         //Task part need to check that all fields are filled up ...
         this.allTasks.forEach(task => {
             if(task.Description__c.length && task.ActivityDate && task.OwnerId.length)
                 this.taskObjects.push({Subject: `follow up - ${this.meetingType} - ${this.companyName}`, Description__c: task.Description__c, 
-                              ActivityDate: task.ActivityDate, WhatId:this.meetingNote.id, 
-                              OwnerId: task.OwnerId, OwnerLabel: task.OwnerLabel,
-                              Priority: 'Normal',Type: `Follow Up ${this.meetingType}`});
+                            ActivityDate: task.ActivityDate, WhatId:this.meetingNote.id, 
+                            OwnerId: task.OwnerId, OwnerLabel: task.OwnerLabel,
+                            Priority: 'Normal',Type: `Follow Up ${this.meetingType}`});
         });
         //Call apex to create related records....
         createRelatedObjects({ evt: evtSalesforce,participants:allAttende, prodInterest: interestObject, tasks: this.taskObjects})
             .then((result) => {
                 if(result.success){
+                    const eventId = result.eventId;
                     result.objectList.forEach(task => {
                         this.taskObjects.forEach(taskObj => {
                             if ( taskObj.Description__c === task.Description__c
@@ -556,9 +558,20 @@ export default class MeetingNote extends LightningElement {
                     //***End send Email***/
                     if (FORM_FACTOR === "Small" || FORM_FACTOR === "Medium") window.history.go(0);
                     else {
-                        this.dispatchEvent(new CloseActionScreenEvent());
-                        // eslint-disable-next-line no-eval
-                        eval("$A.get('e.force:refreshView').fire();"); //to refresh view, instead of reloading page. 
+                        if(eventId){
+                            this[NavigationMixin.Navigate]({
+                                type: 'standard__recordPage',
+                                attributes: {
+                                    recordId: eventId,
+                                    objectApiName: 'Event',
+                                    actionName: 'view'
+                                }
+                            });
+                        }else{
+                            this.dispatchEvent(new CloseActionScreenEvent());
+                            // eslint-disable-next-line no-eval
+                            eval("$A.get('e.force:refreshView').fire();"); //to refresh view, instead of reloading page. 
+                        }
                     }
                 }else {
                     this.isLoading = false;
@@ -570,7 +583,8 @@ export default class MeetingNote extends LightningElement {
                 console.log('@Error: Related MeetingNote Objects',error);
                 this.showToast(error?.body?.message, 'Error', 'Error: Related MeetingNote Objects');
             });
-     }
+    }
+
     
     handleClients(e){
         this.clientSearchKey = e.detail.searchKey;

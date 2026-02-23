@@ -16,9 +16,13 @@
                 <label>A</label>
             </value>
             <value>
+                <fullName>A1</fullName>
+                <default>false</default>
+                <label>A1</label>
+            </value>
+            <value>
                 <fullName>A2</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
                 <label>A2</label>
             </value>
             <value>
@@ -87,6 +91,11 @@
                 <fullName>M</fullName>
                 <default>false</default>
                 <label>M</label>
+            </value>
+            <value>
+                <fullName>MyInvestor</fullName>
+                <default>false</default>
+                <label>MyInvestor</label>
             </value>
             <value>
                 <fullName>Not Applicable</fullName>

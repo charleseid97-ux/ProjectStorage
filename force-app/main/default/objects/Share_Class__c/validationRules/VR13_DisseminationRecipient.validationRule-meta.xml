@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR13_DisseminationRecipient</fullName>
+    <active>true</active>
+    <description>Rendre le champ “Dissemination Recipient” obligatoire quand Dissemination = Restricted</description>
+    <errorConditionFormula>AND(
+    NOT($User.BypassValidationRules__c),
+    OR(
+        ISPICKVAL(Type__c, &quot;X&quot;),
+        ISPICKVAL(Type__c, &quot;X2&quot;)
+    ),
+    ISPICKVAL(Dissemination__c, &quot;Restricted&quot;),
+    ISBLANK(DisseminationRecipient__c)
+)</errorConditionFormula>
+    <errorDisplayField>DisseminationRecipient__c</errorDisplayField>
+    <errorMessage>Please select at least one Dissemination Recipient when Dissemination is set to Restricted.</errorMessage>
+</ValidationRule>

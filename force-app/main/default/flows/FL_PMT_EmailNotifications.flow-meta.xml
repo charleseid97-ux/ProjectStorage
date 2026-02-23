@@ -4,7 +4,7 @@
         <name>Copy_1_of_SendActivationEmail</name>
         <label>SendActivationEmail</label>
         <locationX>50</locationX>
-        <locationY>1055</locationY>
+        <locationY>1271</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -107,6 +107,27 @@
         <offset>0</offset>
     </actionCalls>
     <actionCalls>
+        <name>Get_Project_Feeders_for_Email</name>
+        <label>Get Project Feeders for Email</label>
+        <locationX>50</locationX>
+        <locationY>1055</locationY>
+        <actionName>ProjectFeederFlowAction</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Assign_Feeder_HTML</targetReference>
+        </connector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>projectId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>ProjectFeederFlowAction</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <actionCalls>
         <name>getTeams</name>
         <label>getTeams</label>
         <locationX>50</locationX>
@@ -120,7 +141,7 @@
         <inputParameters>
             <name>recordId</name>
             <value>
-                <elementReference>$Record.RecordTypeId</elementReference>
+                <elementReference>$Record.Id</elementReference>
             </value>
         </inputParameters>
         <nameSegment>FlowEmailNotificationCtrl</nameSegment>
@@ -181,6 +202,22 @@
         <offset>0</offset>
     </actionCalls>
     <apiVersion>62.0</apiVersion>
+    <assignments>
+        <name>Assign_Feeder_HTML</name>
+        <label>Assign Feeder HTML</label>
+        <locationX>50</locationX>
+        <locationY>1163</locationY>
+        <assignmentItems>
+            <assignToReference>FeedersHtml</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Project_Feeders_for_Email.feedersHtml</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Copy_1_of_SendActivationEmail</targetReference>
+        </connector>
+    </assignments>
     <assignments>
         <name>assign_Teams</name>
         <label>assign Teams</label>
@@ -381,7 +418,7 @@ Support Salesforce &gt; sf_pmt@carmignac.com</description>
             <targetReference>assign_Teams</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Copy_1_of_SendActivationEmail</targetReference>
+            <targetReference>Get_Project_Feeders_for_Email</targetReference>
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -495,7 +532,7 @@ Support Salesforce &gt; sf_pmt@carmignac.com</description>
     <textTemplates>
         <name>ActivationEmailBodyModification</name>
         <isViewedAsPlainText>false</isViewedAsPlainText>
-        <text>&lt;p&gt;Hi Team,&lt;/p&gt;&lt;p&gt;The modification project called &lt;a href=&quot;{!recordlink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;{!$Record.Name}&lt;/a&gt; is now activated in Salesforce. You are receiving this notification because your team may review and validate specific updates related to this modification.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;&lt;u&gt;KEY INFO&lt;/u&gt;&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Type:&lt;/strong&gt; &lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.RecordType.Name}&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Estimated Launch Date:&lt;/strong&gt; {!$Record.EndDate__c}&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Description:&lt;/strong&gt; {!$Record.ProductDescription__c}&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Next Milestone:&lt;/strong&gt; {!GetMileStones.Name} – {!GetMileStones.StartDate__c}&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;strong&gt;&lt;u&gt;INVOLVED TEAMS in the modification&lt;/u&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;{!teamsReturned}&lt;/p&gt;&lt;p&gt;&lt;strong&gt;&lt;u&gt;REMINDER&lt;/u&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;Please make sure the &lt;strong&gt;Team Owner&lt;/strong&gt;  is assigned in Salesforce — only the designated Team Owner will receive future Teams notifications for this project.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;{!recordlink} &quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;ACCESS THE PROJECT IN SALESFORCE&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Thank you,&lt;/p&gt;&lt;p&gt;&lt;strong&gt;The Product Strategy Team&lt;/strong&gt;&lt;/p&gt;</text>
+        <text>&lt;p&gt;Hi Team,&lt;/p&gt;&lt;p&gt;The modification project called &lt;a href=&quot;{!recordlink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;{!$Record.Name}&lt;/a&gt; is now activated in Salesforce. You are receiving this notification because your team may review and validate specific updates related to this modification.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;&lt;u&gt;KEY INFO&lt;/u&gt;&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Type:&lt;/strong&gt; &lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.RecordType.Name}&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Estimated Launch Date:&lt;/strong&gt; {!$Record.EndDate__c}&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Description:&lt;/strong&gt; {!$Record.ProductDescription__c}&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Next Milestone:&lt;/strong&gt; {!GetMileStones.Name} – {!GetMileStones.StartDate__c}&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;strong&gt;&lt;u&gt;INVOLVED TEAMS in the modification&lt;/u&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;{!teamsReturned}&lt;/p&gt;&lt;p&gt;&lt;strong&gt;&lt;u&gt;REMINDER&lt;/u&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;Please make sure the &lt;strong&gt;Team Owner&lt;/strong&gt;  is assigned in Salesforce — only the designated Team Owner will receive future Teams notifications for this project.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;&lt;u&gt;LEGAL ACTION REQUIRED - PLEASE REVIEW&lt;/u&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;Legal review is required to assess whether a &lt;strong&gt;Notice to Shareholders&lt;/strong&gt; is needed for this modification project. Please access the project in Salesforce and update the &lt;strong&gt;“Notice to Shareholders”&lt;/strong&gt; section accordingly:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Select &lt;strong&gt;Yes&lt;/strong&gt; or &lt;strong&gt;No&lt;/strong&gt; for &lt;em&gt;“Notice to Shareholders required”&lt;/em&gt;&lt;/li&gt;&lt;li&gt;Add a justification in &lt;strong&gt;Decision Comments&lt;/strong&gt;, if relevant&lt;/li&gt;&lt;li&gt;If the Notice is already prepared, please &lt;strong&gt;attach it in the Documents section&lt;/strong&gt; &lt;em&gt;(Document Type = “Notice to Shareholders”)&lt;/em&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;strong&gt;Please note that the SPC Final milestone cannot be validated until this Legal review has been completed (Yes / No filled in).&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Feeder-related information&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;The modifications requested in this project may impact feeder structures. Below is the list of feeder-related share classes identified for this project. If the list is empty, no feeder structure has been identified.&lt;/p&gt;&lt;p&gt;{!FeedersHtml}&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;{!recordlink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;ACCESS THE PROJECT IN SALESFORCE&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Thank you,&lt;/p&gt;&lt;p&gt;&lt;strong&gt;The Product Strategy Team&lt;/strong&gt;&lt;/p&gt;</text>
     </textTemplates>
     <textTemplates>
         <name>ActivationEmailSubject</name>
@@ -527,6 +564,13 @@ Support Salesforce &gt; sf_pmt@carmignac.com</description>
         <isViewedAsPlainText>true</isViewedAsPlainText>
         <text>Project {!$Record.Name} – Status Updated to {!$Record.ProjectStatus__c}</text>
     </textTemplates>
+    <variables>
+        <name>FeedersHtml</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
     <variables>
         <name>teamsReturned</name>
         <dataType>String</dataType>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
-    <help><!-- Share Class eligible for US persons or US citizens --></help>
-    <label><!-- Is US Eligible --></label>
+    <help><!-- Carmignac Funds are not eligible to US Resident, for US Citizen and not US Resident, please Refer to the FATCA Status --></help>
+    <label><!-- Is the fund eligible to US Resident ? --></label>
     <name>IsUSEligible__c</name>
 </CustomFieldTranslation>

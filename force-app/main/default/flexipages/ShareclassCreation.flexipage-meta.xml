@@ -87,6 +87,59 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
+                    <valueList>
+                        <valueListItems>
+                            <value>ProjectProduct__c.Generate_Draft_KID</value>
+                            <visibilityRule>
+                                <booleanFilter>(1 OR 2 OR 3 OR 4 OR 6 OR 7 OR 8 ) AND (5 AND 9)</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!$User.Username}</leftValue>
+                                    <operator>CONTAINS</operator>
+                                    <rightValue>lementine.blanchard</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Username}</leftValue>
+                                    <operator>CONTAINS</operator>
+                                    <rightValue>leo.pawlicki</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>CONTAINS</operator>
+                                    <rightValue>Administrator</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$Permission.CustomPermission.PRPLegal}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.ProjectStatus__c}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Closed</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Username}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>arnaud.sankou-crm@carmignac.com</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Username}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>dana.croize-crm@carmignac.com</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Username}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>patrick.temfack-crm@carmignac.com</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.LegalForm__c}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>OEIC</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                    </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>collapsed</name>
@@ -1973,16 +2026,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.ForeseenEUCategory__c</fieldItem>
-                <identifier>RecordForeseenEUCategory_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.RegulatoryApprovalDate__c</fieldItem>
                 <identifier>RecordRegulatoryApprovalDate_cField</identifier>
             </fieldInstance>
@@ -1995,6 +2038,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Regulator__c</fieldItem>
                 <identifier>RecordRegulator_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ForeseenEUCategory__c</fieldItem>
+                <identifier>RecordForeseenEUCategory_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-e71f8d0d-2729-46e4-a6a5-aa54e4b29454</name>
@@ -2111,26 +2164,6 @@
                 <identifier>RecordReasonForRHP_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.RedeemCondition__c</fieldItem>
-                <identifier>RecordRedeemCondition_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.LMT__c</fieldItem>
-                <identifier>RecordLMT_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-b88c7774-d03a-4f68-81ac-e270b3c6bb88</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -2187,6 +2220,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.HasSwingPricing__c</fieldItem>
                 <identifier>RecordHasSwingPricing_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.PRIIPSCategory__c</fieldItem>
+                <identifier>RecordPRIIPSCategory_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-cc03199a-a815-4bd9-afdd-3796da436595</name>

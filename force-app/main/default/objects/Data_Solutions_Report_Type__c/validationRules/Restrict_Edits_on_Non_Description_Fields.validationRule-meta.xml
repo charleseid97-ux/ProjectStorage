@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Restrict_Edits_on_Non_Description_Fields</fullName>
+    <active>true</active>
+    <description>Block_Field_Edits_Except_Description</description>
+    <errorConditionFormula>AND(
+    NOT(ISNEW()),
+     $Permission.Data_Solutions_Report_Type,
+    OR(
+        ISCHANGED(TECH_ID_VRS__c),
+        ISCHANGED(Report_Name__c)
+    )
+)</errorConditionFormula>
+    <errorMessage>You are not allowed to modify these fields. Only the Description field can be updated.</errorMessage>
+</ValidationRule>

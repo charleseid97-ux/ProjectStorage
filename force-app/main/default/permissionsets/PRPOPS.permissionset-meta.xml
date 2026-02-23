@@ -246,7 +246,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ProjectShareclassChild__c.EffectivePerfFees__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ProjectShareclassChild__c.HasEqualizationFactor__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ProjectShareclassChild__c.HasPerfFees__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

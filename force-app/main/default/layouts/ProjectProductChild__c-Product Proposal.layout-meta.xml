@@ -266,6 +266,10 @@
                 <behavior>Edit</behavior>
                 <field>Regulator__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>ForeseenEUCategory__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>OneColumn</style>
     </layoutSections>
@@ -286,6 +290,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>IsLeveraged__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>PRIIPSCategory__c</field>
             </layoutItems>
         </layoutColumns>
         <style>OneColumn</style>
@@ -406,10 +414,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>ESGLabel__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>ForeseenEUCategory__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

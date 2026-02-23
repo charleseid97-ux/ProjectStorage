@@ -18,7 +18,7 @@
             <value>
                 <fullName>NOTREG</fullName>
                 <default>false</default>
-                <label>NOTREG</label>
+                <label>Not Registered</label>
             </value>
             <value>
                 <fullName>INSTITUTIONAL_ONLY</fullName>
@@ -33,12 +33,12 @@
             <value>
                 <fullName>TOBEREG</fullName>
                 <default>false</default>
-                <label>TOBEREG</label>
+                <label>To be Registered</label>
             </value>
             <value>
                 <fullName>UNDREG</fullName>
                 <default>false</default>
-                <label>UNDREG</label>
+                <label>Under Registration</label>
             </value>
         </valueSetDefinition>
     </valueSet>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>InvestorSubType__c</fullName>
+    <label>Investor Sub Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>InvestorType__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>All investors</fullName>
+                <default>false</default>
+                <label>All investors</label>
+            </value>
+            <value>
+                <fullName>Clean shares eligible investors</fullName>
+                <default>false</default>
+                <label>Clean shares eligible investors</label>
+            </value>
+            <value>
+                <fullName>Authorized institutional investors</fullName>
+                <default>false</default>
+                <label>Authorized institutional investors</label>
+            </value>
+            <value>
+                <fullName>Authorized investors in Germany and Austria</fullName>
+                <default>false</default>
+                <label>Authorized investors in Germany and Austria</label>
+            </value>
+            <value>
+                <fullName>Reserved to selected investors</fullName>
+                <default>false</default>
+                <label>Reserved to selected investors</label>
+            </value>
+            <value>
+                <fullName>Reserved to funds managed by CG</fullName>
+                <default>false</default>
+                <label>Reserved to funds managed by CG</label>
+            </value>
+            <value>
+                <fullName>Reserved to selected institutional investors</fullName>
+                <default>false</default>
+                <label>Reserved to selected institutional investors</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Retail</controllingFieldValue>
+            <valueName>All investors</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Retail</controllingFieldValue>
+            <valueName>Clean shares eligible investors</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Retail</controllingFieldValue>
+            <valueName>Authorized investors in Germany and Austria</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Retail</controllingFieldValue>
+            <valueName>Reserved to selected investors</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Institutional</controllingFieldValue>
+            <valueName>Authorized institutional investors</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Institutional</controllingFieldValue>
+            <valueName>Reserved to funds managed by CG</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Institutional</controllingFieldValue>
+            <valueName>Reserved to selected institutional investors</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

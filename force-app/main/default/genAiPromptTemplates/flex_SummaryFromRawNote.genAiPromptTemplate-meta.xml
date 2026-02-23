@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
-    <activeVersionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_17</activeVersionIdentifier>
     <description>Use this template to generate a Video Call Summary</description>
     <developerName>flex_SummaryFromRawNote</developerName>
     <masterLabel>flex_SummaryFromRawNote</masterLabel>
@@ -97,9 +96,7 @@ Clearly extract concrete actions and commitments.
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
-        <responseFormat>HTML</responseFormat>
         <status>Published</status>
-        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_12</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>###CONTEXT###
@@ -197,9 +194,7 @@ Clearly extract concrete actions and commitments.
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
-        <responseFormat>HTML</responseFormat>
         <status>Published</status>
-        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_13</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>###CONTEXT###
@@ -297,9 +292,7 @@ Clearly extract concrete actions and commitments.
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
-        <responseFormat>HTML</responseFormat>
         <status>Published</status>
-        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_14</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>###CONTEXT###
@@ -396,9 +389,7 @@ Clearly extract concrete actions and commitments.
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
-        <responseFormat>HTML</responseFormat>
         <status>Published</status>
-        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_15</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>###CONTEXT###
@@ -495,9 +486,7 @@ Clearly extract concrete actions and commitments.
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
-        <responseFormat>HTML</responseFormat>
         <status>Published</status>
-        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_16</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>###CONTEXT###
@@ -594,9 +583,7 @@ Clearly extract concrete actions and commitments.
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
-        <responseFormat>HTML</responseFormat>
         <status>Published</status>
-        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_17</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>###CONTEXT###
@@ -698,9 +685,7 @@ Include only concrete actions explicitly agreed or requested:
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
-        <responseFormat>HTML</responseFormat>
         <status>Draft</status>
-        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_18</versionIdentifier>
     </templateVersions>
     <type>einstein_gpt__flex</type>
     <visibility>Global</visibility>

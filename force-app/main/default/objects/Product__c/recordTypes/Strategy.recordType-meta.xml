@@ -139,6 +139,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>10%3A30 CET</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>13%3A00 CET</fullName>
             <default>false</default>
         </values>
@@ -464,17 +468,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>InvestorsRegion__c</picklist>
-        <values>
-            <fullName>Retail%2FInstitutional investors in Europe</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Retail%2FInstitutional investors outside Europe</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>IsFeeder__c</picklist>
         <values>
             <fullName>False</fullName>
@@ -705,6 +698,21 @@
         </values>
         <values>
             <fullName>J-5</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>PRIIPSCategory__c</picklist>
+        <values>
+            <fullName>1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3</fullName>
             <default>false</default>
         </values>
     </picklistValues>

@@ -96,6 +96,10 @@
     </layouts>
     <nameFieldLabel><!-- Product Code --></nameFieldLabel>
     <quickActions>
+        <label><!-- Field History --></label>
+        <name>FieldHistory</name>
+    </quickActions>
+    <quickActions>
         <label><!-- New Meeting Note --></label>
         <name>New_Meeting_Note</name>
     </quickActions>

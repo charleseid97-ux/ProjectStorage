@@ -69,39 +69,60 @@ public without sharing class CTL_MeetingNotes {
     }
     
     @AuraEnabled
-    public static CreationWrapper createRelatedObjects(Event evt, List<String> participants, List<ClientInterest__c> prodInterest,List<Task> tasks){
-        Savepoint sp = Database.setSavepoint(); // rollback in case of error
+    public static CreationWrapper createRelatedObjects(
+        Event evt,
+        List<String> participants,
+        List<ClientInterest__c> prodInterest,
+        List<Task> tasks
+    ){
+        // Création d’un savepoint pour permettre un rollback en cas d’erreur
+        Savepoint sp = Database.setSavepoint();
+
+        // Indicateur de succès de l’opération globale
         Boolean success = false;
-        // try {
-            List<EventRelation> evtRelation = new List<EventRelation>();
-            System.debug('evt => '+evt);
 
-            insert evt;
-            //add Client contact and Internal as Who Ids on the event.
-            for(String cont:participants){
-                evtRelation.add(new EventRelation(EventId = evt.Id,
-                                                 IsInvitee = false,
-                                                 IsWhat = false,
-                                                 IsParent=true,
-                                                 RelationId = cont));
-            }
-            System.debug('evtRelation => '+evtRelation);
+        // Liste des relations entre l’Event et les participants
+        List<EventRelation> evtRelation = new List<EventRelation>();
 
-            //add Client Interest Object  and tasks .....
-            if(tasks.size() > 0) insert tasks;
-            if(evtRelation.size() > 0) insert evtRelation;
-            if(prodInterest.size() > 0) insert prodInterest;
+        // Insertion de l’Event principal
+        insert evt;
 
-            success = true;
+        // Création des relations EventRelation pour chaque participant
+        // Chaque contact est lié à l’Event nouvellement créé
+        for(String cont : participants){
+            evtRelation.add(new EventRelation(
+                EventId   = evt.Id,
+                IsInvitee = false,
+                IsWhat    = false,
+                IsParent  = true,
+                RelationId = cont
+            ));
+        }
 
-        // } catch (Exception e) {
-        //     Database.rollback(sp);
-        //     delete (new Meeting_Note__c(Id = evt.Meeting_Note__c)); //we delete the created meeting note created when we got an error for related objects. 
-        //     System.debug('####CTL_MeetingNotes:createRelatedObjects => '+e.getMessage());
-        // }
-        CreationWrapper response = new CreationWrapper(tasks,success);
+        // Insertion des tâches associées si présentes
+        if(tasks.size() > 0) {
+            insert tasks;
+        }
+
+        // Insertion des relations participants si présentes
+        if(evtRelation.size() > 0) {
+            insert evtRelation;
+        }
+
+        // Insertion des enregistrements d’intérêt client si présents
+        if(prodInterest.size() > 0) {
+            insert prodInterest;
+        }
+
+        // Toutes les opérations se sont déroulées correctement
+        success = true;
+
+        // Création de l’objet de réponse 
+        CreationWrapper response = new CreationWrapper(tasks, success, evt.Id);
+
         return response;
     }
+
 
     @AuraEnabled(cacheable=true)
     public static Map<String,String> getEmailTemplate(String name){
@@ -494,12 +515,20 @@ public without sharing class CTL_MeetingNotes {
         @AuraEnabled public List<ClientInterest__c> ClientInterest;
     }
 
-    public class CreationWrapper {
+   public class CreationWrapper {
         @AuraEnabled public List<sObject> objectList;
         @AuraEnabled public Boolean success;
+        @AuraEnabled public Id eventId;
+
         public CreationWrapper(List<sObject> objectList , Boolean success){
             this.objectList = objectList;
             this.success = success;
+        }
+
+        public CreationWrapper(List<sObject> objectList , Boolean success, Id eventId){
+            this.objectList = objectList;
+            this.success = success;
+            this.eventId = eventId;
         }
     }
 

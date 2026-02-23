@@ -40,7 +40,7 @@ Date: {!Loop_over_MNIs.Meeting_Note__r.Date__c}
             <assignToReference>productName</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Loop_over_MNIs.Product__r.Product_Name__c</elementReference>
+                <elementReference>Loop_over_MNIs.Strategy__r.Name</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -351,7 +351,7 @@ Total Number of meeting notes = {!TotalNbOfMNs}
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>Product__c</field>
+            <field>Strategy__c</field>
             <operator>EqualTo</operator>
             <value>
                 <elementReference>Product_Id</elementReference>

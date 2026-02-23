@@ -22,6 +22,7 @@
             </value>
         </inputParameters>
         <nameSegment>CTL_MeetingNotes_AIOrchestrator</nameSegment>
+        <offset>0</offset>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
     <actionCalls>
@@ -45,7 +46,7 @@
         <inputParameters>
             <name>senderAddress</name>
             <value>
-                <stringValue>salesforcesupport@carmignac.com</stringValue>
+                <elementReference>$Label.NoReplayWideAddress</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -66,7 +67,14 @@
                 <stringValue>&lt;p&gt;Error while creating the Meeting Note : {!$Flow.FaultMessage}&lt;/p&gt;</stringValue>
             </value>
         </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
         <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
     </actionCalls>
     <actionCalls>
         <description>Generate Notification Through Prompt</description>
@@ -77,7 +85,7 @@
         <actionName>flex_GenerateMeetingNotesNotification</actionName>
         <actionType>generatePromptResponse</actionType>
         <connector>
-            <targetReference>Send_Teams_Message_via_Queueable</targetReference>
+            <targetReference>Send_Email_to_VideoCall_Owner</targetReference>
         </connector>
         <faultConnector>
             <isGoTo>true</isGoTo>
@@ -91,7 +99,67 @@
             </value>
         </inputParameters>
         <nameSegment>flex_GenerateMeetingNotesNotification</nameSegment>
+        <offset>0</offset>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <actionCalls>
+        <description>Send Email to VideoCall Owner</description>
+        <name>Send_Email_to_VideoCall_Owner</name>
+        <label>Send Email to VideoCall Owner</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <connector>
+            <targetReference>Send_Teams_Message_via_Queueable</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>ErrorEmail</targetReference>
+        </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>recipientAddresses</name>
+            <value/>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>$Label.NoReplayWideAddress</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>composeEmailContent</name>
+            <value>
+                <stringValue>True</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>EmailSubject</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>EmailTemplate</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
     </actionCalls>
     <actionCalls>
         <name>Send_Teams_Message_via_Queueable</name>
@@ -100,15 +168,11 @@
         <locationY>0</locationY>
         <actionName>WS_QueueableLauncher</actionName>
         <actionType>apex</actionType>
-        <faultConnector>
-            <isGoTo>true</isGoTo>
-            <targetReference>ErrorEmail</targetReference>
-        </faultConnector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>email</name>
             <value>
-                <elementReference>emailListTest</elementReference>
+                <elementReference>emailList</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -124,25 +188,25 @@
             </value>
         </inputParameters>
         <nameSegment>WS_QueueableLauncher</nameSegment>
+        <offset>0</offset>
     </actionCalls>
-    <apiVersion>65.0</apiVersion>
+    <apiVersion>64.0</apiVersion>
     <description>Platform event triggered flow used to invoke Apex in order to generate Meeting Notes</description>
     <environments>Default</environments>
     <formulas>
         <name>emailList</name>
         <dataType>String</dataType>
-        <expression>{!GetRelatedRecord.Owner.Email} &amp; &apos;;&apos; &amp; {!OwnerEmail}</expression>
-    </formulas>
-    <formulas>
-        <name>emailListTest</name>
-        <dataType>String</dataType>
-        <expression>&quot;khadija.el-gdaouni.external@carmignac.com&quot;</expression>
+        <expression>IF(
+       {!GetRelatedRecord.Owner.Email} &lt;&gt; {!OwnerEmail} , 
+       {!GetRelatedRecord.Owner.Email} &amp; &apos;;&apos; &amp; {!OwnerEmail}, 
+       {!OwnerEmail}
+)</expression>
     </formulas>
     <formulas>
         <description>The email subject</description>
         <name>EmailSubject</name>
         <dataType>String</dataType>
-        <expression>&quot;Meeting Notes generated by AI – Client: : &quot; &amp;
+        <expression>&quot;Follow-up ECI : A new Meeting Note has been created - Client : &quot; &amp;
 {!GetRelatedRecord.Name} &amp; &quot; - &quot; &amp;
 TEXT( DAY( DATEVALUE( {!Get_Meeting_Note.VideoCall__r.StartDateTime} ) ) ) &amp; &quot; &quot; &amp;
 CASE(
@@ -157,6 +221,11 @@ TEXT( YEAR( DATEVALUE( {!Get_Meeting_Note.VideoCall__r.StartDateTime} ) ) )</exp
         <name>OwnerEmail</name>
         <dataType>String</dataType>
         <expression>{!Get_Meeting_Note.VideoCall__r.Owner:User.Email}</expression>
+    </formulas>
+    <formulas>
+        <name>testEmail</name>
+        <dataType>String</dataType>
+        <expression>&apos;khadija.el-gdaouni.external@carmignac.com&apos;</expression>
     </formulas>
     <interviewLabel>PE_VideoCall_GenerateMeetingNotes {!$Flow.CurrentDateTime}</interviewLabel>
     <label>PE_VideoCall_GenerateMeetingNotes</label>
@@ -228,6 +297,7 @@ TEXT( YEAR( DATEVALUE( {!Get_Meeting_Note.VideoCall__r.StartDateTime} ) ) )</exp
         <connector>
             <targetReference>Create_MeetingNotes_from_APex</targetReference>
         </connector>
+        <flowRunAsUser>DefaultWorkflowUser</flowRunAsUser>
         <object>VideoCallWithTranscript__e</object>
         <triggerType>PlatformEvent</triggerType>
     </start>

@@ -9,6 +9,7 @@
     <columns>EndDate__c</columns>
     <columns>RebalancingFrequency__c</columns>
     <columns>CREATED_DATE</columns>
+    <columns>ProductId__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>Type__c</field>

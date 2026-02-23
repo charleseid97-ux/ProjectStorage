@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>SubAssetClass__c</fullName>
     <externalId>false</externalId>
-    <formula>TEXT( FundStrategy__r.SubAssetClass__c )</formula>
+    <formula>&apos;old&apos;</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Sub Asset Class</label>
     <required>false</required>

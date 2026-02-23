@@ -46,8 +46,8 @@ public without sharing class CTL_MeetingNotes_UpdateFromRawText {
                 if (!String.isBlank(summaryText)) {
                     Meeting_Note__c mnToUpdate = new Meeting_Note__c(
                         Id = mn.Id,
-                        Note__c = summaryText,
-                        SalesPresentation__c = true
+                        Note__c = summaryText
+                        //,SalesPresentation__c = true
                     );
                     update mnToUpdate;
                 }

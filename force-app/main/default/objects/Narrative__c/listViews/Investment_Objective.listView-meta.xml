@@ -5,6 +5,7 @@
     <columns>Product__c</columns>
     <columns>SubType__c</columns>
     <columns>Language__c</columns>
+    <columns>LAST_UPDATE</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>Type__c</field>

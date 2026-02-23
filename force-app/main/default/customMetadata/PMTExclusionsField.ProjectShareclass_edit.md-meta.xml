@@ -4,6 +4,6 @@
     <protected>false</protected>
     <values>
         <field>FieldsToExclude__c</field>
-        <value xsi:type="xsd:string">Id,name,IsDeleted;CreatedDate;createdbyid;lastmodifieddate;lastmodifiedbyid;systemmodstamp;ownerid;recordtypeid;recordtypeid;shareclasschilds_eng_completion_rate__c;shareclasschilds_d_p_completion_rate__c;shareclasschilds_filing_completion_rate__c;shareclasschilds_setup_completion_rate__c;share_class_name__c;nb_of_required_fieldsdp__c;nb_of_required_fieldseng__c;nb_of_required_fieldssetup__c;nb_of_required_fieldsfiling__c;sc_completion_rate_filing__c;sc_completion_rate_eng__c;sc_completion_rate_setup__c;sc_completion_rate_dp__c;</value>
+        <value xsi:type="xsd:string">Id,name,IsDeleted;CreatedDate;createdbyid;lastmodifieddate;lastmodifiedbyid;systemmodstamp;ownerid;recordtypeid;recordtypeid;shareclasschilds_eng_completion_rate__c;shareclasschilds_d_p_completion_rate__c;shareclasschilds_filing_completion_rate__c;shareclasschilds_setup_completion_rate__c;share_class_name__c;nb_of_required_fieldsdp__c;nb_of_required_fieldseng__c;nb_of_required_fieldssetup__c;nb_of_required_fieldsfiling__c;sc_completion_rate_filing__c;sc_completion_rate_eng__c;sc_completion_rate_setup__c;sc_completion_rate_dp__c;DisseminationRecipient__c</value>
     </values>
 </CustomMetadata>

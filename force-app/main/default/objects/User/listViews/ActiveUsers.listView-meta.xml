@@ -4,6 +4,7 @@
     <columns>FULL_NAME</columns>
     <columns>CORE.USERS.ALIAS</columns>
     <columns>CORE.USERS.USERNAME</columns>
+    <columns>CORE.USERS.ACTIVE</columns>
     <columns>CORE.USERS.SAML_SUBJECT</columns>
     <columns>CORE.USERS.EMAIL</columns>
     <columns>CORE.USERS.LAST_LOGIN</columns>
@@ -14,6 +15,11 @@
     <columns>CORE.USER_ROLE.NAME</columns>
     <columns>CREATED_DATE</columns>
     <filterScope>Everything</filterScope>
+    <filters>
+        <field>CORE.USERS.ACTIVE</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
     <label>Active Users</label>
     <language>en_US</language>
 </ListView>

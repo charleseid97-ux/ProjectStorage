@@ -86,7 +86,15 @@
     </validationRules>
     <validationRules>
         <errorMessage><!-- A product can only have one Main Share Class. --></errorMessage>
-        <name>VR12_Only_One_Main_SC_Per_Product</name>
+        <name>VR12_IsMainShareClass</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Please select at least one Dissemination Recipient when Dissemination is set to Restricted. --></errorMessage>
+        <name>VR13_DisseminationRecipient</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- The SRRI Date is required when SRRI is completed. --></errorMessage>
+        <name>VR14_SRRIDate</name>
     </validationRules>
     <webLinks>
         <label><!-- ExportShareclass --></label>

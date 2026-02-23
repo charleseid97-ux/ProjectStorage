@@ -260,6 +260,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>10%3A30 CET</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>13%3A00 CET</fullName>
             <default>false</default>
         </values>
@@ -2725,6 +2729,21 @@
         </values>
         <values>
             <fullName>Over Positive value</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>PRIIPSCategory__c</picklist>
+        <values>
+            <fullName>1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3</fullName>
             <default>false</default>
         </values>
     </picklistValues>

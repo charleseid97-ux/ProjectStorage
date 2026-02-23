@@ -30,7 +30,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>FundManagerAssignment__c.RepOrder__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -287,11 +287,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Product__c.Investment_Style__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Product__c.InvestorsRegion__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -711,6 +706,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ProjectProduct__c.CommentaireLettre__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ProjectProduct__c.Communication__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -757,6 +757,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ProjectProduct__c.Legal__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ProjectProduct__c.LettreRequise__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -931,7 +936,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ProjectShareclassChild__c.DisseminationRecipient__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ProjectShareclassChild__c.Dissemination__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ProjectShareclassChild__c.DividendFrequency__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -965,7 +980,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>ProjectShareclassChild__c.EffectivePerfFees__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1031,6 +1046,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ProjectShareclassChild__c.Feeder__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ProjectShareclassChild__c.HasLockUpPeriod__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1077,6 +1097,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ProjectShareclassChild__c.InvestmentStatusInvestors__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ProjectShareclassChild__c.InvestorSubType__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1146,6 +1171,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ProjectShareclassChild__c.MaxRedemptionFeesManCo__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ProjectShareclassChild__c.MaxRedemptionFeesSubfund__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1197,6 +1227,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ProjectShareclassChild__c.OverPerformanceCondition__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ProjectShareclassChild__c.PRIIPSKIDRedemptionFee__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1460,7 +1495,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
+        <field>Share_Class__c.DisseminationRecipient__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Share_Class__c.Dissemination__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1527,6 +1567,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Share_Class__c.ExpertGermany__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Share_Class__c.Feeder__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1701,6 +1746,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Share_Class__c.MaxRedemptionFeesManCo__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Share_Class__c.MaxRedemptionFeesSubfund__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Share_Class__c.MaxServiceFees__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1762,6 +1817,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Share_Class__c.OverPerformanceCondition__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Share_Class__c.PRIIPSKIDRedemptionFee__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

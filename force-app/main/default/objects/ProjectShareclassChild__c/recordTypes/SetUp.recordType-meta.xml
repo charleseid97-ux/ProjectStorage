@@ -248,6 +248,29 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>DisseminationRecipient__c</picklist>
+        <values>
+            <fullName>Bloomberg</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Factset</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Morningstar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Morningstar %28EET Only%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Others</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Dissemination__c</picklist>
         <values>
             <fullName>No</fullName>
@@ -291,6 +314,10 @@
             <fullName>Distributing</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Income</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>EFAMAEFCCategory__c</picklist>
@@ -332,6 +359,10 @@
     </picklistValues>
     <picklistValues>
         <picklist>EFAMAEFCClassification__c</picklist>
+        <values>
+            <fullName>ARIS Global Macro</fullName>
+            <default>false</default>
+        </values>
         <values>
             <fullName>ARIS Long%2FShort Equity Variable Bias Strategy</fullName>
             <default>false</default>
@@ -706,6 +737,37 @@
         <picklist>InvestmentStyle__c</picklist>
         <values>
             <fullName>N%2FA</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>InvestorSubType__c</picklist>
+        <values>
+            <fullName>All investors</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Authorized institutional investors</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Authorized investors in Germany and Austria</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Clean shares eligible investors</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reserved to funds managed by CG</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reserved to selected institutional investors</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reserved to selected investors</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1227,6 +1289,14 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>A1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>A2</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>AW</fullName>
             <default>false</default>
         </values>
@@ -1264,6 +1334,14 @@
         </values>
         <values>
             <fullName>IW</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MyInvestor</fullName>
             <default>false</default>
         </values>
         <values>

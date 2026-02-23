@@ -111,6 +111,9 @@
                         <valueListItems>
                             <value>CustomButton.Product__c.ExportProduct</value>
                         </valueListItems>
+                        <valueListItems>
+                            <value>Product__c.FieldHistory</value>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -1759,6 +1762,16 @@
                 </visibilityRule>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.PRIIPSCategory__c</fieldItem>
+                <identifier>RecordPRIIPSCategory_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-b0f3edf7-9f3f-4159-8292-99980fd90386</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -2573,17 +2586,17 @@
                         <rightValue>false</rightValue>
                     </criteria>
                     <criteria>
-                        <leftValue>{!$Permission.CustomPermission.PMT_Manage_ProductManager}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>false</rightValue>
-                    </criteria>
-                    <criteria>
                         <leftValue>{!$Permission.CustomPermission.PRPRFP}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>false</rightValue>
                     </criteria>
                     <criteria>
                         <leftValue>{!$Permission.CustomPermission.PRPIS}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>false</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$Permission.CustomPermission.PMT_Manage_ProductManager}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>false</rightValue>
                     </criteria>

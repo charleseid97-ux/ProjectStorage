@@ -815,7 +815,7 @@
                 <label>Performance Fee UCITS</label>
             </value>
             <value>
-                <fullName>REASON_FOR_PHP</fullName>
+                <fullName>REASON_FOR_RHP</fullName>
                 <default>false</default>
                 <label>Reason for RHP</label>
             </value>
@@ -827,7 +827,7 @@
             <value>
                 <fullName>Prime_Agent</fullName>
                 <default>false</default>
-                <label>Prime Agent</label>
+                <label>Prime Transfer Agent</label>
             </value>
             <value>
                 <fullName>Pre_CentralAdmin</fullName>
@@ -865,11 +865,6 @@
                 <label>Custodian</label>
             </value>
             <value>
-                <fullName>Central_Admins</fullName>
-                <default>false</default>
-                <label>Central Admin(s)</label>
-            </value>
-            <value>
                 <fullName>Share_Class_Investment_Objective</fullName>
                 <default>false</default>
                 <label>Share Class Investment Objective</label>
@@ -883,11 +878,6 @@
                 <fullName>Performance_fee_EPT/KID</fullName>
                 <default>false</default>
                 <label>Performance fee EPT/KID</label>
-            </value>
-            <value>
-                <fullName>Delegated_Investment_Managers</fullName>
-                <default>false</default>
-                <label>Delegated Investment Manager(s)</label>
             </value>
             <value>
                 <fullName>High_yield</fullName>
@@ -908,6 +898,36 @@
                 <fullName>Yield_to_maturity</fullName>
                 <default>false</default>
                 <label>Yield_to_maturity</label>
+            </value>
+            <value>
+                <fullName>Delegated_Investment_Management_1</fullName>
+                <default>false</default>
+                <label>Delegated_Investment_Management 1</label>
+            </value>
+            <value>
+                <fullName>Delegated_Investment_Management_2</fullName>
+                <default>false</default>
+                <label>Delegated_Investment_Management 2</label>
+            </value>
+            <value>
+                <fullName>Delegated_Investment_Management_3</fullName>
+                <default>false</default>
+                <label>Delegated_Investment_Management 3</label>
+            </value>
+            <value>
+                <fullName>Central_Admin2</fullName>
+                <default>false</default>
+                <label>Central Admin 2</label>
+            </value>
+            <value>
+                <fullName>Central Admin</fullName>
+                <default>false</default>
+                <label>Central Admin 1</label>
+            </value>
+            <value>
+                <fullName>Pre-central admin</fullName>
+                <default>false</default>
+                <label>Pre-central admin</label>
             </value>
         </valueSetDefinition>
         <valueSettings>
@@ -961,14 +981,6 @@
             <valueName>Custodian</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Third Party</controllingFieldValue>
-            <valueName>Central_Admins</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Third Party</controllingFieldValue>
-            <valueName>Delegated_Investment_Managers</valueName>
-        </valueSettings>
-        <valueSettings>
             <controllingFieldValue>Risk</controllingFieldValue>
             <valueName>Main Risk of the Fund</valueName>
         </valueSettings>
@@ -990,7 +1002,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>PRIIPs</controllingFieldValue>
-            <valueName>REASON_FOR_PHP</valueName>
+            <valueName>REASON_FOR_RHP</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>PRIIPs</controllingFieldValue>

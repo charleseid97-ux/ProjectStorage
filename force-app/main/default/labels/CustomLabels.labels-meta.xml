@@ -342,7 +342,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>NAVCalendar</shortDescription>
-        <value>https://carmignac365-my.sharepoint.com/:w:/g/personal/sdegeneve_carmignac_com/EWjR8i4C1DtCu3EKc5t8F5sBAxC9oenEEZX33oAHg9_xyA?e=CFHytC</value>
+        <value>https://carmidoc.carmignac.com/TRCAL_FR_en.pdf</value>
     </labels>
     <labels>
         <fullName>NoReplayWideAddress</fullName>
@@ -725,6 +725,13 @@
         <protected>false</protected>
         <shortDescription>Website Sync Failed</shortDescription>
         <value>Synced failed. Please fill in all the website fields.</value>
+    </labels>
+    <labels>
+        <fullName>rawNoteMinChar</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>userd in meetingNoteAI</shortDescription>
+        <value>500</value>
     </labels>
     <labels>
         <fullName>seqlgn</fullName>

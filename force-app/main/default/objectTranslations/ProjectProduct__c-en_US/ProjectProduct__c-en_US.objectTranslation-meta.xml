@@ -40,6 +40,10 @@
             <section>Custom Links</section>
         </sections>
     </layouts>
+    <quickActions>
+        <label><!-- Generate Draft KID --></label>
+        <name>Generate_Draft_KID</name>
+    </quickActions>
     <recordTypes>
         <description><!-- (Create a new product and define its core attributes) --></description>
         <label><!-- Product  Creation --></label>

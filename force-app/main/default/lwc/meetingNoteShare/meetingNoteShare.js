@@ -1,14 +1,16 @@
+/* eslint-disable @lwc/lwc/no-inner-html */
 import { LightningElement, api, track, wire } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import { CloseActionScreenEvent } from 'lightning/actions';
 
 import getContacts from '@salesforce/apex/CTL_MeetingNotes.getNeededContacts';
 import getEmailTemplate from '@salesforce/apex/CTL_MeetingNotes.getEmailTemplate';
 import sendEmailMeeting from '@salesforce/apex/CTL_MeetingNotes.sendEmailMeeting';
 import getMeetingNoteIdByEvent from '@salesforce/apex/MeetingNoteShareController.getMeetingNoteIdByEvent';
+import getOrgId from '@salesforce/apex/CTL_MeetingNotes.getOrgId';
+import getMeetingNoteEmailData from '@salesforce/apex/MeetingNoteShareController.getMeetingNoteEmailData';
 
 export default class MeetingNoteShare extends LightningElement {
-    @api recordId; // Event Id (quick action context)
+    @api recordId; // Id de l’Event
 
     @track allContactShare;
     @track selectedContactShare = [];
@@ -16,20 +18,25 @@ export default class MeetingNoteShare extends LightningElement {
     @track isLoading = true;
 
     @track emailTemplate;
-    @track meetingNoteId; // Id de la Meeting Note liée à l'Event
+    @track meetingNoteId;
+
+    // Données nécessaires pour buildEmail (mêmes structures que MeetingNote.js)
+    @track clientPills = [];
+    @track internalPills = [];
+    @track clientInterest = [];
+    @track taskObjects = [];
+    @track isSalesPres = true;
+
+    @track orgId = '';
+    @track meetingNoteName = '';
 
     mapContacts = {};
 
-    // 🔹 Récupérer l'Id de la Meeting Note à partir de l'Event via Apex
+    // Récupère l’Id de la Meeting Note associée à l’Event
     @wire(getMeetingNoteIdByEvent, { eventId: '$recordId' })
     wiredMeetingNoteId({ data, error }) {
-        console.log('wiredMeetingNoteId recordId (Event) = ', this.recordId);
-        console.log('wiredMeetingNoteId data = ', data);
-        console.log('wiredMeetingNoteId error = ', error);
-
         if (data) {
             this.meetingNoteId = data;
-            console.log('=> meetingNoteId = ', this.meetingNoteId);
         } else if (error) {
             // eslint-disable-next-line no-console
             console.error('Error loading Meeting Note Id from Event', error);
@@ -41,7 +48,17 @@ export default class MeetingNoteShare extends LightningElement {
         }
     }
 
-    // 🔹 Charger les contacts Carmignac
+    // OrgId (utilisé pour construire l’url des images rating)
+    @wire(getOrgId)
+    wiredOrgId({ data, error }) {
+        if (data) this.orgId = data;
+        else if (error) {
+            // eslint-disable-next-line no-console
+            console.error('Error loading Org ID', error);
+        }
+    }
+
+    // Charge les contacts internes disponibles pour le partage
     @wire(getContacts)
     allContacts({ data, error }) {
         if (data && data.length) {
@@ -67,7 +84,7 @@ export default class MeetingNoteShare extends LightningElement {
         this.isLoading = false;
     }
 
-    // 🔹 Charger le template d'email existant (comme dans le LWC principal)
+    // Charge le template d’email
     @wire(getEmailTemplate, { name: 'MeetingNoteEmail' })
     wiredTemplate({ data, error }) {
         if (data) {
@@ -75,6 +92,28 @@ export default class MeetingNoteShare extends LightningElement {
         } else if (error) {
             // eslint-disable-next-line no-console
             console.error('Error loading email template', error);
+        }
+    }
+
+    // Récupère toutes les données nécessaires à buildEmail
+    @wire(getMeetingNoteEmailData, { meetingNoteId: '$meetingNoteId' })
+    wiredEmailData({ data, error }) {
+        if (data) {
+            this.isSalesPres = !!data.isSalesPres;
+            this.meetingNoteName = data.meetingNoteName || '';
+
+            this.clientPills = data.clientPills ? [...data.clientPills] : [];
+            this.internalPills = data.internalPills ? [...data.internalPills] : [];
+            this.clientInterest = data.clientInterest ? [...data.clientInterest] : [];
+            this.taskObjects = data.taskObjects ? [...data.taskObjects] : [];
+        } else if (error) {
+            // eslint-disable-next-line no-console
+            console.error('Error loading email data from MeetingNote', error);
+            this.showToast(
+                'Error while loading Meeting Note email data.',
+                'error',
+                'Error'
+            );
         }
     }
 
@@ -98,16 +137,10 @@ export default class MeetingNoteShare extends LightningElement {
                 'error',
                 'No recipients'
             );
-            this.dispatchEvent(
-                new CustomEvent('done', {
-                bubbles: true,
-                composed: true
-                })
-            );
+            this.dispatchEvent(new CustomEvent('done', { bubbles: true, composed: true }));
             return;
         }
 
-        // ⚠️ On est sur Event, on doit avoir une Meeting Note liée
         if (!this.meetingNoteId) {
             this.showToast(
                 'This Event is not linked to a Meeting Note (Meeting_Note__c is empty).',
@@ -129,9 +162,7 @@ export default class MeetingNoteShare extends LightningElement {
         const contShareList = [];
         this.selectedContactShare.forEach(id => {
             const c = this.mapContacts[id];
-            if (c) {
-                contShareList.push(c);
-            }
+            if (c) contShareList.push(c);
         });
 
         if (!contShareList.length) {
@@ -146,16 +177,15 @@ export default class MeetingNoteShare extends LightningElement {
         this.isLoading = true;
 
         const tmpEmail = {
-            HtmlValue: this.emailTemplate.HtmlValue,
+            HtmlValue: this.buildEmail(this.emailTemplate.HtmlValue),
             Subject: this.emailTemplate.Subject,
             EnhancedLetterheadId: this.emailTemplate.EnhancedLetterheadId
         };
 
-        // 🔁 Réutilisation de ton Apex existant
         sendEmailMeeting({
             et: tmpEmail,
             participants: contShareList,
-            meetingNoteId: this.meetingNoteId // 👉 Id de la Meeting Note, pas l'Event
+            meetingNoteId: this.meetingNoteId
         })
             .then(() => {
                 this.showToast('Meeting Note shared successfully.', 'success', 'Success');
@@ -175,17 +205,8 @@ export default class MeetingNoteShare extends LightningElement {
             });
     }
 
-    handleCancel() {
-        this.closeAction();
-    }
-
     closeAction() {
-        this.dispatchEvent(
-            new CustomEvent('done', {
-            bubbles: true,
-            composed: true
-            })
-        );
+        this.dispatchEvent(new CustomEvent('done', { bubbles: true, composed: true }));
     }
 
     contactsPills(allCont, icon) {
@@ -205,6 +226,80 @@ export default class MeetingNoteShare extends LightningElement {
             }
         });
         return items;
+    }
+
+    buildEmail(emailTemplateBasic) {
+        const parser = new DOMParser();
+        const orgUrl = window.location.origin;
+
+        const doc = parser.parseFromString(emailTemplateBasic, 'text/html');
+
+        // Remplace le merge field Meeting_Note__c.Name par un lien vers la Meeting Note
+        const body = doc.body;
+        const marker = '{{{Meeting_Note__c.Name}}}';
+        if (body && this.meetingNoteId && body.innerHTML && body.innerHTML.includes(marker)) {
+           const url = orgUrl + '/' + this.recordId; // ouvre l'Event
+            const name = this.meetingNoteName || marker; // affiche le nom de la Meeting Note
+            body.innerHTML = body.innerHTML.replace(marker, `<a href="${url}">${name}</a>`);
+        }
+
+        // client Attendees...
+        const elmClient = doc.getElementById('companyAttList');
+        elmClient?.replaceChildren();
+        this.clientPills.forEach(parti => {
+            const newNode = doc.createElement('li');
+            newNode.innerText = parti.label;
+            elmClient?.appendChild(newNode);
+        });
+
+        // Carmi Attendees...
+        const elmCarmi = doc.getElementById('carmiAttList');
+        elmCarmi?.replaceChildren();
+        this.internalPills.forEach(parti => {
+            const newNode = doc.createElement('li');
+            newNode.innerText = parti.label;
+            elmCarmi?.appendChild(newNode);
+        });
+
+        // Client Interest...
+        if (this.isSalesPres) {
+            const elmInterest = doc.getElementById('interestLines');
+            this.clientInterest.forEach(inter => {
+                const imgUrl = orgUrl + '/file-asset-public/' + inter.pic + '?oid=' + this.orgId;
+                const newNode = doc.createElement('tr');
+                newNode.innerHTML =
+                    `<td><span>${inter.label}</span></td>` +
+                    `<td><span><img alt=${inter.pic} src=${imgUrl} title=${inter.pic}/> </span></td>`;
+                elmInterest?.appendChild(newNode);
+            });
+        } else {
+            const interestHead = doc.getElementById('interestTableHeader');
+            interestHead?.remove();
+            const interestTable = doc.getElementById('interestTable');
+            interestTable?.remove();
+        }
+
+        // Tasks...
+        if (this.isSalesPres) {
+            const elmTask = doc.getElementById('taskTable');
+            this.taskObjects.forEach(task => {
+                const newNode = doc.createElement('tr');
+                const taskURL = orgUrl + '/' + task.Id;
+                newNode.innerHTML =
+                    `<td><span><a href="${taskURL}"> ${task.Subject}</a></span></td>` +
+                    `<td><span>${task.Description || ''} </span></td>` +
+                    `<td><span>${task.ActivityDate || ''} </span></td>` +
+                    `<td><span>${task.OwnerLabel || ''} </span></td>`;
+                elmTask?.appendChild(newNode);
+            });
+        } else {
+            const taskHead = doc.getElementById('taskTableHeader');
+            taskHead?.remove();
+            const taskTable = doc.getElementById('taskTable');
+            taskTable?.remove();
+        }
+
+        return `<html style="overflow-y: hidden;">${doc.documentElement.innerHTML}</html>`;
     }
 
     showToast(message, variant, title) {

@@ -7,6 +7,22 @@
                     <name>actionNames</name>
                     <valueList>
                         <valueListItems>
+                            <value>Contact.NewMeetingNote2</value>
+                            <visibilityRule>
+                                <booleanFilter>1 OR 2</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!$User.Username}</leftValue>
+                                    <operator>CONTAINS</operator>
+                                    <rightValue>coullon.thomas-crm@carmignac.com</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Username}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>achraf.el-hitary.external-crm@carmignac.com</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
                             <value>Contact.NewMeetingNote</value>
                             <visibilityRule>
                                 <booleanFilter>1 AND ( 2 OR 3 OR 4 OR 5)</booleanFilter>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
-    <activeVersionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_11</activeVersionIdentifier>
     <developerName>JSON_Insights_from_MeetingNote</developerName>
     <masterLabel>JSON Insights from MeetingNote</masterLabel>
     <templateVersions>
@@ -49,7 +48,6 @@ Only respond with the JSON output, without additional text or explanations.
             <definition>flow://List_of_Share_Classes_Funds_and_Strategy</definition>
             <referenceName>Flow:List_of_Share_Classes_Funds_and_Strategy</referenceName>
         </templateDataProviders>
-        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_1</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>Here are all the Products at Carmignac:
@@ -101,7 +99,6 @@ Only respond with the JSON output, without additional text or explanations.
             <definition>flow://List_of_Share_Classes_Funds_and_Strategy</definition>
             <referenceName>Flow:List_of_Share_Classes_Funds_and_Strategy</referenceName>
         </templateDataProviders>
-        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_2</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>Here are all the Products at Carmignac:
@@ -151,7 +148,6 @@ Only respond with the JSON output, without additional text or explanations.
             <definition>flow://List_of_Share_Classes_Funds_and_Strategy</definition>
             <referenceName>Flow:List_of_Share_Classes_Funds_and_Strategy</referenceName>
         </templateDataProviders>
-        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_3</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>Here are all the Products at Carmignac:
@@ -220,7 +216,6 @@ Important Notes:
             <definition>flow://List_of_Share_Classes_Funds_and_Strategy</definition>
             <referenceName>Flow:List_of_Share_Classes_Funds_and_Strategy</referenceName>
         </templateDataProviders>
-        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_4</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>Here are all the Products at Carmignac:
@@ -279,7 +274,6 @@ Important Notes:
             <definition>flow://List_of_Share_Classes_Funds_and_Strategy</definition>
             <referenceName>Flow:List_of_Share_Classes_Funds_and_Strategy</referenceName>
         </templateDataProviders>
-        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_5</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>Here are all the Products at Carmignac:
@@ -356,7 +350,6 @@ Important Notes:
             <definition>flow://List_of_Share_Classes_Funds_and_Strategy</definition>
             <referenceName>Flow:List_of_Share_Classes_Funds_and_Strategy</referenceName>
         </templateDataProviders>
-        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_6</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>Here are all the Products at Carmignac:
@@ -437,7 +430,6 @@ Important Notes:
             <definition>flow://List_of_Share_Classes_Funds_and_Strategy</definition>
             <referenceName>Flow:List_of_Share_Classes_Funds_and_Strategy</referenceName>
         </templateDataProviders>
-        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_7</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>Here are all the Products at Carmignac:
@@ -597,7 +589,6 @@ Important Notes:
             <definition>flow://List_of_Share_Classes_Funds_and_Strategy</definition>
             <referenceName>Flow:List_of_Share_Classes_Funds_and_Strategy</referenceName>
         </templateDataProviders>
-        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_8</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>### **Extract Investment Insights from Meeting Notes**
@@ -727,7 +718,6 @@ This version ensures actionable insights while minimizing neutral results.
             <definition>flow://List_of_Share_Classes_Funds_and_Strategy</definition>
             <referenceName>Flow:List_of_Share_Classes_Funds_and_Strategy</referenceName>
         </templateDataProviders>
-        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_9</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>### **Extract Investment Insights from Meeting Notes**
@@ -856,7 +846,6 @@ This version ensures actionable insights while minimizing neutral results.
             <definition>flow://List_of_Share_Classes_Funds_and_Strategy</definition>
             <referenceName>Flow:List_of_Share_Classes_Funds_and_Strategy</referenceName>
         </templateDataProviders>
-        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_10</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>### **Extract Investment Insights from Meeting Notes**
@@ -978,7 +967,6 @@ Each insight must:
             <definition>flow://List_of_Share_Classes_Funds_and_Strategy</definition>
             <referenceName>Flow:List_of_Share_Classes_Funds_and_Strategy</referenceName>
         </templateDataProviders>
-        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_11</versionIdentifier>
     </templateVersions>
     <type>einstein_gpt__flex</type>
     <visibility>Global</visibility>

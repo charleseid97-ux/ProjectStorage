@@ -5,11 +5,13 @@
     <inlineHelpText>Order for displaying the Product Managers in reports.</inlineHelpText>
     <label>RepOrder</label>
     <required>false</required>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
+        <restricted>true</restricted>
         <valueSetDefinition>
-            <sorted>true</sorted>
+            <sorted>false</sorted>
             <value>
                 <fullName>1</fullName>
                 <default>false</default>
@@ -39,6 +41,30 @@
                 <fullName>6</fullName>
                 <default>false</default>
                 <label>6</label>
+            </value>
+            <value>
+                <fullName>ORDER_1</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>1</label>
+            </value>
+            <value>
+                <fullName>ORDER_2</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>2</label>
+            </value>
+            <value>
+                <fullName>ORDER_3</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>3</label>
+            </value>
+            <value>
+                <fullName>ORDER_4</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>4</label>
             </value>
         </valueSetDefinition>
     </valueSet>

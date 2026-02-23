@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
-    <activeVersionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_12</activeVersionIdentifier>
     <description>Use this template to generate a Video Call Summary</description>
     <developerName>flex_VideoCallSummary</developerName>
     <masterLabel>flex_VideoCallSummary</masterLabel>
@@ -16,7 +15,6 @@
         </inputs>
         <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
         <status>Published</status>
-        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_1</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are analyzing a client meeting transcript on behalf of Carmignac.
@@ -114,7 +112,6 @@ If there were none, write &quot;No data&quot;.
             </parameters>
             <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
         </templateDataProviders>
-        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_2</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are analyzing a client meeting transcript on behalf of Carmignac.
@@ -213,7 +210,6 @@ If there were none, write &quot;No data&quot;.
             </parameters>
             <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
         </templateDataProviders>
-        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_3</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are analyzing a client meeting transcript on behalf of Carmignac.
@@ -293,7 +289,6 @@ List the concrete follow-ups agreed on, including who is responsible and deadlin
             </parameters>
             <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
         </templateDataProviders>
-        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_4</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are analyzing a client meeting transcript on behalf of Carmignac.
@@ -386,7 +381,6 @@ Decisions taken:
             </parameters>
             <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
         </templateDataProviders>
-        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_5</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are analyzing a client meeting transcript on behalf of Carmignac.
@@ -471,7 +465,6 @@ Decisions taken:
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
-        <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_GenerateVideoCallTranscript</definition>
@@ -483,7 +476,6 @@ Decisions taken:
             </parameters>
             <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
         </templateDataProviders>
-        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_6</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are analyzing a client meeting transcript on behalf of Carmignac.
@@ -571,7 +563,6 @@ Timing for potential re-engagement (next meeting, decision horizon)
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
-        <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_GenerateVideoCallTranscript</definition>
@@ -583,7 +574,6 @@ Timing for potential re-engagement (next meeting, decision horizon)
             </parameters>
             <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
         </templateDataProviders>
-        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_7</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are analyzing a client meeting transcript on behalf of Carmignac.
@@ -673,7 +663,6 @@ Clearly extract concrete actions and commitments.
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
-        <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_GenerateVideoCallTranscript</definition>
@@ -685,7 +674,6 @@ Clearly extract concrete actions and commitments.
             </parameters>
             <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
         </templateDataProviders>
-        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_8</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are analyzing a client meeting transcript on behalf of Carmignac.
@@ -780,7 +768,6 @@ Clearly extract concrete actions and commitments.
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
-        <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_GenerateVideoCallTranscript</definition>
@@ -792,7 +779,6 @@ Clearly extract concrete actions and commitments.
             </parameters>
             <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
         </templateDataProviders>
-        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_9</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are analyzing a client meeting transcript on behalf of Carmignac.
@@ -887,7 +873,6 @@ Clearly extract concrete actions and commitments.
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
-        <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_GenerateVideoCallTranscript</definition>
@@ -899,7 +884,6 @@ Clearly extract concrete actions and commitments.
             </parameters>
             <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
         </templateDataProviders>
-        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_10</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are analyzing a client meeting transcript on behalf of Carmignac.
@@ -991,7 +975,6 @@ Clearly extract concrete actions and commitments.
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
-        <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_GenerateVideoCallTranscript</definition>
@@ -1003,7 +986,6 @@ Clearly extract concrete actions and commitments.
             </parameters>
             <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
         </templateDataProviders>
-        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_11</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are analyzing a client meeting transcript on behalf of Carmignac.
@@ -1094,7 +1076,6 @@ Clearly extract concrete actions and commitments.
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
-        <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_GenerateVideoCallTranscript</definition>
@@ -1106,7 +1087,6 @@ Clearly extract concrete actions and commitments.
             </parameters>
             <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
         </templateDataProviders>
-        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_12</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are analyzing a client meeting transcript on behalf of &lt;PERSON_6&gt;.
@@ -1277,7 +1257,6 @@ DATA
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
-        <responseFormat>HTML</responseFormat>
         <status>Draft</status>
         <templateDataProviders>
             <definition>flow://PT_GenerateVideoCallTranscript</definition>
@@ -1293,7 +1272,113 @@ DATA
             <definition>flow://PT_RetrieveProducts</definition>
             <referenceName>Flow:PT_RetrieveProducts</referenceName>
         </templateDataProviders>
-        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_13</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are analyzing a client meeting transcript on behalf of Carmignac.
+ 
+About Carmignac:
+European independent asset management company founded in 1989.
+Managing UCITS funds, discretionary mandates, alternatives, and private equity.
+DNA: long-term active management, independence, strong alignment with clients.
+Trusted partner for professional investors, focused on performance, risk management, and client proximity.
+
+About our clients:
+Exclusively B2B professional investors (distributors, private banks, family offices, wealth managers, institutional investors, corporate treasurers).
+Highly sophisticated: they expect fact-based, precise, and transparent communication.
+Typical meetings: product updates, market views, performance reviews, allocation discussions, investment opportunities.
+
+Context for analysis:
+- Focus on client’s investment appetite: willingness, capacity, timing, and conditions to invest.
+- Do not include any personal data (RGPD compliance) – especially on the client side.
+- Pay special attention to mentions of Carmignac products/funds (UCITS, mandates, CPEG, alternatives).
+- Highlight client feedback: enthusiasm, concerns, comparisons with competitors.
+- Identify obstacles to investment (risk perception, existing exposure, internal process).
+- Identify levers to unlock investment (thematic interest, ESG, performance, peer adoption).
+- Always capture clear follow-up actions and deadlines.
+- If competitors are mentioned, record context and positioning vs Carmignac.
+- Output must be in English only, in a professional and concise style suitable for portfolio managers and institutional sales.
+- Use a structured format with headings and bullet points (no free text paragraphs).
+- Never invent details.
+- Use only information explicitly stated in the transcript.
+- If a topic is not mentioned, omit it completely.
+- Do not write negative placeholder statements such as: “No data”, “Not mentioned”, “No explicit discussion”, “No evidence of”, or similar expressions.
+
+
+###YOUR GOAL###
+
+Based on the Carmignac context above, analyze the transcript of this client meeting.
+Use only the information explicitly present in the transcript.
+Do not infer or invent details.
+Focus primarily on what the client says, asks, or expresses.
+Do not detail what the Carmignac representative says unless it is a direct response to a client question or concern.
+Format the output in a structured way with clear sections and bullet points.
+
+
+1. Key Highlights
+Summarize the most important points raised by the client during the meeting. Include only if relevant information exists, and focus on:
+- Topics the client insisted on
+- Recurrent concerns or areas of interest
+- Any signals of urgency or priority
+ 
+2. Client Sentiment &amp; Feedback
+Capture the client’s attitude and tone.
+Include only if explicitly observable:
+- General sentiment (enthusiastic, cautious, reserved, etc.)
+- Explicit feedback on Carmignac products/funds (positive, neutral, negative)
+- Concerns about performance, volatility, ESG, liquidity, or market conditions
+- Client questions and requests for clarification
+
+3. Opportunities &amp; Challenges &amp; decisions
+Identify the real business potential behind the client’s words.
+Include only elements explicitly mentioned:
+- Decision criteria mentioned by the client (factors influencing selection)
+- Real sales opportunity → is there a concrete chance of investment?
+- Capacity to invest (budget size, allocation room, timing if mentioned)
+- Willingness to invest (ready to move forward, hesitant, or blocking)
+- Signals of interest per product → note whether the client’s comments suggest appetite, neutrality, or reluctance
+- Competitors cited and comparison to Carmignac
+- Chance to win (high / medium / low, based on client comments)
+- Concerns about selecting Carmignac (performance doubts, internal barriers, risk limits)
+- Competing products mentioned by the client
+- Negative factors for selection (fees, liquidity, overlap with existing positions)
+- Levers to unlock investment (thematic appeal, peer adoption, product features, ESG angle, performance criteria)
+
+
+4. Next Steps
+Clearly extract concrete actions and commitments.
+Include only concrete actions explicitly agreed or requested:
+- Specific follow-ups and deliverables (documents, product info, simulations)
+- Responsible person (Carmignac rep or client contact) and deadlines if available
+- Timing for potential re-engagement (next meeting, decision horizon)
+ 
+
+#DATA###
+&lt;Transcript&gt;
+{!$Flow:PT_GenerateVideoCallTranscript.Prompt}
+&lt;/Transcript&gt; @
+</content>
+        <generationTemplateConfigs>
+            <generationConfigDeveloperName>einstein_gpt__enUsLanguageStyle</generationConfigDeveloperName>
+        </generationTemplateConfigs>
+        <inputs>
+            <apiName>VideoCall</apiName>
+            <definition>SOBJECT://VideoCall</definition>
+            <masterLabel>VideoCall</masterLabel>
+            <referenceName>Input:VideoCall</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_GenerateVideoCallTranscript</definition>
+            <parameters>
+                <definition>SOBJECT://VideoCall</definition>
+                <isRequired>true</isRequired>
+                <parameterName>VideoCall</parameterName>
+                <valueExpression>{!$Input:VideoCall}</valueExpression>
+            </parameters>
+            <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
+        </templateDataProviders>
     </templateVersions>
     <type>einstein_gpt__flex</type>
     <visibility>Global</visibility>
