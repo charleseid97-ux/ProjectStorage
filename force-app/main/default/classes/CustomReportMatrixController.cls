@@ -5,6 +5,8 @@
  *              in Apex using Maps to build a pivot/matrix result.
  *              Supports up to 2 row grouping levels and 2 column grouping levels.
  * @author Charles EID
+ * @testClass CustomReportMatrixControllerTest
+ * @coverage 97%
  */
 public with sharing class CustomReportMatrixController {
 
