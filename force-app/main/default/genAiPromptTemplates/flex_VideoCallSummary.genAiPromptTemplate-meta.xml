@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_14</activeVersionIdentifier>
     <description>Use this template to generate a Video Call Summary</description>
     <developerName>flex_VideoCallSummary</developerName>
     <masterLabel>flex_VideoCallSummary</masterLabel>
@@ -15,6 +16,7 @@
         </inputs>
         <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
         <status>Published</status>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_1</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are analyzing a client meeting transcript on behalf of Carmignac.
@@ -112,6 +114,7 @@ If there were none, write &quot;No data&quot;.
             </parameters>
             <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_2</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are analyzing a client meeting transcript on behalf of Carmignac.
@@ -210,6 +213,7 @@ If there were none, write &quot;No data&quot;.
             </parameters>
             <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_3</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are analyzing a client meeting transcript on behalf of Carmignac.
@@ -289,6 +293,7 @@ List the concrete follow-ups agreed on, including who is responsible and deadlin
             </parameters>
             <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_4</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are analyzing a client meeting transcript on behalf of Carmignac.
@@ -381,6 +386,7 @@ Decisions taken:
             </parameters>
             <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_5</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are analyzing a client meeting transcript on behalf of Carmignac.
@@ -465,6 +471,7 @@ Decisions taken:
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_GenerateVideoCallTranscript</definition>
@@ -476,6 +483,7 @@ Decisions taken:
             </parameters>
             <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_6</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are analyzing a client meeting transcript on behalf of Carmignac.
@@ -563,6 +571,7 @@ Timing for potential re-engagement (next meeting, decision horizon)
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_GenerateVideoCallTranscript</definition>
@@ -574,6 +583,7 @@ Timing for potential re-engagement (next meeting, decision horizon)
             </parameters>
             <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_7</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are analyzing a client meeting transcript on behalf of Carmignac.
@@ -663,6 +673,7 @@ Clearly extract concrete actions and commitments.
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_GenerateVideoCallTranscript</definition>
@@ -674,6 +685,7 @@ Clearly extract concrete actions and commitments.
             </parameters>
             <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_8</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are analyzing a client meeting transcript on behalf of Carmignac.
@@ -768,6 +780,7 @@ Clearly extract concrete actions and commitments.
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_GenerateVideoCallTranscript</definition>
@@ -779,6 +792,7 @@ Clearly extract concrete actions and commitments.
             </parameters>
             <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_9</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are analyzing a client meeting transcript on behalf of Carmignac.
@@ -873,6 +887,7 @@ Clearly extract concrete actions and commitments.
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_GenerateVideoCallTranscript</definition>
@@ -884,6 +899,7 @@ Clearly extract concrete actions and commitments.
             </parameters>
             <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
         </templateDataProviders>
+        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_10</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are analyzing a client meeting transcript on behalf of Carmignac.
@@ -975,6 +991,7 @@ Clearly extract concrete actions and commitments.
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_GenerateVideoCallTranscript</definition>
@@ -986,6 +1003,7 @@ Clearly extract concrete actions and commitments.
             </parameters>
             <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
         </templateDataProviders>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_11</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are analyzing a client meeting transcript on behalf of Carmignac.
@@ -1076,6 +1094,7 @@ Clearly extract concrete actions and commitments.
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_GenerateVideoCallTranscript</definition>
@@ -1087,6 +1106,7 @@ Clearly extract concrete actions and commitments.
             </parameters>
             <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
         </templateDataProviders>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_12</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are analyzing a client meeting transcript on behalf of &lt;PERSON_6&gt;.
@@ -1257,6 +1277,7 @@ DATA
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Draft</status>
         <templateDataProviders>
             <definition>flow://PT_GenerateVideoCallTranscript</definition>
@@ -1272,6 +1293,7 @@ DATA
             <definition>flow://PT_RetrieveProducts</definition>
             <referenceName>Flow:PT_RetrieveProducts</referenceName>
         </templateDataProviders>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_13</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are analyzing a client meeting transcript on behalf of Carmignac.
@@ -1368,6 +1390,7 @@ Include only concrete actions explicitly agreed or requested:
             <required>true</required>
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_GenerateVideoCallTranscript</definition>
@@ -1379,6 +1402,7 @@ Include only concrete actions explicitly agreed or requested:
             </parameters>
             <referenceName>Flow:PT_GenerateVideoCallTranscript</referenceName>
         </templateDataProviders>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_14</versionIdentifier>
     </templateVersions>
     <type>einstein_gpt__flex</type>
     <visibility>Global</visibility>

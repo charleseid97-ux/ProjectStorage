@@ -158,9 +158,48 @@
                 <lightning-input-field id="meetingNote" field-name="Note__c" variant="label-hidden" required onchange={handleFieldChange}>
                 </lightning-input-field>
               </template>
-              <template if:true={rawNote}>
-                <lightning-input-field id="meetingNoteRaw" field-name="Raw_Note__c" variant="label-hidden" required onchange={handleFieldChange}>
-                </lightning-input-field>
+              <!-- Guidance -->
+              <div class="slds-m-vertical_medium guidance-container">
+                <div
+                  class="slds-grid slds-grid_align-spread slds-p-horizontal_small slds-p-vertical_x-small collapsible-header"
+                  role="button"
+                  tabindex="0"
+                  onclick={toggleGuidance}
+                  onkeydown={handleGuidanceKeydown}>
+
+                  <div class="slds-grid slds-grid_vertical-align-center">
+                    <h3 class="slds-text-title_bold slds-m-right_x-small">💡 Tips for a Better Meeting Note</h3>
+
+                    <!-- (Optionnel) petit tooltip info -->
+                    <lightning-helptext content="Click to show/hide guidance."></lightning-helptext>
+                  </div>
+
+                  <lightning-button-icon
+                    icon-name={guidanceIcon}
+                    alternative-text="Toggle tips"
+                    size="small"
+                    variant="bare">
+                  </lightning-button-icon>
+                </div>
+
+                <template if:true={showGuidance}>
+                  <div class="slds-p-around_medium slds-theme_info slds-box">
+                    <p>
+                    💡 Type or dictate your meeting summary (press <b>Windows + H </b>to start voice dictation).<br><br>
+                    Mention key elements such as:<br>
+                    – products or funds discussed,<br>
+                    – client sentiment and investment interest (1–5),<br>
+                    – opportunities or risks,<br>
+                    – key questions and next steps.<br><br>
+                    The clearer your summary, the better the AI-generated Meeting Note will be.
+                    </p>                  
+                  </div>
+                </template>
+              </div>
+              <template if:true={rawNote}>                
+                
+                  <lightning-input-field id="meetingNoteRaw" field-name="Raw_Note__c" variant="label-hidden" required onchange={handleFieldChange}>
+                  </lightning-input-field>
               </template>
                   <!-- Add Opport -->
               <div class="slds-var-m-top_xx-small slds-var-m-bottom_x-small">

@@ -73,7 +73,8 @@ export default class MeetingNote extends NavigationMixin(LightningElement) {
     @track currentUser;
     @track selectedOwnerId;      
     @track selectedOwnerLabel='';
-
+    // Guidance toggle
+    @track showGuidance = false;
     openSections = ["Attende","MeetingType","Note","FollowUP","Share"];
     meetingDate = new Date();
     meetingName = '';
@@ -428,6 +429,10 @@ export default class MeetingNote extends NavigationMixin(LightningElement) {
             fields.Opportunity__c = this.selectedOpport;
         }
         fields.OwnerId = this.selectedOwnerId || userId;
+        fields.SalesPresentation__c = this.isSalesPres;        
+        fields.RelationshipManagement__c = this.isRelatMgt;
+        console.log('@@isSalesPres: ',this.isSalesPres);
+        console.log('@@isRelatMgt: ',this.isRelatMgt);
         if (!this.aiGeneration && !this.validateMinRawNote(fields)) {
             return;
         }
@@ -815,6 +820,12 @@ export default class MeetingNote extends NavigationMixin(LightningElement) {
             return false;
         }
         return true;
+    }
+    get guidanceIcon() {
+        return this.showGuidance ? 'utility:chevrondown' : 'utility:chevronright';
+    }
+    toggleGuidance() {
+        this.showGuidance = !this.showGuidance;
     }
 
 }

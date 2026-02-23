@@ -5,3 +5,20 @@
     --slds-c-accordion-heading-font-size: .9rem;
     --slds-c-accordion-summary-color-background :rgb(242 242 242);
 }
+.guidance-container {
+    border-radius: 0.5rem;
+    background-color: #f3f6f9;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  
+  .collapsible-header {
+    cursor: pointer;
+    user-select: none;
+    /* background-color: #f0f8ff; */
+    border-bottom: 1px solid #d8dde6;
+    border-radius: 0.5rem 0.5rem 0 0;
+  }
+  
+  .collapsible-header:hover {
+    background-color: #e3f1ff;
+  }

@@ -18,6 +18,7 @@
         <offset>0</offset>
     </actionCalls>
     <apiVersion>65.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <environments>Default</environments>
     <interviewLabel>AI_Meeting_Note_RawText {!$Flow.CurrentDateTime}</interviewLabel>
     <label>AI_Meeting_Note_RawText</label>
