@@ -1,0 +1,1078 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_10</activeVersionIdentifier>
+    <developerName>Product_Overview_Negative</developerName>
+    <masterLabel>Product Overview - Negative</masterLabel>
+    <templateVersions>
+        <content>Data :
+
+{!$Flow:Negative_Meeting_Notes_Collection.Prompt}
+
+**Context:**  
+You are tasked with analyzing the negative customer meeting notes regarding our company’s products.  
+These meeting notes contain textual comments on the negative aspects of the products and customer perception ratings (1-5).  
+
+**Objective:**  
+The goal is to identify and rank key negative themes for each product, providing valuable insights to the sales team.  
+This will help refine sales strategies and inform future business planning by addressing objections and improving products.  
+
+**Instructions:**  
+
+**Reading the Notes:**  
+1. Carefully review the provided customer meeting notes with negative sentiment.  
+2. Identify the covered period by noting the oldest and most recent dates in the meeting notes: Period: [{oldest_meeting_date} - {most_recent_meeting_date}]  
+
+**Identifying Themes:**  
+1. Summarize the main negative points for each product.  
+2. Rank these themes in descending order of occurrence.  
+3. For each theme, provide the following:  
+  - A concise description of the theme in 200 characters.  
+  - An example comment that illustrates the theme, including the meeting note record reference or link.  
+  - The number of occurrences of this theme in the notes.  
+
+**Structuring the Results:**  
+1. List the top 5 recurring themes.  
+
+**Sales Strategy Insights:**  
+1. Suggest concrete actions the sales team can take to address the negative feedback.  
+2. Identify potential objections and provide counterarguments.  
+
+**Output Format:**  
+(Ensure all parts from Start Format to End Format are fully completed.)  
+
+```
+Product: &lt;b&gt;[Product Name]&lt;b&gt;  
+Period: &lt;b&gt;[oldest meeting date - most recent meeting date]&lt;b&gt;  
+The number of Client Interest for this product during the period: &lt;b&gt;[number]&lt;b&gt;  
+Average Score for the product on the period: &lt;b&gt;[Average Score of the product]&lt;b&gt;  
+
+&lt;b&gt;Negative Points&lt;b&gt;:  
+#1 - Percentage% (number meeting notes) - [Main Negative Theme 1]  
+Concise description in 200 characters of negative comments on this theme.  
+Example of customer comment: &quot;[Most relevant and/or most recent verbatim related to this theme]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;  
+
+#2 - [Repeat format for additional points up to #5]  
+
+&lt;b&gt;Sales Strategy Insights&lt;b&gt;:  
+- Summarize key actions for the sales team to address the negative feedback.  
+- Identify potential objections and provide counterarguments.  
+```
+
+</content>
+        <inputs>
+            <apiName>Product_Id</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Product Id</masterLabel>
+            <referenceName>Input:Product_Id</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Last_x_Months</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Last x Months</masterLabel>
+            <referenceName>Input:Last_x_Months</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Negative_Meeting_Notes_Collection</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Product_Id</parameterName>
+                <valueExpression>{!$Input:Product_Id}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Negative_Meeting_Notes_Collection</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_1</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Data :
+
+{!$Flow:Negative_Meeting_Notes_Collection.Prompt}
+
+**Context:**  
+You are tasked with analyzing the negative customer meeting notes regarding our company’s products.  
+These meeting notes contain textual comments on the negative aspects of the products and customer perception ratings (1-5).  
+
+**Objective:**  
+The goal is to identify and rank key negative themes for each product, providing valuable insights to the sales team.  
+This will help refine sales strategies and inform future business planning by addressing objections and improving products.  
+
+**Instructions:**  
+
+**Reading the Notes:**  
+1. Carefully review the provided customer meeting notes with negative sentiment.  
+2. Identify the covered period by noting the oldest and most recent dates in the meeting notes: Period: [{oldest_meeting_date} - {most_recent_meeting_date}]  
+
+**Identifying Themes:**  
+1. Summarize the main negative points for each product.  
+2. Rank these themes in descending order of occurrence.  
+3. For each theme, provide the following:  
+  - A concise description of the theme in 200 characters.  
+  - An example comment that illustrates the theme, including the meeting note record reference or link.  
+  - The number of occurrences of this theme in the notes.  
+
+**Structuring the Results:**  
+1. List the top 5 recurring themes.  
+
+**Sales Strategy Insights:**  
+1. Suggest concrete actions the sales team can take to address the negative feedback.  
+2. Identify potential objections and provide counterarguments.  
+
+**Output Format:**  
+(Ensure all parts from Start Format to End Format are fully completed.)  
+
+```
+Product: &lt;b&gt;[Product Name]&lt;b&gt;  
+Period: &lt;b&gt;[oldest meeting date - most recent meeting date]&lt;b&gt;  
+The number of Client Interest for this product during the period: &lt;b&gt;[number]&lt;b&gt;  
+Average Score for the product on the period: &lt;b&gt;[Average Score of the product]&lt;b&gt;  
+
+&lt;b&gt;Negative Points&lt;b&gt;:  
+#1 - Percentage% (number meeting notes) - [Main Negative Theme 1]  
+Concise description in 200 characters of negative comments on this theme.  
+Example of customer comment: &quot;[Most relevant and/or most recent verbatim related to this theme]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;  
+
+#2 - [Repeat format for additional points up to #5]  
+
+&lt;b&gt;Sales Strategy Insights&lt;b&gt;:  
+- Summarize key actions for the sales team to address the negative feedback.  
+- Identify potential objections and provide counterarguments.  
+```
+
+</content>
+        <inputs>
+            <apiName>Product_Id</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Product Id</masterLabel>
+            <referenceName>Input:Product_Id</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Last_x_Months</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Last x Months</masterLabel>
+            <referenceName>Input:Last_x_Months</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Negative_Meeting_Notes_Collection</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Last_x_Months</parameterName>
+                <valueExpression>{!$Input:Last_x_Months}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Product_Id</parameterName>
+                <valueExpression>{!$Input:Product_Id}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Negative_Meeting_Notes_Collection</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_2</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Data :
+
+{!$Flow:Negative_Meeting_Notes_Collection.Prompt}
+
+**Context:**  
+You are tasked with analyzing the negative customer meeting notes regarding our company’s products.  
+These meeting notes contain textual comments on the negative aspects of the products and customer perception ratings (1-5).  
+
+**Objective:**  
+The goal is to identify and rank key negative themes for each product, providing valuable insights to the sales team.  
+This will help refine sales strategies and inform future business planning by addressing objections and improving products.  
+
+**Instructions:**  
+
+**Reading the Notes:**  
+1. Carefully review the provided customer meeting notes with negative sentiment.  
+2. Identify the covered period by noting the oldest and most recent dates in the meeting notes: Period: [{oldest_meeting_date} - {most_recent_meeting_date}]  
+
+**Identifying Themes:**  
+1. Summarize the main negative points for each product.  
+2. Rank these themes in descending order of occurrence.  
+3. For each theme, provide the following:  
+  - A concise description of the theme in 200 characters.  
+  - An example comment that illustrates the theme, including the meeting note record reference or link.  
+  - The number of occurrences of this theme in the notes.  
+
+**Structuring the Results:**  
+1. List the top 5 recurring themes.  
+
+**Sales Strategy Insights:**  
+1. Suggest concrete actions the sales team can take to address the negative feedback.  
+2. Identify potential objections and provide counterarguments.  
+
+**Output Format:**  
+(Ensure all parts from Start Format to End Format are fully completed.)  
+
+```
+Product: &lt;b&gt;[Product Name]&lt;b&gt;  
+Period: &lt;b&gt;[oldest meeting date - most recent meeting date]&lt;b&gt;  
+The number of Client Interest for this product during the period: &lt;b&gt;[number]&lt;b&gt;  
+Average Score for the product on the period: &lt;b&gt;[Average Score of the product]&lt;b&gt;  
+
+&lt;b&gt;Negative Points&lt;b&gt;:  
+#1 - Percentage% (number meeting notes) - [Main Negative Theme 1]  
+Concise description in 200 characters of negative comments on this theme.  
+Example of customer comment: &quot;[Most relevant and/or most recent verbatim related to this theme]&quot; &amp; &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;  
+
+#2 - [Repeat format for additional points up to #5]  
+
+&lt;b&gt;Sales Strategy Insights&lt;b&gt;:  
+- Summarize key actions for the sales team to address the negative feedback.  
+- Identify potential objections and provide counterarguments.  
+```
+
+</content>
+        <inputs>
+            <apiName>Product_Id</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Product Id</masterLabel>
+            <referenceName>Input:Product_Id</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Last_x_Months</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Last x Months</masterLabel>
+            <referenceName>Input:Last_x_Months</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Negative_Meeting_Notes_Collection</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Last_x_Months</parameterName>
+                <valueExpression>{!$Input:Last_x_Months}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Product_Id</parameterName>
+                <valueExpression>{!$Input:Product_Id}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Negative_Meeting_Notes_Collection</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_3</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Data :
+
+{!$Flow:Negative_Meeting_Notes_Collection.Prompt}
+
+Objective:
+Analyze customer meeting notes to identify and rank key negative themes or concerns for each product. The goal is to provide actionable insights to the sales and product teams to address customer concerns, mitigate risks, and improve future strategies.
+
+---
+
+Instructions for Analysis:
+
+Data Scope:
+
+1. Identify the time period covered in the notes by noting the oldest and most recent dates: Period: [{oldest_meeting_date} - {most_recent_meeting_date}].
+
+Theme Identification and Ranking:
+
+2. Group Negative Comments by Product: Extract negative feedback or concerns explicitly related to each product.
+
+3. Summarize Key Negative Themes: For each product:
+Identify the top 5 recurring negative themes or concerns.
+Rank themes by frequency (percentage and number of occurrences).
+
+For each theme, provide:
+
+A concise description of the theme (max 200 characters).
+A representative example comment with the Meeting Note Id and hyperlink format: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+The number of occurrences and percentage of total meeting notes for that product.
+
+
+---
+
+Output Format:
+
+Product Analysis:
+
+Product: [Product Name]
+Period: [{oldest_meeting_date} - {most_recent_meeting_date}]
+
+Negative Points:
+
+#1 - [Frequency%] ([Number of Meeting Notes]) - [Main Negative Theme]
+Description: [Concise description of the theme (max 200 characters)].
+Example Comment: &quot;[Customer comment]&quot; &amp; &lt;a href=&quot;/[Meeting Note Id]&quot;&gt;Meeting Note&lt;/a&gt;.
+
+
+#2 - [Repeat format for additional points up to #5]
+
+---
+
+Actionable Insights:
+
+1. Mitigation Strategies: Provide 3-5 actionable strategies for addressing the top customer concerns.
+2. Opportunities for Improvement: Highlight areas of the product or service that need immediate focus to prevent customer dissatisfaction.
+
+---
+
+Enhanced Expectations for Large Data Volumes:
+Scalability: Ensure that hundreds of meeting notes are processed and grouped efficiently into themes.
+Accuracy: Use precise percentages and exact counts for ranking themes.
+Clarity: Present the results concisely to aid decision-making without overloading details.
+
+---
+
+Example Output with Large Dataset:
+
+Product: CC29
+Period: [3 November 2023 - 10 January 2025]
+
+Negative Points:
+#1 - 40% (280 meeting notes) - [Higher Volatility Compared to Peers]
+Description: Customers expressed concerns about the higher volatility of CC29 compared to competing products.
+Example Comment: &quot;The volatility of CC29 is too high for risk-averse clients.&quot; &amp; &lt;a href=&quot;/a1haT0000006B2PQAU&quot;&gt;Meeting Note&lt;/a&gt;.
+
+
+#2 - 30% (210 meeting notes) - [Lower-than-Expected Returns in Certain Periods]
+Description: Some clients were dissatisfied with CC29’s performance during specific timeframes.
+Example Comment: &quot;Returns were disappointing for the last quarter.&quot; &amp; &lt;a href=&quot;/a1hbd000000ZSvHAAW&quot;&gt;Meeting Note&lt;/a&gt;.
+
+
+[Continue for #3 to #5]
+
+
+---
+
+Actionable Insights:
+
+Mitigation Strategies:
+
+Develop targeted communication to address volatility concerns and educate clients about risk management.
+Offer customized investment strategies for risk-averse clients.
+Introduce quarterly updates to reassure clients about long-term performance.
+
+Opportunities for Improvement:
+
+Optimize CC29’s portfolio to reduce volatility without sacrificing returns.
+Focus on addressing performance gaps by adjusting product strategies.
+</content>
+        <inputs>
+            <apiName>Product_Id</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Product Id</masterLabel>
+            <referenceName>Input:Product_Id</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Last_x_Months</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Last x Months</masterLabel>
+            <referenceName>Input:Last_x_Months</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Negative_Meeting_Notes_Collection</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Last_x_Months</parameterName>
+                <valueExpression>{!$Input:Last_x_Months}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Product_Id</parameterName>
+                <valueExpression>{!$Input:Product_Id}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Negative_Meeting_Notes_Collection</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_4</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Data :
+{!$Flow:Negative_Meeting_Notes_Collection.Prompt}
+
+Objective:
+Analyze customer meeting notes to identify and rank key negative themes or concerns for each product. The goal is to provide actionable insights to the sales and product teams to address customer concerns, mitigate risks, and improve future strategies.
+
+---
+
+Instructions for Analysis:
+
+Data Scope:
+
+1. Identify the time period covered in the notes by noting the oldest and most recent dates: Period: [{oldest_meeting_date} - {most_recent_meeting_date}].
+
+Theme Identification and Ranking:
+
+2. Group Negative Comments by Product: Extract negative feedback or concerns explicitly related to each product.
+
+3. Summarize Key Negative Themes: For each product:
+Identify the top 5 recurring negative themes or concerns.
+Rank themes by frequency (percentage and number of occurrences).
+
+For each theme, provide:
+
+A concise description of the theme (max 200 characters).
+A representative example comment with the Meeting Note Id and hyperlink format: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+The number of occurrences and percentage of total meeting notes for that product.
+
+
+---
+
+Output Format:
+
+Product Analysis:
+
+Product: [Product Name]
+Period: [{oldest_meeting_date} - {most_recent_meeting_date}]
+
+Negative Points:
+
+#1 - [Frequency%] ([Number of Meeting Notes]) - [Main Negative Theme]
+Description: [Concise description of the theme (max 200 characters)].
+Example Comment: &quot;[Customer comment]&quot; &amp; &lt;a href=&quot;/[Meeting Note Id]&quot;&gt;Meeting Note&lt;/a&gt;.
+
+
+#2 - [Repeat format for additional points up to #5]
+
+---
+
+Actionable Insights:
+
+1. Mitigation Strategies: Provide 3-5 actionable strategies for addressing the top customer concerns.
+2. Opportunities for Improvement: Highlight areas of the product or service that need immediate focus to prevent customer dissatisfaction.
+
+---
+
+Enhanced Expectations for Large Data Volumes:
+Scalability: Ensure that hundreds of meeting notes are processed and grouped efficiently into themes.
+Accuracy: Use precise percentages and exact counts for ranking themes.
+Clarity: Present the results concisely to aid decision-making without overloading details.
+
+---
+
+Example Output with Large Dataset:
+
+Product: CC29
+Period: [3 November 2023 - 10 January 2025]
+
+Negative Points:
+#1 - 40% (280 meeting notes) - [Higher Volatility Compared to Peers]
+Description: Customers expressed concerns about the higher volatility of CC29 compared to competing products.
+Example Comment: &quot;The volatility of CC29 is too high for risk-averse clients.&quot; &amp; &lt;a href=&quot;/a1haT0000006B2PQAU&quot;&gt;Meeting Note&lt;/a&gt;.
+
+
+#2 - 30% (210 meeting notes) - [Lower-than-Expected Returns in Certain Periods]
+Description: Some clients were dissatisfied with CC29’s performance during specific timeframes.
+Example Comment: &quot;Returns were disappointing for the last quarter.&quot; &amp; &lt;a href=&quot;/a1hbd000000ZSvHAAW&quot;&gt;Meeting Note&lt;/a&gt;.
+
+
+[Continue for #3 to #5]
+
+
+---
+
+Actionable Insights:
+
+Mitigation Strategies:
+
+Develop targeted communication to address volatility concerns and educate clients about risk management.
+Offer customized investment strategies for risk-averse clients.
+Introduce quarterly updates to reassure clients about long-term performance.
+
+Opportunities for Improvement:
+
+Optimize CC29’s portfolio to reduce volatility without sacrificing returns.
+Focus on addressing performance gaps by adjusting product strategies.
+</content>
+        <inputs>
+            <apiName>Product_Id</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Product Id</masterLabel>
+            <referenceName>Input:Product_Id</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Last_x_Months</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Last x Months</masterLabel>
+            <referenceName>Input:Last_x_Months</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Negative_Meeting_Notes_Collection</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Product_Id</parameterName>
+                <valueExpression>{!$Input:Product_Id}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Negative_Meeting_Notes_Collection</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_5</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Data :
+{!$Flow:Negative_Meeting_Notes_Collection.Prompt}
+
+Objective:
+Analyze customer meeting notes to identify and rank key negative themes or concerns for each product. The goal is to provide actionable insights to the sales and product teams to address customer concerns, mitigate risks, and improve future strategies.
+
+---
+
+Instructions for Analysis:
+
+Data Scope:
+
+1. Identify the time period covered in the notes by noting the oldest and most recent dates: Period: [{oldest_meeting_date} - {most_recent_meeting_date}].
+
+Theme Identification and Ranking:
+
+2. Group Negative Comments by Product: Extract negative feedback or concerns explicitly related to each product.
+
+3. Summarize Key Negative Themes: For each product:
+Identify the top 5 recurring negative themes or concerns.
+Rank themes by frequency (percentage and number of occurrences).
+
+For each theme, provide:
+
+A concise description of the theme (min 200 characters).
+A representative example comment with the Meeting Note Id and hyperlink format: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+The number of occurrences and percentage of total meeting notes for that product.
+
+
+---
+
+Output Format:
+
+Product Analysis:
+
+Product: [Product Name]
+Period: [{oldest_meeting_date} - {most_recent_meeting_date}]
+
+Negative Points:
+
+#1 - [Frequency%] ([Number of Meeting Notes]) - [Main Negative Theme]
+Description: [Concise description of the theme (min 200 characters)].
+Example Comment: &quot;[Customer comment]&quot; &amp; &lt;a href=&quot;/[Meeting Note Id]&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - [Repeat format for additional points up to #5]
+
+---
+
+Actionable Insights:
+
+1. Mitigation Strategies: Provide 3-5 actionable strategies for addressing the top customer concerns.
+2. Opportunities for Improvement: Highlight areas of the product or service that need immediate focus to prevent customer dissatisfaction.
+
+---
+
+Enhanced Expectations for Large Data Volumes:
+Scalability: Ensure that hundreds of meeting notes are processed and grouped efficiently into themes.
+Accuracy: Use precise percentages and exact counts for ranking themes.
+Clarity: Present the results concisely to aid decision-making without overloading details.
+
+---
+
+Example Output with Large Dataset:
+
+Product: CC29
+Period: [3 November 2023 - 10 January 2025]
+
+Negative Points:
+#1 - 40% (280 meeting notes) - [Higher Volatility Compared to Peers]
+Description: Customers expressed concerns about the higher volatility of CC29 compared to competing products.
+Example Comment: &quot;The volatility of CC29 is too high for risk-averse clients.&quot; &amp; &lt;a href=&quot;/a1haT0000006B2PQAU&quot;&gt;Meeting Note&lt;/a&gt;.
+
+
+#2 - 30% (210 meeting notes) - [Lower-than-Expected Returns in Certain Periods]
+Description: Some clients were dissatisfied with CC29’s performance during specific timeframes.
+Example Comment: &quot;Returns were disappointing for the last quarter.&quot; &amp; &lt;a href=&quot;/a1hbd000000ZSvHAAW&quot;&gt;Meeting Note&lt;/a&gt;.
+
+
+[Continue for #3 to #5]
+</content>
+        <inputs>
+            <apiName>Product_Id</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Product Id</masterLabel>
+            <referenceName>Input:Product_Id</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Last_x_Months</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Last x Months</masterLabel>
+            <referenceName>Input:Last_x_Months</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Negative_Meeting_Notes_Collection</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Product_Id</parameterName>
+                <valueExpression>{!$Input:Product_Id}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Negative_Meeting_Notes_Collection</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_6</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Data :
+{!$Flow:Negative_Meeting_Notes_Collection.Prompt}
+
+Objective:
+Analyze customer meeting notes to identify and rank key negative themes or concerns for each product. The goal is to provide actionable insights to the sales and product teams to address customer concerns, mitigate risks, and improve future strategies.
+
+---
+
+Instructions for Analysis:
+
+Data Scope:
+
+1. Identify the time period covered in the notes by noting the oldest and most recent dates: Period: [{oldest_meeting_date} - {most_recent_meeting_date}].
+
+Theme Identification and Ranking:
+
+2. Group Negative Comments by Product: Extract negative feedback or concerns explicitly related to each product.
+
+3. Summarize Key Negative Themes: For each product:
+Identify the top 5 recurring negative themes or concerns.
+Rank themes by frequency (percentage and number of occurrences).
+
+For each theme, provide:
+
+A concise description of the theme (min 200 characters).
+A representative example comment with the Meeting Note Id and hyperlink format: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+The number of occurrences and percentage of total meeting notes for that product.
+
+
+---
+
+Output Format:
+
+Product Analysis:
+
+Product: [Product Name]
+Period: [{oldest_meeting_date} - {most_recent_meeting_date}]
+
+Negative Points:
+
+#1 - [Frequency%] ([Number of Meeting Notes]) - [Main Negative Theme]
+Description: [Concise description of the theme (min 200 characters)].
+Example Comment: &quot;[Customer comment]&quot; &amp; &lt;a href=&quot;/[Meeting Note Id]&quot;&gt;Meeting Note&lt;/a&gt;.
+
+#2 - [Repeat format for additional points up to #5]
+
+---
+
+Enhanced Expectations for Large Data Volumes:
+Scalability: Ensure that hundreds of meeting notes are processed and grouped efficiently into themes.
+Accuracy: Use precise percentages and exact counts for ranking themes.
+Clarity: Present the results concisely to aid decision-making without overloading details.
+
+---
+
+Example Output with Large Dataset:
+
+Product: CC29
+Period: [3 November 2023 - 10 January 2025]
+
+Negative Points:
+#1 - 40% (280 meeting notes) - [Higher Volatility Compared to Peers]
+Description: Customers expressed concerns about the higher volatility of CC29 compared to competing products.
+Example Comment: &quot;The volatility of CC29 is too high for risk-averse clients.&quot; &amp; &lt;a href=&quot;/a1haT0000006B2PQAU&quot;&gt;Meeting Note&lt;/a&gt;.
+
+
+#2 - 30% (210 meeting notes) - [Lower-than-Expected Returns in Certain Periods]
+Description: Some clients were dissatisfied with CC29’s performance during specific timeframes.
+Example Comment: &quot;Returns were disappointing for the last quarter.&quot; &amp; &lt;a href=&quot;/a1hbd000000ZSvHAAW&quot;&gt;Meeting Note&lt;/a&gt;.
+
+
+[Continue for #3 to #5]
+</content>
+        <inputs>
+            <apiName>Product_Id</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Product Id</masterLabel>
+            <referenceName>Input:Product_Id</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Last_x_Months</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Last x Months</masterLabel>
+            <referenceName>Input:Last_x_Months</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Negative_Meeting_Notes_Collection</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Product_Id</parameterName>
+                <valueExpression>{!$Input:Product_Id}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Negative_Meeting_Notes_Collection</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_7</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Data :
+{!$Flow:Negative_Meeting_Notes_Collection.Prompt}
+
+Objective:
+Analyze customer meeting notes to identify and rank key negative themes or concerns for each product. The goal is to provide actionable insights to the sales and product teams to address customer concerns, mitigate risks, and improve future strategies.
+
+---
+
+Instructions for Analysis:
+
+Data Scope:
+
+1. Identify the time period covered in the notes by noting the oldest and most recent dates: Period: [{oldest_meeting_date} - {most_recent_meeting_date}].
+
+Theme Identification and Ranking:
+
+2. Group Negative Comments by Product: Extract negative feedback or concerns explicitly related to each product.
+
+3. Summarize Key Negative Themes: For each product:
+Identify the top 5 recurring negative themes or concerns.
+Rank themes by frequency (percentage and number of occurrences).
+
+For each theme, provide:
+
+A concise description of the theme (minimum 200 characters).
+A representative example comment with the Meeting Note Id and hyperlink format: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+The number of occurrences and percentage of total meeting notes for that product.
+
+
+---
+
+Output Format:
+
+Product Analysis:
+
+Product: [Product Name]
+Period: [{oldest_meeting_date} - {most_recent_meeting_date}]
+
+Negative Points:
+
+#1 - [Frequency%] ([Number of Meeting Notes]) - [Main Negative Theme]
+Description: [Concise description of the theme (minimum 200 characters)].
+Example Comment: &quot;[Customer comment]&quot; &amp; &lt;a href=&quot;/[Meeting Note Id]&quot;&gt;Meeting Note&lt;/a&gt;.
+
+
+#2 - [Repeat format for additional points up to #5]
+
+---
+
+Enhanced Expectations for Large Data Volumes:
+Scalability: Ensure that hundreds of meeting notes are processed and grouped efficiently into themes.
+Accuracy: Use precise percentages and exact counts for ranking themes.
+Clarity: Present the results concisely to aid decision-making without overloading details.
+
+---
+
+Example Output with Large Dataset:
+
+Product: CC29
+Period: [3 November 2023 - 10 January 2025]
+
+Negative Points:
+#1 - 40% (280 meeting notes) - [Higher Volatility Compared to Peers]
+Description: Customers expressed concerns about the higher volatility of CC29 compared to competing products.
+Example Comment: &quot;The volatility of CC29 is too high for risk-averse clients.&quot; &amp; &lt;a href=&quot;/a1haT0000006B2PQAU&quot;&gt;Meeting Note&lt;/a&gt;.
+
+
+#2 - 30% (210 meeting notes) - [Lower-than-Expected Returns in Certain Periods]
+Description: Some clients were dissatisfied with CC29’s performance during specific timeframes.
+Example Comment: &quot;Returns were disappointing for the last quarter.&quot; &amp; &lt;a href=&quot;/a1hbd000000ZSvHAAW&quot;&gt;Meeting Note&lt;/a&gt;.
+
+
+[Continue for #3 to #5]
+
+
+---
+
+</content>
+        <inputs>
+            <apiName>Product_Id</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Product Id</masterLabel>
+            <referenceName>Input:Product_Id</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Last_x_Months</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Last x Months</masterLabel>
+            <referenceName>Input:Last_x_Months</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Negative_Meeting_Notes_Collection</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Product_Id</parameterName>
+                <valueExpression>{!$Input:Product_Id}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Negative_Meeting_Notes_Collection</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_8</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Data :
+{!$Flow:Negative_Meeting_Notes_Collection.Prompt}
+
+Objective:
+Analyze customer meeting notes to identify and rank key negative themes or concerns for each product. The goal is to provide actionable insights to the sales and product teams to address customer concerns, mitigate risks, and improve future strategies.
+
+---
+
+Instructions for Analysis:
+
+Data Scope:
+
+1. Identify the time period covered in the notes by noting the oldest and most recent dates: Period: [{oldest_meeting_date} - {most_recent_meeting_date}].
+
+Theme Identification and Ranking:
+
+2. Group Negative Comments by Product: Extract negative feedback or concerns explicitly related to each product.
+
+3. Summarize Key Negative Themes: For each product:
+Identify the top 5 recurring negative themes or concerns.
+Rank themes by frequency (percentage and number of occurrences).
+
+For each theme, provide:
+
+A concise description of the theme (minimum 200 characters).
+A representative example comment with the Meeting Note Id and hyperlink format: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+The number of occurrences and percentage of total meeting notes for that product.
+
+
+---
+
+Output Format:
+
+Product Analysis:
+
+Product: [Product Name]
+Period: [{oldest_meeting_date} - {most_recent_meeting_date}]
+
+Negative Points:
+
+#1 - [Frequency%] ([Number of Meeting Notes]) - [Main Negative Theme]
+Description: [Concise description of the theme (minimum 200 characters)].
+Example Comment: &quot;[Customer comment]&quot; &amp; &lt;a href=&quot;/[Meeting Note Id]&quot;&gt;Meeting Note&lt;/a&gt;.
+
+
+#2 - [Repeat format for additional points up to #5]
+
+---
+
+Enhanced Expectations for Large Data Volumes:
+Scalability: Ensure that hundreds of meeting notes are processed and grouped efficiently into themes.
+Accuracy: Use precise percentages and exact counts for ranking themes.
+Clarity: Present the results concisely to aid decision-making without overloading details.
+
+---
+
+Example Output with Large Dataset:
+
+Product: CC29
+Period: [3 November 2023 - 10 January 2025]
+Number of Negative Meetings: [Number of Negative Meetings]
+
+Negative Points:
+#1 - 40% (280 meeting notes) - [Higher Volatility Compared to Peers]
+Description: Customers expressed concerns about the higher volatility of CC29 compared to competing products.
+Example Comment: &quot;The volatility of CC29 is too high for risk-averse clients.&quot; &amp; &lt;a href=&quot;/a1haT0000006B2PQAU&quot;&gt;Meeting Note&lt;/a&gt;.
+
+
+#2 - 30% (210 meeting notes) - [Lower-than-Expected Returns in Certain Periods]
+Description: Some clients were dissatisfied with CC29’s performance during specific timeframes.
+Example Comment: &quot;Returns were disappointing for the last quarter.&quot; &amp; &lt;a href=&quot;/a1hbd000000ZSvHAAW&quot;&gt;Meeting Note&lt;/a&gt;.
+
+
+[Continue for #3 to #5]
+
+
+---
+
+</content>
+        <inputs>
+            <apiName>Product_Id</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Product Id</masterLabel>
+            <referenceName>Input:Product_Id</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Last_x_Months</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Last x Months</masterLabel>
+            <referenceName>Input:Last_x_Months</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Negative_Meeting_Notes_Collection</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Last_x_Months</parameterName>
+                <valueExpression>{!$Input:Last_x_Months}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Product_Id</parameterName>
+                <valueExpression>{!$Input:Product_Id}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Negative_Meeting_Notes_Collection</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_9</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Data :
+{!$Flow:Negative_Meeting_Notes_Collection.Prompt}
+
+Objective:
+Analyze customer meeting notes to identify and rank key negative themes or concerns for each product. The goal is to provide actionable insights to the sales and product teams to address customer concerns, mitigate risks, and improve future strategies.
+
+---
+
+Instructions for Analysis:
+
+Data Scope:
+
+1. Identify the time period covered in the notes by noting the oldest and most recent dates: Period: [{oldest_meeting_date} - {most_recent_meeting_date}].
+
+Theme Identification and Ranking:
+
+2. Group Negative Comments by Product: Extract negative feedback or concerns explicitly related to each product.
+
+3. Summarize Key Negative Themes: For each product:
+Identify the top 5 recurring negative themes or concerns.
+Rank themes by frequency (percentage and number of occurrences).
+
+For each theme, provide:
+
+A concise description of the theme (minimum 200 characters).
+A representative example comment with the Meeting Note Id and hyperlink format: &lt;a href=&quot;/{Meeting Note Id}&quot;&gt;Meeting Note&lt;/a&gt;.
+The number of occurrences and percentage of total meeting notes for that product.
+
+
+---
+
+Output Format:
+
+Product Analysis:
+
+Product: [Product Name]
+Period: [{oldest_meeting_date} - {most_recent_meeting_date}]
+
+Negative Points:
+
+#1 - [Frequency%] ([Number of Meeting Notes]) - [Main Negative Theme]
+Description: [Concise description of the theme (minimum 200 characters)].
+Example Comment: &quot;[Customer comment]&quot; &amp; &lt;a href=&quot;/[Meeting Note Id]&quot;&gt;Meeting Note&lt;/a&gt;.
+
+
+#2 - [Repeat format for additional points up to #5]
+
+---
+
+Enhanced Expectations for Large Data Volumes:
+Scalability: Ensure that hundreds of meeting notes are processed and grouped efficiently into themes.
+Accuracy: Use precise percentages and exact counts for ranking themes.
+Clarity: Present the results concisely to aid decision-making without overloading details.
+
+---
+
+Example Output with Large Dataset:
+
+Product: CC29
+Period: [3 November 2023 - 10 January 2025]
+Number of Negative Meetings: [Number of meeting notes where negative insights found]
+Total Number of Meetings: [Total Number of meeting notes]
+
+Negative Points:
+#1 - 40% (280 meeting notes) - [Higher Volatility Compared to Peers]
+Description: Customers expressed concerns about the higher volatility of CC29 compared to competing products.
+Example Comment: &quot;The volatility of CC29 is too high for risk-averse clients.&quot; &amp; &lt;a href=&quot;/a1haT0000006B2PQAU&quot;&gt;Meeting Note&lt;/a&gt;.
+
+
+#2 - 30% (210 meeting notes) - [Lower-than-Expected Returns in Certain Periods]
+Description: Some clients were dissatisfied with CC29’s performance during specific timeframes.
+Example Comment: &quot;Returns were disappointing for the last quarter.&quot; &amp; &lt;a href=&quot;/a1hbd000000ZSvHAAW&quot;&gt;Meeting Note&lt;/a&gt;.
+
+
+[Continue for #3 to #5]
+
+
+---
+
+</content>
+        <inputs>
+            <apiName>Product_Id</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Product Id</masterLabel>
+            <referenceName>Input:Product_Id</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>Last_x_Months</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Last x Months</masterLabel>
+            <referenceName>Input:Last_x_Months</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Negative_Meeting_Notes_Collection</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Last_x_Months</parameterName>
+                <valueExpression>{!$Input:Last_x_Months}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Product_Id</parameterName>
+                <valueExpression>{!$Input:Product_Id}</valueExpression>
+            </parameters>
+            <referenceName>Flow:Negative_Meeting_Notes_Collection</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>9+PD0v5/aJmvKUSsaXvgNBPGw/jfKTW77RgqTSMJGuA=_10</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

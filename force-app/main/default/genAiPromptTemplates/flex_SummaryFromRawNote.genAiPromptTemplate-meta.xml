@@ -296,7 +296,7 @@ Clearly extract concrete actions and commitments.
             <referenceName>Input:Meeting_Note__c</referenceName>
             <required>true</required>
         </inputs>
-        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
         <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_14</versionIdentifier>
@@ -395,7 +395,7 @@ Clearly extract concrete actions and commitments.
             <referenceName>Input:Meeting_Note__c</referenceName>
             <required>true</required>
         </inputs>
-        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4OmniMini</primaryModel>
         <responseFormat>HTML</responseFormat>
         <status>Published</status>
         <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_15</versionIdentifier>

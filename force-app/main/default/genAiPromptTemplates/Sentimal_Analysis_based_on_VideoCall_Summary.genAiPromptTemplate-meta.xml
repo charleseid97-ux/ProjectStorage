@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_2</activeVersionIdentifier>
+    <developerName>Sentimal_Analysis_based_on_VideoCall_Summary</developerName>
+    <masterLabel>Sentimal_Analysis_based_on_VideoCall_Summary</masterLabel>
+    <templateVersions>
+        <content>Here are all the Strategy, Funds, and Share Classes at Carmignac:
+
+[
+{!$Flow:List_of_Share_Classes_Funds_and_Strategy.Prompt}
+]
+-------------------------------------
+From the summary below, identify the products mentioned during the call,these products Names can be mentionned but not written correctly in the summary so try to do the match and to find the exacte name or the code but the letters are separated(if the strategy name or code is not mentionned dont improvise), and assess the client&apos;s sentiment using a rating system from 1 to 5 (1 = not satisfied, 3 = neutral, 5 = very interested):
+
+{!$Input:Summary}
+
+*Output Requirements:*
+1. The response must strictly be in *valid JSON format*.
+2. Each identified product should include:
+ - ProductId (string): The unique identifier of the product.( Product Id related to the Product Name)
+ - ProductName (string): The Name of the product.( Product Name)
+ - Rating (integer): A value from 1 to 5 indicating the client&apos;s sentiment.
+ - Why&quot;: &quot;why you give me this record and from where in the summary&quot; 
+
+3. The output must be an array of objects, where each object represents a product and its associated rating.
+4. If no products are identified, return an empty JSON array: [].
+
+*Important Note:* The response must contain *only the JSON output* without any additional text, commentary, or formatting.
+
+*Example Output:*
+[
+ {
+ &quot;ProductId&quot;: &quot;123SQF54...&quot;,
+ &quot;ProductName&quot;: &quot;CC27&quot;,
+ &quot;Rating&quot;: 3,
+ &quot;Why&quot;: &quot;why you give me this record&quot;
+ },
+ {
+ &quot;ProductId&quot;: &quot;1223SFQEG454...&quot;,
+ &quot;ProductName&quot;: &quot;CPEG&quot;,
+ &quot;Rating&quot;: 4,
+ &quot;Why&quot;: &quot;why you give me this record&quot;
+
+ }
+]
+</content>
+        <inputs>
+            <apiName>Summary</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Summary</masterLabel>
+            <referenceName>Input:Summary</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://List_of_Share_Classes_Funds_and_Strategy</definition>
+            <referenceName>Flow:List_of_Share_Classes_Funds_and_Strategy</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_1</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>From the transcript below, generate a structured summary of the client call, focused on products mentioned.
+
+You MUST perform the following tasks:
+1. Detect any product references in the text (even if names are partially written or contain typos).
+2. Match each mention with the correct product using the provided list.
+3. For each product mentioned:
+   - Return the official Product Id and Name
+   - Estimate client sentiment on a scale from 1 to 5 (1 = negative, 5 = very positive)
+   - Include one sentence or quote from the transcript that justifies the sentiment
+4. Create a short HTML summary of the meeting in a clear format.
+
+----------------------------------------
+Transcript:
+{!$Input:Summary}
+----------------------------------------
+
+Here is the list of known Products:
+[
+{!$Flow:List_of_Share_Classes_Funds_and_Strategy.Prompt}
+]
+
+----------------------------------------
+
+Output Format (valid JSON only):
+
+{
+  &quot;summary_html&quot;: &quot;&lt;p&gt;Client discussed the following...&lt;/p&gt;&quot;,
+  &quot;products&quot;: [
+    {
+      &quot;product_id&quot;: &quot;xxx&quot;,
+      &quot;product_name&quot;: &quot;CFB&quot;,
+      &quot;sentiment&quot;: 5,
+      &quot;quote&quot;: &quot;The client described CFB as an &apos;all-in-one fixed income solution&apos;.&quot;
+    },
+    {
+      &quot;product_id&quot;: &quot;yyy&quot;,
+      &quot;product_name&quot;: &quot;CPEG&quot;,
+      &quot;sentiment&quot;: 3,
+      &quot;quote&quot;: &quot;They had some questions about CPEG’s performance.&quot;
+    }
+  ]
+}
+
+Rules:
+- Do not invent product names.
+- If no product can be matched to the list, return an empty array for &quot;products&quot;.
+- Always return the full JSON response, and nothing else.
+
+</content>
+        <inputs>
+            <apiName>Summary</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>Summary</masterLabel>
+            <referenceName>Input:Summary</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT4Omni</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://List_of_Share_Classes_Funds_and_Strategy</definition>
+            <referenceName>Flow:List_of_Share_Classes_Funds_and_Strategy</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_2</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

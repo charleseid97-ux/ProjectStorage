@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
-    <activeVersionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_13</activeVersionIdentifier>
+    <activeVersionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_14</activeVersionIdentifier>
     <description>Use this template to generate a custom notification based on the Meeting Notes</description>
     <developerName>flex_GenerateMeetingNotesNotification</developerName>
     <masterLabel>flex_GenerateMeetingNotesNotification</masterLabel>
@@ -969,55 +969,83 @@ Return **only the HTML code** above, with no footer, comments, or extra text.
         <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_9</versionIdentifier>
     </templateVersions>
     <templateVersions>
-        <content>You are an email HTML generator.
-Produce only HTML code with simple tags (&lt;p&gt;, &lt;ol&gt;, &lt;li&gt;, &lt;b&gt;, &lt;a&gt;, &lt;ul&gt;, &lt;br&gt;), no CSS colors, no backgrounds.
+        <content>You are an email HTML generator.  
+Produce only HTML code with simple tags (&lt;p&gt;, &lt;ol&gt;, &lt;li&gt;, &lt;b&gt;, &lt;a&gt;, &lt;ul&gt;, &lt;br&gt;), no CSS colors, no backgrounds.  
 The output must be lightweight and email-safe.
 
-Dynamic variables:
-- {{products}} → generate &lt;li&gt; rows inside a &lt;ul&gt; for each product, with stars + numeric score
-- {{meeting_note_link}} → insert the URL in the review link
-- {{ClientCompany}} → insert the client company name
+Dynamic variables:  
+- {{products}} → generate `&lt;li&gt;` rows inside a `&lt;ul&gt;` for each product, with stars + numeric score  
+- {{meeting_note_link}} → insert the URL in the &quot;Open the Meeting Note&quot; link  
 
-Important:
-If {{products}} is empty or contains no rows, do not render the &quot;Client Interest&quot; section at all.
+⚠️ Important:  
+If {{products}} is empty or contains no rows, then do not render the &quot;📊 Client Interest Summary&quot; section at all.  
 
-Transform raw product data (example: {&quot;ProductName&quot;:&quot;Asia Discovery&quot;,&quot;Interest&quot;:&quot;4/5&quot;}) into a star rating:
-- 1/5 → ⭐☆☆☆☆
-- 2/5 → ⭐⭐☆☆☆
-- 3/5 → ⭐⭐⭐☆☆
-- 4/5 → ⭐⭐⭐⭐☆
-- 5/5 → ⭐⭐⭐⭐⭐
+Transform raw product data (example: {&quot;ProductName&quot;:&quot;Asia Discovery&quot;,&quot;Interest&quot;:&quot;4/5&quot;}) into a star rating:  
+- 1/5 → ⭐☆☆☆☆  
+- 2/5 → ⭐⭐☆☆☆  
+- 3/5 → ⭐⭐⭐☆☆  
+- 4/5 → ⭐⭐⭐⭐☆  
+- 5/5 → ⭐⭐⭐⭐⭐  
 
-RAW DATA &amp; meeting_note_link:
+---
+### RAW DATA &amp; meeting_note_link
 {!$Flow:PT_MeetingNotes_AddClientInterestsToPrompt.Prompt}
+### RAW DATA
 
-HTML Template:
+---
+### HTML Template:
 
 &lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
- &lt;head&gt;&lt;/head&gt;
- &lt;body style=&quot;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;&quot;&gt;
- &lt;p&gt;
-  A new Meeting Note has been created from SalesforceGPT for the client &lt;b&gt;{{ClientCompany}}&lt;/b&gt;.
+&lt;head&gt;&lt;/head&gt;
+&lt;body style=&quot;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;&quot;&gt;
+
+ &lt;!-- Header message --&gt;
+ &lt;p style=&quot;font-size:14px;&quot;&gt;
+  A new meeting note has been created from &lt;b&gt;SalesforceGPT&lt;/b&gt; for the client 
+  &lt;b&gt;{{client_name}}&lt;/b&gt;.  
+  Please click below to review the content.
  &lt;/p&gt;
+
+ &lt;!-- Button-style link --&gt;
  &lt;p&gt;
-  Please click here to review the content:
-  &lt;a href=&quot;{{meeting_note_link}}&quot;&gt;
-  {{meeting_note_link}}
+  &lt;a href=&quot;{{meeting_note_link}}&quot; 
+    style=&quot;background-color:#0a66c2;color:#fff;padding:10px 16px;border-radius:4px;
+       text-decoration:none;font-weight:bold;display:inline-block;&quot;&gt;
+   Open the Meeting Note
   &lt;/a&gt;
  &lt;/p&gt;
 
+ &lt;br&gt;
+
+ &lt;!-- Validation instructions --&gt;
+ &lt;p&gt;&lt;b&gt;Please Check:&lt;/b&gt;&lt;/p&gt;
+ &lt;ol&gt;
+  &lt;li&gt;Review the meeting note&lt;/li&gt;
+  &lt;li&gt;Verify Client Interest ratings ⭐&lt;/li&gt;
+ &lt;/ol&gt;
+
+ &lt;p&gt;
+  Thank you for your quick validation — this ensures we capture client needs accurately.
+ &lt;/p&gt;
+
+ &lt;!-- Client Interest --&gt;
  {{#if products}}
  &lt;br&gt;
- &lt;p&gt;&lt;b&gt;Client Interest&lt;/b&gt;&lt;/p&gt;
+ &lt;p&gt;&lt;b&gt;📊 Client Interest Summary&lt;/b&gt;&lt;/p&gt;
  &lt;ul&gt;
   {{products}}
  &lt;/ul&gt;
  {{/if}}
- &lt;/body&gt;
+
+&lt;/body&gt;
 &lt;/html&gt;
 
-Do not add anything after the closing &lt;/html&gt; tag.
-Return only the HTML code above, with no footer, comments, or extra text.
+
+---
+
+
+🚫 Do not add anything after the closing `&lt;/html&gt;` tag.  
+Return **only the HTML code** above, with no footer, comments, or extra text.
 
 </content>
         <inputs>
@@ -1032,69 +1060,95 @@ Return only the HTML code above, with no footer, comments, or extra text.
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_MeetingNotes_AddClientInterestsToPrompt</definition>
-            <label>PT_MeetingNotes_AddClientInterestsToPrompt</label>
             <parameters>
                 <definition>SOBJECT://Meeting_Note__c</definition>
-                <isRequired>false</isRequired>
+                <isRequired>true</isRequired>
                 <parameterName>Meeting_Note</parameterName>
                 <valueExpression>{!$Input:Meeting_Note}</valueExpression>
             </parameters>
             <referenceName>Flow:PT_MeetingNotes_AddClientInterestsToPrompt</referenceName>
         </templateDataProviders>
-        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_10</versionIdentifier>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_10</versionIdentifier>
     </templateVersions>
     <templateVersions>
-        <content>You are an email HTML generator.
-Produce only HTML code with simple tags (&lt;p&gt;, &lt;ol&gt;, &lt;li&gt;, &lt;b&gt;, &lt;a&gt;, &lt;ul&gt;, &lt;br&gt;), no CSS colors, no backgrounds.
+        <content>You are an email HTML generator.  
+Produce only HTML code with simple tags (&lt;p&gt;, &lt;ol&gt;, &lt;li&gt;, &lt;b&gt;, &lt;a&gt;, &lt;ul&gt;, &lt;br&gt;), no CSS colors, no backgrounds.  
 The output must be lightweight and email-safe.
 
-Input:
-- You receive RAW DATA from the meeting note prompt below. It contains the meeting_note_link, the company name field CompanyName__c, and the products interests data.
+Dynamic variables:  
+- {{client}} → insert the value provided inside the &lt;Client&gt; section
+- {{products}} → generate `&lt;li&gt;` rows inside a `&lt;ul&gt;` for each product, with stars + numeric score  
+- {{meeting_note_link}} → insert the URL in the &quot;Open the Meeting Note&quot; link  
 
-Dynamic variables to extract from RAW DATA:
-- {{meeting_note_link}} → extract and use as the URL for the clickable review link
-- {{ClientCompany}} → extract from CompanyName__c
-- {{products}} → from the product interests data in RAW DATA, generate &lt;li&gt; rows inside a &lt;ul&gt; for each product, with stars + numeric score
+⚠️ Important:  
+If {{products}} is empty or contains no rows, then do not render the &quot;📊 Client Interest Summary&quot; section at all.  
 
-Important:
-If the product interests data is empty or contains no rows, do not render the &quot;Client Interest&quot; section at all.
+Transform raw product data (example: {&quot;ProductName&quot;:&quot;Asia Discovery&quot;,&quot;Interest&quot;:&quot;4/5&quot;}) into a star rating:  
+- 1/5 → ⭐☆☆☆☆  
+- 2/5 → ⭐⭐☆☆☆  
+- 3/5 → ⭐⭐⭐☆☆  
+- 4/5 → ⭐⭐⭐⭐☆  
+- 5/5 → ⭐⭐⭐⭐⭐  
 
-Transform raw product data (example: {&quot;ProductName&quot;:&quot;Asia Discovery&quot;,&quot;Interest&quot;:&quot;4/5&quot;}) into a star rating:
-- 1/5 → ⭐☆☆☆☆
-- 2/5 → ⭐⭐☆☆☆
-- 3/5 → ⭐⭐⭐☆☆
-- 4/5 → ⭐⭐⭐⭐☆
-- 5/5 → ⭐⭐⭐⭐⭐
-
-RAW DATA:
+---
+### RAW DATA &amp; meeting_note_link
 {!$Flow:PT_MeetingNotes_AddClientInterestsToPrompt.Prompt}
+### RAW DATA
 
-HTML Template:
+---
+### HTML Template:
 
 &lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
- &lt;head&gt;&lt;/head&gt;
- &lt;body style=&quot;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;&quot;&gt;
- &lt;p&gt;
-  A new Meeting Note has been created from SalesforceGPT for the client &lt;b&gt;{{ClientCompany}}&lt;/b&gt;.
+&lt;head&gt;&lt;/head&gt;
+&lt;body style=&quot;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;&quot;&gt;
+
+ &lt;!-- Header message --&gt;
+ &lt;p style=&quot;font-size:14px;&quot;&gt;
+  A new meeting note has been created from &lt;b&gt;SalesforceGPT&lt;/b&gt; for the client 
+  &lt;b&gt;{{client}}&lt;/b&gt;.  
+  Please click below to review the content.
  &lt;/p&gt;
+
+ &lt;!-- Button-style link --&gt;
  &lt;p&gt;
-  &lt;a href=&quot;{{meeting_note_link}}&quot; style=&quot;text-decoration:none;font-weight:bold;&quot;&gt;
-  Please click here to review the content
+  &lt;a href=&quot;{{meeting_note_link}}&quot; 
+    style=&quot;background-color:#0a66c2;color:#fff;padding:10px 16px;border-radius:4px;
+       text-decoration:none;font-weight:bold;display:inline-block;&quot;&gt;
+   Open the Meeting Note
   &lt;/a&gt;
  &lt;/p&gt;
 
+ &lt;br&gt;
+
+ &lt;!-- Validation instructions --&gt;
+ &lt;p&gt;&lt;b&gt;Please Check:&lt;/b&gt;&lt;/p&gt;
+ &lt;ol&gt;
+  &lt;li&gt;Review the meeting note&lt;/li&gt;
+  &lt;li&gt;Verify Client Interest ratings ⭐&lt;/li&gt;
+ &lt;/ol&gt;
+
+ &lt;p&gt;
+  Thank you for your quick validation — this ensures we capture client needs accurately.
+ &lt;/p&gt;
+
+ &lt;!-- Client Interest --&gt;
  {{#if products}}
  &lt;br&gt;
- &lt;p&gt;&lt;b&gt;Client Interest&lt;/b&gt;&lt;/p&gt;
+ &lt;p&gt;&lt;b&gt;📊 Client Interest Summary&lt;/b&gt;&lt;/p&gt;
  &lt;ul&gt;
   {{products}}
  &lt;/ul&gt;
  {{/if}}
- &lt;/body&gt;
+
+&lt;/body&gt;
 &lt;/html&gt;
 
-Do not add anything after the closing &lt;/html&gt; tag.
-Return only the HTML code above, with no footer, comments, or extra text.
+
+---
+
+
+🚫 Do not add anything after the closing `&lt;/html&gt;` tag.  
+Return **only the HTML code** above, with no footer, comments, or extra text.
 
 </content>
         <inputs>
@@ -1106,72 +1160,84 @@ Return only the HTML code above, with no footer, comments, or extra text.
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
         <responseFormat>HTML</responseFormat>
-        <status>Draft</status>
+        <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_MeetingNotes_AddClientInterestsToPrompt</definition>
-            <label>PT_MeetingNotes_AddClientInterestsToPrompt</label>
             <parameters>
                 <definition>SOBJECT://Meeting_Note__c</definition>
-                <isRequired>false</isRequired>
+                <isRequired>true</isRequired>
                 <parameterName>Meeting_Note</parameterName>
                 <valueExpression>{!$Input:Meeting_Note}</valueExpression>
             </parameters>
             <referenceName>Flow:PT_MeetingNotes_AddClientInterestsToPrompt</referenceName>
         </templateDataProviders>
-        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_11</versionIdentifier>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_11</versionIdentifier>
     </templateVersions>
     <templateVersions>
-        <content>You are an email HTML generator.
-Produce only HTML code with simple tags (&lt;p&gt;, &lt;ol&gt;, &lt;li&gt;, &lt;b&gt;, &lt;a&gt;, &lt;ul&gt;, &lt;br&gt;), no CSS colors, no backgrounds.
+        <content>You are an email HTML generator.  
+Produce only HTML code with simple tags (&lt;p&gt;, &lt;ol&gt;, &lt;li&gt;, &lt;b&gt;, &lt;a&gt;, &lt;ul&gt;, &lt;br&gt;), no CSS colors, no backgrounds.  
 The output must be lightweight and email-safe.
 
-Input:
-- You receive RAW DATA from the meeting note prompt below. It contains the meeting_note_link, the company name field CompanyName__c, and the products interests data.
+Dynamic variables:  
+- {{products}} → generate `&lt;li&gt;` rows inside a `&lt;ul&gt;` for each product, with stars + numeric score  
+- {{meeting_note_link}} → insert the URL in the &quot;Open the Meeting Note&quot; link  
 
-Dynamic variables to extract from RAW DATA:
-- {{meeting_note_link}} → extract and use as the URL for the clickable review link it should open the record : {!$Input:Meeting_Note.Id}
-- {{ClientCompany}} → extract from {!$Input:Meeting_Note.CompanyName__c}
-- {{products}} → from the product interests data in RAW DATA, generate &lt;li&gt; rows inside a &lt;ul&gt; for each product, with stars + numeric score
+⚠️ Important:  
+If {{products}} is empty or contains no rows, then do not render the &quot;📊 Client Interest Summary&quot; section at all.  
 
-Important:
-If the product interests data is empty or contains no rows, do not render the &quot;Client Interest&quot; section at all.
+Transform raw product data (example: {&quot;ProductName&quot;:&quot;Asia Discovery&quot;,&quot;Interest&quot;:&quot;4/5&quot;}) into a star rating:  
+- 1/5 → ⭐☆☆☆☆  
+- 2/5 → ⭐⭐☆☆☆  
+- 3/5 → ⭐⭐⭐☆☆  
+- 4/5 → ⭐⭐⭐⭐☆  
+- 5/5 → ⭐⭐⭐⭐⭐  
 
-Transform raw product data (example: {&quot;ProductName&quot;:&quot;Asia Discovery&quot;,&quot;Interest&quot;:&quot;4/5&quot;}) into a star rating:
-- 1/5 → ⭐☆☆☆☆
-- 2/5 → ⭐⭐☆☆☆
-- 3/5 → ⭐⭐⭐☆☆
-- 4/5 → ⭐⭐⭐⭐☆
-- 5/5 → ⭐⭐⭐⭐⭐
-
-RAW DATA:
+---
+### RAW DATA &amp; meeting_note_link
 {!$Flow:PT_MeetingNotes_AddClientInterestsToPrompt.Prompt}
+### RAW DATA
 
-HTML Template:
+---
+
+### HTML Template:
 
 &lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
  &lt;head&gt;&lt;/head&gt;
  &lt;body style=&quot;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;&quot;&gt;
- &lt;p&gt;
-  A new Meeting Note has been created from SalesforceGPT for the client &lt;b&gt;{{ClientCompany}}&lt;/b&gt;.
- &lt;/p&gt;
- &lt;p&gt;
-  &lt;a href=&quot;{{meeting_note_link}}&quot; style=&quot;text-decoration:none;font-weight:bold;&quot;&gt;
-  Please click here to review the content
-  &lt;/a&gt;
- &lt;/p&gt;
+&lt;p&gt;Hello,&lt;/p&gt;
+&lt;p&gt;
+A new meeting note has just been created following your Teams meeting with your client.
+&lt;/p&gt;  
+&lt;p&gt;
+   &lt;a href=&quot;{{meeting_note_link}}&quot; style=&quot;text-decoration:none;font-weight:bold;&quot;&gt;
+    Open the Meeting Note
+   &lt;/a&gt;
+  &lt;/p&gt;
+  &lt;br&gt;
+  &lt;p&gt;&lt;b&gt;Please Review:&lt;/b&gt;&lt;/p&gt;
+  &lt;ol&gt;
+   &lt;li&gt;The meeting note&lt;/li&gt;
+   &lt;li&gt;The Client Interest ratings&lt;/li&gt;
+  &lt;/ol&gt;
+  &lt;p&gt;
+ Thank you,&lt;br/&gt;
+ Salesforce Admin Team
+  &lt;/p&gt;
 
- {{#if products}}
- &lt;br&gt;
- &lt;p&gt;&lt;b&gt;Client Interest&lt;/b&gt;&lt;/p&gt;
- &lt;ul&gt;
-  {{products}}
- &lt;/ul&gt;
- {{/if}}
+  {{#if products}}
+  &lt;br&gt;
+  &lt;p&gt;&lt;b&gt;📊 Client Interest Summary&lt;/b&gt;&lt;/p&gt;
+  &lt;ul&gt;
+   {{products}}
+  &lt;/ul&gt;
+  {{/if}}
  &lt;/body&gt;
 &lt;/html&gt;
 
-Do not add anything after the closing &lt;/html&gt; tag.
-Return only the HTML code above, with no footer, comments, or extra text.
+---
+
+🚫 Do not add anything after the closing `&lt;/html&gt;` tag.  
+Return **only the HTML code** above, with no footer, comments, or extra text.
 
 </content>
         <inputs>
@@ -1183,19 +1249,18 @@ Return only the HTML code above, with no footer, comments, or extra text.
         </inputs>
         <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
         <responseFormat>HTML</responseFormat>
-        <status>Draft</status>
+        <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_MeetingNotes_AddClientInterestsToPrompt</definition>
-            <label>PT_MeetingNotes_AddClientInterestsToPrompt</label>
             <parameters>
                 <definition>SOBJECT://Meeting_Note__c</definition>
-                <isRequired>false</isRequired>
+                <isRequired>true</isRequired>
                 <parameterName>Meeting_Note</parameterName>
                 <valueExpression>{!$Input:Meeting_Note}</valueExpression>
             </parameters>
             <referenceName>Flow:PT_MeetingNotes_AddClientInterestsToPrompt</referenceName>
         </templateDataProviders>
-        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_12</versionIdentifier>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_12</versionIdentifier>
     </templateVersions>
     <templateVersions>
         <content>You are an email HTML generator.
@@ -1234,19 +1299,19 @@ HTML Template:
  &lt;head&gt;&lt;/head&gt;
  &lt;body style=&quot;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;&quot;&gt;
  &lt;p&gt;
-  A new Meeting Note has been created from SalesforceGPT for the client &lt;b&gt;{{ClientCompany}}&lt;/b&gt;.
+ A new Meeting Note has been created from SalesforceGPT for the client &lt;b&gt;{{ClientCompany}}&lt;/b&gt;.
  &lt;/p&gt;
  &lt;p&gt;
-  &lt;a href=&quot;record://{!$Input:Meeting_Note.Id}&quot; style=&quot;text-decoration:none;font-weight:bold;&quot;&gt;
-  Please click here to review the content
-  &lt;/a&gt;
+ &lt;a href=&quot;record://{!$Input:Meeting_Note.Id}&quot; style=&quot;text-decoration:none;font-weight:bold;&quot;&gt;
+ Please click here to review the content
+ &lt;/a&gt;
  &lt;/p&gt;
 
  {{#if products}}
  &lt;br&gt;
  &lt;p&gt;&lt;b&gt;Client Interest&lt;/b&gt;&lt;/p&gt;
  &lt;ul&gt;
-  {{products}}
+ {{products}}
  &lt;/ul&gt;
  {{/if}}
  &lt;/body&gt;
@@ -1268,16 +1333,100 @@ Return only the HTML code above, with no footer, comments, or extra text.
         <status>Published</status>
         <templateDataProviders>
             <definition>flow://PT_MeetingNotes_AddClientInterestsToPrompt</definition>
-            <label>PT_MeetingNotes_AddClientInterestsToPrompt</label>
             <parameters>
                 <definition>SOBJECT://Meeting_Note__c</definition>
-                <isRequired>false</isRequired>
+                <isRequired>true</isRequired>
                 <parameterName>Meeting_Note</parameterName>
                 <valueExpression>{!$Input:Meeting_Note}</valueExpression>
             </parameters>
             <referenceName>Flow:PT_MeetingNotes_AddClientInterestsToPrompt</referenceName>
         </templateDataProviders>
-        <versionIdentifier>S+W5ua7c5EHD5EpeRljbEENzEry32G3OFylu3fZry3o=_13</versionIdentifier>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_13</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>You are an email HTML generator.
+Produce only HTML code with simple tags (&lt;p&gt;, &lt;ol&gt;, &lt;li&gt;, &lt;b&gt;, &lt;a&gt;, &lt;ul&gt;, &lt;br&gt;), no CSS colors, no backgrounds.
+The output must be lightweight and email-safe.
+
+Input:
+- You receive RAW DATA from the meeting note prompt below. It contains the company name field CompanyName__c, the products interests data, and a &lt;Link&gt; section containing the full Salesforce URL.
+
+Link requirement:
+- Extract the full URL from the &lt;Link&gt; section inside RAW DATA.
+- Use that exact URL as the href value of the &lt;a&gt; tag.
+- Do NOT transform it.
+- Do NOT reconstruct it.
+- Do NOT use record:// format.
+- The clickable link text must be: &quot;Please click here to review the content&quot;
+
+Dynamic variables to extract from RAW DATA:
+- {{ClientCompany}} → extract from {!$Input:Meeting_Note.CompanyName__c}
+- {{MeetingLink}} → extract from the &lt;Link&gt; section in RAW DATA
+- {{products}} → from the product interests data in RAW DATA, generate &lt;li&gt; rows inside a &lt;ul&gt; for each product, with stars + numeric score
+
+Important:
+If the product interests data is empty or contains no rows, do not render the &quot;Client Interest&quot; section at all.
+
+Transform raw product data (example: {&quot;ProductName&quot;:&quot;Asia Discovery&quot;,&quot;Interest&quot;:&quot;4/5&quot;}) into a star rating:
+- 1/5 → ⭐☆☆☆☆
+- 2/5 → ⭐⭐☆☆☆
+- 3/5 → ⭐⭐⭐☆☆
+- 4/5 → ⭐⭐⭐⭐☆
+- 5/5 → ⭐⭐⭐⭐⭐
+
+RAW DATA:
+{!$Flow:PT_MeetingNotes_AddClientInterestsToPrompt.Prompt}
+
+HTML Template:
+
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+&lt;head&gt;&lt;/head&gt;
+&lt;body style=&quot;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif;&quot;&gt;
+&lt;p&gt;
+A new Meeting Note has been created from SalesforceGPT for the client &lt;b&gt;{{ClientCompany}}&lt;/b&gt;.
+&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&quot;{{MeetingLink}}&quot; style=&quot;text-decoration:none;font-weight:bold;&quot;&gt;
+Please click here to review the content
+&lt;/a&gt;
+&lt;/p&gt;
+
+{{#if products}}
+&lt;br&gt;
+&lt;p&gt;&lt;b&gt;Client Interest&lt;/b&gt;&lt;/p&gt;
+&lt;ul&gt;
+{{products}}
+&lt;/ul&gt;
+{{/if}}
+
+&lt;/body&gt;
+&lt;/html&gt;
+
+Do not add anything after the closing &lt;/html&gt; tag.
+Return only the HTML code above, with no footer, comments, or extra text.
+
+</content>
+        <inputs>
+            <apiName>Meeting_Note</apiName>
+            <definition>SOBJECT://Meeting_Note__c</definition>
+            <masterLabel>Meeting Note</masterLabel>
+            <referenceName>Input:Meeting_Note</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultGPT5</primaryModel>
+        <responseFormat>HTML</responseFormat>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://PT_MeetingNotes_AddClientInterestsToPrompt</definition>
+            <parameters>
+                <definition>SOBJECT://Meeting_Note__c</definition>
+                <isRequired>true</isRequired>
+                <parameterName>Meeting_Note</parameterName>
+                <valueExpression>{!$Input:Meeting_Note}</valueExpression>
+            </parameters>
+            <referenceName>Flow:PT_MeetingNotes_AddClientInterestsToPrompt</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>WVN3tZk4o404O8n8M7lvj2vqM7T4xnyoLEatZnrtmCY=_14</versionIdentifier>
     </templateVersions>
     <type>einstein_gpt__flex</type>
     <visibility>Global</visibility>
