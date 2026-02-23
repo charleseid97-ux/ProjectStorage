@@ -139,29 +139,48 @@ public with sharing class CustomReportMatrixController {
     private static GroupResult groupRecords(List<SObject> records, String rowGroup1, String rowGroup2, String colGroup1, String colGroup2, String valueField, Boolean hasRowGroup2, Boolean hasColGroup2, Map<String, Map<String, String>> picklistMaps) {
         GroupResult g = new GroupResult();
         for (SObject rec : records) {
-            String rg1Val    = getValOrBlank(toLabel(getStringFieldValue(rec, rowGroup1), picklistMaps.get(rowGroup1)));
-            String rg2Val    = hasRowGroup2 ? getValOrBlank(toLabel(getStringFieldValue(rec, rowGroup2), picklistMaps.get(rowGroup2))) : '';
-            String cg1Val    = getValOrBlank(toLabel(getStringFieldValue(rec, colGroup1), picklistMaps.get(colGroup1)));
-            String cg2Val    = hasColGroup2 ? getValOrBlank(toLabel(getStringFieldValue(rec, colGroup2), picklistMaps.get(colGroup2))) : '';
-            String rawValStr = getStringFieldValue(rec, valueField);
-            String valStr    = toLabel(rawValStr, picklistMaps.get(valueField));
+            String rg1Val    =  getValOrBlank(toLabel(getStringFieldValue(rec, rowGroup1), picklistMaps.get(rowGroup1)));
+            String rg2Val    =  hasRowGroup2 ? getValOrBlank(toLabel(getStringFieldValue(rec, rowGroup2), picklistMaps.get(rowGroup2))) : '';
+            String cg1Val    =  getValOrBlank(toLabel(getStringFieldValue(rec, colGroup1), picklistMaps.get(colGroup1)));
+            String cg2Val    =  hasColGroup2 ? getValOrBlank(toLabel(getStringFieldValue(rec, colGroup2), picklistMaps.get(colGroup2))) : '';
+            String rawValStr =  getStringFieldValue(rec, valueField);
+            String valStr    =  toLabel(rawValStr, picklistMaps.get(valueField));
+            registerGroupKeys(g, rg1Val, rg2Val, cg1Val, cg2Val, hasRowGroup2, hasColGroup2);
 
-            if (!g.colGroup2ByCg1.containsKey(cg1Val)) { g.colGroup2ByCg1.put(cg1Val, new Set<String>()); }
-            if (hasColGroup2) { g.colGroup2ByCg1.get(cg1Val).add(cg2Val); }
-
-            g.rg1Values.add(rg1Val);
-            if (!g.rowGroup2ByRg1.containsKey(rg1Val)) { g.rowGroup2ByRg1.put(rg1Val, new Set<String>()); }
-            if (hasRowGroup2) { g.rowGroup2ByRg1.get(rg1Val).add(rg2Val); }
-
-            String rowKey = rg1Val + (hasRowGroup2 ? SEPARATOR + rg2Val : '');
-            String colKey = cg1Val + (hasColGroup2 ? SEPARATOR + cg2Val : '');
-            if (!g.cells.containsKey(rowKey)) { g.cells.put(rowKey, new Map<String, Map<String, CellData>>()); }
-            if (!g.cells.get(rowKey).containsKey(colKey)) { g.cells.get(rowKey).put(colKey, new Map<String, CellData>()); }
-            if (rawValStr != null && valStr != null) {
-                g.cells.get(rowKey).get(colKey).put(rawValStr, new CellData(rawValStr, valStr));
-            }
+            String rowKey    =  rg1Val + (hasRowGroup2 ? SEPARATOR + rg2Val : '');
+            String colKey    =  cg1Val + (hasColGroup2 ? SEPARATOR + cg2Val : '');
+            registerCell(g, rowKey, colKey, rawValStr, valStr);
         }
         return g;
+    }
+
+    private static void registerGroupKeys(GroupResult g, String rg1Val, String rg2Val, String cg1Val, String cg2Val, Boolean hasRowGroup2, Boolean hasColGroup2) {
+        if (!g.colGroup2ByCg1.containsKey(cg1Val)) {
+            g.colGroup2ByCg1.put(cg1Val, new Set<String>());
+        }
+        if (hasColGroup2) {
+            g.colGroup2ByCg1.get(cg1Val).add(cg2Val);
+        }
+
+        g.rg1Values.add(rg1Val);
+        if (!g.rowGroup2ByRg1.containsKey(rg1Val)) {
+            g.rowGroup2ByRg1.put(rg1Val, new Set<String>());
+        }
+        if (hasRowGroup2) {
+            g.rowGroup2ByRg1.get(rg1Val).add(rg2Val);
+        }
+    }
+
+    private static void registerCell(GroupResult g, String rowKey, String colKey, String rawValStr, String valStr) {
+        if (!g.cells.containsKey(rowKey)) {
+            g.cells.put(rowKey, new Map<String, Map<String, CellData>>());
+        }
+        if (!g.cells.get(rowKey).containsKey(colKey)) {
+            g.cells.get(rowKey).put(colKey, new Map<String, CellData>());
+        }
+        if (rawValStr != null && valStr != null) {
+            g.cells.get(rowKey).get(colKey).put(rawValStr, new CellData(rawValStr, valStr));
+        }
     }
 
     private static ColumnStructure buildColumnStructure(Map<String, Set<String>> colGroup2ByCg1, Boolean hasColGroup2) {
@@ -243,7 +262,7 @@ public with sharing class CustomReportMatrixController {
         }
     }
 
-    public static Object getFieldValue(SObject record, List<String> fieldApiPath, Integer index) {
+    private static Object getFieldValue(SObject record, List<String> fieldApiPath, Integer index) {
         if (record == null) { return null; }
         String segment = fieldApiPath[index];
         if (index == fieldApiPath.size() - 1) {
