@@ -12,4 +12,8 @@
     <hasActivationRequired>false</hasActivationRequired>
     <label>Custom Report Matrix</label>
     <license>Salesforce</license>
+    <tabSettings>
+        <tab>RegistrationStatusMatrix</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
 </PermissionSet>
