@@ -1,5 +1,5 @@
 /**
- * @description Core service class that builds GridDetail__c records by evaluating GridRuleLine__c rules
+ * @description Core service class that builds GridDetail__c records by evaluating GridRule__c rules
  *              against Share_Class__c records. 
  *              Implements complex rebate calculation logic including percentage-based fees, cross-share-type references, 
  *              and cross-grid rule dependencies.
@@ -20,10 +20,10 @@ public with sharing class GridDetailBuilder {
     private static final String TYPE_FIELD_PATH = 'Type__c';
     private static final Set<String> SUPPORTED_OBJECTS = new Set<String>{ 'Share_Class__c', 'Product__c', 'Strategy__c' };
 
-    private static final String ruleLinesQuery = 'SELECT Id, GridScope__c, GridCriteria__c, RuleToApply__c, PercentageOfFees__c, '+
+    private static final String ruleLinesQuery = 'SELECT Id, Grid__c, GridCriteria__c, RuleToApply__c, GridRate__c, '+
                                                     'ShareType__c, OtherShareType__c, OtherGridRule__c, '+
                                                     'GridCriteria__r.FilterLogicExpression__c, CreatedDate '+
-                                                  ' FROM GridRuleLine__c ';
+                                                  ' FROM GridRule__c ';
 
     public static BuildResult buildForRuleLines(Set<Id> ruleLineIds) {
         BuildResult result = new BuildResult();
@@ -43,53 +43,36 @@ public with sharing class GridDetailBuilder {
             return result;
         }
 
-        Map<Id, Id> gridIdByScopeId = new Map<Id, Id>();
         Map<String, Id> gridIdByName = new Map<String, Id>();
-        Set<Id> scopeIds = new Set<Id>();
-        for (Grid__c grid : [SELECT Id, Name, GridScope__c FROM Grid__c WHERE Id IN :gridIds]) {
+        for (Grid__c grid : [SELECT Id, Name FROM Grid__c WHERE Id IN :gridIds]) {
             gridIdByName.put(grid.Name, grid.Id);
-            if (grid.GridScope__c != null) {
-                scopeIds.add(grid.GridScope__c);
-                if (!gridIdByScopeId.containsKey(grid.GridScope__c)) {
-                    gridIdByScopeId.put(grid.GridScope__c, grid.Id);
-                }
-            }
         }
 
-        if (scopeIds.isEmpty()) {
-            result.errors.add(new BuildError(null, 'No GridScope__c found for the supplied Grid__c records.'));
-            return result;
-        }
-
-        String rlQuery = ruleLinesQuery + ' WHERE GridScope__c IN :scopeIds ORDER BY CreatedDate ASC';
-        return build(Database.query(rlQuery), gridIdByScopeId, gridIdByName, result);
+        String rlQuery = ruleLinesQuery + ' WHERE Grid__c IN :gridIds ORDER BY CreatedDate ASC';
+        return build(Database.query(rlQuery), gridIdByName, result);
     }
 
-    private static BuildResult build(List<GridRuleLine__c> ruleLines, BuildResult result) {
+    private static BuildResult build(List<GridRule__c> ruleLines, BuildResult result) {
         if (ruleLines == null || ruleLines.isEmpty()) {
             return result;
         }
 
-        Set<Id> scopeIds = new Set<Id>();
-        for (GridRuleLine__c line : ruleLines) {
-            if (line.GridScope__c != null) {
-                scopeIds.add(line.GridScope__c);
+        Set<Id> gridIds = new Set<Id>();
+        for (GridRule__c line : ruleLines) {
+            if (line.Grid__c != null) {
+                gridIds.add(line.Grid__c);
             }
         }
 
-        Map<Id, Id> gridIdByScopeId = new Map<Id, Id>();
         Map<String, Id> gridIdByName = new Map<String, Id>();
-        for (Grid__c grid : [SELECT Id, Name, GridScope__c FROM Grid__c WHERE GridScope__c IN :scopeIds]) {
+        for (Grid__c grid : [SELECT Id, Name FROM Grid__c WHERE Id IN :gridIds]) {
             gridIdByName.put(grid.Name, grid.Id);
-            if (grid.GridScope__c != null && !gridIdByScopeId.containsKey(grid.GridScope__c)) {
-                gridIdByScopeId.put(grid.GridScope__c, grid.Id);
-            }
         }
 
-        return build(ruleLines, gridIdByScopeId, gridIdByName, result);
+        return build(ruleLines, gridIdByName, result);
     }
 
-    private static BuildResult build(List<GridRuleLine__c> ruleLines, Map<Id, Id> gridIdByScopeId, Map<String, Id> gridIdByName, BuildResult result) {
+    private static BuildResult build(List<GridRule__c> ruleLines, Map<String, Id> gridIdByName, BuildResult result) {
         if (ruleLines == null || ruleLines.isEmpty()) {
             return result;
         }
@@ -97,7 +80,7 @@ public with sharing class GridDetailBuilder {
         ensureOtherGridIds(ruleLines, gridIdByName);
         Map<Id, List<GridCriteriaDetail__c>> detailsByCriteriaId = loadCriteriaDetails(ruleLines);
         ShareClassData shareData = loadShareClasses();
-        List<RuleLineContext> contexts = buildRuleLineContexts(ruleLines, gridIdByScopeId, detailsByCriteriaId, result);
+        List<RuleLineContext> contexts = buildRuleLineContexts(ruleLines, detailsByCriteriaId, result);
         if (contexts.isEmpty()) {
             return result;
         }
@@ -113,9 +96,9 @@ public with sharing class GridDetailBuilder {
         return result;
     }
 
-    private static void ensureOtherGridIds(List<GridRuleLine__c> ruleLines, Map<String, Id> gridIdByName) {
+    private static void ensureOtherGridIds(List<GridRule__c> ruleLines, Map<String, Id> gridIdByName) {
         Set<String> otherGridNames = new Set<String>();
-        for (GridRuleLine__c line : ruleLines) {
+        for (GridRule__c line : ruleLines) {
             if (line.RuleToApply__c == RULE_OTHER_GRID && String.isNotBlank(line.OtherGridRule__c)) {
                 otherGridNames.add(line.OtherGridRule__c);
             }
@@ -125,9 +108,9 @@ public with sharing class GridDetailBuilder {
         }
     }
 
-    private static Map<Id, List<GridCriteriaDetail__c>> loadCriteriaDetails(List<GridRuleLine__c> ruleLines) {
+    private static Map<Id, List<GridCriteriaDetail__c>> loadCriteriaDetails(List<GridRule__c> ruleLines) {
         Set<Id> criteriaIds = new Set<Id>();
-        for (GridRuleLine__c line : ruleLines) {
+        for (GridRule__c line : ruleLines) {
             if (line.GridCriteria__c != null) {
                 criteriaIds.add(line.GridCriteria__c);
             }
@@ -162,18 +145,18 @@ public with sharing class GridDetailBuilder {
         return data;
     }
 
-    private static List<RuleLineContext> buildRuleLineContexts(List<GridRuleLine__c> ruleLines, Map<Id, Id> gridIdByScopeId, Map<Id, List<GridCriteriaDetail__c>> detailsByCriteriaId, BuildResult result) {
+    private static List<RuleLineContext> buildRuleLineContexts(List<GridRule__c> ruleLines, Map<Id, List<GridCriteriaDetail__c>> detailsByCriteriaId, BuildResult result) {
         List<RuleLineContext> contexts = new List<RuleLineContext>();
-        for (GridRuleLine__c line : ruleLines) {
+        for (GridRule__c line : ruleLines) {
             RuleLineContext ctx = new RuleLineContext(line);
-            ctx.gridId = gridIdByScopeId.get(line.GridScope__c);
+            ctx.gridId = line.Grid__c;
             if (ctx.gridId == null) {
                 ctx.hasErrors = true;
-                result.errors.add(new BuildError(line.Id, 'Grid__c not found for GridScope__c on GridRuleLine__c.'));
+                result.errors.add(new BuildError(line.Id, 'Grid__c is missing on GridRule__c.'));
             }
             if (line.GridCriteria__c == null) {
                 ctx.hasErrors = true;
-                result.errors.add(new BuildError(line.Id, 'GridCriteria__c is missing on GridRuleLine__c.'));
+                result.errors.add(new BuildError(line.Id, 'GridCriteria__c is missing on GridRule__c.'));
             }
             ctx.filterLogicExpression = line.GridCriteria__r != null ? line.GridCriteria__r.FilterLogicExpression__c : null;
             ctx.details = detailsByCriteriaId.containsKey(line.GridCriteria__c) ? detailsByCriteriaId.get(line.GridCriteria__c) : new List<GridCriteriaDetail__c>();
@@ -271,7 +254,7 @@ public with sharing class GridDetailBuilder {
             }
             if (!rebatesByGridShareKey.containsKey(assignment.gridShareKey)) {
                 assignment.hasError = true;
-                result.errors.add(new BuildError(assignment.ruleLineId, 'Unable to resolve a rebate value for GridRuleLine__c. Check dependent rules or missing matching share classes.'));
+                result.errors.add(new BuildError(assignment.ruleLineId, 'Unable to resolve a rebate value for GridRule__c. Check dependent rules or missing matching share classes.'));
             }
         }
     }
@@ -286,10 +269,10 @@ public with sharing class GridDetailBuilder {
             }
             GridDetail__c detail = new GridDetail__c();
             detail.Grid__c = assignment.gridId;
-            detail.GridRuleLine__c = assignment.ruleLineId;
+            detail.GridRule__c = assignment.ruleLineId;
             detail.GridCriteria__c = assignment.criteriaId;
             detail.ShareClass__c = assignment.shareClassId;
-            detail.Rebate__c = assignment.rebate;
+            detail.RebateRate__c = assignment.rebate;
             detail.StartDate__c = startDate;
             detail.EndDate__c = DEFAULT_END_DATE;
             detailsToInsert.add(detail);
@@ -497,7 +480,7 @@ public with sharing class GridDetailBuilder {
     }
 
     private static Decimal computeRebate(RuleAssignment assignment, Map<String, RuleAssignment> assignmentByGridShareKey, Map<String, Decimal> rebatesByGridShareKey, Map<String, Decimal> existingRebates, Map<String, Map<String, Id>> shareTypeLookupCache, List<Share_Class__c> shareClasses, Map<Id, Share_Class__c> shareClassById, Map<String, Id> gridIdByName, BuildResult result) {
-        GridRuleLine__c line = assignment.context.ruleLine;
+        GridRule__c line = assignment.context.ruleLine;
         Share_Class__c share = shareClassById.get(assignment.shareClassId);
         if (share == null) {
             setAssignmentError(assignment, result, 'Share_Class__c not found for assignment.');
@@ -520,15 +503,15 @@ public with sharing class GridDetailBuilder {
         return null;
     }
 
-    private static Decimal computePercentageRebate(RuleAssignment assignment, Share_Class__c share, GridRuleLine__c line, BuildResult result) {
-        if (share.EffectiveManagementFees__c == null || line.PercentageOfFees__c == null) {
-            setAssignmentError(assignment, result, 'EffectiveManagementFees__c and PercentageOfFees__c are required to compute the rebate.');
+    private static Decimal computePercentageRebate(RuleAssignment assignment, Share_Class__c share, GridRule__c line, BuildResult result) {
+        if (share.EffectiveManagementFees__c == null || line.GridRate__c == null) {
+            setAssignmentError(assignment, result, 'EffectiveManagementFees__c and GridRate__c are required to compute the rebate.');
             return null;
         }
-        return (share.EffectiveManagementFees__c * line.PercentageOfFees__c / 100).setScale(5);
+        return (share.EffectiveManagementFees__c * line.GridRate__c / 100).setScale(5);
     }
 
-    private static Decimal computeOtherShareRebate(RuleAssignment assignment, Share_Class__c share, GridRuleLine__c line, Map<String, Decimal> rebatesByGridShareKey, Map<String, Decimal> existingRebates, Map<String, Map<String, Id>> shareTypeLookupCache, List<Share_Class__c> shareClasses, Map<Id, Share_Class__c> shareClassById, BuildResult result) {
+    private static Decimal computeOtherShareRebate(RuleAssignment assignment, Share_Class__c share, GridRule__c line, Map<String, Decimal> rebatesByGridShareKey, Map<String, Decimal> existingRebates, Map<String, Map<String, Id>> shareTypeLookupCache, List<Share_Class__c> shareClasses, Map<Id, Share_Class__c> shareClassById, BuildResult result) {
         String otherShareType = line.OtherShareType__c;
         if (String.isBlank(otherShareType)) {
             setAssignmentError(assignment, result, 'OtherShareType__c is required for this rule.');
@@ -556,15 +539,15 @@ public with sharing class GridDetailBuilder {
             setAssignmentError(assignment, result, 'EffectiveManagementFees__c is required for both share types to compute the rebate.');
             return null;
         }
-        if (line.PercentageOfFees__c == null) {
-            setAssignmentError(assignment, result, 'PercentageOfFees__c is required for Other Share Type + Fees.');
+        if (line.GridRate__c == null) {
+            setAssignmentError(assignment, result, 'GridRate__c is required for Other Share Type + Fees.');
             return null;
         }
         Decimal deltaFees = share.EffectiveManagementFees__c - otherShare.EffectiveManagementFees__c;
-        return (baseRebate + (deltaFees * line.PercentageOfFees__c / 100)).setScale(5);
+        return (baseRebate + (deltaFees * line.GridRate__c / 100)).setScale(5);
     }
 
-    private static Decimal computeOtherGridRebate(RuleAssignment assignment, GridRuleLine__c line, Map<String, Decimal> rebatesByGridShareKey, Map<String, Decimal> existingRebates, Map<String, Id> gridIdByName, BuildResult result) {
+    private static Decimal computeOtherGridRebate(RuleAssignment assignment, GridRule__c line, Map<String, Decimal> rebatesByGridShareKey, Map<String, Decimal> existingRebates, Map<String, Id> gridIdByName, BuildResult result) {
         if (String.isBlank(line.OtherGridRule__c)) {
             setAssignmentError(assignment, result, 'OtherGridRule__c is required for Other Grid Rule.');
             return null;
@@ -665,7 +648,7 @@ public with sharing class GridDetailBuilder {
 
     private static void collectOtherGridNamesAndShares(List<RuleAssignment> assignments, LoadExistingContext ctx) {
         for (RuleAssignment assignment : assignments) {
-            GridRuleLine__c line = assignment.context.ruleLine;
+            GridRule__c line = assignment.context.ruleLine;
             if (line.RuleToApply__c == RULE_OTHER_GRID && String.isNotBlank(line.OtherGridRule__c)) {
                 ctx.otherGridNames.add(line.OtherGridRule__c);
                 ctx.shareClassIds.add(assignment.shareClassId);
@@ -688,11 +671,11 @@ public with sharing class GridDetailBuilder {
     }
 
     private static Map<String, Decimal> queryExistingRebates(Set<Id> externalGridIds, Set<Id> shareClassIds, Map<String, Decimal> existing) {
-        for (GridDetail__c detail : [SELECT Grid__c, ShareClass__c, Rebate__c
+        for (GridDetail__c detail : [SELECT Grid__c, ShareClass__c, RebateRate__c
                                      FROM GridDetail__c
                                      WHERE Grid__c IN :externalGridIds AND ShareClass__c IN :shareClassIds]) {
-            if (detail.Rebate__c != null) {
-                existing.put(buildGridShareKey(detail.Grid__c, detail.ShareClass__c), detail.Rebate__c);
+            if (detail.RebateRate__c != null) {
+                existing.put(buildGridShareKey(detail.Grid__c, detail.ShareClass__c), detail.RebateRate__c);
             }
         }
         return existing;
@@ -885,14 +868,14 @@ public with sharing class GridDetailBuilder {
     }
 
     private class RuleLineContext {
-        public GridRuleLine__c ruleLine;
+        public GridRule__c ruleLine;
         public Id gridId;
         public String filterLogicExpression;
         public List<GridCriteriaDetail__c> details = new List<GridCriteriaDetail__c>();
         public Set<String> resolvedFieldPaths = new Set<String>();
         public Boolean hasErrors = false;
 
-        public RuleLineContext(GridRuleLine__c ruleLine) {
+        public RuleLineContext(GridRule__c ruleLine) {
             this.ruleLine = ruleLine;
         }
     }

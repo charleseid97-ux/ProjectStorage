@@ -191,7 +191,7 @@ public with sharing class GridBuilderHelper {
             buildFieldsApiInfoMapFromLine(line, objectToFieldsMap, fieldsApiToInfoMap);
         }
         if(includeRebateRate) {
-            Schema.DescribeFieldResult rebateDFR = GridDetail__c.Rebate__c.getDescribe();
+            Schema.DescribeFieldResult rebateDFR = GridDetail__c.RebateRate__c.getDescribe();
             fieldsApiToInfoMap.put(REBATE_RATE_FIELD_KEY, new FieldInfo(rebateDFR.getLabel(), rebateDFR.getType(), false, rebateDFR.getName(), 'GridDetail__c'));
         }
         return fieldsApiToInfoMap;
@@ -318,15 +318,15 @@ public with sharing class GridBuilderHelper {
 
         Map<Id, Map<String, Object>> rebateByShareClass = new Map<Id, Map<String, Object>>();
         String standardGridRT = RT_STANDARD_GRID;
-        for (GridDetail__c detail : [SELECT ShareClass__c, Grid__c, Rebate__c, StartDate__c, CreatedDate
+        for (GridDetail__c detail : [SELECT ShareClass__c, Grid__c, RebateRate__c, StartDate__c, CreatedDate
                                      FROM GridDetail__c
                                      WHERE ShareClass__c IN :shareClassIds
                                      AND Grid__c IN :gridIds
-                                     AND Rebate__c != null
+                                     AND RebateRate__c != null
                                      AND Grid__r.RecordType.DeveloperName = :standardGridRT
                                      ORDER BY Grid__c, ShareClass__c, StartDate__c DESC, CreatedDate DESC]) {
             if (!rebateByShareClass.containsKey(detail.ShareClass__c) && shareClassGridIdMap.get(detail.ShareClass__c) == detail.Grid__c) {
-                rebateByShareClass.put(detail.ShareClass__c, new Map<String, Object>{'formatted' => formatPercent(detail.Rebate__c), 'value' => detail.Rebate__c});
+                rebateByShareClass.put(detail.ShareClass__c, new Map<String, Object>{'formatted' => formatPercent(detail.RebateRate__c), 'value' => detail.RebateRate__c});
             }
         }
         System.debug('@@@rebateByShareClass: '+rebateByShareClass);

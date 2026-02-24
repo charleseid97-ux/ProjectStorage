@@ -11,8 +11,8 @@
         <label>Information</label>
         <layoutColumns>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>GridScope__c</field>
+                <behavior>Edit</behavior>
+                <field>Grid__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
@@ -34,7 +34,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>PercentageOfFees__c</field>
+                <field>GridRate__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -43,6 +43,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>OtherGridRule__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>RuleText__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -118,11 +122,11 @@
         <fields>Grid__c</fields>
         <fields>StandardGrid__c</fields>
         <fields>ShareClass__c</fields>
-        <fields>Rebate__c</fields>
+        <fields>RebateRate__c</fields>
         <fields>StartDate__c</fields>
         <fields>EndDate__c</fields>
         <fields>CREATED_DATE</fields>
-        <relatedList>GridDetail__c.GridRuleLine__c</relatedList>
+        <relatedList>GridDetail__c.GridRule__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

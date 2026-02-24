@@ -16,8 +16,8 @@
                 <field>Name</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>GridName__c</field>
+                <behavior>Edit</behavior>
+                <field>Grid__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -112,24 +112,6 @@
         </platformActionListItems>
     </platformActionList>
     <quickActionList/>
-    <relatedLists>
-        <fields>NAME</fields>
-        <fields>ActiveGrid__c</fields>
-        <relatedList>Grid__c.GridScope__c</relatedList>
-        <sortField>NAME</sortField>
-        <sortOrder>Asc</sortOrder>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <fields>GridCriteria__c</fields>
-        <fields>RuleToApply__c</fields>
-        <fields>FeesType__c</fields>
-        <fields>PercentageOfFees__c</fields>
-        <fields>ShareType__c</fields>
-        <fields>OtherShareType__c</fields>
-        <fields>OtherGridRule__c</fields>
-        <relatedList>GridRuleLine__c.GridScope__c</relatedList>
-    </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
     <showInteractionLogPanel>false</showInteractionLogPanel>

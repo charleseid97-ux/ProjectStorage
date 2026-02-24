@@ -87,21 +87,21 @@ public class GridTestSetupHelper {
             };
             insert companies;
 
-            // 6. Create GridScopes (3)
-            List<GridScope__c> scopes = new List<GridScope__c>{
-                createGridScope(GRID_NAME_S1, 'AGR-FR', 'FR', 'FCP'),
-                createGridScope(GRID_NAME_S5_PLUS, 'ALL', 'ALL', 'SICAV'),
-                createGridScope(GRID_NAME_TEST, 'AGR-FR;AGR-DE', 'GB;DE', 'FCP;SICAV')
-            };
-            insert scopes;
-
-            // 7. Create Grids (3)
+            // 6. Create Grids (3)
             List<Grid__c> grids = new List<Grid__c>{
-                createGrid(GRID_NAME_S1, scopes[0].Id, TEST_TEAM_FR, true, GridBuilderHelper.RT_STANDARD_GRID),
-                createGrid(GRID_NAME_S5_PLUS, scopes[1].Id, TEST_TEAM_UK, true, GridBuilderHelper.RT_STANDARD_GRID),
-                createGrid(GRID_NAME_TEST, scopes[2].Id, TEST_TEAM_DE, true, GridBuilderHelper.RT_STANDARD_GRID)
+                createGrid(GRID_NAME_S1, TEST_TEAM_FR, true, GridBuilderHelper.RT_STANDARD_GRID),
+                createGrid(GRID_NAME_S5_PLUS, TEST_TEAM_UK, true, GridBuilderHelper.RT_STANDARD_GRID),
+                createGrid(GRID_NAME_TEST, TEST_TEAM_DE, true, GridBuilderHelper.RT_STANDARD_GRID)
             };
             insert grids;
+
+            // 7. Create GridScopes (3) — references Grids inserted above
+            List<GridScope__c> scopes = new List<GridScope__c>{
+                createGridScope(GRID_NAME_S1, grids[0].Id, 'AGR-FR', 'FR', 'FCP'),
+                createGridScope(GRID_NAME_S5_PLUS, grids[1].Id, 'ALL', 'ALL', 'SICAV'),
+                createGridScope(GRID_NAME_TEST, grids[2].Id, 'AGR-FR;AGR-DE', 'GB;DE', 'FCP;SICAV')
+            };
+            insert scopes;
 
             // 8. Create Agreements/Conventions (3)
             AgreementTriggerHandler.triggerDisabled = true; // Disable Agreement trigger to avoid permission issues in test context
@@ -284,34 +284,33 @@ public class GridTestSetupHelper {
     }
 
     // ------------------------------------ GRID & SCOPE METHODS ------------------------------------
-    public static GridScope__c createGridScope(String gridName, String agreement, String country, String productCode) {
+    public static GridScope__c createGridScope(String gridName, Id gridId, String agreement, String country, String productCode) {
         String scopeName = 'Grid Scope for ' + gridName + ' - ' + Date.today().format();
         return new GridScope__c(
             Name = scopeName,
-            GridName__c = gridName,
+            Grid__c = gridId,
             Agreement__c = agreement,
             Country__c = country,
             ProductCode__c = productCode
         );
     }
 
-    public static Grid__c createGrid(String name, Id scopeId, String team, Boolean active, String recordTypeDeveloperName) {
+    public static Grid__c createGrid(String name, String team, Boolean active, String recordTypeDeveloperName) {
         return new Grid__c(
             Name = name,
-            GridScope__c = scopeId,
             ActiveGrid__c = active,
             RecordTypeId = Schema.SObjectType.Grid__c.getRecordTypeInfosByDeveloperName().get(recordTypeDeveloperName).getRecordTypeId()
         );
     }
 
     public static List<Grid__c> getTestGrids() {
-        return [SELECT Id, Name, GridScope__c, ActiveGrid__c
+        return [SELECT Id, Name, ActiveGrid__c
                 FROM Grid__c
                 ORDER BY Name];
     }
 
     public static Grid__c getTestGridByName(String name) {
-        List<Grid__c> grids = [SELECT Id, Name, GridScope__c, ActiveGrid__c
+        List<Grid__c> grids = [SELECT Id, Name, ActiveGrid__c
                                FROM Grid__c
                                WHERE Name = :name
                                LIMIT 1];
@@ -319,9 +318,9 @@ public class GridTestSetupHelper {
     }
 
     public static List<GridScope__c> getTestGridScopes() {
-        return [SELECT Id, Name, GridName__c, Agreement__c, Country__c, ProductCode__c
+        return [SELECT Id, Name, Grid__c, Agreement__c, Country__c, ProductCode__c
                 FROM GridScope__c
-                ORDER BY GridName__c];
+                ORDER BY Name];
     }
 
     // ------------------------------------ CRITERIA & RULE METHODS ------------------------------------
@@ -348,13 +347,13 @@ public class GridTestSetupHelper {
         );
     }
 
-    public static GridRuleLine__c createRuleLine(Id scopeId, Id criteriaId, String ruleToApply, String feesType, Decimal percentageOfFees, String shareType, String otherShareType, String otherGridRule) {
-        return new GridRuleLine__c(
-            GridScope__c = scopeId,
+    public static GridRule__c createRuleLine(Id gridId, Id criteriaId, String ruleToApply, String feesType, Decimal gridRate, String shareType, String otherShareType, String otherGridRule) {
+        return new GridRule__c(
+            Grid__c = gridId,
             GridCriteria__c = criteriaId,
             RuleToApply__c = ruleToApply,
             FeesType__c = feesType,
-            PercentageOfFees__c = percentageOfFees,
+            GridRate__c = gridRate,
             ShareType__c = shareType,
             OtherShareType__c = otherShareType,
             OtherGridRule__c = otherGridRule
@@ -373,28 +372,28 @@ public class GridTestSetupHelper {
                 ORDER BY GridCriteria__c, FilterNumber__c];
     }
 
-    public static List<GridRuleLine__c> getTestRuleLines() {
-        return [SELECT Id, GridScope__c, GridCriteria__c, RuleToApply__c, FeesType__c, PercentageOfFees__c,
+    public static List<GridRule__c> getTestRuleLines() {
+        return [SELECT Id, Grid__c, GridCriteria__c, RuleToApply__c, FeesType__c, GridRate__c,
                        ShareType__c, OtherShareType__c, OtherGridRule__c
-                FROM GridRuleLine__c
+                FROM GridRule__c
                 ORDER BY CreatedDate];
     }
 
     // ------------------------------------ GRID DETAIL METHODS ------------------------------------
-    public static GridDetail__c createGridDetail(Id gridId, Id ruleLineId, Id criteriaId, Id shareClassId, Decimal rebate, Date startDate, Date endDate) {
+    public static GridDetail__c createGridDetail(Id gridId, Id ruleLineId, Id criteriaId, Id shareClassId, Decimal rebateRate, Date startDate, Date endDate) {
         return new GridDetail__c(
             Grid__c = gridId,
-            GridRuleLine__c = ruleLineId,
+            GridRule__c = ruleLineId,
             GridCriteria__c = criteriaId,
             ShareClass__c = shareClassId,
-            Rebate__c = rebate,
+            RebateRate__c = rebateRate,
             StartDate__c = startDate,
             EndDate__c = endDate
         );
     }
 
     public static List<GridDetail__c> getTestGridDetails() {
-        return [SELECT Id, Grid__c, GridRuleLine__c, GridCriteria__c, ShareClass__c, Rebate__c, StartDate__c, EndDate__c
+        return [SELECT Id, Grid__c, GridRule__c, GridCriteria__c, ShareClass__c, RebateRate__c, StartDate__c, EndDate__c
                 FROM GridDetail__c
                 ORDER BY CreatedDate];
     }

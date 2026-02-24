@@ -16,7 +16,7 @@ private class GridDetailTableControllerTest {
     @IsTest
     static void testBuildRuleValue_AllRuleTypes() {
         Grid__c grid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S1);
-        GridScope__c scope = [SELECT Id FROM GridScope__c WHERE GridName__c = :GridTestSetupHelper.GRID_NAME_S1 LIMIT 1];
+        GridScope__c scope = [SELECT Id FROM GridScope__c WHERE Grid__c = :grid.Id LIMIT 1];
         Share_Class__c shareClass = GridTestSetupHelper.getShareClassByType(GridTestSetupHelper.SHARE_TYPE_A);
 
         GridCriteria__c criteria = GridTestSetupHelper.createCriteria(grid.Id, 'AND', '1', 'Test Criteria');
@@ -25,16 +25,16 @@ private class GridDetailTableControllerTest {
         GridCriteriaDetail__c detail = GridTestSetupHelper.createCriteriaDetail(criteria.Id, 1, 'Share_Class__c', 'Type__c', '=', GridTestSetupHelper.SHARE_TYPE_A, 'User-Defined');
         insert detail;
 
-        List<GridRuleLine__c> ruleLines = new List<GridRuleLine__c>{
-            GridTestSetupHelper.createRuleLine(scope.Id, criteria.Id, 'Percentage of Fees', 'EffectiveManagementFees__c', 33, null, null, null),
-            GridTestSetupHelper.createRuleLine(scope.Id, criteria.Id, 'Take Rebates Rate - Other Share Type', 'EffectiveManagementFees__c', null, null, 'AW', null),
-            GridTestSetupHelper.createRuleLine(scope.Id, criteria.Id, 'Take Rebates Rate - Other Share Type + Fees', 'EffectiveManagementFees__c', 15, 'AW', 'A', null),
-            GridTestSetupHelper.createRuleLine(scope.Id, criteria.Id, 'Take Rebates Rate - Other Grid Rule', 'EffectiveManagementFees__c', null, null, null, 'S5+')
+        List<GridRule__c> ruleLines = new List<GridRule__c>{
+            GridTestSetupHelper.createRuleLine(grid.Id, criteria.Id, 'Percentage of Fees', 'EffectiveManagementFees__c', 33, null, null, null),
+            GridTestSetupHelper.createRuleLine(grid.Id, criteria.Id, 'Take Rebates Rate - Other Share Type', 'EffectiveManagementFees__c', null, null, 'AW', null),
+            GridTestSetupHelper.createRuleLine(grid.Id, criteria.Id, 'Take Rebates Rate - Other Share Type + Fees', 'EffectiveManagementFees__c', 15, 'AW', 'A', null),
+            GridTestSetupHelper.createRuleLine(grid.Id, criteria.Id, 'Take Rebates Rate - Other Grid Rule', 'EffectiveManagementFees__c', null, null, null, 'S5+')
         };
         insert ruleLines;
 
         List<GridDetail__c> gridDetails = new List<GridDetail__c>();
-        for (GridRuleLine__c rl : ruleLines) {
+        for (GridRule__c rl : ruleLines) {
             gridDetails.add(GridTestSetupHelper.createGridDetail(grid.Id, rl.Id, criteria.Id, shareClass.Id, 0.5, Date.today(), Date.newInstance(2099, 12, 31)));
         }
         insert gridDetails;
@@ -45,8 +45,7 @@ private class GridDetailTableControllerTest {
 
         // Specific scenarios tests
         // 1- Test with no scope grid
-        grid.GridScope__c = null;
-        update grid;
+        delete scope;
         result = GridDetailTableController.getGridDetails(grid.Id);
 
         // 2- Test with null gridId

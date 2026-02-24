@@ -56,11 +56,11 @@ public with sharing class GridValidationController {
         try {
             GridSaveRequest request = (GridSaveRequest)JSON.deserialize(requestJson, GridSaveRequest.class);
 
-            // 1. Create GridScope__c for Custom Grid
-            insertGridScope(request);
-
-            // 2. Create Grid__c (with Custom record type)
+            // 1. Create Grid__c (with Custom record type)
             insertCustomGrid(request.grid, result);
+
+            // 2. Create GridScope__c for Custom Grid (references the new grid)
+            insertGridScope(request);
 
             // 3. Create GridCriteria__c (store Map<criteriaRefId, Id>)
             Map<String, GridCriteria__c> criteriaRefToRecordMap = insertGridCriteria_getCriteriaRefToIdMap(request);
@@ -86,7 +86,8 @@ public with sharing class GridValidationController {
     private static void insertGridScope(GridSaveRequest request) {
         GridScope__c scope = new GridScope__c();
         scope.Name = 'Grid Scope for ' + request.grid.Name;
-        scope.GridName__c = request.grid.Name;
+        scope.Grid__c = request.grid.Id;
+        scope.Country__c = 'ALL';
         if (request.agreementIds != null && !request.agreementIds.isEmpty()) {
             List<String> agreementNames = new List<String>();
             for (Convention__c agmt : [SELECT Id, Name FROM Convention__c WHERE Id IN :request.agreementIds]) {
@@ -94,9 +95,7 @@ public with sharing class GridValidationController {
             }
             scope.Agreement__c = String.join(agreementNames, ', ');
         }
-        scope.Country__c = 'ALL';
         insert scope;
-        request.grid.GridScope__c = scope.Id;
     }
 
     private static void insertCustomGrid(Grid__c grid, GridSaveResult result) {
@@ -156,7 +155,7 @@ public with sharing class GridValidationController {
                         StandardGrid__c = criteriaRecord.StandardGrid__c,
                         GridCriteria__c = criteriaRecord.Id,
                         StartDate__c = criteriaStartDate,
-                        Rebate__c = (rebateByShareClass.containsKey(scId))? (Decimal)rebateByShareClass.get(scId).get('value') : 0
+                        RebateRate__c = (rebateByShareClass.containsKey(scId))? (Decimal)rebateByShareClass.get(scId).get('value') : 0
                     ));
                 }
             }

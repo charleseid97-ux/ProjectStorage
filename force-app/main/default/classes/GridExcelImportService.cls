@@ -1,7 +1,7 @@
 /**
  * @description Service class for importing grid configurations from Excel/JSON payloads. 
  *              Parses scope and rule definitions, creates/updates GridScope__c, GridCriteria__c, GridCriteriaDetail__c, and
- *              GridRuleLine__c records. 
+ *              GridRule__c records. 
  *              Integrates with GridCriteriaExpressionParser for Include/Exclude expression parsing. 
  *              Provides comprehensive error tracking and validation.
  * @author Charles EID
@@ -44,8 +44,8 @@ public with sharing class GridExcelImportService {
         List<RuleRow> ruleRows = payload != null && payload.rules != null ? payload.rules : new List<RuleRow>();
 
         ScopeCollection scopeCollection = collectScopesAndGrids(scopeRows, ruleRows, result);
-        Map<String, Id> scopeIdByName = upsertScopes(scopeCollection.scopesByName, scopeCollection.scopeRowByName, scopeCollection.scopeRuleRowByName, result);
-        Map<String, Id> gridIdByName = upsertGrids(scopeCollection.gridNames, scopeIdByName, scopeCollection.scopeRowByName, scopeCollection.scopeRuleRowByName, result);
+        Map<String, Id> gridIdByName = upsertGrids(scopeCollection.gridNames, scopeCollection.scopeRowByName, scopeCollection.scopeRuleRowByName, result);
+        Map<String, Id> scopeIdByName = upsertScopes(scopeCollection.scopesByName, gridIdByName, scopeCollection.scopeRowByName, scopeCollection.scopeRuleRowByName, result);
 
         List<RuleContext> ruleContexts = buildRuleContexts(ruleRows, gridIdByName, scopeIdByName, result);
         if (ruleContexts.isEmpty()) {
@@ -93,7 +93,6 @@ public with sharing class GridExcelImportService {
             if (scope == null) {
                 scope = new GridScope__c();
                 scope.Name = buildGridScopeName(gridName);
-                scope.GridName__c = gridName;
                 collection.scopesByName.put(gridName, scope);
             }
             scope.Agreement__c = normalize(row.Agreement);
@@ -116,7 +115,6 @@ public with sharing class GridExcelImportService {
             if (!collection.scopesByName.containsKey(gridName)) {
                 GridScope__c scope = new GridScope__c();
                 scope.Name = buildGridScopeName(gridName);
-                scope.GridName__c = gridName;
                 collection.scopesByName.put(gridName, scope);
                 collection.scopeRuleRowByName.put(gridName, rowNumber);
             }
@@ -256,18 +254,18 @@ public with sharing class GridExcelImportService {
     }
 
     private static Set<Id> insertRuleLines(List<RuleContext> ruleContexts, ImportResult result) {
-        List<GridRuleLine__c> ruleLines = new List<GridRuleLine__c>();
+        List<GridRule__c> ruleLines = new List<GridRule__c>();
         List<RuleContext> ruleLineContexts = new List<RuleContext>();
         for (RuleContext ctx : ruleContexts) {
             if (ctx.hasErrors || ctx.detailError) {
                 continue;
             }
-            GridRuleLine__c line = new GridRuleLine__c();
-            line.GridScope__c = ctx.scopeId;
+            GridRule__c line = new GridRule__c();
+            line.Grid__c = ctx.gridId;
             line.GridCriteria__c = ctx.criteriaId;
             line.RuleToApply__c = ctx.ruleToApply;
             line.FeesType__c = ctx.feesType;
-            line.PercentageOfFees__c = ctx.percentageOfFees;
+            line.GridRate__c = ctx.percentageOfFees;
             line.ShareType__c = ctx.shareType;
             line.OtherShareType__c = ctx.otherShareType;
             line.OtherGridRule__c = ctx.otherGridRule;
@@ -288,7 +286,7 @@ public with sharing class GridExcelImportService {
                 successfulRuleLineIds.add(ruleLines[i].Id);
             } 
             else {
-                addError(result, 'GridRules', ctx.rowNumber, 'Failed to create GridRuleLine__c: ' + ruleLineResults[i].getErrors()[0].getMessage());
+                addError(result, 'GridRules', ctx.rowNumber, 'Failed to create GridRule__c: ' + ruleLineResults[i].getErrors()[0].getMessage());
             }
         }
         return successfulRuleLineIds;
@@ -316,44 +314,59 @@ public with sharing class GridExcelImportService {
         return row != null && row.rowNumber != null ? row.rowNumber : -1;
     }
 
-    private static Map<String, Id> upsertScopes(Map<String, GridScope__c> scopesByName, Map<String, Integer> scopeRowByName, Map<String, Integer> scopeRuleRowByName, ImportResult result) {
+    private static Map<String, Id> upsertScopes(Map<String, GridScope__c> scopesByName, Map<String, Id> gridIdByName, Map<String, Integer> scopeRowByName, Map<String, Integer> scopeRuleRowByName, ImportResult result) {
         Map<String, Id> scopeIdByName = new Map<String, Id>();
         if (scopesByName.isEmpty()) {
             return scopeIdByName;
         }
 
-        Map<String, GridScope__c> existingByName = new Map<String, GridScope__c>();
-        for (GridScope__c scope : [SELECT Id, GridName__c FROM GridScope__c WHERE GridName__c IN :scopesByName.keySet()]) {
-            existingByName.put(scope.GridName__c, scope);
+        Set<Id> gridIds = new Set<Id>();
+        for (String gridName : scopesByName.keySet()) {
+            Id gId = gridIdByName.get(gridName);
+            if (gId != null) {
+                gridIds.add(gId);
+            }
+        }
+
+        Map<Id, GridScope__c> existingByGridId = new Map<Id, GridScope__c>();
+        for (GridScope__c scope : [SELECT Id, Grid__c FROM GridScope__c WHERE Grid__c IN :gridIds]) {
+            existingByGridId.put(scope.Grid__c, scope);
         }
 
         List<GridScope__c> toUpsert = new List<GridScope__c>();
-        for (GridScope__c scope : scopesByName.values()) {
-            GridScope__c existing = existingByName.get(scope.GridName__c);
-            if (existing != null) {
-                scope.Id = existing.Id;
+        List<String> toUpsertGridNames = new List<String>();
+        for (String gridName : scopesByName.keySet()) {
+            GridScope__c scope = scopesByName.get(gridName);
+            Id gridId = gridIdByName.get(gridName);
+            scope.Grid__c = gridId;
+            if (gridId != null) {
+                GridScope__c existing = existingByGridId.get(gridId);
+                if (existing != null) {
+                    scope.Id = existing.Id;
+                }
             }
             toUpsert.add(scope);
+            toUpsertGridNames.add(gridName);
         }
 
         Database.UpsertResult[] results = Database.upsert(toUpsert, false);
         for (Integer i = 0; i < results.size(); i++) {
-            GridScope__c scope = toUpsert[i];
+            String gridName = toUpsertGridNames[i];
             if (results[i].isSuccess()) {
                 result.scopesUpserted++;
-                scopeIdByName.put(scope.GridName__c, scope.Id);
-            } 
+                scopeIdByName.put(gridName, toUpsert[i].Id);
+            }
             else {
-                Integer rowNumber = scopeRowByName.containsKey(scope.GridName__c)? scopeRowByName.get(scope.GridName__c) : scopeRuleRowByName.get(scope.GridName__c);
-                String sheetName = scopeRowByName.containsKey(scope.GridName__c) ? 'GridScopes' : 'GridRules';
-                addError(result, sheetName, rowNumber, 'Failed to upsert GridScope__c for Grid "' + scope.GridName__c + '": ' + results[i].getErrors()[0].getMessage());
+                Integer rowNumber = scopeRowByName.containsKey(gridName) ? scopeRowByName.get(gridName) : scopeRuleRowByName.get(gridName);
+                String sheetName = scopeRowByName.containsKey(gridName) ? 'GridScopes' : 'GridRules';
+                addError(result, sheetName, rowNumber, 'Failed to upsert GridScope__c for Grid "' + gridName + '": ' + results[i].getErrors()[0].getMessage());
             }
         }
 
         return scopeIdByName;
     }
 
-    private static Map<String, Id> upsertGrids(Set<String> gridNames, Map<String, Id> scopeIdByName, Map<String, Integer> scopeRowByName, Map<String, Integer> scopeRuleRowByName, ImportResult result) {
+    private static Map<String, Id> upsertGrids(Set<String> gridNames, Map<String, Integer> scopeRowByName, Map<String, Integer> scopeRuleRowByName, ImportResult result) {
         Map<String, Id> gridIdByName = new Map<String, Id>();
         if (gridNames.isEmpty()) {
             return gridIdByName;
@@ -367,17 +380,8 @@ public with sharing class GridExcelImportService {
         List<Grid__c> toUpsert = new List<Grid__c>();
         List<String> namesForUpsert = new List<String>();
         for (String gridName : gridNames) {
-            Id scopeId = scopeIdByName.get(gridName);
-            if (scopeId == null) {
-                Integer rowNumber = getRowNumber(gridName, scopeRowByName, scopeRuleRowByName);
-                String sheetName = getSheetName(gridName, scopeRowByName, scopeRuleRowByName);
-                addError(result, sheetName, rowNumber, 'GridScope__c not found or failed to create for Grid "' + gridName + '".');
-                continue;
-            }
-
             Grid__c grid = new Grid__c();
             grid.Name = gridName;
-            grid.GridScope__c = scopeId;
             grid.RecordTypeId = Schema.SObjectType.Grid__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_STANDARD_GRID).getRecordTypeId();
             Id existingId = existingGridIdsByName.get(gridName);
             if (existingId != null) {

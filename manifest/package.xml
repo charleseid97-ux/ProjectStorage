@@ -27,6 +27,7 @@
 		<members>Grid_AddToGrid</members>
 		<members>Grid_AgreementErrorLoadingSettings</members>
 		<members>Grid_AgreementGridHistory</members>
+		<members>Grid_AgreementGridRecap</members>
 		<members>Grid_Agreements</members>
 		<members>Grid_AllRowsImported</members>
 		<members>Grid_AlreadySelected</members>
@@ -42,7 +43,6 @@
 		<members>Grid_CriteriaLabel</members>
 		<members>Grid_CriteriaNumber</members>
 		<members>Grid_CurrentGridRecap</members>
-		<members>Grid_AgreementGridRecap</members>
 		<members>Grid_DetailsTitle</members>
 		<members>Grid_DifferentGridsSelected</members>
 		<members>Grid_ErrorLoadingGrids</members>
@@ -162,7 +162,7 @@
 		<members>GridCriteriaSetting__mdt</members>
 		<members>GridCriteria__c</members>
 		<members>GridDetail__c</members>
-		<members>GridRuleLine__c</members>
+		<members>GridRule__c</members>
 		<members>GridScope__c</members>
 		<members>Grid__c</members>
 		<name>CustomObject</name>
@@ -173,19 +173,20 @@
 		<members>GridCriteria__c</members>
 		<members>GridDetail__c</members>
 		<members>GridExcelImport</members>
-		<members>GridRuleLine__c</members>
+		<members>GridRule__c</members>
 		<members>GridScope__c</members>
 		<members>Grid__c</members>
 		<name>CustomTab</name>
 	</types>
 	<types>
 		<members>BuildNewGrid</members>
+		<members>Convention_Record_Page</members>
 		<members>GridCriteriaDetailRecordPage</members>
 		<members>GridCriteriaRecordPage</members>
 		<members>GridDetailRecordPage</members>
 		<members>GridExcelImport</members>
 		<members>GridRecordPage</members>
-		<members>GridRuleLineRecordPage</members>
+		<members>GridRuleRecordPage</members>
 		<members>GridScopeRecordPage</members>
 		<members>Grid_UtilityBar</members>
 		<name>FlexiPage</name>
@@ -198,16 +199,16 @@
 		<members>GridCriteriaSetting__mdt-Grid Criteria Setting Layout</members>
 		<members>GridCriteria__c-Grid Criteria Layout</members>
 		<members>GridDetail__c-Grid Detail Layout</members>
-		<members>GridRuleLine__c-Grid Rule Line Layout</members>
+		<members>GridRule__c-Grid Rule Line Layout</members>
 		<members>GridScope__c-Grid Scope Layout</members>
 		<members>Grid__c-Custom Grid Layout</members>
 		<members>Grid__c-Standard Grid Layout</members>
 		<name>Layout</name>
 	</types>
 	<types>
+		<members>agreementGridRecap</members>
 		<members>customCombobox</members>
 		<members>filterBuilder</members>
-		<members>agreementGridRecap</members>
 		<members>gridAgreementsSelection</members>
 		<members>gridDetailTable</members>
 		<members>gridExcelImporter</members>

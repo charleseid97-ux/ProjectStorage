@@ -3,7 +3,6 @@
     <fullName>StandardGrid__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <description>Populated only when Grid__c is a custom grid. The referenced standard grid is used to determine the grid rate and the associated share rates.</description>
-    <externalId>false</externalId>
     <inlineHelpText>Populated only when Grid__c is a custom grid. The referenced standard grid is used to determine the grid rate and the associated share rates.</inlineHelpText>
     <label>Standard Grid</label>
     <referenceTo>Grid__c</referenceTo>
