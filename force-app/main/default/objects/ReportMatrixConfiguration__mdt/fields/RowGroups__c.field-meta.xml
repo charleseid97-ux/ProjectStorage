@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RowGroups__c</fullName>
+    <label>Row Groups</label>
+    <type>LongTextArea</type>
+    <length>1000</length>
+    <visibleLines>4</visibleLines>
+    <description>Ordered list of row grouping field API names, one per line. The first line is the outermost (top-level) group, each subsequent line adds a nested level. Supports relationship paths (e.g. ShareClass__r.Fund__r.ProductName__c).</description>
+    <inlineHelpText>Enter one field API name per line, outermost group first. Example:
+ShareClass__r.Fund__r.ProductName__c
+ShareClass__r.Name__c
+ShareClass__r.ISIN__c</inlineHelpText>
+</CustomField>

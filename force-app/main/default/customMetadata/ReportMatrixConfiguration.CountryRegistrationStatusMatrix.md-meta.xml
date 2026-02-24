@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Country Registration Status Matrix</label>
+    <protected>false</protected>
+    <values>
+        <field>AllowExcelExport__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>AllowFilters__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>CellStyles__c</field>
+        <value xsi:type="xsd:string">[
+  {
+    &quot;field&quot;:&quot;RegistrationStatus__c&quot;,
+    &quot;rules&quot;:[
+      {
+        &quot;values&quot;:[
+          &quot;REG&quot;,
+          &quot;INSTITUTIONAL_ONLY&quot;
+        ],
+        &quot;style&quot;:&quot;background-color: #c8e6c9; color: #1b5e20&quot;
+      },
+      {
+        &quot;values&quot;:[
+          &quot;TOBEREG&quot;
+        ],
+        &quot;style&quot;:&quot;background-color: #fff3e0; color: #e65100&quot;
+      },
+      {
+        &quot;values&quot;:[
+          &quot;NOTREG&quot;,
+          &quot;UNDREG&quot;,
+          &quot;AUTNOTREG&quot;
+        ],
+        &quot;style&quot;:&quot;background-color: #ffcdd2; color: #b71c1c&quot;
+      }
+    ],
+    &quot;defaultStyle&quot;:{
+      &quot;style&quot;:&quot;background-color: #ffffff; color: #3e3e3c&quot;
+    }
+  }
+]</value>
+    </values>
+    <values>
+        <field>ColGroups__c</field>
+        <value xsi:type="xsd:string">Country__c</value>
+    </values>
+    <values>
+        <field>FilterFields__c</field>
+        <value xsi:type="xsd:string">ShareClass__r.Name__c
+ShareClass__r.Fund__r.LegalForm__c</value>
+    </values>
+    <values>
+        <field>ObjectName__c</field>
+        <value xsi:type="xsd:string">Country__c</value>
+    </values>
+    <values>
+        <field>OrderByClause__c</field>
+        <value xsi:type="xsd:string">Country__c ASC</value>
+    </values>
+    <values>
+        <field>RowGroups__c</field>
+        <value xsi:type="xsd:string">ShareClass__r.Fund__r.ProductName__c
+ShareClass__r.Name__c
+ShareClass__r.ISIN__c</value>
+    </values>
+    <values>
+        <field>Title__c</field>
+        <value xsi:type="xsd:string">Country Registration Status Matrix</value>
+    </values>
+    <values>
+        <field>ValueField__c</field>
+        <value xsi:type="xsd:string">RegistrationStatus__c</value>
+    </values>
+    <values>
+        <field>WhereClause__c</field>
+        <value xsi:type="xsd:string">ShareClass__c != null AND ShareClass__r.Name__c != null AND ShareClass__r.Fund__r.ProductName__c != null</value>
+    </values>
+</CustomMetadata>
