@@ -68,6 +68,8 @@ private class CustomReportMatrixControllerTest {
         Test.startTest();
 
         CustomReportMatrixController.getMatrixData('CountryRegistrationStatusMatrix', null, true);
+        String filterTest = '{"ShareClass__r.Name__c":["SC-LU1000"]}';
+        CustomReportMatrixController.getMatrixData('CountryRegistrationStatusMatrix', filterTest, false);
         try {
             CustomReportMatrixController.getMatrixData('NonExistentConfig', null, true);
         } catch (AuraHandledException e) { }
