@@ -936,6 +936,13 @@
         <value>background-color: #ef9a9a; color: #7f0000</value>
     </labels>
     <labels>
+        <fullName>Matrix_InvalidField</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Matrix Invalid Field Path</shortDescription>
+        <value>Invalid field path in matrix configuration: &quot;{0}&quot;. Verify the field API name and relationship syntax.</value>
+    </labels>
+    <labels>
         <fullName>Matrix_LoadSuccess</fullName>
         <language>en_US</language>
         <protected>false</protected>

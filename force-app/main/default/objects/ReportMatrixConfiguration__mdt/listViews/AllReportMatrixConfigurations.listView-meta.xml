@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>AllReportMatrixConfigurations</fullName>
+    <columns>MasterLabel</columns>
     <columns>DeveloperName</columns>
     <columns>Title__c</columns>
     <columns>ObjectName__c</columns>
     <columns>ValueField__c</columns>
     <columns>AllowExcelExport__c</columns>
-    <columns>RowGroup1__c</columns>
-    <columns>RowGroup2__c</columns>
-    <columns>ColGroup1__c</columns>
-    <columns>ColGroup2__c</columns>
+    <columns>AllowFilters__c</columns>
+    <columns>RowGroups__c</columns>
+    <columns>ColGroups__c</columns>
+    <columns>FilterFields__c</columns>
     <columns>WhereClause__c</columns>
     <columns>OrderByClause__c</columns>
     <filterScope>Everything</filterScope>

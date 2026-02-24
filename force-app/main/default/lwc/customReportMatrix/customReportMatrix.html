@@ -25,8 +25,50 @@
         <template if:true={hasData}>
             <!-- Card Header -->
             <div class="matrix-header">
-                <h2 class="matrix-title">{title}</h2>
-                <div class="header-actions">
+                <div class="header-left">
+                    <h2 class="matrix-title">{title}</h2>
+                    <template if:true={allowFilter}>
+                        <template if:true={hasFilterOptions}>
+                            <div class="header-separator"></div>
+                            <div class="dynamic-filters-section">
+                                <template for:each={displayFilterOptions} for:item="fo">
+                                    <div key={fo.fieldPath} class="header-filter-item">
+                                        <c-multi-select-search-list label={fo.fieldLabel}
+                                                                    options={fo.options}
+                                                                    value={fo.selectedValues}
+                                                                    enable-select-all="true"
+                                                                    show-values-when-not-selecting="true"
+                                                                    data-field-path={fo.fieldPath}
+                                                                    onchange={handleMultiFilterChange}>
+                                        </c-multi-select-search-list>
+                                    </div>
+                                </template>
+                                <div class="dynamic-filters-apply-btn">
+                                    <lightning-button label="Apply filters"
+                                                    variant="brand"
+                                                    onclick={handleApplyFilters}
+                                                    disabled={noPendingFilters}>
+                                    </lightning-button>
+                                </div>
+                            </div>
+                        </template>
+                        <div class="header-separator"></div>
+                        <div class="header-filter">
+                            <lightning-input type="search"
+                                             label="Filter"
+                                             variant="label-hidden"
+                                             placeholder="Filter rows..."
+                                             value={filterTerm}
+                                             onchange={handleFilterChange}>
+                            </lightning-input>
+                            <template if:true={isFiltering}>
+                                <lightning-spinner size="x-small" alternative-text="Filtering"></lightning-spinner>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+
+                <div class="header-right">
                     <template if:true={allowExcelExport}>
                         <lightning-button label="Export to Excel"
                                           icon-name="utility:download"
@@ -35,64 +77,65 @@
                                           onclick={handleExport}>
                         </lightning-button>
                     </template>
-                    <lightning-button-icon icon-name="utility:refresh" 
-                                           variant="border" 
-                                           alternative-text="Refresh" 
-                                           title="Refresh" 
+                    <lightning-button-icon icon-name="utility:refresh"
+                                           variant="border"
+                                           alternative-text="Refresh"
+                                           title="Refresh"
                                            onclick={handleRefresh}>
                     </lightning-button-icon>
                 </div>
             </div>
+            <!-- Reloading indicator (filter change reload — keeps header visible) -->
+            <template if:true={isReloading}>
+                <div class="table-reloading">
+                    <lightning-spinner size="small" alternative-text="Applying filters"></lightning-spinner>
+                </div>
+            </template>
             <!-- Matrix Table -->
             <div class="table-scroll-wrapper">
                 <table class="matrix-table">
                     <thead>
-                        <!-- Row 1: colGroup1 label in corner + colGroup1 headers (only when 2-level columns) -->
-                        <template if:true={hasColGroup2}>
-                            <tr>
-                                <th class="corner-cell sticky-col sticky-header col-group1-header" colspan={cornerColspan}>
-                                    {colGroup1Label} &#8594;
-                                </th>
-                                <template for:each={columnGroups} for:item="cg">
-                                    <th key={cg.label} class="col-group1-header sticky-header" colspan={cg.colspan}>
-                                        {cg.label}
+                        <!-- N header rows: one per column grouping level.
+                                - Non-last rows: merged corner (colspan=cornerColspan) + grouped column headers
+                                - Last row: individual row-group label headers + leaf column headers
+                                The `style` attribute on each <th> carries the sticky `top` offset. -->
+                        <template for:each={columnHeaderRows} for:item="hr">
+                            <tr key={hr.key}>
+                                <!-- Non-last rows: single merged corner cell -->
+                                <template if:true={hr.showCorner}>
+                                    <th class="corner-cell sticky-col sticky-header col-group1-header" colspan={cornerColspan} style={cornerStickyStyle}>
+                                        {hr.cornerLabel}
+                                    </th>
+                                </template>
+                                <!-- Last row: individual row-group label <th> per level -->
+                                <template if:true={hr.isLast}>
+                                    <template for:each={rowGroupHeaders} for:item="rgh">
+                                        <th key={rgh.key} class={rgh.cssClass} style={rgh.stickyStyle}>
+                                            {rgh.label}
+                                        </th>
+                                    </template>
+                                </template>
+                                <!-- Column header cells at this depth -->
+                                <template for:each={hr.cells} for:item="cell">
+                                    <th key={cell.key} class={cell.cssClass} colspan={cell.colspan}>
+                                        {cell.label}
                                     </th>
                                 </template>
                             </tr>
                         </template>
-
-                        <!-- Last header row: row group labels in corner + sub column labels -->
-                        <tr>
-                            <th class="corner-cell sticky-col sticky-header col-group2-header">
-                                {rowGroup1Label} &#8595;
-                            </th>
-                            <template if:true={hasRowGroup2}>
-                                <th class="corner-cell sticky-col-2 sticky-header col-group2-header">
-                                    {rowGroup2Label} &#8595;
-                                </th>
-                            </template>
-                            <template for:each={subColumnLabels} for:item="sl">
-                                <th key={sl.key} class="col-group2-header sticky-header">
-                                    {sl.label}
-                                </th>
-                            </template>
-                        </tr>
                     </thead>
 
                     <tbody>
-                        <template for:each={displayRows} for:item="row">
-                            <tr key={row.key} class="matrix-row">
-                                <!-- rowGroup1 label: only on first row of group, with rowspan -->
-                                <template if:true={row.isFirstRow}>
-                                    <td class="row-group1-cell sticky-col" rowspan={row.rowspan}>
-                                        {row.rowGroup1Label}
-                                    </td>
-                                </template>
-                                <!-- rowGroup2 label -->
-                                <template if:true={hasRowGroup2}>
-                                    <td class="row-group2-cell sticky-col-2">
-                                        {row.rowGroup2Label}
-                                    </td>
+                        <template for:each={filteredDisplayRows} for:item="row">
+                            <tr key={row.key} class={row.rowClass}>
+                                <!-- One <td> per row-group level.
+                                     Only `isFirst = true` cells are rendered — the rowspan above covers the rest. -->
+                                <template for:each={row.groupCells} for:item="gc">
+                                    <template if:true={gc.isFirst}>
+                                        <td key={gc.key} class={gc.cssClass} rowspan={gc.rowspan} style={gc.stickyStyle}>
+                                            {gc.label}
+                                        </td>
+                                    </template>
                                 </template>
                                 <!-- Value cells -->
                                 <template for:each={row.values} for:item="cell">

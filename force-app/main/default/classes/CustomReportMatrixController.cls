@@ -2,8 +2,8 @@
  * @description Apex controller for the customReportMatrix LWC component.
  *              Reads matrix configuration from ReportMatrixConfiguration__mdt,
  *              dynamically queries the configured object, then groups records
- *              in Apex using Maps to build a pivot/matrix result.
- *              Supports up to 2 row grouping levels and 2 column grouping levels.
+ *              in Apex using Maps to build a recursive pivot/matrix result.
+ *              Supports N row grouping levels and N column grouping levels.
  * @author Charles EID
  * @testClass CustomReportMatrixControllerTest
  * @coverage 97%
@@ -13,11 +13,10 @@ public with sharing class CustomReportMatrixController {
     private static final String SEPARATOR = '||';
 
     @AuraEnabled(cacheable=false)
-    public static MatrixResult getMatrixData(String configName) {
+    public static MatrixResult getMatrixData(String configName, String filterSelectionsJson, Boolean isInitialLoad) {
         // 1. Read CMDT — SOQL required: getInstance() silently truncates LongTextArea fields
-        List<ReportMatrixConfiguration__mdt> configs = [SELECT ObjectName__c, RowGroup1__c, RowGroup2__c, ColGroup1__c, ColGroup2__c,
-                                                          ValueField__c, WhereClause__c, OrderByClause__c, Title__c, CellStyles__c,
-                                                          AllowExcelExport__c
+        List<ReportMatrixConfiguration__mdt> configs = [SELECT ObjectName__c, RowGroups__c, ColGroups__c, ValueField__c, WhereClause__c, OrderByClause__c,
+                                                                Title__c, CellStyles__c, AllowExcelExport__c, AllowFilters__c, FilterFields__c
                                                         FROM ReportMatrixConfiguration__mdt
                                                         WHERE DeveloperName = :configName LIMIT 1];
         if (configs.isEmpty()) {
@@ -25,68 +24,148 @@ public with sharing class CustomReportMatrixController {
         }
         ReportMatrixConfiguration__mdt config = configs[0];
 
-        String objectName    =   config.ObjectName__c;
-        String rowGroup1     =   config.RowGroup1__c;
-        String rowGroup2     =   config.RowGroup2__c;
-        String colGroup1     =   config.ColGroup1__c;
-        String colGroup2     =   config.ColGroup2__c;
-        String valueField    =   config.ValueField__c;
-        Boolean hasRowGroup2 =   String.isNotBlank(rowGroup2);
-        Boolean hasColGroup2 =   String.isNotBlank(colGroup2);
+        String objectName = config.ObjectName__c;
+        String valueField = config.ValueField__c;
 
-        MatrixResult result = new MatrixResult((String.isNotBlank(config.Title__c) ? config.Title__c : configName), hasRowGroup2, hasColGroup2, config.AllowExcelExport__c);
+        // 2. Build ordered row/col group field lists (each line in the LongTextArea is one field API name)
+        List<String> rowGroupFields = parseGroupFields(config.RowGroups__c, objectName);
+        List<String> colGroupFields = parseGroupFields(config.ColGroups__c, objectName);
 
-        // 2. Build dynamic SOQL
-        Set<String> fieldSet = buildFieldSet(rowGroup1, rowGroup2, colGroup1, colGroup2, valueField, hasRowGroup2, hasColGroup2);
-        String soql = buildDynamicSOQL(config, fieldSet, objectName);
+        // 3. Parse filter fields only on initial load — JS caches them afterwards
+        List<String> filterGroupFields = isInitialLoad == true ? parseGroupFields(config.FilterFields__c, objectName) : new List<String>();
 
-        // 3. Build picklist label maps for all fields (API value → Label)
+        // 4. Deserialize filter selections and build the SOQL filter fragment
+        Map<String, List<String>> filterSelMap = String.isNotBlank(filterSelectionsJson)? (Map<String, List<String>>) JSON.deserialize(filterSelectionsJson, Map<String, List<String>>.class) : new Map<String, List<String>>();
+        String filterFragment = buildFilterFragment(filterSelMap);
+
+        // 5. Build field set — include filter fields on initial load so a single query serves both purposes
+        Set<String> fieldSet = buildFieldSet(rowGroupFields, colGroupFields, valueField);
+        if (isInitialLoad == true) { fieldSet.addAll(filterGroupFields); }
+
+        // 6. Build picklist label maps for all fields (API value → Label)
         Map<String, Map<String, String>> picklistMaps = buildFieldPicklistLabelMap(fieldSet, objectName);
 
-        // 4. Parse CellStyles JSON into style lookup maps
+        // 7. Parse CellStyles JSON into style lookup
         StyleLookup styleLookup = parseStyleLookup(config.CellStyles__c);
 
-        // 5. Group records into Maps
-        GroupResult grouped = groupRecords(Database.query(soql), rowGroup1, rowGroup2, colGroup1, colGroup2, valueField, hasRowGroup2, hasColGroup2, picklistMaps);
+        // 8. Run the single SOQL query
+        String soql = buildDynamicSOQL(config, fieldSet, objectName, filterFragment);
+        List<SObject> records = Database.query(soql);
 
-        // 6. Build column structure
-        ColumnStructure colStruct = buildColumnStructure(grouped.colGroup2ByCg1, hasColGroup2);
+        // 9. On initial load: build filter options from the same query records (no extra query needed)
+        List<FilterOption> filterOptions = new List<FilterOption>();
+        if (isInitialLoad == true && !filterGroupFields.isEmpty()) {
+            filterOptions = buildFilterOptions(filterGroupFields, records, picklistMaps, objectName);
+        }
 
-        // 7. Build row structure
-        List<RowGroup> rowGroups = buildRowGroups(grouped.rg1Values, grouped.rowGroup2ByRg1, grouped.cells, hasRowGroup2, colStruct.columnKeys, styleLookup);
+        // 10. Group records — builds parent→children maps and cells map
+        GroupResult grouped = groupRecords(records, rowGroupFields, colGroupFields, valueField, picklistMaps);
 
-        // 8. Resolve field labels
-        result.columnGroups    = colStruct.columnGroups;
-        result.subColumnLabels = colStruct.subColumnLabels;
-        result.columnKeys      = colStruct.columnKeys;
-        result.rowGroups       = rowGroups;
-        result.valueFieldLabel = getFieldLabel(objectName, valueField);
-        result.colGroup1Label  = getFieldLabel(objectName, colGroup1);
-        result.colGroup2Label  = hasColGroup2 ? getFieldLabel(objectName, colGroup2) : null;
-        result.rowGroup1Label  = getFieldLabel(objectName, rowGroup1);
-        result.rowGroup2Label  = hasRowGroup2 ? getFieldLabel(objectName, rowGroup2) : null;
+        // 11. Build column tree and extract ordered leaf keys
+        List<String> columnKeys = new List<String>();
+        List<ColNode> colTree = buildColTree(colGroupFields, 0, '', grouped.colChildrenByParentKey, columnKeys);
+
+        // 12. Build row tree (uses columnKeys to order leaf values)
+        List<RowNode> rowTree = buildRowTree(rowGroupFields, 0, '', grouped.rowChildrenByParentKey, columnKeys, grouped.cells, styleLookup);
+
+        // 13. Assemble result
+        MatrixResult result     = new MatrixResult(String.isNotBlank(config.Title__c) ? config.Title__c : configName, config.AllowExcelExport__c);
+        result.allowFilters     = config.AllowFilters__c;
+        result.filterOptions    = filterOptions;
+        result.rowTree          = rowTree;
+        result.colTree          = colTree;
+        result.columnKeys       = columnKeys;
+        result.valueFieldLabel  = getFieldLabel(objectName, valueField);
+
+        for (String f : rowGroupFields) {
+            result.rowGroupLabels.add(getFieldLabel(objectName, f));
+        }
+
+        for (String f : colGroupFields) {
+            result.colGroupLabels.add(getFieldLabel(objectName, f));
+        }
 
         return result;
     }
 
     // ------------------------------------ HELPERS ------------------------------------
-    private static Set<String> buildFieldSet(String rowGroup1, String rowGroup2, String colGroup1, String colGroup2, String valueField, Boolean hasRowGroup2, Boolean hasColGroup2) {
+    private static List<String> parseGroupFields(String raw, String objectName) {
+        List<String> result = new List<String>();
+        if (String.isBlank(raw)) return result;
+        for (String line : raw.split('\n')) {
+            String trimmed = line.trim();
+            if (String.isNotBlank(trimmed)) {
+                if (resolveFieldDescribe(objectName, trimmed) == null) {
+                    throw new AuraHandledException(String.format(System.Label.Matrix_InvalidField, new List<Object>{ trimmed }));
+                }
+                result.add(trimmed);
+            }
+        }
+        return result;
+    }
+
+    private static Set<String> buildFieldSet(List<String> rowGroupFields, List<String> colGroupFields, String valueField) {
         Set<String> fieldSet = new Set<String>{'Id'};
-        fieldSet.add(rowGroup1);
-        if (hasRowGroup2) { fieldSet.add(rowGroup2); }
-        fieldSet.add(colGroup1);
-        if (hasColGroup2) { fieldSet.add(colGroup2); }
+        fieldSet.addAll(rowGroupFields);
+        fieldSet.addAll(colGroupFields);
         fieldSet.add(valueField);
         return fieldSet;
     }
 
-    private static String buildDynamicSOQL(ReportMatrixConfiguration__mdt config, Set<String> fieldSet, String objectName) {
+    private static String buildDynamicSOQL(ReportMatrixConfiguration__mdt config, Set<String> fieldSet, String objectName, String filterFragment) {
         String soql = 'SELECT ' + String.join(new List<String>(fieldSet), ', ')
                     + ' FROM ' + String.escapeSingleQuotes(objectName);
-        soql += String.isNotBlank(config.WhereClause__c)   ? ' WHERE '    + config.WhereClause__c   : '';
-        soql += String.isNotBlank(config.OrderByClause__c) ? ' ORDER BY ' + config.OrderByClause__c : '';
+        List<String> whereParts = new List<String>();
+        if (String.isNotBlank(config.WhereClause__c)) {
+            whereParts.add(config.WhereClause__c);
+        }
+        if (String.isNotBlank(filterFragment)) {
+            whereParts.add('(' + filterFragment + ')');
+        }
+        if (!whereParts.isEmpty()) {
+            soql += ' WHERE ' + String.join(whereParts, ' AND ');
+        }
+        soql += String.isNotBlank(config.OrderByClause__c)? ' ORDER BY ' + config.OrderByClause__c : '';
         soql += ' LIMIT 50000';
         return soql;
+    }
+
+    private static String buildFilterFragment(Map<String, List<String>> selections) {
+        List<String> conds = new List<String>();
+        for (String fp : selections.keySet()) {
+            List<String> vals = selections.get(fp);
+            if (vals != null && !vals.isEmpty()) {
+                conds.add(fp + ' IN (' + toSoqlInLiteral(vals) + ')');
+            }
+        }
+        return String.join(conds, ' AND ');
+    }
+
+    private static String toSoqlInLiteral(List<String> vals) {
+        List<String> quoted = new List<String>();
+        for (String v : vals) { quoted.add('\'' + String.escapeSingleQuotes(v) + '\''); }
+        return String.join(quoted, ', ');
+    }
+
+    private static List<FilterOption> buildFilterOptions(List<String> filterFields, List<SObject> records, Map<String, Map<String, String>> picklistMaps, String objectName) {
+        List<FilterOption> result = new List<FilterOption>();
+        for (String fp : filterFields) {
+            Map<String, String> seen = new Map<String, String>(); // rawValue → displayLabel
+            for (SObject rec : records) {
+                String raw = getStringFieldValue(rec, fp);
+                if (raw != null && !seen.containsKey(raw)) {
+                    seen.put(raw, toLabel(raw, picklistMaps.get(fp)));
+                }
+            }
+            List<String> sortedRaw = new List<String>(seen.keySet());
+            sortedRaw.sort();
+            List<OptionEntry> entries = new List<OptionEntry>();
+            for (String raw : sortedRaw) {
+                entries.add(new OptionEntry(seen.get(raw), raw));
+            }
+            result.add(new FilterOption(getFieldLabel(objectName, fp), fp, entries));
+        }
+        return result;
     }
 
     private static Map<String, Map<String, String>> buildFieldPicklistLabelMap(Set<String> fieldSet, String objectName) {
@@ -94,7 +173,9 @@ public with sharing class CustomReportMatrixController {
         for (String fieldPath : fieldSet) {
             if (fieldPath == 'Id') { continue; }
             Map<String, String> plMap = buildPicklistLabelMap(objectName, fieldPath);
-            if (!plMap.isEmpty()) { picklistMaps.put(fieldPath, plMap); }
+            if (!plMap.isEmpty()) {
+                picklistMaps.put(fieldPath, plMap);
+            }
         }
         return picklistMaps;
     }
@@ -138,39 +219,29 @@ public with sharing class CustomReportMatrixController {
         return styleByRawValue;
     }
 
-    private static GroupResult groupRecords(List<SObject> records, String rowGroup1, String rowGroup2, String colGroup1, String colGroup2, String valueField, Boolean hasRowGroup2, Boolean hasColGroup2, Map<String, Map<String, String>> picklistMaps) {
+    private static GroupResult groupRecords(List<SObject> records, List<String> rowGroupFields, List<String> colGroupFields, String valueField, Map<String, Map<String, String>> picklistMaps) {
         GroupResult g = new GroupResult();
         for (SObject rec : records) {
-            String rg1Val    =  getValOrBlank(toLabel(getStringFieldValue(rec, rowGroup1), picklistMaps.get(rowGroup1)));
-            String rg2Val    =  hasRowGroup2 ? getValOrBlank(toLabel(getStringFieldValue(rec, rowGroup2), picklistMaps.get(rowGroup2))) : '';
-            String cg1Val    =  getValOrBlank(toLabel(getStringFieldValue(rec, colGroup1), picklistMaps.get(colGroup1)));
-            String cg2Val    =  hasColGroup2 ? getValOrBlank(toLabel(getStringFieldValue(rec, colGroup2), picklistMaps.get(colGroup2))) : '';
-            String rawValStr =  getStringFieldValue(rec, valueField);
-            String valStr    =  toLabel(rawValStr, picklistMaps.get(valueField));
-            registerGroupKeys(g, rg1Val, rg2Val, cg1Val, cg2Val, hasRowGroup2, hasColGroup2);
-
-            String rowKey    =  rg1Val + (hasRowGroup2 ? SEPARATOR + rg2Val : '');
-            String colKey    =  cg1Val + (hasColGroup2 ? SEPARATOR + cg2Val : '');
+            String rowKey    = buildGroupKey(rec, rowGroupFields, picklistMaps, g.rowChildrenByParentKey);
+            String colKey    = buildGroupKey(rec, colGroupFields, picklistMaps, g.colChildrenByParentKey);
+            String rawValStr = getStringFieldValue(rec, valueField);
+            String valStr    = toLabel(rawValStr, picklistMaps.get(valueField));
             registerCell(g, rowKey, colKey, rawValStr, valStr);
         }
         return g;
     }
 
-    private static void registerGroupKeys(GroupResult g, String rg1Val, String rg2Val, String cg1Val, String cg2Val, Boolean hasRowGroup2, Boolean hasColGroup2) {
-        if (!g.colGroup2ByCg1.containsKey(cg1Val)) {
-            g.colGroup2ByCg1.put(cg1Val, new Set<String>());
+    private static String buildGroupKey(SObject rec, List<String> groupFields, Map<String, Map<String, String>> picklistMaps, Map<String, Set<String>> childrenByParentKey) {
+        String parentKey = '';
+        for (String field : groupFields) {
+            String val = getValOrBlank(toLabel(getStringFieldValue(rec, field), picklistMaps.get(field)));
+            if (!childrenByParentKey.containsKey(parentKey)) {
+                childrenByParentKey.put(parentKey, new Set<String>());
+            }
+            childrenByParentKey.get(parentKey).add(val);
+            parentKey = String.isBlank(parentKey) ? val : parentKey + SEPARATOR + val;
         }
-        if (hasColGroup2) {
-            g.colGroup2ByCg1.get(cg1Val).add(cg2Val);
-        }
-
-        g.rg1Values.add(rg1Val);
-        if (!g.rowGroup2ByRg1.containsKey(rg1Val)) {
-            g.rowGroup2ByRg1.put(rg1Val, new Set<String>());
-        }
-        if (hasRowGroup2) {
-            g.rowGroup2ByRg1.get(rg1Val).add(rg2Val);
-        }
+        return parentKey;
     }
 
     private static void registerCell(GroupResult g, String rowKey, String colKey, String rawValStr, String valStr) {
@@ -185,57 +256,61 @@ public with sharing class CustomReportMatrixController {
         }
     }
 
-    private static ColumnStructure buildColumnStructure(Map<String, Set<String>> colGroup2ByCg1, Boolean hasColGroup2) {
-        ColumnStructure cs = new ColumnStructure();
-        List<String> sortedCg1 = new List<String>(colGroup2ByCg1.keySet());
-        sortedCg1.sort();
-        for (String cg1 : sortedCg1) {
-            if (hasColGroup2) {
-                List<String> sortedCg2 = new List<String>(colGroup2ByCg1.get(cg1));
-                sortedCg2.sort();
-                cs.columnGroups.add(new ColumnGroup(cg1, sortedCg2.size()));
-                for (String cg2 : sortedCg2) {
-                    cs.columnKeys.add(cg1 + SEPARATOR + cg2);
-                    cs.subColumnLabels.add(cg2);
+    private static List<ColNode> buildColTree(List<String> colGroupFields, Integer depth, String parentKey, Map<String, Set<String>> childrenByParentKey, List<String> columnKeys) {
+        List<String> sorted = new List<String>(childrenByParentKey.get(parentKey) ?? new Set<String>());
+        sorted.sort();
+        List<ColNode> nodes = new List<ColNode>();
+        Boolean isLeafLevel = (depth == colGroupFields.size() - 1);
+        for (String val : sorted) {
+            String key = String.isBlank(parentKey) ? val : parentKey + SEPARATOR + val;
+            if (isLeafLevel) {
+                columnKeys.add(key);
+                nodes.add(new ColNode(val, 1, true, key, null));
+            }
+            else {
+                List<ColNode> children = buildColTree(colGroupFields, depth + 1, key, childrenByParentKey, columnKeys);
+                Integer totalColspan = 0;
+                for (ColNode c : children) {
+                    totalColspan += c.colspan;
                 }
-            } else {
-                cs.columnKeys.add(cg1);
-                cs.subColumnLabels.add(cg1);
+                nodes.add(new ColNode(val, totalColspan, false, null, children));
             }
         }
-        return cs;
+        return nodes;
     }
 
-    private static List<RowGroup> buildRowGroups(Set<String> rg1Values, Map<String, Set<String>> rowGroup2ByRg1, Map<String, Map<String, Map<String, CellData>>> cells, Boolean hasRowGroup2, List<String> columnKeys, StyleLookup styleLookup) {
-        List<String> sortedRg1 = new List<String>(rg1Values);
-        sortedRg1.sort();
-        List<RowGroup> rowGroups = new List<RowGroup>();
-        for (String rg1 : sortedRg1) {
-            List<RowData> rows = new List<RowData>();
-            if (hasRowGroup2) {
-                List<String> sortedRg2 = new List<String>(rowGroup2ByRg1.get(rg1));
-                sortedRg2.sort();
-                for (String rg2 : sortedRg2) {
-                    rows.add(buildRowData(rg2, rg1 + SEPARATOR + rg2, columnKeys, cells, styleLookup));
-                }
-            } else {
-                rows.add(buildRowData(rg1, rg1, columnKeys, cells, styleLookup));
+    private static List<RowNode> buildRowTree(List<String> rowGroupFields, Integer depth, String parentKey, Map<String, Set<String>> childrenByParentKey, List<String> columnKeys, Map<String, Map<String, Map<String, CellData>>> cells, StyleLookup styleLookup) {
+        List<String> sorted = new List<String>(childrenByParentKey.get(parentKey) ?? new Set<String>());
+        sorted.sort();
+        List<RowNode> nodes = new List<RowNode>();
+        Boolean isLeafLevel = (depth == rowGroupFields.size() - 1);
+        for (String val : sorted) {
+            String key = String.isBlank(parentKey) ? val : parentKey + SEPARATOR + val;
+            if (isLeafLevel) {
+                nodes.add(new RowNode(val, 1, true, null, buildLeafValues(key, columnKeys, cells, styleLookup)));
             }
-            rowGroups.add(new RowGroup(rg1, rows.size(), rows));
+            else {
+                List<RowNode> children = buildRowTree(rowGroupFields, depth + 1, key, childrenByParentKey, columnKeys, cells, styleLookup);
+                Integer totalRowspan = 0;
+                for (RowNode c : children) {
+                    totalRowspan += c.rowspan;
+                }
+                nodes.add(new RowNode(val, totalRowspan, false, children, null));
+            }
         }
-        return rowGroups;
+        return nodes;
     }
 
-    private static RowData buildRowData(String label, String rowKey, List<String> columnKeys, Map<String, Map<String, Map<String, CellData>>> cells, StyleLookup stylelookup) {
+    private static List<CellData> buildLeafValues(String rowKey, List<String> columnKeys, Map<String, Map<String, Map<String, CellData>>> cells, StyleLookup styleLookup) {
         Map<String, Map<String, CellData>> colMap = cells.containsKey(rowKey) ? cells.get(rowKey) : new Map<String, Map<String, CellData>>();
         List<CellData> orderedValues = new List<CellData>();
         for (String ck : columnKeys) {
             List<CellData> vals = colMap.containsKey(ck) ? colMap.get(ck).values() : new List<CellData>();
             CellData cell = sortAndJoin(vals);
-            cell.inlineStyle = resolveInlineStyle(cell.rawValue, stylelookup);
+            cell.inlineStyle = resolveInlineStyle(cell.rawValue, styleLookup);
             orderedValues.add(cell);
         }
-        return new RowData(label, orderedValues);
+        return orderedValues;
     }
 
     private static String resolveInlineStyle(String joinedRawValue, StyleLookup stylelookup) {
@@ -248,20 +323,16 @@ public with sharing class CustomReportMatrixController {
     }
 
     private static CellData sortAndJoin(List<CellData> cellData) {
-        if(cellData.isEmpty()) {
-            return new CellData('', '');
+        if (cellData.isEmpty()) { return new CellData('', ''); }
+        List<String> rawValsList = new List<String>();
+        List<String> valsList    = new List<String>();
+        for (CellData cd : cellData) {
+            rawValsList.add(cd.rawValue);
+            rawValsList.sort();
+            valsList.add(cd.value);
+            valsList.sort();
         }
-        else {
-            List<String> rawValsList = new List<String>();
-            List<String> valsList = new List<String>();
-            for(CellData cd : cellData) {
-                rawValsList.add(cd.rawValue);
-                rawValsList.sort();
-                valsList.add(cd.value);
-                valsList.sort();
-            }
-            return new CellData(String.join(rawValsList, '\n'), String.join(valsList, '\n'));
-        }
+        return new CellData(String.join(rawValsList, '\n'), String.join(valsList, '\n'));
     }
 
     private static Object getFieldValue(SObject record, List<String> fieldApiPath, Integer index) {
@@ -275,9 +346,7 @@ public with sharing class CustomReportMatrixController {
     }
 
     private static String getStringFieldValue(SObject record, String fieldPath) {
-        if (record == null || String.isBlank(fieldPath)) {
-            return null;
-        }
+        if (record == null || String.isBlank(fieldPath)) { return null; }
         Object raw = getFieldValue(record, fieldPath.split('\\.'), 0);
         return raw == null ? null : String.valueOf(raw);
     }
@@ -287,9 +356,7 @@ public with sharing class CustomReportMatrixController {
     }
 
     private static String toLabel(String val, Map<String, String> picklistMap) {
-        if (val == null || picklistMap == null || picklistMap.isEmpty()) {
-            return val;
-        }
+        if (val == null || picklistMap == null || picklistMap.isEmpty()) { return val; }
         return picklistMap.containsKey(val) ? picklistMap.get(val) : val;
     }
 
@@ -308,8 +375,7 @@ public with sharing class CustomReportMatrixController {
                     return field?.getDescribe();
                 }
 
-                // Intermediate segment: relationship → resolve to lookup field → get referenced object
-                String lookupFieldName = (segment.endsWith('__r'))? segment.removeEnd('__r') + '__c' : segment + 'Id';
+                String lookupFieldName = (segment.endsWith('__r')) ? segment.removeEnd('__r') + '__c' : segment + 'Id'; // Intermediate segment: relationship → resolve to lookup field → get referenced object
                 SObjectField lookupField = fieldMap.get(lookupFieldName);
                 if (lookupField == null) { return null; }
 
@@ -331,64 +397,82 @@ public with sharing class CustomReportMatrixController {
 
     // ------------------------------------ WRAPPERS ------------------------------------
     public class MatrixResult {
-        @AuraEnabled public List<ColumnGroup> columnGroups { get; set; }
-        @AuraEnabled public List<String> subColumnLabels { get; set; }
-        @AuraEnabled public List<String> columnKeys { get; set; }
-        @AuraEnabled public List<RowGroup> rowGroups { get; set; }
-        @AuraEnabled public String valueFieldLabel { get; set; }
-        @AuraEnabled public String colGroup1Label { get; set; }
-        @AuraEnabled public String colGroup2Label { get; set; }
-        @AuraEnabled public String rowGroup1Label { get; set; }
-        @AuraEnabled public String rowGroup2Label { get; set; }
-        @AuraEnabled public Boolean hasColGroup2 { get; set; }
-        @AuraEnabled public Boolean hasRowGroup2 { get; set; }
-        @AuraEnabled public Boolean allowExcelExport { get; set; }
-        @AuraEnabled public String title { get; set; }
-        public MatrixResult(String title, Boolean hasRowGroup2, Boolean hasColGroup2, Boolean allowExcelExport) {
+        @AuraEnabled public List<RowNode>      rowTree          { get; set; }
+        @AuraEnabled public List<ColNode>      colTree          { get; set; }
+        @AuraEnabled public List<String>       columnKeys       { get; set; }
+        @AuraEnabled public List<String>       rowGroupLabels   { get; set; }
+        @AuraEnabled public List<String>       colGroupLabels   { get; set; }
+        @AuraEnabled public String             valueFieldLabel  { get; set; }
+        @AuraEnabled public Boolean            allowExcelExport { get; set; }
+        @AuraEnabled public Boolean            allowFilters     { get; set; }
+        @AuraEnabled public List<FilterOption> filterOptions    { get; set; }
+        @AuraEnabled public String             title            { get; set; }
+        public MatrixResult(String title, Boolean allowExcelExport) {
             this.title              =   title;
-            this.hasRowGroup2       =   hasRowGroup2;
-            this.hasColGroup2       =   hasColGroup2;
             this.allowExcelExport   =   allowExcelExport;
+            this.rowGroupLabels     =   new List<String>();
+            this.colGroupLabels     =   new List<String>();
         }
     }
 
-    public class ColumnGroup {
-        @AuraEnabled public String label { get; set; }
-        @AuraEnabled public Integer colspan { get; set; }
-        public ColumnGroup(String label, Integer colspan) {
-            this.label = label;
-            this.colspan = colspan;
+    public class FilterOption {
+        @AuraEnabled public String            fieldPath  { get; set; }
+        @AuraEnabled public String            fieldLabel { get; set; }
+        @AuraEnabled public List<OptionEntry> options    { get; set; }
+        public FilterOption(String fieldLabel, String fieldPath, List<OptionEntry> options) {
+            this.fieldLabel =   fieldLabel;
+            this.fieldPath  =   fieldPath;
+            this.options    =   options;
         }
     }
 
-    public class RowGroup {
+    public class OptionEntry {
         @AuraEnabled public String label { get; set; }
-        @AuraEnabled public Integer rowspan { get; set; }
-        @AuraEnabled public List<RowData> rows { get; set; }
-        public RowGroup(String label, Integer rowspan, List<RowData> rows) {
-            this.label = label;
-            this.rowspan = rowspan;
-            this.rows = rows;
+        @AuraEnabled public String value { get; set; }
+        public OptionEntry(String label, String value) {
+            this.label  =   label;
+            this.value  =   value;
         }
     }
 
-    public class RowData {
-        @AuraEnabled public String label { get; set; }
-        @AuraEnabled public List<CellData> values { get; set; }
-        public RowData(String label, List<CellData> values) {
-            this.label = label;
-            this.values = values;
+    public class RowNode {
+        @AuraEnabled public String         label    { get; set; }
+        @AuraEnabled public Integer        rowspan  { get; set; }
+        @AuraEnabled public Boolean        isLeaf   { get; set; }
+        @AuraEnabled public List<RowNode>  children { get; set; }
+        @AuraEnabled public List<CellData> values   { get; set; }
+        public RowNode(String label, Integer rowspan, Boolean isLeaf, List<RowNode> children, List<CellData> values) {
+            this.label      =   label;
+            this.rowspan    =   rowspan;
+            this.isLeaf     =   isLeaf;
+            this.children   =   children;
+            this.values     =   values;
+        }
+    }
+
+    public class ColNode {
+        @AuraEnabled public String        label    { get; set; }
+        @AuraEnabled public Integer       colspan  { get; set; }
+        @AuraEnabled public Boolean       isLeaf   { get; set; }
+        @AuraEnabled public String        key      { get; set; }
+        @AuraEnabled public List<ColNode> children { get; set; }
+        public ColNode(String label, Integer colspan, Boolean isLeaf, String key, List<ColNode> children) {
+            this.label      =   label;
+            this.colspan    =   colspan;
+            this.isLeaf     =   isLeaf;
+            this.key        =   key;
+            this.children   =   children;
         }
     }
 
     public class CellData {
-        @AuraEnabled public String rawValue { get; set; }
-        @AuraEnabled public String value { get; set; }
+        @AuraEnabled public String rawValue    { get; set; }
+        @AuraEnabled public String value       { get; set; }
         @AuraEnabled public String inlineStyle { get; set; }
         public CellData(String rawValue, String value) {
-            this.rawValue    = rawValue;
-            this.value       = value;
-            this.inlineStyle = '';
+            this.rawValue       =   rawValue;
+            this.value          =   value;
+            this.inlineStyle    =   '';
         }
     }
 
@@ -397,8 +481,7 @@ public with sharing class CustomReportMatrixController {
         String defaultStyle = '';
     }
 
-    // JSON deserialization wrappers for CellStyles__c
-    public class FieldStyleConfig {
+    public class FieldStyleConfig { // JSON deserialization wrappers for CellStyles__c
         public String field;
         public List<StyleRule> rules;
         public StyleDefault defaultStyle;
@@ -414,15 +497,8 @@ public with sharing class CustomReportMatrixController {
     }
 
     private class GroupResult {
-        Set<String> rg1Values = new Set<String>();
-        Map<String, Set<String>> rowGroup2ByRg1 = new Map<String, Set<String>>();
-        Map<String, Set<String>> colGroup2ByCg1 = new Map<String, Set<String>>();
+        Map<String, Set<String>> rowChildrenByParentKey = new Map<String, Set<String>>{ '' => new Set<String>() };
+        Map<String, Set<String>> colChildrenByParentKey = new Map<String, Set<String>>{ '' => new Set<String>() };
         Map<String, Map<String, Map<String, CellData>>> cells = new Map<String, Map<String, Map<String, CellData>>>();
-    }
-
-    private class ColumnStructure {
-        List<ColumnGroup> columnGroups = new List<ColumnGroup>();
-        List<String> columnKeys = new List<String>();
-        List<String> subColumnLabels = new List<String>();
     }
 }
