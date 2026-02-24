@@ -2,12 +2,14 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
 		<members>CustomReportMatrixController</members>
+		<members>CustomReportMatrixControllerTest</members>
 		<name>ApexClass</name>
 	</types>
 	<types>
 		<members>Matrix_Blank</members>
 		<members>Matrix_ConfigNotFound</members>
 		<members>Matrix_ConflictStyle</members>
+		<members>Matrix_InvalidField</members>
 		<members>Matrix_LoadSuccess</members>
 		<members>Matrix_NoData</members>
 		<members>Matrix_QueryError</members>
