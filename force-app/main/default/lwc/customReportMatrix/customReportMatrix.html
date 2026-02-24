@@ -16,82 +16,81 @@
             </div>
         </template>
 
+        <!-- Card Header -->
+        <div class="matrix-header">
+            <div class="header-left">
+                <h2 class="matrix-title">{title}</h2>
+                <template if:true={allowFilter}>
+                    <template if:true={hasFilterOptions}>
+                        <div class="header-separator"></div>
+                        <div class="dynamic-filters-section">
+                            <template for:each={displayFilterOptions} for:item="fo">
+                                <div key={fo.fieldPath} class="header-filter-item">
+                                    <c-multi-select-search-list label={fo.fieldLabel}
+                                                                options={fo.options}
+                                                                value={fo.selectedValues}
+                                                                enable-select-all="true"
+                                                                show-values-when-not-selecting="true"
+                                                                data-field-path={fo.fieldPath}
+                                                                onchange={handleMultiFilterChange}>
+                                    </c-multi-select-search-list>
+                                </div>
+                            </template>
+                            <div class="dynamic-filters-apply-btn">
+                                <lightning-button label="Apply filters"
+                                                variant="brand"
+                                                onclick={handleApplyFilters}
+                                                disabled={noPendingFilters}>
+                                </lightning-button>
+                            </div>
+                        </div>
+                    </template>
+                    <div class="header-separator"></div>
+                    <div class="header-filter">
+                        <lightning-input type="search"
+                                            label="Filter"
+                                            variant="label-hidden"
+                                            placeholder="Filter rows..."
+                                            value={filterTerm}
+                                            onchange={handleFilterChange}>
+                        </lightning-input>
+                        <template if:true={isFiltering}>
+                            <lightning-spinner size="x-small" alternative-text="Filtering"></lightning-spinner>
+                        </template>
+                    </div>
+                </template>
+            </div>
+
+            <div class="header-right">
+                <template if:true={allowExcelExport}>
+                    <lightning-button label="Export to Excel"
+                                        icon-name="utility:download"
+                                        icon-position="left"
+                                        disabled={isExportDisabled}
+                                        onclick={handleExport}>
+                    </lightning-button>
+                </template>
+                <lightning-button-icon icon-name="utility:refresh"
+                                        variant="border"
+                                        alternative-text="Refresh"
+                                        title="Refresh"
+                                        onclick={handleRefresh}>
+                </lightning-button-icon>
+            </div>
+        </div>
+
         <!-- Empty State -->
         <template if:true={isEmpty}>
             <p class="matrix-empty">{labels.noData}</p>
         </template>
 
-        <!-- Matrix Main -->
         <template if:true={hasData}>
-            <!-- Card Header -->
-            <div class="matrix-header">
-                <div class="header-left">
-                    <h2 class="matrix-title">{title}</h2>
-                    <template if:true={allowFilter}>
-                        <template if:true={hasFilterOptions}>
-                            <div class="header-separator"></div>
-                            <div class="dynamic-filters-section">
-                                <template for:each={displayFilterOptions} for:item="fo">
-                                    <div key={fo.fieldPath} class="header-filter-item">
-                                        <c-multi-select-search-list label={fo.fieldLabel}
-                                                                    options={fo.options}
-                                                                    value={fo.selectedValues}
-                                                                    enable-select-all="true"
-                                                                    show-values-when-not-selecting="true"
-                                                                    data-field-path={fo.fieldPath}
-                                                                    onchange={handleMultiFilterChange}>
-                                        </c-multi-select-search-list>
-                                    </div>
-                                </template>
-                                <div class="dynamic-filters-apply-btn">
-                                    <lightning-button label="Apply filters"
-                                                    variant="brand"
-                                                    onclick={handleApplyFilters}
-                                                    disabled={noPendingFilters}>
-                                    </lightning-button>
-                                </div>
-                            </div>
-                        </template>
-                        <div class="header-separator"></div>
-                        <div class="header-filter">
-                            <lightning-input type="search"
-                                             label="Filter"
-                                             variant="label-hidden"
-                                             placeholder="Filter rows..."
-                                             value={filterTerm}
-                                             onchange={handleFilterChange}>
-                            </lightning-input>
-                            <template if:true={isFiltering}>
-                                <lightning-spinner size="x-small" alternative-text="Filtering"></lightning-spinner>
-                            </template>
-                        </div>
-                    </template>
-                </div>
-
-                <div class="header-right">
-                    <template if:true={allowExcelExport}>
-                        <lightning-button label="Export to Excel"
-                                          icon-name="utility:download"
-                                          icon-position="left"
-                                          disabled={isExportDisabled}
-                                          onclick={handleExport}>
-                        </lightning-button>
-                    </template>
-                    <lightning-button-icon icon-name="utility:refresh"
-                                           variant="border"
-                                           alternative-text="Refresh"
-                                           title="Refresh"
-                                           onclick={handleRefresh}>
-                    </lightning-button-icon>
-                </div>
-            </div>
-            <!-- Reloading indicator (filter change reload — keeps header visible) -->
-            <template if:true={isReloading}>
+            <template if:true={isReloading}> <!-- Reloading indicator (filter change reload — keeps header visible) -->
                 <div class="table-reloading">
                     <lightning-spinner size="small" alternative-text="Applying filters"></lightning-spinner>
                 </div>
             </template>
-            <!-- Matrix Table -->
+            <!-- Matrix Main Table -->
             <div class="table-scroll-wrapper">
                 <table class="matrix-table">
                     <thead>
