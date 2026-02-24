@@ -67,9 +67,9 @@ private class CustomReportMatrixControllerTest {
     static void testGetMatrixData() {
         Test.startTest();
 
-        CustomReportMatrixController.getMatrixData('CountryRegistrationStatusMatrix');
-         try {
-            CustomReportMatrixController.getMatrixData('NonExistentConfig');
+        CustomReportMatrixController.getMatrixData('CountryRegistrationStatusMatrix', null, true);
+        try {
+            CustomReportMatrixController.getMatrixData('NonExistentConfig', null, true);
         } catch (AuraHandledException e) { }
 
         Test.stopTest();

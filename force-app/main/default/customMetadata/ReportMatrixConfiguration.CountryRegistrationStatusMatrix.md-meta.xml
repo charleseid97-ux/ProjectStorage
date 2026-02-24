@@ -7,6 +7,10 @@
         <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
+        <field>AllowFilters__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
         <field>CellStyles__c</field>
         <value xsi:type="xsd:string">[
   {
@@ -41,12 +45,13 @@
 ]</value>
     </values>
     <values>
-        <field>ColGroup1__c</field>
+        <field>ColGroups__c</field>
         <value xsi:type="xsd:string">Country__c</value>
     </values>
     <values>
-        <field>ColGroup2__c</field>
-        <value xsi:type="xsd:string">ShareClass__r.Currency__c</value>
+        <field>FilterFields__c</field>
+        <value xsi:type="xsd:string">ShareClass__r.Name__c
+ShareClass__r.Fund__r.LegalForm__c</value>
     </values>
     <values>
         <field>ObjectName__c</field>
@@ -57,12 +62,10 @@
         <value xsi:type="xsd:string">Country__c ASC</value>
     </values>
     <values>
-        <field>RowGroup1__c</field>
-        <value xsi:type="xsd:string">ShareClass__r.Fund__r.ProductName__c</value>
-    </values>
-    <values>
-        <field>RowGroup2__c</field>
-        <value xsi:type="xsd:string">ShareClass__r.Name__c</value>
+        <field>RowGroups__c</field>
+        <value xsi:type="xsd:string">ShareClass__r.Fund__r.ProductName__c
+ShareClass__r.Name__c
+ShareClass__r.ISIN__c</value>
     </values>
     <values>
         <field>Title__c</field>
