@@ -1,4 +1,4 @@
-/**
+/** ──────────────────────────────────────
  * @description Lightning Web Component controller for the Grid Builder interface. 
  *              Provides methods for retrieving grid settings, available grids, products, 
  *                  share classes, and agreement selection page configuration. 
@@ -6,7 +6,7 @@
  * @author Charles EID
  * @testClass GridBuilderControllerTest
  * @coverage 95%
- */
+ ────────────────────────────────────── */
 public with sharing class GridBuilderController {
 
     @AuraEnabled(cacheable=true)
@@ -251,7 +251,7 @@ public with sharing class GridBuilderController {
         return availableTeams;
     }
 
-    // ------------------------------------ WRAPPERS ------------------------------------
+    // ────────────────────────────────────── WRAPPERS ──────────────────────────────────────
     public class AgreementSelectionPageSettings {
         @AuraEnabled public Boolean gridBuilderFound { get; set; }
         @AuraEnabled public String agreementSelectionMode { get; set; }

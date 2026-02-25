@@ -1,4 +1,4 @@
-/**
+/** ──────────────────────────────────────
  * @description Service class for importing grid configurations from Excel/JSON payloads. 
  *              Parses scope and rule definitions, creates/updates GridScope__c, GridCriteria__c, GridCriteriaDetail__c, and
  *              GridRule__c records. 
@@ -7,7 +7,7 @@
  * @author Charles EID
  * @testClass GridExcelImportServiceTest
  * @coverage 81%
- */
+────────────────────────────────────── */
 public with sharing class GridExcelImportService {
     private static final Date START_DATE = Date.newInstance(2023, 1, 1);
     private static final Date END_DATE = Date.newInstance(2099, 12, 31);
@@ -530,7 +530,7 @@ public with sharing class GridExcelImportService {
         result.errors.add(new ImportError(sheetName, rowNumber, message));
     }
 
-    // ------------------------------------ WRAPPERS ------------------------------------
+    // ────────────────────────────────────── WRAPPERS ──────────────────────────────────────
     public class ImportResult {
         @AuraEnabled public Integer scopesUpserted = 0;
         @AuraEnabled public Integer criteriaCreated = 0;

@@ -1,4 +1,4 @@
-/**
+/** ──────────────────────────────────────
  * @description Shared utility class for Grid Builder and Grid Validation components. 
  *              Provides common functionality for retrieving grid settings from custom metadata, filtering products 
  *              and share classes based on criteria, handling relationship paths, and formatting data for display. 
@@ -6,7 +6,7 @@
  * @author Charles EID
  * @testClass GridBuilderControllerTest, GridValidationControllerTest
  * @coverage 95% (Combined coverage from both test classes)
- */
+ ────────────────────────────────────── */
 public with sharing class GridBuilderHelper {
     public static final String RT_STANDARD_GRID = 'StandardGrid';
     public static final String RT_CUSTOM_GRID = 'CustomGrid';
@@ -308,7 +308,6 @@ public with sharing class GridBuilderHelper {
     }
 
     public static Map<Id, Map<String, Object>> buildRebateRateByShareClass(Map<String, String> shareClassGridIdMap) {
-        System.debug('@@@shareClassGridIdMap: '+shareClassGridIdMap);
         Set<Id> shareClassIds = new Set<Id>();
         Set<Id> gridIds = new Set<Id>();
         for (String shareClassId : shareClassGridIdMap.keySet()) {
@@ -329,7 +328,6 @@ public with sharing class GridBuilderHelper {
                 rebateByShareClass.put(detail.ShareClass__c, new Map<String, Object>{'formatted' => formatPercent(detail.RebateRate__c), 'value' => detail.RebateRate__c});
             }
         }
-        System.debug('@@@rebateByShareClass: '+rebateByShareClass);
         return rebateByShareClass;
     }
 
@@ -444,7 +442,7 @@ public with sharing class GridBuilderHelper {
         '\nShare_Class__c => EffectiveManagementFees__c';
     }
 
-    // ------------------------------------ WRAPPERS ------------------------------------
+    // ────────────────────────────────────── WRAPPERS ──────────────────────────────────────
     public class GridSettings {
         @AuraEnabled public String agreementSelectionMode { get; set; }
         @AuraEnabled public String agreementQueryConditions { get; set; }

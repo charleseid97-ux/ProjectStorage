@@ -1,4 +1,4 @@
-/**
+/** ──────────────────────────────────────
  * @description Centralized test data factory for all Grid-related test classes. 
  *              Provides @TestSetup method that creates realistic test data volume (3 strategies, 6 products, 24 share classes, 
  *              3 grids, 3 scopes, 3 agreements, 48 AUM records, 120 country registrations). 
@@ -8,7 +8,7 @@
  * @author Charles EID
  * @usedBy GridDetailBuilderTest, GridBuilderControllerTest, GridValidationControllerTest,
  *         GridDetailTableControllerTest, GridExcelImportServiceTest
- */
+────────────────────────────────────── */
 @IsTest
 public class GridTestSetupHelper {
 
@@ -398,7 +398,7 @@ public class GridTestSetupHelper {
                 ORDER BY CreatedDate];
     }
 
-    // ------------------------------------ AUM METHODS ------------------------------------
+    // ────────────────────────────────────── AUM METHODS ──────────────────────────────────────
     public static AUM__c createAUM(Id shareClassId, Id conventionId, Id companyId, Decimal amountEUR, Date aumDate) {
         // Construct unique external ID from convention, shareclass, and date
         String externalId = String.valueOf(conventionId).substring(0, 15) + '-' +

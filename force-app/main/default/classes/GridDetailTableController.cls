@@ -1,4 +1,4 @@
-/**
+/** ──────────────────────────────────────
  * @description Lightning Web Component controller for the Grid Detail Table display. 
  *              Retrieves and formats GridDetail__c records with associated criteria, rule lines, share class, and AUM data.
  *              Handles agreement selection parsing (ALL, specific IDs, name tokens), calculates net margins,
@@ -6,7 +6,7 @@
  * @author Charles EID
  * @testClass GridDetailTableControllerTest
  * @coverage 92%
- */
+────────────────────────────────────── */
 public with sharing class GridDetailTableController {
     private static final String RULE_PERCENTAGE = 'Percentage of Fees';
     private static final String RULE_OTHER_SHARE = 'Take Rebates Rate - Other Share Type';
@@ -195,6 +195,7 @@ public with sharing class GridDetailTableController {
         return Pattern.matches('[a-zA-Z0-9]{15,18}', value);
     }
 
+    // ────────────────────────────────────── WRAPPERS ──────────────────────────────────────
     private class AgreementSelection {
         public Boolean all = false;
         public Set<Id> agreementIds = new Set<Id>();

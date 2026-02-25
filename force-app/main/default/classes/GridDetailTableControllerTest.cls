@@ -1,10 +1,10 @@
-/**
+/** ──────────────────────────────────────
  * @description Test class for GridDetailTableController. 
  *              Validates grid detail retrieval with all rule types, agreement selection parsing (ALL/specific IDs/name tokens/not found), 
  *              net margin calculations, and rule value formatting.
  * @author Charles EID
  * @testCoverage GridDetailTableController (92%)
- */
+────────────────────────────────────── */
 @IsTest
 private class GridDetailTableControllerTest {
 

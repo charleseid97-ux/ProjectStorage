@@ -1,11 +1,11 @@
-/**
+/** ──────────────────────────────────────
  * @description Lightning Web Component controller for the Grid Validation interface. 
  *              Provides a method for retrieving products with AUM (Assets Under Management) aggregation by share class and agreement.
  *              Formats AUM amounts for display and integrates with GridBuilderHelper for product filtering.
  * @author Charles EID
  * @testClass GridValidationControllerTest
  * @coverage 95%
- */
+────────────────────────────────────── */
 public with sharing class GridValidationController {
 
     @AuraEnabled
@@ -175,7 +175,7 @@ public with sharing class GridValidationController {
         }
     }
 
-    // ------------------------------------ WRAPPERS ------------------------------------
+    // ────────────────────────────────────── WRAPPERS ──────────────────────────────────────
     public class GridSaveRequest {
         @AuraEnabled public Grid__c grid { get; set; }
         @AuraEnabled public List<CriteriaWrapper> criteriaList { get; set; }

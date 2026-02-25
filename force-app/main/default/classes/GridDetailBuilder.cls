@@ -1,4 +1,4 @@
-/**
+/** ──────────────────────────────────────
  * @description Core service class that builds GridDetail__c records by evaluating GridRule__c rules
  *              against Share_Class__c records. 
  *              Implements complex rebate calculation logic including percentage-based fees, cross-share-type references, 
@@ -8,7 +8,7 @@
  * @author Charles EID
  * @testClass GridDetailBuilderTest
  * @coverage 84%
- */
+────────────────────────────────────── */
 public with sharing class GridDetailBuilder {
     private static final Date DEFAULT_END_DATE = Date.newInstance(2099, 12, 31);
 
@@ -853,6 +853,7 @@ public with sharing class GridDetailBuilder {
         return result;
     }
 
+    // ────────────────────────────────────── WRAPPERS ──────────────────────────────────────
     public class BuildResult {
         @AuraEnabled public Integer gridDetailsCreated = 0;
         @AuraEnabled public List<BuildError> errors;

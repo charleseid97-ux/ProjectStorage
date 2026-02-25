@@ -1,10 +1,10 @@
-/**
+/** ──────────────────────────────────────
  * @description Test class for GridBuilderController and GridBuilderHelper.
  *              Validates all methods including grid settings retrieval, available grids filtering, product/share class selection
  *              with criteria filtering (AND/OR/Custom Logic), and agreement selection page settings.
  * @author Charles EID
  * @testCoverage GridBuilderController (95%), GridBuilderHelper (95% partial)
- */
+────────────────────────────────────── */
 @IsTest
 private class GridBuilderControllerTest {
 

@@ -1,10 +1,10 @@
-/**
+/** ──────────────────────────────────────
  * @description Test class for GridDetailBuilder. 
  *              Validates rebate calculation logic for all 4 rule types (Percentage of Fees, Other Share Type, Other Share Type + Fees, Other Grid Rule), 
  *              complex filter logic (AND/OR/Custom Logic/NOT IN), multi-pass dependency resolution, and edge cases.
  * @author Charles EID
  * @testCoverage GridDetailBuilder (84%), GridCriteriaExpressionParser (83% partial)
- */
+────────────────────────────────────── */
 @IsTest
 private class GridDetailBuilderTest {
 
