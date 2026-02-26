@@ -416,10 +416,9 @@ export default class ReferentialProductHomepage extends NavigationMixin(Lightnin
 
     handleOpenRegistrationStatusMatrix() {
         this[NavigationMixin.Navigate]({
-            type: 'standard__webPage',
-            attributes: {
-                url: '/lightning/n/RegistrationStatusMatrix'
-            }
+            type: 'standard__navItemPage',
+            attributes: { apiName: 'RegistrationStatusMatrix' },
+            state: { c__searchKey: this.searchKey }
         }, false);
     }
 }
