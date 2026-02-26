@@ -27,19 +27,19 @@ public with sharing class CustomReportMatrixController {
         String objectName = config.ObjectName__c;
         String valueField = config.ValueField__c;
 
-        // 2. Build ordered row/col group field lists (each line in the LongTextArea is one field API name)
-        List<String> rowGroupFields = parseGroupFields(config.RowGroups__c, objectName);
-        List<String> colGroupFields = parseGroupFields(config.ColGroups__c, objectName);
+        // 2. Build ordered row/col group levels (each line = one level; fields on a line separated by ';')
+        List<List<String>> rowGroupLevels = parseGroupLevels(config.RowGroups__c, objectName);
+        List<List<String>> colGroupLevels = parseGroupLevels(config.ColGroups__c, objectName);
 
         // 3. Parse filter fields only on initial load — JS caches them afterwards
-        List<String> filterGroupFields = isInitialLoad == true ? parseGroupFields(config.FilterFields__c, objectName) : new List<String>();
+        List<String> filterGroupFields = isInitialLoad == true ? parseGroupFields(config.FilterFields__c, objectName, '\n') : new List<String>();
 
         // 4. Deserialize filter selections and build the SOQL filter fragment
         Map<String, List<String>> filterSelMap = String.isNotBlank(filterSelectionsJson)? (Map<String, List<String>>) JSON.deserialize(filterSelectionsJson, Map<String, List<String>>.class) : new Map<String, List<String>>();
         String filterFragment = buildFilterFragment(filterSelMap);
 
         // 5. Build field set — include filter fields on initial load so a single query serves both purposes
-        Set<String> fieldSet = buildFieldSet(rowGroupFields, colGroupFields, valueField);
+        Set<String> fieldSet = buildFieldSet(rowGroupLevels, colGroupLevels, valueField);
         if (isInitialLoad == true) { fieldSet.addAll(filterGroupFields); }
 
         // 6. Build picklist label maps for all fields (API value → Label)
@@ -59,14 +59,14 @@ public with sharing class CustomReportMatrixController {
         }
 
         // 10. Group records — builds parent→children maps and cells map
-        GroupResult grouped = groupRecords(records, rowGroupFields, colGroupFields, valueField, picklistMaps);
+        GroupResult grouped = groupRecords(records, rowGroupLevels, colGroupLevels, valueField, picklistMaps);
 
         // 11. Build column tree and extract ordered leaf keys
         List<String> columnKeys = new List<String>();
-        List<ColNode> colTree = buildColTree(colGroupFields, 0, '', grouped.colChildrenByParentKey, columnKeys);
+        List<ColNode> colTree = buildColTree(colGroupLevels, 0, '', grouped.colChildrenByParentKey, columnKeys);
 
         // 12. Build row tree (uses columnKeys to order leaf values)
-        List<RowNode> rowTree = buildRowTree(rowGroupFields, 0, '', grouped.rowChildrenByParentKey, columnKeys, grouped.cells, styleLookup);
+        List<RowNode> rowTree = buildRowTree(rowGroupLevels, 0, '', grouped.rowChildrenByParentKey, columnKeys, grouped.cells, styleLookup);
 
         // 13. Assemble result
         MatrixResult result     = new MatrixResult(String.isNotBlank(config.Title__c) ? config.Title__c : configName, config.AllowExcelExport__c);
@@ -77,37 +77,52 @@ public with sharing class CustomReportMatrixController {
         result.columnKeys       = columnKeys;
         result.valueFieldLabel  = getFieldLabel(objectName, valueField);
 
-        for (String f : rowGroupFields) {
-            result.rowGroupLabels.add(getFieldLabel(objectName, f));
+        for (List<String> level : rowGroupLevels) {
+            List<String> lbls = new List<String>();
+            for (String f : level) { lbls.add(getFieldLabel(objectName, f)); }
+            result.rowGroupLabels.add(String.join(lbls, ' / '));
         }
 
-        for (String f : colGroupFields) {
-            result.colGroupLabels.add(getFieldLabel(objectName, f));
+        for (List<String> level : colGroupLevels) {
+            List<String> lbls = new List<String>();
+            for (String f : level) { lbls.add(getFieldLabel(objectName, f)); }
+            result.colGroupLabels.add(String.join(lbls, ' / '));
         }
 
         return result;
     }
 
     // ------------------------------------ HELPERS ------------------------------------
-    private static List<String> parseGroupFields(String raw, String objectName) {
-        List<String> result = new List<String>();
+    private static List<List<String>> parseGroupLevels(String raw, String objectName) {
+        List<List<String>> result = new List<List<String>>();
         if (String.isBlank(raw)) return result;
         for (String line : raw.split('\n')) {
-            String trimmed = line.trim();
-            if (String.isNotBlank(trimmed)) {
-                if (resolveFieldDescribe(objectName, trimmed) == null) {
-                    throw new AuraHandledException(String.format(System.Label.Matrix_InvalidField, new List<Object>{ trimmed }));
-                }
-                result.add(trimmed);
-            }
+            String trimmedLine = line.trim();
+            if (String.isBlank(trimmedLine)) continue;
+            List<String> levelFields = parseGroupFields(trimmedLine, objectName, ';');
+            if (!levelFields.isEmpty()) result.add(levelFields);
         }
         return result;
     }
 
-    private static Set<String> buildFieldSet(List<String> rowGroupFields, List<String> colGroupFields, String valueField) {
+    private static List<String> parseGroupFields(String raw, String objectName, String separator) {
+        List<String> result = new List<String>();
+        if (String.isBlank(raw)) return result;
+        for (String line : raw.split(separator)) {
+            String trimmed = line.trim();
+            if (String.isBlank(trimmed)) { continue; }
+            if (resolveFieldDescribe(objectName, trimmed) == null) {
+                throw new AuraHandledException(String.format(System.Label.Matrix_InvalidField, new List<Object>{ trimmed }));
+            }
+            result.add(trimmed);
+        }
+        return result;
+    }
+
+    private static Set<String> buildFieldSet(List<List<String>> rowGroupLevels, List<List<String>> colGroupLevels, String valueField) {
         Set<String> fieldSet = new Set<String>{'Id'};
-        fieldSet.addAll(rowGroupFields);
-        fieldSet.addAll(colGroupFields);
+        for (List<String> level : rowGroupLevels) { fieldSet.addAll(level); }
+        for (List<String> level : colGroupLevels) { fieldSet.addAll(level); }
         fieldSet.add(valueField);
         return fieldSet;
     }
@@ -219,11 +234,11 @@ public with sharing class CustomReportMatrixController {
         return styleByRawValue;
     }
 
-    private static GroupResult groupRecords(List<SObject> records, List<String> rowGroupFields, List<String> colGroupFields, String valueField, Map<String, Map<String, String>> picklistMaps) {
+    private static GroupResult groupRecords(List<SObject> records, List<List<String>> rowGroupLevels, List<List<String>> colGroupLevels, String valueField, Map<String, Map<String, String>> picklistMaps) {
         GroupResult g = new GroupResult();
         for (SObject rec : records) {
-            String rowKey    = buildGroupKey(rec, rowGroupFields, picklistMaps, g.rowChildrenByParentKey);
-            String colKey    = buildGroupKey(rec, colGroupFields, picklistMaps, g.colChildrenByParentKey);
+            String rowKey    = buildGroupKey(rec, rowGroupLevels, picklistMaps, g.rowChildrenByParentKey);
+            String colKey    = buildGroupKey(rec, colGroupLevels, picklistMaps, g.colChildrenByParentKey);
             String rawValStr = getStringFieldValue(rec, valueField);
             String valStr    = toLabel(rawValStr, picklistMaps.get(valueField));
             registerCell(g, rowKey, colKey, rawValStr, valStr);
@@ -231,10 +246,15 @@ public with sharing class CustomReportMatrixController {
         return g;
     }
 
-    private static String buildGroupKey(SObject rec, List<String> groupFields, Map<String, Map<String, String>> picklistMaps, Map<String, Set<String>> childrenByParentKey) {
+    private static String buildGroupKey(SObject rec, List<List<String>> groupLevels, Map<String, Map<String, String>> picklistMaps, Map<String, Set<String>> childrenByParentKey) {
         String parentKey = '';
-        for (String field : groupFields) {
-            String val = getValOrBlank(toLabel(getStringFieldValue(rec, field), picklistMaps.get(field)));
+        for (List<String> levelFields : groupLevels) {
+            List<String> parts = new List<String>();
+            for (String field : levelFields) {
+                String raw = getStringFieldValue(rec, field);
+                if (String.isNotBlank(raw)) { parts.add(toLabel(raw, picklistMaps.get(field))); }
+            }
+            String val = getValOrBlank(parts.isEmpty() ? null : String.join(parts, ' - '));
             if (!childrenByParentKey.containsKey(parentKey)) {
                 childrenByParentKey.put(parentKey, new Set<String>());
             }
@@ -256,11 +276,11 @@ public with sharing class CustomReportMatrixController {
         }
     }
 
-    private static List<ColNode> buildColTree(List<String> colGroupFields, Integer depth, String parentKey, Map<String, Set<String>> childrenByParentKey, List<String> columnKeys) {
+    private static List<ColNode> buildColTree(List<List<String>> colGroupLevels, Integer depth, String parentKey, Map<String, Set<String>> childrenByParentKey, List<String> columnKeys) {
         List<String> sorted = new List<String>(childrenByParentKey.get(parentKey) ?? new Set<String>());
         sorted.sort();
         List<ColNode> nodes = new List<ColNode>();
-        Boolean isLeafLevel = (depth == colGroupFields.size() - 1);
+        Boolean isLeafLevel = (depth == colGroupLevels.size() - 1);
         for (String val : sorted) {
             String key = String.isBlank(parentKey) ? val : parentKey + SEPARATOR + val;
             if (isLeafLevel) {
@@ -268,7 +288,7 @@ public with sharing class CustomReportMatrixController {
                 nodes.add(new ColNode(val, 1, true, key, null));
             }
             else {
-                List<ColNode> children = buildColTree(colGroupFields, depth + 1, key, childrenByParentKey, columnKeys);
+                List<ColNode> children = buildColTree(colGroupLevels, depth + 1, key, childrenByParentKey, columnKeys);
                 Integer totalColspan = 0;
                 for (ColNode c : children) {
                     totalColspan += c.colspan;
@@ -279,18 +299,18 @@ public with sharing class CustomReportMatrixController {
         return nodes;
     }
 
-    private static List<RowNode> buildRowTree(List<String> rowGroupFields, Integer depth, String parentKey, Map<String, Set<String>> childrenByParentKey, List<String> columnKeys, Map<String, Map<String, Map<String, CellData>>> cells, StyleLookup styleLookup) {
+    private static List<RowNode> buildRowTree(List<List<String>> rowGroupLevels, Integer depth, String parentKey, Map<String, Set<String>> childrenByParentKey, List<String> columnKeys, Map<String, Map<String, Map<String, CellData>>> cells, StyleLookup styleLookup) {
         List<String> sorted = new List<String>(childrenByParentKey.get(parentKey) ?? new Set<String>());
         sorted.sort();
         List<RowNode> nodes = new List<RowNode>();
-        Boolean isLeafLevel = (depth == rowGroupFields.size() - 1);
+        Boolean isLeafLevel = (depth == rowGroupLevels.size() - 1);
         for (String val : sorted) {
             String key = String.isBlank(parentKey) ? val : parentKey + SEPARATOR + val;
             if (isLeafLevel) {
                 nodes.add(new RowNode(val, 1, true, null, buildLeafValues(key, columnKeys, cells, styleLookup)));
             }
             else {
-                List<RowNode> children = buildRowTree(rowGroupFields, depth + 1, key, childrenByParentKey, columnKeys, cells, styleLookup);
+                List<RowNode> children = buildRowTree(rowGroupLevels, depth + 1, key, childrenByParentKey, columnKeys, cells, styleLookup);
                 Integer totalRowspan = 0;
                 for (RowNode c : children) {
                     totalRowspan += c.rowspan;

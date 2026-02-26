@@ -414,4 +414,12 @@ export default class ReferentialProductHomepage extends NavigationMixin(Lightnin
         window.open(this.navCalendar, '_blank');
     }
 
+    handleOpenRegistrationStatusMatrix() {
+        this[NavigationMixin.Navigate]({
+            type: 'standard__webPage',
+            attributes: {
+                url: '/lightning/n/RegistrationStatusMatrix'
+            }
+        }, false);
+    }
 }
