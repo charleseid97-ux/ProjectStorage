@@ -63,7 +63,7 @@ ShareClass__r.Fund__r.LegalForm__c</value>
     </values>
     <values>
         <field>RowGroups__c</field>
-        <value xsi:type="xsd:string">ShareClass__r.Fund__r.ProductName__c
+        <value xsi:type="xsd:string">ShareClass__r.Fund__r.ProductName__c;ShareClass__r.Fund__r.InternalShortName__c
 ShareClass__r.Name__c
 ShareClass__r.ISIN__c</value>
     </values>
