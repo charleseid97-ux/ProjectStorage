@@ -86,14 +86,14 @@ public with sharing class GridBuilderController {
 
     private static Boolean matchesScope(String scopeCountry, List<String> countryList, String scopeAgreement, List<String> agreementNameList) {
         Boolean scopeMatch = false;
-        if (String.isNotBlank(scopeCountry) && scopeCountry.trim() == 'ALL') {
+        if (String.isNotBlank(scopeCountry) && scopeCountry.trim() == 'ALL' && String.isNotBlank(scopeAgreement) && scopeAgreement.trim() == 'ALL') {
             scopeMatch = true;
-        }
-        else if (String.isNotBlank(scopeAgreement) && !agreementNameList.isEmpty()) {
-            scopeMatch = checkScopeToAgreementMatch(scopeAgreement, agreementNameList);
         }
         else if (String.isNotBlank(scopeCountry) && !countryList.isEmpty()) {
             scopeMatch = checkScopeToAgreementMatch(scopeCountry, countryList);
+        }
+        else if (String.isNotBlank(scopeAgreement) && !agreementNameList.isEmpty()) {
+            scopeMatch = checkScopeToAgreementMatch(scopeAgreement, agreementNameList);
         }
         return scopeMatch;
     }

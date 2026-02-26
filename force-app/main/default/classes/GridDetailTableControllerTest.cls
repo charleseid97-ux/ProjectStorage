@@ -35,7 +35,7 @@ private class GridDetailTableControllerTest {
 
         List<GridDetail__c> gridDetails = new List<GridDetail__c>();
         for (GridRule__c rl : ruleLines) {
-            gridDetails.add(GridTestSetupHelper.createGridDetail(grid.Id, rl.Id, criteria.Id, shareClass.Id, 0.5, Date.today(), Date.newInstance(2099, 12, 31)));
+            gridDetails.add(GridTestSetupHelper.createGridDetail(grid.Id, rl.Id, criteria.Id, shareClass.Id, 0.5, Date.today(), Date.newInstance(2099, 12, 31), GridBuilderHelper.RT_STANDARD_GRID_DETAIL));
         }
         insert gridDetails;
 

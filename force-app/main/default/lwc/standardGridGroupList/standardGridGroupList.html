@@ -1,0 +1,39 @@
+<template>
+    <template for:each={processedGroups} for:item="group">
+        <div key={group.key} class="slds-m-bottom_x-small">
+            <!-- Grid name header — wraps the hover popup trigger -->
+            <div class="grid-group-header">
+                <p class="slds-text-body_small slds-text-color_default slds-m-bottom_xx-small">
+                    <strong>{group.gridName}</strong>
+                    <span class="slds-text-color_weak"> ({group.productCount})</span>
+                </p>
+                <!-- Hover popup — only rendered when hover data is present; shown/hidden via CSS :hover -->
+                <template if:true={group.hasHoverData}>
+                    <div class="hover-popup" role="tooltip">
+                        <p class="popup-legal-forms">{group.hoverLegalForms}</p>
+                        <ul class="popup-rules">
+                            <template for:each={group.hoverRules} for:item="rule">
+                                <li key={rule.key} class={rule.colorClass}>
+                                    <strong>{rule.boldLabel}</strong>: {rule.ruleDetail}
+                                    <template if:true={rule.hasResolvedDetail}>
+                                        <div class="resolved-rule">↳ {rule.resolvedDetail}</div>
+                                    </template>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                </template>
+            </div>
+            <!-- Product badges -->
+            <div>
+                <template for:each={group.products} for:item="product">
+                    <span key={product.key}
+                          class="badge-hover slds-badge slds-m-right_xx-small slds-m-top_xx-small"
+                          title={product.tooltip}>
+                        {product.value}
+                    </span>
+                </template>
+            </div>
+        </div>
+    </template>
+</template>

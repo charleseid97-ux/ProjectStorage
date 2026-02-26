@@ -1,0 +1,39 @@
+<template>
+    <div class={sectionClass}>
+
+        <!-- Section header — full-width, matches native SF field section header -->
+        <h3 class="slds-section__title">
+            <button
+                class="slds-button slds-section__title-action"
+                onclick={handleToggle}
+                aria-expanded={isOpen}>
+                <lightning-icon
+                    icon-name="utility:switch"
+                    class="slds-section__title-action-icon slds-button__icon slds-button__icon_left"
+                    size="x-small">
+                </lightning-icon>
+                <span class="slds-truncate" title={labels.Grid_ProductsRecap}>
+                    {labels.Grid_ProductsRecap}
+                </span>
+            </button>
+        </h3>
+
+        <!-- Section content — hidden/shown by aria-hidden -->
+        <div aria-hidden={sectionHidden} class="slds-section__content main-body">
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text={labels.UI_Loading} size="small">
+                </lightning-spinner>
+            </template>
+            <template if:false={isLoading}>
+                <div class="sectionPadding">
+                    <template if:true={hasGroups}>
+                        <c-standard-grid-group-list groups={groups}></c-standard-grid-group-list>
+                    </template>
+                    <template if:false={hasGroups}>
+                        <p class="slds-text-color_weak">{labels.Grid_NoProductsFound}</p>
+                    </template>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

@@ -263,11 +263,13 @@ public with sharing class GridDetailBuilder {
         List<GridDetail__c> detailsToInsert = new List<GridDetail__c>();
         List<RuleAssignment> assignmentsForInsert = new List<RuleAssignment>();
         Date startDate = Date.today();
+        Id standardGridDetailRtId = Schema.SObjectType.GridDetail__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_STANDARD_GRID_DETAIL).getRecordTypeId();
         for (RuleAssignment assignment : assignments) {
             if (assignment.hasError || assignment.rebate == null) {
                 continue;
             }
             GridDetail__c detail = new GridDetail__c();
+            detail.RecordTypeId = standardGridDetailRtId;
             detail.Grid__c = assignment.gridId;
             detail.GridRule__c = assignment.ruleLineId;
             detail.GridCriteria__c = assignment.criteriaId;

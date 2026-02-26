@@ -10,6 +10,9 @@
 public with sharing class GridBuilderHelper {
     public static final String RT_STANDARD_GRID = 'StandardGrid';
     public static final String RT_CUSTOM_GRID = 'CustomGrid';
+    public static final String RT_STANDARD_GRID_DETAIL = 'StandardGridDetail';
+    public static final String RT_CUSTOM_GRID_DETAIL = 'CustomGridDetail';
+
     public static final String defaultAgreementSelectionMode = 'Single';
     public static final String defaultFilterValueSeparator = ';';
     public static final String defaultFilterLogic = 'AND';
@@ -230,13 +233,13 @@ public with sharing class GridBuilderHelper {
                (objectApiName == 'Strategy__c')? 'Fund__r.FundStrategy__r.' : '';
     }
 
-    public static Map<String, Object> buildRecordResults(Set<String> selectFieldsApiSet, Share_Class__c sc, Map<Id, Map<String, Object>> rebateByShareClass) {
+    public static Map<String, Object> buildRecordResults(Set<String> selectFieldsApiSet, Share_Class__c sc, Map<Id, StandardGridDetailInfo> stdGridDetailInfoByShareClass) {
         Map<String, Object> recordResults = new Map<String, Object>();
         for(String field : selectFieldsApiSet) {
             recordResults.put(field, getFieldValue(sc, field.split('\\.'), 0));
         }
-        if (rebateByShareClass != null && sc != null && rebateByShareClass.containsKey(sc.Id)) {
-            recordResults.put(REBATE_RATE_FIELD_KEY, (String)rebateByShareClass.get(sc.Id).get('formatted'));
+        if (stdGridDetailInfoByShareClass != null && sc != null && stdGridDetailInfoByShareClass.containsKey(sc.Id)) {
+            recordResults.put(REBATE_RATE_FIELD_KEY, stdGridDetailInfoByShareClass.get(sc.Id).formatted);
         }
         return recordResults;
     }
@@ -274,12 +277,12 @@ public with sharing class GridBuilderHelper {
         System.debug('@@@ allQuery: ' + allQuery);
 
         List<Share_Class__c> shareClasses = Database.query(allQuery);
-        Map<Id, Map<String, Object>> rebateByShareClass = (includeRebateRate && shareClassGridIdMap != null)? buildRebateRateByShareClass(shareClassGridIdMap) : null;
+        Map<Id, StandardGridDetailInfo> rebateByShareClass = (includeRebateRate && shareClassGridIdMap != null)? buildStandardGridDetailInfoByShareClass(shareClassGridIdMap) : null;
         List<ProductWrapper> productWrapperList = buildProductIdToWrapper(shareClasses, filteredIds, fieldsApiToInfoMap, aumByShareClass, onlyIncludeSCInAgreement, rebateByShareClass);
         return new ProductSelectionResult(fieldsApiToInfoMap, productWrapperList);
     }
 
-    private static List<ProductWrapper> buildProductIdToWrapper(List<Share_Class__c> shareClasses, Set<Id> filteredIds, Map<String, FieldInfo> fieldsApiToInfoMap, Map<Id, String> aumByShareClass, Boolean onlyIncludeSCInAgreement, Map<Id, Map<String, Object>> rebateByShareClass) {
+    private static List<ProductWrapper> buildProductIdToWrapper(List<Share_Class__c> shareClasses, Set<Id> filteredIds, Map<String, FieldInfo> fieldsApiToInfoMap, Map<Id, String> aumByShareClass, Boolean onlyIncludeSCInAgreement, Map<Id, StandardGridDetailInfo> rebateByShareClass) {
         Map<Id, ProductWrapper> productIdToWrapper = new Map<Id, ProductWrapper>();
         Id prodId;
         String productLabel;
@@ -307,7 +310,7 @@ public with sharing class GridBuilderHelper {
         return selectFields;
     }
 
-    public static Map<Id, Map<String, Object>> buildRebateRateByShareClass(Map<String, String> shareClassGridIdMap) {
+    public static Map<Id, StandardGridDetailInfo> buildStandardGridDetailInfoByShareClass(Map<String, String> shareClassGridIdMap) {
         Set<Id> shareClassIds = new Set<Id>();
         Set<Id> gridIds = new Set<Id>();
         for (String shareClassId : shareClassGridIdMap.keySet()) {
@@ -315,20 +318,20 @@ public with sharing class GridBuilderHelper {
             gridIds.add((Id)shareClassGridIdMap.get(shareClassId));
         }
 
-        Map<Id, Map<String, Object>> rebateByShareClass = new Map<Id, Map<String, Object>>();
+        Map<Id, StandardGridDetailInfo> stdGridDetailInfoByShareClass = new Map<Id, StandardGridDetailInfo>();
         String standardGridRT = RT_STANDARD_GRID;
-        for (GridDetail__c detail : [SELECT ShareClass__c, Grid__c, RebateRate__c, StartDate__c, CreatedDate
+        for (GridDetail__c detail : [SELECT Id, ShareClass__c, Grid__c, RebateRate__c, StartDate__c, CreatedDate
                                      FROM GridDetail__c
                                      WHERE ShareClass__c IN :shareClassIds
                                      AND Grid__c IN :gridIds
                                      AND RebateRate__c != null
                                      AND Grid__r.RecordType.DeveloperName = :standardGridRT
                                      ORDER BY Grid__c, ShareClass__c, StartDate__c DESC, CreatedDate DESC]) {
-            if (!rebateByShareClass.containsKey(detail.ShareClass__c) && shareClassGridIdMap.get(detail.ShareClass__c) == detail.Grid__c) {
-                rebateByShareClass.put(detail.ShareClass__c, new Map<String, Object>{'formatted' => formatPercent(detail.RebateRate__c), 'value' => detail.RebateRate__c});
+            if (!stdGridDetailInfoByShareClass.containsKey(detail.ShareClass__c) && shareClassGridIdMap.get(detail.ShareClass__c) == detail.Grid__c) {
+                stdGridDetailInfoByShareClass.put(detail.ShareClass__c, new StandardGridDetailInfo(detail.Id, detail.RebateRate__c, formatPercent(detail.RebateRate__c)));
             }
         }
-        return rebateByShareClass;
+        return stdGridDetailInfoByShareClass;
     }
 
     public static String formatDecimal(Decimal value) {
@@ -547,7 +550,7 @@ public with sharing class GridBuilderHelper {
         @AuraEnabled public Boolean isSelected { get; set; }
         @AuraEnabled public Map<String, Object> recordResults { get; set; }
         @AuraEnabled public String amountAUM { get; set; }
-        public ShareClassWrapper(Share_Class__c sc, Set<Id> selectedShareClassIds, Map<String, FieldInfo> fieldsApiToInfoMap, Map<Id, String> aumByShareClass, Map<Id, Map<String, Object>> rebateByShareClass) {
+        public ShareClassWrapper(Share_Class__c sc, Set<Id> selectedShareClassIds, Map<String, FieldInfo> fieldsApiToInfoMap, Map<Id, String> aumByShareClass, Map<Id, StandardGridDetailInfo> rebateByShareClass) {
             this.shareClassId   =   sc.Id;
             this.isSelected     =   selectedShareClassIds.contains(sc.Id);
             this.recordResults  =   buildRecordResults(getSelectableFieldSet(fieldsApiToInfoMap), sc, rebateByShareClass);
@@ -560,6 +563,17 @@ public with sharing class GridBuilderHelper {
             String aName = a.productLabel != null ? a.productLabel : '';
             String bName = b.productLabel != null ? b.productLabel : '';
             return aName.compareTo(bName);
+        }
+    }
+
+    public class StandardGridDetailInfo {
+        public Id gridDetailId      { get; set; }
+        public Decimal value        { get; set; }
+        public String  formatted    { get; set; }
+        public StandardGridDetailInfo(Id gridDetailId, Decimal value, String formatted) {
+            this.gridDetailId = gridDetailId;
+            this.value        = value;
+            this.formatted    = formatted;
         }
     }
 }

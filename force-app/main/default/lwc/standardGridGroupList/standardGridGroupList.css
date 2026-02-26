@@ -1,0 +1,65 @@
+.grid-group-header {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.hover-popup {
+    display: none;
+    position: absolute;
+    z-index: 200;
+    bottom: 100%;
+    left: 0;
+    margin-bottom: 4px;
+    min-width: 260px;
+    max-width: 420px;
+    background: white;
+    border: 1px solid #dddbda;
+    border-radius: 0.25rem;
+    padding: 8px 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    white-space: normal;
+}
+
+.grid-group-header:hover .hover-popup {
+    display: block;
+}
+
+.popup-legal-forms {
+    font-style: italic;
+    color: #706e6b;
+    margin-bottom: 6px;
+    font-size: 0.8rem;
+}
+
+.popup-rules {
+    padding-left: 0;
+    list-style: none;
+    margin: 0;
+}
+
+.popup-rules li {
+    margin-bottom: 3px;
+    font-size: 0.8rem;
+}
+
+/* ── Resolved OtherGridRule sub-line ── */
+.resolved-rule {
+    margin-top: 2px;
+    margin-left: 12px;
+    font-size: 0.75rem;
+    color: #706e6b;
+    font-style: italic;
+}
+
+/* ── Rule-type colours ── */
+.rule-pof  { color: #0070d2; } /* Percentage of Fees        → Salesforce blue */
+.rule-ost  { color: #dd7a01; } /* Other Share Type          → amber           */
+.rule-ostf { color: #7d4ec8; } /* Other Share Type + Fees   → purple          */
+.rule-ogr  { color: #2e7d32; } /* Other Grid Rule           → green           */
+
+
+.badge-hover:hover {
+    background-color: var(--lwc-brandAccessibleActive, rgba(47, 75, 45, 1));
+    color: white;
+}

@@ -12,9 +12,11 @@
 		<members>GridDetailTableControllerTest</members>
 		<members>GridExcelImportService</members>
 		<members>GridExcelImportServiceTest</members>
+		<members>GridRecapHelper</members>
 		<members>GridTestSetupHelper</members>
 		<members>GridValidationController</members>
 		<members>GridValidationControllerTest</members>
+		<members>StandardGridProductAndRulesController</members>
 		<name>ApexClass</name>
 	</types>
 	<types>
@@ -181,14 +183,15 @@
 	<types>
 		<members>BuildNewGrid</members>
 		<members>Convention_Record_Page</members>
+		<members>CustomGridRecordPage</members>
 		<members>GridCriteriaDetailRecordPage</members>
 		<members>GridCriteriaRecordPage</members>
 		<members>GridDetailRecordPage</members>
 		<members>GridExcelImport</members>
-		<members>GridRecordPage</members>
 		<members>GridRuleRecordPage</members>
 		<members>GridScopeRecordPage</members>
 		<members>Grid_UtilityBar</members>
+		<members>StandardGridRecordPage</members>
 		<name>FlexiPage</name>
 	</types>
 	<types>
@@ -218,6 +221,8 @@
 		<members>multiSelectSearchList</members>
 		<members>resultsTable</members>
 		<members>standardGridBuilder</members>
+		<members>standardGridGroupList</members>
+		<members>standardGridProductsAndRules</members>
 		<name>LightningComponentBundle</name>
 	</types>
 	<types>

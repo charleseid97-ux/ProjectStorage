@@ -94,7 +94,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>GridDetail__c.StandardGrid__c</field>
+        <field>GridDetail__c.StandardGridDetail__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -234,6 +234,14 @@
         <viewAllFields>true</viewAllFields>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
+    <recordTypeVisibilities>
+        <recordType>GridDetail__c.CustomGridDetail</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>GridDetail__c.StandardGridDetail</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
     <recordTypeVisibilities>
         <recordType>Grid__c.CustomGrid</recordType>
         <visible>true</visible>

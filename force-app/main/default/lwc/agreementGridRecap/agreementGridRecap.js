@@ -63,18 +63,8 @@ export default class AgreementGridRecap extends LightningElement {
         return (this.recap?.standardGridGroups || []).length;
     }
 
-    // Pre-process groups for nested for:each // LWC requires key on every for:each item; inner product arrays are pre-built with keys
-    get standardGridGroups() {
-        return (this.recap?.standardGridGroups || []).map((group, i) => ({
-            key: i,
-            gridName: group.gridName,
-            productCount: (group.products || []).length,
-            products: (group.products || []).map((p, j) => ({
-                key: `${i}-${j}`,
-                value: p.shortName,
-                tooltip: (p.shareClassNames || []).join('\n')
-            }))
-        }));
+    get rawStandardGridGroups() {
+        return this.recap?.standardGridGroups || [];
     }
 
     get historyRows() {

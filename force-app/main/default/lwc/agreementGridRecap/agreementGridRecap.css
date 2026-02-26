@@ -23,8 +23,3 @@
     border-bottom-left-radius: var(--lwc-borderRadiusMedium, 0.25rem);
     border-bottom-right-radius: var(--lwc-borderRadiusMedium, 0.25rem);
 }
-
-.badge-hover:hover {
-    background-color: var(--slds-c-button-text-color-hover, var(--sds-c-button-text-color-hover, var(--lwc-brandAccessibleActive, rgba(47, 75, 45, 1))));
-    color: white;
-}

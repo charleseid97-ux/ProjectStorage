@@ -64,21 +64,7 @@
                                                 {labels.Grid_StandardGridsSelected} ({standardGridCount})
                                             </span>
                                             <div class="slds-form-element__control">
-                                                <template for:each={standardGridGroups} for:item="group">
-                                                    <div key={group.key} class="slds-m-bottom_x-small">
-                                                        <p class="slds-text-body_small slds-text-color_default slds-m-bottom_xx-small">
-                                                            <strong>{group.gridName}</strong>
-                                                            <span class="slds-text-color_weak"> ({group.productCount})</span>
-                                                        </p>
-                                                        <div>
-                                                            <template for:each={group.products} for:item="product">
-                                                                <span key={product.key} class="badge-hover slds-badge slds-m-right_xx-small slds-m-top_xx-small" title={product.tooltip}>
-                                                                    {product.value}
-                                                                </span>
-                                                            </template>
-                                                        </div>
-                                                    </div>
-                                                </template>
+                                                <c-standard-grid-group-list groups={rawStandardGridGroups}></c-standard-grid-group-list>
                                             </div>
                                         </div>
                                     </div>

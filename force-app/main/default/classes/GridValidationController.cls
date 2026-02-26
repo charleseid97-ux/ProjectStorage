@@ -87,7 +87,6 @@ public with sharing class GridValidationController {
         GridScope__c scope = new GridScope__c();
         scope.Name = 'Grid Scope for ' + request.grid.Name;
         scope.Grid__c = request.grid.Id;
-        scope.Country__c = 'ALL';
         if (request.agreementIds != null && !request.agreementIds.isEmpty()) {
             List<String> agreementNames = new List<String>();
             for (Convention__c agmt : [SELECT Id, Name FROM Convention__c WHERE Id IN :request.agreementIds]) {
@@ -141,8 +140,9 @@ public with sharing class GridValidationController {
     }
 
     private static void insertGridDetails(GridSaveRequest request, Map<String, GridCriteria__c> criteriaRefToRecordMap, Map<String, String> shareClassGridIdMap) {
-        Map<Id, Map<String, Object>> rebateByShareClass = (shareClassGridIdMap != null && !shareClassGridIdMap.isEmpty()) ? GridBuilderHelper.buildRebateRateByShareClass(shareClassGridIdMap) : new Map<Id, Map<String, Object>>();
+        Map<Id, GridBuilderHelper.StandardGridDetailInfo> stdGridDetailInfoByShareClass = (shareClassGridIdMap != null && !shareClassGridIdMap.isEmpty()) ? GridBuilderHelper.buildStandardGridDetailInfoByShareClass(shareClassGridIdMap) : new Map<Id, GridBuilderHelper.StandardGridDetailInfo>();
         List<GridDetail__c> gridDetailsToInsert = new List<GridDetail__c>();
+        Id customGridDetailRtId = Schema.SObjectType.GridDetail__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_CUSTOM_GRID_DETAIL).getRecordTypeId();
         Date criteriaStartDate;
         for (CriteriaWrapper cw : request.criteriaList) {
             criteriaStartDate = cw.criteria != null ? cw.criteria.StartDate__c : null;
@@ -150,12 +150,12 @@ public with sharing class GridValidationController {
                 GridCriteria__c criteriaRecord = criteriaRefToRecordMap.get(cw.criteriaRefId);
                 for (Id scId : cw.shareClassIds) {
                     gridDetailsToInsert.add(new GridDetail__c(
+                        RecordTypeId = customGridDetailRtId,
                         Grid__c = request.grid.Id,
                         ShareClass__c = scId,
-                        StandardGrid__c = criteriaRecord.StandardGrid__c,
+                        StandardGridDetail__c = stdGridDetailInfoByShareClass.containsKey(scId) ? stdGridDetailInfoByShareClass.get(scId).gridDetailId : null,
                         GridCriteria__c = criteriaRecord.Id,
-                        StartDate__c = criteriaStartDate,
-                        RebateRate__c = (rebateByShareClass.containsKey(scId))? (Decimal)rebateByShareClass.get(scId).get('value') : 0
+                        StartDate__c = criteriaStartDate
                     ));
                 }
             }

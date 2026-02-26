@@ -380,8 +380,10 @@ public class GridTestSetupHelper {
     }
 
     // ------------------------------------ GRID DETAIL METHODS ------------------------------------
-    public static GridDetail__c createGridDetail(Id gridId, Id ruleLineId, Id criteriaId, Id shareClassId, Decimal rebateRate, Date startDate, Date endDate) {
+    public static GridDetail__c createGridDetail(Id gridId, Id ruleLineId, Id criteriaId, Id shareClassId, Decimal rebateRate, Date startDate, Date endDate, String recordTypeDeveloperName) {
+        Id recordTypeId = Schema.SObjectType.GridDetail__c.getRecordTypeInfosByDeveloperName().get(recordTypeDeveloperName).getRecordTypeId();
         return new GridDetail__c(
+            RecordTypeId = recordTypeId,
             Grid__c = gridId,
             GridRule__c = ruleLineId,
             GridCriteria__c = criteriaId,
