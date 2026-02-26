@@ -1,7 +1,8 @@
-import { LightningElement, api, track } from 'lwc';
+import { LightningElement, api, track, wire } from 'lwc';
 import { loadScript } from 'lightning/platformResourceLoader';
 import XlsxJsStyle from '@salesforce/resourceUrl/xlsxjsstyle';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { CurrentPageReference } from 'lightning/navigation';
 import getMatrixData from '@salesforce/apex/CustomReportMatrixController.getMatrixData';
 import LABEL_CONFIG_NOT_FOUND from '@salesforce/label/c.Matrix_ConfigNotFound';
 import LABEL_QUERY_ERROR from '@salesforce/label/c.Matrix_QueryError';
@@ -19,6 +20,22 @@ function parseBgColor(inlineStyle) {
 
 export default class CustomReportMatrix extends LightningElement {
     @api configName;
+
+    _pageRef;
+    // Fired on every navigation event (including returning to a cached tab).
+    @wire(CurrentPageReference)
+    handlePageRef(ref) {
+        this._pageRef = ref;
+        // If data is already loaded, re-apply the URL search key immediately.
+        if (this.matrixData) {
+            const urlSearchKey = ref?.state?.c__searchKey;
+            const newTerm = urlSearchKey ? decodeURIComponent(urlSearchKey) : '';
+            if (newTerm !== this.filterTerm) {
+                this.filterTerm = newTerm;
+                this.applyFilter(this.filterTerm);
+            }
+        }
+    }
 
     @track matrixData          = null;
     @track isLoading           = false;
@@ -77,7 +94,11 @@ export default class CustomReportMatrix extends LightningElement {
                 this.filterOptions          = result.filterOptions || [];
                 this.filterSelections       = {};
                 this.pendingFilterSelections = {};
-                this.filterTerm             = '';
+                const urlSearchKey = this._pageRef?.state?.c__searchKey;
+                this.filterTerm = urlSearchKey ? decodeURIComponent(urlSearchKey) : '';
+                if (this.filterTerm) {
+                    this.applyFilter(this.filterTerm);
+                }
             }
         }
         catch (error) {
