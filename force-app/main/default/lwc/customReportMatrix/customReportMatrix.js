@@ -26,10 +26,8 @@ export default class CustomReportMatrix extends LightningElement {
     @wire(CurrentPageReference)
     handlePageRef(ref) {
         this._pageRef = ref;
-        // If data is already loaded, re-apply the URL search key immediately.
-        if (this.matrixData) {
-            const urlSearchKey = ref?.state?.c__searchKey;
-            const newTerm = urlSearchKey ? decodeURIComponent(urlSearchKey) : '';
+        if (this.matrixData && ref?.state && 'c__searchKey' in ref.state) {
+            const newTerm = ref.state.c__searchKey ? decodeURIComponent(ref.state.c__searchKey) : '';
             if (newTerm !== this.filterTerm) {
                 this.filterTerm = newTerm;
                 this.applyFilter(this.filterTerm);
