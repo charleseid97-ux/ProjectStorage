@@ -42,6 +42,7 @@ export default class CustomReportMatrix extends LightningElement {
     @track allowExcelExport    = false;
     @track allowFilter         = false;
     @track filterTerm          = '';
+    @track filterRowsLabel     = 'Filter';
     @track isFiltering            = false;
     @track isReloading            = false;
     @track filterSelections       = {};
@@ -88,6 +89,7 @@ export default class CustomReportMatrix extends LightningElement {
             this.filteredDisplayRows = this.allDisplayRows;
             this.allowExcelExport    = result.allowExcelExport;
             this.allowFilter         = result.allowFilters ?? false;
+            this.filterRowsLabel     = result.filterRowsLabel || 'Filter';
             if (isInitialLoad) {
                 this.filterOptions          = result.filterOptions || [];
                 this.filterSelections       = {};
