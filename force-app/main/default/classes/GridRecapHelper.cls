@@ -3,7 +3,7 @@
  *              Used by AgreementGridRecapController (products only) and
  *              StandardGridProductAndRulesController (products + hover data).
  * @author Charles EID
- *  Test Class: StdGridProductAndRulesControllerTest 
+ *  Test Class: StdGridProductAndRulesControllerTest
  * Coverage: 100%   [27-02-26]
 ────────────────────────────────────── */
 public with sharing class GridRecapHelper {
@@ -15,18 +15,16 @@ public with sharing class GridRecapHelper {
      * @param includeHoverData When true, populates hoverData on each group (legal forms + rules).
      */
     public static List<StandardGridGroup> buildStandardGridGroups(Id gridId, Boolean includeHoverData) {
-        List<StandardGridGroup> result                 = new List<StandardGridGroup>();
-        Map<Id, StandardGridGroup> groupById           = new Map<Id, StandardGridGroup>();
-        Map<Id, Map<String, ProductEntry>> productById = new Map<Id, Map<String, ProductEntry>>();
-        Map<Id, Set<String>> legalForms                = new Map<Id, Set<String>>();
-        Map<Id, Map<Id, RuleEntry>> ruleMap            = new Map<Id, Map<Id, RuleEntry>>();
-
-        // Phase-2 tracking — only populated when includeHoverData = true
+        List<StandardGridGroup> result                         = new List<StandardGridGroup>();
+        Map<Id, StandardGridGroup> groupById                   = new Map<Id, StandardGridGroup>();
+        Map<Id, Map<String, ProductEntry>> productById         = new Map<Id, Map<String, ProductEntry>>();
+        Map<Id, Set<String>> legalForms                        = new Map<Id, Set<String>>();
+        Map<Id, Map<Id, RuleEntry>> ruleMap                    = new Map<Id, Map<Id, RuleEntry>>();
         Map<String, Set<Id>> scIdsByCompKey                    = new Map<String, Set<Id>>();
         Map<String, Map<Id, Id>> placeholderBySgIdByScOtherKey = new Map<String, Map<Id, Id>>();
 
-        for (GridDetail__c gd : [SELECT StandardGridDetail__c, StandardGridDetail__r.Grid__c, StandardGridDetail__r.Grid__r.Name, StandardGridDetail__r.ShareClass__c, StandardGridDetail__r.ShareClass__r.Fund__c, 
-                                        StandardGridDetail__r.ShareClass__r.Fund__r.InternalShortName__c, StandardGridDetail__r.ShareClass__r.Fund__r.LegalForm__c, StandardGridDetail__r.ShareClass__r.Name__c, 
+        for (GridDetail__c gd : [SELECT StandardGridDetail__c, StandardGridDetail__r.Grid__c, StandardGridDetail__r.Grid__r.Name, StandardGridDetail__r.ShareClass__c, StandardGridDetail__r.ShareClass__r.Fund__c,
+                                        StandardGridDetail__r.ShareClass__r.Fund__r.InternalShortName__c, StandardGridDetail__r.ShareClass__r.Fund__r.LegalForm__c, StandardGridDetail__r.ShareClass__r.Name__c,
                                         StandardGridDetail__r.ShareClass__r.Type__c, StandardGridDetail__r.RebateRate__c, StandardGridDetail__r.GridRule__c, StandardGridDetail__r.GridRule__r.RuleToApply__c,
                                         StandardGridDetail__r.GridRule__r.GridRate__c, StandardGridDetail__r.GridRule__r.OtherShareType__c, StandardGridDetail__r.GridRule__r.OtherGridRule__c
                                  FROM GridDetail__c
@@ -34,20 +32,18 @@ public with sharing class GridRecapHelper {
                                  AND StandardGridDetail__c != null
                                  AND StandardGridDetail__r.ShareClass__r.Fund__c != null
                                  ORDER BY StandardGridDetail__r.Grid__r.Name, StandardGridDetail__r.ShareClass__r.Fund__r.InternalShortName__c, StandardGridDetail__r.ShareClass__r.Name__c]) {
-            Id sgId             =   gd.StandardGridDetail__r.Grid__c;
-            String sgName       =   gd.StandardGridDetail__r.Grid__r.Name;
-            String shortName    =   gd.StandardGridDetail__r.ShareClass__r.Fund__r.InternalShortName__c;
-            String prodRef      =   String.isNotBlank(shortName) ? shortName : gd.StandardGridDetail__r.ShareClass__r.Fund__c;
-            String shareClsName =   gd.StandardGridDetail__r.ShareClass__r.Name__c;
+            Id sgId          = gd.StandardGridDetail__r.Grid__c;
+            String sgName    = gd.StandardGridDetail__r.Grid__r.Name;
+            String shortName = gd.StandardGridDetail__r.ShareClass__r.Fund__r.InternalShortName__c;
+            String prodRef   = String.isNotBlank(shortName) ? shortName : gd.StandardGridDetail__r.ShareClass__r.Fund__c;
+            String scName    = gd.StandardGridDetail__r.ShareClass__r.Name__c;
 
             // ── Group ──
             if (!groupById.containsKey(sgId)) {
-                StandardGridGroup g = new StandardGridGroup(sgName, sgId);
-                groupById.put(sgId, g);
+                groupById.put(sgId, new StandardGridGroup(sgName, sgId));
                 productById.put(sgId, new Map<String, ProductEntry>());
-                result.add(g);
+                result.add(groupById.get(sgId));
             }
-
             // ── Product entry ──
             Map<String, ProductEntry> productsForGroup = productById.get(sgId);
             if (!productsForGroup.containsKey(prodRef)) {
@@ -55,96 +51,109 @@ public with sharing class GridRecapHelper {
                 productsForGroup.put(prodRef, entry);
                 groupById.get(sgId).products.add(entry);
             }
-            ProductEntry pe = productsForGroup.get(prodRef);
-            pe.shareClassRates.put(shareClsName, gd.StandardGridDetail__r.RebateRate__c);
+            productsForGroup.get(prodRef).shareClassRates.put(scName, gd.StandardGridDetail__r.RebateRate__c);
 
-            // ── Hover data ──
             if (includeHoverData) {
-                String fundLegalForm = gd.StandardGridDetail__r.ShareClass__r.Fund__r.LegalForm__c;
-                if (!legalForms.containsKey(sgId)) {
-                    legalForms.put(sgId, new Set<String>());
-                }
-                if (String.isNotBlank(fundLegalForm)) {
-                    legalForms.get(sgId).add(fundLegalForm);
-                }
-
-                Id stdGridDetailRuleId = gd.StandardGridDetail__r.GridRule__c;
-                if (stdGridDetailRuleId != null) {
-                    if (!ruleMap.containsKey(sgId)) {
-                        ruleMap.put(sgId, new Map<Id, RuleEntry>());
-                    }
-                    Map<Id, RuleEntry> rulesForGrid = ruleMap.get(sgId);
-                    processRuleLineDetails(rulesForGrid, stdGridDetailRuleId, gd.StandardGridDetail__r.ShareClass__r.Type__c, gd.StandardGridDetail__r.GridRule__r.RuleToApply__c, gd.StandardGridDetail__r.GridRule__r.GridRate__c, gd.StandardGridDetail__r.GridRule__r.OtherShareType__c, gd.StandardGridDetail__r.GridRule__r.OtherGridRule__c, shortName);
-                    // Phase-2 tracking — collect share classes for OtherGridRule entries
-                    String otherGR = gd.StandardGridDetail__r.GridRule__r.OtherGridRule__c;
-                    Id scId = gd.StandardGridDetail__r.ShareClass__c;
-                    if (gd.StandardGridDetail__r.GridRule__r.RuleToApply__c == RULE_OGR && String.isNotBlank(otherGR) && scId != null) {
-                        String compKey    = sgId + '|' + otherGR;
-                        String scOtherKey = scId + '|' + otherGR;
-                        if (!scIdsByCompKey.containsKey(compKey)) {
-                            scIdsByCompKey.put(compKey, new Set<Id>());
-                        }
-                        scIdsByCompKey.get(compKey).add(scId);
-                        if (!placeholderBySgIdByScOtherKey.containsKey(scOtherKey)) {
-                            placeholderBySgIdByScOtherKey.put(scOtherKey, new Map<Id, Id>());
-                        }
-                        placeholderBySgIdByScOtherKey.get(scOtherKey).put(sgId, stdGridDetailRuleId);
-                    }
-                }
+                processHoverDataRow(gd, sgId, shortName, legalForms, ruleMap, scIdsByCompKey, placeholderBySgIdByScOtherKey);
             }
         }
 
-        // ── Phase 2: resolve OtherGridRule entries ── For each (sgId, otherGridName) pair, query StandardGridDetail records for the affected share classes on the other grid, and replace placeholder entries.
         if (includeHoverData && !scIdsByCompKey.isEmpty()) {
-            Set<String> otherGridNames = new Set<String>();
-            for (String ck : scIdsByCompKey.keySet()) {
-                otherGridNames.add(ck.substringAfter('|'));
-            }
-            Map<String, Id> gridIdByName = new Map<String, Id>();
-            for (Grid__c g : [SELECT Id, Name FROM Grid__c WHERE Name IN :otherGridNames]) {
-                gridIdByName.put(g.Name, g.Id);
-            }
-            Set<Id> allScIds = new Set<Id>();
-            for (Set<Id> scs : scIdsByCompKey.values()){
-                allScIds.addAll(scs);
-            }
-            Set<Id> otherGridIds = new Set<Id>(gridIdByName.values());
-            for (GridDetail__c rgd : [SELECT ShareClass__c, Grid__r.Name, GridRule__c,
-                                             GridRule__r.RuleToApply__c, GridRule__r.GridRate__c, GridRule__r.OtherShareType__c
-                                      FROM GridDetail__c
-                                      WHERE RecordType.DeveloperName = :GridBuilderHelper.RT_STANDARD_GRID_DETAIL
-                                      AND Grid__c IN :otherGridIds
-                                      AND ShareClass__c IN :allScIds
-                                      AND GridRule__c != null]) {
-                String scOtherKey = rgd.ShareClass__c + '|' + rgd.Grid__r.Name;
-                Map<Id, Id> sgToPlaceholder = placeholderBySgIdByScOtherKey.get(scOtherKey);
-                if (sgToPlaceholder == null) continue;
-                for (Id sgId : sgToPlaceholder.keySet()) {
-                    Map<Id, RuleEntry> rulesForGrid = ruleMap.get(sgId);
-                    if (rulesForGrid == null) continue;
-                    RuleEntry placeholder = rulesForGrid.get(sgToPlaceholder.get(sgId));
-                    if (placeholder == null || placeholder.resolvedRuleToApply != null) continue;
-                    placeholder.resolvedRuleToApply = rgd.GridRule__r.RuleToApply__c;
-                    placeholder.resolvedGridRate = rgd.GridRule__r.GridRate__c;
-                    placeholder.resolvedOtherShareType = rgd.GridRule__r.OtherShareType__c;
-                }
-            }
+            resolveOtherGridRules(scIdsByCompKey, placeholderBySgIdByScOtherKey, ruleMap);
         }
-
-        // ── Assemble hover data onto groups ──
         if (includeHoverData) {
-            for (StandardGridGroup g : result) {
-                StandardGridHoverData hd = new StandardGridHoverData();
-                if (legalForms.containsKey(g.gridId)) {
-                    hd.legalForms.addAll(legalForms.get(g.gridId));
-                }
-                if (ruleMap.containsKey(g.gridId)) {
-                    hd.rules.addAll(ruleMap.get(g.gridId).values());
-                }
-                g.hoverData = hd;
-            }
+            assembleHoverData(result, legalForms, ruleMap);
         }
         return result;
+    }
+
+    // ── Hover data for one GridDetail row: legal form + rule dispatch ──
+    private static void processHoverDataRow(GridDetail__c gd, Id sgId, String shortName, Map<Id, Set<String>> legalForms, Map<Id, Map<Id, RuleEntry>> ruleMap, Map<String, Set<Id>> scIdsByCompKey, Map<String, Map<Id, Id>> placeholderBySgIdByScOtherKey) {
+        if (!legalForms.containsKey(sgId)) {
+            legalForms.put(sgId, new Set<String>());
+        }
+        String fundLegalForm = gd.StandardGridDetail__r.ShareClass__r.Fund__r.LegalForm__c;
+        if (String.isNotBlank(fundLegalForm)) {
+            legalForms.get(sgId).add(fundLegalForm);
+        }
+        Id ruleId = gd.StandardGridDetail__r.GridRule__c;
+        if (ruleId == null) return;
+        if (!ruleMap.containsKey(sgId)) {
+            ruleMap.put(sgId, new Map<Id, RuleEntry>());
+        }
+        String ruleToApply = gd.StandardGridDetail__r.GridRule__r.RuleToApply__c;
+        String otherGR     = gd.StandardGridDetail__r.GridRule__r.OtherGridRule__c;
+        processRuleLineDetails(ruleMap.get(sgId), ruleId, gd.StandardGridDetail__r.ShareClass__r.Type__c, ruleToApply, gd.StandardGridDetail__r.GridRule__r.GridRate__c, gd.StandardGridDetail__r.GridRule__r.OtherShareType__c, otherGR, shortName);
+        trackOgrEntry(gd.StandardGridDetail__r.ShareClass__c, sgId, ruleId, ruleToApply, otherGR, scIdsByCompKey, placeholderBySgIdByScOtherKey);
+    }
+
+    // ── Phase-2 tracking: record share classes that need OtherGridRule resolution ──
+    private static void trackOgrEntry(Id scId, Id sgId, Id ruleId, String ruleToApply, String otherGR, Map<String, Set<Id>> scIdsByCompKey, Map<String, Map<Id, Id>> placeholderBySgIdByScOtherKey) {
+        if (ruleToApply != RULE_OGR || String.isBlank(otherGR) || scId == null) return;
+        String compKey    = sgId + '|' + otherGR;
+        String scOtherKey = scId + '|' + otherGR;
+        if (!scIdsByCompKey.containsKey(compKey)) {
+            scIdsByCompKey.put(compKey, new Set<Id>());
+        }
+        scIdsByCompKey.get(compKey).add(scId);
+        if (!placeholderBySgIdByScOtherKey.containsKey(scOtherKey)) {
+            placeholderBySgIdByScOtherKey.put(scOtherKey, new Map<Id, Id>());
+        }
+        placeholderBySgIdByScOtherKey.get(scOtherKey).put(sgId, ruleId);
+    }
+
+    // ── Phase 2: query the referenced grids and resolve placeholder RuleEntries ──
+    private static void resolveOtherGridRules(Map<String, Set<Id>> scIdsByCompKey, Map<String, Map<Id, Id>> placeholderBySgIdByScOtherKey, Map<Id, Map<Id, RuleEntry>> ruleMap) {
+        Set<String> otherGridNames = new Set<String>();
+        for (String ck : scIdsByCompKey.keySet()) {
+            otherGridNames.add(ck.substringAfter('|'));
+        }
+        Map<String, Id> gridIdByName = new Map<String, Id>();
+        for (Grid__c g : [SELECT Id, Name FROM Grid__c WHERE Name IN :otherGridNames]) {
+            gridIdByName.put(g.Name, g.Id);
+        }
+        Set<Id> allScIds = new Set<Id>();
+        for (Set<Id> scs : scIdsByCompKey.values()) {
+            allScIds.addAll(scs);
+        }
+        for (GridDetail__c rgd : [SELECT ShareClass__c, Grid__r.Name, GridRule__c,
+                                         GridRule__r.RuleToApply__c, GridRule__r.GridRate__c, GridRule__r.OtherShareType__c
+                                  FROM GridDetail__c
+                                  WHERE RecordType.DeveloperName = :GridBuilderHelper.RT_STANDARD_GRID_DETAIL
+                                  AND Grid__c IN :new Set<Id>(gridIdByName.values())
+                                  AND ShareClass__c IN :allScIds
+                                  AND GridRule__c != null]) {
+            Map<Id, Id> sgToPlaceholder = placeholderBySgIdByScOtherKey.get(rgd.ShareClass__c + '|' + rgd.Grid__r.Name);
+            if (sgToPlaceholder == null) continue;
+            applyResolutionToPlaceholder(sgToPlaceholder, ruleMap, rgd);
+        }
+    }
+
+    // ── Apply resolved rule data onto each matching placeholder RuleEntry ──
+    private static void applyResolutionToPlaceholder(Map<Id, Id> sgToPlaceholder, Map<Id, Map<Id, RuleEntry>> ruleMap, GridDetail__c rgd) {
+        for (Id sgId : sgToPlaceholder.keySet()) {
+            Map<Id, RuleEntry> rulesForGrid = ruleMap.get(sgId);
+            if (rulesForGrid == null) continue;
+            RuleEntry placeholder = rulesForGrid.get(sgToPlaceholder.get(sgId));
+            if (placeholder == null || placeholder.resolvedRuleToApply != null) continue;
+            placeholder.resolvedRuleToApply    = rgd.GridRule__r.RuleToApply__c;
+            placeholder.resolvedGridRate       = rgd.GridRule__r.GridRate__c;
+            placeholder.resolvedOtherShareType = rgd.GridRule__r.OtherShareType__c;
+        }
+    }
+
+    // ── Attach accumulated legal forms and rules onto each group's hoverData ──
+    private static void assembleHoverData(List<StandardGridGroup> result, Map<Id, Set<String>> legalForms, Map<Id, Map<Id, RuleEntry>> ruleMap) {
+        for (StandardGridGroup g : result) {
+            StandardGridHoverData hd = new StandardGridHoverData();
+            if (legalForms.containsKey(g.gridId)) {
+                hd.legalForms.addAll(legalForms.get(g.gridId));
+            }
+            if (ruleMap.containsKey(g.gridId)) {
+                hd.rules.addAll(ruleMap.get(g.gridId).values());
+            }
+            g.hoverData = hd;
+        }
     }
 
     private static void processRuleLineDetails(Map<Id, RuleEntry> rulesForGrid, Id ruleId, String shareType, String ruleToApply, Decimal gridRate, String otherShareType, String otherGridRule, String shortName) {
@@ -195,10 +204,10 @@ public with sharing class GridRecapHelper {
         @AuraEnabled public String ruleToApply              { get; set; }
         @AuraEnabled public Decimal gridRate                { get; set; }
         @AuraEnabled public String otherShareType           { get; set; }
-        @AuraEnabled public String  otherGridRule           { get; set; }
-        @AuraEnabled public String  resolvedRuleToApply    { get; set; }
+        @AuraEnabled public String otherGridRule            { get; set; }
+        @AuraEnabled public String resolvedRuleToApply      { get; set; }
         @AuraEnabled public Decimal resolvedGridRate        { get; set; }
-        @AuraEnabled public String  resolvedOtherShareType { get; set; }
+        @AuraEnabled public String resolvedOtherShareType   { get; set; }
         public RuleEntry(String shareType, String ruleToApply, Decimal gridRate, String otherShareType, String otherGridRule) {
             this.shareType          = shareType;
             this.ruleToApply        = ruleToApply;
