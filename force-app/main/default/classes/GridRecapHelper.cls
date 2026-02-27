@@ -23,9 +23,9 @@ public with sharing class GridRecapHelper {
         Map<String, Set<Id>> scIdsByCompKey                    = new Map<String, Set<Id>>();
         Map<String, Map<Id, Id>> placeholderBySgIdByScOtherKey = new Map<String, Map<Id, Id>>();
 
-        for (GridDetail__c gd : [SELECT StandardGridDetail__c, StandardGridDetail__r.Grid__c, StandardGridDetail__r.Grid__r.Name, StandardGridDetail__r.ShareClass__c,
-                                        StandardGridDetail__r.ShareClass__r.Fund__c, StandardGridDetail__r.ShareClass__r.Fund__r.InternalShortName__c, StandardGridDetail__r.ShareClass__r.Fund__r.LegalForm__c, 
-                                        StandardGridDetail__r.ShareClass__r.Name__c, StandardGridDetail__r.ShareClass__r.Type__c, StandardGridDetail__r.GridRule__c, StandardGridDetail__r.GridRule__r.RuleToApply__c,
+        for (GridDetail__c gd : [SELECT StandardGridDetail__c, StandardGridDetail__r.Grid__c, StandardGridDetail__r.Grid__r.Name, StandardGridDetail__r.ShareClass__c, StandardGridDetail__r.ShareClass__r.Fund__c, 
+                                        StandardGridDetail__r.ShareClass__r.Fund__r.InternalShortName__c, StandardGridDetail__r.ShareClass__r.Fund__r.LegalForm__c, StandardGridDetail__r.ShareClass__r.Name__c, 
+                                        StandardGridDetail__r.ShareClass__r.Type__c, StandardGridDetail__r.RebateRate__c, StandardGridDetail__r.GridRule__c, StandardGridDetail__r.GridRule__r.RuleToApply__c,
                                         StandardGridDetail__r.GridRule__r.GridRate__c, StandardGridDetail__r.GridRule__r.OtherShareType__c, StandardGridDetail__r.GridRule__r.OtherGridRule__c
                                  FROM GridDetail__c
                                  WHERE Grid__c = :gridId
@@ -54,9 +54,7 @@ public with sharing class GridRecapHelper {
                 groupById.get(sgId).products.add(entry);
             }
             ProductEntry pe = productsForGroup.get(prodRef);
-            if (!pe.shareClassNames.contains(shareClsName)) {
-                pe.shareClassNames.add(shareClsName);
-            }
+            pe.shareClassRates.put(shareClsName, gd.StandardGridDetail__r.RebateRate__c);
 
             // ── Hover data ──
             if (includeHoverData) {
@@ -172,11 +170,11 @@ public with sharing class GridRecapHelper {
     }
 
     public class ProductEntry {
-        @AuraEnabled public String shortName             { get; set; }
-        @AuraEnabled public List<String> shareClassNames { get; set; }
+        @AuraEnabled public String shortName                     { get; set; }
+        @AuraEnabled public Map<String, Decimal> shareClassRates { get; set; }
         public ProductEntry(String shortName) {
             this.shortName       = shortName;
-            this.shareClassNames = new List<String>();
+            this.shareClassRates = new Map<String, Decimal>();
         }
     }
 

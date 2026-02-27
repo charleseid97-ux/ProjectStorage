@@ -50,7 +50,7 @@ export default class StandardGridGroupList extends LightningElement {
                 products: (group.products || []).map((p, j) => ({
                     key: `${i}-${j}`,
                     value: p.shortName,
-                    tooltip: (p.shareClassNames || []).join('\n')
+                    tooltip: Object.entries(p.shareClassRates || {}).map(([name, rate]) => rate != null ? `${name} - Rebate: ${formatRate(rate)}` : name).join('\n')
                 })),
                 hasHoverData: !!hoverData && ((hoverData.legalForms || []).length > 0 || (hoverData.rules || []).length > 0),
                 hoverLegalForms: hoverData && (hoverData.legalForms || []).length > 0 ? `Below only applies for ${hoverData.legalForms.join(', ')}` : null,
