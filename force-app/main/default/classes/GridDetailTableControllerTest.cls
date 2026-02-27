@@ -25,16 +25,16 @@ private class GridDetailTableControllerTest {
         GridCriteriaDetail__c detail = GridTestSetupHelper.createCriteriaDetail(criteria.Id, 1, 'Share_Class__c', 'Type__c', '=', GridTestSetupHelper.SHARE_TYPE_A, 'User-Defined');
         insert detail;
 
-        List<GridRule__c> ruleLines = new List<GridRule__c>{
-            GridTestSetupHelper.createRuleLine(grid.Id, criteria.Id, 'Percentage of Fees', 'EffectiveManagementFees__c', 33, null, null, null),
-            GridTestSetupHelper.createRuleLine(grid.Id, criteria.Id, 'Take Rebates Rate - Other Share Type', 'EffectiveManagementFees__c', null, null, 'AW', null),
-            GridTestSetupHelper.createRuleLine(grid.Id, criteria.Id, 'Take Rebates Rate - Other Share Type + Fees', 'EffectiveManagementFees__c', 15, 'AW', 'A', null),
-            GridTestSetupHelper.createRuleLine(grid.Id, criteria.Id, 'Take Rebates Rate - Other Grid Rule', 'EffectiveManagementFees__c', null, null, null, 'S5+')
+        List<GridRule__c> gridRules = new List<GridRule__c>{
+            GridTestSetupHelper.createGridRule(grid.Id, criteria.Id, 'Percentage of Fees', 'EffectiveManagementFees__c', 33, null, null, null),
+            GridTestSetupHelper.createGridRule(grid.Id, criteria.Id, 'Take Rebates Rate - Other Share Type', 'EffectiveManagementFees__c', null, null, 'AW', null),
+            GridTestSetupHelper.createGridRule(grid.Id, criteria.Id, 'Take Rebates Rate - Other Share Type + Fees', 'EffectiveManagementFees__c', 15, 'AW', 'A', null),
+            GridTestSetupHelper.createGridRule(grid.Id, criteria.Id, 'Take Rebates Rate - Other Grid Rule', 'EffectiveManagementFees__c', null, null, null, 'S5+')
         };
-        insert ruleLines;
+        insert gridRules;
 
         List<GridDetail__c> gridDetails = new List<GridDetail__c>();
-        for (GridRule__c rl : ruleLines) {
+        for (GridRule__c rl : gridRules) {
             gridDetails.add(GridTestSetupHelper.createGridDetail(grid.Id, rl.Id, criteria.Id, shareClass.Id, 0.5, Date.today(), Date.newInstance(2099, 12, 31), GridBuilderHelper.RT_STANDARD_GRID_DETAIL));
         }
         insert gridDetails;

@@ -3,6 +3,7 @@
     <fullName>StandardGridDetail__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <description>Populated only on Custom Grid Details. References the corresponding Standard Grid Detail used as the basis for this custom detail.</description>
+    <externalId>false</externalId>
     <inlineHelpText>Populated only on Custom Grid Details. References the corresponding Standard Grid Detail used as the basis for this custom detail.</inlineHelpText>
     <label>Standard Grid Detail</label>
     <referenceTo>GridDetail__c</referenceTo>

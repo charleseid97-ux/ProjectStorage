@@ -107,7 +107,7 @@ import Grid_ResetAll_Confirm from '@salesforce/label/c.Grid_ResetAll_Confirm';
 import Grid_ResetAll_Success from '@salesforce/label/c.Grid_ResetAll_Success';
 import Grid_ResetFilters from '@salesforce/label/c.Grid_ResetFilters';
 import Grid_RowErrors from '@salesforce/label/c.Grid_RowErrors';
-import Grid_RuleLinesCreated from '@salesforce/label/c.Grid_RuleLinesCreated';
+import Grid_GridRulesCreated from '@salesforce/label/c.Grid_GridRulesCreated';
 import Grid_Saved_Success from '@salesforce/label/c.Grid_Saved_Success';
 import Grid_ScopesUpserted from '@salesforce/label/c.Grid_ScopesUpserted';
 import Grid_SelectExcelFile from '@salesforce/label/c.Grid_SelectExcelFile';
@@ -151,7 +151,7 @@ export const LABELS = {
     Grid_NoProductsToDisplay, Grid_NoProductsToValidate, Grid_NoShareClassesFound, Grid_NoShareClassesToAdd,
     Grid_ProductAlreadyAssignedWarning, Grid_ProductNameLabel, Grid_ProductsRecap,
     Grid_RemoveFilter, Grid_RemoveProduct, Grid_ResetAll, Grid_ResetAll_Confirm, Grid_ResetAll_Success,
-    Grid_ResetFilters, Grid_RowErrors, Grid_RuleLinesCreated, Grid_Saved_Success, Grid_ScopesUpserted,
+    Grid_ResetFilters, Grid_RowErrors, Grid_GridRulesCreated, Grid_Saved_Success, Grid_ScopesUpserted,
     Grid_SelectExcelFile, Grid_SelectGrid, Grid_SelectShareTypes, Grid_Selection, Grid_SettingNotFound,
     Grid_ShareClassesAdded, Grid_ShareClassesAddedTitle, Grid_ShareClassesNotAdded_DifferentGrid,
     Grid_ShareTypeFilterIndependentInfo, Grid_ShareTypesLabel, Grid_SomeRowsFailed, Grid_SortedBy,

@@ -20,19 +20,19 @@ public with sharing class GridDetailBuilder {
     private static final String TYPE_FIELD_PATH = 'Type__c';
     private static final Set<String> SUPPORTED_OBJECTS = new Set<String>{ 'Share_Class__c', 'Product__c', 'Strategy__c' };
 
-    private static final String ruleLinesQuery = 'SELECT Id, Grid__c, GridCriteria__c, RuleToApply__c, GridRate__c, '+
+    private static final String gridRulesQuery = 'SELECT Id, Grid__c, GridCriteria__c, RuleToApply__c, GridRate__c, '+
                                                     'ShareType__c, OtherShareType__c, OtherGridRule__c, '+
                                                     'GridCriteria__r.FilterLogicExpression__c, CreatedDate '+
                                                   ' FROM GridRule__c ';
 
-    public static BuildResult buildForRuleLines(Set<Id> ruleLineIds) {
+    public static BuildResult buildForGridRules(Set<Id> gridRuleIds) {
         BuildResult result = new BuildResult();
         result.errors = new List<BuildError>();
-        if (ruleLineIds == null || ruleLineIds.isEmpty()) {
+        if (gridRuleIds == null || gridRuleIds.isEmpty()) {
             return result;
         }
 
-        String rlQuery = ruleLinesQuery + ' WHERE Id IN :ruleLineIds ORDER BY CreatedDate ASC';
+        String rlQuery = gridRulesQuery + ' WHERE Id IN :gridRuleIds ORDER BY CreatedDate ASC';
         return build(Database.query(rlQuery), result);
     }
 
@@ -48,17 +48,17 @@ public with sharing class GridDetailBuilder {
             gridIdByName.put(grid.Name, grid.Id);
         }
 
-        String rlQuery = ruleLinesQuery + ' WHERE Grid__c IN :gridIds ORDER BY CreatedDate ASC';
+        String rlQuery = gridRulesQuery + ' WHERE Grid__c IN :gridIds ORDER BY CreatedDate ASC';
         return build(Database.query(rlQuery), gridIdByName, result);
     }
 
-    private static BuildResult build(List<GridRule__c> ruleLines, BuildResult result) {
-        if (ruleLines == null || ruleLines.isEmpty()) {
+    private static BuildResult build(List<GridRule__c> gridRules, BuildResult result) {
+        if (gridRules == null || gridRules.isEmpty()) {
             return result;
         }
 
         Set<Id> gridIds = new Set<Id>();
-        for (GridRule__c line : ruleLines) {
+        for (GridRule__c line : gridRules) {
             if (line.Grid__c != null) {
                 gridIds.add(line.Grid__c);
             }
@@ -69,18 +69,18 @@ public with sharing class GridDetailBuilder {
             gridIdByName.put(grid.Name, grid.Id);
         }
 
-        return build(ruleLines, gridIdByName, result);
+        return build(gridRules, gridIdByName, result);
     }
 
-    private static BuildResult build(List<GridRule__c> ruleLines, Map<String, Id> gridIdByName, BuildResult result) {
-        if (ruleLines == null || ruleLines.isEmpty()) {
+    private static BuildResult build(List<GridRule__c> gridRules, Map<String, Id> gridIdByName, BuildResult result) {
+        if (gridRules == null || gridRules.isEmpty()) {
             return result;
         }
 
-        ensureOtherGridIds(ruleLines, gridIdByName);
-        Map<Id, List<GridCriteriaDetail__c>> detailsByCriteriaId = loadCriteriaDetails(ruleLines);
+        ensureOtherGridIds(gridRules, gridIdByName);
+        Map<Id, List<GridCriteriaDetail__c>> detailsByCriteriaId = loadCriteriaDetails(gridRules);
         ShareClassData shareData = loadShareClasses();
-        List<RuleLineContext> contexts = buildRuleLineContexts(ruleLines, detailsByCriteriaId, result);
+        List<GridRuleContext> contexts = buildGridRuleContexts(gridRules, detailsByCriteriaId, result);
         if (contexts.isEmpty()) {
             return result;
         }
@@ -96,9 +96,9 @@ public with sharing class GridDetailBuilder {
         return result;
     }
 
-    private static void ensureOtherGridIds(List<GridRule__c> ruleLines, Map<String, Id> gridIdByName) {
+    private static void ensureOtherGridIds(List<GridRule__c> gridRules, Map<String, Id> gridIdByName) {
         Set<String> otherGridNames = new Set<String>();
-        for (GridRule__c line : ruleLines) {
+        for (GridRule__c line : gridRules) {
             if (line.RuleToApply__c == RULE_OTHER_GRID && String.isNotBlank(line.OtherGridRule__c)) {
                 otherGridNames.add(line.OtherGridRule__c);
             }
@@ -108,9 +108,9 @@ public with sharing class GridDetailBuilder {
         }
     }
 
-    private static Map<Id, List<GridCriteriaDetail__c>> loadCriteriaDetails(List<GridRule__c> ruleLines) {
+    private static Map<Id, List<GridCriteriaDetail__c>> loadCriteriaDetails(List<GridRule__c> gridRules) {
         Set<Id> criteriaIds = new Set<Id>();
-        for (GridRule__c line : ruleLines) {
+        for (GridRule__c line : gridRules) {
             if (line.GridCriteria__c != null) {
                 criteriaIds.add(line.GridCriteria__c);
             }
@@ -145,10 +145,10 @@ public with sharing class GridDetailBuilder {
         return data;
     }
 
-    private static List<RuleLineContext> buildRuleLineContexts(List<GridRule__c> ruleLines, Map<Id, List<GridCriteriaDetail__c>> detailsByCriteriaId, BuildResult result) {
-        List<RuleLineContext> contexts = new List<RuleLineContext>();
-        for (GridRule__c line : ruleLines) {
-            RuleLineContext ctx = new RuleLineContext(line);
+    private static List<GridRuleContext> buildGridRuleContexts(List<GridRule__c> gridRules, Map<Id, List<GridCriteriaDetail__c>> detailsByCriteriaId, BuildResult result) {
+        List<GridRuleContext> contexts = new List<GridRuleContext>();
+        for (GridRule__c line : gridRules) {
+            GridRuleContext ctx = new GridRuleContext(line);
             ctx.gridId = line.Grid__c;
             if (ctx.gridId == null) {
                 ctx.hasErrors = true;
@@ -169,10 +169,10 @@ public with sharing class GridDetailBuilder {
         return contexts;
     }
 
-    private static AssignmentBuildResult buildAssignments(List<RuleLineContext> contexts, ShareClassData shareData, BuildResult result) {
+    private static AssignmentBuildResult buildAssignments(List<GridRuleContext> contexts, ShareClassData shareData, BuildResult result) {
         AssignmentBuildResult assignmentBuild = new AssignmentBuildResult();
 
-        for (RuleLineContext ctx : contexts) {
+        for (GridRuleContext ctx : contexts) {
             if (ctx.hasErrors) {
                 continue;
             }
@@ -197,14 +197,14 @@ public with sharing class GridDetailBuilder {
         return assignmentBuild;
     }
 
-    private static Set<Id> filterByShareTypeIfNeeded(RuleLineContext ctx, Set<Id> matches, Map<Id, Share_Class__c> shareClassById) {
-        if (RULE_OTHER_SHARE_FEES != ctx.ruleLine.RuleToApply__c || String.isBlank(ctx.ruleLine.ShareType__c)) {
+    private static Set<Id> filterByShareTypeIfNeeded(GridRuleContext ctx, Set<Id> matches, Map<Id, Share_Class__c> shareClassById) {
+        if (RULE_OTHER_SHARE_FEES != ctx.gridRule.RuleToApply__c || String.isBlank(ctx.gridRule.ShareType__c)) {
             return matches;
         }
         Set<Id> filtered = new Set<Id>();
         for (Id shareId : matches) {
             Share_Class__c share = shareClassById.get(shareId);
-            if (share != null && share.Type__c == ctx.ruleLine.ShareType__c) {
+            if (share != null && share.Type__c == ctx.gridRule.ShareType__c) {
                 filtered.add(shareId);
             }
         }
@@ -254,7 +254,7 @@ public with sharing class GridDetailBuilder {
             }
             if (!rebatesByGridShareKey.containsKey(assignment.gridShareKey)) {
                 assignment.hasError = true;
-                result.errors.add(new BuildError(assignment.ruleLineId, 'Unable to resolve a rebate value for GridRule__c. Check dependent rules or missing matching share classes.'));
+                result.errors.add(new BuildError(assignment.gridRuleId, 'Unable to resolve a rebate value for GridRule__c. Check dependent rules or missing matching share classes.'));
             }
         }
     }
@@ -271,7 +271,7 @@ public with sharing class GridDetailBuilder {
             GridDetail__c detail = new GridDetail__c();
             detail.RecordTypeId = standardGridDetailRtId;
             detail.Grid__c = assignment.gridId;
-            detail.GridRule__c = assignment.ruleLineId;
+            detail.GridRule__c = assignment.gridRuleId;
             detail.GridCriteria__c = assignment.criteriaId;
             detail.ShareClass__c = assignment.shareClassId;
             detail.RebateRate__c = assignment.rebate;
@@ -291,12 +291,12 @@ public with sharing class GridDetailBuilder {
             if (insertResults[i].isSuccess()) {
                 result.gridDetailsCreated++;
             } else {
-                result.errors.add(new BuildError(assignment.ruleLineId, 'Failed to create GridDetail__c: ' + insertResults[i].getErrors()[0].getMessage()));
+                result.errors.add(new BuildError(assignment.gridRuleId, 'Failed to create GridDetail__c: ' + insertResults[i].getErrors()[0].getMessage()));
             }
         }
     }
 
-    private static Set<Id> evaluateCriteria(RuleLineContext ctx, Map<String, Map<String, Set<Id>>> indexByField, Set<Id> allShareClassIds, BuildResult result) {
+    private static Set<Id> evaluateCriteria(GridRuleContext ctx, Map<String, Map<String, Set<Id>>> indexByField, Set<Id> allShareClassIds, BuildResult result) {
         Map<Integer, Set<Id>> conditionSets = new Map<Integer, Set<Id>>();
         ctx.resolvedFieldPaths.clear();
 
@@ -304,17 +304,17 @@ public with sharing class GridDetailBuilder {
             Integer filterNumber = detail.FilterNumber__c != null ? detail.FilterNumber__c.intValue() : null;
             if (filterNumber == null) {
                 ctx.hasErrors = true;
-                result.errors.add(new BuildError(ctx.ruleLine.Id, 'FilterNumber__c is missing for a GridCriteriaDetail__c.'));
+                result.errors.add(new BuildError(ctx.gridRule.Id, 'FilterNumber__c is missing for a GridCriteriaDetail__c.'));
                 return new Set<Id>();
             }
             String fieldPath = resolveFieldPath(detail.Object__c, detail.Field__c);
             if (fieldPath == null) {
                 ctx.hasErrors = true;
-                result.errors.add(new BuildError(ctx.ruleLine.Id, 'Unsupported criteria field mapping for Object__c "' + detail.Object__c + '" and Field__c "' + detail.Field__c + '".'));
+                result.errors.add(new BuildError(ctx.gridRule.Id, 'Unsupported criteria field mapping for Object__c "' + detail.Object__c + '" and Field__c "' + detail.Field__c + '".'));
                 return new Set<Id>();
             }
             ctx.resolvedFieldPaths.add(fieldPath);
-            Set<Id> conditionSet = buildConditionSet(detail, fieldPath, indexByField, allShareClassIds, result, ctx.ruleLine.Id);
+            Set<Id> conditionSet = buildConditionSet(detail, fieldPath, indexByField, allShareClassIds, result, ctx.gridRule.Id);
             if (conditionSet == null) {
                 ctx.hasErrors = true;
                 return new Set<Id>();
@@ -324,23 +324,23 @@ public with sharing class GridDetailBuilder {
 
         if (String.isBlank(ctx.filterLogicExpression)) {
             ctx.hasErrors = true;
-            result.errors.add(new BuildError(ctx.ruleLine.Id, 'FilterLogicExpression__c is missing for GridCriteria__c.'));
+            result.errors.add(new BuildError(ctx.gridRule.Id, 'FilterLogicExpression__c is missing for GridCriteria__c.'));
             return new Set<Id>();
         }
 
-        return evaluateExpression(ctx.filterLogicExpression, conditionSets, result, ctx.ruleLine.Id);
+        return evaluateExpression(ctx.filterLogicExpression, conditionSets, result, ctx.gridRule.Id);
     }
 
-    private static Set<Id> buildConditionSet(GridCriteriaDetail__c detail, String fieldPath, Map<String, Map<String, Set<Id>>> indexByField, Set<Id> allShareClassIds, BuildResult result, Id ruleLineId) {
+    private static Set<Id> buildConditionSet(GridCriteriaDetail__c detail, String fieldPath, Map<String, Map<String, Set<Id>>> indexByField, Set<Id> allShareClassIds, BuildResult result, Id gridRuleId) {
         List<String> values = splitValues(detail.Value__c);
         if (values.isEmpty()) {
-            result.errors.add(new BuildError(ruleLineId, 'Value__c is blank for a GridCriteriaDetail__c.'));
+            result.errors.add(new BuildError(gridRuleId, 'Value__c is blank for a GridCriteriaDetail__c.'));
             return null;
         }
 
         Map<String, Set<Id>> valueIndex = indexByField.get(fieldPath);
         if (valueIndex == null) {
-            result.errors.add(new BuildError(ruleLineId, 'No share class index found for field "' + fieldPath + '".'));
+            result.errors.add(new BuildError(gridRuleId, 'No share class index found for field "' + fieldPath + '".'));
             return null;
         }
 
@@ -365,24 +365,24 @@ public with sharing class GridDetailBuilder {
             return remaining;
         }
 
-        result.errors.add(new BuildError(ruleLineId, 'Unsupported Logic__c "' + logic + '" in GridCriteriaDetail__c.'));
+        result.errors.add(new BuildError(gridRuleId, 'Unsupported Logic__c "' + logic + '" in GridCriteriaDetail__c.'));
         return null;
     }
 
-    private static Set<Id> evaluateExpression(String expression, Map<Integer, Set<Id>> conditionSets, BuildResult result, Id ruleLineId) {
-        List<String> tokens = tokenizeExpression(expression, result, ruleLineId);
+    private static Set<Id> evaluateExpression(String expression, Map<Integer, Set<Id>> conditionSets, BuildResult result, Id gridRuleId) {
+        List<String> tokens = tokenizeExpression(expression, result, gridRuleId);
         if (tokens.isEmpty()) {
             return new Set<Id>();
         }
 
-        List<String> output = toPostfix(tokens, result, ruleLineId);
+        List<String> output = toPostfix(tokens, result, gridRuleId);
         if (output == null) {
             return new Set<Id>();
         }
-        return evaluatePostfix(output, conditionSets, result, ruleLineId);
+        return evaluatePostfix(output, conditionSets, result, gridRuleId);
     }
 
-    private static List<String> toPostfix(List<String> tokens, BuildResult result, Id ruleLineId) {
+    private static List<String> toPostfix(List<String> tokens, BuildResult result, Id gridRuleId) {
         List<String> output = new List<String>();
         List<String> operators = new List<String>();
 
@@ -400,38 +400,38 @@ public with sharing class GridDetailBuilder {
                 continue;
             }
             if (token == ')') {
-                if (!flushUntilOpenParen(operators, output, result, ruleLineId)) {
+                if (!flushUntilOpenParen(operators, output, result, gridRuleId)) {
                     return null;
                 }
                 continue;
             }
-            result.errors.add(new BuildError(ruleLineId, 'Unsupported token "' + token + '" in FilterLogicExpression__c.'));
+            result.errors.add(new BuildError(gridRuleId, 'Unsupported token "' + token + '" in FilterLogicExpression__c.'));
             return null;
         }
 
-        if (!flushRemainingOperators(operators, output, result, ruleLineId)) {
+        if (!flushRemainingOperators(operators, output, result, gridRuleId)) {
             return null;
         }
         return output;
     }
 
-    private static Boolean flushUntilOpenParen(List<String> operators, List<String> output, BuildResult result, Id ruleLineId) {
+    private static Boolean flushUntilOpenParen(List<String> operators, List<String> output, BuildResult result, Id gridRuleId) {
         while (!operators.isEmpty() && operators[operators.size() - 1] != '(') {
             output.add(operators.remove(operators.size() - 1));
         }
         if (operators.isEmpty() || operators[operators.size() - 1] != '(') {
-            result.errors.add(new BuildError(ruleLineId, 'Unbalanced parentheses in FilterLogicExpression__c.'));
+            result.errors.add(new BuildError(gridRuleId, 'Unbalanced parentheses in FilterLogicExpression__c.'));
             return false;
         }
         operators.remove(operators.size() - 1);
         return true;
     }
 
-    private static Boolean flushRemainingOperators(List<String> operators, List<String> output, BuildResult result, Id ruleLineId) {
+    private static Boolean flushRemainingOperators(List<String> operators, List<String> output, BuildResult result, Id gridRuleId) {
         while (!operators.isEmpty()) {
             String op = operators.remove(operators.size() - 1);
             if (op == '(' || op == ')') {
-                result.errors.add(new BuildError(ruleLineId, 'Unbalanced parentheses in FilterLogicExpression__c.'));
+                result.errors.add(new BuildError(gridRuleId, 'Unbalanced parentheses in FilterLogicExpression__c.'));
                 return false;
             }
             output.add(op);
@@ -454,14 +454,14 @@ public with sharing class GridDetailBuilder {
         return token == 'AND' || token == 'OR';
     }
 
-    private static Set<Id> evaluatePostfix(List<String> output, Map<Integer, Set<Id>> conditionSets, BuildResult result, Id ruleLineId) {
+    private static Set<Id> evaluatePostfix(List<String> output, Map<Integer, Set<Id>> conditionSets, BuildResult result, Id gridRuleId) {
         List<Set<Id>> stack = new List<Set<Id>>();
         for (String token : output) {
             if (isNumberToken(token)) {
                 Integer key = Integer.valueOf(token);
                 Set<Id> setValue = conditionSets.get(key);
                 if (setValue == null) {
-                    result.errors.add(new BuildError(ruleLineId, 'FilterLogicExpression__c references missing condition ' + token + '.'));
+                    result.errors.add(new BuildError(gridRuleId, 'FilterLogicExpression__c references missing condition ' + token + '.'));
                     return new Set<Id>();
                 }
                 stack.add(setValue);
@@ -469,7 +469,7 @@ public with sharing class GridDetailBuilder {
             }
             if (isLogicToken(token)) {
                 if (stack.size() < 2) {
-                    result.errors.add(new BuildError(ruleLineId, 'Invalid FilterLogicExpression__c evaluation.'));
+                    result.errors.add(new BuildError(gridRuleId, 'Invalid FilterLogicExpression__c evaluation.'));
                     return new Set<Id>();
                 }
                 Set<Id> right = stack.remove(stack.size() - 1);
@@ -482,7 +482,7 @@ public with sharing class GridDetailBuilder {
     }
 
     private static Decimal computeRebate(RuleAssignment assignment, Map<String, RuleAssignment> assignmentByGridShareKey, Map<String, Decimal> rebatesByGridShareKey, Map<String, Decimal> existingRebates, Map<String, Map<String, Id>> shareTypeLookupCache, List<Share_Class__c> shareClasses, Map<Id, Share_Class__c> shareClassById, Map<String, Id> gridIdByName, BuildResult result) {
-        GridRule__c line = assignment.context.ruleLine;
+        GridRule__c line = assignment.context.gridRule;
         Share_Class__c share = shareClassById.get(assignment.shareClassId);
         if (share == null) {
             setAssignmentError(assignment, result, 'Share_Class__c not found for assignment.');
@@ -573,7 +573,7 @@ public with sharing class GridDetailBuilder {
 
     private static void setAssignmentError(RuleAssignment assignment, BuildResult result, String message) {
         assignment.hasError = true;
-        result.errors.add(new BuildError(assignment.ruleLineId, message));
+        result.errors.add(new BuildError(assignment.gridRuleId, message));
     }
 
     private static Id findOtherShareTypeShareClass(RuleAssignment assignment, String desiredShareType, Map<String, Map<String, Id>> lookupCache, List<Share_Class__c> shareClasses, Map<Id, Share_Class__c> shareClassById) {
@@ -650,7 +650,7 @@ public with sharing class GridDetailBuilder {
 
     private static void collectOtherGridNamesAndShares(List<RuleAssignment> assignments, LoadExistingContext ctx) {
         for (RuleAssignment assignment : assignments) {
-            GridRule__c line = assignment.context.ruleLine;
+            GridRule__c line = assignment.context.gridRule;
             if (line.RuleToApply__c == RULE_OTHER_GRID && String.isNotBlank(line.OtherGridRule__c)) {
                 ctx.otherGridNames.add(line.OtherGridRule__c);
                 ctx.shareClassIds.add(assignment.shareClassId);
@@ -768,10 +768,10 @@ public with sharing class GridDetailBuilder {
         return values;
     }
 
-    private static List<String> tokenizeExpression(String expression, BuildResult result, Id ruleLineId) {
+    private static List<String> tokenizeExpression(String expression, BuildResult result, Id gridRuleId) {
         List<String> tokens = new List<String>();
         if (String.isBlank(expression)) {
-            result.errors.add(new BuildError(ruleLineId, 'FilterLogicExpression__c is blank.'));
+            result.errors.add(new BuildError(gridRuleId, 'FilterLogicExpression__c is blank.'));
             return tokens;
         }
 
@@ -794,7 +794,7 @@ public with sharing class GridDetailBuilder {
                 i = endInt;
                 continue;
             }
-            result.errors.add(new BuildError(ruleLineId, 'Unsupported character "' + ch + '" in FilterLogicExpression__c.'));
+            result.errors.add(new BuildError(gridRuleId, 'Unsupported character "' + ch + '" in FilterLogicExpression__c.'));
             return new List<String>();
         }
 
@@ -862,43 +862,43 @@ public with sharing class GridDetailBuilder {
     }
 
     public class BuildError {
-        @AuraEnabled public Id ruleLineId;
+        @AuraEnabled public Id gridRuleId;
         @AuraEnabled public String message;
-        public BuildError(Id ruleLineId, String message) {
-            this.ruleLineId = ruleLineId;
+        public BuildError(Id gridRuleId, String message) {
+            this.gridRuleId = gridRuleId;
             this.message = message;
         }
     }
 
-    private class RuleLineContext {
-        public GridRule__c ruleLine;
+    private class GridRuleContext {
+        public GridRule__c gridRule;
         public Id gridId;
         public String filterLogicExpression;
         public List<GridCriteriaDetail__c> details = new List<GridCriteriaDetail__c>();
         public Set<String> resolvedFieldPaths = new Set<String>();
         public Boolean hasErrors = false;
 
-        public RuleLineContext(GridRule__c ruleLine) {
-            this.ruleLine = ruleLine;
+        public GridRuleContext(GridRule__c gridRule) {
+            this.gridRule = gridRule;
         }
     }
 
     private class RuleAssignment {
-        public RuleLineContext context;
+        public GridRuleContext context;
         public Id shareClassId;
         public Id gridId;
-        public Id ruleLineId;
+        public Id gridRuleId;
         public Id criteriaId;
         public String gridShareKey;
         public Decimal rebate;
         public Boolean hasError = false;
 
-        public RuleAssignment(RuleLineContext context, Id shareClassId) {
+        public RuleAssignment(GridRuleContext context, Id shareClassId) {
             this.context = context;
             this.shareClassId = shareClassId;
             this.gridId = context.gridId;
-            this.ruleLineId = context.ruleLine.Id;
-            this.criteriaId = context.ruleLine.GridCriteria__c;
+            this.gridRuleId = context.gridRule.Id;
+            this.criteriaId = context.gridRule.GridCriteria__c;
             this.gridShareKey = buildGridShareKey(context.gridId, shareClassId);
         }
     }

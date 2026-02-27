@@ -2,9 +2,10 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Grid__c</fullName>
     <deleteConstraint>Restrict</deleteConstraint>
+    <externalId>false</externalId>
     <label>Grid</label>
     <referenceTo>Grid__c</referenceTo>
-    <relationshipLabel>Grid Rule Lines</relationshipLabel>
+    <relationshipLabel>Grid Rules</relationshipLabel>
     <relationshipName>GridRules</relationshipName>
     <required>false</required>
     <trackTrending>false</trackTrending>

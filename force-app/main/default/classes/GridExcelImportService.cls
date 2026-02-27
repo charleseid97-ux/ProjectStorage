@@ -55,8 +55,8 @@ public with sharing class GridExcelImportService {
         insertCriteria(ruleContexts, result);
         DetailBuildResult detailBuildResult = buildDetailContexts(ruleContexts);
         insertDetails(detailBuildResult, result);
-        Set<Id> successfulRuleLineIds = insertRuleLines(ruleContexts, result);
-        buildGridDetails(successfulRuleLineIds, result);
+        Set<Id> successfulGridRuleIds = insertGridRules(ruleContexts, result);
+        buildGridDetails(successfulGridRuleIds, result);
         return result;
     }
 
@@ -253,9 +253,9 @@ public with sharing class GridExcelImportService {
         }
     }
 
-    private static Set<Id> insertRuleLines(List<RuleContext> ruleContexts, ImportResult result) {
-        List<GridRule__c> ruleLines = new List<GridRule__c>();
-        List<RuleContext> ruleLineContexts = new List<RuleContext>();
+    private static Set<Id> insertGridRules(List<RuleContext> ruleContexts, ImportResult result) {
+        List<GridRule__c> gridRules = new List<GridRule__c>();
+        List<RuleContext> gridRuleContexts = new List<RuleContext>();
         for (RuleContext ctx : ruleContexts) {
             if (ctx.hasErrors || ctx.detailError) {
                 continue;
@@ -269,38 +269,38 @@ public with sharing class GridExcelImportService {
             line.ShareType__c = ctx.shareType;
             line.OtherShareType__c = ctx.otherShareType;
             line.OtherGridRule__c = ctx.otherGridRule;
-            ruleLines.add(line);
-            ruleLineContexts.add(ctx);
+            gridRules.add(line);
+            gridRuleContexts.add(ctx);
         }
 
-        if (ruleLines.isEmpty()) {
+        if (gridRules.isEmpty()) {
             return new Set<Id>();
         }
 
-        Database.SaveResult[] ruleLineResults = Database.insert(ruleLines, false);
-        Set<Id> successfulRuleLineIds = new Set<Id>();
-        for (Integer i = 0; i < ruleLineResults.size(); i++) {
-            RuleContext ctx = ruleLineContexts[i];
-            if (ruleLineResults[i].isSuccess()) {
-                result.ruleLinesCreated++;
-                successfulRuleLineIds.add(ruleLines[i].Id);
+        Database.SaveResult[] gridRuleResults = Database.insert(gridRules, false);
+        Set<Id> successfulGridRuleIds = new Set<Id>();
+        for (Integer i = 0; i < gridRuleResults.size(); i++) {
+            RuleContext ctx = gridRuleContexts[i];
+            if (gridRuleResults[i].isSuccess()) {
+                result.gridRulesCreated++;
+                successfulGridRuleIds.add(gridRules[i].Id);
             } 
             else {
-                addError(result, 'GridRules', ctx.rowNumber, 'Failed to create GridRule__c: ' + ruleLineResults[i].getErrors()[0].getMessage());
+                addError(result, 'GridRules', ctx.rowNumber, 'Failed to create GridRule__c: ' + gridRuleResults[i].getErrors()[0].getMessage());
             }
         }
-        return successfulRuleLineIds;
+        return successfulGridRuleIds;
     }
 
-    private static void buildGridDetails(Set<Id> successfulRuleLineIds, ImportResult result) {
-        if (successfulRuleLineIds.isEmpty()) {
+    private static void buildGridDetails(Set<Id> successfulGridRuleIds, ImportResult result) {
+        if (successfulGridRuleIds.isEmpty()) {
             return;
         }
-        GridDetailBuilder.BuildResult detailResult = GridDetailBuilder.buildForRuleLines(successfulRuleLineIds);
+        GridDetailBuilder.BuildResult detailResult = GridDetailBuilder.buildForGridRules(successfulGridRuleIds);
         result.gridDetailsCreated += detailResult.gridDetailsCreated;
         if (detailResult.errors != null) {
             for (GridDetailBuilder.BuildError detailError : detailResult.errors) {
-                String suffix = detailError.ruleLineId != null ? ' (RuleLine ' + detailError.ruleLineId + ')' : '';
+                String suffix = detailError.gridRuleId != null ? ' (Grid Rule ' + detailError.gridRuleId + ')' : '';
                 addError(result, 'GridDetails', null, detailError.message + suffix);
             }
         }
@@ -535,7 +535,7 @@ public with sharing class GridExcelImportService {
         @AuraEnabled public Integer scopesUpserted = 0;
         @AuraEnabled public Integer criteriaCreated = 0;
         @AuraEnabled public Integer criteriaDetailsCreated = 0;
-        @AuraEnabled public Integer ruleLinesCreated = 0;
+        @AuraEnabled public Integer gridRulesCreated = 0;
         @AuraEnabled public Integer gridDetailsCreated = 0;
         @AuraEnabled public List<ImportError> errors;
     }
