@@ -4,6 +4,8 @@
  *                          and the list of products grouped by their source Standard Grid (from GridDetail__c).
  *                      2- the agreement grid history records (past grid records)
  * @author Charles EID
+ * Test Class: AgreementGridRecapControllerTest 
+ * Coverage: 100%   [27-02-26]
 ────────────────────────────────────── */
 public with sharing class AgreementGridRecapController {
 

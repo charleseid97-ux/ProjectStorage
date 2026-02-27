@@ -3,6 +3,8 @@
  *              Used by AgreementGridRecapController (products only) and
  *              StandardGridProductAndRulesController (products + hover data).
  * @author Charles EID
+ *  Test Class: StdGridProductAndRulesControllerTest 
+ * Coverage: 100%   [27-02-26]
 ────────────────────────────────────── */
 public with sharing class GridRecapHelper {
     private static final String RULE_OGR = 'Take Rebates Rate - Other Grid Rule';
