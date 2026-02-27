@@ -49,6 +49,10 @@
                 <behavior>Edit</behavior>
                 <field>FilterFields__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>FilterRowsLabel__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

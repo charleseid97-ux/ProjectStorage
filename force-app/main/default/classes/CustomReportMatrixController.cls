@@ -16,7 +16,7 @@ public with sharing class CustomReportMatrixController {
     public static MatrixResult getMatrixData(String configName, String filterSelectionsJson, Boolean isInitialLoad) {
         // 1. Read CMDT — SOQL required: getInstance() silently truncates LongTextArea fields
         List<ReportMatrixConfiguration__mdt> configs = [SELECT ObjectName__c, RowGroups__c, ColGroups__c, ValueField__c, WhereClause__c, OrderByClause__c,
-                                                                Title__c, CellStyles__c, AllowExcelExport__c, AllowFilters__c, FilterFields__c
+                                                                Title__c, CellStyles__c, AllowExcelExport__c, AllowFilters__c, FilterFields__c, FilterRowsLabel__c
                                                         FROM ReportMatrixConfiguration__mdt
                                                         WHERE DeveloperName = :configName LIMIT 1];
         if (configs.isEmpty()) {
@@ -71,6 +71,7 @@ public with sharing class CustomReportMatrixController {
         // 13. Assemble result
         MatrixResult result     = new MatrixResult(String.isNotBlank(config.Title__c) ? config.Title__c : configName, config.AllowExcelExport__c);
         result.allowFilters     = config.AllowFilters__c;
+        result.filterRowsLabel  = String.isNotBlank(config.FilterRowsLabel__c) ? config.FilterRowsLabel__c : 'Filter';
         result.filterOptions    = filterOptions;
         result.rowTree          = rowTree;
         result.colTree          = colTree;
@@ -425,6 +426,7 @@ public with sharing class CustomReportMatrixController {
         @AuraEnabled public String             valueFieldLabel  { get; set; }
         @AuraEnabled public Boolean            allowExcelExport { get; set; }
         @AuraEnabled public Boolean            allowFilters     { get; set; }
+        @AuraEnabled public String             filterRowsLabel  { get; set; }
         @AuraEnabled public List<FilterOption> filterOptions    { get; set; }
         @AuraEnabled public String             title            { get; set; }
         public MatrixResult(String title, Boolean allowExcelExport) {

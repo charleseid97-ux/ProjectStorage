@@ -18,7 +18,12 @@
     &quot;rules&quot;:[
       {
         &quot;values&quot;:[
-          &quot;REG&quot;,
+          &quot;REG&quot;
+        ],
+        &quot;style&quot;:&quot;background-color: #1b5e20; color: #c8e6c9&quot;
+      },
+      {
+        &quot;values&quot;:[
           &quot;INSTITUTIONAL_ONLY&quot;
         ],
         &quot;style&quot;:&quot;background-color: #c8e6c9; color: #1b5e20&quot;
@@ -52,6 +57,10 @@
         <field>FilterFields__c</field>
         <value xsi:type="xsd:string">ShareClass__r.Name__c
 ShareClass__r.Fund__r.LegalForm__c</value>
+    </values>
+    <values>
+        <field>FilterRowsLabel__c</field>
+        <value xsi:type="xsd:string">Search by fund name, acronyme or ISIN code</value>
     </values>
     <values>
         <field>ObjectName__c</field>
