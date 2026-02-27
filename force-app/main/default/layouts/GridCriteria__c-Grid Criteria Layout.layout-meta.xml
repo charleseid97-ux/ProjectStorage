@@ -131,15 +131,15 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>GridScope__c</fields>
+        <fields>Grid__c</fields>
         <fields>RuleToApply__c</fields>
         <fields>FeesType__c</fields>
-        <fields>PercentageOfFees__c</fields>
+        <fields>GridRate__c</fields>
         <fields>ShareType__c</fields>
         <fields>OtherShareType__c</fields>
         <fields>OtherGridRule__c</fields>
         <fields>CREATED_DATE</fields>
-        <relatedList>GridRuleLine__c.GridCriteria__c</relatedList>
+        <relatedList>GridRule__c.GridCriteria__c</relatedList>
         <sortField>NAME</sortField>
         <sortOrder>Asc</sortOrder>
     </relatedLists>
@@ -148,8 +148,8 @@
         <fields>Grid__c</fields>
         <fields>StandardGrid__c</fields>
         <fields>ShareClass__c</fields>
-        <fields>GridRuleLine__c</fields>
-        <fields>Rebate__c</fields>
+        <fields>GridRule__c</fields>
+        <fields>RebateRate__c</fields>
         <fields>StartDate__c</fields>
         <fields>EndDate__c</fields>
         <fields>CREATED_DATE</fields>

@@ -12,10 +12,6 @@
                 <behavior>Required</behavior>
                 <field>Name</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>GridScope__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -134,8 +130,8 @@
         <fields>NAME</fields>
         <fields>ShareClass__c</fields>
         <fields>GridCriteria__c</fields>
-        <fields>GridRuleLine__c</fields>
-        <fields>Rebate__c</fields>
+        <fields>GridRule__c</fields>
+        <fields>RebateRate__c</fields>
         <fields>StartDate__c</fields>
         <fields>EndDate__c</fields>
         <relatedList>GridDetail__c.Grid__c</relatedList>

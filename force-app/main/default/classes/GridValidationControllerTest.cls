@@ -1,10 +1,10 @@
-/**
+/** ──────────────────────────────────────
  * @description Test class for GridValidationController and GridBuilderHelper (shared). 
  *              Validates the getProducts method including AUM aggregation by share class, product filtering, and integration with
  *              GridBuilderHelper for data formatting.
  * @author Charles EID
  * @testCoverage GridValidationController (95%), GridBuilderHelper (95% partial)
- */
+────────────────────────────────────── */
 @IsTest
 private class GridValidationControllerTest {
 

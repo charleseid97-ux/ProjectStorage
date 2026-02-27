@@ -1,11 +1,11 @@
-/**
+/** ──────────────────────────────────────
  * @description Test class for GridExcelImportService and GridCriteriaExpressionParser (integration). 
  *              Validates JSON import orchestration including scope/rule parsing, Include/Exclude expression parsing, and
  *              GridCriteria/GridCriteriaDetail creation. 
  *              Tests all 4 rule types and complex filter expressions. Simplified to use GridTestSetupHelper for test data creation.
  * @author Charles EID
  * @testCoverage GridExcelImportService (81%), GridCriteriaExpressionParser (83% partial)
- */
+────────────────────────────────────── */
 @IsTest
 private class GridExcelImportServiceTest {
 

@@ -1,4 +1,4 @@
-/**
+/** ──────────────────────────────────────
  * @description Lightning Web Component controller for the Grid Builder interface. 
  *              Provides methods for retrieving grid settings, available grids, products, 
  *                  share classes, and agreement selection page configuration. 
@@ -6,7 +6,7 @@
  * @author Charles EID
  * @testClass GridBuilderControllerTest
  * @coverage 95%
- */
+ ────────────────────────────────────── */
 public with sharing class GridBuilderController {
 
     @AuraEnabled(cacheable=true)
@@ -66,15 +66,19 @@ public with sharing class GridBuilderController {
     public static List<Map<String, String>> getAvailableGrids(String countriesOfDistribution, String agreementNames) {
         List<Map<String, String>> gridOptions = new List<Map<String, String>>();
         String standardGridRT = GridBuilderHelper.RT_STANDARD_GRID;
+        List<String> countryList = GridBuilderHelper.stringToList(countriesOfDistribution, ';');
+        List<String> agreementNameList = GridBuilderHelper.stringToList(agreementNames, ',');
+        Set<Id> addedGridIds = new Set<Id>();
 
-        for (Grid__c g : [SELECT Id, Name, GridScope__c, GridScope__r.Country__c, GridScope__r.Agreement__c
-                          FROM Grid__c
-                          WHERE ActiveGrid__c = true
-                          AND GridScope__c != null
-                          AND RecordType.DeveloperName = :standardGridRT
-                          ORDER BY Name ASC LIMIT 5000]) {
-            if (matchesScope(g.GridScope__r.Country__c, GridBuilderHelper.stringToList(countriesOfDistribution, ';'), g.GridScope__r.Agreement__c, GridBuilderHelper.stringToList(agreementNames, ','))) {
-                gridOptions.add(new Map<String, String>{'label' => g.Name, 'value' => g.Id});
+        for (GridScope__c scope : [SELECT Grid__c, Grid__r.Name, Country__c, Agreement__c
+                                   FROM GridScope__c
+                                   WHERE Grid__c != null
+                                   AND Grid__r.ActiveGrid__c = true
+                                   AND Grid__r.RecordType.DeveloperName = :standardGridRT
+                                   ORDER BY Grid__r.Name ASC LIMIT 5000]) {
+            if (!addedGridIds.contains(scope.Grid__c) && matchesScope(scope.Country__c, countryList, scope.Agreement__c, agreementNameList)) {
+                gridOptions.add(new Map<String, String>{'label' => scope.Grid__r.Name, 'value' => scope.Grid__c});
+                addedGridIds.add(scope.Grid__c);
             }
         }
         return gridOptions;
@@ -82,14 +86,14 @@ public with sharing class GridBuilderController {
 
     private static Boolean matchesScope(String scopeCountry, List<String> countryList, String scopeAgreement, List<String> agreementNameList) {
         Boolean scopeMatch = false;
-        if (String.isNotBlank(scopeCountry) && scopeCountry.trim() == 'ALL') {
+        if (String.isNotBlank(scopeCountry) && scopeCountry.trim() == 'ALL' && String.isNotBlank(scopeAgreement) && scopeAgreement.trim() == 'ALL') {
             scopeMatch = true;
-        }
-        else if (String.isNotBlank(scopeAgreement) && !agreementNameList.isEmpty()) {
-            scopeMatch = checkScopeToAgreementMatch(scopeAgreement, agreementNameList);
         }
         else if (String.isNotBlank(scopeCountry) && !countryList.isEmpty()) {
             scopeMatch = checkScopeToAgreementMatch(scopeCountry, countryList);
+        }
+        else if (String.isNotBlank(scopeAgreement) && !agreementNameList.isEmpty()) {
+            scopeMatch = checkScopeToAgreementMatch(scopeAgreement, agreementNameList);
         }
         return scopeMatch;
     }
@@ -247,7 +251,7 @@ public with sharing class GridBuilderController {
         return availableTeams;
     }
 
-    // ------------------------------------ WRAPPERS ------------------------------------
+    // ────────────────────────────────────── WRAPPERS ──────────────────────────────────────
     public class AgreementSelectionPageSettings {
         @AuraEnabled public Boolean gridBuilderFound { get; set; }
         @AuraEnabled public String agreementSelectionMode { get; set; }

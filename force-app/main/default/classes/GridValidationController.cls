@@ -1,11 +1,11 @@
-/**
+/** ──────────────────────────────────────
  * @description Lightning Web Component controller for the Grid Validation interface. 
  *              Provides a method for retrieving products with AUM (Assets Under Management) aggregation by share class and agreement.
  *              Formats AUM amounts for display and integrates with GridBuilderHelper for product filtering.
  * @author Charles EID
  * @testClass GridValidationControllerTest
  * @coverage 95%
- */
+────────────────────────────────────── */
 public with sharing class GridValidationController {
 
     @AuraEnabled
@@ -56,11 +56,11 @@ public with sharing class GridValidationController {
         try {
             GridSaveRequest request = (GridSaveRequest)JSON.deserialize(requestJson, GridSaveRequest.class);
 
-            // 1. Create GridScope__c for Custom Grid
-            insertGridScope(request);
-
-            // 2. Create Grid__c (with Custom record type)
+            // 1. Create Grid__c (with Custom record type)
             insertCustomGrid(request.grid, result);
+
+            // 2. Create GridScope__c for Custom Grid (references the new grid)
+            insertGridScope(request);
 
             // 3. Create GridCriteria__c (store Map<criteriaRefId, Id>)
             Map<String, GridCriteria__c> criteriaRefToRecordMap = insertGridCriteria_getCriteriaRefToIdMap(request);
@@ -86,7 +86,7 @@ public with sharing class GridValidationController {
     private static void insertGridScope(GridSaveRequest request) {
         GridScope__c scope = new GridScope__c();
         scope.Name = 'Grid Scope for ' + request.grid.Name;
-        scope.GridName__c = request.grid.Name;
+        scope.Grid__c = request.grid.Id;
         if (request.agreementIds != null && !request.agreementIds.isEmpty()) {
             List<String> agreementNames = new List<String>();
             for (Convention__c agmt : [SELECT Id, Name FROM Convention__c WHERE Id IN :request.agreementIds]) {
@@ -94,9 +94,7 @@ public with sharing class GridValidationController {
             }
             scope.Agreement__c = String.join(agreementNames, ', ');
         }
-        scope.Country__c = 'ALL';
         insert scope;
-        request.grid.GridScope__c = scope.Id;
     }
 
     private static void insertCustomGrid(Grid__c grid, GridSaveResult result) {
@@ -142,8 +140,9 @@ public with sharing class GridValidationController {
     }
 
     private static void insertGridDetails(GridSaveRequest request, Map<String, GridCriteria__c> criteriaRefToRecordMap, Map<String, String> shareClassGridIdMap) {
-        Map<Id, Map<String, Object>> rebateByShareClass = (shareClassGridIdMap != null && !shareClassGridIdMap.isEmpty()) ? GridBuilderHelper.buildRebateRateByShareClass(shareClassGridIdMap) : new Map<Id, Map<String, Object>>();
+        Map<Id, GridBuilderHelper.StandardGridDetailInfo> stdGridDetailInfoByShareClass = (shareClassGridIdMap != null && !shareClassGridIdMap.isEmpty()) ? GridBuilderHelper.buildStandardGridDetailInfoByShareClass(shareClassGridIdMap) : new Map<Id, GridBuilderHelper.StandardGridDetailInfo>();
         List<GridDetail__c> gridDetailsToInsert = new List<GridDetail__c>();
+        Id customGridDetailRtId = Schema.SObjectType.GridDetail__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_CUSTOM_GRID_DETAIL).getRecordTypeId();
         Date criteriaStartDate;
         for (CriteriaWrapper cw : request.criteriaList) {
             criteriaStartDate = cw.criteria != null ? cw.criteria.StartDate__c : null;
@@ -151,12 +150,12 @@ public with sharing class GridValidationController {
                 GridCriteria__c criteriaRecord = criteriaRefToRecordMap.get(cw.criteriaRefId);
                 for (Id scId : cw.shareClassIds) {
                     gridDetailsToInsert.add(new GridDetail__c(
+                        RecordTypeId = customGridDetailRtId,
                         Grid__c = request.grid.Id,
                         ShareClass__c = scId,
-                        StandardGrid__c = criteriaRecord.StandardGrid__c,
+                        StandardGridDetail__c = stdGridDetailInfoByShareClass.containsKey(scId) ? stdGridDetailInfoByShareClass.get(scId).gridDetailId : null,
                         GridCriteria__c = criteriaRecord.Id,
-                        StartDate__c = criteriaStartDate,
-                        Rebate__c = (rebateByShareClass.containsKey(scId))? (Decimal)rebateByShareClass.get(scId).get('value') : 0
+                        StartDate__c = criteriaStartDate
                     ));
                 }
             }
@@ -176,7 +175,7 @@ public with sharing class GridValidationController {
         }
     }
 
-    // ------------------------------------ WRAPPERS ------------------------------------
+    // ────────────────────────────────────── WRAPPERS ──────────────────────────────────────
     public class GridSaveRequest {
         @AuraEnabled public Grid__c grid { get; set; }
         @AuraEnabled public List<CriteriaWrapper> criteriaList { get; set; }

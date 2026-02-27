@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>GridCriteria__c</fullName>
+    <fullName>Grid__c</fullName>
     <deleteConstraint>Restrict</deleteConstraint>
-    <externalId>false</externalId>
-    <label>Grid Criteria</label>
-    <referenceTo>GridCriteria__c</referenceTo>
+    <label>Grid</label>
+    <referenceTo>Grid__c</referenceTo>
     <relationshipLabel>Grid Rule Lines</relationshipLabel>
-    <relationshipName>GridRuleLines</relationshipName>
-    <required>true</required>
+    <relationshipName>GridRules</relationshipName>
+    <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>
