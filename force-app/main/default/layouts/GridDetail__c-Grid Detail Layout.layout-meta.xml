@@ -40,10 +40,6 @@
                 <behavior>Edit</behavior>
                 <field>RebateRate__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>StandardGrid__c</field>
-            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>

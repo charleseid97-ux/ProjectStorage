@@ -138,15 +138,6 @@
         <sortField>StartDate__c</sortField>
         <sortOrder>Asc</sortOrder>
     </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <fields>ShareClass__c</fields>
-        <fields>Grid__c</fields>
-        <fields>GridCriteria__c</fields>
-        <fields>StartDate__c</fields>
-        <fields>EndDate__c</fields>
-        <relatedList>GridDetail__c.StandardGrid__c</relatedList>
-    </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
     <showInteractionLogPanel>false</showInteractionLogPanel>

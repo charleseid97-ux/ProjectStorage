@@ -2,8 +2,9 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>GridRule__c</fullName>
     <deleteConstraint>Restrict</deleteConstraint>
-    <description>The grid rule line record that resulted in the generation of the grid detail.</description>
-    <label>Grid Rule Line</label>
+    <description>The grid rule record that resulted in the generation of the grid detail.</description>
+    <externalId>false</externalId>
+    <label>Grid Rule</label>
     <referenceTo>GridRule__c</referenceTo>
     <relationshipLabel>Grid Details</relationshipLabel>
     <relationshipName>GridDetails</relationshipName>

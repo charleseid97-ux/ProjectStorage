@@ -159,13 +159,13 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ReadWrite</externalSharingModel>
-    <label>Grid Rule Line</label>
+    <label>Grid Rule</label>
     <nameField>
-        <displayFormat>GRL-{000000}</displayFormat>
-        <label>Grid Rule Line Number</label>
+        <displayFormat>GR-{000000}</displayFormat>
+        <label>Grid Rule Number</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Grid Rule Lines</pluralLabel>
+    <pluralLabel>Grid Rules</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
