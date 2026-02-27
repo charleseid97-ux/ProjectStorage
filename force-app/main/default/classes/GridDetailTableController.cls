@@ -142,24 +142,24 @@ public with sharing class GridDetailTableController {
         return (effMgtFee != null && rebateRate != null)? effMgtFee - rebateRate : (rebateRate == null)? effMgtFee : null;
     }
 
-    private static String buildRuleValue(GridRule__c ruleLine) {
-        if (ruleLine == null) {
+    private static String buildRuleValue(GridRule__c gridRule) {
+        if (gridRule == null) {
             return null;
         }
-        if (ruleLine.RuleToApply__c == RULE_OTHER_GRID) {
-            return ruleLine.OtherGridRule__c;
+        if (gridRule.RuleToApply__c == RULE_OTHER_GRID) {
+            return gridRule.OtherGridRule__c;
         }
-        if (ruleLine.RuleToApply__c == RULE_OTHER_SHARE) {
-            return ruleLine.OtherShareType__c;
+        if (gridRule.RuleToApply__c == RULE_OTHER_SHARE) {
+            return gridRule.OtherShareType__c;
         }
-        if (ruleLine.RuleToApply__c == RULE_OTHER_SHARE_FEES) {
-            String pct = GridBuilderHelper.formatPercent(ruleLine.GridRate__c);
-            if (String.isNotBlank(ruleLine.OtherShareType__c) && String.isNotBlank(pct)) {
-                return ruleLine.OtherShareType__c + ' + ' + pct;
+        if (gridRule.RuleToApply__c == RULE_OTHER_SHARE_FEES) {
+            String pct = GridBuilderHelper.formatPercent(gridRule.GridRate__c);
+            if (String.isNotBlank(gridRule.OtherShareType__c) && String.isNotBlank(pct)) {
+                return gridRule.OtherShareType__c + ' + ' + pct;
             }
-            return String.isNotBlank(pct) ? pct : ruleLine.OtherShareType__c;
+            return String.isNotBlank(pct) ? pct : gridRule.OtherShareType__c;
         }
-        return GridBuilderHelper.formatPercent(ruleLine.GridRate__c);
+        return GridBuilderHelper.formatPercent(gridRule.GridRate__c);
     }
 
     private static String getShareValue(Share_Class__c share, String fieldPath) {
@@ -232,7 +232,7 @@ public with sharing class GridDetailTableController {
         @AuraEnabled public String ruleValue;
         public GridDetailRow(GridDetail__c detail, Map<Id, String> aumByShareClass) {
             Share_Class__c share        =   detail.ShareClass__r;
-            GridRule__c ruleLine    =   detail.GridRule__r;
+            GridRule__c gridRule    =   detail.GridRule__r;
             Decimal effFee              =   share != null ? share.EffectiveManagementFees__c : null;
 
             this.id                     =   detail.Id;
@@ -250,9 +250,9 @@ public with sharing class GridDetailTableController {
             this.effMgtFee              =   GridBuilderHelper.formatPercent(effFee);
             this.rebateRate             =   GridBuilderHelper.formatPercent(detail.RebateRate__c);
             this.netMargin              =   GridBuilderHelper.formatPercent(calculateNetMargin(effFee, detail.RebateRate__c));
-            this.profitability          =   GridBuilderHelper.formatPercent(ruleLine != null ? ruleLine.GridRate__c : null);
-            this.gridRule               =   ruleLine != null ? ruleLine.RuleToApply__c : null;
-            this.ruleValue              =   buildRuleValue(ruleLine);
+            this.profitability          =   GridBuilderHelper.formatPercent(gridRule != null ? gridRule.GridRate__c : null);
+            this.gridRule               =   gridRule != null ? gridRule.RuleToApply__c : null;
+            this.ruleValue              =   buildRuleValue(gridRule);
         }
     }
 }

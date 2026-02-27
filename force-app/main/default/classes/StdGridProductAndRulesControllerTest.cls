@@ -25,7 +25,7 @@ public class StdGridProductAndRulesControllerTest {
         // ── S1: StandardGridDetail with a Percentage-of-Fees rule (the resolution target) ──
         GridCriteria__c criteriaS1 = GridTestSetupHelper.createCriteria(gridS1.Id, 'AND', null, 'S1 criteria');
         insert criteriaS1;
-        GridRule__c ruleS1 = GridTestSetupHelper.createRuleLine(gridS1.Id, criteriaS1.Id, 'Percentage of Fees', 'EffectiveManagementFees__c', 2.50, null, null, null);
+        GridRule__c ruleS1 = GridTestSetupHelper.createGridRule(gridS1.Id, criteriaS1.Id, 'Percentage of Fees', 'EffectiveManagementFees__c', 2.50, null, null, null);
         insert ruleS1;
         GridDetail__c stdDetailS1 = GridTestSetupHelper.createGridDetail(gridS1.Id, ruleS1.Id, criteriaS1.Id, sc.Id, 2.50, Date.today(), Date.newInstance(2099, 12, 31), GridBuilderHelper.RT_STANDARD_GRID_DETAIL);
         insert stdDetailS1;
@@ -33,7 +33,7 @@ public class StdGridProductAndRulesControllerTest {
         // ── S5+: StandardGridDetail with an Other-Grid-Rule pointing to 'S1' ──
         GridCriteria__c criteriaS5 = GridTestSetupHelper.createCriteria(gridS5.Id, 'AND', null, 'S5+ criteria');
         insert criteriaS5;
-        GridRule__c ruleS5 = GridTestSetupHelper.createRuleLine(gridS5.Id, criteriaS5.Id, 'Take Rebates Rate - Other Grid Rule', 'EffectiveManagementFees__c', null, null, null, GridTestSetupHelper.GRID_NAME_S1);
+        GridRule__c ruleS5 = GridTestSetupHelper.createGridRule(gridS5.Id, criteriaS5.Id, 'Take Rebates Rate - Other Grid Rule', 'EffectiveManagementFees__c', null, null, null, GridTestSetupHelper.GRID_NAME_S1);
         insert ruleS5;
         GridDetail__c stdDetailS5 = GridTestSetupHelper.createGridDetail(gridS5.Id, ruleS5.Id, criteriaS5.Id, sc.Id, null, Date.today(), Date.newInstance(2099, 12, 31), GridBuilderHelper.RT_STANDARD_GRID_DETAIL);
         insert stdDetailS5;

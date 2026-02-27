@@ -62,6 +62,7 @@
 		<members>Grid_FixValidationErrors</members>
 		<members>Grid_GridDetailsCreated</members>
 		<members>Grid_GridName</members>
+		<members>Grid_GridRulesCreated</members>
 		<members>Grid_ImportCompleted</members>
 		<members>Grid_ImportCompletedWithErrors</members>
 		<members>Grid_ImportFailed</members>
@@ -97,7 +98,6 @@
 		<members>Grid_ResetAll_Success</members>
 		<members>Grid_ResetFilters</members>
 		<members>Grid_RowErrors</members>
-		<members>Grid_RuleLinesCreated</members>
 		<members>Grid_Saved_Success</members>
 		<members>Grid_ScopesUpserted</members>
 		<members>Grid_SelectExcelFile</members>
@@ -204,7 +204,7 @@
 		<members>GridCriteriaSetting__mdt-Grid Criteria Setting Layout</members>
 		<members>GridCriteria__c-Grid Criteria Layout</members>
 		<members>GridDetail__c-Grid Detail Layout</members>
-		<members>GridRule__c-Grid Rule Line Layout</members>
+		<members>GridRule__c-Grid Rule Layout</members>
 		<members>GridScope__c-Grid Scope Layout</members>
 		<members>Grid__c-Custom Grid Layout</members>
 		<members>Grid__c-Standard Grid Layout</members>

@@ -347,7 +347,7 @@ public class GridTestSetupHelper {
         );
     }
 
-    public static GridRule__c createRuleLine(Id gridId, Id criteriaId, String ruleToApply, String feesType, Decimal gridRate, String shareType, String otherShareType, String otherGridRule) {
+    public static GridRule__c createGridRule(Id gridId, Id criteriaId, String ruleToApply, String feesType, Decimal gridRate, String shareType, String otherShareType, String otherGridRule) {
         return new GridRule__c(
             Grid__c = gridId,
             GridCriteria__c = criteriaId,
@@ -372,7 +372,7 @@ public class GridTestSetupHelper {
                 ORDER BY GridCriteria__c, FilterNumber__c];
     }
 
-    public static List<GridRule__c> getTestRuleLines() {
+    public static List<GridRule__c> getTestGridRules() {
         return [SELECT Id, Grid__c, GridCriteria__c, RuleToApply__c, FeesType__c, GridRate__c,
                        ShareType__c, OtherShareType__c, OtherGridRule__c
                 FROM GridRule__c
@@ -380,12 +380,12 @@ public class GridTestSetupHelper {
     }
 
     // ------------------------------------ GRID DETAIL METHODS ------------------------------------
-    public static GridDetail__c createGridDetail(Id gridId, Id ruleLineId, Id criteriaId, Id shareClassId, Decimal rebateRate, Date startDate, Date endDate, String recordTypeDeveloperName) {
+    public static GridDetail__c createGridDetail(Id gridId, Id gridRuleId, Id criteriaId, Id shareClassId, Decimal rebateRate, Date startDate, Date endDate, String recordTypeDeveloperName) {
         Id recordTypeId = Schema.SObjectType.GridDetail__c.getRecordTypeInfosByDeveloperName().get(recordTypeDeveloperName).getRecordTypeId();
         return new GridDetail__c(
             RecordTypeId = recordTypeId,
             Grid__c = gridId,
-            GridRule__c = ruleLineId,
+            GridRule__c = gridRuleId,
             GridCriteria__c = criteriaId,
             ShareClass__c = shareClassId,
             RebateRate__c = rebateRate,

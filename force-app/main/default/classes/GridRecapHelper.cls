@@ -83,7 +83,7 @@ public with sharing class GridRecapHelper {
         }
         String ruleToApply = gd.StandardGridDetail__r.GridRule__r.RuleToApply__c;
         String otherGR     = gd.StandardGridDetail__r.GridRule__r.OtherGridRule__c;
-        processRuleLineDetails(ruleMap.get(sgId), ruleId, gd.StandardGridDetail__r.ShareClass__r.Type__c, ruleToApply, gd.StandardGridDetail__r.GridRule__r.GridRate__c, gd.StandardGridDetail__r.GridRule__r.OtherShareType__c, otherGR, shortName);
+        processGridRuleDetails(ruleMap.get(sgId), ruleId, gd.StandardGridDetail__r.ShareClass__r.Type__c, ruleToApply, gd.StandardGridDetail__r.GridRule__r.GridRate__c, gd.StandardGridDetail__r.GridRule__r.OtherShareType__c, otherGR, shortName);
         trackOgrEntry(gd.StandardGridDetail__r.ShareClass__c, sgId, ruleId, ruleToApply, otherGR, scIdsByCompKey, placeholderBySgIdByScOtherKey);
     }
 
@@ -156,7 +156,7 @@ public with sharing class GridRecapHelper {
         }
     }
 
-    private static void processRuleLineDetails(Map<Id, RuleEntry> rulesForGrid, Id ruleId, String shareType, String ruleToApply, Decimal gridRate, String otherShareType, String otherGridRule, String shortName) {
+    private static void processGridRuleDetails(Map<Id, RuleEntry> rulesForGrid, Id ruleId, String shareType, String ruleToApply, Decimal gridRate, String otherShareType, String otherGridRule, String shortName) {
         if (!rulesForGrid.containsKey(ruleId)) {
             rulesForGrid.put(ruleId, new RuleEntry(shareType, ruleToApply, gridRate, otherShareType, otherGridRule));
         }
