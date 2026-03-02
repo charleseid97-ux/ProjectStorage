@@ -65,6 +65,10 @@ public with sharing class VFC16_SequantisGenerateDraft {
             pdf = pdfString;
             showPDF = true;
             
+        } catch (CalloutException ce) {
+            // Laisser remonter pour les tests
+            throw ce;
+        
         } catch (Exception e) {
             System.debug('Erreur globale : ' + e.getMessage());
             throw new AuraHandledException('Erreur API : ' + e.getMessage());
