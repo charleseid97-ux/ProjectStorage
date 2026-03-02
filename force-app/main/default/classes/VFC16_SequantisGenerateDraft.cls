@@ -14,13 +14,14 @@ public with sharing class VFC16_SequantisGenerateDraft {
     public Boolean showPDF {get; set;} // Indique si le PDF est disponible pour affichage 
     public static String infoMessage {get; set;} // Message d'info pour l'utilisateur 
     public static String errorMessage {get; set;} // Message d'erreur pour l'utilisateur
-    public static Map<String, Object> payloadDebug  {get; set;} // Payload pour l'appel du service Sequantis
+    public static String payloadDebug  {get; set;} // Variable pour debug du payload
     public static List<String> payloadKeys { get; set; }
-    public static String payloadString { get; set; }
+    public static String payloadString { get; set; } // Variable pour stocker le payload JSON sérialisé (body)
     private  List <ProjectShareclass__c> shareclasses { get; set; }
 
 
     public VFC16_SequantisGenerateDraft(ApexPages.standardController con){
+        payloadDebug = '';
         showPDF = false;
         recordId = con.getId();
         system.debug('====VFC16_SequantisGenerateDraft=======recordId = ' + recordId);
@@ -39,6 +40,8 @@ public with sharing class VFC16_SequantisGenerateDraft {
 
     // Bouton Draft : génère le PDF et le met dans pdf (base64)
     public  void genPDF() {
+        errorMessage = ''; 
+        infoMessage = '';  
         system.debug('====genPDF=======shareclasses = ' + shareclasses);
         if(selectedRecordId == 'updateAll'){
             updateAllShareClasses();
@@ -47,7 +50,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
         }
         
 
-        //try {
+        try {
             // Étape 1 — Récupération du token OAuth2
             String token = fetchAccessToken('/rest/authentication');
             
@@ -62,22 +65,21 @@ public with sharing class VFC16_SequantisGenerateDraft {
             pdf = pdfString;
             showPDF = true;
             
-       /* } catch (Exception e) {
+        } catch (Exception e) {
             System.debug('Erreur globale : ' + e.getMessage());
             throw new AuraHandledException('Erreur API : ' + e.getMessage());
-        }*/
+        }
     }
 
     private void updateAllShareClasses() {   
-        errorMessage = ''; 
-        infoMessage = '';  
+        
             // Step 1 — Fetch authentication token
             String token = fetchAccessToken('/rest/authentication');
 
             // Step 2 — Iterate through all share class IDs
             for (ProjectShareclass__c shareClass : shareClasses) {
                 Id shareClassId = shareClass.Id;
-               // try {
+                try {
                     // Call the external Sequantis API for each share class
                     String response = callSequantisService(token, shareClassId, false);
                     if (response == 'OK') {
@@ -85,21 +87,21 @@ public with sharing class VFC16_SequantisGenerateDraft {
                     } else {
                         errorMessage+= '<br/>Error updating ShareClass with ID ' + shareClassId + ': ' + response;
                     }                                    
-               // } catch (Exception innerEx) {
+                } catch (Exception innerEx) {
                     // Log or handle per-share-class failure
-                   // System.debug('Error updating ShareClass with ID ' + shareClassId + ': ' + innerEx.getMessage());
-                //}
+                    System.debug('Error updating ShareClass with ID ' + shareClassId + ': ' + innerEx.getMessage());
+                }
             }
             if (errorMessage == '') {
                 infoMessage = 'All ShareClasses processed.';
             }        
     }
     public  String callSequantisService(String token, String projectShareClassId,Boolean returnPDF) {
+        payloadDebug = '';
         system.debug('====callSequantisService=======projectShareClassId = ' + projectShareClassId);
         Http httpReq = new Http();
         HttpRequest req = new HttpRequest();
         req.setTimeout(60000);
-        String endpoint;
         Map<String, Object> payload  = new Map<String, Object>();
 
         // Requetage des champs 
@@ -120,6 +122,35 @@ public with sharing class VFC16_SequantisGenerateDraft {
                                 internalShortName__c,TECH_RTName__c, BaseCurrency__c,RecordTypeId,DefaultLanguage__c
                             FROM ProjectProduct__c
                             WHERE Id = :projectShareClassRec.ProjectProduct__c];
+        system.debug('====callSequantisService=======endDate = ' + ProjectProductRec.EndDate__c); 
+        
+        Id fundShareClassModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();
+        Id fundCreationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundCreation').getRecordTypeId();
+        Id shareclassCreationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('ShareclassCreation').getRecordTypeId();
+
+        // ---------------------------------------------------------------------
+        // BLOCK Sequantis call: only allow sending within 1 month before launch date
+        // Applies to Modification record types only (Product / Shareclass Modification)
+        // ---------------------------------------------------------------------
+
+       
+        // Condition:
+        // - record type is a modification RT
+        // - launch date exists
+        // - launch date is MORE than 1 month from today
+     
+        if (
+            ProjectProductRec.RecordTypeId == fundShareClassModificationRecordTypeId
+            && ProjectProductRec.EndDate__c != null
+            && ProjectProductRec.EndDate__c > Date.today().addMonths(1)
+        ) {
+            system.debug('==1==callSequantisService=======generation failed : this project can be send to Sequantis only one month before the launch date');
+            String launchDateStr = ProjectProductRec.EndDate__c.format();
+             errorMessage = 'Generation failed : this project can be send to Sequantis only one month before the launch date (' + launchDateStr + ')';
+             showPDF = false;
+            return '<br/> Generation failed : this project can be send to Sequantis only one month before the launch date (' + launchDateStr + ')';
+        }
+       
 
         Narrative__c [] narratives = [ select  Type__c, Name, SubType__c
                                 from Narrative__c where Type__c = 'Third Party' and SubType__c= 'ManagementCompany'                       
@@ -235,30 +266,24 @@ public with sharing class VFC16_SequantisGenerateDraft {
         payload.put('projectType',  ProjectProductRec.TECH_RTName__c);
         payload.put('investmentObjective', projectInvestmentObjectiveNoHTML);
         payload.put('internalShortName',  ProjectProductRec.internalShortName__c);
-
-    // add only if project type is not Modification
-     Id fundShareClassModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();
-     Id fundCreationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundCreation').getRecordTypeId();
-     Id shareclassCreationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('ShareclassCreation').getRecordTypeId();
-
+        payload.put('userMail', UserInfo.getUserEmail());
        Id rtId = ProjectProductRec.RecordTypeId;
 
-if (rtId == fundCreationRecordTypeId) {
-    
-    payload.put('sortieAnticipee1', ProjectProductRec.ReasonForRHP__c);
-    payload.put('typeInvestisseur', ProjectProductRec.IntentedRetailInvestor__c);
-    payload.put('shareClassInvestmentObjective', shareClassInvestmentObjectiveNoHTML);
-    payload.put('performanceFeesCommentEPT', projectShareClassRec.PerformanceFeeEPTKID__c);
-    payload.put('performanceFeesComment', projectShareClassRec.PerformanceFeeUCITSKIID__c);
+        if (rtId == fundCreationRecordTypeId) {
+            
+            payload.put('sortieAnticipee1', ProjectProductRec.ReasonForRHP__c);
+            payload.put('typeInvestisseur', ProjectProductRec.IntentedRetailInvestor__c);
+            payload.put('shareClassInvestmentObjective', shareClassInvestmentObjectiveNoHTML);
+            payload.put('performanceFeesCommentEPT', projectShareClassRec.PerformanceFeeEPTKID__c);
+            payload.put('performanceFeesComment', projectShareClassRec.PerformanceFeeUCITSKIID__c);
 
-    if(narratives.size() > 0 ){payload.put('managementCompany',  narratives[0].Name );}
+            if(narratives.size() > 0 ){payload.put('managementCompany',  narratives[0].Name );}
 
-}
-else if (rtId == shareclassCreationRecordTypeId) {
-    payload.put('shareClassInvestmentObjective', shareClassInvestmentObjectiveNoHTML);
-    payload.put('performanceFeesCommentEPT', projectShareClassRec.PerformanceFeeEPTKID__c);
-    payload.put('performanceFeesComment', projectShareClassRec.PerformanceFeeUCITSKIID__c);
-}
+        }else if (rtId == shareclassCreationRecordTypeId) {
+                payload.put('shareClassInvestmentObjective', shareClassInvestmentObjectiveNoHTML);
+                payload.put('performanceFeesCommentEPT', projectShareClassRec.PerformanceFeeEPTKID__c);
+                payload.put('performanceFeesComment', projectShareClassRec.PerformanceFeeUCITSKIID__c);
+        }
        // payload.put('fundcurrency',  ProjectProductRec.BaseCurrency__c); //champ pas encore créé coté Sequantis
         //payload.put('????'  shareClassInvestmentObjectiveNoHTML
         //payload.put('riskNarrative', 'L\'indicateur synthétique de risque indique la probabilité que ce produit...');
@@ -272,10 +297,10 @@ else if (rtId == shareclassCreationRecordTypeId) {
 
         // Sérialisation du Map en JSON
         system.debug('payload====='+JSON.serialize(payload));
-        payloadDebug = payload;
         payloadKeys = new List<String>(payload.keySet());
         payloadString = JSON.serialize(payload);
-        req.setBody(JSON.serialize(payload));
+        //payloadDebug= payloadString;
+        req.setBody(payloadString);
 
         HttpResponse res = httpReq.send(req);
         system.debug('==============Response status: ' + res.getStatusCode());
