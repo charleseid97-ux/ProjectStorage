@@ -1,13 +1,43 @@
 @IsTest(SeeAllData=false)
 private class customEventHandler_Test {
 
-    // Helper: stable prefix for this test class
     private static final String PREFIX = 'TST-EventName-';
+
+    // --- FLS helpers (scanner-friendly) ---
+    private static void assertCreateable(Schema.SObjectField f, String apiName) {
+        System.assert(f.getDescribe().isCreateable(), 'Missing CREATE FLS on ' + apiName);
+    }
+    private static void assertUpdateable(Schema.SObjectField f, String apiName) {
+        System.assert(f.getDescribe().isUpdateable(), 'Missing UPDATE FLS on ' + apiName);
+    }
+    private static void assertReadable(Schema.SObjectField f, String apiName) {
+        System.assert(f.getDescribe().isAccessible(), 'Missing READ FLS on ' + apiName);
+    }
+
+    private static void assertEventCreateFls() {
+        assertCreateable(Event__c.Title__c,     'Event__c.Title__c');
+        assertCreateable(Event__c.SalesTeam__c, 'Event__c.SalesTeam__c');
+        assertCreateable(Event__c.startTime__c, 'Event__c.startTime__c');
+        assertCreateable(Event__c.Format__c,    'Event__c.Format__c');
+    }
+
+    private static void assertEventUpdateFls() {
+        assertUpdateable(Event__c.Title__c,     'Event__c.Title__c');
+        // Add others if you update them in tests later
+    }
+
+    private static void assertEventReadFls() {
+        assertReadable(Event__c.Name,          'Event__c.Name');
+        assertReadable(Event__c.Title__c,      'Event__c.Title__c');
+        assertReadable(Event__c.SalesTeam__c,  'Event__c.SalesTeam__c');
+        assertReadable(Event__c.startTime__c,  'Event__c.startTime__c');
+        assertReadable(Event__c.Format__c,     'Event__c.Format__c');
+    }
 
     @testSetup
     static void setupData() {
-        // Create one event used by update tests
-        // Important: Name is set by trigger in BeforeInsert, but for insert we just need required fields.
+        assertEventCreateFls();
+
         Event__c e = new Event__c(
             Title__c = PREFIX + 'Initial',
             SalesTeam__c = 'France',
@@ -19,7 +49,9 @@ private class customEventHandler_Test {
 
     @IsTest
     static void testBeforeInsert_BuildsName_FromTimeCountryTitleFormat() {
-        // Arrange
+        assertEventCreateFls();
+        assertEventReadFls();
+
         Event__c e = new Event__c(
             Title__c = PREFIX + 'Insert',
             SalesTeam__c = 'France',
@@ -27,72 +59,79 @@ private class customEventHandler_Test {
             Format__c = 'Digital'
         );
 
-        // Act
         insert e;
 
-        // Assert (requery because Name is set in trigger context)
-        e = [SELECT Name, Title__c, SalesTeam__c, startTime__c, Format__c FROM Event__c WHERE Id = :e.Id];
+        // Use WITH SECURITY_ENFORCED to satisfy the scanner for READ access.
+        e = [
+            SELECT Name, Title__c, SalesTeam__c, startTime__c, Format__c
+            FROM Event__c
+            WHERE Id = :e.Id
+            WITH SECURITY_ENFORCED
+        ];
 
-        // Expected:
-        // timePart: 1:05 PM
-        // countryPart: FR (from map)
-        // title: Title__c
-        // formatPart: D (Digital -> startsWith('D'))
         String expected = '1:05 PM – FR – ' + (PREFIX + 'Insert') + ' – D';
-        System.assertEquals(expected, e.Name, 'Name should be built from time, country, title and format');
+        System.assertEquals(expected, e.Name);
     }
 
     @IsTest
     static void testBeforeUpdate_RebuildsName_WhenRelevantFieldChanges() {
-        // Arrange: take the setup record
+        assertEventReadFls();
+        assertEventUpdateFls();
+
         Event__c e = [
             SELECT Id, Name, Title__c, SalesTeam__c, startTime__c, Format__c
             FROM Event__c
-            WHERE Title__c = : (PREFIX + 'Initial')
+            WHERE Title__c = :(PREFIX + 'Initial')
             LIMIT 1
+            WITH SECURITY_ENFORCED
         ];
 
-        // Act: change one relevant field (Title__c)
         e.Title__c = PREFIX + 'Updated';
         update e;
 
-        // Assert
-        e = [SELECT Name FROM Event__c WHERE Id = :e.Id];
+        e = [
+            SELECT Name
+            FROM Event__c
+            WHERE Id = :e.Id
+            WITH SECURITY_ENFORCED
+        ];
 
-        // startTime__c=13:05 -> 1:05 PM, SalesTeam__c=France -> FR, Format__c=Digital -> D
         String expected = '1:05 PM – FR – ' + (PREFIX + 'Updated') + ' – D';
-        System.assertEquals(expected, e.Name, 'Name should be rebuilt when Title__c changes');
+        System.assertEquals(expected, e.Name);
     }
 
     @IsTest
     static void testBeforeUpdate_DoesNotChangeName_WhenNothingRelevantChanged() {
-        // Arrange
+        assertEventReadFls();
+        assertEventUpdateFls();
+
         Event__c e = [
             SELECT Id, Name, Title__c, SalesTeam__c, startTime__c, Format__c
             FROM Event__c
-            WHERE Title__c = : (PREFIX + 'Initial')
+            WHERE Title__c = :(PREFIX + 'Initial')
             LIMIT 1
+            WITH SECURITY_ENFORCED
         ];
         String nameBefore = e.Name;
 
-        // Act: update a non-relevant field (choose a field that exists and is not in the "changed" list)
-        // If you don't have a safe non-relevant field, remove this test or replace with an actual field in your org.
-        // Example assumes Description__c exists:
-        // e.Description__c = 'noop';
-        // update e;
-
-        // Safer alternative: do a no-op update by setting a relevant field to the same value (should not trigger rebuild)
+        // No-op update (still requires UPDATE FLS checks to satisfy scanner)
         e.Title__c = e.Title__c;
         update e;
 
-        // Assert
-        e = [SELECT Name FROM Event__c WHERE Id = :e.Id];
-        System.assertEquals(nameBefore, e.Name, 'Name should not change if relevant fields did not change');
+        e = [
+            SELECT Name
+            FROM Event__c
+            WHERE Id = :e.Id
+            WITH SECURITY_ENFORCED
+        ];
+        System.assertEquals(nameBefore, e.Name);
     }
 
     @IsTest
     static void testInsert_HandlesInvalidTime_Gracefully() {
-        // Arrange: invalid time -> timePart should be omitted (formatTime12hFromText returns null)
+        assertEventCreateFls();
+        assertEventReadFls();
+
         Event__c e = new Event__c(
             Title__c = PREFIX + 'BadTime',
             SalesTeam__c = 'France',
@@ -100,14 +139,16 @@ private class customEventHandler_Test {
             Format__c = 'Physical'
         );
 
-        // Act
         insert e;
 
-        // Assert
-        e = [SELECT Name FROM Event__c WHERE Id = :e.Id];
+        e = [
+            SELECT Name
+            FROM Event__c
+            WHERE Id = :e.Id
+            WITH SECURITY_ENFORCED
+        ];
 
-        // timePart omitted, countryPart FR, title, formatPart P (Physical -> startsWith('P'))
         String expected = 'FR – ' + (PREFIX + 'BadTime') + ' – P';
-        System.assertEquals(expected, e.Name, 'Invalid time should not break; it should omit the time part');
+        System.assertEquals(expected, e.Name);
     }
 }
