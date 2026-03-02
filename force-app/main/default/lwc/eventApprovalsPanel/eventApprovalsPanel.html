@@ -1,0 +1,158 @@
+<template>
+    <lightning-card title="Approvals" icon-name="standard:approval">
+        <div class="slds-p-around_medium">
+
+            <template if:true={isLoading}>
+                <lightning-spinner size="small" alternative-text="Loading"></lightning-spinner>
+            </template>
+
+            <!-- ===================== -->
+            <!-- PENDING SECTION       -->
+            <!-- ===================== -->
+            <div class="slds-m-bottom_medium">
+                <div class="slds-text-heading_small slds-m-bottom_x-small">
+                    Pending
+                </div>
+
+                <template if:true={hasPending}>
+                    <template for:each={pendingWithTitle} for:item="row">
+                        <div key={row.workItemId} class="slds-box slds-m-bottom_small">
+                            <div class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center item-row">
+
+                                <!-- Left -->
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-4">
+                                    <div class="slds-text-heading_medium">
+                                        {row.displayTitle}
+                                    </div>
+
+                                    <div class="slds-text-body_small">
+                                        Process: {row.processName}
+                                    </div>
+
+                                    <div class="slds-text-body_small">
+                                        Assigned to: {row.assignedApproverName}
+                                    </div>
+                                </div>
+
+                                <!-- Right -->
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4 right-column">
+                                    <template if:true={row.canAct}>
+                                        <div class="action-buttons">
+                                            <lightning-button
+                                                label="Approve"
+                                                variant="brand"
+                                                data-workitem-id={row.workItemId}
+                                                onclick={handleApprove}>
+                                            </lightning-button>
+
+                                            <lightning-button
+                                                label="Reject"
+                                                variant="destructive"
+                                                class="slds-m-left_small"
+                                                data-workitem-id={row.workItemId}
+                                                onclick={handleReject}>
+                                            </lightning-button>
+                                        </div>
+                                    </template>
+                                </div>
+
+                            </div>
+                        </div>
+                    </template>
+                </template>
+
+                <template if:false={hasPending}>
+                    <div>No pending approvals.</div>
+                </template>
+            </div>
+
+            <!-- ===================== -->
+            <!-- PROCESSED SECTION     -->
+            <!-- ===================== -->
+            <div>
+                <div class="slds-text-heading_small slds-m-bottom_x-small">
+                    Processed
+                </div>
+
+                <template if:true={hasProcessed}>
+                    <template for:each={processedWithTitle} for:item="prow">
+                        <div key={prow.processInstanceId} class="slds-box slds-m-bottom_small">
+
+                            <div class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center item-row">
+
+                                <!-- LEFT COLUMN -->
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-4">
+
+                                    <div class="slds-text-heading_medium">
+                                        {prow.displayTitle}
+                                    </div>
+
+                                    <!-- Result with utility icon preferred, fallback to static src -->
+                                    <div class="slds-text-body_small slds-grid slds-grid_vertical-align-center slds-m-top_x-small slds-m-bottom_x-small">
+                                        <!-- Preferred: utility / standard icons set via icon-name -->
+                                        <template if:true={prow.resultIcon}>
+                                            <lightning-icon
+                                                icon-name={prow.resultIcon}
+                                                variant={prow.resultVariant}
+                                                class={prow.resultClass}
+                                                size="x-small"
+                                                alternative-text={prow.result}
+                                                title={prow.result}>
+                                            </lightning-icon>
+                                        </template>
+
+                                        <!-- Fallback: custom static resource SVG (only used if you set resultSrc) -->
+                                        <template if:true={prow.resultSrc}>
+                                            <lightning-icon
+                                                src={prow.resultSrc}
+                                                size="x-small"
+                                                alternative-text={prow.result}
+                                                title={prow.result}>
+                                            </lightning-icon>
+                                        </template>
+
+                                        <span class={prow.resultTextClass}>
+                                            {prow.result}
+                                        </span>
+                                    </div>
+
+                                    <div class="slds-text-body_small">
+                                        Process: {prow.processName}
+                                    </div>
+
+                                </div>
+
+                                <!-- RIGHT COLUMN -->
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4 right-column">
+
+                                    <div class="review-section">
+
+                                        <div class="slds-text-body_small slds-text-title_caps slds-text-color_weak">
+                                            Reviewed by
+                                        </div>
+
+                                        <div class="slds-text-body_small slds-m-top_x-small">
+                                            {prow.actorNameTrimmed}
+                                        </div>
+
+                                        <div class="slds-text-body_small slds-text-color_weak slds-m-top_x-small">
+                                            {prow.actionDateFormatted}
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </template>
+                </template>
+
+                <template if:false={hasProcessed}>
+                    <div>No processed approvals.</div>
+                </template>
+            </div>
+
+        </div>
+    </lightning-card>
+</template>

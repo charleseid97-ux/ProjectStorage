@@ -1,18 +1,30 @@
 public with sharing class customEventNotificationService {
 
     // --------------------
-    // Constants
+    // Status triggers
     // --------------------
     private static final String SUBMITTED_STATUS = 'SubmittedToEventTeam';
+    private static final String HOPR_STATUS      = 'HoPRreview';
 
-    private static final String TEMPLATE_DEV_NAME         = 'EventTeamApproval';
-    private static final String SPEAKER_TEMPLATE_DEV_NAME = 'speakerApprvoal';
-    private static final String QUEUE_DEV_NAME            = 'EventTeam';
+    // --------------------
+    // Templates / Queues (defaults; can be overridden via config)
+    // --------------------
+    private static final String TEMPLATE_DEV_NAME              = 'EventTeamApproval';
+    private static final String SPEAKER_TEMPLATE_DEV_NAME      = 'speakerApprvoal';
+    private static final String QUEUE_DEV_NAME                 = 'EventTeam';
 
+    private static final String HOPR_TEMPLATE_DEV_NAME_DEFAULT = 'EventTeamApproval';
+    private static final String HOPR_QUEUE_DEV_NAME            = 'HeadofProfuctTeam';
+
+    // --------------------
+    // VF pages
+    // --------------------
     private static final String VF_PAGE_NAME         = 'EventApproval';
     private static final String SPEAKER_VF_PAGE_NAME = 'EventSpeakerApproval';
 
+    // --------------------
     // Reused literals
+    // --------------------
     private static final String LOG_PREFIX        = '[customEventNotificationService] ';
     private static final String EXIT_LOG          = ' -> exit';
     private static final String APEX_PREFIX       = '/apex/';
@@ -29,12 +41,48 @@ public with sharing class customEventNotificationService {
     private static final String TD_ACC     = '<td style="padding:6px 0; border-bottom:1px solid #f3f4f6; color:#6b7280;">';
     private static final String DIV_CLOSE  = '</div>';
 
-    // Toggle logs
+    // --------------------
+    // Logging / toggles
+    // --------------------
     public static Boolean notificationsDisabled = false;
+
     private static final Boolean LOG_ENABLED = true;
-    private static void log(String msg) { if (LOG_ENABLED) System.debug(LoggingLevel.INFO, LOG_PREFIX + msg); }
-    private static void warn(String msg) { if (LOG_ENABLED) System.debug(LoggingLevel.WARN, LOG_PREFIX + msg); }
+    private static void log(String msg)  { if (LOG_ENABLED) System.debug(LoggingLevel.INFO,  LOG_PREFIX + msg); }
+    private static void warn(String msg) { if (LOG_ENABLED) System.debug(LoggingLevel.WARN,  LOG_PREFIX + msg); }
     private static void err(String msg)  { if (LOG_ENABLED) System.debug(LoggingLevel.ERROR, LOG_PREFIX + msg); }
+
+    // --------------------
+    // Config holder (status -> queue + template)
+    // --------------------
+    private class NotificationConfig {
+        public String queueDevName;
+        public String templateDevName;
+
+        public NotificationConfig(String queueDevName, String templateDevName) {
+            this.queueDevName = queueDevName;
+            this.templateDevName = templateDevName;
+        }
+    }
+
+    /**
+     * Déclare ici toutes les règles de notification:
+     * - quel statut déclenche
+     * - à quelle queue envoyer
+     * - quel template email utiliser
+     *
+     * Tu peux changer le template pour HoPRreview ici sans toucher au reste.
+     */
+    private static Map<String, NotificationConfig> getStatusNotificationConfigs() {
+        Map<String, NotificationConfig> cfg = new Map<String, NotificationConfig>();
+
+        // EventTeam
+        cfg.put(SUBMITTED_STATUS, new NotificationConfig(QUEUE_DEV_NAME, TEMPLATE_DEV_NAME));
+
+        // Head of Product (template overridable ici)
+        cfg.put(HOPR_STATUS, new NotificationConfig(HOPR_QUEUE_DEV_NAME, HOPR_TEMPLATE_DEV_NAME_DEFAULT));
+
+        return cfg;
+    }
 
     // --------------------
     // Trigger entrypoint
@@ -43,59 +91,83 @@ public with sharing class customEventNotificationService {
         if (notificationsDisabled) { log('Notifications disabled' + EXIT_LOG); return; }
         if (newItems == null || newItems.isEmpty()) { log('No newItems' + EXIT_LOG); return; }
 
-        log('manageNotifications start. newItems=' + newItems.size() + ', isUpdate=' + (oldItems != null));
-        Set<Id> parentEventIds = getParentEventIdsFromTrigger(newItems, oldItems);
+        Boolean isUpdate = (oldItems != null);
+        log('manageNotifications start. newItems=' + newItems.size() + ', isUpdate=' + isUpdate);
 
-        if (parentEventIds.isEmpty()) {
-            log('No events transitioned to ' + SUBMITTED_STATUS + EXIT_LOG);
-            return;
+        // Détecte les events dont le statut a "transitionné" vers une valeur (insert ou update)
+        Map<String, Set<Id>> idsByNewStatus = getEventIdsByNewStatusTransition(newItems, oldItems);
+        if (idsByNewStatus.isEmpty()) { log('No status transitions detected' + EXIT_LOG); return; }
+
+        Map<String, NotificationConfig> configs = getStatusNotificationConfigs();
+
+        // Pour chaque statut qu’on surveille, on envoie au bon destinataire avec le bon template
+        for (String statusKey : configs.keySet()) {
+            NotificationConfig cfg = configs.get(statusKey);
+            Set<Id> ids = idsByNewStatus.get(statusKey);
+
+            if (ids == null || ids.isEmpty()) continue;
+
+            log('Status transition detected -> status=' + statusKey + ', events=' + ids.size()
+                + ', queue=' + cfg.queueDevName + ', template=' + cfg.templateDevName);
+
+            sendApprovalEmails(ids, cfg.queueDevName, cfg.templateDevName);
         }
-        sendApprovalEmails(parentEventIds);
     }
 
-    // Détermine les parent events à traiter depuis le trigger (décomposé)
-    private static Set<Id> getParentEventIdsFromTrigger(Map<Id, Event__c> newItems, Map<Id, Event__c> oldItems) {
-        if (oldItems == null) return getParentEventIdsFromInsert(newItems);
-        return getParentEventIdsFromUpdate(newItems, oldItems);
-    }
+    /**
+     * Retourne une map: nouveau statut -> set d’Event__c Id concernés.
+     * - Insert: considère directement le status__c de l’enregistrement
+     * - Update: ne retient que si status__c a changé
+     */
+    private static Map<String, Set<Id>> getEventIdsByNewStatusTransition(
+        Map<Id, Event__c> newItems,
+        Map<Id, Event__c> oldItems
+    ) {
+        Map<String, Set<Id>> result = new Map<String, Set<Id>>();
 
-    private static Set<Id> getParentEventIdsFromInsert(Map<Id, Event__c> newItems) {
-        Set<Id> parentEventIds = new Set<Id>();
-        for (Event__c e : newItems.values()) {
-            if (e != null && e.Id != null && e.status__c == SUBMITTED_STATUS) {
-                parentEventIds.add(e.Id);
-            }
-        }
-        log('AfterInsert: candidates=' + parentEventIds.size());
-        return parentEventIds;
-    }
-
-    private static Set<Id> getParentEventIdsFromUpdate(Map<Id, Event__c> newItems, Map<Id, Event__c> oldItems) {
-        Set<Id> parentEventIds = new Set<Id>();
         for (Id eid : newItems.keySet()) {
             Event__c n = newItems.get(eid);
-            Event__c o = oldItems.get(eid);
-            if (n == null || o == null) continue;
-            if (o.status__c != SUBMITTED_STATUS && n.status__c == SUBMITTED_STATUS) {
-                parentEventIds.add(n.Id);
+            Event__c o = (oldItems == null) ? null : oldItems.get(eid);
+            if (n == null || n.Id == null) continue;
+
+            // Insert
+            if (o == null) {
+                if (n.status__c == SUBMITTED_STATUS || n.status__c == HOPR_STATUS) {
+                    addToMapSet(result, n.status__c, n.Id);
+                }
+                continue;
+            }
+
+            // Update
+            if (o.status__c != n.status__c && !String.isBlank(n.status__c)) {
+                addToMapSet(result, n.status__c, n.Id);
             }
         }
-        log('AfterUpdate: candidates=' + parentEventIds.size());
-        return parentEventIds;
+        return result;
+    }
+
+    private static void addToMapSet(Map<String, Set<Id>> m, String key, Id value) {
+        if (!m.containsKey(key)) m.put(key, new Set<Id>());
+        m.get(key).add(value);
     }
 
     // --------------------
-    // Core sender (decomposed)
+    // Core sender (template + queue paramétrables)
     // --------------------
-    public static void sendApprovalEmails(Set<Id> parentEventIds) {
-        log('sendApprovalEmails start. parentEventIds=' + parentEventIds.size());
+    public static void sendApprovalEmails(Set<Id> parentEventIds, String queueDevName, String templateDevName) {
+        log('sendApprovalEmails start. parentEventIds=' + (parentEventIds == null ? 0 : parentEventIds.size())
+            + ', queue=' + queueDevName + ', template=' + templateDevName);
 
-        List<String> toEmails = getQueueMemberEmailsByDeveloperName(QUEUE_DEV_NAME);
+        if (parentEventIds == null || parentEventIds.isEmpty()) { warn('No parentEventIds' + EXIT_LOG); return; }
+
+        List<String> toEmails = getQueueMemberEmailsByDeveloperName(queueDevName);
         log('Queue recipients resolved. count=' + toEmails.size());
-        if (toEmails.isEmpty()) { warn('No recipients found for queue ' + QUEUE_DEV_NAME + EXIT_LOG); return; }
+        if (toEmails.isEmpty()) { warn('No recipients found for queue ' + queueDevName + EXIT_LOG); return; }
 
-        Id templateId = getEmailTemplateIdByDeveloperName(TEMPLATE_DEV_NAME);
-        if (templateId == null) { err('Email template not found: ' + TEMPLATE_DEV_NAME + EXIT_LOG); return; }
+        Id templateId = getEmailTemplateIdByDeveloperName(templateDevName);
+        if (templateId == null) { err('Email template not found: ' + templateDevName + EXIT_LOG); return; }
+
+        // Speaker template reste optionnel (indépendant du statut)
         Id speakerTemplateId = getEmailTemplateIdByDeveloperName(SPEAKER_TEMPLATE_DEV_NAME);
         if (speakerTemplateId == null) { warn('Speaker email template not found: ' + SPEAKER_TEMPLATE_DEV_NAME + ' -> speaker emails skipped'); }
 
@@ -109,8 +181,18 @@ public with sharing class customEventNotificationService {
         log('Org baseUrl=' + baseUrl);
 
         List<Messaging.SingleEmailMessage> msgs = new List<Messaging.SingleEmailMessage>();
-        msgs.addAll(prepareEventTeamEmails(parents, templateId, toEmails, baseUrl, parentToChildren, sessionToSpeakers));
 
+        // Email principal (Event Team / HoPR / etc.)
+        msgs.addAll(prepareEventTeamEmails(
+            parents,
+            templateId,
+            toEmails,
+            baseUrl,
+            parentToChildren,
+            sessionToSpeakers
+        ));
+
+        // Emails speaker assistant (optionnels)
         if (speakerTemplateId != null) {
             msgs.addAll(buildSpeakerAssistantEmails(
                 speakerTemplateId,
@@ -190,7 +272,7 @@ public with sharing class customEventNotificationService {
     }
 
     // --------------------
-    // Prepare Event Team emails
+    // Prepare main emails (Event Team / HoPR / etc.)
     // --------------------
     private static List<Messaging.SingleEmailMessage> prepareEventTeamEmails(
         List<Event__c> parents,
@@ -208,7 +290,10 @@ public with sharing class customEventNotificationService {
         return msgs;
     }
 
-    // Prépare un email EventTeam pour un event (retourne null en cas d'erreur)
+    /**
+     * Prépare un email "approval" pour un Event__c (render template + remplace placeholders).
+     * Retourne null en cas d'erreur (pour ne pas bloquer les autres envois).
+     */
     private static Messaging.SingleEmailMessage prepareEventTeamEmailFor(
         Event__c p,
         Id templateId,
@@ -237,10 +322,11 @@ public with sharing class customEventNotificationService {
             m.setSubject(rendered.getSubject());
             m.setHtmlBody(html);
             m.setSaveAsActivity(false);
-            log('Prepared EventTeam email for EventId=' + p.Id);
+
+            log('Prepared approval email for EventId=' + p.Id);
             return m;
         } catch (Exception ex) {
-            err('Failed to prepare EventTeam email for EventId=' + p.Id + ' -> ' + ex.getMessage());
+            err('Failed to prepare approval email for EventId=' + (p == null ? 'null' : p.Id) + ' -> ' + ex.getMessage());
             return null;
         }
     }
@@ -275,21 +361,25 @@ public with sharing class customEventNotificationService {
         for (EventSpeakerApprovals__c esa : approvals) {
             try {
                 if (!customEventNotificationService.isValidSpeakerAssistant(esa)) continue;
+
                 Messaging.SingleEmailMessage m = customEventNotificationService.prepareSpeakerAssistantEmail(
                     esa, speakerTemplateId, baseUrl, sessionToSpeakers
                 );
+
                 if (m != null) {
                     msgs.add(m);
                     log('Prepared SpeakerAssistant email for ESA=' + esa.Id + ' to=' + esa.Speaker__r.SpeakerAssistant__r.Email);
                 }
             } catch (Exception ex) {
-                err('Failed to prepare SpeakerAssistant email for ESA=' + esa.Id + ' -> ' + ex.getMessage());
+                err('Failed to prepare SpeakerAssistant email for ESA=' + (esa == null ? 'null' : esa.Id) + ' -> ' + ex.getMessage());
             }
         }
         return msgs;
     }
 
-    // Helper: validation du recipient ESA (public static pour visibilité)
+    /**
+     * Validation du recipient ESA (public static pour visibilité/test).
+     */
     public static Boolean isValidSpeakerAssistant(EventSpeakerApprovals__c esa) {
         return esa != null
             && esa.Speaker__r != null
@@ -299,7 +389,10 @@ public with sharing class customEventNotificationService {
             && !String.isBlank(esa.Speaker__r.SpeakerAssistant__r.Email);
     }
 
-    // Helper: prépare un message pour un ESA (retourne null en cas d'erreur) (public static pour visibilité)
+    /**
+     * Prépare un email pour un Speaker Assistant (render template + remplace placeholders).
+     * Retourne null en cas d'erreur (pour ne pas bloquer les autres envois).
+     */
     public static Messaging.SingleEmailMessage prepareSpeakerAssistantEmail(
         EventSpeakerApprovals__c esa,
         Id speakerTemplateId,
@@ -344,8 +437,10 @@ public with sharing class customEventNotificationService {
             for (Messaging.SendEmailResult r : results) {
                 if (!r.isSuccess()) {
                     for (Messaging.SendEmailError e : r.getErrors()) {
-                        System.debug(LoggingLevel.ERROR, LOG_PREFIX + 'sendEmail FAILED - statusCode=' + e.getStatusCode()
-                            + ' message=' + e.getMessage() + ' fields=' + e.getFields());
+                        System.debug(LoggingLevel.ERROR, LOG_PREFIX
+                            + 'sendEmail FAILED - statusCode=' + e.getStatusCode()
+                            + ' message=' + e.getMessage()
+                            + ' fields=' + e.getFields());
                     }
                 }
             }
@@ -374,6 +469,12 @@ public with sharing class customEventNotificationService {
         return queues.isEmpty() ? null : queues[0].Id;
     }
 
+    /**
+     * Parcourt récursivement une "arborescence" de groupes (queue -> groupes -> users)
+     * pour récupérer les UserId finaux.
+     *
+     * Note: tel quel, il y a une requête GroupMember par groupe (risque de limite si hiérarchie profonde).
+     */
     private static Set<Id> collectUserIdsFromGroupTree(Id rootGroupId) {
         Set<Id> visitedGroups = new Set<Id>();
         Set<Id> userIds = new Set<Id>();
@@ -395,7 +496,9 @@ public with sharing class customEventNotificationService {
 
     private static List<String> fetchActiveUserEmails(Set<Id> userIds) {
         List<String> emails = new List<String>();
-        for (User u : [ SELECT Email FROM User WHERE Id IN :userIds AND IsActive = true AND Email != null ]) emails.add(u.Email);
+        for (User u : [ SELECT Email FROM User WHERE Id IN :userIds AND IsActive = true AND Email != null ]) {
+            emails.add(u.Email);
+        }
         return emails;
     }
 
@@ -405,8 +508,11 @@ public with sharing class customEventNotificationService {
     private static String buildSpeakersHtml(Id parentId, List<Event__c> children, Map<Id, List<SessionSpeakerProduct__c>> sessionToSpeakers) {
         List<String> parts = new List<String>();
         parts.add(buildSpeakersSection('Parent event', sessionToSpeakers.get(parentId)));
+
         if (children != null && !children.isEmpty()) {
-            for (Event__c c : children) parts.add(buildSpeakersSection('Session: ' + safe(c.title__c), sessionToSpeakers.get(c.Id)));
+            for (Event__c c : children) {
+                parts.add(buildSpeakersSection('Session: ' + safe(c.title__c), sessionToSpeakers.get(c.Id)));
+            }
         }
         return String.join(parts, '');
     }
@@ -451,14 +557,13 @@ public with sharing class customEventNotificationService {
         String pres = safe(s.presentationStatus__c);
         String prod = (s.Product__c != null) ? 'Yes' : '—';
 
-        String row = '<tr>'
-                   + TD_DEFAULT + safe(speakerName) + '</td>'
-                   + TD_ACC     + safe(accName) + '</td>'
-                   + TD_DEFAULT + safe(lang) + '</td>'
-                   + TD_DEFAULT + safe(pres) + '</td>'
-                   + TD_DEFAULT + safe(prod) + '</td>'
-                   + '</tr>';
-        return row;
+        return '<tr>'
+             + TD_DEFAULT + safe(speakerName) + '</td>'
+             + TD_ACC     + safe(accName) + '</td>'
+             + TD_DEFAULT + safe(lang) + '</td>'
+             + TD_DEFAULT + safe(pres) + '</td>'
+             + TD_DEFAULT + safe(prod) + '</td>'
+             + '</tr>';
     }
 
     // --------------------
@@ -470,5 +575,17 @@ public with sharing class customEventNotificationService {
         return t.isEmpty() ? null : t[0].Id;
     }
 
-    private static String safe(String v) { return v == null ? '' : v; }
+    /**
+     * Sécurise l’injection dans HTML email (évite de casser le DOM si texte contient <, &, etc.)
+     */
+    private static String safe(String v) {
+        if (v == null) return '';
+        return v
+            .replace('&', '&amp;')
+            .replace('<', '&lt;')
+            .replace('>', '&gt;')
+            .replace('"', '&quot;')
+            .replace('\'', '&#39;');
+    }
+
 }

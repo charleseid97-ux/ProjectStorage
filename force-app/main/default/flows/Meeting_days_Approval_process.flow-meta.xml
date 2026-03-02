@@ -22,13 +22,63 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Stage_2</targetReference>
+                <targetReference>Top_Speakers</targetReference>
             </connector>
             <label>salesTeam Approved</label>
         </rules>
     </decisions>
+    <decisions>
+        <name>Decision_3</name>
+        <label>HOP approved</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Rejected_By_Hop</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Rejected</defaultConnectorLabel>
+        <rules>
+            <name>Outcome_1_of_Decision_3</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Approval_Step_1_of_Stage_4.Outputs.approvalDecision</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Approve</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Stage_2</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Top_Speakers</name>
+        <label>Top Speakers ?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Stage_2</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Outcome_1_of_Decision_2</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.HOPARequired__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Stage_4</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
     <environments>Default</environments>
-    <interviewLabel>Meeting days Approval process {!$Flow.CurrentDateTime}</interviewLabel>
+    <interviewLabel>Event Approval process {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Meeting days Approval process</label>
     <orchestratedStages>
         <name>Copy_1_of_Stage_2</name>
@@ -57,6 +107,39 @@
                 </value>
             </inputParameters>
             <label>Cancelled</label>
+            <requiresAsyncProcessing>false</requiresAsyncProcessing>
+            <runAsUser>false</runAsUser>
+            <shouldLock>false</shouldLock>
+            <stepSubtype>BackgroundStep</stepSubtype>
+        </stageSteps>
+    </orchestratedStages>
+    <orchestratedStages>
+        <name>Rejected_By_Hop</name>
+        <label>Rejected By Hop</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <exitConditionLogic>and</exitConditionLogic>
+        <stageSteps>
+            <name>status_Cancelled</name>
+            <actionName>EventApprovalsStatus</actionName>
+            <actionType>stepBackground</actionType>
+            <canAssigneeEdit>false</canAssigneeEdit>
+            <debugSimulateStep>false</debugSimulateStep>
+            <entryConditionLogic>and</entryConditionLogic>
+            <exitConditionLogic>and</exitConditionLogic>
+            <inputParameters>
+                <name>EventId</name>
+                <value>
+                    <elementReference>$Record.Id</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>StatusValue</name>
+                <value>
+                    <stringValue>Cancelled</stringValue>
+                </value>
+            </inputParameters>
+            <label>status Cancelled</label>
             <requiresAsyncProcessing>false</requiresAsyncProcessing>
             <runAsUser>false</runAsUser>
             <shouldLock>false</shouldLock>
@@ -139,11 +222,87 @@
                     <stringValue>WaitingForSpeakerApprovals</stringValue>
                 </value>
             </inputParameters>
-            <label>WaitingForSpeakerApprovals</label>
+            <label>status WaitingForSpeakerApprovals</label>
             <requiresAsyncProcessing>false</requiresAsyncProcessing>
             <runAsUser>false</runAsUser>
             <shouldLock>false</shouldLock>
             <stepSubtype>BackgroundStep</stepSubtype>
+        </stageSteps>
+    </orchestratedStages>
+    <orchestratedStages>
+        <name>Stage_4</name>
+        <label>HoP approval</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Decision_3</targetReference>
+        </connector>
+        <exitConditionLogic>and</exitConditionLogic>
+        <stageSteps>
+            <name>Background_Step_2_of_Stage_4</name>
+            <actionName>EventApprovalsStatus</actionName>
+            <actionType>stepBackground</actionType>
+            <canAssigneeEdit>false</canAssigneeEdit>
+            <debugSimulateStep>false</debugSimulateStep>
+            <entryConditionLogic>and</entryConditionLogic>
+            <exitConditionLogic>and</exitConditionLogic>
+            <inputParameters>
+                <name>EventId</name>
+                <value>
+                    <elementReference>$Record.Id</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>StatusValue</name>
+                <value>
+                    <stringValue>HoPRreview</stringValue>
+                </value>
+            </inputParameters>
+            <label>status HoPRreview</label>
+            <requiresAsyncProcessing>false</requiresAsyncProcessing>
+            <runAsUser>false</runAsUser>
+            <shouldLock>false</shouldLock>
+            <stepSubtype>BackgroundStep</stepSubtype>
+        </stageSteps>
+        <stageSteps>
+            <name>Approval_Step_1_of_Stage_4</name>
+            <actionName>standard_approvals__EvaluateApproval</actionName>
+            <actionType>stepApproval</actionType>
+            <assignees>
+                <assignee>
+                    <stringValue>HeadofProfuctTeam</stringValue>
+                </assignee>
+                <assigneeType>Queue</assigneeType>
+            </assignees>
+            <canAssigneeEdit>true</canAssigneeEdit>
+            <debugSimulateStep>false</debugSimulateStep>
+            <entryConditionLogic>and</entryConditionLogic>
+            <exitConditionLogic>and</exitConditionLogic>
+            <inputParameters>
+                <name>ActionInput__RecordId</name>
+                <value>
+                    <elementReference>$Record.Id</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>ActionInput__CustomEmailSubject</name>
+            </inputParameters>
+            <inputParameters>
+                <name>ActionInput__CustomEmailBody</name>
+            </inputParameters>
+            <label>ask approval</label>
+            <outputConfigParams>
+                <name>approvalComments</name>
+                <value xsi:nil="true"/>
+            </outputConfigParams>
+            <outputConfigParams>
+                <name>approvalDecision</name>
+                <value xsi:nil="true"/>
+            </outputConfigParams>
+            <requiresAsyncProcessing>false</requiresAsyncProcessing>
+            <runAsUser>false</runAsUser>
+            <shouldLock>true</shouldLock>
+            <stepSubtype>ApprovalStep</stepSubtype>
         </stageSteps>
     </orchestratedStages>
     <processMetadataValues>
@@ -162,6 +321,12 @@
         <name>OriginBuilderType</name>
         <value>
             <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>SendNoApproverEmails</name>
+        <value>
+            <stringValue>true</stringValue>
         </value>
     </processMetadataValues>
     <processType>ApprovalWorkflow</processType>

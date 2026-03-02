@@ -10,6 +10,8 @@ public with sharing class EventSpeakerApprovalsTriggerHandler implements ITrigge
         EventSpeakerApprovalsService.trackStatusUpdateOnInsert(
             (List<EventSpeakerApprovals__c>) newItems
         );
+        
+        eventSpeakerApprovalsService.requireHOPAppval((List<EventSpeakerApprovals__c>) newItems);
     }
 
     // Before update: track status changes
@@ -22,15 +24,19 @@ public with sharing class EventSpeakerApprovalsTriggerHandler implements ITrigge
 
     // After insert: handle rollup and notifications
     public void AfterInsert(Map<Id, SObject> newItems) {
-        Map<Id, EventSpeakerApprovals__c> newMap =
-            (Map<Id, EventSpeakerApprovals__c>) newItems;
+        Map<Id, EventSpeakerApprovals__c> newMap = (Map<Id, EventSpeakerApprovals__c>) newItems;
 
         EventSpeakerApprovalsService.manageRollupOnInsert(newMap);
-        EventSpeakerApprovalsService.manageNotificationOnInsert(newMap);
+        //EventSpeakerApprovalsService.manageNotificationOnInsert(newMap);
+        //  submit automatique vers l'Approval Process "SpeakerApproval"
+        EventSpeakerApprovalsService.submitForSpeakerApproval(newMap.values(), null);
     }
 
     // After update: handle rollup logic
     public void AfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
+        Map<Id, EventSpeakerApprovals__c> newMap = (Map<Id, EventSpeakerApprovals__c>) newItems;
+        Map<Id, EventSpeakerApprovals__c> oldMap = (Map<Id, EventSpeakerApprovals__c>) oldItems;
+        EventSpeakerApprovalsService.submitForSpeakerApproval(newMap.values(), oldMap);
         EventSpeakerApprovalsService.manageRollupOnUpdate(
             (Map<Id, EventSpeakerApprovals__c>) newItems,
             (Map<Id, EventSpeakerApprovals__c>) oldItems

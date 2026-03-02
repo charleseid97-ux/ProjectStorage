@@ -1,0 +1,146 @@
+<messaging:emailTemplate subject="Approval request — {!relatedTo.Event__r.title__c}"
+    recipientType="User"
+    relatedToType="EventSpeakerApprovals__c">
+
+    <messaging:htmlEmailBody >
+
+        <div style="max-width:780px; margin:0 auto; padding:18px; background:#ffffff; font-family: Arial, Helvetica, sans-serif; color:#111827;">
+
+            <!-- Speaker Approval Header -->
+            <div style="font-size:22px; font-weight:bold; margin-bottom:14px;">
+                Please approve for speaker : {!relatedTo.Speaker__r.Name}
+            </div>
+
+            <!-- Main Header Card -->
+            <div style="padding:14px 16px; border:1px solid #e5e7eb; border-radius:12px;">
+                <div style="font-size:12px; color:#6b7280; margin-bottom:6px;">
+                    Carmignac Gestion • Event Team Approval
+                </div>
+
+                <h2 style="margin:0; font-size:20px; line-height:1.25;">
+                    Approval request — {!relatedTo.Event__r.title__c}
+                </h2>
+
+                <div style="margin-top:8px; font-size:13px; color:#374151;">
+                    Status: <b>{!relatedTo.Event__r.Status__c}</b>
+                    &nbsp;•&nbsp; Type: <b>{!relatedTo.Event__r.Category__c}</b>
+                    &nbsp;•&nbsp; Format: <b>{!relatedTo.Event__r.Format__c}</b>
+                    &nbsp;•&nbsp; Sales team: <b>{!relatedTo.Event__r.SalesTeam__c}</b>
+                </div>
+            </div>
+
+            <div style="height:12px;"></div>
+
+            <!-- Event Details -->
+            <div style="padding:14px 16px; border:1px solid #e5e7eb; border-radius:12px;">
+                <h3 style="margin:0 0 10px 0; font-size:16px;">Event details</h3>
+
+                <table style="width:100%; border-collapse:collapse; font-size:13px;">
+                    <tr>
+                        <td style="padding:4px 0; width:160px; color:#6b7280;">When</td>
+                        <td style="padding:4px 0;">
+                            <apex:outputText value="{0,date,dd MMM yyyy}">
+                                <apex:param value="{!relatedTo.Event__r.startDate__c}" />
+                            </apex:outputText>
+                        
+                            <apex:outputText value=" {0,time,HH:mm}">
+                                <apex:param value="{!relatedTo.Event__r.startTime__c}" />
+                            </apex:outputText>
+                        
+                            —
+                            
+                            <apex:outputText value="{0,date,dd MMM yyyy}">
+                                <apex:param value="{!relatedTo.Event__r.endDate__c}" />
+                            </apex:outputText>
+                        
+                            <apex:outputText value=" {0,time,HH:mm}">
+                                <apex:param value="{!relatedTo.Event__r.endTime__c}" />
+                            </apex:outputText>
+                        
+                            ({!relatedTo.Event__r.Timezone__c})
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:4px 0; color:#6b7280;">Language</td>
+                        <td style="padding:4px 0;">{!relatedTo.Event__r.Language__c}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:4px 0; color:#6b7280;">Location</td>
+                        <td style="padding:4px 0;">
+                            {!relatedTo.Event__r.Location__c}
+                            {!relatedTo.Event__r.LocationName__c}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:4px 0; color:#6b7280;">Company</td>
+                        <td style="padding:4px 0;">{!relatedTo.Event__r.Company__r.Name}</td>
+                    </tr>
+                </table>
+
+                <div style="margin-top:12px;">
+                    <div style="font-size:14px; font-weight:bold; margin-bottom:6px;">Meeting goal</div>
+                    <div style="white-space:pre-line; font-size:13px; color:#111827;">
+                        {!relatedTo.Event__r.MeetingGoal__c}
+                    </div>
+                </div>
+
+                <div style="margin-top:12px;">
+                    <div style="font-size:14px; font-weight:bold; margin-bottom:6px;">Meeting background</div>
+                    <div style="white-space:pre-line; font-size:13px; color:#111827;">
+                        {!relatedTo.Event__r.MeetingBackground__c}
+                    </div>
+                </div>
+            </div>
+
+            <div style="height:12px;"></div>
+
+            <!-- Speakers -->
+            <div style="padding:14px 16px; border:1px solid #e5e7eb; border-radius:12px;">
+                <h3 style="margin:0 0 10px 0; font-size:16px;">Speakers</h3>
+
+                <apex:outputText value="{!relatedTo.Event__r.speakersHTML__c}" escape="false"/>
+            </div>
+
+            <div style="height:12px;"></div>
+
+            <!-- Actions -->
+            <div style="padding:14px 16px; border:1px solid #e5e7eb; border-radius:12px;">
+                <h3 style="margin:0 0 10px 0; font-size:16px;">Actions</h3>
+
+                <div style="font-size:13px; margin-bottom:10px;">
+                  <a href="{!$Label.BaseURL}/{!relatedTo.Event__c}"
+                     style="color:#2563eb; text-decoration:none; font-weight:bold;">
+                    Open Event record
+                  </a>
+                </div>
+
+                <table cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+                    <tr>
+                        <td style="padding-right:10px;">
+                            <a href="{!relatedTo.approvalURL__c}approve"
+                               style="display:inline-block; padding:10px 14px; background:#16a34a; color:#ffffff; text-decoration:none; border-radius:10px; font-weight:bold; font-size:13px;">
+                                Approve
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{!relatedTo.approvalURL__c}reject"
+                               style="display:inline-block; padding:10px 14px; background:#dc2626; color:#ffffff; text-decoration:none; border-radius:10px; font-weight:bold; font-size:13px;">
+                                Reject
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+
+                <div style="margin-top:10px; font-size:12px; color:#6b7280;">
+                    Note: you must be logged in to Salesforce to approve or reject.
+                </div>
+            </div>
+
+            <div style="margin-top:14px; font-size:11px; color:#9ca3af;">
+                This email was generated automatically.
+            </div>
+
+        </div>
+
+    </messaging:htmlEmailBody>
+</messaging:emailTemplate>

@@ -1,29 +1,152 @@
 <apex:page controller="EventApprovalController"
-           action="{!run}"
-           showHeader="true"
+           action="{!processApproval}"
+           showHeader="false"
            sidebar="false"
+           standardStylesheets="false"
            docType="html-5.0">
 
-    <apex:pageMessages />
+    <apex:slds />
 
-    <apex:outputPanel rendered="{!showResult}">
-        <div style="max-width:720px; margin:30px auto; font-family:Arial, Helvetica, sans-serif;">
+    <style>
+        .page-bg { min-height: 100vh; background: #f3f2f2; }
+        .card-wrap { width: 100%; max-width: 620px; }
 
-            <h2>{!resultTitle}</h2>
+        /* Status banner */
+        .status-box { border-radius: .75rem; padding: 16px; }
+        .status-success { background: #e3f3e3; border: 1px solid #2e844a; }
+        .status-error   { background: #fde7e9; border: 1px solid #ba0517; }
+        .status-neutral { background: #f3f2f2; border: 1px solid #dddbda; }
 
-            <p style="font-size:14px;">
-                {!resultMessage}
-            </p>
+        .status-title { font-size: 1.15rem; font-weight: 700; line-height: 1.2; }
+        .status-sub   { margin-top: 6px; }
+        .mono         { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+    </style>
 
-            <apex:outputPanel rendered="{!NOT(ISBLANK(recordUrl))}">
-                <p style="margin-top:20px;">
-                    <a href="{!recordUrl}" target="_blank">
-                        Open Event record
-                    </a>
-                </p>
-            </apex:outputPanel>
+    <div class="slds-scope page-bg slds-grid slds-grid_vertical-align-center slds-grid_align-center slds-p-around_large">
 
-        </div>
-    </apex:outputPanel>
+        <section class="slds-card card-wrap slds-theme_default">
+
+            <!-- Header -->
+            <div class="slds-card__header slds-grid slds-grid_align-spread slds-grid_vertical-align-center">
+                <div>
+                    <h1 class="slds-text-heading_medium slds-m-bottom_xx-small">Event Approval</h1>
+                    <p class="slds-text-body_small slds-text-color_weak">Approval result</p>
+                </div>
+
+                <apex:outputPanel rendered="{!NOT(ISBLANK(recordId))}">
+                    <button type="button"
+                            class="slds-button slds-button_brand"
+                            onclick="openRecord();">
+                        Open record
+                    </button>
+                </apex:outputPanel>
+            </div>
+
+            <!-- Body -->
+            <div class="slds-card__body slds-card__body_inner">
+
+                <!-- Flags -->
+                <apex:variable var="isApproveAction" value="{!LOWER(actionParam)='approve'}"/>
+                <apex:variable var="isRejectAction"  value="{!LOWER(actionParam)='reject'}"/>
+
+                <!-- "Already processed" detection (tunable) -->
+                <apex:variable var="msgAll" value="{!LOWER(resultMessage & ' ' & errorMessage)}"/>
+                <apex:variable var="isAlreadyProcessed"
+                               value="{!OR(
+                                    CONTAINS(msgAll,'already'),
+                                    CONTAINS(msgAll,'processed'),
+                                    CONTAINS(msgAll,'responded'),
+                                    CONTAINS(msgAll,'no processinstanceworkitem'),
+                                    CONTAINS(msgAll,'workitem')
+                               )}"/>
+
+                <!-- STATUS BANNER -->
+                <!-- Neutral (already processed) -->
+                <apex:outputPanel rendered="{!isAlreadyProcessed}" layout="block">
+                    <div class="status-box status-neutral">
+                        <div class="slds-grid slds-grid_vertical-align-center">
+                            <div class="slds-m-right_small">⚪</div>
+                            <div class="status-title">Already processed</div>
+                        </div>
+                        <div class="status-sub slds-text-body_regular">
+                            This approval link has already been used. The request was already approved or rejected.
+                        </div>
+                    </div>
+                </apex:outputPanel>
+
+                <!-- Success + approve -->
+                <apex:outputPanel rendered="{!AND(NOT(isAlreadyProcessed), isSuccess, isApproveAction)}" layout="block">
+                    <div class="status-box status-success">
+                        <div class="slds-grid slds-grid_vertical-align-center">
+                            <div class="slds-m-right_small">✅</div>
+                            <div class="status-title">
+                                Successfully <strong>Approved</strong>
+                            </div>
+                        </div>
+                    
+                    </div>
+                </apex:outputPanel>
+
+                <!-- Success + reject -->
+                <apex:outputPanel rendered="{!AND(NOT(isAlreadyProcessed), isSuccess, isRejectAction)}" layout="block">
+                    <div class="status-box status-error">
+                        <div class="slds-grid slds-grid_vertical-align-center">
+                            <div class="slds-m-right_small">❌</div>
+                            <div class="status-title">
+                                Successfully <strong>Rejected</strong>
+                            </div>
+                        </div>                       
+                    </div>
+                </apex:outputPanel>
+
+                
+
+                <!-- Generic error (not already processed) -->
+                <apex:outputPanel rendered="{!AND(NOT(isAlreadyProcessed), NOT(isSuccess))}" layout="block">
+                    <div class="status-box status-error">
+                        <div class="slds-grid slds-grid_vertical-align-center">
+                            <div class="slds-m-right_small">❌</div>
+                            <div class="status-title">Request failed</div>
+                        </div>
+
+                        <apex:outputPanel rendered="{!NOT(ISBLANK(resultMessage))}" layout="block" styleClass="status-sub slds-text-body_regular">
+                            {!resultMessage}
+                        </apex:outputPanel>
+
+                        <apex:outputPanel rendered="{!NOT(ISBLANK(errorMessage))}" layout="block" styleClass="status-sub slds-text-body_small slds-text-color_weak">
+                            <span class="mono">{!errorMessage}</span>
+                        </apex:outputPanel>
+                    </div>
+                </apex:outputPanel>
+
+                <!-- Technical details (collapsible) -->
+                <details class="slds-box slds-theme_shade slds-m-top_medium" style="border-radius:.75rem;">
+                    <summary class="slds-text-title_bold" style="cursor:pointer;">Technical details</summary>
+                    <div class="slds-m-top_small slds-text-body_small">
+                        <div><strong>Record ID:</strong> <span class="mono">{!recordId}</span></div>
+                        <div><strong>Action:</strong> <span class="mono">{!actionParam}</span></div>
+                        <div><strong>WorkItemId:</strong> <span class="mono">{!workItemId}</span></div>
+                        <div><strong>ProcessInstanceId:</strong> <span class="mono">{!processInstanceId}</span></div>
+                        <apex:outputPanel rendered="{!NOT(ISBLANK(errorMessage))}" layout="block" styleClass="slds-m-top_small">
+                            <div><strong>Error:</strong> <span class="mono">{!errorMessage}</span></div>
+                        </apex:outputPanel>
+                    </div>
+                </details>
+
+            </div>
+
+            <div class="slds-card__footer slds-text-align_center slds-text-body_small slds-text-color_weak">
+                You can close this tab after reviewing the result.
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function openRecord() {
+            var rid = "{!JSENCODE(openRecordId)}";
+            if (!rid) return;
+            window.open("/lightning/r/" + rid + "/view", "_blank");
+        }
+    </script>
 
 </apex:page>

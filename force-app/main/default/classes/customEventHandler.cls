@@ -13,11 +13,12 @@ public with sharing class customEventHandler implements ITriggerHandler {
     }
 
     public void BeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
-        List<Event__c> newEvents = (List<Event__c>) newItems.values();
+        Map<Id, Event__c> newEvents = (Map<Id, Event__c>) newItems;
         Map<Id, Event__c> oldEvents = (Map<Id, Event__c>) oldItems;
 
-        customEventService.setEventName(newEvents, oldEvents);
-        customEventService.copyCompanyBillingAddressToEvent(newEvents, oldEvents);
+        customEventService.setEventName(newEvents.values(), oldEvents);
+        customEventService.copyCompanyBillingAddressToEvent(newEvents.values(), oldEvents);
+        customEventSpeakerApprovalService.prepareSpeakerHTMLforNotifications(newEvents, oldEvents);    
     }
 
     public void BeforeDelete(Map<Id, SObject> oldItems) {}
@@ -30,11 +31,7 @@ public with sharing class customEventHandler implements ITriggerHandler {
             null
         );
 
-        // Send approval notification email if inserted with status = SubmittedToEventTeam
-        customEventNotificationService.manageNotifications(
-            newEvents,
-            null
-        );
+        customEventService.startEventTeamApprovalAfterInsert(newEvents.values());
     }
 
     public void AfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>approvalURL__c</fullName>
+    <externalId>false</externalId>
+    <formula>LEFT(
+    $Api.Partner_Server_URL_600,
+    FIND(&apos;/services&apos;, $Api.Partner_Server_URL_600)
+)
+&amp; &quot;apex/EventApproval?eid=&quot;
+&amp; Id
+&amp; &quot;&amp;action=&quot;</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Approval URL</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

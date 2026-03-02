@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>HOPARequired__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Head of product approval required,automatically checked whene top speakers selected</description>
+    <inlineHelpText>automatically checked whene top speakers selected</inlineHelpText>
+    <label>Head of product approval required</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

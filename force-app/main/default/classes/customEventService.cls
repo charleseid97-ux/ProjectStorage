@@ -310,6 +310,33 @@ public with sharing class customEventService {
         }
     }
 
+    // AFTER INSERT: submit approval + send notification
+    public static void startEventTeamApprovalAfterInsert(List<Event__c> events) {
+
+        if (events == null || events.isEmpty()) return;
+
+        Set<Id> eventIds = new Set<Id>();
+
+        for (Event__c evt : events) {
+            if (evt != null && evt.Id != null && evt.Status__c == 'SubmittedToEventTeam') {
+                Approval.ProcessSubmitRequest req = new Approval.ProcessSubmitRequest();
+                req.setObjectId(evt.Id);
+                req.setProcessDefinitionNameOrId('EventApprovalProcess');
+                Approval.process(req);
+                eventIds.add(evt.Id);
+            }
+        }
+
+        if (!eventIds.isEmpty()) {
+            customEventNotificationService.sendApprovalEmails(
+                eventIds,
+                'EventTeam',
+                'EventTeamApproval'
+            );
+        }
+
+        System.debug('AfterInsert - Approval + Notification processed for ' + eventIds.size() + ' events');
+    }
     // ---------------------------
     // Campaign creation from Event__c
     // ---------------------------

@@ -38,6 +38,11 @@
                 <default>false</default>
                 <label>Cancelled</label>
             </value>
+            <value>
+                <fullName>HoPRreview</fullName>
+                <default>false</default>
+                <label>Head of product review</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

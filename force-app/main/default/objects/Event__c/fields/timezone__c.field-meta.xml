@@ -11,32 +11,32 @@
             <value>
                 <fullName>UTC-05</fullName>
                 <default>false</default>
-                <label>UTC – 5 : Canada</label>
+                <label>UTC-5 Toronto</label>
             </value>
             <value>
                 <fullName>UTC+00</fullName>
                 <default>false</default>
-                <label>UTC + 0 : Guernsey, Ireland, Isle of Man, Jersey, Portugal, United Kingdom</label>
+                <label>UTC+0 London</label>
             </value>
             <value>
                 <fullName>UTC+01</fullName>
                 <default>true</default>
-                <label>UTC + 1 : Andorra, Austria, Belgium, Denmark, France, Germany, Gibraltar, Italy, Liechtenstein, Luxembourg, Monaco, Netherlands, Norway, Spain, Sweden, Switzerland</label>
+                <label>UTC+1 Paris</label>
             </value>
             <value>
                 <fullName>UTC+02</fullName>
                 <default>false</default>
-                <label>UTC + 2 : Estonia, Finland, Latvia, Lithuania</label>
+                <label>UTC+2 Helsinki</label>
             </value>
             <value>
                 <fullName>UTC+04</fullName>
                 <default>false</default>
-                <label>UTC + 4 : Dubaï</label>
+                <label>UTC+4 Dubai</label>
             </value>
             <value>
                 <fullName>UTC+08</fullName>
                 <default>false</default>
-                <label>UTC + 8 : Singapour, Hong Kong</label>
+                <label>UTC+8 Singapore</label>
             </value>
         </valueSetDefinition>
     </valueSet>

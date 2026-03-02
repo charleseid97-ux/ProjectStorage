@@ -24,6 +24,7 @@
             </value>
         </inputParameters>
         <nameSegment>SessionSpeakerProduct_InsertFromJson</nameSegment>
+        <offset>0</offset>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
     <actionCalls>
@@ -50,6 +51,7 @@
             </value>
         </inputParameters>
         <nameSegment>SessionSpeakerProduct_InsertFromJson</nameSegment>
+        <offset>0</offset>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
     <actionCalls>
@@ -76,6 +78,7 @@
             </value>
         </inputParameters>
         <nameSegment>EventAttendee_InsertFromIds</nameSegment>
+        <offset>0</offset>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
     <actionCalls>
@@ -102,6 +105,7 @@
             </value>
         </inputParameters>
         <nameSegment>SessionSpeakerProduct_InsertFromJson</nameSegment>
+        <offset>0</offset>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
     <apiVersion>65.0</apiVersion>
@@ -1188,6 +1192,7 @@
                     <dataType>String</dataType>
                     <fieldText>Start time</fieldText>
                     <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -1215,6 +1220,7 @@
                     <dataType>String</dataType>
                     <fieldText>End time</fieldText>
                     <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -1283,6 +1289,7 @@
                     <defaultSelectedChoiceReference>Attendes_s_address</defaultSelectedChoiceReference>
                     <fieldText>Address</fieldText>
                     <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -1771,6 +1778,7 @@
                     </defaultValue>
                     <fieldText>Start time</fieldText>
                     <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -1801,6 +1809,7 @@
                     </defaultValue>
                     <fieldText>End Time</fieldText>
                     <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -1859,6 +1868,7 @@
                     <defaultSelectedChoiceReference>Attendes_s_address</defaultSelectedChoiceReference>
                     <fieldText>Address</fieldText>
                     <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2312,6 +2322,7 @@
                     <dataType>String</dataType>
                     <fieldText>Start time</fieldText>
                     <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2339,6 +2350,7 @@
                     <dataType>String</dataType>
                     <fieldText>End time</fieldText>
                     <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2407,6 +2419,7 @@
                     <defaultSelectedChoiceReference>CompanyAddress</defaultSelectedChoiceReference>
                     <fieldText>Address</fieldText>
                     <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2957,6 +2970,7 @@
                     <dataType>String</dataType>
                     <fieldText>Start time</fieldText>
                     <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2984,6 +2998,7 @@
                     <dataType>String</dataType>
                     <fieldText>End time</fieldText>
                     <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -3389,6 +3404,7 @@
             <defaultSelectedChoiceReference>Event</defaultSelectedChoiceReference>
             <fieldText>Event type</fieldText>
             <fieldType>DropdownBox</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>false</isRequired>
             <styleProperties>
                 <verticalAlignment>

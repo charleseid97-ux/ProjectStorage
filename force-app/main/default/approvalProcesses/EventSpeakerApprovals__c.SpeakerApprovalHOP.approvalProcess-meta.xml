@@ -8,47 +8,40 @@
     <approvalPageFields>
         <field>Name</field>
         <field>Owner</field>
-        <field>title__c</field>
-        <field>company__c</field>
-        <field>salesTeam__c</field>
-        <field>endDate__c</field>
-        <field>endTime__c</field>
-        <field>startDate__c</field>
-        <field>startTime__c</field>
-        <field>timezone__c</field>
+        <field>ApproverUser__c</field>
+        <field>Speaker__c</field>
+        <field>Event__c</field>
     </approvalPageFields>
     <approvalStep>
         <allowDelegate>false</allowDelegate>
         <assignedApprover>
             <approver>
-                <name>EventTeamTest</name>
+                <name>HeadofProductTeam</name>
                 <type>queue</type>
             </approver>
             <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
         </assignedApprover>
-        <entryCriteria>
-            <criteriaItems>
-                <field>Event__c.EventTeamAutoApproved__c</field>
-                <operation>equals</operation>
-                <value>False</value>
-            </criteriaItems>
-        </entryCriteria>
-        <ifCriteriaNotMet>ApproveRecord</ifCriteriaNotMet>
-        <label>Event team approval</label>
-        <name>EventTeamApproval</name>
+        <label>Head of product approval</label>
+        <name>Head_of_product_approval</name>
     </approvalStep>
-    <emailTemplate>EventRequest/EventTeamApproval</emailTemplate>
+    <emailTemplate>EventRequest/SpeakersApproval_VF</emailTemplate>
     <enableMobileDeviceAccess>false</enableMobileDeviceAccess>
     <finalApprovalActions>
         <action>
-            <name>passToSpeakersValidation</name>
+            <name>Status_approved_hop</name>
             <type>FieldUpdate</type>
         </action>
     </finalApprovalActions>
-    <finalApprovalRecordLock>false</finalApprovalRecordLock>
+    <finalApprovalRecordLock>true</finalApprovalRecordLock>
     <finalRejectionRecordLock>false</finalRejectionRecordLock>
-    <label>Event team approval</label>
+    <label>Head of product approval</label>
     <processOrder>1</processOrder>
-    <recordEditability>AdminOnly</recordEditability>
+    <recallActions>
+        <action>
+            <name>rejected_Status</name>
+            <type>FieldUpdate</type>
+        </action>
+    </recallActions>
+    <recordEditability>AdminOrCurrentApprover</recordEditability>
     <showApprovalHistory>false</showApprovalHistory>
 </ApprovalProcess>
