@@ -1,18 +1,27 @@
+/**
+ * @description       : Appel du service Sequantis pour génération des documents PDF PRIIPS KID
+ * @author            : Guillaume de ROUZE
+ * @group             : 
+ * @last modified on  : 06-10-2025
+ * @last modified by  : Guillaume de ROUZE
+**/
+
 public with sharing class VFC16_SequantisGenerateDraft {
     public  Id recordId {get;set;}
     public static String selectedRecordId {get;set;}
     public List<SelectOption> shareclassOptions {get;set;}
-    public static String pdf {get;set;} // PDF en base64
-    public Boolean showPDF {get; set;} // Indique si le PDF est disponible pour affichage
-    public static String infoMessage {get; set;} // Message d'info pour l'utilisateur
+    public static String pdf {get;set;} // PDF en base64  
+    public Boolean showPDF {get; set;} // Indique si le PDF est disponible pour affichage 
+    public static String infoMessage {get; set;} // Message d'info pour l'utilisateur 
     public static String errorMessage {get; set;} // Message d'erreur pour l'utilisateur
-    public static Map<String, Object> payloadDebug  {get; set;} // Payload pour l'appel du service Sequantis
+    public static String payloadDebug  {get; set;} // Variable pour debug du payload
     public static List<String> payloadKeys { get; set; }
-    public static String payloadString { get; set; }
+    public static String payloadString { get; set; } // Variable pour stocker le payload JSON sérialisé (body)
     private  List <ProjectShareclass__c> shareclasses { get; set; }
 
 
     public VFC16_SequantisGenerateDraft(ApexPages.standardController con){
+        payloadDebug = '';
         showPDF = false;
         recordId = con.getId();
         system.debug('====VFC16_SequantisGenerateDraft=======recordId = ' + recordId);
@@ -22,118 +31,153 @@ public with sharing class VFC16_SequantisGenerateDraft {
         shareclassOptions.add(new SelectOption('updateAll','Update All ShareClass'));
         for(ProjectShareclass__c sc : shareclasses){
             String optionLabel = sc.Name__c != null ? sc.Name__c : sc.Name;
-            shareclassOptions.add(new SelectOption(sc.Id, optionLabel));
-        }
+            shareclassOptions.add(new SelectOption(sc.Id, optionLabel));            
+        }   
         system.debug('====VFC16_SequantisGenerateDraft=======shareclasses = ' + shareclasses);
     }
-
-
+    
+    
 
     // Bouton Draft : génère le PDF et le met dans pdf (base64)
     public  void genPDF() {
+        errorMessage = ''; 
+        infoMessage = '';  
         system.debug('====genPDF=======shareclasses = ' + shareclasses);
         if(selectedRecordId == 'updateAll'){
             updateAllShareClasses();
             showPDF = false;
             return;
         }
+        
 
-        errorMessage = '';
-        infoMessage = '';
-
-        // Étape 1 — Récupération du token OAuth2
-        String token = fetchAccessToken('/rest/authentication');
-
-        // Étape 2 — Appel du service pour générer le PDF
-        String pdfString = callSequantisService(token, selectedRecordId,true);
-        if(pdfString != null && pdfString.startsWith('<br/> generation failed')){
-            errorMessage = pdfString;
-            showPDF = false;
-            return;
-        }
-
-        // Étape 3 — Encodage base64 pour renvoi au LWC
-        pdf = pdfString;
-        showPDF = true;
-    }
-
-    private void updateAllShareClasses() {
-        errorMessage = '';
-        infoMessage = '';
-
-        // Step 1 — Fetch authentication token
-        String token = fetchAccessToken('/rest/authentication');
-
-        // Step 2 — Iterate through all share class IDs
-        for (ProjectShareclass__c shareClass : shareclasses) {
-            Id shareClassId = shareClass.Id;
-
-            // Call the external Sequantis API for each share class
-            String response = callSequantisService(token, shareClassId, false);
-            if (response == 'OK') {
-                infoMessage += '<br/>ShareClass '+shareClass.Name__c+' updated successfully.';
-            } else {
-                errorMessage+= '<br/>Error updating ShareClass with ID ' + shareClassId + ': ' + response;
+        try {
+            // Étape 1 — Récupération du token OAuth2
+            String token = fetchAccessToken('/rest/authentication');
+            
+            // Étape 2 — Appel du secallSequantisServicervice pour générer le PDF
+            String pdfString = callSequantisService(token, selectedRecordId,true);
+            if(pdfString.startsWith('<br/> generation failed')){
+                errorMessage = pdfString;
+                showPDF = false;
+                return;
             }
-        }
-        if (errorMessage == '') {
-            infoMessage = 'All ShareClasses processed.';
+            // Étape 3 — Encodage base64 pour renvoi au LWC
+            pdf = pdfString;
+            showPDF = true;
+            
+        } catch (Exception e) {
+            System.debug('Erreur globale : ' + e.getMessage());
+            throw new AuraHandledException('Erreur API : ' + e.getMessage());
         }
     }
 
+    private void updateAllShareClasses() {   
+        
+            // Step 1 — Fetch authentication token
+            String token = fetchAccessToken('/rest/authentication');
+
+            // Step 2 — Iterate through all share class IDs
+            for (ProjectShareclass__c shareClass : shareClasses) {
+                Id shareClassId = shareClass.Id;
+                try {
+                    // Call the external Sequantis API for each share class
+                    String response = callSequantisService(token, shareClassId, false);
+                    if (response == 'OK') {
+                        infoMessage += '<br/>ShareClass '+shareClass.Name__c+' updated successfully.';
+                    } else {
+                        errorMessage+= '<br/>Error updating ShareClass with ID ' + shareClassId + ': ' + response;
+                    }                                    
+                } catch (Exception innerEx) {
+                    // Log or handle per-share-class failure
+                    System.debug('Error updating ShareClass with ID ' + shareClassId + ': ' + innerEx.getMessage());
+                }
+            }
+            if (errorMessage == '') {
+                infoMessage = 'All ShareClasses processed.';
+            }        
+    }
     public  String callSequantisService(String token, String projectShareClassId,Boolean returnPDF) {
+        payloadDebug = '';
         system.debug('====callSequantisService=======projectShareClassId = ' + projectShareClassId);
         Http httpReq = new Http();
         HttpRequest req = new HttpRequest();
-        req.setTimeout(60000); // 60 seconds
+        req.setTimeout(60000);
         Map<String, Object> payload  = new Map<String, Object>();
 
-        // Requetage des champs
-        projectShareclass__c projectShareClassRec = [SELECT Id, Name,Name__c, ISIN__c, Currency__c, MaxRedemptionFee__c, EffectivePerfFees__c, MaxSubscriptionFee__c, EffectiveManagementFees__c, EffectiveServiceFees__c, TransactionCosts__c,
-                                ProxyRisk__c, CurrencyHedging__c, HasPerfFees__c, DividendPolicy__c, Status__c,
+        // Requetage des champs 
+        projectShareClass__c projectShareClassRec = [SELECT Id, Name,Name__c, ISIN__c, Currency__c, MaxRedemptionFee__c, EffectivePerfFees__c, MaxSubscriptionFee__c, EffectiveManagementFees__c, EffectiveServiceFees__c, TransactionCosts__c,
+                                ProxyRisk__c, CurrencyHedging__c, HasPerfFees__c, DividendPolicy__c, Status__c, 
                                 Retail__c, Professional__c, EligibleCounterparty__c, Basic__c, Informed__c, Advanced__c, ExpertGermany__c, LowestRiskTolGer__c, CanNot__c, CanLimited__c, NoNeedCapGuarantee__c, CanNoLimit__c, Preservation__c, CapitalGrowth__c, Income__c,
                                 LeveragedReturn__c, PensionSchemeGer__c, MayTerminateEarlier__c, ExecutionOnly__c, AppropTest__c, InvestAdvice__c, PortfolioManagement__c,
                                 ProjectProduct__c, ShareclassInvestmentObjective__c, InvestorType__c,PerformanceFeeUCITSKIID__c,PerformanceFeeEPTKID__c, MaxPerfFees__c,
                                 PerformanceFeeMethod__c,MaxRedemptionFeesSubfund__c,MaxRedemptionFeesManCo__c
                                 FROM projectShareClass__c
                                 WHERE id = :projectShareClassId];
-
+        
         ProjectProduct__c ProjectProductRec = [SELECT Id, Name, ProductName__c, NAVFrequency__c, RecommendedHoldingPeriod__c,RecommendedHoldingPeriodUnit__c, DomiciledIn__c, LegalForm__c,
                                 BenchmarkName__c, MaturityDate__c, CutOffTime__c, AssetClass__c, LEICode__c, ESGLabel__c,
-                                MinSustainableInvest__c, MinTaxAlignment__c, SFDRCategory__c, IsUsingPAI__c, EET20080__c, EET20190__c,
+                                MinSustainableInvest__c, MinTaxAlignment__c, SFDRCategory__c, IsUsingPAI__c, EET20080__c, EET20190__c, 
                                 EET20200__c, EET20210__c, EET20400__c, EET20430__c, EET20460__c, EET20250__c, AMFESGCommunication__c, HasCarbonTarget__c, EET60440__c, FundSpecificExclusions__c,
                                 EndDate__c, Product__c,ParentProduct__r.Product_Name__c,InvestmentObjective__c,IntentedRetailInvestor__c,ReasonForRHP__c,RedeemCondition__c,LMT__c,
                                 internalShortName__c,TECH_RTName__c, BaseCurrency__c,RecordTypeId,DefaultLanguage__c
                             FROM ProjectProduct__c
                             WHERE Id = :projectShareClassRec.ProjectProduct__c];
+        system.debug('====callSequantisService=======endDate = ' + ProjectProductRec.EndDate__c); 
+        
+        Id fundShareClassModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();
+        Id fundCreationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundCreation').getRecordTypeId();
+        Id shareclassCreationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('ShareclassCreation').getRecordTypeId();
+
+        // ---------------------------------------------------------------------
+        // BLOCK Sequantis call: only allow sending within 1 month before launch date
+        // Applies to Modification record types only (Product / Shareclass Modification)
+        // ---------------------------------------------------------------------
+
+       
+        // Condition:
+        // - record type is a modification RT
+        // - launch date exists
+        // - launch date is MORE than 1 month from today
+     
+        if (
+            ProjectProductRec.RecordTypeId == fundShareClassModificationRecordTypeId
+            && ProjectProductRec.EndDate__c != null
+            && ProjectProductRec.EndDate__c > Date.today().addMonths(1)
+        ) {
+            system.debug('==1==callSequantisService=======generation failed : this project can be send to Sequantis only one month before the launch date');
+            String launchDateStr = ProjectProductRec.EndDate__c.format();
+             errorMessage = 'Generation failed : this project can be send to Sequantis only one month before the launch date (' + launchDateStr + ')';
+             showPDF = false;
+            return '<br/> Generation failed : this project can be send to Sequantis only one month before the launch date (' + launchDateStr + ')';
+        }
+       
 
         Narrative__c [] narratives = [ select  Type__c, Name, SubType__c
-                                from Narrative__c where Type__c = 'Third Party' and SubType__c= 'ManagementCompany'
-                                and Project__c = :ProjectProductRec.Id
+                                from Narrative__c where Type__c = 'Third Party' and SubType__c= 'ManagementCompany'                       
+                                and Project__c = :ProjectProductRec.Id 
                                 ];
-
+        
         system.debug('====narratives=======narratives = ' + narratives);
 
-
+                  
         // if internalShortName__c , RecommendedHoldingPeriod__c et RecommendedHoldingPeriodUnit__c  empty return error message
         String errorMsg = '';
         if (ProjectProductRec.internalShortName__c == null ){
-            errorMsg += '<br/> Internal Short Name is required. ';
+            errorMsg += '<br/> Internal Short Name is required. ';            
         }
         if (ProjectProductRec.RecommendedHoldingPeriod__c == null ){
             errorMsg += '<br/> Recommended Holding Period is required. ';
         }
         if (ProjectProductRec.RecommendedHoldingPeriodUnit__c == null ){
             errorMsg += '<br/> Recommended Holding Period Unit is required. ';
-        }
+        }   
         if (errorMsg != ''){
             errorMsg = '<br/> generation failed due to missing required fields '+projectShareClassRec.Name__c+' : '+errorMsg;
             return errorMsg;
         }
-
         // Ajout des champs
         payload.put('genereKID', returnPDF);
-
+        
         payload.put('portfolioManagement', projectShareClassRec.PortfolioManagement__c); //values : P,B
         payload.put('investmentAdvice', projectShareClassRec.InvestAdvice__c); //values : P,B
         payload.put('executionWithAppropriatenessTestOrNonAdvisedServices', projectShareClassRec.AppropTest__c); //values : P,B
@@ -151,7 +195,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
         payload.put('notForInvestorsWithTheLowestRiskToleranceGermany', formatYesNoField(projectShareClassRec.LowestRiskTolGer__c)); //values : Yes, No, Neutral
         payload.put('expertInvestorGermany', formatYesNoField(projectShareClassRec.ExpertGermany__c )); //values : Yes, No, Neutral
         payload.put('advancedInvestor', formatYesNoField(projectShareClassRec.Advanced__c)); //values : Yes, No, Neutral
-        payload.put('informedInvestor', formatYesNoField(projectShareClassRec.Informed__c )); //values : Yes, No, Neutral
+        payload.put('informedInvestor', formatYesNoField(projectShareClassRec.Informed__c)); //values : Yes, No, Neutral
         payload.put('basicInvestor', formatYesNoField(projectShareClassRec.Basic__c)); //values : Yes, No, Neutral
         payload.put('investorTypeEligibleCounterparty', formatYesNoField(projectShareClassRec.EligibleCounterparty__c )); //values : Yes, No, Neutral
         payload.put('investorTypeProfessional', formatYesNoField(projectShareClassRec.Professional__c)); //values : Yes, No, Neutral
@@ -168,6 +212,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
         payload.put('nonTaxoEnvSustInvest', ProjectProductRec.EET20200__c);
         payload.put('alignedWithTaxonomy', ProjectProductRec.EET20190__c);
         payload.put('lookedThroughArt9', ProjectProductRec.EET20080__c);
+        //payload.put('lookedThroughArt8', ProjectProductRec.EET20070__c);
         payload.put('sfdrAdverseImpact', ProjectProductRec.IsUsingPAI__c);
         payload.put('sfdrCategory', ProjectProductRec.SFDRCategory__c);
         payload.put('minInvestTaxo', ProjectProductRec.MinTaxAlignment__c);
@@ -209,24 +254,23 @@ public with sharing class VFC16_SequantisGenerateDraft {
             payload.put('parentProduct', ProjectProductRec.ParentProduct__r.Product_Name__c);
         }
 
+
         payload.put('maxRedemptionFeesFund',  projectShareClassRec.MaxRedemptionFeesSubfund__c);
+
+        
         payload.put('maxPerformanceFees', projectShareClassRec.MaxPerfFees__c);
         payload.put('language', ProjectProductRec.DefaultLanguage__c);
-
+        //payload.put('performanceFeeMethod', projectShareClassRec.PerformanceFeeMethod__c  ); 
         String projectInvestmentObjectiveNoHTML = escapeHTML(ProjectProductRec.InvestmentObjective__c );
         String shareClassInvestmentObjectiveNoHTML = escapeHTML(projectShareClassRec.ShareclassInvestmentObjective__c);
         payload.put('projectType',  ProjectProductRec.TECH_RTName__c);
         payload.put('investmentObjective', projectInvestmentObjectiveNoHTML);
         payload.put('internalShortName',  ProjectProductRec.internalShortName__c);
-
-        // add only if project type is not Modification
-        Id fundShareClassModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();
-        Id fundCreationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundCreation').getRecordTypeId();
-        Id shareclassCreationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('ShareclassCreation').getRecordTypeId();
-
-        Id rtId = ProjectProductRec.RecordTypeId;
+        payload.put('userMail', UserInfo.getUserEmail());
+       Id rtId = ProjectProductRec.RecordTypeId;
 
         if (rtId == fundCreationRecordTypeId) {
+            
             payload.put('sortieAnticipee1', ProjectProductRec.ReasonForRHP__c);
             payload.put('typeInvestisseur', ProjectProductRec.IntentedRetailInvestor__c);
             payload.put('shareClassInvestmentObjective', shareClassInvestmentObjectiveNoHTML);
@@ -234,33 +278,36 @@ public with sharing class VFC16_SequantisGenerateDraft {
             payload.put('performanceFeesComment', projectShareClassRec.PerformanceFeeUCITSKIID__c);
 
             if(narratives.size() > 0 ){payload.put('managementCompany',  narratives[0].Name );}
-        }
-        else if (rtId == shareclassCreationRecordTypeId) {
-            payload.put('shareClassInvestmentObjective', shareClassInvestmentObjectiveNoHTML);
-            payload.put('performanceFeesCommentEPT', projectShareClassRec.PerformanceFeeEPTKID__c);
-            payload.put('performanceFeesComment', projectShareClassRec.PerformanceFeeUCITSKIID__c);
-        }
 
-        req.setHeader('Authorization', 'Bearer ' + token);
+        }else if (rtId == shareclassCreationRecordTypeId) {
+                payload.put('shareClassInvestmentObjective', shareClassInvestmentObjectiveNoHTML);
+                payload.put('performanceFeesCommentEPT', projectShareClassRec.PerformanceFeeEPTKID__c);
+                payload.put('performanceFeesComment', projectShareClassRec.PerformanceFeeUCITSKIID__c);
+        }
+       // payload.put('fundcurrency',  ProjectProductRec.BaseCurrency__c); //champ pas encore créé coté Sequantis
+        //payload.put('????'  shareClassInvestmentObjectiveNoHTML
+        //payload.put('riskNarrative', 'L\'indicateur synthétique de risque indique la probabilité que ce produit...');
+        //payload.put('sortieAnticipee','');
+
+        req.setHeader('Authorization', 'Bearer ' + token); 
         req.setHeader('Content-Type','application/json');
         req.setMethod('POST');
         req.setEndpoint('callout:Sequantis/rest/CARMIGNAC_PROJECT');
+        
 
-        payloadDebug = payload;
+        // Sérialisation du Map en JSON
+        system.debug('payload====='+JSON.serialize(payload));
         payloadKeys = new List<String>(payload.keySet());
         payloadString = JSON.serialize(payload);
-        System.debug('payload====='+ payloadString);
-
+        //payloadDebug= payloadString;
         req.setBody(payloadString);
 
-        // >>> DEBUG SAFE SEND (replaces httpReq.send(req))
-        HttpResponse res = sendWithDebug(httpReq, req, 'callSequantisService');
-
+        HttpResponse res = httpReq.send(req);
         system.debug('==============Response status: ' + res.getStatusCode());
-        system.debug('==============Response body: ' + res.getBody());
+        system.debug('==============Response body: ' + res.getBody());    
         if( res.getStatusCode() == 202 ){
-            return ('OK');
-        } else if (res.getStatusCode() != 200) {
+            return ('OK')   ;            
+        }else if (res.getStatusCode() != 200) {
             throw new CalloutException('Erreur génération PDF (' + res.getStatusCode() + ') : ' + res.getBody());
         }
 
@@ -268,7 +315,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
     }
 
     /* Escape HTML tags from text
-       except bold, italic and paragraph
+    except bold, italic and paragraph
     */
     private String escapeHTML(String inputText) {
         if (inputText == null) {
@@ -284,8 +331,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
         // Clean up multiple spaces
         inputText = noHTML.replaceAll('\\s+', ' ').trim();
         return inputText;
-    }
-
+    }   
     //convert text field 'Yes'/'No'/Neutral to Boolean
     private Boolean formatYesNoField(String fieldValue){
         if(fieldValue == 'Yes'){
@@ -296,7 +342,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
             return null;
         }
     }
-
+    
    /**
      * Récupère un access token via le Named Credential 'Sequantis'
      * @param tokenPath chemin relatif de l’endpoint token (ex: '/oauth/token')
@@ -304,82 +350,33 @@ public with sharing class VFC16_SequantisGenerateDraft {
      public static String fetchAccessToken(String tokenPath) {
         HttpRequest req = new HttpRequest();
         req.setMethod('POST');
-
         // Utilise le Named Credential
         //req.setEndpoint('callout:Sequantis' + tokenPath);
         req.setEndpoint('callout:Sequantis/rest/authentication/');
         req.setHeader('Content-Type', 'application/json');
-
         String username = Label.seqlgn;
         String password = Label.seqpwd;
 
         req.setBody('{"userName": "'+ username +'", "password": "'+ password +'"}');
 
+        
         Http http = new Http();
-
-        // >>> DEBUG SAFE SEND (replaces http.send(req))
-        HTTPResponse res = sendWithDebug(http, req, 'fetchAccessToken');
-
+        HTTPResponse res = http.send(req);
         Integer code = res.getStatusCode();
         if (code < 200 || code >= 300) {
+            // Log utile + exception claire
             System.debug(LoggingLevel.ERROR, 'Token call failed: ' + code + ' - ' + res.getBody());
             throw new CalloutException('OAuth token request failed: HTTP ' + code);
         } else {
-            System.debug('*** Token : response received (body length=' + (res.getBody() == null ? 0 : res.getBody().length()) + ')');
+            System.debug('*** Token : ' + res.getBody());
             return res.getBody();
         }
-    }
 
-    // -----------------------------
-    // Debug helpers (compile-safe)
-    // -----------------------------
-    private static void debugRequest(HttpRequest req, String step) {
-        System.debug(LoggingLevel.ERROR, '--- Sequantis Callout Debug [' + step + '] ---');
-        System.debug(LoggingLevel.ERROR, 'Endpoint (as set) : ' + req.getEndpoint());
-        System.debug(LoggingLevel.ERROR, 'Method            : ' + req.getMethod());
+        //OAuthTokenResponse token = (OAuthTokenResponse) JSON.deserialize(res.getBody(), OAuthTokenResponse.class);
+        //if (token == null || String.isBlank(token.access_token)) {
+        //    throw new CalloutException('OAuth token response missing access_token');
+        //}
+        //return token.access_token;
 
-        // Masquer le body d’auth (contient password)
-        String body = req.getBody();
-        if (body != null) {
-            String toLog = body;
-            if (step != null && step.contains('fetchAccessToken')) {
-                toLog = '{"userName":"<hidden>","password":"<hidden>"}';
-            }
-            Integer maxLen = Math.min(2000, toLog.length());
-            System.debug(LoggingLevel.ERROR, 'Body (first ' + maxLen + ' chars) : ' + toLog.substring(0, maxLen));
-        } else {
-            System.debug(LoggingLevel.ERROR, 'Body               : <null>');
-        }
-
-        // Note: Apex ne permet pas de lire les headers du HttpRequest (pas de getHeaderKeys)
-        if (req.getHeader('Authorization') != null) {
-            System.debug(LoggingLevel.ERROR, 'Authorization header present (value hidden)');
-        }
-    }
-
-    private static HttpResponse sendWithDebug(Http http, HttpRequest req, String step) {
-        debugRequest(req, step + ' (before send)');
-
-        try {
-            HttpResponse res = http.send(req);
-
-            System.debug(LoggingLevel.ERROR, '--- Sequantis Callout Debug [' + step + '] ---');
-            System.debug(LoggingLevel.ERROR, 'StatusCode : ' + res.getStatusCode());
-            System.debug(LoggingLevel.ERROR, 'Status     : ' + res.getStatus());
-
-            String b = res.getBody();
-            if (b != null) {
-                Integer maxLen = Math.min(4000, b.length());
-                System.debug(LoggingLevel.ERROR, 'Body (first ' + maxLen + ' chars) : ' + b.substring(0, maxLen));
-            } else {
-                System.debug(LoggingLevel.ERROR, 'Body       : <null>');
-            }
-
-            return res;
-        } catch (System.CalloutException e) {
-            System.debug(LoggingLevel.ERROR, '--- Sequantis Callout FAILED [' + step + '] ---');
-            System.debug(LoggingLevel.ERROR, 'Exception : ' + e.getMessage());
-            throw e;
-        }
     }
 }
