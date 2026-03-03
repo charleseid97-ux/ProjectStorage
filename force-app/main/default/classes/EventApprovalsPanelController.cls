@@ -1,4 +1,4 @@
-public with sharing class EventApprovalsController {
+public with sharing class EventApprovalsPanelController {
 
     public class PendingRow {
         @AuraEnabled public String workItemId;

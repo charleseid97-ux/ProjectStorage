@@ -1,6 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
-import getApprovalsForEvent from '@salesforce/apex/EventApprovalsController.getApprovalsForEvent';
-import actOnWorkitem from '@salesforce/apex/EventApprovalsController.actOnWorkitem';
+import getApprovalsForEvent from '@salesforce/apex/EventApprovalsPanelController.getApprovalsForEvent';
+import actOnWorkitem from '@salesforce/apex/EventApprovalsPanelController.actOnWorkitem';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 // If you add a static resource named "myIcons", uncomment to use it for custom images
