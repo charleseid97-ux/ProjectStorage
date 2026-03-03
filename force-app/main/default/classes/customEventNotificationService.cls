@@ -419,6 +419,7 @@ public with sharing class customEventNotificationService {
             m.setSubject(rendered.getSubject());
             m.setHtmlBody(html);
             m.setSaveAsActivity(false);
+
             return m;
         } catch (Exception ex) {
             err('prepareSpeakerAssistantEmail failed for ESA=' + (esa == null ? 'null' : esa.Id) + ' -> ' + ex.getMessage());
@@ -432,6 +433,7 @@ public with sharing class customEventNotificationService {
     private static void sendMessages(List<Messaging.SingleEmailMessage> msgs) {
         if (msgs == null || msgs.isEmpty()) { warn('No emails to send (msgs empty)'); return; }
         log('Sending emails. count=' + msgs.size());
+
         try {
             Messaging.SendEmailResult[] results = Messaging.sendEmail(msgs, false);
             for (Messaging.SendEmailResult r : results) {
@@ -532,6 +534,7 @@ public with sharing class customEventNotificationService {
         for (SessionSpeakerProduct__c s : speakers) parts.add(tableRowForSpeaker(s));
         parts.add('</table>');
         parts.add(DIV_CLOSE);
+
         return String.join(parts, '');
     }
 
