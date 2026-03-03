@@ -24,7 +24,7 @@
     <members>customEventAttendeeHandler</members>
     <members>customEventAttendeeService</members>
     <members>customEventHandler</members>
-    <members>customEventHandler_Test</members>
+   <!-- <members>customEventHandler_Test</members>-->
     <members>customEventNotificationService</members>
     <members>customEventService</members>
     <members>customEventSpeakerApprovalService</members>
@@ -250,5 +250,5 @@
         <name>CustomLabel</name>
     </types>
     -->
-  <version>66.0</version>
+  <version>65.0</version>
 </Package>
