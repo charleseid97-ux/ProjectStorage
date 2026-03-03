@@ -82,8 +82,9 @@ private class customEventHandler_Test {
             SELECT Id, Name, Title__c, SalesTeam__c, startTime__c, Format__c
             FROM Event__c
             WHERE Title__c = :(PREFIX + 'Initial')
-            LIMIT 1
             WITH SECURITY_ENFORCED
+            LIMIT 1
+            
         ];
 
         e.Title__c = PREFIX + 'Updated';
@@ -109,8 +110,8 @@ private class customEventHandler_Test {
             SELECT Id, Name, Title__c, SalesTeam__c, startTime__c, Format__c
             FROM Event__c
             WHERE Title__c = :(PREFIX + 'Initial')
-            LIMIT 1
             WITH SECURITY_ENFORCED
+            LIMIT 1
         ];
         String nameBefore = e.Name;
 
