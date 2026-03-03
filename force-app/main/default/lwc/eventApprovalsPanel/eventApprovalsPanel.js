@@ -6,7 +6,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 // If you add a static resource named "myIcons", uncomment to use it for custom images
 // import myIcons from '@salesforce/resourceUrl/myIcons';
 
-export default class EventApprovalsPanel extends LightningElement {
+export default class eventApprovalsPanel extends LightningElement {
     @api recordId;
     @track pending = [];
     @track processed = [];
