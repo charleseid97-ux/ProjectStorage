@@ -301,12 +301,35 @@ public with sharing class customEventService {
     // Event Team / Approval helper
     // ---------------------------
 
-    // Mark events as submitted to event team
+    // Mark events as submitted to event team (only for RecordTypes MeetingDays and Event)
     public static void startEventTeamApproval(List<Event__c> events) {
         if (events == null || events.isEmpty()) return;
+
+        // Collect RecordTypeIds present in the incoming events
+        Set<Id> rtIds = new Set<Id>();
+        for (Event__c e : events) {
+            if (e != null && e.RecordTypeId != null) rtIds.add(e.RecordTypeId);
+        }
+
+        // Map RecordTypeId -> DeveloperName (for the Event__c sObject)
+        Map<Id, RecordType> rtById = new Map<Id, RecordType>();
+        if (!rtIds.isEmpty()) {
+            for (RecordType rt : [SELECT Id, DeveloperName FROM RecordType WHERE Id IN :rtIds]) {
+                rtById.put(rt.Id, rt);
+            }
+        }
+
+        // Allowed developer names (lowercase to allow case-insensitive compare)
+        Set<String> allowedRtDevNames = new Set<String>{ 'meetingdays', 'event' };
+
         for (Event__c evt : events) {
             if (evt == null) continue;
-            evt.Status__c = 'SubmittedToEventTeam';
+            // Only set Status__c when the event's RecordType DeveloperName is in the allowed set
+            RecordType rt = (evt.RecordTypeId != null) ? rtById.get(evt.RecordTypeId) : null;
+            String devName = (rt != null && rt.DeveloperName != null) ? rt.DeveloperName.toLowerCase() : null;
+            if (devName != null && allowedRtDevNames.contains(devName)) {
+                evt.Status__c = 'SubmittedToEventTeam';
+            }
         }
     }
 

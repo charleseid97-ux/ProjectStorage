@@ -474,7 +474,7 @@ public with sharing class customEventSpeakerApprovalService {
             ? oldMap.get(rec.Id).Status__c
             : null;
 
-        return (rec.Status__c == 'Approved' && oldStatus != 'Approved');
+        return (rec.Status__c == 'approved_speaker' && oldStatus != 'approved_speaker');
     }
 
     /**
@@ -528,7 +528,7 @@ public with sharing class customEventSpeakerApprovalService {
             'FROM EventSpeakerApprovals__c ' +
             'WHERE Event__c IN :eventIds ';
         if (onlyApproved) {
-            base += 'AND Status__c = \'Approved\' ';
+            base += 'AND Status__c = \'approved_speaker\' ';
         }
         base += 'GROUP BY Event__c';
 
