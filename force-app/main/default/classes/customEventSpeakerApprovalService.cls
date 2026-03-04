@@ -3,6 +3,7 @@ public with sharing class customEventSpeakerApprovalService {
     // Prevent processing the same Event multiple times in the same transaction (Flow/automation recursion)
     private static Set<Id> PROCESSED_HTML_EVENT_IDS = new Set<Id>();
     private static Set<Id> PROCESSED_APPROVAL_EVENT_IDS = new Set<Id>();
+    private static Set<Id> PROCESSED_MARK_FULLY_APPROVED_EVENT_IDS = new Set<Id>();
 
     // Custom exception to rethrow with a clearer message (do not instantiate DmlException directly)
     public class SpeakerApprovalUpsertException extends Exception {}
@@ -19,6 +20,7 @@ public with sharing class customEventSpeakerApprovalService {
      * Appel prévu depuis before update -> pas de DML ici.
      */
     public static void prepareSpeakerHTMLforNotifications(Map<Id, Event__c> newEvents,Map<Id, Event__c> oldEvents) {
+        System.debug(LoggingLevel.INFO, 'prepareSpeakerHTMLforNotifications: start processing');
         if (newEvents == null || newEvents.isEmpty()) return;
 
         Set<Id> eventIds = collectEventIdsToProcess(newEvents, oldEvents);
@@ -61,6 +63,70 @@ public with sharing class customEventSpeakerApprovalService {
         if (v == null) return '';
         return v.replace('&','&amp;').replace('<','&lt;').replace('>','&gt;').replace('"','&quot;').replace('\'','&#39;');
     }
+
+   /**
+     * Vérifie les events qui viennent d'entrer en WaitingForSpeakerApprovals.
+     * Si aucun SessionSpeakerProduct__c n'est lié à l'event, force le statut
+     * de l'Event__c à 'EventFullyApproved'.
+     *
+     * Conçu pour être appelé depuis un trigger BEFORE UPDATE : on modifie directement
+     * les enregistrements dans la map newEvents (pas de DML).
+     */
+    public static void markEventFullyApprovedIfNoSSP(
+        Map<Id, Event__c> newEvents,
+        Map<Id, Event__c> oldEvents
+    ) {
+        System.debug(LoggingLevel.INFO, 'markEventFullyApprovedIfNoSSP: start processing');
+        if (newEvents == null || newEvents.isEmpty()) return;
+
+        // 1) Déterminer les events concernés (entrants en WaitingForSpeakerApprovals)
+        Set<Id> eventIds = collectEventIdsToProcess(newEvents, oldEvents);
+        if (eventIds.isEmpty()) return;
+
+        // 2) Recursion guard (évite double traitement dans la même transaction)
+        if (!applyRecursionGuard(eventIds, PROCESSED_MARK_FULLY_APPROVED_EVENT_IDS)) {
+            System.debug(LoggingLevel.DEBUG, 'markEventFullyApprovedIfNoSSP: events already processed in this tx');
+            return;
+        }
+
+        System.debug(LoggingLevel.INFO, 'markEventFullyApprovedIfNoSSP: checking events ' + eventIds);
+
+        // 3) Charger les lignes SSP pour ces events
+        List<SessionSpeakerProduct__c> lines = querySpeakerProductLines(eventIds);
+
+        // 4) Construire un set d'events ayant au moins une SSP
+        Set<Id> eventsWithSSP = new Set<Id>();
+        if (lines != null && !lines.isEmpty()) {
+            for (SessionSpeakerProduct__c l : lines) {
+                if (l != null && l.Session__c != null) eventsWithSSP.add(l.Session__c);
+            }
+        }
+
+        // 5) Pour chaque event entrant, si absence de SSP -> modifier la map newEvents
+        for (Id evtId : eventIds) {
+            if (!eventsWithSSP.contains(evtId)) {
+                Event__c newEvt = newEvents.get(evtId);
+                if (newEvt == null) {
+                    System.debug(LoggingLevel.WARN, 'markEventFullyApprovedIfNoSSP: event not found in newEvents map, event=' + evtId);
+                    continue;
+                }
+
+                String currentStatus = newEvt.Status__c;
+                if (currentStatus == null || !currentStatus.equalsIgnoreCase('EventFullyApproved')) {
+                    // Modification directe dans la map pour BEFORE trigger (pas de DML)
+                    newEvt.Status__c = 'EventFullyApproved';
+                    System.debug(LoggingLevel.INFO, 'markEventFullyApprovedIfNoSSP: set Status__c to EventFullyApproved for event=' + evtId);
+                } else {
+                    System.debug(LoggingLevel.DEBUG, 'markEventFullyApprovedIfNoSSP: already EventFullyApproved, event=' + evtId);
+                }
+            } else {
+                System.debug(LoggingLevel.DEBUG, 'markEventFullyApprovedIfNoSSP: SSP found, event=' + evtId);
+            }
+        }
+
+        // Pas de persist ici : les changements sur newEvents seront sauvegardés par le trigger BEFORE
+        System.debug(LoggingLevel.INFO, 'markEventFullyApprovedIfNoSSP: processing finished');
+    }
     /**
      * Creates or updates one EventSpeakerApprovals__c per (Event, SpeakerContact)
      * when an Event enters WaitingForSpeakerApprovals.
@@ -69,6 +135,7 @@ public with sharing class customEventSpeakerApprovalService {
         Map<Id, Event__c> newEvents,
         Map<Id, Event__c> oldEvents
     ) {
+        System.debug(LoggingLevel.INFO, 'ESA: createOrUpdateSpeakerApprovals start processing');
         if (newEvents == null || newEvents.isEmpty()) {
             System.debug(LoggingLevel.DEBUG, 'ESA: no events provided');
             return;
@@ -481,6 +548,7 @@ public with sharing class customEventSpeakerApprovalService {
      * Updates Event__c to EventFullyApproved if all speaker approvals are approved.
      */
     public static void updateEventStatusIfAllApproved(Set<Id> eventIds) {
+        System.debug(LoggingLevel.INFO, 'ESA: updateEventStatusIfAllApproved for events ' + eventIds);
         if (eventIds == null || eventIds.isEmpty()) return;
 
         // Count total approvals per event

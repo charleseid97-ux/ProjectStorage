@@ -15,7 +15,7 @@ public with sharing class customEventHandler implements ITriggerHandler {
     public void BeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
         Map<Id, Event__c> newEvents = (Map<Id, Event__c>) newItems;
         Map<Id, Event__c> oldEvents = (Map<Id, Event__c>) oldItems;
-
+        customEventSpeakerApprovalService.markEventFullyApprovedIfNoSSP(newEvents, oldEvents);
         customEventService.setEventName(newEvents.values(), oldEvents);
         customEventService.copyCompanyBillingAddressToEvent(newEvents.values(), oldEvents);
         customEventSpeakerApprovalService.prepareSpeakerHTMLforNotifications(newEvents, oldEvents);    
