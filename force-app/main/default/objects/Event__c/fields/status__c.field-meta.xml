@@ -16,22 +16,22 @@
             <value>
                 <fullName>FullyApproved</fullName>
                 <default>false</default>
-                <label>Event Fully Approved</label>
+                <label>Approved</label>
             </value>
             <value>
                 <fullName>InvitationsSent</fullName>
                 <default>false</default>
-                <label>Invitations Sent</label>
+                <label>Invitations Dispatched</label>
             </value>
             <value>
                 <fullName>SubmittedToEventTeam</fullName>
                 <default>false</default>
-                <label>Submitted to Event Team</label>
+                <label>Submitted</label>
             </value>
             <value>
                 <fullName>WaitingForSpeakerApprovals</fullName>
                 <default>false</default>
-                <label>Waiting for Speaker Approvals</label>
+                <label>Pending Speaker Approval</label>
             </value>
             <value>
                 <fullName>Cancelled</fullName>
@@ -41,7 +41,12 @@
             <value>
                 <fullName>HoPRreview</fullName>
                 <default>false</default>
-                <label>Head of product review</label>
+                <label>Under Head of Product Review</label>
+            </value>
+            <value>
+                <fullName>PartiallyApproved</fullName>
+                <default>false</default>
+                <label>Partially Approved</label>
             </value>
             <value>
                 <fullName>PartiallyApproved</fullName>
