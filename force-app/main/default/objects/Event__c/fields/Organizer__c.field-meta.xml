@@ -30,7 +30,7 @@
     </lookupFilter>
     <referenceTo>User</referenceTo>
     <relationshipName>OrganizedMeetings</relationshipName>
-    <required>false</required>
+    <required>true</required>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>

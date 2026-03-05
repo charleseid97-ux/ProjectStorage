@@ -47,13 +47,13 @@ public with sharing class sessionSpeakerProductRepeaterCTRL {
         List<PickOpt> out = new List<PickOpt>();
         Id StrategyRT = Schema.SObjectType.Product__c.getRecordTypeInfosByName().get('Strategy').getRecordTypeId();
         for (Product__c p : [
-            SELECT Id, Name
+            SELECT Id, Product_Name__c
             FROM Product__c
             WHERE recordTypeId =:StrategyRT
-            ORDER BY Name
+            ORDER BY Product_Name__c
         ]) {
-            // label = Name, value = Id
-            out.add(new PickOpt(p.Name, p.Id));
+            // label = Product_Name__c, value = Id
+            out.add(new PickOpt(p.Product_Name__c, p.Id));
         }
 
         return out;
