@@ -18,6 +18,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>EventApprovalController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>EventApprovalsPanelController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>EventAttendee_InsertFromIds</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -86,11 +94,19 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>sessionSpeakerProductHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>sessionSpeakerProductRelatedListCTRL</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>sessionSpeakerProductRepeaterCTRL</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>sessionSpeakerProductService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <custom>true</custom>

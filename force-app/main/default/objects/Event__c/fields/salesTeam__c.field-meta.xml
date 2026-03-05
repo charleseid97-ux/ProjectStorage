@@ -59,6 +59,16 @@
                 <default>false</default>
                 <label>Nordics</label>
             </value>
+            <value>
+                <fullName>International</fullName>
+                <default>false</default>
+                <label>International</label>
+            </value>
+            <value>
+                <fullName>All countries</fullName>
+                <default>false</default>
+                <label>All countries</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

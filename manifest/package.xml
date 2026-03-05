@@ -28,6 +28,8 @@
     <members>sessionSpeakerProductRepeaterCTRL</members>
     <members>EventApprovalsPanelController</members>
     <members>EventApprovalController</members>
+    <members>sessionSpeakerProductHandler</members>
+    <members>sessionSpeakerProductService</members>
     <name>ApexClass</name>
   </types>
 
@@ -36,6 +38,7 @@
     <members>EventSpeakerApprovalsTrigger</members>
     <members>customEventAttendeeTrigger</members>
     <members>customEventTrigger</members>
+    <members>sessionSpeakerProductTrigger</members>
     <name>ApexTrigger</name>
   </types>
 

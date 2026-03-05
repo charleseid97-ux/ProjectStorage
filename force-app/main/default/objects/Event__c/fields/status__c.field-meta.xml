@@ -14,7 +14,7 @@
                 <label>Draft</label>
             </value>
             <value>
-                <fullName>EventFullyApproved</fullName>
+                <fullName>FullyApproved</fullName>
                 <default>false</default>
                 <label>Event Fully Approved</label>
             </value>
@@ -42,6 +42,11 @@
                 <fullName>HoPRreview</fullName>
                 <default>false</default>
                 <label>Head of product review</label>
+            </value>
+            <value>
+                <fullName>PartiallyApproved</fullName>
+                <default>false</default>
+                <label>Partially approved</label>
             </value>
         </valueSetDefinition>
     </valueSet>

@@ -39,31 +39,20 @@
                     <tr>
                         <td style="padding:4px 0; width:160px; color:#6b7280;">When</td>
                         <td style="padding:4px 0;">
-                            <apex:outputText value="{0,date,dd MMM yyyy}">
-                                <apex:param value="{!relatedTo.Event__r.startDate__c}" />
-                            </apex:outputText>
-                        
-                            <apex:outputText value=" {0,time,HH:mm}">
-                                <apex:param value="{!relatedTo.Event__r.startTime__c}" />
-                            </apex:outputText>
-                        
-                            —
-                            
-                            <apex:outputText value="{0,date,dd MMM yyyy}">
-                                <apex:param value="{!relatedTo.Event__r.endDate__c}" />
-                            </apex:outputText>
-                        
-                            <apex:outputText value=" {0,time,HH:mm}">
-                                <apex:param value="{!relatedTo.Event__r.endTime__c}" />
-                            </apex:outputText>
-                        
-                            ({!relatedTo.Event__r.Timezone__c})
+                            {!relatedTo.Event__r.startDate__c}
+                            &nbsp;{!relatedTo.Event__r.startTime__c}
+                            &nbsp;—&nbsp;
+                            {!relatedTo.Event__r.endDate__c}
+                            &nbsp;{!relatedTo.Event__r.endTime__c}
+                            &nbsp;({!relatedTo.Event__r.Timezone__c})
                         </td>
                     </tr>
+
                     <tr>
                         <td style="padding:4px 0; color:#6b7280;">Language</td>
                         <td style="padding:4px 0;">{!relatedTo.Event__r.Language__c}</td>
                     </tr>
+
                     <tr>
                         <td style="padding:4px 0; color:#6b7280;">Location</td>
                         <td style="padding:4px 0;">
@@ -71,6 +60,7 @@
                             {!relatedTo.Event__r.LocationName__c}
                         </td>
                     </tr>
+
                     <tr>
                         <td style="padding:4px 0; color:#6b7280;">Company</td>
                         <td style="padding:4px 0;">{!relatedTo.Event__r.Company__r.Name}</td>
@@ -108,10 +98,10 @@
                 <h3 style="margin:0 0 10px 0; font-size:16px;">Actions</h3>
 
                 <div style="font-size:13px; margin-bottom:10px;">
-                  <a href="{!$Label.BaseURL}/{!relatedTo.Event__c}"
-                     style="color:#2563eb; text-decoration:none; font-weight:bold;">
-                    Open Event record
-                  </a>
+                    <a href="{!$Label.BaseURL}/{!relatedTo.Event__c}"
+                       style="color:#2563eb; text-decoration:none; font-weight:bold;">
+                        Open Event record
+                    </a>
                 </div>
 
                 <table cellpadding="0" cellspacing="0" style="border-collapse:collapse;">

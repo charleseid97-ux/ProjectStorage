@@ -364,7 +364,7 @@ public with sharing class customEventService {
     // Campaign creation from Event__c
     // ---------------------------
 
-    // Create Campaigns when Event.Status__c transitions to 'EventFullyApproved'
+    // Create Campaigns when Event.Status__c transitions to 'FullyApproved'
     public static void createCampaign(List<Event__c> newEvents, Map<Id, Event__c> oldMap) {
         if (newEvents == null || newEvents.isEmpty()) return;
 
@@ -386,15 +386,15 @@ public with sharing class customEventService {
         linkCampaignsToEvents(eventIdToCampaign, eligibleEvents);
     }
 
-    // Detect transition to EventFullyApproved and avoid duplicates
+    // Detect transition to FullyApproved and avoid duplicates
     private static List<Event__c> detectBecameFullyApproved(List<Event__c> newEvents, Map<Id, Event__c> oldMap) {
         List<Event__c> out = new List<Event__c>();
         for (Event__c e : newEvents) {
             if (e == null) continue;
             Event__c oldE = (oldMap != null) ? oldMap.get(e.Id) : null;
             Boolean becameFullyApproved =
-                e.Status__c == 'EventFullyApproved' &&
-                (oldE == null || oldE.Status__c != 'EventFullyApproved');
+                e.Status__c == 'FullyApproved' &&
+                (oldE == null || oldE.Status__c != 'FullyApproved');
             if (becameFullyApproved && e.Campaign__c == null) out.add(e);
         }
         return out;

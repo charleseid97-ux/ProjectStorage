@@ -67,7 +67,7 @@ public with sharing class customEventSpeakerApprovalService {
    /**
      * Vérifie les events qui viennent d'entrer en WaitingForSpeakerApprovals.
      * Si aucun SessionSpeakerProduct__c n'est lié à l'event, force le statut
-     * de l'Event__c à 'EventFullyApproved'.
+     * de l'Event__c à 'FullyApproved'.
      *
      * Conçu pour être appelé depuis un trigger BEFORE UPDATE : on modifie directement
      * les enregistrements dans la map newEvents (pas de DML).
@@ -112,12 +112,12 @@ public with sharing class customEventSpeakerApprovalService {
                 }
 
                 String currentStatus = newEvt.Status__c;
-                if (currentStatus == null || !currentStatus.equalsIgnoreCase('EventFullyApproved')) {
+                if (currentStatus == null || !currentStatus.equalsIgnoreCase('FullyApproved')) {
                     // Modification directe dans la map pour BEFORE trigger (pas de DML)
-                    newEvt.Status__c = 'EventFullyApproved';
-                    System.debug(LoggingLevel.INFO, 'markEventFullyApprovedIfNoSSP: set Status__c to EventFullyApproved for event=' + evtId);
+                    newEvt.Status__c = 'FullyApproved';
+                    System.debug(LoggingLevel.INFO, 'markEventFullyApprovedIfNoSSP: set Status__c to FullyApproved for event=' + evtId);
                 } else {
-                    System.debug(LoggingLevel.DEBUG, 'markEventFullyApprovedIfNoSSP: already EventFullyApproved, event=' + evtId);
+                    System.debug(LoggingLevel.DEBUG, 'markEventFullyApprovedIfNoSSP: already FullyApproved, event=' + evtId);
                 }
             } else {
                 System.debug(LoggingLevel.DEBUG, 'markEventFullyApprovedIfNoSSP: SSP found, event=' + evtId);
@@ -545,28 +545,31 @@ public with sharing class customEventSpeakerApprovalService {
     }
 
     /**
-     * Updates Event__c to EventFullyApproved if all speaker approvals are approved.
+     * Updates Event__c to FullyApproved if all speaker approvals are approved.
      */
     public static void updateEventStatusIfAllApproved(Set<Id> eventIds) {
         System.debug(LoggingLevel.INFO, 'ESA: updateEventStatusIfAllApproved for events ' + eventIds);
         if (eventIds == null || eventIds.isEmpty()) return;
 
         // Count total approvals per event
-        Map<Id, Integer> totalByEvent = queryApprovalCounts(eventIds, false);
+        Map<Id, Integer> totalByEvent = queryApprovalCounts(eventIds, null);
 
         // Count approved approvals per event
-        Map<Id, Integer> approvedByEvent = queryApprovalCounts(eventIds, true);
+        Map<Id, Integer> approvedByEvent = queryApprovalCounts(eventIds, 'approved_speaker');
+        Map<Id, Integer> rejectedByEvent = queryApprovalCounts(eventIds, 'rejected');
 
         List<Event__c> toUpdate = new List<Event__c>();
 
         for (Id evtId : totalByEvent.keySet()) {
             Integer total = totalByEvent.get(evtId);
             Integer approved = approvedByEvent.get(evtId);
-
-            if (shouldMarkFullyApproved(total, approved)) {
+            Integer rejected = rejectedByEvent.get(evtId);
+            String newStatus = shouldMarkFullyApproved(total,approved,rejected);
+            System.debug(LoggingLevel.INFO, 'ESA: updateEventStatusIfAllApproved  newStatus :' + newStatus);
+            if ( newStatus!= null) {
                 toUpdate.add(new Event__c(
                     Id = evtId,
-                    Status__c = 'EventFullyApproved'
+                    Status__c = newStatus
                 ));
 
                 System.debug(LoggingLevel.INFO,
@@ -590,13 +593,13 @@ public with sharing class customEventSpeakerApprovalService {
 
     // Count total approvals per event
     // Count approved approvals per event
-    private static Map<Id, Integer> queryApprovalCounts(Set<Id> eventIds, Boolean onlyApproved) {
+    private static Map<Id, Integer> queryApprovalCounts(Set<Id> eventIds, String status) {
         String base =
             'SELECT Event__c evt, COUNT(Id) cnt ' +
             'FROM EventSpeakerApprovals__c ' +
             'WHERE Event__c IN :eventIds ';
-        if (onlyApproved) {
-            base += 'AND Status__c = \'approved_speaker\' ';
+        if (status != null) {
+            base += 'AND Status__c = \''+status+'\' ';
         }
         base += 'GROUP BY Event__c';
 
@@ -607,10 +610,25 @@ public with sharing class customEventSpeakerApprovalService {
         return out;
     }
 
-    private static Boolean shouldMarkFullyApproved(Integer total, Integer approved) {
-        if (total == null || total <= 0) return false;
+    private static String shouldMarkFullyApproved(Integer total, Integer approved, Integer rejected) {
+        if (total == null || total <= 0) {
+            return null;
+        }
+
         if (approved == null) approved = 0;
-        return total == approved;
+        if (rejected == null) rejected = 0;
+
+        if (total == approved) {
+            return 'FullyApproved';
+        } 
+        else if (total == rejected) {
+            return 'Rejected';
+        } 
+        else if (total == approved + rejected) {
+            return 'PartiallyApproved';
+        }
+
+        return null; // cas par défaut obligatoire
     }
 
 

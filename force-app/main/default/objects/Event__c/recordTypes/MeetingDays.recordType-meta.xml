@@ -123,6 +123,10 @@
     <picklistValues>
         <picklist>salesTeam__c</picklist>
         <values>
+            <fullName>All countries</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Belgium</fullName>
             <default>false</default>
         </values>
@@ -132,6 +136,10 @@
         </values>
         <values>
             <fullName>Germany</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>International</fullName>
             <default>false</default>
         </values>
         <values>
@@ -174,11 +182,15 @@
             <default>true</default>
         </values>
         <values>
-            <fullName>EventFullyApproved</fullName>
+            <fullName>FullyApproved</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>HoPRreview</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PartiallyApproved</fullName>
             <default>false</default>
         </values>
         <values>

@@ -171,9 +171,10 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
 
         if (!toDelete.isEmpty()) delete toDelete;
         if (!toInsert.isEmpty()) insert toInsert;
-
-        Integer impacted = toInsert.size() + toDelete.size();
+        // ✅ Recalcul "état final" (indépendant des triggers)
+        SessionSpeakerProductService.recalcApprovals(eventId);        Integer impacted = toInsert.size() + toDelete.size();
         System.debug(LoggingLevel.INFO, 'sessionSpeakerProductRelatedListCTRL.saveFromRepeaterJson - END impacted=' + impacted);
+
         return impacted;
     }
 
@@ -239,8 +240,8 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         Id productId = (m.get('Product__c') != null) ? (Id) String.valueOf(m.get('Product__c')) : null;
         String lang = (m.get('Language__c') != null) ? String.valueOf(m.get('Language__c')) : null;
 
-        if (speakerId == null || productId == null) {
-            throw new AuraHandledException('Missing speakerContact__c or Product__c at row ' + rowIndex + '.');
+        if (speakerId == null ) {
+            throw new AuraHandledException('Missing speaker at row ' + rowIndex + '.');
         }
 
         LinkParts parts = new LinkParts();
