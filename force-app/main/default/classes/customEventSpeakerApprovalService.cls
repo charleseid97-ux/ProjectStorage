@@ -641,7 +641,7 @@ private static String buildSpeakersHtmlSingleSection(String sectionTitle, List<S
     parts.add('<div style="margin:0 0 12px 0;">');
 
     if (speakers == null || speakers.isEmpty()) {
-        parts.add('<div style="font-size:13px;color:#6b7280;">No speakers found.</div>');
+        parts.add('<div style="font-size:13px;color:#6b7280;">No speakers selected.</div>');
         parts.add('</div>');
         return String.join(parts, '');
     }

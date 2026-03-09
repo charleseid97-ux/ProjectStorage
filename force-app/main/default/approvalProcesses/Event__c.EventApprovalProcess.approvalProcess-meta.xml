@@ -16,6 +16,8 @@
         <field>startDate__c</field>
         <field>startTime__c</field>
         <field>timezone__c</field>
+        <field>RecordType</field>
+        <field>format__c</field>
     </approvalPageFields>
     <approvalStep>
         <allowDelegate>false</allowDelegate>
@@ -37,7 +39,7 @@
         <label>Event team approval</label>
         <name>EventTeamApproval</name>
     </approvalStep>
-    <emailTemplate>EventRequest/EventTeamApproval</emailTemplate>
+    <emailTemplate>EventRequest/EventTeam_VF</emailTemplate>
     <enableMobileDeviceAccess>false</enableMobileDeviceAccess>
     <finalApprovalActions>
         <action>
@@ -46,6 +48,12 @@
         </action>
     </finalApprovalActions>
     <finalApprovalRecordLock>false</finalApprovalRecordLock>
+    <finalRejectionActions>
+        <action>
+            <name>rejectEvent</name>
+            <type>FieldUpdate</type>
+        </action>
+    </finalRejectionActions>
     <finalRejectionRecordLock>false</finalRejectionRecordLock>
     <label>Event team approval</label>
     <processOrder>1</processOrder>

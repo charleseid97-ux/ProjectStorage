@@ -18,12 +18,6 @@
                         <valueListItems>
                             <value>Clone</value>
                         </valueListItems>
-                        <valueListItems>
-                            <value>ChangeOwnerOne</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Submit</value>
-                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -50,36 +44,6 @@
                 <identifier>force_highlightsPanel</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>componentLabel</name>
-                    <value>Work Guide</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>isHiddenWhenEmpty</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>isRunNameDisplayed</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>isStageNameDisplayed</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>isStepNameDisplayed</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>prioritizationCriteria</name>
-                    <value>Last Modified Date (Ascending)</value>
-                </componentInstanceProperties>
-                <componentName>interaction_orchestrator:workGuide</componentName>
-                <identifier>interaction_orchestrator_workGuide2</identifier>
-            </componentInstance>
-        </itemInstances>
         <name>header</name>
         <type>Region</type>
     </flexiPageRegions>
@@ -100,61 +64,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.description__c</fieldItem>
-                <identifier>Recorddescription_cField</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.category__c}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Meeting day(s)</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.meetingBackground__c</fieldItem>
-                <identifier>RecordmeetingBackground_cField</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.category__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Meeting day(s)</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.meetingGoal__c</fieldItem>
-                <identifier>RecordmeetingGoal_cField</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.category__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>One to One meeting</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-0571644c-5d2c-41b9-9e5e-7244d801a69e</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.OwnerId</fieldItem>
                 <identifier>RecordOwnerIdField</identifier>
             </fieldInstance>
@@ -167,15 +76,12 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Organizer__c</fieldItem>
                 <identifier>RecordOrganizer_cField</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.category__c}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>One to One meeting</rightValue>
-                    </criteria>
-                </visibilityRule>
             </fieldInstance>
         </itemInstances>
+        <name>Facet-0571644c-5d2c-41b9-9e5e-7244d801a69e</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
@@ -186,11 +92,31 @@
                 <identifier>RecordparentEvent_cField</identifier>
                 <visibilityRule>
                     <criteria>
-                        <leftValue>{!Record.parentEvent__r.isMeetingdays__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>true</rightValue>
+                        <leftValue>{!Record.RecordType.Name}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>event</rightValue>
                     </criteria>
                 </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.meetingBackground__c</fieldItem>
+                <identifier>RecordmeetingBackground_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.meetingGoal__c</fieldItem>
+                <identifier>RecordmeetingGoal_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-2a9f422c-44d3-4507-ac08-da1241318030</name>
@@ -221,6 +147,24 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <name>Facet-21324798-cbdb-4019-ac87-711c928b284e</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-21324798-cbdb-4019-ac87-711c928b284e</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-29bba6d6-fc51-41ea-80f3-54a12784d2eb</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
@@ -239,13 +183,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.endDate__c</fieldItem>
                 <identifier>RecordendDate_cField</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Meeting</rightValue>
-                    </criteria>
-                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -254,8 +191,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.timezone__c</fieldItem>
-                <identifier>Recordtimezone_cField2</identifier>
+                <fieldItem>Record.format__c</fieldItem>
+                <identifier>Recordformat_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-scutzminb8</name>
@@ -280,6 +217,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.endTime__c</fieldItem>
                 <identifier>RecordendTime_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.locationCity__c</fieldItem>
+                <identifier>RecordlocationCity_cField2</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-apatdolp3ho</name>
@@ -310,16 +257,6 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.format__c</fieldItem>
-                <identifier>Recordformat_cField2</identifier>
-            </fieldInstance>
-        </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
@@ -375,16 +312,6 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.locationCity__c</fieldItem>
-                <identifier>RecordlocationCity_cField2</identifier>
-            </fieldInstance>
-        </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
@@ -468,6 +395,24 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-29bba6d6-fc51-41ea-80f3-54a12784d2eb</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Speaker(s) &amp; Product(s)</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
                     <name>selectedRecordId</name>
                 </componentInstanceProperties>
                 <componentName>speakerProductsBySession</componentName>
@@ -504,10 +449,17 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
-                    <value>Location</value>
+                    <value>Location Details</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection13</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.format__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Physical</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <name>Facet-mgqzmvl3k3m</name>
@@ -571,6 +523,13 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.targetedAttendees__c</fieldItem>
                 <identifier>RecordtargetedAttendees_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.RecordType.Name}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>Meeting</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -581,6 +540,13 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.AudienceCompany__c</fieldItem>
                 <identifier>RecordAudienceCompany_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>event</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-e6c9b1e7-c782-4c37-b64f-954f28a35b2f</name>
@@ -595,6 +561,13 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.clientType__c</fieldItem>
                 <identifier>RecordclientType_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Meeting</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -605,16 +578,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.company__c</fieldItem>
                 <identifier>Recordcompany_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.attendingContacts__c</fieldItem>
-                <identifier>RecordattendingContacts_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-db4eb1cc-7402-4195-a0bb-62c4869b7cd7</name>
@@ -648,33 +611,8 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>columns</name>
-                    <value>Facet-dd94d5ee-7aa9-4c5c-a2cc-ed8bb2a6640e</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>Capacity &amp; Audience</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection5</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>detailTabContent</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
                     <name>actionNames</name>
                     <valueList>
-                        <valueListItems>
-                            <value>MassChangeOwner</value>
-                        </valueListItems>
                         <valueListItems>
                             <value>New</value>
                         </valueListItems>
@@ -700,10 +638,22 @@
                     <name>relatedListFieldAliases</name>
                     <valueList>
                         <valueListItems>
-                            <value>Contact.First_Last_name__c</value>
+                            <value>Contact.CNTC_FIRST_NAME</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Contact.NAME</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Contact.CNTC_EMAIL</value>
                         </valueListItems>
                         <valueListItems>
                             <value>Account.ACC_NAME</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Contact.JobFunction__c</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Contact.Persona__c</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -725,9 +675,40 @@
                 </componentInstanceProperties>
                 <componentName>lst:dynamicRelatedList</componentName>
                 <identifier>lst_dynamicRelatedList</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>MeetingDays</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
-        <name>Facet-2e3e5858-7435-46b3-99f3-d466981223df</name>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-dd94d5ee-7aa9-4c5c-a2cc-ed8bb2a6640e</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Capacity &amp; Audience</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection5</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.parentEvent__r.RecordType.Name}</leftValue>
+                        <operator>EQUAL</operator>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <name>detailTabContent</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -735,32 +716,6 @@
             <componentInstance>
                 <componentName>eventApprovalsPanel</componentName>
                 <identifier>c_eventApprovalsPanel</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Event__c.Id</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListApiName</name>
-                    <value>ProcessSteps</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListComponentOverride</name>
-                    <value>NONE</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>rowsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-50b7b19d-249c-41f9-a9d8-8180b59e25d1</name>
@@ -799,16 +754,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.RecordTypeId</fieldItem>
                 <identifier>RecordRecordTypeIdField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.HOPARequired__c</fieldItem>
-                <identifier>RecordHOPARequired_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-496b501e-03bf-4492-9a67-76643ab8accd</name>
@@ -882,6 +827,10 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>active</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
                     <name>body</name>
                     <value>Facet-8b6fd402-a279-4da0-8809-6863f61007fc</value>
                 </componentInstanceProperties>
@@ -893,9 +842,9 @@
                 <identifier>flexipage_tab</identifier>
                 <visibilityRule>
                     <criteria>
-                        <leftValue>{!Record.category__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Meeting day(s)</rightValue>
+                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Meeting</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
@@ -916,27 +865,6 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>detailTab</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-2e3e5858-7435-46b3-99f3-d466981223df</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Attendees</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab4</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>MeetingDays</rightValue>
-                    </criteria>
-                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -988,44 +916,10 @@
         <name>main</name>
         <type>Region</type>
     </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>componentLabel</name>
-                    <value>Work Guide</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>isHiddenWhenEmpty</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>isRunNameDisplayed</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>isStageNameDisplayed</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>isStepNameDisplayed</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>prioritizationCriteria</name>
-                    <value>Last Modified Date (Ascending)</value>
-                </componentInstanceProperties>
-                <componentName>interaction_orchestrator:workGuide</componentName>
-                <identifier>interaction_orchestrator_workGuide3</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>sidebar</name>
-        <type>Region</type>
-    </flexiPageRegions>
     <masterLabel>Meeting days</masterLabel>
     <sobjectType>Event__c</sobjectType>
     <template>
-        <name>flexipage:recordHomeTemplateDesktop</name>
+        <name>flexipage:recordHomeSimpleViewTemplate</name>
     </template>
     <type>RecordPage</type>
 </FlexiPage>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
-    <excludeButtons>OpenSlackRecordChannel</excludeButtons>
     <layoutSections>
         <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
@@ -194,10 +193,6 @@
     </layoutSections>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Speaker__c</fields>
-        <fields>Status__c</fields>
-        <fields>statusChangedBy__c</fields>
-        <fields>statusChangeDate__c</fields>
         <relatedList>EventSpeakerApprovals__c.Event__c</relatedList>
     </relatedLists>
     <relatedLists>

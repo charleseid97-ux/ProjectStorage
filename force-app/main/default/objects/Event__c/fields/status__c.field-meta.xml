@@ -39,19 +39,14 @@
                 <label>Cancelled</label>
             </value>
             <value>
-                <fullName>HoPRreview</fullName>
-                <default>false</default>
-                <label>Under Head of Product Review</label>
-            </value>
-            <value>
                 <fullName>PartiallyApproved</fullName>
                 <default>false</default>
                 <label>Partially Approved</label>
             </value>
             <value>
-                <fullName>PartiallyApproved</fullName>
+                <fullName>Rejected</fullName>
                 <default>false</default>
-                <label>Partially approved</label>
+                <label>Rejected</label>
             </value>
         </valueSetDefinition>
     </valueSet>

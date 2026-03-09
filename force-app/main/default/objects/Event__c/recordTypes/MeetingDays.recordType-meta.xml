@@ -186,7 +186,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>HoPRreview</fullName>
+            <fullName>PartiallyApproved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
             <default>false</default>
         </values>
         <values>

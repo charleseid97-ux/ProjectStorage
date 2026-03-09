@@ -3,7 +3,8 @@
     <fullName>meetingGoal__c</fullName>
     <encryptionScheme>None</encryptionScheme>
     <label>Meeting Goal</label>
-    <required>false</required>
+    <length>100000</length>
     <trackTrending>false</trackTrending>
-    <type>TextArea</type>
+    <type>LongTextArea</type>
+    <visibleLines>6</visibleLines>
 </CustomField>
