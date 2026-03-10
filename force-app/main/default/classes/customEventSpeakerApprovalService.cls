@@ -612,11 +612,19 @@ public with sharing class customEventSpeakerApprovalService {
             return out;
         }
 
+        Set<String> approvalStatuses = new Set<String>{
+            customEventConstants.APPROVAL_STATUS_SUBMITTED,
+            customEventConstants.APPROVAL_STATUS_APPROVED_SPEAKER,
+            customEventConstants.APPROVAL_STATUS_APPROVED_HOP,
+            customEventConstants.APPROVAL_STATUS_REJECTED,
+            customEventConstants.APPROVAL_STATUS_RECALLED
+        };
+
         for (AggregateResult ar : [
             SELECT Event__c evt, Status__c status, COUNT(Id) cnt
             FROM EventSpeakerApprovals__c
             WHERE Event__c IN :eventIds
-            AND Status__c IN (customEventConstants.APPROVAL_STATUS_SUBMITTED, customEventConstants.APPROVAL_STATUS_APPROVED_SPEAKER,customEventConstants.APPROVAL_STATUS_APPROVED_HOP, customEventConstants.APPROVAL_STATUS_REJECTED, customEventConstants.APPROVAL_STATUS_RECALLED)
+            AND Status__c IN :approvalStatuses
             GROUP BY Event__c, Status__c
         ]) {
             Id eventId = (Id) ar.get('evt');
