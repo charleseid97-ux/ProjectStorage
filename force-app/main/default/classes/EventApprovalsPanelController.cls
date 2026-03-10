@@ -21,6 +21,16 @@ public with sharing class EventApprovalsPanelController {
         @AuraEnabled public String actorName;
         @AuraEnabled public Datetime actionDate;
         @AuraEnabled public String processName;
+
+        // Added for recall/resubmit UI
+        @AuraEnabled public Id eventSpeakerApprovalId;
+        @AuraEnabled public String processDeveloperName;
+        @AuraEnabled public String comments;
+        @AuraEnabled public Boolean canRecall;
+        @AuraEnabled public String eventSpeakerApprovalStatus;
+        @AuraEnabled public Boolean showRecalledDisabled;
+        @AuraEnabled public Id recallTargetId;
+
     }
 
     // Small container to carry the event + ESA data together
@@ -30,6 +40,7 @@ public with sharing class EventApprovalsPanelController {
         public Map<Id, String> targetNames = new Map<Id, String>();
         public Map<Id, String> speakerNames = new Map<Id, String>();
         public Set<Id> targetIds = new Set<Id>();
+        public Map<Id, String> esaStatuses = new Map<Id, String>();
     }
 
     @AuraEnabled(cacheable=false)
@@ -66,7 +77,7 @@ public with sharing class EventApprovalsPanelController {
         ];
 
         ctx.esas = [
-            SELECT Id, Name, Speaker__c, Speaker__r.Name
+            SELECT Id, Name, Speaker__c, Speaker__r.Name, Status__c
             FROM EventSpeakerApprovals__c
             WHERE Event__c = :eventId
         ];
@@ -76,6 +87,8 @@ public with sharing class EventApprovalsPanelController {
 
         for (EventSpeakerApprovals__c e : ctx.esas) {
             ctx.targetNames.put(e.Id, e.Name);
+            ctx.esaStatuses.put(e.Id, e.Status__c);
+
             if (e.Speaker__c != null) {
                 ctx.speakerNames.put(e.Id, e.Speaker__r.Name);
             }
@@ -227,7 +240,7 @@ public with sharing class EventApprovalsPanelController {
 
     /**
      * Builds the list of processed approval rows based on the latest Approved/Rejected step per ProcessInstance.
-     * Uses ProcessInstanceStep when available.
+     * Also marks recall availability only on the last rejected row for each Speaker + Process pair.
      */
     private static List<ProcessedRow> buildProcessed(EventContext ctx) {
         List<ProcessedRow> processed = new List<ProcessedRow>();
@@ -239,19 +252,24 @@ public with sharing class EventApprovalsPanelController {
 
         Set<Id> actorUserIds = new Set<Id>();
         Set<Id> procDefIds = new Set<Id>();
+
         for (ProcessInstanceStep s : latestByProcess.values()) {
             if (s.ActorId != null && isUserId(s.ActorId)) actorUserIds.add(s.ActorId);
-            if (s.ProcessInstance != null && s.ProcessInstance.ProcessDefinitionId != null) procDefIds.add(s.ProcessInstance.ProcessDefinitionId);
+            if (s.ProcessInstance != null && s.ProcessInstance.ProcessDefinitionId != null) {
+                procDefIds.add(s.ProcessInstance.ProcessDefinitionId);
+            }
         }
 
         Map<Id, String> actorNames = resolveUserNames(actorUserIds);
-        Map<Id, String> procDefNames = resolveProcessDefinitionNames(procDefIds);
+        Map<Id, ProcessDefinitionInfo> procDefs = resolveProcessDefinitions(procDefIds);
 
         for (Id procId : latestByProcess.keySet()) {
             ProcessInstanceStep s = latestByProcess.get(procId);
             if (s == null) continue;
-            processed.add(buildProcessedRow(procId, s, ctx, actorNames, procDefNames));
+            processed.add(buildProcessedRow(procId, s, ctx, actorNames, procDefs));
         }
+
+        markRecallableRejectedRows(processed);
 
         return processed;
     }
@@ -262,15 +280,16 @@ public with sharing class EventApprovalsPanelController {
         try {
             return [
                 SELECT Id,
-                       ProcessInstanceId,
-                       ProcessInstance.TargetObjectId,
-                       ProcessInstance.ProcessDefinitionId,
-                       StepStatus,
-                       ActorId,
-                       CreatedDate
+                    ProcessInstanceId,
+                    ProcessInstance.TargetObjectId,
+                    ProcessInstance.ProcessDefinitionId,
+                    StepStatus,
+                    ActorId,
+                    Comments,
+                    CreatedDate
                 FROM ProcessInstanceStep
                 WHERE ProcessInstance.TargetObjectId IN :targetIds
-                  AND StepStatus IN ('Approved','Rejected')
+                AND StepStatus IN ('Approved','Rejected')
                 ORDER BY CreatedDate DESC
             ];
         } catch (Exception ex) {
@@ -295,22 +314,38 @@ public with sharing class EventApprovalsPanelController {
         ProcessInstanceStep s,
         EventContext ctx,
         Map<Id, String> actorNames,
-        Map<Id, String> procDefNames
+        Map<Id, ProcessDefinitionInfo> procDefs
     ) {
+        system.debug('===ctx esaStatuses=' + ctx.esaStatuses);
         ProcessedRow pr = new ProcessedRow();
         pr.processInstanceId = processInstanceId;
 
         Id tid = (s.ProcessInstance != null) ? s.ProcessInstance.TargetObjectId : null;
         pr.targetName = resolveTargetName(tid, ctx.targetNames);
         pr.speakerName = (tid != null) ? ctx.speakerNames.get(tid) : null;
+        pr.recallTargetId = tid;
 
         pr.result = s.StepStatus;
         pr.actorName = resolveActorName(s.ActorId, actorNames);
         pr.actionDate = s.CreatedDate;
 
         Id pdId = (s.ProcessInstance != null) ? s.ProcessInstance.ProcessDefinitionId : null;
-        pr.processName = (pdId != null) ? procDefNames.get(pdId) : null;
+        if (pdId != null && procDefs.containsKey(pdId)) {
+            pr.processName = procDefs.get(pdId).name;
+            pr.processDeveloperName = procDefs.get(pdId).developerName;
+        }
 
+      
+        pr.eventSpeakerApprovalId = (tid != null && ctx.esaStatuses.containsKey(tid)) ? tid : null;
+        system.debug('===ctx.esaStatuses.get(pr.eventSpeakerApprovalId) = ' + ctx.esaStatuses.get(pr.eventSpeakerApprovalId));
+        pr.eventSpeakerApprovalStatus = (pr.eventSpeakerApprovalId != null) ? ctx.esaStatuses.get(pr.eventSpeakerApprovalId) : null;
+        pr.comments = s.Comments;
+        pr.canRecall = false;
+        pr.showRecalledDisabled = false;
+        System.debug('=== tid=' + tid
+    + ' / eventSpeakerApprovalId=' + pr.eventSpeakerApprovalId
+    + ' / status=' + pr.eventSpeakerApprovalStatus
+    + ' / process=' + pr.processDeveloperName);
         return pr;
     }
 
@@ -497,6 +532,144 @@ public with sharing class EventApprovalsPanelController {
             throw ahe;
         } catch (Exception ex) {
             throw new AuraHandledException('Approval action failed: ' + ex.getMessage());
+        }
+    }
+
+   
+
+    private class ProcessDefinitionInfo {
+        public String name;
+        public String developerName;
+
+        public ProcessDefinitionInfo(String name, String developerName) {
+            this.name = name;
+            this.developerName = developerName;
+        }
+    }
+
+    /**
+     * Resolves ProcessDefinition labels and developer names.
+     */
+    private static Map<Id, ProcessDefinitionInfo> resolveProcessDefinitions(Set<Id> procDefIds) {
+        Map<Id, ProcessDefinitionInfo> result = new Map<Id, ProcessDefinitionInfo>();
+        if (procDefIds == null || procDefIds.isEmpty()) return result;
+
+        try {
+            for (ProcessDefinition pd : [
+                SELECT Id, Name, DeveloperName
+                FROM ProcessDefinition
+                WHERE Id IN :procDefIds
+            ]) {
+                result.put(pd.Id, new ProcessDefinitionInfo(pd.Name, pd.DeveloperName));
+            }
+        } catch (Exception ex) {
+            result.clear();
+        }
+
+        return result;
+    }
+
+    /**
+     * Marks canRecall = true only for the latest rejected row for each Speaker + Process pair.
+     */
+    private static void markRecallableRejectedRows(List<ProcessedRow> rows) {
+        if (rows == null || rows.isEmpty()) return;
+
+        Map<String, ProcessedRow> latestRejectedByKey = new Map<String, ProcessedRow>();
+        Map<String, Datetime> latestApprovedDateByKey = new Map<String, Datetime>();
+
+        for (ProcessedRow row : rows) {
+            if (row == null) continue;
+            if (row.recallTargetId == null) continue;
+            if (String.isBlank(row.processDeveloperName)) continue;
+
+            String groupingKey = buildRecallGroupingKey(row);
+            String resultValue = row.result == null ? '' : row.result.toLowerCase();
+            String statusValue = row.eventSpeakerApprovalStatus == null ? '' : row.eventSpeakerApprovalStatus.toLowerCase();
+
+            if (resultValue == 'approved') {
+                Datetime existingApprovedDate = latestApprovedDateByKey.get(groupingKey);
+                if (existingApprovedDate == null || (row.actionDate != null && row.actionDate > existingApprovedDate)) {
+                    latestApprovedDateByKey.put(groupingKey, row.actionDate);
+                }
+                continue;
+            }
+
+            if (resultValue != 'rejected') continue;
+            if (statusValue == 'recalled') continue;
+
+            if (!latestRejectedByKey.containsKey(groupingKey)) {
+                latestRejectedByKey.put(groupingKey, row);
+            } else {
+                ProcessedRow existingRejected = latestRejectedByKey.get(groupingKey);
+                if (
+                    existingRejected == null ||
+                    (row.actionDate != null && existingRejected.actionDate != null && row.actionDate > existingRejected.actionDate)
+                ) {
+                    latestRejectedByKey.put(groupingKey, row);
+                }
+            }
+        }
+
+        for (ProcessedRow row : rows) {
+            if (row == null) continue;
+
+            row.canRecall = false;
+            row.showRecalledDisabled = false;
+
+            String resultValue = row.result == null ? '' : row.result.toLowerCase();
+            if (resultValue != 'rejected') continue;
+
+            String groupingKey = buildRecallGroupingKey(row);
+            ProcessedRow latestRejected = latestRejectedByKey.get(groupingKey);
+
+            if (latestRejected != row) continue;
+
+            Datetime latestApprovedDate = latestApprovedDateByKey.get(groupingKey);
+
+            String currentStatus = row.eventSpeakerApprovalStatus == null ? '' : row.eventSpeakerApprovalStatus.toLowerCase();
+
+            if (
+                (latestApprovedDate != null && row.actionDate != null && latestApprovedDate > row.actionDate)
+                || currentStatus == 'submitted'
+            ) {
+                row.showRecalledDisabled = true;
+            } else {
+                row.canRecall = true;
+            }
+        }
+    }
+
+    /**
+     * Groups recall eligibility by target ESA + process developer name.
+     * This matches the business rule: only the latest rejection for a speaker/process pair.
+     */
+    private static String buildRecallGroupingKey(ProcessedRow row) {
+        String targetPart = row.recallTargetId == null ? '' : String.valueOf(row.recallTargetId);
+        String processPart = String.isBlank(row.processDeveloperName) ? '' : row.processDeveloperName;
+        return targetPart + '|' + processPart;
+    }
+
+    @AuraEnabled
+    public static void recallApproval(Id recallTargetId, Id eventSpeakerApprovalId, String processDeveloperName, String comments) { 
+        if (recallTargetId == null) {
+            throw new AuraHandledException('Recall target Id is required.');
+        }
+        if (String.isBlank(processDeveloperName)) {
+            throw new AuraHandledException('Process developer name is required.');
+        }
+
+        try {
+            EventSpeakerApprovalsService.recallApproval(
+                recallTargetId,
+                eventSpeakerApprovalId,
+                processDeveloperName,
+                comments
+            );
+        } catch (AuraHandledException ahe) {
+            throw ahe;
+        } catch (Exception ex) {
+            throw new AuraHandledException('Recall approval failed: ' + ex.getMessage());
         }
     }
 }

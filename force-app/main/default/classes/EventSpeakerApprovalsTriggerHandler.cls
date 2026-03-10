@@ -11,8 +11,7 @@ public with sharing class EventSpeakerApprovalsTriggerHandler implements ITrigge
             (List<EventSpeakerApprovals__c>) newItems
         );
         
-        eventSpeakerApprovalsService.requireHOPAppval((List<EventSpeakerApprovals__c>) newItems);
-    }
+        EventSpeakerApprovalsService.requireHOPApproval((List<EventSpeakerApprovals__c>) newItems);    }
 
     // Before update: track status changes
     public void BeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {

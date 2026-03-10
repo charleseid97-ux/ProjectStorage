@@ -10,17 +10,22 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>None</fullName>
+                <fullName>notRequired</fullName>
                 <default>false</default>
-                <label>None</label>
+                <label>Not Required</label>
             </value>
             <value>
-                <fullName>Requested</fullName>
+                <fullName>requested</fullName>
                 <default>false</default>
                 <label>Requested</label>
             </value>
             <value>
-                <fullName>Ready</fullName>
+                <fullName>required</fullName>
+                <default>false</default>
+                <label>Required</label>
+            </value>
+            <value>
+                <fullName>ready</fullName>
                 <default>false</default>
                 <label>Ready</label>
             </value>

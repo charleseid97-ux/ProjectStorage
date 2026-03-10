@@ -20,7 +20,7 @@ public with sharing class customEventSpeakerApprovalService {
      * Appel prévu depuis before update -> pas de DML ici.
      */
     public static void prepareSpeakerHTMLforNotifications(Map<Id, Event__c> newEvents,Map<Id, Event__c> oldEvents) {
-        System.debug(LoggingLevel.INFO, 'prepareSpeakerHTMLforNotifications: start processing');
+        System.debug(LoggingLevel.INFO, '===prepareSpeakerHTMLforNotifications: start processing');
         if (newEvents == null || newEvents.isEmpty()) return;
 
         Set<Id> eventIds = collectEventIdsToProcess(newEvents, oldEvents);
@@ -67,7 +67,7 @@ public with sharing class customEventSpeakerApprovalService {
    /**
      * Vérifie les events qui viennent d'entrer en WaitingForSpeakerApprovals.
      * Si aucun SessionSpeakerProduct__c n'est lié à l'event, force le statut
-     * de l'Event__c à 'FullyApproved'.
+     * de l'Event__c à customEventConstants.STATUS_FULLY_APPROVED.
      *
      * Conçu pour être appelé depuis un trigger BEFORE UPDATE : on modifie directement
      * les enregistrements dans la map newEvents (pas de DML).
@@ -76,7 +76,7 @@ public with sharing class customEventSpeakerApprovalService {
         Map<Id, Event__c> newEvents,
         Map<Id, Event__c> oldEvents
     ) {
-        System.debug(LoggingLevel.INFO, 'markEventFullyApprovedIfNoSSP: start processing');
+        System.debug(LoggingLevel.INFO, '======markEventFullyApprovedIfNoSSP: start processing');
         if (newEvents == null || newEvents.isEmpty()) return;
 
         // 1) Déterminer les events concernés (entrants en WaitingForSpeakerApprovals)
@@ -112,9 +112,9 @@ public with sharing class customEventSpeakerApprovalService {
                 }
 
                 String currentStatus = newEvt.Status__c;
-                if (currentStatus == null || !currentStatus.equalsIgnoreCase('FullyApproved')) {
+                if (currentStatus == null || !currentStatus.equalsIgnoreCase(customEventConstants.STATUS_FULLY_APPROVED)) {
                     // Modification directe dans la map pour BEFORE trigger (pas de DML)
-                    newEvt.Status__c = 'FullyApproved';
+                    newEvt.Status__c = customEventConstants.STATUS_FULLY_APPROVED;
                     System.debug(LoggingLevel.INFO, 'markEventFullyApprovedIfNoSSP: set Status__c to FullyApproved for event=' + evtId);
                 } else {
                     System.debug(LoggingLevel.DEBUG, 'markEventFullyApprovedIfNoSSP: already FullyApproved, event=' + evtId);
@@ -129,7 +129,8 @@ public with sharing class customEventSpeakerApprovalService {
     }
     /**
      * Creates or updates one EventSpeakerApprovals__c per (Event, SpeakerContact)
-     * when an Event enters WaitingForSpeakerApprovals.
+     * when an Event enters WaitingForSpeakerApprovals for first time.
+     * from Draft,SubmittedToEventTeam to SubmittedToEventTeam
      */
     public static void createOrUpdateSpeakerApprovals(
         Map<Id, Event__c> newEvents,
@@ -193,7 +194,9 @@ public with sharing class customEventSpeakerApprovalService {
 
         // Detect events created directly or transitioning to WaitingForSpeakerApprovals
         for (Event__c newEvt : newEvents.values()) {
+            system.debug(LoggingLevel.DEBUG, '===Checking event for processing, eventId=' + newEvt.Id + ', status=' + newEvt.Status__c);
             if (isEnteringWaitingForSpeakerApprovals(newEvt, oldEvents)) {
+                system.debug(LoggingLevel.INFO, '===Event entering WaitingForSpeakerApprovals detected, eventId=' + newEvt.Id);
                 eventIdsToProcess.add(newEvt.Id);
             }
         }
@@ -201,15 +204,23 @@ public with sharing class customEventSpeakerApprovalService {
         return eventIdsToProcess;
     }
 
-    // Detect events created directly or transitioning to WaitingForSpeakerApprovals
+    // Detect events created directly or transitioning to WaitingForSpeakerApprovals 
+    // from Draft or SubmittedToEventTeam
     private static Boolean isEnteringWaitingForSpeakerApprovals(Event__c newEvt, Map<Id, Event__c> oldEvents) {
-        if (newEvt == null || newEvt.Id == null) return false;
-        if (newEvt.Status__c != 'WaitingForSpeakerApprovals') return false;
 
+        if (newEvt == null) return false;
+        if (newEvt.Status__c != customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS) return false;
+
+        // Insert case
         if (oldEvents == null) return true;
 
         Event__c oldEvt = oldEvents.get(newEvt.Id);
-        return (oldEvt == null || oldEvt.Status__c != 'WaitingForSpeakerApprovals');
+
+        if (oldEvt == null) return true;
+        system.debug(LoggingLevel.DEBUG, '===Old event status=' + oldEvt.Status__c);
+        return oldEvt.Status__c == customEventConstants.STATUS_DRAFT
+            || oldEvt.Status__c == customEventConstants.STATUS_REJECTED
+            || oldEvt.Status__c == customEventConstants.STATUS_SUBMITTED_TO_EVENT_TEAM;
     }
 
  
@@ -344,7 +355,7 @@ public with sharing class customEventSpeakerApprovalService {
             Event__c        = eventId,
             Speaker__c      = speakerId,
             ApproverUser__c = approverUserId,
-            Status__c       = 'Submitted',
+            Status__c       = customEventConstants.APPROVAL_STATUS_SUBMITTED,
             Summary__c      = String.join(names, ', ')
         );
 
@@ -392,7 +403,7 @@ public with sharing class customEventSpeakerApprovalService {
             }
 
             // Do not delete already Approved records (safety). If you want to delete them too, remove this check.
-            if (orphan && (ex.Status__c == null || !String.valueOf(ex.Status__c).equalsIgnoreCase('Approved'))) {
+            if (orphan && (ex.Status__c == null || !String.valueOf(ex.Status__c).equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_APPROVED))) {
                 toDelete.add(ex);
             }
         }
@@ -453,14 +464,14 @@ public with sharing class customEventSpeakerApprovalService {
             }
 
             EventSpeakerApprovals__c existing = existingByKey.get(a.Key__c);
-            if (existing != null && String.valueOf(existing.Status__c).equalsIgnoreCase('Approved')) {
+            if (existing != null && String.valueOf(existing.Status__c).equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_APPROVED)) {
                 // terminal approved -> do not upsert
                 skipped++;
                 continue;
             }
 
             // New or existing non-approved -> force Submitted and queue for upsert
-            a.Status__c = 'Submitted';
+            a.Status__c = customEventConstants.APPROVAL_STATUS_SUBMITTED;
             toUpsert.add(a);
             queued++;
         }
@@ -504,113 +515,126 @@ public with sharing class customEventSpeakerApprovalService {
         }
     }
 
-    /* =========================================================
-       ROLLUP AFTER SPEAKER APPROVAL
-       ========================================================= */
-
+    
+   
     /**
-     * Collects Event Ids impacted by a speaker approval moving to Approved.
+     * Updates Event__c to FullyApproved / Rejected / PartiallyApproved
+     * if all speaker approvals are processed.
+     * If at least one approval is Recalled, the Event goes back to WaitingForSpeakerApprovals.
      */
-    public static Set<Id> collectImpactedEventIds(
-        List<EventSpeakerApprovals__c> newList,
-        Map<Id, EventSpeakerApprovals__c> oldMap
-    ) {
+    public static void updateEventStatusIfAllApproved(List<EventSpeakerApprovals__c> approvals) {
         Set<Id> eventIds = new Set<Id>();
-        if (newList == null) return eventIds;
-
-        for (EventSpeakerApprovals__c rec : newList) {
-            if (isApprovalTransitioningToApproved(rec, oldMap)) {
-                eventIds.add(rec.Event__c);
-
-                System.debug(LoggingLevel.INFO,
-                    'ESA: speaker approval approved, event=' + rec.Event__c
-                );
+        for (EventSpeakerApprovals__c a : approvals) {
+            if (a != null && a.Event__c != null) {
+                eventIds.add(a.Event__c);
             }
         }
 
-        return eventIds;
-    }
-
-    private static Boolean isApprovalTransitioningToApproved(
-        EventSpeakerApprovals__c rec,
-        Map<Id, EventSpeakerApprovals__c> oldMap
-    ) {
-        if (rec == null || rec.Event__c == null) return false;
-
-        String oldStatus = (oldMap != null && oldMap.containsKey(rec.Id))
-            ? oldMap.get(rec.Id).Status__c
-            : null;
-
-        return (rec.Status__c == 'approved_speaker' && oldStatus != 'approved_speaker');
-    }
-
-    /**
-     * Updates Event__c to FullyApproved if all speaker approvals are approved.
-     */
-    public static void updateEventStatusIfAllApproved(Set<Id> eventIds) {
         System.debug(LoggingLevel.INFO, 'ESA: updateEventStatusIfAllApproved for events ' + eventIds);
-        if (eventIds == null || eventIds.isEmpty()) return;
+        if (eventIds.isEmpty()) return;
 
-        // Count total approvals per event
-        Map<Id, Integer> totalByEvent = queryApprovalCounts(eventIds, null);
-
-        // Count approved approvals per event
-        Map<Id, Integer> approvedByEvent = queryApprovalCounts(eventIds, 'approved_speaker');
-        Map<Id, Integer> rejectedByEvent = queryApprovalCounts(eventIds, 'rejected');
+        Map<Id, Map<String, Integer>> countsByEventAndStatus = queryApprovalCounts(eventIds);
 
         List<Event__c> toUpdate = new List<Event__c>();
 
-        for (Id evtId : totalByEvent.keySet()) {
-            Integer total = totalByEvent.get(evtId);
-            Integer approved = approvedByEvent.get(evtId);
-            Integer rejected = rejectedByEvent.get(evtId);
-            String newStatus = shouldMarkFullyApproved(total,approved,rejected);
-            System.debug(LoggingLevel.INFO, 'ESA: updateEventStatusIfAllApproved  newStatus :' + newStatus);
-            if ( newStatus!= null) {
+        for (Id evtId : countsByEventAndStatus.keySet()) {
+            Map<String, Integer> statusCounts = countsByEventAndStatus.get(evtId);
+
+            Integer total = 0;
+            Integer approved = 0;
+            Integer rejected = 0;
+            Integer recalled = 0;
+
+            if (statusCounts != null) {
+                for (String status : statusCounts.keySet()) {
+                    Integer countValue = statusCounts.get(status);
+                    if (countValue == null) continue;
+
+                    if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_APPROVED_SPEAKER)) {
+                        approved = countValue;
+                        total += countValue;
+                    } else if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_REJECTED)) {
+                        rejected = countValue;
+                        total += countValue;
+                    } else if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_SUBMITTED)) {
+                        total += countValue;
+                    } else if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_RECALLED)) {
+                        recalled = countValue;
+                    }else if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_APPROVED_HOP)) {                        
+                        total += countValue; //it counts like submitted                        
+                    }
+                }
+            }
+
+            String newStatus;
+            if (recalled > 0) {
+                newStatus = customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS;
+            } else {
+                newStatus = shouldMarkFullyApproved(total, approved, rejected);
+            }
+
+            System.debug(LoggingLevel.INFO,
+                'ESA: updateEventStatusIfAllApproved newStatus=' + newStatus +
+                ', event=' + evtId +
+                ', total=' + total +
+                ', approved=' + approved +
+                ', rejected=' + rejected +
+                ', recalled=' + recalled
+            );
+
+            if (newStatus != null) {
                 toUpdate.add(new Event__c(
                     Id = evtId,
                     Status__c = newStatus
                 ));
-
-                System.debug(LoggingLevel.INFO,
-                    'ESA: event fully approved, event=' + evtId
-                );
             } else {
                 System.debug(LoggingLevel.DEBUG,
-                    'ESA: event not fully approved, event=' + evtId +
-                    ', approved=' + approved + ', total=' + total
+                    'ESA: event not ready for final status, event=' + evtId +
+                    ', approved=' + approved +
+                    ', rejected=' + rejected +
+                    ', recalled=' + recalled +
+                    ', total=' + total
                 );
             }
         }
 
         if (!toUpdate.isEmpty()) {
             update toUpdate;
-            System.debug(LoggingLevel.INFO,
-                'ESA: updated events count=' + toUpdate.size()
-            );
+            System.debug(LoggingLevel.INFO, 'ESA: updated events count=' + toUpdate.size());
         }
     }
 
-    // Count total approvals per event
-    // Count approved approvals per event
-    private static Map<Id, Integer> queryApprovalCounts(Set<Id> eventIds, String status) {
-        String base =
-            'SELECT Event__c evt, COUNT(Id) cnt ' +
-            'FROM EventSpeakerApprovals__c ' +
-            'WHERE Event__c IN :eventIds ';
-        if (status != null) {
-            base += 'AND Status__c = \''+status+'\' ';
-        }
-        base += 'GROUP BY Event__c';
+    // Count items by Event and Status for the given events (only relevant statuses)
+    private static Map<Id, Map<String, Integer>> queryApprovalCounts(Set<Id> eventIds) {
+        Map<Id, Map<String, Integer>> out = new Map<Id, Map<String, Integer>>();
 
-        Map<Id, Integer> out = new Map<Id, Integer>();
-        for (AggregateResult ar : Database.query(base)) {
-            out.put((Id) ar.get('evt'), (Integer) ar.get('cnt'));
+        if (eventIds == null || eventIds.isEmpty()) {
+            return out;
         }
+
+        for (AggregateResult ar : [
+            SELECT Event__c evt, Status__c status, COUNT(Id) cnt
+            FROM EventSpeakerApprovals__c
+            WHERE Event__c IN :eventIds
+            AND Status__c IN (customEventConstants.APPROVAL_STATUS_SUBMITTED, customEventConstants.APPROVAL_STATUS_APPROVED_SPEAKER,customEventConstants.APPROVAL_STATUS_APPROVED_HOP, customEventConstants.APPROVAL_STATUS_REJECTED, customEventConstants.APPROVAL_STATUS_RECALLED)
+            GROUP BY Event__c, Status__c
+        ]) {
+            Id eventId = (Id) ar.get('evt');
+            String status = (String) ar.get('status');
+            Integer countValue = (Integer) ar.get('cnt');
+
+            if (!out.containsKey(eventId)) {
+                out.put(eventId, new Map<String, Integer>());
+            }
+
+            out.get(eventId).put(status, countValue);
+        }
+        System.debug(LoggingLevel.INFO, 'ESA: queryApprovalCounts result=' + out);
         return out;
     }
 
     private static String shouldMarkFullyApproved(Integer total, Integer approved, Integer rejected) {
+        System.debug(LoggingLevel.INFO, 'ESA: shouldMarkFullyApproved total=' + total + ', approved=' + approved + ', rejected=' + rejected);
         if (total == null || total <= 0) {
             return null;
         }
@@ -619,16 +643,16 @@ public with sharing class customEventSpeakerApprovalService {
         if (rejected == null) rejected = 0;
 
         if (total == approved) {
-            return 'FullyApproved';
+            return customEventConstants.STATUS_FULLY_APPROVED;
         } 
         else if (total == rejected) {
-            return 'Rejected';
+            return customEventConstants.STATUS_REJECTED;
         } 
         else if (total == approved + rejected) {
-            return 'PartiallyApproved';
+            return customEventConstants.STATUS_PARTIALLY_APPROVED;
         }
 
-        return null; // cas par défaut obligatoire
+        return customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS; // cas par défaut obligatoire
     }
 
 

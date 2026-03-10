@@ -24,7 +24,7 @@
                 <label>Approved by head of product</label>
             </value>
             <value>
-                <fullName>Rejected</fullName>
+                <fullName>rejected</fullName>
                 <default>false</default>
                 <label>Rejected</label>
             </value>
@@ -32,6 +32,11 @@
                 <fullName>approved_speaker</fullName>
                 <default>false</default>
                 <label>Approve by speaker</label>
+            </value>
+            <value>
+                <fullName>recalled</fullName>
+                <default>false</default>
+                <label>Recalled</label>
             </value>
         </valueSetDefinition>
     </valueSet>

@@ -39,7 +39,7 @@ public with sharing class EventSpeakerApprovalsService {
     // Handles parent event rollup after record creation
     public static void manageRollupOnInsert(Map<Id, EventSpeakerApprovals__c> newMap) {
         if (newMap == null || newMap.isEmpty()) return;
-        rollupIfNeeded(newMap.values(), null);
+        customEventSpeakerApprovalService.updateEventStatusIfAllApproved(newMap.values());
     }
 
     // Handles parent event rollup after record update
@@ -48,55 +48,50 @@ public with sharing class EventSpeakerApprovalsService {
         Map<Id, EventSpeakerApprovals__c> oldMap
     ) {
         if (newMap == null || newMap.isEmpty()) return;
-        rollupIfNeeded(newMap.values(), oldMap);
-    }
 
-    // Sends notification emails after record creation
-    public static void manageNotificationOnInsert(Map<Id, EventSpeakerApprovals__c> newMap) {
-        if (newMap == null || newMap.isEmpty()) return;
+        List<EventSpeakerApprovals__c> statusChangedRecords = new List<EventSpeakerApprovals__c>();
 
-        Set<Id> eventIds = new Set<Id>();
-        for (EventSpeakerApprovals__c esa : newMap.values()) {
-            if (esa != null && esa.Event__c != null) {
-                eventIds.add(esa.Event__c);
+        for (Id recordId : newMap.keySet()) {
+            EventSpeakerApprovals__c newRec = newMap.get(recordId);
+            EventSpeakerApprovals__c oldRec = oldMap.get(recordId);
+
+            if (newRec.Status__c != oldRec.Status__c) {
+                statusChangedRecords.add(newRec);
             }
         }
-        if (eventIds.isEmpty()) return;
 
-        // Pass correct parameters instead of null
-        customEventNotificationService.sendApprovalEmails(
-            eventIds,
-            DEFAULT_QUEUE_DEV_NAME,
-            DEFAULT_TEMPLATE_DEV_NAME
-        );
+        if (!statusChangedRecords.isEmpty()) {
+            customEventSpeakerApprovalService.updateEventStatusIfAllApproved(statusChangedRecords);
+        }
     }
 
+    /**
+     * Trigger entry point used for automatic approval submission.
+     * The actual submission is delegated to a private reusable method.
+     */
     public static void submitForSpeakerApproval(List<EventSpeakerApprovals__c> records, Map<Id, EventSpeakerApprovals__c> oldMap) {
-        System.debug(LoggingLevel.DEBUG, '[EventSpeakerApprovalsService] submitForSpeakerApproval called with ' + records.size() + ' records');
+        System.debug(LoggingLevel.DEBUG, '[EventSpeakerApprovalsService] submitForSpeakerApproval called with ' + (records == null ? 0 : records.size()) + ' records');
         if (records == null || records.isEmpty()) return;
 
         Boolean isAfterInsert = (oldMap == null || oldMap.isEmpty());
-        List<Approval.ProcessSubmitRequest> requests = new List<Approval.ProcessSubmitRequest>();
 
         for (EventSpeakerApprovals__c rec : records) {
             if (rec == null || rec.Id == null) continue;
 
             // AFTER INSERT logic
             if (isAfterInsert) {
-                // If HOP approval required, send to HOP approval process
                 if (rec.HopApprovalRequired__c == true) {
-                    Approval.ProcessSubmitRequest req = new Approval.ProcessSubmitRequest();
-                    req.setObjectId(rec.Id);
-                    req.setProcessDefinitionNameOrId(HOP_APPROVAL_PROCESS_DEVNAME);
-                    req.setComments('Auto-submitted on creation (HOP required)');
-                    requests.add(req);
+                    submitApproval(
+                        rec.Id,
+                        HOP_APPROVAL_PROCESS_DEVNAME,
+                        'Auto-submitted on creation (HOP required)'
+                    );
                 } else {
-                    // Otherwise, submit to Speaker approval process
-                    Approval.ProcessSubmitRequest req = new Approval.ProcessSubmitRequest();
-                    req.setObjectId(rec.Id);
-                    req.setProcessDefinitionNameOrId(SPEAKER_APPROVAL_PROCESS_DEVNAME);
-                    req.setComments('Auto-submitted on creation (HOP not required)');
-                    requests.add(req);
+                    submitApproval(
+                        rec.Id,
+                        SPEAKER_APPROVAL_PROCESS_DEVNAME,
+                        'Auto-submitted on creation (HOP not required)'
+                    );
                 }
                 continue;
             }
@@ -107,22 +102,114 @@ public with sharing class EventSpeakerApprovalsService {
             String newStatus = rec.Status__c;
 
             // If status passed from any value (including null/blank) to 'approved_hop' -> submit to Speaker approval
-            if ((oldStatus == null || oldStatus != 'approved_hop') 
-                && newStatus == 'approved_hop') {
-                Approval.ProcessSubmitRequest req = new Approval.ProcessSubmitRequest();
-                req.setObjectId(rec.Id);
-                req.setProcessDefinitionNameOrId(SPEAKER_APPROVAL_PROCESS_DEVNAME);
-                req.setComments('Auto-submitted on status change to approved_hop');
-                requests.add(req);
+            if ((oldStatus == null || oldStatus != 'approved_hop') && newStatus == 'approved_hop') {
+                submitApproval(
+                    rec.Id,
+                    SPEAKER_APPROVAL_PROCESS_DEVNAME,
+                    'Auto-submitted on status change to approved_hop'
+                );
             }
         }
+    }
 
-        if (requests.isEmpty()) return;
+    /**
+     * Manual recall/resubmit entry point called by the controller.
+     * For a rejected item, the practical business need is to submit again
+     * to the same process with a custom comment.
+     */
+    @AuraEnabled
+    public static void recallApproval(Id recallTargetId, Id eventSpeakerApprovalId, String processDeveloperName, String comments) {
+        if (recallTargetId == null) {
+            throw new AuraHandledException('Recall target Id is required.');
+        }
+        if (String.isBlank(processDeveloperName)) {
+            throw new AuraHandledException('Process developer name is required.');
+        }
 
         try {
-            Approval.process(requests);
+            String finalComment = String.isBlank(comments)
+                ? 'Resubmitted from recall action'
+                : comments;
+
+            if (eventSpeakerApprovalId != null) {
+                EventSpeakerApprovals__c rec = [
+                    SELECT Id, Status__c
+                    FROM EventSpeakerApprovals__c
+                    WHERE Id = :eventSpeakerApprovalId
+                    LIMIT 1
+                ];
+
+                if (rec.Status__c != 'Submitted') {
+                    rec.Status__c = 'Submitted';
+                    update rec;
+                }
+
+                submitApproval(
+                    eventSpeakerApprovalId,
+                    processDeveloperName,
+                    finalComment
+                );
+            } else {
+                Event__c evt = [
+                    SELECT Id, Status__c
+                    FROM Event__c
+                    WHERE Id = :recallTargetId
+                    LIMIT 1
+                ];
+
+                if (evt.Status__c != 'SubmittedToEventTeam') {
+                    evt.Status__c = 'SubmittedToEventTeam';
+                    update evt;
+                }
+
+                submitApproval(
+                    recallTargetId,
+                    processDeveloperName,
+                    finalComment
+                );
+            }
+        } catch (AuraHandledException ahe) {
+            throw ahe;
         } catch (Exception ex) {
-            System.debug(LoggingLevel.ERROR, '[EventSpeakerApprovalsService] submitForSpeakerApproval failed -> ' + ex.getMessage());
+            throw new AuraHandledException('Recall approval failed: ' + ex.getMessage());
+        }
+    }
+
+    /**
+     * Reusable private method used by both trigger automation and manual recall/resubmit.
+     */
+    private static Approval.ProcessResult submitApproval(Id recordId, String processDeveloperName, String comments) {
+        if (recordId == null) {
+            throw new AuraHandledException('Record Id is required for approval submission.');
+        }
+        if (String.isBlank(processDeveloperName)) {
+            throw new AuraHandledException('Approval process developer name is required.');
+        }
+
+        try {
+            Approval.ProcessSubmitRequest req = new Approval.ProcessSubmitRequest();
+            req.setObjectId(recordId);
+            req.setProcessDefinitionNameOrId(processDeveloperName);
+            req.setComments(String.isBlank(comments) ? '' : comments);
+
+            Approval.ProcessResult result = Approval.process(req);
+
+            if (result == null || !result.isSuccess()) {
+                String combined;
+                try {
+                    combined = JSON.serialize(result != null ? result.getErrors() : null);
+                } catch (Exception exJson) {
+                    combined = 'Unknown approval submission error';
+                }
+                throw new AuraHandledException('Approval submission failed: ' + combined);
+            }
+
+            return result;
+        } catch (AuraHandledException ahe) {
+            throw ahe;
+        } catch (Exception ex) {
+            System.debug(LoggingLevel.ERROR, '[EventSpeakerApprovalsService] submitApproval failed -> ' + ex.getMessage());
+            throw new AuraHandledException('Approval submission failed: ' + ex.getMessage());
         }
     }
 
@@ -149,32 +236,16 @@ public with sharing class EventSpeakerApprovalsService {
         }
     }
 
-    // Updates parent event status when all speaker approvals are completed
-    private static void rollupIfNeeded(
-        List<EventSpeakerApprovals__c> newList,
-        Map<Id, EventSpeakerApprovals__c> oldMap
-    ) {
+    // Checks whether HOP approval is required and updates the flag on the record
+    public static void requireHOPApproval(List<EventSpeakerApprovals__c> newList) {
         if (newList == null || newList.isEmpty()) return;
 
-        Set<Id> impactedEventIds =
-            customEventSpeakerApprovalService.collectImpactedEventIds(newList, oldMap);
-
-        if (impactedEventIds.isEmpty()) return;
-
-        customEventSpeakerApprovalService.updateEventStatusIfAllApproved(impactedEventIds);
-    }
-
-    //requireHOPAppval will check if we need to submit to HOP approval process and do it if necessary, and will check  HOPapprovalRequired__c field
-    public static void requireHOPAppval (List<EventSpeakerApprovals__c> newList) {
-        if (newList == null || newList.isEmpty()) return;
         for (EventSpeakerApprovals__c rec : newList) {
-            if (rec.speaker__c == '0035800000rqKGpAAM') {
+            if (rec.Speaker__c == '0035800000rqKGpAAM') {
                 rec.HopApprovalRequired__c = true;
-            }   else {
+            } else {
                 rec.HopApprovalRequired__c = false;
-            }   
-        }    
-        
+            }
+        }
     }
-
 }

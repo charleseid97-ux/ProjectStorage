@@ -191,10 +191,12 @@ public with sharing class customEventService {
     // ---------------------------
 
     public static void copyCompanyBillingAddressToEvent(List<Event__c> newEvents, Map<Id, Event__c> oldMap) {
+        system.debug('=====copyCompanyBillingAddressToEvent started');
         if (newEvents == null || newEvents.isEmpty()) return;
         Map<Id, Event__c> oldById = (oldMap == null) ? new Map<Id, Event__c>() : oldMap;
 
         Eligibility elig = collectEligibility(newEvents, oldById);
+        system.debug('=====Eligibility collected: ' + elig.eligibleEventIds.size() + ' eligible events, ' + elig.accountIds.size() + ' unique accounts');
         if (elig.accountIds.isEmpty()) return;
 
         Map<Id, Account> accById = queryAccounts(elig.accountIds);
@@ -260,6 +262,7 @@ public with sharing class customEventService {
         Set<Id> eligibleEventIds,
         Map<Id, Account> accById
     ) {
+        system.debug('=====Applying billing to eligible events, count=' + ((newEvents != null) ? newEvents.size() : 0) + ', eligibleEventIds=' + eligibleEventIds + ', accById size=' + ((accById != null) ? accById.size() : 0));
         if (newEvents == null || newEvents.isEmpty()) return;
         if (accById == null || accById.isEmpty()) return;
 
@@ -275,6 +278,7 @@ public with sharing class customEventService {
 
     // Copy account billing fields into event fields
     private static void copyBillingToEvent(Event__c e, Account a) {
+        system.debug('=====Copying billing from account ' + a.Id + ' to event ' + e.Id);
         e.LocationAddress__c  = a.BillingStreet;
         e.LocationCity__c     = a.BillingCity;
         e.LocationPostCode__c = a.BillingPostalCode;
@@ -338,7 +342,6 @@ public with sharing class customEventService {
 
         if (events == null || events.isEmpty()) return;
 
-        Set<Id> eventIds = new Set<Id>();
 
         for (Event__c evt : events) {
             if (evt != null && evt.Id != null && evt.Status__c == 'SubmittedToEventTeam') {
@@ -346,19 +349,8 @@ public with sharing class customEventService {
                 req.setObjectId(evt.Id);
                 req.setProcessDefinitionNameOrId('EventApprovalProcess');
                 Approval.process(req);
-                eventIds.add(evt.Id);
             }
         }
-
-        if (!eventIds.isEmpty()) {
-            customEventNotificationService.sendApprovalEmails(
-                eventIds,
-                'EventTeam',
-                'EventTeamApproval'
-            );
-        }
-
-        System.debug('AfterInsert - Approval + Notification processed for ' + eventIds.size() + ' events');
     }
     // ---------------------------
     // Campaign creation from Event__c
