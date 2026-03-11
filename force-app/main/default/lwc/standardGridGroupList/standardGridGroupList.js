@@ -17,21 +17,12 @@ function formatRate(rate) {
     return `${Number(rate).toFixed(2)}%`;
 }
 
-function buildResolvedDetail(rule) {
-    switch (rule.resolvedRuleToApply) {
-        case RULE_POF:  return `${RULE_POF}: ${formatRate(rule.resolvedGridRate)}`;
-        case RULE_OST:  return `${RULE_OST}: ${rule.resolvedOtherShareType || ''}`;
-        case RULE_OSTF: return `${RULE_OSTF}: ${rule.resolvedOtherShareType || ''} | ${formatRate(rule.resolvedGridRate)}`;
-        default:        return rule.resolvedRuleToApply || '';
-    }
-}
-
 function buildRuleDetail(rule) {
     switch (rule.ruleToApply) {
-        case RULE_POF:  return `${RULE_POF}: ${formatRate(rule.gridRate)}`;
-        case RULE_OST:  return `${RULE_OST}: ${rule.otherShareType || ''}`;
-        case RULE_OSTF: return `${RULE_OSTF}: ${rule.otherShareType || ''} | ${formatRate(rule.gridRate)}`;
-        case RULE_OGR:  return `${RULE_OGR}: ${rule.otherGridRule || ''}`;
+        case RULE_POF:  return `${formatRate(rule.gridRate)} of MF`;
+        case RULE_OST:  return `Rebates${rule.otherShareType || ''}`;
+        case RULE_OSTF: return `Rebates${rule.otherShareType || ''} + Fees(${rule.shareType}-${rule.otherShareType || ''})*${formatRate(rule.gridRate)}`;
+        case RULE_OGR:  return `Rebates - Other Grid: ${rule.otherGridRule || ''}`;
         default:        return rule.ruleToApply || '';
     }
 }
@@ -52,16 +43,35 @@ export default class StandardGridGroupList extends LightningElement {
                     value: p.shortName,
                     tooltip: Object.entries(p.shareClassRates || {}).map(([name, rate]) => rate != null ? `${name} - Rebate: ${formatRate(rate)}` : name).join('\n')
                 })),
-                hasHoverData: !!hoverData && ((hoverData.legalForms || []).length > 0 || (hoverData.rules || []).length > 0),
-                hoverLegalForms: hoverData && (hoverData.legalForms || []).length > 0 ? `Below only applies for ${hoverData.legalForms.join(', ')}` : null,
-                hoverRules: (hoverData?.rules || []).map((rule, k) => ({
-                    key: k,
-                    boldLabel: `${rule.shareType} - ${(rule.internalShortNames || []).join(', ')}`,
-                    ruleDetail: buildRuleDetail(rule),
-                    colorClass: RULE_COLOR_CLASS[rule.ruleToApply] || '',
-                    hasResolvedDetail: !!rule.resolvedRuleToApply,
-                    resolvedDetail: rule.resolvedRuleToApply ? buildResolvedDetail(rule) : null
-                }))
+                hasHoverData: !!hoverData && (hoverData.rules || []).length > 0,
+                hoverRuleGroups: (() => {
+                    const groupsMap = new Map();
+                    (hoverData?.rules || []).forEach(rule => {
+                        const lf = (rule.legalForms || []).slice().sort();
+                        const key = lf.join(';');
+                        if (!groupsMap.has(key)) groupsMap.set(key, { lf, rules: [] });
+                        groupsMap.get(key).rules.push(rule);
+                    });
+                    return Array.from(groupsMap.entries())
+                        .sort(([a], [b]) => (b ? -1 : 1) - (a ? -1 : 1)) // groups with legal forms first
+                        .map(([, grp], gi) => ({
+                            key: gi,
+                            hasLegalForms: true,
+                            legalFormsText: grp.lf.length > 0 ? `Below only applies to ${grp.lf.join(', ')}` : 'Below applies to all legal forms',
+                            rules: grp.rules.map((rule, k) => {
+                                const inNames    = (rule.inCriteria    || []).flatMap(v => v.split(';')).map(v => v.trim()).filter(v => v);
+                                const notInNames = (rule.notInCriteria || []).flatMap(v => v.split(';')).map(v => v.trim()).filter(v => v);
+                                return {
+                                    key: `${gi}-${k}`,
+                                    boldLabel: inNames.length > 0 ? `${rule.shareType || ''} - ${inNames.join(', ')}` : (rule.shareType || ''),
+                                    ruleDetail: buildRuleDetail(rule),
+                                    colorClass: RULE_COLOR_CLASS[rule.ruleToApply] || '',
+                                    hasNotInCriteria: notInNames.length > 0,
+                                    notInCriteriaText: notInNames.join(', ')
+                                };
+                            })
+                        }));
+                })()
             };
         });
     }

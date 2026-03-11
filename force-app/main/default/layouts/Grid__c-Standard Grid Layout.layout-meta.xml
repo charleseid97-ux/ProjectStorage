@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
     <excludeButtons>AssignRecordLabel</excludeButtons>
+    <excludeButtons>OpenSlackRecordChannel</excludeButtons>
     <excludeButtons>Submit</excludeButtons>
     <layoutSections>
         <customLabel>false</customLabel>
@@ -125,6 +126,25 @@
         <relatedList>GridCriteria__c.Grid__c</relatedList>
         <sortField>StartDate__c</sortField>
         <sortOrder>Asc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>RuleText__c</fields>
+        <fields>RuleToApply__c</fields>
+        <fields>GridCriteria__c</fields>
+        <fields>FeesType__c</fields>
+        <fields>GridRate__c</fields>
+        <fields>ShareType__c</fields>
+        <fields>OtherShareType__c</fields>
+        <fields>OtherGridRule__c</fields>
+        <relatedList>GridRule__c.Grid__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Agreement__c</fields>
+        <fields>Country__c</fields>
+        <fields>ProductCode__c</fields>
+        <relatedList>GridScope__c.Grid__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
