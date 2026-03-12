@@ -5,7 +5,7 @@
  *              Supports complex filter logic evaluation and dynamic field value extraction.
  * @author Charles EID
  * @testClass GridBuilderControllerTest, GridValidationControllerTest
- * @coverage 95% (Combined coverage from both test classes)
+ * @coverage 94% (Combined coverage from both test classes)   [12-03-26]
  ────────────────────────────────────── */
 public with sharing class GridBuilderHelper {
     public static final String RT_STANDARD_GRID = 'StandardGrid';

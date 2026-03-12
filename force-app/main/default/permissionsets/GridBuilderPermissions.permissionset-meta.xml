@@ -122,6 +122,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>GridRule__c.FinalRebateRate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>GridRule__c.OtherGridRule__c</field>
         <readable>true</readable>
     </fieldPermissions>

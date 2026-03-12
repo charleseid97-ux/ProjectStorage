@@ -290,7 +290,8 @@ export default class GridAgreementsSelection extends LightningElement {
                 thresholdAmountCurrency: this.agThreshCcy,
                 minimumAmount:           this.agMin,
                 minimumAmountCurrency:   this.agMinCcy,
-                minimumAmountFrequency:  this.agMinFreq
+                minimumAmountFrequency:  this.agMinFreq,
+                gridName:                this.gridNamePreview
             }
         }));
     }

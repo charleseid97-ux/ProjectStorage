@@ -4,7 +4,7 @@
  *              StandardGridProductAndRulesController (products + hover data).
  * @author Charles EID
  *  Test Class: StdGridProductAndRulesControllerTest
- * Coverage: 100%   [10-03-26]
+ * Coverage: 98%   [12-03-26]
 ────────────────────────────────────── */
 public with sharing class GridRecapHelper {
 
@@ -60,7 +60,7 @@ public with sharing class GridRecapHelper {
 
     // ── Phase 1: query GridRule__c directly and build RuleEntries with IN/NOT IN criteria and per-rule legal forms ──
     private static void processHoverData(Set<Id> standardGridIds, Map<Id, Map<Id, RuleEntry>> ruleMap) {
-        List<GridRule__c> gridRules = [SELECT Id, Name, Grid__c, ShareType__c, RuleToApply__c, GridRate__c, OtherShareType__c, OtherGridRule__c, GridCriteria__c
+        List<GridRule__c> gridRules = [SELECT Id, Name, Grid__c, ShareType__c, RuleToApply__c, GridRate__c, FinalRebateRate__c, OtherShareType__c, OtherGridRule__c, GridCriteria__c
                                        FROM GridRule__c
                                        WHERE Grid__c IN :standardGridIds
                                        ORDER BY ShareType__c, RuleToApply__c];
@@ -95,7 +95,7 @@ public with sharing class GridRecapHelper {
             if (!ruleMap.containsKey(gr.Grid__c)) {
                 ruleMap.put(gr.Grid__c, new Map<Id, RuleEntry>());
             }
-            RuleEntry re = new RuleEntry(gr.ShareType__c, gr.RuleToApply__c, gr.GridRate__c, gr.OtherShareType__c, gr.OtherGridRule__c);
+            RuleEntry re = new RuleEntry(gr.ShareType__c, gr.RuleToApply__c, gr.GridRate__c, gr.OtherShareType__c, gr.OtherGridRule__c, gr.FinalRebateRate__c);
             if (gr.GridCriteria__c != null && legalFormsByCriteria.containsKey(gr.GridCriteria__c)) {
                 re.legalForms.addAll(legalFormsByCriteria.get(gr.GridCriteria__c));
             }
@@ -165,15 +165,17 @@ public with sharing class GridRecapHelper {
         @AuraEnabled public Decimal gridRate                { get; set; }
         @AuraEnabled public String otherShareType           { get; set; }
         @AuraEnabled public String otherGridRule            { get; set; }
-        public RuleEntry(String shareType, String ruleToApply, Decimal gridRate, String otherShareType, String otherGridRule) {
-            this.shareType      = String.isNotBlank(shareType) ? shareType : 'All Types';
-            this.ruleToApply    = ruleToApply;
-            this.gridRate       = gridRate;
-            this.otherShareType = otherShareType;
-            this.otherGridRule  = otherGridRule;
-            this.legalForms     = new List<String>();
-            this.inCriteria     = new List<String>();
-            this.notInCriteria  = new List<String>();
+        @AuraEnabled public Decimal finalRebateRate         { get; set; }
+        public RuleEntry(String shareType, String ruleToApply, Decimal gridRate, String otherShareType, String otherGridRule, Decimal finalRebateRate) {
+            this.shareType       = String.isNotBlank(shareType) ? shareType : 'All Types';
+            this.ruleToApply     = ruleToApply;
+            this.gridRate        = gridRate;
+            this.otherShareType  = otherShareType;
+            this.otherGridRule   = otherGridRule;
+            this.finalRebateRate = finalRebateRate;
+            this.legalForms      = new List<String>();
+            this.inCriteria      = new List<String>();
+            this.notInCriteria   = new List<String>();
         }
     }
 }

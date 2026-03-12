@@ -20,7 +20,7 @@ public with sharing class GridDetailBuilder {
     private static final String TYPE_FIELD_PATH = 'Type__c';
     private static final Set<String> SUPPORTED_OBJECTS = new Set<String>{ 'Share_Class__c', 'Product__c', 'Strategy__c' };
 
-    private static final String gridRulesQuery = 'SELECT Id, Grid__c, GridCriteria__c, RuleToApply__c, GridRate__c, '+
+    private static final String gridRulesQuery = 'SELECT Id, Grid__c, GridCriteria__c, RuleToApply__c, GridRate__c, FinalRebateRate__c, '+
                                                     'ShareType__c, OtherShareType__c, OtherGridRule__c, '+
                                                     'GridCriteria__r.FilterLogicExpression__c, CreatedDate '+
                                                   ' FROM GridRule__c ';
@@ -28,9 +28,7 @@ public with sharing class GridDetailBuilder {
     public static BuildResult buildForGridRules(Set<Id> gridRuleIds) {
         BuildResult result = new BuildResult();
         result.errors = new List<BuildError>();
-        if (gridRuleIds == null || gridRuleIds.isEmpty()) {
-            return result;
-        }
+        if (gridRuleIds == null || gridRuleIds.isEmpty()) { return result; }
 
         String rlQuery = gridRulesQuery + ' WHERE Id IN :gridRuleIds ORDER BY CreatedDate ASC';
         return build(Database.query(rlQuery), result);
@@ -39,9 +37,7 @@ public with sharing class GridDetailBuilder {
     public static BuildResult buildForGrids(Set<Id> gridIds) {
         BuildResult result = new BuildResult();
         result.errors = new List<BuildError>();
-        if (gridIds == null || gridIds.isEmpty()) {
-            return result;
-        }
+        if (gridIds == null || gridIds.isEmpty()) {  return result; }
 
         Map<String, Id> gridIdByName = new Map<String, Id>();
         for (Grid__c grid : [SELECT Id, Name FROM Grid__c WHERE Id IN :gridIds]) {
@@ -53,9 +49,7 @@ public with sharing class GridDetailBuilder {
     }
 
     private static BuildResult build(List<GridRule__c> gridRules, BuildResult result) {
-        if (gridRules == null || gridRules.isEmpty()) {
-            return result;
-        }
+        if (gridRules == null || gridRules.isEmpty()) { return result; }
 
         Set<Id> gridIds = new Set<Id>();
         for (GridRule__c line : gridRules) {
@@ -73,22 +67,16 @@ public with sharing class GridDetailBuilder {
     }
 
     private static BuildResult build(List<GridRule__c> gridRules, Map<String, Id> gridIdByName, BuildResult result) {
-        if (gridRules == null || gridRules.isEmpty()) {
-            return result;
-        }
+        if (gridRules == null || gridRules.isEmpty()) { return result; }
 
         ensureOtherGridIds(gridRules, gridIdByName);
         Map<Id, List<GridCriteriaDetail__c>> detailsByCriteriaId = loadCriteriaDetails(gridRules);
         ShareClassData shareData = loadShareClasses();
         List<GridRuleContext> contexts = buildGridRuleContexts(gridRules, detailsByCriteriaId, result);
-        if (contexts.isEmpty()) {
-            return result;
-        }
+        if (contexts.isEmpty()) { return result; }
 
         AssignmentBuildResult assignmentBuild = buildAssignments(contexts, shareData, result);
-        if (assignmentBuild.assignments.isEmpty()) {
-            return result;
-        }
+        if (assignmentBuild.assignments.isEmpty()) { return result; }
 
         Map<String, Decimal> rebatesByGridShareKey = computeRebatesForAssignments(assignmentBuild, shareData, gridIdByName, result);
         addMissingRebateErrors(assignmentBuild.assignments, rebatesByGridShareKey, result);
@@ -117,9 +105,7 @@ public with sharing class GridDetailBuilder {
         }
 
         Map<Id, List<GridCriteriaDetail__c>> detailsByCriteriaId = new Map<Id, List<GridCriteriaDetail__c>>();
-        if (criteriaIds.isEmpty()) {
-            return detailsByCriteriaId;
-        }
+        if (criteriaIds.isEmpty()) { return detailsByCriteriaId; }
 
         for (GridCriteriaDetail__c detail : [SELECT GridCriteria__c, FilterNumber__c, Logic__c, Value__c, Object__c, Field__c
                                              FROM GridCriteriaDetail__c
@@ -176,14 +162,10 @@ public with sharing class GridDetailBuilder {
         AssignmentBuildResult assignmentBuild = new AssignmentBuildResult();
 
         for (GridRuleContext ctx : contexts) {
-            if (ctx.hasErrors) {
-                continue;
-            }
+            if (ctx.hasErrors) { continue; }
 
             Set<Id> matches = evaluateCriteria(ctx, shareData.indexByField, shareData.allShareClassIds, result);
-            if (ctx.hasErrors || matches.isEmpty()) {
-                continue;
-            }
+            if (ctx.hasErrors || matches.isEmpty()) { continue; }
 
             matches = filterByShareTypeIfNeeded(ctx, matches, shareData.shareClassById);
             for (Id shareId : matches) {
@@ -201,9 +183,7 @@ public with sharing class GridDetailBuilder {
     }
 
     private static Set<Id> filterByShareTypeIfNeeded(GridRuleContext ctx, Set<Id> matches, Map<Id, Share_Class__c> shareClassById) {
-        if (RULE_OTHER_SHARE_FEES != ctx.gridRule.RuleToApply__c || String.isBlank(ctx.gridRule.ShareType__c)) {
-            return matches;
-        }
+        if (RULE_OTHER_SHARE_FEES != ctx.gridRule.RuleToApply__c || String.isBlank(ctx.gridRule.ShareType__c)) { return matches; }
         Set<Id> filtered = new Set<Id>();
         for (Id shareId : matches) {
             Share_Class__c share = shareClassById.get(shareId);
@@ -374,14 +354,10 @@ public with sharing class GridDetailBuilder {
 
     private static Set<Id> evaluateExpression(String expression, Map<Integer, Set<Id>> conditionSets, BuildResult result, Id gridRuleId) {
         List<String> tokens = tokenizeExpression(expression, result, gridRuleId);
-        if (tokens.isEmpty()) {
-            return new Set<Id>();
-        }
+        if (tokens.isEmpty()) { return new Set<Id>(); }
 
         List<String> output = toPostfix(tokens, result, gridRuleId);
-        if (output == null) {
-            return new Set<Id>();
-        }
+        if (output == null) { return new Set<Id>(); }
         return evaluatePostfix(output, conditionSets, result, gridRuleId);
     }
 
@@ -492,6 +468,10 @@ public with sharing class GridDetailBuilder {
             return null;
         }
 
+        if (line.FinalRebateRate__c != null) {
+            return line.FinalRebateRate__c;
+        }
+
         if (line.RuleToApply__c == RULE_PERCENTAGE) {
             return computePercentageRebate(assignment, share, line, result);
         }
@@ -531,9 +511,7 @@ public with sharing class GridDetailBuilder {
 
         String otherKey = buildGridShareKey(assignment.gridId, otherShareId);
         Decimal baseRebate = resolveRebate(otherKey, rebatesByGridShareKey, existingRebates);
-        if (baseRebate == null) {
-            return null;
-        }
+        if (baseRebate == null) { return null; }
 
         if (line.RuleToApply__c == RULE_OTHER_SHARE) {
             return baseRebate;
@@ -589,13 +567,9 @@ public with sharing class GridDetailBuilder {
         Map<String, Id> lookup = getLookupFromCache(fieldSetKey, lookupCache, shareClasses, matchFields);
 
         Share_Class__c currentShare = shareClassById.get(assignment.shareClassId);
-        if (currentShare == null) {
-            return null;
-        }
+        if (currentShare == null) {  return null; }
         String currentKeyBase = buildKeyBase(currentShare, matchFields);
-        if (currentKeyBase == null) {
-            return null;
-        }
+        if (currentKeyBase == null) { return null; }
         String desiredKey = currentKeyBase + '|TYPE=' + desiredShareType;
         return lookup.get(desiredKey);
     }
@@ -606,9 +580,7 @@ public with sharing class GridDetailBuilder {
             lookup = new Map<String, Id>();
             for (Share_Class__c share : shareClasses) {
                 String keyBase = buildKeyBase(share, matchFields);
-                if (keyBase == null) {
-                    continue;
-                }
+                if (keyBase == null) { continue; }
                 String fullKey = keyBase + '|TYPE=' + share.Type__c;
                 if (!lookup.containsKey(fullKey)) {
                     lookup.put(fullKey, share.Id);

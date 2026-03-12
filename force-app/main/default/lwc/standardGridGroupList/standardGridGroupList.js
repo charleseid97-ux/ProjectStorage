@@ -49,6 +49,9 @@ function buildHoverRuleGroups(hoverData) {
 }
 
 function buildRuleDetail(rule) {
+    if (rule.finalRebateRate != null) {
+        return `${Number(rule.finalRebateRate).toFixed(2)}% rebates`;
+    }
     switch (rule.ruleToApply) {
         case RULE_POF:  return `${formatRate(rule.gridRate)} of MF`;
         case RULE_OST:  return `Rebates${rule.otherShareType || ''}`;

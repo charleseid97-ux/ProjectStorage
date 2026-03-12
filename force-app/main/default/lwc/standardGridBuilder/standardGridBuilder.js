@@ -668,7 +668,8 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
             thresholdAmountCurrency: event.detail?.thresholdAmountCurrency,
             minimumAmount:           event.detail?.minimumAmount,
             minimumAmountCurrency:   event.detail?.minimumAmountCurrency,
-            minimumAmountFrequency:  event.detail?.minimumAmountFrequency
+            minimumAmountFrequency:  event.detail?.minimumAmountFrequency,
+            gridName:                event.detail?.gridName
         };
 
         if((alreadySelectedAgreements != JSON.stringify(this.selectedAgreements)) || (alreadySelectedTeam != this.selectedTeam)) {

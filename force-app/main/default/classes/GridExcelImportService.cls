@@ -6,7 +6,7 @@
  *              Provides comprehensive error tracking and validation.
  * @author Charles EID
  * @testClass GridExcelImportServiceTest
- * @coverage 81%
+ * @coverage 85%   [12-03-26]
 ────────────────────────────────────── */
 public with sharing class GridExcelImportService {
     private static final Date START_DATE = Date.newInstance(2023, 1, 1);
@@ -178,6 +178,16 @@ public with sharing class GridExcelImportService {
             return null;
         }
 
+        String rebateRateRaw = normalize(row.RebateRate);
+        if (String.isNotBlank(rebateRateRaw)) {
+            Decimal parsed = parsePercent(rebateRateRaw);
+            if (parsed == null) {
+                addError(result, 'GridRules', rowNumber, 'RebateRate "' + rebateRateRaw + '" is not a valid percentage.');
+                return null;
+            }
+            ctx.finalRebateRate = parsed;
+        }
+
         ctx.criteria = buildCriteria(gridName, gridId, rowNumber, row, parseResult.filterLogicExpression);
         ctx.ruleText = buildRuleText(row, ctx.ruleToApply);
         return ctx;
@@ -194,6 +204,7 @@ public with sharing class GridExcelImportService {
         if (String.isNotBlank(row.RuleValue))      parts.add('RuleValue: '      + row.RuleValue);
         if (String.isNotBlank(row.ShareType))      parts.add('ShareType: '      + row.ShareType);
         if (String.isNotBlank(row.OtherShareType)) parts.add('OtherShareType: ' + row.OtherShareType);
+        if (String.isNotBlank(row.RebateRate))     parts.add('RebateRate: '     + row.RebateRate);
         return String.join(parts, '\n');
     }
 
@@ -284,6 +295,7 @@ public with sharing class GridExcelImportService {
             gr.ShareType__c = ctx.shareType;
             gr.OtherShareType__c = ctx.otherShareType;
             gr.OtherGridRule__c = ctx.otherGridRule;
+            gr.FinalRebateRate__c = ctx.finalRebateRate;
             gr.RuleText__c = ctx.ruleText;
             gridRules.add(gr);
             gridRuleContexts.add(ctx);
@@ -591,6 +603,7 @@ public with sharing class GridExcelImportService {
         public String RuleValue;
         public String ShareType;
         public String OtherShareType;
+        public String RebateRate;
     }
 
     private class RuleContext {
@@ -604,6 +617,7 @@ public with sharing class GridExcelImportService {
         public String shareType;
         public String otherShareType;
         public String otherGridRule;
+        public Decimal finalRebateRate;
         public GridCriteria__c criteria;
         public Id criteriaId;
         public List<GridCriteriaExpressionParser.ParsedCondition> conditions;

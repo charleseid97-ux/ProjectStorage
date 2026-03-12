@@ -5,7 +5,7 @@
  *              Works in conjunction with GridBuilderHelper for data filtering and formatting.
  * @author Charles EID
  * @testClass GridBuilderControllerTest
- * @coverage 95%
+ * @coverage 97%   [12-03-26]
  ────────────────────────────────────── */
 public with sharing class GridBuilderController {
 

@@ -3,7 +3,7 @@
  *              Validates rebate calculation logic for all 4 rule types (Percentage of Fees, Other Share Type, Other Share Type + Fees, Other Grid Rule), 
  *              complex filter logic (AND/OR/Custom Logic/NOT IN), multi-pass dependency resolution, and edge cases.
  * @author Charles EID
- * @testCoverage GridDetailBuilder (84%), GridCriteriaExpressionParser (83% partial)
+ * @testCoverage GridDetailBuilder (84%), GridCriteriaExpressionParser (88% partial)   [12-03-26]
 ────────────────────────────────────── */
 @IsTest
 private with sharing class GridDetailBuilderTest {
@@ -162,6 +162,23 @@ private with sharing class GridDetailBuilderTest {
         Test.startTest();
 
         GridDetailBuilder.BuildResult result = GridDetailBuilder.buildForGridRules(gridRuleIds);
+
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void testBuildEdgeCases() {
+        Test.startTest();
+
+        // Null / empty set → covers early-return guards (lines 32, 43)
+        GridDetailBuilder.BuildResult r1 = GridDetailBuilder.buildForGridRules(null);
+        GridDetailBuilder.BuildResult r2 = GridDetailBuilder.buildForGridRules(new Set<Id>());
+        GridDetailBuilder.BuildResult r3 = GridDetailBuilder.buildForGrids(null);
+        GridDetailBuilder.BuildResult r4 = GridDetailBuilder.buildForGrids(new Set<Id>());
+
+        // Non-existent ID → SOQL returns empty → covers empty-list guard in private build(List, BuildResult)
+        Id fakeRuleId = GridRule__c.SObjectType.getDescribe().getKeyPrefix() + '000000000001AAA';
+        GridDetailBuilder.BuildResult r5 = GridDetailBuilder.buildForGridRules(new Set<Id>{fakeRuleId});
 
         Test.stopTest();
     }
