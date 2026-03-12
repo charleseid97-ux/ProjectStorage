@@ -8,7 +8,7 @@ import { LABELS } from 'c/gridBuilderUtils';
 export default class GridExcelImporter extends LightningElement {
 
 	@track scopeHeaders = ['Grid', 'Agreement', 'Country', 'PtfCode'];
-	@track ruleHeaders = ['Grid', 'Include', 'Exclude', 'Comment', 'RuleToApply', 'FeesType', 'RuleValue', 'ShareType', 'OtherShareType'];
+	@track ruleHeaders = ['Grid', 'Include', 'Exclude', 'Comment', 'RuleToApply', 'FeesType', 'RuleValue', 'ShareType', 'OtherShareType', 'RebateRate'];
 
 	labels = LABELS;
 	file;

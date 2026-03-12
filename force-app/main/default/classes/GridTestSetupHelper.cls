@@ -10,7 +10,7 @@
  *         GridDetailTableControllerTest, GridExcelImportServiceTest
 ────────────────────────────────────── */
 @IsTest
-public class GridTestSetupHelper {
+public with sharing class GridTestSetupHelper {
 
     // ------------------------------------ CONSTANTS ------------------------------------
     public static final String TEST_TEAM_FR = 'France';

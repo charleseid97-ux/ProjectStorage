@@ -6,7 +6,7 @@
  * Coverage: AgreementGridRecapController 100%
 ────────────────────────────────────── */
 @IsTest
-public class AgreementGridRecapControllerTest {
+public with sharing class AgreementGridRecapControllerTest {
 
     @TestSetup
     static void setup() {

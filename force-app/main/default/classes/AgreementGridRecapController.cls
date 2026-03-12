@@ -32,7 +32,7 @@ public with sharing class AgreementGridRecapController {
         result.gridId = agreement.Grid__c;
         result.gridName = agreement.Grid__r.Name;
         result.automaticGridUpdate = agreement.Grid__r.AutomaticGridUpdate__c;
-        result.standardGridGroups = GridRecapHelper.buildStandardGridGroups(agreement.Grid__c, false);
+        result.standardGridGroups = GridRecapHelper.buildStandardGridGroups(agreement.Grid__c, true);
 
         return result;
     }

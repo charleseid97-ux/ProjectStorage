@@ -3,10 +3,10 @@
  *              Validates all methods including grid settings retrieval, available grids filtering, product/share class selection
  *              with criteria filtering (AND/OR/Custom Logic), and agreement selection page settings.
  * @author Charles EID
- * @testCoverage GridBuilderController (95%), GridBuilderHelper (95% partial)
+ * @testCoverage GridBuilderController (97%), GridBuilderHelper (94% partial)   [12-03-26]
 ────────────────────────────────────── */
 @IsTest
-private class GridBuilderControllerTest {
+private with sharing class GridBuilderControllerTest {
 
     private static final String GRID_BUILDER_SETTING = 'StandardGridBuilderSetting';
     private static final String TEST_COUNTRIES = 'FR';
@@ -31,6 +31,26 @@ private class GridBuilderControllerTest {
         Test.startTest();
 
         GridBuilderController.AgreementSelectionPageSettings result = GridBuilderController.getAgreementSelectionPageSettings(GRID_BUILDER_SETTING, null);
+
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void testGetAgreementSelectionPageSettings_WithExistingGrid() {
+        // AGR-FR has Grid__c set — covers the hasExistingGrid/existingGridKind/existingGridEndDate path
+        Convention__c agreement = GridTestSetupHelper.getTestAgreementByTeam(GridTestSetupHelper.TEST_TEAM_FR);
+        Test.startTest();
+
+        GridBuilderController.AgreementSelectionPageSettings result = GridBuilderController.getAgreementSelectionPageSettings(GRID_BUILDER_SETTING, agreement.Id);
+
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void testGetGridPicklistOptions() {
+        Test.startTest();
+
+        Map<String, List<Map<String, String>>> result = GridBuilderController.getGridPicklistOptions();
 
         Test.stopTest();
     }

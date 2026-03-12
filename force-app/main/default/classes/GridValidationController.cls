@@ -4,7 +4,7 @@
  *              Formats AUM amounts for display and integrates with GridBuilderHelper for product filtering.
  * @author Charles EID
  * @testClass GridValidationControllerTest
- * @coverage 95%
+ * @coverage 96%   [12-03-26]
 ────────────────────────────────────── */
 public with sharing class GridValidationController {
 

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Kind__c</fullName>
+    <externalId>false</externalId>
+    <label>Kind</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Rebates</fullName>
+                <default>false</default>
+                <label>Rebates</label>
+            </value>
+            <value>
+                <fullName>Mandates</fullName>
+                <default>false</default>
+                <label>Mandates</label>
+            </value>
+            <value>
+                <fullName>Platform</fullName>
+                <default>false</default>
+                <label>Platform</label>
+            </value>
+            <value>
+                <fullName>STEC fees</fullName>
+                <default>false</default>
+                <label>STEC fees</label>
+            </value>
+            <value>
+                <fullName>IX FEE</fullName>
+                <default>false</default>
+                <label>IX FEE</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

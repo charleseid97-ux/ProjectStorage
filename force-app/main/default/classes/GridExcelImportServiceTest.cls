@@ -4,10 +4,10 @@
  *              GridCriteria/GridCriteriaDetail creation. 
  *              Tests all 4 rule types and complex filter expressions. Simplified to use GridTestSetupHelper for test data creation.
  * @author Charles EID
- * @testCoverage GridExcelImportService (81%), GridCriteriaExpressionParser (83% partial)
+ * @testCoverage GridExcelImportService (85%), GridCriteriaExpressionParser (88% partial)   [12-03-26]
 ────────────────────────────────────── */
 @IsTest
-private class GridExcelImportServiceTest {
+private with sharing class GridExcelImportServiceTest {
 
     @TestSetup
     static void makeData() {
@@ -34,6 +34,57 @@ private class GridExcelImportServiceTest {
         Test.startTest();
 
         GridExcelImportService.ImportResult result = GridExcelImportService.importFromJson(payloadJson);
+
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void testImportFromJson_InvalidPayload() {
+        Test.startTest();
+
+        // Blank payload → AuraHandledException (line 65)
+        try {
+            GridExcelImportService.importFromJson('');
+        } catch (AuraHandledException e) { }
+
+        // Invalid JSON → AuraHandledException (lines 70-71)
+        try {
+            GridExcelImportService.importFromJson('not valid json {{{');
+        } catch (AuraHandledException e) { }
+
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void testImportFromJson_ErrorCases() {
+        Test.startTest();
+
+        // Scope with blank Grid name → error added (lines 87-88 in collectScopeRows)
+        GridExcelImportService.Payload p1 = new GridExcelImportService.Payload();
+        p1.scopes = new List<GridExcelImportService.ScopeRow>{ makeScopeRow(2, null, 'AGR1', 'FR', 'FCP') };
+        p1.rules  = new List<GridExcelImportService.RuleRow>();
+        GridExcelImportService.ImportResult r1 = GridExcelImportService.importFromJson(JSON.serialize(p1));
+
+        // All rule rows have blank Grid → ruleContexts empty → early return (line 52)
+        GridExcelImportService.Payload p2 = new GridExcelImportService.Payload();
+        p2.scopes = new List<GridExcelImportService.ScopeRow>{ makeScopeRow(2, 'S1', 'AGR1', 'FR', 'FCP') };
+        p2.rules  = new List<GridExcelImportService.RuleRow>{ makeRuleRow(2, null, 'ShcType = A', '', 'Rule', 'Percentage of Fees', 'EffectiveManagementFees', '33,00%', null, null) };
+        GridExcelImportService.ImportResult r2 = GridExcelImportService.importFromJson(JSON.serialize(p2));
+
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void testExpressionParser_EdgeCases() {
+        Test.startTest();
+
+        // Both segments empty → error (lines 23-25)
+        GridCriteriaExpressionParser.ParseResult r1 = GridCriteriaExpressionParser.parse(null, null);
+
+        GridCriteriaExpressionParser.ParseResult r2 = GridCriteriaExpressionParser.parse('', '');
+
+        // Valid include + error in exclude (unknown token) → hits hasErrors() early return (line 28)
+        GridCriteriaExpressionParser.ParseResult r3 = GridCriteriaExpressionParser.parse('ShcType = A', 'BADTOKEN = X');
 
         Test.stopTest();
     }

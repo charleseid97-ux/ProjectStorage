@@ -48,28 +48,3 @@
     width: 20%;
     height: 15em;
 }
-
-.toggle-header {
-    display: flex;
-    align-items: flex-end;
-    column-gap: 5px;
-}
-
-.toggle-label {
-    font-size: 0.75rem;
-    font-family: var(--lwc-fontFamily);
-    color: var(--slds-g-color-neutral-base-30, var(--lwc-colorTextLabel, rgb(68, 68, 68)));
-}
-
-.toggle-row {
-    display: flex;
-    gap: 5px;
-    flex-direction: row;
-    align-items: center;
-    padding-bottom: 3px;
-    padding-top: 5px;
-}
-
-.message-toggle-label {
-    font-size: 12px;
-}

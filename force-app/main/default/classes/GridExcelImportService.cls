@@ -6,7 +6,7 @@
  *              Provides comprehensive error tracking and validation.
  * @author Charles EID
  * @testClass GridExcelImportServiceTest
- * @coverage 81%
+ * @coverage 85%   [12-03-26]
 ────────────────────────────────────── */
 public with sharing class GridExcelImportService {
     private static final Date START_DATE = Date.newInstance(2023, 1, 1);
@@ -178,8 +178,34 @@ public with sharing class GridExcelImportService {
             return null;
         }
 
+        String rebateRateRaw = normalize(row.RebateRate);
+        if (String.isNotBlank(rebateRateRaw)) {
+            Decimal parsed = parsePercent(rebateRateRaw);
+            if (parsed == null) {
+                addError(result, 'GridRules', rowNumber, 'RebateRate "' + rebateRateRaw + '" is not a valid percentage.');
+                return null;
+            }
+            ctx.finalRebateRate = parsed;
+        }
+
         ctx.criteria = buildCriteria(gridName, gridId, rowNumber, row, parseResult.filterLogicExpression);
+        ctx.ruleText = buildRuleText(row, ctx.ruleToApply);
         return ctx;
+    }
+
+    private static String buildRuleText(RuleRow row, String ruleToApply) {
+        List<String> parts = new List<String>();
+        if (String.isNotBlank(row.Grid))           parts.add('Grid: '           + row.Grid);
+        if (String.isNotBlank(row.Include))        parts.add('Include: '        + row.Include);
+        if (String.isNotBlank(row.Exclude))        parts.add('Exclude: '        + row.Exclude);
+        if (String.isNotBlank(row.Comment))        parts.add('Comment: '        + row.Comment);
+        if (String.isNotBlank(ruleToApply))        parts.add('RuleToApply: '    + ruleToApply);
+        if (String.isNotBlank(row.FeesType))       parts.add('FeesType: '       + row.FeesType);
+        if (String.isNotBlank(row.RuleValue))      parts.add('RuleValue: '      + row.RuleValue);
+        if (String.isNotBlank(row.ShareType))      parts.add('ShareType: '      + row.ShareType);
+        if (String.isNotBlank(row.OtherShareType)) parts.add('OtherShareType: ' + row.OtherShareType);
+        if (String.isNotBlank(row.RebateRate))     parts.add('RebateRate: '     + row.RebateRate);
+        return String.join(parts, '\n');
     }
 
     private static GridCriteria__c buildCriteria(String gridName, String gridId, Integer rowNumber, RuleRow row, String logicExpression) {
@@ -260,16 +286,18 @@ public with sharing class GridExcelImportService {
             if (ctx.hasErrors || ctx.detailError) {
                 continue;
             }
-            GridRule__c line = new GridRule__c();
-            line.Grid__c = ctx.gridId;
-            line.GridCriteria__c = ctx.criteriaId;
-            line.RuleToApply__c = ctx.ruleToApply;
-            line.FeesType__c = ctx.feesType;
-            line.GridRate__c = ctx.percentageOfFees;
-            line.ShareType__c = ctx.shareType;
-            line.OtherShareType__c = ctx.otherShareType;
-            line.OtherGridRule__c = ctx.otherGridRule;
-            gridRules.add(line);
+            GridRule__c gr = new GridRule__c();
+            gr.Grid__c = ctx.gridId;
+            gr.GridCriteria__c = ctx.criteriaId;
+            gr.RuleToApply__c = ctx.ruleToApply;
+            gr.FeesType__c = ctx.feesType;
+            gr.GridRate__c = ctx.percentageOfFees;
+            gr.ShareType__c = ctx.shareType;
+            gr.OtherShareType__c = ctx.otherShareType;
+            gr.OtherGridRule__c = ctx.otherGridRule;
+            gr.FinalRebateRate__c = ctx.finalRebateRate;
+            gr.RuleText__c = ctx.ruleText;
+            gridRules.add(gr);
             gridRuleContexts.add(ctx);
         }
 
@@ -575,6 +603,7 @@ public with sharing class GridExcelImportService {
         public String RuleValue;
         public String ShareType;
         public String OtherShareType;
+        public String RebateRate;
     }
 
     private class RuleContext {
@@ -588,9 +617,11 @@ public with sharing class GridExcelImportService {
         public String shareType;
         public String otherShareType;
         public String otherGridRule;
+        public Decimal finalRebateRate;
         public GridCriteria__c criteria;
         public Id criteriaId;
         public List<GridCriteriaExpressionParser.ParsedCondition> conditions;
+        public String ruleText;
         public Boolean hasErrors = false;
         public Boolean detailError = false;
         public RuleContext(Integer rowNumber, String gridName, Id gridId, Id scopeId, String ruleToApply, String feesType, String shareType, List<GridCriteriaExpressionParser.ParsedCondition> conditions) {

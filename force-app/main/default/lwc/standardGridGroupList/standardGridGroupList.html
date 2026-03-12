@@ -10,17 +10,23 @@
                 <!-- Hover popup — only rendered when hover data is present; shown/hidden via CSS :hover -->
                 <template if:true={group.hasHoverData}>
                     <div class="hover-popup" role="tooltip">
-                        <p class="popup-legal-forms">{group.hoverLegalForms}</p>
-                        <ul class="popup-rules">
-                            <template for:each={group.hoverRules} for:item="rule">
-                                <li key={rule.key} class={rule.colorClass}>
-                                    <strong>{rule.boldLabel}</strong>: {rule.ruleDetail}
-                                    <template if:true={rule.hasResolvedDetail}>
-                                        <div class="resolved-rule">↳ {rule.resolvedDetail}</div>
+                        <template for:each={group.hoverRuleGroups} for:item="ruleGroup">
+                            <div key={ruleGroup.key}>
+                                <template if:true={ruleGroup.hasLegalForms}>
+                                    <p class="popup-legal-forms">{ruleGroup.legalFormsText}</p>
+                                </template>
+                                <ul class="popup-rules">
+                                    <template for:each={ruleGroup.rules} for:item="rule">
+                                        <li key={rule.key} class={rule.colorClass}>
+                                            <strong>{rule.boldLabel}</strong>
+                                            <template if:true={rule.hasNotInCriteria}>
+                                                <strong class="criteria-not-in"> - Excluding: {rule.notInCriteriaText}</strong>
+                                            </template>: {rule.ruleDetail}
+                                        </li>
                                     </template>
-                                </li>
-                            </template>
-                        </ul>
+                                </ul>
+                            </div>
+                        </template>
                     </div>
                 </template>
             </div>

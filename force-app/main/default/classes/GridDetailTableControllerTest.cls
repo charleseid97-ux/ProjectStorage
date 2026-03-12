@@ -6,7 +6,7 @@
  * @testCoverage GridDetailTableController (92%)
 ────────────────────────────────────── */
 @IsTest
-private class GridDetailTableControllerTest {
+private with sharing class GridDetailTableControllerTest {
 
     @TestSetup
     static void makeData() {

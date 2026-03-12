@@ -3,7 +3,7 @@
  *              Validates the getProducts method including AUM aggregation by share class, product filtering, and integration with
  *              GridBuilderHelper for data formatting.
  * @author Charles EID
- * @testCoverage GridValidationController (95%), GridBuilderHelper (95% partial)
+ * @testCoverage GridValidationController (96%), GridBuilderHelper (94% partial)   [12-03-26]
 ────────────────────────────────────── */
 @IsTest
 private class GridValidationControllerTest {

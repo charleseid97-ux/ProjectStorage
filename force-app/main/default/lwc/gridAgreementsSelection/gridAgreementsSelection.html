@@ -1,39 +1,169 @@
 <template>
-    <div class={gridAgreementSelectionPageClass}>
-        <template if:true={showTeamPicker}>
-            <div>
-                <lightning-combobox name="teamPicklist"
-                                    label={labels.Grid_Team}
-                                    value={selectedTeam}
-                                    options={availableTeams}
-                                    onchange={handleTeamChange}>
+    <div class="gridAgreementSelectionPage">
+        <div class="form-columns">
+
+            <!-- ── LEFT COLUMN ── -->
+            <div class="form-col-left">
+                <template if:true={showTeamPicker}>
+                    <lightning-combobox name="teamPicklist"
+                                        label={labels.Grid_Team}
+                                        value={selectedTeam}
+                                        options={availableTeams}
+                                        onchange={handleTeamChange}>
+                    </lightning-combobox>
+                </template>
+
+                <!-- Grid Name preview -->
+                <lightning-input label="Grid Name"
+                                 value={gridNamePreview}
+                                 disabled>
+                </lightning-input>
+
+                <!-- Agreement selector (disabled when coming from recId) -->
+                <div class={agreementSectionClass}>
+                    <template if:true={finalOptionsList}>
+                        <c-multi-select-search-list label={labels.Grid_Agreements}
+                                                    options={finalOptionsList}
+                                                    value={selectedValues}
+                                                    onchange={handleAgreementsChange}
+                                                    mono-select={isMonoSelect}
+                                                    disabled={isAgreementDisabled}>
+                        </c-multi-select-search-list>
+                    </template>
+                    <template if:true={pills}>
+                        <lightning-pill-container items={pills}
+                                                  onitemremove={handlePillRemove}
+                                                  variant="bare">
+                        </lightning-pill-container>
+                    </template>
+                </div>
+
+                <!-- AG2: Kind -->
+                <lightning-combobox label="Kind"
+                                    value={agKind}
+                                    options={kindOptions}
+                                    onchange={handleAgKind}
+                                    required
+                                    disabled={hasExistingGrid}
+                                    placeholder="-- Select --">
+                </lightning-combobox>
+
+                <!-- AG3: Type -->
+                <lightning-combobox label="Type"
+                                    value={agType}
+                                    options={typeOptions}
+                                    onchange={handleAgType}
+                                    required
+                                    placeholder="-- Select --">
+                </lightning-combobox>
+
+                <!-- AG4: Automatic Grid Update toggle -->
+                <div class="toggle-grid-update">
+                    <div class="toggle-header">
+                        <span class="toggle-label">{labels.Grid_AutoIncludeLabel}</span>
+                        <lightning-helptext
+                            content={labels.Grid_AutoIncludeHelpText}>
+                        </lightning-helptext>
+                    </div>
+                    <div class="toggle-row">
+                        <lightning-input type="toggle"
+                                        variant="label-hidden"
+                                        checked={isAutoGridUpdate}
+                                        disabled={isAutoUpdateDisabled}
+                                        onchange={handleAutoUpdateToggle}
+                                        message-toggle-active=""
+                                        message-toggle-inactive="">
+                        </lightning-input>
+                        <span class="message-toggle-label">
+                            {toggleLabel}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Warning: previous grid exists -->
+                <template if:true={hasExistingGrid}>
+                    <div class="info-banner">
+                        <lightning-icon icon-name="utility:info" size="x-small"></lightning-icon>
+                        <span>A previous grid exists for this agreement. It will be automatically given an end date of the day before the selected start date.</span>
+                    </div>
+                </template>
+
+                <!-- AG5 + AG6: Start Date and End Date side by side -->
+                <div class="date-row">
+                    <div class="date-field">
+                        <lightning-input type="date"
+                                         label={labels.Grid_StartDate}
+                                         value={agStartDate}
+                                         onchange={handleAgStartDate}>
+                        </lightning-input>
+                        <template if:true={isStartDateConflict}>
+                            <div class="error-banner">
+                                <lightning-icon icon-name="utility:error" size="x-small" variant="error"></lightning-icon>
+                                <span>The start date conflicts with the existing grid (end date: {existingGridEndDate}). Please select a later start date.</span>
+                            </div>
+                        </template>
+                    </div>
+                    <lightning-input type="date"
+                                     label="End Date"
+                                     value={agEndDate}
+                                     onchange={handleAgEndDate}>
+                    </lightning-input>
+                </div>
+            </div>
+
+            <!-- ── RIGHT COLUMN ── -->
+            <div class="form-col-right">
+
+                <!-- AG7: Threshold Amount -->
+                <lightning-input type="number"
+                                 label="Threshold Amount"
+                                 value={agThreshold}
+                                 onchange={handleAgThreshold}
+                                 min="0">
+                </lightning-input>
+
+                <!-- AG8: Threshold Amount Currency -->
+                <lightning-combobox label="Threshold Amount Currency"
+                                    value={agThreshCcy}
+                                    options={ccyOptions}
+                                    onchange={handleAgThreshCcy}
+                                    disabled={isThreshCcyDisabled}
+                                    required={isThreshAboveZero}
+                                    placeholder="-- Select --">
+                </lightning-combobox>
+
+                <!-- AG9: Minimum Amount -->
+                <lightning-input type="number"
+                                 label="Minimum Amount"
+                                 value={agMin}
+                                 onchange={handleAgMin}
+                                 min="0">
+                </lightning-input>
+
+                <!-- AG10: Minimum Amount Currency -->
+                <lightning-combobox label="Minimum Amount Currency"
+                                    value={agMinCcy}
+                                    options={ccyOptions}
+                                    onchange={handleAgMinCcy}
+                                    disabled={isMinCcyDisabled}
+                                    required={isMinAboveZero}
+                                    placeholder="-- Select --">
+                </lightning-combobox>
+
+                <!-- AG11: Minimum Amount Frequency -->
+                <lightning-combobox label="Minimum Amount Frequency"
+                                    value={agMinFreq}
+                                    options={freqOptions}
+                                    onchange={handleAgMinFreq}
+                                    disabled={isMinFreqDisabled}
+                                    required={isMinAboveZero}
+                                    placeholder="-- Select --">
                 </lightning-combobox>
             </div>
-        </template>
-        <div>
-            <template if:true={finalOptionsList}>
-                <c-multi-select-search-list label={labels.Grid_Agreements}
-                                            options={finalOptionsList}
-                                            value={selectedValues}
-                                            onchange={handleAgreementsChange}
-                                            mono-select={isMonoSelect}>
-                </c-multi-select-search-list>
-            </template>
-            <template if:true={pills}>
-                <lightning-pill-container items={pills}
-                                          onitemremove={handlePillRemove}
-                                          variant="bare">
-                </lightning-pill-container>
-            </template>
         </div>
-        <div>
-            <lightning-input type="date"
-                             label={labels.Grid_StartDate}
-                             value={startDate}
-                             onchange={handleDateChange}>
-            </lightning-input>
-        </div>
-        <div>
+
+        <!-- Footer -->
+        <div class="form-footer">
             <lightning-button label={labels.UI_Next} variant="brand" onclick={handleNext} disabled={isNextDisabled}></lightning-button>
         </div>
     </div>

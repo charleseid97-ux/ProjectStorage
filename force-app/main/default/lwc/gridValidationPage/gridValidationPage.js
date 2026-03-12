@@ -10,8 +10,7 @@ export default class GridValidationPage extends LightningElement {
     @api selectedShareClasses = [];
     @api selectedAgreements = [];
     @api criteriaList = [];
-    @api isAutoGridUpdate = false;
-    @api agreementStartDate;
+    @api gridRequestData = {};
     @api agreementNames;
 
     @track validationProducts = [];
@@ -87,19 +86,21 @@ export default class GridValidationPage extends LightningElement {
         }
     }
 
-    buildGridName() {
-        const names = this.agreementNames || 'Unknown';
-        const mode = this.isAutoGridUpdate ? 'Auto' : 'Manual';
-        const dateStr = this.agreementStartDate || new Date().toISOString().split('T')[0];
-        return `Custom - ${names} - ${mode} - ${dateStr}`;
-    }
-
     buildSaveRequest() {
         const grid = {
-            Name: this.buildGridName(),
-            Team__c: this.selectedTeam,
-            ActiveGrid__c: true,
-            AutomaticGridUpdate__c: this.isAutoGridUpdate
+            Name:                        (this.gridRequestData.gridName || '').slice(0, 80),
+            Team__c:                     this.selectedTeam,
+            ActiveGrid__c:               true,
+            AutomaticGridUpdate__c:      this.gridRequestData.isAutoGridUpdate,
+            Kind__c:                     this.gridRequestData.kind                    || null,
+            Type__c:                     this.gridRequestData.gridType                || null,
+            StartDate__c:                this.gridRequestData.startDate               || null,
+            EndDate__c:                  this.gridRequestData.endDate                 || null,
+            ThresholdAmount__c:          this.gridRequestData.thresholdAmount         || null,
+            ThresholdAmountCurrency__c:  this.gridRequestData.thresholdAmountCurrency || null,
+            MinimumAmount__c:            this.gridRequestData.minimumAmount           || null,
+            MinimumAmountCurrency__c:    this.gridRequestData.minimumAmountCurrency   || null,
+            MinimumAmountFrequency__c:   this.gridRequestData.minimumAmountFrequency  || null
         };
 
         // Group share classes by criteriaRefId
@@ -113,7 +114,7 @@ export default class GridValidationPage extends LightningElement {
                         StandardGrid__c: entry?.criteria?.StandardGrid__c,
                         FilterLogic__c: entry?.criteria?.FilterLogic__c || 'AND',
                         FilterLogicExpression__c: entry?.criteria?.FilterLogicExpression__c || null,
-                        StartDate__c: this.agreementStartDate || null
+                        StartDate__c: this.gridRequestData.startDate || null
                     },
                     details: (entry?.criteriaDetails || []).map(d => ({
                         Object__c: d.Object__c,
