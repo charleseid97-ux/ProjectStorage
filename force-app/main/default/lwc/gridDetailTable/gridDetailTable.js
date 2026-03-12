@@ -4,23 +4,23 @@ import getGridDetails from '@salesforce/apex/GridDetailTableController.getGridDe
 import { LABELS } from 'c/gridBuilderUtils';
 
 const COLUMNS = [
-    { label: 'AssetType', fieldName: 'assetType', type: 'text' },
-    { label: 'Strategy', fieldName: 'strategy', type: 'text' },
-    { label: 'LegalStatus', fieldName: 'legalStatus', type: 'text' },
-    { label: 'Code', fieldName: 'internalShortName', type: 'text' },
-    { label: 'Portfolio', fieldName: 'portfolio', type: 'text' },
-    { label: 'Class', fieldName: 'shareClass', type: 'text' },
-    { label: 'Type', fieldName: 'shareType', type: 'text' },
-    { label: 'Currency', fieldName: 'scCurrency', type: 'text' },
-    { label: 'ISIN', fieldName: 'isin', type: 'text' },
-    { label: 'AUM', fieldName: 'aum', type: 'text' },
-    { label: 'EffMgtFeeDate', fieldName: 'effMgtFeeDate', type: 'date' },
-    { label: 'EffMgtFee', fieldName: 'effMgtFee', type: 'text' },
-    { label: 'RebateRate', fieldName: 'rebateRate', type: 'text' },
-    { label: 'NetMargin', fieldName: 'netMargin', type: 'text' },
-    { label: 'Profitability', fieldName: 'profitability', type: 'text' },
-    { label: 'GridRule', fieldName: 'gridRule', type: 'text' },
-    { label: 'RuleValue', fieldName: 'ruleValue', type: 'text' }
+    { key: 'assetType',         label: 'Asset Type',        group: '' },
+    { key: 'strategy',          label: 'Strategy',          group: '' },
+    { key: 'legalStatus',       label: 'Legal Status',      group: '' },
+    { key: 'internalShortName', label: 'Code',              group: '' },
+    { key: 'portfolio',         label: 'Portfolio',         group: 'blue' },
+    { key: 'shareClass',        label: 'Class',             group: 'blue' },
+    { key: 'shareType',         label: 'Type',              group: '' },
+    { key: 'scCurrency',        label: 'Currency',          group: '' },
+    { key: 'isin',              label: 'ISIN',              group: 'blue' },
+    { key: 'aum',               label: 'AUM',               group: 'blue' },
+    { key: 'effMgtFeeDate',     label: 'Eff. Mgt Fee Date', group: '' },
+    { key: 'effMgtFee',         label: 'Eff. Mgt Fee',      group: 'blue' },
+    { key: 'rebateRate',        label: 'Rebate Rate',       group: 'blue' },
+    { key: 'netMargin',         label: 'Net Margin',        group: 'orange' },
+    { key: 'profitability',     label: 'Profitability',     group: 'orange' },
+    { key: 'gridRule',          label: 'Grid Rule',         group: 'orange' },
+    { key: 'ruleValue',         label: 'Rule Value',        group: 'orange' }
 ];
 
 const SORTED_BY_LABEL = 'Eff Mgt Fee Date';
@@ -29,7 +29,6 @@ export default class GridDetailTable extends LightningElement {
     @api iconName = 'custom:custom63';
 
     labels = LABELS;
-    columns = COLUMNS;
     rows = [];
     errors = [];
     isLoading = false;
@@ -64,6 +63,25 @@ export default class GridDetailTable extends LightningElement {
 
     get sortedByLabel() {
         return SORTED_BY_LABEL;
+    }
+
+    get headerCells() {
+        return COLUMNS.map(col => ({
+            key: col.key,
+            label: col.label,
+            headerClass: col.group ? `th-${col.group}` : 'th-default'
+        }));
+    }
+
+    get processedRows() {
+        return (this.rows || []).map(row => ({
+            rowKey: row.id,
+            cells: COLUMNS.map(col => ({
+                key: `${row.id}-${col.key}`,
+                value: row[col.key] ?? '',
+                cellClass: col.group ? `td-${col.group}` : ''
+            }))
+        }));
     }
 
     async loadRows() {

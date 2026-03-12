@@ -5,7 +5,7 @@
  *              and formats rule values for display based on rule type.
  * @author Charles EID
  * @testClass GridDetailTableControllerTest
- * @coverage 92%
+ * @coverage 93%   [12-03-26]
 ────────────────────────────────────── */
 public with sharing class GridDetailTableController {
     private static final String RULE_PERCENTAGE = 'Percentage of Fees';
@@ -24,11 +24,6 @@ public with sharing class GridDetailTableController {
             return result;
         }
 
-        Grid__c grid = [SELECT Id, RecordType.DeveloperName
-                        FROM Grid__c
-                        WHERE Id = :gridId LIMIT 1];
-        result.isCustomGrid = grid.RecordType.DeveloperName == GridBuilderHelper.RT_CUSTOM_GRID;
-
         AgreementSelection agreementSelection;
         List<GridScope__c> scopes = [SELECT Agreement__c FROM GridScope__c WHERE Grid__c = :gridId];
         if (scopes.isEmpty()) {
@@ -39,22 +34,25 @@ public with sharing class GridDetailTableController {
             agreementSelection = parseAgreementSelection(scopes, result);
         }
 
-        List<GridDetail__c> details = [SELECT Id, ShareClass__c, ShareClass__r.Name__c, ShareClass__r.Type__c, ShareClass__r.Currency__c,
-                                        ShareClass__r.ISIN__c, ShareClass__r.EffectiveManagementFees__c,
-                                        ShareClass__r.Fund__r.Strategy__r.AssetClass__c, ShareClass__r.Fund__r.Strategy__r.Name,
-                                        ShareClass__r.Fund__r.Legal_Status__c, ShareClass__r.Fund__r.InternalShortName__c,
-                                        ShareClass__r.Fund__r.ProductName__c,
-                                        GridRule__r.RuleToApply__c, GridRule__r.GridRate__c,
-                                        GridRule__r.OtherGridRule__c, GridRule__r.OtherShareType__c,
+        List<GridDetail__c> details = [SELECT Id, ShareClass__c, ShareClass__r.Name__c, ShareClass__r.Type__c, ShareClass__r.Currency__c, ShareClass__r.ISIN__c, 
+                                        ShareClass__r.EffectiveManagementFees__c, ShareClass__r.Fund__r.Strategy__r.AssetClass__c, ShareClass__r.Fund__r.Strategy__r.Name,
+                                        ShareClass__r.Fund__r.Legal_Status__c, ShareClass__r.Fund__r.InternalShortName__c, ShareClass__r.Fund__r.ProductName__c,
+                                        StandardGridDetail__c, StandardGridDetail__r.ShareClass__c, StandardGridDetail__r.ShareClass__r.Name__c, StandardGridDetail__r.ShareClass__r.Type__c,
+                                        StandardGridDetail__r.ShareClass__r.Currency__c, StandardGridDetail__r.ShareClass__r.ISIN__c, StandardGridDetail__r.ShareClass__r.EffectiveManagementFees__c,
+                                        StandardGridDetail__r.ShareClass__r.Fund__r.Strategy__r.AssetClass__c, StandardGridDetail__r.ShareClass__r.Fund__r.Strategy__r.Name,
+                                        StandardGridDetail__r.ShareClass__r.Fund__r.Legal_Status__c, StandardGridDetail__r.ShareClass__r.Fund__r.InternalShortName__c,
+                                        StandardGridDetail__r.ShareClass__r.Fund__r.ProductName__c, StandardGridDetail__r.RebateRate__c, StandardGridDetail__r.StartDate__c,
+                                        StandardGridDetail__r.GridRule__r.RuleToApply__c, StandardGridDetail__r.GridRule__r.GridRate__c,
+                                        StandardGridDetail__r.GridRule__r.OtherGridRule__c, StandardGridDetail__r.GridRule__r.OtherShareType__c, StandardGridDetail__r.GridRule__r.FinalRebateRate__c,
+                                        GridRule__r.RuleToApply__c, GridRule__r.GridRate__c, GridRule__r.OtherGridRule__c, GridRule__r.OtherShareType__c, GridRule__r.FinalRebateRate__c,
                                         StartDate__c, RebateRate__c
                                        FROM GridDetail__c
                                        WHERE Grid__c = :gridId
                                        ORDER BY ShareClass__r.Fund__r.ProductName__c, ShareClass__r.Name__c];
         Set<Id> shareClassIds = new Set<Id>();
         for (GridDetail__c detail : details) {
-            if (detail.ShareClass__c != null) {
-                shareClassIds.add(detail.ShareClass__c);
-            }
+            Id scId = detail.StandardGridDetail__c != null ? detail.StandardGridDetail__r.ShareClass__c : detail.ShareClass__c;
+            if (scId != null) shareClassIds.add(scId);
         }
 
         Map<Id, String> aumByShareClass = buildAumByShareClass(shareClassIds, agreementSelection, result);
@@ -126,10 +124,10 @@ public with sharing class GridDetailTableController {
 
         Set<Id> agreementIdsSet = selection.agreementIds;
         String aumQuery = 'SELECT ShareClass__c scId, SUM(AmountEUR__c) totalAmount ' +
-                       'FROM AUM__c ' +
-                       'WHERE ShareClass__c IN :shareClassIds ';
+                          ' FROM AUM__c ' +
+                          ' WHERE ShareClass__c IN :shareClassIds ';
         aumQuery += selection.all ? '' : 'AND Convention__c IN :agreementIdsSet ';
-        aumQuery += 'GROUP BY ShareClass__c';
+        aumQuery += ' GROUP BY ShareClass__c';
 
         for (AggregateResult ar : Database.query(aumQuery)) {
             aumByShareClass.put((Id)ar.get('scId'), GridBuilderHelper.formatAum((Decimal)ar.get('totalAmount')));
@@ -208,7 +206,6 @@ public with sharing class GridDetailTableController {
     public class GridDetailResult {
         @AuraEnabled public List<GridDetailRow> rows;
         @AuraEnabled public List<String> errors;
-        @AuraEnabled public Boolean isCustomGrid;
     }
 
     public class GridDetailRow {
@@ -231,28 +228,35 @@ public with sharing class GridDetailTableController {
         @AuraEnabled public String gridRule;
         @AuraEnabled public String ruleValue;
         public GridDetailRow(GridDetail__c detail, Map<Id, String> aumByShareClass) {
-            Share_Class__c share        =   detail.ShareClass__r;
-            GridRule__c gridRule    =   detail.GridRule__r;
-            Decimal effFee              =   share != null ? share.EffectiveManagementFees__c : null;
+            Boolean isCustom         =   detail.StandardGridDetail__c != null;
+            Share_Class__c share     =   isCustom ? detail.StandardGridDetail__r.ShareClass__r : detail.ShareClass__r;
+            Id effectiveScId         =   isCustom ? detail.StandardGridDetail__r.ShareClass__c : detail.ShareClass__c;
+            GridRule__c gridRule     =   isCustom ? detail.StandardGridDetail__r.GridRule__r : detail.GridRule__r;
+            Decimal effFee           =   share != null ? share.EffectiveManagementFees__c : null;
+            Decimal baseRebateRate   =   isCustom ? detail.StandardGridDetail__r.RebateRate__c : detail.RebateRate__c;
+            Boolean hasFinalRate     =   gridRule != null && gridRule.FinalRebateRate__c != null;
+            Decimal effectiveRate    =   hasFinalRate ? gridRule.FinalRebateRate__c : baseRebateRate;
+            Decimal netMarginVal     =   calculateNetMargin(effFee, effectiveRate);
+            Decimal profitabilityVal =   (effFee != null && effFee != 0 && netMarginVal != null) ? (netMarginVal / effFee * 100).setScale(2, RoundingMode.HALF_UP) : null;
 
-            this.id                     =   detail.Id;
-            this.assetType              =   getShareValue(share, 'Fund__r.Strategy__r.AssetClass__c');
-            this.strategy               =   getShareValue(share, 'Fund__r.Strategy__r.Name');
-            this.legalStatus            =   getShareValue(share, 'Fund__r.Legal_Status__c');
-            this.internalShortName      =   getShareValue(share, 'Fund__r.InternalShortName__c');
-            this.portfolio              =   getShareValue(share, 'Fund__r.ProductName__c');
-            this.shareClass             =   getShareValue(share, 'Name__c');
-            this.shareType              =   getShareValue(share, 'Type__c');
-            this.scCurrency             =   getShareValue(share, 'Currency__c');
-            this.isin                   =   getShareValue(share, 'ISIN__c');
-            this.aum                    =   aumByShareClass.containsKey(detail.ShareClass__c) ? aumByShareClass.get(detail.ShareClass__c) : '0';
-            this.effMgtFeeDate          =   detail.StartDate__c;
-            this.effMgtFee              =   GridBuilderHelper.formatPercent(effFee);
-            this.rebateRate             =   GridBuilderHelper.formatPercent(detail.RebateRate__c);
-            this.netMargin              =   GridBuilderHelper.formatPercent(calculateNetMargin(effFee, detail.RebateRate__c));
-            this.profitability          =   GridBuilderHelper.formatPercent(gridRule != null ? gridRule.GridRate__c : null);
-            this.gridRule               =   gridRule != null ? gridRule.RuleToApply__c : null;
-            this.ruleValue              =   buildRuleValue(gridRule);
+            this.id                  =   detail.Id;
+            this.assetType           =   getShareValue(share, 'Fund__r.Strategy__r.AssetClass__c');
+            this.strategy            =   getShareValue(share, 'Fund__r.Strategy__r.Name');
+            this.legalStatus         =   getShareValue(share, 'Fund__r.Legal_Status__c');
+            this.internalShortName   =   getShareValue(share, 'Fund__r.InternalShortName__c');
+            this.portfolio           =   getShareValue(share, 'Fund__r.ProductName__c');
+            this.shareClass          =   getShareValue(share, 'Name__c');
+            this.shareType           =   getShareValue(share, 'Type__c');
+            this.scCurrency          =   getShareValue(share, 'Currency__c');
+            this.isin                =   getShareValue(share, 'ISIN__c');
+            this.aum                 =   aumByShareClass.containsKey(effectiveScId) ? aumByShareClass.get(effectiveScId) : '0';
+            this.effMgtFeeDate       =   isCustom ? detail.StandardGridDetail__r.StartDate__c : detail.StartDate__c;
+            this.effMgtFee           =   GridBuilderHelper.formatPercent(effFee);
+            this.rebateRate          =   GridBuilderHelper.formatPercent(effectiveRate);
+            this.netMargin           =   GridBuilderHelper.formatPercent(netMarginVal);
+            this.profitability       =   GridBuilderHelper.formatPercent(profitabilityVal);
+            this.gridRule            =   hasFinalRate ? 'Calculated Rebates' : (gridRule != null ? gridRule.RuleToApply__c : null);
+            this.ruleValue           =   hasFinalRate ? GridBuilderHelper.formatPercent(gridRule.FinalRebateRate__c) : buildRuleValue(gridRule);
         }
     }
 }

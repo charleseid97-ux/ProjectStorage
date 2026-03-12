@@ -45,8 +45,24 @@
                 </template>
                 <template if:true={hasRows}>
                     <div class="slds-scrollable_x">
-                        <lightning-datatable key-field="id" data={rows} columns={columns} hide-checkbox-column>
-                        </lightning-datatable>
+                        <table class="grid-table">
+                            <thead>
+                                <tr>
+                                    <template for:each={headerCells} for:item="col">
+                                        <th key={col.key} class={col.headerClass}>{col.label}</th>
+                                    </template>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={processedRows} for:item="row">
+                                    <tr key={row.rowKey}>
+                                        <template for:each={row.cells} for:item="cell">
+                                            <td key={cell.key} class={cell.cellClass}>{cell.value}</td>
+                                        </template>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
                     </div>
                 </template>
                 <template if:false={hasRows}>
