@@ -575,11 +575,11 @@ public with sharing class customEventSpeakerApprovalService {
 
             System.debug(LoggingLevel.INFO,
                 'ESA: updateEventStatusIfAllApproved newStatus=' + newStatus +
-                ', event=' + evtId +
-                ', total=' + total +
-                ', approved=' + approved +
-                ', rejected=' + rejected +
-                ', recalled=' + recalled
+                ', event =' + evtId +
+                ', total =' + total +
+                ', approvedd=' + approved +
+                ', rejectedd=' + rejected +
+                ', recalledd=' + recalled
             );
 
             if (newStatus != null) {
@@ -642,7 +642,7 @@ public with sharing class customEventSpeakerApprovalService {
     }
 
     private static String shouldMarkFullyApproved(Integer total, Integer approved, Integer rejected) {
-        System.debug(LoggingLevel.INFO, 'ESA: shouldMarkFullyApproved total=' + total + ', approved=' + approved + ', rejected=' + rejected);
+        System.debug(LoggingLevel.INFO, 'ESA: shouldMarkFullyApproved total=' + total + ', approved   =' + approved + ', rejected   =' + rejected);
         if (total == null || total <= 0) {
             return null;
         }
