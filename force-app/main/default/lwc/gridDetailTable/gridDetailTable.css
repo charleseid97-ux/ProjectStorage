@@ -4,10 +4,9 @@
 }
 
 .cardContainer {
-    border: solid;
-    border-width: 1px;
-    border-radius: 5px;
-    border-color: lightgray;
+    border: solid !important;
+    border-width: 1px !important;
+    border-color: lightgray !important;
 }
 
 .relatedIcon {
@@ -33,10 +32,49 @@
     z-index: 20;
 }
 
+.slds-card__body {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
 .headerClass {
+    margin-bottom: 0 !important;
+    padding: 16px !important;
+    background-color: rgb(243, 243, 243);
     border-bottom: solid;
     border-width: 1px;
-    border-radius: 5px;
-    border-color: lightgray;
-    padding: 16px 16px 12px 16px;
+    border-color: rgb(201, 201, 201);
+    border-radius: var(--lwc-borderRadiusMedium, 0.25rem);
 }
+
+/* ── Table base ── */
+.grid-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+    font-size: 11px;
+}
+.grid-table th,
+.grid-table td {
+    white-space: nowrap;
+    padding: 0.375rem 0.75rem;
+    border: 1px solid #e0e0e0;
+    text-align: left;
+}
+
+/* ── Default header ── */
+.th-default { background: #F3F2F2; font-weight: 700; }
+
+/* ── Zebra rows (default columns) ── */
+.grid-table tbody tr:nth-child(odd)  td { background: #ffffff; }
+.grid-table tbody tr:nth-child(even) td { background: #f8f8f8; }
+
+/* ── Blue column group ── */
+.th-blue { background: #1565C0; color: #ffffff; font-weight: 700; }
+.grid-table tbody tr:nth-child(odd)  .td-blue { background: rgb(225 245 255 / 75%); }
+.grid-table tbody tr:nth-child(even) .td-blue { background: rgb(185 225 255 / 70%); }
+
+/* ── Orange column group ── */
+.th-orange { background: #E65100; color: #ffffff; font-weight: 700; }
+.grid-table tbody tr:nth-child(odd)  .td-orange { background: rgb(255 245 225 / 75%); }
+.grid-table tbody tr:nth-child(even) .td-orange { background: rgb(255 225 185/ 70%); }
