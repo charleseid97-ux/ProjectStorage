@@ -8,11 +8,11 @@ public with sharing class sessionSpeakerProductRepeaterCTRL {
             value = v; 
         }
     }
+
     @AuraEnabled(cacheable=true)
     public static String getDefaultSpeakerForEvent(String parentEventId) {
         if (String.isBlank(parentEventId)) return null;
 
-        // ✅ Hypothèse : relation via Session__c
         List<sessionSpeakerProduct__c> recs = [
             SELECT Id, speakerContact__c, CreatedDate
             FROM sessionSpeakerProduct__c
@@ -45,15 +45,13 @@ public with sharing class sessionSpeakerProductRepeaterCTRL {
     @AuraEnabled(cacheable=true)
     public static List<PickOpt> getProducts() {
         List<PickOpt> out = new List<PickOpt>();
-        Id StrategyRT = Schema.SObjectType.Product__c.getRecordTypeInfosByName().get('Strategy').getRecordTypeId();
-        for (Product__c p : [
-            SELECT Id, Product_Name__c
-            FROM Product__c
-            WHERE recordTypeId =:StrategyRT
-            ORDER BY Product_Name__c
+
+        for (Strategy__c p : [
+            SELECT Id, Name
+            FROM Strategy__c
+            ORDER BY Name
         ]) {
-            // label = Product_Name__c, value = Id
-            out.add(new PickOpt(p.Product_Name__c, p.Id));
+            out.add(new PickOpt(p.Name, p.Id));
         }
 
         return out;

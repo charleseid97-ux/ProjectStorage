@@ -22,7 +22,7 @@ public with sharing class SessionSpeakerProduct_InsertFromJson {
     )
     public static List<ResultWrapper> execute(List<InputWrapper> inputs) {
         List<ResultWrapper> results = new List<ResultWrapper>();
-
+        system.debug(LoggingLevel.INFO, 'Received ' + ((inputs == null) ? 0 : inputs.size()) + ' inputs for SessionSpeakerProduct_InsertFromJson');
         if (!Schema.sObjectType.sessionSpeakerProduct__c.isCreateable()) {
             return buildNoAccessResults(inputs);
         }
@@ -119,14 +119,14 @@ public with sharing class SessionSpeakerProduct_InsertFromJson {
         rec.Session__c = sessionId;
 
         rec.speakerContact__c = pickId(m, 'speakerContact__c', 'Speaker__c');
-        rec.Product__c = asId(m.get('Product__c'));
+        rec.strategy__c = asId(m.get('strategy__c'));
         rec.Language__c = asString(m.get('Language__c'));
 
         return rec;
     }
 
     private static Boolean isEmptyLine(sessionSpeakerProduct__c rec) {
-        return rec.speakerContact__c == null && rec.Product__c == null;
+        return rec.speakerContact__c == null && rec.strategy__c == null;
     }
 
     private static List<SObject> stripCreatable(List<sessionSpeakerProduct__c> records) {

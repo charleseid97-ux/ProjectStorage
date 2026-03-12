@@ -141,7 +141,7 @@ public without sharing class VFC18_EventAgenda {
         // Resolve speaker names (best effort)
         Map<Id, String> speakerNameById = loadSpeakerNames(prep.speakerIds);
 
-        // Resolve Product__c names (best effort)
+        // Resolve strategy__c names (best effort)
         Map<Id, String> productNameById = loadProductNames(prep.productIds);
 
         // Build speakersByEvent
@@ -331,7 +331,7 @@ public without sharing class VFC18_EventAgenda {
     private List<SessionSpeakerProduct__c> querySpeakerProductLinks(Set<Id> childIds) {
         try {
             return [
-                SELECT Session__c, SpeakerContact__c, Product__c
+                SELECT Session__c, SpeakerContact__c, strategy__c
                 FROM SessionSpeakerProduct__c
                 WHERE Session__c IN :childIds
                 WITH SECURITY_ENFORCED
@@ -370,9 +370,9 @@ public without sharing class VFC18_EventAgenda {
 
             if (spId != null) prep.speakerIds.add(spId);
 
-            if (l.Product__c != null) {
-                bySpeaker.get(spId).add(l.Product__c);
-                prep.productIds.add(l.Product__c);
+            if (l.strategy__c != null) {
+                bySpeaker.get(spId).add(l.strategy__c);
+                prep.productIds.add(l.strategy__c);
             }
         }
 
@@ -394,20 +394,20 @@ public without sharing class VFC18_EventAgenda {
         return speakerNameById;
     }
 
-    // Resolve Product__c names (best effort)
+    // Resolve strategy__c names (best effort)
     private Map<Id, String> loadProductNames(Set<Id> productIds) {
         Map<Id, String> productNameById = new Map<Id, String>();
         if (!productIds.isEmpty()) {
             try {
-                for (Product__c p : [
+                for (strategy__c p : [
                     SELECT Id, Name
-                    FROM Product__c
+                    FROM strategy__c
                     WHERE Id IN :productIds WITH SECURITY_ENFORCED
                 ]) {
                     productNameById.put(p.Id, p.Name);
                 }
             } catch (Exception e) {
-                System.debug(LoggingLevel.WARN, 'Cannot read Product__c: ' + e.getMessage());
+                System.debug(LoggingLevel.WARN, 'Cannot read strategy__c: ' + e.getMessage());
             }
         }
         return productNameById;

@@ -31,7 +31,7 @@ public with sharing class customEventSpeakerApprovalService {
         List<SessionSpeakerProduct__c> ssp = [
             SELECT Session__c, SpeakerContact__c,
                 SpeakerContact__r.Name, SpeakerContact__r.Account.Name,
-                Language__c, PresentationStatus__c, Product__c
+                Language__c, PresentationStatus__c, strategy__c
             FROM SessionSpeakerProduct__c
             WHERE Session__c IN :eventIds
             AND SpeakerContact__c != null
@@ -228,7 +228,7 @@ public with sharing class customEventSpeakerApprovalService {
     // Load all speaker-product lines linked to the events
     private static List<SessionSpeakerProduct__c> querySpeakerProductLines(Set<Id> eventIdsToProcess) {
         return [
-            SELECT Session__c, SpeakerContact__c, Product__r.Name
+            SELECT Session__c, SpeakerContact__c, strategy__r.Name
             FROM SessionSpeakerProduct__c
             WHERE Session__c IN :eventIdsToProcess
             AND SpeakerContact__c != null
@@ -266,8 +266,8 @@ public with sharing class customEventSpeakerApprovalService {
             if (!productsByKey.containsKey(key)) {
                 productsByKey.put(key, new Set<String>());
             }
-            if (l.Product__r != null && String.isNotBlank(l.Product__r.Name)) {
-                productsByKey.get(key).add(l.Product__r.Name);
+            if (l.strategy__r != null && String.isNotBlank(l.strategy__r.Name)) {
+                productsByKey.get(key).add(l.strategy__r.Name);
             }
         }
 

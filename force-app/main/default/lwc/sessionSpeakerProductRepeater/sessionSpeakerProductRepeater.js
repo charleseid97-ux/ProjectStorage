@@ -256,7 +256,7 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
         const speakerId = r && r.speakerContact__c ? r.speakerContact__c : null;
         if (!speakerId) return null;
 
-        const productId = r && r.Product__c ? r.Product__c : null;
+        const productId = r && r.strategy__c ? r.strategy__c : null;
         const lang = r && r.Language__c ? r.Language__c : null;
 
         return {
@@ -457,7 +457,7 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
         if (!speakers.length && !products.length) {
             return [];
         }
-
+        console.debug('===[SSPRepeater] _entryToRecords speakers=', speakers, 'products=', products, 'lang=', lang);    
         return this._pairSelections(speakers, products).map(({ sid, pid }) => this._makeRecord(sid, pid, lang));
     }
 
@@ -467,6 +467,7 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
     }
 
     _pairSelections(speakers, products) {
+        console.debug('===[SSPRepeater] _pairSelections speakers=', speakers, 'products=', products);
         const hasSpeakers = speakers.length > 0;
         const hasProducts = products.length > 0;
 
@@ -484,7 +485,7 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
         return {
             attributes: { type: 'sessionSpeakerProduct__c' },
             speakerContact__c: contactId,
-            Product__c: productId,
+            strategy__c: productId,
             Language__c: lang,
             Session__c: null
         };

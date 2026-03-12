@@ -70,7 +70,7 @@ public with sharing class customEventNotificationService {
         String accName = (s.speakerContact__r != null && s.speakerContact__r.Account != null) ? s.speakerContact__r.Account.Name : '';
         String lang = safe(s.Language__c);
         String pres = safe(s.presentationStatus__c);
-        String prod = (s.Product__c != null) ? 'Yes' : '—';
+        String prod = (s.strategy__c != null) ? 'Yes' : '—';
 
         return '<tr>'
              + TD_DEFAULT + safe(speakerName) + '</td>'

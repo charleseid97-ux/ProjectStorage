@@ -152,7 +152,7 @@ public with sharing class EventRecapController {
         }
 
         List<SessionSpeakerProduct__c> links = [
-            SELECT Session__c, SpeakerContact__r.Name, Product__r.Name
+            SELECT Session__c, SpeakerContact__r.Name, strategy__r.Name
             FROM SessionSpeakerProduct__c
             WHERE Session__c IN :eventIds
         ];
@@ -210,7 +210,7 @@ public with sharing class EventRecapController {
      * Safely extracts the product name from the link and normalizes blanks.
      */
     private static String extractProductName(SessionSpeakerProduct__c link) {
-        String productName = (link.Product__r == null) ? null : link.Product__r.Name;
+        String productName = (link.strategy__r == null) ? null : link.strategy__r.Name;
         if (String.isBlank(productName)) {
             productName = '(No product)';
         }

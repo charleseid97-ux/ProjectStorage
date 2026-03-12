@@ -84,7 +84,7 @@ export default class SpeakerProductsBySession extends LightningElement {
             const json = await getRepeaterInputByEvent({ eventId: this.effectiveEventId });
             this.initialJson = json || '[]';
             this.draftJson = this.initialJson;
-
+            console.debug('[speakerProductsBySession] openEdit initialJson', this.initialJson);
             // eslint-disable-next-line no-console
             console.debug('[speakerProductsBySession] openEdit initialJson length', this.initialJson.length);
 

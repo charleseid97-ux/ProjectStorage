@@ -38,7 +38,7 @@ public with sharing class sessionSpeakerProductService {
         RecalcData d = new RecalcData();
 
         List<SessionSpeakerProduct__c> lines = [
-            SELECT Session__c, SpeakerContact__c, Product__r.Name
+            SELECT Session__c, SpeakerContact__c, strategy__r.Name
             FROM SessionSpeakerProduct__c
             WHERE Session__c = :eventId
             AND SpeakerContact__c != null
@@ -55,8 +55,8 @@ public with sharing class sessionSpeakerProductService {
             if (!d.productsByKey.containsKey(key)) {
                 d.productsByKey.put(key, new Set<String>());
             }
-            if (l.Product__r != null && String.isNotBlank(l.Product__r.Name)) {
-                d.productsByKey.get(key).add(l.Product__r.Name);
+            if (l.strategy__r != null && String.isNotBlank(l.strategy__r.Name)) {
+                d.productsByKey.get(key).add(l.strategy__r.Name);
             }
         }
 

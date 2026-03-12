@@ -9,7 +9,7 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
 
     public class ProductItem {
         @AuraEnabled public Id linkId;        // sessionSpeakerProduct__c Id
-        @AuraEnabled public Id productId;     // Product__c
+        @AuraEnabled public Id productId;     // strategy__c
         @AuraEnabled public String productName;
     }
 
@@ -29,11 +29,11 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
             SELECT Id,
                    speakerContact__c,
                    speakerContact__r.Name,
-                   Product__c,
-                   Product__r.Name
+                   strategy__c,
+                   strategy__r.Name
             FROM sessionSpeakerProduct__c
             WHERE Session__c = :eventId
-            ORDER BY speakerContact__r.Name, Product__r.Name
+            ORDER BY speakerContact__r.Name, strategy__r.Name
             LIMIT 5000
         ];
 
@@ -80,13 +80,13 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
     }
 
     private static ProductItem toProductItem(sessionSpeakerProduct__c r) {
-        if (r.Product__c == null) return null;
+        if (r.strategy__c == null) return null;
 
         ProductItem p = new ProductItem();
         p.linkId = r.Id;
-        p.productId = r.Product__c;
-        p.productName = (r.Product__r != null && String.isNotBlank(r.Product__r.Name))
-            ? r.Product__r.Name
+        p.productId = r.strategy__c;
+        p.productName = (r.strategy__r != null && String.isNotBlank(r.strategy__r.Name))
+            ? r.strategy__r.Name
             : '—';
         return p;
     }
@@ -112,10 +112,10 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         if (eventId == null) return '[]';
 
         List<sessionSpeakerProduct__c> rows = [
-            SELECT Id, speakerContact__c, speakerContact__r.Name, Product__c, Product__r.Name, Language__c
+            SELECT Id, speakerContact__c, speakerContact__r.Name, strategy__c, strategy__r.Name, Language__c
             FROM sessionSpeakerProduct__c
             WHERE Session__c = :eventId
-            ORDER BY speakerContact__r.Name, Product__r.Name
+            ORDER BY speakerContact__r.Name, strategy__r.Name
             LIMIT 5000
         ];
 
@@ -135,7 +135,7 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         // Keep Id so the parent can keep it if needed (even if current repeater ignores it)
         o.put('Id', r.Id);
         o.put('speakerContact__c', r.speakerContact__c);
-        o.put('Product__c', r.Product__c);
+        o.put('strategy__c', r.strategy__c);
         o.put('Language__c', r.Language__c);
         o.put('Session__c', eventId);
         return o;
@@ -144,11 +144,11 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
     /**
      * Saves the full set of links for the given Event based on the repeater JSON output.
      * The method compares the new payload to current DB state using a composite key:
-     * speakerContact__c + Product__c + Language__c.
+     * speakerContact__c + strategy__c + Language__c.
      *
      * Payload is expected to be a JSON array of objects containing:
      * - speakerContact__c
-     * - Product__c
+     * - strategy__c
      * - Language__c (optional)
      */
     @AuraEnabled
@@ -162,8 +162,13 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
 
         // Current DB state
         Map<String, sessionSpeakerProduct__c> existingByKey = loadExistingByKey(eventId);
-
+        system.debug(LoggingLevel.INFO, 'Existing records for eventId=' + eventId + ' count=' + existingByKey.size());
         IncomingBuild incoming = buildIncoming(raw);
+        system.debug(LoggingLevel.INFO, 'Parsed incoming records count=' + incoming.incomingKeys.size());
+        system.debug(LoggingLevel.DEBUG, 'Incoming keys=' + incoming.incomingKeys);
+        system.debug(LoggingLevel.DEBUG, 'Existing keys=' + existingByKey.keySet());
+        system.debug(LoggingLevel.DEBUG, 'Existing =' + existingByKey);
+        system.debug(LoggingLevel.DEBUG, 'Incoming =' + incoming.incomingParts);
         List<sessionSpeakerProduct__c> toInsert = buildToInsert(eventId, incoming, existingByKey);
         List<sessionSpeakerProduct__c> toDelete = buildToDelete(incoming.incomingKeys, existingByKey);
 
@@ -188,7 +193,7 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
 
     private static Map<String, sessionSpeakerProduct__c> loadExistingByKey(Id eventId) {
         List<sessionSpeakerProduct__c> existing = [
-            SELECT Id, speakerContact__c, Product__c, Language__c, Session__c
+            SELECT Id, speakerContact__c, strategy__c, Language__c, Session__c
             FROM sessionSpeakerProduct__c
             WHERE Session__c = :eventId
             LIMIT 5000
@@ -196,7 +201,7 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
 
         Map<String, sessionSpeakerProduct__c> existingByKey = new Map<String, sessionSpeakerProduct__c>();
         for (sessionSpeakerProduct__c r : existing) {
-            existingByKey.put(makeKey(r.speakerContact__c, r.Product__c, r.Language__c), r);
+            existingByKey.put(makeKey(r.speakerContact__c, r.strategy__c, r.Language__c), r);
         }
         return existingByKey;
     }
@@ -237,7 +242,7 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         Map<String, Object> m = (Map<String, Object>) o;
 
         Id speakerId = (m.get('speakerContact__c') != null) ? (Id) String.valueOf(m.get('speakerContact__c')) : null;
-        Id productId = (m.get('Product__c') != null) ? (Id) String.valueOf(m.get('Product__c')) : null;
+        Id productId = (m.get('strategy__c') != null) ? (Id) String.valueOf(m.get('strategy__c')) : null;
         String lang = (m.get('Language__c') != null) ? String.valueOf(m.get('Language__c')) : null;
 
         if (speakerId == null ) {
@@ -266,7 +271,7 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
             sessionSpeakerProduct__c rec = new sessionSpeakerProduct__c();
             rec.Session__c = eventId;
             rec.speakerContact__c = parts.speakerId;
-            rec.Product__c = parts.productId;
+            rec.strategy__c = parts.productId;
             rec.Language__c = parts.lang;
             toInsert.add(rec);
         }
