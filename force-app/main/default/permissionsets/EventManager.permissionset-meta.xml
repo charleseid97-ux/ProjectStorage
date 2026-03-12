@@ -1971,11 +1971,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>sessionSpeakerProduct__c.Product__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>sessionSpeakerProduct__c.presentationStatus__c</field>
         <readable>true</readable>
     </fieldPermissions>

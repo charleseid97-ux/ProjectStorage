@@ -406,8 +406,8 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>sessionSpeakerProduct__c.Product__c</field>
-        <readable>true</readable>
+        <field>sessionSpeakerProduct__c.PresentationGroup__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -418,6 +418,11 @@
         <editable>false</editable>
         <field>sessionSpeakerProduct__c.speakerContact__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>sessionSpeakerProduct__c.strategy__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <objectPermissions>
         <allowCreate>false</allowCreate>
