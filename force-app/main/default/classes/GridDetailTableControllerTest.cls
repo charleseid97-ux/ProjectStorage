@@ -8,6 +8,8 @@
 @IsTest
 private with sharing class GridDetailTableControllerTest {
 
+    public static final String PERCENTAGE_OF_FEES = 'Percentage of Fees';
+
     @TestSetup
     static void makeData() {
         GridTestSetupHelper.setupTestData();
@@ -26,7 +28,7 @@ private with sharing class GridDetailTableControllerTest {
         insert detail;
 
         List<GridRule__c> gridRules = new List<GridRule__c>{
-            GridTestSetupHelper.createGridRule(grid.Id, criteria.Id, 'Percentage of Fees', 'EffectiveManagementFees__c', 33, null, null, null),
+            GridTestSetupHelper.createGridRule(grid.Id, criteria.Id, PERCENTAGE_OF_FEES, 'EffectiveManagementFees__c', 33, null, null, null),
             GridTestSetupHelper.createGridRule(grid.Id, criteria.Id, 'Take Rebates Rate - Other Share Type', 'EffectiveManagementFees__c', null, null, 'AW', null),
             GridTestSetupHelper.createGridRule(grid.Id, criteria.Id, 'Take Rebates Rate - Other Share Type + Fees', 'EffectiveManagementFees__c', 15, 'AW', 'A', null),
             GridTestSetupHelper.createGridRule(grid.Id, criteria.Id, 'Take Rebates Rate - Other Grid Rule', 'EffectiveManagementFees__c', null, null, null, 'S5+')
@@ -39,7 +41,7 @@ private with sharing class GridDetailTableControllerTest {
         }
 
         // 5th rule: FinalRebateRate__c set — should override rebateRate, gridRule, ruleValue
-        GridRule__c finalRule = GridTestSetupHelper.createGridRule(grid.Id, criteria.Id, 'Percentage of Fees', 'EffectiveManagementFees__c', 33, null, null, null);
+        GridRule__c finalRule = GridTestSetupHelper.createGridRule(grid.Id, criteria.Id, PERCENTAGE_OF_FEES, 'EffectiveManagementFees__c', 33, null, null, null);
         finalRule.FinalRebateRate__c = 0.75;
         insert finalRule;
         gridDetails.add(GridTestSetupHelper.createGridDetail(grid.Id, finalRule.Id, criteria.Id, shareClass.Id, 0.5, Date.today(), Date.newInstance(2099, 12, 31), GridBuilderHelper.RT_STANDARD_GRID_DETAIL));
@@ -78,7 +80,7 @@ private with sharing class GridDetailTableControllerTest {
         // Create a standard grid rule and detail
         GridCriteria__c criteria = GridTestSetupHelper.createCriteria(stdGrid.Id, 'AND', '1', 'Std Criteria');
         insert criteria;
-        GridRule__c stdRule = GridTestSetupHelper.createGridRule(stdGrid.Id, criteria.Id, 'Percentage of Fees', 'EffectiveManagementFees__c', 50, null, null, null);
+        GridRule__c stdRule = GridTestSetupHelper.createGridRule(stdGrid.Id, criteria.Id, PERCENTAGE_OF_FEES, 'EffectiveManagementFees__c', 50, null, null, null);
         insert stdRule;
         GridDetail__c stdDetail = GridTestSetupHelper.createGridDetail(stdGrid.Id, stdRule.Id, criteria.Id, shareClass.Id, 0.25, Date.today(), Date.newInstance(2099, 12, 31), GridBuilderHelper.RT_STANDARD_GRID_DETAIL);
         insert stdDetail;
