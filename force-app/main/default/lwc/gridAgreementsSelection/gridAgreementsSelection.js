@@ -133,6 +133,7 @@ export default class GridAgreementsSelection extends LightningElement {
         return !(hasAgreements && hasDate && hasTeam && hasMeta && hasThreshCcy && hasMinFields && !this.isStartDateConflict);
     }
 
+    get isKindDisabled()         { return this.hasExistingGrid && !!this._existingGridKind; }
     get isAgreementDisabled()   { return !!this.recId; }
     get agreementSectionClass() { return this.isAgreementDisabled ? 'agreement-section agreement-section--disabled' : 'agreement-section'; }
     get isThreshCcyDisabled()   { return !this.isThreshAboveZero; }
