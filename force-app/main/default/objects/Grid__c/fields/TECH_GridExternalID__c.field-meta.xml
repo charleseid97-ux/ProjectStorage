@@ -6,6 +6,7 @@
     <label>TECHGridExternalID</label>
     <length>100</length>
     <required>false</required>
+    <trackFeedHistory>true</trackFeedHistory>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

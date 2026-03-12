@@ -361,6 +361,7 @@ public with sharing class GridBuilderHelper {
         List<String> whereFragments = new List<String>();
         whereFragments.add('Fund__c != null');
         whereFragments.add('Fund__r.FundStrategy__c != null');
+        whereFragments.add('Status__c != \'Active - Lab\'');
         if(excludeJPY) {
             whereFragments.add('Currency__c != \'JPY\'');
         }
@@ -436,7 +437,7 @@ public with sharing class GridBuilderHelper {
 
     private static String getRegisteredCountriesCondition(String countriesOfDistribution) {
         String countriesInListLiteral = toSoqlInListLiteral(countriesOfDistribution, ';');
-        String condition = String.isNotBlank(countriesInListLiteral) ? 'Id IN (SELECT ShareClass__c FROM Country__c WHERE RegistrationStatus__c = \'REG\' and ShareClass__c != null AND Country__c IN '+countriesInListLiteral+')' : '';
+        String condition = String.isNotBlank(countriesInListLiteral) ? 'Id IN (SELECT ShareClass__c FROM Country__c WHERE (RegistrationStatus__c = \'REG\' OR RegistrationStatus__c = \'INSTITUTIONAL_ONLY\') and ShareClass__c != null AND Country__c IN '+countriesInListLiteral+')' : '';
         return condition;
     }
 

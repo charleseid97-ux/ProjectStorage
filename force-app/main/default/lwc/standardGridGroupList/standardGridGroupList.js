@@ -17,6 +17,37 @@ function formatRate(rate) {
     return `${Number(rate).toFixed(2)}%`;
 }
 
+function buildRuleRow(rule, gi, k) {
+    const inNames    = (rule.inCriteria    || []).flatMap(v => v.split(';')).map(v => v.trim()).filter(v => v);
+    const notInNames = (rule.notInCriteria || []).flatMap(v => v.split(';')).map(v => v.trim()).filter(v => v);
+    return {
+        key: `${gi}-${k}`,
+        boldLabel: inNames.length > 0 ? `${rule.shareType || ''} - ${inNames.join(', ')}` : (rule.shareType || ''),
+        ruleDetail: buildRuleDetail(rule),
+        colorClass: RULE_COLOR_CLASS[rule.ruleToApply] || '',
+        hasNotInCriteria: notInNames.length > 0,
+        notInCriteriaText: notInNames.join(', ')
+    };
+}
+
+function buildHoverRuleGroups(hoverData) {
+    const groupsMap = new Map();
+    (hoverData?.rules || []).forEach(rule => {
+        const lf = (rule.legalForms || []).slice().sort();
+        const key = lf.join(';');
+        if (!groupsMap.has(key)) groupsMap.set(key, { lf, rules: [] });
+        groupsMap.get(key).rules.push(rule);
+    });
+    return Array.from(groupsMap.entries())
+        .sort(([a], [b]) => (b ? -1 : 1) - (a ? -1 : 1))
+        .map(([, grp], gi) => ({
+            key: gi,
+            hasLegalForms: true,
+            legalFormsText: grp.lf.length > 0 ? `Below only applies to ${grp.lf.join(', ')}` : 'Below applies to all legal forms',
+            rules: grp.rules.map((rule, k) => buildRuleRow(rule, gi, k))
+        }));
+}
+
 function buildRuleDetail(rule) {
     switch (rule.ruleToApply) {
         case RULE_POF:  return `${formatRate(rule.gridRate)} of MF`;
@@ -26,7 +57,6 @@ function buildRuleDetail(rule) {
         default:        return rule.ruleToApply || '';
     }
 }
-
 
 export default class StandardGridGroupList extends LightningElement {
     @api groups;
@@ -44,34 +74,7 @@ export default class StandardGridGroupList extends LightningElement {
                     tooltip: Object.entries(p.shareClassRates || {}).map(([name, rate]) => rate != null ? `${name} - Rebate: ${formatRate(rate)}` : name).join('\n')
                 })),
                 hasHoverData: !!hoverData && (hoverData.rules || []).length > 0,
-                hoverRuleGroups: (() => {
-                    const groupsMap = new Map();
-                    (hoverData?.rules || []).forEach(rule => {
-                        const lf = (rule.legalForms || []).slice().sort();
-                        const key = lf.join(';');
-                        if (!groupsMap.has(key)) groupsMap.set(key, { lf, rules: [] });
-                        groupsMap.get(key).rules.push(rule);
-                    });
-                    return Array.from(groupsMap.entries())
-                        .sort(([a], [b]) => (b ? -1 : 1) - (a ? -1 : 1)) // groups with legal forms first
-                        .map(([, grp], gi) => ({
-                            key: gi,
-                            hasLegalForms: true,
-                            legalFormsText: grp.lf.length > 0 ? `Below only applies to ${grp.lf.join(', ')}` : 'Below applies to all legal forms',
-                            rules: grp.rules.map((rule, k) => {
-                                const inNames    = (rule.inCriteria    || []).flatMap(v => v.split(';')).map(v => v.trim()).filter(v => v);
-                                const notInNames = (rule.notInCriteria || []).flatMap(v => v.split(';')).map(v => v.trim()).filter(v => v);
-                                return {
-                                    key: `${gi}-${k}`,
-                                    boldLabel: inNames.length > 0 ? `${rule.shareType || ''} - ${inNames.join(', ')}` : (rule.shareType || ''),
-                                    ruleDetail: buildRuleDetail(rule),
-                                    colorClass: RULE_COLOR_CLASS[rule.ruleToApply] || '',
-                                    hasNotInCriteria: notInNames.length > 0,
-                                    notInCriteriaText: notInNames.join(', ')
-                                };
-                            })
-                        }));
-                })()
+                hoverRuleGroups: buildHoverRuleGroups(hoverData)
             };
         });
     }

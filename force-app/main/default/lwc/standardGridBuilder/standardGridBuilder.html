@@ -13,8 +13,11 @@
                                              available-teams={availableTeams}
                                              primary-team={primaryTeam}
                                              selected-team={selectedTeam}
-                                             start-date={agreementStartDate}
                                              rec-id={recId}
+                                             grid-data={gridRequestData}
+                                             has-existing-grid={hasExistingGrid}
+                                             existing-grid-kind={existingGridKind}
+                                             existing-grid-end-date={existingGridEndDate}
                                              onagreementsnext={handleAgreementsNext}>
                 </c-grid-agreements-selection>
             </template>
@@ -52,31 +55,8 @@
                                         <lightning-button label={labels.Grid_AddToGrid} variant="brand" onclick={handleAddAllToSelection} disabled={addToGridDisabled}></lightning-button>
                                         <lightning-button label={labels.Grid_ResetAll} variant="destructive" onclick={handleResetAllClick}></lightning-button>
                                         <lightning-button label={labels.Grid_ViewRecap} variant="neutral" onclick={handleOpenSelectedPanel}></lightning-button>
-                                        <template if:true={showBackToAgreementSelectionBtn}>
-                                            <lightning-button label={labels.UI_Back} variant="neutral" onclick={handleBackToAgreementSelection}></lightning-button>
-                                        </template>
+                                        <lightning-button label={labels.UI_Back} variant="neutral" onclick={handleBackToAgreementSelection}></lightning-button>
                                         <lightning-button label={labels.UI_Next} variant="brand" onclick={handleGridValidation} disabled={validateGridDisabled}></lightning-button>
-                                    </div>
-                                    <div>
-                                        <div class="toggle-header">
-                                            <span class="toggle-label">{labels.Grid_AutoIncludeLabel}</span>
-                                            <lightning-helptext
-                                                content={labels.Grid_AutoIncludeHelpText}>
-                                            </lightning-helptext>
-                                        </div>
-                                        <div class="toggle-row">
-                                            <lightning-input type="toggle"
-                                                            variant="label-hidden"
-                                                            message-toggle-active=""
-                                                            message-toggle-inactive=""
-                                                            checked={isAutoGridUpdate}
-                                                            disabled={isToggleDisabled}
-                                                            onchange={handleGridUpdateToggle}>
-                                            </lightning-input>
-                                            <span class="message-toggle-label">
-                                                {toggleLabel}
-                                            </span>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -105,8 +85,7 @@
                                             selected-share-classes={selectedShareClasses}
                                             selected-agreements={selectedAgreements}
                                             criteria-list={criteriaList}
-                                            is-auto-grid-update={isAutoGridUpdate}
-                                            agreement-start-date={agreementStartDate}
+                                            grid-request-data={gridRequestData}
                                             agreement-names={selectedAgreementNames}
                                             onselectionchange={handleValidationSelectionChange}
                                             onremoveproduct={handleRemoveProductFromSelection}

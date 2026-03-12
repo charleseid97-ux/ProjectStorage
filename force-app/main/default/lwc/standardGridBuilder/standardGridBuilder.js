@@ -27,10 +27,14 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
     @track selectedTeam;
     @track countriesOfDistribution;
     @track selectedAgreements = [];
-    @track agreementStartDate;
+
+    // Existing grid info (from pre-selected agreement)
+    @track hasExistingGrid = false;
+    @track existingGridKind = null;
+    @track existingGridEndDate = null;
     
     // Second Page: Grid Builder
-    @track isAutoGridUpdate = true;
+    @track gridRequestData = {};
 
     startingLogicType = 'AND';
     filterValueSeparator = ';';
@@ -83,23 +87,8 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
         return this.showGridBuilderPage || this.showValidationPage;
     }
 
-    get showBackToAgreementSelectionBtn() {
-        return !this.recId;
-    }
-
-    get toggleLabel() {
-        return this.isAutoGridUpdate ? this.labels.UI_On : this.labels.UI_Off;
-    }
-
-    get isToggleDisabled() {
-        if (this.isAutoGridUpdate) return false;
-        if (!(this.selectedShareClasses || []).length) return false;
-        const usedGridIds = new Set((this.selectedShareClasses || []).map(sc => sc.gridId));
-        return usedGridIds.size >= 2 || (this.selectedGrid && !usedGridIds.has(this.selectedGrid));
-    }
-
     get computedGridOptions() {
-        if (!this.isAutoGridUpdate || !(this.selectedShareClasses || []).length) {
+        if (this.gridRequestData?.gridType !== 'SINGLE RULE' || !(this.selectedShareClasses || []).length) {
             return this.gridOptions || [];
         }
         const lockedGridId = this.selectedShareClasses[0].gridId;
@@ -126,7 +115,10 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
                 this.availableTeams = (agreementSettings.availableTeams || []).map(t => ({ label: t, value: t }));
                 this.primaryTeam = agreementSettings.primaryTeam;
                 this.selectedTeam = this.primaryTeam || (this.availableTeams.length ? this.availableTeams[0].value : null);
-                this.agreementStartDate = new Date().toISOString().split('T')[0];
+                this.gridRequestData.startDate = new Date().toISOString().split('T')[0];
+                this.hasExistingGrid    = agreementSettings.hasExistingGrid  || false;
+                this.existingGridKind   = agreementSettings.existingGridKind || null;
+                this.existingGridEndDate = agreementSettings.existingGridEndDate || null;
                 this.isLoading = false;
                 this.showAgreementsPage = true;
             }
@@ -275,12 +267,6 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
         }
     }
 
-    handleGridUpdateToggle(event) {
-        this.isAutoGridUpdate = event.target.checked;
-        if (this.isAutoGridUpdate && (this.selectedShareClasses || []).length) {
-            this.selectedGrid = this.selectedShareClasses[0].gridId;
-        }
-    }
 
     handleGridChange(event) {
         this.selectedGrid = event.detail.value;
@@ -564,7 +550,7 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
     resetResults(resetFilter) {
         this.resultColumns = [];
         this.shareClasses = [];
-        if (!this.isAutoGridUpdate || !(this.selectedShareClasses || []).length) {
+        if (this.gridRequestData?.gridType !== 'SINGLE RULE' || !(this.selectedShareClasses || []).length) {
             this.selectedGrid = null;
         }
         const resultsTable = this.template.querySelector('c-results-table');
@@ -669,10 +655,21 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
         let alreadySelectedAgreements = JSON.stringify(this.selectedAgreements);
         let alreadySelectedTeam = this.selectedTeam;
         this.selectedAgreements = event.detail?.agreements || [];
-        this.agreementStartDate = event.detail?.startDate;
         this.selectedTeam = event.detail?.team;
         this.countriesOfDistribution = event.detail?.countriesOfDistribution;
         this.selectedAgreementNames = this.getSelectedAgreementNames();
+        this.gridRequestData = {
+            kind:                    event.detail?.kind,
+            gridType:                event.detail?.gridType,
+            isAutoGridUpdate:        event.detail?.isAutoGridUpdate,
+            startDate:               event.detail?.startDate,
+            endDate:                 event.detail?.endDate,
+            thresholdAmount:         event.detail?.thresholdAmount,
+            thresholdAmountCurrency: event.detail?.thresholdAmountCurrency,
+            minimumAmount:           event.detail?.minimumAmount,
+            minimumAmountCurrency:   event.detail?.minimumAmountCurrency,
+            minimumAmountFrequency:  event.detail?.minimumAmountFrequency
+        };
 
         if((alreadySelectedAgreements != JSON.stringify(this.selectedAgreements)) || (alreadySelectedTeam != this.selectedTeam)) {
             this.resetAll(false);

@@ -31,18 +31,47 @@ public with sharing class GridBuilderController {
         }
 
         String agreementWhere = buildAgreementWhereClause(agreementId, userPrimaryTeam, userSecondaryTeams, gridSettings?.agreementQueryConditions);
-        String agreementQuery = 'SELECT Id, ConventionName__c, Name, Team__c, Countries_of_Distribution__c '+
+        String agreementQuery = 'SELECT Id, ConventionName__c, Name, Team__c, Countries_of_Distribution__c, Business_Region__c, Grid__c, Grid__r.Kind__c, Grid__r.EndDate__c '+
                                 ' FROM Convention__c ';
         agreementQuery +=       ' WHERE ' + agreementWhere;
         agreementQuery +=       ' ORDER BY ConventionName__c ASC, Name ASC, Team__c ASC LIMIT 5000';
 
         List<AgreementWrapper> agreementOptions = new List<AgreementWrapper>();
         Set<String> availableTeams = new Set<String>();
+        Boolean hasExistingGrid     = false;
+        String  existingGridKind    = null;
+        String  existingGridEndDate = null;
         for (Convention__c agreement : Database.query(agreementQuery)) {
             agreementOptions.add(new AgreementWrapper(agreement));
             availableTeams.add(agreement.Team__c);
+            if (String.isNotBlank(agreementId) && agreement.Id == agreementId && agreement.Grid__c != null) {
+                hasExistingGrid     = true;
+                existingGridKind    = agreement.Grid__r.Kind__c;
+                existingGridEndDate = agreement.Grid__r.EndDate__c != null ? String.valueOf(agreement.Grid__r.EndDate__c) : null;
+            }
         }
-        return new AgreementSelectionPageSettings((gridSettings != null), gridSettings?.agreementSelectionMode, userPrimaryTeam, availableTeams, agreementOptions);
+
+        return new AgreementSelectionPageSettings((gridSettings != null), gridSettings?.agreementSelectionMode, userPrimaryTeam, availableTeams, agreementOptions, hasExistingGrid, existingGridKind, existingGridEndDate);
+    }
+
+    @AuraEnabled(cacheable=true)
+    public static Map<String, List<Map<String, String>>> getGridPicklistOptions() {
+        String profileName = [SELECT Name FROM Profile WHERE Id = :UserInfo.getProfileId() LIMIT 1].Name;
+        Boolean isRestrictedProfile = (profileName == 'Carmignac - CRM' || profileName == 'Carmignac - Business Developer');
+
+        Map<String, List<Map<String, String>>> result = new Map<String, List<Map<String, String>>>();
+        Map<String, Schema.SObjectField> fieldMap = Schema.SObjectType.Grid__c.fields.getMap();
+        for (String f : new List<String>{'Kind__c', 'Type__c', 'ThresholdAmountCurrency__c', 'MinimumAmountCurrency__c', 'MinimumAmountFrequency__c'}) {
+            List<Map<String, String>> opts = new List<Map<String, String>>();
+            for (Schema.PicklistEntry e : fieldMap.get(f).getDescribe().getPicklistValues()) {
+                if (e.isActive()) {
+                    if (f == 'Kind__c' && isRestrictedProfile && e.getValue() != 'Rebates') continue;
+                    opts.add(new Map<String, String>{'label' => e.getLabel(), 'value' => e.getValue()});
+                }
+            }
+            result.put(f, opts);
+        }
+        return result;
     }
 
     private static String buildAgreementWhereClause(String agreementId, String userPrimaryTeam, List<String> userSecondaryTeams, String agreementQueryConditions) {
@@ -258,26 +287,35 @@ public with sharing class GridBuilderController {
         @AuraEnabled public String primaryTeam { get; set; }
         @AuraEnabled public List<String> availableTeams { get; set; }
         @AuraEnabled public List<AgreementWrapper> agreementOptions { get; set; }
-        public AgreementSelectionPageSettings(Boolean gridBuilderFound, String agreementSelectionMode, String primaryTeam, Set<String> setAvailableTeams, List<AgreementWrapper> agreementOptions) {
+        @AuraEnabled public Boolean hasExistingGrid { get; set; }
+        @AuraEnabled public String existingGridKind { get; set; }
+        @AuraEnabled public String existingGridEndDate { get; set; }
+        public AgreementSelectionPageSettings(Boolean gridBuilderFound, String agreementSelectionMode, String primaryTeam, Set<String> setAvailableTeams, List<AgreementWrapper> agreementOptions, Boolean hasExistingGrid, String existingGridKind, String existingGridEndDate) {
             this.gridBuilderFound           =   gridBuilderFound;
             this.agreementSelectionMode     =   agreementSelectionMode;
             this.agreementOptions           =   agreementOptions;
             this.primaryTeam                =   primaryTeam;
             this.availableTeams             =   buildAvailableTeams(primaryTeam, setAvailableTeams);
+            this.hasExistingGrid            =   hasExistingGrid;
+            this.existingGridKind           =   existingGridKind;
+            this.existingGridEndDate        =   existingGridEndDate;
         }
     }
+    
     public class AgreementWrapper {
         @AuraEnabled public String value { get; set; }
         @AuraEnabled public String name { get; set; }
         @AuraEnabled public String label { get; set; }
         @AuraEnabled public String teamCountry { get; set; }
         @AuraEnabled public String countriesOfDistribution { get; set; }
+        @AuraEnabled public String regionCode { get; set; }
         public AgreementWrapper(Convention__c agr) {
             this.value                      =   agr.Id;
             this.name                       =   agr.Name;
             this.label                      =   String.isNotBlank(agr.ConventionName__c)? agr.ConventionName__c + ' (' + agr.Name + ')' : agr.Name;
             this.teamCountry                =   agr.Team__c;
             this.countriesOfDistribution    =   agr.Countries_of_Distribution__c;
+            this.regionCode                 =   agr.Business_Region__c;
         }
     }
 

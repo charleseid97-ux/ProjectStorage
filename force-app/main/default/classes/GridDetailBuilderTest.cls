@@ -6,7 +6,7 @@
  * @testCoverage GridDetailBuilder (84%), GridCriteriaExpressionParser (83% partial)
 ────────────────────────────────────── */
 @IsTest
-private class GridDetailBuilderTest {
+private with sharing class GridDetailBuilderTest {
 
     public static final String percentageOfFees = 'Percentage of Fees';
     public static final String userDefined = 'User-Defined';

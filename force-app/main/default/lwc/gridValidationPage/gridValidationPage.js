@@ -10,8 +10,7 @@ export default class GridValidationPage extends LightningElement {
     @api selectedShareClasses = [];
     @api selectedAgreements = [];
     @api criteriaList = [];
-    @api isAutoGridUpdate = false;
-    @api agreementStartDate;
+    @api gridRequestData = {};
     @api agreementNames;
 
     @track validationProducts = [];
@@ -89,8 +88,8 @@ export default class GridValidationPage extends LightningElement {
 
     buildGridName() {
         const names = this.agreementNames || 'Unknown';
-        const mode = this.isAutoGridUpdate ? 'Auto' : 'Manual';
-        const dateStr = this.agreementStartDate || new Date().toISOString().split('T')[0];
+        const mode = this.gridRequestData.isAutoGridUpdate? 'Auto' : 'Manual';
+        const dateStr = this.gridRequestData.startDate || new Date().toISOString().split('T')[0];
         return `Custom - ${names} - ${mode} - ${dateStr}`;
     }
 
@@ -99,7 +98,7 @@ export default class GridValidationPage extends LightningElement {
             Name: this.buildGridName(),
             Team__c: this.selectedTeam,
             ActiveGrid__c: true,
-            AutomaticGridUpdate__c: this.isAutoGridUpdate
+            AutomaticGridUpdate__c: this.gridRequestData.isAutoGridUpdate
         };
 
         // Group share classes by criteriaRefId
@@ -113,7 +112,7 @@ export default class GridValidationPage extends LightningElement {
                         StandardGrid__c: entry?.criteria?.StandardGrid__c,
                         FilterLogic__c: entry?.criteria?.FilterLogic__c || 'AND',
                         FilterLogicExpression__c: entry?.criteria?.FilterLogicExpression__c || null,
-                        StartDate__c: this.agreementStartDate || null
+                        StartDate__c: this.gridRequestData.startDate || null
                     },
                     details: (entry?.criteriaDetails || []).map(d => ({
                         Object__c: d.Object__c,

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>GridTag__c</fullName>
-    <encryptionScheme>None</encryptionScheme>
+    <fullName>MinimumAmount__c</fullName>
     <externalId>false</externalId>
-    <label>GridTag</label>
-    <length>200</length>
+    <label>Minimum Amount</label>
+    <precision>16</precision>
     <required>false</required>
-    <trackFeedHistory>true</trackFeedHistory>
+    <scale>2</scale>
+    <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>
-    <type>Text</type>
+    <type>Number</type>
     <unique>false</unique>
 </CustomField>

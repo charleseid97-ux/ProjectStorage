@@ -6,7 +6,7 @@
  * Coverage: StandardGridProductAndRulesController 100%, GridRecapHelper 100%
 ────────────────────────────────────── */
 @IsTest
-public class StdGridProductAndRulesControllerTest {
+public with sharing class StdGridProductAndRulesControllerTest {
 
     @TestSetup
     static void setup() {
