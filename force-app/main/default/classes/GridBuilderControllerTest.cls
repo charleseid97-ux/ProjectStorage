@@ -21,7 +21,7 @@ private with sharing class GridBuilderControllerTest {
     static void testGetGridSettings() {
         Test.startTest();
 
-        GridBuilderHelper.GridSettings result = GridBuilderController.getGridSettings(GRID_BUILDER_SETTING, TEST_COUNTRIES);
+        GridBuilderHelper.GridSettings result = GridBuilderController.getGridSettings(GRID_BUILDER_SETTING, TEST_COUNTRIES, new List<String>());
 
         Test.stopTest();
     }
@@ -59,7 +59,7 @@ private with sharing class GridBuilderControllerTest {
     static void testGetAvailableGrids() {
         Test.startTest();
 
-        List<Map<String, String>> result = GridBuilderController.getAvailableGrids(TEST_COUNTRIES, TEST_AGREEMENT_NAME);
+        GridBuilderController.AvailableGridsResult result = GridBuilderController.getAvailableGrids(TEST_COUNTRIES, TEST_AGREEMENT_NAME);
 
         Test.stopTest();
     }
@@ -68,7 +68,7 @@ private with sharing class GridBuilderControllerTest {
     static void testGetAllProductsForSelection() {
         Test.startTest();
 
-        GridBuilderHelper.ProductSelectionResult result = GridBuilderController.getAllProductsForSelection(GRID_BUILDER_SETTING, TEST_COUNTRIES);
+        GridBuilderHelper.ProductSelectionResult result = GridBuilderController.getAllProductsForSelection(GRID_BUILDER_SETTING, TEST_COUNTRIES, new List<String>());
 
         Test.stopTest();
     }
@@ -118,7 +118,7 @@ private with sharing class GridBuilderControllerTest {
 
         Test.startTest();
 
-        GridBuilderHelper.ProductSelectionResult result = GridBuilderController.getProductsAndShareClasses(GRID_BUILDER_SETTING, TEST_COUNTRIES, JSON.serialize(criteria), JSON.serialize(criteriaDetails), getAll, selectedShareTypes);
+        GridBuilderHelper.ProductSelectionResult result = GridBuilderController.getProductsAndShareClasses(GRID_BUILDER_SETTING, TEST_COUNTRIES, JSON.serialize(criteria), JSON.serialize(criteriaDetails), getAll, selectedShareTypes, new List<String>());
 
         Test.stopTest();
     }

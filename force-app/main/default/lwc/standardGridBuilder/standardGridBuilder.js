@@ -56,6 +56,7 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
 
     @track gridOptions = [];
     @track selectedGrid;
+    @track gridShareClassMap = {};
 
     @track resultColumns = [];
     @track shareClasses = [];
@@ -136,7 +137,8 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
             this.isLoading = true;
             let gridSettings = await getGridSettings({
                 gridBuilderSettingName: this.gridBuilderSettingName,
-                countriesOfDistribution: this.countriesOfDistribution
+                countriesOfDistribution: this.countriesOfDistribution,
+                availableGridIds: Object.keys(this.gridShareClassMap)
             });
             if (gridSettings && gridSettings.filterObjects && gridSettings.filterObjects.length > 0) {
                 this.setGridSettings(gridSettings);
@@ -229,12 +231,13 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
     async loadGrids() {
         try {
             this.isLoading = true;
-            let grids = await getAvailableGrids({
+            const result = await getAvailableGrids({
                 countriesOfDistribution: this.countriesOfDistribution,
                 agreementNames: this.selectedAgreementNames
             });
-            if(grids && grids.length > 0) {
-                this.gridOptions = grids;
+            if (result) {
+                this.gridOptions = result.gridOptions || [];
+                this.gridShareClassMap = result.gridShareClassIds || {};
             }
         }
         catch (error) {
@@ -250,7 +253,8 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
             this.isLoading = true;
             const productSelection = await getAllProductsForSelection({
                 gridBuilderSettingName: this.gridBuilderSettingName,
-                countriesOfDistribution: this.countriesOfDistribution
+                countriesOfDistribution: this.countriesOfDistribution,
+                availableGridIds: Object.keys(this.gridShareClassMap)
             });
             const hasFields = productSelection?.fieldsApiToInfoMap && Object.keys(productSelection.fieldsApiToInfoMap).length > 0;
             const hasProducts = productSelection?.products && productSelection.products.length > 0;
@@ -337,7 +341,8 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
                 gridCriteriaJson: JSON.stringify(this.getCriteriaSObject()),
                 gridCriteriaDetailsJson: JSON.stringify(this.getCriteriaDetailSObject()),
                 getAllProductsWithSelection: false,
-                selectedShareTypes: this.selectedShareTypes
+                selectedShareTypes: this.selectedShareTypes,
+                availableGridIds: Object.keys(this.gridShareClassMap)
             });
             const hasFields = productSelection?.fieldsApiToInfoMap && Object.keys(productSelection.fieldsApiToInfoMap).length > 0;
             const hasProducts = productSelection?.products && productSelection.products.length > 0;
@@ -369,7 +374,8 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
                 gridCriteriaJson: JSON.stringify(this.getCriteriaSObject()),
                 gridCriteriaDetailsJson: JSON.stringify(this.getCriteriaDetailSObject()),
                 getAllProductsWithSelection: true,
-                selectedShareTypes: this.selectedShareTypes
+                selectedShareTypes: this.selectedShareTypes,
+                availableGridIds: Object.keys(this.gridShareClassMap)
             });
 
             const hasFields = productSelection?.fieldsApiToInfoMap && Object.keys(productSelection.fieldsApiToInfoMap).length > 0;
@@ -381,7 +387,12 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
 
                 const criteriaRef = this.buildCriteriaReference();
 
-                const { selectedRows, skippedCount } = this.buildSelectedShareClasses(allRows, existingMap, criteriaRef);
+                // Filter to only share classes belonging to the selected grid (Point 2)
+                const validIds = new Set(this.gridShareClassMap[this.selectedGrid] || []);
+                const filteredRows = validIds.size > 0 ? allRows.filter(row => existingMap.has(row.id) || validIds.has(row.id)) : allRows;
+                const gridExcluded = validIds.size > 0 ? allRows.filter(row => !existingMap.has(row.id) && row.isSelected && !validIds.has(row.id)).length : 0;
+
+                const { selectedRows, skippedCount } = this.buildSelectedShareClasses(filteredRows, existingMap, criteriaRef);
                 this.selectedShareClasses = selectedRows;
                 this.selectedResultColumns = this.buildResultColumnsList(productSelection.fieldsApiToInfoMap, true);
 
@@ -398,6 +409,9 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
                 showToast(this, this.labels.Grid_ShareClassesAddedTitle, message, addedCount > 0 ? 'success' : 'info');
                 if (skippedCount > 0) {
                     showToast(this, this.labels.UI_Warning, this.labels.Grid_ShareClassesNotAdded_DifferentGrid.replace('{0}', skippedCount), 'warning');
+                }
+                if (gridExcluded > 0) {
+                    showToast(this, this.labels.UI_Warning, this.labels.Grid_ShareClassesNotAdded_NotInGrid.replace('{0}', gridExcluded), 'warning');
                 }
             }
             else {
@@ -674,8 +688,8 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
 
         if((alreadySelectedAgreements != JSON.stringify(this.selectedAgreements)) || (alreadySelectedTeam != this.selectedTeam)) {
             this.resetAll(false);
-            await this.loadGridSettings();
             await this.loadGrids();
+            await this.loadGridSettings();
             await this.loadAllProductsForSelection();
         }
         this.handlePages(false, true, false);
@@ -728,16 +742,18 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
 
     getCriteriaDetailSObject() {
         const details = this.criteria.details || [];
-        return details.map(detail => {
-            return {
-                Object__c: detail.objectApi,
-                Field__c: detail.fieldApi,
-                Logic__c: detail.operator,
-                Value__c: detail.value,
-                FilterNumber__c: detail.filterNumber,
-                TECHOrigin__c: detail.TECHOrigin__c || 'User-Defined'
-            };
-        });
+        return details
+            .filter(detail => detail.objectApi && detail.fieldApi && detail.operator)
+            .map(detail => {
+                return {
+                    Object__c: detail.objectApi,
+                    Field__c: detail.fieldApi,
+                    Logic__c: detail.operator,
+                    Value__c: detail.value,
+                    FilterNumber__c: detail.filterNumber,
+                    TECHOrigin__c: detail.TECHOrigin__c || 'User-Defined'
+                };
+            });
     }
 
     decorateCriteriaDetails(details) {

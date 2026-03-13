@@ -35,7 +35,7 @@ private class GridValidationControllerTest {
 
         Test.startTest();
 
-        GridBuilderHelper.ProductSelectionResult result = GridValidationController.getProducts(GRID_BUILDER_SETTING, TEST_COUNTRIES, selectedShareClassIds, agreementIds, shareClassGridIdMap);
+        GridBuilderHelper.ProductSelectionResult result = GridValidationController.getProducts(GRID_BUILDER_SETTING, TEST_COUNTRIES, selectedShareClassIds, agreementIds, shareClassGridIdMap, new List<String>());
 
         Test.stopTest();
     }
