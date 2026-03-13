@@ -3,7 +3,7 @@
     <fullName>session__c</fullName>
     <label>Session</label>
     <referenceTo>Event__c</referenceTo>
-    <relationshipLabel>Session Speakers &amp; Products</relationshipLabel>
+    <relationshipLabel>Presentations</relationshipLabel>
     <relationshipName>SpeakersProducts</relationshipName>
     <relationshipOrder>0</relationshipOrder>
     <reparentableMasterDetail>false</reparentableMasterDetail>

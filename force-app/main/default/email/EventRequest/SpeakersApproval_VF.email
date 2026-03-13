@@ -91,9 +91,22 @@
 
                                                     <tr>
                                                         <td valign="top" style="padding:4px 0; color:#6b7280;">Location</td>
-                                                        <td valign="top" style="padding:4px 0;">
-                                                            {!relatedTo.Event__r.Location__c}
-                                                            {!relatedTo.Event__r.LocationName__c}
+                                                        <td valign="top" style="padding:4px 0; color:#111827;">
+                                                            <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.Event__r.locationName__c))}" layout="none">
+                                                                <b>{!relatedTo.Event__r.locationName__c}</b>
+                                                            </apex:outputPanel>
+                                                    
+                                                            <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.Event__r.locationAddress__c))}" layout="none">
+                                                                , {!relatedTo.Event__r.locationAddress__c}
+                                                            </apex:outputPanel>
+                                                    
+                                                            <apex:outputPanel rendered="{!OR(NOT(ISBLANK(relatedTo.Event__r.locationPostCode__c)), NOT(ISBLANK(relatedTo.Event__r.locationCity__c)))}" layout="none">
+                                                                , {!relatedTo.Event__r.locationPostCode__c} {!relatedTo.Event__r.locationCity__c}
+                                                            </apex:outputPanel>
+                                                    
+                                                            <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.Event__r.locationCountry__c))}" layout="none">
+                                                                , {!relatedTo.Event__r.locationCountry__c}
+                                                            </apex:outputPanel>
                                                         </td>
                                                     </tr>
 

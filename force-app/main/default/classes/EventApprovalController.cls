@@ -9,13 +9,48 @@ public with sharing class EventApprovalController {
     public String errorMessage { get; set; }
     public Boolean isSuccess { get; set; }
 
+    // Commentaire saisi pour le rejet
+    public String rejectComment { get; set; }
+
+    // Permet d'afficher le formulaire de rejet
+    public Boolean showRejectForm { get; set; }
+
     public EventApprovalController() {
         recordId = ApexPages.currentPage().getParameters().get('eid');
         actionParam = ApexPages.currentPage().getParameters().get('action');
-        openRecordId = recordId; // Par défaut, on ouvre le record cible (Event)
+        openRecordId = recordId; // Par défaut, on ouvre le record cible
         isSuccess = false;
+        showRejectForm = false;
+        rejectComment = '';
     }
 
+    /**
+     * Méthode appelée à l'ouverture de la page.
+     * - approve => traite immédiatement
+     * - reject  => affiche le champ commentaire
+     */
+    public PageReference initPage() {
+
+        if (String.isBlank(recordId)) {
+            resultMessage = 'Error';
+            errorMessage = 'Missing eid parameter.';
+            return null;
+        }
+
+        resolveOpenRecordId();
+
+        if (actionParam != null && actionParam.toLowerCase() == 'reject') {
+            showRejectForm = true;
+            return null;
+        }
+
+        return processApproval();
+    }
+
+    /**
+     * Exécute l'approbation ou le rejet.
+     * Pour Reject, le commentaire est obligatoire.
+     */
     public PageReference processApproval() {
 
         if (String.isBlank(recordId)) {
@@ -25,22 +60,13 @@ public with sharing class EventApprovalController {
         }
 
         try {
-            // Si l'approbation cible un EventSpeakerApproval__c, on ouvre l'Event lié
-            try {
-                Id rid = (Id)recordId;
-                if (rid.getSObjectType() == EventSpeakerApprovals__c.SObjectType) {
-                    EventSpeakerApprovals__c esa = [
-                        SELECT Event__c
-                        FROM EventSpeakerApprovals__c
-                        WHERE Id = :rid
-                        LIMIT 1
-                    ];
-                    if (esa.Event__c != null) {
-                        openRecordId = (String)esa.Event__c;
-                    }
-                }
-            } catch (Exception ignore) {
-                // recordId non castable en Id ou objet non accessible : on garde openRecordId = recordId
+            resolveOpenRecordId();
+
+            if (actionParam != null && actionParam.toLowerCase() == 'reject' && String.isBlank(rejectComment)) {
+                resultMessage = 'Error';
+                errorMessage = 'Rejection comment is required.';
+                showRejectForm = true;
+                return null;
             }
 
             // Find related ProcessInstanceWorkitem
@@ -54,6 +80,7 @@ public with sharing class EventApprovalController {
             if (workItems.isEmpty()) {
                 resultMessage = 'Error';
                 errorMessage = 'No ProcessInstanceWorkitem found.';
+                showRejectForm = false;
                 return null;
             }
 
@@ -67,17 +94,19 @@ public with sharing class EventApprovalController {
 
             if (actionParam != null && actionParam.toLowerCase() == 'approve') {
                 req.setAction('Approve');
+                req.setComments('Processed via Visualforce custom approval page.');
             } else if (actionParam != null && actionParam.toLowerCase() == 'reject') {
                 req.setAction('Reject');
+                req.setComments(rejectComment);
             } else {
                 resultMessage = 'Error';
                 errorMessage = 'Invalid action parameter. Use approve or reject.';
                 return null;
             }
 
-            req.setComments('Processed via Visualforce custom approval page.');
-
             Approval.ProcessResult result = Approval.process(req);
+
+            showRejectForm = false;
 
             if (result.isSuccess()) {
                 resultMessage = 'Success';
@@ -90,8 +119,33 @@ public with sharing class EventApprovalController {
         } catch (Exception e) {
             resultMessage = 'Error';
             errorMessage = e.getMessage();
+            showRejectForm = false;
         }
 
         return null;
+    }
+
+    /**
+     * Si le record est un EventSpeakerApprovals__c,
+     * le bouton "Open record" ouvre l'Event lié.
+     */
+    private void resolveOpenRecordId() {
+        try {
+            Id rid = (Id)recordId;
+            if (rid.getSObjectType() == EventSpeakerApprovals__c.SObjectType) {
+                EventSpeakerApprovals__c esa = [
+                    SELECT Event__c
+                    FROM EventSpeakerApprovals__c
+                    WHERE Id = :rid
+                    LIMIT 1
+                ];
+                if (esa.Event__c != null) {
+                    openRecordId = (String)esa.Event__c;
+                }
+            }
+        } catch (Exception ignoreException) {
+            // recordId non castable en Id ou objet non accessible :
+            // on garde openRecordId = recordId
+        }
     }
 }

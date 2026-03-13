@@ -642,7 +642,7 @@ public with sharing class customEventSpeakerApprovalService {
     }
 
     private static String shouldMarkFullyApproved(Integer total, Integer approved, Integer rejected) {
-        System.debug(LoggingLevel.INFO, 'ESA: shouldMarkFullyApproved total=' + total + ', approved   =' + approved + ', rejected   =' + rejected);
+        System.debug(LoggingLevel.INFO, 'ESA: shouldMarkFullyApproved total=' + total + ', approved=' + approved + ', rejected=' + rejected);
         if (total == null || total <= 0) {
             return null;
         }

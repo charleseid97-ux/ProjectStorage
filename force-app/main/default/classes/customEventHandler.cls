@@ -38,21 +38,12 @@ public with sharing class customEventHandler implements ITriggerHandler {
         Map<Id, Event__c> newEvents = (Map<Id, Event__c>) newItems;
         Map<Id, Event__c> oldEvents = (Map<Id, Event__c>) oldItems;
 
-        customEventSpeakerApprovalService.createOrUpdateSpeakerApprovals(
-            newEvents,
-            oldEvents
-        );
-
+        customEventSpeakerApprovalService.createOrUpdateSpeakerApprovals(newEvents,oldEvents);
+        sessionSpeakerProductService.requestRequiredPresentationsForWaitingEvents(newEvents,oldEvents);
         // Send approval notification email if status changes to SubmittedToEventTeam
-        customEventNotificationService.manageNotifications(
-            newEvents,
-            oldEvents
-        );
+        customEventNotificationService.manageNotifications(newEvents,oldEvents);
         // Create Campaign when Event is fully approved
-        customEventService.createCampaign(
-            new List<Event__c>(newEvents.values()),
-            oldEvents
-        );
+        customEventService.createCampaign(new List<Event__c>(newEvents.values()),oldEvents);
     }
 
     public void AfterDelete(Map<Id, SObject> oldItems) {}

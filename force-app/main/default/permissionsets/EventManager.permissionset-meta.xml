@@ -1756,11 +1756,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Event__c.endDate__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Event__c.endTime__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1856,11 +1851,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Event__c.startDate__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Event__c.startTime__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1877,11 +1867,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Event__c.timezone__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Event__c.title__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

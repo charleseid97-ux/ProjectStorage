@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Alternative</label>
+    <protected>false</protected>
+    <values>
+        <field>Range__c</field>
+        <value xsi:type="xsd:string">Alternative</value>
+    </values>
+    <values>
+        <field>strategies__c</field>
+        <value xsi:type="xsd:string">Absolute Return Europe,Long-Short European Equities,Investissement Latitude,Merger Arbitrage,Inflation Solution,Credit Opportunities</value>
+    </values>
+    <values>
+        <field>userGroupName__c</field>
+        <value xsi:type="xsd:string">AlternativesAlerteSchedule</value>
+    </values>
+</CustomMetadata>

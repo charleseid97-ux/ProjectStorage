@@ -1,6 +1,8 @@
 public with sharing class sessionSpeakerProductService {
-    private static final String WAITING_STATUS = 'WaitingForSpeakerApprovals';
+    private static final String WAITING_STATUS = customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS;
     private static final String SUBMITTED_STATUS = 'Submitted';
+    private static final String PRES_REQUESTED_STATUS = 'requested';
+    private static final String PRES_REQUIRED_STATUS = 'required';
 
     public class SspApprovalSyncException extends Exception {}
 
@@ -226,5 +228,124 @@ public with sharing class sessionSpeakerProductService {
         if (parts == null || parts.size() != 2) return null;
 
         return (Id) parts[1];
+    }
+
+
+    public static void setPresentationStatusForTopSpeakers(List<SessionSpeakerProduct__c> ssps) {
+        if (ssps == null || ssps.isEmpty()) {
+            return;
+        }
+
+        Set<Id> speakerIds = new Set<Id>();
+        for (SessionSpeakerProduct__c ssp : ssps) {
+            if (ssp != null && ssp.SpeakerContact__c != null) {
+                speakerIds.add(ssp.SpeakerContact__c);
+            }
+        }
+
+        if (speakerIds.isEmpty()) {
+            return;
+        }
+
+        Map<Id, Contact> speakersById = new Map<Id, Contact>([
+            SELECT Id, IsTopSpeaker__c
+            FROM Contact
+            WHERE Id IN :speakerIds
+        ]);
+
+        for (SessionSpeakerProduct__c ssp : ssps) {
+            if (ssp == null || ssp.SpeakerContact__c == null) {
+                continue;
+            }
+
+            Contact speaker = speakersById.get(ssp.SpeakerContact__c);
+            if (speaker != null && speaker.IsTopSpeaker__c == true) {
+                ssp.PresentationStatus__c = PRES_REQUIRED_STATUS;
+            }
+        }
+    }
+
+    public static void handleRequestedPresentationNotifications(
+        Map<Id, SessionSpeakerProduct__c> newMap,
+        Map<Id, SessionSpeakerProduct__c> oldMap
+    ) {
+
+        if (newMap == null || newMap.isEmpty()) {
+            return;
+        }
+
+        List<SessionSpeakerProduct__c> toNotify = new List<SessionSpeakerProduct__c>();
+
+        for (SessionSpeakerProduct__c newRec : newMap.values()) {
+
+            if (newRec.PresentationStatus__c != PRES_REQUESTED_STATUS) {
+                continue;
+            }
+
+            // Insert case
+            if (oldMap == null) {
+                toNotify.add(newRec);
+                continue;
+            }
+
+            SessionSpeakerProduct__c oldRec = oldMap.get(newRec.Id);
+
+            if (oldRec == null || oldRec.PresentationStatus__c != PRES_REQUESTED_STATUS) {
+                toNotify.add(newRec);
+            }
+        }
+
+        if (!toNotify.isEmpty()) {
+            customEventNotificationManager.requestPresentation(toNotify);
+        }
+    }
+
+    public static void requestRequiredPresentationsForWaitingEvents(Map<Id, Event__c> newEvents,Map<Id, Event__c> oldEvents) {
+        if (newEvents == null || newEvents.isEmpty()) {
+            return;
+        }
+
+        Set<Id> eventIdsToProcess = new Set<Id>();
+
+        for (Id eventId : newEvents.keySet()) {
+            Event__c newEvent = newEvents.get(eventId);
+            Event__c oldEvent = oldEvents != null ? oldEvents.get(eventId) : null;
+
+            if (newEvent == null) {
+                continue;
+            }
+
+            // On garde seulement les events qui viennent de passer
+            // au statut WAITING_FOR_SPEAKER_APPROVALS
+            if (
+                newEvent.Status__c == customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS &&
+                oldEvent != null &&
+                oldEvent.Status__c != customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS
+            ) {
+                eventIdsToProcess.add(eventId);
+            }
+        }
+
+        if (eventIdsToProcess.isEmpty()) {
+            return;
+        }
+
+        List<SessionSpeakerProduct__c> sspsToUpdate = [
+            SELECT Id, PresentationStatus__c
+            FROM SessionSpeakerProduct__c
+            WHERE Session__c IN :eventIdsToProcess
+            AND PresentationStatus__c = :PRES_REQUIRED_STATUS
+            LIMIT 5000
+        ];
+
+        if (sspsToUpdate.isEmpty()) {
+            return;
+        }
+
+        for (SessionSpeakerProduct__c ssp : sspsToUpdate) {
+            ssp.PresentationStatus__c = PRES_REQUESTED_STATUS;
+        }
+
+        update sspsToUpdate;
     }
 }

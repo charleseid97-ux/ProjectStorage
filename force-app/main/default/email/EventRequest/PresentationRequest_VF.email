@@ -1,0 +1,224 @@
+<messaging:emailTemplate subject="Speaker presentation request — {!relatedTo.title__c}"
+    recipientType="User"
+    relatedToType="Event__c">
+
+    <messaging:htmlEmailBody >
+
+        <html>
+        <body style="margin:0; padding:0; background-color:#f3f4f6; font-family:Arial, Helvetica, sans-serif; color:#111827;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f3f4f6; margin:0; padding:0;">
+                <tr>
+                    <td align="center" style="padding:24px 12px;">
+
+                        <table role="presentation" width="780" cellpadding="0" cellspacing="0" border="0" style="width:780px; max-width:780px; background-color:#ffffff;">
+                            <tr>
+                                <td style="padding:18px; font-family:Arial, Helvetica, sans-serif; color:#111827;">
+
+                                    <!-- Presentation request introduction -->
+                                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                                        <tr>
+                                            <td style="font-size:15px; line-height:22px; color:#111827; padding-bottom:14px;">
+                                                {{presentationRequestHTML}}
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <!-- Main Header Card -->
+                                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #e5e7eb; background-color:#ffffff;">
+                                        <tr>
+                                            <td style="padding:14px 16px;">
+                                                <div style="font-size:12px; line-height:18px; color:#6b7280; margin-bottom:6px;">
+                                                    Carmignac Gestion • Speaker Presentation
+                                                </div>
+
+                                                <div style="font-size:30px; line-height:36px; font-weight:bold; color:#111827;">
+                                                    Presentation request — {!relatedTo.title__c}
+                                                </div>
+
+                                                <div style="padding-top:8px; font-size:13px; line-height:20px; color:#374151;">
+                                                    Type: <b>{!relatedTo.Category__c}</b>
+                                                    &nbsp;•&nbsp;
+                                                    Format: <b>{!relatedTo.Format__c}</b>
+                                                    &nbsp;•&nbsp;
+                                                    Sales team: <b>{!relatedTo.SalesTeam__c}</b>
+                                                    &nbsp;•&nbsp;
+                                                    Status: <b>Pending approval</b>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <!-- Spacer -->
+                                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                                        <tr><td height="12">&nbsp;</td></tr>
+                                    </table>
+
+                                    <!-- Event Details -->
+                                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #e5e7eb; background-color:#ffffff;">
+                                        <tr>
+                                            <td style="padding:14px 16px;">
+
+                                                <div style="font-size:16px; line-height:22px; font-weight:bold; color:#111827; padding-bottom:10px;">
+                                                    Event details
+                                                </div>
+
+                                                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size:13px; line-height:20px; color:#111827;">
+
+                                                    <tr>
+                                                        <td valign="top" width="160" style="padding:4px 0; color:#6b7280;">When</td>
+                                                        <td valign="top" style="padding:4px 0;">
+                                                            <apex:outputText value="{0,date,dd/MM/yyyy}">
+                                                                <apex:param value="{!relatedTo.startDate__c}" />
+                                                            </apex:outputText>
+                                                            &nbsp;
+                                                            <apex:outputText value="{0}">
+                                                                <apex:param value="{!relatedTo.startTime__c}" />
+                                                            </apex:outputText>
+                                                            &nbsp;—&nbsp;
+                                                            <apex:outputText value="{0,date,dd/MM/yyyy}">
+                                                                <apex:param value="{!relatedTo.endDate__c}" />
+                                                            </apex:outputText>
+                                                            &nbsp;
+                                                            <apex:outputText value="{0}">
+                                                                <apex:param value="{!relatedTo.endTime__c}" />
+                                                            </apex:outputText>
+
+                                                            <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.timezone__c))}" layout="none">
+                                                                &nbsp;({!relatedTo.Timezone__c})
+                                                            </apex:outputPanel>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td valign="top" style="padding:4px 0; color:#6b7280;">Language</td>
+                                                        <td valign="top" style="padding:4px 0;">{!relatedTo.Language__c}</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td valign="top" style="padding:4px 0; color:#6b7280;">Location</td>
+                                                        <td valign="top" style="padding:4px 0; color:#111827;">
+                                                            <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.locationName__c))}" layout="none">
+                                                                <b>{!relatedTo.locationName__c}</b>
+                                                            </apex:outputPanel>
+                                                    
+                                                            <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.locationAddress__c))}" layout="none">
+                                                                , {!relatedTo.locationAddress__c}
+                                                            </apex:outputPanel>
+                                                    
+                                                            <apex:outputPanel rendered="{!OR(NOT(ISBLANK(relatedTo.locationPostCode__c)), NOT(ISBLANK(relatedTo.locationCity__c)))}" layout="none">
+                                                                , {!relatedTo.locationPostCode__c} {!relatedTo.locationCity__c}
+                                                            </apex:outputPanel>
+                                                    
+                                                            <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.locationCountry__c))}" layout="none">
+                                                                , {!relatedTo.locationCountry__c}
+                                                            </apex:outputPanel>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td valign="top" style="padding:4px 0; color:#6b7280;">Company</td>
+                                                        <td valign="top" style="padding:4px 0;">{!relatedTo.Company__r.Name}</td>
+                                                    </tr>
+
+                                                </table>
+
+                                                <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.meetingGoal__c))}">
+                                                    <table role="presentation" width="100%">
+                                                        <tr><td height="12">&nbsp;</td></tr>
+                                                        <tr>
+                                                            <td style="font-size:14px; font-weight:bold; padding-bottom:6px;">
+                                                                Meeting goal
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="font-size:13px; white-space:pre-line;">
+                                                                {!relatedTo.MeetingGoal__c}
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </apex:outputPanel>
+
+                                                <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.meetingBackground__c))}">
+                                                    <table role="presentation" width="100%">
+                                                        <tr><td height="12">&nbsp;</td></tr>
+                                                        <tr>
+                                                            <td style="font-size:14px; font-weight:bold; padding-bottom:6px;">
+                                                                Meeting background
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="font-size:13px; white-space:pre-line;">
+                                                                {!relatedTo.MeetingBackground__c}
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </apex:outputPanel>
+
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <!-- Spacer -->
+                                    <table role="presentation" width="100%">
+                                        <tr><td height="12">&nbsp;</td></tr>
+                                    </table>
+
+                                    <!-- Speakers -->
+                                    <table role="presentation" width="100%" style="border:1px solid #e5e7eb; background-color:#ffffff;">
+                                        <tr>
+                                            <td style="padding:14px 16px;">
+                                                <div style="font-size:16px; font-weight:bold; padding-bottom:10px;">
+                                                    Speakers
+                                                </div>
+                                                <div style="font-size:13px;">
+                                                    <apex:outputText value="{!relatedTo.speakersHTML__c}" escape="false"/>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <!-- Spacer -->
+                                    <table role="presentation" width="100%">
+                                        <tr><td height="12">&nbsp;</td></tr>
+                                    </table>
+
+                                    <!-- Actions -->
+                                    <table role="presentation" width="100%" style="border:1px solid #e5e7eb; background-color:#ffffff;">
+                                        <tr>
+                                            <td style="padding:14px 16px;">
+
+                                                <div style="font-size:16px; font-weight:bold; padding-bottom:10px;">
+                                                    Event access
+                                                </div>
+
+                                                <a href="{!$Label.BaseURL}/{!relatedTo.Id}"
+                                                   style="color:#2563eb; text-decoration:none; font-weight:bold;">
+                                                    Open this event in Salesforce
+                                                </a>
+
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <!-- Footer -->
+                                    <table role="presentation" width="100%">
+                                        <tr><td height="14">&nbsp;</td></tr>
+                                        <tr>
+                                            <td style="font-size:11px; color:#9ca3af;">
+                                                This email was generated automatically.
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                </td>
+                            </tr>
+                        </table>
+
+                    </td>
+                </tr>
+            </table>
+        </body>
+        </html>
+
+    </messaging:htmlEmailBody>
+</messaging:emailTemplate>

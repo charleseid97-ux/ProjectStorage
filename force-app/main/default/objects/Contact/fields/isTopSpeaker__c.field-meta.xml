@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>isTopSpeaker__c</fullName>
+    <formula>IF (ISPICKVAL (JobTitle__c, &apos;Sales&apos;), false, true)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Is Top Speaker</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,241 +1,263 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-	<types>
-		<members>AgreementGridRecapController</members>
-		<members>AgreementGridRecapControllerTest</members>
-		<members>GridBuilderController</members>
-		<members>GridBuilderControllerTest</members>
-		<members>GridBuilderHelper</members>
-		<members>GridCriteriaExpressionParser</members>
-		<members>GridDetailBuilder</members>
-		<members>GridDetailBuilderTest</members>
-		<members>GridDetailTableController</members>
-		<members>GridDetailTableControllerTest</members>
-		<members>GridExcelImportService</members>
-		<members>GridExcelImportServiceTest</members>
-		<members>GridRecapHelper</members>
-		<members>GridTestSetupHelper</members>
-		<members>GridValidationController</members>
-		<members>GridValidationControllerTest</members>
-		<members>StandardGridProductAndRulesController</members>
-		<members>StdGridProductAndRulesControllerTest</members>
-		<name>ApexClass</name>
-	</types>
-	<types>
-		<members>Grid</members>
-		<name>CustomApplication</name>
-	</types>
-	<types>
-		<members>Grid_AddFilter</members>
-		<members>Grid_AddRestrictedShareTypes</members>
-		<members>Grid_AddToGrid</members>
-		<members>Grid_AgreementErrorLoadingSettings</members>
-		<members>Grid_AgreementGridHistory</members>
-		<members>Grid_AgreementGridRecap</members>
-		<members>Grid_Agreements</members>
-		<members>Grid_AllRowsImported</members>
-		<members>Grid_AlreadySelected</members>
-		<members>Grid_ApplyFilters</members>
-		<members>Grid_AutoIncludeHelpText</members>
-		<members>Grid_AutoIncludeLabel</members>
-		<members>Grid_AutomaticUpdate</members>
-		<members>Grid_Builder</members>
-		<members>Grid_CreatedSuccess</members>
-		<members>Grid_CriteriaCreated</members>
-		<members>Grid_CriteriaDetailsCreated</members>
-		<members>Grid_CriteriaHistory</members>
-		<members>Grid_CriteriaLabel</members>
-		<members>Grid_CriteriaNumber</members>
-		<members>Grid_CurrentGridRecap</members>
-		<members>Grid_DetailsTitle</members>
-		<members>Grid_DifferentGridsSelected</members>
-		<members>Grid_ErrorLoadingGrids</members>
-		<members>Grid_ErrorLoadingProducts</members>
-		<members>Grid_ErrorLoadingSettings</members>
-		<members>Grid_ErrorRetrievingProducts</members>
-		<members>Grid_ErrorSavingGrid</members>
-		<members>Grid_ErrorValidatingProducts</members>
-		<members>Grid_ExcelImportTitle</members>
-		<members>Grid_ExcludedProducts</members>
-		<members>Grid_FailedToLoadSheetJS</members>
-		<members>Grid_FilterNumber</members>
-		<members>Grid_FixValidationErrors</members>
-		<members>Grid_GridDetailsCreated</members>
-		<members>Grid_GridName</members>
-		<members>Grid_GridRulesCreated</members>
-		<members>Grid_ImportCompleted</members>
-		<members>Grid_ImportCompletedWithErrors</members>
-		<members>Grid_ImportFailed</members>
-		<members>Grid_ImportedFilePrefix</members>
-		<members>Grid_IncludedInGrid</members>
-		<members>Grid_IncludedProducts</members>
-		<members>Grid_Label</members>
-		<members>Grid_LogicLabel</members>
-		<members>Grid_MissingShareClass</members>
-		<members>Grid_MissingShareClasses</members>
-		<members>Grid_NoActiveGridAssigned</members>
-		<members>Grid_NoDetailsFound</members>
-		<members>Grid_NoExcludedProducts</members>
-		<members>Grid_NoGridAvailable</members>
-		<members>Grid_NoGridSelectionFound</members>
-		<members>Grid_NoNewShareClassesAdded</members>
-		<members>Grid_NoProducts</members>
-		<members>Grid_NoProductsFound</members>
-		<members>Grid_NoProductsFoundValidation</members>
-		<members>Grid_NoProductsMatched</members>
-		<members>Grid_NoProductsSelected</members>
-		<members>Grid_NoProductsToDisplay</members>
-		<members>Grid_NoProductsToValidate</members>
-		<members>Grid_NoShareClassesFound</members>
-		<members>Grid_NoShareClassesToAdd</members>
-		<members>Grid_ProductAlreadyAssignedWarning</members>
-		<members>Grid_ProductNameLabel</members>
-		<members>Grid_ProductsRecap</members>
-		<members>Grid_RemoveFilter</members>
-		<members>Grid_RemoveProduct</members>
-		<members>Grid_ResetAll</members>
-		<members>Grid_ResetAll_Confirm</members>
-		<members>Grid_ResetAll_Success</members>
-		<members>Grid_ResetFilters</members>
-		<members>Grid_RowErrors</members>
-		<members>Grid_Saved_Success</members>
-		<members>Grid_ScopesUpserted</members>
-		<members>Grid_SelectExcelFile</members>
-		<members>Grid_SelectGrid</members>
-		<members>Grid_SelectShareTypes</members>
-		<members>Grid_Selection</members>
-		<members>Grid_SettingNotFound</members>
-		<members>Grid_ShareClassesAdded</members>
-		<members>Grid_ShareClassesAddedTitle</members>
-		<members>Grid_ShareClassesNotAdded_DifferentGrid</members>
-		<members>Grid_ShareTypeFilterIndependentInfo</members>
-		<members>Grid_ShareTypesLabel</members>
-		<members>Grid_SomeRowsFailed</members>
-		<members>Grid_SortedBy</members>
-		<members>Grid_StandardGridsSelected</members>
-		<members>Grid_StartDate</members>
-		<members>Grid_SystemFilters</members>
-		<members>Grid_Team</members>
-		<members>Grid_Title</members>
-		<members>Grid_ValidateGrid</members>
-		<members>Grid_ValidationErrors</members>
-		<members>Grid_ViewExcludedProducts</members>
-		<members>Grid_ViewRecap</members>
-		<members>UI_Add</members>
-		<members>UI_Back</members>
-		<members>UI_Cancel</members>
-		<members>UI_Close</members>
-		<members>UI_CollapseAll</members>
-		<members>UI_Confirm</members>
-		<members>UI_Error</members>
-		<members>UI_ErrorMessage</members>
-		<members>UI_Errors</members>
-		<members>UI_Excluded</members>
-		<members>UI_ExpandAll</members>
-		<members>UI_Field</members>
-		<members>UI_Import</members>
-		<members>UI_Included</members>
-		<members>UI_Loading</members>
-		<members>UI_NA</members>
-		<members>UI_Next</members>
-		<members>UI_Object</members>
-		<members>UI_Off</members>
-		<members>UI_On</members>
-		<members>UI_Operator</members>
-		<members>UI_Refresh</members>
-		<members>UI_Remove</members>
-		<members>UI_SelectOption</members>
-		<members>UI_Success</members>
-		<members>UI_UnknownField</members>
-		<members>UI_UnknownObject</members>
-		<members>UI_Value</members>
-		<members>UI_Warning</members>
-		<name>CustomLabel</name>
-	</types>
-	<types>
-		<members>GridBuilderSetting.StandardGridBuilderSetting</members>
-		<members>GridCriteriaSetting.Product</members>
-		<members>GridCriteriaSetting.ShareClass</members>
-		<members>GridCriteriaSetting.Strategy</members>
-		<name>CustomMetadata</name>
-	</types>
-	<types>
-		<members>Convention__c</members>
-		<members>GridBuilderSetting__mdt</members>
-		<members>GridCriteriaDetail__c</members>
-		<members>GridCriteriaSetting__mdt</members>
-		<members>GridCriteria__c</members>
-		<members>GridDetail__c</members>
-		<members>GridRule__c</members>
-		<members>GridScope__c</members>
-		<members>Grid__c</members>
-		<name>CustomObject</name>
-	</types>
-	<types>
-		<members>BuildNewGrid</members>
-		<members>GridCriteriaDetail__c</members>
-		<members>GridCriteria__c</members>
-		<members>GridDetail__c</members>
-		<members>GridExcelImport</members>
-		<members>GridRule__c</members>
-		<members>GridScope__c</members>
-		<members>Grid__c</members>
-		<name>CustomTab</name>
-	</types>
-	<types>
-		<members>BuildNewGrid</members>
-		<members>Convention_Record_Page</members>
-		<members>CustomGridRecordPage</members>
-		<members>GridCriteriaDetailRecordPage</members>
-		<members>GridCriteriaRecordPage</members>
-		<members>GridDetailRecordPage</members>
-		<members>GridExcelImport</members>
-		<members>GridRuleRecordPage</members>
-		<members>GridScopeRecordPage</members>
-		<members>Grid_UtilityBar</members>
-		<members>StandardGridRecordPage</members>
-		<name>FlexiPage</name>
-	</types>
-	<types>
-		<members>Convention__c-Intermediary Agreement Layout</members>
-		<members>Convention__c-Intermediary Agreement Request Full Layout</members>
-		<members>GridBuilderSetting__mdt-Grid Builder Setting Layout</members>
-		<members>GridCriteriaDetail__c-Grid Criteria Detail Layout</members>
-		<members>GridCriteriaSetting__mdt-Grid Criteria Setting Layout</members>
-		<members>GridCriteria__c-Grid Criteria Layout</members>
-		<members>GridDetail__c-Grid Detail Layout</members>
-		<members>GridRule__c-Grid Rule Layout</members>
-		<members>GridScope__c-Grid Scope Layout</members>
-		<members>Grid__c-Custom Grid Layout</members>
-		<members>Grid__c-Standard Grid Layout</members>
-		<name>Layout</name>
-	</types>
-	<types>
-		<members>agreementGridRecap</members>
-		<members>customCombobox</members>
-		<members>filterBuilder</members>
-		<members>gridAgreementsSelection</members>
-		<members>gridBuilderUtils</members>
-		<members>gridDetailTable</members>
-		<members>gridExcelImporter</members>
-		<members>gridSelectionDisplayPanel</members>
-		<members>gridShareTypeSelector</members>
-		<members>gridValidationPage</members>
-		<members>multiSelectSearchList</members>
-		<members>resultsTable</members>
-		<members>standardGridBuilder</members>
-		<members>standardGridGroupList</members>
-		<members>standardGridProductsAndRules</members>
-		<name>LightningComponentBundle</name>
-	</types>
-	<types>
-		<members>GridBuilderPermissions</members>
-		<members>GridImportPermissions</members>
-		<name>PermissionSet</name>
-	</types>
-	<types>
-		<members>sheetjs</members>
-		<name>StaticResource</name>
-	</types>
-	<version>66.0</version>
+
+  <!-- Apex -->
+  <types>
+    <members>CustomCalendarHelper</members>
+    <members>CustomPicklist</members>
+    <members>CustomPicklistTest</members>
+    <members>EventAttendee_InsertFromIds</members>
+    <members>EventColorService</members>
+    <members>EventMeetingNoteQuickActionCTRL</members>
+    <members>EventRecapController</members>
+    <members>EventSpeakerApprovalsTriggerHandler</members>
+    <members>EventSpeakerApprovalsService</members>
+    <members>GenericMultiSelectCtrl</members>
+    <members>PAD</members>
+    <members>SessionSpeakerProduct_InsertFromJson</members>
+    <members>VFC17_PrintEvents</members>
+    <members>VFC18_EventAgenda</members>
+    <members>customEventAttendeeHandler</members>
+    <members>customEventAttendeeService</members>
+    <members>customEventHandler</members>
+   <!-- <members>customEventHandler_Test</members>-->
+    <members>customEventNotificationService</members>
+    <members>customEventService</members>
+    <members>customEventSpeakerApprovalService</members>
+    <members>sessionSpeakerProductRelatedListCTRL</members>
+    <members>sessionSpeakerProductRepeaterCTRL</members>
+    <members>EventApprovalsPanelController</members>
+    <members>EventApprovalController</members>
+    <members>sessionSpeakerProductHandler</members>
+    <members>sessionSpeakerProductService</members>
+    <members>customEventConstants</members>
+    <members>customEventNotificationManager</members>
+    <name>ApexClass</name>
+  </types>
+
+  <!-- Apex Triggers -->
+  <types>
+    <members>EventSpeakerApprovalsTrigger</members>
+    <members>customEventAttendeeTrigger</members>
+    <members>customEventTrigger</members>
+    <members>sessionSpeakerProductTrigger</members>
+    <name>ApexTrigger</name>
+  </types>
+
+  <!-- =========================================================
+       App / UI
+       ========================================================= -->
+
+  <!-- Applications -->
+  <types>
+    <members>EventsManager</members>
+    <name>CustomApplication</name>
+  </types>
+
+  <!-- Custom Tabs -->
+  <types>
+    <members>Event__c</members>
+    <members>EventsOverView</members>
+    <name>CustomTab</name>
+  </types>
+
+  <!-- Lightning Web Components -->
+  <types>
+    <members>calendar</members>
+    <members>calendarUtils</members>
+    <members>customCalendar</members>
+    <members>eventMeetingNoteQuickAction</members>
+    <members>eventRecapEventCard</members>
+    <members>eventRecapModal</members>
+    <members>flowAutoNavigate</members>
+    <members>genericMultiSelectLookup</members>
+    <members>inlineError</members>
+    <members>sessionSpeakerProductRepeater</members>
+    <members>speakerProductsBySession</members>
+    <members>eventApprovalsPanel</members>
+    <name>LightningComponentBundle</name>
+  </types>
+
+  <!-- Quick Actions -->
+  <types>
+    <members>Event__c.MeetingNote_meetingDays</members>
+    <members>Event__c.UpdateSession</members>
+    <members>Event__c.updateEventGA</members>
+    <name>QuickAction</name>
+  </types>
+
+  <!-- =========================================================
+       Data Model
+       ========================================================= -->
+
+  <!-- Custom Fields -->
+  <types>
+    <members>Contact.IsValidSpeaker__c</members>
+    <members>Contact.SpeakerAssistant__c</members>
+    <members>Contact.isTopSpeaker__c</members>
+    <name>CustomField</name>
+  </types>
+
+  <!-- Custom Objects -->
+  <types>
+    <members>EventAttendee__c</members>
+    <members>EventColors__c</members>
+    <members>EventSpeakerApprovals__c</members>
+    <members>Event__c</members>
+    <members>sessionSpeakerProduct__c</members>
+    <members>strategyNotificationGroups__mdt</members>
+    <name>CustomObject</name>
+  </types>
+  <types>
+    <members>strategyNotificationGroups.*</members>
+    <name>CustomMetadata</name>
+</types>
+  <!-- =========================================================
+       Community / Sites
+       ========================================================= -->
+
+  <!-- Communities / Sites -->
+  <types>
+    <members>EventAgenda</members>
+    <name>CustomSite</name>
+  </types>
+
+  <!-- =========================================================
+       Templates / Views
+       ========================================================= -->
+
+  <!-- Email Templates -->
+  <types>
+    <members>EventRequest</members>
+    <members>EventRequest/SpeakersApproval_VF</members>
+    <members>EventRequest/EventTeam_VF</members>
+    <members>EventRequest/PresentationRequest_VF</members>    
+    <name>EmailTemplate</name>
+  </types>
+
+  <!-- List Views -->
+  <types>
+    <members>Event__c.EventTeamTest_Event1</members>
+    <name>ListView</name>
+  </types>
+
+  <!-- =========================================================
+       Access / Security
+       ========================================================= -->
+
+  <!-- Permission Sets -->
+  <types>
+    <members>EventManager</members>
+    <name>PermissionSet</name>
+  </types>
+
+  <!-- Profiles -->
+  <types>
+    <members>Public Event Agenda Profile</members>
+    <name>Profile</name>
+  </types>
+
+  <!-- Queues -->
+  <types>
+    <members>EventTeam</members>
+    <members>HeadofProductTeam</members>
+    <name>Queue</name>
+  </types>
+
+  <!-- =========================================================
+       Automation
+       ========================================================= -->
+
+  <!-- FlexiPages only from UAT
+  <types>
+    <members>Event_Record_Page</members>
+    <members>Event_Speaker_Approval_Record_Page</members>
+    <members>Events_manager_UtilityBar</members>
+    <members>MeetingDaysPage</members>
+    <members>Approval Submission Detail Record Page</members>
+    <name>FlexiPage</name>
+  </types>
+  -->
+
+  <!-- Flows
+  <types>
+    aborted flows
+      // <members>EventApprovalsStatus</members>
+      // <members>EventSpeakerApprovalFlow</members>
+      // <members>EventSpeakerApprovalStatus</members>
+      // <members>Meeting_days_Approval_process</members>
+
+    <members>NewEvent</members>
+    <name>Flow</name>
+  </types>
+  -->
+
+  <!-- Workflow -->
+  <types>
+    <members>Event__c</members>
+    <members>EventSpeakerApprovals__c</members>
+    <name>Workflow</name>
+  </types>
+
+  <!-- Workflow Field Updates -->
+  <types>
+    <members>Event__c.EventValidationStatus</members>
+    <name>WorkflowFieldUpdate</name>
+  </types>
+
+  <!-- Approval process -->
+  <types>
+    <members>EventSpeakerApprovals__c.SpeakerApprovalHOP</members>
+    <members>EventSpeakerApprovals__c.SpeakerApproval</members>
+    <members>Event__c.EventApprovalProcess</members>
+    <name>ApprovalProcess</name>
+  </types>
+
+  <!-- =========================================================
+       Assets
+       ========================================================= -->
+
+  <!-- Static Resources -->
+  <types>
+    <members>fullCalendar</members>
+    <name>StaticResource</name>
+  </types>
+
+  <!-- Visualforce Pages  -->
+  <types>
+    <members>VFP17_PrintEvents</members>
+    <members>VFP17_PrintEvents_PDF</members>
+    <members>VFP18_EventAgenda</members>
+    <members>VFP18_EventAgendaPDF</members>
+    <members>EventApproval</members>
+    <name>ApexPage</name>
+  </types>
+ 
+
+  <!-- Layouts
+  <types>
+    <members>Event__c-Event Layout</members>
+    <members>Event__c-Roadshow Layout</members>
+    <members>Event__c-Session Layout</members>
+    <name>Layout</name>
+  </types>
+  -->
+
+  <!-- Layout
+  <types>
+    <members>Event__c-Event Layout</members>
+    <name>Layout</name>
+  </types>
+  -->
+
+    <!-- =========================================================
+       Custom labels
+       ========================================================= -->
+    <!--
+    <types>
+        <members>BaseURL</members>
+        <name>CustomLabel</name>
+    </types>
+    -->
+  <version>65.0</version>
 </Package>

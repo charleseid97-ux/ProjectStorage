@@ -3,7 +3,7 @@
     <fullName>endDate__c</fullName>
     <encryptionScheme>None</encryptionScheme>
     <label>End date</label>
-    <required>false</required>
+    <required>true</required>
     <trackTrending>false</trackTrending>
     <type>Date</type>
 </CustomField>

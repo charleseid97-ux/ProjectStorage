@@ -240,8 +240,25 @@ public with sharing class EventSpeakerApprovalsService {
     public static void requireHOPApproval(List<EventSpeakerApprovals__c> newList) {
         if (newList == null || newList.isEmpty()) return;
 
+        // Collect Speaker Ids
+        Set<Id> speakerIds = new Set<Id>();
         for (EventSpeakerApprovals__c rec : newList) {
-            if (rec.Speaker__c == '0035800000rqKGpAAM') {
+            if (rec.Speaker__c != null) {
+                speakerIds.add(rec.Speaker__c);
+            }
+        }
+
+        // Query speakers with isTopSpeaker
+        Map<Id, Contact> speakerMap = new Map<Id, Contact>(
+            [SELECT Id, isTopSpeaker__c FROM Contact WHERE Id IN :speakerIds]
+        );
+
+        // Apply logic
+        for (EventSpeakerApprovals__c rec : newList) {
+            if (rec.Speaker__c != null && 
+                speakerMap.containsKey(rec.Speaker__c) && 
+                speakerMap.get(rec.Speaker__c).isTopSpeaker__c) {
+                    
                 rec.HopApprovalRequired__c = true;
             } else {
                 rec.HopApprovalRequired__c = false;

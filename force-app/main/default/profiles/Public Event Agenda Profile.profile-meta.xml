@@ -86,6 +86,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>customEventNotificationManager</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>customEventNotificationService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -122,6 +126,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.SpeakerAssistant__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.isTopSpeaker__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -266,11 +275,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Event__c.endDate__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Event__c.endTime__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -371,11 +375,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Event__c.startDate__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Event__c.startTime__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -392,11 +391,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Event__c.timezone__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Event__c.title__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -422,6 +416,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>sessionSpeakerProduct__c.strategy__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>strategyNotificationGroups__mdt.Range__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <objectPermissions>

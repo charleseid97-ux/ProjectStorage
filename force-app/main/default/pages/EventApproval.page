@@ -1,5 +1,5 @@
 <apex:page controller="EventApprovalController"
-           action="{!processApproval}"
+           action="{!initPage}"
            showHeader="false"
            sidebar="false"
            standardStylesheets="false"
@@ -11,7 +11,6 @@
         .page-bg { min-height: 100vh; background: #f3f2f2; }
         .card-wrap { width: 100%; max-width: 620px; }
 
-        /* Status banner */
         .status-box { border-radius: .75rem; padding: 16px; }
         .status-success { background: #e3f3e3; border: 1px solid #2e844a; }
         .status-error   { background: #fde7e9; border: 1px solid #ba0517; }
@@ -22,124 +21,155 @@
         .mono         { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
     </style>
 
-    <div class="slds-scope page-bg slds-grid slds-grid_vertical-align-center slds-grid_align-center slds-p-around_large">
+    <apex:form >
+        <div class="slds-scope page-bg slds-grid slds-grid_vertical-align-center slds-grid_align-center slds-p-around_large">
 
-        <section class="slds-card card-wrap slds-theme_default">
+            <section class="slds-card card-wrap slds-theme_default">
 
-            <!-- Header -->
-            <div class="slds-card__header slds-grid slds-grid_align-spread slds-grid_vertical-align-center">
-                <div>
-                    <h1 class="slds-text-heading_medium slds-m-bottom_xx-small">Event Approval</h1>
-                    <p class="slds-text-body_small slds-text-color_weak">Approval result</p>
+                <!-- Header -->
+                <div class="slds-card__header slds-grid slds-grid_align-spread slds-grid_vertical-align-center">
+                    <div>
+                        <h1 class="slds-text-heading_medium slds-m-bottom_xx-small">Event Approval</h1>
+                       <!-- <p class="slds-text-body_small slds-text-color_weak">Approval result</p> -->
+                    </div>
+
+                    <apex:outputPanel rendered="{!NOT(ISBLANK(recordId))}">
+                        <button type="button"
+                                class="slds-button slds-button_brand"
+                                onclick="openRecord();">
+                            Open record
+                        </button>
+                    </apex:outputPanel>
                 </div>
 
-                <apex:outputPanel rendered="{!NOT(ISBLANK(recordId))}">
-                    <button type="button"
-                            class="slds-button slds-button_brand"
-                            onclick="openRecord();">
-                        Open record
-                    </button>
-                </apex:outputPanel>
-            </div>
+                <!-- Body -->
+                <div class="slds-card__body slds-card__body_inner">
 
-            <!-- Body -->
-            <div class="slds-card__body slds-card__body_inner">
+                    <!-- Flags -->
+                    <apex:variable var="isApproveAction" value="{!LOWER(actionParam)='approve'}"/>
+                    <apex:variable var="isRejectAction"  value="{!LOWER(actionParam)='reject'}"/>
 
-                <!-- Flags -->
-                <apex:variable var="isApproveAction" value="{!LOWER(actionParam)='approve'}"/>
-                <apex:variable var="isRejectAction"  value="{!LOWER(actionParam)='reject'}"/>
+                    <!-- "Already processed" detection -->
+                    <apex:variable var="msgAll" value="{!LOWER(resultMessage & ' ' & errorMessage)}"/>
+                    <apex:variable var="isAlreadyProcessed"
+                                   value="{!OR(
+                                        CONTAINS(msgAll,'already'),
+                                        CONTAINS(msgAll,'processed'),
+                                        CONTAINS(msgAll,'responded'),
+                                        CONTAINS(msgAll,'no processinstanceworkitem'),
+                                        CONTAINS(msgAll,'workitem')
+                                   )}"/>
 
-                <!-- "Already processed" detection (tunable) -->
-                <apex:variable var="msgAll" value="{!LOWER(resultMessage & ' ' & errorMessage)}"/>
-                <apex:variable var="isAlreadyProcessed"
-                               value="{!OR(
-                                    CONTAINS(msgAll,'already'),
-                                    CONTAINS(msgAll,'processed'),
-                                    CONTAINS(msgAll,'responded'),
-                                    CONTAINS(msgAll,'no processinstanceworkitem'),
-                                    CONTAINS(msgAll,'workitem')
-                               )}"/>
+                    <!-- Formulaire de rejet -->
+                    <apex:outputPanel rendered="{!showRejectForm}" layout="block">
+                        <div class="slds-box slds-theme_default" style="border-radius:.75rem;">
+                            <div class="slds-text-heading_small slds-m-bottom_small">
+                                Reject this request
+                            </div>
 
-                <!-- STATUS BANNER -->
-                <!-- Neutral (already processed) -->
-                <apex:outputPanel rendered="{!isAlreadyProcessed}" layout="block">
-                    <div class="status-box status-neutral">
-                        <div class="slds-grid slds-grid_vertical-align-center">
-                            <div class="slds-m-right_small">⚪</div>
-                            <div class="status-title">Already processed</div>
-                        </div>
-                        <div class="status-sub slds-text-body_regular">
-                            This approval link has already been used. The request was already approved or rejected.
-                        </div>
-                    </div>
-                </apex:outputPanel>
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="rejectComment">
+                                    Rejection comment <span style="color:#ba0517">*</span>
+                                </label>
+                                <div class="slds-form-element__control">
+                                    <apex:inputTextarea value="{!rejectComment}"
+                                                        id="rejectComment"
+                                                        styleClass="slds-textarea"
+                                                        rows="5"/>
+                                </div>
+                            </div>
 
-                <!-- Success + approve -->
-                <apex:outputPanel rendered="{!AND(NOT(isAlreadyProcessed), isSuccess, isApproveAction)}" layout="block">
-                    <div class="status-box status-success">
-                        <div class="slds-grid slds-grid_vertical-align-center">
-                            <div class="slds-m-right_small">✅</div>
-                            <div class="status-title">
-                                Successfully <strong>Approved</strong>
+                            <apex:outputPanel rendered="{!NOT(ISBLANK(errorMessage))}" layout="block"
+                                              styleClass="slds-m-top_small slds-text-color_error">
+                                {!errorMessage}
+                            </apex:outputPanel>
+
+                            <div class="slds-m-top_medium">
+                                <apex:commandButton value="Reject"
+                                                    action="{!processApproval}"
+                                                    styleClass="slds-button slds-button_destructive"/>
                             </div>
                         </div>
-                    
-                    </div>
-                </apex:outputPanel>
+                    </apex:outputPanel>
 
-                <!-- Success + reject -->
-                <apex:outputPanel rendered="{!AND(NOT(isAlreadyProcessed), isSuccess, isRejectAction)}" layout="block">
-                    <div class="status-box status-error">
-                        <div class="slds-grid slds-grid_vertical-align-center">
-                            <div class="slds-m-right_small">❌</div>
-                            <div class="status-title">
-                                Successfully <strong>Rejected</strong>
+                    <!-- Neutral (already processed) -->
+                    <apex:outputPanel rendered="{!AND(NOT(showRejectForm), isAlreadyProcessed)}" layout="block">
+                        <div class="status-box status-neutral">
+                            <div class="slds-grid slds-grid_vertical-align-center">
+                                <div class="slds-m-right_small">⚪</div>
+                                <div class="status-title">Already processed</div>
                             </div>
-                        </div>                       
-                    </div>
-                </apex:outputPanel>
-
-                
-
-                <!-- Generic error (not already processed) -->
-                <apex:outputPanel rendered="{!AND(NOT(isAlreadyProcessed), NOT(isSuccess))}" layout="block">
-                    <div class="status-box status-error">
-                        <div class="slds-grid slds-grid_vertical-align-center">
-                            <div class="slds-m-right_small">❌</div>
-                            <div class="status-title">Request failed</div>
+                            <div class="status-sub slds-text-body_regular">
+                                This approval link has already been used. The request was already approved or rejected.
+                            </div>
                         </div>
+                    </apex:outputPanel>
 
-                        <apex:outputPanel rendered="{!NOT(ISBLANK(resultMessage))}" layout="block" styleClass="status-sub slds-text-body_regular">
-                            {!resultMessage}
-                        </apex:outputPanel>
+                    <!-- Success + approve -->
+                    <apex:outputPanel rendered="{!AND(NOT(showRejectForm), NOT(isAlreadyProcessed), isSuccess, isApproveAction)}" layout="block">
+                        <div class="status-box status-success">
+                            <div class="slds-grid slds-grid_vertical-align-center">
+                                <div class="slds-m-right_small">✅</div>
+                                <div class="status-title">
+                                    Successfully <strong>Approved</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </apex:outputPanel>
 
-                        <apex:outputPanel rendered="{!NOT(ISBLANK(errorMessage))}" layout="block" styleClass="status-sub slds-text-body_small slds-text-color_weak">
-                            <span class="mono">{!errorMessage}</span>
-                        </apex:outputPanel>
-                    </div>
-                </apex:outputPanel>
+                    <!-- Success + reject -->
+                    <apex:outputPanel rendered="{!AND(NOT(showRejectForm), NOT(isAlreadyProcessed), isSuccess, isRejectAction)}" layout="block">
+                        <div class="status-box status-error">
+                            <div class="slds-grid slds-grid_vertical-align-center">
+                                <div class="slds-m-right_small">❌</div>
+                                <div class="status-title">
+                                    Successfully <strong>Rejected</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </apex:outputPanel>
 
-                <!-- Technical details (collapsible) -->
-                <details class="slds-box slds-theme_shade slds-m-top_medium" style="border-radius:.75rem;">
-                    <summary class="slds-text-title_bold" style="cursor:pointer;">Technical details</summary>
-                    <div class="slds-m-top_small slds-text-body_small">
-                        <div><strong>Record ID:</strong> <span class="mono">{!recordId}</span></div>
-                        <div><strong>Action:</strong> <span class="mono">{!actionParam}</span></div>
-                        <div><strong>WorkItemId:</strong> <span class="mono">{!workItemId}</span></div>
-                        <div><strong>ProcessInstanceId:</strong> <span class="mono">{!processInstanceId}</span></div>
-                        <apex:outputPanel rendered="{!NOT(ISBLANK(errorMessage))}" layout="block" styleClass="slds-m-top_small">
-                            <div><strong>Error:</strong> <span class="mono">{!errorMessage}</span></div>
-                        </apex:outputPanel>
-                    </div>
-                </details>
+                    <!-- Generic error (not already processed) -->
+                    <apex:outputPanel rendered="{!AND(NOT(showRejectForm), NOT(isAlreadyProcessed), NOT(isSuccess), NOT(ISBLANK(resultMessage)))}" layout="block">
+                        <div class="status-box status-error">
+                            <div class="slds-grid slds-grid_vertical-align-center">
+                                <div class="slds-m-right_small">❌</div>
+                                <div class="status-title">Request failed</div>
+                            </div>
 
-            </div>
+                            <apex:outputPanel rendered="{!NOT(ISBLANK(resultMessage))}" layout="block" styleClass="status-sub slds-text-body_regular">
+                                {!resultMessage}
+                            </apex:outputPanel>
 
-            <div class="slds-card__footer slds-text-align_center slds-text-body_small slds-text-color_weak">
-                You can close this tab after reviewing the result.
-            </div>
-        </section>
-    </div>
+                            <apex:outputPanel rendered="{!NOT(ISBLANK(errorMessage))}" layout="block" styleClass="status-sub slds-text-body_small slds-text-color_weak">
+                                <span class="mono">{!errorMessage}</span>
+                            </apex:outputPanel>
+                        </div>
+                    </apex:outputPanel>
+
+                    <!-- Technical details -->
+                    <details class="slds-box slds-theme_shade slds-m-top_medium" style="border-radius:.75rem;">
+                        <summary class="slds-text-title_bold" style="cursor:pointer;">Technical details</summary>
+                        <div class="slds-m-top_small slds-text-body_small">
+                            <div><strong>Record ID:</strong> <span class="mono">{!recordId}</span></div>
+                            <div><strong>Action:</strong> <span class="mono">{!actionParam}</span></div>
+                            <div><strong>WorkItemId:</strong> <span class="mono">{!workItemId}</span></div>
+                            <div><strong>ProcessInstanceId:</strong> <span class="mono">{!processInstanceId}</span></div>
+                            <div><strong>Reject Comment:</strong> <span class="mono">{!rejectComment}</span></div>
+                            <apex:outputPanel rendered="{!NOT(ISBLANK(errorMessage))}" layout="block" styleClass="slds-m-top_small">
+                                <div><strong>Error:</strong> <span class="mono">{!errorMessage}</span></div>
+                            </apex:outputPanel>
+                        </div>
+                    </details>
+
+                </div>
+
+                <div class="slds-card__footer slds-text-align_center slds-text-body_small slds-text-color_weak">
+                    You can close this tab after reviewing the result.
+                </div>
+            </section>
+        </div>
+    </apex:form>
 
     <script>
         function openRecord() {
