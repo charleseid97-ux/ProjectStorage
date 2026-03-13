@@ -10,8 +10,6 @@ const COLUMNS = [
     { key: 'internalShortName', label: 'Code',              group: '' },
     { key: 'portfolio',         label: 'Portfolio',         group: 'blue' },
     { key: 'shareClass',        label: 'Class',             group: 'blue' },
-    { key: 'shareType',         label: 'Type',              group: '' },
-    { key: 'scCurrency',        label: 'Currency',          group: '' },
     { key: 'isin',              label: 'ISIN',              group: 'blue' },
     { key: 'aum',               label: 'AUM',               group: 'blue' },
     { key: 'effMgtFeeDate',     label: 'Eff. Mgt Fee Date', group: '' },
