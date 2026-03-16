@@ -64,6 +64,14 @@
         <enabled>true</enabled>
         <name>GridCriteriaSetting__mdt</name>
     </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>true</enabled>
+        <name>StandardGridRecapConfig__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>true</enabled>
+        <name>StandardGridRecapRule__mdt</name>
+    </customMetadataTypeAccesses>
     <description>Grants full access to the Grid Builder feature, including the Grid app, related objects, Apex classes, and supporting components</description>
     <fieldPermissions>
         <editable>true</editable>
