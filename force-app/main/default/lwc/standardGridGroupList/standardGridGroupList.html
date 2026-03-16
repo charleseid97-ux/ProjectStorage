@@ -10,23 +10,11 @@
                 <!-- Hover popup — only rendered when hover data is present; shown/hidden via CSS :hover -->
                 <template if:true={group.hasHoverData}>
                     <div class="hover-popup" role="tooltip">
-                        <template for:each={group.hoverRuleGroups} for:item="ruleGroup">
-                            <div key={ruleGroup.key}>
-                                <template if:true={ruleGroup.hasLegalForms}>
-                                    <p class="popup-legal-forms">{ruleGroup.legalFormsText}</p>
-                                </template>
-                                <ul class="popup-rules">
-                                    <template for:each={ruleGroup.rules} for:item="rule">
-                                        <li key={rule.key} class={rule.colorClass}>
-                                            <strong>{rule.boldLabel}</strong>
-                                            <template if:true={rule.hasNotInCriteria}>
-                                                <strong class="criteria-not-in"> - Excluding: {rule.notInCriteriaText}</strong>
-                                            </template>: {rule.ruleDetail}
-                                        </li>
-                                    </template>
-                                </ul>
-                            </div>
-                        </template>
+                        <ul class="popup-rules">
+                            <template for:each={group.hoverRules} for:item="rule">
+                                <li key={rule.key} style={rule.style}>{rule.text}</li>
+                            </template>
+                        </ul>
                     </div>
                 </template>
             </div>

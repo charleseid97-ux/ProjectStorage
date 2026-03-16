@@ -25,13 +25,6 @@
     display: block;
 }
 
-.popup-legal-forms {
-    font-style: italic;
-    color: #706e6b;
-    margin-bottom: 6px;
-    font-size: 0.8rem;
-}
-
 .popup-rules {
     padding-left: 0;
     list-style: none;
@@ -42,24 +35,6 @@
     margin-bottom: 3px;
     font-size: 0.8rem;
 }
-
-/* ── Criteria IN / NOT IN sub-lines ── */
-.criteria-in     {
-    font-size: 0.75rem;
-    color: #1b8900;
-    font-style: italic;
-    margin-left: 8px;
-}
-.criteria-not-in {
-    color: #c23934;
-}
-
-/* ── Rule-type colours ── */
-.rule-pof  { color: #0070d2; }
-.rule-ost  { color: #dd7a01; }
-.rule-ostf { color: #7d4ec8; }
-.rule-ogr  { color: #00838f; }
-
 
 .badge-hover:hover {
     background-color: var(--lwc-brandAccessibleActive, rgba(47, 75, 45, 1));
