@@ -57,28 +57,39 @@ public with sharing class GridRecapHelper {
         return result;
     }
 
-    // ── Phase 1: query StandardGridRecapRule__mdt via parent-child and build RuleEntries ──
+    // ── Phase 1: query StandardGridRecapRule__mdt and build RuleEntries ──
+    // Two flat queries are used intentionally — Salesforce CMT parent-child subqueries
+    // only return 1 child record per parent when the outer query returns multiple parents.
     private static void processHoverData(List<StandardGridGroup> groups, Map<Id, List<RuleEntry>> ruleMap) {
         Map<String, Id> gridIdByName = new Map<String, Id>();
         for (StandardGridGroup gridGroup : groups) {
             gridIdByName.put(gridGroup.gridName, gridGroup.gridId);
         }
-        for (StandardGridRecapConfig__mdt gridConfig : [SELECT Id, StandardGridName__c,
-                                                            (SELECT ShareType__c, InternalShortName__c, Rule__c, Value__c, Style__c, SortOrder__c
-                                                             FROM StandardGridRecapRules__r
-                                                             ORDER BY SortOrder__c)
+
+        // Step 1 — resolve config record IDs for the matching grid names
+        Map<Id, Id> gridIdByConfigId = new Map<Id, Id>();
+        for (StandardGridRecapConfig__mdt gridConfig : [SELECT Id, StandardGridName__c
                                                         FROM StandardGridRecapConfig__mdt
                                                         WHERE StandardGridName__c IN :gridIdByName.keySet()]) {
             Id gridId = gridIdByName.get(gridConfig.StandardGridName__c);
+            if (gridId != null) {
+                gridIdByConfigId.put(gridConfig.Id, gridId);
+            }
+        }
+
+        // Step 2 — flat query on all rules, ordered, grouped into ruleMap by standard grid ID
+        for (StandardGridRecapRule__mdt rule : [SELECT ShareType__c, InternalShortName__c, Rule__c, Value__c, Style__c, SortOrder__c, StandardGridConfig__c
+                                                FROM StandardGridRecapRule__mdt
+                                                WHERE StandardGridConfig__c IN :gridIdByConfigId.keySet()
+                                                ORDER BY SortOrder__c]) {
+            Id gridId = gridIdByConfigId.get(rule.StandardGridConfig__c);
             if (gridId == null) continue;
             if (!ruleMap.containsKey(gridId)) {
                 ruleMap.put(gridId, new List<RuleEntry>());
             }
-            for (StandardGridRecapRule__mdt rule : gridConfig.StandardGridRecapRules__r) {
-                String formattedValue = rule.Value__c != null ? GridBuilderHelper.formatPercent(rule.Value__c) : '';
-                String ruleText       = rule.Rule__c.replace('{_}', formattedValue);
-                ruleMap.get(gridId).add(new RuleEntry(rule.ShareType__c, rule.InternalShortName__c, ruleText, rule.Style__c));
-            }
+            String formattedValue = rule.Value__c != null ? GridBuilderHelper.formatPercent(rule.Value__c) : '';
+            String ruleText       = rule.Rule__c.replace('{_}', formattedValue);
+            ruleMap.get(gridId).add(new RuleEntry(rule.ShareType__c, rule.InternalShortName__c, ruleText, rule.Style__c));
         }
     }
 
