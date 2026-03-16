@@ -9,7 +9,7 @@
 public with sharing class GridValidationController {
 
     @AuraEnabled
-    public static GridBuilderHelper.ProductSelectionResult getProducts(String gridBuilderSettingName, String countriesOfDistribution, List<Id> selectedShareClassIds, List<Id> agreementIds, Map<String, String> shareClassGridIdMap) {
+    public static GridBuilderHelper.ProductSelectionResult getProducts(String gridBuilderSettingName, String countriesOfDistribution, List<Id> selectedShareClassIds, List<Id> agreementIds, Map<String, String> shareClassGridIdMap, List<String> availableGridIds) {
         Map<Id, String> aumByShareClass = buildAumByShareClass(agreementIds);
 
         Set<Id> selectedShareClassIdsSet = new Set<Id>(selectedShareClassIds);
@@ -21,8 +21,8 @@ public with sharing class GridValidationController {
             productIds.add(sc.Fund__c);
         }
 
-        GridBuilderHelper.GridSettings gridSettings = GridBuilderHelper.getGridSettings(gridBuilderSettingName, null, false);
-        return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, countriesOfDistribution, gridSettings, null, selectedShareClassIdsSet, buildValidationWhereClause(gridSettings, countriesOfDistribution, productIds), aumByShareClass, true, shareClassGridIdMap, true);
+        GridBuilderHelper.GridSettings gridSettings = GridBuilderHelper.getGridSettings(gridBuilderSettingName, null, false, new List<String>());
+        return GridBuilderHelper.buildProductSelectionResult(gridBuilderSettingName, countriesOfDistribution, gridSettings, null, selectedShareClassIdsSet, buildValidationWhereClause(gridSettings, countriesOfDistribution, productIds, availableGridIds), aumByShareClass, true, shareClassGridIdMap, true, availableGridIds);
     }
 
     private static Map<Id, String> buildAumByShareClass(List<Id> agreementIds) {
@@ -38,9 +38,9 @@ public with sharing class GridValidationController {
         return aumByShareClass;
     }
 
-    private static String buildValidationWhereClause(GridBuilderHelper.GridSettings gridSettings, String countriesOfDistribution, Set<Id> productIds) {
+    private static String buildValidationWhereClause(GridBuilderHelper.GridSettings gridSettings, String countriesOfDistribution, Set<Id> productIds, List<String> availableGridIds) {
         //Build default conditions
-        List<String> whereFragments = GridBuilderHelper.buildDefaultConditions(true, true, countriesOfDistribution, gridSettings.shareTypeWrp, false);
+        List<String> whereFragments = GridBuilderHelper.buildDefaultConditions(true, true, countriesOfDistribution, gridSettings.shareTypeWrp, false, availableGridIds);
 
         //Build productIds where
         whereFragments.add(' Fund__c IN '+ GridBuilderHelper.toSoqlInListLiteral(String.join(productIds, ','), ','));

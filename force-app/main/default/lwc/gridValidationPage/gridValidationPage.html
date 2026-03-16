@@ -75,7 +75,7 @@
                                                     </td>
                                                 </template>
                                                 <td class="alignCenter" data-label="Action">
-                                                    <lightning-button class="custom-button" variant={sc.actionVariant} label={sc.actionLabel} data-id={sc.shareClassId} data-product={prod.productId} data-selected={sc.isSelected} onclick={handleToggleShareClass} disabled={prod.noShareClassesSelected}></lightning-button>
+                                                    <lightning-button class="custom-button" variant={sc.actionVariant} label={sc.actionLabel} data-id={sc.shareClassId} data-product={prod.productId} data-selected={sc.isSelected} onclick={handleToggleShareClass} disabled={sc.addDisabled}></lightning-button>
                                                 </td>
                                             </tr>
                                         </template>

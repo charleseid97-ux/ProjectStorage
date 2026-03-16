@@ -12,6 +12,7 @@ export default class GridValidationPage extends LightningElement {
     @api criteriaList = [];
     @api gridRequestData = {};
     @api agreementNames;
+    @api gridShareClassMap = {};
 
     @track validationProducts = [];
     @track validationColumns = [];
@@ -160,9 +161,10 @@ export default class GridValidationPage extends LightningElement {
             const validationResult = await getProducts({
                 gridBuilderSettingName: this.gridBuilderSettingName,
                 selectedTeam: this.selectedTeam,
-                selectedShareClassIds: shareClassIds, 
+                selectedShareClassIds: shareClassIds,
                 agreementIds: this.selectedAgreements,
-                shareClassGridIdMap: shareClassGridIdMap
+                shareClassGridIdMap: shareClassGridIdMap,
+                availableGridIds: Object.keys(this.gridShareClassMap || {})
             });
             const fieldsApiToInfoMap = validationResult?.fieldsApiToInfoMap || {};
             const products = validationResult?.products || [];
@@ -243,6 +245,8 @@ export default class GridValidationPage extends LightningElement {
             cells.push({ label: 'Grid', value: gridLabel, class: 'slds-truncate'});
             cells.push({ label: 'Status', value: sc.isSelected ? this.labels.Grid_IncludedInGrid : this.labels.Grid_MissingShareClass, class: 'slds-truncate'});
             cells.push({ label: 'AUM', value: sc.amountAUM != null ? sc.amountAUM : 0, class: 'slds-truncate alignRight'});
+            const gridOptions = this.productGridOptions.get(product.productId) || [];
+            const canAdd = !sc.isSelected && gridOptions.some(opt => (this.gridShareClassMap?.[opt.gridId] || []).includes(sc.shareClassId));
             return {
                 ...sc,
                 productId: product.productId,
@@ -254,7 +258,8 @@ export default class GridValidationPage extends LightningElement {
                 rowClass: sc.isSelected ? '' : 'missing-share-class',
                 cells: cells,
                 actionLabel: sc.isSelected ? this.labels.UI_Remove : this.labels.UI_Add,
-                actionVariant: sc.isSelected ? 'neutral' : 'brand'
+                actionVariant: sc.isSelected ? 'neutral' : 'brand',
+                addDisabled: sc.isSelected ? false : !canAdd
             };
         });
     }
@@ -321,7 +326,8 @@ export default class GridValidationPage extends LightningElement {
     }
 
     handleAddShareClass(shareClass, productId) {
-        const gridOptions = this.productGridOptions.get(productId) || [];
+        const allGridOptions = this.productGridOptions.get(productId) || [];
+        const gridOptions = allGridOptions.filter(opt => (this.gridShareClassMap?.[opt.gridId] || []).includes(shareClass.shareClassId));
         if (!gridOptions.length) {
             showToast(this, this.labels.Grid_NoGridAvailable, this.labels.Grid_NoGridSelectionFound, 'warning');
             return;
@@ -401,6 +407,8 @@ export default class GridValidationPage extends LightningElement {
                 const filteredCells = newCells.filter(c => c.label !== 'Status').filter(c => c.label !== 'AUM');
                 filteredCells.push(statusCell);
                 filteredCells.push(aumCell);
+                const gridOpts = this.productGridOptions.get(productId) || [];
+                const canAdd = !isSelected && gridOpts.some(opt => (this.gridShareClassMap?.[opt.gridId] || []).includes(sc.shareClassId));
                 return {
                     ...sc,
                     isSelected: isSelected,
@@ -409,7 +417,8 @@ export default class GridValidationPage extends LightningElement {
                     rowClass: isSelected ? '' : 'missing-share-class',
                     cells: filteredCells,
                     actionLabel: isSelected ? this.labels.UI_Remove : this.labels.UI_Add,
-                    actionVariant: isSelected ? 'neutral' : 'brand'
+                    actionVariant: isSelected ? 'neutral' : 'brand',
+                    addDisabled: isSelected ? false : !canAdd
                 };
             });
             const total = updatedShareClasses.length;

@@ -816,6 +816,13 @@
         <value>{0} share class(es) were not added because their product is already assigned to a different grid.</value>
     </labels>
     <labels>
+        <fullName>Grid_ShareClassesNotAdded_NotInGrid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Warning: share classes not added, not in selected standard grid</shortDescription>
+        <value>{0} share class(es) matched your filter but were not added because they don't belong to the selected standard grid.</value>
+    </labels>
+    <labels>
         <fullName>Grid_ShareTypeFilterIndependentInfo</fullName>
         <language>en_US</language>
         <protected>false</protected>

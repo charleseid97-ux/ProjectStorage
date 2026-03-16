@@ -34,11 +34,10 @@ public with sharing class GridDetailTableController {
             agreementSelection = parseAgreementSelection(scopes, result);
         }
 
-        List<GridDetail__c> details = [SELECT Id, ShareClass__c, ShareClass__r.Name__c, ShareClass__r.Type__c, ShareClass__r.Currency__c, ShareClass__r.ISIN__c, 
+        List<GridDetail__c> details = [SELECT Id, ShareClass__c, ShareClass__r.Name__c, ShareClass__r.ISIN__c,
                                         ShareClass__r.EffectiveManagementFees__c, ShareClass__r.Fund__r.Strategy__r.AssetClass__c, ShareClass__r.Fund__r.Strategy__r.Name,
                                         ShareClass__r.Fund__r.Legal_Status__c, ShareClass__r.Fund__r.InternalShortName__c, ShareClass__r.Fund__r.ProductName__c,
-                                        StandardGridDetail__c, StandardGridDetail__r.ShareClass__c, StandardGridDetail__r.ShareClass__r.Name__c, StandardGridDetail__r.ShareClass__r.Type__c,
-                                        StandardGridDetail__r.ShareClass__r.Currency__c, StandardGridDetail__r.ShareClass__r.ISIN__c, StandardGridDetail__r.ShareClass__r.EffectiveManagementFees__c,
+                                        StandardGridDetail__c, StandardGridDetail__r.ShareClass__c, StandardGridDetail__r.ShareClass__r.Name__c, StandardGridDetail__r.ShareClass__r.ISIN__c, StandardGridDetail__r.ShareClass__r.EffectiveManagementFees__c,
                                         StandardGridDetail__r.ShareClass__r.Fund__r.Strategy__r.AssetClass__c, StandardGridDetail__r.ShareClass__r.Fund__r.Strategy__r.Name,
                                         StandardGridDetail__r.ShareClass__r.Fund__r.Legal_Status__c, StandardGridDetail__r.ShareClass__r.Fund__r.InternalShortName__c,
                                         StandardGridDetail__r.ShareClass__r.Fund__r.ProductName__c, StandardGridDetail__r.RebateRate__c, StandardGridDetail__r.StartDate__c,
@@ -216,8 +215,6 @@ public with sharing class GridDetailTableController {
         @AuraEnabled public String internalShortName;
         @AuraEnabled public String portfolio;
         @AuraEnabled public String shareClass;
-        @AuraEnabled public String shareType;
-        @AuraEnabled public String scCurrency;
         @AuraEnabled public String isin;
         @AuraEnabled public String aum;
         @AuraEnabled public Date effMgtFeeDate;
@@ -246,8 +243,6 @@ public with sharing class GridDetailTableController {
             this.internalShortName   =   getShareValue(share, 'Fund__r.InternalShortName__c');
             this.portfolio           =   getShareValue(share, 'Fund__r.ProductName__c');
             this.shareClass          =   getShareValue(share, 'Name__c');
-            this.shareType           =   getShareValue(share, 'Type__c');
-            this.scCurrency          =   getShareValue(share, 'Currency__c');
             this.isin                =   getShareValue(share, 'ISIN__c');
             this.aum                 =   aumByShareClass.containsKey(effectiveScId) ? aumByShareClass.get(effectiveScId) : '0';
             this.effMgtFeeDate       =   isCustom ? detail.StandardGridDetail__r.StartDate__c : detail.StartDate__c;

@@ -118,6 +118,7 @@ import Grid_SettingNotFound from '@salesforce/label/c.Grid_SettingNotFound';
 import Grid_ShareClassesAdded from '@salesforce/label/c.Grid_ShareClassesAdded';
 import Grid_ShareClassesAddedTitle from '@salesforce/label/c.Grid_ShareClassesAddedTitle';
 import Grid_ShareClassesNotAdded_DifferentGrid from '@salesforce/label/c.Grid_ShareClassesNotAdded_DifferentGrid';
+import Grid_ShareClassesNotAdded_NotInGrid from '@salesforce/label/c.Grid_ShareClassesNotAdded_NotInGrid';
 import Grid_ShareTypeFilterIndependentInfo from '@salesforce/label/c.Grid_ShareTypeFilterIndependentInfo';
 import Grid_ShareTypesLabel from '@salesforce/label/c.Grid_ShareTypesLabel';
 import Grid_SomeRowsFailed from '@salesforce/label/c.Grid_SomeRowsFailed';
@@ -153,7 +154,7 @@ export const LABELS = {
     Grid_RemoveFilter, Grid_RemoveProduct, Grid_ResetAll, Grid_ResetAll_Confirm, Grid_ResetAll_Success,
     Grid_ResetFilters, Grid_RowErrors, Grid_GridRulesCreated, Grid_Saved_Success, Grid_ScopesUpserted,
     Grid_SelectExcelFile, Grid_SelectGrid, Grid_SelectShareTypes, Grid_Selection, Grid_SettingNotFound,
-    Grid_ShareClassesAdded, Grid_ShareClassesAddedTitle, Grid_ShareClassesNotAdded_DifferentGrid,
+    Grid_ShareClassesAdded, Grid_ShareClassesAddedTitle, Grid_ShareClassesNotAdded_DifferentGrid, Grid_ShareClassesNotAdded_NotInGrid,
     Grid_ShareTypeFilterIndependentInfo, Grid_ShareTypesLabel, Grid_SomeRowsFailed, Grid_SortedBy,
     Grid_StandardGridsSelected, Grid_StartDate, Grid_SystemFilters, Grid_Team, Grid_Title, Grid_ValidateGrid, Grid_ValidationErrors,
     Grid_ViewExcludedProducts, Grid_ViewRecap

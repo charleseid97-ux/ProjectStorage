@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Recap Rule S5+ - 6</label>
+    <protected>false</protected>
+    <values>
+        <field>InternalShortName__c</field>
+        <value xsi:type="xsd:string">CS, PS</value>
+    </values>
+    <values>
+        <field>Rule__c</field>
+        <value xsi:type="xsd:string">RebatesAW + Fees(E-AW)*{_}</value>
+    </values>
+    <values>
+        <field>ShareType__c</field>
+        <value xsi:type="xsd:string">E</value>
+    </values>
+    <values>
+        <field>SortOrder__c</field>
+        <value xsi:type="xsd:double">6.0</value>
+    </values>
+    <values>
+        <field>StandardGridConfig__c</field>
+        <value xsi:type="xsd:string">RecapConfigS5Plus</value>
+    </values>
+    <values>
+        <field>Style__c</field>
+        <value xsi:type="xsd:string">{"color":"#7d4ec8","fontWeight":"bold"}</value>
+    </values>
+    <values>
+        <field>Value__c</field>
+        <value xsi:type="xsd:double">100.0</value>
+    </values>
+</CustomMetadata>
