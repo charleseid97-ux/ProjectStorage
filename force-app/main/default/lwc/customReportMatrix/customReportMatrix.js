@@ -18,6 +18,12 @@ function parseBgColor(inlineStyle) {
     return m ? m[1].slice(1).toUpperCase() : null;
 }
 
+function parseFontColor(inlineStyle) {
+    if (!inlineStyle) return null;
+    const m = inlineStyle.match(/(?<![a-z-])color\s*:\s*(#[0-9a-fA-F]{6})/i);
+    return m ? m[1].slice(1).toUpperCase() : null;
+}
+
 export default class CustomReportMatrix extends LightningElement {
     @api configName;
 
@@ -378,8 +384,10 @@ export default class CustomReportMatrix extends LightningElement {
             (row.values || []).forEach((v, vi) => {
                 excelRow.push(v.value || '');
                 const bg = parseBgColor(v.inlineStyle) || 'FFFFFF';
+                const fontColor = parseFontColor(v.inlineStyle);
                 styles[`${absRow},${leftColCount + vi}`] = {
                     fill: { fgColor: { rgb: bg } },
+                    font: fontColor ? { color: { rgb: fontColor } } : {},
                     alignment: { horizontal: 'center', vertical: 'center' },
                     border
                 };
