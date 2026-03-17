@@ -1,4 +1,4 @@
-public with sharing class SessionSpeakerProduct_InsertFromJson {
+public without sharing class SessionSpeakerProduct_InsertFromJson {
 
     public class InputWrapper {
         @InvocableVariable(required=true)
