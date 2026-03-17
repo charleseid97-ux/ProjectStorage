@@ -29,14 +29,15 @@ public with sharing class CustomReportMatrixController {
         String valueField = config.ValueField__c;
 
         // 2. Build ordered row/col group levels (each line = one level; fields on a line separated by ';')
-        List<List<String>> rowGroupLevels = parseGroupLevels(config.RowGroups__c, objectName);
-        List<List<String>> colGroupLevels = parseGroupLevels(config.ColGroups__c, objectName);
+        Map<String, Schema.DisplayType> fieldTypeMap = new Map<String, Schema.DisplayType>(); // fieldTypeMap is populated during parsing (reuses the resolveFieldDescribe call already done for validation)
+        List<List<String>> rowGroupLevels = parseGroupLevels(config.RowGroups__c, objectName, fieldTypeMap);
+        List<List<String>> colGroupLevels = parseGroupLevels(config.ColGroups__c, objectName, fieldTypeMap);
 
         // 3. Parse filter fields only on initial load — JS caches them afterwards
-        List<String> filterGroupFields = isInitialLoad == true ? parseGroupFields(config.FilterFields__c, objectName, '\n') : new List<String>();
+        List<String> filterGroupFields = isInitialLoad == true ? parseGroupFields(config.FilterFields__c, objectName, '\n', fieldTypeMap) : new List<String>();
 
         // 3b. Parse hover fields and build configs (label + path)
-        List<String> hoverFieldPaths = parseGroupFields(config.OnHoverFields__c, objectName, '\n');
+        List<String> hoverFieldPaths = parseGroupFields(config.OnHoverFields__c, objectName, '\n', fieldTypeMap);
         List<HoverFieldConfig> hoverFieldConfigs = new List<HoverFieldConfig>();
         for (String fp : hoverFieldPaths) {
             hoverFieldConfigs.add(new HoverFieldConfig(fp, getFieldLabel(objectName, fp)));
@@ -52,7 +53,8 @@ public with sharing class CustomReportMatrixController {
         fieldSet.addAll(hoverFieldPaths);
 
         // 6. Build picklist label maps for all fields (API value → Label)
-        Map<String, Map<String, String>> picklistMaps = buildFieldPicklistLabelMap(fieldSet, objectName);
+        //    Also capture type for valueField and any other field not yet in fieldTypeMap (e.g. valueField)
+        Map<String, Map<String, String>> picklistMaps = buildFieldPicklistLabelMap(fieldSet, objectName, fieldTypeMap);
 
         // 7. Parse CellStyles JSON into style lookup
         StyleLookup styleLookup = parseStyleLookup(config.CellStyles__c);
@@ -64,11 +66,11 @@ public with sharing class CustomReportMatrixController {
         // 9. On initial load: build filter options from the same query records (no extra query needed)
         List<FilterOption> filterOptions = new List<FilterOption>();
         if (isInitialLoad == true && !filterGroupFields.isEmpty()) {
-            filterOptions = buildFilterOptions(filterGroupFields, records, picklistMaps, objectName);
+            filterOptions = buildFilterOptions(filterGroupFields, records, picklistMaps, objectName, fieldTypeMap);
         }
 
         // 10. Group records — builds parent→children maps and cells map
-        GroupResult grouped = groupRecords(records, rowGroupLevels, colGroupLevels, valueField, picklistMaps, hoverFieldConfigs);
+        GroupResult grouped = groupRecords(records, rowGroupLevels, colGroupLevels, valueField, picklistMaps, hoverFieldConfigs, fieldTypeMap);
 
         // 11. Build column tree and extract ordered leaf keys
         List<String> columnKeys = new List<String>();
@@ -103,27 +105,29 @@ public with sharing class CustomReportMatrixController {
     }
 
     // ------------------------------------ HELPERS ------------------------------------
-    private static List<List<String>> parseGroupLevels(String raw, String objectName) {
+    private static List<List<String>> parseGroupLevels(String raw, String objectName, Map<String, Schema.DisplayType> fieldTypeMap) {
         List<List<String>> result = new List<List<String>>();
         if (String.isBlank(raw)) return result;
         for (String line : raw.split('\n')) {
             String trimmedLine = line.trim();
             if (String.isBlank(trimmedLine)) continue;
-            List<String> levelFields = parseGroupFields(trimmedLine, objectName, ';');
+            List<String> levelFields = parseGroupFields(trimmedLine, objectName, ';', fieldTypeMap);
             if (!levelFields.isEmpty()) result.add(levelFields);
         }
         return result;
     }
 
-    private static List<String> parseGroupFields(String raw, String objectName, String separator) {
+    private static List<String> parseGroupFields(String raw, String objectName, String separator, Map<String, Schema.DisplayType> fieldTypeMap) {
         List<String> result = new List<String>();
         if (String.isBlank(raw)) return result;
         for (String line : raw.split(separator)) {
             String trimmed = line.trim();
-            if (String.isBlank(trimmed)) { continue; }
-            if (resolveFieldDescribe(objectName, trimmed) == null) {
+            if (String.isBlank(trimmed)) continue;
+            DescribeFieldResult dfr = resolveFieldDescribe(objectName, trimmed);
+            if (dfr == null) {
                 throw new AuraHandledException(String.format(System.Label.Matrix_InvalidField, new List<Object>{ trimmed }));
             }
+            fieldTypeMap.put(trimmed, dfr.getType());
             result.add(trimmed);
         }
         return result;
@@ -172,12 +176,12 @@ public with sharing class CustomReportMatrixController {
         return String.join(quoted, ', ');
     }
 
-    private static List<FilterOption> buildFilterOptions(List<String> filterFields, List<SObject> records, Map<String, Map<String, String>> picklistMaps, String objectName) {
+    private static List<FilterOption> buildFilterOptions(List<String> filterFields, List<SObject> records, Map<String, Map<String, String>> picklistMaps, String objectName, Map<String, Schema.DisplayType> fieldTypeMap) {
         List<FilterOption> result = new List<FilterOption>();
         for (String fp : filterFields) {
             Map<String, String> seen = new Map<String, String>(); // rawValue → displayLabel
             for (SObject rec : records) {
-                String raw = getStringFieldValue(rec, fp);
+                String raw = getStringFieldValue(rec, fp, fieldTypeMap);
                 if (raw != null && !seen.containsKey(raw)) {
                     seen.put(raw, toLabel(raw, picklistMaps.get(fp)));
                 }
@@ -193,27 +197,24 @@ public with sharing class CustomReportMatrixController {
         return result;
     }
 
-    private static Map<String, Map<String, String>> buildFieldPicklistLabelMap(Set<String> fieldSet, String objectName) {
+    private static Map<String, Map<String, String>> buildFieldPicklistLabelMap(Set<String> fieldSet, String objectName, Map<String, Schema.DisplayType> fieldTypeMap) {
         Map<String, Map<String, String>> picklistMaps = new Map<String, Map<String, String>>();
         for (String fieldPath : fieldSet) {
-            if (fieldPath == 'Id') { continue; }
-            Map<String, String> plMap = buildPicklistLabelMap(objectName, fieldPath);
-            if (!plMap.isEmpty()) {
-                picklistMaps.put(fieldPath, plMap);
+            if (fieldPath == 'Id') continue;
+            DescribeFieldResult dfr = resolveFieldDescribe(objectName, fieldPath);
+            if (dfr == null) continue;
+            if (!fieldTypeMap.containsKey(fieldPath)) {
+                fieldTypeMap.put(fieldPath, dfr.getType()); // fills gaps (e.g. valueField)
+            }
+            if (dfr.getType() == Schema.DisplayType.Picklist || dfr.getType() == Schema.DisplayType.MultiPicklist) {
+                Map<String, String> plMap = new Map<String, String>();
+                for (Schema.PicklistEntry pe : dfr.getPicklistValues()) { plMap.put(pe.getValue(), pe.getLabel()); }
+                if (!plMap.isEmpty()) {
+                    picklistMaps.put(fieldPath, plMap);
+                }
             }
         }
         return picklistMaps;
-    }
-
-    private static Map<String, String> buildPicklistLabelMap(String objectName, String fieldPath) {
-        Map<String, String> labelMap = new Map<String, String>();
-        DescribeFieldResult dfr = resolveFieldDescribe(objectName, fieldPath);
-        if (dfr != null && (dfr.getType() == Schema.DisplayType.Picklist || dfr.getType() == Schema.DisplayType.MultiPicklist)) {
-            for (Schema.PicklistEntry pe : dfr.getPicklistValues()) {
-                labelMap.put(pe.getValue(), pe.getLabel());
-            }
-        }
-        return labelMap;
     }
 
     private static StyleLookup parseStyleLookup(String cellStylesJson) {
@@ -244,24 +245,24 @@ public with sharing class CustomReportMatrixController {
         return styleByRawValue;
     }
 
-    private static GroupResult groupRecords(List<SObject> records, List<List<String>> rowGroupLevels, List<List<String>> colGroupLevels, String valueField, Map<String, Map<String, String>> picklistMaps, List<HoverFieldConfig> hoverConfigs) {
+    private static GroupResult groupRecords(List<SObject> records, List<List<String>> rowGroupLevels, List<List<String>> colGroupLevels, String valueField, Map<String, Map<String, String>> picklistMaps, List<HoverFieldConfig> hoverConfigs, Map<String, Schema.DisplayType> fieldTypeMap) {
         GroupResult g = new GroupResult();
         for (SObject rec : records) {
-            String rowKey    = buildGroupKey(rec, rowGroupLevels, picklistMaps, g.rowChildrenByParentKey);
-            String colKey    = buildGroupKey(rec, colGroupLevels, picklistMaps, g.colChildrenByParentKey);
-            String rawValStr = getStringFieldValue(rec, valueField);
+            String rowKey    = buildGroupKey(rec, rowGroupLevels, picklistMaps, g.rowChildrenByParentKey, fieldTypeMap);
+            String colKey    = buildGroupKey(rec, colGroupLevels, picklistMaps, g.colChildrenByParentKey, fieldTypeMap);
+            String rawValStr = getStringFieldValue(rec, valueField, fieldTypeMap);
             String valStr    = toLabel(rawValStr, picklistMaps.get(valueField));
-            registerCell(g, rowKey, colKey, rawValStr, valStr, rec, hoverConfigs, picklistMaps);
+            registerCell(g, rowKey, colKey, rawValStr, valStr, rec, hoverConfigs, picklistMaps, fieldTypeMap);
         }
         return g;
     }
 
-    private static String buildGroupKey(SObject rec, List<List<String>> groupLevels, Map<String, Map<String, String>> picklistMaps, Map<String, Set<String>> childrenByParentKey) {
+    private static String buildGroupKey(SObject rec, List<List<String>> groupLevels, Map<String, Map<String, String>> picklistMaps, Map<String, Set<String>> childrenByParentKey, Map<String, Schema.DisplayType> fieldTypeMap) {
         String parentKey = '';
         for (List<String> levelFields : groupLevels) {
             List<String> parts = new List<String>();
             for (String field : levelFields) {
-                String raw = getStringFieldValue(rec, field);
+                String raw = getStringFieldValue(rec, field, fieldTypeMap);
                 if (String.isNotBlank(raw)) { parts.add(toLabel(raw, picklistMaps.get(field))); }
             }
             String val = getValOrBlank(parts.isEmpty() ? null : String.join(parts, ' - '));
@@ -274,7 +275,7 @@ public with sharing class CustomReportMatrixController {
         return parentKey;
     }
 
-    private static void registerCell(GroupResult g, String rowKey, String colKey, String rawValStr, String valStr, SObject rec, List<HoverFieldConfig> hoverConfigs, Map<String, Map<String, String>> picklistMaps) {
+    private static void registerCell(GroupResult g, String rowKey, String colKey, String rawValStr, String valStr, SObject rec, List<HoverFieldConfig> hoverConfigs, Map<String, Map<String, String>> picklistMaps, Map<String, Schema.DisplayType> fieldTypeMap) {
         if (!g.cells.containsKey(rowKey)) {
             g.cells.put(rowKey, new Map<String, Map<String, CellData>>());
         }
@@ -282,16 +283,16 @@ public with sharing class CustomReportMatrixController {
             g.cells.get(rowKey).put(colKey, new Map<String, CellData>());
         }
         if (rawValStr != null && valStr != null && !g.cells.get(rowKey).get(colKey).containsKey(rawValStr)) {
-            String hoverText = buildHoverText(rec, hoverConfigs, picklistMaps);
+            String hoverText = buildHoverText(rec, hoverConfigs, picklistMaps, fieldTypeMap);
             g.cells.get(rowKey).get(colKey).put(rawValStr, new CellData(rawValStr, valStr, hoverText));
         }
     }
 
-    private static String buildHoverText(SObject rec, List<HoverFieldConfig> hoverConfigs, Map<String, Map<String, String>> picklistMaps) {
+    private static String buildHoverText(SObject rec, List<HoverFieldConfig> hoverConfigs, Map<String, Map<String, String>> picklistMaps, Map<String, Schema.DisplayType> fieldTypeMap) {
         if (hoverConfigs == null || hoverConfigs.isEmpty()) { return ''; }
         List<String> lines = new List<String>();
         for (HoverFieldConfig hf : hoverConfigs) {
-            String raw   = getStringFieldValue(rec, hf.fieldPath);
+            String raw   = getStringFieldValue(rec, hf.fieldPath, fieldTypeMap);
             String label = toLabel(raw, picklistMaps.get(hf.fieldPath));
             lines.add(hf.fieldLabel + ': ' + (label != null ? label : ''));
         }
@@ -392,10 +393,23 @@ public with sharing class CustomReportMatrixController {
         return getFieldValue(child, fieldApiPath, index + 1);
     }
 
-    private static String getStringFieldValue(SObject record, String fieldPath) {
+    private static String getStringFieldValue(SObject record, String fieldPath, Map<String, Schema.DisplayType> fieldTypeMap) {
         if (record == null || String.isBlank(fieldPath)) { return null; }
         Object raw = getFieldValue(record, fieldPath.split('\\.'), 0);
-        return raw == null ? null : String.valueOf(raw);
+        if (raw == null) return null;
+        Schema.DisplayType dt = fieldTypeMap?.get(fieldPath);
+        return dt != null ? formatByFieldType(raw, dt) : String.valueOf(raw);
+    }
+
+    private static String formatByFieldType(Object val, Schema.DisplayType dt) {
+        if (val == null) return null;
+        switch on dt {
+            when Date             { return String.valueOf((Date) val); }                           // YYYY-MM-DD
+            when DateTime         { return ((DateTime) val).format('yyyy-MM-dd HH:mm'); }          // YYYY-MM-DD HH:MM (no seconds)
+            when Double, Currency { return ((Decimal) val).stripTrailingZeros().toPlainString(); } // 1500 instead of 1500.0
+            when Percent          { return ((Decimal) val).setScale(2).toPlainString() + '%'; }    // 15.35%
+            when else             { return String.valueOf(val); }                                  // Other field types
+        }
     }
 
     private static String getValOrBlank(String val) {
