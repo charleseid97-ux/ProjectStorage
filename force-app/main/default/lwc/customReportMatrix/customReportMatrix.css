@@ -3,6 +3,7 @@
     border: 1px solid #dddbda;
     border-radius: 5px;
     background: #ffffff;
+    position: relative;
 }
 
 .matrix-header {
@@ -193,6 +194,29 @@ tr.group-boundary th {
     min-width: 140px;
     max-width: 220px;
     flex: 0 1 auto;
+}
+
+/* ===== Cell Hover Tooltip ===== */
+.matrix-tooltip {
+    position: absolute;
+    background: #ffffff;
+    border: 1px solid #dddbda;
+    border-radius: 4px;
+    padding: 8px 10px;
+    white-space: pre-line;
+    text-align: left;
+    font-size: 0.75rem;
+    color: #3e3e3c;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    min-width: 160px;
+    transform: translate(-50%, -100%);
+    pointer-events: none;
+    visibility: hidden;
+    z-index: 50;
+}
+
+.matrix-tooltip--visible {
+    visibility: visible;
 }
 
 /* ===== Reloading Indicator (filter-change reload) ===== */

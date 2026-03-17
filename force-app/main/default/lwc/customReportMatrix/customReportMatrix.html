@@ -23,12 +23,7 @@
                 <template if:true={allowFilter}>
                     <div class="header-separator"></div>
                     <div class="header-filter">
-                        <lightning-input type="search"
-                                         label={filterRowsLabel}
-                                         placeholder="Filter rows..."
-                                         value={filterTerm}
-                                         onchange={handleFilterChange}>
-                        </lightning-input>
+                        <lightning-input type="search" label={filterRowsLabel} placeholder="Filter rows..." value={filterTerm} onchange={handleFilterChange}></lightning-input>
                         <template if:true={isFiltering}>
                             <lightning-spinner size="x-small" alternative-text="Filtering"></lightning-spinner>
                         </template>
@@ -49,11 +44,7 @@
                                 </div>
                             </template>
                             <div class="dynamic-filters-apply-btn">
-                                <lightning-button label="Apply filters"
-                                                variant="brand"
-                                                onclick={handleApplyFilters}
-                                                disabled={noPendingFilters}>
-                                </lightning-button>
+                                <lightning-button label="Apply filters" variant="brand" onclick={handleApplyFilters} disabled={noPendingFilters}></lightning-button>
                             </div>
                         </div>
                     </template>
@@ -62,19 +53,9 @@
 
             <div class="header-right">
                 <template if:true={allowExcelExport}>
-                    <lightning-button label="Export to Excel"
-                                        icon-name="utility:download"
-                                        icon-position="left"
-                                        disabled={isExportDisabled}
-                                        onclick={handleExport}>
-                    </lightning-button>
+                    <lightning-button label="Export to Excel" icon-name="utility:download" icon-position="left" disabled={isExportDisabled} onclick={handleExport}></lightning-button>
                 </template>
-                <lightning-button-icon icon-name="utility:refresh"
-                                        variant="border"
-                                        alternative-text="Refresh"
-                                        title="Refresh"
-                                        onclick={handleRefresh}>
-                </lightning-button-icon>
+                <lightning-button-icon icon-name="utility:refresh" variant="border" alternative-text="Refresh" title="Refresh" onclick={handleRefresh}></lightning-button-icon>
             </div>
         </div>
 
@@ -137,7 +118,7 @@
                                 </template>
                                 <!-- Value cells -->
                                 <template for:each={row.values} for:item="cell">
-                                    <td key={cell.key} class={cell.cssClass} style={cell.inlineStyle}>
+                                    <td key={cell.key} class={cell.cssClass} style={cell.inlineStyle} data-tooltip={cell.tooltip} onmouseenter={handleCellMouseEnter} onmouseleave={handleCellMouseLeave}>
                                         {cell.value}
                                     </td>
                                 </template>
@@ -147,5 +128,6 @@
                 </table>
             </div>
         </template>
+        <div class={tooltipClass} style={tooltipStyle}>{tooltipText}</div>
     </section>
 </template>
