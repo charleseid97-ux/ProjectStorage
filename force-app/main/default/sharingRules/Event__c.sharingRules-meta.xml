@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
-
-    <!-- France -->
     <sharingCriteriaRules>
         <fullName>FranceBD</fullName>
         <accessLevel>Edit</accessLevel>
@@ -16,7 +14,6 @@
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
-
     <sharingCriteriaRules>
         <fullName>FranceCRM</fullName>
         <accessLevel>Edit</accessLevel>
@@ -31,8 +28,6 @@
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
-
-    <!-- Germany -->
     <sharingCriteriaRules>
         <fullName>GermanyBD</fullName>
         <accessLevel>Edit</accessLevel>
@@ -47,7 +42,6 @@
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
-
     <sharingCriteriaRules>
         <fullName>GermanyCRM</fullName>
         <accessLevel>Edit</accessLevel>
@@ -62,225 +56,6 @@
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
-
-    <!-- Italy -->
-    <sharingCriteriaRules>
-        <fullName>ItalyBD</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>Italy BD</label>
-        <sharedTo>
-            <role>ItalyBusinessDeveloper</role>
-        </sharedTo>
-        <criteriaItems>
-            <field>salesTeam__c</field>
-            <operation>equals</operation>
-            <value>Italy</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-
-    <sharingCriteriaRules>
-        <fullName>ItalyCRM</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>Italy CRM</label>
-        <sharedTo>
-            <role>ItalyCRM</role>
-        </sharedTo>
-        <criteriaItems>
-            <field>salesTeam__c</field>
-            <operation>equals</operation>
-            <value>Italy</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-
-    <!-- Spain -->
-    <sharingCriteriaRules>
-        <fullName>SpainBD</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>Spain BD</label>
-        <sharedTo>
-            <role>SpainBusinessDeveloper</role>
-        </sharedTo>
-        <criteriaItems>
-            <field>salesTeam__c</field>
-            <operation>equals</operation>
-            <value>Spain</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-
-    <sharingCriteriaRules>
-        <fullName>SpainCRM</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>Spain CRM</label>
-        <sharedTo>
-            <role>SpainCRM</role>
-        </sharedTo>
-        <criteriaItems>
-            <field>salesTeam__c</field>
-            <operation>equals</operation>
-            <value>Spain</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-
-    <!-- Luxembourg -->
-    <sharingCriteriaRules>
-        <fullName>LuxembourgBD</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>Luxembourg BD</label>
-        <sharedTo>
-            <role>LuxembourgNetherlandsBusinessDeveloper</role>
-        </sharedTo>
-        <criteriaItems>
-            <field>salesTeam__c</field>
-            <operation>equals</operation>
-            <value>Luxembourg</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-
-    <sharingCriteriaRules>
-        <fullName>LuxembourgCRM</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>Luxembourg CRM</label>
-        <sharedTo>
-            <role>LuxembourgNetherlandsCRM</role>
-        </sharedTo>
-        <criteriaItems>
-            <field>salesTeam__c</field>
-            <operation>equals</operation>
-            <value>Luxembourg</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-
-    <!-- Netherlands -->
-    <sharingCriteriaRules>
-        <fullName>NetherlandsBD</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>Netherlands BD</label>
-        <sharedTo>
-            <role>LuxembourgNetherlandsBusinessDeveloper</role>
-        </sharedTo>
-        <criteriaItems>
-            <field>salesTeam__c</field>
-            <operation>equals</operation>
-            <value>Netherlands</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-
-    <sharingCriteriaRules>
-        <fullName>NetherlandsCRM</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>Netherlands CRM</label>
-        <sharedTo>
-            <role>LuxembourgNetherlandsCRM</role>
-        </sharedTo>
-        <criteriaItems>
-            <field>salesTeam__c</field>
-            <operation>equals</operation>
-            <value>Netherlands</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-
-    <!-- United Kingdom -->
-    <sharingCriteriaRules>
-        <fullName>UnitedKingdomBD</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>United Kingdom BD</label>
-        <sharedTo>
-            <role>UKBusinessDeveloper</role>
-        </sharedTo>
-        <criteriaItems>
-            <field>salesTeam__c</field>
-            <operation>equals</operation>
-            <value>United Kingdom</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-
-    <sharingCriteriaRules>
-        <fullName>UnitedKingdomCRM</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>United Kingdom CRM</label>
-        <sharedTo>
-            <role>UKCRM</role>
-        </sharedTo>
-        <criteriaItems>
-            <field>salesTeam__c</field>
-            <operation>equals</operation>
-            <value>United Kingdom</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-
-    <!-- Switzerland -->
-    <sharingCriteriaRules>
-        <fullName>SwitzerlandBD</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>Switzerland BD</label>
-        <sharedTo>
-            <role>SwitzerlandBusinessDeveloper</role>
-        </sharedTo>
-        <criteriaItems>
-            <field>salesTeam__c</field>
-            <operation>equals</operation>
-            <value>Switzerland</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-
-    <sharingCriteriaRules>
-        <fullName>SwitzerlandCRM</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>Switzerland CRM</label>
-        <sharedTo>
-            <role>SwitzerlandCRM</role>
-        </sharedTo>
-        <criteriaItems>
-            <field>salesTeam__c</field>
-            <operation>equals</operation>
-            <value>Switzerland</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-
-    <!-- Nordics -->
-    <sharingCriteriaRules>
-        <fullName>NordicsBD</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>Nordics BD</label>
-        <sharedTo>
-            <role>NordicsBusinessDeveloper</role>
-        </sharedTo>
-        <criteriaItems>
-            <field>salesTeam__c</field>
-            <operation>equals</operation>
-            <value>Nordics</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-
-    <sharingCriteriaRules>
-        <fullName>NordicsCRM</fullName>
-        <accessLevel>Edit</accessLevel>
-        <label>Nordics CRM</label>
-        <sharedTo>
-            <role>NordicsCRM</role>
-        </sharedTo>
-        <criteriaItems>
-            <field>salesTeam__c</field>
-            <operation>equals</operation>
-            <value>Nordics</value>
-        </criteriaItems>
-        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
-    </sharingCriteriaRules>
-
-    <!-- International -->
     <sharingCriteriaRules>
         <fullName>InternationalBD</fullName>
         <accessLevel>Edit</accessLevel>
@@ -295,7 +70,6 @@
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
-
     <sharingCriteriaRules>
         <fullName>InternationalCRM</fullName>
         <accessLevel>Edit</accessLevel>
@@ -310,5 +84,200 @@
         </criteriaItems>
         <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
     </sharingCriteriaRules>
-
+    <sharingCriteriaRules>
+        <fullName>ItalyBD</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Italy BD</label>
+        <sharedTo>
+            <role>ItalyBusinessDeveloper</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>salesTeam__c</field>
+            <operation>equals</operation>
+            <value>Italy</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>ItalyCRM</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Italy CRM</label>
+        <sharedTo>
+            <role>ItalyCRM</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>salesTeam__c</field>
+            <operation>equals</operation>
+            <value>Italy</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>LuxembourgBD</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Luxembourg BD</label>
+        <sharedTo>
+            <role>LuxembourgNetherlandsBusinessDeveloper</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>salesTeam__c</field>
+            <operation>equals</operation>
+            <value>Luxembourg</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>LuxembourgCRM</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Luxembourg CRM</label>
+        <sharedTo>
+            <role>LuxembourgNetherlandsCRM</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>salesTeam__c</field>
+            <operation>equals</operation>
+            <value>Luxembourg</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>NetherlandsBD</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Netherlands BD</label>
+        <sharedTo>
+            <role>LuxembourgNetherlandsBusinessDeveloper</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>salesTeam__c</field>
+            <operation>equals</operation>
+            <value>Netherlands</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>NetherlandsCRM</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Netherlands CRM</label>
+        <sharedTo>
+            <role>LuxembourgNetherlandsCRM</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>salesTeam__c</field>
+            <operation>equals</operation>
+            <value>Netherlands</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>NordicsBD</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Nordics BD</label>
+        <sharedTo>
+            <role>NordicsBusinessDeveloper</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>salesTeam__c</field>
+            <operation>equals</operation>
+            <value>Nordics</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>NordicsCRM</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Nordics CRM</label>
+        <sharedTo>
+            <role>NordicsCRM</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>salesTeam__c</field>
+            <operation>equals</operation>
+            <value>Nordics</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>SpainBD</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Spain BD</label>
+        <sharedTo>
+            <role>SpainBusinessDeveloper</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>salesTeam__c</field>
+            <operation>equals</operation>
+            <value>Spain</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>SpainCRM</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Spain CRM</label>
+        <sharedTo>
+            <role>SpainCRM</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>salesTeam__c</field>
+            <operation>equals</operation>
+            <value>Spain</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>SwitzerlandBD</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Switzerland BD</label>
+        <sharedTo>
+            <role>SwitzerlandBusinessDeveloper</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>salesTeam__c</field>
+            <operation>equals</operation>
+            <value>Switzerland</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>SwitzerlandCRM</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Switzerland CRM</label>
+        <sharedTo>
+            <role>SwitzerlandCRM</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>salesTeam__c</field>
+            <operation>equals</operation>
+            <value>Switzerland</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>UnitedKingdomBD</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>United Kingdom BD</label>
+        <sharedTo>
+            <role>UKBusinessDeveloper</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>salesTeam__c</field>
+            <operation>equals</operation>
+            <value>United Kingdom</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingCriteriaRules>
+        <fullName>UnitedKingdomCRM</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>United Kingdom CRM</label>
+        <sharedTo>
+            <role>UKCRM</role>
+        </sharedTo>
+        <criteriaItems>
+            <field>salesTeam__c</field>
+            <operation>equals</operation>
+            <value>United Kingdom</value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
 </SharingRules>
