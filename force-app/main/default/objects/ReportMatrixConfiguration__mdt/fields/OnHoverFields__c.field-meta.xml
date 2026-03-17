@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OnHoverFields__c</fullName>
+    <description>Field API names (one per line) whose values are shown as a tooltip when hovering a matrix cell. The first record in the cell is used. Accepts relationship paths (e.g. Country__r.Name).</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>One field API name per line. On cell hover, displays each field on its own line as "Field Label: Value", using the first record in the cell.</inlineHelpText>
+    <label>On Hover Fields</label>
+    <length>32768</length>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

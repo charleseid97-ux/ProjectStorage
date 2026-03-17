@@ -48,6 +48,9 @@ export default class CustomReportMatrix extends LightningElement {
     @track filterSelections       = {};
     @track pendingFilterSelections = {};
     @track filterOptions          = [];
+    @track tooltipText    = '';
+    @track tooltipStyle   = '';
+    @track tooltipVisible = false;
 
     sheetJsLoaded = false;
     sheetJsReady  = false;
@@ -152,7 +155,8 @@ export default class CustomReportMatrix extends LightningElement {
                         key:         `cell-${ri}-${vi}`,
                         value:       v.value || '',
                         cssClass:    `value-cell cell-c${vi}`,
-                        inlineStyle: v.inlineStyle || ''
+                        inlineStyle: v.inlineStyle || '',
+                        tooltip:     v.hoverText  || ''
                     }))
                 });
             } 
@@ -211,6 +215,27 @@ export default class CustomReportMatrix extends LightningElement {
                 groupCells: newGroupCells
             };
         });
+    }
+
+    // ─── Cell hover tooltip ──────────────────────────────────────────────────────
+    get tooltipClass() {
+        return this.tooltipVisible ? 'matrix-tooltip matrix-tooltip--visible' : 'matrix-tooltip';
+    }
+
+    handleCellMouseEnter(event) {
+        const tooltip = event.currentTarget.dataset.tooltip;
+        if (!tooltip) return;
+        const cellRect      = event.currentTarget.getBoundingClientRect();
+        const containerRect = this.template.querySelector('.matrix-card').getBoundingClientRect();
+        const top  = cellRect.top - containerRect.top - 6;
+        const left = cellRect.left - containerRect.left + cellRect.width / 2;
+        this.tooltipText    = tooltip;
+        this.tooltipStyle   = `top: ${top}px; left: ${left}px;`;
+        this.tooltipVisible = true;
+    }
+
+    handleCellMouseLeave() {
+        this.tooltipVisible = false;
     }
 
     // ─── Column header rows ──────────────────────────────────────────────────────
@@ -287,10 +312,12 @@ export default class CustomReportMatrix extends LightningElement {
         const rg1Style  = { fill: { fgColor: { rgb: 'F3F2F2' } }, font: { bold: true }, alignment: { horizontal: 'center', vertical: 'center', wrapText: true }, border };
         const rg2Style  = { fill: { fgColor: { rgb: 'F9F9F9' } },                       alignment: { horizontal: 'center', vertical: 'center', wrapText: true }, border };
 
-        this.buildExcelHeaderRows(d, leftColCount, colDepth, hdrStyle1, hdrStyle2, aoa, styles, merges);
-        this.buildExcelDataRows(leftColCount, headerRowCount, rg1Style, rg2Style, border, aoa, styles, merges);
+        const comments = {};
 
-        const ws = this.buildWorksheet(aoa, merges, styles, d, leftColCount);
+        this.buildExcelHeaderRows(d, leftColCount, colDepth, hdrStyle1, hdrStyle2, aoa, styles, merges);
+        this.buildExcelDataRows(leftColCount, headerRowCount, rg1Style, rg2Style, border, aoa, styles, merges, comments);
+
+        const ws = this.buildWorksheet(aoa, merges, styles, d, leftColCount, comments);
         const wb = window.XLSX.utils.book_new();
         window.XLSX.utils.book_append_sheet(wb, ws, (d.title || 'Matrix').slice(0, 31));
         window.XLSX.writeFile(wb, `${d.title || this.configName || 'matrix'}.xlsx`);
@@ -335,7 +362,7 @@ export default class CustomReportMatrix extends LightningElement {
         }
     }
 
-    buildExcelDataRows(leftColCount, headerRowCount, rg1Style, rg2Style, border, aoa, styles, merges) {
+    buildExcelDataRows(leftColCount, headerRowCount, rg1Style, rg2Style, border, aoa, styles, merges, comments) {
         this.filteredDisplayRows.forEach((row, ri) => {
             const excelRow = [];
             const absRow   = headerRowCount + ri;
@@ -356,12 +383,15 @@ export default class CustomReportMatrix extends LightningElement {
                     alignment: { horizontal: 'center', vertical: 'center' },
                     border
                 };
+                if (v.tooltip) {
+                    comments[`${absRow},${leftColCount + vi}`] = v.tooltip;
+                }
             });
             aoa.push(excelRow);
         });
     }
 
-    buildWorksheet(aoa, merges, styles, d, leftColCount) {
+    buildWorksheet(aoa, merges, styles, d, leftColCount, comments) {
         const ws = window.XLSX.utils.aoa_to_sheet(aoa);
         ws['!merges'] = merges;
         const totalCols = leftColCount + (d.columnKeys || []).length;
@@ -371,6 +401,13 @@ export default class CustomReportMatrix extends LightningElement {
             const addr = window.XLSX.utils.encode_cell({ r, c });
             if (!ws[addr]) ws[addr] = { v: '', t: 's' };
             ws[addr].s = styles[key];
+        });
+        Object.keys(comments).forEach(key => {
+            const [r, c] = key.split(',').map(Number);
+            const addr = window.XLSX.utils.encode_cell({ r, c });
+            if (!ws[addr]) ws[addr] = { v: '', t: 's' };
+            ws[addr].c = [{ a: 'Details', t: comments[key], T: true }];
+            ws[addr].c.hidden = true;
         });
         return ws;
     }

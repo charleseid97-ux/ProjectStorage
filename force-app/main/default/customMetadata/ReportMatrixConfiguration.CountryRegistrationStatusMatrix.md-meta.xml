@@ -67,6 +67,13 @@ ShareClass__r.Fund__r.LegalForm__c</value>
         <value xsi:type="xsd:string">Country__c</value>
     </values>
     <values>
+        <field>OnHoverFields__c</field>
+        <value xsi:type="xsd:string">RegistrationDate__c
+ShareClass__r.Fund__r.Strategy__r.AssetClass__c
+ShareClass__r.Fund__r.LegalForm__c
+ShareClass__r.Currency__c</value>
+    </values>
+    <values>
         <field>OrderByClause__c</field>
         <value xsi:type="xsd:string">Country__c ASC</value>
     </values>

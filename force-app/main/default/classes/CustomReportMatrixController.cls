@@ -16,7 +16,8 @@ public with sharing class CustomReportMatrixController {
     public static MatrixResult getMatrixData(String configName, String filterSelectionsJson, Boolean isInitialLoad) {
         // 1. Read CMDT — SOQL required: getInstance() silently truncates LongTextArea fields
         List<ReportMatrixConfiguration__mdt> configs = [SELECT ObjectName__c, RowGroups__c, ColGroups__c, ValueField__c, WhereClause__c, OrderByClause__c,
-                                                                Title__c, CellStyles__c, AllowExcelExport__c, AllowFilters__c, FilterFields__c, FilterRowsLabel__c
+                                                                Title__c, CellStyles__c, AllowExcelExport__c, AllowFilters__c, FilterFields__c, FilterRowsLabel__c,
+                                                                OnHoverFields__c
                                                         FROM ReportMatrixConfiguration__mdt
                                                         WHERE DeveloperName = :configName LIMIT 1];
         if (configs.isEmpty()) {
@@ -34,6 +35,13 @@ public with sharing class CustomReportMatrixController {
         // 3. Parse filter fields only on initial load — JS caches them afterwards
         List<String> filterGroupFields = isInitialLoad == true ? parseGroupFields(config.FilterFields__c, objectName, '\n') : new List<String>();
 
+        // 3b. Parse hover fields and build configs (label + path)
+        List<String> hoverFieldPaths = parseGroupFields(config.OnHoverFields__c, objectName, '\n');
+        List<HoverFieldConfig> hoverFieldConfigs = new List<HoverFieldConfig>();
+        for (String fp : hoverFieldPaths) {
+            hoverFieldConfigs.add(new HoverFieldConfig(fp, getFieldLabel(objectName, fp)));
+        }
+
         // 4. Deserialize filter selections and build the SOQL filter fragment
         Map<String, List<String>> filterSelMap = String.isNotBlank(filterSelectionsJson)? (Map<String, List<String>>) JSON.deserialize(filterSelectionsJson, Map<String, List<String>>.class) : new Map<String, List<String>>();
         String filterFragment = buildFilterFragment(filterSelMap);
@@ -41,6 +49,7 @@ public with sharing class CustomReportMatrixController {
         // 5. Build field set — include filter fields on initial load so a single query serves both purposes
         Set<String> fieldSet = buildFieldSet(rowGroupLevels, colGroupLevels, valueField);
         if (isInitialLoad == true) { fieldSet.addAll(filterGroupFields); }
+        fieldSet.addAll(hoverFieldPaths);
 
         // 6. Build picklist label maps for all fields (API value → Label)
         Map<String, Map<String, String>> picklistMaps = buildFieldPicklistLabelMap(fieldSet, objectName);
@@ -59,7 +68,7 @@ public with sharing class CustomReportMatrixController {
         }
 
         // 10. Group records — builds parent→children maps and cells map
-        GroupResult grouped = groupRecords(records, rowGroupLevels, colGroupLevels, valueField, picklistMaps);
+        GroupResult grouped = groupRecords(records, rowGroupLevels, colGroupLevels, valueField, picklistMaps, hoverFieldConfigs);
 
         // 11. Build column tree and extract ordered leaf keys
         List<String> columnKeys = new List<String>();
@@ -235,14 +244,14 @@ public with sharing class CustomReportMatrixController {
         return styleByRawValue;
     }
 
-    private static GroupResult groupRecords(List<SObject> records, List<List<String>> rowGroupLevels, List<List<String>> colGroupLevels, String valueField, Map<String, Map<String, String>> picklistMaps) {
+    private static GroupResult groupRecords(List<SObject> records, List<List<String>> rowGroupLevels, List<List<String>> colGroupLevels, String valueField, Map<String, Map<String, String>> picklistMaps, List<HoverFieldConfig> hoverConfigs) {
         GroupResult g = new GroupResult();
         for (SObject rec : records) {
             String rowKey    = buildGroupKey(rec, rowGroupLevels, picklistMaps, g.rowChildrenByParentKey);
             String colKey    = buildGroupKey(rec, colGroupLevels, picklistMaps, g.colChildrenByParentKey);
             String rawValStr = getStringFieldValue(rec, valueField);
             String valStr    = toLabel(rawValStr, picklistMaps.get(valueField));
-            registerCell(g, rowKey, colKey, rawValStr, valStr);
+            registerCell(g, rowKey, colKey, rawValStr, valStr, rec, hoverConfigs, picklistMaps);
         }
         return g;
     }
@@ -265,16 +274,28 @@ public with sharing class CustomReportMatrixController {
         return parentKey;
     }
 
-    private static void registerCell(GroupResult g, String rowKey, String colKey, String rawValStr, String valStr) {
+    private static void registerCell(GroupResult g, String rowKey, String colKey, String rawValStr, String valStr, SObject rec, List<HoverFieldConfig> hoverConfigs, Map<String, Map<String, String>> picklistMaps) {
         if (!g.cells.containsKey(rowKey)) {
             g.cells.put(rowKey, new Map<String, Map<String, CellData>>());
         }
         if (!g.cells.get(rowKey).containsKey(colKey)) {
             g.cells.get(rowKey).put(colKey, new Map<String, CellData>());
         }
-        if (rawValStr != null && valStr != null) {
-            g.cells.get(rowKey).get(colKey).put(rawValStr, new CellData(rawValStr, valStr));
+        if (rawValStr != null && valStr != null && !g.cells.get(rowKey).get(colKey).containsKey(rawValStr)) {
+            String hoverText = buildHoverText(rec, hoverConfigs, picklistMaps);
+            g.cells.get(rowKey).get(colKey).put(rawValStr, new CellData(rawValStr, valStr, hoverText));
         }
+    }
+
+    private static String buildHoverText(SObject rec, List<HoverFieldConfig> hoverConfigs, Map<String, Map<String, String>> picklistMaps) {
+        if (hoverConfigs == null || hoverConfigs.isEmpty()) { return ''; }
+        List<String> lines = new List<String>();
+        for (HoverFieldConfig hf : hoverConfigs) {
+            String raw   = getStringFieldValue(rec, hf.fieldPath);
+            String label = toLabel(raw, picklistMaps.get(hf.fieldPath));
+            lines.add(hf.fieldLabel + ': ' + (label != null ? label : ''));
+        }
+        return String.join(lines, '\n');
     }
 
     private static List<ColNode> buildColTree(List<List<String>> colGroupLevels, Integer depth, String parentKey, Map<String, Set<String>> childrenByParentKey, List<String> columnKeys) {
@@ -344,16 +365,21 @@ public with sharing class CustomReportMatrixController {
     }
 
     private static CellData sortAndJoin(List<CellData> cellData) {
-        if (cellData.isEmpty()) { return new CellData('', ''); }
+        if (cellData.isEmpty()) { return new CellData('', '', ''); }
         List<String> rawValsList = new List<String>();
         List<String> valsList    = new List<String>();
         for (CellData cd : cellData) {
             rawValsList.add(cd.rawValue);
-            rawValsList.sort();
             valsList.add(cd.value);
-            valsList.sort();
         }
-        return new CellData(String.join(rawValsList, '\n'), String.join(valsList, '\n'));
+        rawValsList.sort();
+        valsList.sort();
+        String firstRaw  = rawValsList[0];
+        String hoverText = '';
+        for (CellData cd : cellData) {
+            if (cd.rawValue == firstRaw) { hoverText = cd.hoverText; break; }
+        }
+        return new CellData(String.join(rawValsList, '\n'), String.join(valsList, '\n'), hoverText);
     }
 
     private static Object getFieldValue(SObject record, List<String> fieldApiPath, Integer index) {
@@ -491,10 +517,12 @@ public with sharing class CustomReportMatrixController {
         @AuraEnabled public String rawValue    { get; set; }
         @AuraEnabled public String value       { get; set; }
         @AuraEnabled public String inlineStyle { get; set; }
-        public CellData(String rawValue, String value) {
+        @AuraEnabled public String hoverText   { get; set; }
+        public CellData(String rawValue, String value, String hoverText) {
             this.rawValue       =   rawValue;
             this.value          =   value;
             this.inlineStyle    =   '';
+            this.hoverText      =   hoverText != null ? hoverText : '';
         }
     }
 
@@ -522,5 +550,14 @@ public with sharing class CustomReportMatrixController {
         Map<String, Set<String>> rowChildrenByParentKey = new Map<String, Set<String>>{ '' => new Set<String>() };
         Map<String, Set<String>> colChildrenByParentKey = new Map<String, Set<String>>{ '' => new Set<String>() };
         Map<String, Map<String, Map<String, CellData>>> cells = new Map<String, Map<String, Map<String, CellData>>>();
+    }
+
+    private class HoverFieldConfig {
+        String fieldPath;
+        String fieldLabel;
+        HoverFieldConfig(String fieldPath, String fieldLabel) {
+            this.fieldPath  =   fieldPath;
+            this.fieldLabel =   fieldLabel;
+        }
     }
 }
