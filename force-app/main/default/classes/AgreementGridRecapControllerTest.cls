@@ -40,12 +40,12 @@ public with sharing class AgreementGridRecapControllerTest {
         AgreementTriggerHandler.triggerDisabled = false;
 
         // Create one history record
-        insert new Agreement_Grid_History__c(
+        insert new AgreementGridTimeline__c(
             Name                = agr.Name + ' - Previous Grid',
             Agreement__c        = agr.Id,
             Grid__c             = standardGrid.Id,
-            Grid_Start_Date__c  = Date.today().addMonths(-12),
-            Grid_End_Date__c    = Date.today().addMonths(-1)
+            GridStartDate__c  = Date.today().addMonths(-12),
+            GridEndDate__c    = Date.today().addMonths(-1)
         );
 
         Test.startTest();

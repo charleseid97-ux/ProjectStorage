@@ -515,9 +515,9 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Grid_Start_Date__c</fields>
-        <fields>Grid_End_Date__c</fields>
-        <relatedList>Agreement_Grid_History__c.Agreement__c</relatedList>
+        <fields>GridStartDate__c</fields>
+        <fields>GridEndDate__c</fields>
+        <relatedList>AgreementGridTimeline__c.Agreement__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>Document__c</fields>

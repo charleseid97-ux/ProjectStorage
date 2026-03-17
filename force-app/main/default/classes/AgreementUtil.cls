@@ -163,14 +163,14 @@ global without sharing class AgreementUtil {
         //**End setting company snapshot data
     }
 
-//Create GRID History records once a new GRID Amendment is Approved on an Agreement
-    public static Agreement_Grid_History__c createGridHistory(Convention__c agr, Grid__c currentGrid) {
-        Agreement_Grid_History__c newAGH = new Agreement_Grid_History__c(Name = agr.Name + ' - ' + currentGrid.Name,
+    //Create GRID Timeline records once a new GRID Amendment is Approved on an Agreement
+    public static AgreementGridTimeline__c createGridTimeline(Convention__c agr, Grid__c currentGrid) {
+        AgreementGridTimeline__c newAGT = new AgreementGridTimeline__c(Name = agr.Name + ' - ' + currentGrid.Name,
                 Agreement__c = agr.Id,
                 Grid__c = agr.Grid__c,
-                Grid_Start_Date__c = agr.Grid_Start_Date__c,
-                Grid_End_Date__c = agr.Grid_Request_Start_Date__c);
-        return newAGH;
+                GridStartDate__c = agr.Grid_Start_Date__c,
+                GridEndDate__c = agr.Grid_Request_Start_Date__c);
+        return newAGT;
     }
 
     /*public static void validateUniqueCode(Convention__c agr) {

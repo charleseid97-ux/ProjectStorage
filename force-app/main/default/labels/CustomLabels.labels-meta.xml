@@ -270,18 +270,18 @@
         <value>Error loading agreement settings</value>
     </labels>
     <labels>
-        <fullName>Grid_AgreementGridHistory</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Column header for Agreement Grid History</shortDescription>
-        <value>Agreement Grid History</value>
-    </labels>
-    <labels>
         <fullName>Grid_AgreementGridRecap</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Section title for the grids recap in the Agreement Grid Recap component</shortDescription>
         <value>Grids Recap</value>
+    </labels>
+    <labels>
+        <fullName>Grid_AgreementGridTimeline</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header for Agreement Grid Timeline</shortDescription>
+        <value>Agreement Grid Timeline</value>
     </labels>
     <labels>
         <fullName>Grid_Agreements</fullName>
@@ -492,6 +492,13 @@
         <protected>false</protected>
         <shortDescription>Field label for Grid Name in the Agreement Grid Recap component</shortDescription>
         <value>Grid</value>
+    </labels>
+    <labels>
+        <fullName>Grid_GridRulesCreated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Result label for import</shortDescription>
+        <value>Grid Rules created</value>
     </labels>
     <labels>
         <fullName>Grid_ImportCompleted</fullName>
@@ -739,13 +746,6 @@
         <value>Row errors</value>
     </labels>
     <labels>
-        <fullName>Grid_GridRulesCreated</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Result label for import</shortDescription>
-        <value>Grid Rules created</value>
-    </labels>
-    <labels>
         <fullName>Grid_Saved_Success</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -820,7 +820,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Warning: share classes not added, not in selected standard grid</shortDescription>
-        <value>{0} share class(es) matched your filter but were not added because they don't belong to the selected standard grid.</value>
+        <value>{0} share class(es) matched your filter but were not added because they don&apos;t belong to the selected standard grid.</value>
     </labels>
     <labels>
         <fullName>Grid_ShareTypeFilterIndependentInfo</fullName>

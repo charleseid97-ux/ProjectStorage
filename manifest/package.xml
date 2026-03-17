@@ -3,6 +3,7 @@
 	<types>
 		<members>AgreementGridRecapController</members>
 		<members>AgreementGridRecapControllerTest</members>
+		<members>AgreementUtil</members>
 		<members>GridBuilderController</members>
 		<members>GridBuilderControllerTest</members>
 		<members>GridBuilderHelper</members>
@@ -17,6 +18,7 @@
 		<members>GridTestSetupHelper</members>
 		<members>GridValidationController</members>
 		<members>GridValidationControllerTest</members>
+		<members>SM034_AgreementService</members>
 		<members>StandardGridProductAndRulesController</members>
 		<members>StdGridProductAndRulesControllerTest</members>
 		<name>ApexClass</name>
@@ -30,8 +32,8 @@
 		<members>Grid_AddRestrictedShareTypes</members>
 		<members>Grid_AddToGrid</members>
 		<members>Grid_AgreementErrorLoadingSettings</members>
-		<members>Grid_AgreementGridHistory</members>
 		<members>Grid_AgreementGridRecap</members>
+		<members>Grid_AgreementGridTimeline</members>
 		<members>Grid_Agreements</members>
 		<members>Grid_AllRowsImported</members>
 		<members>Grid_AlreadySelected</members>
@@ -253,6 +255,7 @@
 		<name>CustomMetadata</name>
 	</types>
 	<types>
+		<members>AgreementGridTimeline__c</members>
 		<members>Convention__c</members>
 		<members>GridBuilderSetting__mdt</members>
 		<members>GridCriteriaDetail__c</members>
@@ -294,6 +297,7 @@
 	<types>
 		<members>Convention__c-Intermediary Agreement Layout</members>
 		<members>Convention__c-Intermediary Agreement Request Full Layout</members>
+		<members>Convention__c-Sub-distributor Agreement Layout</members>
 		<members>GridBuilderSetting__mdt-Grid Builder Setting Layout</members>
 		<members>GridCriteriaDetail__c-Grid Criteria Detail Layout</members>
 		<members>GridCriteriaSetting__mdt-Grid Criteria Setting Layout</members>

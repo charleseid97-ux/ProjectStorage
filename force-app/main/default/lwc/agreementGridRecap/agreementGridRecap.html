@@ -78,7 +78,7 @@
                         </div>
                     </div>
 
-                    <!-- ── Column 2: Grid History ── -->
+                    <!-- ── Column 2: Grid Timeline ── -->
                     <div class="slds-col slds-size_1-of-2">
                         <div class="slds-card">
                             <div class="card-header slds-card__header slds-grid">
@@ -88,8 +88,8 @@
                                     </div>
                                     <div class="slds-media__body">
                                         <h2 class="slds-card__header-title">
-                                            <span class="slds-truncate" title={labels.Grid_AgreementGridHistory}>
-                                                {labels.Grid_AgreementGridHistory} ({historyCount})
+                                            <span class="slds-truncate" title={labels.Grid_AgreementGridTimeline}>
+                                                {labels.Grid_AgreementGridTimeline} ({timelineCount})
                                             </span>
                                         </h2>
                                     </div>
@@ -99,13 +99,13 @@
                                 <template if:true={hasHistory}>
                                     <lightning-datatable
                                         key-field="recordId"
-                                        data={historyRows}
-                                        columns={historyColumns}
+                                        data={timelineRows}
+                                        columns={timelineColumns}
                                         hide-checkbox-column>
                                     </lightning-datatable>
                                 </template>
                                 <template if:false={hasHistory}>
-                                    <p class="slds-text-color_weak slds-p-around_small">No history found.</p>
+                                    <p class="slds-text-color_weak slds-p-around_small">No timeline found.</p>
                                 </template>
                             </div>
                         </div>

@@ -432,7 +432,7 @@ matchingLegalEntityByCompany.put(le.Company__c, le);
             update lConventionToUpdate;
         }
         
-        List<Agreement_Grid_History__c> AGHToInsert = new List<Agreement_Grid_History__c>();
+        List<AgreementGridTimeline__c> AGTToInsert = new List<AgreementGridTimeline__c>();
         for (Convention__c agr : newAgreements) {
             
             Account tmpAcc = companyMap.get(agr.Company__c);
@@ -444,9 +444,9 @@ matchingLegalEntityByCompany.put(le.Company__c, le);
             }
             
             if (agr.Amendment_Approval_Status__c == 'Approved' && agr.Grid_Request_Approved__c) {
-                Agreement_Grid_History__c retAGH = AgreementUtil.createGridHistory(agr, gridMap.get(agr.Grid__c));
-                if (retAGH != null) {
-                    AGHToInsert.add(retAGH);
+                AgreementGridTimeline__c retAGT = AgreementUtil.createGridTimeline(agr, gridMap.get(agr.Grid__c));
+                if (retAGT != null) {
+                    AGTToInsert.add(retAGT);
                     
                     agr.Grid__c = agr.Grid_Request__c;
                     agr.Grid_Request__c = null;
@@ -475,8 +475,8 @@ agr.Renewal_Request_End_Date__c = null;
             //    AgreementUtil.validateStepsApproval(agr, oldAgreements);
         }
         
-        if(AGHToInsert.size() > 0) {
-            insert AGHToInsert;
+        if(AGTToInsert.size() > 0) {
+            insert AGTToInsert;
         }
     }
     

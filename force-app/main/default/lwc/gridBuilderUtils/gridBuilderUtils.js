@@ -54,7 +54,7 @@ import Grid_CriteriaDetailsCreated from '@salesforce/label/c.Grid_CriteriaDetail
 import Grid_CriteriaHistory from '@salesforce/label/c.Grid_CriteriaHistory';
 import Grid_CriteriaLabel from '@salesforce/label/c.Grid_CriteriaLabel';
 import Grid_CriteriaNumber from '@salesforce/label/c.Grid_CriteriaNumber';
-import Grid_AgreementGridHistory from '@salesforce/label/c.Grid_AgreementGridHistory';
+import Grid_AgreementGridTimeline from '@salesforce/label/c.Grid_AgreementGridTimeline';
 import Grid_AgreementGridRecap from '@salesforce/label/c.Grid_AgreementGridRecap';
 import Grid_CurrentGridRecap from '@salesforce/label/c.Grid_CurrentGridRecap';
 import Grid_DetailsTitle from '@salesforce/label/c.Grid_DetailsTitle';
@@ -140,7 +140,7 @@ export const LABELS = {
     Grid_AddFilter, Grid_AddRestrictedShareTypes, Grid_AddToGrid, Grid_AgreementErrorLoadingSettings, Grid_Agreements,
     Grid_AllRowsImported, Grid_AlreadySelected, Grid_ApplyFilters, Grid_AutoIncludeHelpText, Grid_AutoIncludeLabel,
     Grid_AutomaticUpdate, Grid_Builder, Grid_CreatedSuccess, Grid_CriteriaCreated, Grid_CriteriaDetailsCreated, Grid_CriteriaHistory,
-    Grid_CriteriaLabel, Grid_CriteriaNumber, Grid_AgreementGridHistory, Grid_AgreementGridRecap, Grid_CurrentGridRecap, Grid_DetailsTitle, Grid_DifferentGridsSelected,
+    Grid_CriteriaLabel, Grid_CriteriaNumber, Grid_AgreementGridTimeline, Grid_AgreementGridRecap, Grid_CurrentGridRecap, Grid_DetailsTitle, Grid_DifferentGridsSelected,
     Grid_ErrorLoadingGrids, Grid_ErrorLoadingProducts, Grid_ErrorLoadingSettings, Grid_ErrorRetrievingProducts,
     Grid_ErrorSavingGrid, Grid_ErrorValidatingProducts, Grid_ExcelImportTitle, Grid_ExcludedProducts,
     Grid_FailedToLoadSheetJS, Grid_FilterNumber, Grid_FixValidationErrors, Grid_GridDetailsCreated, Grid_GridName,

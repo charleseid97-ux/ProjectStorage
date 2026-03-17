@@ -153,14 +153,13 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ControlledByParent</externalSharingModel>
-    <gender>Feminine</gender>
-    <label>Agreement Grid History Item</label>
+    <label>Agreement Grid Timeline Item</label>
     <nameField>
         <encryptionScheme>None</encryptionScheme>
-        <label>Agreement Grid History Name</label>
+        <label>Agreement Grid Timeline Name</label>
         <type>Text</type>
     </nameField>
-    <pluralLabel>Agreement Grid History Items</pluralLabel>
+    <pluralLabel>Agreement Grid Timeline Items</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
     <visibility>Public</visibility>

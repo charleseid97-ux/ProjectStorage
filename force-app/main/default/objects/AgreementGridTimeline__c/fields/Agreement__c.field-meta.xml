@@ -3,8 +3,8 @@
     <fullName>Agreement__c</fullName>
     <label>Agreement</label>
     <referenceTo>Convention__c</referenceTo>
-    <relationshipLabel>Agreement Grid History Items</relationshipLabel>
-    <relationshipName>Agreement_Grid_History_Item</relationshipName>
+    <relationshipLabel>Agreement Grid Timeline Items</relationshipLabel>
+    <relationshipName>Agreement_Grid_Timeline_Item</relationshipName>
     <relationshipOrder>0</relationshipOrder>
     <reparentableMasterDetail>false</reparentableMasterDetail>
     <trackTrending>false</trackTrending>
