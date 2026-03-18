@@ -59,20 +59,22 @@ public with sharing class GridValidationController {
             // 1. Create Grid__c (with Custom record type)
             insertCustomGrid(request.grid, result);
 
-            // 2. Create GridScope__c for Custom Grid (references the new grid)
-            insertGridScope(request);
-
-            // 3. Create GridCriteria__c (store Map<criteriaRefId, Id>)
+            // 2. Create GridCriteria__c (store Map<criteriaRefId, Id>)
             Map<String, GridCriteria__c> criteriaRefToRecordMap = insertGridCriteria_getCriteriaRefToIdMap(request);
 
-            // 4. Create GridCriteriaDetail__c
+            // 3. Create GridCriteriaDetail__c
             insertGridCriteriaDetails(request.criteriaList, criteriaRefToRecordMap);
 
-            // 5. Create GridDetail__c
+            // 4. Create GridDetail__c
             insertGridDetails(request, criteriaRefToRecordMap, shareClassGridIdMap);
 
-            // 6. Update Convention__c with Grid__c
-            updateAgreements(request);
+            Map<Id, Convention__c> existingAgreements = new Map<Id, Convention__c>([SELECT Id, Grid__c FROM Convention__c WHERE Id IN :request.agreementIds]);
+
+            // 5. Update Convention__c with Grid__c
+            updateAgreements(request, existingAgreements);
+
+            // 6. Create AgreemenrGridTimeline__c
+            insertAgreementGridTimeline(request, existingAgreements);
         }
         catch (Exception e) {
             Database.rollback(sp);
@@ -81,20 +83,6 @@ public with sharing class GridValidationController {
         }
 
         return result;
-    }
-
-    private static void insertGridScope(GridSaveRequest request) {
-        GridScope__c scope = new GridScope__c();
-        scope.Name = 'Grid Scope for ' + request.grid.Name;
-        scope.Grid__c = request.grid.Id;
-        if (request.agreementIds != null && !request.agreementIds.isEmpty()) {
-            List<String> agreementNames = new List<String>();
-            for (Convention__c agmt : [SELECT Id, Name FROM Convention__c WHERE Id IN :request.agreementIds]) {
-                agreementNames.add(agmt.Name);
-            }
-            scope.Agreement__c = String.join(agreementNames, ', ');
-        }
-        insert scope;
     }
 
     private static void insertCustomGrid(Grid__c grid, GridSaveResult result) {
@@ -165,14 +153,37 @@ public with sharing class GridValidationController {
         }
     }
 
-    private static void updateAgreements(GridSaveRequest request) {
-        if (request.agreementIds != null && !request.agreementIds.isEmpty()) {
-            List<Convention__c> agreementsToUpdate = new List<Convention__c>();
-            for (Id agmtId : request.agreementIds) {
-                agreementsToUpdate.add(new Convention__c(Id = agmtId, Grid__c = request.grid.Id));
+    private static void updateAgreements(GridSaveRequest request, Map<Id, Convention__c> existingAgreements) {
+        if (request.agreementIds == null || request.agreementIds.isEmpty()) return;
+
+        List<Convention__c> agreementsToUpdate = new List<Convention__c>();
+        Grid__c gridToUpdate = new Grid__c(Id = request.grid.Id);
+        for (Id agmtId : request.agreementIds) {
+            Convention__c existing = existingAgreements.get(agmtId);
+
+            if (existing.Grid__c == null) { // First grid on this agreement
+                existing.Grid__c = request.grid.Id;
+                existing.Grid_Start_Date__c = request.grid.StartDate__c;
+            } 
+            else { // Agreement already has a grid — store as a request, pending amendment approval
+                existing.Grid_Request__c = request.grid.Id;
+                existing.Grid_Request_Start_Date__c = request.grid.StartDate__c;
             }
-            update agreementsToUpdate;
+            agreementsToUpdate.add(existing);
         }
+
+        update agreementsToUpdate;
+    }
+
+    private static void insertAgreementGridTimeline(GridSaveRequest request, Map<Id, Convention__c> existingAgreements) {
+        if (request.agreementIds == null || request.agreementIds.isEmpty()) return;
+
+        List<AgreementGridTimeline__c> timelinesToInsert = new List<AgreementGridTimeline__c>();
+        for (Id agmtId : request.agreementIds) {
+            timelinesToInsert.add(AgreementGridTimelineUtility.createAgreementGridTimeline(existingAgreements.get(agmtId), request.grid, request.grid.StartDate__c, 'Draft'));
+        }
+
+        insert timelinesToInsert;
     }
 
     // ────────────────────────────────────── WRAPPERS ──────────────────────────────────────

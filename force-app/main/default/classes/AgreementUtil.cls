@@ -12,7 +12,7 @@ global without sharing class AgreementUtil {
     final public static String INV_WITHRECTYPE_ID = Schema.SObjectType.Convention__c.getRecordTypeInfosByDeveloperName().get('Investor_without_Agreement_Request').getRecordTypeId();
     final public static String REQ_RECTYPE_ID = Schema.SObjectType.Convention__c.getRecordTypeInfosByDeveloperName().get('Request_Agreement').getRecordTypeId();
 
-//Company data validation
+    //Company data validation
     public static void validateCompanySnapshot(Convention__c agg, Account c) {
         String errorMsg = '';
         if (c != null) {
@@ -36,7 +36,7 @@ global without sharing class AgreementUtil {
         }
     }
 
-//GRID mandatory when Group = 1 validation
+    //GRID mandatory when Group = 1 validation
     public static void validateGRID(Convention__c agr) {
         if (agr.Agreement_Group__c == 1 && agr.Grid__c == null) {
             agr.Grid__c.addError('A GRID is mandatory for the Agreement Code Type');
@@ -59,7 +59,8 @@ global without sharing class AgreementUtil {
             }
             thisCodeTop = thisCodeTop + 1;
             agr.Code_Top_Level__c = thisCodeTop;
-        } else {
+        } 
+        else {
             thisCodeTop = Integer.valueOf(masterAgreements.get(agr.MasterConvention__c).Code_Top_Level__c);
             codePrefix = (masterAgreements.get(agr.MasterConvention__c).Carmignac_Legal_Entity__c == 'CGL') ? 'L' : '';
             agr.Code_Top_Level__c = thisCodeTop;
@@ -105,36 +106,15 @@ global without sharing class AgreementUtil {
 
     public static Map<Id, Account> getAllLinkedAccounts(List<Id> accountIds) {
         //all companies linked to the new agreements
-        Map<Id, Account> companyMap = new Map<Id, Account>([
-                SELECT Id,
-                        Name,
-                        Distributor_Type__c,
-                        Sub_Type__c,
-                        In__c,
-                        Investment_vehicle__c,
-                        Investment_Vehicle_Type__c,
-                        Final_Distribution__c,
-                        BillingStreet,
-                        BillingCity,
-                        BillingState,
-                        BillingPostalCode,
-                        BillingCountry,
-                        Ultimate_Parent_Id__c,
-                        Ultimate_Parent_Name__c,
-                        Ultimate_Parent_Tier__c,
-                        BusinessDevelopmentRegion__c,
-                        All_Concerned_Business_Regions__c,
-                        OwnerId,
-                        Owner.Name,
-                        Team__c
-                FROM Account
-                WHERE Id IN:accountIds
-        ]);
-
+        Map<Id, Account> companyMap = new Map<Id, Account>([SELECT Id, Name, Distributor_Type__c, Sub_Type__c, In__c, Investment_vehicle__c, Investment_Vehicle_Type__c, Final_Distribution__c, 
+                                                                BillingStreet, BillingCity, BillingState, BillingPostalCode, BillingCountry, Ultimate_Parent_Id__c, Ultimate_Parent_Name__c, Ultimate_Parent_Tier__c, 
+                                                                BusinessDevelopmentRegion__c, All_Concerned_Business_Regions__c, OwnerId, Owner.Name, Team__c
+                                                            FROM Account
+                                                            WHERE Id IN:accountIds]);
         return companyMap;
     }
 
-//Create Company Snapshot for Agreememt
+    //Create Company Snapshot for Agreememt
     //Agreement recordType is added as param, cauz we need to baypass some rules in case of IS Agreement
     public static void snapCompanyToAgreement(Convention__c a, Account tmpAcc) {
         //**Start setting company snapshot data
@@ -163,25 +143,7 @@ global without sharing class AgreementUtil {
         //**End setting company snapshot data
     }
 
-    //Create GRID Timeline records once a new GRID Amendment is Approved on an Agreement
-    public static AgreementGridTimeline__c createGridTimeline(Convention__c agr, Grid__c currentGrid) {
-        AgreementGridTimeline__c newAGT = new AgreementGridTimeline__c(Name = agr.Name + ' - ' + currentGrid.Name,
-                Agreement__c = agr.Id,
-                Grid__c = agr.Grid__c,
-                GridStartDate__c = agr.Grid_Start_Date__c,
-                GridEndDate__c = agr.Grid_Request_Start_Date__c);
-        return newAGT;
-    }
-
-    /*public static void validateUniqueCode(Convention__c agr) {
-        String thisAgrId = agr.Id;
-        List<Convention__c> agrs = new List<Convention__c>([SELECT Id, Name FROM Convention__c WHERE Name = :agr.Name AND Id <> :thisAgrId]);
-        if (agrs.size() > 0) {
-            agr.Name.addError('This Agreement Code is not Unique. Please notify an Administrator.');
-        }
-    }*/
-
-//Utility method for Map Key retrieval
+    //Utility method for Map Key retrieval
     public static String getKeyFromValue(Map<String, String> hm, String value) {
         for (String o : hm.keySet()) {
             if (hm.get(o).equals(value)) {
@@ -190,46 +152,4 @@ global without sharing class AgreementUtil {
         }
         return null;
     }
-/*
-//Utility method for Validation step of Approval process
-public static void validateStepsApproval_old(Convention__c agr, map<id, Convention__c> oldAgreements) {
-
-    String approvalStep = getApprovalStepName(agr);
-    System.debug('//NGO validateApprovalStepsWorkflow approvalStep : '+approvalStep);
-
-    System.debug('validateStepsApproval '+agr);
-
-    if (String.isNotBlank(approvalStep) ){
-
-        System.debug('validateStepsApproval pin[0].ProcessNodeName '+approvalStep);
-        System.debug('validateStepsApproval agr.KYD_DD_Oversight_Status__c '+agr.KYD_DD_Oversight_Status__c);
-        System.debug('validateStepsApproval agr.Approval_Status__c '+agr.Approval_Status__c);
-        System.debug('validateStepsApproval oldAgreements.get(agr.Id)..Approval_Status__c '+oldAgreements.get(agr.Id).Approval_Status__c);
-
-
-        if (approvalStep != 'Agreement Request Compliance Approval') agr.IS_Approved__c = false;
-        else if (agr.Preliminary_Risk_Assesment__c == 'High' || agr.Preliminary_Risk_Assesment__c == 'Medium') agr.IS_Approved__c = true;
-
-        if (approvalStep== 'Agreement Request IS Approval') {
-            if (agr.KYD_DD_Oversight_Status__c != 'Completed' && agr.KYD_Due_Diligence_Oversight__c == oldAgreements.get(agr.Id).KYD_Due_Diligence_Oversight__c
-                    && agr.Approval_Status__c == 'DCO Approval' && oldAgreements.get(agr.Id).Approval_Status__c == 'HOC Approval'){
-                agr.KYD_DD_Oversight_Status__c .addError('You must complete KYD Due Diligence Oversight before IS can approve');
-            }
-
-            if (agr.Preliminary_Risk_Assesment__c == '' || String.isEmpty(agr.Preliminary_Risk_Assesment__c))
-                agr.Preliminary_Risk_Assesment__c.addError('You must select a Risk Level.');
-        }
-
-        if(approvalStep== 'Agreement Request Compliance Approval' && agr.Compliance_Clearing__c == false)
-            agr.Compliance_Clearing__c.addError('You must tick a Compliance Clearing.');
-
-        if((approvalStep == 'Agreement Amendment Legal Approval' ||
-                approvalStep== 'Agreement Renewal Legal Approval' ||
-                approvalStep == 'Agreement Renewal with GRID Legal Approval') && isAgreementRoleValidated(agr))
-            agr.Name.addError('You must validate all Agreement Roles. ');
-
-    }
-}
-*/
-
 }

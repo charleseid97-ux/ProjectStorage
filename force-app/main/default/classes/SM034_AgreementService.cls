@@ -432,52 +432,23 @@ matchingLegalEntityByCompany.put(le.Company__c, le);
             update lConventionToUpdate;
         }
         
-        List<AgreementGridTimeline__c> AGTToInsert = new List<AgreementGridTimeline__c>();
         for (Convention__c agr : newAgreements) {
-            
+
             Account tmpAcc = companyMap.get(agr.Company__c);
-            
-            if(agr.Company__c != oldAgreements.get(agr.Id).Company__c) {
+            Convention__c oldAgr = oldAgreements.get(agr.Id);
+
+            if(agr.Company__c != oldAgr.Company__c) {
                 AgreementUtil.validateCompanySnapshot(agr, tmpAcc);
-                
                 AgreementUtil.snapCompanyToAgreement(agr, tmpAcc);
             }
             
-            if (agr.Amendment_Approval_Status__c == 'Approved' && agr.Grid_Request_Approved__c) {
-                AgreementGridTimeline__c retAGT = AgreementUtil.createGridTimeline(agr, gridMap.get(agr.Grid__c));
-                if (retAGT != null) {
-                    AGTToInsert.add(retAGT);
-                    
-                    agr.Grid__c = agr.Grid_Request__c;
-                    agr.Grid_Request__c = null;
-                    agr.Grid_Start_Date__c = agr.Grid_Request_Start_Date__c;
-                    agr.Grid_Request_Start_Date__c = null;
-                    agr.Amendment_Approval_Status__c = '';
-                    agr.Grid_Request_Approved__c = false;
-                }
-            }
-            //Séb want to inactif this rule , will be deployed in production on hot fix
-            /*if(agr.Amendment_Approval_Status__c == 'Approved' && agr.Status__c != null) {
-agr.Renewal_Request_End_Date__c = null;
-}*/
-            
-            if(String.isEmpty(agr.Amendment_Approval_Status__c) == false && agr.Amendment_Approval_Status__c != 'Approval Rejected' && agr.Status__c == 'Rejected') {
+            if( (String.isNotEmpty(agr.Amendment_Approval_Status__c) && agr.Amendment_Approval_Status__c != 'Approval Rejected' && agr.Status__c == 'Rejected') ||
+                (String.isNotEmpty(agr.Agreement_Termination_Status__c) && agr.Agreement_Termination_Status__c != 'Approval Rejected' && agr.Status__c == 'Rejected')) {
                 agr.Status__c = 'In Negotiation';
             }
-            
-            if(String.isEmpty(agr.Agreement_Termination_Status__c) == false && agr.Agreement_Termination_Status__c != 'Approval Rejected' && agr.Status__c == 'Rejected') {
-                agr.Status__c = 'In Negotiation';
-            }
-            
-            
-            //if(agr.Amendment_Approval_Status__c != oldAgreements.get(agr.Id).Amendment_Approval_Status__c ||
-            //        agr.Approval_Status__c != oldAgreements.get(agr.Id).Approval_Status__c )
-            //    AgreementUtil.validateStepsApproval(agr, oldAgreements);
         }
-        
-        if(AGTToInsert.size() > 0) {
-            insert AGTToInsert;
-        }
+
+        AgreementGridTimelineUtility.handleTimelineTransitions(newAgreements, oldAgreements); // ──── AgreementGridTimeline__c lifecycle transitions ────
     }
     
     public static boolean checkIfApprovalProcess(Id recordId, String statusString) {

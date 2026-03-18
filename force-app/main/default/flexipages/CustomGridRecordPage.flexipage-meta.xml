@@ -47,6 +47,16 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.RecordTypeId</fieldItem>
+                <identifier>RecordRecordTypeIdField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.GridTag__c</fieldItem>
                 <identifier>RecordGridTag_cField</identifier>
             </fieldInstance>
@@ -71,8 +81,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.RecordTypeId</fieldItem>
-                <identifier>RecordRecordTypeIdField</identifier>
+                <fieldItem>Record.ApprovalStatus__c</fieldItem>
+                <identifier>RecordApprovalStatus_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-11c0d744-2943-43ac-931e-a24c0372a449</name>
@@ -459,6 +469,10 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Tabs</value>
+                </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>tabs</name>
                     <value>maintabs</value>

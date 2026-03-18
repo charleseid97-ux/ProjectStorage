@@ -12,21 +12,21 @@ public with sharing class AgreementGridRecapController {
     @AuraEnabled(cacheable=true)
     public static RecapWrapper getRecap(Id agreementId) {
         // Get the agreement and its active grid
-        Convention__c agreement = [SELECT Id, Grid__c, Grid__r.Name, Grid__r.AutomaticGridUpdate__c
+        Convention__c agreement = [SELECT Id, Grid__c, Grid__r.Name, Grid__r.AutomaticGridUpdate__c, Grid__r.ApprovalStatus__c
                                    FROM Convention__c
                                    WHERE Id = :agreementId LIMIT 1];
 
         RecapWrapper result = new RecapWrapper();
 
         // Grid timeline (always loaded, regardless of active grid)
-        for (AgreementGridTimeline__c agt : [SELECT Id, Name, Grid__c, Grid__r.Name, GridStartDate__c, GridEndDate__c
+        for (AgreementGridTimeline__c agt : [SELECT Id, Name, Grid__c, Grid__r.Name, GridStartDate__c, GridEndDate__c, Status__c
                                             FROM AgreementGridTimeline__c
                                             WHERE Agreement__c = :agreementId
                                             ORDER BY GridStartDate__c DESC NULLS FIRST]) {
             result.timelineRows.add(new TimelineRow(agt));
         }
 
-        if (agreement.Grid__c == null)  return result; // no active grid — timeline still returned
+        if (agreement.Grid__c == null || agreement.Grid__r.ApprovalStatus__c != 'Approved') return result;
 
         result.hasGrid = true;
         result.gridId = agreement.Grid__c;
@@ -59,6 +59,7 @@ public with sharing class AgreementGridRecapController {
         @AuraEnabled public String gridName { get; set; }
         @AuraEnabled public Date startDate { get; set; }
         @AuraEnabled public Date endDate { get; set; }
+        @AuraEnabled public String status { get; set; }
         public TimelineRow(AgreementGridTimeline__c agt) {
             this.recordId = agt.Id;
             this.timelineName = agt.Name;
@@ -66,6 +67,7 @@ public with sharing class AgreementGridRecapController {
             this.gridName = agt.Grid__r?.Name;
             this.startDate = agt.GridStartDate__c;
             this.endDate = agt.GridEndDate__c;
+            this.status = agt.Status__c;
         }
     }
 }

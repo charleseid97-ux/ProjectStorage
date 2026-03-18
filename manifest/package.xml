@@ -3,6 +3,7 @@
 	<types>
 		<members>AgreementGridRecapController</members>
 		<members>AgreementGridRecapControllerTest</members>
+		<members>AgreementGridTimelineUtility</members>
 		<members>AgreementUtil</members>
 		<members>GridBuilderController</members>
 		<members>GridBuilderControllerTest</members>
@@ -281,6 +282,7 @@
 		<name>CustomTab</name>
 	</types>
 	<types>
+		<members>AgreementGridTimelineItemRecordPage</members>
 		<members>BuildNewGrid</members>
 		<members>Convention_Record_Page</members>
 		<members>CustomGridRecordPage</members>
@@ -295,6 +297,7 @@
 		<name>FlexiPage</name>
 	</types>
 	<types>
+		<members>AgreementGridTimeline__c-Agreement Grid Timeline Item Layout</members>
 		<members>Convention__c-Intermediary Agreement Layout</members>
 		<members>Convention__c-Intermediary Agreement Request Full Layout</members>
 		<members>Convention__c-Sub-distributor Agreement Layout</members>

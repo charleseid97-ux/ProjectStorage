@@ -39,13 +39,14 @@ public with sharing class AgreementGridRecapControllerTest {
         update agr;
         AgreementTriggerHandler.triggerDisabled = false;
 
-        // Create one history record
+        // Create one inactive timeline record (past grid)
         insert new AgreementGridTimeline__c(
-            Name                = agr.Name + ' - Previous Grid',
-            Agreement__c        = agr.Id,
-            Grid__c             = standardGrid.Id,
+            Name              = agr.Name + ' - Previous Grid',
+            Agreement__c      = agr.Id,
+            Grid__c           = standardGrid.Id,
             GridStartDate__c  = Date.today().addMonths(-12),
-            GridEndDate__c    = Date.today().addMonths(-1)
+            GridEndDate__c    = Date.today().addMonths(-1),
+            Status__c         = 'Inactive'
         );
 
         Test.startTest();

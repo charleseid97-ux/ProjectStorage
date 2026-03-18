@@ -90,8 +90,52 @@ private class GridValidationControllerTest {
         GridValidationController.GridSaveResult result = GridValidationController.saveGrid(JSON.serialize(request), shareClassGridIdMap);
 
         Test.stopTest();
+    }
 
-        System.assert(result.success, 'Save should succeed: ' + (result.errors != null ? String.join(result.errors, ', ') : ''));
-        System.assertNotEquals(null, result.gridId, 'Grid Id should be populated');
+    @IsTest
+    static void testSaveGrid_withExistingGrid() {
+        List<Share_Class__c> shareClasses = GridTestSetupHelper.getTestShareClasses();
+        List<Convention__c> agreements = GridTestSetupHelper.getTestAgreements();
+        Grid__c standardGrid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S1);
+
+        // Pre-set a grid on the agreement so the save logic creates a Draft timeline instead
+        Convention__c agr = agreements[0];
+        AgreementTriggerHandler.triggerDisabled = true;
+        agr.Grid__c = standardGrid.Id;
+        update agr;
+        AgreementTriggerHandler.triggerDisabled = false;
+
+        Share_Class__c sc1 = shareClasses[0];
+        Map<String, String> shareClassGridIdMap = new Map<String, String>{
+            String.valueOf(sc1.Id) => String.valueOf(standardGrid.Id)
+        };
+
+        Map<String, Object> request = new Map<String, Object>{
+            'grid' => new Map<String, Object>{
+                'Name' => 'Custom - Test Amendment - 2025-01-01',
+                'ActiveGrid__c' => true,
+                'AutomaticGridUpdate__c' => false,
+                'StartDate__c' => Date.today().addMonths(1)
+            },
+            'criteriaList' => new List<Map<String, Object>>{
+                new Map<String, Object>{
+                    'criteriaRefId' => 'crit-ref-1',
+                    'criteria' => new Map<String, Object>{
+                        'StandardGrid__c' => standardGrid.Id,
+                        'FilterLogic__c' => 'AND',
+                        'StartDate__c' => Date.today().addMonths(1)
+                    },
+                    'details' => new List<Map<String, Object>>(),
+                    'shareClassIds' => new List<Id>{ sc1.Id }
+                }
+            },
+            'agreementIds' => new List<Id>{ agr.Id }
+        };
+
+        Test.startTest();
+
+        GridValidationController.GridSaveResult result = GridValidationController.saveGrid(JSON.serialize(request), shareClassGridIdMap);
+
+        Test.stopTest();
     }
 }

@@ -96,7 +96,7 @@
                                 </header>
                             </div>
                             <div class="card-body slds-card__body">
-                                <template if:true={hasHistory}>
+                                <template if:true={hasTimeline}>
                                     <lightning-datatable
                                         key-field="recordId"
                                         data={timelineRows}
@@ -104,7 +104,7 @@
                                         hide-checkbox-column>
                                     </lightning-datatable>
                                 </template>
-                                <template if:false={hasHistory}>
+                                <template if:false={hasTimeline}>
                                     <p class="slds-text-color_weak slds-p-around_small">No timeline found.</p>
                                 </template>
                             </div>
