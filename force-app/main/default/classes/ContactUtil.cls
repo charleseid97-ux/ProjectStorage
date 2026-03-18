@@ -54,7 +54,8 @@ public class ContactUtil {
                      Current_HOC_approval__c, 
                      Proposed_Contact_Owner__r.Name, 
                      Proposed_Contact_Owner__c,
-                     Owner_Change_Requested_By__c
+                     Owner_Change_Requested_By__c,
+                     BypassProposedOwnerVR__c
                      from Contact WHERE Id =: contactId];
         return c;
     }
@@ -92,8 +93,11 @@ public class ContactUtil {
             cUpd.OwnerId = newOwner.Id;
         } else {
 	        system.debug('CUPD : NOTinAuto');
+            cUpd.BypassProposedOwnerVR__c = true;
             cUpd.Bypass_Apex__c = true;
             cUpd.Proposed_Contact_Owner__c = newOwner.Id;
+            cUpd.Current_HOC_approval__c = false;
+            cUpd.Proposed_HOC_approval__c = false;
             cUpd.Owner_Change_Requested_By__c = UserInfo.getUserId();
         }
         update cUpd;
@@ -110,6 +114,7 @@ public class ContactUtil {
     public static Contact approveProposed(String contactId) {
         Contact cUpd = getCurrentContact(contactId);
         cUpd.Proposed_HOC_approval__c = true;
+        cUpd.BypassProposedOwnerVR__c = false;
         update cUpd;
         return cUpd;
     } 
@@ -165,6 +170,7 @@ public class ContactUtil {
         //sendMailMethod(requestUser.Email, 'Contact Owner Change Rejected', mailbody);
         
         contact.Bypass_Apex__c = true;
+        contact.BypassProposedOwnerVR__c = false;
         contact.Proposed_HOC_approval__c = false; 
         contact.Current_HOC_approval__c = false;
         contact.Proposed_Contact_Owner__c = null;

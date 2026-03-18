@@ -7,7 +7,7 @@ NOT($User.BypassValidationRules__c),
 NOT(ISNEW()),
 ISCHANGED( Proposed_Contact_Owner__c ),
 NOT(ISBLANK(Proposed_Contact_Owner__c)),
-NOT($User.BypassValidationRules__c)
+NOT(BypassProposedOwnerVR__c)
 )</errorConditionFormula>
     <errorDisplayField>Proposed_Contact_Owner__c</errorDisplayField>
     <errorMessage>You cannot update the Proposed Contact Owner. Please use the Change Owner button at the top right of the page.</errorMessage>
