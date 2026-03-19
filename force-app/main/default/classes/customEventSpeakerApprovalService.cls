@@ -4,7 +4,7 @@ public with sharing class customEventSpeakerApprovalService {
     private static Set<Id> PROCESSED_HTML_EVENT_IDS = new Set<Id>();
     private static Set<Id> PROCESSED_APPROVAL_EVENT_IDS = new Set<Id>();
     private static Set<Id> PROCESSED_MARK_FULLY_APPROVED_EVENT_IDS = new Set<Id>();
-
+    private static final String TD_STYLE = 'style="padding:6px 0;border-bottom:1px solid #f3f4f6;"';
     // Custom exception to rethrow with a clearer message (do not instantiate DmlException directly)
     public class SpeakerApprovalUpsertException extends Exception {}
 
@@ -715,11 +715,10 @@ private static String buildSpeakersHtmlSingleSection(String sectionTitle, List<S
 
             parts.add(
                 '<tr>' +
-                    '<td style="padding:6px 0;border-bottom:1px solid #f3f4f6;">' + esc(row.speakerName) + '</td>' +
-                    '<td style="padding:6px 0;border-bottom:1px solid #f3f4f6;color:#6b7280;">' + esc(row.accountName) + '</td>' +
-                    '<td style="padding:6px 0;border-bottom:1px solid #f3f4f6;">' + esc(row.language) + '</td>' +
-                    '<td style="padding:6px 0;border-bottom:1px solid #f3f4f6;">' + esc(row.presentationStatus) + '</td>' +
-                    '<td style="padding:6px 0;border-bottom:1px solid #f3f4f6;">' + productsText + '</td>' +
+                '<td ' + TD_STYLE + '>' + esc(row.speakerName) + '</td>' +
+                '<td ' + TD_STYLE + 'color:#6b7280;">' + esc(row.accountName) + '</td>' +
+                '<td ' + TD_STYLE + '>' + esc(row.language) + '</td>' +
+                '<td ' + TD_STYLE + '>' + esc(row.presentationStatus) + '</td>' +
                 '</tr>'
             );
         }
