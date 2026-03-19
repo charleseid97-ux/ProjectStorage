@@ -8,7 +8,7 @@ History
 //1.0 BP - Initial build of class on 19/2/2019
 ***************************************************************************************************************************/
 
-public class ContactUtil {
+public inherited sharing class ContactUtil {
 
     @AuraEnabled
     public static Map<String, Object> buildApprovalData(String contactId) {
