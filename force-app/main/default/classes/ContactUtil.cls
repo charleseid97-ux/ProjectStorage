@@ -11,18 +11,21 @@ History
 public inherited sharing class ContactUtil {
 
     private static void checkContactReadAccess() {
-        if (!Schema.sObjectType.Contact.isAccessible()
-            || !Schema.sObjectType.Contact.fields.Id.isAccessible()
-            || !Schema.sObjectType.Contact.fields.Name.isAccessible()
-            || !Schema.sObjectType.Contact.fields.OwnerId.isAccessible()
-            || !Schema.sObjectType.Contact.fields.Proposed_HOC_approval__c.isAccessible()
-            || !Schema.sObjectType.Contact.fields.Current_HOC_approval__c.isAccessible()
-            || !Schema.sObjectType.Contact.fields.Proposed_Contact_Owner__c.isAccessible()
-            || !Schema.sObjectType.Contact.fields.Owner_Change_Requested_By__c.isAccessible()
-            || !Schema.sObjectType.Contact.fields.BypassProposedOwnerVR__c.isAccessible()) {
-            throw new AuraHandledException('Access denied to Contact fields.');
-        }
+    if (!Schema.sObjectType.Contact.isAccessible()
+        || !Schema.sObjectType.Contact.fields.Id.isAccessible()
+        || !Schema.sObjectType.Contact.fields.Name.isAccessible()
+        || !Schema.sObjectType.Contact.fields.OwnerId.isAccessible()
+        || !Schema.sObjectType.Contact.fields.Proposed_HOC_approval__c.isAccessible()
+        || !Schema.sObjectType.Contact.fields.Current_HOC_approval__c.isAccessible()
+        || !Schema.sObjectType.Contact.fields.Proposed_Contact_Owner__c.isAccessible()
+        || !Schema.sObjectType.Contact.fields.Owner_Change_Requested_By__c.isAccessible()
+        || !Schema.sObjectType.Contact.fields.BypassProposedOwnerVR__c.isAccessible()
+        || !Schema.sObjectType.Contact.fields.Bypass_Apex__c.isAccessible()
+        || !Schema.sObjectType.User.isAccessible()
+        || !Schema.sObjectType.User.fields.Name.isAccessible()) {
+        throw new AuraHandledException('Access denied to Contact fields.');
     }
+}
 
     private static void checkContactPersonaReadAccess() {
         if (!Schema.sObjectType.Contact.isAccessible()
