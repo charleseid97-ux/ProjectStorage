@@ -96,12 +96,12 @@ public inherited sharing class ContactUtil {
 
     @AuraEnabled
     public static String getContactPersona(String contactId) {
-        checkContactPersonaReadAccess();
 
         Contact c = [
             SELECT Persona__c
             FROM Contact
             WHERE Id = :contactId
+            WITH SECURITY_ENFORCED
             LIMIT 1
         ];
         return c.Persona__c;
@@ -109,8 +109,6 @@ public inherited sharing class ContactUtil {
 
     @AuraEnabled
     public static Contact getCurrentContact(String contactId) {
-        checkContactReadAccess();
-
         return [
             SELECT Name,
                    Id,
@@ -124,6 +122,7 @@ public inherited sharing class ContactUtil {
                    Bypass_Apex__c
             FROM Contact
             WHERE Id = :contactId
+            WITH SECURITY_ENFORCED
             LIMIT 1
         ];
     }
