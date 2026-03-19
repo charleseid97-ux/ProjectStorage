@@ -27,12 +27,7 @@ public inherited sharing class ContactUtil {
     }
 }
 
-    private static void checkContactPersonaReadAccess() {
-        if (!Schema.sObjectType.Contact.isAccessible()
-            || !Schema.sObjectType.Contact.fields.Persona__c.isAccessible()) {
-            throw new AuraHandledException('Access denied to Contact Persona.');
-        }
-    }
+   
 
     private static void checkUserReadAccess() {
         if (!Schema.sObjectType.User.isAccessible()
