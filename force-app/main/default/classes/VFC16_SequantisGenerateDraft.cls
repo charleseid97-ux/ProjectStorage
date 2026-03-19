@@ -114,7 +114,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
                                 Retail__c, Professional__c, EligibleCounterparty__c, Basic__c, Informed__c, Advanced__c, ExpertGermany__c, LowestRiskTolGer__c, CanNot__c, CanLimited__c, NoNeedCapGuarantee__c, CanNoLimit__c, Preservation__c, CapitalGrowth__c, Income__c,
                                 LeveragedReturn__c, PensionSchemeGer__c, MayTerminateEarlier__c, ExecutionOnly__c, AppropTest__c, InvestAdvice__c, PortfolioManagement__c,
                                 ProjectProduct__c, ShareclassInvestmentObjective__c, InvestorType__c,PerformanceFeeUCITSKIID__c,PerformanceFeeEPTKID__c, MaxPerfFees__c,
-                                PerformanceFeeMethod__c,MaxRedemptionFeesSubfund__c,MaxRedemptionFeesManCo__c
+                                PerformanceFeeMethod__c,MaxRedemptionFeesSubfund__c,MaxRedemptionFeesManCo__c,OngoingCostsExante__c
                                 FROM projectShareClass__c
                                 WHERE id = :projectShareClassId];
         
@@ -231,7 +231,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
         payload.put('cutOff',ProjectProductRec.CutOffTime__c);
         payload.put('maturite',ProjectProductRec.MaturityDate__c);
         payload.put('hedge', projectShareClassRec.CurrencyHedging__c);
-        payload.put('partDeReference', projectShareClassRec.ProxyRisk__c);
+       // payload.put('partDeReference', projectShareClassRec.ProxyRisk__c);
         payload.put('benchmark',ProjectProductRec.BenchmarkName__c);
         payload.put('transactionCosts', projectShareClassRec.TransactionCosts__c);
         payload.put('effectiveServiceFees', projectShareClassRec.EffectiveServiceFees__c);
@@ -270,8 +270,9 @@ public with sharing class VFC16_SequantisGenerateDraft {
         payload.put('projectType',  ProjectProductRec.TECH_RTName__c);
         payload.put('investmentObjective', projectInvestmentObjectiveNoHTML);
         payload.put('internalShortName',  ProjectProductRec.internalShortName__c);
+        payload.put('ongoingCosts',projectShareClassRec.OngoingCostsExante__c != null ? projectShareClassRec.OngoingCostsExante__c : 0 );
         payload.put('userMail', UserInfo.getUserEmail());
-       Id rtId = ProjectProductRec.RecordTypeId;
+        Id rtId = ProjectProductRec.RecordTypeId;
 
         if (rtId == fundCreationRecordTypeId) {
             
@@ -312,7 +313,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
         if( res.getStatusCode() == 202 ){
             return ('OK')   ;            
         }else if (res.getStatusCode() != 200) {
-            throw new CalloutException('Erreur génération PDF (' + res.getStatusCode() + ') : ' + res.getBody());
+           errorMessage='Erreur génération PDF (' + res.getStatusCode() + ') : ' + res.getBody();
         }
 
         return EncodingUtil.base64Encode(res.getBodyAsBlob());
