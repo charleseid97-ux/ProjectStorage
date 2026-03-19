@@ -4,7 +4,7 @@
  *              GridCriteria/GridCriteriaDetail creation. 
  *              Tests all 4 rule types and complex filter expressions. Simplified to use GridTestSetupHelper for test data creation.
  * @author Charles EID
- * @testCoverage GridExcelImportService (85%), GridCriteriaExpressionParser (88% partial)   [12-03-26]
+ * @testCoverage GridExcelImportService (86%), GridCriteriaExpressionParser (91% partial)   [19-03-26]
 ────────────────────────────────────── */
 @IsTest
 private with sharing class GridExcelImportServiceTest {
@@ -28,6 +28,8 @@ private with sharing class GridExcelImportServiceTest {
         payload.rules.add(makeRuleRow(2, 'S1', 'PtfCode IN (FCP,SICAV) AND ShcType = A', 'ShcType = AW', 'Rule 1', 'Percentage of Fees', 'EffectiveManagementFees', '33,00%', null, null));
         payload.rules.add(makeRuleRow(3, 'S1', 'PtfCode = FCP', '', 'Rule 2', 'Take Rebates Rate - Other Share Type + Fees', 'EffectiveManagementFees', '15,00%', 'AW', 'AW'));
         payload.rules.add(makeRuleRow(4, 'S5+', 'ShcType IN (A,AW)', 'PtfCode IN (SICAV)', 'Rule 3', 'Take Rebates Rate - Other Grid Rule', 'EffectiveManagementFees', 'S1-Rule-A', null, null));
+        // Grid 'S3' is not in the scopes section — triggers new-scope creation path (lines 116-119)
+        payload.rules.add(makeRuleRow(5, 'S3', 'ShcType = A', '', 'Rule 4', 'Percentage of Fees', 'EffectiveManagementFees', '25,00%', null, null));
 
         String payloadJson = JSON.serialize(payload);
 
@@ -85,6 +87,15 @@ private with sharing class GridExcelImportServiceTest {
 
         // Valid include + error in exclude (unknown token) → hits hasErrors() early return (line 28)
         GridCriteriaExpressionParser.ParseResult r3 = GridCriteriaExpressionParser.parse('ShcType = A', 'BADTOKEN = X');
+
+        // Blank condition after AND split (lines 65-67): trailing AND produces empty right segment
+        GridCriteriaExpressionParser.ParseResult r4 = GridCriteriaExpressionParser.parse('ShcType = A AND ', null);
+
+        // Unsupported operator — no =, !=, IN, NOT IN present (lines 84-86)
+        GridCriteriaExpressionParser.ParseResult r5 = GridCriteriaExpressionParser.parse('ShcTypeGTA', null);
+
+        // Blank right-hand side after operator (lines 91-93)
+        GridCriteriaExpressionParser.ParseResult r6 = GridCriteriaExpressionParser.parse('ShcType =', null);
 
         Test.stopTest();
     }

@@ -7,7 +7,7 @@
  *              for complex filter logic (AND/OR/parentheses).
  * @author Charles EID
  * @testClass GridDetailBuilderTest
- * @coverage 84%
+ * @coverage 85%   [19-03-26]
 ────────────────────────────────────── */
 public with sharing class GridDetailBuilder {
     private static final Date DEFAULT_END_DATE = Date.newInstance(2099, 12, 31);

@@ -3,10 +3,11 @@ import { NavigationMixin } from 'lightning/navigation';
 import getGridSettings from '@salesforce/apex/GridBuilderController.getGridSettings';
 import getAvailableGrids from '@salesforce/apex/GridBuilderController.getAvailableGrids';
 import getAgreementSelectionPageSettings from '@salesforce/apex/GridBuilderController.getAgreementSelectionPageSettings';
+import getDraftGridData from '@salesforce/apex/GridBuilderController.getDraftGridData';
 import getAllProductsForSelection from '@salesforce/apex/GridBuilderController.getAllProductsForSelection';
 import getProductsAndShareClasses from '@salesforce/apex/GridBuilderController.getProductsAndShareClasses';
 import {LABELS, reduceError, showToast, buildShareTypesKey, getProductNameFromRows, getQueryParam, getSystemProductExclusionDetail, 
-    applySystemProductExclusion, mergeSystemDetail, addIsinExclusionsFromRows} from 'c/gridBuilderUtils';
+    applySystemProductExclusion, mergeSystemDetail, addIsinExclusionsFromRows, pruneOrphanedCriteria} from 'c/gridBuilderUtils';
 
 export default class StandardGridBuilder extends NavigationMixin(LightningElement) {
     @api gridBuilderSettingName = 'StandardGridBuilderSetting';
@@ -53,6 +54,9 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
     operatorsByField = {};
     picklistValuesByField = {};
     showValuesWhenNotSelecting = true;
+
+    @track draftGridId = null;
+    pendingDraftData = null;
 
     @track gridOptions = [];
     @track selectedGrid;
@@ -120,6 +124,28 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
                 this.hasExistingGrid    = agreementSettings.hasExistingGrid  || false;
                 this.existingGridKind   = agreementSettings.existingGridKind || null;
                 this.existingGridEndDate = agreementSettings.existingGridEndDate || null;
+
+                // If a Draft grid request exists, prefill the builder from it
+                if (agreementSettings.hasDraftGrid && this.recId) {
+                    const draftData = await getDraftGridData({ agreementId: this.recId });
+                    if (draftData) {
+                        this.draftGridId     = draftData.grid.Id;
+                        this.pendingDraftData = draftData;
+                        this.gridRequestData = {
+                            kind:                    draftData.grid.Kind__c,
+                            gridType:                draftData.grid.Type__c,
+                            isAutoGridUpdate:        draftData.grid.AutomaticGridUpdate__c,
+                            startDate:               draftData.grid.StartDate__c,
+                            endDate:                 draftData.grid.EndDate__c,
+                            thresholdAmount:         draftData.grid.ThresholdAmount__c,
+                            thresholdAmountCurrency: draftData.grid.ThresholdAmountCurrency__c,
+                            minimumAmount:           draftData.grid.MinimumAmount__c,
+                            minimumAmountCurrency:   draftData.grid.MinimumAmountCurrency__c,
+                            minimumAmountFrequency:  draftData.grid.MinimumAmountFrequency__c
+                        };
+                    }
+                }
+
                 this.isLoading = false;
                 this.showAgreementsPage = true;
             }
@@ -159,13 +185,17 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
         let picklistValuesByFieldMap = {};
 
         let filterObjects = gridSettings.filterObjects;
+        let allObjectLabels = {};
         let obj, fieldIndex, field;
         for (let index in filterObjects) {
             if (filterObjects.hasOwnProperty(index)) {
                 obj = filterObjects[index];
-                objectLabelsAndAPINames.push({label: obj.objectLabel, value: obj.objectApiName}); // Object picklist option
+                allObjectLabels[obj.objectApiName] = obj.objectLabel; // Always register label for criteria detail display (even for inactive filter objects)
+                if (obj.showFilter !== false) { // Only add to filter dropdown if the metadata record is active
+                    objectLabelsAndAPINames.push({label: obj.objectLabel, value: obj.objectApiName});
+                }
 
-                // Field options for this object
+                // Field options — always populated so getFieldLabel resolves for inactive objects too
                 let fieldOptions = [];
                 let fields = obj.fields;
                 if (fields) {
@@ -173,7 +203,7 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
                         if (fields.hasOwnProperty(fieldIndex)) {
                             field = fields[fieldIndex];
                             fieldOptions.push({
-                                label: field.fieldLabel, 
+                                label: field.fieldLabel,
                                 value: field.fieldApiName,
                                 type: field.fieldType
                             });
@@ -188,6 +218,7 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
                 fieldsByObjectMap[obj.objectApiName] = fieldOptions;
             }
         }
+        this.allObjectLabels = allObjectLabels;
 
         this.filterLogicOptions = gridSettings.filterLogics || this.filterLogicOptions;
         this.startingLogicType = gridSettings.onLoadFilterLogic || this.startingLogicType;
@@ -611,6 +642,7 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
             this.criteriaList = addIsinExclusionsFromRows(this.criteriaList, removedRows, this.filterValueSeparator);
         }
         this.selectedShareClasses = next;
+        this.criteriaList = pruneOrphanedCriteria(this.criteriaList, this.selectedShareClasses);
     }
 
     handleValidationSelectionChange(event) {
@@ -622,6 +654,54 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
         if (Array.isArray(updatedCriteria)) {
             this.criteriaList = updatedCriteria;
         }
+    }
+
+    buildCriteriaListFromDraft(draftCriteriaList) {
+        return (draftCriteriaList || []).map(entry => {
+            const stableId  = 'crit_' + (++this.criteriaCounter);
+            const gridId    = entry.criteria?.StandardGrid__c;
+            const gridLabel = this.getGridLabelById(gridId);
+            return {
+                id:              stableId,
+                key:             stableId,
+                gridId:          gridId,
+                gridLabel:       gridLabel,
+                criteria: {
+                    StandardGrid__c:          entry.criteria?.StandardGrid__c,
+                    FilterLogic__c:           entry.criteria?.FilterLogic__c,
+                    FilterLogicExpression__c: entry.criteria?.FilterLogicExpression__c
+                },
+                criteriaDetails: this.decorateCriteriaDetails(entry.details || []),
+                shareTypes:      []
+            };
+        });
+    }
+
+    buildSelectedShareClassesFromDraft(draftCriteriaList, builtCriteriaList) {
+        // Map each share class ID to its criteria reference
+        const scToCritRef = new Map();
+        (draftCriteriaList || []).forEach((entry, idx) => {
+            const critRef = builtCriteriaList[idx];
+            if (critRef) {
+                (entry.shareClassIds || []).forEach(scId => scToCritRef.set(scId, critRef));
+            }
+        });
+
+        return (this.allQueriedShareClasses || [])
+            .filter(sc => scToCritRef.has(sc.id))
+            .map(sc => {
+                const critRef = scToCritRef.get(sc.id);
+                return {
+                    ...sc,
+                    gridId:       critRef.gridId,
+                    gridLabel:    critRef.gridLabel,
+                    criteriaRefId: critRef.id,
+                    isSelected:   true,
+                    cells: (sc.cells || []).map(cell =>
+                        cell.label === 'Grid' ? { ...cell, value: critRef.gridLabel } : cell
+                    )
+                };
+            });
     }
 
     getSelectedAgreementNames() {
@@ -692,6 +772,15 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
             await this.loadGridSettings();
             await this.loadAllProductsForSelection();
         }
+
+        // Inject prefilled draft data if available (set in connectedCallback when hasDraftGrid)
+        if (this.pendingDraftData) {
+            const draftCriteriaList = this.pendingDraftData.criteriaList;
+            this.criteriaList = this.buildCriteriaListFromDraft(draftCriteriaList);
+            this.selectedShareClasses = this.buildSelectedShareClassesFromDraft(draftCriteriaList, this.criteriaList);
+            this.pendingDraftData = null;
+        }
+
         this.handlePages(false, true, false);
     }
 
@@ -769,8 +858,7 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
     }
 
     getObjectLabel(objectApi) {
-        const match = (this.objectOptions || []).find(opt => opt.value === objectApi);
-        return match ? match.label : this.labels.UI_UnknownObject;
+        return this.allObjectLabels?.[objectApi] || this.labels.UI_UnknownObject;
     }
 
     getFieldLabel(objectApi, fieldApi) {

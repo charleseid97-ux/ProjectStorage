@@ -389,6 +389,12 @@ export function addIsinExclusionsFromRows(criteriaList, removedRows, separator =
     return result;
 }
 
+export function pruneOrphanedCriteria(criteriaList, selectedShareClasses) {
+    if (!criteriaList?.length) return criteriaList;
+    const referencedIds = new Set((selectedShareClasses || []).map(sc => sc.criteriaRefId).filter(Boolean));
+    return criteriaList.filter(c => referencedIds.has(c.id));
+}
+
 export function updateCriteriaListWithIsins(criteriaList, criteriaRefId, isins, logic, separator = ';') {
     if (!criteriaList || !criteriaRefId) {
         return criteriaList || [];

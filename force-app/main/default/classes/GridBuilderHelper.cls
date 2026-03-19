@@ -5,7 +5,7 @@
  *              Supports complex filter logic evaluation and dynamic field value extraction.
  * @author Charles EID
  * @testClass GridBuilderControllerTest, GridValidationControllerTest
- * @coverage 94% (Combined coverage from both test classes)   [12-03-26]
+ * @coverage 93% (Combined coverage from both test classes)   [19-03-26]
  ────────────────────────────────────── */
 public with sharing class GridBuilderHelper {
     public static final String RT_STANDARD_GRID = 'StandardGrid';
@@ -82,6 +82,7 @@ public with sharing class GridBuilderHelper {
                 filterObjects.add(new FilterObjectWrapper(criteriaSetting, objectToFieldToValuesMap.get(criteriaSetting.ObjectApiName__c)));
             }
         }
+        filterObjects.add(labelOnly('Share_Class__c', 'ISIN__c')); // Always include Share_Class__c / ISIN__c for label resolution in criteria details (showFilter = false — not shown in filter UI)
         return filterObjects;
     }
 
@@ -456,6 +457,12 @@ public with sharing class GridBuilderHelper {
         '\nShare_Class__c => EffectiveManagementFees__c';
     }
 
+    private static FilterObjectWrapper labelOnly(String objectApiName, String fieldApiName) {
+        Schema.DescribeFieldResult fieldDesc = Schema.getGlobalDescribe().get(objectApiName).getDescribe().fields.getMap().get(fieldApiName).getDescribe();
+        FilterFieldWrapper fw = new FilterFieldWrapper(fieldDesc.getLabel(), fieldApiName, fieldDesc.getType(), new Map<String, String>(), new Map<String, String>());
+        return new FilterObjectWrapper(objectApiName, Schema.getGlobalDescribe().get(objectApiName).getDescribe().getLabel(), new List<FilterFieldWrapper>{ fw });
+    }
+
     // ────────────────────────────────────── WRAPPERS ──────────────────────────────────────
     public class GridSettings {
         @AuraEnabled public String agreementSelectionMode { get; set; }
@@ -498,10 +505,18 @@ public with sharing class GridBuilderHelper {
         @AuraEnabled public String objectLabel { get; set; }
         @AuraEnabled public String objectApiName { get; set; }
         @AuraEnabled public List<FilterFieldWrapper> fields { get; set; }
-        public FilterObjectWrapper(GridCriteriaSetting__mdt criteriaSetting, Map<String, Map<String, String>> mapFieldToValues) {
+        @AuraEnabled public Boolean showFilter { get; set; }
+        public FilterObjectWrapper(GridCriteriaSetting__mdt criteriaSetting, Map<String, Map<String, String>> mapFieldToValues) { // Standard constructor: object comes from active GridCriteriaSetting__mdt — always shown in filter UI
             this.objectLabel    =   Schema.getGlobalDescribe().get(criteriaSetting.ObjectApiName__c).getDescribe().getLabel();
             this.objectApiName  =   criteriaSetting.ObjectApiName__c;
             this.fields         =   getFields(criteriaSetting, mapFieldToValues);
+            this.showFilter     =   true;
+        }
+        public FilterObjectWrapper(String objectApiName, String objectLabel, List<FilterFieldWrapper> fields) { // Label-only constructor: object is not a filter option but its labels need to be resolvable in the criteria list
+            this.objectApiName  =   objectApiName;
+            this.objectLabel    =   objectLabel;
+            this.fields         =   fields;
+            this.showFilter     =   false;
         }
     }
 
@@ -587,4 +602,5 @@ public with sharing class GridBuilderHelper {
             this.formatted    = formatted;
         }
     }
+
 }

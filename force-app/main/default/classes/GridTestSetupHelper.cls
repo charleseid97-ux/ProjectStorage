@@ -7,7 +7,7 @@
  *              Disables AgreementTrigger in test context to avoid permission issues.
  * @author Charles EID
  * @usedBy GridDetailBuilderTest, GridBuilderControllerTest, GridValidationControllerTest,
- *         GridDetailTableControllerTest, GridExcelImportServiceTest
+ *         GridDetailTableControllerTest, GridExcelImportServiceTest, GridLifecycleTest
 ────────────────────────────────────── */
 @IsTest
 public with sharing class GridTestSetupHelper {
@@ -269,6 +269,13 @@ public with sharing class GridTestSetupHelper {
         );
     }
 
+    public static Convention__c createAgreement(String name, String conventionName, String agreementCode, Id companyId, Id gridId, Id gridRequestId, Date gridRequestStartDate, String countriesOfDistribution, Map<String, Id> agmRtMap) {
+        Convention__c agr = createAgreement(name, conventionName, agreementCode, companyId, gridId, countriesOfDistribution, agmRtMap);
+        agr.Grid_Request__c = gridRequestId;
+        agr.Grid_Request_Start_Date__c = gridRequestStartDate;
+        return agr;
+    }
+
     public static List<Convention__c> getTestAgreements() {
         return [SELECT Id, Name, ConventionName__c, Team__c
                 FROM Convention__c
@@ -394,10 +401,39 @@ public with sharing class GridTestSetupHelper {
         );
     }
 
+    public static GridDetail__c createCustomGridDetail(Id gridId, Id criteriaId, Id shareClassId, Id standardGridDetailId, Date startDate) {
+        return new GridDetail__c(
+            RecordTypeId        = Schema.SObjectType.GridDetail__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_CUSTOM_GRID_DETAIL).getRecordTypeId(),
+            Grid__c             = gridId,
+            GridCriteria__c     = criteriaId,
+            ShareClass__c       = shareClassId,
+            StandardGridDetail__c = standardGridDetailId,
+            StartDate__c        = startDate
+        );
+    }
+
     public static List<GridDetail__c> getTestGridDetails() {
         return [SELECT Id, Grid__c, GridRule__c, GridCriteria__c, ShareClass__c, RebateRate__c, StartDate__c, EndDate__c
                 FROM GridDetail__c
                 ORDER BY CreatedDate];
+    }
+
+    // ────────────────────────────────────── AGREEMENT GRID TIMELINE METHODS ──────────────────────────────────────
+    public static AgreementGridTimeline__c createAgreementGridTimeline(Id agreementId, Id gridId, Date startDate, Date endDate, String status) {
+        return new AgreementGridTimeline__c(
+            Agreement__c = agreementId,
+            Grid__c = gridId,
+            GridStartDate__c = startDate,
+            GridEndDate__c = endDate,
+            Status__c = status
+        );
+    }
+
+    public static List<AgreementGridTimeline__c> getTestAgreementGridTimelines(Id agreementId) {
+        return [SELECT Id, Agreement__c, Grid__c, GridStartDate__c, GridEndDate__c, Status__c
+                FROM AgreementGridTimeline__c
+                WHERE Agreement__c = :agreementId
+                ORDER BY GridStartDate__c];
     }
 
     // ────────────────────────────────────── AUM METHODS ──────────────────────────────────────

@@ -3,7 +3,7 @@
  *              Verifies the getRecap method returns correct recap data for an agreement
  *              (active grid with standard grid groups + history, and no-grid scenario).
  * @author Charles EID
- * Coverage: AgreementGridRecapController 100%
+ * @testCoverage AgreementGridRecapController (100%)   [19-03-26]
 ────────────────────────────────────── */
 @IsTest
 public with sharing class AgreementGridRecapControllerTest {
@@ -32,6 +32,9 @@ public with sharing class AgreementGridRecapControllerTest {
         GridDetail__c customDetail = GridTestSetupHelper.createGridDetail(customGrid.Id, null, null, sc.Id, 2.50, Date.today(), Date.newInstance(2099, 12, 31), GridBuilderHelper.RT_CUSTOM_GRID_DETAIL);
         customDetail.StandardGridDetail__c = stdDetail.Id;
         insert customDetail;
+
+        // Approve the custom grid so the recap body (lines 31-35) executes
+        update new Grid__c(Id = customGrid.Id, ApprovalStatus__c = 'Approved');
 
         // Point the agreement to the custom grid
         AgreementTriggerHandler.triggerDisabled = true;

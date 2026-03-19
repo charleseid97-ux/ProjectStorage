@@ -3,7 +3,7 @@
  *              Validates rebate calculation logic for all 4 rule types (Percentage of Fees, Other Share Type, Other Share Type + Fees, Other Grid Rule), 
  *              complex filter logic (AND/OR/Custom Logic/NOT IN), multi-pass dependency resolution, and edge cases.
  * @author Charles EID
- * @testCoverage GridDetailBuilder (84%), GridCriteriaExpressionParser (88% partial)   [12-03-26]
+ * @testCoverage GridDetailBuilder (85%), GridCriteriaExpressionParser (91% partial)   [19-03-26]
 ────────────────────────────────────── */
 @IsTest
 private with sharing class GridDetailBuilderTest {
@@ -110,6 +110,13 @@ private with sharing class GridDetailBuilderTest {
         GridRule__c rule9 = GridTestSetupHelper.createGridRule(grid.Id, criteria9.Id, 'Take Rebates Rate - Other Share Type', 'EffectiveManagementFees__c', null, null, 'NonExistentType', null);
         insert rule9;
         gridRuleIds.add(rule9.Id);
+
+        // 10. No criteria details — triggers ctx.details.isEmpty() guard (line 152)
+        GridCriteria__c criteriaNoDetails = GridTestSetupHelper.createCriteria(grid.Id, 'AND', '1', 'No Details');
+        insert criteriaNoDetails;
+        GridRule__c ruleNoDetails = GridTestSetupHelper.createGridRule(grid.Id, criteriaNoDetails.Id, percentageOfFees, 'EffectiveManagementFees__c', 10, null, null, null);
+        insert ruleNoDetails;
+        gridRuleIds.add(ruleNoDetails.Id);
 
         Test.startTest();
 

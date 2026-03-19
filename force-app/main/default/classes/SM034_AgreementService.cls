@@ -448,7 +448,7 @@ matchingLegalEntityByCompany.put(le.Company__c, le);
             }
         }
 
-        AgreementGridTimelineUtility.handleTimelineTransitions(newAgreements, oldAgreements); // ──── AgreementGridTimeline__c lifecycle transitions ────
+        GridUtility.handleAgreementGridTransitions(newAgreements, oldAgreements); // ──── Grid__c + Agreement field swaps + AgreementGridTimeline__c lifecycle ────
     }
     
     public static boolean checkIfApprovalProcess(Id recordId, String statusString) {

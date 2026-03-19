@@ -18,6 +18,9 @@
 		<members>GridRecapHelper</members>
 		<members>GridTestSetupHelper</members>
 		<members>GridValidationController</members>
+		<members>GridLifecycleTest</members>
+		<members>GridTriggerHandler</members>
+		<members>GridUtility</members>
 		<members>GridValidationControllerTest</members>
 		<members>SM034_AgreementService</members>
 		<members>StandardGridProductAndRulesController</members>
@@ -340,6 +343,10 @@
 	<types>
 		<members>sheetjs</members>
 		<name>StaticResource</name>
+	</types>
+	<types>
+		<members>GridTrigger</members>
+		<name>ApexTrigger</name>
 	</types>
 	<version>66.0</version>
 </Package>

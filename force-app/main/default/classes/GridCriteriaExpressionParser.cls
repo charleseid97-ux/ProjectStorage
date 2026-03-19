@@ -6,7 +6,7 @@
  *              Validates expressions and provides detailed error messages.
  * @author Charles EID
  * @testClass GridExcelImportServiceTest, GridDetailBuilderTest
- * @coverage 88% (Combined coverage from test classes)   [12-03-26]
+ * @coverage 91% (Combined coverage from test classes)   [19-03-26]
 ────────────────────────────────────── */
 public with sharing class GridCriteriaExpressionParser {
 

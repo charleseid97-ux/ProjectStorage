@@ -13,6 +13,7 @@ export default class GridValidationPage extends LightningElement {
     @api gridRequestData = {};
     @api agreementNames;
     @api gridShareClassMap = {};
+    @api existingGridId = null;
 
     @track validationProducts = [];
     @track validationColumns = [];
@@ -62,9 +63,10 @@ export default class GridValidationPage extends LightningElement {
         try {
             const request = this.buildSaveRequest();
             const shareClassGridIdMap = buildShareClassGridIdMap(this.selectedShareClasses);
-            const result = await saveGrid({ 
+            const result = await saveGrid({
                 requestJson: JSON.stringify(request),
-                shareClassGridIdMap: shareClassGridIdMap
+                shareClassGridIdMap: shareClassGridIdMap,
+                draftGridId: this.existingGridId || null
             });
 
             if (result.success) {

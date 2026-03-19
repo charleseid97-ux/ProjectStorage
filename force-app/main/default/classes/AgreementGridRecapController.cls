@@ -5,7 +5,7 @@
  *                      2- the agreement grid timeline records (past grid records)
  * @author Charles EID
  * Test Class: AgreementGridRecapControllerTest 
- * Coverage: 100%   [27-02-26]
+ * @coverage 100%   [19-03-26]
 ────────────────────────────────────── */
 public with sharing class AgreementGridRecapController {
 
@@ -19,10 +19,10 @@ public with sharing class AgreementGridRecapController {
         RecapWrapper result = new RecapWrapper();
 
         // Grid timeline (always loaded, regardless of active grid)
-        for (AgreementGridTimeline__c agt : [SELECT Id, Name, Grid__c, Grid__r.Name, GridStartDate__c, GridEndDate__c, Status__c
+        for (AgreementGridTimeline__c agt : [SELECT Id, Name, Grid__c, Grid__r.Name, GridStartDate__c, GridEndDate__c, Status__c, CreatedDate
                                             FROM AgreementGridTimeline__c
                                             WHERE Agreement__c = :agreementId
-                                            ORDER BY GridStartDate__c DESC NULLS FIRST]) {
+                                            ORDER BY GridStartDate__c DESC NULLS FIRST, Status__c, CreatedDate]) {
             result.timelineRows.add(new TimelineRow(agt));
         }
 

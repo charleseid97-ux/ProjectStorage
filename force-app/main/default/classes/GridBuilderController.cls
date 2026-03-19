@@ -5,7 +5,7 @@
  *              Works in conjunction with GridBuilderHelper for data filtering and formatting.
  * @author Charles EID
  * @testClass GridBuilderControllerTest
- * @coverage 97%   [12-03-26]
+ * @coverage 85%   [19-03-26]
  ────────────────────────────────────── */
 public with sharing class GridBuilderController {
 
@@ -31,27 +31,33 @@ public with sharing class GridBuilderController {
         }
 
         String agreementWhere = buildAgreementWhereClause(agreementId, userPrimaryTeam, userSecondaryTeams, gridSettings?.agreementQueryConditions);
-        String agreementQuery = 'SELECT Id, ConventionName__c, Name, Team__c, Countries_of_Distribution__c, Business_Region__c, Grid__c, Grid__r.Kind__c, Grid__r.EndDate__c '+
+        String agreementQuery = 'SELECT Id, ConventionName__c, Name, Team__c, Countries_of_Distribution__c, Business_Region__c, Grid__c, Grid__r.Kind__c, Grid__r.EndDate__c, Grid_Request__c, Grid_Request__r.ApprovalStatus__c '+
                                 ' FROM Convention__c ';
         agreementQuery +=       ' WHERE ' + agreementWhere;
         agreementQuery +=       ' ORDER BY ConventionName__c ASC, Name ASC, Team__c ASC LIMIT 5000';
 
         List<AgreementWrapper> agreementOptions = new List<AgreementWrapper>();
         Set<String> availableTeams = new Set<String>();
-        Boolean hasExistingGrid     = false;
+        Boolean hasExistingGrid = false;
         String  existingGridKind    = null;
         String  existingGridEndDate = null;
+        Boolean hasDraftGrid = false;
         for (Convention__c agreement : Database.query(agreementQuery)) {
             agreementOptions.add(new AgreementWrapper(agreement));
             availableTeams.add(agreement.Team__c);
-            if (String.isNotBlank(agreementId) && agreement.Id == agreementId && agreement.Grid__c != null) {
-                hasExistingGrid     = true;
-                existingGridKind    = agreement.Grid__r.Kind__c;
-                existingGridEndDate = agreement.Grid__r.EndDate__c != null ? String.valueOf(agreement.Grid__r.EndDate__c) : null;
+            if (String.isNotBlank(agreementId) && agreement.Id == agreementId) {
+                if (agreement.Grid__c != null) {
+                    hasExistingGrid     = true;
+                    existingGridKind    = agreement.Grid__r.Kind__c;
+                    existingGridEndDate = agreement.Grid__r.EndDate__c != null ? String.valueOf(agreement.Grid__r.EndDate__c) : null;
+                }
+                if (agreement.Grid_Request__c != null && agreement.Grid_Request__r.ApprovalStatus__c == 'Draft') {
+                    hasDraftGrid = true;
+                }
             }
         }
 
-        return new AgreementSelectionPageSettings((gridSettings != null), gridSettings?.agreementSelectionMode, userPrimaryTeam, availableTeams, agreementOptions, hasExistingGrid, existingGridKind, existingGridEndDate);
+        return new AgreementSelectionPageSettings((gridSettings != null), gridSettings?.agreementSelectionMode, userPrimaryTeam, availableTeams, agreementOptions, hasExistingGrid, existingGridKind, existingGridEndDate, hasDraftGrid);
     }
 
     @AuraEnabled(cacheable=true)
@@ -89,6 +95,55 @@ public with sharing class GridBuilderController {
             agreementWhere = String.join(whereFragments, ' AND ');
         }
         return agreementWhere;
+    }
+
+    @AuraEnabled
+    public static DraftGridData getDraftGridData(Id agreementId) {
+        Convention__c agr = [SELECT Id, Grid_Request__c, Grid_Request__r.ApprovalStatus__c
+                             FROM Convention__c 
+                             WHERE Id = :agreementId LIMIT 1];
+
+        if (agr.Grid_Request__c == null || agr.Grid_Request__r.ApprovalStatus__c != 'Draft') return null;
+        Id gridId = agr.Grid_Request__c;
+
+        Grid__c grid = [SELECT Id, Name, Kind__c, Type__c, AutomaticGridUpdate__c, StartDate__c, EndDate__c, ThresholdAmount__c, ThresholdAmountCurrency__c, MinimumAmount__c, MinimumAmountCurrency__c, MinimumAmountFrequency__c
+                        FROM Grid__c
+                        WHERE Id = :gridId LIMIT 1];
+
+        List<GridCriteria__c> criteriaRecords = [SELECT Id, StandardGrid__c, FilterLogic__c, FilterLogicExpression__c, StartDate__c
+                                                 FROM GridCriteria__c 
+                                                 WHERE Grid__c = :gridId];
+
+        Map<Id, GridCriteriaData> criteriaDataMap = new Map<Id, GridCriteriaData>();
+        List<GridCriteriaData> criteriaDataList = new List<GridCriteriaData>();
+        for (GridCriteria__c gc : criteriaRecords) {
+            GridCriteriaData cd = new GridCriteriaData();
+            cd.criteria = gc;
+            cd.details = new List<GridCriteriaDetail__c>();
+            cd.shareClassIds = new List<Id>();
+            criteriaDataMap.put(gc.Id, cd);
+            criteriaDataList.add(cd);
+        }
+
+        if (!criteriaDataMap.isEmpty()) {
+            for (GridCriteriaDetail__c gcd : [SELECT Id, Object__c, Field__c, Logic__c, Value__c, FilterNumber__c, TECHOrigin__c, GridCriteria__c
+                                              FROM GridCriteriaDetail__c
+                                              WHERE GridCriteria__c IN :criteriaDataMap.keySet()]) {
+                criteriaDataMap.get(gcd.GridCriteria__c).details.add(gcd);
+            }
+            for (GridDetail__c gd : [SELECT Id, ShareClass__c, GridCriteria__c
+                                     FROM GridDetail__c 
+                                     WHERE Grid__c = :gridId]) {
+                if (gd.GridCriteria__c != null && criteriaDataMap.containsKey(gd.GridCriteria__c)) {
+                    criteriaDataMap.get(gd.GridCriteria__c).shareClassIds.add(gd.ShareClass__c);
+                }
+            }
+        }
+
+        DraftGridData result = new DraftGridData();
+        result.grid = grid;
+        result.criteriaList = criteriaDataList;
+        return result;
     }
 
     @AuraEnabled
@@ -309,7 +364,8 @@ public with sharing class GridBuilderController {
         @AuraEnabled public Boolean hasExistingGrid { get; set; }
         @AuraEnabled public String existingGridKind { get; set; }
         @AuraEnabled public String existingGridEndDate { get; set; }
-        public AgreementSelectionPageSettings(Boolean gridBuilderFound, String agreementSelectionMode, String primaryTeam, Set<String> setAvailableTeams, List<AgreementWrapper> agreementOptions, Boolean hasExistingGrid, String existingGridKind, String existingGridEndDate) {
+        @AuraEnabled public Boolean hasDraftGrid { get; set; }
+        public AgreementSelectionPageSettings(Boolean gridBuilderFound, String agreementSelectionMode, String primaryTeam, Set<String> setAvailableTeams, List<AgreementWrapper> agreementOptions, Boolean hasExistingGrid, String existingGridKind, String existingGridEndDate, Boolean hasDraftGrid) {
             this.gridBuilderFound           =   gridBuilderFound;
             this.agreementSelectionMode     =   agreementSelectionMode;
             this.agreementOptions           =   agreementOptions;
@@ -318,6 +374,7 @@ public with sharing class GridBuilderController {
             this.hasExistingGrid            =   hasExistingGrid;
             this.existingGridKind           =   existingGridKind;
             this.existingGridEndDate        =   existingGridEndDate;
+            this.hasDraftGrid               =   hasDraftGrid;
         }
     }
     
@@ -345,5 +402,16 @@ public with sharing class GridBuilderController {
             this.userDefinedFragments       =   new List<String>();
             this.systemDefinedFragments     =   new List<String>();
         }
+    }
+
+    public class DraftGridData {
+        @AuraEnabled public Grid__c grid { get; set; }
+        @AuraEnabled public List<GridCriteriaData> criteriaList { get; set; }
+    }
+
+    public class GridCriteriaData {
+        @AuraEnabled public GridCriteria__c criteria { get; set; }
+        @AuraEnabled public List<GridCriteriaDetail__c> details { get; set; }
+        @AuraEnabled public List<Id> shareClassIds { get; set; }
     }
 }
