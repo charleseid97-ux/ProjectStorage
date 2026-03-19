@@ -100,12 +100,12 @@
                                                                 , {!relatedTo.Event__r.locationAddress__c}
                                                             </apex:outputPanel>
                                                     
-                                                            <apex:outputPanel rendered="{!OR(NOT(ISBLANK(relatedTo.Event__r.locationPostCode__c)), NOT(ISBLANK(relatedTo.Event__r.locationCity__c)))}" layout="none">
-                                                                , {!relatedTo.Event__r.locationPostCode__c} {!relatedTo.Event__r.locationCity__c}
+                                                            <apex:outputPanel rendered="{!OR(NOT(ISBLANK(relatedTo.Event__r.locationPostCode__c)), NOT(ISBLANK(relatedTo.Event__r.city__c)))}" layout="none">
+                                                                , {!relatedTo.Event__r.locationPostCode__c} {!relatedTo.Event__r.city__c}
                                                             </apex:outputPanel>
                                                     
-                                                            <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.Event__r.locationCountry__c))}" layout="none">
-                                                                , {!relatedTo.Event__r.locationCountry__c}
+                                                            <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.Event__r.country__c))}" layout="none">
+                                                                , {!relatedTo.Event__r.country__c}
                                                             </apex:outputPanel>
                                                         </td>
                                                     </tr>

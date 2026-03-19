@@ -114,7 +114,7 @@ public with sharing class customEventAttendeeService {
 
         return new Map<Id, Event__c>([
             SELECT Id, CopyAddress__c,
-                   LocationAddress__c, LocationCity__c, LocationCountry__c, LocationPostCode__c, LocationName__c
+                   LocationAddress__c, city__c, country__c, LocationPostCode__c, LocationName__c
             FROM Event__c
             WHERE Id IN :eventIds
         ]);
@@ -150,9 +150,9 @@ public with sharing class customEventAttendeeService {
                 + ' isLocationEmpty=' + empty
                 + ' currentLocation=['
                     + 'Address=' + ev.LocationAddress__c + ', '
-                    + 'City=' + ev.LocationCity__c + ', '
+                    + 'City=' + ev.city__c + ', '
                     + 'PostCode=' + ev.LocationPostCode__c + ', '
-                    + LOG_COUNTRY_LABEL + ev.LocationCountry__c + ', '
+                    + LOG_COUNTRY_LABEL + ev.country__c + ', '
                     + 'Name=' + ev.LocationName__c
                 + ']'
             );
@@ -302,18 +302,18 @@ public with sharing class customEventAttendeeService {
             Event__c upd = new Event__c(
                 Id = evId,
                 LocationAddress__c  = a.BillingStreet,
-                LocationCity__c     = a.BillingCity,
+                city__c     = a.BillingCity,
                 LocationPostCode__c = a.BillingPostalCode,
-                LocationCountry__c  = a.BillingCountry,
+                country__c  = a.BillingCountry,
                 LocationName__c     = a.Name
             );
 
             System.debug(LOG_PREFIX + 'Prepared update for Event=' + evId
                 + ' => Location=['
                     + 'Address=' + upd.LocationAddress__c + ', '
-                    + 'City=' + upd.LocationCity__c + ', '
+                    + 'City=' + upd.city__c + ', '
                     + 'PostCode=' + upd.LocationPostCode__c + ', '
-                    + LOG_COUNTRY_LABEL + upd.LocationCountry__c + ', '
+                    + LOG_COUNTRY_LABEL + upd.country__c + ', '
                     + 'Name=' + upd.LocationName__c
                 + ']'
             );
@@ -340,8 +340,8 @@ public with sharing class customEventAttendeeService {
     // ---------------------------------------------------------------------
     private static Boolean isEventLocationEmpty(Event__c ev) {
         return String.isBlank(ev.LocationAddress__c)
-            && String.isBlank(ev.LocationCity__c)
-            && String.isBlank(ev.LocationCountry__c)
+            && String.isBlank(ev.city__c)
+            && String.isBlank(ev.country__c)
             && String.isBlank(ev.LocationPostCode__c)
             && String.isBlank(ev.LocationName__c);
     }

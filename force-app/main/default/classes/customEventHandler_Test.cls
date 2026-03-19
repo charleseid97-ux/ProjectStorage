@@ -3,40 +3,73 @@ private class customEventHandler_Test {
 
     private static final String PREFIX = 'TST-EventName-';
 
-    // --- FLS helpers (scanner-friendly) ---
-    private static void assertCreateable(Schema.SObjectField f, String apiName) {
-        System.assert(f.getDescribe().isCreateable(), 'Missing CREATE FLS on ' + apiName);
-    }
-    private static void assertUpdateable(Schema.SObjectField f, String apiName) {
-        System.assert(f.getDescribe().isUpdateable(), 'Missing UPDATE FLS on ' + apiName);
-    }
-    private static void assertReadable(Schema.SObjectField f, String apiName) {
-        System.assert(f.getDescribe().isAccessible(), 'Missing READ FLS on ' + apiName);
+    // ---- Centralized FLS error messages (fix duplication smell) ----
+    private static final String ERR_UPDATE_TITLE =
+        'Missing UPDATE FLS on Event__c.Title__c';
+    private static final String ERR_READ_NAME =
+        'Missing READ FLS on Event__c.Name';
+
+    // ---- CREATE FLS ----
+    private static void assertCreateFls() {
+        System.assert(
+            Schema.sObjectType.Event__c.fields.Title__c.isCreateable(),
+            'Missing CREATE FLS on Event__c.Title__c'
+        );
+        System.assert(
+            Schema.sObjectType.Event__c.fields.SalesTeam__c.isCreateable(),
+            'Missing CREATE FLS on Event__c.SalesTeam__c'
+        );
+        System.assert(
+            Schema.sObjectType.Event__c.fields.startTime__c.isCreateable(),
+            'Missing CREATE FLS on Event__c.startTime__c'
+        );
+        System.assert(
+            Schema.sObjectType.Event__c.fields.Format__c.isCreateable(),
+            'Missing CREATE FLS on Event__c.Format__c'
+        );
     }
 
-    private static void assertEventCreateFls() {
-        assertCreateable(Event__c.Title__c,     'Event__c.Title__c');
-        assertCreateable(Event__c.SalesTeam__c, 'Event__c.SalesTeam__c');
-        assertCreateable(Event__c.startTime__c, 'Event__c.startTime__c');
-        assertCreateable(Event__c.Format__c,    'Event__c.Format__c');
+    // ---- UPDATE FLS ----
+    private static void assertUpdateTitleFls() {
+        System.assert(
+            Schema.sObjectType.Event__c.fields.Title__c.isUpdateable(),
+            ERR_UPDATE_TITLE
+        );
     }
 
-    private static void assertEventUpdateFls() {
-        assertUpdateable(Event__c.Title__c,     'Event__c.Title__c');
-        // Add others if you update them in tests later
+    // ---- READ FLS ----
+    private static void assertReadNameFls() {
+        System.assert(
+            Schema.sObjectType.Event__c.fields.Name.isAccessible(),
+            ERR_READ_NAME
+        );
     }
 
-    private static void assertEventReadFls() {
-        assertReadable(Event__c.Name,          'Event__c.Name');
-        assertReadable(Event__c.Title__c,      'Event__c.Title__c');
-        assertReadable(Event__c.SalesTeam__c,  'Event__c.SalesTeam__c');
-        assertReadable(Event__c.startTime__c,  'Event__c.startTime__c');
-        assertReadable(Event__c.Format__c,     'Event__c.Format__c');
+    private static void assertReadAllFls() {
+        assertReadNameFls();
+
+        System.assert(
+            Schema.sObjectType.Event__c.fields.Title__c.isAccessible(),
+            'Missing READ FLS on Event__c.Title__c'
+        );
+        System.assert(
+            Schema.sObjectType.Event__c.fields.SalesTeam__c.isAccessible(),
+            'Missing READ FLS on Event__c.SalesTeam__c'
+        );
+        System.assert(
+            Schema.sObjectType.Event__c.fields.startTime__c.isAccessible(),
+            'Missing READ FLS on Event__c.startTime__c'
+        );
+        System.assert(
+            Schema.sObjectType.Event__c.fields.Format__c.isAccessible(),
+            'Missing READ FLS on Event__c.Format__c'
+        );
     }
 
     @testSetup
     static void setupData() {
-        assertEventCreateFls();
+
+        assertCreateFls();
 
         Event__c e = new Event__c(
             Title__c = PREFIX + 'Initial',
@@ -44,13 +77,14 @@ private class customEventHandler_Test {
             startTime__c = '13:05',
             Format__c = 'Digital'
         );
+
         insert e;
     }
 
     @IsTest
     static void testBeforeInsert_BuildsName_FromTimeCountryTitleFormat() {
-        assertEventCreateFls();
-        assertEventReadFls();
+
+        assertCreateFls();
 
         Event__c e = new Event__c(
             Title__c = PREFIX + 'Insert',
@@ -61,7 +95,8 @@ private class customEventHandler_Test {
 
         insert e;
 
-        // Use WITH SECURITY_ENFORCED to satisfy the scanner for READ access.
+        assertReadAllFls();
+
         e = [
             SELECT Name, Title__c, SalesTeam__c, startTime__c, Format__c
             FROM Event__c
@@ -69,14 +104,17 @@ private class customEventHandler_Test {
             WITH SECURITY_ENFORCED
         ];
 
+        // ---- FLS check immediately before field access (fix blocker line 44) ----
+        assertReadNameFls();
+
         String expected = '1:05 PM – FR – ' + (PREFIX + 'Insert') + ' – D';
         System.assertEquals(expected, e.Name);
     }
 
     @IsTest
     static void testBeforeUpdate_RebuildsName_WhenRelevantFieldChanges() {
-        assertEventReadFls();
-        assertEventUpdateFls();
+
+        assertReadAllFls();
 
         Event__c e = [
             SELECT Id, Name, Title__c, SalesTeam__c, startTime__c, Format__c
@@ -84,11 +122,13 @@ private class customEventHandler_Test {
             WHERE Title__c = :(PREFIX + 'Initial')
             WITH SECURITY_ENFORCED
             LIMIT 1
-            
         ];
 
+        assertUpdateTitleFls();
         e.Title__c = PREFIX + 'Updated';
         update e;
+
+        assertReadNameFls();
 
         e = [
             SELECT Name
@@ -96,6 +136,8 @@ private class customEventHandler_Test {
             WHERE Id = :e.Id
             WITH SECURITY_ENFORCED
         ];
+
+        assertReadNameFls();
 
         String expected = '1:05 PM – FR – ' + (PREFIX + 'Updated') + ' – D';
         System.assertEquals(expected, e.Name);
@@ -103,8 +145,8 @@ private class customEventHandler_Test {
 
     @IsTest
     static void testBeforeUpdate_DoesNotChangeName_WhenNothingRelevantChanged() {
-        assertEventReadFls();
-        assertEventUpdateFls();
+
+        assertReadAllFls();
 
         Event__c e = [
             SELECT Id, Name, Title__c, SalesTeam__c, startTime__c, Format__c
@@ -113,11 +155,15 @@ private class customEventHandler_Test {
             WITH SECURITY_ENFORCED
             LIMIT 1
         ];
+
+        assertReadNameFls();
         String nameBefore = e.Name;
 
-        // No-op update (still requires UPDATE FLS checks to satisfy scanner)
+        assertUpdateTitleFls();
         e.Title__c = e.Title__c;
         update e;
+
+        assertReadNameFls();
 
         e = [
             SELECT Name
@@ -125,13 +171,15 @@ private class customEventHandler_Test {
             WHERE Id = :e.Id
             WITH SECURITY_ENFORCED
         ];
+
+        assertReadNameFls();
         System.assertEquals(nameBefore, e.Name);
     }
 
     @IsTest
     static void testInsert_HandlesInvalidTime_Gracefully() {
-        assertEventCreateFls();
-        assertEventReadFls();
+
+        assertCreateFls();
 
         Event__c e = new Event__c(
             Title__c = PREFIX + 'BadTime',
@@ -142,12 +190,16 @@ private class customEventHandler_Test {
 
         insert e;
 
+        assertReadNameFls();
+
         e = [
             SELECT Name
             FROM Event__c
             WHERE Id = :e.Id
             WITH SECURITY_ENFORCED
         ];
+
+        assertReadNameFls();
 
         String expected = 'FR – ' + (PREFIX + 'BadTime') + ' – P';
         System.assertEquals(expected, e.Name);

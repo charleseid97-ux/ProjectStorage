@@ -5,11 +5,9 @@
     <queueMembers>
         <users>
             <user>achraf.el-hitary.external-crm@carmignac.com</user>
+            <user>coullon.thomas-crm@carmignac.com</user>
         </users>
     </queueMembers>
-    <queueSobject>
-        <sobjectType>EventSpeakerApprovals__c</sobjectType>
-    </queueSobject>
     <queueSobject>
         <sobjectType>Event__c</sobjectType>
     </queueSobject>

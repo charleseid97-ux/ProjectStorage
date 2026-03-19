@@ -280,16 +280,16 @@ public with sharing class customEventService {
     private static void copyBillingToEvent(Event__c e, Account a) {
         system.debug('=====Copying billing from account ' + a.Id + ' to event ' + e.Id);
         e.LocationAddress__c  = a.BillingStreet;
-        e.LocationCity__c     = a.BillingCity;
+        e.city__c     = a.BillingCity;
         e.LocationPostCode__c = a.BillingPostalCode;
-        e.LocationCountry__c  = a.BillingCountry;
+        e.country__c  = a.BillingCountry;
         e.LocationName__c     = a.Name;
     }
 
     private static Boolean isEventLocationEmpty(Event__c ev) {
         return String.isBlank(ev.LocationAddress__c)
-            && String.isBlank(ev.LocationCity__c)
-            && String.isBlank(ev.LocationCountry__c)
+            && String.isBlank(ev.city__c)
+            && String.isBlank(ev.country__c)
             && String.isBlank(ev.LocationPostCode__c)
             && String.isBlank(ev.LocationName__c);
     }
@@ -423,8 +423,8 @@ public with sharing class customEventService {
 
         // Location mapping
         c.Address_1__c     = e.LocationAddress__c;
-        c.City__c          = e.LocationCity__c;
-        c.Country__c       = e.LocationCountry__c;
+        c.City__c          = e.city__c;
+        c.Country__c       = e.country__c;
         c.Post_Code__c     = e.LocationPostCode__c;
         c.Location_name__c = e.LocationName__c;
 

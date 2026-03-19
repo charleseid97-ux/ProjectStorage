@@ -93,18 +93,18 @@
                                                             </apex:outputPanel>
                                                     
                                                             <apex:outputPanel layout="none"
-                                                                rendered="{!OR(NOT(ISBLANK(relatedTo.locationPostCode__c)), NOT(ISBLANK(relatedTo.locationCity__c)))}">
+                                                                rendered="{!OR(NOT(ISBLANK(relatedTo.locationPostCode__c)), NOT(ISBLANK(relatedTo.city__c)))}">
                                                                 <div>
                                                                     {!relatedTo.locationPostCode__c}
-                                                                    <apex:outputPanel rendered="{!AND(NOT(ISBLANK(relatedTo.locationPostCode__c)), NOT(ISBLANK(relatedTo.locationCity__c)))}" layout="none">
+                                                                    <apex:outputPanel rendered="{!AND(NOT(ISBLANK(relatedTo.locationPostCode__c)), NOT(ISBLANK(relatedTo.city__c)))}" layout="none">
                                                                         &nbsp;
                                                                     </apex:outputPanel>
-                                                                    {!relatedTo.locationCity__c}
+                                                                    {!relatedTo.city__c}
                                                                 </div>
                                                             </apex:outputPanel>
                                                     
-                                                            <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.locationCountry__c))}" layout="none">
-                                                                <div>{!relatedTo.locationCountry__c}</div>
+                                                            <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.country__c))}" layout="none">
+                                                                <div>{!relatedTo.country__c}</div>
                                                             </apex:outputPanel>
                                                     
                                                         </td>

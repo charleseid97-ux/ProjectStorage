@@ -359,10 +359,10 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>MasterEvent.locationCity__c</assignToReference>
+            <assignToReference>MasterEvent.city__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>GetParent.locationCity__c</elementReference>
+                <elementReference>GetParent.city__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -373,10 +373,10 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>MasterEvent.locationCountry__c</assignToReference>
+            <assignToReference>MasterEvent.country__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>GetParent.locationCountry__c</elementReference>
+                <elementReference>GetParent.country__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -1928,7 +1928,7 @@
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.Country__c</objectFieldReference>
+                    <objectFieldReference>MasterEvent.country__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -1942,7 +1942,7 @@
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.City__c</objectFieldReference>
+                    <objectFieldReference>MasterEvent.city__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -2605,7 +2605,7 @@
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.Country__c</objectFieldReference>
+                    <objectFieldReference>MasterEvent.country__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -2619,7 +2619,7 @@
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.City__c</objectFieldReference>
+                    <objectFieldReference>MasterEvent.city__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -3164,7 +3164,7 @@
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.Country__c</objectFieldReference>
+                    <objectFieldReference>MasterEvent.country__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -3178,7 +3178,7 @@
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.City__c</objectFieldReference>
+                    <objectFieldReference>MasterEvent.city__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -3711,7 +3711,7 @@
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.Country__c</objectFieldReference>
+                    <objectFieldReference>MasterEvent.country__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -3735,7 +3735,7 @@
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.City__c</objectFieldReference>
+                    <objectFieldReference>MasterEvent.city__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>

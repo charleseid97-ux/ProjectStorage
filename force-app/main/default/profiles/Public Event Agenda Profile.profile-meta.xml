@@ -86,6 +86,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>customEventHandler_Test</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>customEventNotificationManager</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -190,11 +194,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Event__c.Co_hosted__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Event__c.EventTeamAutoApproved__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -245,6 +244,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Event__c.city__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Event__c.clientType__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -267,6 +271,11 @@
         <editable>false</editable>
         <field>Event__c.copyAddress__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Event__c.country__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -306,16 +315,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Event__c.locationAddress__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Event__c.locationCity__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Event__c.locationCountry__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -401,6 +400,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>sessionSpeakerProduct__c.PresentationGroup__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>sessionSpeakerProduct__c.Product__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -105,12 +105,12 @@
                                                                 , {!relatedTo.locationAddress__c}
                                                             </apex:outputPanel>
                                                     
-                                                            <apex:outputPanel rendered="{!OR(NOT(ISBLANK(relatedTo.locationPostCode__c)), NOT(ISBLANK(relatedTo.locationCity__c)))}" layout="none">
-                                                                , {!relatedTo.locationPostCode__c} {!relatedTo.locationCity__c}
+                                                            <apex:outputPanel rendered="{!OR(NOT(ISBLANK(relatedTo.locationPostCode__c)), NOT(ISBLANK(relatedTo.city__c)))}" layout="none">
+                                                                , {!relatedTo.locationPostCode__c} {!relatedTo.city__c}
                                                             </apex:outputPanel>
                                                     
-                                                            <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.locationCountry__c))}" layout="none">
-                                                                , {!relatedTo.locationCountry__c}
+                                                            <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.country__c))}" layout="none">
+                                                                , {!relatedTo.country__c}
                                                             </apex:outputPanel>
                                                         </td>
                                                     </tr>

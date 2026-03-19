@@ -20,7 +20,7 @@
     <members>customEventAttendeeHandler</members>
     <members>customEventAttendeeService</members>
     <members>customEventHandler</members>
-   <!-- <members>customEventHandler_Test</members>-->
+    <members>customEventHandler_Test</members>
     <members>customEventNotificationService</members>
     <members>customEventService</members>
     <members>customEventSpeakerApprovalService</members>
@@ -35,7 +35,7 @@
     <name>ApexClass</name>
   </types>
 
-  <!-- Apex Triggers -->
+  <!-- Apex Triggers --> 
   <types>
     <members>EventSpeakerApprovalsTrigger</members>
     <members>customEventAttendeeTrigger</members>
@@ -180,25 +180,25 @@
     <name>FlexiPage</name>
   </types>
 
-  <!-- Flows
-  <types>
+  <!-- Flows -->
+  <types> 
     <members>NewEvent</members>
     <name>Flow</name>
-  </types> -->
+  </types> 
 
-  <!-- Workflow 
+  <!-- Workflow -->
   <types>
-    <members>Event__c</members>
+   <!-- <members>Event__c</members> -->
     <members>EventSpeakerApprovals__c</members>
     <name>Workflow</name>
   </types>-->
 
-  <!-- Workflow Field Updates 
+  <!-- Workflow Field Updates  -->
   <types>
     <members>Event__c.EventValidationStatus</members>
     <name>WorkflowFieldUpdate</name>
   </types>
-  -->
+  
 
   <!-- Approval process -->
   <types>

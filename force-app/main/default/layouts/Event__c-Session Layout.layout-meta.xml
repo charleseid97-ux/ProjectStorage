@@ -8,6 +8,10 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Required</behavior>
+                <field>Co_hosted__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
                 <field>startDate__c</field>
             </layoutItems>
             <layoutItems>
@@ -148,6 +152,7 @@
         <style>CustomLinks</style>
     </layoutSections>
     <miniLayout>
+        <fields>Co_hosted__c</fields>
         <fields>startDate__c</fields>
         <fields>endDate__c</fields>
     </miniLayout>
