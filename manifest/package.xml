@@ -1,53 +1,267 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-	<types>
-		<members>CustomReportMatrixController</members>
-		<members>CustomReportMatrixControllerTest</members>
-		<name>ApexClass</name>
-	</types>
-	<types>
-		<members>Matrix_Blank</members>
-		<members>Matrix_ConfigNotFound</members>
-		<members>Matrix_ConflictStyle</members>
-		<members>Matrix_InvalidField</members>
-		<members>Matrix_LoadSuccess</members>
-		<members>Matrix_NoData</members>
-		<members>Matrix_QueryError</members>
-		<name>CustomLabel</name>
-	</types>
-	<types>
-		<members>ReportMatrixConfiguration.CountryRegistrationStatusMatrix</members>
-		<name>CustomMetadata</name>
-	</types>
-	<types>
-		<members>Country__c</members>
-		<members>ReportMatrixConfiguration__mdt</members>
-		<name>CustomObject</name>
-	</types>
-	<types>
-		<members>RegistrationStatusMatrix</members>
-		<name>CustomTab</name>
-	</types>
-	<types>
-		<members>RegistrationStatusMatrix</members>
-		<name>FlexiPage</name>
-	</types>
-	<types>
-		<members>ReportMatrixConfiguration__mdt-Report Matrix Configuration Layout</members>
-		<name>Layout</name>
-	</types>
-	<types>
-		<members>customReportMatrix</members>
-		<members>referentialProductHomepage</members>
-		<name>LightningComponentBundle</name>
-	</types>
-	<types>
-		<members>CustomReportMatrix</members>
-		<name>PermissionSet</name>
-	</types>
-	<types>
-		<members>xlsxjsstyle</members>
-		<name>StaticResource</name>
-	</types>
-	<version>66.0</version>
+
+  <!-- Apex -->
+  <types>
+    <members>CustomCalendarHelper</members>
+    <members>CustomPicklist</members>
+    <members>CustomPicklistTest</members>
+    <members>EventAttendee_InsertFromIds</members>
+    <members>EventColorService</members>
+    <members>EventMeetingNoteQuickActionCTRL</members>
+    <members>EventRecapController</members>
+    <members>EventSpeakerApprovalsTriggerHandler</members>
+    <members>EventSpeakerApprovalsService</members>
+    <members>GenericMultiSelectCtrl</members>
+    <members>PAD</members>
+    <members>SessionSpeakerProduct_InsertFromJson</members>
+    <members>VFC17_PrintEvents</members>
+    <members>VFC18_EventAgenda</members>
+    <members>customEventAttendeeHandler</members>
+    <members>customEventAttendeeService</members>
+    <members>customEventHandler</members>
+   <!-- <members>customEventHandler_Test</members>-->
+    <members>customEventNotificationService</members>
+    <members>customEventService</members>
+    <members>customEventSpeakerApprovalService</members>
+    <members>sessionSpeakerProductRelatedListCTRL</members>
+    <members>sessionSpeakerProductRepeaterCTRL</members>
+    <members>EventApprovalsPanelController</members>
+    <members>EventApprovalController</members>
+    <members>sessionSpeakerProductHandler</members>
+    <members>sessionSpeakerProductService</members>
+    <members>customEventConstants</members>
+    <members>customEventNotificationManager</members>
+    <name>ApexClass</name>
+  </types>
+
+  <!-- Apex Triggers -->
+  <types>
+    <members>EventSpeakerApprovalsTrigger</members>
+    <members>customEventAttendeeTrigger</members>
+    <members>customEventTrigger</members>
+    <members>sessionSpeakerProductTrigger</members>
+    <name>ApexTrigger</name>
+  </types>
+
+  <!-- =========================================================
+       App / UI
+       ========================================================= -->
+
+  <!-- Applications -->
+  <types>
+    <members>EventsManager</members>
+    <name>CustomApplication</name>
+  </types>
+
+  <!-- Custom Tabs -->
+  <types>
+    <members>Event__c</members>
+    <members>EventsOverView</members>
+    <name>CustomTab</name>
+  </types>
+
+  <!-- Lightning Web Components -->
+  <types>
+    <members>calendar</members>
+    <members>calendarUtils</members>
+    <members>customCalendar</members>
+    <members>eventMeetingNoteQuickAction</members>
+    <members>eventRecapEventCard</members>
+    <members>eventRecapModal</members>
+    <members>flowAutoNavigate</members>
+    <members>genericMultiSelectLookup</members>
+    <members>inlineError</members>
+    <members>sessionSpeakerProductRepeater</members>
+    <members>speakerProductsBySession</members>
+    <members>eventApprovalsPanel</members>
+    <name>LightningComponentBundle</name>
+  </types>
+
+  <!-- Quick Actions -->
+  <types>
+    <members>Event__c.MeetingNote_meetingDays</members>
+    <members>Event__c.UpdateSession</members>
+    <members>Event__c.updateEventGA</members>
+    <name>QuickAction</name>
+  </types>
+
+  <!-- =========================================================
+       Data Model
+       ========================================================= -->
+
+  <!-- Custom Fields -->
+  <types>
+    <members>Contact.IsValidSpeaker__c</members>
+    <members>Contact.SpeakerAssistant__c</members>
+    <members>Contact.isTopSpeaker__c</members>
+    <name>CustomField</name>
+  </types>
+
+  <!-- Custom Objects -->
+  <types>
+    <members>EventAttendee__c</members>
+    <members>EventColors__c</members>
+    <members>EventSpeakerApprovals__c</members>
+    <members>Event__c</members>
+    <members>sessionSpeakerProduct__c</members>
+    <members>strategyNotificationGroups__mdt</members>
+    <name>CustomObject</name>
+  </types>
+  <types>
+    <members>strategyNotificationGroups.*</members>
+    <name>CustomMetadata</name>
+</types>
+  <!-- =========================================================
+       Community / Sites
+       ========================================================= -->
+
+  <!-- Communities / Sites -->
+  <types>
+    <members>EventAgenda</members>
+    <name>CustomSite</name>
+  </types>
+
+  <!-- =========================================================
+       Templates / Views
+       ========================================================= -->
+
+  <!-- Email Templates -->
+  <types>
+    <members>EventRequest</members>
+    <members>EventRequest/SpeakersApproval_VF</members>
+    <members>EventRequest/EventTeam_VF</members>
+    <members>EventRequest/PresentationRequest_VF</members>    
+    <name>EmailTemplate</name>
+  </types>
+
+  <!-- List Views -->
+  <types>
+    <members>Event__c.EventTeamTest_Event1</members>
+    <name>ListView</name>
+  </types>
+
+  <!-- =========================================================
+       Access / Security
+       ========================================================= -->
+
+  <!-- Permission Sets -->
+  <types>
+    <members>BooklySales</members>
+    <members>BooklyAdmin</members>
+    <members>BooklyViewAll</members>
+    <name>PermissionSet</name>    
+  </types>
+
+  <!-- Profiles -->
+  <types>
+    <members>Public Event Agenda Profile</members>
+    <name>Profile</name>
+  </types>
+
+  <!-- Queues -->
+  <types>
+    <members>EventTeam</members>
+    <members>HeadofProductTeam</members>
+    <name>Queue</name>
+  </types>
+
+  <!-- =========================================================
+       Automation
+       ========================================================= -->
+
+  <!-- FlexiPages only from UAT-->
+  <types>
+    <members>Event_Record_Page</members>
+    <members>Event_Speaker_Approval_Record_Page</members>
+    <members>Events_manager_UtilityBar</members>
+    <members>MeetingDaysPage</members>
+   <!-- <members>Approval Submission Detail Record Page</members>-->
+    <name>FlexiPage</name>
+  </types>
+
+  <!-- Flows
+  <types>
+    <members>NewEvent</members>
+    <name>Flow</name>
+  </types> -->
+
+  <!-- Workflow 
+  <types>
+    <members>Event__c</members>
+    <members>EventSpeakerApprovals__c</members>
+    <name>Workflow</name>
+  </types>-->
+
+  <!-- Workflow Field Updates 
+  <types>
+    <members>Event__c.EventValidationStatus</members>
+    <name>WorkflowFieldUpdate</name>
+  </types>
+  -->
+
+  <!-- Approval process -->
+  <types>
+    <members>EventSpeakerApprovals__c.SpeakerApprovalHOP</members>
+    <members>EventSpeakerApprovals__c.SpeakerApproval</members>
+    <members>Event__c.EventApprovalProcess</members>
+    <name>ApprovalProcess</name>
+  </types>
+
+  <!-- =========================================================
+       Assets
+       ========================================================= -->
+
+  <!-- Static Resources -->
+  <types>
+    <members>fullCalendar</members>
+    <name>StaticResource</name>
+  </types>
+
+  <!-- Visualforce Pages  -->
+  <types>
+    <members>VFP17_PrintEvents</members>
+    <members>VFP17_PrintEvents_PDF</members>
+    <members>VFP18_EventAgenda</members>
+    <members>VFP18_EventAgendaPDF</members>
+    <members>EventApproval</members>
+    <name>ApexPage</name>
+  </types>
+ 
+  <types>
+        <members>equityAlerteBookly</members>
+        <members>FIAlerteBookly</members>
+        <members>AlternativesAlerteBookly</members>
+        <members>DiversifiedAlerteBookly</members>
+        <members>equityAlerteBookly</members>
+        <name>Group</name>
+    </types>
+  <!-- Layouts -->
+  <types>
+    <members>Event__c-Event Layout</members>
+    <members>Event__c-Roadshow Layout</members>
+    <members>Event__c-Session Layout</members>
+    <name>Layout</name>
+  </types>
+
+  <!-- Layout-->
+  <types>
+    <members>Event__c-Event Layout</members>
+    <name>Layout</name>
+  </types>
+  
+
+    <!-- =========================================================
+       Custom labels
+       ========================================================= -->
+    <!--
+    <types>
+        <members>BaseURL</members>
+        <name>CustomLabel</name>
+    </types>-->
+    <types>
+      <members>Event__c</members>
+      <name>SharingRules</name>
+  </types>
+  <version>65.0</version>
 </Package>

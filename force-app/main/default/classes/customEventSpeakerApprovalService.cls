@@ -31,11 +31,12 @@ public with sharing class customEventSpeakerApprovalService {
         List<SessionSpeakerProduct__c> ssp = [
             SELECT Session__c, SpeakerContact__c,
                 SpeakerContact__r.Name, SpeakerContact__r.Account.Name,
-                Language__c, PresentationStatus__c, strategy__c
+                Language__c, PresentationStatus__c,
+                strategy__c, strategy__r.Name
             FROM SessionSpeakerProduct__c
             WHERE Session__c IN :eventIds
             AND SpeakerContact__c != null
-            ORDER BY Session__c
+            ORDER BY Session__c, SpeakerContact__c
         ];
 
         Map<Id, List<SessionSpeakerProduct__c>> eventToSpeakers = new Map<Id, List<SessionSpeakerProduct__c>>();
@@ -684,24 +685,41 @@ private static String buildSpeakersHtmlSingleSection(String sectionTitle, List<S
 }
 
     /**
-     * Rend une table HTML 1 colonne, sans headers: uniquement les noms des speakers.
+     * Rend une table HTML groupée par speaker :
+     * une seule ligne par SpeakerContact__c avec les produits concaténés.
      */
     private static String buildSpeakersTableHtml(List<SessionSpeakerProduct__c> speakers) {
         List<String> parts = new List<String>();
 
-        parts.add('<table style="width:100%;font-size:13px;">');
+        List<SpeakerHtmlRow> groupedRows = groupSpeakersForHtml(speakers);
 
-        for (SessionSpeakerProduct__c s : speakers) {
-            String speakerName =
-                (s != null && s.SpeakerContact__r != null && String.isNotBlank(s.SpeakerContact__r.Name))
-                ? s.SpeakerContact__r.Name
-                : 'Unknown';
+        parts.add('<table style="width:100%; border-collapse:collapse; font-size:13px;">');
+        parts.add(
+            '<tr>' +
+                '<th align="left" style="padding:6px 0; border-bottom:1px solid #e5e7eb;">Speaker</th>' +
+                '<th align="left" style="padding:6px 0; border-bottom:1px solid #e5e7eb;">Account</th>' +
+                '<th align="left" style="padding:6px 0; border-bottom:1px solid #e5e7eb;">Language</th>' +
+                '<th align="left" style="padding:6px 0; border-bottom:1px solid #e5e7eb;">Presentation</th>' +
+                '<th align="left" style="padding:6px 0; border-bottom:1px solid #e5e7eb;">Products</th>' +
+            '</tr>'
+        );
+
+        for (SpeakerHtmlRow row : groupedRows) {
+            List<String> productNames = new List<String>();
+            productNames.addAll(row.products);
+            productNames.sort();
+
+            String productsText = productNames.isEmpty()
+                ? '—'
+                : esc(String.join(productNames, ', '));
 
             parts.add(
                 '<tr>' +
-                    '<td style="padding:6px 0;border-bottom:1px solid #f3f4f6;">' +
-                        esc(speakerName) +
-                    '</td>' +
+                    '<td style="padding:6px 0;border-bottom:1px solid #f3f4f6;">' + esc(row.speakerName) + '</td>' +
+                    '<td style="padding:6px 0;border-bottom:1px solid #f3f4f6;color:#6b7280;">' + esc(row.accountName) + '</td>' +
+                    '<td style="padding:6px 0;border-bottom:1px solid #f3f4f6;">' + esc(row.language) + '</td>' +
+                    '<td style="padding:6px 0;border-bottom:1px solid #f3f4f6;">' + esc(row.presentationStatus) + '</td>' +
+                    '<td style="padding:6px 0;border-bottom:1px solid #f3f4f6;">' + productsText + '</td>' +
                 '</tr>'
             );
         }
@@ -797,5 +815,93 @@ private static String buildSpeakersHtmlSingleSection(String sectionTitle, List<S
         }
 
         return results;
+    }
+
+    /**
+     * Structure intermédiaire pour construire une seule ligne HTML par speaker.
+     */
+    private class SpeakerHtmlRow {
+        public Id speakerId;
+        public String speakerName;
+        public String accountName;
+        public String language;
+        public String presentationStatus;
+        public Set<String> products = new Set<String>();
+    }
+
+    /**
+     * Groupe les SessionSpeakerProduct__c par SpeakerContact__c.
+     * Pour un même speaker, les produits strategy__r.Name sont fusionnés.
+     */
+    private static List<SpeakerHtmlRow> groupSpeakersForHtml(List<SessionSpeakerProduct__c> speakers) {
+        Map<Id, SpeakerHtmlRow> rowsBySpeakerId = new Map<Id, SpeakerHtmlRow>();
+        List<SpeakerHtmlRow> rowsWithoutSpeakerId = new List<SpeakerHtmlRow>();
+
+        if (speakers == null) return new List<SpeakerHtmlRow>();
+
+        for (SessionSpeakerProduct__c s : speakers) {
+            if (s == null) continue;
+
+            // Cas nominal : speaker renseigné => groupement par SpeakerContact__c
+            if (s.SpeakerContact__c != null) {
+                SpeakerHtmlRow row = rowsBySpeakerId.get(s.SpeakerContact__c);
+
+                if (row == null) {
+                    row = new SpeakerHtmlRow();
+                    row.speakerId = s.SpeakerContact__c;
+                    row.speakerName = (s.SpeakerContact__r != null && String.isNotBlank(s.SpeakerContact__r.Name))
+                        ? s.SpeakerContact__r.Name
+                        : 'Unknown';
+                    row.accountName = (s.SpeakerContact__r != null && s.SpeakerContact__r.Account != null)
+                        ? s.SpeakerContact__r.Account.Name
+                        : '';
+                    row.language = s.Language__c;
+                    row.presentationStatus = s.PresentationStatus__c;
+
+                    rowsBySpeakerId.put(s.SpeakerContact__c, row);
+                }
+
+                if (String.isBlank(row.language) && String.isNotBlank(s.Language__c)) {
+                    row.language = s.Language__c;
+                }
+                if (String.isBlank(row.presentationStatus) && String.isNotBlank(s.PresentationStatus__c)) {
+                    row.presentationStatus = s.PresentationStatus__c;
+                }
+                if (s.strategy__r != null && String.isNotBlank(s.strategy__r.Name)) {
+                    row.products.add(s.strategy__r.Name);
+                }
+            } else {
+                // Fallback rare : pas de speaker => une ligne isolée
+                SpeakerHtmlRow row = new SpeakerHtmlRow();
+                row.speakerName = 'Unknown';
+                row.accountName = '';
+                row.language = s.Language__c;
+                row.presentationStatus = s.PresentationStatus__c;
+                if (s.strategy__r != null && String.isNotBlank(s.strategy__r.Name)) {
+                    row.products.add(s.strategy__r.Name);
+                }
+                rowsWithoutSpeakerId.add(row);
+            }
+        }
+
+        List<SpeakerHtmlRow> result = new List<SpeakerHtmlRow>();
+        result.addAll(rowsBySpeakerId.values());
+        result.addAll(rowsWithoutSpeakerId);
+
+        result.sort(new SpeakerHtmlRowSorter());
+        return result;
+    }
+
+    /**
+     * Tri simple pour stabiliser l'affichage par nom de speaker.
+     */
+    private class SpeakerHtmlRowSorter implements System.Comparator<SpeakerHtmlRow> {
+        public Integer compare(SpeakerHtmlRow left, SpeakerHtmlRow right) {
+            String ln = (left == null || left.speakerName == null) ? '' : left.speakerName.toLowerCase();
+            String rn = (right == null || right.speakerName == null) ? '' : right.speakerName.toLowerCase();
+
+            if (ln == rn) return 0;
+            return ln < rn ? -1 : 1;
+        }
     }
 }

@@ -209,6 +209,13 @@
                 <elementReference>End33</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterEvent.description__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Meeting_Event_Rationale</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>SpeakersEvents</targetReference>
         </connector>
@@ -262,6 +269,13 @@
                 <stringValue>Physical</stringValue>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterEvent.Co_hosted__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Copy_1_of_Meeting_Meeting_days_Details</targetReference>
         </connector>
@@ -283,6 +297,27 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>Copy_1_of_End1</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterEvent.copyAddress__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterEvent.meetingBackground__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Meeting_Background</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterEvent.meetingGoal__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Meeting_Goals</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -386,6 +421,13 @@
                 <elementReference>GetParent.Id</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterEvent.Co_hosted__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Copy_1_of_get_Speakers</targetReference>
         </connector>
@@ -407,6 +449,20 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>End2</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterEvent.meetingGoal__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Meeting_Goall</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterEvent.meetingBackground__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Meeting_Backgroundd</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -512,6 +568,13 @@
                 <elementReference>$User.Team__c</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterEvent.Co_hosted__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Event_Details</targetReference>
         </connector>
@@ -542,6 +605,13 @@
                 <elementReference>$User.Team__c</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterEvent.Co_hosted__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Copy_1_of_Event_Details</targetReference>
         </connector>
@@ -563,6 +633,13 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>End1</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterEvent.meetingGoal__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Meeting_Goal</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -626,11 +703,59 @@
         </value>
     </choices>
     <choices>
+        <name>X08_15</name>
+        <choiceText>08:15</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>08:15</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X08_30</name>
+        <choiceText>08:30</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>08:30</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X08_45</name>
+        <choiceText>08:45</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>08:45</stringValue>
+        </value>
+    </choices>
+    <choices>
         <name>X09_00</name>
         <choiceText>09:00</choiceText>
         <dataType>String</dataType>
         <value>
             <stringValue>09:00</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X09_15</name>
+        <choiceText>09:15</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>09:15</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X09_30</name>
+        <choiceText>09:30</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>09:30</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X09_45</name>
+        <choiceText>09:45</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>09:45</stringValue>
         </value>
     </choices>
     <choices>
@@ -642,11 +767,59 @@
         </value>
     </choices>
     <choices>
+        <name>X10_15</name>
+        <choiceText>10:15</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>10:15</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X10_30</name>
+        <choiceText>10:30</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>10:30</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X10_45</name>
+        <choiceText>10:45</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>10:45</stringValue>
+        </value>
+    </choices>
+    <choices>
         <name>X11_00</name>
         <choiceText>11:00</choiceText>
         <dataType>String</dataType>
         <value>
             <stringValue>11:00</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X11_15</name>
+        <choiceText>11:15</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>11:15</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X11_30</name>
+        <choiceText>11:30</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>11:30</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X11_45</name>
+        <choiceText>11:45</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>11:45</stringValue>
         </value>
     </choices>
     <choices>
@@ -658,11 +831,59 @@
         </value>
     </choices>
     <choices>
+        <name>X12_15</name>
+        <choiceText>12:15</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>12:15</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X12_30</name>
+        <choiceText>12:30</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>12:30</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X12_45</name>
+        <choiceText>12:45</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>12:45</stringValue>
+        </value>
+    </choices>
+    <choices>
         <name>X13_00</name>
         <choiceText>13:00</choiceText>
         <dataType>String</dataType>
         <value>
             <stringValue>13:00</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X13_15</name>
+        <choiceText>13:15</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>13:15</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X13_30</name>
+        <choiceText>13:30</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>13:30</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X13_45</name>
+        <choiceText>13:45</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>13:45</stringValue>
         </value>
     </choices>
     <choices>
@@ -674,11 +895,59 @@
         </value>
     </choices>
     <choices>
+        <name>X14_15</name>
+        <choiceText>14:15</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>14:15</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X14_30</name>
+        <choiceText>14:30</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>14:30</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X14_45</name>
+        <choiceText>14:45</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>14:45</stringValue>
+        </value>
+    </choices>
+    <choices>
         <name>X15_00</name>
         <choiceText>15:00</choiceText>
         <dataType>String</dataType>
         <value>
             <stringValue>15:00</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X15_15</name>
+        <choiceText>15:15</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>15:15</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X15_30</name>
+        <choiceText>15:30</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>15:30</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X15_45</name>
+        <choiceText>15:45</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>15:45</stringValue>
         </value>
     </choices>
     <choices>
@@ -690,11 +959,59 @@
         </value>
     </choices>
     <choices>
+        <name>X16_15</name>
+        <choiceText>16:15</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>16:15</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X16_30</name>
+        <choiceText>16:30</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>16:30</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X16_45</name>
+        <choiceText>16:45</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>16:45</stringValue>
+        </value>
+    </choices>
+    <choices>
         <name>X17_00</name>
         <choiceText>17:00</choiceText>
         <dataType>String</dataType>
         <value>
             <stringValue>17:00</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X17_15</name>
+        <choiceText>17:15</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>17:15</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X17_30</name>
+        <choiceText>17:30</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>17:30</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X17_45</name>
+        <choiceText>17:45</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>17:45</stringValue>
         </value>
     </choices>
     <choices>
@@ -706,11 +1023,67 @@
         </value>
     </choices>
     <choices>
+        <name>X18_15</name>
+        <choiceText>18:15</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>18:15</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X18_30</name>
+        <choiceText>18:30</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>18:30</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X18_45</name>
+        <choiceText>18:45</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>18:45</stringValue>
+        </value>
+    </choices>
+    <choices>
         <name>X19_00</name>
         <choiceText>19:00</choiceText>
         <dataType>String</dataType>
         <value>
             <stringValue>19:00</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X19_15</name>
+        <choiceText>19:15</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>19:15</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X19_30</name>
+        <choiceText>19:30</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>19:30</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X19_45</name>
+        <choiceText>19:45</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>19:45</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>X20_00</name>
+        <choiceText>20:00</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>20:00</stringValue>
         </value>
     </choices>
     <decisions>
@@ -1103,6 +1476,19 @@
             <targetReference>setStartEndDates</targetReference>
         </connector>
         <fields>
+            <name>NewMeetingRequest</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 18px;&quot;&gt;New One To One Meeting Request&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
             <name>Copy_1_of_Event_DetailsSection</name>
             <fieldText>Meeting days Details</fieldText>
             <fieldType>RegionContainer</fieldType>
@@ -1177,10 +1563,11 @@
                     </styleProperties>
                 </fields>
                 <fields>
-                    <fieldType>ObjectProvided</fieldType>
+                    <name>Meeting_Goal</name>
+                    <fieldText>Meeting Goal</fieldText>
+                    <fieldType>LargeTextArea</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.meetingGoal__c</objectFieldReference>
+                    <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -1258,17 +1645,54 @@
                 <fields>
                     <name>Start1</name>
                     <choiceReferences>X08_00</choiceReferences>
+                    <choiceReferences>X08_15</choiceReferences>
+                    <choiceReferences>X08_30</choiceReferences>
+                    <choiceReferences>X08_45</choiceReferences>
                     <choiceReferences>X09_00</choiceReferences>
+                    <choiceReferences>X09_15</choiceReferences>
+                    <choiceReferences>X09_30</choiceReferences>
+                    <choiceReferences>X09_45</choiceReferences>
                     <choiceReferences>X10_00</choiceReferences>
+                    <choiceReferences>X10_15</choiceReferences>
+                    <choiceReferences>X10_30</choiceReferences>
+                    <choiceReferences>X10_45</choiceReferences>
                     <choiceReferences>X11_00</choiceReferences>
+                    <choiceReferences>X11_15</choiceReferences>
+                    <choiceReferences>X11_30</choiceReferences>
+                    <choiceReferences>X11_45</choiceReferences>
                     <choiceReferences>X12_00</choiceReferences>
+                    <choiceReferences>X12_15</choiceReferences>
+                    <choiceReferences>X12_30</choiceReferences>
+                    <choiceReferences>X12_45</choiceReferences>
                     <choiceReferences>X13_00</choiceReferences>
+                    <choiceReferences>X13_15</choiceReferences>
+                    <choiceReferences>X13_30</choiceReferences>
+                    <choiceReferences>X13_45</choiceReferences>
                     <choiceReferences>X14_00</choiceReferences>
+                    <choiceReferences>X14_15</choiceReferences>
+                    <choiceReferences>X14_30</choiceReferences>
+                    <choiceReferences>X14_45</choiceReferences>
                     <choiceReferences>X15_00</choiceReferences>
+                    <choiceReferences>X15_15</choiceReferences>
+                    <choiceReferences>X15_30</choiceReferences>
+                    <choiceReferences>X15_45</choiceReferences>
                     <choiceReferences>X16_00</choiceReferences>
+                    <choiceReferences>X16_15</choiceReferences>
+                    <choiceReferences>X16_30</choiceReferences>
+                    <choiceReferences>X16_45</choiceReferences>
                     <choiceReferences>X17_00</choiceReferences>
+                    <choiceReferences>X17_15</choiceReferences>
+                    <choiceReferences>X17_30</choiceReferences>
+                    <choiceReferences>X17_45</choiceReferences>
                     <choiceReferences>X18_00</choiceReferences>
+                    <choiceReferences>X18_15</choiceReferences>
+                    <choiceReferences>X18_30</choiceReferences>
+                    <choiceReferences>X18_45</choiceReferences>
                     <choiceReferences>X19_00</choiceReferences>
+                    <choiceReferences>X19_15</choiceReferences>
+                    <choiceReferences>X19_30</choiceReferences>
+                    <choiceReferences>X19_45</choiceReferences>
+                    <choiceReferences>X20_00</choiceReferences>
                     <dataType>String</dataType>
                     <fieldText>Start time</fieldText>
                     <fieldType>DropdownBox</fieldType>
@@ -1286,17 +1710,54 @@
                 <fields>
                     <name>End1</name>
                     <choiceReferences>X08_00</choiceReferences>
+                    <choiceReferences>X08_15</choiceReferences>
+                    <choiceReferences>X08_30</choiceReferences>
+                    <choiceReferences>X08_45</choiceReferences>
                     <choiceReferences>X09_00</choiceReferences>
+                    <choiceReferences>X09_15</choiceReferences>
+                    <choiceReferences>X09_30</choiceReferences>
+                    <choiceReferences>X09_45</choiceReferences>
                     <choiceReferences>X10_00</choiceReferences>
+                    <choiceReferences>X10_15</choiceReferences>
+                    <choiceReferences>X10_30</choiceReferences>
+                    <choiceReferences>X10_45</choiceReferences>
                     <choiceReferences>X11_00</choiceReferences>
+                    <choiceReferences>X11_15</choiceReferences>
+                    <choiceReferences>X11_30</choiceReferences>
+                    <choiceReferences>X11_45</choiceReferences>
                     <choiceReferences>X12_00</choiceReferences>
+                    <choiceReferences>X12_15</choiceReferences>
+                    <choiceReferences>X12_30</choiceReferences>
+                    <choiceReferences>X12_45</choiceReferences>
                     <choiceReferences>X13_00</choiceReferences>
+                    <choiceReferences>X13_15</choiceReferences>
+                    <choiceReferences>X13_30</choiceReferences>
+                    <choiceReferences>X13_45</choiceReferences>
                     <choiceReferences>X14_00</choiceReferences>
+                    <choiceReferences>X14_15</choiceReferences>
+                    <choiceReferences>X14_30</choiceReferences>
+                    <choiceReferences>X14_45</choiceReferences>
                     <choiceReferences>X15_00</choiceReferences>
+                    <choiceReferences>X15_15</choiceReferences>
+                    <choiceReferences>X15_30</choiceReferences>
+                    <choiceReferences>X15_45</choiceReferences>
                     <choiceReferences>X16_00</choiceReferences>
+                    <choiceReferences>X16_15</choiceReferences>
+                    <choiceReferences>X16_30</choiceReferences>
+                    <choiceReferences>X16_45</choiceReferences>
                     <choiceReferences>X17_00</choiceReferences>
+                    <choiceReferences>X17_15</choiceReferences>
+                    <choiceReferences>X17_30</choiceReferences>
+                    <choiceReferences>X17_45</choiceReferences>
                     <choiceReferences>X18_00</choiceReferences>
+                    <choiceReferences>X18_15</choiceReferences>
+                    <choiceReferences>X18_30</choiceReferences>
+                    <choiceReferences>X18_45</choiceReferences>
                     <choiceReferences>X19_00</choiceReferences>
+                    <choiceReferences>X19_15</choiceReferences>
+                    <choiceReferences>X19_30</choiceReferences>
+                    <choiceReferences>X19_45</choiceReferences>
+                    <choiceReferences>X20_00</choiceReferences>
                     <dataType>String</dataType>
                     <fieldText>End time</fieldText>
                     <fieldType>DropdownBox</fieldType>
@@ -1384,7 +1845,7 @@
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.locationAddress__c</objectFieldReference>
+                    <objectFieldReference>MasterEvent.isCarmignacOffice__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -1396,10 +1857,10 @@
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
-                            <leftValueReference>AddressTypemeetings</leftValueReference>
+                            <leftValueReference>MasterEvent.format__c</leftValueReference>
                             <operator>EqualTo</operator>
                             <rightValue>
-                                <elementReference>Other_address</elementReference>
+                                <stringValue>Physical</stringValue>
                             </rightValue>
                         </conditions>
                     </visibilityRule>
@@ -1408,31 +1869,7 @@
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.locationPostCode__c</objectFieldReference>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                    <visibilityRule>
-                        <conditionLogic>and</conditionLogic>
-                        <conditions>
-                            <leftValueReference>AddressTypemeetings</leftValueReference>
-                            <operator>EqualTo</operator>
-                            <rightValue>
-                                <elementReference>Other_address</elementReference>
-                            </rightValue>
-                        </conditions>
-                    </visibilityRule>
-                </fields>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.locationCountry__c</objectFieldReference>
+                    <objectFieldReference>MasterEvent.officeLocation__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -1467,7 +1904,7 @@
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.locationCity__c</objectFieldReference>
+                    <objectFieldReference>MasterEvent.locationAddress__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -1491,7 +1928,7 @@
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.isCarmignacOffice__c</objectFieldReference>
+                    <objectFieldReference>MasterEvent.Country__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -1500,22 +1937,26 @@
                             <stringValue>12</stringValue>
                         </width>
                     </styleProperties>
-                    <visibilityRule>
-                        <conditionLogic>and</conditionLogic>
-                        <conditions>
-                            <leftValueReference>MasterEvent.format__c</leftValueReference>
-                            <operator>EqualTo</operator>
-                            <rightValue>
-                                <stringValue>Physical</stringValue>
-                            </rightValue>
-                        </conditions>
-                    </visibilityRule>
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.officeLocation__c</objectFieldReference>
+                    <objectFieldReference>MasterEvent.City__c</objectFieldReference>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>MasterEvent.locationPostCode__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -1585,6 +2026,20 @@
                         </conditions>
                     </visibilityRule>
                 </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>MasterEvent.clientType__c</objectFieldReference>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                </fields>
                 <inputParameters>
                     <name>width</name>
                     <value>
@@ -1601,6 +2056,20 @@
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>MasterEvent.company__c</objectFieldReference>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>MasterEvent.attendingContacts__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -1630,7 +2099,7 @@
             </styleProperties>
         </fields>
         <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
+        <showHeader>false</showHeader>
     </screens>
     <screens>
         <name>Copy_1_of_Meeting_details</name>
@@ -1643,6 +2112,19 @@
         <connector>
             <targetReference>copyAddressFromContact</targetReference>
         </connector>
+        <fields>
+            <name>NewOneToOneRequest</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 18px;&quot;&gt;New One to One Request&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
         <fields>
             <name>Copy_1_of_Copy_1_of_Event_DetailsSection</name>
             <fieldText>Meeting Details</fieldText>
@@ -1679,10 +2161,11 @@
                     </styleProperties>
                 </fields>
                 <fields>
-                    <fieldType>ObjectProvided</fieldType>
+                    <name>Meeting_Backgroundd</name>
+                    <fieldText>Meeting Background</fieldText>
+                    <fieldType>LargeTextArea</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.meetingBackground__c</objectFieldReference>
+                    <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -1693,10 +2176,11 @@
                     </styleProperties>
                 </fields>
                 <fields>
-                    <fieldType>ObjectProvided</fieldType>
+                    <name>Meeting_Goall</name>
+                    <fieldText>Meeting Goal</fieldText>
+                    <fieldType>LargeTextArea</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.meetingGoal__c</objectFieldReference>
+                    <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -1832,17 +2316,54 @@
                 <fields>
                     <name>Start2</name>
                     <choiceReferences>X08_00</choiceReferences>
+                    <choiceReferences>X08_15</choiceReferences>
+                    <choiceReferences>X08_30</choiceReferences>
+                    <choiceReferences>X08_45</choiceReferences>
                     <choiceReferences>X09_00</choiceReferences>
+                    <choiceReferences>X09_15</choiceReferences>
+                    <choiceReferences>X09_30</choiceReferences>
+                    <choiceReferences>X09_45</choiceReferences>
                     <choiceReferences>X10_00</choiceReferences>
+                    <choiceReferences>X10_15</choiceReferences>
+                    <choiceReferences>X10_30</choiceReferences>
+                    <choiceReferences>X10_45</choiceReferences>
                     <choiceReferences>X11_00</choiceReferences>
+                    <choiceReferences>X11_15</choiceReferences>
+                    <choiceReferences>X11_30</choiceReferences>
+                    <choiceReferences>X11_45</choiceReferences>
                     <choiceReferences>X12_00</choiceReferences>
+                    <choiceReferences>X12_15</choiceReferences>
+                    <choiceReferences>X12_30</choiceReferences>
+                    <choiceReferences>X12_45</choiceReferences>
                     <choiceReferences>X13_00</choiceReferences>
+                    <choiceReferences>X13_15</choiceReferences>
+                    <choiceReferences>X13_30</choiceReferences>
+                    <choiceReferences>X13_45</choiceReferences>
                     <choiceReferences>X14_00</choiceReferences>
+                    <choiceReferences>X14_15</choiceReferences>
+                    <choiceReferences>X14_30</choiceReferences>
+                    <choiceReferences>X14_45</choiceReferences>
                     <choiceReferences>X15_00</choiceReferences>
+                    <choiceReferences>X15_15</choiceReferences>
+                    <choiceReferences>X15_30</choiceReferences>
+                    <choiceReferences>X15_45</choiceReferences>
                     <choiceReferences>X16_00</choiceReferences>
+                    <choiceReferences>X16_15</choiceReferences>
+                    <choiceReferences>X16_30</choiceReferences>
+                    <choiceReferences>X16_45</choiceReferences>
                     <choiceReferences>X17_00</choiceReferences>
+                    <choiceReferences>X17_15</choiceReferences>
+                    <choiceReferences>X17_30</choiceReferences>
+                    <choiceReferences>X17_45</choiceReferences>
                     <choiceReferences>X18_00</choiceReferences>
+                    <choiceReferences>X18_15</choiceReferences>
+                    <choiceReferences>X18_30</choiceReferences>
+                    <choiceReferences>X18_45</choiceReferences>
                     <choiceReferences>X19_00</choiceReferences>
+                    <choiceReferences>X19_15</choiceReferences>
+                    <choiceReferences>X19_30</choiceReferences>
+                    <choiceReferences>X19_45</choiceReferences>
+                    <choiceReferences>X20_00</choiceReferences>
                     <dataType>String</dataType>
                     <defaultValue>
                         <elementReference>clickedStartTime</elementReference>
@@ -1863,17 +2384,54 @@
                 <fields>
                     <name>End2</name>
                     <choiceReferences>X08_00</choiceReferences>
+                    <choiceReferences>X08_15</choiceReferences>
+                    <choiceReferences>X08_30</choiceReferences>
+                    <choiceReferences>X08_45</choiceReferences>
                     <choiceReferences>X09_00</choiceReferences>
+                    <choiceReferences>X09_15</choiceReferences>
+                    <choiceReferences>X09_30</choiceReferences>
+                    <choiceReferences>X09_45</choiceReferences>
                     <choiceReferences>X10_00</choiceReferences>
+                    <choiceReferences>X10_15</choiceReferences>
+                    <choiceReferences>X10_30</choiceReferences>
+                    <choiceReferences>X10_45</choiceReferences>
                     <choiceReferences>X11_00</choiceReferences>
+                    <choiceReferences>X11_15</choiceReferences>
+                    <choiceReferences>X11_30</choiceReferences>
+                    <choiceReferences>X11_45</choiceReferences>
                     <choiceReferences>X12_00</choiceReferences>
+                    <choiceReferences>X12_15</choiceReferences>
+                    <choiceReferences>X12_30</choiceReferences>
+                    <choiceReferences>X12_45</choiceReferences>
                     <choiceReferences>X13_00</choiceReferences>
+                    <choiceReferences>X13_15</choiceReferences>
+                    <choiceReferences>X13_30</choiceReferences>
+                    <choiceReferences>X13_45</choiceReferences>
                     <choiceReferences>X14_00</choiceReferences>
+                    <choiceReferences>X14_15</choiceReferences>
+                    <choiceReferences>X14_30</choiceReferences>
+                    <choiceReferences>X14_45</choiceReferences>
                     <choiceReferences>X15_00</choiceReferences>
+                    <choiceReferences>X15_15</choiceReferences>
+                    <choiceReferences>X15_30</choiceReferences>
+                    <choiceReferences>X15_45</choiceReferences>
                     <choiceReferences>X16_00</choiceReferences>
+                    <choiceReferences>X16_15</choiceReferences>
+                    <choiceReferences>X16_30</choiceReferences>
+                    <choiceReferences>X16_45</choiceReferences>
                     <choiceReferences>X17_00</choiceReferences>
+                    <choiceReferences>X17_15</choiceReferences>
+                    <choiceReferences>X17_30</choiceReferences>
+                    <choiceReferences>X17_45</choiceReferences>
                     <choiceReferences>X18_00</choiceReferences>
+                    <choiceReferences>X18_15</choiceReferences>
+                    <choiceReferences>X18_30</choiceReferences>
+                    <choiceReferences>X18_45</choiceReferences>
                     <choiceReferences>X19_00</choiceReferences>
+                    <choiceReferences>X19_15</choiceReferences>
+                    <choiceReferences>X19_30</choiceReferences>
+                    <choiceReferences>X19_45</choiceReferences>
+                    <choiceReferences>X20_00</choiceReferences>
                     <dataType>String</dataType>
                     <defaultValue>
                         <elementReference>clickedEndTime</elementReference>
@@ -1964,89 +2522,6 @@
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.locationAddress__c</objectFieldReference>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                    <visibilityRule>
-                        <conditionLogic>and</conditionLogic>
-                        <conditions>
-                            <leftValueReference>Addresstype</leftValueReference>
-                            <operator>EqualTo</operator>
-                            <rightValue>
-                                <elementReference>Other_address</elementReference>
-                            </rightValue>
-                        </conditions>
-                    </visibilityRule>
-                </fields>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.locationPostCode__c</objectFieldReference>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                    <visibilityRule>
-                        <conditionLogic>and</conditionLogic>
-                        <conditions>
-                            <leftValueReference>Addresstype</leftValueReference>
-                            <operator>EqualTo</operator>
-                            <rightValue>
-                                <elementReference>Other_address</elementReference>
-                            </rightValue>
-                        </conditions>
-                    </visibilityRule>
-                </fields>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.locationCountry__c</objectFieldReference>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                    <visibilityRule>
-                        <conditionLogic>and</conditionLogic>
-                        <conditions>
-                            <leftValueReference>Addresstype</leftValueReference>
-                            <operator>EqualTo</operator>
-                            <rightValue>
-                                <elementReference>Other_address</elementReference>
-                            </rightValue>
-                        </conditions>
-                    </visibilityRule>
-                </fields>
-                <inputParameters>
-                    <name>width</name>
-                    <value>
-                        <stringValue>6</stringValue>
-                    </value>
-                </inputParameters>
-                <isRequired>false</isRequired>
-            </fields>
-            <fields>
-                <name>Copy_1_of_Copy_1_of_Address_Column2</name>
-                <fieldType>Region</fieldType>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
                     <objectFieldReference>MasterEvent.isCarmignacOffice__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
@@ -2091,11 +2566,74 @@
                         </conditions>
                     </visibilityRule>
                 </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Copy_1_of_Copy_1_of_Address_Column2</name>
+                <fieldType>Region</fieldType>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.locationCity__c</objectFieldReference>
+                    <objectFieldReference>MasterEvent.locationAddress__c</objectFieldReference>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Addresstype</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <elementReference>Other_address</elementReference>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>MasterEvent.Country__c</objectFieldReference>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>MasterEvent.City__c</objectFieldReference>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>MasterEvent.locationPostCode__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -2193,7 +2731,7 @@
         </fields>
         <nextOrFinishButtonLabel>Submit event</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
+        <showHeader>false</showHeader>
     </screens>
     <screens>
         <name>Copy_1_of_Meeting_Meeting_days_Details</name>
@@ -2206,6 +2744,19 @@
         <connector>
             <targetReference>Copy_2_of_setStartEndDates</targetReference>
         </connector>
+        <fields>
+            <name>NewMDRequest</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 18px;&quot;&gt;New Meeting Days Request&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
         <fields>
             <name>Copy_2_of_Copy_1_of_Event_DetailsSection</name>
             <fieldText>Meeting days Details</fieldText>
@@ -2281,10 +2832,11 @@
                     </styleProperties>
                 </fields>
                 <fields>
-                    <fieldType>ObjectProvided</fieldType>
+                    <name>Meeting_Background</name>
+                    <fieldText>Meeting Background</fieldText>
+                    <fieldType>LargeTextArea</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.meetingBackground__c</objectFieldReference>
+                    <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -2295,10 +2847,11 @@
                     </styleProperties>
                 </fields>
                 <fields>
-                    <fieldType>ObjectProvided</fieldType>
+                    <name>Meeting_Goals</name>
+                    <fieldText>Meeting Goal</fieldText>
+                    <fieldType>LargeTextArea</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.meetingGoal__c</objectFieldReference>
+                    <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -2376,17 +2929,54 @@
                 <fields>
                     <name>Copy_1_of_Start1</name>
                     <choiceReferences>X08_00</choiceReferences>
+                    <choiceReferences>X08_15</choiceReferences>
+                    <choiceReferences>X08_30</choiceReferences>
+                    <choiceReferences>X08_45</choiceReferences>
                     <choiceReferences>X09_00</choiceReferences>
+                    <choiceReferences>X09_15</choiceReferences>
+                    <choiceReferences>X09_30</choiceReferences>
+                    <choiceReferences>X09_45</choiceReferences>
                     <choiceReferences>X10_00</choiceReferences>
+                    <choiceReferences>X10_15</choiceReferences>
+                    <choiceReferences>X10_30</choiceReferences>
+                    <choiceReferences>X10_45</choiceReferences>
                     <choiceReferences>X11_00</choiceReferences>
+                    <choiceReferences>X11_15</choiceReferences>
+                    <choiceReferences>X11_30</choiceReferences>
+                    <choiceReferences>X11_45</choiceReferences>
                     <choiceReferences>X12_00</choiceReferences>
+                    <choiceReferences>X12_15</choiceReferences>
+                    <choiceReferences>X12_30</choiceReferences>
+                    <choiceReferences>X12_45</choiceReferences>
                     <choiceReferences>X13_00</choiceReferences>
+                    <choiceReferences>X13_15</choiceReferences>
+                    <choiceReferences>X13_30</choiceReferences>
+                    <choiceReferences>X13_45</choiceReferences>
                     <choiceReferences>X14_00</choiceReferences>
+                    <choiceReferences>X14_15</choiceReferences>
+                    <choiceReferences>X14_30</choiceReferences>
+                    <choiceReferences>X14_45</choiceReferences>
                     <choiceReferences>X15_00</choiceReferences>
+                    <choiceReferences>X15_15</choiceReferences>
+                    <choiceReferences>X15_30</choiceReferences>
+                    <choiceReferences>X15_45</choiceReferences>
                     <choiceReferences>X16_00</choiceReferences>
+                    <choiceReferences>X16_15</choiceReferences>
+                    <choiceReferences>X16_30</choiceReferences>
+                    <choiceReferences>X16_45</choiceReferences>
                     <choiceReferences>X17_00</choiceReferences>
+                    <choiceReferences>X17_15</choiceReferences>
+                    <choiceReferences>X17_30</choiceReferences>
+                    <choiceReferences>X17_45</choiceReferences>
                     <choiceReferences>X18_00</choiceReferences>
+                    <choiceReferences>X18_15</choiceReferences>
+                    <choiceReferences>X18_30</choiceReferences>
+                    <choiceReferences>X18_45</choiceReferences>
                     <choiceReferences>X19_00</choiceReferences>
+                    <choiceReferences>X19_15</choiceReferences>
+                    <choiceReferences>X19_30</choiceReferences>
+                    <choiceReferences>X19_45</choiceReferences>
+                    <choiceReferences>X20_00</choiceReferences>
                     <dataType>String</dataType>
                     <fieldText>Start time</fieldText>
                     <fieldType>DropdownBox</fieldType>
@@ -2404,17 +2994,54 @@
                 <fields>
                     <name>Copy_1_of_End1</name>
                     <choiceReferences>X08_00</choiceReferences>
+                    <choiceReferences>X08_15</choiceReferences>
+                    <choiceReferences>X08_30</choiceReferences>
+                    <choiceReferences>X08_45</choiceReferences>
                     <choiceReferences>X09_00</choiceReferences>
+                    <choiceReferences>X09_15</choiceReferences>
+                    <choiceReferences>X09_30</choiceReferences>
+                    <choiceReferences>X09_45</choiceReferences>
                     <choiceReferences>X10_00</choiceReferences>
+                    <choiceReferences>X10_15</choiceReferences>
+                    <choiceReferences>X10_30</choiceReferences>
+                    <choiceReferences>X10_45</choiceReferences>
                     <choiceReferences>X11_00</choiceReferences>
+                    <choiceReferences>X11_15</choiceReferences>
+                    <choiceReferences>X11_30</choiceReferences>
+                    <choiceReferences>X11_45</choiceReferences>
                     <choiceReferences>X12_00</choiceReferences>
+                    <choiceReferences>X12_15</choiceReferences>
+                    <choiceReferences>X12_30</choiceReferences>
+                    <choiceReferences>X12_45</choiceReferences>
                     <choiceReferences>X13_00</choiceReferences>
+                    <choiceReferences>X13_15</choiceReferences>
+                    <choiceReferences>X13_30</choiceReferences>
+                    <choiceReferences>X13_45</choiceReferences>
                     <choiceReferences>X14_00</choiceReferences>
+                    <choiceReferences>X14_15</choiceReferences>
+                    <choiceReferences>X14_30</choiceReferences>
+                    <choiceReferences>X14_45</choiceReferences>
                     <choiceReferences>X15_00</choiceReferences>
+                    <choiceReferences>X15_15</choiceReferences>
+                    <choiceReferences>X15_30</choiceReferences>
+                    <choiceReferences>X15_45</choiceReferences>
                     <choiceReferences>X16_00</choiceReferences>
+                    <choiceReferences>X16_15</choiceReferences>
+                    <choiceReferences>X16_30</choiceReferences>
+                    <choiceReferences>X16_45</choiceReferences>
                     <choiceReferences>X17_00</choiceReferences>
+                    <choiceReferences>X17_15</choiceReferences>
+                    <choiceReferences>X17_30</choiceReferences>
+                    <choiceReferences>X17_45</choiceReferences>
                     <choiceReferences>X18_00</choiceReferences>
+                    <choiceReferences>X18_15</choiceReferences>
+                    <choiceReferences>X18_30</choiceReferences>
+                    <choiceReferences>X18_45</choiceReferences>
                     <choiceReferences>X19_00</choiceReferences>
+                    <choiceReferences>X19_15</choiceReferences>
+                    <choiceReferences>X19_30</choiceReferences>
+                    <choiceReferences>X19_45</choiceReferences>
+                    <choiceReferences>X20_00</choiceReferences>
                     <dataType>String</dataType>
                     <fieldText>End time</fieldText>
                     <fieldType>DropdownBox</fieldType>
@@ -2498,6 +3125,17 @@
                         </width>
                     </styleProperties>
                 </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Copy_2_of_Copy_1_of_Address_Column2</name>
+                <fieldType>Region</fieldType>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -2526,6 +3164,34 @@
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
+                    <objectFieldReference>MasterEvent.Country__c</objectFieldReference>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>MasterEvent.City__c</objectFieldReference>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
                     <objectFieldReference>MasterEvent.locationPostCode__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
@@ -2542,113 +3208,6 @@
                             <operator>EqualTo</operator>
                             <rightValue>
                                 <elementReference>Other_address</elementReference>
-                            </rightValue>
-                        </conditions>
-                    </visibilityRule>
-                </fields>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.locationCountry__c</objectFieldReference>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                    <visibilityRule>
-                        <conditionLogic>and</conditionLogic>
-                        <conditions>
-                            <leftValueReference>AddressTypeMDAYS</leftValueReference>
-                            <operator>EqualTo</operator>
-                            <rightValue>
-                                <elementReference>Other_address</elementReference>
-                            </rightValue>
-                        </conditions>
-                    </visibilityRule>
-                </fields>
-                <inputParameters>
-                    <name>width</name>
-                    <value>
-                        <stringValue>6</stringValue>
-                    </value>
-                </inputParameters>
-                <isRequired>false</isRequired>
-            </fields>
-            <fields>
-                <name>Copy_2_of_Copy_1_of_Address_Column2</name>
-                <fieldType>Region</fieldType>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.locationCity__c</objectFieldReference>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                    <visibilityRule>
-                        <conditionLogic>and</conditionLogic>
-                        <conditions>
-                            <leftValueReference>AddressTypeMDAYS</leftValueReference>
-                            <operator>EqualTo</operator>
-                            <rightValue>
-                                <elementReference>Other_address</elementReference>
-                            </rightValue>
-                        </conditions>
-                    </visibilityRule>
-                </fields>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.isCarmignacOffice__c</objectFieldReference>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                    <visibilityRule>
-                        <conditionLogic>and</conditionLogic>
-                        <conditions>
-                            <leftValueReference>MasterEvent.format__c</leftValueReference>
-                            <operator>EqualTo</operator>
-                            <rightValue>
-                                <stringValue>Physical</stringValue>
-                            </rightValue>
-                        </conditions>
-                    </visibilityRule>
-                </fields>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.officeLocation__c</objectFieldReference>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                    <visibilityRule>
-                        <conditionLogic>and</conditionLogic>
-                        <conditions>
-                            <leftValueReference>MasterEvent.isCarmignacOffice__c</leftValueReference>
-                            <operator>EqualTo</operator>
-                            <rightValue>
-                                <booleanValue>true</booleanValue>
                             </rightValue>
                         </conditions>
                     </visibilityRule>
@@ -2714,20 +3273,6 @@
             <fields>
                 <name>Copy_1_of_Copy_2_of_Audience_details_Column2</name>
                 <fieldType>Region</fieldType>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.company__c</objectFieldReference>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                </fields>
                 <inputParameters>
                     <name>width</name>
                     <value>
@@ -2748,7 +3293,7 @@
             </styleProperties>
         </fields>
         <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
+        <showHeader>false</showHeader>
     </screens>
     <screens>
         <name>Copy_1_of_Speakers_Products</name>
@@ -2800,6 +3345,19 @@
         <connector>
             <targetReference>Copy_1_of_setStartEndDates</targetReference>
         </connector>
+        <fields>
+            <name>NewRequestEvent</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 18px;&quot;&gt;New Event Request&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
         <fields>
             <name>Event_DetailsSection</name>
             <fieldText>Event Details</fieldText>
@@ -2889,10 +3447,11 @@
                     </styleProperties>
                 </fields>
                 <fields>
-                    <fieldType>ObjectProvided</fieldType>
+                    <name>Meeting_Event_Rationale</name>
+                    <fieldText>Meeting/Event Rationale</fieldText>
+                    <fieldType>LargeTextArea</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.description__c</objectFieldReference>
+                    <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -2970,17 +3529,54 @@
                 <fields>
                     <name>Start33</name>
                     <choiceReferences>X08_00</choiceReferences>
+                    <choiceReferences>X08_15</choiceReferences>
+                    <choiceReferences>X08_30</choiceReferences>
+                    <choiceReferences>X08_45</choiceReferences>
                     <choiceReferences>X09_00</choiceReferences>
+                    <choiceReferences>X09_15</choiceReferences>
+                    <choiceReferences>X09_30</choiceReferences>
+                    <choiceReferences>X09_45</choiceReferences>
                     <choiceReferences>X10_00</choiceReferences>
+                    <choiceReferences>X10_15</choiceReferences>
+                    <choiceReferences>X10_30</choiceReferences>
+                    <choiceReferences>X10_45</choiceReferences>
                     <choiceReferences>X11_00</choiceReferences>
+                    <choiceReferences>X11_15</choiceReferences>
+                    <choiceReferences>X11_30</choiceReferences>
+                    <choiceReferences>X11_45</choiceReferences>
                     <choiceReferences>X12_00</choiceReferences>
+                    <choiceReferences>X12_15</choiceReferences>
+                    <choiceReferences>X12_30</choiceReferences>
+                    <choiceReferences>X12_45</choiceReferences>
                     <choiceReferences>X13_00</choiceReferences>
+                    <choiceReferences>X13_15</choiceReferences>
+                    <choiceReferences>X13_30</choiceReferences>
+                    <choiceReferences>X13_45</choiceReferences>
                     <choiceReferences>X14_00</choiceReferences>
+                    <choiceReferences>X14_15</choiceReferences>
+                    <choiceReferences>X14_30</choiceReferences>
+                    <choiceReferences>X14_45</choiceReferences>
                     <choiceReferences>X15_00</choiceReferences>
+                    <choiceReferences>X15_15</choiceReferences>
+                    <choiceReferences>X15_30</choiceReferences>
+                    <choiceReferences>X15_45</choiceReferences>
                     <choiceReferences>X16_00</choiceReferences>
+                    <choiceReferences>X16_15</choiceReferences>
+                    <choiceReferences>X16_30</choiceReferences>
+                    <choiceReferences>X16_45</choiceReferences>
                     <choiceReferences>X17_00</choiceReferences>
+                    <choiceReferences>X17_15</choiceReferences>
+                    <choiceReferences>X17_30</choiceReferences>
+                    <choiceReferences>X17_45</choiceReferences>
                     <choiceReferences>X18_00</choiceReferences>
+                    <choiceReferences>X18_15</choiceReferences>
+                    <choiceReferences>X18_30</choiceReferences>
+                    <choiceReferences>X18_45</choiceReferences>
                     <choiceReferences>X19_00</choiceReferences>
+                    <choiceReferences>X19_15</choiceReferences>
+                    <choiceReferences>X19_30</choiceReferences>
+                    <choiceReferences>X19_45</choiceReferences>
+                    <choiceReferences>X20_00</choiceReferences>
                     <dataType>String</dataType>
                     <fieldText>Start time</fieldText>
                     <fieldType>DropdownBox</fieldType>
@@ -2998,17 +3594,54 @@
                 <fields>
                     <name>End33</name>
                     <choiceReferences>X08_00</choiceReferences>
+                    <choiceReferences>X08_15</choiceReferences>
+                    <choiceReferences>X08_30</choiceReferences>
+                    <choiceReferences>X08_45</choiceReferences>
                     <choiceReferences>X09_00</choiceReferences>
+                    <choiceReferences>X09_15</choiceReferences>
+                    <choiceReferences>X09_30</choiceReferences>
+                    <choiceReferences>X09_45</choiceReferences>
                     <choiceReferences>X10_00</choiceReferences>
+                    <choiceReferences>X10_15</choiceReferences>
+                    <choiceReferences>X10_30</choiceReferences>
+                    <choiceReferences>X10_45</choiceReferences>
                     <choiceReferences>X11_00</choiceReferences>
+                    <choiceReferences>X11_15</choiceReferences>
+                    <choiceReferences>X11_30</choiceReferences>
+                    <choiceReferences>X11_45</choiceReferences>
                     <choiceReferences>X12_00</choiceReferences>
+                    <choiceReferences>X12_15</choiceReferences>
+                    <choiceReferences>X12_30</choiceReferences>
+                    <choiceReferences>X12_45</choiceReferences>
                     <choiceReferences>X13_00</choiceReferences>
+                    <choiceReferences>X13_15</choiceReferences>
+                    <choiceReferences>X13_30</choiceReferences>
+                    <choiceReferences>X13_45</choiceReferences>
                     <choiceReferences>X14_00</choiceReferences>
+                    <choiceReferences>X14_15</choiceReferences>
+                    <choiceReferences>X14_30</choiceReferences>
+                    <choiceReferences>X14_45</choiceReferences>
                     <choiceReferences>X15_00</choiceReferences>
+                    <choiceReferences>X15_15</choiceReferences>
+                    <choiceReferences>X15_30</choiceReferences>
+                    <choiceReferences>X15_45</choiceReferences>
                     <choiceReferences>X16_00</choiceReferences>
+                    <choiceReferences>X16_15</choiceReferences>
+                    <choiceReferences>X16_30</choiceReferences>
+                    <choiceReferences>X16_45</choiceReferences>
                     <choiceReferences>X17_00</choiceReferences>
+                    <choiceReferences>X17_15</choiceReferences>
+                    <choiceReferences>X17_30</choiceReferences>
+                    <choiceReferences>X17_45</choiceReferences>
                     <choiceReferences>X18_00</choiceReferences>
+                    <choiceReferences>X18_15</choiceReferences>
+                    <choiceReferences>X18_30</choiceReferences>
+                    <choiceReferences>X18_45</choiceReferences>
                     <choiceReferences>X19_00</choiceReferences>
+                    <choiceReferences>X19_15</choiceReferences>
+                    <choiceReferences>X19_30</choiceReferences>
+                    <choiceReferences>X19_45</choiceReferences>
+                    <choiceReferences>X20_00</choiceReferences>
                     <dataType>String</dataType>
                     <fieldText>End time</fieldText>
                     <fieldType>DropdownBox</fieldType>
@@ -3063,11 +3696,22 @@
                         </width>
                     </styleProperties>
                 </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>LocationEvent_Column2</name>
+                <fieldType>Region</fieldType>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.isCarmignacOffice__c</objectFieldReference>
+                    <objectFieldReference>MasterEvent.Country__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -3091,42 +3735,7 @@
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.officeLocation__c</objectFieldReference>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                    <visibilityRule>
-                        <conditionLogic>and</conditionLogic>
-                        <conditions>
-                            <leftValueReference>MasterEvent.isCarmignacOffice__c</leftValueReference>
-                            <operator>EqualTo</operator>
-                            <rightValue>
-                                <booleanValue>true</booleanValue>
-                            </rightValue>
-                        </conditions>
-                    </visibilityRule>
-                </fields>
-                <inputParameters>
-                    <name>width</name>
-                    <value>
-                        <stringValue>6</stringValue>
-                    </value>
-                </inputParameters>
-                <isRequired>false</isRequired>
-            </fields>
-            <fields>
-                <name>LocationEvent_Column2</name>
-                <fieldType>Region</fieldType>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.locationCity__c</objectFieldReference>
+                    <objectFieldReference>MasterEvent.City__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -3151,54 +3760,6 @@
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>MasterEvent.locationAddress__c</objectFieldReference>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                    <visibilityRule>
-                        <conditionLogic>and</conditionLogic>
-                        <conditions>
-                            <leftValueReference>MasterEvent.format__c</leftValueReference>
-                            <operator>EqualTo</operator>
-                            <rightValue>
-                                <stringValue>Physical</stringValue>
-                            </rightValue>
-                        </conditions>
-                    </visibilityRule>
-                </fields>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.locationPostCode__c</objectFieldReference>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                    <visibilityRule>
-                        <conditionLogic>and</conditionLogic>
-                        <conditions>
-                            <leftValueReference>MasterEvent.format__c</leftValueReference>
-                            <operator>EqualTo</operator>
-                            <rightValue>
-                                <stringValue>Physical</stringValue>
-                            </rightValue>
-                        </conditions>
-                    </visibilityRule>
-                </fields>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.locationCountry__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -3310,6 +3871,16 @@
                             <stringValue>12</stringValue>
                         </width>
                     </styleProperties>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>MasterEvent.AudienceCompany__c</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>One company</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -3331,7 +3902,7 @@
             </styleProperties>
         </fields>
         <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
+        <showHeader>false</showHeader>
     </screens>
     <screens>
         <name>RecapScreen</name>
@@ -3407,16 +3978,29 @@
             <targetReference>get_Speakers</targetReference>
         </connector>
         <fields>
+            <name>NewRequestTop</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 18px;&quot;&gt;New Request&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
             <name>eventtype</name>
             <choiceReferences>Event</choiceReferences>
             <choiceReferences>MeetingChoice</choiceReferences>
             <choiceReferences>MeetingdaysChoice</choiceReferences>
             <dataType>String</dataType>
             <defaultSelectedChoiceReference>Event</defaultSelectedChoiceReference>
-            <fieldText>Event type</fieldText>
+            <fieldText>Request type</fieldText>
             <fieldType>DropdownBox</fieldType>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>false</isRequired>
+            <isRequired>true</isRequired>
             <styleProperties>
                 <verticalAlignment>
                     <stringValue>top</stringValue>
@@ -3427,7 +4011,7 @@
             </styleProperties>
         </fields>
         <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
+        <showHeader>false</showHeader>
     </screens>
     <screens>
         <name>SpeakersEvents</name>
@@ -3505,7 +4089,7 @@
             <targetReference>getEventRTs</targetReference>
         </connector>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
         <name>allspeakers</name>
         <dataType>SObject</dataType>

@@ -8,10 +8,18 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Required</behavior>
+                <field>startDate__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>endDate__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
                 <field>Name</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>title__c</field>
             </layoutItems>
             <layoutItems>
@@ -191,6 +199,20 @@
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
+    <miniLayout>
+        <fields>startDate__c</fields>
+        <fields>endDate__c</fields>
+    </miniLayout>
+    <relatedLists>
+        <excludeButtons>MassChangeOwner</excludeButtons>
+        <excludeButtons>New</excludeButtons>
+        <fields>speakerContact__c</fields>
+        <fields>strategy__c</fields>
+        <fields>presentationStatus__c</fields>
+        <relatedList>sessionSpeakerProduct__c.session__c</relatedList>
+        <sortField>speakerContact__c</sortField>
+        <sortOrder>Asc</sortOrder>
+    </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
         <relatedList>EventSpeakerApprovals__c.Event__c</relatedList>
