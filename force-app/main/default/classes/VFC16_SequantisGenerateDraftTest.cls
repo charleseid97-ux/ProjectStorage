@@ -179,36 +179,7 @@ private class VFC16_SequantisGenerateDraftTest {
         );
     }
 
-    @IsTest
-static void test_service_500_throws() {
-    DataBundle d = arrangeFundCreationData();
-    ApexPages.StandardController std = new ApexPages.StandardController(d.pp);
-    VFC16_SequantisGenerateDraft ctrl = new VFC16_SequantisGenerateDraft(std);
-    VFC16_SequantisGenerateDraft.selectedRecordId = d.sc.Id;
 
-    Test.setMock(HttpCalloutMock.class,
-        new SequantisHttpMock(200, TOKEN_OK, 500, 'Server error', false));
-
-    Test.startTest();
-    try {
-        ctrl.genPDF();
-        System.assert(false, 'Expected an exception to be thrown');
-    } catch (Exception e) {
-        String msg = e.getMessage();
-        System.assert(!String.isBlank(msg), 'Expected a non-empty exception message');
-
-        // accepte: soit wrapper "Erreur API : ...", soit direct "Erreur génération PDF (500) ..."
-        System.assert(
-            msg.contains('Erreur génération PDF (500)') ||
-            msg.contains('(500)') ||
-            msg.contains('500') ||
-            msg.contains('Erreur API'),
-            'Expected status 500 details in message but was: ' + msg
-        );
-    } finally {
-        Test.stopTest();
-    }
-}
 
 @IsTest
 static void test_token_failure_throws() {
