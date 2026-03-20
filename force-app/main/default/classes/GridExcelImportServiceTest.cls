@@ -9,6 +9,10 @@
 @IsTest
 private with sharing class GridExcelImportServiceTest {
 
+    public static final String SCHTYPE_A        = 'ShcType = A';
+    public static final String PERCENTAGEOFFEES = 'Percentage of Fees';
+    public static final String EFFMGTFEES       = 'EffectiveManagementFees';
+
     @TestSetup
     static void makeData() {
         GridTestSetupHelper.setupTestData();
@@ -25,11 +29,11 @@ private with sharing class GridExcelImportServiceTest {
         payload.scopes.add(makeScopeRow(2, 'S1', 'AGR1', 'FR', 'FCP'));
         payload.scopes.add(makeScopeRow(3, 'S5+', null, 'ALL', 'SICAV'));
 
-        payload.rules.add(makeRuleRow(2, 'S1', 'PtfCode IN (FCP,SICAV) AND ShcType = A', 'ShcType = AW', 'Rule 1', 'Percentage of Fees', 'EffectiveManagementFees', '33,00%', null, null));
-        payload.rules.add(makeRuleRow(3, 'S1', 'PtfCode = FCP', '', 'Rule 2', 'Take Rebates Rate - Other Share Type + Fees', 'EffectiveManagementFees', '15,00%', 'AW', 'AW'));
-        payload.rules.add(makeRuleRow(4, 'S5+', 'ShcType IN (A,AW)', 'PtfCode IN (SICAV)', 'Rule 3', 'Take Rebates Rate - Other Grid Rule', 'EffectiveManagementFees', 'S1-Rule-A', null, null));
+        payload.rules.add(makeRuleRow(2, 'S1', 'PtfCode IN (FCP,SICAV) AND ShcType = A', 'ShcType = AW', 'Rule 1', PERCENTAGEOFFEES, EFFMGTFEES, '33,00%', null, null));
+        payload.rules.add(makeRuleRow(3, 'S1', 'PtfCode = FCP', '', 'Rule 2', 'Take Rebates Rate - Other Share Type + Fees', EFFMGTFEES, '15,00%', 'AW', 'AW'));
+        payload.rules.add(makeRuleRow(4, 'S5+', 'ShcType IN (A,AW)', 'PtfCode IN (SICAV)', 'Rule 3', 'Take Rebates Rate - Other Grid Rule', EFFMGTFEES, 'S1-Rule-A', null, null));
         // Grid 'S3' is not in the scopes section — triggers new-scope creation path (lines 116-119)
-        payload.rules.add(makeRuleRow(5, 'S3', 'ShcType = A', '', 'Rule 4', 'Percentage of Fees', 'EffectiveManagementFees', '25,00%', null, null));
+        payload.rules.add(makeRuleRow(5, 'S3', SCHTYPE_A, '', 'Rule 4', PERCENTAGEOFFEES, EFFMGTFEES, '25,00%', null, null));
 
         String payloadJson = JSON.serialize(payload);
 
@@ -70,7 +74,7 @@ private with sharing class GridExcelImportServiceTest {
         // All rule rows have blank Grid → ruleContexts empty → early return (line 52)
         GridExcelImportService.Payload p2 = new GridExcelImportService.Payload();
         p2.scopes = new List<GridExcelImportService.ScopeRow>{ makeScopeRow(2, 'S1', 'AGR1', 'FR', 'FCP') };
-        p2.rules  = new List<GridExcelImportService.RuleRow>{ makeRuleRow(2, null, 'ShcType = A', '', 'Rule', 'Percentage of Fees', 'EffectiveManagementFees', '33,00%', null, null) };
+        p2.rules  = new List<GridExcelImportService.RuleRow>{ makeRuleRow(2, null, SCHTYPE_A, '', 'Rule', PERCENTAGEOFFEES, EFFMGTFEES, '33,00%', null, null) };
         GridExcelImportService.ImportResult r2 = GridExcelImportService.importFromJson(JSON.serialize(p2));
 
         Test.stopTest();
@@ -86,7 +90,7 @@ private with sharing class GridExcelImportServiceTest {
         GridCriteriaExpressionParser.ParseResult r2 = GridCriteriaExpressionParser.parse('', '');
 
         // Valid include + error in exclude (unknown token) → hits hasErrors() early return (line 28)
-        GridCriteriaExpressionParser.ParseResult r3 = GridCriteriaExpressionParser.parse('ShcType = A', 'BADTOKEN = X');
+        GridCriteriaExpressionParser.ParseResult r3 = GridCriteriaExpressionParser.parse(SCHTYPE_A, 'BADTOKEN = X');
 
         // Blank condition after AND split (lines 65-67): trailing AND produces empty right segment
         GridCriteriaExpressionParser.ParseResult r4 = GridCriteriaExpressionParser.parse('ShcType = A AND ', null);

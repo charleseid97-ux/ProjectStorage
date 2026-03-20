@@ -5,7 +5,7 @@
 * @last modified by  : Khadija EL GDAOUNI
 **/
 
-public without sharing class SM034_AgreementService {
+public with sharing class SM034_AgreementService {
     
     public static void handleRollupCalculate(Map<Id, Convention__c> newItems, Map<Id, Convention__c> oldRecordsMap) {
         Set<Id> accountIds = new Set<Id>();

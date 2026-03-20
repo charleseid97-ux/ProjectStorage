@@ -6,7 +6,7 @@
  * @testClass GridLifecycleTest
  * @coverage 100%   [19-03-26]
 ────────────────────────────────────── */
-public without sharing class GridUtility {
+public with sharing class GridUtility {
 
     /** True while handleAgreementGridTransitions is executing — prevents GridTrigger from
      *  looping back to update the Agreement that is already in its BeforeUpdate context. */

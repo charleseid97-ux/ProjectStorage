@@ -6,9 +6,13 @@
  * @testClass GridLifecycleTest
  * @coverage 100%   [19-03-26]
 ────────────────────────────────────── */
-public without sharing class AgreementGridTimelineUtility {
+public with sharing class AgreementGridTimelineUtility {
 
-    private static final String agtQuery = 'SELECT Id, Status__c, Agreement__c, Grid__c, GridEndDate__c FROM AgreementGridTimeline__c';
+    private static final String AGT_DRAFT           = 'DRAFT';
+    private static final String AGT_PENDINGAPPROVAL = 'Pending Approval';
+    private static final String AGT_ACTIVE          = 'Active';
+    private static final String AGT_INACTIVE        = 'Inactive';
+    private static final String AGT_REJECTED        = 'Rejected';
 
     /** ──────────────────────────────────────
      * @description Applies AGT status transitions for pre-classified agreement sets and commits the update.
@@ -26,10 +30,10 @@ public without sharing class AgreementGridTimelineUtility {
                                             FROM AgreementGridTimeline__c
                                             WHERE Agreement__c IN :agreementIds]) {
             if(submittedAgrToGridIds.containsKey(agt.Agreement__c)) {
-                timelinesToUpdate.add(setNewTimelineStatus(submittedAgrToGridIds, agt, new List<String>{'Draft'}, 'Pending Approval'));
+                timelinesToUpdate.add(setNewTimelineStatus(submittedAgrToGridIds, agt, new List<String>{AGT_DRAFT}, AGT_PENDINGAPPROVAL));
             }
             else if(rejectedAgrToGridIds.containsKey(agt.Agreement__c)) {
-                timelinesToUpdate.add(setNewTimelineStatus(rejectedAgrToGridIds, agt, new List<String>{'Draft', 'Pending Approval'}, 'Rejected'));
+                timelinesToUpdate.add(setNewTimelineStatus(rejectedAgrToGridIds, agt, new List<String>{AGT_DRAFT, AGT_PENDINGAPPROVAL}, AGT_REJECTED));
             }
             else if(approvedAgrToGridIds.containsKey(agt.Agreement__c)) {
                 timelinesToUpdate.add(SetNewTimelineStatusApproved(approvedAgrToGridIds, agt, requestStartDateByAgreement));
@@ -62,12 +66,12 @@ public without sharing class AgreementGridTimelineUtility {
 
     private static AgreementGridTimeline__c SetNewTimelineStatusApproved(Map<Id, List<Id>> agrToGridIds, AgreementGridTimeline__c agt, Map<Id, Date> requestStartDateByAgreement) {
         Set<Id> gridIds = flattenGridIds(agrToGridIds);
-        if(agt.Status__c == 'Active' && gridIds.contains(agt.Grid__c)) {
-            agt.Status__c = 'Inactive';
+        if(agt.Status__c == AGT_ACTIVE && gridIds.contains(agt.Grid__c)) {
+            agt.Status__c = AGT_INACTIVE;
             agt.GridEndDate__c = requestStartDateByAgreement.get(agt.Agreement__c);
         }
-        else if((agt.Status__c == 'Draft' || agt.Status__c == 'Pending Approval') && gridIds.contains(agt.Grid__c)) {
-            agt.Status__c = 'Active';
+        else if((agt.Status__c == AGT_DRAFT || agt.Status__c == AGT_PENDINGAPPROVAL) && gridIds.contains(agt.Grid__c)) {
+            agt.Status__c = AGT_ACTIVE;
         }
         return agt;
     }

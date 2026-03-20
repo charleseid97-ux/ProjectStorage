@@ -50,8 +50,8 @@ private class GridLifecycleTest {
         Convention__c agr = getAgr(AGR1_CODE);
         Grid__c grid1 = getGrid(GRID1_NAME);
 
-        Convention__c oldAgr = makeAgreementSnapshot(agr.Id, null,     grid1.Id, agr.Grid_Request_Start_Date__c, false, 'In Progress',      '');
-        Convention__c newAgr = makeAgreementSnapshot(agr.Id, null,     grid1.Id, agr.Grid_Request_Start_Date__c, false, 'Approval Complete', '');
+        Convention__c oldAgr = makeAgreementSnapshot(agr.Id, null,     grid1.Id, agr.Grid_Request_Start_Date__c, false, GridTestSetupHelper.AGR_INPROGRESS,      '');
+        Convention__c newAgr = makeAgreementSnapshot(agr.Id, null,     grid1.Id, agr.Grid_Request_Start_Date__c, false, GridTestSetupHelper.AGR_APPROVALCOMPLETE, '');
 
         Test.startTest();
 
@@ -66,8 +66,8 @@ private class GridLifecycleTest {
         Convention__c agr = getAgr(AGR2_CODE);
         Grid__c grid3 = getGrid(GRID3_NAME);
 
-        Convention__c oldAgr = makeAgreementSnapshot(agr.Id, agr.Grid__c, grid3.Id, agr.Grid_Request_Start_Date__c, false, 'In Progress', '');
-        Convention__c newAgr = makeAgreementSnapshot(agr.Id, agr.Grid__c, grid3.Id, agr.Grid_Request_Start_Date__c, false, 'In Progress', 'Approval Required');
+        Convention__c oldAgr = makeAgreementSnapshot(agr.Id, agr.Grid__c, grid3.Id, agr.Grid_Request_Start_Date__c, false, GridTestSetupHelper.AGR_INPROGRESS, '');
+        Convention__c newAgr = makeAgreementSnapshot(agr.Id, agr.Grid__c, grid3.Id, agr.Grid_Request_Start_Date__c, false, GridTestSetupHelper.AGR_INPROGRESS, GridTestSetupHelper.AGR_APPROVALREQUIRED);
 
         Test.startTest();
 
@@ -84,11 +84,11 @@ private class GridLifecycleTest {
         Grid__c grid3 = getGrid(GRID3_NAME);
 
         AgreementGridTimeline__c agt2b = [SELECT Id FROM AgreementGridTimeline__c WHERE Agreement__c = :agr.Id AND Grid__c = :grid3.Id];
-        agt2b.Status__c = 'Pending Approval';
+        agt2b.Status__c = GridTestSetupHelper.AGR_PENDINGAPPROVAL;
         update agt2b;
 
-        Convention__c oldAgr = makeAgreementSnapshot(agr.Id, grid2.Id, grid3.Id, agr.Grid_Request_Start_Date__c, false, 'In Progress', 'Approval Required');
-        Convention__c newAgr = makeAgreementSnapshot(agr.Id, grid2.Id, grid3.Id, agr.Grid_Request_Start_Date__c, true,  'In Progress', 'Approved');
+        Convention__c oldAgr = makeAgreementSnapshot(agr.Id, grid2.Id, grid3.Id, agr.Grid_Request_Start_Date__c, false, GridTestSetupHelper.AGR_INPROGRESS, GridTestSetupHelper.AGR_APPROVALREQUIRED);
+        Convention__c newAgr = makeAgreementSnapshot(agr.Id, grid2.Id, grid3.Id, agr.Grid_Request_Start_Date__c, true,  GridTestSetupHelper.AGR_INPROGRESS, GridTestSetupHelper.AGR_APPROVED);
 
         Test.startTest();
 
@@ -103,8 +103,8 @@ private class GridLifecycleTest {
         Convention__c agr = getAgr(AGR2_CODE);
         Grid__c grid3 = getGrid(GRID3_NAME);
 
-        Convention__c oldAgr = makeAgreementSnapshot(agr.Id, agr.Grid__c, grid3.Id, agr.Grid_Request_Start_Date__c, false, 'In Progress', 'Approval Required');
-        Convention__c newAgr = makeAgreementSnapshot(agr.Id, agr.Grid__c, grid3.Id, agr.Grid_Request_Start_Date__c, false, 'In Progress', 'Approval Rejected');
+        Convention__c oldAgr = makeAgreementSnapshot(agr.Id, agr.Grid__c, grid3.Id, agr.Grid_Request_Start_Date__c, false, GridTestSetupHelper.AGR_INPROGRESS, GridTestSetupHelper.AGR_APPROVALREQUIRED);
+        Convention__c newAgr = makeAgreementSnapshot(agr.Id, agr.Grid__c, grid3.Id, agr.Grid_Request_Start_Date__c, false, GridTestSetupHelper.AGR_INPROGRESS, GridTestSetupHelper.AGR_APPROVALREJECTED);
 
         Test.startTest();
 
@@ -120,7 +120,7 @@ private class GridLifecycleTest {
 
         Test.startTest();
 
-        update new Grid__c(Id = grid1.Id, ApprovalStatus__c = 'Pending Approval');
+        update new Grid__c(Id = grid1.Id, ApprovalStatus__c = GridTestSetupHelper.AGR_PENDINGAPPROVAL);
 
         Test.stopTest();
     }
@@ -133,12 +133,12 @@ private class GridLifecycleTest {
         Grid__c grid3 = getGrid(GRID3_NAME);
 
         AgreementGridTimeline__c agt2b = [SELECT Id FROM AgreementGridTimeline__c WHERE Agreement__c = :agr2.Id AND Grid__c = :grid3.Id];
-        agt2b.Status__c = 'Pending Approval';
+        agt2b.Status__c = GridTestSetupHelper.AGR_PENDINGAPPROVAL;
         update agt2b;
 
         Test.startTest();
 
-        update new Grid__c(Id = grid3.Id, ApprovalStatus__c = 'Approved');
+        update new Grid__c(Id = grid3.Id, ApprovalStatus__c = GridTestSetupHelper.AGR_APPROVED);
 
         Test.stopTest();
     }
@@ -165,7 +165,7 @@ private class GridLifecycleTest {
         Test.startTest();
 
         GridUtility.isUpdatingGridsFromAgreementTrigger = true;
-        update new Grid__c(Id = grid1.Id, ApprovalStatus__c = 'Pending Approval');
+        update new Grid__c(Id = grid1.Id, ApprovalStatus__c = GridTestSetupHelper.AGR_PENDINGAPPROVAL);
         GridUtility.isUpdatingGridsFromAgreementTrigger = false;
 
         Test.stopTest();

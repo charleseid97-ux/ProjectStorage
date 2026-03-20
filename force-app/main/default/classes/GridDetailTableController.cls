@@ -45,11 +45,11 @@ public with sharing class GridDetailTableController {
         }
 
         List<GridDetail__c> details = [SELECT Id, ShareClass__c, ShareClass__r.Name__c, ShareClass__r.ISIN__c,
-                                        ShareClass__r.EffectiveManagementFees__c, ShareClass__r.Fund__r.Strategy__r.AssetClass__c, ShareClass__r.Fund__r.Strategy__r.Name,
-                                        ShareClass__r.Fund__r.Legal_Status__c, ShareClass__r.Fund__r.InternalShortName__c, ShareClass__r.Fund__r.ProductName__c,
+                                        ShareClass__r.EffectiveManagementFees__c, ShareClass__r.Fund__r.FundStrategy__r.AssetClass__c, ShareClass__r.Fund__r.FundStrategy__r.Name,
+                                        ShareClass__r.Fund__r.LegalForm__c, ShareClass__r.Fund__r.InternalShortName__c, ShareClass__r.Fund__r.ProductName__c,
                                         StandardGridDetail__c, StandardGridDetail__r.ShareClass__c, StandardGridDetail__r.ShareClass__r.Name__c, StandardGridDetail__r.ShareClass__r.ISIN__c, StandardGridDetail__r.ShareClass__r.EffectiveManagementFees__c,
-                                        StandardGridDetail__r.ShareClass__r.Fund__r.Strategy__r.AssetClass__c, StandardGridDetail__r.ShareClass__r.Fund__r.Strategy__r.Name,
-                                        StandardGridDetail__r.ShareClass__r.Fund__r.Legal_Status__c, StandardGridDetail__r.ShareClass__r.Fund__r.InternalShortName__c,
+                                        StandardGridDetail__r.ShareClass__r.Fund__r.FundStrategy__r.AssetClass__c, StandardGridDetail__r.ShareClass__r.Fund__r.FundStrategy__r.Name,
+                                        StandardGridDetail__r.ShareClass__r.Fund__r.LegalForm__c, StandardGridDetail__r.ShareClass__r.Fund__r.InternalShortName__c,
                                         StandardGridDetail__r.ShareClass__r.Fund__r.ProductName__c, StandardGridDetail__r.RebateRate__c, StandardGridDetail__r.StartDate__c,
                                         StandardGridDetail__r.GridRule__r.RuleToApply__c, StandardGridDetail__r.GridRule__r.GridRate__c,
                                         StandardGridDetail__r.GridRule__r.OtherGridRule__c, StandardGridDetail__r.GridRule__r.OtherShareType__c, StandardGridDetail__r.GridRule__r.FinalRebateRate__c,
@@ -247,9 +247,9 @@ public with sharing class GridDetailTableController {
             Decimal profitabilityVal =   (effFee != null && effFee != 0 && netMarginVal != null) ? (netMarginVal / effFee * 100).setScale(2, RoundingMode.HALF_UP) : null;
 
             this.id                  =   detail.Id;
-            this.assetType           =   getShareValue(share, 'Fund__r.Strategy__r.AssetClass__c');
-            this.strategy            =   getShareValue(share, 'Fund__r.Strategy__r.Name');
-            this.legalStatus         =   getShareValue(share, 'Fund__r.Legal_Status__c');
+            this.assetType           =   getShareValue(share, 'Fund__r.FundStrategy__r.AssetClass__c');
+            this.strategy            =   getShareValue(share, 'Fund__r.FundStrategy__r.Name');
+            this.legalStatus         =   getShareValue(share, 'Fund__r.LegalForm__c');
             this.internalShortName   =   getShareValue(share, 'Fund__r.InternalShortName__c');
             this.portfolio           =   getShareValue(share, 'Fund__r.ProductName__c');
             this.shareClass          =   getShareValue(share, 'Name__c');

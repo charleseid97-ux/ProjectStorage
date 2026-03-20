@@ -17,24 +17,31 @@ public with sharing class GridTestSetupHelper {
     public static final String TEST_TEAM_UK = 'United Kingdom';
     public static final String TEST_TEAM_DE = 'Germany';
 
-    public static final String SHARE_TYPE_A = 'A';
+    public static final String SHARE_TYPE_A  = 'A';
     public static final String SHARE_TYPE_AW = 'AW';
-    public static final String SHARE_TYPE_E = 'E';
-    public static final String SHARE_TYPE_F = 'F';
+    public static final String SHARE_TYPE_E  = 'E';
+    public static final String SHARE_TYPE_F  = 'F';
 
-    public static final String LEGAL_STATUS_FCP = 'FCP';
+    public static final String LEGAL_STATUS_FCP   = 'FCP';
     public static final String LEGAL_STATUS_SICAV = 'SICAV';
 
     public static final String CURRENCY_EUR = 'EUR';
     public static final String CURRENCY_USD = 'USD';
 
-    public static final String ASSET_CLASS_EQUITY = 'Equity';
+    public static final String ASSET_CLASS_EQUITY       = 'Equity';
     public static final String ASSET_CLASS_FIXED_INCOME = 'Fixed Income';
-    public static final String ASSET_CLASS_DIVERSIFIED = 'Diversified';
+    public static final String ASSET_CLASS_DIVERSIFIED  = 'Diversified';
 
-    public static final String GRID_NAME_S1 = 'S1';
+    public static final String GRID_NAME_S1      = 'S1';
     public static final String GRID_NAME_S5_PLUS = 'S5+';
-    public static final String GRID_NAME_TEST = 'TestGrid';
+    public static final String GRID_NAME_TEST    = 'TestGrid';
+
+    public static final String AGR_INPROGRESS       = 'In Progress';
+    public static final String AGR_PENDINGAPPROVAL  = 'Pending Approval';
+    public static final String AGR_APPROVALREQUIRED = 'Approval Required';
+    public static final String AGR_APPROVALCOMPLETE = 'Approval Complete';
+    public static final String AGR_APPROVALREJECTED = 'Approval Rejected';
+    public static final String AGR_APPROVED         = 'Approved';
 
     // ------------------------------------ @TestSetup ------------------------------------
     @TestSetup

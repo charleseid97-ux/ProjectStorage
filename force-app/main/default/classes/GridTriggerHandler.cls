@@ -7,7 +7,7 @@
  * @testClass GridLifecycleTest
  * @coverage 90%   [19-03-26]
 ────────────────────────────────────── */
-public class GridTriggerHandler implements ITriggerHandler {
+public with sharing class GridTriggerHandler implements ITriggerHandler {
 
     public static Boolean triggerDisabled = false;
 

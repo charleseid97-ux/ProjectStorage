@@ -4,7 +4,7 @@
  * @last modified on  : 28-03-2024
  * @last modified by  : Thanina YAYA
 **/
-global without sharing class AgreementUtil {
+global with sharing class AgreementUtil {
 
     final public static String IS_RECTYPE_ID = Schema.SObjectType.Convention__c.getRecordTypeInfosByDeveloperName().get('IS_Agreement').getRecordTypeId();
     final public static String SUB_DISRECTYPE_ID = Schema.SObjectType.Convention__c.getRecordTypeInfosByDeveloperName().get('Sub_distributor_Agreement_Request').getRecordTypeId();
