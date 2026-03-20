@@ -99,7 +99,7 @@ export default class MultiSelectSearchList extends LightningElement {
 	}
    
     renderedCallback(){
-		if(!(this.optionsSaved && this.optionsSaved.length)){
+		if(!(this.optionsSaved && this.optionsSaved.length) && this.options && this.options.length){
 			this.optionsSaved = [...this.options];
       	}
     }

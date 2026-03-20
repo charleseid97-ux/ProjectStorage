@@ -79,7 +79,8 @@ public with sharing class GridBuilderHelper {
         List<FilterObjectWrapper> filterObjects = new List<FilterObjectWrapper>();
         for (GridCriteriaSetting__mdt criteriaSetting : criteriaSettings) {
             if(criteriaSetting.FieldApiNames__c != null) {
-                filterObjects.add(new FilterObjectWrapper(criteriaSetting, objectToFieldToValuesMap.get(criteriaSetting.ObjectApiName__c)));
+                Map<String, Map<String, String>> fieldToValues = objectToFieldToValuesMap.get(criteriaSetting.ObjectApiName__c);
+                filterObjects.add(new FilterObjectWrapper(criteriaSetting, fieldToValues != null ? fieldToValues : new Map<String, Map<String, String>>()));
             }
         }
         filterObjects.add(labelOnly('Share_Class__c', 'ISIN__c')); // Always include Share_Class__c / ISIN__c for label resolution in criteria details (showFilter = false — not shown in filter UI)

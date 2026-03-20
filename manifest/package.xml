@@ -8,6 +8,7 @@
 		<members>GridBuilderController</members>
 		<members>GridBuilderControllerTest</members>
 		<members>GridBuilderHelper</members>
+		<members>GridComparisonController</members>
 		<members>GridCriteriaExpressionParser</members>
 		<members>GridDetailBuilder</members>
 		<members>GridDetailBuilderTest</members>
@@ -323,6 +324,7 @@
 		<members>filterBuilder</members>
 		<members>gridAgreementsSelection</members>
 		<members>gridBuilderUtils</members>
+		<members>gridComparison</members>
 		<members>gridDetailTable</members>
 		<members>gridExcelImporter</members>
 		<members>gridSelectionDisplayPanel</members>

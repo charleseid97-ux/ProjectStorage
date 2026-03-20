@@ -54,7 +54,7 @@ public with sharing class GridDetailTableController {
                                         StandardGridDetail__r.GridRule__r.RuleToApply__c, StandardGridDetail__r.GridRule__r.GridRate__c,
                                         StandardGridDetail__r.GridRule__r.OtherGridRule__c, StandardGridDetail__r.GridRule__r.OtherShareType__c, StandardGridDetail__r.GridRule__r.FinalRebateRate__c,
                                         GridRule__r.RuleToApply__c, GridRule__r.GridRate__c, GridRule__r.OtherGridRule__c, GridRule__r.OtherShareType__c, GridRule__r.FinalRebateRate__c,
-                                        StartDate__c, RebateRate__c
+                                        StartDate__c, RebateRate__c, Grid__r.Name, StandardGridDetail__r.Grid__r.Name
                                        FROM GridDetail__c
                                        WHERE Grid__c = :gridId
                                        ORDER BY ShareClass__r.Fund__r.ProductName__c, ShareClass__r.Name__c];
@@ -219,6 +219,9 @@ public with sharing class GridDetailTableController {
 
     public class GridDetailRow {
         @AuraEnabled public Id id;
+        @AuraEnabled public Id shareClassId;
+        @AuraEnabled public Id standardGridDetailId;
+        @AuraEnabled public String stdGridName;
         @AuraEnabled public String assetType;
         @AuraEnabled public String strategy;
         @AuraEnabled public String legalStatus;
@@ -247,6 +250,9 @@ public with sharing class GridDetailTableController {
             Decimal profitabilityVal =   (effFee != null && effFee != 0 && netMarginVal != null) ? (netMarginVal / effFee * 100).setScale(2, RoundingMode.HALF_UP) : null;
 
             this.id                  =   detail.Id;
+            this.shareClassId        =   effectiveScId;
+            this.standardGridDetailId=   isCustom ? detail.StandardGridDetail__c : detail.Id;
+            this.stdGridName         =   isCustom ? detail.StandardGridDetail__r?.Grid__r?.Name : detail.Grid__r?.Name;
             this.assetType           =   getShareValue(share, 'Fund__r.FundStrategy__r.AssetClass__c');
             this.strategy            =   getShareValue(share, 'Fund__r.FundStrategy__r.Name');
             this.legalStatus         =   getShareValue(share, 'Fund__r.LegalForm__c');
