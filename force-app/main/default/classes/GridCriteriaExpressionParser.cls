@@ -188,7 +188,7 @@ public with sharing class GridCriteriaExpressionParser {
 
     private static Map<String, TokenMapping> buildTokenMap() {
         Map<String, TokenMapping> mapping = new Map<String, TokenMapping>();
-        mapping.put('legalstatus', new TokenMapping('Product__c', 'Legal_Status__c'));
+        mapping.put('legalstatus', new TokenMapping('Product__c', 'LegalForm__c'));
         mapping.put('shctype', new TokenMapping('Share_Class__c', 'Type__c'));
         mapping.put('ptfcode', new TokenMapping('Product__c', 'InternalShortName__c'));
         mapping.put('pfcode', new TokenMapping('Product__c', 'InternalShortName__c'));
