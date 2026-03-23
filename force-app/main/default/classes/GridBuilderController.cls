@@ -67,7 +67,7 @@ public with sharing class GridBuilderController {
 
         Map<String, List<Map<String, String>>> result = new Map<String, List<Map<String, String>>>();
         Map<String, Schema.SObjectField> fieldMap = Schema.SObjectType.Grid__c.fields.getMap();
-        for (String f : new List<String>{'Kind__c', 'Type__c', 'ThresholdAmountCurrency__c', 'MinimumAmountCurrency__c', 'MinimumAmountFrequency__c'}) {
+        for (String f : new List<String>{'Kind__c', 'Type__c', 'ThresholdAmountCurrency__c'}) {
             List<Map<String, String>> opts = new List<Map<String, String>>();
             for (Schema.PicklistEntry e : fieldMap.get(f).getDescribe().getPicklistValues()) {
                 if (e.isActive()) {
@@ -106,7 +106,7 @@ public with sharing class GridBuilderController {
         if (agr.Grid_Request__c == null || agr.Grid_Request__r.ApprovalStatus__c != 'Draft') return null;
         Id gridId = agr.Grid_Request__c;
 
-        Grid__c grid = [SELECT Id, Name, Kind__c, Type__c, AutomaticGridUpdate__c, StartDate__c, EndDate__c, ThresholdAmount__c, ThresholdAmountCurrency__c, MinimumAmount__c, MinimumAmountCurrency__c, MinimumAmountFrequency__c
+        Grid__c grid = [SELECT Id, Name, Kind__c, Type__c, AutomaticGridUpdate__c, StartDate__c, EndDate__c, ThresholdAmount__c, ThresholdAmountCurrency__c, OtherFees__c, Comment__c
                         FROM Grid__c
                         WHERE Id = :gridId LIMIT 1];
 

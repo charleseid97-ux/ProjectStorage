@@ -139,9 +139,8 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
                             endDate:                 draftData.grid.EndDate__c,
                             thresholdAmount:         draftData.grid.ThresholdAmount__c,
                             thresholdAmountCurrency: draftData.grid.ThresholdAmountCurrency__c,
-                            minimumAmount:           draftData.grid.MinimumAmount__c,
-                            minimumAmountCurrency:   draftData.grid.MinimumAmountCurrency__c,
-                            minimumAmountFrequency:  draftData.grid.MinimumAmountFrequency__c
+                            otherFees:               draftData.grid.OtherFees__c,
+                            comment:                 draftData.grid.Comment__c
                         };
                     }
                 }
@@ -760,9 +759,8 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
             endDate:                 event.detail?.endDate,
             thresholdAmount:         event.detail?.thresholdAmount,
             thresholdAmountCurrency: event.detail?.thresholdAmountCurrency,
-            minimumAmount:           event.detail?.minimumAmount,
-            minimumAmountCurrency:   event.detail?.minimumAmountCurrency,
-            minimumAmountFrequency:  event.detail?.minimumAmountFrequency,
+            otherFees:               event.detail?.otherFees,
+            comment:                 event.detail?.comment,
             gridName:                event.detail?.gridName
         };
 

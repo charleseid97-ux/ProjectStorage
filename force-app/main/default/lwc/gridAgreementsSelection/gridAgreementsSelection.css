@@ -74,9 +74,10 @@
     font-size: 12px;
 }
 
-/* ── Info / Error banners ── */
+/* ── Info / Error / Warning banners ── */
 .info-banner,
-.error-banner {
+.error-banner,
+.warning-banner {
     display: flex;
     align-items: flex-start;
     column-gap: 6px;
@@ -99,11 +100,26 @@
     margin-top: 4px;
 }
 
+.warning-banner {
+    background: #fff3cd;
+    border: 1px solid #b47d00;
+    color: #7d5200;
+    margin-top: 4px;
+}
+
 /* ── Date field wrapper (to stack error below input) ── */
 .date-field {
     flex: 1;
     display: flex;
     flex-direction: column;
+}
+
+/* ── Additional fields (Other Fees / Comment) separator ── */
+.additional-fields {
+    display: flex;
+    flex-direction: column;
+    row-gap: 12px;
+    padding-top: 50px;
 }
 
 /* ── Footer ── */

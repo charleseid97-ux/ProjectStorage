@@ -43,7 +43,6 @@ export default class GridAgreementsSelection extends LightningElement {
     @track kindOptions = [];
     @track typeOptions = [];
     @track ccyOptions  = [];
-    @track freqOptions = [];
 
     // ── AG data fields ──
     @track agKind           = '';    // AG2 — Kind__c
@@ -53,9 +52,8 @@ export default class GridAgreementsSelection extends LightningElement {
     @track agEndDate        = '';    // AG6 — EndDate__c
     @track agThreshold      = null;  // AG7 — ThresholdAmount__c
     @track agThreshCcy      = '';    // AG8 — ThresholdAmountCurrency__c
-    @track agMin            = null;  // AG9 — MinimumAmount__c
-    @track agMinCcy         = '';    // AG10 — MinimumAmountCurrency__c
-    @track agMinFreq        = '';    // AG11 — MinimumAmountFrequency__c
+    @track agOtherFees      = false; // AG9 — OtherFees__c
+    @track agComment        = '';    // AG10 — Comment__c
 
     @api
     set gridData(val) {
@@ -67,9 +65,8 @@ export default class GridAgreementsSelection extends LightningElement {
         this.agEndDate        = val.endDate || '';
         this.agThreshold      = val.thresholdAmount;
         this.agThreshCcy      = val.thresholdAmountCurrency || '';
-        this.agMin            = val.minimumAmount;
-        this.agMinCcy         = val.minimumAmountCurrency || '';
-        this.agMinFreq        = val.minimumAmountFrequency || '';
+        this.agOtherFees      = val.otherFees ?? false;
+        this.agComment        = val.comment || '';
     }
     get gridData() { return null; }
 
@@ -115,12 +112,16 @@ export default class GridAgreementsSelection extends LightningElement {
     }
 
     get isThreshAboveZero()    { return this.agThreshold != null && parseFloat(this.agThreshold) > 0; }
-    get isMinAboveZero()       { return this.agMin != null && parseFloat(this.agMin) > 0; }
     get isAutoUpdateDisabled() { return this.agType === 'MULTI RULE'; }
 
     get isStartDateConflict() {
         if (!this.hasExistingGrid || !this.existingGridEndDate || !this.agStartDate) return false;
         return new Date(this.existingGridEndDate) >= new Date(this.agStartDate);
+    }
+
+    get isEndDateBeforeStartDate() {
+        if (!this.agEndDate || !this.agStartDate) return false;
+        return new Date(this.agEndDate) < new Date(this.agStartDate);
     }
 
     get isNextDisabled() {
@@ -129,16 +130,13 @@ export default class GridAgreementsSelection extends LightningElement {
         const hasTeam        = !this.showTeamPicker || !!this.selectedTeam;
         const hasMeta        = !!this.agKind && !!this.agType;
         const hasThreshCcy   = !this.isThreshAboveZero || !!this.agThreshCcy;
-        const hasMinFields   = !this.isMinAboveZero || (!!this.agMinCcy && !!this.agMinFreq);
-        return !(hasAgreements && hasDate && hasTeam && hasMeta && hasThreshCcy && hasMinFields && !this.isStartDateConflict);
+        return !(hasAgreements && hasDate && hasTeam && hasMeta && hasThreshCcy) || this.isEndDateBeforeStartDate;
     }
 
     get isKindDisabled()         { return this.hasExistingGrid && !!this._existingGridKind; }
     get isAgreementDisabled()   { return !!this.recId; }
     get agreementSectionClass() { return this.isAgreementDisabled ? 'agreement-section agreement-section--disabled' : 'agreement-section'; }
     get isThreshCcyDisabled()   { return !this.isThreshAboveZero; }
-    get isMinCcyDisabled()      { return !this.isMinAboveZero; }
-    get isMinFreqDisabled()     { return !this.isMinAboveZero; }
     get toggleLabel()           { return this.isAutoGridUpdate ? this.labels.UI_On : this.labels.UI_Off; }
 
     @wire(getGridPicklistOptions)
@@ -147,7 +145,6 @@ export default class GridAgreementsSelection extends LightningElement {
             this.kindOptions = data['Kind__c']                    || [];
             this.typeOptions = data['Type__c']                    || [];
             this.ccyOptions  = data['ThresholdAmountCurrency__c'] || [];
-            this.freqOptions = data['MinimumAmountFrequency__c']  || [];
             if (this.kindOptions.length === 1 && !this.agKind) { // Auto-select Kind if only one option and not yet set
                 this.agKind = this.kindOptions[0].value;
             }
@@ -263,9 +260,8 @@ export default class GridAgreementsSelection extends LightningElement {
     handleAgEndDate(e)        { this.agEndDate = e.detail.value; }
     handleAgThreshold(e)      { this.agThreshold = e.detail.value; if (!this.isThreshAboveZero) { this.agThreshCcy = ''; } }
     handleAgThreshCcy(e)      { this.agThreshCcy = e.detail.value; }
-    handleAgMin(e)            { this.agMin = e.detail.value; if (!this.isMinAboveZero) { this.agMinCcy = ''; this.agMinFreq = ''; } }
-    handleAgMinCcy(e)         { this.agMinCcy = e.detail.value; }
-    handleAgMinFreq(e)        { this.agMinFreq = e.detail.value; }
+    handleAgOtherFees(e)      { this.agOtherFees = e.target.checked; }
+    handleAgComment(e)        { this.agComment = e.detail.value; }
 
     handleNext() {
         let derivedTeam = null;
@@ -289,9 +285,8 @@ export default class GridAgreementsSelection extends LightningElement {
                 endDate:                 this.agEndDate,
                 thresholdAmount:         this.agThreshold,
                 thresholdAmountCurrency: this.agThreshCcy,
-                minimumAmount:           this.agMin,
-                minimumAmountCurrency:   this.agMinCcy,
-                minimumAmountFrequency:  this.agMinFreq,
+                otherFees:               this.agOtherFees,
+                comment:                 this.agComment,
                 gridName:                this.gridNamePreview
             }
         }));

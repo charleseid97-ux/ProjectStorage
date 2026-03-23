@@ -97,17 +97,25 @@
                                          onchange={handleAgStartDate}>
                         </lightning-input>
                         <template if:true={isStartDateConflict}>
-                            <div class="error-banner">
-                                <lightning-icon icon-name="utility:error" size="x-small" variant="error"></lightning-icon>
-                                <span>The start date conflicts with the existing grid (end date: {existingGridEndDate}). Please select a later start date.</span>
+                            <div class="warning-banner">
+                                <lightning-icon icon-name="utility:warning" size="x-small" variant="warning"></lightning-icon>
+                                <span>Warning: the start date overlaps with the existing grid end date ({existingGridEndDate}). Please verify before proceeding.</span>
                             </div>
                         </template>
                     </div>
-                    <lightning-input type="date"
-                                     label="End Date"
-                                     value={agEndDate}
-                                     onchange={handleAgEndDate}>
-                    </lightning-input>
+                    <div class="date-field">
+                        <lightning-input type="date"
+                                         label="End Date"
+                                         value={agEndDate}
+                                         onchange={handleAgEndDate}>
+                        </lightning-input>
+                        <template if:true={isEndDateBeforeStartDate}>
+                            <div class="error-banner">
+                                <lightning-icon icon-name="utility:error" size="x-small" variant="error"></lightning-icon>
+                                <span>End Date cannot be before Start Date.</span>
+                            </div>
+                        </template>
+                    </div>
                 </div>
             </div>
 
@@ -132,33 +140,21 @@
                                     placeholder="-- Select --">
                 </lightning-combobox>
 
-                <!-- AG9: Minimum Amount -->
-                <lightning-input type="number"
-                                 label="Minimum Amount"
-                                 value={agMin}
-                                 onchange={handleAgMin}
-                                 min="0">
-                </lightning-input>
+                <div class="additional-fields">
+                    <!-- AG12: Other Fees -->
+                    <lightning-input type="checkbox"
+                                     label="Other Fees"
+                                     checked={agOtherFees}
+                                     onchange={handleAgOtherFees}
+                                     field-level-help="Check if the agreement includes a fee other than retrocession (e.g. performance fees)">
+                    </lightning-input>
 
-                <!-- AG10: Minimum Amount Currency -->
-                <lightning-combobox label="Minimum Amount Currency"
-                                    value={agMinCcy}
-                                    options={ccyOptions}
-                                    onchange={handleAgMinCcy}
-                                    disabled={isMinCcyDisabled}
-                                    required={isMinAboveZero}
-                                    placeholder="-- Select --">
-                </lightning-combobox>
-
-                <!-- AG11: Minimum Amount Frequency -->
-                <lightning-combobox label="Minimum Amount Frequency"
-                                    value={agMinFreq}
-                                    options={freqOptions}
-                                    onchange={handleAgMinFreq}
-                                    disabled={isMinFreqDisabled}
-                                    required={isMinAboveZero}
-                                    placeholder="-- Select --">
-                </lightning-combobox>
+                    <!-- AG13: Comment -->
+                    <lightning-textarea label="Comment"
+                                        value={agComment}
+                                        onchange={handleAgComment}>
+                    </lightning-textarea>
+                </div>
             </div>
         </div>
 
