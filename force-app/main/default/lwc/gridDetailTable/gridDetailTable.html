@@ -16,7 +16,14 @@
                     </p>
                 </div>
             </header>
-            <div class="slds-no-flex">
+            <div class="slds-no-flex header-actions">
+                <lightning-button
+                    icon-name="utility:download"
+                    icon-position="left"
+                    label="Export Excel"
+                    variant="neutral"
+                    onclick={handleExport}
+                ></lightning-button>
                 <lightning-button-icon
                     icon-name="utility:refresh"
                     variant="border"

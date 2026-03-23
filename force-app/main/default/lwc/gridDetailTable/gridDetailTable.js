@@ -1,7 +1,10 @@
 import { LightningElement, api } from 'lwc';
+import { loadScript } from 'lightning/platformResourceLoader';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { reduceError } from 'c/gridBuilderUtils';
 import getGridDetails from '@salesforce/apex/GridDetailTableController.getGridDetails';
 import { LABELS } from 'c/gridBuilderUtils';
+import XlsxJsStyle from '@salesforce/resourceUrl/xlsxjsstyle';
 
 const COLUMNS = [
     { key: 'assetType',         label: 'Asset Type',        group: '' },
@@ -21,7 +24,8 @@ const COLUMNS = [
     { key: 'ruleValue',         label: 'Rule Value',        group: 'orange' }
 ];
 
-const SORTED_BY_LABEL = 'Eff Mgt Fee Date';
+const SORTED_BY_LABEL  = 'Eff Mgt Fee Date';
+const EXPORT_COLUMNS   = ['portfolio', 'shareClass', 'isin', 'aum', 'effMgtFee', 'rebateRate'];
 
 export default class GridDetailTable extends LightningElement {
     @api iconName = 'custom:custom63';
@@ -31,6 +35,8 @@ export default class GridDetailTable extends LightningElement {
     errors = [];
     isLoading = false;
     _recordId;
+    sheetJsLoaded = false;
+    sheetJsReady  = false;
 
     @api
     get recordId() {
@@ -101,5 +107,50 @@ export default class GridDetailTable extends LightningElement {
         if (this._recordId) {
             this.loadRows();
         }
+    }
+
+    // ── XlsxJsStyle ──
+    renderedCallback() {
+        if (this.sheetJsLoaded) return;
+        this.sheetJsLoaded = true;
+        loadScript(this, XlsxJsStyle).then(() => { this.sheetJsReady = true; }).catch(() => {});
+    }
+
+    handleExport() {
+        if (!window.XLSX) {
+            this.dispatchEvent(new ShowToastEvent({ title: 'Export not ready', message: 'Excel library is still loading. Please try again.', variant: 'warning' }));
+            return;
+        }
+
+        const exportCols = COLUMNS.filter(c => EXPORT_COLUMNS.includes(c.key));
+        const border     = { top: { style: 'thin', color: { rgb: 'DDDBDA' } }, bottom: { style: 'thin', color: { rgb: 'DDDBDA' } }, left: { style: 'thin', color: { rgb: 'DDDBDA' } }, right: { style: 'thin', color: { rgb: 'DDDBDA' } } };
+        const hdrStyle   = { fill: { fgColor: { rgb: 'F3F2F2' } }, font: { bold: true }, alignment: { horizontal: 'center' }, border };
+        const rowStyle   = { fill: { fgColor: { rgb: 'FFFFFF' } }, alignment: { horizontal: 'left' },  border };
+
+        const aoa    = [];
+        const styles = {};
+
+        // Header row
+        aoa.push(exportCols.map(c => c.label));
+        exportCols.forEach((_, ci) => { styles[`0,${ci}`] = hdrStyle; });
+
+        // Data rows
+        (this.rows || []).forEach((row, ri) => {
+            aoa.push(exportCols.map(c => row[c.key] ?? ''));
+            exportCols.forEach((_, ci) => { styles[`${ri + 1},${ci}`] = rowStyle; });
+        });
+
+        const ws = window.XLSX.utils.aoa_to_sheet(aoa);
+        ws['!cols'] = exportCols.map(() => ({ wch: 20 }));
+        Object.keys(styles).forEach(key => {
+            const [r, c] = key.split(',').map(Number);
+            const addr = window.XLSX.utils.encode_cell({ r, c });
+            if (!ws[addr]) ws[addr] = { v: '', t: 's' };
+            ws[addr].s = styles[key];
+        });
+
+        const wb = window.XLSX.utils.book_new();
+        window.XLSX.utils.book_append_sheet(wb, ws, 'Grid Details');
+        window.XLSX.writeFile(wb, 'GridDetails.xlsx');
     }
 }
