@@ -4,7 +4,7 @@
  *              comparison data by delegating to GridDetailTableController.getGridDetails().
  * @author Charles EID
  * @testClass GridComparisonControllerTest
- * @coverage —   [19-03-26]
+ * @coverage 100%   [20-03-26]
 ────────────────────────────────────── */
 public with sharing class GridComparisonController {
 
@@ -18,7 +18,7 @@ public with sharing class GridComparisonController {
                           AND Id != :currentGridId
                           AND ((RecordType.DeveloperName = 'StandardGrid' AND ActiveGrid__c = true)
                             OR (RecordType.DeveloperName = 'CustomGrid' AND ApprovalStatus__c = 'Approved'))
-                          ORDER BY Name LIMIT 10]) {
+                          ORDER BY Name LIMIT 500]) {
             results.add(new LookupResult(g.Id, g.Name, g.RecordType.Name));
         }
         return results;
@@ -33,7 +33,7 @@ public with sharing class GridComparisonController {
                                   WHERE Name LIKE :term
                                   AND Grid__c != null
                                   AND Grid__r.ApprovalStatus__c = 'Approved'
-                                  ORDER BY Name LIMIT 10]) {
+                                  ORDER BY Name LIMIT 500]) {
             results.add(new LookupResult(agr.Id, agr.Name, agr.Grid__r.Name));
         }
         return results;

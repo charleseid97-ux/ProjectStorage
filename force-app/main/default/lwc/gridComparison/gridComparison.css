@@ -9,7 +9,7 @@
     border-color: lightgray !important;
 }
 .relatedIcon {
-    background: #1565C0;
+    background: #0176D3;
     color: #ffffff;
     border-radius: 0.25rem;
 }
@@ -49,32 +49,7 @@
     align-items: flex-end;
     gap: 10px;
 }
-.lookup-dropdown {
-    position: absolute;
-    z-index: 100;
-    background: #fff;
-    border: 1px solid #dddbda;
-    border-radius: 0.25rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    width: 100%;
-    max-height: 220px;
-    overflow-y: auto;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-.lookup-dropdown .slds-listbox__item {
-    padding: 0.5rem 0.75rem;
-    cursor: pointer;
-    font-size: 12px;
-    border-bottom: 1px solid #f3f2f2;
-}
-.lookup-dropdown .slds-listbox__item:hover {
-    background: #f3f2f2;
-}
-.result-subtitle {
-    font-size: 11px;
-}
+
 .selected-pill {
     padding-bottom: 3px;
 }
@@ -107,23 +82,73 @@
     font-weight: 700;
     letter-spacing: 0.02em;
 }
-.th-blue     { background: #1565C0; color: #fff; }
-.th-section1 { background: #4527A0; color: #fff; }   /* deep purple – Rebate Rate */
-.th-section2 { background: #E65100; color: #fff; }   /* orange      – Net Margin */
-.th-section3 { background: #1B5E20; color: #fff; }   /* dark green  – Profitability */
+.th-blue     { background: #0176D3; color: #fff; }   /* SLDS brand blue    – Share Class Info */
+.th-section1 { background: #8A58D4; color: #fff; }   /* SLDS purple        – Rebate Rate */
+.th-section2 { background: #DD7A00; color: #fff; }   /* SLDS warm orange   – Net Margin */
+.th-section3 { background: #2E844A; color: #fff; }   /* SLDS success green – Profitability */
+
+/* ── Section gap column (creates visual separation between the 4 sub-tables) ── */
+.section-gap {
+    width: 16px;
+    min-width: 16px;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+}
 
 /* ── Sub-column headers ── */
 .th-default { background: #F3F2F2; font-weight: 700; }
-.th-sub     { background: #ede7f6; font-weight: 600; font-size: 10px; }
-.th-sub.th-section1 { background: #ede7f6; color: #311B92; }
-.th-sub.th-section2 { background: #fff3e0; color: #BF360C; }
-.th-sub.th-section3 { background: #e8f5e9; color: #1B5E20; }
+.th-sub     { background: #F3F2F2; font-weight: 600; font-size: 10px; }
+.th-sub.th-section1 { background: #EEE5F7; color: #5C1AC3; }
+.th-sub.th-section2 { background: #FEF2E3; color: #A54600; }
+.th-sub.th-section3 { background: #EEF5EB; color: #2E6B3E; }
 
-/* ── Diff cell ── */
-.td-diff { font-weight: 600; }
+/* ── Row type colours — info columns (1-5) only, with odd/even striping ── */
+.row-green td:not(.td-current):not(.td-selected):not(.td-diff):not(.section-gap) { background: #e8f5e9; }
+.row-red   td:not(.td-current):not(.td-selected):not(.td-diff):not(.section-gap) { background: #ffebee; }
+.row-blue  td:not(.td-current):not(.td-selected):not(.td-diff):not(.section-gap) { background: #e3f2fd; }
+.row-gray  td:not(.td-current):not(.td-selected):not(.td-diff):not(.section-gap) { background: #f5f5f5; }
 
-/* ── Row type colours (override default zebra) ── */
-.row-green td { background: #e8f5e9 !important; }
-.row-red   td { background: #ffebee !important; }
-.row-blue  td { background: #e3f2fd !important; }
-.row-gray  td { background: #f5f5f5 !important; }
+.row-green:nth-child(even) td:not(.td-current):not(.td-selected):not(.td-diff):not(.section-gap) { background: #c8e6c9; }
+.row-red:nth-child(even)   td:not(.td-current):not(.td-selected):not(.td-diff):not(.section-gap) { background: #ffcdd2; }
+.row-blue:nth-child(even)  td:not(.td-current):not(.td-selected):not(.td-diff):not(.section-gap) { background: #bbdefb; }
+.row-gray:nth-child(even)  td:not(.td-current):not(.td-selected):not(.td-diff):not(.section-gap) { background: #e0e0e0; }
+
+/* ── Current columns (green) ── */
+td.td-current                    { background: #e8f5e9; }
+tr:nth-child(even) td.td-current { background: #c8e6c9; }
+
+/* ── Selected columns (gray) ── */
+td.td-selected                    { background: #f5f5f5; }
+tr:nth-child(even) td.td-selected { background: #e0e0e0; }
+
+/* ── Diff columns (orange) ── */
+.td-diff                    { font-weight: 600; background: #fff3e0; }
+tr:nth-child(even) .td-diff { background: #ffe0b2; }
+
+/* ── Section padding ── */
+.section-class { padding: 0px 10px; }
+.section-padding { padding: 5px 15px; }
+
+/* ── Overview table ── */
+.overview-table {
+    border-collapse: collapse;
+    font-size: 11px;
+}
+.overview-table th,
+.overview-table td {
+    white-space: nowrap;
+    padding: 0.375rem 0.75rem;
+    border: 1px solid #e0e0e0;
+}
+.overview-table th      { background: #F3F2F2; font-weight: 700; text-align: right; }
+.ov-th-label            { text-align: left !important; min-width: 80px; }
+.ov-th                  { min-width: 140px; }
+
+/* ── Overview row colours ── */
+.ov-current td { background: #e8f5e9; }
+.ov-selected td { background: #f5f5f5; }
+.ov-diff     td { background: #fff3e0; font-weight: 600; }
+
+/* ── Overview label cell — always neutral, acts as a row header ── */
+.ov-label { font-weight: 700; text-align: left; background: #F3F2F2 !important; color: #3e3e3c; }

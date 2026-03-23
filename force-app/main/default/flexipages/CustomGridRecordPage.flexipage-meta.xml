@@ -420,6 +420,20 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>iconName</name>
+                    <value>utility:table</value>
+                </componentInstanceProperties>
+                <componentName>gridComparison</componentName>
+                <identifier>c_gridComparison</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-aeb63abb-0eea-4105-97a2-e4cc9ee98a95</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
                     <name>active</name>
                     <value>true</value>
                 </componentInstanceProperties>
@@ -457,10 +471,24 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
-                    <value>Grid Rows</value>
+                    <value>Grid Details</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-aeb63abb-0eea-4105-97a2-e4cc9ee98a95</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Grid Comparison</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab2</identifier>
             </componentInstance>
         </itemInstances>
         <name>maintabs</name>

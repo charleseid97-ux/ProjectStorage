@@ -8,7 +8,7 @@
 ────────────────────────────────────── */
 public with sharing class AgreementGridTimelineUtility {
 
-    private static final String AGT_DRAFT           = 'DRAFT';
+    private static final String AGT_DRAFT           = 'Draft';
     private static final String AGT_PENDINGAPPROVAL = 'Pending Approval';
     private static final String AGT_ACTIVE          = 'Active';
     private static final String AGT_INACTIVE        = 'Inactive';

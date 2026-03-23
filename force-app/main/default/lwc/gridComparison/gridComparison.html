@@ -46,16 +46,11 @@
                     </lightning-button-group>
 
                     <div class="lookup-wrapper">
-                        <lightning-input type="search" placeholder={searchPlaceholder} value={searchTerm} onchange={handleSearchInput} class="lookup-input"></lightning-input>
-                        <template if:true={hasSearchResults}>
-                            <ul class="lookup-dropdown slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid">
-                                <template for:each={searchResults} for:item="result">
-                                    <li key={result.id} class="slds-media slds-listbox__item" data-id={result.id} onclick={handleSelectResult}>
-                                        <span class="result-name">{result.name}</span>
-                                        <span class="result-subtitle slds-text-color_weak">&nbsp;— {result.subtitle}</span>
-                                    </li>
-                                </template>
-                            </ul>
+                        <template if:true={isModeGrid}>
+                            <c-multi-select-search-list label="Search grids…" mono-select="true" options={searchOptions} onchange={handleSearchChange}></c-multi-select-search-list>
+                        </template>
+                        <template if:true={isModeAgreement}>
+                            <c-multi-select-search-list label="Search agreements…" mono-select="true" options={searchOptions} onchange={handleSearchChange}></c-multi-select-search-list>
                         </template>
                         <template if:true={selectedLabel}>
                             <div class="selected-pill slds-m-top_xx-small">
@@ -67,7 +62,7 @@
 
                 <!-- ── Errors ── -->
                 <template if:true={hasErrors}>
-                    <div class="slds-text-color_error slds-m-bottom_small">
+                    <div class="slds-text-color_error slds-m-bottom_small slds-m-horizontal_medium">
                         <ul class="slds-list_dotted">
                             <template for:each={errors} for:item="err">
                                 <li key={err}>{err}</li>
@@ -76,71 +71,132 @@
                     </div>
                 </template>
 
-                <!-- ── Table ── -->
+                <!-- ── Sections (visible once data is loaded) ── -->
                 <template if:true={hasRows}>
-                    <div class="slds-scrollable_x">
-                        <table class="grid-table">
-                            <thead>
-                                <!-- Group header row -->
-                                <tr>
-                                    <th colspan="7" class="th-group th-blue">Share Class Info</th>
-                                    <th colspan="3" class="th-group th-section1">Rebate Rate</th>
-                                    <th colspan="3" class="th-group th-section2">Net Margin</th>
-                                    <th colspan="3" class="th-group th-section3">Profitability Rate</th>
-                                </tr>
-                                <!-- Column label row -->
-                                <tr>
-                                    <th class="th-default">Portfolio</th>
-                                    <th class="th-default">Class</th>
-                                    <th class="th-default">ISIN</th>
-                                    <th class="th-default">AUM</th>
-                                    <th class="th-default">Eff. Mgt Fee</th>
-                                    <th class="th-default">Current</th>
-                                    <th class="th-default">Selected</th>
-                                    <th class="th-sub th-section1">Current</th>
-                                    <th class="th-sub th-section1">Selected</th>
-                                    <th class="th-sub th-section1">Diff</th>
-                                    <th class="th-sub th-section2">Current</th>
-                                    <th class="th-sub th-section2">Selected</th>
-                                    <th class="th-sub th-section2">Diff</th>
-                                    <th class="th-sub th-section3">Current</th>
-                                    <th class="th-sub th-section3">Selected</th>
-                                    <th class="th-sub th-section3">Diff</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <template for:each={visibleRows} for:item="row">
-                                    <tr key={row.key} class={row.rowClass}>
-                                        <td>{row.portfolio}</td>
-                                        <td>{row.shareClass}</td>
-                                        <td>{row.isin}</td>
-                                        <td class="td-right">{row.aum}</td>
-                                        <td class="td-right">{row.effMgtFee}</td>
-                                        <td>{row.currentStdGrid}</td>
-                                        <td>{row.selectedStdGrid}</td>
-                                        <td class="td-right">{row.currRR}</td>
-                                        <td class="td-right">{row.selRR}</td>
-                                        <td class="td-right td-diff">{row.diffRR}</td>
-                                        <td class="td-right">{row.currNM}</td>
-                                        <td class="td-right">{row.selNM}</td>
-                                        <td class="td-right td-diff">{row.diffNM}</td>
-                                        <td class="td-right">{row.currPR}</td>
-                                        <td class="td-right">{row.selPR}</td>
-                                        <td class="td-right td-diff">{row.diffPR}</td>
-                                    </tr>
-                                </template>
-                            </tbody>
-                        </table>
+
+                    <!-- ── Overview ── -->
+                    <div class={overviewSectionClass}>
+                        <h3 class="slds-section__title section-class">
+                            <button class="slds-button slds-section__title-action" onclick={handleToggleOverview} aria-expanded={overviewOpen}>
+                                <lightning-icon icon-name="utility:switch" class="slds-section__title-action-icon slds-button__icon slds-button__icon_left" size="x-small"></lightning-icon>
+                                <span class="slds-truncate" title="Overview">Overview</span>
+                            </button>
+                        </h3>
+                        <div aria-hidden={overviewHidden} class="slds-section__content">
+                            <div class="section-padding">
+                                <table class="overview-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="ov-th-label"></th>
+                                            <th class="ov-th">Weighted Avg Mgt Fee</th>
+                                            <th class="ov-th">Weighted Avg Rebates</th>
+                                            <th class="ov-th">Avg Net Margin</th>
+                                            <th class="ov-th">Avg Profitability</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template for:each={overviewRows} for:item="row">
+                                            <tr key={row.key} class={row.rowClass}>
+                                                <td class="ov-label">{row.label}</td>
+                                                <td class="td-right">{row.fee}</td>
+                                                <td class="td-right">{row.rr}</td>
+                                                <td class="td-right">{row.nm}</td>
+                                                <td class="td-right">{row.pr}</td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- ── Comparison Details ── -->
+                    <div class={detailSectionClass}>
+                        <h3 class="slds-section__title section-class">
+                            <button class="slds-button slds-section__title-action" onclick={handleToggleDetail} aria-expanded={detailOpen}>
+                                <lightning-icon icon-name="utility:switch" class="slds-section__title-action-icon slds-button__icon slds-button__icon_left" size="x-small"></lightning-icon>
+                                <span class="slds-truncate" title="Comparison Details">Comparison Details</span>
+                            </button>
+                        </h3>
+                        <div aria-hidden={detailHidden} class="slds-section__content">
+                            <div class="section-padding">
+                                <div class="slds-scrollable_x">
+                                    <table class="grid-table">
+                                        <thead>
+                                            <!-- Group header row -->
+                                            <tr>
+                                                <th colspan="7" class="th-group th-blue">Share Class Info</th>
+                                                <th class="section-gap"></th>
+                                                <th colspan="3" class="th-group th-section1">Rebate Rate</th>
+                                                <th class="section-gap"></th>
+                                                <th colspan="3" class="th-group th-section2">Net Margin</th>
+                                                <th class="section-gap"></th>
+                                                <th colspan="3" class="th-group th-section3">Profitability Rate</th>
+                                            </tr>
+                                            <!-- Column label row -->
+                                            <tr>
+                                                <th class="th-default">Portfolio</th>
+                                                <th class="th-default">Class</th>
+                                                <th class="th-default">ISIN</th>
+                                                <th class="th-default">AUM</th>
+                                                <th class="th-default">Eff. Mgt Fee</th>
+                                                <th class="th-default">Current</th>
+                                                <th class="th-default">Selected</th>
+                                                <th class="section-gap"></th>
+                                                <th class="th-sub th-section1">Current</th>
+                                                <th class="th-sub th-section1">Selected</th>
+                                                <th class="th-sub th-section1">Diff</th>
+                                                <th class="section-gap"></th>
+                                                <th class="th-sub th-section2">Current</th>
+                                                <th class="th-sub th-section2">Selected</th>
+                                                <th class="th-sub th-section2">Diff</th>
+                                                <th class="section-gap"></th>
+                                                <th class="th-sub th-section3">Current</th>
+                                                <th class="th-sub th-section3">Selected</th>
+                                                <th class="th-sub th-section3">Diff</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <template for:each={visibleRows} for:item="row">
+                                                <tr key={row.key} class={row.rowClass}>
+                                                    <td>{row.portfolio}</td>
+                                                    <td>{row.shareClass}</td>
+                                                    <td>{row.isin}</td>
+                                                    <td class="td-right">{row.aum}</td>
+                                                    <td class="td-right">{row.effMgtFee}</td>
+                                                    <td class="td-current">{row.currentStdGrid}</td>
+                                                    <td class="td-selected">{row.selectedStdGrid}</td>
+                                                    <td class="section-gap"></td>
+                                                    <td class="td-right td-current">{row.currRR}</td>
+                                                    <td class="td-right td-selected">{row.selRR}</td>
+                                                    <td class="td-right td-diff">{row.diffRR}</td>
+                                                    <td class="section-gap"></td>
+                                                    <td class="td-right td-current">{row.currNM}</td>
+                                                    <td class="td-right td-selected">{row.selNM}</td>
+                                                    <td class="td-right td-diff">{row.diffNM}</td>
+                                                    <td class="section-gap"></td>
+                                                    <td class="td-right td-current">{row.currPR}</td>
+                                                    <td class="td-right td-selected">{row.selPR}</td>
+                                                    <td class="td-right td-diff">{row.diffPR}</td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </template>
 
+                <!-- ── Empty state ── -->
                 <template if:false={hasRows}>
                     <template if:false={selectedGridId}>
                         <p class="slds-text-color_weak selectAgrGridCls">Select a grid or agreement above to start the comparison.</p>
                     </template>
                     <template if:true={selectedGridId}>
                         <template if:false={isLoading}>
-                            <p class="slds-text-color_weak">No grid details found.</p>
+                            <p class="slds-text-color_weak selectAgrGridCls">No grid details found.</p>
                         </template>
                     </template>
                 </template>
