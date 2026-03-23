@@ -2,9 +2,9 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>description__c</fullName>
     <encryptionScheme>None</encryptionScheme>
-    <inlineHelpText>Explain why this meeting is requested (client context, objective, products, expected outcome).
+    <inlineHelpText>Explain why this event is requested (client context, objective, products, expected outcome).
 A clear rationale is required for approval and proper preparation by the speakers.</inlineHelpText>
-    <label>Meeting/Event Rationale</label>
+    <label>Event Rationale</label>
     <length>32768</length>
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>

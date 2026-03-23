@@ -1226,7 +1226,7 @@
                 <label>Manchester</label>
             </value>
             <value>
-                <fullName>digital</fullName>
+                <fullName>Digital</fullName>
                 <default>false</default>
                 <label>digital</label>
             </value>
@@ -1330,6 +1330,10 @@
         <valueSettings>
             <controllingFieldValue>Singapore</controllingFieldValue>
             <valueName>Singapore</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Digital</controllingFieldValue>
+            <valueName>Digital</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Japan</controllingFieldValue>

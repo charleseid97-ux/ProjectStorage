@@ -6,6 +6,7 @@ public with sharing class customEventHandler implements ITriggerHandler {
         List<Event__c> newEvents = (List<Event__c>) newItems;
 
         customEventService.setEventName(newEvents, null);
+        customEventService.setDigitalLocation(newEvents, null);
         customEventService.copyCompanyBillingAddressToEvent(newEvents, null);
 
         // Start Event Team approval logic (temporary forced status)
@@ -15,6 +16,8 @@ public with sharing class customEventHandler implements ITriggerHandler {
     public void BeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
         Map<Id, Event__c> newEvents = (Map<Id, Event__c>) newItems;
         Map<Id, Event__c> oldEvents = (Map<Id, Event__c>) oldItems;
+        
+        customEventService.setDigitalLocation(newEvents.values(), oldEvents);
         customEventSpeakerApprovalService.markEventFullyApprovedIfNoSSP(newEvents, oldEvents);
         customEventService.setEventName(newEvents.values(), oldEvents);
         customEventService.copyCompanyBillingAddressToEvent(newEvents.values(), oldEvents);

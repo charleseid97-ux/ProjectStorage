@@ -210,7 +210,7 @@ export default class EventApprovalsPanel extends LightningElement {
     get pendingWithTitle() {
         return (this.pending || []).map((row) => ({
             ...row,
-            displayTitle: row?.speakerName ? row.speakerName : 'Event Approval'
+            displayTitle: row?.speakerName ? row.speakerName : 'Event team approval'
         }));
     }
 
@@ -235,7 +235,7 @@ export default class EventApprovalsPanel extends LightningElement {
 
             return {
                 ...row,
-                displayTitle: row?.speakerName ? row.speakerName : 'Event Approval',
+                displayTitle: row?.speakerName ? row.speakerName : 'Event team approval',
                 actionDateFormatted: this.formatDateTime(row?.actionDate),
                 actorNameTrimmed: (row?.actorName || '').trim(),
                 resultTextClass,

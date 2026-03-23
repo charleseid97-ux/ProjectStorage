@@ -2,6 +2,7 @@ import { LightningElement, api, track } from 'lwc';
 import getByEvent from '@salesforce/apex/sessionSpeakerProductRelatedListCTRL.getByEvent';
 import getRepeaterInputByEvent from '@salesforce/apex/sessionSpeakerProductRelatedListCTRL.getRepeaterInputByEvent';
 import saveFromRepeaterJson from '@salesforce/apex/sessionSpeakerProductRelatedListCTRL.saveFromRepeaterJson';
+import updateSpeakerSlot from '@salesforce/apex/sessionSpeakerProductRelatedListCTRL.updateSpeakerSlot';
 
 export default class SpeakerProductsBySession extends LightningElement {
     @api recordId;
@@ -11,7 +12,6 @@ export default class SpeakerProductsBySession extends LightningElement {
     @track loading = false;
     @track error;
 
-    // Global edit modal
     @track isEditOpen = false;
     @track initialJson = '[]';
     @track draftJson = '[]';
@@ -23,18 +23,32 @@ export default class SpeakerProductsBySession extends LightningElement {
         return this.selectedRecordId || this.recordId;
     }
 
-    get hasEventId() { return !!this.effectiveEventId; }
-    get hasData() { return this.groups && this.groups.length > 0; }
-    get empty() { return this.hasEventId && !this.loading && !this.error && !this.hasData; }
+    get hasEventId() {
+        return !!this.effectiveEventId;
+    }
+
+    get hasData() {
+        return this.groups && this.groups.length > 0;
+    }
+
+    get empty() {
+        return this.hasEventId && !this.loading && !this.error && !this.hasData;
+    }
+
     get errorMessage() {
-        return this.error ? (this.error.body ? this.error.body.message : this.error.message) : '';
+        return this.error
+            ? (this.error.body ? this.error.body.message : this.error.message)
+            : '';
     }
 
     renderedCallback() {
         const currentId = this.effectiveEventId;
         if (this._lastEffectiveId !== currentId) {
             // eslint-disable-next-line no-console
-            console.debug('[speakerProductsBySession] context changed', { previous: this._lastEffectiveId, current: currentId });
+            console.debug('[speakerProductsBySession] context changed', {
+                previous: this._lastEffectiveId,
+                current: currentId
+            });
             this._lastEffectiveId = currentId;
             this.load();
         }
@@ -52,16 +66,28 @@ export default class SpeakerProductsBySession extends LightningElement {
 
         try {
             const data = await getByEvent({ eventId: this.effectiveEventId });
-            this.groups = (data || []).map(s => ({
-                speakerId: s.speakerId,
-                speakerName: s.speakerName,
-                productCount: s.productCount,
-                products: (s.products || []).map(p => ({
-                    linkId: p.linkId,
-                    productId: p.productId,
-                    productName: p.productName
-                }))
-            }));
+            this.groups = (data || []).map((s) => {
+                const formattedStartTime = this.formatTime(s.startTime);
+                const formattedEndTime = this.formatTime(s.endTime);
+
+                return {
+                    speakerId: s.speakerId,
+                    speakerName: s.speakerName,
+                    productCount: s.productCount,
+                    language: s.language,
+                    startTime: formattedStartTime,
+                    endTime: formattedEndTime,
+                    draftStartTime: formattedStartTime,
+                    draftEndTime: formattedEndTime,
+                    slotLabel: this.buildSlotLabel(formattedStartTime, formattedEndTime),
+                    isEditingSlot: false,
+                    products: (s.products || []).map((p) => ({
+                        linkId: p.linkId,
+                        productId: p.productId,
+                        productName: p.productName
+                    }))
+                };
+            });
         } catch (e) {
             // eslint-disable-next-line no-console
             console.error('[speakerProductsBySession] load error', e);
@@ -72,9 +98,10 @@ export default class SpeakerProductsBySession extends LightningElement {
         }
     }
 
-    // ---------- Global edit flow ----------
     async openEdit() {
-        if (!this.hasEventId) return;
+        if (!this.hasEventId) {
+            return;
+        }
 
         this.loading = true;
         this.error = null;
@@ -84,6 +111,8 @@ export default class SpeakerProductsBySession extends LightningElement {
             const json = await getRepeaterInputByEvent({ eventId: this.effectiveEventId });
             this.initialJson = json || '[]';
             this.draftJson = this.initialJson;
+
+            // eslint-disable-next-line no-console
             console.debug('[speakerProductsBySession] openEdit initialJson', this.initialJson);
             // eslint-disable-next-line no-console
             console.debug('[speakerProductsBySession] openEdit initialJson length', this.initialJson.length);
@@ -102,7 +131,6 @@ export default class SpeakerProductsBySession extends LightningElement {
         this.isEditOpen = false;
     }
 
-    // Repeater emits a jsonchange event (added for Lightning page use)
     handleRepeaterJsonChange(event) {
         this.draftJson = event.detail?.json || '[]';
     }
@@ -117,8 +145,8 @@ export default class SpeakerProductsBySession extends LightningElement {
                 eventId: this.effectiveEventId,
                 payloadJson: this.draftJson
             });
-            this.impactedCount = impacted;
 
+            this.impactedCount = impacted;
             this.isEditOpen = false;
             await this.load();
         } catch (e) {
@@ -130,5 +158,179 @@ export default class SpeakerProductsBySession extends LightningElement {
         }
     }
 
+    handleEditSlot(event) {
+        const speakerId = event.currentTarget.dataset.speakerId;
+
+        this.groups = this.groups.map((group) => {
+            if (group.speakerId !== speakerId) {
+                return group;
+            }
+
+            return {
+                ...group,
+                isEditingSlot: true,
+                draftStartTime: group.startTime || null,
+                draftEndTime: group.endTime || null
+            };
+        });
+    }
+
+    handleSlotChange(event) {
+        const speakerId = event.target.dataset.speakerId;
+        const field = event.target.dataset.field;
+        const value = event.target.value;
+
+        this.groups = this.groups.map((group) => {
+            if (group.speakerId !== speakerId) {
+                return group;
+            }
+
+            return {
+                ...group,
+                [field]: value
+            };
+        });
+    }
+
+    handleCancelSlot(event) {
+        const speakerId = event.currentTarget.dataset.speakerId;
+
+        this.groups = this.groups.map((group) => {
+            if (group.speakerId !== speakerId) {
+                return group;
+            }
+
+            return {
+                ...group,
+                isEditingSlot: false,
+                draftStartTime: group.startTime || null,
+                draftEndTime: group.endTime || null,
+                slotLabel: this.buildSlotLabel(group.startTime, group.endTime)
+            };
+        });
+    }
+
+    async handleSaveSlot(event) {
+        const speakerId = event.currentTarget.dataset.speakerId;
+        const group = this.groups.find((item) => item.speakerId === speakerId);
+
+        if (!group || !this.effectiveEventId) {
+            return;
+        }
+
+        this.loading = true;
+        this.error = null;
+
+        try {
+            await updateSpeakerSlot({
+                eventId: this.effectiveEventId,
+                speakerId: group.speakerId,
+                startTime: group.draftStartTime,
+                endTime: group.draftEndTime
+            });
+
+            this.groups = this.groups.map((item) => {
+                if (item.speakerId !== speakerId) {
+                    return item;
+                }
+
+                const formattedStartTime = this.formatTime(item.draftStartTime);
+                const formattedEndTime = this.formatTime(item.draftEndTime);
+
+                return {
+                    ...item,
+                    startTime: formattedStartTime,
+                    endTime: formattedEndTime,
+                    draftStartTime: formattedStartTime,
+                    draftEndTime: formattedEndTime,
+                    slotLabel: this.buildSlotLabel(formattedStartTime, formattedEndTime),
+                    isEditingSlot: false
+                };
+            });
+        } catch (e) {
+            // eslint-disable-next-line no-console
+            console.error('[speakerProductsBySession] handleSaveSlot error', e);
+            this.error = e;
+        } finally {
+            this.loading = false;
+        }
+    }
+
     refresh = () => this.load();
+
+    formatTime(value) {
+        if (!value) {
+            return null;
+        }
+
+        const parts = value.split(':');
+        if (parts.length < 2) {
+            return value;
+        }
+
+        const hh = parts[0];
+        const mm = parts[1];
+
+        return `${hh}:${mm}`;
+    }
+
+    buildSlotLabel(startTime, endTime) {
+        if (!startTime && !endTime) {
+            return 'No slot defined';
+        }
+
+        if (startTime && endTime) {
+            const durationLabel = this.calculateDuration(startTime, endTime);
+            return `${durationLabel} from ${startTime} to ${endTime}`;
+        }
+
+        if (startTime) {
+            return `from ${startTime}`;
+        }
+
+        return `to ${endTime}`;
+    }
+
+    calculateDuration(startTime, endTime) {
+        const startMinutes = this.toMinutes(startTime);
+        const endMinutes = this.toMinutes(endTime);
+
+        if (startMinutes === null || endMinutes === null || endMinutes < startMinutes) {
+            return '';
+        }
+
+        const totalMinutes = endMinutes - startMinutes;
+        const hours = Math.floor(totalMinutes / 60);
+        const minutes = totalMinutes % 60;
+
+        if (hours > 0 && minutes > 0) {
+            return `${hours}h${minutes}min`;
+        }
+
+        if (hours > 0) {
+            return `${hours}h`;
+        }
+
+        return `${minutes}min`;
+    }
+
+    toMinutes(timeValue) {
+        if (!timeValue) {
+            return null;
+        }
+
+        const parts = timeValue.split(':');
+        if (parts.length < 2) {
+            return null;
+        }
+
+        const hours = parseInt(parts[0], 10);
+        const minutes = parseInt(parts[1], 10);
+
+        if (Number.isNaN(hours) || Number.isNaN(minutes)) {
+            return null;
+        }
+
+        return (hours * 60) + minutes;
+    }
 }

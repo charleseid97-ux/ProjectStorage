@@ -1,4 +1,4 @@
-public with sharing class customEventSpeakerApprovalService {
+public without sharing class customEventSpeakerApprovalService {
 
     // Prevent processing the same Event multiple times in the same transaction (Flow/automation recursion)
     private static Set<Id> PROCESSED_HTML_EVENT_IDS = new Set<Id>();

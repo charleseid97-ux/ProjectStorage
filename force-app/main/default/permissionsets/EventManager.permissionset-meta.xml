@@ -1791,12 +1791,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Event__c.locationCity__c</field>
+        <field>Event__c.city__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Event__c.locationCountry__c</field>
+        <field>Event__c.country__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

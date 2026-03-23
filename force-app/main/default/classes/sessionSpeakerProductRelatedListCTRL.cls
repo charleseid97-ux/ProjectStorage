@@ -4,6 +4,10 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         @AuraEnabled public Id speakerId;
         @AuraEnabled public String speakerName;
         @AuraEnabled public Integer productCount;
+        @AuraEnabled public String startTime;
+        @AuraEnabled public String endTime;
+        @AuraEnabled public String language;
+
         @AuraEnabled public List<ProductItem> products = new List<ProductItem>();
     }
 
@@ -20,7 +24,7 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         @AuraEnabled public String language;
     }
 
-    @AuraEnabled
+    @AuraEnabled(cacheable=false)
     public static List<SpeakerBlock> getByEvent(Id eventId) {
         System.debug(LoggingLevel.INFO, 'sessionSpeakerProductRelatedListCTRL.getByEvent - START eventId=' + String.valueOf(eventId));
         if (eventId == null) return new List<SpeakerBlock>();
@@ -30,7 +34,8 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
                    speakerContact__c,
                    speakerContact__r.Name,
                    strategy__c,
-                   strategy__r.Name
+                   strategy__r.Name,
+                   Language__c
             FROM sessionSpeakerProduct__c
             WHERE Session__c = :eventId
             ORDER BY speakerContact__r.Name, strategy__r.Name
@@ -38,8 +43,13 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         ];
 
         GroupBuild gb = groupRowsBySpeaker(rows);
+        Map<Id, EventSpeakerApprovals__c> approvalsBySpeaker = loadApprovalsBySpeaker(eventId);
 
-        List<SpeakerBlock> result = finalizeSpeakerBlocks(gb.grouped, gb.speakerOrder);
+        List<SpeakerBlock> result = finalizeSpeakerBlocks(
+            gb.grouped,
+            gb.speakerOrder,
+            approvalsBySpeaker
+        );
 
         System.debug(LoggingLevel.INFO, 'sessionSpeakerProductRelatedListCTRL.getByEvent - END groups=' + result.size());
         return result;
@@ -68,12 +78,15 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
                 block.speakerName = (r.speakerContact__r != null && String.isNotBlank(r.speakerContact__r.Name))
                     ? r.speakerContact__r.Name
                     : '—';
+                block.language = r.Language__c;
                 gb.grouped.put(r.speakerContact__c, block);
                 gb.speakerOrder.add(r.speakerContact__c);
             }
 
             ProductItem p = toProductItem(r);
-            if (p != null) block.products.add(p);
+            if (p != null) {
+                block.products.add(p);
+            }
         }
 
         return gb;
@@ -91,22 +104,65 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         return p;
     }
 
-    private static List<SpeakerBlock> finalizeSpeakerBlocks(Map<Id, SpeakerBlock> grouped, List<Id> speakerOrder) {
+    private static List<SpeakerBlock> finalizeSpeakerBlocks(
+        Map<Id, SpeakerBlock> grouped,
+        List<Id> speakerOrder,
+        Map<Id, EventSpeakerApprovals__c> approvalsBySpeaker
+    ) {
         List<SpeakerBlock> result = new List<SpeakerBlock>();
+
         for (Id speakerId : speakerOrder) {
             SpeakerBlock b = grouped.get(speakerId);
             if (b == null) continue;
+
             b.productCount = b.products.size();
+
+            EventSpeakerApprovals__c esa = approvalsBySpeaker != null
+                ? approvalsBySpeaker.get(speakerId)
+                : null;
+
+            if (esa != null) {
+                b.startTime = formatTime(esa.start__c);
+                b.endTime = formatTime(esa.end__c);
+            }
+
             result.add(b);
         }
+
         return result;
+    }
+
+    private static Map<Id, EventSpeakerApprovals__c> loadApprovalsBySpeaker(Id eventId) {
+        Map<Id, EventSpeakerApprovals__c> out = new Map<Id, EventSpeakerApprovals__c>();
+
+        for (EventSpeakerApprovals__c esa : [
+            SELECT Id, Speaker__c, start__c, end__c
+            FROM EventSpeakerApprovals__c
+            WHERE Event__c = :eventId
+        ]) {
+            if (esa.Speaker__c != null && !out.containsKey(esa.Speaker__c)) {
+                out.put(esa.Speaker__c, esa);
+            }
+        }
+
+        return out;
+    }
+
+    private static String formatTime(Time t) {
+        if (t == null) {
+            return null;
+        }
+
+        String hh = String.valueOf(t.hour()).leftPad(2, '0');
+        String mm = String.valueOf(t.minute()).leftPad(2, '0');
+        return hh + ':' + mm;
     }
 
     /**
      * Returns the existing link records for an Event in the same JSON shape
      * that the repeater produces (list of sessionSpeakerProduct__c-like objects).
      */
-    @AuraEnabled
+    @AuraEnabled(cacheable=true)
     public static String getRepeaterInputByEvent(Id eventId) {
         System.debug(LoggingLevel.INFO, 'sessionSpeakerProductRelatedListCTRL.getRepeaterInputByEvent - START eventId=' + String.valueOf(eventId));
         if (eventId == null) return '[]';
@@ -132,7 +188,6 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
     private static Map<String, Object> toRepeaterRowMap(Id eventId, sessionSpeakerProduct__c r) {
         Map<String, Object> o = new Map<String, Object>();
         o.put('attributes', new Map<String, Object>{ 'type' => 'sessionSpeakerProduct__c' });
-        // Keep Id so the parent can keep it if needed (even if current repeater ignores it)
         o.put('Id', r.Id);
         o.put('speakerContact__c', r.speakerContact__c);
         o.put('strategy__c', r.strategy__c);
@@ -141,34 +196,27 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         return o;
     }
 
-    /**
-     * Saves the full set of links for the given Event based on the repeater JSON output.
-     * The method compares the new payload to current DB state using a composite key:
-     * speakerContact__c + strategy__c + Language__c.
-     *
-     * Payload is expected to be a JSON array of objects containing:
-     * - speakerContact__c
-     * - strategy__c
-     * - Language__c (optional)
-     */
     @AuraEnabled
     public static Integer saveFromRepeaterJson(Id eventId, String payloadJson) {
         System.debug(LoggingLevel.INFO, 'sessionSpeakerProductRelatedListCTRL.saveFromRepeaterJson - START eventId=' + String.valueOf(eventId));
         System.debug(LoggingLevel.DEBUG, 'payloadJson=' + payloadJson);
 
-        if (eventId == null) throw new AuraHandledException('Event Id is required.');
+        if (eventId == null) {
+            throw new AuraHandledException('Event Id is required.');
+        }
 
         List<Object> raw = parseRepeaterJson(payloadJson);
 
-        // Current DB state
         Map<String, sessionSpeakerProduct__c> existingByKey = loadExistingByKey(eventId);
-        system.debug(LoggingLevel.INFO, 'Existing records for eventId=' + eventId + ' count=' + existingByKey.size());
+        System.debug(LoggingLevel.INFO, 'Existing records for eventId=' + eventId + ' count=' + existingByKey.size());
+
         IncomingBuild incoming = buildIncoming(raw);
-        system.debug(LoggingLevel.INFO, 'Parsed incoming records count=' + incoming.incomingKeys.size());
-        system.debug(LoggingLevel.DEBUG, 'Incoming keys=' + incoming.incomingKeys);
-        system.debug(LoggingLevel.DEBUG, 'Existing keys=' + existingByKey.keySet());
-        system.debug(LoggingLevel.DEBUG, 'Existing =' + existingByKey);
-        system.debug(LoggingLevel.DEBUG, 'Incoming =' + incoming.incomingParts);
+        System.debug(LoggingLevel.INFO, 'Parsed incoming records count=' + incoming.incomingKeys.size());
+        System.debug(LoggingLevel.DEBUG, 'Incoming keys=' + incoming.incomingKeys);
+        System.debug(LoggingLevel.DEBUG, 'Existing keys=' + existingByKey.keySet());
+        System.debug(LoggingLevel.DEBUG, 'Existing =' + existingByKey);
+        System.debug(LoggingLevel.DEBUG, 'Incoming =' + incoming.incomingParts);
+
         List<sessionSpeakerProduct__c> toInsert = buildToInsert(eventId, incoming, existingByKey);
         List<sessionSpeakerProduct__c> toDelete = buildToDelete(incoming.incomingKeys, existingByKey);
 
@@ -176,8 +224,10 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
 
         if (!toDelete.isEmpty()) delete toDelete;
         if (!toInsert.isEmpty()) insert toInsert;
-        // ✅ Recalcul "état final" (indépendant des triggers)
-        SessionSpeakerProductService.recalcApprovals(eventId);        Integer impacted = toInsert.size() + toDelete.size();
+
+        sessionSpeakerProductService.recalcApprovals(eventId);
+
+        Integer impacted = toInsert.size() + toDelete.size();
         System.debug(LoggingLevel.INFO, 'sessionSpeakerProductRelatedListCTRL.saveFromRepeaterJson - END impacted=' + impacted);
 
         return impacted;
@@ -228,7 +278,6 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
             String key = makeKey(parts.speakerId, parts.productId, parts.lang);
 
             if (incoming.incomingKeys.contains(key)) {
-                // Ignore duplicates in the payload
                 continue;
             }
             incoming.incomingKeys.add(key);
@@ -245,7 +294,7 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         Id productId = (m.get('strategy__c') != null) ? (Id) String.valueOf(m.get('strategy__c')) : null;
         String lang = (m.get('Language__c') != null) ? String.valueOf(m.get('Language__c')) : null;
 
-        if (speakerId == null ) {
+        if (speakerId == null) {
             throw new AuraHandledException('Missing speaker at row ' + rowIndex + '.');
         }
 
@@ -279,7 +328,6 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         return toInsert;
     }
 
-    // Delete records that are not present anymore
     private static List<sessionSpeakerProduct__c> buildToDelete(
         Set<String> incomingKeys,
         Map<String, sessionSpeakerProduct__c> existingByKey
@@ -297,9 +345,58 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         return String.valueOf(speakerId) + '|' + String.valueOf(productId) + '|' + String.valueOf(lang);
     }
 
-    // Backward-compatible alias
     @AuraEnabled(cacheable=true)
     public static List<SpeakerBlock> getBySession(Id sessionId) {
         return getByEvent(sessionId);
+    }
+
+
+    @AuraEnabled
+    public static void updateSpeakerSlot(Id eventId, Id speakerId, String startTime, String endTime) {
+        if (eventId == null) {
+            throw new AuraHandledException('Event Id is required.');
+        }
+        if (speakerId == null) {
+            throw new AuraHandledException('Speaker Id is required.');
+        }
+
+        List<EventSpeakerApprovals__c> rows = [
+            SELECT Id, start__c, end__c
+            FROM EventSpeakerApprovals__c
+            WHERE Event__c = :eventId
+            AND Speaker__c = :speakerId
+            LIMIT 1
+        ];
+
+        if (rows.isEmpty()) {
+            throw new AuraHandledException('No speaker approval record found for this speaker.');
+        }
+
+        EventSpeakerApprovals__c esa = rows[0];
+        esa.start__c = parseTimeValue(startTime);
+        esa.end__c = parseTimeValue(endTime);
+
+        if (esa.start__c != null && esa.end__c != null && esa.end__c <= esa.start__c) {
+            throw new AuraHandledException('End time must be later than start time.');
+        }
+
+        update esa;
+    }
+
+    private static Time parseTimeValue(String value) {
+        if (String.isBlank(value)) {
+            return null;
+        }
+
+        List<String> parts = value.split(':');
+        if (parts.size() < 2) {
+            throw new AuraHandledException('Invalid time format: ' + value);
+        }
+
+        Integer hh = Integer.valueOf(parts[0]);
+        Integer mm = Integer.valueOf(parts[1]);
+        Integer ss = (parts.size() > 2) ? Integer.valueOf(parts[2]) : 0;
+
+        return Time.newInstance(hh, mm, ss, 0);
     }
 }

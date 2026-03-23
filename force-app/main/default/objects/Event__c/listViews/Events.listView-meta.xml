@@ -4,6 +4,7 @@
     <columns>NAME</columns>
     <columns>color__c</columns>
     <columns>RECORDTYPE</columns>
+    <columns>status__c</columns>
     <filterScope>Mine</filterScope>
     <filters>
         <field>RECORDTYPE</field>

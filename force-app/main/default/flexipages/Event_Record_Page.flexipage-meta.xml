@@ -5,17 +5,6 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>Edit</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Delete</value>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>Clone</value>
-                        </valueListItems>
-                    </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>collapsed</name>
@@ -71,21 +60,22 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.meetingBackground__c</fieldItem>
-                <identifier>RecordmeetingBackground__cField</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 OR 2</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.category__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>One to One meeting</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.category__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Meeting day(s)</rightValue>
-                    </criteria>
-                </visibilityRule>
+                <fieldItem>Record.description__c</fieldItem>
+                <identifier>Recorddescription_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-0571644c-5d2c-41b9-9e5e-7244d801a69e</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Organizer__c</fieldItem>
+                <identifier>RecordOrganizer_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -94,8 +84,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.description__c</fieldItem>
-                <identifier>Recorddescription_cField</identifier>
+                <fieldItem>Record.OwnerId</fieldItem>
+                <identifier>RecordOwnerIdField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-0571644c-5d2c-41b9-9e5e-7244d801a69e</name>
@@ -272,52 +262,6 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.isCarmignacOffice__c</fieldItem>
-                <identifier>RecordisCarmignacOffice_cField2</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 OR 2</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.category__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>One to One meeting</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.category__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Meeting day(s)</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.officeLocation__c</fieldItem>
-                <identifier>RecordofficeLocation_cField2</identifier>
-                <visibilityRule>
-                    <booleanFilter>1 OR 2</booleanFilter>
-                    <criteria>
-                        <leftValue>{!Record.category__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>One to One meeting</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.category__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>Meeting day(s)</rightValue>
-                    </criteria>
-                </visibilityRule>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-13b41246-f2b0-41ab-b598-6cb461ac8356</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -430,7 +374,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
-                    <value>Details</value>
+                    <value>Event Details</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection10</identifier>
@@ -515,6 +459,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.parentEvent__c</fieldItem>
                 <identifier>RecordparentEvent_cField2</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.status__c</fieldItem>
+                <identifier>Recordstatus_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-b3451606-42d0-47f5-a30c-45605ab65c1a</name>
@@ -674,6 +628,9 @@
                     <name>relatedListFieldAliases</name>
                     <valueList>
                         <valueListItems>
+                            <value>NAME</value>
+                        </valueListItems>
+                        <valueListItems>
                             <value>speakerContact__c</value>
                         </valueListItems>
                         <valueListItems>
@@ -689,7 +646,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListLabel</name>
-                    <value>Product Presentations Status</value>
+                    <value>Product Presentations</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>showActionBar</name>

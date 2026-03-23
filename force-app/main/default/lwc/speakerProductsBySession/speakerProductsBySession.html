@@ -1,31 +1,31 @@
 <template>
     <template if:true={hasEventId}>
         <lightning-card>
-        <!-- Custom header -->
-        <div class="slds-p-horizontal_small slds-p-top_small slds-grid slds-grid_vertical-align-center">
-            <h2 class="slds-text-heading_small">
-                Speakers & Products
-            </h2>
+            <!-- Custom header -->
+            <div class="slds-p-horizontal_small slds-p-top_small slds-grid slds-grid_vertical-align-center">
+                <h2 class="slds-text-heading_small">
+                    Speakers & Products
+                </h2>
 
-            <lightning-button
-                class="slds-m-left_small"
-                label="Edit"
-                icon-name="utility:edit"
-                variant="neutral"
-                onclick={openEdit}>
-            </lightning-button>
+                <lightning-button
+                    class="slds-m-left_small"
+                    label="Edit"
+                    icon-name="utility:edit"
+                    variant="neutral"
+                    onclick={openEdit}>
+                </lightning-button>
 
-            <lightning-button-icon
-                class="slds-m-left_x-small"
-                icon-name="utility:refresh"
-                alternative-text="Refresh"
-                title="Refresh"
-                onclick={refresh}
-                variant="bare">
-            </lightning-button-icon>
-        </div>
+                <lightning-button-icon
+                    class="slds-m-left_x-small"
+                    icon-name="utility:refresh"
+                    alternative-text="Refresh"
+                    title="Refresh"
+                    onclick={refresh}
+                    variant="bare">
+                </lightning-button-icon>
+            </div>
 
-        <!-- Card body -->
+            <!-- Card body -->
             <div class="slds-p-around_medium">
 
                 <template if:true={loading}>
@@ -34,21 +34,100 @@
 
                 <template if:true={hasData}>
                     <template for:each={groups} for:item="g">
-                        <article key={g.speakerId} class="slds-card slds-m-bottom_small slds-p-around_small slds-theme_default">
+                        <article
+                            key={g.speakerId}
+                            class="slds-card slds-m-bottom_small slds-p-around_small slds-theme_default"
+                        >
+                            <!-- Header -->
                             <div class="slds-grid slds-wrap slds-gutters slds-var-m-bottom_x-small">
-                                <div class="slds-col slds-size_1-of-1 slds-large-size_2-of-3">
+                                <div class="slds-col slds-size_1-of-1">
+
+                                    <!-- Speaker name -->
                                     <div class="slds-text-heading_small slds-truncate" title={g.speakerName}>
-                                        <lightning-icon icon-name="standard:user" size="x-small" class="slds-m-right_x-small"></lightning-icon>
-                                        {g.speakerName}
+                                        <lightning-icon
+                                            icon-name="standard:user"
+                                            size="x-small"
+                                            class="slds-m-right_x-small">
+                                        </lightning-icon>
+                                        {g.speakerName} - <span class="slds-text-body_small slds-text-color_weak">{g.language}</span>
                                     </div>
+
+                                    <!-- SLOT DISPLAY -->
+                                    <template if:false={g.isEditingSlot}>
+                                        <div class="slds-text-body_small slds-text-color_weak slds-m-top_xx-small slds-grid slds-grid_vertical-align-center">
+                                            <span>{g.slotLabel}</span>
+
+                                            <!-- EDIT ICON -->
+                                            <lightning-button-icon
+                                                class="slds-m-left_x-small"
+                                                icon-name="utility:edit"
+                                                alternative-text="Edit slot"
+                                                title="Edit slot"
+                                                data-speaker-id={g.speakerId}
+                                                onclick={handleEditSlot}
+                                                variant="bare">
+                                            </lightning-button-icon>
+                                        </div>
+                                    </template>
                                 </div>
                             </div>
 
+                            <!-- SLOT EDIT MODE -->
+                            <template if:true={g.isEditingSlot}>
+                                <div class="slds-grid slds-wrap slds-gutters slds-var-m-bottom_small">
+
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                                        <lightning-input
+                                            type="time"
+                                            label="Start"
+                                            value={g.draftStartTime}
+                                            data-speaker-id={g.speakerId}
+                                            data-field="draftStartTime"
+                                            onchange={handleSlotChange}>
+                                        </lightning-input>
+                                    </div>
+
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                                        <lightning-input
+                                            type="time"
+                                            label="End"
+                                            value={g.draftEndTime}
+                                            data-speaker-id={g.speakerId}
+                                            data-field="draftEndTime"
+                                            onchange={handleSlotChange}>
+                                        </lightning-input>
+                                    </div>
+
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-m-top_large">
+                                        <lightning-button
+                                            label="Cancel"
+                                            data-speaker-id={g.speakerId}
+                                            onclick={handleCancelSlot}>
+                                        </lightning-button>
+
+                                        <lightning-button
+                                            class="slds-m-left_x-small"
+                                            variant="brand"
+                                            label="Save slot"
+                                            data-speaker-id={g.speakerId}
+                                            onclick={handleSaveSlot}>
+                                        </lightning-button>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <!-- PRODUCTS -->
                             <div class="slds-var-m-top_x-small slds-wrap">
                                 <template for:each={g.products} for:item="p">
-                                    <span key={p.linkId} class="slds-m-right_x-small slds-m-bottom_x-small slds-inline-block">
+                                    <span
+                                        key={p.linkId}
+                                        class="slds-m-right_x-small slds-m-bottom_x-small slds-inline-block"
+                                    >
                                         <lightning-pill label={p.productName}>
-                                            <lightning-icon icon-name="standard:product" size="x-small"></lightning-icon>
+                                            <lightning-icon
+                                                icon-name="standard:product"
+                                                size="x-small">
+                                            </lightning-icon>
                                         </lightning-pill>
                                     </span>
                                 </template>
@@ -72,20 +151,33 @@
                         Updated {impactedCount} record(s).
                     </div>
                 </template>
+
             </div>
         </lightning-card>
 
         <!-- Global Edit Modal -->
         <template if:true={isEditOpen}>
-            <section role="dialog" tabindex="-1" aria-modal="true" aria-label="Edit"
-                     class="slds-modal slds-fade-in-open">
+            <section
+                role="dialog"
+                tabindex="-1"
+                aria-modal="true"
+                aria-label="Edit"
+                class="slds-modal slds-fade-in-open"
+            >
                 <div class="slds-modal__container slds-modal__container_large">
                     <header class="slds-modal__header">
-                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
-                                title="Close" onclick={closeEdit}>
-                            <lightning-icon icon-name="utility:close" alternative-text="Close" size="small"></lightning-icon>
+                        <button
+                            class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                            title="Close"
+                            onclick={closeEdit}
+                        >
+                            <lightning-icon
+                                icon-name="utility:close"
+                                alternative-text="Close"
+                                size="small">
+                            </lightning-icon>
                         </button>
-                        <h2 class="slds-text-heading_medium">Edit Speakers & Products </h2>
+                        <h2 class="slds-text-heading_medium">Edit Speakers & Products</h2>
                     </header>
 
                     <div class="slds-modal__content slds-p-around_medium">
@@ -98,22 +190,45 @@
                     </div>
 
                     <footer class="slds-modal__footer">
-                        <lightning-button variant="neutral" label="Cancel" onclick={closeEdit}></lightning-button>
-                        <lightning-button class="slds-m-left_small" variant="brand" label="Save" onclick={saveEdit}></lightning-button>
+                        <lightning-button
+                            variant="neutral"
+                            label="Cancel"
+                            onclick={closeEdit}>
+                        </lightning-button>
+                        <lightning-button
+                            class="slds-m-left_small"
+                            variant="brand"
+                            label="Save"
+                            onclick={saveEdit}>
+                        </lightning-button>
                     </footer>
                 </div>
             </section>
             <div class="slds-backdrop slds-backdrop_open"></div>
         </template>
-
     </template>
 
     <template if:false={hasEventId}>
         <lightning-card>
             <div class="slds-p-horizontal_small slds-p-top_small slds-grid slds-grid_vertical-align-center">
                 <h2 class="slds-text-heading_small">Speakers & Products</h2>
-                <lightning-button class="slds-m-left_small" label="Edit" icon-name="utility:edit" variant="neutral" onclick={openEdit} disabled></lightning-button>
-                <lightning-button-icon class="slds-m-left_x-small" icon-name="utility:refresh" alternative-text="Refresh" title="Refresh" onclick={refresh} variant="bare" disabled></lightning-button-icon>
+                <lightning-button
+                    class="slds-m-left_small"
+                    label="Edit"
+                    icon-name="utility:edit"
+                    variant="neutral"
+                    onclick={openEdit}
+                    disabled>
+                </lightning-button>
+                <lightning-button-icon
+                    class="slds-m-left_x-small"
+                    icon-name="utility:refresh"
+                    alternative-text="Refresh"
+                    title="Refresh"
+                    onclick={refresh}
+                    variant="bare"
+                    disabled>
+                </lightning-button-icon>
             </div>
             <div class="slds-p-around_medium slds-text-color_weak">
                 Provide an Event Id to view related speakers and products.

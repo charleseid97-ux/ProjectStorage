@@ -338,6 +338,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Digital</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Dijon</fullName>
             <default>false</default>
         </values>
@@ -1045,10 +1049,6 @@
             <fullName>Zurich</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>digital</fullName>
-            <default>false</default>
-        </values>
     </picklistValues>
     <picklistValues>
         <picklist>clientType__c</picklist>
@@ -1085,6 +1085,10 @@
         </values>
         <values>
             <fullName>Canada</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Digital</fullName>
             <default>false</default>
         </values>
         <values>

@@ -1,4 +1,4 @@
-public with sharing class customEventService {
+public without sharing class customEventService {
 
     // Constants
     private static final String SEP_NAME_PARTS = ' – ';
@@ -395,6 +395,11 @@ public with sharing class customEventService {
     // Build a Campaign record from an Event__c
     private static Campaign buildCampaignFromEvent(Event__c e) {
         Campaign c = new Campaign();
+        // Record Type
+        c.RecordTypeId = Schema.SObjectType.Campaign
+        .getRecordTypeInfosByDeveloperName()
+        .get('Event_and_Meeting')
+        .getRecordTypeId();
 
         // Name
         String timePart    = formatTime12hFromText(e.startTime__c);
@@ -511,6 +516,27 @@ public with sharing class customEventService {
         String initials = countryToInitials(value);
         if (!String.isBlank(initials) && allowed.contains(initials)) return initials;
         return null;
+    }
+    // set automatic location for digital events, and remove it if format is changed from digital to something else
+    public static void setDigitalLocation(List<Event__c> newEvents, Map<Id, Event__c> oldMap) {
+        for (Event__c ev : newEvents) {
+
+            if (oldMap == null) {
+                if (ev.Format__c == 'Digital') {
+                    ev.country__c = 'Digital';
+                    ev.City__c = 'Digital';
+                }
+            } else {
+                Event__c oldEv = oldMap.get(ev.Id);
+
+                Boolean formatChanged = oldEv.Format__c != ev.Format__c;
+
+                if (formatChanged && ev.City__c == 'Digital') {
+                    ev.City__c = null;
+                    ev.country__c = null;
+                }
+            }
+        }
     }
 
 }

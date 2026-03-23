@@ -1726,6 +1726,60 @@
         <type>Flexipage</type>
         <profile>Admin</profile>
     </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>MeetingDaysPage</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.Meeting</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Campaign Automation</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>MeetingDaysPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.Meeting</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Campaign Automation</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>MeetingDaysPage</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.Meeting</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Contributor</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>MeetingDaysPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.Meeting</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - Contributor</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>MeetingDaysPage</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.Meeting</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - CRM</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>MeetingDaysPage</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Event__c</pageOrSobjectType>
+        <recordType>Event__c.Meeting</recordType>
+        <type>Flexipage</type>
+        <profile>Carmignac - CRM</profile>
+    </profileActionOverrides>
     <setupExperience>all</setupExperience>
     <tabs>Home_Product_Catalog</tabs>
     <tabs>standard-Contact</tabs>

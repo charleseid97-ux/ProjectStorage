@@ -263,5 +263,42 @@
       <members>Event__c</members>
       <name>SharingRules</name>
   </types>
+
+  <!--
+  <types>
+        <members>Bookly</members>
+        <name>DashboardFolder</name>
+    </types>
+    <types>
+        <members>Bookly</members>
+        <name>ReportFolder</name>
+    </types>
+<types>
+        <members>Bookly/Event_Volume_Overview_MRZ</members>
+        <members>Bookly/Event_Format_Geography_Mix_5QY</members>
+        <members>Bookly/Prod_fkG</members>
+        <members>Bookly/Event_Volume_Overview_Group_by_Format_nVh</members>
+        <members>Bookly/Speaker_Workload_Report_iwd</members>
+        <members>Bookly/Event_Participation_Summary_FHG</members>
+        <members>Bookly/Product_Exposure_Report_HSv</members>
+        <members>Bookly/Speaker_Workload_Report_O1L</members>
+        <members>Bookly/Event_Volume_Overview_Group_by_Team_2uZ</members>
+        <members>Bookly/Event_Volume_Overview_ex_11_Mw5</members>
+        <members>Bookly/Event_Volume_Overview_11_only_nvD</members>
+        <members>Bookly/Event_Volume_Overview_Event_only_KgV</members>
+        <members>Bookly/Event_Volume_Overview_cohost_v3z</members>
+        <members>Bookly/Event_Volume_Overview_by_Organizer_IjO</members>
+        <name>Report</name>
+    </types>
+    <types>
+        <members>Bookly/yLmebDRKqPhxRfcuBSOkimGwLmYiKK</members>
+        <name>Dashboard</name>
+    </types>
+  
+    <types>
+        <members>Report_Events_with_Session_Speakers_Products_Custom__c</members>
+        <name>ReportType</name>
+    </types>
+-->
   <version>65.0</version>
 </Package>
