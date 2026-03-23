@@ -3,7 +3,7 @@
  *              Validates all methods including grid settings retrieval, available grids filtering, product/share class selection
  *              with criteria filtering (AND/OR/Custom Logic), and agreement selection page settings.
  * @author Charles EID
- * @testCoverage GridBuilderController (97%), GridBuilderHelper (94% partial)   [12-03-26]
+ * @testCoverage GridBuilderController (85%), GridBuilderHelper (93% partial)   [19-03-26]
 ────────────────────────────────────── */
 @IsTest
 private with sharing class GridBuilderControllerTest {
@@ -42,6 +42,52 @@ private with sharing class GridBuilderControllerTest {
         Test.startTest();
 
         GridBuilderController.AgreementSelectionPageSettings result = GridBuilderController.getAgreementSelectionPageSettings(GRID_BUILDER_SETTING, agreement.Id);
+
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void testGetAgreementSelectionPageSettings_WithDraftGrid() {
+        // Agreement with Grid_Request__c pointing to a Draft grid — covers hasDraftGrid = true (line 55)
+        Convention__c agreement = GridTestSetupHelper.getTestAgreements()[0];
+
+        Grid__c draftGrid = GridTestSetupHelper.createGrid('DraftGridForTest', '', true, GridBuilderHelper.RT_CUSTOM_GRID);
+        draftGrid.ApprovalStatus__c = 'Draft';
+        insert draftGrid;
+
+        AgreementTriggerHandler.triggerDisabled = true;
+        Database.update(new Convention__c(Id = agreement.Id, Grid_Request__c = draftGrid.Id, Grid_Request_Start_Date__c = Date.today()), false);
+        AgreementTriggerHandler.triggerDisabled = false;
+
+        Test.startTest();
+
+        GridBuilderController.AgreementSelectionPageSettings result = GridBuilderController.getAgreementSelectionPageSettings(GRID_BUILDER_SETTING, agreement.Id);
+
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void testGetDraftGridData() {
+        // Agreement with Grid_Request__c pointing to a Draft grid — covers getDraftGridData (lines 101-146)
+        Convention__c agreement = GridTestSetupHelper.getTestAgreements()[0];
+        Share_Class__c sc = GridTestSetupHelper.getTestShareClasses()[0];
+
+        Grid__c draftGrid = GridTestSetupHelper.createGrid('DraftGridForGetData', '', true, GridBuilderHelper.RT_CUSTOM_GRID);
+        draftGrid.ApprovalStatus__c = 'Draft';
+        insert draftGrid;
+
+        GridCriteria__c criteria = GridTestSetupHelper.createCriteria(draftGrid.Id, 'AND', '1', 'Draft Criteria');
+        insert criteria;
+        insert GridTestSetupHelper.createCriteriaDetail(criteria.Id, 1, 'Share_Class__c', 'Type__c', '=', GridTestSetupHelper.SHARE_TYPE_A, 'User-Defined');
+        insert GridTestSetupHelper.createCustomGridDetail(draftGrid.Id, criteria.Id, sc.Id, null, Date.today());
+
+        AgreementTriggerHandler.triggerDisabled = true;
+        Database.update(new Convention__c(Id = agreement.Id, Grid_Request__c = draftGrid.Id, Grid_Request_Start_Date__c = Date.today()), false);
+        AgreementTriggerHandler.triggerDisabled = false;
+
+        Test.startTest();
+
+        GridBuilderController.DraftGridData result = GridBuilderController.getDraftGridData(agreement.Id);
 
         Test.stopTest();
     }

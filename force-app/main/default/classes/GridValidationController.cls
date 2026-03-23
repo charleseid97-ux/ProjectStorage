@@ -4,7 +4,7 @@
  *              Formats AUM amounts for display and integrates with GridBuilderHelper for product filtering.
  * @author Charles EID
  * @testClass GridValidationControllerTest
- * @coverage 96%   [12-03-26]
+ * @coverage 96%   [19-03-26]
 ────────────────────────────────────── */
 public with sharing class GridValidationController {
 
@@ -49,30 +49,30 @@ public with sharing class GridValidationController {
     }
 
     @AuraEnabled
-    public static GridSaveResult saveGrid(String requestJson, Map<String, String> shareClassGridIdMap) {
+    public static GridSaveResult saveGrid(String requestJson, Map<String, String> shareClassGridIdMap, Id draftGridId) {
         GridSaveResult result = new GridSaveResult();
         Savepoint sp = Database.setSavepoint();
 
         try {
             GridSaveRequest request = (GridSaveRequest)JSON.deserialize(requestJson, GridSaveRequest.class);
 
-            // 1. Create Grid__c (with Custom record type)
-            insertCustomGrid(request.grid, result);
+            // 1. Create or update Grid__c
+            upsertCustomGrid(request.grid, draftGridId, result);
 
-            // 2. Create GridScope__c for Custom Grid (references the new grid)
-            insertGridScope(request);
-
-            // 3. Create GridCriteria__c (store Map<criteriaRefId, Id>)
+            // 2. Create GridCriteria__c (store Map<criteriaRefId, Id>)
             Map<String, GridCriteria__c> criteriaRefToRecordMap = insertGridCriteria_getCriteriaRefToIdMap(request);
 
-            // 4. Create GridCriteriaDetail__c
+            // 3. Create GridCriteriaDetail__c
             insertGridCriteriaDetails(request.criteriaList, criteriaRefToRecordMap);
 
-            // 5. Create GridDetail__c
+            // 4. Create GridDetail__c
             insertGridDetails(request, criteriaRefToRecordMap, shareClassGridIdMap);
 
-            // 6. Update Convention__c with Grid__c
-            updateAgreements(request);
+            // 5. Update Convention__c with Grid_Request__c (new grid only — draft edit leaves agreement unchanged)
+            if (draftGridId == null) updateAgreements(request);
+
+            // 6. Create or update AgreementGridTimeline__c
+            upsertAgreementGridTimelines(request, draftGridId);
         }
         catch (Exception e) {
             Database.rollback(sp);
@@ -83,42 +83,37 @@ public with sharing class GridValidationController {
         return result;
     }
 
-    private static void insertGridScope(GridSaveRequest request) {
-        GridScope__c scope = new GridScope__c();
-        scope.Name = 'Grid Scope for ' + request.grid.Name;
-        scope.Grid__c = request.grid.Id;
-        if (request.agreementIds != null && !request.agreementIds.isEmpty()) {
-            List<String> agreementNames = new List<String>();
-            for (Convention__c agmt : [SELECT Id, Name FROM Convention__c WHERE Id IN :request.agreementIds]) {
-                agreementNames.add(agmt.Name);
-            }
-            scope.Agreement__c = String.join(agreementNames, ', ');
-        }
-        insert scope;
-    }
-
-    private static void insertCustomGrid(Grid__c grid, GridSaveResult result) {
+    private static void upsertCustomGrid(Grid__c grid, Id draftGridId, GridSaveResult result) {
+        if (draftGridId != null) grid.Id = draftGridId;
         grid.RecordTypeId = Schema.SObjectType.Grid__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_CUSTOM_GRID).getRecordTypeId();
-        insert grid;
+        upsert grid;
         result.gridId = grid.Id;
         result.gridName = grid.Name;
+        // In case of draft grid update: Delete existing children so they can be reinserted (GridCriteriaDetail__c cascades with GridCriteria__c)
+        if (draftGridId != null) {
+            delete [SELECT Id FROM GridDetail__c   WHERE Grid__c = :draftGridId];
+            delete [SELECT Id FROM GridCriteria__c WHERE Grid__c = :draftGridId];
+        }
     }
 
     private static Map<String, GridCriteria__c> insertGridCriteria_getCriteriaRefToIdMap(GridSaveRequest request) {
         List<CriteriaWrapper> criteriaList = request.criteriaList;
         List<GridCriteria__c> criteriaToInsert = new List<GridCriteria__c>();
+        List<String> insertedRefs = new List<String>(); // parallel list to preserve criteriaRefId after skipping orphans
         Integer criteriaCount = 1;
         for (CriteriaWrapper cw : criteriaList) {
+            if (cw.shareClassIds == null || cw.shareClassIds.isEmpty()) continue; // skip criteria with no share classes
             cw.criteria.Grid__c = request.grid.Id;
             cw.criteria.Name = 'CRIT-' + request.grid.Name + '-' + criteriaCount++;
             criteriaToInsert.add(cw.criteria);
+            insertedRefs.add(cw.criteriaRefId);
         }
 
         Map<String, GridCriteria__c> criteriaRefToRecordMap = new Map<String, GridCriteria__c>();
         if (!criteriaToInsert.isEmpty()) {
             insert criteriaToInsert;
-            for (Integer i = 0; i < criteriaList.size(); i++) {
-                criteriaRefToRecordMap.put(criteriaList[i].criteriaRefId, criteriaToInsert[i]);
+            for (Integer i = 0; i < insertedRefs.size(); i++) {
+                criteriaRefToRecordMap.put(insertedRefs[i], criteriaToInsert[i]);
             }
         }
         return criteriaRefToRecordMap;
@@ -127,6 +122,7 @@ public with sharing class GridValidationController {
     private static void insertGridCriteriaDetails(List<CriteriaWrapper> criteriaList, Map<String, GridCriteria__c> criteriaRefToRecordMap) {
         List<GridCriteriaDetail__c> detailsToInsert = new List<GridCriteriaDetail__c>();
         for (CriteriaWrapper cw : criteriaList) {
+            if (!criteriaRefToRecordMap.containsKey(cw.criteriaRefId)) continue; // skip orphaned criteria
             if (cw.details != null) {
                 for (GridCriteriaDetail__c detail : cw.details) {
                     detail.GridCriteria__c = criteriaRefToRecordMap.get(cw.criteriaRefId).Id;
@@ -166,13 +162,40 @@ public with sharing class GridValidationController {
     }
 
     private static void updateAgreements(GridSaveRequest request) {
-        if (request.agreementIds != null && !request.agreementIds.isEmpty()) {
-            List<Convention__c> agreementsToUpdate = new List<Convention__c>();
-            for (Id agmtId : request.agreementIds) {
-                agreementsToUpdate.add(new Convention__c(Id = agmtId, Grid__c = request.grid.Id));
-            }
-            update agreementsToUpdate;
+        if (request.agreementIds == null || request.agreementIds.isEmpty()) return;
+
+        List<Convention__c> agreementsToUpdate = new List<Convention__c>();
+        Grid__c gridToUpdate = new Grid__c(Id = request.grid.Id);
+        for (Id agmtId : request.agreementIds) {
+            agreementsToUpdate.add(new Convention__c(Id = agmtId, Grid_Request__c = request.grid.Id, Grid_Request_Start_Date__c = request.grid.StartDate__c));
         }
+
+        Database.update(agreementsToUpdate, false); // allOrNone=false: org process builders may reject the update for certain record types; grid + AGT creation must not be blocked
+    }
+
+    private static void upsertAgreementGridTimelines(GridSaveRequest request, Id draftGridId) {
+        // Always derive agreements from the request list; for draft edit also look up existing AGTs by grid
+        List<Id> agreementIds = new List<Id>();
+        if (request.agreementIds != null) agreementIds.addAll(request.agreementIds);
+        if (agreementIds.isEmpty()) return;
+
+        // Build map of existing AGT Ids keyed by Agreement__c (only populated for draft edit)
+        Map<Id, Id> agtIdByAgreement = new Map<Id, Id>();
+        if (draftGridId != null) {
+            for (AgreementGridTimeline__c agt : [SELECT Id, Agreement__c FROM AgreementGridTimeline__c WHERE Grid__c = :draftGridId AND Status__c = 'Draft']) {
+                agtIdByAgreement.put(agt.Agreement__c, agt.Id);
+            }
+        }
+
+        Map<Id, Convention__c> agreements = new Map<Id, Convention__c>([SELECT Id, Name FROM Convention__c WHERE Id IN :agreementIds]);
+        List<AgreementGridTimeline__c> timelinesToUpsert = new List<AgreementGridTimeline__c>();
+        for (Id agmtId : agreementIds) {
+            AgreementGridTimeline__c agt = AgreementGridTimelineUtility.createAgreementGridTimeline(agreements.get(agmtId), request.grid, request.grid.StartDate__c, request.grid.EndDate__c, 'Draft');
+            if (agtIdByAgreement.containsKey(agmtId)) agt.Id = agtIdByAgreement.get(agmtId);
+            timelinesToUpsert.add(agt);
+        }
+
+        if (!timelinesToUpsert.isEmpty()) upsert timelinesToUpsert;
     }
 
     // ────────────────────────────────────── WRAPPERS ──────────────────────────────────────

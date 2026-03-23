@@ -13,6 +13,7 @@ export default class GridValidationPage extends LightningElement {
     @api gridRequestData = {};
     @api agreementNames;
     @api gridShareClassMap = {};
+    @api existingGridId = null;
 
     @track validationProducts = [];
     @track validationColumns = [];
@@ -62,9 +63,10 @@ export default class GridValidationPage extends LightningElement {
         try {
             const request = this.buildSaveRequest();
             const shareClassGridIdMap = buildShareClassGridIdMap(this.selectedShareClasses);
-            const result = await saveGrid({ 
+            const result = await saveGrid({
                 requestJson: JSON.stringify(request),
-                shareClassGridIdMap: shareClassGridIdMap
+                shareClassGridIdMap: shareClassGridIdMap,
+                draftGridId: this.existingGridId || null
             });
 
             if (result.success) {
@@ -99,9 +101,8 @@ export default class GridValidationPage extends LightningElement {
             EndDate__c:                  this.gridRequestData.endDate                 || null,
             ThresholdAmount__c:          this.gridRequestData.thresholdAmount         || null,
             ThresholdAmountCurrency__c:  this.gridRequestData.thresholdAmountCurrency || null,
-            MinimumAmount__c:            this.gridRequestData.minimumAmount           || null,
-            MinimumAmountCurrency__c:    this.gridRequestData.minimumAmountCurrency   || null,
-            MinimumAmountFrequency__c:   this.gridRequestData.minimumAmountFrequency  || null
+            OtherFees__c:                this.gridRequestData.otherFees               ?? false,
+            Comment__c:                  this.gridRequestData.comment                 || null
         };
 
         // Group share classes by criteriaRefId

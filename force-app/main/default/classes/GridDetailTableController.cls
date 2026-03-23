@@ -5,7 +5,7 @@
  *              and formats rule values for display based on rule type.
  * @author Charles EID
  * @testClass GridDetailTableControllerTest
- * @coverage 93%   [12-03-26]
+ * @coverage 92%   [19-03-26]
 ────────────────────────────────────── */
 public with sharing class GridDetailTableController {
     private static final String RULE_PERCENTAGE = 'Percentage of Fees';
@@ -24,27 +24,37 @@ public with sharing class GridDetailTableController {
             return result;
         }
 
-        AgreementSelection agreementSelection;
-        List<GridScope__c> scopes = [SELECT Agreement__c FROM GridScope__c WHERE Grid__c = :gridId];
-        if (scopes.isEmpty()) {
-            agreementSelection = new AgreementSelection();
-            result.errors.add('No Grid Scope found for this Grid. AUM will be blank.');
+        Grid__c grid = [SELECT Id, RecordType.DeveloperName FROM Grid__c WHERE Id = :gridId LIMIT 1];
+        AgreementSelection agreementSelection = new AgreementSelection();
+
+        // Custom Grid: agreements are those where this grid is set as Grid_Request__c or Grid__c
+        if (grid.RecordType.DeveloperName == GridBuilderHelper.RT_CUSTOM_GRID) { 
+            for (Convention__c agr : [SELECT Id FROM Convention__c WHERE Grid_Request__c = :gridId OR Grid__c = :gridId]) {
+                agreementSelection.agreementIds.add(agr.Id);
+            }
         }
-        else {
-            agreementSelection = parseAgreementSelection(scopes, result);
+        // Standard Grid: use GridScope__c
+        else { 
+            List<GridScope__c> scopes = [SELECT Agreement__c FROM GridScope__c WHERE Grid__c = :gridId];
+            if (scopes.isEmpty()) {
+                result.errors.add('No Grid Scope found for this Grid. AUM will be blank.');
+            }
+            else {
+                agreementSelection = parseAgreementSelection(scopes, result);
+            }
         }
 
         List<GridDetail__c> details = [SELECT Id, ShareClass__c, ShareClass__r.Name__c, ShareClass__r.ISIN__c,
-                                        ShareClass__r.EffectiveManagementFees__c, ShareClass__r.Fund__r.Strategy__r.AssetClass__c, ShareClass__r.Fund__r.Strategy__r.Name,
-                                        ShareClass__r.Fund__r.Legal_Status__c, ShareClass__r.Fund__r.InternalShortName__c, ShareClass__r.Fund__r.ProductName__c,
+                                        ShareClass__r.EffectiveManagementFees__c, ShareClass__r.Fund__r.FundStrategy__r.AssetClass__c, ShareClass__r.Fund__r.FundStrategy__r.Name,
+                                        ShareClass__r.Fund__r.LegalForm__c, ShareClass__r.Fund__r.InternalShortName__c, ShareClass__r.Fund__r.ProductName__c,
                                         StandardGridDetail__c, StandardGridDetail__r.ShareClass__c, StandardGridDetail__r.ShareClass__r.Name__c, StandardGridDetail__r.ShareClass__r.ISIN__c, StandardGridDetail__r.ShareClass__r.EffectiveManagementFees__c,
-                                        StandardGridDetail__r.ShareClass__r.Fund__r.Strategy__r.AssetClass__c, StandardGridDetail__r.ShareClass__r.Fund__r.Strategy__r.Name,
-                                        StandardGridDetail__r.ShareClass__r.Fund__r.Legal_Status__c, StandardGridDetail__r.ShareClass__r.Fund__r.InternalShortName__c,
+                                        StandardGridDetail__r.ShareClass__r.Fund__r.FundStrategy__r.AssetClass__c, StandardGridDetail__r.ShareClass__r.Fund__r.FundStrategy__r.Name,
+                                        StandardGridDetail__r.ShareClass__r.Fund__r.LegalForm__c, StandardGridDetail__r.ShareClass__r.Fund__r.InternalShortName__c,
                                         StandardGridDetail__r.ShareClass__r.Fund__r.ProductName__c, StandardGridDetail__r.RebateRate__c, StandardGridDetail__r.StartDate__c,
                                         StandardGridDetail__r.GridRule__r.RuleToApply__c, StandardGridDetail__r.GridRule__r.GridRate__c,
                                         StandardGridDetail__r.GridRule__r.OtherGridRule__c, StandardGridDetail__r.GridRule__r.OtherShareType__c, StandardGridDetail__r.GridRule__r.FinalRebateRate__c,
                                         GridRule__r.RuleToApply__c, GridRule__r.GridRate__c, GridRule__r.OtherGridRule__c, GridRule__r.OtherShareType__c, GridRule__r.FinalRebateRate__c,
-                                        StartDate__c, RebateRate__c
+                                        StartDate__c, RebateRate__c, Grid__r.Name, StandardGridDetail__r.Grid__r.Name
                                        FROM GridDetail__c
                                        WHERE Grid__c = :gridId
                                        ORDER BY ShareClass__r.Fund__r.ProductName__c, ShareClass__r.Name__c];
@@ -117,7 +127,7 @@ public with sharing class GridDetailTableController {
         }
 
         if (!selection.all && selection.agreementIds.isEmpty()) {
-            result.errors.add('No agreements resolved for this GridScope. AUM will be blank.');
+            result.errors.add('No agreements resolved. AUM will be blank.');
             return aumByShareClass;
         }
 
@@ -209,6 +219,9 @@ public with sharing class GridDetailTableController {
 
     public class GridDetailRow {
         @AuraEnabled public Id id;
+        @AuraEnabled public Id shareClassId;
+        @AuraEnabled public Id standardGridDetailId;
+        @AuraEnabled public String stdGridName;
         @AuraEnabled public String assetType;
         @AuraEnabled public String strategy;
         @AuraEnabled public String legalStatus;
@@ -237,9 +250,12 @@ public with sharing class GridDetailTableController {
             Decimal profitabilityVal =   (effFee != null && effFee != 0 && netMarginVal != null) ? (netMarginVal / effFee * 100).setScale(2, RoundingMode.HALF_UP) : null;
 
             this.id                  =   detail.Id;
-            this.assetType           =   getShareValue(share, 'Fund__r.Strategy__r.AssetClass__c');
-            this.strategy            =   getShareValue(share, 'Fund__r.Strategy__r.Name');
-            this.legalStatus         =   getShareValue(share, 'Fund__r.Legal_Status__c');
+            this.shareClassId        =   effectiveScId;
+            this.standardGridDetailId=   isCustom ? detail.StandardGridDetail__c : detail.Id;
+            this.stdGridName         =   isCustom ? detail.StandardGridDetail__r?.Grid__r?.Name : detail.Grid__r?.Name;
+            this.assetType           =   getShareValue(share, 'Fund__r.FundStrategy__r.AssetClass__c');
+            this.strategy            =   getShareValue(share, 'Fund__r.FundStrategy__r.Name');
+            this.legalStatus         =   getShareValue(share, 'Fund__r.LegalForm__c');
             this.internalShortName   =   getShareValue(share, 'Fund__r.InternalShortName__c');
             this.portfolio           =   getShareValue(share, 'Fund__r.ProductName__c');
             this.shareClass          =   getShareValue(share, 'Name__c');

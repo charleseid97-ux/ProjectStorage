@@ -7,7 +7,7 @@
  *              Disables AgreementTrigger in test context to avoid permission issues.
  * @author Charles EID
  * @usedBy GridDetailBuilderTest, GridBuilderControllerTest, GridValidationControllerTest,
- *         GridDetailTableControllerTest, GridExcelImportServiceTest
+ *         GridDetailTableControllerTest, GridExcelImportServiceTest, GridLifecycleTest
 ────────────────────────────────────── */
 @IsTest
 public with sharing class GridTestSetupHelper {
@@ -17,24 +17,31 @@ public with sharing class GridTestSetupHelper {
     public static final String TEST_TEAM_UK = 'United Kingdom';
     public static final String TEST_TEAM_DE = 'Germany';
 
-    public static final String SHARE_TYPE_A = 'A';
+    public static final String SHARE_TYPE_A  = 'A';
     public static final String SHARE_TYPE_AW = 'AW';
-    public static final String SHARE_TYPE_E = 'E';
-    public static final String SHARE_TYPE_F = 'F';
+    public static final String SHARE_TYPE_E  = 'E';
+    public static final String SHARE_TYPE_F  = 'F';
 
-    public static final String LEGAL_STATUS_FCP = 'FCP';
+    public static final String LEGAL_STATUS_FCP   = 'FCP';
     public static final String LEGAL_STATUS_SICAV = 'SICAV';
 
     public static final String CURRENCY_EUR = 'EUR';
     public static final String CURRENCY_USD = 'USD';
 
-    public static final String ASSET_CLASS_EQUITY = 'Equity';
+    public static final String ASSET_CLASS_EQUITY       = 'Equity';
     public static final String ASSET_CLASS_FIXED_INCOME = 'Fixed Income';
-    public static final String ASSET_CLASS_DIVERSIFIED = 'Diversified';
+    public static final String ASSET_CLASS_DIVERSIFIED  = 'Diversified';
 
-    public static final String GRID_NAME_S1 = 'S1';
+    public static final String GRID_NAME_S1      = 'S1';
     public static final String GRID_NAME_S5_PLUS = 'S5+';
-    public static final String GRID_NAME_TEST = 'TestGrid';
+    public static final String GRID_NAME_TEST    = 'TestGrid';
+
+    public static final String AGR_INPROGRESS       = 'In Progress';
+    public static final String AGR_PENDINGAPPROVAL  = 'Pending Approval';
+    public static final String AGR_APPROVALREQUIRED = 'Approval Required';
+    public static final String AGR_APPROVALCOMPLETE = 'Approval Complete';
+    public static final String AGR_APPROVALREJECTED = 'Approval Rejected';
+    public static final String AGR_APPROVED         = 'Approved';
 
     // ------------------------------------ @TestSetup ------------------------------------
     @TestSetup
@@ -269,6 +276,13 @@ public with sharing class GridTestSetupHelper {
         );
     }
 
+    public static Convention__c createAgreement(String name, String conventionName, String agreementCode, Id companyId, Id gridId, Id gridRequestId, Date gridRequestStartDate, String countriesOfDistribution, Map<String, Id> agmRtMap) {
+        Convention__c agr = createAgreement(name, conventionName, agreementCode, companyId, gridId, countriesOfDistribution, agmRtMap);
+        agr.Grid_Request__c = gridRequestId;
+        agr.Grid_Request_Start_Date__c = gridRequestStartDate;
+        return agr;
+    }
+
     public static List<Convention__c> getTestAgreements() {
         return [SELECT Id, Name, ConventionName__c, Team__c
                 FROM Convention__c
@@ -394,10 +408,39 @@ public with sharing class GridTestSetupHelper {
         );
     }
 
+    public static GridDetail__c createCustomGridDetail(Id gridId, Id criteriaId, Id shareClassId, Id standardGridDetailId, Date startDate) {
+        return new GridDetail__c(
+            RecordTypeId        = Schema.SObjectType.GridDetail__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_CUSTOM_GRID_DETAIL).getRecordTypeId(),
+            Grid__c             = gridId,
+            GridCriteria__c     = criteriaId,
+            ShareClass__c       = shareClassId,
+            StandardGridDetail__c = standardGridDetailId,
+            StartDate__c        = startDate
+        );
+    }
+
     public static List<GridDetail__c> getTestGridDetails() {
         return [SELECT Id, Grid__c, GridRule__c, GridCriteria__c, ShareClass__c, RebateRate__c, StartDate__c, EndDate__c
                 FROM GridDetail__c
                 ORDER BY CreatedDate];
+    }
+
+    // ────────────────────────────────────── AGREEMENT GRID TIMELINE METHODS ──────────────────────────────────────
+    public static AgreementGridTimeline__c createAgreementGridTimeline(Id agreementId, Id gridId, Date startDate, Date endDate, String status) {
+        return new AgreementGridTimeline__c(
+            Agreement__c = agreementId,
+            Grid__c = gridId,
+            GridStartDate__c = startDate,
+            GridEndDate__c = endDate,
+            Status__c = status
+        );
+    }
+
+    public static List<AgreementGridTimeline__c> getTestAgreementGridTimelines(Id agreementId) {
+        return [SELECT Id, Agreement__c, Grid__c, GridStartDate__c, GridEndDate__c, Status__c
+                FROM AgreementGridTimeline__c
+                WHERE Agreement__c = :agreementId
+                ORDER BY GridStartDate__c];
     }
 
     // ────────────────────────────────────── AUM METHODS ──────────────────────────────────────

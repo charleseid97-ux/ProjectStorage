@@ -6,7 +6,7 @@
  *              Provides comprehensive error tracking and validation.
  * @author Charles EID
  * @testClass GridExcelImportServiceTest
- * @coverage 85%   [12-03-26]
+ * @coverage 86%   [19-03-26]
 ────────────────────────────────────── */
 public with sharing class GridExcelImportService {
     private static final Date START_DATE = Date.newInstance(2023, 1, 1);

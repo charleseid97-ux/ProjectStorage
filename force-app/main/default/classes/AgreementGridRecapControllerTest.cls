@@ -3,7 +3,7 @@
  *              Verifies the getRecap method returns correct recap data for an agreement
  *              (active grid with standard grid groups + history, and no-grid scenario).
  * @author Charles EID
- * Coverage: AgreementGridRecapController 100%
+ * @testCoverage AgreementGridRecapController (100%)   [19-03-26]
 ────────────────────────────────────── */
 @IsTest
 public with sharing class AgreementGridRecapControllerTest {
@@ -33,19 +33,23 @@ public with sharing class AgreementGridRecapControllerTest {
         customDetail.StandardGridDetail__c = stdDetail.Id;
         insert customDetail;
 
+        // Approve the custom grid so the recap body (lines 31-35) executes
+        update new Grid__c(Id = customGrid.Id, ApprovalStatus__c = 'Approved');
+
         // Point the agreement to the custom grid
         AgreementTriggerHandler.triggerDisabled = true;
         agr.Grid__c = customGrid.Id;
         update agr;
         AgreementTriggerHandler.triggerDisabled = false;
 
-        // Create one history record
-        insert new Agreement_Grid_History__c(
-            Name                = agr.Name + ' - Previous Grid',
-            Agreement__c        = agr.Id,
-            Grid__c             = standardGrid.Id,
-            Grid_Start_Date__c  = Date.today().addMonths(-12),
-            Grid_End_Date__c    = Date.today().addMonths(-1)
+        // Create one inactive timeline record (past grid)
+        insert new AgreementGridTimeline__c(
+            Name              = agr.Name + ' - Previous Grid',
+            Agreement__c      = agr.Id,
+            Grid__c           = standardGrid.Id,
+            GridStartDate__c  = Date.today().addMonths(-12),
+            GridEndDate__c    = Date.today().addMonths(-1),
+            Status__c         = 'Inactive'
         );
 
         Test.startTest();

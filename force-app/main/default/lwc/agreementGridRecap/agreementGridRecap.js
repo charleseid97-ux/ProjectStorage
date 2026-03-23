@@ -3,17 +3,18 @@ import { reduceError, showToast, LABELS } from 'c/gridBuilderUtils';
 import getRecap from '@salesforce/apex/AgreementGridRecapController.getRecap';
 
 const DATE_TYPE_ATTRS = { day: '2-digit', month: '2-digit', year: 'numeric' };
-const HISTORY_COLUMNS = [
-    { label: 'Name', fieldName: 'recordUrl', type: 'url', typeAttributes: { label: { fieldName: 'historyName' }, target: '_self' } },
-    { label: 'Grid', fieldName: 'gridUrl', type: 'url', typeAttributes: { label: { fieldName: 'gridName' }, target: '_self' } },
-    { label: 'Start Date', fieldName: 'startDate', type: 'date-local', typeAttributes: DATE_TYPE_ATTRS, initialWidth: 115 },
-    { label: 'End Date',   fieldName: 'endDate',   type: 'date-local', typeAttributes: DATE_TYPE_ATTRS, initialWidth: 115 }
+const TIMELINE_COLUMNS = [
+    { label: 'Name',       fieldName: 'recordUrl',  type: 'url',        typeAttributes: { label: { fieldName: 'timelineName' }, target: '_self' } },
+    { label: 'Grid',       fieldName: 'gridUrl',    type: 'url',        typeAttributes: { label: { fieldName: 'gridName' }, target: '_self' } },
+    { label: 'Status',     fieldName: 'status',     type: 'text',       initialWidth: 130 },
+    { label: 'Start Date', fieldName: 'startDate',  type: 'date-local', typeAttributes: DATE_TYPE_ATTRS, initialWidth: 115 },
+    { label: 'End Date',   fieldName: 'endDate',    type: 'date-local', typeAttributes: DATE_TYPE_ATTRS, initialWidth: 115 }
 ];
 
 export default class AgreementGridRecap extends LightningElement {
     @api recordId;
     labels = LABELS;
-    historyColumns = HISTORY_COLUMNS;
+    timelineColumns = TIMELINE_COLUMNS;
 
     recap = null;
     error = null;
@@ -67,19 +68,19 @@ export default class AgreementGridRecap extends LightningElement {
         return this.recap?.standardGridGroups || [];
     }
 
-    get historyRows() {
-        return (this.recap?.historyRows || []).map(row => ({
+    get timelineRows() {
+        return (this.recap?.timelineRows || []).map(row => ({
             ...row,
-            recordUrl: `/lightning/r/Agreement_Grid_History__c/${row.recordId}/view`,
+            recordUrl: `/lightning/r/AgreementGridTimeline__c/${row.recordId}/view`,
             gridUrl: row.gridId ? `/lightning/r/Grid__c/${row.gridId}/view` : null
         }));
     }
 
-    get hasHistory() {
-        return this.historyRows.length > 0;
+    get hasTimeline() {
+        return this.timelineRows.length > 0;
     }
 
-    get historyCount() {
-        return this.historyRows.length;
+    get timelineCount() {
+        return this.timelineRows.length;
     }
 }

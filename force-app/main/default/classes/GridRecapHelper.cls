@@ -5,7 +5,7 @@
  *              Hover data is sourced from StandardGridRecapConfig__mdt / StandardGridRecapRule__mdt
  *              custom metadata types (admin-editable via Setup UI).
  * @author Charles EID
- * @coverage 100% — StdGridProductAndRulesControllerTest
+ * @coverage 100%   [19-03-26]
 ────────────────────────────────────── */
 public with sharing class GridRecapHelper {
 

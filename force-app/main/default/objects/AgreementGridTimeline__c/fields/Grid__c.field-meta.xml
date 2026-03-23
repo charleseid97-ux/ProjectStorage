@@ -4,8 +4,8 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <label>Grid</label>
     <referenceTo>Grid__c</referenceTo>
-    <relationshipLabel>Agreement Grid History Item</relationshipLabel>
-    <relationshipName>Agreement_Grid_History_Item</relationshipName>
+    <relationshipLabel>Agreement Grid Timeline Item</relationshipLabel>
+    <relationshipName>Agreement_Grid_Timeline_Item</relationshipName>
     <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>

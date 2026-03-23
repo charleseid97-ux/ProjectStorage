@@ -3,7 +3,7 @@
  *              Validates grid detail retrieval with all rule types, agreement selection parsing (ALL/specific IDs/name tokens/not found), 
  *              net margin calculations, and rule value formatting.
  * @author Charles EID
- * @testCoverage GridDetailTableController (93%)
+ * @testCoverage GridDetailTableController (92%)   [19-03-26]
 ────────────────────────────────────── */
 @IsTest
 private with sharing class GridDetailTableControllerTest {
@@ -93,17 +93,9 @@ private with sharing class GridDetailTableControllerTest {
         insert customScope;
 
         // Create a custom grid detail pointing to the standard detail
-        Id customDetailRtId = Schema.SObjectType.GridDetail__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_CUSTOM_GRID_DETAIL).getRecordTypeId();
         GridCriteria__c customCriteria = GridTestSetupHelper.createCriteria(customGrid.Id, 'AND', '1', 'Custom Criteria');
         insert customCriteria;
-        GridDetail__c customDetail = new GridDetail__c(
-            RecordTypeId = customDetailRtId,
-            Grid__c = customGrid.Id,
-            ShareClass__c = shareClass.Id,
-            StandardGridDetail__c = stdDetail.Id,
-            GridCriteria__c = customCriteria.Id,
-            StartDate__c = Date.today()
-        );
+        GridDetail__c customDetail = GridTestSetupHelper.createCustomGridDetail(customGrid.Id, customCriteria.Id, shareClass.Id, stdDetail.Id, Date.today());
         insert customDetail;
 
         Test.startTest();
@@ -113,5 +105,32 @@ private with sharing class GridDetailTableControllerTest {
         Test.stopTest();
 
         GridDetailTableController.GridDetailRow row = result.rows[0];
+    }
+
+    @IsTest
+    static void testGetGridDetails_customGrid_agreementsFromConvention() {
+        Share_Class__c shareClass = GridTestSetupHelper.getShareClassByType(GridTestSetupHelper.SHARE_TYPE_A);
+        List<Convention__c> agreements = GridTestSetupHelper.getTestAgreements();
+
+        // Custom grid — intentionally no GridScope__c; agreements resolved via Convention__c lookup
+        Grid__c customGrid = GridTestSetupHelper.createGrid('CustomGridNoScope', '', true, GridBuilderHelper.RT_CUSTOM_GRID);
+        insert customGrid;
+
+        GridCriteria__c criteria = GridTestSetupHelper.createCriteria(customGrid.Id, 'AND', '1', 'Criteria');
+        insert criteria;
+        GridDetail__c detail = GridTestSetupHelper.createCustomGridDetail(customGrid.Id, criteria.Id, shareClass.Id, null, Date.today());
+        insert detail;
+
+        // Point agreement to this custom grid via Grid_Request__c
+        // Grid_Request_Start_Date__c required by validation rule; allOrNone=false handles org process builder restrictions
+        AgreementTriggerHandler.triggerDisabled = true;
+        Database.update(new Convention__c(Id = agreements[0].Id, Grid_Request__c = customGrid.Id, Grid_Request_Start_Date__c = Date.today()), false);
+        AgreementTriggerHandler.triggerDisabled = false;
+
+        Test.startTest();
+
+        GridDetailTableController.GridDetailResult result = GridDetailTableController.getGridDetails(customGrid.Id);
+        
+        Test.stopTest();
     }
 }
