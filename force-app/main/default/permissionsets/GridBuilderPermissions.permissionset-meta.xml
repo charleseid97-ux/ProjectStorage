@@ -133,6 +133,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>GridCriteria__c.SelectedShareTypes__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>GridCriteria__c.StartDate__c</field>
         <readable>true</readable>
     </fieldPermissions>

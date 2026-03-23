@@ -113,10 +113,11 @@ export default class GridValidationPage extends LightningElement {
                 criteriaMap.set(sc.criteriaRefId, {
                     criteriaRefId: sc.criteriaRefId,
                     criteria: {
-                        StandardGrid__c: entry?.criteria?.StandardGrid__c,
-                        FilterLogic__c: entry?.criteria?.FilterLogic__c || 'AND',
+                        StandardGrid__c:          entry?.criteria?.StandardGrid__c,
+                        FilterLogic__c:           entry?.criteria?.FilterLogic__c           || 'AND',
                         FilterLogicExpression__c: entry?.criteria?.FilterLogicExpression__c || null,
-                        StartDate__c: this.gridRequestData.startDate || null
+                        SelectedShareTypes__c:    entry?.criteria?.SelectedShareTypes__c    || null,
+                        StartDate__c:             this.gridRequestData.startDate            || null
                     },
                     details: (entry?.criteriaDetails || []).map(d => ({
                         Object__c: d.Object__c,
