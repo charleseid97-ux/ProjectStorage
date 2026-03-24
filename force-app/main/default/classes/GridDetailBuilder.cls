@@ -243,38 +243,69 @@ public with sharing class GridDetailBuilder {
     }
 
     private static void insertGridDetails(List<RuleAssignment> assignments, BuildResult result) {
-        List<GridDetail__c> detailsToInsert = new List<GridDetail__c>();
-        List<RuleAssignment> assignmentsForInsert = new List<RuleAssignment>();
+        // Collect rule IDs to look up existing GridDetail__c records
+        Set<Id> ruleIds = new Set<Id>();
+        for (RuleAssignment a : assignments) {
+            if (!a.hasError && a.rebate != null && a.gridRuleId != null) {
+                ruleIds.add(a.gridRuleId);
+            }
+        }
+
+        // Build existing-key map: gridId_-_ruleId_-_shareClassId → existing GridDetail Id
+        Map<String, Id> existingByKey = new Map<String, Id>();
+        if (!ruleIds.isEmpty()) {
+            for (GridDetail__c existing : [SELECT Id, Grid__c, GridRule__c, ShareClass__c
+                                           FROM GridDetail__c
+                                           WHERE GridRule__c IN :ruleIds]) {
+                String key = existing.Grid__c + '_-_' + existing.GridRule__c + '_-_' + existing.ShareClass__c;
+                existingByKey.put(key, existing.Id);
+            }
+        }
+
+        List<GridDetail__c> detailsToUpsert = new List<GridDetail__c>();
+        List<RuleAssignment> assignmentsForUpsert = new List<RuleAssignment>();
         Date startDate = Date.today();
         Id standardGridDetailRtId = Schema.SObjectType.GridDetail__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_STANDARD_GRID_DETAIL).getRecordTypeId();
         for (RuleAssignment assignment : assignments) {
             if (assignment.hasError || assignment.rebate == null) {
                 continue;
             }
-            GridDetail__c detail = new GridDetail__c();
-            detail.RecordTypeId = standardGridDetailRtId;
-            detail.Grid__c = assignment.gridId;
-            detail.GridRule__c = assignment.gridRuleId;
+            GridDetail__c detail   = new GridDetail__c();
+            detail.RecordTypeId    = standardGridDetailRtId;
+            detail.Grid__c         = assignment.gridId;
+            detail.GridRule__c     = assignment.gridRuleId;
             detail.GridCriteria__c = assignment.criteriaId;
-            detail.ShareClass__c = assignment.shareClassId;
-            detail.RebateRate__c = assignment.rebate;
-            detail.StartDate__c = startDate;
-            detail.EndDate__c = DEFAULT_END_DATE;
-            detailsToInsert.add(detail);
-            assignmentsForInsert.add(assignment);
+            detail.ShareClass__c   = assignment.shareClassId;
+            detail.RebateRate__c   = assignment.rebate;
+            detail.StartDate__c    = startDate;
+            detail.EndDate__c      = DEFAULT_END_DATE;
+
+            // Attach existing Id if found → triggers update in upsert
+            String key = assignment.gridId + '_-_' + assignment.gridRuleId + '_-_' + assignment.shareClassId;
+            Id existingId = existingByKey.get(key);
+            if (existingId != null) {
+                detail.Id = existingId;
+            }
+
+            detailsToUpsert.add(detail);
+            assignmentsForUpsert.add(assignment);
         }
 
-        if (detailsToInsert.isEmpty()) {
+        if (detailsToUpsert.isEmpty()) {
             return;
         }
 
-        Database.SaveResult[] insertResults = Database.insert(detailsToInsert, false);
-        for (Integer i = 0; i < insertResults.size(); i++) {
-            RuleAssignment assignment = assignmentsForInsert[i];
-            if (insertResults[i].isSuccess()) {
-                result.gridDetailsCreated++;
+        Database.UpsertResult[] upsertResults = Database.upsert(detailsToUpsert, false);
+        for (Integer i = 0; i < upsertResults.size(); i++) {
+            RuleAssignment assignment = assignmentsForUpsert[i];
+            if (upsertResults[i].isSuccess()) {
+                if (upsertResults[i].isCreated()) {
+                    result.gridDetailsCreated++;
+                } else {
+                    result.gridDetailsUpdated++;
+                }
             } else {
-                result.errors.add(new BuildError(assignment.gridRuleId, 'Failed to create GridDetail__c: ' + insertResults[i].getErrors()[0].getMessage()));
+                result.errors.add(new BuildError(assignment.gridRuleId, 'Failed to upsert GridDetail__c: ' + upsertResults[i].getErrors()[0].getMessage()));
             }
         }
     }
@@ -833,6 +864,7 @@ public with sharing class GridDetailBuilder {
     // ────────────────────────────────────── WRAPPERS ──────────────────────────────────────
     public class BuildResult {
         @AuraEnabled public Integer gridDetailsCreated = 0;
+        @AuraEnabled public Integer gridDetailsUpdated = 0;
         @AuraEnabled public List<BuildError> errors;
     }
 

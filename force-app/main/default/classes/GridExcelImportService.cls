@@ -1,8 +1,8 @@
 /** ──────────────────────────────────────
- * @description Service class for importing grid configurations from Excel/JSON payloads. 
+ * @description Service class for importing grid configurations from Excel/JSON payloads.
  *              Parses scope and rule definitions, creates/updates GridScope__c, GridCriteria__c, GridCriteriaDetail__c, and
- *              GridRule__c records. 
- *              Integrates with GridCriteriaExpressionParser for Include/Exclude expression parsing. 
+ *              GridRule__c records.
+ *              Integrates with GridCriteriaExpressionParser for Include/Exclude expression parsing.
  *              Provides comprehensive error tracking and validation.
  * @author Charles EID
  * @testClass GridExcelImportServiceTest
@@ -52,11 +52,12 @@ public with sharing class GridExcelImportService {
             return result;
         }
 
+        resolveExistingRules(ruleContexts, gridIdByName);
         insertCriteria(ruleContexts, result);
         DetailBuildResult detailBuildResult = buildDetailContexts(ruleContexts);
         insertDetails(detailBuildResult, result);
-        Set<Id> successfulGridRuleIds = insertGridRules(ruleContexts, result);
-        buildGridDetails(successfulGridRuleIds, result);
+        Map<Id, Integer> rowByRuleId = upsertGridRules(ruleContexts, result);
+        buildGridDetails(rowByRuleId, result);
         return result;
     }
 
@@ -208,7 +209,7 @@ public with sharing class GridExcelImportService {
         return String.join(parts, '\n');
     }
 
-    private static GridCriteria__c buildCriteria(String gridName, String gridId, Integer rowNumber, RuleRow row, String logicExpression) {
+    private static GridCriteria__c buildCriteria(String gridName, Id gridId, Integer rowNumber, RuleRow row, String logicExpression) {
         GridCriteria__c criteria = new GridCriteria__c();
         criteria.Name = buildCriteriaName(gridName, rowNumber);
         criteria.Grid__c = gridId;
@@ -220,19 +221,106 @@ public with sharing class GridExcelImportService {
         return criteria;
     }
 
+    // ── Rule deduplication ──
+    private static void resolveExistingRules(List<RuleContext> ruleContexts, Map<String, Id> gridIdByName) {
+        Set<Id> gridIds = new Set<Id>(gridIdByName.values());
+
+        // Load all existing GridRule__c for these grids
+        List<GridRule__c> existingRules = [SELECT Id, Grid__c, GridCriteria__c
+                                           FROM GridRule__c
+                                           WHERE Grid__c IN :gridIds];
+        if (existingRules.isEmpty()) {
+            return;
+        }
+
+        Set<Id> criteriaIds = new Set<Id>();
+        for (GridRule__c gr : existingRules) {
+            if (gr.GridCriteria__c != null) {
+                criteriaIds.add(gr.GridCriteria__c);
+            }
+        }
+
+        // Load FilterLogicExpression for each existing criteria
+        Map<Id, String> logicByCriteriaId = new Map<Id, String>();
+        for (GridCriteria__c gc : [SELECT Id, FilterLogicExpression__c FROM GridCriteria__c WHERE Id IN :criteriaIds]) {
+            logicByCriteriaId.put(gc.Id, gc.FilterLogicExpression__c);
+        }
+
+        // Load details for each existing criteria
+        Map<Id, List<GridCriteriaDetail__c>> detailsByCriteriaId = new Map<Id, List<GridCriteriaDetail__c>>();
+        for (GridCriteriaDetail__c d : [SELECT GridCriteria__c, FilterNumber__c, Object__c, Field__c, Logic__c, Value__c
+                                        FROM GridCriteriaDetail__c
+                                        WHERE GridCriteria__c IN :criteriaIds
+                                        ORDER BY FilterNumber__c ASC]) {
+            if (!detailsByCriteriaId.containsKey(d.GridCriteria__c)) {
+                detailsByCriteriaId.put(d.GridCriteria__c, new List<GridCriteriaDetail__c>());
+            }
+            detailsByCriteriaId.get(d.GridCriteria__c).add(d);
+        }
+
+        // Build fingerprint → GridRule__c map
+        Map<String, GridRule__c> existingByFingerprint = new Map<String, GridRule__c>();
+        for (GridRule__c gr : existingRules) {
+            Id cId = gr.GridCriteria__c;
+            String logicExpr = logicByCriteriaId.get(cId);
+            List<GridCriteriaDetail__c> details = detailsByCriteriaId.get(cId);
+            List<String> condParts = new List<String>();
+            if (details != null) {
+                for (GridCriteriaDetail__c d : details) {
+                    condParts.add(buildConditionPart(String.valueOf(d.FilterNumber__c != null ? d.FilterNumber__c.intValue() : 0), d.Object__c, d.Field__c, d.Logic__c, d.Value__c));
+                }
+            }
+            existingByFingerprint.put(buildCriteriaFingerprint(gr.Grid__c, logicExpr, condParts), gr);
+        }
+
+        // Match each incoming context against existing
+        for (RuleContext ctx : ruleContexts) {
+            List<String> condParts = new List<String>();
+            if (ctx.conditions != null) {
+                for (GridCriteriaExpressionParser.ParsedCondition c : ctx.conditions) {
+                    condParts.add(buildConditionPart(String.valueOf(c.filterNumber), c.objectApiName, c.fieldApiName, c.logic, c.value));
+                }
+            }
+            GridRule__c match = existingByFingerprint.get(buildCriteriaFingerprint(ctx.gridId, ctx.criteria.FilterLogicExpression__c, condParts));
+            if (match != null) {
+                ctx.existingRuleId     = match.Id;
+                ctx.existingCriteriaId = match.GridCriteria__c;
+            }
+        }
+    }
+
+    private static String buildCriteriaFingerprint(Id gridId, String logicExpr, List<String> condParts) {
+        condParts.sort();
+        return gridId + '_-_' + String.valueOf(logicExpr) + '_-_' + String.join(condParts, '_-_');
+    }
+
+    private static String buildConditionPart(String filterNumber, String objectName, String field, String logic, String value) {
+        return filterNumber + '_-_' + objectName + '_-_' + field + '_-_' + logic + '_-_' + value;
+    }
+
+    // ── Criteria & Details ──
     private static void insertCriteria(List<RuleContext> ruleContexts, ImportResult result) {
         List<GridCriteria__c> criteriaToInsert = new List<GridCriteria__c>();
+        List<RuleContext> contextsForInsert = new List<RuleContext>();
         for (RuleContext ctx : ruleContexts) {
+            if (ctx.existingRuleId != null) {
+                continue;  // reusing existing criteria — nothing to insert
+            }
             criteriaToInsert.add(ctx.criteria);
+            contextsForInsert.add(ctx);
+        }
+
+        if (criteriaToInsert.isEmpty()) {
+            return;
         }
 
         Database.SaveResult[] criteriaResults = Database.insert(criteriaToInsert, false);
         for (Integer i = 0; i < criteriaResults.size(); i++) {
-            RuleContext ctx = ruleContexts[i];
+            RuleContext ctx = contextsForInsert[i];
             if (criteriaResults[i].isSuccess()) {
                 result.criteriaCreated++;
                 ctx.criteriaId = criteriaToInsert[i].Id;
-            } 
+            }
             else {
                 ctx.hasErrors = true;
                 addError(result, 'GridRules', ctx.rowNumber, 'Failed to create GridCriteria__c: ' + criteriaResults[i].getErrors()[0].getMessage());
@@ -243,8 +331,8 @@ public with sharing class GridExcelImportService {
     private static DetailBuildResult buildDetailContexts(List<RuleContext> ruleContexts) {
         DetailBuildResult buildResult = new DetailBuildResult();
         for (RuleContext ctx : ruleContexts) {
-            if (ctx.hasErrors) {
-                continue;
+            if (ctx.hasErrors || ctx.existingRuleId != null) {
+                continue;  // skip errored contexts and contexts reusing an existing rule
             }
             for (GridCriteriaExpressionParser.ParsedCondition cond : ctx.conditions) {
                 GridCriteriaDetail__c detail = new GridCriteriaDetail__c();
@@ -271,7 +359,7 @@ public with sharing class GridExcelImportService {
             DetailContext detailContext = buildResult.contexts[i];
             if (detailResults[i].isSuccess()) {
                 result.criteriaDetailsCreated++;
-            } 
+            }
             else {
                 detailContext.context.detailError = true;
                 addError(result, 'GridRules', detailContext.context.rowNumber, 'Failed to create GridCriteriaDetail__c: ' + detailResults[i].getErrors()[0].getMessage());
@@ -279,7 +367,9 @@ public with sharing class GridExcelImportService {
         }
     }
 
-    private static Set<Id> insertGridRules(List<RuleContext> ruleContexts, ImportResult result) {
+    // ── Grid Rules ──
+
+    private static Map<Id, Integer> upsertGridRules(List<RuleContext> ruleContexts, ImportResult result) {
         List<GridRule__c> gridRules = new List<GridRule__c>();
         List<RuleContext> gridRuleContexts = new List<RuleContext>();
         for (RuleContext ctx : ruleContexts) {
@@ -287,49 +377,57 @@ public with sharing class GridExcelImportService {
                 continue;
             }
             GridRule__c gr = new GridRule__c();
-            gr.Grid__c = ctx.gridId;
-            gr.GridCriteria__c = ctx.criteriaId;
-            gr.RuleToApply__c = ctx.ruleToApply;
-            gr.FeesType__c = ctx.feesType;
-            gr.GridRate__c = ctx.percentageOfFees;
-            gr.ShareType__c = ctx.shareType;
+            if (ctx.existingRuleId != null) {
+                gr.Id = ctx.existingRuleId;                                    // update existing
+            }
+            gr.Grid__c          = ctx.gridId;
+            gr.GridCriteria__c  = ctx.existingRuleId != null ? ctx.existingCriteriaId : ctx.criteriaId;
+            gr.RuleToApply__c   = ctx.ruleToApply;
+            gr.FeesType__c      = ctx.feesType;
+            gr.GridRate__c      = ctx.percentageOfFees;
+            gr.ShareType__c     = ctx.shareType;
             gr.OtherShareType__c = ctx.otherShareType;
             gr.OtherGridRule__c = ctx.otherGridRule;
             gr.FinalRebateRate__c = ctx.finalRebateRate;
-            gr.RuleText__c = ctx.ruleText;
+            gr.RuleText__c      = ctx.ruleText;
             gridRules.add(gr);
             gridRuleContexts.add(ctx);
         }
 
         if (gridRules.isEmpty()) {
-            return new Set<Id>();
+            return new Map<Id, Integer>();
         }
 
-        Database.SaveResult[] gridRuleResults = Database.insert(gridRules, false);
-        Set<Id> successfulGridRuleIds = new Set<Id>();
+        Database.UpsertResult[] gridRuleResults = Database.upsert(gridRules, false);
+        Map<Id, Integer> rowByRuleId = new Map<Id, Integer>();
         for (Integer i = 0; i < gridRuleResults.size(); i++) {
             RuleContext ctx = gridRuleContexts[i];
             if (gridRuleResults[i].isSuccess()) {
-                result.gridRulesCreated++;
-                successfulGridRuleIds.add(gridRules[i].Id);
-            } 
+                if (gridRuleResults[i].isCreated()) {
+                    result.gridRulesCreated++;
+                } else {
+                    result.gridRulesUpdated++;
+                }
+                rowByRuleId.put(gridRules[i].Id, ctx.rowNumber);
+            }
             else {
-                addError(result, 'GridRules', ctx.rowNumber, 'Failed to create GridRule__c: ' + gridRuleResults[i].getErrors()[0].getMessage());
+                addError(result, 'GridRules', ctx.rowNumber, 'Failed to upsert GridRule__c: ' + gridRuleResults[i].getErrors()[0].getMessage());
             }
         }
-        return successfulGridRuleIds;
+        return rowByRuleId;
     }
 
-    private static void buildGridDetails(Set<Id> successfulGridRuleIds, ImportResult result) {
-        if (successfulGridRuleIds.isEmpty()) {
+    private static void buildGridDetails(Map<Id, Integer> rowByRuleId, ImportResult result) {
+        if (rowByRuleId.isEmpty()) {
             return;
         }
-        GridDetailBuilder.BuildResult detailResult = GridDetailBuilder.buildForGridRules(successfulGridRuleIds);
+        GridDetailBuilder.BuildResult detailResult = GridDetailBuilder.buildForGridRules(rowByRuleId.keySet());
         result.gridDetailsCreated += detailResult.gridDetailsCreated;
+        result.gridDetailsUpdated += detailResult.gridDetailsUpdated;
         if (detailResult.errors != null) {
             for (GridDetailBuilder.BuildError detailError : detailResult.errors) {
-                String suffix = detailError.gridRuleId != null ? ' (Grid Rule ' + detailError.gridRuleId + ')' : '';
-                addError(result, 'GridDetails', null, detailError.message + suffix);
+                Integer rowNumber = detailError.gridRuleId != null ? rowByRuleId.get(detailError.gridRuleId) : null;
+                addError(result, 'GridRules', rowNumber, detailError.message);
             }
         }
     }
@@ -427,8 +525,9 @@ public with sharing class GridExcelImportService {
         for (Integer i = 0; i < results.size(); i++) {
             String gridName = namesForUpsert[i];
             if (results[i].isSuccess()) {
+                result.gridsUpserted++;
                 gridIdByName.put(gridName, toUpsert[i].Id);
-            } 
+            }
             else {
                 Integer rowNumber = getRowNumber(gridName, scopeRowByName, scopeRuleRowByName);
                 String sheetName = getSheetName(gridName, scopeRowByName, scopeRuleRowByName);
@@ -560,11 +659,14 @@ public with sharing class GridExcelImportService {
 
     // ────────────────────────────────────── WRAPPERS ──────────────────────────────────────
     public class ImportResult {
-        @AuraEnabled public Integer scopesUpserted = 0;
-        @AuraEnabled public Integer criteriaCreated = 0;
+        @AuraEnabled public Integer gridsUpserted          = 0;
+        @AuraEnabled public Integer scopesUpserted         = 0;
+        @AuraEnabled public Integer criteriaCreated        = 0;
         @AuraEnabled public Integer criteriaDetailsCreated = 0;
-        @AuraEnabled public Integer gridRulesCreated = 0;
-        @AuraEnabled public Integer gridDetailsCreated = 0;
+        @AuraEnabled public Integer gridRulesCreated       = 0;
+        @AuraEnabled public Integer gridRulesUpdated       = 0;
+        @AuraEnabled public Integer gridDetailsCreated     = 0;
+        @AuraEnabled public Integer gridDetailsUpdated     = 0;
         @AuraEnabled public List<ImportError> errors;
     }
 
@@ -620,6 +722,8 @@ public with sharing class GridExcelImportService {
         public Decimal finalRebateRate;
         public GridCriteria__c criteria;
         public Id criteriaId;
+        public Id existingRuleId;      // non-null when a matching rule already exists in DB
+        public Id existingCriteriaId;  // criteria of the existing rule (used to keep the link)
         public List<GridCriteriaExpressionParser.ParsedCondition> conditions;
         public String ruleText;
         public Boolean hasErrors = false;

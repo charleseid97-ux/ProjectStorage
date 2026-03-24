@@ -4,7 +4,7 @@
  *              GridCriteria/GridCriteriaDetail creation. 
  *              Tests all 4 rule types and complex filter expressions. Simplified to use GridTestSetupHelper for test data creation.
  * @author Charles EID
- * @testCoverage GridExcelImportService (86%), GridCriteriaExpressionParser (91% partial)   [19-03-26]
+ * @testCoverage GridExcelImportService (89%), GridCriteriaExpressionParser (91% partial)   [24-03-26]
 ────────────────────────────────────── */
 @IsTest
 private with sharing class GridExcelImportServiceTest {
@@ -39,7 +39,11 @@ private with sharing class GridExcelImportServiceTest {
 
         Test.startTest();
 
+        // First import: creates grids, scopes, criteria, rules, details
         GridExcelImportService.ImportResult result = GridExcelImportService.importFromJson(payloadJson);
+
+        // Second import (same payload): covers resolveExistingRules dedup path → upserts instead of inserts
+        GridExcelImportService.ImportResult result2 = GridExcelImportService.importFromJson(payloadJson);
 
         Test.stopTest();
     }
@@ -76,6 +80,12 @@ private with sharing class GridExcelImportServiceTest {
         p2.scopes = new List<GridExcelImportService.ScopeRow>{ makeScopeRow(2, 'S1', 'AGR1', 'FR', 'FCP') };
         p2.rules  = new List<GridExcelImportService.RuleRow>{ makeRuleRow(2, null, SCHTYPE_A, '', 'Rule', PERCENTAGEOFFEES, EFFMGTFEES, '33,00%', null, null) };
         GridExcelImportService.ImportResult r2 = GridExcelImportService.importFromJson(JSON.serialize(p2));
+
+        // Unsupported RuleToApply → error (line 157)
+        GridExcelImportService.Payload p3 = new GridExcelImportService.Payload();
+        p3.scopes = new List<GridExcelImportService.ScopeRow>{ makeScopeRow(2, 'S1', 'AGR1', 'FR', 'FCP') };
+        p3.rules  = new List<GridExcelImportService.RuleRow>{ makeRuleRow(2, 'S1', SCHTYPE_A, '', 'Rule', 'InvalidRuleType', EFFMGTFEES, '33,00%', null, null) };
+        GridExcelImportService.ImportResult r3 = GridExcelImportService.importFromJson(JSON.serialize(p3));
 
         Test.stopTest();
     }

@@ -487,6 +487,13 @@
         <value>Grid details created</value>
     </labels>
     <labels>
+        <fullName>Grid_GridDetailsUpdated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Result label for import</shortDescription>
+        <value>Grid details updated</value>
+    </labels>
+    <labels>
         <fullName>Grid_GridName</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -499,6 +506,13 @@
         <protected>false</protected>
         <shortDescription>Result label for import</shortDescription>
         <value>Grid Rules created</value>
+    </labels>
+    <labels>
+        <fullName>Grid_GridRulesUpdated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Result label for import</shortDescription>
+        <value>Grid Rules updated</value>
     </labels>
     <labels>
         <fullName>Grid_ImportCompleted</fullName>
@@ -751,6 +765,13 @@
         <protected>false</protected>
         <shortDescription>Message shown after saving a grid; use {0} as placeholder for the grid name</shortDescription>
         <value>Grid &quot;{0}&quot; saved successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_GridsUpserted</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Result label for import</shortDescription>
+        <value>Grids upserted</value>
     </labels>
     <labels>
         <fullName>Grid_ScopesUpserted</fullName>
