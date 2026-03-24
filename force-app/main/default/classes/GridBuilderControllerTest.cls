@@ -124,7 +124,7 @@ private with sharing class GridBuilderControllerTest {
         List<CriteriaDetail> details = new List<CriteriaDetail>{
             new CriteriaDetail(1, 'Share_Class__c', 'Type__c', '=', GridTestSetupHelper.SHARE_TYPE_A)
         };
-        executeProductsAndShareClassesTest('AND', '1', details, false, new List<String>{GridTestSetupHelper.SHARE_TYPE_A});
+        executeProductsAndShareClassesTest('AND', '1', details, false);
     }
 
     @IsTest
@@ -132,7 +132,7 @@ private with sharing class GridBuilderControllerTest {
         List<CriteriaDetail> details = new List<CriteriaDetail>{
             new CriteriaDetail(1, 'Share_Class__c', 'Type__c', '=', GridTestSetupHelper.SHARE_TYPE_A)
         };
-        executeProductsAndShareClassesTest('AND', '1', details, true, new List<String>{GridTestSetupHelper.SHARE_TYPE_A});
+        executeProductsAndShareClassesTest('AND', '1', details, true);
     }
 
     @IsTest
@@ -141,7 +141,7 @@ private with sharing class GridBuilderControllerTest {
             new CriteriaDetail(1, 'Share_Class__c', 'Type__c', '=', GridTestSetupHelper.SHARE_TYPE_A),
             new CriteriaDetail(2, 'Share_Class__c', 'Type__c', '=', GridTestSetupHelper.SHARE_TYPE_E)
         };
-        executeProductsAndShareClassesTest('OR', '1 OR 2', details, false, new List<String>{GridTestSetupHelper.SHARE_TYPE_A, GridTestSetupHelper.SHARE_TYPE_E});
+        executeProductsAndShareClassesTest('OR', '1 OR 2', details, false);
     }
 
     @IsTest
@@ -151,10 +151,10 @@ private with sharing class GridBuilderControllerTest {
             new CriteriaDetail(2, 'Share_Class__c', 'Currency__c', '=', GridTestSetupHelper.CURRENCY_EUR),
             new CriteriaDetail(3, 'Share_Class__c', 'Type__c', '=', GridTestSetupHelper.SHARE_TYPE_E)
         };
-        executeProductsAndShareClassesTest('Custom Logic', '(1 AND 2) OR 3', details, false, new List<String>{GridTestSetupHelper.SHARE_TYPE_A, GridTestSetupHelper.SHARE_TYPE_E});
+        executeProductsAndShareClassesTest('Custom Logic', '(1 AND 2) OR 3', details, false);
     }
 
-    private static void executeProductsAndShareClassesTest(String logic, String filterLogicExpression, List<CriteriaDetail> detailParams, Boolean getAll, List<String> selectedShareTypes) {
+    private static void executeProductsAndShareClassesTest(String logic, String filterLogicExpression, List<CriteriaDetail> detailParams, Boolean getAll) {
         Grid__c grid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S1);
         GridCriteria__c criteria = GridTestSetupHelper.createCriteria(grid.Id, logic, filterLogicExpression, 'Test Criteria');
         List<GridCriteriaDetail__c> criteriaDetails = new List<GridCriteriaDetail__c>();
@@ -164,7 +164,7 @@ private with sharing class GridBuilderControllerTest {
 
         Test.startTest();
 
-        GridBuilderHelper.ProductSelectionResult result = GridBuilderController.getProductsAndShareClasses(GRID_BUILDER_SETTING, TEST_COUNTRIES, JSON.serialize(criteria), JSON.serialize(criteriaDetails), getAll, selectedShareTypes, new List<String>());
+        GridBuilderHelper.ProductSelectionResult result = GridBuilderController.getProductsAndShareClasses(GRID_BUILDER_SETTING, TEST_COUNTRIES, JSON.serialize(criteria), JSON.serialize(criteriaDetails), getAll, new List<String>());
 
         Test.stopTest();
     }
