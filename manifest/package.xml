@@ -9,7 +9,10 @@
 		<members>GridBuilderControllerTest</members>
 		<members>GridBuilderHelper</members>
 		<members>GridComparisonController</members>
+		<members>GridCriteriaDetailTriggerHandler</members>
+		<members>GridCriteriaDetailTriggerHandlerTest</members>
 		<members>GridCriteriaExpressionParser</members>
+		<members>GridCriteriaUtility</members>
 		<members>GridDetailBuilder</members>
 		<members>GridDetailBuilderTest</members>
 		<members>GridDetailTableController</members>
@@ -68,8 +71,11 @@
 		<members>Grid_FilterNumber</members>
 		<members>Grid_FixValidationErrors</members>
 		<members>Grid_GridDetailsCreated</members>
+		<members>Grid_GridDetailsUpdated</members>
 		<members>Grid_GridName</members>
 		<members>Grid_GridRulesCreated</members>
+		<members>Grid_GridRulesUpdated</members>
+		<members>Grid_GridsUpserted</members>
 		<members>Grid_ImportCompleted</members>
 		<members>Grid_ImportCompletedWithErrors</members>
 		<members>Grid_ImportFailed</members>
@@ -260,11 +266,6 @@
 		<name>CustomMetadata</name>
 	</types>
 	<types>
-		<members>Grid__c.Comment__c</members>
-		<members>Grid__c.OtherFees__c</members>
-		<name>CustomField</name>
-	</types>
-	<types>
 		<members>AgreementGridTimeline__c</members>
 		<members>Convention__c</members>
 		<members>GridBuilderSetting__mdt</members>
@@ -352,6 +353,7 @@
 		<name>StaticResource</name>
 	</types>
 	<types>
+		<members>GridCriteriaDetailTrigger</members>
 		<members>GridTrigger</members>
 		<name>ApexTrigger</name>
 	</types>

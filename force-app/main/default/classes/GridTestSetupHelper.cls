@@ -180,7 +180,8 @@ public with sharing class GridTestSetupHelper {
             ISIN_Code__c = isin, // Unique external ID
             Type__c = type,
             EffectiveManagementFees__c = effectiveMgtFees,
-            Currency__c = currencyCode
+            Currency__c = currencyCode,
+            Status__c = 'Active'
         );
     }
 

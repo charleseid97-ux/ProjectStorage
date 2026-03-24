@@ -3,7 +3,7 @@
  *              Validates rebate calculation logic for all 4 rule types (Percentage of Fees, Other Share Type, Other Share Type + Fees, Other Grid Rule), 
  *              complex filter logic (AND/OR/Custom Logic/NOT IN), multi-pass dependency resolution, and edge cases.
  * @author Charles EID
- * @testCoverage GridDetailBuilder (85%), GridCriteriaExpressionParser (91% partial)   [19-03-26]
+ * @testCoverage GridDetailBuilder (86%), GridCriteriaExpressionParser (91% partial)   [24-03-26]
 ────────────────────────────────────── */
 @IsTest
 private with sharing class GridDetailBuilderTest {
@@ -120,7 +120,11 @@ private with sharing class GridDetailBuilderTest {
 
         Test.startTest();
 
+        // First pass: creates GridDetail__c records
         GridDetailBuilder.BuildResult result = GridDetailBuilder.buildForGridRules(gridRuleIds);
+
+        // Second pass (same rule IDs): covers the existingByKey upsert dedup path
+        GridDetailBuilder.BuildResult result2 = GridDetailBuilder.buildForGridRules(gridRuleIds);
 
         Test.stopTest();
     }

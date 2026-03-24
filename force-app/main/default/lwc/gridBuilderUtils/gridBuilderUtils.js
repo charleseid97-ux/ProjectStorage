@@ -108,6 +108,9 @@ import Grid_ResetAll_Success from '@salesforce/label/c.Grid_ResetAll_Success';
 import Grid_ResetFilters from '@salesforce/label/c.Grid_ResetFilters';
 import Grid_RowErrors from '@salesforce/label/c.Grid_RowErrors';
 import Grid_GridRulesCreated from '@salesforce/label/c.Grid_GridRulesCreated';
+import Grid_GridRulesUpdated from '@salesforce/label/c.Grid_GridRulesUpdated';
+import Grid_GridDetailsUpdated from '@salesforce/label/c.Grid_GridDetailsUpdated';
+import Grid_GridsUpserted from '@salesforce/label/c.Grid_GridsUpserted';
 import Grid_Saved_Success from '@salesforce/label/c.Grid_Saved_Success';
 import Grid_ScopesUpserted from '@salesforce/label/c.Grid_ScopesUpserted';
 import Grid_SelectExcelFile from '@salesforce/label/c.Grid_SelectExcelFile';
@@ -143,7 +146,7 @@ export const LABELS = {
     Grid_CriteriaLabel, Grid_CriteriaNumber, Grid_AgreementGridTimeline, Grid_AgreementGridRecap, Grid_CurrentGridRecap, Grid_DetailsTitle, Grid_DifferentGridsSelected,
     Grid_ErrorLoadingGrids, Grid_ErrorLoadingProducts, Grid_ErrorLoadingSettings, Grid_ErrorRetrievingProducts,
     Grid_ErrorSavingGrid, Grid_ErrorValidatingProducts, Grid_ExcelImportTitle, Grid_ExcludedProducts,
-    Grid_FailedToLoadSheetJS, Grid_FilterNumber, Grid_FixValidationErrors, Grid_GridDetailsCreated, Grid_GridName,
+    Grid_FailedToLoadSheetJS, Grid_FilterNumber, Grid_FixValidationErrors, Grid_GridDetailsCreated, Grid_GridDetailsUpdated, Grid_GridName,
     Grid_ImportCompleted, Grid_ImportCompletedWithErrors, Grid_ImportFailed, Grid_ImportedFilePrefix,
     Grid_IncludedInGrid, Grid_IncludedProducts, Grid_Label, Grid_LogicLabel,
     Grid_MissingShareClass, Grid_MissingShareClasses, Grid_NoActiveGridAssigned, Grid_NoDetailsFound, Grid_NoExcludedProducts,
@@ -152,7 +155,7 @@ export const LABELS = {
     Grid_NoProductsToDisplay, Grid_NoProductsToValidate, Grid_NoShareClassesFound, Grid_NoShareClassesToAdd,
     Grid_ProductAlreadyAssignedWarning, Grid_ProductNameLabel, Grid_ProductsRecap,
     Grid_RemoveFilter, Grid_RemoveProduct, Grid_ResetAll, Grid_ResetAll_Confirm, Grid_ResetAll_Success,
-    Grid_ResetFilters, Grid_RowErrors, Grid_GridRulesCreated, Grid_Saved_Success, Grid_ScopesUpserted,
+    Grid_ResetFilters, Grid_RowErrors, Grid_GridRulesCreated, Grid_GridRulesUpdated, Grid_GridsUpserted, Grid_Saved_Success, Grid_ScopesUpserted,
     Grid_SelectExcelFile, Grid_SelectGrid, Grid_SelectShareTypes, Grid_Selection, Grid_SettingNotFound,
     Grid_ShareClassesAdded, Grid_ShareClassesAddedTitle, Grid_ShareClassesNotAdded_DifferentGrid, Grid_ShareClassesNotAdded_NotInGrid,
     Grid_ShareTypeFilterIndependentInfo, Grid_ShareTypesLabel, Grid_SomeRowsFailed, Grid_SortedBy,

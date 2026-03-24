@@ -2,6 +2,7 @@
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
     <excludeButtons>AssignRecordLabel</excludeButtons>
     <excludeButtons>ChangeRecordType</excludeButtons>
+    <excludeButtons>OpenSlackRecordChannel</excludeButtons>
     <excludeButtons>Submit</excludeButtons>
     <layoutSections>
         <customLabel>false</customLabel>
@@ -20,6 +21,10 @@
             <layoutItems>
                 <behavior>Required</behavior>
                 <field>TECHOrigin__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>TECHPythonFilter__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
