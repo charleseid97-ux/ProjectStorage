@@ -493,7 +493,7 @@ public with sharing class GridDetailBuilder {
             setAssignmentError(assignment, result, 'EffectiveManagementFees__c and GridRate__c are required to compute the rebate.');
             return null;
         }
-        return (share.EffectiveManagementFees__c * line.GridRate__c / 100).setScale(5);
+        return (share.EffectiveManagementFees__c * line.GridRate__c / 100).setScale(2, System.RoundingMode.HALF_UP);
     }
 
     private static Decimal computeOtherShareRebate(RuleAssignment assignment, Share_Class__c share, GridRule__c line, Map<String, Decimal> rebatesByGridShareKey, Map<String, Decimal> existingRebates, Map<String, Map<String, Id>> shareTypeLookupCache, List<Share_Class__c> shareClasses, Map<Id, Share_Class__c> shareClassById, BuildResult result) {
@@ -527,7 +527,7 @@ public with sharing class GridDetailBuilder {
             return null;
         }
         Decimal deltaFees = share.EffectiveManagementFees__c - otherShare.EffectiveManagementFees__c;
-        return (baseRebate + (deltaFees * line.GridRate__c / 100)).setScale(5);
+        return (baseRebate + (deltaFees * line.GridRate__c / 100)).setScale(2, System.RoundingMode.HALF_UP);
     }
 
     private static Decimal computeOtherGridRebate(RuleAssignment assignment, GridRule__c line, Map<String, Decimal> rebatesByGridShareKey, Map<String, Decimal> existingRebates, Map<String, Id> gridIdByName, BuildResult result) {

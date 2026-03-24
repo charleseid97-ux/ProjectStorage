@@ -110,7 +110,7 @@ public with sharing class GridBuilderController {
                         FROM Grid__c
                         WHERE Id = :gridId LIMIT 1];
 
-        List<GridCriteria__c> criteriaRecords = [SELECT Id, StandardGrid__c, FilterLogic__c, FilterLogicExpression__c, StartDate__c
+        List<GridCriteria__c> criteriaRecords = [SELECT Id, StandardGrid__c, FilterLogic__c, FilterLogicExpression__c, StartDate__c, SelectedShareTypes__c
                                                  FROM GridCriteria__c 
                                                  WHERE Grid__c = :gridId];
 
@@ -207,10 +207,11 @@ public with sharing class GridBuilderController {
     }
 
     @AuraEnabled
-    public static GridBuilderHelper.ProductSelectionResult getProductsAndShareClasses(String gridBuilderSettingName, String countriesOfDistribution, String gridCriteriaJson, String gridCriteriaDetailsJson, Boolean getAllProductsWithSelection, List<String> selectedShareTypes, List<String> availableGridIds) {
+    public static GridBuilderHelper.ProductSelectionResult getProductsAndShareClasses(String gridBuilderSettingName, String countriesOfDistribution, String gridCriteriaJson, String gridCriteriaDetailsJson, Boolean getAllProductsWithSelection, List<String> availableGridIds) {
         GridBuilderHelper.GridSettings gridSettings = GridBuilderHelper.getGridSettings(gridBuilderSettingName, null, false, new List<String>());
 
         GridCriteria__c criteria = (GridCriteria__c)JSON.deserialize(gridCriteriaJson, GridCriteria__c.class);
+        List<String> selectedShareTypes = String.isNotBlank(criteria.SelectedShareTypes__c)? criteria.SelectedShareTypes__c.split(',') : new List<String>();
         List<GridCriteriaDetail__c> criteriaDetails = (List<GridCriteriaDetail__c>)JSON.deserialize(gridCriteriaDetailsJson, List<GridCriteriaDetail__c>.class);
         Id gridId = criteria != null ? criteria.StandardGrid__c : null;
 

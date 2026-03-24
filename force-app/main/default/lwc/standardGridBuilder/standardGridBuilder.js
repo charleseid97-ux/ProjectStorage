@@ -371,7 +371,6 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
                 gridCriteriaJson: JSON.stringify(this.getCriteriaSObject()),
                 gridCriteriaDetailsJson: JSON.stringify(this.getCriteriaDetailSObject()),
                 getAllProductsWithSelection: false,
-                selectedShareTypes: this.selectedShareTypes,
                 availableGridIds: Object.keys(this.gridShareClassMap)
             });
             const hasFields = productSelection?.fieldsApiToInfoMap && Object.keys(productSelection.fieldsApiToInfoMap).length > 0;
@@ -404,7 +403,6 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
                 gridCriteriaJson: JSON.stringify(this.getCriteriaSObject()),
                 gridCriteriaDetailsJson: JSON.stringify(this.getCriteriaDetailSObject()),
                 getAllProductsWithSelection: true,
-                selectedShareTypes: this.selectedShareTypes,
                 availableGridIds: Object.keys(this.gridShareClassMap)
             });
 
@@ -668,10 +666,11 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
                 criteria: {
                     StandardGrid__c:          entry.criteria?.StandardGrid__c,
                     FilterLogic__c:           entry.criteria?.FilterLogic__c,
-                    FilterLogicExpression__c: entry.criteria?.FilterLogicExpression__c
+                    FilterLogicExpression__c: entry.criteria?.FilterLogicExpression__c,
+                    SelectedShareTypes__c:    entry.criteria?.SelectedShareTypes__c
                 },
                 criteriaDetails: this.decorateCriteriaDetails(entry.details || []),
-                shareTypes:      []
+                shareTypes:      entry.criteria?.SelectedShareTypes__c ? entry.criteria.SelectedShareTypes__c.split(',') : []
             };
         });
     }
@@ -821,9 +820,10 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
     // ------------------------------------ Criteria -> SObject ------------------------------------
     getCriteriaSObject() {
         return {
-            StandardGrid__c: this.criteria.grid,
-            FilterLogic__c: this.criteria.filterLogicType,
-            FilterLogicExpression__c: this.criteria.filterLogicText
+            StandardGrid__c:          this.criteria.grid,
+            FilterLogic__c:           this.criteria.filterLogicType,
+            FilterLogicExpression__c: this.criteria.filterLogicText,
+            SelectedShareTypes__c:    (this.selectedShareTypes || []).join(',')
         };
     }
 
@@ -833,12 +833,12 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
             .filter(detail => detail.objectApi && detail.fieldApi && detail.operator)
             .map(detail => {
                 return {
-                    Object__c: detail.objectApi,
-                    Field__c: detail.fieldApi,
-                    Logic__c: detail.operator,
-                    Value__c: detail.value,
-                    FilterNumber__c: detail.filterNumber,
-                    TECHOrigin__c: detail.TECHOrigin__c || 'User-Defined'
+                    Object__c       : detail.objectApi,
+                    Field__c        : detail.fieldApi,
+                    Logic__c        : detail.operator,
+                    Value__c        : detail.value,
+                    FilterNumber__c : detail.filterNumber,
+                    TECHOrigin__c   : detail.TECHOrigin__c || 'User-Defined'
                 };
             });
     }
