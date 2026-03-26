@@ -105,6 +105,10 @@ public with sharing class GridValidationController {
             if (cw.shareClassIds == null || cw.shareClassIds.isEmpty()) continue; // skip criteria with no share classes
             cw.criteria.Grid__c = request.grid.Id;
             cw.criteria.Name = 'CRIT-' + request.grid.Name + '-' + criteriaCount++;
+            if (cw.details == null || cw.details.size() <= 1) {
+                cw.criteria.FilterLogic__c = null;
+                cw.criteria.FilterLogicExpression__c = null;
+            }
             criteriaToInsert.add(cw.criteria);
             insertedRefs.add(cw.criteriaRefId);
         }
