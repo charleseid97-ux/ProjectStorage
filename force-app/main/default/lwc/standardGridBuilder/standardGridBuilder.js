@@ -18,6 +18,7 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
     @track showAgreementsPage = false;
     @track showGridBuilderPage = false;
     @track showValidationPage = false;
+    @track showSimulation = false;
 
     // First Page: Agreement Selection
     @track agreementSelectionMode = 'Single';
@@ -792,6 +793,14 @@ export default class StandardGridBuilder extends NavigationMixin(LightningElemen
     handleBackToBuilder() {
         this.resetResults(true);
         this.handlePages(false, true, false);
+    }
+
+    handleSimulationRequested() {
+        this.showSimulation = true;
+    }
+
+    handleSimulationBack() {
+        this.showSimulation = false;
     }
 
     handleGridSaved(event) {

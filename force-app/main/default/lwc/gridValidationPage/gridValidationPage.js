@@ -490,6 +490,10 @@ export default class GridValidationPage extends LightningElement {
         this.dispatchEvent(new CustomEvent('back'));
     }
 
+    handleLaunchSimulation() {
+        this.dispatchEvent(new CustomEvent('simulationrequested'));
+    }
+
     handleViewRecap() {
         this.dispatchEvent(new CustomEvent('viewrecap'));
     }

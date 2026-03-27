@@ -17,6 +17,8 @@
 		<members>GridDetailBuilderTest</members>
 		<members>GridDetailTableController</members>
 		<members>GridDetailTableControllerTest</members>
+		<members>GridSimulationController</members>
+		<members>GridSimulationControllerTest</members>
 		<members>GridExcelImportService</members>
 		<members>GridExcelImportServiceTest</members>
 		<members>GridRecapHelper</members>
@@ -332,6 +334,7 @@
 		<members>gridBuilderUtils</members>
 		<members>gridComparison</members>
 		<members>gridDetailTable</members>
+		<members>gridSimulation</members>
 		<members>gridExcelImporter</members>
 		<members>gridSelectionDisplayPanel</members>
 		<members>gridShareTypeSelector</members>
