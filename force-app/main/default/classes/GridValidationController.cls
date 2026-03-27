@@ -152,7 +152,6 @@ public with sharing class GridValidationController {
                     gridDetailsToInsert.add(new GridDetail__c(
                         RecordTypeId = customGridDetailRtId,
                         Grid__c = request.grid.Id,
-                        ShareClass__c = scId,
                         StandardGridDetail__c = stdGridDetailInfoByShareClass.containsKey(scId) ? stdGridDetailInfoByShareClass.get(scId).gridDetailId : null,
                         GridCriteria__c = criteriaRecord.Id,
                         StartDate__c = criteriaStartDate

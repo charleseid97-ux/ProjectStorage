@@ -11,6 +11,7 @@
 		<members>GridComparisonController</members>
 		<members>GridCriteriaDetailTriggerHandler</members>
 		<members>GridCriteriaDetailTriggerHandlerTest</members>
+		<members>GridDetailTriggerHandler</members>
 		<members>GridCriteriaExpressionParser</members>
 		<members>GridCriteriaUtility</members>
 		<members>GridDetailBuilder</members>
@@ -357,6 +358,7 @@
 	</types>
 	<types>
 		<members>GridCriteriaDetailTrigger</members>
+		<members>GridDetailTrigger</members>
 		<members>GridTrigger</members>
 		<name>ApexTrigger</name>
 	</types>
