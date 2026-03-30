@@ -5,10 +5,10 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>gridBuilderSettingName</name>
-                    <value>StandardGridBuilderSetting</value>
+                    <value>CustomGridBuilderSetting</value>
                 </componentInstanceProperties>
-                <componentName>standardGridBuilder</componentName>
-                <identifier>c_standardGridBuilder</identifier>
+                <componentName>customGridBuilder</componentName>
+                <identifier>c_customGridBuilder</identifier>
             </componentInstance>
         </itemInstances>
         <name>main</name>

@@ -9,8 +9,8 @@ import getProductsAndShareClasses from '@salesforce/apex/GridBuilderController.g
 import {LABELS, reduceError, showToast, buildShareTypesKey, getProductNameFromRows, getQueryParam, getSystemProductExclusionDetail, 
     applySystemProductExclusion, mergeSystemDetail, addIsinExclusionsFromRows, pruneOrphanedCriteria} from 'c/gridBuilderUtils';
 
-export default class StandardGridBuilder extends NavigationMixin(LightningElement) {
-    @api gridBuilderSettingName = 'StandardGridBuilderSetting';
+export default class CustomGridBuilder extends NavigationMixin(LightningElement) {
+    @api gridBuilderSettingName = 'CustomGridBuilderSetting';
 
     @track isLoading = true;
     labels = LABELS;

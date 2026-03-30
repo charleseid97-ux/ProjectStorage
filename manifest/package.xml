@@ -170,7 +170,7 @@
 		<name>CustomLabel</name>
 	</types>
 	<types>
-		<members>GridBuilderSetting.StandardGridBuilderSetting</members>
+		<members>GridBuilderSetting.CustomGridBuilderSetting</members>
 		<members>GridCriteriaSetting.Product</members>
 		<members>GridCriteriaSetting.ShareClass</members>
 		<members>GridCriteriaSetting.Strategy</members>
@@ -342,7 +342,7 @@
 		<members>gridValidationPage</members>
 		<members>multiSelectSearchList</members>
 		<members>resultsTable</members>
-		<members>standardGridBuilder</members>
+		<members>customGridBuilder</members>
 		<members>standardGridGroupList</members>
 		<members>standardGridProductsAndRules</members>
 		<name>LightningComponentBundle</name>
