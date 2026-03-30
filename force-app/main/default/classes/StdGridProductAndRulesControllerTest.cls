@@ -1,7 +1,7 @@
 /** ──────────────────────────────────────
  * @description Test class for StandardGridProductAndRulesController and GridRecapHelper.
- *              Verifies the getStandardGridData method returns correct standard grid groups
- *              including products (with share class rates) and hover data from MDT.
+ *              Verifies getStandardGridData (standard grid groups with products and hover data from MDT)
+ *              and getShareClassComposition (restricted/unrestricted share types and excluded funds).
  *              MDT query returns empty list in test context (no records deployed),
  *              covering the full code path with an empty hoverData.rules list.
  * @coverage    StandardGridProductAndRulesController: 100% | GridRecapHelper: 100%
@@ -34,6 +34,18 @@ public with sharing class StdGridProductAndRulesControllerTest {
         Test.startTest();
 
         List<GridRecapHelper.StandardGridGroup> groups = StandardGridProductAndRulesController.getStandardGridData(customGrid.Id);
+
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void getShareClassCompositionTest() {
+        Grid__c customGrid = GridTestSetupHelper.createGrid('CompositionTest', '', true, GridBuilderHelper.RT_CUSTOM_GRID);
+        insert customGrid;
+
+        Test.startTest();
+
+        StandardGridProductAndRulesController.ShareClassComposition result = StandardGridProductAndRulesController.getShareClassComposition(customGrid.Id);
 
         Test.stopTest();
     }

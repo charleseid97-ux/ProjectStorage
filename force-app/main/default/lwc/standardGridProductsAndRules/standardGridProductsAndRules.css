@@ -1,3 +1,87 @@
 .sectionPadding {
-    padding: 5px 15px 5px 15px !important;
+    padding: 10px !important;
+}
+
+.card-header {
+    background-color: rgb(243, 243, 243);
+    border: solid 1px rgb(200 200 200);
+    border-radius: var(--lwc-borderRadiusMedium, 0.25rem);
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    padding: 10px !important;
+    margin: 0px !important;
+}
+
+.card-body {
+    margin-top: 0;
+    border: solid 1px rgb(200 200 200);
+    border-top: 0;
+    border-bottom-left-radius: var(--lwc-borderRadiusMedium, 0.25rem);
+    border-bottom-right-radius: var(--lwc-borderRadiusMedium, 0.25rem);
+}
+
+/* ── Share Class Overview sections ── */
+
+.comp-section-title {
+    font-weight: 600;
+    font-size: 12px;
+    margin-top: 10px;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.comp-section-sub {
+    font-weight: 400;
+    color: #706e6b;
+}
+
+.comp-type-label {
+    font-size: 13px;
+    color: #181818;
+    font-weight: 700;
+    margin-right: 8px;
+    white-space: nowrap;
+}
+
+.comp-dash {
+    color: #706e6b;
+    margin: 0 8px;
+}
+
+.comp-group {
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.comp-empty {
+    font-size: 11px;
+    font-style: italic;
+}
+
+.section-divider {
+    border-top: 1px solid #e0e0e0;
+    margin: 10px 0;
+}
+
+.badge-restricted, .badge-unrestricted, .badge-excluded, .badge-missing {
+    font-size: 11px;
+}
+
+.badge-restricted, .badge-missing {
+    background-color: #FDECEA;
+    color: #8B0000;
+}
+
+.badge-unrestricted {
+    background-color: #E8F5E9;
+    color: #1B5E20;
+}
+
+.badge-excluded {
+    background-color: #F5F5F5;
+    color: #616161;
 }

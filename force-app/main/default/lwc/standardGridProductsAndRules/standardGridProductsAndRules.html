@@ -20,18 +20,119 @@
 
         <!-- Section content — hidden/shown by aria-hidden -->
         <div aria-hidden={sectionHidden} class="slds-section__content main-body">
-            <template if:true={isLoading}>
-                <lightning-spinner alternative-text={labels.UI_Loading} size="small">
-                </lightning-spinner>
+            <template if:true={isAnyLoading}>
+                <lightning-spinner alternative-text={labels.UI_Loading} size="small"></lightning-spinner>
             </template>
-            <template if:false={isLoading}>
-                <div class="sectionPadding">
-                    <template if:true={hasGroups}>
-                        <c-standard-grid-group-list groups={groups}></c-standard-grid-group-list>
-                    </template>
-                    <template if:false={hasGroups}>
-                        <p class="slds-text-color_weak">{labels.Grid_NoProductsFound}</p>
-                    </template>
+            <template if:false={isAnyLoading}>
+                <div class="slds-grid slds-wrap slds-gutters_small">
+
+                    <!-- ── Column 1: Standard Grid Rules ── -->
+                    <div class="slds-col slds-size_1-of-2">
+                        <div class="card-header slds-card__header slds-grid">
+                            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                <div class="slds-media__figure">
+                                    <lightning-icon icon-name="standard:work_plan_rule" size="small"></lightning-icon>
+                                </div>
+                                <div class="slds-media__body">
+                                    <h2 class="slds-card__header-title">
+                                        <span class="slds-truncate" title="Standard Grid Rules">Standard Grid Rules</span>
+                                    </h2>
+                                </div>
+                            </header>
+                        </div>
+                        <div class="card-body sectionPadding slds-card__body">
+                            <template if:true={hasGroups}>
+                                <c-standard-grid-group-list groups={groups}></c-standard-grid-group-list>
+                            </template>
+                            <template if:false={hasGroups}>
+                                <p class="slds-text-color_weak">{labels.Grid_NoProductsFound}</p>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- ── Column 2: Share Class Overview ── -->
+                    <div class="slds-col slds-size_1-of-2">
+                        <div class="card-header slds-card__header slds-grid">
+                            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                <div class="slds-media__figure">
+                                    <lightning-icon icon-name="standard:work_plan_template" size="small"></lightning-icon>
+                                </div>
+                                <div class="slds-media__body">
+                                    <h2 class="slds-card__header-title">
+                                        <span class="slds-truncate" title="Share Class Overview">Share Class Overview</span>
+                                    </h2>
+                                </div>
+                            </header>
+                        </div>
+                        <div class="card-body sectionPadding slds-card__body">
+
+                            <!-- Section 1: Restricted Shareclasses -->
+                            <div class="comp-section-title">
+                                Restricted Shareclasses
+                                <lightning-helptext content={restrictedHelpText}></lightning-helptext>
+                            </div>
+                            <template if:true={hasRestricted}>
+                                <template for:each={composition.restricted} for:item="group">
+                                    <div key={group.shareType} class="comp-group">
+                                        <span class="comp-type-label">{group.shareType}</span>
+                                        <span class="comp-dash">&mdash;</span>
+                                        <template for:each={group.productShortNames} for:item="pname">
+                                            <span key={pname} class="slds-badge badge-restricted slds-m-right_xx-small slds-m-top_xx-small">{pname}</span>
+                                        </template>
+                                    </div>
+                                </template>
+                            </template>
+                            <template if:false={hasRestricted}>
+                                <p class="slds-text-color_weak comp-empty">None</p>
+                            </template>
+
+                            <div class="section-divider"></div>
+
+                            <!-- Section 2: Unrestricted Shareclasses -->
+                            <div class="comp-section-title">
+                                Unrestricted Shareclasses
+                                <span class="comp-section-sub">(Added automatically)</span>
+                                <lightning-helptext content={unrestrictedHelpText}></lightning-helptext>
+                            </div>
+                            <template if:true={hasUnrestricted}>
+                                <template for:each={composition.unrestricted} for:item="group">
+                                    <div key={group.shareType} class="comp-group">
+                                        <span class="comp-type-label">{group.shareType}</span>
+                                        <span class="comp-dash">&mdash;</span>
+                                        <template if:true={group.isAllFunds}>
+                                            <span class="slds-badge badge-unrestricted slds-m-right_xx-small slds-m-top_xx-small">All Funds</span>
+                                        </template>
+                                        <template if:false={group.isAllFunds}>
+                                            <template for:each={group.productShortNames} for:item="pname">
+                                                <span key={pname} class="slds-badge badge-unrestricted slds-m-right_xx-small slds-m-top_xx-small">{pname}</span>
+                                            </template>
+                                            <template for:each={group.missingShortNames} for:item="pname">
+                                                <span key={pname} class="slds-badge badge-missing slds-m-right_xx-small slds-m-top_xx-small">{pname}</span>
+                                            </template>
+                                        </template>
+                                    </div>
+                                </template>
+                            </template>
+                            <template if:false={hasUnrestricted}>
+                                <p class="slds-text-color_weak comp-empty">None</p>
+                            </template>
+
+                            <div class="section-divider"></div>
+
+                            <!-- Section 3: Funds not included -->
+                            <div class="comp-section-title">Funds not included</div>
+                            <template if:true={hasExcluded}>
+                                <template for:each={composition.excludedFundShortNames} for:item="pname">
+                                    <span key={pname} class="slds-badge badge-excluded slds-m-right_xx-small slds-m-top_xx-small">{pname}</span>
+                                </template>
+                            </template>
+                            <template if:false={hasExcluded}>
+                                <p class="slds-text-color_weak comp-empty">None</p>
+                            </template>
+
+                        </div>
+                    </div>
+
                 </div>
             </template>
         </div>
