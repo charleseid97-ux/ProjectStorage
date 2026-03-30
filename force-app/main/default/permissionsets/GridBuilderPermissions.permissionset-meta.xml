@@ -45,7 +45,19 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>GridDetailTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>GridLifecycleTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>GridSimulationController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>GridSimulationControllerTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -159,6 +171,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>GridCriteria__c.StartDate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>GridDetail__c.EffectivementManagementFees__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

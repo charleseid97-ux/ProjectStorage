@@ -105,6 +105,10 @@ public with sharing class GridValidationController {
             if (cw.shareClassIds == null || cw.shareClassIds.isEmpty()) continue; // skip criteria with no share classes
             cw.criteria.Grid__c = request.grid.Id;
             cw.criteria.Name = 'CRIT-' + request.grid.Name + '-' + criteriaCount++;
+            if (cw.details == null || cw.details.size() <= 1) {
+                cw.criteria.FilterLogic__c = null;
+                cw.criteria.FilterLogicExpression__c = null;
+            }
             criteriaToInsert.add(cw.criteria);
             insertedRefs.add(cw.criteriaRefId);
         }
@@ -148,7 +152,6 @@ public with sharing class GridValidationController {
                     gridDetailsToInsert.add(new GridDetail__c(
                         RecordTypeId = customGridDetailRtId,
                         Grid__c = request.grid.Id,
-                        ShareClass__c = scId,
                         StandardGridDetail__c = stdGridDetailInfoByShareClass.containsKey(scId) ? stdGridDetailInfoByShareClass.get(scId).gridDetailId : null,
                         GridCriteria__c = criteriaRecord.Id,
                         StartDate__c = criteriaStartDate

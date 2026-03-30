@@ -8,7 +8,7 @@
 @IsTest
 private with sharing class GridBuilderControllerTest {
 
-    private static final String GRID_BUILDER_SETTING = 'StandardGridBuilderSetting';
+    private static final String GRID_BUILDER_SETTING = 'CustomGridBuilderSetting';
     private static final String TEST_COUNTRIES = 'FR';
     private static final String TEST_AGREEMENT_NAME = 'AGR-FR';
 

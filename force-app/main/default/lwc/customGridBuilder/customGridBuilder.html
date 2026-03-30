@@ -80,21 +80,33 @@
                 </template>
 
                 <template if:true={showValidationPage}>
-                    <c-grid-validation-page grid-builder-setting-name={gridBuilderSettingName}
-                                            countries-of-distribution={countriesOfDistribution}
-                                            selected-share-classes={selectedShareClasses}
-                                            selected-agreements={selectedAgreements}
-                                            criteria-list={criteriaList}
-                                            grid-request-data={gridRequestData}
-                                            agreement-names={selectedAgreementNames}
-                                            grid-share-class-map={gridShareClassMap}
-                                            existing-grid-id={draftGridId}
-                                            onselectionchange={handleValidationSelectionChange}
-                                            onremoveproduct={handleRemoveProductFromSelection}
-                                            onviewrecap={handleOpenSelectedPanelFromValidation}
-                                            onback={handleBackToBuilder}
-                                            ongridsaved={handleGridSaved}>
-                    </c-grid-validation-page>
+                    <template if:false={showSimulation}>
+                        <c-grid-validation-page grid-builder-setting-name={gridBuilderSettingName}
+                                                countries-of-distribution={countriesOfDistribution}
+                                                selected-share-classes={selectedShareClasses}
+                                                selected-agreements={selectedAgreements}
+                                                criteria-list={criteriaList}
+                                                grid-request-data={gridRequestData}
+                                                agreement-names={selectedAgreementNames}
+                                                grid-share-class-map={gridShareClassMap}
+                                                existing-grid-id={draftGridId}
+                                                onselectionchange={handleValidationSelectionChange}
+                                                onremoveproduct={handleRemoveProductFromSelection}
+                                                onviewrecap={handleOpenSelectedPanelFromValidation}
+                                                onback={handleBackToBuilder}
+                                                ongridsaved={handleGridSaved}
+                                                onsimulationrequested={handleSimulationRequested}>
+                        </c-grid-validation-page>
+                    </template>
+                </template>
+
+                <template if:true={showSimulation}>
+                    <c-grid-simulation
+                        selected-share-classes={selectedShareClasses}
+                        selected-agreements={selectedAgreements}
+                        grid-share-class-map={gridShareClassMap}
+                        onback={handleSimulationBack}>
+                    </c-grid-simulation>
                 </template>
                 <!-- RIGHT COLUMN: Selected products panel -->
                 <c-grid-selection-display-panel columns={selectedResultColumns}

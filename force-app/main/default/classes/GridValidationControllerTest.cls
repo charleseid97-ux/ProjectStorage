@@ -8,7 +8,7 @@
 @IsTest
 private class GridValidationControllerTest {
 
-    private static final String GRID_BUILDER_SETTING = 'StandardGridBuilderSetting';
+    private static final String GRID_BUILDER_SETTING = 'CustomGridBuilderSetting';
     private static final String TEST_COUNTRIES = 'FR';
 
     @TestSetup

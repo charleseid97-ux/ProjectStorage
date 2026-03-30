@@ -5,7 +5,7 @@ import {LABELS, reduceError, showToast, buildShareClassGridIdMap, buildProductGr
     addIsinExclusionsFromRows} from 'c/gridBuilderUtils';
 
 export default class GridValidationPage extends LightningElement {
-    @api gridBuilderSettingName = 'StandardGridBuilderSetting';
+    @api gridBuilderSettingName = 'CustomGridBuilderSetting';
     @api selectedTeam;
     @api selectedShareClasses = [];
     @api selectedAgreements = [];
@@ -488,6 +488,10 @@ export default class GridValidationPage extends LightningElement {
 
     handleBack() {
         this.dispatchEvent(new CustomEvent('back'));
+    }
+
+    handleLaunchSimulation() {
+        this.dispatchEvent(new CustomEvent('simulationrequested'));
     }
 
     handleViewRecap() {

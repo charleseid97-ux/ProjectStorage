@@ -12,7 +12,7 @@
                       type="String"
                       label="Grid Builder Setting Name"
                       description="API name of the GridBuilderSetting__mdt to use for this component."
-                      default="StandardGridBuilderSetting"/>
+                      default="CustomGridBuilderSetting"/>
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>
