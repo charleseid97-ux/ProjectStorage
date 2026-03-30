@@ -288,18 +288,16 @@
                                 </td>
                             </tr>
                         </template>
-                        <!-- Add row trigger -->
-                        <tr class="add-row-trigger">
-                            <td class="td-add-row" onclick={handleAddRow}>+ Add Row</td>
-                            <td colspan="19" class="td-empty"></td>
-                        </tr>
                     </tbody>
 
                     <!-- ── Totals tbody ── -->
                     <tbody class="totals-body">
                         <tr class="totals-row">
                             <!-- SHARECLASS Info -->
-                            <td colspan="5" class="totals-label" title="TOTAL">TOTAL</td>
+                            <td colspan="5" class="totals-label" title="TOTAL">
+                                <button class="add-row-btn" onclick={handleAddRow} title="Add Simulated Row">+</button>
+                                TOTAL
+                            </td>
                             <td class="section-gap"></td>
                             <!-- CURRENT Info -->
                             <td class="td-right td-total" title={totals.curAumFmt}>{totals.curAumFmt}</td>
