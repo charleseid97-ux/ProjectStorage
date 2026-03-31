@@ -82,4 +82,24 @@ export default class StandardGridProductsAndRules extends LightningElement {
     handleToggle() {
         this.isOpen = !this.isOpen;
     }
+
+    handleFundHover(event) {
+        this._applyHighlight(event.detail);
+    }
+
+    handleRightBadgeEnter(event) {
+        this._applyHighlight(event.currentTarget.dataset.fund);
+    }
+
+    handleFundLeave() {
+        this._applyHighlight(null);
+    }
+
+    _applyHighlight(fund) {
+        this.template.querySelectorAll('[data-fund]').forEach(el => {
+            el.classList.remove('badge-fund-highlight');
+            if (fund && el.dataset.fund === fund) el.classList.add('badge-fund-highlight');
+        });
+        this.template.querySelector('c-standard-grid-group-list')?.applyHighlight(fund);
+    }
 }

@@ -22,8 +22,11 @@
             <div>
                 <template for:each={group.products} for:item="product">
                     <span key={product.key}
+                          data-fund={product.value}
                           class="badge-hover slds-badge slds-m-right_xx-small slds-m-top_xx-small"
-                          title={product.tooltip}>
+                          title={product.tooltip}
+                          onmouseenter={handleBadgeEnter}
+                          onmouseleave={handleBadgeLeave}>
                         {product.value}
                     </span>
                 </template>

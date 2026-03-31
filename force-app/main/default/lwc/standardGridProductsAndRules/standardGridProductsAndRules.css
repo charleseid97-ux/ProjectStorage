@@ -85,3 +85,8 @@
     background-color: #F5F5F5;
     color: #616161;
 }
+
+.badge-fund-highlight {
+    outline: 2px solid #0176D3;
+    outline-offset: 1px;
+}

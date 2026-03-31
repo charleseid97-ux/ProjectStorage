@@ -42,7 +42,7 @@
                         </div>
                         <div class="card-body sectionPadding slds-card__body">
                             <template if:true={hasGroups}>
-                                <c-standard-grid-group-list groups={groups}></c-standard-grid-group-list>
+                                <c-standard-grid-group-list groups={groups} onfundhover={handleFundHover}></c-standard-grid-group-list>
                             </template>
                             <template if:false={hasGroups}>
                                 <p class="slds-text-color_weak">{labels.Grid_NoProductsFound}</p>
@@ -76,8 +76,16 @@
                                     <div key={group.shareType} class="comp-group">
                                         <span class="comp-type-label">{group.shareType}</span>
                                         <span class="comp-dash">&mdash;</span>
-                                        <template for:each={group.productShortNames} for:item="pname">
-                                            <span key={pname} class="slds-badge badge-restricted slds-m-right_xx-small slds-m-top_xx-small">{pname}</span>
+                                        <template if:true={group.isAllFunds}>
+                                            <span class="slds-badge badge-unrestricted slds-m-right_xx-small slds-m-top_xx-small">All Funds</span>
+                                        </template>
+                                        <template if:false={group.isAllFunds}>
+                                            <template for:each={group.productShortNames} for:item="pname">
+                                                <span key={pname} data-fund={pname} class="slds-badge badge-unrestricted slds-m-right_xx-small slds-m-top_xx-small" onmouseenter={handleRightBadgeEnter} onmouseleave={handleFundLeave}>{pname}</span>
+                                            </template>
+                                            <template for:each={group.missingShortNames} for:item="pname">
+                                                <span key={pname} data-fund={pname} class="slds-badge badge-missing slds-m-right_xx-small slds-m-top_xx-small" onmouseenter={handleRightBadgeEnter} onmouseleave={handleFundLeave}>{pname}</span>
+                                            </template>
                                         </template>
                                     </div>
                                 </template>
@@ -104,10 +112,10 @@
                                         </template>
                                         <template if:false={group.isAllFunds}>
                                             <template for:each={group.productShortNames} for:item="pname">
-                                                <span key={pname} class="slds-badge badge-unrestricted slds-m-right_xx-small slds-m-top_xx-small">{pname}</span>
+                                                <span key={pname} data-fund={pname} class="slds-badge badge-unrestricted slds-m-right_xx-small slds-m-top_xx-small" onmouseenter={handleRightBadgeEnter} onmouseleave={handleFundLeave}>{pname}</span>
                                             </template>
                                             <template for:each={group.missingShortNames} for:item="pname">
-                                                <span key={pname} class="slds-badge badge-missing slds-m-right_xx-small slds-m-top_xx-small">{pname}</span>
+                                                <span key={pname} data-fund={pname} class="slds-badge badge-missing slds-m-right_xx-small slds-m-top_xx-small" onmouseenter={handleRightBadgeEnter} onmouseleave={handleFundLeave}>{pname}</span>
                                             </template>
                                         </template>
                                     </div>
@@ -123,7 +131,7 @@
                             <div class="comp-section-title">Funds not included</div>
                             <template if:true={hasExcluded}>
                                 <template for:each={composition.excludedFundShortNames} for:item="pname">
-                                    <span key={pname} class="slds-badge badge-excluded slds-m-right_xx-small slds-m-top_xx-small">{pname}</span>
+                                    <span key={pname} data-fund={pname} class="slds-badge badge-excluded slds-m-right_xx-small slds-m-top_xx-small" onmouseenter={handleRightBadgeEnter} onmouseleave={handleFundLeave}>{pname}</span>
                                 </template>
                             </template>
                             <template if:false={hasExcluded}>

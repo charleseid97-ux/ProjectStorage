@@ -82,27 +82,13 @@ public with sharing class StandardGridProductAndRulesController {
 
         ShareClassComposition result = new ShareClassComposition();
         result.defaultShareTypeInclusion = setting.DefaultShareTypeInclusion__c;
-        result.restricted                = toShareTypeGroupList(restrictedMap);
-        result.unrestricted              = toUnrestrictedShareTypeGroupList(unrestrictedMap, inGridShortNames);
+        result.restricted                = toShareTypeGroupList(restrictedMap, inGridShortNames);
+        result.unrestricted              = toShareTypeGroupList(unrestrictedMap, inGridShortNames);
         result.excludedFundShortNames    = excludedFundShortNames;
         return result;
     }
 
-    private static List<ShareTypeGroup> toShareTypeGroupList(Map<String, Set<String>> typeMap) {
-        List<String> sortedTypes = new List<String>(typeMap.keySet());
-        sortedTypes.sort();
-        List<ShareTypeGroup> groups = new List<ShareTypeGroup>();
-        for (String type : sortedTypes) {
-            ShareTypeGroup g = new ShareTypeGroup();
-            g.shareType = type;
-            g.productShortNames = new List<String>(typeMap.get(type));
-            g.productShortNames.sort();
-            groups.add(g);
-        }
-        return groups;
-    }
-
-    private static List<ShareTypeGroup> toUnrestrictedShareTypeGroupList(Map<String, Set<String>> typeMap, Set<String> allShortNames) {
+    private static List<ShareTypeGroup> toShareTypeGroupList(Map<String, Set<String>> typeMap, Set<String> allShortNames) {
         List<String> sortedTypes = new List<String>(typeMap.keySet());
         sortedTypes.sort();
         List<ShareTypeGroup> groups = new List<ShareTypeGroup>();

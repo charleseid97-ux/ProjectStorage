@@ -42,4 +42,21 @@ export default class StandardGridGroupList extends LightningElement {
             };
         });
     }
+
+    handleBadgeEnter(event) {
+        const fund = event.currentTarget.dataset.fund;
+        this.dispatchEvent(new CustomEvent('fundhover', { bubbles: true, composed: true, detail: fund }));
+    }
+
+    handleBadgeLeave() {
+        this.dispatchEvent(new CustomEvent('fundhover', { bubbles: true, composed: true, detail: null }));
+    }
+
+    @api
+    applyHighlight(fund) {
+        this.template.querySelectorAll('[data-fund]').forEach(el => {
+            el.classList.remove('badge-fund-highlight');
+            if (fund && el.dataset.fund === fund) el.classList.add('badge-fund-highlight');
+        });
+    }
 }
