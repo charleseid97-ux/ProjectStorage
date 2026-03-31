@@ -98,6 +98,28 @@ private with sharing class GridExcelImportServiceTest {
     }
 
     @IsTest
+    static void testImportExcludeRule() {
+        Grid__c grid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S1);
+
+        GridExcelImportService.Payload payload = new GridExcelImportService.Payload();
+        payload.scopes = new List<GridExcelImportService.ScopeRow>{ makeScopeRow(2, GridTestSetupHelper.GRID_NAME_S1, AGR1, COUNTRY_FR, GridTestSetupHelper.LEGAL_STATUS_FCP) };
+        // Exclude rule: no RuleValue, no FeesType — only criteria
+        payload.rules = new List<GridExcelImportService.RuleRow>{ makeRuleRow(2, GridTestSetupHelper.GRID_NAME_S1, SCHTYPE_A, '', 'Exclude AW', 'Exclude', null, null, null, null) };
+
+        String payloadJson = JSON.serialize(payload);
+
+        Test.startTest();
+        GridExcelImportService.ImportResult result = GridExcelImportService.importFromJson(payloadJson);
+        Test.stopTest();
+
+        System.assert(result.errors == null || result.errors.isEmpty(), 'Expected no errors, got: ' + result.errors);
+        System.assert(result.gridRulesCreated >= 1, 'Expected at least 1 GridRule created');
+
+        List<GridRule__c> excludeRules = [SELECT Id, RuleToApply__c FROM GridRule__c WHERE Grid__c = :grid.Id AND RuleToApply__c = 'Exclude'];
+        System.assert(!excludeRules.isEmpty(), 'Expected a GridRule__c with RuleToApply__c = Exclude');
+    }
+
+    @IsTest
     static void testExpressionParser_EdgeCases() {
         Test.startTest();
 

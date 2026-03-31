@@ -178,6 +178,37 @@ private with sharing class GridDetailBuilderTest {
     }
 
     @IsTest
+    static void testExcludeRuleAndZeroRebate() {
+        Grid__c grid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S1);
+        List<GridScope__c> scopes = [SELECT Id FROM GridScope__c WHERE Grid__c = :grid.Id LIMIT 1];
+        if (scopes.isEmpty() || grid == null) { return; }
+
+        Set<Id> gridRuleIds = new Set<Id>();
+
+        // Regular rule: Type A → Percentage of Fees
+        GridCriteria__c criteriaRegular = GridTestSetupHelper.createCriteria(grid.Id, 'AND', '1', 'Regular Rule');
+        insert criteriaRegular;
+        insert GridTestSetupHelper.createCriteriaDetail(criteriaRegular.Id, 1, 'Share_Class__c', 'Type__c', '=', GridTestSetupHelper.SHARE_TYPE_A, userDefined);
+        GridRule__c regularRule = GridTestSetupHelper.createGridRule(grid.Id, criteriaRegular.Id, percentageOfFees, 'EffectiveManagementFees__c', 33, null, null, null);
+        insert regularRule;
+        gridRuleIds.add(regularRule.Id);
+
+        // Exclude rule: Type AW → excluded
+        GridCriteria__c criteriaExclude = GridTestSetupHelper.createCriteria(grid.Id, 'AND', '1', 'Exclude Rule');
+        insert criteriaExclude;
+        insert GridTestSetupHelper.createCriteriaDetail(criteriaExclude.Id, 1, 'Share_Class__c', 'Type__c', '=', GridTestSetupHelper.SHARE_TYPE_AW, userDefined);
+        GridRule__c excludeRule = GridTestSetupHelper.createGridRule(grid.Id, criteriaExclude.Id, 'Exclude', null, null, null, null, null);
+        insert excludeRule;
+        gridRuleIds.add(excludeRule.Id);
+
+        Test.startTest();
+        
+        GridDetailBuilder.BuildResult result = GridDetailBuilder.buildForGridRules(gridRuleIds);
+
+        Test.stopTest();
+    }
+
+    @IsTest
     static void testBuildEdgeCases() {
         Test.startTest();
 

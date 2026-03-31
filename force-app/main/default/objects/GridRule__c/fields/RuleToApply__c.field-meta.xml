@@ -30,6 +30,11 @@
                 <default>false</default>
                 <label>Take Rebates Rate - Other Grid Rule</label>
             </value>
+            <value>
+                <fullName>Exclude</fullName>
+                <default>false</default>
+                <label>Exclude</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

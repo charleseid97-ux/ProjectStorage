@@ -16,6 +16,7 @@ public with sharing class GridDetailBuilder {
     private static final String RULE_OTHER_SHARE = 'Take Rebates Rate - Other Share Type';
     private static final String RULE_OTHER_SHARE_FEES = 'Take Rebates Rate - Other Share Type + Fees';
     private static final String RULE_OTHER_GRID = 'Take Rebates Rate - Other Grid Rule';
+    private static final String RULE_EXCLUDE = 'Exclude';
 
     private static final String TYPE_FIELD_PATH = 'Type__c';
     private static final Set<String> SUPPORTED_OBJECTS = new Set<String>{ 'Share_Class__c', 'Product__c', 'Strategy__c' };
@@ -160,22 +161,56 @@ public with sharing class GridDetailBuilder {
 
     private static AssignmentBuildResult buildAssignments(List<GridRuleContext> contexts, ShareClassData shareData, BuildResult result) {
         AssignmentBuildResult assignmentBuild = new AssignmentBuildResult();
+        Map<Id, Set<Id>> excludedByGrid = new Map<Id, Set<Id>>();
+        Set<Id> gridIds = new Set<Id>();
 
+        // Single pass in rule order: build assignments, collect excluded shares (Exclude always last)
         for (GridRuleContext ctx : contexts) {
-            if (ctx.hasErrors) { continue; }
-
+            if (ctx.gridId != null) gridIds.add(ctx.gridId);
+            if (ctx.hasErrors) continue;
             Set<Id> matches = evaluateCriteria(ctx, shareData.indexByField, shareData.allShareClassIds, result);
-            if (ctx.hasErrors || matches.isEmpty()) { continue; }
-
+            if (ctx.hasErrors || matches.isEmpty()) continue;
+            if (ctx.gridRule.RuleToApply__c == RULE_EXCLUDE) {
+                if (!excludedByGrid.containsKey(ctx.gridId)){
+                    excludedByGrid.put(ctx.gridId, new Set<Id>());
+                }
+                excludedByGrid.get(ctx.gridId).addAll(matches);
+                continue;
+            }
             matches = filterByShareTypeIfNeeded(ctx, matches, shareData.shareClassById);
             for (Id shareId : matches) {
                 String gridShareKey = buildGridShareKey(ctx.gridId, shareId);
-                if (assignmentBuild.assignmentByGridShareKey.containsKey(gridShareKey)) {
-                    continue;
-                }
+                if (assignmentBuild.assignmentByGridShareKey.containsKey(gridShareKey)) continue;
                 RuleAssignment assignment = new RuleAssignment(ctx, shareId);
                 assignmentBuild.assignmentByGridShareKey.put(gridShareKey, assignment);
                 assignmentBuild.assignments.add(assignment);
+            }
+        }
+
+        // Remove any assignments that were excluded (safety net for out-of-order edge cases)
+        if (!excludedByGrid.isEmpty()) {
+            for (Id gridId : excludedByGrid.keySet()) {
+                for (Id shareId : excludedByGrid.get(gridId)) {
+                    assignmentBuild.assignmentByGridShareKey.remove(buildGridShareKey(gridId, shareId));
+                }
+            }
+            List<RuleAssignment> filtered = new List<RuleAssignment>();
+            for (RuleAssignment a : assignmentBuild.assignments) {
+                if (assignmentBuild.assignmentByGridShareKey.containsKey(a.gridShareKey)) filtered.add(a);
+            }
+            assignmentBuild.assignments = filtered;
+        }
+
+        // Zero-rebate assignments for unmatched (non-excluded) share classes
+        for (Id gridId : gridIds) {
+            Set<Id> excluded = excludedByGrid.get(gridId);
+            for (Id shareId : shareData.allShareClassIds) {
+                if (excluded != null && excluded.contains(shareId)) continue;
+                String gridShareKey = buildGridShareKey(gridId, shareId);
+                if (assignmentBuild.assignmentByGridShareKey.containsKey(gridShareKey)) continue;
+                RuleAssignment zeroRebate = new RuleAssignment(gridId, shareId);
+                assignmentBuild.assignmentByGridShareKey.put(gridShareKey, zeroRebate);
+                assignmentBuild.assignments.add(zeroRebate);
             }
         }
 
@@ -217,6 +252,11 @@ public with sharing class GridDetailBuilder {
             if (assignment.hasError || rebatesByGridShareKey.containsKey(assignment.gridShareKey)) {
                 continue;
             }
+            if (assignment.context == null) {
+                rebatesByGridShareKey.put(assignment.gridShareKey, 0);
+                computedInPass++;
+                continue;
+            }
             Decimal rebate = computeRebate(assignment, assignmentBuild.assignmentByGridShareKey, rebatesByGridShareKey, existingRebates, shareTypeLookupCache, shareData.shareClasses, shareData.shareClassById, gridIdByName, result);
             if (assignment.hasError) {
                 continue;
@@ -254,11 +294,21 @@ public with sharing class GridDetailBuilder {
         // Build existing-key map: gridId_-_ruleId_-_shareClassId → existing GridDetail Id
         Map<String, Id> existingByKey = new Map<String, Id>();
         if (!ruleIds.isEmpty()) {
-            for (GridDetail__c existing : [SELECT Id, Grid__c, GridRule__c, ShareClass__c
-                                           FROM GridDetail__c
-                                           WHERE GridRule__c IN :ruleIds]) {
-                String key = existing.Grid__c + '_-_' + existing.GridRule__c + '_-_' + existing.ShareClass__c;
-                existingByKey.put(key, existing.Id);
+            for (GridDetail__c existing : [SELECT Id, Grid__c, GridRule__c, ShareClass__c FROM GridDetail__c WHERE GridRule__c IN :ruleIds]) {
+                existingByKey.put(existing.Grid__c + '_-_' + existing.GridRule__c + '_-_' + existing.ShareClass__c, existing.Id);
+            }
+        }
+        Set<Id> zeroRebateGridIds = new Set<Id>();
+        Set<Id> zeroRebateShareIds = new Set<Id>();
+        for (RuleAssignment a : assignments) {
+            if (!a.hasError && a.gridRuleId == null && a.rebate != null) {
+                zeroRebateGridIds.add(a.gridId);
+                zeroRebateShareIds.add(a.shareClassId);
+            }
+        }
+        if (!zeroRebateGridIds.isEmpty()) {
+            for (GridDetail__c existing : [SELECT Id, Grid__c, GridRule__c, ShareClass__c FROM GridDetail__c WHERE GridRule__c = null AND Grid__c IN :zeroRebateGridIds AND ShareClass__c IN :zeroRebateShareIds]) {
+                existingByKey.put(existing.Grid__c + '_-_null_-_' + existing.ShareClass__c, existing.Id);
             }
         }
 
@@ -281,7 +331,7 @@ public with sharing class GridDetailBuilder {
             detail.EndDate__c      = DEFAULT_END_DATE;
 
             // Attach existing Id if found → triggers update in upsert
-            String key = assignment.gridId + '_-_' + assignment.gridRuleId + '_-_' + assignment.shareClassId;
+            String key = assignment.gridId + '_-_' + (assignment.gridRuleId != null ? String.valueOf(assignment.gridRuleId) : 'null') + '_-_' + assignment.shareClassId;
             Id existingId = existingByKey.get(key);
             if (existingId != null) {
                 detail.Id = existingId;
@@ -656,6 +706,7 @@ public with sharing class GridDetailBuilder {
 
     private static void collectOtherGridNamesAndShares(List<RuleAssignment> assignments, LoadExistingContext ctx) {
         for (RuleAssignment assignment : assignments) {
+            if (assignment.context == null) continue;
             GridRule__c line = assignment.context.gridRule;
             if (line.RuleToApply__c == RULE_OTHER_GRID && String.isNotBlank(line.OtherGridRule__c)) {
                 ctx.otherGridNames.add(line.OtherGridRule__c);
@@ -907,6 +958,16 @@ public with sharing class GridDetailBuilder {
             this.gridRuleId = context.gridRule.Id;
             this.criteriaId = context.gridRule.GridCriteria__c;
             this.gridShareKey = buildGridShareKey(context.gridId, shareClassId);
+        }
+
+        public RuleAssignment(Id gridId, Id shareClassId) {
+            this.context = null;
+            this.shareClassId = shareClassId;
+            this.gridId = gridId;
+            this.gridRuleId = null;
+            this.criteriaId = null;
+            this.rebate = 0;
+            this.gridShareKey = buildGridShareKey(gridId, shareClassId);
         }
     }
 
