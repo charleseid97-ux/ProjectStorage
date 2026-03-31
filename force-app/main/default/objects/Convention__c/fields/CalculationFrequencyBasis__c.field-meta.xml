@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CalculationFrequencyBasis__c</fullName>
+    <externalId>false</externalId>
+    <description>Defines the AUM basis used in the fee calculation formula, as specified in the agreement. Determines whether month-end or daily average AUM figures are used.</description>
+    <inlineHelpText>Agreement formula basis: either Month-end AUM or Daily AUM.</inlineHelpText>
+    <label>Calculation Frequency Basis</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value><fullName>Liabilities - end of period and preceding end of period average</fullName><default>false</default><label>Liabilities - end of period and preceding end of period average</label></value>
+            <value><fullName>Liabilities - daily average</fullName><default>false</default><label>Liabilities - daily average</label></value>
+            <value><fullName>Certified holdings - end of period and preceding end of period average</fullName><default>false</default><label>Certified holdings - end of period and preceding end of period average</label></value>
+            <value><fullName>Commitments - end of period and preceding end of period average</fullName><default>false</default><label>Commitments - end of period and preceding end of period average</label></value>
+            <value><fullName>Certified holdings - daily average</fullName><default>false</default><label>Certified holdings - daily average</label></value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

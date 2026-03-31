@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RelatedAgreement__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Self-lookup linking this agreement to its Adjuto distributor code record. All related remuneration agreements (Rebates, IX, Platform, DEDS) must reference the same code.</description>
+    <inlineHelpText>The distributor code this agreement is linked to in Adjuto (e.g., L198_IT114). Use the same code for all related remunerations: Rebates, IX, Platform, DEDS.</inlineHelpText>
+    <label>Adjuto Distributor Code</label>
+    <referenceTo>Convention__c</referenceTo>
+    <relationshipLabel>Related Agreements</relationshipLabel>
+    <relationshipName>RelatedAgreements</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

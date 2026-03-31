@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ThresholdMode__c</fullName>
+    <externalId>false</externalId>
+    <description>Determines the AUM threshold calculation method for this grid. Tiers applies a single flat rate per AUM bracket (default). Scale blends rates across multiple brackets and requires Head of DCO approval.</description>
+    <inlineHelpText>Defines how rates are applied based on client AUM. Tiers: a single rate applies per AUM bracket (most common). Scale: multiple rates apply across AUM tiers — requires Head of DCO approval.</inlineHelpText>
+    <label>Threshold Mode</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value><fullName>Tiers</fullName><default>true</default><label>Tiers</label></value>
+            <value><fullName>Scale</fullName><default>false</default><label>Scale</label></value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
