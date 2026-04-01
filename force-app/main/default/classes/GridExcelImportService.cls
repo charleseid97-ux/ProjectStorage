@@ -16,6 +16,7 @@ public with sharing class GridExcelImportService {
     private static final String TAKE_REBATES_RATE_OTHER_SHARE_TYPE = 'Take Rebates Rate - Other Share Type';
     private static final String TAKE_REBATES_RATE_OTHER_SHARE_TYPE_FEES = 'Take Rebates Rate - Other Share Type + Fees';
     private static final String TAKE_REBATES_RATE_OTHER_GRID_RULE = 'Take Rebates Rate - Other Grid Rule';
+    private static final String EXCLUDE = 'Exclude';
 
     private static final Map<String, String> RULE_TO_APPLY_MAP = new Map<String, String>{
         'percentage of fees' => PERCENTAGE_OF_FEES,
@@ -26,7 +27,8 @@ public with sharing class GridExcelImportService {
         'rebatesa + fees(e-a)' => TAKE_REBATES_RATE_OTHER_SHARE_TYPE_FEES,
         'rebatesaw + fees(e-aw)' => TAKE_REBATES_RATE_OTHER_SHARE_TYPE_FEES,
         'take rebates rate - other grid rule' => TAKE_REBATES_RATE_OTHER_GRID_RULE,
-        'gridrule' => TAKE_REBATES_RATE_OTHER_GRID_RULE
+        'gridrule' => TAKE_REBATES_RATE_OTHER_GRID_RULE,
+        'exclude' => EXCLUDE
     };
 
     private static final Map<String, String> FEES_TYPE_MAP = new Map<String, String>{
@@ -606,6 +608,9 @@ public with sharing class GridExcelImportService {
                 ctx.otherGridRule = ruleValue;
                 ctx.percentageOfFees = null;
                 ctx.otherShareType = null;
+                return null;
+            }
+            when 'Exclude' {
                 return null;
             }
             when else {

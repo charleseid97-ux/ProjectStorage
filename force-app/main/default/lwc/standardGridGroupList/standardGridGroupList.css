@@ -40,3 +40,8 @@
     background-color: var(--lwc-brandAccessibleActive, rgba(47, 75, 45, 1));
     color: white;
 }
+
+.badge-fund-highlight {
+    outline: 2px solid #0176D3;
+    outline-offset: 1px;
+}

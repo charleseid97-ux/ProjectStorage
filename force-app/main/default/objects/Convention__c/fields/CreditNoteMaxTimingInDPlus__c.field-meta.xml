@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CreditNoteMaxTimingInDPlus__c</fullName>
+    <externalId>false</externalId>
+    <description>Maximum delay after period-end by which the credit note must be issued, as defined in the contract. Format: number followed by D (calendar days) or BD (business days), e.g. 30D or 10BD.</description>
+    <inlineHelpText>Enter the number of days from the contract, followed by &quot;D&quot; for calendar days or &quot;BD&quot; for business days (e.g. 30D, 10BD).</inlineHelpText>
+    <label>Credit Note Max Timing (in D+)</label>
+    <length>255</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

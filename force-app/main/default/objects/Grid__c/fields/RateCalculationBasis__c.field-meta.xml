@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RateCalculationBasis__c</fullName>
+    <externalId>false</externalId>
+    <description>Defines whether rebate rates are calculated at the Agreement or Product level. Agreement is the standard; switching to Product requires Head of DCO approval.</description>
+    <inlineHelpText>Almost always Agreement. Do not change to Product without prior Head of DCO approval.</inlineHelpText>
+    <label>Rate Calculation Basis</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value><fullName>Agreement</fullName><default>true</default><label>Agreement</label></value>
+            <value><fullName>Product</fullName><default>false</default><label>Product</label></value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
