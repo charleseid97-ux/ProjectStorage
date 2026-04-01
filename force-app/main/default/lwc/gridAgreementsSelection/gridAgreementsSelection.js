@@ -75,6 +75,7 @@ export default class GridAgreementsSelection extends LightningElement {
 
     @api
     set existingGridKind(val) {
+        this._existingGridKind = val;
         // Only apply on first load (gridData handles back-navigation)
         if (val && !this.agKind) {
             this.agKind = val;

@@ -760,18 +760,18 @@
         <value>Row errors</value>
     </labels>
     <labels>
+        <fullName>Grid_SaveGrid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Button label to save Grid</shortDescription>
+        <value>Save Grid</value>
+    </labels>
+    <labels>
         <fullName>Grid_Saved_Success</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Message shown after saving a grid; use {0} as placeholder for the grid name</shortDescription>
         <value>Grid &quot;{0}&quot; saved successfully.</value>
-    </labels>
-    <labels>
-        <fullName>Grid_GridsUpserted</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Result label for import</shortDescription>
-        <value>Grids upserted</value>
     </labels>
     <labels>
         <fullName>Grid_ScopesUpserted</fullName>
