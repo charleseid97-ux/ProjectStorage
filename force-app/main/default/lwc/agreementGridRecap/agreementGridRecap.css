@@ -14,6 +14,58 @@
     margin-bottom: 0;
 }
 
+.col-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    position: relative;
+}
+
+.col-left {
+    width: 50%;
+    flex-shrink: 0;
+    min-width: 0;
+}
+
+.col-right {
+    flex: 1;
+    min-width: 0;
+}
+
+.col-resizer {
+    width: 8px;
+    flex-shrink: 0;
+    cursor: col-resize;
+    position: relative;
+    z-index: 10;
+    align-self: stretch;
+    padding: 0 10px;
+    opacity: 50%;
+}
+
+.col-resizer::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    background: rgba(200, 200, 200, 0.35);
+    border-radius: 1px;
+    transition: background 0.15s;
+}
+
+.col-resizer:hover::after {
+    background: #0176D3;
+}
+
+.col-resize-overlay {
+    position: fixed;
+    inset: 0;
+    cursor: col-resize;
+    z-index: 9999;
+}
+
 .card-body {
     margin-top: 0;
     border: solid;

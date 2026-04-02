@@ -20,6 +20,16 @@ export default class AgreementGridRecap extends LightningElement {
     error = null;
     isLoading = true;
     isOpen = true; // section starts expanded (like native SF)
+    _leftPct = 50;
+    _dragging = false;
+
+    get leftColStyle() {
+        return `width: ${this._leftPct}%; flex-shrink: 0;`;
+    }
+
+    get overlayStyle() {
+        return this._dragging ? 'display: block;' : 'display: none;';
+    }
 
     @wire(getRecap, { agreementId: '$recordId' })
     wiredRecap({ data, error }) {
@@ -36,6 +46,28 @@ export default class AgreementGridRecap extends LightningElement {
 
     handleToggle() {
         this.isOpen = !this.isOpen;
+    }
+
+    handleResizerMouseDown(event) {
+        event.preventDefault();
+        this._dragging = true;
+        const container = this.template.querySelector('.col-container');
+        const containerRect = container.getBoundingClientRect();
+
+        const onMouseMove = (e) => {
+            const pct = ((e.clientX - containerRect.left) / containerRect.width) * 100;
+            this._leftPct = Math.min(80, Math.max(20, pct));
+            this.template.querySelector('.col-left').style.width = `${this._leftPct}%`;
+        };
+
+        const onMouseUp = () => {
+            this._dragging = false;
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseup', onMouseUp);
+        };
+
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
     }
 
     // aria-hidden must be a string ('true'/'false')

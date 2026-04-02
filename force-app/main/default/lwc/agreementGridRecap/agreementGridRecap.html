@@ -25,10 +25,10 @@
                 </lightning-spinner>
             </template>
             <template if:false={isLoading}>
-                <div class="slds-grid slds-wrap slds-gutters_small">
+                <div class="col-container">
 
                     <!-- ── Column 1: Current Grid Recap ── -->
-                    <div class="slds-col slds-size_1-of-2">
+                    <div class="col-left" style={leftColStyle}>
                         <div class="slds-card">
                             <div class="card-header slds-card__header slds-grid">
                                 <header class="slds-media slds-media_center slds-has-flexi-truncate">
@@ -78,8 +78,11 @@
                         </div>
                     </div>
 
+                    <!-- ── Resizer ── -->
+                    <div class="col-resizer" onmousedown={handleResizerMouseDown}></div>
+
                     <!-- ── Column 2: Grid Timeline ── -->
-                    <div class="slds-col slds-size_1-of-2">
+                    <div class="col-right">
                         <div class="slds-card">
                             <div class="card-header slds-card__header slds-grid">
                                 <header class="slds-media slds-media_center slds-has-flexi-truncate">
@@ -113,6 +116,7 @@
 
                 </div>
             </template>
+            <div class="col-resize-overlay" style={overlayStyle}></div>
         </div>
     </div>
 </template>

@@ -24,10 +24,10 @@
                 <lightning-spinner alternative-text={labels.UI_Loading} size="small"></lightning-spinner>
             </template>
             <template if:false={isAnyLoading}>
-                <div class="slds-grid slds-wrap slds-gutters_small">
+                <div class="col-container">
 
                     <!-- ── Column 1: Standard Grid Rules ── -->
-                    <div class="slds-col slds-size_1-of-2">
+                    <div class="col-left" style={leftColStyle}>
                         <div class="card-header slds-card__header slds-grid">
                             <header class="slds-media slds-media_center slds-has-flexi-truncate">
                                 <div class="slds-media__figure">
@@ -50,8 +50,11 @@
                         </div>
                     </div>
 
+                    <!-- ── Resizer ── -->
+                    <div class="col-resizer" onmousedown={handleResizerMouseDown}></div>
+
                     <!-- ── Column 2: Share Class Overview ── -->
-                    <div class="slds-col slds-size_1-of-2">
+                    <div class="col-right">
                         <div class="card-header slds-card__header slds-grid">
                             <header class="slds-media slds-media_center slds-has-flexi-truncate">
                                 <div class="slds-media__figure">
@@ -76,16 +79,8 @@
                                     <div key={group.shareType} class="comp-group">
                                         <span class="comp-type-label">{group.shareType}</span>
                                         <span class="comp-dash">&mdash;</span>
-                                        <template if:true={group.isAllFunds}>
-                                            <span class="slds-badge badge-unrestricted slds-m-right_xx-small slds-m-top_xx-small">All Funds</span>
-                                        </template>
-                                        <template if:false={group.isAllFunds}>
-                                            <template for:each={group.productShortNames} for:item="pname">
-                                                <span key={pname} data-fund={pname} class="slds-badge badge-unrestricted slds-m-right_xx-small slds-m-top_xx-small" onmouseenter={handleRightBadgeEnter} onmouseleave={handleFundLeave}>{pname}</span>
-                                            </template>
-                                            <template for:each={group.missingShortNames} for:item="pname">
-                                                <span key={pname} data-fund={pname} class="slds-badge badge-missing slds-m-right_xx-small slds-m-top_xx-small" onmouseenter={handleRightBadgeEnter} onmouseleave={handleFundLeave}>{pname}</span>
-                                            </template>
+                                        <template for:each={group.productShortNames} for:item="pname">
+                                            <span key={pname} data-fund={pname} class="slds-badge badge-unrestricted slds-m-right_xx-small slds-m-top_xx-small" onmouseenter={handleRightBadgeEnter} onmouseleave={handleFundLeave}>{pname}</span>
                                         </template>
                                     </div>
                                 </template>
@@ -143,6 +138,7 @@
 
                 </div>
             </template>
+            <div class="col-resize-overlay" style={overlayStyle}></div>
         </div>
     </div>
 </template>
