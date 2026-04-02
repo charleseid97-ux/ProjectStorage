@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MaxTableRows__c</fullName>
+    <description>Maximum number of changed rows to display as an inline HTML table in the alert email. If the number of changes exceeds this value, the data is sent as a CSV file attachment instead. Set to 0 to always send changes as a CSV attachment, regardless of the number of rows.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Maximum rows shown as an inline table in the email. If changes exceed this number, a CSV attachment is sent instead. Set to 0 to always use a CSV attachment (never inline table). Max allowed value: 999.</inlineHelpText>
+    <label>Max Table Rows</label>
+    <precision>3</precision>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

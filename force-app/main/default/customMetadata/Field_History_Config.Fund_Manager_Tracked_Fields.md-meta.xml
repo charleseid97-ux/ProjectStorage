@@ -3,7 +3,23 @@
     <label>Fund Manager Tracked Fields</label>
     <protected>false</protected>
     <values>
+        <field>AlertEmailTemplate__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>AlertRecipients__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ContextFields__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>ExcludedFields__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>MaxTableRows__c</field>
         <value xsi:nil="true"/>
     </values>
     <values>
@@ -11,7 +27,13 @@
         <value xsi:type="xsd:string">FundManager__c</value>
     </values>
     <values>
+        <field>SendAlert__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
         <field>Tracked_Fields__c</field>
-        <value xsi:type="xsd:string">Product__c;StartDate__c;EndDate__c</value>
+        <value xsi:type="xsd:string">Product__c
+StartDate__c
+EndDate__c</value>
     </values>
 </CustomMetadata>

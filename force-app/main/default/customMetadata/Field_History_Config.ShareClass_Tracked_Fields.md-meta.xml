@@ -3,15 +3,67 @@
     <label>ShareClass Tracked Fields</label>
     <protected>false</protected>
     <values>
+        <field>AlertEmailTemplate__c</field>
+        <value xsi:type="xsd:string">FieldHistory_TrackedFieldsChange</value>
+    </values>
+    <values>
+        <field>AlertRecipients__c</field>
+        <value xsi:type="xsd:string">ceid1@carmignac.com</value>
+    </values>
+    <values>
+        <field>ContextFields__c</field>
+        <value xsi:type="xsd:string">Name
+ISIN__c</value>
+    </values>
+    <values>
         <field>ExcludedFields__c</field>
-        <value xsi:type="xsd:string">Date_YTD_Net_Flows__c;YTD_Net_Flows__c;Last_AUM_Available__c</value>
+        <value xsi:type="xsd:string">Date_YTD_Net_Flows__c
+YTD_Net_Flows__c
+Last_AUM_Available__c</value>
+    </values>
+    <values>
+        <field>MaxTableRows__c</field>
+        <value xsi:type="xsd:double">50.0</value>
     </values>
     <values>
         <field>Object_API_Name__c</field>
         <value xsi:type="xsd:string">Share_Class__c</value>
     </values>
     <values>
+        <field>SendAlert__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
         <field>Tracked_Fields__c</field>
-        <value xsi:type="xsd:string">Name__c;MaxManagementFees__c;EffectiveManagementFees__c;MaxServiceFees__c;EffectiveServiceFees__c;EffectivePerfFees__c;Clawback__c;SRI__c;ActualManagementFees__c;SRRI__c;TransactionCosts__c;TransactionCostsExpost__c;MaxIndirectFees__c;TargetDistributionRate;MaxRedemptionFeesSubfund__c;HasPerfFees__c;IsPayingTrailerFees__c;MaxConversionFee__c;MaxPerfFees__c;MaxRedemptionFee__c;MaxSubscriptionFee__c;OngoingCostsExpost__c;PerfFeesCrystallisationFreq__c;PerfFeesRefPeriod__c;PerformanceFeeMethod__c;OngoingCostsExante__c;PerfFeesCrystallisationDate__c</value>
+        <value xsi:type="xsd:string">Name__c
+MaxManagementFees__c
+EffectiveManagementFees__c
+MaxServiceFees__c
+EffectiveServiceFees__c
+EffectivePerfFees__c
+Clawback__c
+SRI__c
+ActualManagementFees__c
+SRRI__c
+TransactionCosts__c
+TransactionCostsExpost__c
+MaxIndirectFees__c
+TargetDistributionRate
+MaxRedemptionFeesSubfund__c
+HasPerfFees__c
+IsPayingTrailerFees__c
+MaxConversionFee__c
+MaxPerfFees__c
+MaxRedemptionFee__c
+MaxSubscriptionFee__c
+OngoingCostsExpost__c
+PerfFeesCrystallisationFreq__c
+PerfFeesRefPeriod__c
+PerformanceFeeMethod__c
+OngoingCostsExante__c
+PerfFeesCrystallisationDate__c
+InvestorSubType__c
+MaxRedemptionFeesManCo__c
+PRIIPSKIDRedemptionFee__c</value>
     </values>
 </CustomMetadata>

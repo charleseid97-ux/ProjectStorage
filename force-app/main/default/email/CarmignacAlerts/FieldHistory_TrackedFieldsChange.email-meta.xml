@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Email template for tracked field change alerts. Use {_Changes_Table_} to inject the HTML changes table, and {_Record_Number_} to show the number of affected records.</description>
+    <encodingKey>UTF-8</encodingKey>
+    <letterhead>Carmignac</letterhead>
+    <name>FieldHistory TrackedFields Change</name>
+    <style>freeForm</style>
+    <subject>Tracked Field Changes Alert</subject>
+    <textOnly>Tracked field changes have been recorded for {_Record_Number_} record(s). Please view this email in HTML format to see the changes table.</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

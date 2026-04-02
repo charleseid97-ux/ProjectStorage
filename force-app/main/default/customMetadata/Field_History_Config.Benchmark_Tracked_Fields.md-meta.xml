@@ -3,12 +3,32 @@
     <label>Benchmark Tracked Fields</label>
     <protected>false</protected>
     <values>
+        <field>AlertEmailTemplate__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>AlertRecipients__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ContextFields__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>ExcludedFields__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>MaxTableRows__c</field>
         <value xsi:nil="true"/>
     </values>
     <values>
         <field>Object_API_Name__c</field>
         <value xsi:type="xsd:string">Benchmark__c</value>
+    </values>
+    <values>
+        <field>SendAlert__c</field>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Tracked_Fields__c</field>
