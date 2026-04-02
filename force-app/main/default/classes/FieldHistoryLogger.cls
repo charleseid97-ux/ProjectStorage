@@ -65,7 +65,7 @@ public without sharing class FieldHistoryLogger {
         if (!logsToUpdate.isEmpty()) update logsToUpdate;
         if (!logsToInsert.isEmpty()) insert logsToInsert;
 
-        if (config.SendAlert__c && String.isNotBlank(config.AlertRecipients__c) && String.isNotBlank(config.AlertEmailTemplate__c) && !logsToInsert.isEmpty()) {
+        if (config.SendAlert__c && String.isNotBlank(config.AlertRecipients__c) && !logsToInsert.isEmpty()) {
             sendFieldChangeAlert(config, objectApiName, logsToInsert, fieldMap);
         }
     }
@@ -174,60 +174,20 @@ public without sharing class FieldHistoryLogger {
         throw new IllegalArgumentException('FieldHistoryLogger: no lookup field registered for object: ' + objectApiName);
     }
 
-    // Sends alert emails per-field-recipient mapping defined as JSON in AlertRecipients__c
+    // Sends an alert email with a table or CSV of field changes based on the metadata config
     private static void sendFieldChangeAlert(Field_History_Config__mdt config, String objectApiName, List<Fund_Field_ApplicabilityHistory__c> changedLogs, Map<String, Schema.SObjectField> fieldMap) {
+        List<String> recipients = splitLines(config.AlertRecipients__c);
+        if (recipients.isEmpty() || String.isBlank(config.AlertEmailTemplate__c)) return;
 
-        // Parse JSON field → recipients map (keys lowercased for case-insensitive matching)
-        Map<String, List<String>> fieldRecipientsMap;
-        try {
-            Map<String, Object> raw = (Map<String, Object>) JSON.deserializeUntyped(config.AlertRecipients__c);
-            fieldRecipientsMap = new Map<String, List<String>>();
-            for (String key : raw.keySet()) {
-                List<String> emails = new List<String>();
-                for (Object o : (List<Object>) raw.get(key)) emails.add((String) o);
-                fieldRecipientsMap.put(key.toLowerCase(), emails);
-            }
-        } catch (Exception e) {
-            System.debug(LoggingLevel.ERROR, 'FieldHistoryLogger: invalid AlertRecipients__c JSON — ' + e.getMessage());
-            return;
-        }
-        if (fieldRecipientsMap.isEmpty()) return;
-
-        List<EmailTemplate> templates = [SELECT Subject, HtmlValue FROM EmailTemplate WHERE DeveloperName = :config.AlertEmailTemplate__c LIMIT 1]; // Load the email template by developer name
+        List<EmailTemplate> templates = [SELECT Subject, HtmlValue FROM EmailTemplate WHERE DeveloperName = :config.AlertEmailTemplate__c LIMIT 1];
         if (templates.isEmpty()) return;
         EmailTemplate tmpl = templates[0];
 
-        List<String> wildcardRecipients = fieldRecipientsMap.containsKey('*') ? fieldRecipientsMap.get('*') : new List<String>(); // Wildcard recipients are always added regardless of which field changed
-
-        // Single pass: build recipient → relevant logs map and collect all distinct record IDs
-        Map<String, List<Fund_Field_ApplicabilityHistory__c>> recipientLogsMap = new Map<String, List<Fund_Field_ApplicabilityHistory__c>>();
-        Set<Id> allDistinctRecords = new Set<Id>();
+        Set<Id> distinctRecords = new Set<Id>();
         for (Fund_Field_ApplicabilityHistory__c l : changedLogs) {
-            allDistinctRecords.add(getRefId(l, objectApiName));
-            Set<String> targets = new Set<String>(wildcardRecipients);
-            if (fieldRecipientsMap.containsKey(l.FieldAPIName__c.toLowerCase())) {
-                targets.addAll(fieldRecipientsMap.get(l.FieldAPIName__c.toLowerCase()));
-            }
-            for (String email : targets) {
-                if (!recipientLogsMap.containsKey(email)) recipientLogsMap.put(email, new List<Fund_Field_ApplicabilityHistory__c>());
-                recipientLogsMap.get(email).add(l);
-            }
-        }
-        if (recipientLogsMap.isEmpty()) return;
-
-        // Group recipients by log signature — identical subscriptions share one email (setToAddresses)
-        Map<String, List<Fund_Field_ApplicabilityHistory__c>> groupLogs = new Map<String, List<Fund_Field_ApplicabilityHistory__c>>();
-        Map<String, List<String>> groupRecipients = new Map<String, List<String>>();
-        for (String email : recipientLogsMap.keySet()) {
-            String sig = buildLogsSignature(recipientLogsMap.get(email));
-            if (!groupLogs.containsKey(sig)) {
-                groupLogs.put(sig, recipientLogsMap.get(email));
-                groupRecipients.put(sig, new List<String>());
-            }
-            groupRecipients.get(sig).add(email);
+            distinctRecords.add(getRefId(l, objectApiName));
         }
 
-        // Build context fields map and fetch their values once, shared across all groups
         Map<String, String> contextFields = new Map<String, String>();
         Map<Id, SObject> contextRecordMap = new Map<Id, SObject>();
         if (String.isNotBlank(config.ContextFields__c)) {
@@ -237,9 +197,8 @@ public without sharing class FieldHistoryLogger {
                 }
             }
             if (!contextFields.isEmpty()) {
-                String soql = 'SELECT Id, ' + String.join(new List<String>(contextFields.keySet()), ', ') +
-                              ' FROM ' + objectApiName + 
-                              ' WHERE Id IN :allDistinctRecords';
+                String soql = 'SELECT Id, ' + String.join(new List<String>(contextFields.keySet()), ', ')
+                            + ' FROM ' + objectApiName + ' WHERE Id IN :distinctRecords';
                 for (SObject rec : Database.query(soql)) {
                     contextRecordMap.put(rec.Id, rec);
                 }
@@ -247,97 +206,64 @@ public without sharing class FieldHistoryLogger {
         }
 
         Integer maxRows = Test.isRunningTest() ? 5 : (config.MaxTableRows__c != null ? (Integer)config.MaxTableRows__c : 100);
-
-        // Build one email per group, collect all, send in a single Messaging.sendEmail() call
-        List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
-        for (String sig : groupLogs.keySet()) {
-            List<Fund_Field_ApplicabilityHistory__c> grpLogs = groupLogs.get(sig);
-            List<Id> orderedRecordIds = new List<Id>();
-            Map<Id, List<Fund_Field_ApplicabilityHistory__c>> logsByRecord = new Map<Id, List<Fund_Field_ApplicabilityHistory__c>>();
-            for (Fund_Field_ApplicabilityHistory__c l : grpLogs) {
-                Id refId = getRefId(l, objectApiName);
-                if (!logsByRecord.containsKey(refId)) {
-                    orderedRecordIds.add(refId);
-                    logsByRecord.put(refId, new List<Fund_Field_ApplicabilityHistory__c>());
-                }
-                logsByRecord.get(refId).add(l);
-            }
-            Boolean useAttachment = maxRows == 0 || grpLogs.size() > maxRows;
-            String tableContent;
-            Messaging.EmailFileAttachment att;
-            if (useAttachment) {
-                tableContent = '<p>Please find attached the full list of field changes (' + grpLogs.size() + ' changes across ' + orderedRecordIds.size() + ' record(s)).</p>';
-                att = new Messaging.EmailFileAttachment();
-                att.setFileName(objectApiName + '_FieldChanges.csv');
-                att.setBody(Blob.valueOf(buildCsvContent(grpLogs, objectApiName, contextFields, contextRecordMap)));
-            } else {
-                tableContent = buildHtmlTable(orderedRecordIds, logsByRecord, objectApiName, contextFields, contextRecordMap);
-            }
-            String htmlBody = tmpl.HtmlValue
-                .replace('{_Record_Number_}', String.valueOf(orderedRecordIds.size()))
-                .replace('{_Changes_Table_}', tableContent);
-            Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
-            msg.setToAddresses(groupRecipients.get(sig));
-            msg.setSubject(tmpl.Subject);
-            msg.setHtmlBody(htmlBody);
-            if (useAttachment) msg.setFileAttachments(new Messaging.EmailFileAttachment[]{ att });
-            emails.add(msg);
+        Boolean useAttachment = maxRows == 0 || changedLogs.size() > maxRows;
+        String tableContent;
+        Messaging.EmailFileAttachment att;
+        if (useAttachment) {
+            tableContent = '<p>Please find attached the full list of field changes (' + changedLogs.size() + ' changes across ' + distinctRecords.size() + ' record(s)).</p>';
+            att = new Messaging.EmailFileAttachment();
+            att.setFileName(objectApiName + '_FieldChanges.csv');
+            att.setBody(Blob.valueOf(buildCsvContent(changedLogs, objectApiName, contextFields, contextRecordMap)));
+        } else {
+            tableContent = buildHtmlTable(changedLogs, objectApiName, contextFields, contextRecordMap);
         }
-        if (!Test.isRunningTest() && !emails.isEmpty()) Messaging.sendEmail(emails);
-    }
 
-    // Builds a deterministic signature for a list of logs based on sorted field API names
-    private static String buildLogsSignature(List<Fund_Field_ApplicabilityHistory__c> logs) {
-        List<String> fields = new List<String>();
-        for (Fund_Field_ApplicabilityHistory__c l : logs) fields.add(l.FieldAPIName__c);
-        fields.sort();
-        return String.join(fields, '|');
+        String htmlBody = tmpl.HtmlValue
+            .replace('{_Record_Number_}', String.valueOf(distinctRecords.size()))
+            .replace('{_Changes_Table_}', tableContent);
+        Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
+        email.setToAddresses(recipients);
+        email.setSubject(tmpl.Subject);
+        email.setHtmlBody(htmlBody);
+        if (useAttachment) email.setFileAttachments(new Messaging.EmailFileAttachment[]{ att });
+        if (!Test.isRunningTest()) Messaging.sendEmail(new Messaging.SingleEmailMessage[]{ email });
     }
 
     // Builds a styled HTML table of field changes with clickable record links and context columns
-    private static String buildHtmlTable(List<Id> orderedRecordIds, Map<Id, List<Fund_Field_ApplicabilityHistory__c>> logsByRecord, String objectApiName, Map<String, String> contextFields, Map<Id, SObject> contextRecordMap) {
-        String elmnt = '{_Element_}';
-        String tableTh = '<th style="padding:8px; text-align:left;">'+elmnt+'</th>';
-        String tableTd = '<td style="padding:6px;">'+elmnt+'</td>';
-
+    private static String buildHtmlTable(List<Fund_Field_ApplicabilityHistory__c> changedLogs, String objectApiName, Map<String, String> contextFields, Map<Id, SObject> contextRecordMap) {
         String html = '<table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse; font-family:Arial,sans-serif; font-size:11pt; width:100%;">';
         html += '<thead><tr style="background-color:#c8102e; color:#ffffff;">'
-              + tableTh.replace(elmnt, 'Record Id');
+              + '<th style="padding:8px; text-align:left;">Record Id</th>';
         for (String label : contextFields.values()) {
-            html += tableTh.replace(elmnt, htmlEscape(label));
+            html += '<th style="padding:8px; text-align:left;">' + htmlEscape(label) + '</th>';
         }
-        html += tableTh.replace(elmnt, 'Field')
-              + tableTh.replace(elmnt, 'Old Value')
-              + tableTh.replace(elmnt, 'New Value')
+        html += '<th style="padding:8px; text-align:left;">Field</th>'
+              + '<th style="padding:8px; text-align:left;">Old Value</th>'
+              + '<th style="padding:8px; text-align:left;">New Value</th>'
               + '</tr></thead><tbody>';
         String baseUrl = System.URL.getOrgDomainUrl().toExternalForm();
         Boolean odd = true;
-        for (Id refId : orderedRecordIds) {
-            List<Fund_Field_ApplicabilityHistory__c> recLogs = logsByRecord.get(refId);
-            String rowBg = odd ? '#f9f9f9' : '#ffffff';
-            String spanAttr = recLogs.size() > 1 ? ' rowspan="' + recLogs.size() + '"' : '';
-            String mergedStyle = 'style="padding:6px; vertical-align:middle; text-align:center; background-color:' + rowBg + ';"';
-            String recordLink = '<a href="' + baseUrl + '/' + refId + '" style="color:#c8102e;">' + htmlEscape(String.valueOf(refId)) + '</a>';
-            Boolean firstLogInGroup = true;
-            for (Fund_Field_ApplicabilityHistory__c l : recLogs) {
-                html += '<tr style="background-color:' + rowBg + ';">';
-                if (firstLogInGroup) {
-                    html += '<td' + spanAttr + ' ' + mergedStyle + '>' + recordLink + '</td>';
-                    for (String fieldApiName : contextFields.keySet()) {
-                        String ctxVal = '';
-                        if (contextRecordMap.containsKey(refId)) {
-                            Object fval = contextRecordMap.get(refId).get(fieldApiName);
-                            ctxVal = fval != null ? String.valueOf(fval) : '';
-                        }
-                        html += '<td' + spanAttr + ' ' + mergedStyle + '>' + htmlEscape(ctxVal) + '</td>';
-                    }
-                    firstLogInGroup = false;
+        Id lastRecordId = null;
+        for (Fund_Field_ApplicabilityHistory__c l : changedLogs) {
+            String rowStyle = odd ? 'background-color:#f9f9f9;' : 'background-color:#ffffff;';
+            Id refId = getRefId(l, objectApiName);
+            Boolean isNewRecord = (refId != lastRecordId);
+            lastRecordId = refId;
+            String recordCell = isNewRecord ? '<a href="' + baseUrl + '/' + refId + '" style="color:#c8102e;">' + htmlEscape(String.valueOf(refId)) + '</a>' : '';
+            html += '<tr style="' + rowStyle + '">'
+                + '<td style="padding:6px;">' + recordCell + '</td>';
+            for (String fieldApiName : contextFields.keySet()) {
+                String ctxVal = '';
+                if (isNewRecord && contextRecordMap.containsKey(refId)) {
+                    Object fval = contextRecordMap.get(refId).get(fieldApiName);
+                    ctxVal = fval != null ? String.valueOf(fval) : '';
                 }
-                html += tableTd.replace(elmnt, htmlEscape(l.Field_Name__c))
-                      + tableTd.replace(elmnt, htmlEscape(l.Old_Value__c))
-                      + tableTd.replace(elmnt, htmlEscape(l.New_Value__c))
-                      + '</tr>';
+                html += '<td style="padding:6px;">' + htmlEscape(ctxVal) + '</td>';
             }
+            html += '<td style="padding:6px;">' + htmlEscape(l.Field_Name__c) + '</td>'
+                  + '<td style="padding:6px;">' + htmlEscape(l.Old_Value__c) + '</td>'
+                  + '<td style="padding:6px;">' + htmlEscape(l.New_Value__c) + '</td>'
+                  + '</tr>';
             odd = !odd;
         }
         html += '</tbody></table>';
