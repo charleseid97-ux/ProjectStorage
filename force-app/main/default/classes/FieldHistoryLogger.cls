@@ -231,15 +231,19 @@ public without sharing class FieldHistoryLogger {
 
     // Builds a styled HTML table of field changes with clickable record links and context columns
     private static String buildHtmlTable(List<Fund_Field_ApplicabilityHistory__c> changedLogs, String objectApiName, Map<String, String> contextFields, Map<Id, SObject> contextRecordMap) {
+        String elmnt = '{_Element_}';
+        String tableTh = '<th style="padding:8px; text-align:left;">'+elmnt+'</th>';
+        String tableTd = '<td style="padding:6px;">'+elmnt+'</td>';
+
         String html = '<table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse; font-family:Arial,sans-serif; font-size:11pt; width:100%;">';
         html += '<thead><tr style="background-color:#c8102e; color:#ffffff;">'
-              + '<th style="padding:8px; text-align:left;">Record Id</th>';
+              + tableTh.replace(elmnt, 'Record Id');
         for (String label : contextFields.values()) {
-            html += '<th style="padding:8px; text-align:left;">' + htmlEscape(label) + '</th>';
+            html += tableTh.replace(elmnt, htmlEscape(label));
         }
-        html += '<th style="padding:8px; text-align:left;">Field</th>'
-              + '<th style="padding:8px; text-align:left;">Old Value</th>'
-              + '<th style="padding:8px; text-align:left;">New Value</th>'
+        html += tableTh.replace(elmnt, 'Field')
+              + tableTh.replace(elmnt, 'Old Value')
+              + tableTh.replace(elmnt, 'New Value')
               + '</tr></thead><tbody>';
         String baseUrl = System.URL.getOrgDomainUrl().toExternalForm();
         Boolean odd = true;
@@ -251,18 +255,18 @@ public without sharing class FieldHistoryLogger {
             lastRecordId = refId;
             String recordCell = isNewRecord ? '<a href="' + baseUrl + '/' + refId + '" style="color:#c8102e;">' + htmlEscape(String.valueOf(refId)) + '</a>' : '';
             html += '<tr style="' + rowStyle + '">'
-                + '<td style="padding:6px;">' + recordCell + '</td>';
+                  + tableTd.replace(elmnt, recordCell);
             for (String fieldApiName : contextFields.keySet()) {
                 String ctxVal = '';
                 if (isNewRecord && contextRecordMap.containsKey(refId)) {
                     Object fval = contextRecordMap.get(refId).get(fieldApiName);
                     ctxVal = fval != null ? String.valueOf(fval) : '';
                 }
-                html += '<td style="padding:6px;">' + htmlEscape(ctxVal) + '</td>';
+                html += tableTd.replace(elmnt, htmlEscape(ctxVal));
             }
-            html += '<td style="padding:6px;">' + htmlEscape(l.Field_Name__c) + '</td>'
-                  + '<td style="padding:6px;">' + htmlEscape(l.Old_Value__c) + '</td>'
-                  + '<td style="padding:6px;">' + htmlEscape(l.New_Value__c) + '</td>'
+            html += tableTd.replace(elmnt, htmlEscape(l.Field_Name__c))
+                  + tableTd.replace(elmnt, htmlEscape(l.Old_Value__c))
+                  + tableTd.replace(elmnt, htmlEscape(l.New_Value__c))
                   + '</tr>';
             odd = !odd;
         }
