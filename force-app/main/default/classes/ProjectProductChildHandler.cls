@@ -265,6 +265,9 @@ public static void blockValidationBeforeSPCValidated(Map<Id, ProjectProductChild
                 if (sourceRecords.containsKey(target.ProjectProductParent__c)) {
                     try {
                         RecordCloneHelper.cloneRecordFields(sourceRecords.get(target.ProjectProductParent__c), target);
+                        if(target.Parent_Record_Type_Id__c == shareClassCreationRecordTypeId ){
+                            target.InternalShortName__c = (String)sourceRecords.get(target.ProjectProductParent__c).get('InternalShortName__c');
+                        }
                     } catch (Exception e) {
                         target.addError('Error cloning record: ' + e.getMessage());
                     }

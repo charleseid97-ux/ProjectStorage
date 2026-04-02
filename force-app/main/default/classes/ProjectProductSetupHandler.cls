@@ -261,6 +261,10 @@ public without sharing class ProjectProductSetupHandler {
                         String actionType = target.RecordTypeId == fundModificationRecordTypeId ? 'Modification' : target.RecordTypeId == shareClassCreationRecordTypeId ? 'Shareclass Creation' : 'Product Creation';
                         String productName = target.Product__c != null ? (String)sourceRecords.get(target.Product__c).get('Name') : target.Name;
                         target.Name = actionType + ' - ' + productName + ' - ' + Date.today().format();
+                    
+                        if(target.RecordTypeId == shareClassCreationRecordTypeId ){
+                            target.InternalShortName__c = (String)sourceRecords.get(target.Product__c).get('InternalShortName__c');
+                        }
                     } catch (Exception e) {
                         target.addError('Error cloning record: ' + e.getMessage());
                     }
