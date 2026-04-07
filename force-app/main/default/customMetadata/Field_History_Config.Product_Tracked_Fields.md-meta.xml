@@ -3,15 +3,42 @@
     <label>Product Tracked Fields</label>
     <protected>false</protected>
     <values>
+        <field>AlertEmailTemplate__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>AlertRecipients__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ContextFields__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>ExcludedFields__c</field>
-        <value xsi:type="xsd:string">Date_YTD_Net_Flows__c;YTD_Net_Flows__c;Last_AUM_Available__c</value>
+        <value xsi:type="xsd:string">Date_YTD_Net_Flows__c
+YTD_Net_Flows__c
+Last_AUM_Available__c</value>
+    </values>
+    <values>
+        <field>MaxTableRows__c</field>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Object_API_Name__c</field>
         <value xsi:type="xsd:string">Product__c</value>
     </values>
     <values>
+        <field>SendAlert__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
         <field>Tracked_Fields__c</field>
-        <value xsi:type="xsd:string">Product_Name__c;Benchmark_Name__c;ESGLabel__c;BelgiumTSLabelDate__c;ISRLabelDate__c;SFDRcategory__c;</value>
+        <value xsi:type="xsd:string">Product_Name__c
+Benchmark_Name__c
+ESGLabel__c
+BelgiumTSLabelDate__c
+ISRLabelDate__c
+SFDRcategory__c</value>
     </values>
 </CustomMetadata>
