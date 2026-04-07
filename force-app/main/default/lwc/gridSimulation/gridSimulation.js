@@ -1,8 +1,10 @@
 import { LightningElement, api, track } from 'lwc';
 import getSimulationData from '@salesforce/apex/GridSimulationController.getSimulationData';
 
-const FMT  = new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-const fmt  = (v, suffix = '') => (v == null ? '—' : FMT.format(v) + suffix);
+const FMT     = new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const FMT_INT = new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 0 });
+const fmt     = (v, suffix = '') => (v == null ? '—' : FMT.format(v) + suffix);
+const fmtInt  = (v, suffix = '') => (v == null ? '—' : FMT_INT.format(Math.trunc(v)) + suffix);
 
 export default class GridSimulation extends LightningElement {
 
@@ -10,11 +12,13 @@ export default class GridSimulation extends LightningElement {
     @api selectedAgreements   = [];
     @api gridShareClassMap    = {};
 
-    @track rows             = [];
-    @track customRows       = [];
-    @track aumChangePercent = 0;
-    @track isLoading        = false;
-    @track error            = null;
+    @track rows                = [];
+    @track customRows          = [];
+    @track aumChangePercent    = 0;
+    @track isLoading           = false;
+    @track error               = null;
+    @track editingNewMoneyId   = null;
+    _focusNewMoney             = false;
 
     // ── Step 1: raw numbers — base for all derived getters ───────────────────
     get rawRows() {
@@ -39,44 +43,50 @@ export default class GridSimulation extends LightningElement {
     // ── Step 2: formatted rows for the main tbody (real rows only) ───────────
     get processedRows() {
         return this.rawRows.filter(r => !r.isCustom).map(r => ({
-            key:            r.shareClassId,
-            shareClassId:   r.shareClassId,
-            range:          r.range   || '—',
-            ptfCode:        r.ptfCode || '—',
-            name:           r.name    || '—',
-            isin:           r.isin    || '—',
-            effMgtFeesFmt:  fmt(r.effMgtFees, '%'),
-            curAumFmt:      fmt(r.curAum),
-            curGrossFmt:    fmt(r.curGross),
-            curRebRateFmt:  fmt(r.rebateRate, '%'),
-            curRebatesFmt:  fmt(r.curRebates),
-            curNetFmt:      fmt(r.curNet),
-            newMoney:       r.newMoney,
-            simAumFmt:      fmt(r.simAum),
-            newAumFmt:      fmt(r.newAum),
-            simGrossFmt:    fmt(r.simGross),
-            simRebRateFmt:  fmt(r.rebateRate, '%'),  // read-only display
-            simRebatesFmt:  fmt(r.simRebates),
-            simNetFmt:      fmt(r.simNet)
+            key:               r.shareClassId,
+            shareClassId:      r.shareClassId,
+            range:             r.range   || '—',
+            ptfCode:           r.ptfCode || '—',
+            name:              r.name    || '—',
+            isin:              r.isin    || '—',
+            effMgtFeesFmt:     fmt(r.effMgtFees, '%'),
+            curAumFmt:         fmtInt(r.curAum),
+            curGrossFmt:       fmtInt(r.curGross),
+            curRebRateFmt:     fmt(r.rebateRate, '%'),
+            curRebatesFmt:     fmtInt(r.curRebates),
+            curNetFmt:         fmtInt(r.curNet),
+            newMoney:          r.newMoney,
+            newMoneyFmt:       fmtInt(r.newMoney),
+            isEditingNewMoney: this.editingNewMoneyId === r.shareClassId,
+            newMoneyCellClass: this.editingNewMoneyId === r.shareClassId ? 'td-sim td-input' : 'td-sim td-right',
+            simAumFmt:         fmtInt(r.simAum),
+            newAumFmt:         fmtInt(r.newAum),
+            simGrossFmt:       fmtInt(r.simGross),
+            simRebRateFmt:     fmt(r.rebateRate, '%'),  // read-only display
+            simRebatesFmt:     fmtInt(r.simRebates),
+            simNetFmt:         fmtInt(r.simNet)
         }));
     }
 
     // ── Step 2b: formatted custom rows for the custom tbody ──────────────────
     get processedCustomRows() {
         return this.rawRows.filter(r => r.isCustom).map(r => ({
-            key:           r.shareClassId,
-            shareClassId:  r.shareClassId,
-            range:         r.range      || '',
-            ptfCode:       r.ptfCode    || '',
-            name:          r.name       || '',
-            isin:          r.isin       || '',
-            effMgtFees:    r.effMgtFees || 0,
-            rebateRate:    r.rebateRate || 0,
-            newMoney:      r.newMoney   || 0,
-            newAumFmt:     fmt(r.newAum),
-            simGrossFmt:   fmt(r.simGross),
-            simRebatesFmt: fmt(r.simRebates),
-            simNetFmt:     fmt(r.simNet)
+            key:               r.shareClassId,
+            shareClassId:      r.shareClassId,
+            range:             r.range      || '',
+            ptfCode:           r.ptfCode    || '',
+            name:              r.name       || '',
+            isin:              r.isin       || '',
+            effMgtFees:        r.effMgtFees || 0,
+            rebateRate:        r.rebateRate || 0,
+            newMoney:          r.newMoney   || 0,
+            newMoneyFmt:       fmtInt(r.newMoney || 0),
+            isEditingNewMoney: this.editingNewMoneyId === r.shareClassId,
+            newMoneyCellClass: this.editingNewMoneyId === r.shareClassId ? 'td-sim td-input' : 'td-sim td-right',
+            newAumFmt:         fmtInt(r.newAum),
+            simGrossFmt:       fmtInt(r.simGross),
+            simRebatesFmt:     fmtInt(r.simRebates),
+            simNetFmt:         fmtInt(r.simNet)
         }));
     }
 
@@ -96,8 +106,8 @@ export default class GridSimulation extends LightningElement {
         const simNet=sum('simNet');
         return {
             curAum, curGross, curRebates, curNet, simAum, newMoney, newAum, simGross, simRebates, simNet,
-            curAumFmt:fmt(curAum), curGrossFmt:fmt(curGross), curRebatesFmt:fmt(curRebates), curNetFmt:fmt(curNet),
-            simAumFmt:fmt(simAum), newMoneyFmt:fmt(newMoney), newAumFmt:fmt(newAum), simGrossFmt:fmt(simGross), simRebatesFmt:fmt(simRebates), simNetFmt:fmt(simNet)
+            curAumFmt:fmtInt(curAum), curGrossFmt:fmtInt(curGross), curRebatesFmt:fmtInt(curRebates), curNetFmt:fmtInt(curNet),
+            simAumFmt:fmtInt(simAum), newMoneyFmt:fmtInt(newMoney), newAumFmt:fmtInt(newAum), simGrossFmt:fmtInt(simGross), simRebatesFmt:fmtInt(simRebates), simNetFmt:fmtInt(simNet)
         };
     }
 
@@ -125,7 +135,16 @@ export default class GridSimulation extends LightningElement {
         const grossChgBP   = (s.simGrossPct   - s.curGrossPct)   * 100 * 100;
         const rebatesChgBP = (s.simRebatesPct - s.curRebatesPct) * 100 * 100;
         const netChgBP     = (s.simNetPct     - s.curNetPct)     * 100 * 100;
-        return { aumEvoFmt: fmt(aumEvo, '%'), grossChgFmt: fmt(grossChgBP, ' bp'), rebatesChgFmt: fmt(rebatesChgBP, ' bp'), netChgFmt: fmt(netChgBP, ' bp') };
+        return {
+            aumEvoFmt:        fmt(aumEvo, '%'),
+            grossChgFmt:      fmt(grossChgBP, ' bp'),
+            rebatesChgFmt:    fmt(rebatesChgBP, ' bp'),
+            netChgFmt:        fmt(netChgBP, ' bp'),
+            aumChgAbsFmt:     fmtInt(t.newAum    - t.curAum),
+            grossChgAbsFmt:   fmtInt(t.simGross  - t.curGross),
+            rebatesChgAbsFmt: fmtInt(t.simRebates - t.curRebates),
+            netChgAbsFmt:     fmtInt(t.simNet    - t.curNet)
+        };
     }
 
     get hasRows()  { return this.rows.length > 0 || this.customRows.length > 0; }
@@ -164,6 +183,14 @@ export default class GridSimulation extends LightningElement {
         }
     }
 
+    renderedCallback() {
+        if (this._focusNewMoney && this.editingNewMoneyId) {
+            this._focusNewMoney = false;
+            const input = this.template.querySelector(`input[data-id="${this.editingNewMoneyId}"][data-field="newMoney"]`);
+            if (input) input.focus();
+        }
+    }
+
     handleBack() {
         this.dispatchEvent(new CustomEvent('back'));
     }
@@ -171,6 +198,16 @@ export default class GridSimulation extends LightningElement {
     // ── Global AUM % change ───────────────────────────────────────────────────
     handleAumChange(e) {
         this.aumChangePercent = e.target.value;
+    }
+
+    // ── New Money click-to-edit ───────────────────────────────────────────────
+    handleNewMoneyClick(e) {
+        this.editingNewMoneyId = e.currentTarget.dataset.id;
+        this._focusNewMoney = true;
+    }
+
+    handleNewMoneyBlur() {
+        this.editingNewMoneyId = null;
     }
 
     // ── Per-row inputs (real rows) ────────────────────────────────────────────

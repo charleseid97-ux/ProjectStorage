@@ -70,6 +70,7 @@
 
 /* ── Default header ── */
 .th-default { background: #F3F2F2; font-weight: 700; }
+.td-right { text-align: right !important; }
 
 /* ── Zebra rows (default columns) ── */
 .grid-table tbody tr:nth-child(odd)  td { background: #ffffff; }
