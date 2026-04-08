@@ -54,6 +54,7 @@
                                     options={typeOptions}
                                     onchange={handleAgType}
                                     required
+                                    disabled={isTypeDisabled}
                                     placeholder="-- Select --">
                 </lightning-combobox>
 
@@ -154,6 +155,28 @@
                                         value={agComment}
                                         onchange={handleAgComment}>
                     </lightning-textarea>
+
+                    <!-- Load previous grid toggle (only when creating new grid and a previous approved grid exists) -->
+                    <template if:true={showLoadPreviousToggle}>
+                        <div class="toggle-grid-update">
+                            <div class="toggle-header">
+                                <span class="toggle-label">Load previous grid details</span>
+                                <lightning-helptext content="Pre-fill the grid builder with the criteria and share classes from the previous approved grid. You can then modify them before saving."></lightning-helptext>
+                            </div>
+                            <div class="toggle-row">
+                                <lightning-input type="toggle"
+                                                variant="label-hidden"
+                                                checked={loadPreviousGrid}
+                                                onchange={handleLoadPreviousToggle}
+                                                message-toggle-active=""
+                                                message-toggle-inactive="">
+                                </lightning-input>
+                                <span class="message-toggle-label">
+                                    {loadPreviousToggleLabel}
+                                </span>
+                            </div>
+                        </div>
+                    </template>
                 </div>
             </div>
         </div>

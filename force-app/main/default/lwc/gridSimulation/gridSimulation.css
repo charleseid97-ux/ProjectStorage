@@ -58,7 +58,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding: 0.375rem 0.75rem;
+    padding: 0.15rem 0.5rem;
     border: 1px solid #e0e0e0;
     text-align: left;
 }
@@ -114,6 +114,20 @@ tr:nth-child(even) .td-sim { background: #e8dcfc; }
     padding: 1px 4px !important;
 }
 
+/* ── New Money display mode (click-to-edit) ── */
+.new-money-display {
+    display: block;
+    width: 100%;
+    cursor: text;
+    background: #ffffff;
+    border: 1px solid #dddbda;
+    border-radius: 0.25rem;
+    padding: 0 5px;
+    height: 16px;
+    line-height: 16px;
+    box-sizing: border-box;
+}
+
 /* ── Custom plain input (replaces lightning-input for height control) ── */
 .custom-input {
     width: 100%;
@@ -142,6 +156,14 @@ tr:nth-child(even) .td-sim { background: #e8dcfc; }
     height: 10px;
     border: none !important;
     background: transparent !important;
+}
+
+/* ── Row label (TOTAL / TOTAL %) ── */
+.td-row-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #706e6b;
+    white-space: nowrap;
 }
 
 /* ── Summary ── */

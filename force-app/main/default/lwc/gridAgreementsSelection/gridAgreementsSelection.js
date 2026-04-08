@@ -70,19 +70,23 @@ export default class GridAgreementsSelection extends LightningElement {
     }
     get gridData() { return null; }
 
-    @api hasExistingGrid = false;
-    @api existingGridEndDate = null;
+    @api hasDraftGrid = false;
+    @track loadPreviousGrid = false;
+    _existingGridInfo = { hasExistingGrid: false, kind: null, type: null, endDate: null };
 
     @api
-    set existingGridKind(val) {
-        this._existingGridKind = val;
-        // Only apply on first load (gridData handles back-navigation)
-        if (val && !this.agKind) {
-            this.agKind = val;
+    set existingGridInfo(val) {
+        this._existingGridInfo = val || { hasExistingGrid: false, kind: null, type: null, endDate: null };
+        // Auto-set Kind on first load if not yet chosen
+        if (this._existingGridInfo.kind && !this.agKind) {
+            this.agKind = this._existingGridInfo.kind;
         }
     }
-    get existingGridKind() { return this._existingGridKind; }
-    _existingGridKind = null;
+    get existingGridInfo() { return this._existingGridInfo; }
+
+    get hasExistingGrid()    { return this._existingGridInfo.hasExistingGrid; }
+    get existingGridEndDate(){ return this._existingGridInfo.endDate; }
+    get existingGridType()   { return this._existingGridInfo.type; }
 
     get isMultiAgreementSelection() {
         return this.agreementSelectionMode === 'Multiple' || this.multiAgreementSelection;
@@ -134,7 +138,11 @@ export default class GridAgreementsSelection extends LightningElement {
         return !(hasAgreements && hasDate && hasTeam && hasMeta && hasThreshCcy) || this.isEndDateBeforeStartDate;
     }
 
-    get isKindDisabled()         { return this.hasExistingGrid && !!this._existingGridKind; }
+    get showLoadPreviousToggle()    { return !this.hasDraftGrid && this.hasExistingGrid; }
+    get loadPreviousToggleLabel()   { return this.loadPreviousGrid ? this.labels.UI_On : this.labels.UI_Off; }
+
+    get isKindDisabled()         { return this.hasExistingGrid && !!this._existingGridInfo.kind; }
+    get isTypeDisabled()         { return this.loadPreviousGrid && !!this.existingGridType; }
     get isAgreementDisabled()   { return !!this.recId; }
     get agreementSectionClass() { return this.isAgreementDisabled ? 'agreement-section agreement-section--disabled' : 'agreement-section'; }
     get isThreshCcyDisabled()   { return !this.isThreshAboveZero; }
@@ -253,6 +261,14 @@ export default class GridAgreementsSelection extends LightningElement {
         this.pills = this.getPills();
     }
 
+    handleLoadPreviousToggle(e) {
+        this.loadPreviousGrid = e.target.checked;
+        if (this.loadPreviousGrid && this.existingGridType) {
+            this.agType = this.existingGridType;
+            if (this.agType === 'MULTI RULE') { this.isAutoGridUpdate = false; }
+        }
+    }
+
     // ── AG field handlers ──
     handleAgKind(e)           { this.agKind = e.detail.value; }
     handleAgType(e)           { this.agType = e.detail.value; if (this.agType === 'MULTI RULE') { this.isAutoGridUpdate = false; } }
@@ -288,7 +304,8 @@ export default class GridAgreementsSelection extends LightningElement {
                 thresholdAmountCurrency: this.agThreshCcy,
                 otherFees:               this.agOtherFees,
                 comment:                 this.agComment,
-                gridName:                this.gridNamePreview
+                gridName:                this.gridNamePreview,
+                loadPreviousGrid:        this.loadPreviousGrid
             }
         }));
     }

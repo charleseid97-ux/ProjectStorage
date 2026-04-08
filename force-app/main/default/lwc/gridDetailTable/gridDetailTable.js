@@ -14,14 +14,14 @@ const COLUMNS = [
     { key: 'portfolio',         label: 'Portfolio',         group: 'blue' },
     { key: 'shareClass',        label: 'Class',             group: 'blue' },
     { key: 'isin',              label: 'ISIN',              group: 'blue' },
-    { key: 'aum',               label: 'AUM',               group: 'blue' },
+    { key: 'aum',               label: 'AUM',               group: 'blue',   numeric: true },
     { key: 'effMgtFeeDate',     label: 'Eff. Mgt Fee Date', group: '' },
-    { key: 'effMgtFee',         label: 'Eff. Mgt Fee',      group: 'blue' },
-    { key: 'rebateRate',        label: 'Rebate Rate',       group: 'blue' },
-    { key: 'netMargin',         label: 'Net Margin',        group: 'orange' },
-    { key: 'profitability',     label: 'Profitability',     group: 'orange' },
+    { key: 'effMgtFee',         label: 'Eff. Mgt Fee',      group: 'blue',   numeric: true },
+    { key: 'rebateRate',        label: 'Rebate Rate',       group: 'blue',   numeric: true },
+    { key: 'netMargin',         label: 'Net Margin',        group: 'orange', numeric: true },
+    { key: 'profitability',     label: 'Profitability',     group: 'orange', numeric: true },
     { key: 'gridRule',          label: 'Grid Rule',         group: 'orange' },
-    { key: 'ruleValue',         label: 'Rule Value',        group: 'orange' }
+    { key: 'ruleValue',         label: 'Rule Value',        group: 'orange', numeric: true }
 ];
 
 const SORTED_BY_LABEL  = 'Eff Mgt Fee Date';
@@ -73,7 +73,7 @@ export default class GridDetailTable extends LightningElement {
         return COLUMNS.map(col => ({
             key: col.key,
             label: col.label,
-            headerClass: col.group ? `th-${col.group}` : 'th-default'
+            headerClass: (col.group ? `th-${col.group}` : 'th-default') + (col.numeric ? ' td-right' : '')
         }));
     }
 
@@ -83,7 +83,7 @@ export default class GridDetailTable extends LightningElement {
             cells: COLUMNS.map(col => ({
                 key: `${row.id}-${col.key}`,
                 value: row[col.key] ?? '',
-                cellClass: col.group ? `td-${col.group}` : ''
+                cellClass: (col.group ? `td-${col.group}` : '') + (col.numeric ? ' td-right' : '')
             }))
         }));
     }

@@ -4,6 +4,7 @@ import getGridSettings from '@salesforce/apex/GridBuilderController.getGridSetti
 import getAvailableGrids from '@salesforce/apex/GridBuilderController.getAvailableGrids';
 import getAgreementSelectionPageSettings from '@salesforce/apex/GridBuilderController.getAgreementSelectionPageSettings';
 import getDraftGridData from '@salesforce/apex/GridBuilderController.getDraftGridData';
+import getApprovedGridData from '@salesforce/apex/GridBuilderController.getApprovedGridData';
 import getAllProductsForSelection from '@salesforce/apex/GridBuilderController.getAllProductsForSelection';
 import getProductsAndShareClasses from '@salesforce/apex/GridBuilderController.getProductsAndShareClasses';
 import {LABELS, reduceError, showToast, buildShareTypesKey, getProductNameFromRows, getQueryParam, getSystemProductExclusionDetail, 
@@ -31,9 +32,8 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
     @track selectedAgreements = [];
 
     // Existing grid info (from pre-selected agreement)
-    @track hasExistingGrid = false;
-    @track existingGridKind = null;
-    @track existingGridEndDate = null;
+    @track existingGridInfo = { hasExistingGrid: false, kind: null, type: null, endDate: null };
+    @track hasDraftGrid = false;
     
     // Second Page: Grid Builder
     @track gridRequestData = {};
@@ -122,9 +122,13 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
                 this.primaryTeam = agreementSettings.primaryTeam;
                 this.selectedTeam = this.primaryTeam || (this.availableTeams.length ? this.availableTeams[0].value : null);
                 this.gridRequestData.startDate = new Date().toISOString().split('T')[0];
-                this.hasExistingGrid    = agreementSettings.hasExistingGrid  || false;
-                this.existingGridKind   = agreementSettings.existingGridKind || null;
-                this.existingGridEndDate = agreementSettings.existingGridEndDate || null;
+                this.existingGridInfo = {
+                    hasExistingGrid: agreementSettings.hasExistingGrid  || false,
+                    kind:            agreementSettings.existingGridKind || null,
+                    type:            agreementSettings.existingGridType || null,
+                    endDate:         agreementSettings.existingGridEndDate || null
+                };
+                this.hasDraftGrid = agreementSettings.hasDraftGrid || false;
 
                 // If a Draft grid request exists, prefill the builder from it
                 if (agreementSettings.hasDraftGrid && this.recId) {
@@ -779,7 +783,27 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
             this.pendingDraftData = null;
         }
 
+        if (event.detail?.loadPreviousGrid && this.recId) {
+            await this.loadApprovedGridAsTemplate();
+        }
+
         this.handlePages(false, true, false);
+    }
+
+    async loadApprovedGridAsTemplate() {
+        try {
+            this.isLoading = true;
+            const approvedData = await getApprovedGridData({ agreementId: this.recId });
+            if (approvedData) {
+                const criteriaList = approvedData.criteriaList;
+                this.criteriaList = this.buildCriteriaListFromDraft(criteriaList);
+                this.selectedShareClasses = this.buildSelectedShareClassesFromDraft(criteriaList, this.criteriaList);
+            }
+        } catch (error) {
+            showToast(this, this.labels.UI_Error, reduceError(error), 'error');
+        } finally {
+            this.isLoading = false;
+        }
     }
 
     handleBackToAgreementSelection() {

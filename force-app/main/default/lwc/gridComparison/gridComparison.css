@@ -74,7 +74,7 @@
     border: 1px solid #e0e0e0;
     text-align: left;
 }
-.td-right { text-align: right; }
+.td-right { text-align: right !important; }
 
 /* ── Group header row ── */
 .th-group {
@@ -98,7 +98,7 @@
 
 /* ── Sub-column headers ── */
 .th-default { background: #F3F2F2; font-weight: 700; }
-.th-sub     { background: #F3F2F2; font-weight: 600; font-size: 10px; }
+.th-sub     { background: #F3F2F2; font-weight: 600; font-size: 10px; text-align: right; }
 .th-sub.th-section1 { background: #EEE5F7; color: #5C1AC3; }
 .th-sub.th-section2 { background: #FEF2E3; color: #A54600; }
 .th-sub.th-section3 { background: #EEF5EB; color: #2E6B3E; }
