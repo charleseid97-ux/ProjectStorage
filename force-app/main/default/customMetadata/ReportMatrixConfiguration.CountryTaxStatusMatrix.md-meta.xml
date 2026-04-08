@@ -49,7 +49,7 @@ Type__c</value>
     <values>
         <field>FilterFields__c</field>
         <value xsi:type="xsd:string">ShareClass__r.Type__c
-ShareClass__r.Fund__r.LegalForm__c</value>
+StartDate__c</value>
     </values>
     <values>
         <field>FilterRowsLabel__c</field>
@@ -61,8 +61,7 @@ ShareClass__r.Fund__r.LegalForm__c</value>
     </values>
     <values>
         <field>OnHoverFields__c</field>
-        <value xsi:type="xsd:string">StartDate__c
-EndDate__c</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>OrderByClause__c</field>
@@ -80,7 +79,8 @@ ShareClass__r.ISIN__c</value>
     </values>
     <values>
         <field>ValueFields__c</field>
-        <value xsi:type="xsd:string">Status__c</value>
+        <value xsi:type="xsd:string">Status__c
+StartDate__c</value>
     </values>
     <values>
         <field>WhereClause__c</field>
