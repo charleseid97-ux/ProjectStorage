@@ -1,27 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-		<members>FieldHistoryLogger</members>
+		<members>CustomReportMatrixController</members>
+		<members>CustomReportMatrixControllerTest</members>
 		<name>ApexClass</name>
 	</types>
 	<types>
-		<members>Field_History_Config.Benchmark_Tracked_Fields</members>
-		<members>Field_History_Config.Fund_Manager_Tracked_Fields</members>
-		<members>Field_History_Config.Product_Tracked_Fields</members>
-		<members>Field_History_Config.ShareClass_Tracked_Fields</members>
+		<members>Matrix_Blank</members>
+		<members>Matrix_ConfigNotFound</members>
+		<members>Matrix_ConflictStyle</members>
+		<members>Matrix_InvalidField</members>
+		<members>Matrix_LoadSuccess</members>
+		<members>Matrix_NoData</members>
+		<members>Matrix_QueryError</members>
+		<name>CustomLabel</name>
+	</types>
+	<types>
+		<members>ReportMatrixConfiguration.CountryRegistrationStatusMatrix</members>
+		<members>ReportMatrixConfiguration.CountryTaxStatusMatrix</members>
 		<name>CustomMetadata</name>
 	</types>
 	<types>
-		<members>Field_History_Config__mdt</members>
+		<members>Country__c</members>
+		<members>ReportMatrixConfiguration__mdt</members>
 		<name>CustomObject</name>
 	</types>
 	<types>
-		<members>CarmignacAlerts/FieldHistory_TrackedFieldsChange</members>
-		<name>EmailTemplate</name>
+		<members>RegistrationStatusMatrix</members>
+		<name>CustomTab</name>
 	</types>
 	<types>
-		<members>Field_History_Config__mdt-Field History Config Layout</members>
+		<members>RegistrationStatusMatrix</members>
+		<name>FlexiPage</name>
+	</types>
+	<types>
+		<members>ReportMatrixConfiguration__mdt-Report Matrix Configuration Layout</members>
 		<name>Layout</name>
+	</types>
+	<types>
+		<members>customReportMatrix</members>
+		<members>multiSelectSearchList</members>
+		<members>referentialProductHomepage</members>
+		<name>LightningComponentBundle</name>
+	</types>
+	<types>
+		<members>CustomReportMatrix</members>
+		<name>PermissionSet</name>
+	</types>
+	<types>
+		<members>xlsxjsstyle</members>
+		<name>StaticResource</name>
 	</types>
 	<version>66.0</version>
 </Package>

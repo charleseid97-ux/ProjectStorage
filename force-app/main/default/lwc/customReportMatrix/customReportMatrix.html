@@ -43,8 +43,27 @@
                                     </c-multi-select-search-list>
                                 </div>
                             </template>
-                            <div class="dynamic-filters-apply-btn">
+                            <template for:each={displayDateFilterOptions} for:item="df">
+                                <div key={df.fieldPath} class="header-filter-item date-filter-group" style={df.groupStyle}>
+                                    <div>
+                                        <span class="slds-form-element__label">{df.fieldLabel}</span>
+                                        <button class="date-mode-toggle" data-field-path={df.fieldPath} onclick={handleDateModeToggle}>{df.modeLabel}</button>
+                                    </div>
+                                    <div class="date-input-values">
+                                        <template if:true={df.isExact}>
+                                            <lightning-input type={df.inputType} label={df.fieldLabel} variant="label-hidden" data-field-path={df.fieldPath} data-bound="exact" value={df.exactValue} onchange={handleDateFilterChange}></lightning-input>
+                                        </template>
+                                        <template if:true={df.isRange}>
+                                            <lightning-input type={df.inputType} label="From" variant="label-hidden" data-field-path={df.fieldPath} data-bound="from" value={df.fromValue} onchange={handleDateFilterChange}></lightning-input>
+                                            <span>to</span>
+                                            <lightning-input type={df.inputType} label="To" variant="label-hidden" data-field-path={df.fieldPath} data-bound="to" value={df.toValue} onchange={handleDateFilterChange}></lightning-input>
+                                        </template>
+                                    </div>
+                                </div>
+                            </template>
+                            <div class="dynamic-filters-btns">
                                 <lightning-button label="Apply filters" variant="brand" onclick={handleApplyFilters} disabled={noPendingFilters}></lightning-button>
+                                <lightning-button label="Reset filters" variant="neutral" onclick={handleResetFilters} disabled={noActiveFilters}></lightning-button>
                             </div>
                         </div>
                     </template>

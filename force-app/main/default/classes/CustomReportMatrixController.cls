@@ -15,7 +15,7 @@ public with sharing class CustomReportMatrixController {
     @AuraEnabled(cacheable=false)
     public static MatrixResult getMatrixData(String configName, String filterSelectionsJson, Boolean isInitialLoad) {
         // 1. Read CMDT — SOQL required: getInstance() silently truncates LongTextArea fields
-        List<ReportMatrixConfiguration__mdt> configs = [SELECT ObjectName__c, RowGroups__c, ColGroups__c, ValueField__c, WhereClause__c, OrderByClause__c,
+        List<ReportMatrixConfiguration__mdt> configs = [SELECT ObjectName__c, RowGroups__c, ColGroups__c, ValueFields__c, WhereClause__c, OrderByClause__c,
                                                                 Title__c, CellStyles__c, AllowExcelExport__c, AllowFilters__c, FilterFields__c, FilterRowsLabel__c,
                                                                 OnHoverFields__c
                                                         FROM ReportMatrixConfiguration__mdt
@@ -26,60 +26,64 @@ public with sharing class CustomReportMatrixController {
         ReportMatrixConfiguration__mdt config = configs[0];
 
         String objectName = config.ObjectName__c;
-        String valueField = config.ValueField__c;
 
-        // 2. Build ordered row/col group levels (each line = one level; fields on a line separated by ';')
-        Map<String, Schema.DisplayType> fieldTypeMap = new Map<String, Schema.DisplayType>(); // fieldTypeMap is populated during parsing (reuses the resolveFieldDescribe call already done for validation)
-        List<List<String>> rowGroupLevels = parseGroupLevels(config.RowGroups__c, objectName, fieldTypeMap);
-        List<List<String>> colGroupLevels = parseGroupLevels(config.ColGroups__c, objectName, fieldTypeMap);
+        // 2. Shared describe cache — each field path is resolved at most once
+        Map<String, DescribeFieldResult> describeCache = new Map<String, DescribeFieldResult>();
+        Map<String, Schema.DisplayType> fieldTypeMap   = new Map<String, Schema.DisplayType>();
 
-        // 3. Parse filter fields only on initial load — JS caches them afterwards
-        List<String> filterGroupFields = isInitialLoad == true ? parseGroupFields(config.FilterFields__c, objectName, '\n', fieldTypeMap) : new List<String>();
+        // 3. Build ordered row/col group levels (each line = one level; fields on a line separated by ';')
+        List<List<String>> rowGroupLevels = parseGroupLevels(config.RowGroups__c, objectName, fieldTypeMap, describeCache);
+        List<List<String>> colGroupLevels = parseGroupLevels(config.ColGroups__c, objectName, fieldTypeMap, describeCache);
 
-        // 3b. Parse hover fields and build configs (label + path)
-        List<String> hoverFieldPaths = parseGroupFields(config.OnHoverFields__c, objectName, '\n', fieldTypeMap);
+        // 4. Parse filter fields — always parsed so fieldTypeMap contains their types (needed for date-range SOQL on reload)
+        List<String> filterGroupFields = parseGroupFields(config.FilterFields__c, objectName, '\n', fieldTypeMap, describeCache);
+
+        // 5. Parse hover fields and build configs (label + path)
+        List<String> hoverFieldPaths = parseGroupFields(config.OnHoverFields__c, objectName, '\n', fieldTypeMap, describeCache);
         List<HoverFieldConfig> hoverFieldConfigs = new List<HoverFieldConfig>();
         for (String fp : hoverFieldPaths) {
-            hoverFieldConfigs.add(new HoverFieldConfig(fp, getFieldLabel(objectName, fp)));
+            hoverFieldConfigs.add(new HoverFieldConfig(fp, getFieldLabel(objectName, fp, describeCache)));
         }
 
-        // 4. Deserialize filter selections and build the SOQL filter fragment
-        Map<String, List<String>> filterSelMap = String.isNotBlank(filterSelectionsJson)? (Map<String, List<String>>) JSON.deserialize(filterSelectionsJson, Map<String, List<String>>.class) : new Map<String, List<String>>();
-        String filterFragment = buildFilterFragment(filterSelMap);
+        // 6. Parse value fields (one or more, newline-separated)
+        List<String> valueFields = parseGroupFields(config.ValueFields__c, objectName, '\n', fieldTypeMap, describeCache);
 
-        // 5. Build field set — include filter fields on initial load so a single query serves both purposes
-        Set<String> fieldSet = buildFieldSet(rowGroupLevels, colGroupLevels, valueField);
+        // 7. Deserialize filter selections and build the SOQL filter fragment
+        Map<String, List<String>> filterSelMap = String.isNotBlank(filterSelectionsJson)? (Map<String, List<String>>) JSON.deserialize(filterSelectionsJson, Map<String, List<String>>.class) : new Map<String, List<String>>();
+        String filterFragment = buildFilterFragment(filterSelMap, fieldTypeMap);
+
+        // 8. Build field set — include filter fields on initial load so a single query serves both purposes
+        Set<String> fieldSet = buildFieldSet(rowGroupLevels, colGroupLevels, valueFields);
         if (isInitialLoad == true) { fieldSet.addAll(filterGroupFields); }
         fieldSet.addAll(hoverFieldPaths);
 
-        // 6. Build picklist label maps for all fields (API value → Label)
-        //    Also capture type for valueField and any other field not yet in fieldTypeMap (e.g. valueField)
-        Map<String, Map<String, String>> picklistMaps = buildFieldPicklistLabelMap(fieldSet, objectName, fieldTypeMap);
+        // 9. Build picklist label maps for all fields (API value → Label)
+        Map<String, Map<String, String>> picklistMaps = buildFieldPicklistLabelMap(fieldSet, objectName, fieldTypeMap, describeCache);
 
-        // 7. Parse CellStyles JSON into style lookup
+        // 10. Parse CellStyles JSON into style lookup
         StyleLookup styleLookup = parseStyleLookup(config.CellStyles__c);
 
-        // 8. Run the single SOQL query
+        // 11. Run the single SOQL query
         String soql = buildDynamicSOQL(config, fieldSet, objectName, filterFragment);
         List<SObject> records = Database.query(soql);
 
-        // 9. On initial load: build filter options from the same query records (no extra query needed)
+        // 12. On initial load: build filter options from the same query records (no extra query needed)
         List<FilterOption> filterOptions = new List<FilterOption>();
         if (isInitialLoad == true && !filterGroupFields.isEmpty()) {
-            filterOptions = buildFilterOptions(filterGroupFields, records, picklistMaps, objectName, fieldTypeMap);
+            filterOptions = buildFilterOptions(filterGroupFields, records, picklistMaps, objectName, fieldTypeMap, describeCache);
         }
 
-        // 10. Group records — builds parent→children maps and cells map
-        GroupResult grouped = groupRecords(records, rowGroupLevels, colGroupLevels, valueField, picklistMaps, hoverFieldConfigs, fieldTypeMap);
+        // 13. Group records — builds parent→children maps and cells map
+        GroupResult grouped = groupRecords(records, rowGroupLevels, colGroupLevels, valueFields, objectName, picklistMaps, hoverFieldConfigs, fieldTypeMap, describeCache, styleLookup);
 
-        // 11. Build column tree and extract ordered leaf keys
+        // 14. Build column tree and extract ordered leaf keys
         List<String> columnKeys = new List<String>();
         List<ColNode> colTree = buildColTree(colGroupLevels, 0, '', grouped.colChildrenByParentKey, columnKeys);
 
-        // 12. Build row tree (uses columnKeys to order leaf values)
+        // 15. Build row tree (uses columnKeys to order leaf values)
         List<RowNode> rowTree = buildRowTree(rowGroupLevels, 0, '', grouped.rowChildrenByParentKey, columnKeys, grouped.cells, styleLookup);
 
-        // 13. Assemble result
+        // 16. Assemble result
         MatrixResult result     = new MatrixResult(String.isNotBlank(config.Title__c) ? config.Title__c : configName, config.AllowExcelExport__c);
         result.allowFilters     = config.AllowFilters__c;
         result.filterRowsLabel  = String.isNotBlank(config.FilterRowsLabel__c) ? config.FilterRowsLabel__c : 'Filter';
@@ -87,17 +91,19 @@ public with sharing class CustomReportMatrixController {
         result.rowTree          = rowTree;
         result.colTree          = colTree;
         result.columnKeys       = columnKeys;
-        result.valueFieldLabel  = getFieldLabel(objectName, valueField);
+        List<String> vfLabels = new List<String>();
+        for (String vf : valueFields) { vfLabels.add(getFieldLabel(objectName, vf, describeCache)); }
+        result.valueFieldLabel  = String.join(vfLabels, ' / ');
 
         for (List<String> level : rowGroupLevels) {
             List<String> lbls = new List<String>();
-            for (String f : level) { lbls.add(getFieldLabel(objectName, f)); }
+            for (String f : level) { lbls.add(getFieldLabel(objectName, f, describeCache)); }
             result.rowGroupLabels.add(String.join(lbls, ' / '));
         }
 
         for (List<String> level : colGroupLevels) {
             List<String> lbls = new List<String>();
-            for (String f : level) { lbls.add(getFieldLabel(objectName, f)); }
+            for (String f : level) { lbls.add(getFieldLabel(objectName, f, describeCache)); }
             result.colGroupLabels.add(String.join(lbls, ' / '));
         }
 
@@ -105,25 +111,25 @@ public with sharing class CustomReportMatrixController {
     }
 
     // ------------------------------------ HELPERS ------------------------------------
-    private static List<List<String>> parseGroupLevels(String raw, String objectName, Map<String, Schema.DisplayType> fieldTypeMap) {
+    private static List<List<String>> parseGroupLevels(String raw, String objectName, Map<String, Schema.DisplayType> fieldTypeMap, Map<String, DescribeFieldResult> describeCache) {
         List<List<String>> result = new List<List<String>>();
         if (String.isBlank(raw)) return result;
         for (String line : raw.split('\n')) {
             String trimmedLine = line.trim();
             if (String.isBlank(trimmedLine)) continue;
-            List<String> levelFields = parseGroupFields(trimmedLine, objectName, ';', fieldTypeMap);
+            List<String> levelFields = parseGroupFields(trimmedLine, objectName, ';', fieldTypeMap, describeCache);
             if (!levelFields.isEmpty()) result.add(levelFields);
         }
         return result;
     }
 
-    private static List<String> parseGroupFields(String raw, String objectName, String separator, Map<String, Schema.DisplayType> fieldTypeMap) {
+    private static List<String> parseGroupFields(String raw, String objectName, String separator, Map<String, Schema.DisplayType> fieldTypeMap, Map<String, DescribeFieldResult> describeCache) {
         List<String> result = new List<String>();
         if (String.isBlank(raw)) return result;
         for (String line : raw.split(separator)) {
             String trimmed = line.trim();
             if (String.isBlank(trimmed)) continue;
-            DescribeFieldResult dfr = resolveFieldDescribe(objectName, trimmed);
+            DescribeFieldResult dfr = resolveFieldDescribe(objectName, trimmed, describeCache);
             if (dfr == null) {
                 throw new AuraHandledException(String.format(System.Label.Matrix_InvalidField, new List<Object>{ trimmed }));
             }
@@ -133,11 +139,11 @@ public with sharing class CustomReportMatrixController {
         return result;
     }
 
-    private static Set<String> buildFieldSet(List<List<String>> rowGroupLevels, List<List<String>> colGroupLevels, String valueField) {
+    private static Set<String> buildFieldSet(List<List<String>> rowGroupLevels, List<List<String>> colGroupLevels, List<String> valueFields) {
         Set<String> fieldSet = new Set<String>{'Id'};
         for (List<String> level : rowGroupLevels) { fieldSet.addAll(level); }
         for (List<String> level : colGroupLevels) { fieldSet.addAll(level); }
-        fieldSet.add(valueField);
+        fieldSet.addAll(valueFields);
         return fieldSet;
     }
 
@@ -159,15 +165,43 @@ public with sharing class CustomReportMatrixController {
         return soql;
     }
 
-    private static String buildFilterFragment(Map<String, List<String>> selections) {
+    private static String buildFilterFragment(Map<String, List<String>> selections, Map<String, Schema.DisplayType> fieldTypeMap) {
         List<String> conds = new List<String>();
         for (String fp : selections.keySet()) {
             List<String> vals = selections.get(fp);
-            if (vals != null && !vals.isEmpty()) {
+            if (vals == null || vals.isEmpty()) continue;
+
+            Schema.DisplayType dt = fieldTypeMap?.get(fp);
+            if (dt == Schema.DisplayType.Date || dt == Schema.DisplayType.DateTime) { // Type: Date or DateTime
+                buildDateConditions(fp, vals, dt, conds);
+            } 
+            else { // Type: Everything else
                 conds.add(fp + ' IN (' + toSoqlInLiteral(vals) + ')');
             }
         }
         return String.join(conds, ' AND ');
+    }
+
+    private static void buildDateConditions(String fp, List<String> vals, Schema.DisplayType dt, List<String> conds) {
+        if (vals.size() == 1 && String.isNotBlank(vals[0])) {
+            conds.add(fp + ' = ' + toDateLiteral(vals[0], dt));
+        } else if (vals.size() == 2) {
+            if (String.isNotBlank(vals[0])) {
+                conds.add(fp + ' >= ' + toDateLiteral(vals[0], dt));
+            }
+            if (String.isNotBlank(vals[1])) {
+                conds.add(fp + ' <= ' + toDateLiteral(vals[1], dt));
+            }
+        }
+    }
+
+    private static String toDateLiteral(String val, Schema.DisplayType dt) {
+        String safe = String.escapeSingleQuotes(val);
+        if (dt == Schema.DisplayType.DateTime) {
+            // JS sends datetime-local as 'YYYY-MM-DDTHH:mm' — append seconds + UTC for SOQL
+            return safe + ':00Z';
+        }
+        return safe; // Date literal: YYYY-MM-DD (no quotes needed in SOQL)
     }
 
     private static String toSoqlInLiteral(List<String> vals) {
@@ -176,7 +210,7 @@ public with sharing class CustomReportMatrixController {
         return String.join(quoted, ', ');
     }
 
-    private static List<FilterOption> buildFilterOptions(List<String> filterFields, List<SObject> records, Map<String, Map<String, String>> picklistMaps, String objectName, Map<String, Schema.DisplayType> fieldTypeMap) {
+    private static List<FilterOption> buildFilterOptions(List<String> filterFields, List<SObject> records, Map<String, Map<String, String>> picklistMaps, String objectName, Map<String, Schema.DisplayType> fieldTypeMap, Map<String, DescribeFieldResult> describeCache) {
         List<FilterOption> result = new List<FilterOption>();
         for (String fp : filterFields) {
             Map<String, String> seen = new Map<String, String>(); // rawValue → displayLabel
@@ -192,16 +226,16 @@ public with sharing class CustomReportMatrixController {
             for (String raw : sortedRaw) {
                 entries.add(new OptionEntry(seen.get(raw), raw));
             }
-            result.add(new FilterOption(getFieldLabel(objectName, fp), fp, entries));
+            result.add(new FilterOption(getFieldLabel(objectName, fp, describeCache), fp, String.valueOf(fieldTypeMap.get(fp)), entries));
         }
         return result;
     }
 
-    private static Map<String, Map<String, String>> buildFieldPicklistLabelMap(Set<String> fieldSet, String objectName, Map<String, Schema.DisplayType> fieldTypeMap) {
+    private static Map<String, Map<String, String>> buildFieldPicklistLabelMap(Set<String> fieldSet, String objectName, Map<String, Schema.DisplayType> fieldTypeMap, Map<String, DescribeFieldResult> describeCache) {
         Map<String, Map<String, String>> picklistMaps = new Map<String, Map<String, String>>();
         for (String fieldPath : fieldSet) {
             if (fieldPath == 'Id') continue;
-            DescribeFieldResult dfr = resolveFieldDescribe(objectName, fieldPath);
+            DescribeFieldResult dfr = resolveFieldDescribe(objectName, fieldPath, describeCache);
             if (dfr == null) continue;
             if (!fieldTypeMap.containsKey(fieldPath)) {
                 fieldTypeMap.put(fieldPath, dfr.getType()); // fills gaps (e.g. valueField)
@@ -222,6 +256,9 @@ public with sharing class CustomReportMatrixController {
         if (String.isNotBlank(cellStylesJson)) {
             List<FieldStyleConfig> cfgList = (List<FieldStyleConfig>) JSON.deserialize(cellStylesJson, List<FieldStyleConfig>.class);
             for (FieldStyleConfig cfg : (cfgList ?? new List<FieldStyleConfig>())) {
+                if (String.isNotBlank(cfg.field)) {
+                    stylelookup.styledFieldPath = cfg.field;
+                }
                 if (cfg.rules != null) {
                     stylelookup.styleByRawValue = buildStyleByRawValueMap(cfg.rules);
                 }
@@ -245,14 +282,44 @@ public with sharing class CustomReportMatrixController {
         return styleByRawValue;
     }
 
-    private static GroupResult groupRecords(List<SObject> records, List<List<String>> rowGroupLevels, List<List<String>> colGroupLevels, String valueField, Map<String, Map<String, String>> picklistMaps, List<HoverFieldConfig> hoverConfigs, Map<String, Schema.DisplayType> fieldTypeMap) {
+    private static GroupResult groupRecords(List<SObject> records, List<List<String>> rowGroupLevels, List<List<String>> colGroupLevels, List<String> valueFields, String objectName, Map<String, Map<String, String>> picklistMaps, List<HoverFieldConfig> hoverConfigs, Map<String, Schema.DisplayType> fieldTypeMap, Map<String, DescribeFieldResult> describeCache, StyleLookup styleLookup) {
         GroupResult g = new GroupResult();
+        Boolean multiValue = valueFields.size() > 1;
+        // Pre-resolve labels once (outside the record loop)
+        Map<String, String> valueFieldLabels = new Map<String, String>();
+        if (multiValue) {
+            for (String vf : valueFields) {
+                valueFieldLabels.put(vf, getFieldLabel(objectName, vf, describeCache));
+            }
+        }
         for (SObject rec : records) {
-            String rowKey    = buildGroupKey(rec, rowGroupLevels, picklistMaps, g.rowChildrenByParentKey, fieldTypeMap);
-            String colKey    = buildGroupKey(rec, colGroupLevels, picklistMaps, g.colChildrenByParentKey, fieldTypeMap);
-            String rawValStr = getStringFieldValue(rec, valueField, fieldTypeMap);
-            String valStr    = toLabel(rawValStr, picklistMaps.get(valueField));
-            registerCell(g, rowKey, colKey, rawValStr, valStr, rec, hoverConfigs, picklistMaps, fieldTypeMap);
+            String rowKey = buildGroupKey(rec, rowGroupLevels, picklistMaps, g.rowChildrenByParentKey, fieldTypeMap);
+            String colKey = buildGroupKey(rec, colGroupLevels, picklistMaps, g.colChildrenByParentKey, fieldTypeMap);
+            String rawValStr;
+            String valStr;
+            String styleRawVal;
+            if (multiValue) {
+                List<String> rawParts = new List<String>();
+                List<String> valParts = new List<String>();
+                styleRawVal = null;
+                for (String vf : valueFields) {
+                    String raw   = getStringFieldValue(rec, vf, fieldTypeMap);
+                    String label = valueFieldLabels.get(vf);
+                    String val   = toLabel(raw, picklistMaps.get(vf));
+                    rawParts.add(label + ': ' + (val != null ? val : ''));
+                    valParts.add(label + ': ' + (val != null ? val : ''));
+                    if (vf == styleLookup.styledFieldPath) {
+                        styleRawVal = raw;
+                    }
+                }
+                rawValStr = String.join(rawParts, '\n');
+                valStr    = String.join(valParts, '\n');
+            } else {
+                rawValStr = getStringFieldValue(rec, valueFields[0], fieldTypeMap);
+                valStr    = toLabel(rawValStr, picklistMaps.get(valueFields[0]));
+                styleRawVal = rawValStr;
+            }
+            registerCell(g, rowKey, colKey, rawValStr, valStr, styleRawVal, rec, hoverConfigs, picklistMaps, fieldTypeMap);
         }
         return g;
     }
@@ -275,7 +342,7 @@ public with sharing class CustomReportMatrixController {
         return parentKey;
     }
 
-    private static void registerCell(GroupResult g, String rowKey, String colKey, String rawValStr, String valStr, SObject rec, List<HoverFieldConfig> hoverConfigs, Map<String, Map<String, String>> picklistMaps, Map<String, Schema.DisplayType> fieldTypeMap) {
+    private static void registerCell(GroupResult g, String rowKey, String colKey, String rawValStr, String valStr, String styleRawVal, SObject rec, List<HoverFieldConfig> hoverConfigs, Map<String, Map<String, String>> picklistMaps, Map<String, Schema.DisplayType> fieldTypeMap) {
         if (!g.cells.containsKey(rowKey)) {
             g.cells.put(rowKey, new Map<String, Map<String, CellData>>());
         }
@@ -284,7 +351,9 @@ public with sharing class CustomReportMatrixController {
         }
         if (rawValStr != null && valStr != null && !g.cells.get(rowKey).get(colKey).containsKey(rawValStr)) {
             String hoverText = buildHoverText(rec, hoverConfigs, picklistMaps, fieldTypeMap);
-            g.cells.get(rowKey).get(colKey).put(rawValStr, new CellData(rawValStr, valStr, hoverText));
+            CellData cell = new CellData(rawValStr, valStr, hoverText);
+            cell.styleRawValue = styleRawVal;
+            g.cells.get(rowKey).get(colKey).put(rawValStr, cell);
         }
     }
 
@@ -350,16 +419,16 @@ public with sharing class CustomReportMatrixController {
         for (String ck : columnKeys) {
             List<CellData> vals = colMap.containsKey(ck) ? colMap.get(ck).values() : new List<CellData>();
             CellData cell = sortAndJoin(vals);
-            cell.inlineStyle = resolveInlineStyle(cell.rawValue, styleLookup);
+            cell.inlineStyle = resolveInlineStyle(cell.styleRawValue, styleLookup);
             orderedValues.add(cell);
         }
         return orderedValues;
     }
 
-    private static String resolveInlineStyle(String joinedRawValue, StyleLookup stylelookup) {
-        if (String.isBlank(joinedRawValue)) { return ''; }
+    private static String resolveInlineStyle(String styleRawValue, StyleLookup stylelookup) {
+        if (String.isBlank(styleRawValue)) { return ''; }
         Set<String> distinctStyles = new Set<String>();
-        for (String raw : joinedRawValue.split('\n')) {
+        for (String raw : styleRawValue.split('\n')) {
             distinctStyles.add(stylelookup.styleByRawValue.containsKey(raw) ? stylelookup.styleByRawValue.get(raw) : stylelookup.defaultStyle);
         }
         return (distinctStyles.size() == 1) ? new List<String>(distinctStyles)[0] : System.Label.Matrix_ConflictStyle;
@@ -367,20 +436,26 @@ public with sharing class CustomReportMatrixController {
 
     private static CellData sortAndJoin(List<CellData> cellData) {
         if (cellData.isEmpty()) { return new CellData('', '', ''); }
-        List<String> rawValsList = new List<String>();
-        List<String> valsList    = new List<String>();
+        List<String> rawValsList      = new List<String>();
+        List<String> valsList         = new List<String>();
+        List<String> styleRawValsList = new List<String>();
         for (CellData cd : cellData) {
             rawValsList.add(cd.rawValue);
             valsList.add(cd.value);
+            if (cd.styleRawValue != null) { styleRawValsList.add(cd.styleRawValue); }
         }
         rawValsList.sort();
         valsList.sort();
+        styleRawValsList.sort();
         String firstRaw  = rawValsList[0];
         String hoverText = '';
         for (CellData cd : cellData) {
             if (cd.rawValue == firstRaw) { hoverText = cd.hoverText; break; }
         }
-        return new CellData(String.join(rawValsList, '\n'), String.join(valsList, '\n'), hoverText);
+        String recordSeparator = valsList.size() > 1 ? '\n────────\n' : '\n';
+        CellData joined = new CellData(String.join(rawValsList, '\n'), String.join(valsList, recordSeparator), hoverText);
+        joined.styleRawValue = styleRawValsList.isEmpty() ? joined.rawValue : String.join(styleRawValsList, '\n');
+        return joined;
     }
 
     private static Object getFieldValue(SObject record, List<String> fieldApiPath, Integer index) {
@@ -421,7 +496,16 @@ public with sharing class CustomReportMatrixController {
         return picklistMap.containsKey(val) ? picklistMap.get(val) : val;
     }
 
-    private static DescribeFieldResult resolveFieldDescribe(String objectName, String fieldPath) {
+    private static DescribeFieldResult resolveFieldDescribe(String objectName, String fieldPath, Map<String, DescribeFieldResult> describeCache) {
+        if (describeCache.containsKey(fieldPath)) {
+            return describeCache.get(fieldPath);
+        }
+        DescribeFieldResult dfr = resolveFieldDescribeUncached(objectName, fieldPath);
+        describeCache.put(fieldPath, dfr);
+        return dfr;
+    }
+
+    private static DescribeFieldResult resolveFieldDescribeUncached(String objectName, String fieldPath) {
         try {
             List<String> segments = fieldPath.split('\\.');
             SObjectType currentType = Schema.getGlobalDescribe().get(objectName);
@@ -451,8 +535,8 @@ public with sharing class CustomReportMatrixController {
         }
     }
 
-    private static String getFieldLabel(String objectName, String fieldPath) {
-        DescribeFieldResult fieldDescribe = resolveFieldDescribe(objectName, fieldPath);
+    private static String getFieldLabel(String objectName, String fieldPath, Map<String, DescribeFieldResult> describeCache) {
+        DescribeFieldResult fieldDescribe = resolveFieldDescribe(objectName, fieldPath, describeCache);
         return fieldDescribe != null ? fieldDescribe.getLabel() : fieldPath;
     }
 
@@ -480,10 +564,12 @@ public with sharing class CustomReportMatrixController {
     public class FilterOption {
         @AuraEnabled public String            fieldPath  { get; set; }
         @AuraEnabled public String            fieldLabel { get; set; }
+        @AuraEnabled public String            fieldType  { get; set; }
         @AuraEnabled public List<OptionEntry> options    { get; set; }
-        public FilterOption(String fieldLabel, String fieldPath, List<OptionEntry> options) {
+        public FilterOption(String fieldLabel, String fieldPath, String fieldType, List<OptionEntry> options) {
             this.fieldLabel =   fieldLabel;
             this.fieldPath  =   fieldPath;
+            this.fieldType  =   fieldType;
             this.options    =   options;
         }
     }
@@ -532,17 +618,20 @@ public with sharing class CustomReportMatrixController {
         @AuraEnabled public String value       { get; set; }
         @AuraEnabled public String inlineStyle { get; set; }
         @AuraEnabled public String hoverText   { get; set; }
+        public String styleRawValue; // Internal only — raw value of the styled field for style resolution
         public CellData(String rawValue, String value, String hoverText) {
             this.rawValue       =   rawValue;
             this.value          =   value;
             this.inlineStyle    =   '';
             this.hoverText      =   hoverText != null ? hoverText : '';
+            this.styleRawValue  =   rawValue; // Default: same as rawValue (single-value case)
         }
     }
 
     public class StyleLookup {
         Map<String, String> styleByRawValue = new Map<String, String>();
         String defaultStyle = '';
+        String styledFieldPath = '';
     }
 
     public class FieldStyleConfig { // JSON deserialization wrappers for CellStyles__c
