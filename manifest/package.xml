@@ -17,6 +17,7 @@
 	</types>
 	<types>
 		<members>ReportMatrixConfiguration.CountryRegistrationStatusMatrix</members>
+		<members>ReportMatrixConfiguration.CountryTaxStatusMatrix</members>
 		<name>CustomMetadata</name>
 	</types>
 	<types>
@@ -38,6 +39,7 @@
 	</types>
 	<types>
 		<members>customReportMatrix</members>
+		<members>multiSelectSearchList</members>
 		<members>referentialProductHomepage</members>
 		<name>LightningComponentBundle</name>
 	</types>

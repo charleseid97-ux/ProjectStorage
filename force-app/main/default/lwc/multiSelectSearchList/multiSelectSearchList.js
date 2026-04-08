@@ -77,6 +77,12 @@ export default class MultiSelectSearchList extends LightningElement {
     @api refreshOptions(newoptions){
         this.optionsSaved = [...newoptions];
     }
+
+    @api reset() {
+        this.value = [];
+        this.searchKey = '';
+        this.savedSearchKey = '';
+    }
  
    
  

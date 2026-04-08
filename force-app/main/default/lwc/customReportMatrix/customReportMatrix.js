@@ -27,7 +27,138 @@ function parseFontColor(inlineStyle) {
 export default class CustomReportMatrix extends LightningElement {
     @api configName;
 
+    @track matrixData                  = null;
+    @track isLoading                   = false;
+    @track errors                      = [];
+    @track filteredDisplayRows         = [];
+    @track allowExcelExport            = false;
+    @track allowFilter                 = false;
+    @track filterTerm                  = '';
+    @track filterRowsLabel             = 'Filter';
+    @track isFiltering                 = false;
+    @track isReloading                 = false;
+    @track filterSelections            = {};
+    @track pendingFilterSelections     = {};
+    @track dateFilterSelections        = {};
+    @track pendingDateFilterSelections = {};
+    @track dateFilterModes             = {}; // fieldPath → 'exact' | 'range'
+    @track filterOptions               = [];
+    @track tooltipText                 = '';
+    @track tooltipStyle                = '';
+    @track tooltipVisible              = false;
+
+    labels = {
+        configNotFound: LABEL_CONFIG_NOT_FOUND,
+        queryError: LABEL_QUERY_ERROR,
+        noData: LABEL_NO_DATA
+    };
+    sheetJsLoaded = false;
+    sheetJsReady  = false;
+    allDisplayRows = [];
+    filterTimeout  = null;
+
     _pageRef;
+
+    // ─── Getters ─────────────────────────────────────────────────────────────────
+    get hasFilterOptions() {
+        return this.displayFilterOptions.length > 0 || this.hasDateFilterOptions;
+    }
+
+    get noPendingFilters() {
+        const multiSame = JSON.stringify(this.pendingFilterSelections) === JSON.stringify(this.filterSelections);
+        const dateSame  = JSON.stringify(this.pendingDateFilterSelections) === JSON.stringify(this.dateFilterSelections);
+        return multiSame && dateSame;
+    }
+
+    get noActiveFilters() {
+        const hasMulti = Object.values(this.filterSelections).some(v => v && v.length > 0);
+        const hasDate  = Object.values(this.dateFilterSelections).some(v => v && (v.exact || v.from || v.to));
+        return !hasMulti && !hasDate;
+    }
+
+    get displayFilterOptions() {
+        return this.filterOptions
+            .filter(fo => fo.fieldType !== 'DATE' && fo.fieldType !== 'DATETIME')
+            .map(fo => ({ ...fo, selectedValues: this.pendingFilterSelections[fo.fieldPath] || [] }));
+    }
+
+    get displayDateFilterOptions() {
+        return this.filterOptions
+            .filter(fo => fo.fieldType === 'DATE' || fo.fieldType === 'DATETIME')
+            .map(fo => {
+                const mode = this.dateFilterModes[fo.fieldPath] || 'exact';
+                const pending = this.pendingDateFilterSelections[fo.fieldPath] || {};
+                const isDateTime = fo.fieldType === 'DATETIME';
+                const minWidth = mode === 'exact' ? (isDateTime ? '230px' : '180px') : (isDateTime ? '480px' : '280px');
+                return {
+                    ...fo,
+                    isExact:    mode === 'exact',
+                    isRange:    mode === 'range',
+                    modeLabel:  mode === 'exact' ? 'Exact' : 'Range',
+                    exactValue: pending.exact || '',
+                    fromValue:  pending.from  || '',
+                    toValue:    pending.to    || '',
+                    inputType:  isDateTime ? 'datetime-local' : 'date',
+                    groupStyle: `min-width: ${minWidth}`
+                };
+            });
+    }
+
+    get hasDateFilterOptions() {
+        return this.displayDateFilterOptions.length > 0;
+    }
+
+    get isExportDisabled() {
+        return !this.hasData;
+    }
+
+    get title() {
+        return this.matrixData?.title || this.configName || '';
+    }
+
+    get hasErrors() {
+        return this.errors && this.errors.length > 0;
+    }
+
+    get hasData() {
+        return this.matrixData && this.matrixData.rowTree && this.matrixData.rowTree.length > 0;
+    }
+
+    get isEmpty() {
+        return !this.isLoading && !this.hasErrors && !this.hasData;
+    }
+
+    /** One header entry per row-group level, used in the last thead <tr>. */
+    get rowGroupHeaders() {
+        return (this.matrixData?.rowGroupLabels || []).map((label, i) => ({
+            key:         `rgh-${i}`,
+            label:       label + ' \u2193',
+            cssClass:    'corner-cell sticky-col sticky-header col-group2-header',
+            stickyStyle: this.stickyStyle(i, false)
+        }));
+    }
+
+    get cornerStickyStyle() {
+        return `left: 0px; background-color: rgb(${STICKY_BG_BASE}, ${STICKY_BG_BASE}, ${STICKY_BG_BASE});`;
+    }
+
+    stickyStyle(depth, isBodyCell) {
+        const left = depth * STICKY_COL_WIDTH;
+        const v    = Math.min(255, Math.round(STICKY_BG_BASE + depth * STICKY_BG_STEP));
+        const bg   = `rgb(${v}, ${v}, ${v})`;
+        let style  = `left: ${left}px; width: ${STICKY_COL_WIDTH}px; min-width: ${STICKY_COL_WIDTH}px; max-width: ${STICKY_COL_WIDTH}px; background-color: ${bg};`;
+        if (isBodyCell) {
+            style += ` font-weight: ${depth === 0 ? 700 : 500};`;
+            style += (depth === 0)? ' border-right: 2px solid #dddbda;' : '';
+        }
+        return style;
+    }
+
+    /** Number of sticky left columns = number of active row-group levels. */
+    get cornerColspan() {
+        return this.matrixData?.rowGroupLabels?.length || 1;
+    }
+
     // Fired on every navigation event (including returning to a cached tab).
     @wire(CurrentPageReference)
     handlePageRef(ref) {
@@ -40,34 +171,6 @@ export default class CustomReportMatrix extends LightningElement {
             }
         }
     }
-
-    @track matrixData          = null;
-    @track isLoading           = false;
-    @track errors              = [];
-    @track filteredDisplayRows = [];
-    @track allowExcelExport    = false;
-    @track allowFilter         = false;
-    @track filterTerm          = '';
-    @track filterRowsLabel     = 'Filter';
-    @track isFiltering            = false;
-    @track isReloading            = false;
-    @track filterSelections       = {};
-    @track pendingFilterSelections = {};
-    @track filterOptions          = [];
-    @track tooltipText    = '';
-    @track tooltipStyle   = '';
-    @track tooltipVisible = false;
-
-    sheetJsLoaded = false;
-    sheetJsReady  = false;
-    allDisplayRows = [];
-    filterTimeout  = null;
-
-    labels = {
-        configNotFound: LABEL_CONFIG_NOT_FOUND,
-        queryError: LABEL_QUERY_ERROR,
-        noData: LABEL_NO_DATA
-    };
 
     connectedCallback() {
         this.loadMatrix();
@@ -100,9 +203,12 @@ export default class CustomReportMatrix extends LightningElement {
             this.allowFilter         = result.allowFilters ?? false;
             this.filterRowsLabel     = result.filterRowsLabel || 'Filter';
             if (isInitialLoad) {
-                this.filterOptions          = result.filterOptions || [];
-                this.filterSelections       = {};
-                this.pendingFilterSelections = {};
+                this.filterOptions               = result.filterOptions || [];
+                this.filterSelections            = {};
+                this.pendingFilterSelections     = {};
+                this.dateFilterSelections        = {};
+                this.pendingDateFilterSelections = {};
+                this.dateFilterModes             = {};
                 const urlSearchKey = this._pageRef?.state?.c__searchKey;
                 this.filterTerm = urlSearchKey ? decodeURIComponent(urlSearchKey) : '';
                 if (this.filterTerm) {
@@ -288,8 +394,48 @@ export default class CustomReportMatrix extends LightningElement {
         this.pendingFilterSelections = { ...this.pendingFilterSelections, [fieldPath]: selectedValues };
     }
 
+    handleDateFilterChange(event) {
+        const fieldPath = event.target.dataset.fieldPath;
+        const bound     = event.target.dataset.bound; // 'exact', 'from', or 'to'
+        const value     = event.target.value || '';
+        const current   = this.pendingDateFilterSelections[fieldPath] || {};
+        this.pendingDateFilterSelections = {
+            ...this.pendingDateFilterSelections,
+            [fieldPath]: { ...current, [bound]: value }
+        };
+    }
+
+    handleDateModeToggle(event) {
+        const fieldPath = event.currentTarget.dataset.fieldPath;
+        const current   = this.dateFilterModes[fieldPath] || 'exact';
+        this.dateFilterModes = { ...this.dateFilterModes, [fieldPath]: current === 'exact' ? 'range' : 'exact' };
+        // Clear pending values for this field when switching mode
+        const { [fieldPath]: _, ...rest } = this.pendingDateFilterSelections;
+        this.pendingDateFilterSelections = rest;
+    }
+
     handleApplyFilters() {
-        this.filterSelections = { ...this.pendingFilterSelections };
+        const merged = { ...this.pendingFilterSelections };
+        for (const [fp, vals] of Object.entries(this.pendingDateFilterSelections)) {
+            const mode = this.dateFilterModes[fp] || 'exact';
+            if (mode === 'exact' && vals.exact) {
+                merged[fp] = [vals.exact];
+            } else if (mode === 'range' && (vals.from || vals.to)) {
+                merged[fp] = [vals.from || '', vals.to || ''];
+            }
+        }
+        this.filterSelections     = merged;
+        this.dateFilterSelections = { ...this.pendingDateFilterSelections };
+        this.loadMatrix(false);
+    }
+
+    handleResetFilters() {
+        this.filterSelections            = {};
+        this.pendingFilterSelections     = {};
+        this.dateFilterSelections        = {};
+        this.pendingDateFilterSelections = {};
+        this.dateFilterModes             = {};
+        this.template.querySelectorAll('c-multi-select-search-list').forEach(cmp => cmp.reset());
         this.loadMatrix(false);
     }
 
@@ -388,7 +534,7 @@ export default class CustomReportMatrix extends LightningElement {
                 styles[`${absRow},${leftColCount + vi}`] = {
                     fill: { fgColor: { rgb: bg } },
                     font: fontColor ? { color: { rgb: fontColor } } : {},
-                    alignment: { horizontal: 'center', vertical: 'center' },
+                    alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
                     border
                 };
                 if (v.tooltip) {
@@ -418,69 +564,5 @@ export default class CustomReportMatrix extends LightningElement {
             ws[addr].c.hidden = true;
         });
         return ws;
-    }
-
-    // ─── Getters ─────────────────────────────────────────────────────────────────
-    get hasFilterOptions() {
-        return this.filterOptions && this.filterOptions.length > 0;
-    }
-
-    get noPendingFilters() {
-        return !(JSON.stringify(this.pendingFilterSelections) !== JSON.stringify(this.filterSelections));
-    }
-
-    get displayFilterOptions() {
-        return this.filterOptions.map(fo => ({ ...fo, selectedValues: this.pendingFilterSelections[fo.fieldPath] || []}));
-    }
-
-    get isExportDisabled() {
-        return !this.hasData;
-    }
-
-    get title() {
-        return this.matrixData?.title || this.configName || '';
-    }
-
-    get hasErrors() {
-        return this.errors && this.errors.length > 0;
-    }
-
-    get hasData() {
-        return this.matrixData && this.matrixData.rowTree && this.matrixData.rowTree.length > 0;
-    }
-
-    get isEmpty() {
-        return !this.isLoading && !this.hasErrors && !this.hasData;
-    }
-
-    /** One header entry per row-group level, used in the last thead <tr>. */
-    get rowGroupHeaders() {
-        return (this.matrixData?.rowGroupLabels || []).map((label, i) => ({
-            key:         `rgh-${i}`,
-            label:       label + ' \u2193',
-            cssClass:    'corner-cell sticky-col sticky-header col-group2-header',
-            stickyStyle: this.stickyStyle(i, false)
-        }));
-    }
-
-    get cornerStickyStyle() {
-        return `left: 0px; background-color: rgb(${STICKY_BG_BASE}, ${STICKY_BG_BASE}, ${STICKY_BG_BASE});`;
-    }
-
-    stickyStyle(depth, isBodyCell) {
-        const left = depth * STICKY_COL_WIDTH;
-        const v    = Math.min(255, Math.round(STICKY_BG_BASE + depth * STICKY_BG_STEP));
-        const bg   = `rgb(${v}, ${v}, ${v})`;
-        let style  = `left: ${left}px; width: ${STICKY_COL_WIDTH}px; min-width: ${STICKY_COL_WIDTH}px; max-width: ${STICKY_COL_WIDTH}px; background-color: ${bg};`;
-        if (isBodyCell) {
-            style += ` font-weight: ${depth === 0 ? 700 : 500};`;
-            style += (depth === 0)? ' border-right: 2px solid #dddbda;' : '';
-        }
-        return style;
-    }
-
-    /** Number of sticky left columns = number of active row-group levels. */
-    get cornerColspan() {
-        return this.matrixData?.rowGroupLabels?.length || 1;
     }
 }
