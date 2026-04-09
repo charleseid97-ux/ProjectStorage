@@ -3,8 +3,8 @@
     <actionCalls>
         <name>GenerateClientInterestsFromRawNote</name>
         <label>GenerateClientInterestsFromRawNote</label>
-        <locationX>176</locationX>
-        <locationY>242</locationY>
+        <locationX>50</locationX>
+        <locationY>350</locationY>
         <actionName>flex_GenerateClientInterestsFromRawNote</actionName>
         <actionType>generatePromptResponse</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -24,8 +24,8 @@
     <actionCalls>
         <name>SummaryFromRawNote</name>
         <label>SummaryFromRawNote</label>
-        <locationX>176</locationX>
-        <locationY>134</locationY>
+        <locationX>50</locationX>
+        <locationY>242</locationY>
         <actionName>flex_SummaryFromRawNote</actionName>
         <actionType>generatePromptResponse</actionType>
         <connector>
@@ -47,6 +47,51 @@
     </actionCalls>
     <apiVersion>63.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>Assignment_1</name>
+        <label>set AI Note the same As original Note</label>
+        <locationX>314</locationX>
+        <locationY>242</locationY>
+        <assignmentItems>
+            <assignToReference>Output_Summary</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>MeetingNote.Raw_Note__c</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <decisions>
+        <name>Generate_Client_Interests</name>
+        <label>Generate AI Note and Interests ?</label>
+        <locationX>182</locationX>
+        <locationY>134</locationY>
+        <defaultConnector>
+            <targetReference>Assignment_1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>is_SalesPresentation</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>MeetingNote.SalesPresentation__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>MeetingNote.RelationshipManagement__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>SummaryFromRawNote</targetReference>
+            </connector>
+            <label>is SalesPresentation only</label>
+        </rules>
+    </decisions>
     <environments>Default</environments>
     <interviewLabel>AL_RawText_GeneratePromptsResponses {!$Flow.CurrentDateTime}</interviewLabel>
     <label>AL_RawText_GeneratePromptsResponses</label>
@@ -71,10 +116,10 @@
     <processType>AutoLaunchedFlow</processType>
     <runInMode>SystemModeWithoutSharing</runInMode>
     <start>
-        <locationX>50</locationX>
+        <locationX>56</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>SummaryFromRawNote</targetReference>
+            <targetReference>Generate_Client_Interests</targetReference>
         </connector>
     </start>
     <status>Active</status>

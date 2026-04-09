@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>62.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
         <description>Add the record to the Prompt</description>
         <name>Add_Strategy_to_Prompt</name>
         <elementSubtype>AddPromptInstructions</elementSubtype>
         <label>Add Strategy to Prompt</label>
         <locationX>264</locationX>
-        <locationY>350</locationY>
+        <locationY>758</locationY>
         <assignmentItems>
             <assignToReference>$Output.Prompt</assignToReference>
             <operator>Add</operator>
@@ -24,6 +25,22 @@ Strategy Name: {!LoopOverStrategies.Name}
             <targetReference>LoopOverStrategies</targetReference>
         </connector>
     </assignments>
+    <assignments>
+        <name>Collect_Strategy_Ids</name>
+        <label>Collect Strategy Ids</label>
+        <locationX>264</locationX>
+        <locationY>350</locationY>
+        <assignmentItems>
+            <assignToReference>StrategyIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>productsLoop.FundStrategy__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>productsLoop</targetReference>
+        </connector>
+    </assignments>
     <description>Use this Prompt Template flow to retrieve product info</description>
     <environments>Default</environments>
     <interviewLabel>PT_RetrieveProducts {!$Flow.CurrentDateTime}</interviewLabel>
@@ -33,12 +50,26 @@ Strategy Name: {!LoopOverStrategies.Name}
         <name>LoopOverStrategies</name>
         <label>LoopOverStrategies</label>
         <locationX>176</locationX>
-        <locationY>242</locationY>
+        <locationY>650</locationY>
         <collectionReference>GetStrategy</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
             <targetReference>Add_Strategy_to_Prompt</targetReference>
         </nextValueConnector>
+    </loops>
+    <loops>
+        <name>productsLoop</name>
+        <label>Products loop</label>
+        <locationX>176</locationX>
+        <locationY>242</locationY>
+        <collectionReference>Get_Active_Products</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Collect_Strategy_Ids</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>GetStrategy</targetReference>
+        </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
         <name>BuilderType</name>
@@ -60,15 +91,53 @@ Strategy Name: {!LoopOverStrategies.Name}
     </processMetadataValues>
     <processType>PromptFlow</processType>
     <recordLookups>
-        <description>Retrieve all /strategies</description>
-        <name>GetStrategy</name>
-        <label>GetStrategy</label>
+        <name>Get_Active_Products</name>
+        <label>Get Active Products</label>
         <locationX>176</locationX>
         <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
+            <targetReference>productsLoop</targetReference>
+        </connector>
+        <filterLogic>1 AND  NOT(2)</filterLogic>
+        <filters>
+            <field>Validity__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>FundStrategy__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Product__c</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>FundStrategy__c</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Retrieve all /strategies</description>
+        <name>GetStrategy</name>
+        <label>GetStrategy</label>
+        <locationX>176</locationX>
+        <locationY>542</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
             <targetReference>LoopOverStrategies</targetReference>
         </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>StrategyIds</elementReference>
+            </value>
+        </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>Strategy__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -77,7 +146,7 @@ Strategy Name: {!LoopOverStrategies.Name}
         <locationX>50</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>GetStrategy</targetReference>
+            <targetReference>Get_Active_Products</targetReference>
         </connector>
         <triggerType>Capability</triggerType>
     </start>
@@ -95,6 +164,13 @@ Product  Name: {!LoopOverStrategies.Name}
         <name>out</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>StrategyIds</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
