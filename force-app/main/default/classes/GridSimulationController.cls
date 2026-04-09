@@ -21,7 +21,7 @@ public with sharing class GridSimulationController {
         Map<Id, Decimal> rebateByScId = buildRebateMap(shareClassIds, shareClassGridIdMapJson);
 
         // ── 3. ShareClass info ───────────────────────────────────────────────
-        Map<Id, Share_Class__c> scById = new Map<Id, Share_Class__c>([SELECT Id, ISIN__c, EffectiveManagementFees__c, Fund__r.InternalShortName__c, Fund__r.ProductName__c, Fund__r.FundStrategy__r.AssetClass__c
+        Map<Id, Share_Class__c> scById = new Map<Id, Share_Class__c>([SELECT Id, Name, ISIN__c, EffectiveManagementFees__c, Fund__r.InternalShortName__c, Fund__r.ProductName__c, Fund__r.FundStrategy__r.AssetClass__c
                                                                       FROM Share_Class__c
                                                                       WHERE Id IN :shareClassIds
                                                                       ORDER BY Fund__r.InternalShortName__c ASC, ISIN__c ASC]);
@@ -33,14 +33,15 @@ public with sharing class GridSimulationController {
             if (sc == null) continue;
 
             SimulationRow row = new SimulationRow();
-            row.shareClassId  = scId;
-            row.range         = sc.Fund__r?.FundStrategy__r?.AssetClass__c;
-            row.ptfCode       = sc.Fund__r?.InternalShortName__c;
-            row.name          = sc.Fund__r?.ProductName__c;
-            row.isin          = sc.ISIN__c;
-            row.effMgtFees    = sc.EffectiveManagementFees__c;
-            row.aum           = aumByScId.containsKey(scId) ? aumByScId.get(scId) : 0;
-            row.rebateRate    = rebateByScId.containsKey(scId) ? rebateByScId.get(scId) : 0;
+            row.shareClassId   = scId;
+            row.shareClassName = sc.Name;
+            row.range          = sc.Fund__r?.FundStrategy__r?.AssetClass__c;
+            row.ptfCode        = sc.Fund__r?.InternalShortName__c;
+            row.name           = sc.Fund__r?.ProductName__c;
+            row.isin           = sc.ISIN__c;
+            row.effMgtFees     = sc.EffectiveManagementFees__c;
+            row.aum            = aumByScId.containsKey(scId) ? aumByScId.get(scId) : 0;
+            row.rebateRate     = rebateByScId.containsKey(scId) ? rebateByScId.get(scId) : 0;
             rows.add(row);
         }
 
@@ -87,9 +88,17 @@ public with sharing class GridSimulationController {
         return result;
     }
 
+    @AuraEnabled(cacheable=true)
+    public static String getAgreementRegion(List<Id> agreementIds) {
+        if (agreementIds == null || agreementIds.isEmpty()) return null;
+        List<Convention__c> convs = [SELECT Business_Region__c FROM Convention__c WHERE Id IN :agreementIds LIMIT 1];
+        return convs.isEmpty() ? null : convs[0].Business_Region__c;
+    }
+
     // ── Wrappers ───────────────────────────────────────────────────────────
     public class SimulationRow {
         @AuraEnabled public Id      shareClassId;
+        @AuraEnabled public String  shareClassName;
         @AuraEnabled public String  range;
         @AuraEnabled public String  ptfCode;
         @AuraEnabled public String  name;

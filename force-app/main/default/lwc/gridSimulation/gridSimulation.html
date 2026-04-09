@@ -13,9 +13,10 @@
             </div>
         </template>
 
-        <!-- Back button -->
+        <!-- Header actions -->
         <div class="sim-header">
             <lightning-button label="← Back to Validation" variant="neutral" onclick={handleBack}></lightning-button>
+            <lightning-button label="Export Excel" icon-name="utility:download" variant="neutral" onclick={handleExport}></lightning-button>
         </div>
 
         <template if:true={hasRows}>

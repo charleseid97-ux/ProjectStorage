@@ -1,5 +1,10 @@
 import { LightningElement, api, track } from 'lwc';
-import getSimulationData from '@salesforce/apex/GridSimulationController.getSimulationData';
+import { loadScript } from 'lightning/platformResourceLoader';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { LABELS } from 'c/gridBuilderUtils';
+import XlsxJsStyle from '@salesforce/resourceUrl/xlsxjsstyle';
+import getSimulationData    from '@salesforce/apex/GridSimulationController.getSimulationData';
+import getAgreementRegion  from '@salesforce/apex/GridSimulationController.getAgreementRegion';
 
 const FMT     = new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const FMT_INT = new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 0 });
@@ -19,6 +24,10 @@ export default class GridSimulation extends LightningElement {
     @track error               = null;
     @track editingNewMoneyId   = null;
     _focusNewMoney             = false;
+    labels                     = LABELS;
+    sheetJsLoaded              = false;
+    sheetJsReady               = false;
+    agreementRegion            = null;
 
     // ── Step 1: raw numbers — base for all derived getters ───────────────────
     get rawRows() {
@@ -167,13 +176,17 @@ export default class GridSimulation extends LightningElement {
                 (map[gridId] || []).forEach(scId => { scGridMap[scId] = gridId; });
             });
 
-            const raw = await getSimulationData({
-                shareClassIds: shareClassIds,
-                agreementIds: this.selectedAgreements || [],
-                shareClassGridIdMapJson: JSON.stringify(scGridMap)
-            });
+            const [raw, region] = await Promise.all([
+                getSimulationData({
+                    shareClassIds: shareClassIds,
+                    agreementIds: this.selectedAgreements || [],
+                    shareClassGridIdMapJson: JSON.stringify(scGridMap)
+                }),
+                getAgreementRegion({ agreementIds: this.selectedAgreements || [] })
+            ]);
 
             this.rows = (raw || []).map(r => ({ ...r, newMoney: 0 }));
+            this.agreementRegion = region;
         }
         catch (e) {
             this.error = e?.body?.message || e?.message || 'Unknown error';
@@ -184,6 +197,12 @@ export default class GridSimulation extends LightningElement {
     }
 
     renderedCallback() {
+        if (!this.sheetJsLoaded) {
+            this.sheetJsLoaded = true;
+            loadScript(this, XlsxJsStyle)
+                .then(() => { this.sheetJsReady = true; })
+                .catch(() => {});
+        }
         if (this._focusNewMoney && this.editingNewMoneyId) {
             this._focusNewMoney = false;
             const input = this.template.querySelector(`input[data-id="${this.editingNewMoneyId}"][data-field="newMoney"]`);
@@ -239,5 +258,117 @@ export default class GridSimulation extends LightningElement {
     handleRemoveRow(e) {
         const id = e.currentTarget.dataset.id;
         this.customRows = this.customRows.filter(r => r.shareClassId !== id);
+    }
+
+    // ── Excel export (ALLEGATO template) ─────────────────────────────────────
+    handleExport() {
+        if (!window.XLSX) {
+            this.dispatchEvent(new ShowToastEvent({
+                title: 'Export not ready',
+                message: 'Excel library is still loading. Please try again.',
+                variant: 'warning'
+            }));
+            return;
+        }
+
+        const COLS = 5;
+        const aoa = [], styles = {}, merges = [];
+        const lang = this.agreementRegion === 'BP_IT' ? 'IT' : this.agreementRegion === 'BP_FR' ? 'FR' : 'EN';
+        const L = key => this.labels[`${key}_${lang}`] || '';
+
+        const border = {
+            top:    { style: 'thin', color: { rgb: 'CCCCCC' } },
+            bottom: { style: 'thin', color: { rgb: 'CCCCCC' } },
+            left:   { style: 'thin', color: { rgb: 'CCCCCC' } },
+            right:  { style: 'thin', color: { rgb: 'CCCCCC' } }
+        };
+        const textStyle = { alignment: { wrapText: true, vertical: 'top' } };
+        const hdrStyle  = { fill: { fgColor: { rgb: 'E8E8E8' } }, font: { bold: true }, alignment: { horizontal: 'center', vertical: 'center' }, border };
+        const dataStyle = { alignment: { vertical: 'center' }, border };
+        const numStyle  = { alignment: { horizontal: 'right', vertical: 'center' }, border };
+
+        // 1. Header block — each line becomes its own row, merged A–E
+        const headerLines = L('Grid_SimExport_Header').split('\n');
+        headerLines.forEach((line, i) => {
+            aoa.push([line, null, null, null, null]);
+            styles[`${i},0`] = (i === 0) ? { alignment: { wrapText: true, vertical: 'center', horizontal: 'center' }, font: { bold: true, sz: 13 } } : textStyle;
+            merges.push({ s: { r: i, c: 0 }, e: { r: i, c: COLS - 1 } });
+        });
+
+        // 2. Blank separator
+        aoa.push([null, null, null, null, null]);
+
+        // 3. Column header row
+        const colHdrRow = aoa.length;
+        aoa.push([
+            L('Grid_SimExport_Col_FundName'),
+            L('Grid_SimExport_Col_ShareClass'),
+            L('Grid_SimExport_Col_ISIN'),
+            L('Grid_SimExport_Col_EffMgtFees'),
+            L('Grid_SimExport_Col_Rebate')
+        ]);
+        for (let c = 0; c < COLS; c++) styles[`${colHdrRow},${c}`] = hdrStyle;
+
+        // 4. Data rows (real + custom rows, non-custom only for the official export)
+        this.rawRows.filter(r => !r.isCustom).forEach(r => {
+            const row = aoa.length;
+            aoa.push([
+                r.name           || '',
+                r.shareClassName || '',
+                r.isin           || '',
+                r.effMgtFees != null ? r.effMgtFees / 100 : '',
+                r.rebateRate  != null ? r.rebateRate  / 100 : ''
+            ]);
+            for (let c = 0; c < COLS; c++) {
+                styles[`${row},${c}`] = (c >= 3) ? numStyle : dataStyle;
+            }
+        });
+
+        // 5. Blank separator
+        aoa.push([null, null, null, null, null]);
+
+        // 6. Footer block — each line merged A–E
+        const footerStart = aoa.length;
+        const footerLines = L('Grid_SimExport_Footer').split('\n');
+        footerLines.forEach((line, i) => {
+            aoa.push([line, null, null, null, null]);
+            styles[`${footerStart + i},0`] = (i === 0) ? { ...textStyle, font: { bold: true } } : textStyle;
+            merges.push({ s: { r: footerStart + i, c: 0 }, e: { r: footerStart + i, c: COLS - 1 } });
+        });
+
+        // Build worksheet
+        const ws = window.XLSX.utils.aoa_to_sheet(aoa);
+        ws['!merges'] = merges;
+        ws['!cols'] = [
+            { wch: 35 },
+            { wch: 20 },
+            { wch: 15 },
+            { wch: 30 },
+            { wch: 40 }
+        ];
+
+        // Apply cell styles
+        Object.keys(styles).forEach(key => {
+            const [r, c] = key.split(',').map(Number);
+            const addr = window.XLSX.utils.encode_cell({ r, c });
+            if (!ws[addr]) ws[addr] = { v: '', t: 's' };
+            ws[addr].s = styles[key];
+        });
+
+        // Apply percentage number format to fee/rebate columns
+        this.rawRows.filter(r => !r.isCustom).forEach((_, ri) => {
+            const row = colHdrRow + 1 + ri;
+            [3, 4].forEach(c => {
+                const addr = window.XLSX.utils.encode_cell({ r: row, c });
+                if (ws[addr] && ws[addr].v !== '') {
+                    ws[addr].t = 'n';
+                    ws[addr].z = '0.000%';
+                }
+            });
+        });
+
+        const wb = window.XLSX.utils.book_new();
+        window.XLSX.utils.book_append_sheet(wb, ws, 'Allegato');
+        window.XLSX.writeFile(wb, 'GridSimulation_Allegato.xlsx');
     }
 }

@@ -865,6 +865,208 @@
         <value>Share Types</value>
     </labels>
     <labels>
+        <fullName>Grid_SimExport_Col_EffMgtFees_EN</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - Effective Management Fees (EN)</shortDescription>
+        <value>Management fees effectively charged</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Col_EffMgtFees_FR</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - Effective Management Fees (FR)</shortDescription>
+        <value>Frais de gestion fixes effectivement prélevés</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Col_EffMgtFees_IT</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - Effective Management Fees (IT)</shortDescription>
+        <value>Commissioni effettive di gestione</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Col_FundName_EN</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - Fund Name (EN)</shortDescription>
+        <value>Name of Funds</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Col_FundName_FR</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - Fund Name (FR)</shortDescription>
+        <value>Nom des Fonds</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Col_FundName_IT</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - Fund Name (IT)</shortDescription>
+        <value>Denominazione dei Fondi</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Col_ISIN_EN</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - ISIN Code (EN)</shortDescription>
+        <value>ISIN</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Col_ISIN_FR</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - ISIN Code (FR)</shortDescription>
+        <value>Code ISIN</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Col_ISIN_IT</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - ISIN Code (IT)</shortDescription>
+        <value>Codice ISIN</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Col_Rebate_EN</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - Rebate (EN)</shortDescription>
+        <value>Remuneration</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Col_Rebate_FR</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - Rebate (FR)</shortDescription>
+        <value>Taux de rémunération</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Col_Rebate_IT</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - Rebate (IT)</shortDescription>
+        <value>Retrocessione spettante al soggetto collocatore</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Col_ShareClass_EN</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - Share Class (EN)</shortDescription>
+        <value>Share Class</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Col_ShareClass_FR</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - Share Class (FR)</shortDescription>
+        <value>Parts/actions</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Col_ShareClass_IT</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - Share Class (IT)</shortDescription>
+        <value>Share class</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Footer_EN</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Footer - Formula block (EN)</shortDescription>
+        <value>Calculation formula: DFfm = [(NUfdm x NAVfdm) + (NUfdm-1 x NAVfdm-1)] /2 x (DFRfdm/12)
+
+DFfm: Remuneration amount for the Fund (f) for the month (m)
+NUfdm: number of units of the Fund (f) held on the last business day (d) of the month (m)
+NAVfdm: net asset value of the Fund (f) on the last business day (d) of the month (m)
+NUfdm-1: number of units of the Fund (f) held on the last business day (d) of the month (m-1)
+NAVfdm-1: net asset value of the Fund (f) on the last business day (d) of the month (m-1)
+DFRfdm: Remuneration rate applicable to the Fund (f) on the last business day (d) of the month (m)</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Footer_FR</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Footer - Formula block (FR)</shortDescription>
+        <value>Formule de calcul: MRfm = [(NPfjm x VLfjm) + (NPfjm-1 x VLfjm-1)] / 2 x (TRfjm/12)
+MRfm: montant de la rémunération pour le fonds f le mois m
+NPfjm: nombre de parts du fonds f détenues le dernier jour ouvré du mois m
+VLfjm: valeur liquidative du fonds f le dernier jour ouvré du mois m
+NPfjm-1: nombre de parts du fonds f détenues le dernier jour ouvré du mois m-1
+VLfjm-1: valeur liquidative du fonds f le dernier jour ouvré du mois m-1
+TRfjm: taux de rémunération en vigueur pour le fonds f le dernier jour ouvré du mois m</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Footer_IT</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Footer - Formula block (IT)</shortDescription>
+        <value>Formula di calcolo: DFfm = [(NUfdm x NAVfdm) + (NUfdm-1 x NAVfdm-1)] /2 x (DFRfdm/12)
+
+DFfm: Importo della remunerazione del Fondo (f) per il mese (m)
+NUfdm: Numero di quote del Fondo (f) detenute l&apos;ultimo giorno lavorativo (d) del mese (m)
+NAVfdm: Valore patrimoniale netto del Fondo (f) l&apos;ultimo giorno lavorativo (d) del mese (m)
+NUfdm-1: Numero di quote del Fondo (f) detenute l&apos;ultimo giorno lavorativo (d) del mese (m-1)
+NAVfdm-1: Valore patrimoniale netto del Fondo (f) l&apos;ultimo giorno lavorativo (d) del mese (m-1)
+FRfdm: Tasso della remunerazione applicabile al Fondo (f) l&apos;ultimo giorno lavorativo (d) del mese (m)</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Header_EN</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Header - Annex text (EN)</shortDescription>
+        <value>ANNEXE - REMUNERATION
+
+The remuneration is calculated on the basis of the average assets under management (AUM) at month-end (average between the AUM on the last business day of the month and on the last business day of the previous month according to the calculation formula below).
+The remuneration is correlated to the management fees effectively charged of the Funds.
+If the management fees effectively charged vary during the year, an updated fee schedule will be sent.
+For the avoidance of doubt, even if the fee schedule is sent a posteriori, the calculation is adapted at the date of modification of the management effectively charged.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Header_FR</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Header - Annex text (FR)</shortDescription>
+        <value>ANNEXE - REMUNERATION
+L&apos;assiette est constituée de la moyenne mensuelle des encours (moyenne entre les encours du dernier jour ouvré du mois et ceux du dernier jour ouvré du mois précédent) selon la formule explicitée ci-après.
+La rémunération est corrélée aux frais de gestion effectivement prélevés des Fonds.
+Si les frais effectivement prélevés varient en cours d&apos;années, une grille actualisée vous sera envoyée.
+Le calcul est adapté à la date de modification des frais effectivement prélevés, même si la grille actualisée est envoyée a posteriori.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Header_IT</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Header - Annex text (IT)</shortDescription>
+        <value>ALLEGATO - REMUNERAZIONE
+
+La base di calcolo è costituita dalla media del patrimonio a fine mese (media tra il patrimonio dell&apos;ultimo giorno lavorativo del mese e quello dell&apos;ultimo giorno lavorativo del mese precedente) secondo la formula di seguito illustrata.
+La remunerazione è correlata alle spese di gestione effettivamente spettanti ai Fondi.
+Nel caso tali spese cambino nel corso dell&apos;anno, sarà inviata una griglia aggiornata.
+Il calcolo viene adattato alla data di variazione delle spese effettivamente applicate, anche nel caso in cui la griglia aggiornata sia inviata a modifica avvenuta.</value>
+    </labels>
+    <labels>
         <fullName>Grid_SomeRowsFailed</fullName>
         <language>en_US</language>
         <protected>false</protected>
