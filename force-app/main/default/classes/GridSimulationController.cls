@@ -88,6 +88,37 @@ public with sharing class GridSimulationController {
         return result;
     }
 
+    @AuraEnabled(cacheable=false)
+    public static SimulationInitData getSimulationInitData(Id gridId) {
+        // 1. Share class IDs + scGridMap from GridDetail__c
+        List<GridDetail__c> details = [SELECT ShareClass__c FROM GridDetail__c WHERE Grid__c = :gridId AND ShareClass__c != null];
+        List<Id> shareClassIds = new List<Id>();
+        Map<String, Object> scGridMap = new Map<String, Object>();
+        for (GridDetail__c gd : details) {
+            shareClassIds.add(gd.ShareClass__c);
+            scGridMap.put(String.valueOf(gd.ShareClass__c), String.valueOf(gridId));
+        }
+
+        // 2. Agreement IDs (custom grid: Grid__c or Grid_Request__c)
+        List<Id> agreementIds = new List<Id>();
+        for (Convention__c c : [SELECT Id FROM Convention__c WHERE Grid__c = :gridId OR Grid_Request__c = :gridId]) {
+            agreementIds.add(c.Id);
+        }
+
+        // 3. Agreement region
+        String region = null;
+        if (!agreementIds.isEmpty()) {
+            List<Convention__c> convs = [SELECT Business_Region__c FROM Convention__c WHERE Id IN :agreementIds LIMIT 1];
+            if (!convs.isEmpty()) region = convs[0].Business_Region__c;
+        }
+
+        // 4. Reuse existing simulation logic
+        SimulationInitData result = new SimulationInitData();
+        result.rows            = getSimulationData(shareClassIds, agreementIds, JSON.serialize(scGridMap));
+        result.agreementRegion = region;
+        return result;
+    }
+
     @AuraEnabled(cacheable=true)
     public static String getAgreementRegion(List<Id> agreementIds) {
         if (agreementIds == null || agreementIds.isEmpty()) return null;
@@ -96,6 +127,11 @@ public with sharing class GridSimulationController {
     }
 
     // ── Wrappers ───────────────────────────────────────────────────────────
+    public class SimulationInitData {
+        @AuraEnabled public List<SimulationRow> rows;
+        @AuraEnabled public String agreementRegion;
+    }
+
     public class SimulationRow {
         @AuraEnabled public Id      shareClassId;
         @AuraEnabled public String  shareClassName;

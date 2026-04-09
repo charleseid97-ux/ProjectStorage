@@ -5,6 +5,7 @@ import { LABELS } from 'c/gridBuilderUtils';
 import XlsxJsStyle from '@salesforce/resourceUrl/xlsxjsstyle';
 import getSimulationData    from '@salesforce/apex/GridSimulationController.getSimulationData';
 import getAgreementRegion  from '@salesforce/apex/GridSimulationController.getAgreementRegion';
+import getSimulationInitData from '@salesforce/apex/GridSimulationController.getSimulationInitData';
 
 const FMT     = new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const FMT_INT = new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 0 });
@@ -13,6 +14,7 @@ const fmtInt  = (v, suffix = '') => (v == null ? '—' : FMT_INT.format(Math.tru
 
 export default class GridSimulation extends LightningElement {
 
+    @api recordId;
     @api selectedShareClasses = [];
     @api selectedAgreements   = [];
     @api gridShareClassMap    = {};
@@ -156,8 +158,9 @@ export default class GridSimulation extends LightningElement {
         };
     }
 
-    get hasRows()  { return this.rows.length > 0 || this.customRows.length > 0; }
-    get hasError() { return !!this.error; }
+    get hasRows()      { return this.rows.length > 0 || this.customRows.length > 0; }
+    get hasError()     { return !!this.error; }
+    get isRecordPage() { return !!this.recordId; }
 
     connectedCallback() {
         this.loadData();
@@ -167,26 +170,30 @@ export default class GridSimulation extends LightningElement {
         this.isLoading = true;
         this.error = null;
         try {
-            const shareClassIds = (this.selectedShareClasses || []).map(sc => sc.id);
-
-            // Invert gridShareClassMap (gridId → [scId]) to scId → gridId
-            const scGridMap = {};
-            const map = this.gridShareClassMap || {};
-            Object.keys(map).forEach(gridId => {
-                (map[gridId] || []).forEach(scId => { scGridMap[scId] = gridId; });
-            });
-
-            const [raw, region] = await Promise.all([
-                getSimulationData({
-                    shareClassIds: shareClassIds,
-                    agreementIds: this.selectedAgreements || [],
-                    shareClassGridIdMapJson: JSON.stringify(scGridMap)
-                }),
-                getAgreementRegion({ agreementIds: this.selectedAgreements || [] })
-            ]);
-
-            this.rows = (raw || []).map(r => ({ ...r, newMoney: 0 }));
-            this.agreementRegion = region;
+            if (this.recordId) {
+                // Record page: single round-trip
+                const init = await getSimulationInitData({ gridId: this.recordId });
+                this.rows            = (init.rows || []).map(r => ({ ...r, newMoney: 0 }));
+                this.agreementRegion = init.agreementRegion;
+            } else {
+                // customGridBuilder: props-driven path
+                const shareClassIds = (this.selectedShareClasses || []).map(sc => sc.id);
+                const scGridMap = {};
+                const map = this.gridShareClassMap || {};
+                Object.keys(map).forEach(gridId => {
+                    (map[gridId] || []).forEach(scId => { scGridMap[scId] = gridId; });
+                });
+                const [raw, region] = await Promise.all([
+                    getSimulationData({
+                        shareClassIds: shareClassIds,
+                        agreementIds: this.selectedAgreements || [],
+                        shareClassGridIdMapJson: JSON.stringify(scGridMap)
+                    }),
+                    getAgreementRegion({ agreementIds: this.selectedAgreements || [] })
+                ]);
+                this.rows            = (raw || []).map(r => ({ ...r, newMoney: 0 }));
+                this.agreementRegion = region;
+            }
         }
         catch (e) {
             this.error = e?.body?.message || e?.message || 'Unknown error';
