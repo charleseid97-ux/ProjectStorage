@@ -136,6 +136,27 @@ import Grid_ValidateGrid from '@salesforce/label/c.Grid_ValidateGrid';
 import Grid_ValidationErrors from '@salesforce/label/c.Grid_ValidationErrors';
 import Grid_ViewExcludedProducts from '@salesforce/label/c.Grid_ViewExcludedProducts';
 import Grid_ViewRecap from '@salesforce/label/c.Grid_ViewRecap';
+import Grid_SimExport_Header_EN from '@salesforce/label/c.Grid_SimExport_Header_EN';
+import Grid_SimExport_Header_FR from '@salesforce/label/c.Grid_SimExport_Header_FR';
+import Grid_SimExport_Header_IT from '@salesforce/label/c.Grid_SimExport_Header_IT';
+import Grid_SimExport_Footer_EN from '@salesforce/label/c.Grid_SimExport_Footer_EN';
+import Grid_SimExport_Footer_FR from '@salesforce/label/c.Grid_SimExport_Footer_FR';
+import Grid_SimExport_Footer_IT from '@salesforce/label/c.Grid_SimExport_Footer_IT';
+import Grid_SimExport_Col_FundName_EN from '@salesforce/label/c.Grid_SimExport_Col_FundName_EN';
+import Grid_SimExport_Col_FundName_FR from '@salesforce/label/c.Grid_SimExport_Col_FundName_FR';
+import Grid_SimExport_Col_FundName_IT from '@salesforce/label/c.Grid_SimExport_Col_FundName_IT';
+import Grid_SimExport_Col_ShareClass_EN from '@salesforce/label/c.Grid_SimExport_Col_ShareClass_EN';
+import Grid_SimExport_Col_ShareClass_FR from '@salesforce/label/c.Grid_SimExport_Col_ShareClass_FR';
+import Grid_SimExport_Col_ShareClass_IT from '@salesforce/label/c.Grid_SimExport_Col_ShareClass_IT';
+import Grid_SimExport_Col_ISIN_EN from '@salesforce/label/c.Grid_SimExport_Col_ISIN_EN';
+import Grid_SimExport_Col_ISIN_FR from '@salesforce/label/c.Grid_SimExport_Col_ISIN_FR';
+import Grid_SimExport_Col_ISIN_IT from '@salesforce/label/c.Grid_SimExport_Col_ISIN_IT';
+import Grid_SimExport_Col_EffMgtFees_EN from '@salesforce/label/c.Grid_SimExport_Col_EffMgtFees_EN';
+import Grid_SimExport_Col_EffMgtFees_FR from '@salesforce/label/c.Grid_SimExport_Col_EffMgtFees_FR';
+import Grid_SimExport_Col_EffMgtFees_IT from '@salesforce/label/c.Grid_SimExport_Col_EffMgtFees_IT';
+import Grid_SimExport_Col_Rebate_EN from '@salesforce/label/c.Grid_SimExport_Col_Rebate_EN';
+import Grid_SimExport_Col_Rebate_FR from '@salesforce/label/c.Grid_SimExport_Col_Rebate_FR';
+import Grid_SimExport_Col_Rebate_IT from '@salesforce/label/c.Grid_SimExport_Col_Rebate_IT';
 
 export const LABELS = {
     UI_Add, UI_Back, UI_Cancel, UI_Close, UI_CollapseAll, UI_Confirm, UI_Error, UI_ErrorMessage, UI_Errors,
@@ -161,7 +182,14 @@ export const LABELS = {
     Grid_ShareClassesAdded, Grid_ShareClassesAddedTitle, Grid_ShareClassesNotAdded_DifferentGrid, Grid_ShareClassesNotAdded_NotInGrid,
     Grid_ShareTypeFilterIndependentInfo, Grid_ShareTypesLabel, Grid_SomeRowsFailed, Grid_SortedBy,
     Grid_StandardGridsSelected, Grid_StartDate, Grid_SystemFilters, Grid_Team, Grid_Title, Grid_SaveGrid, Grid_ValidateGrid, Grid_ValidationErrors,
-    Grid_ViewExcludedProducts, Grid_ViewRecap
+    Grid_ViewExcludedProducts, Grid_ViewRecap,
+    Grid_SimExport_Header_EN, Grid_SimExport_Header_FR, Grid_SimExport_Header_IT,
+    Grid_SimExport_Footer_EN, Grid_SimExport_Footer_FR, Grid_SimExport_Footer_IT,
+    Grid_SimExport_Col_FundName_EN, Grid_SimExport_Col_FundName_FR, Grid_SimExport_Col_FundName_IT,
+    Grid_SimExport_Col_ShareClass_EN, Grid_SimExport_Col_ShareClass_FR, Grid_SimExport_Col_ShareClass_IT,
+    Grid_SimExport_Col_ISIN_EN, Grid_SimExport_Col_ISIN_FR, Grid_SimExport_Col_ISIN_IT,
+    Grid_SimExport_Col_EffMgtFees_EN, Grid_SimExport_Col_EffMgtFees_FR, Grid_SimExport_Col_EffMgtFees_IT,
+    Grid_SimExport_Col_Rebate_EN, Grid_SimExport_Col_Rebate_FR, Grid_SimExport_Col_Rebate_IT
 };
 
 export function showToast(component, title, message, variant) {
