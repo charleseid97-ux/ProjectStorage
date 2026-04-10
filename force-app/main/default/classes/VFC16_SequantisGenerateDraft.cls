@@ -114,7 +114,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
                                 Retail__c, Professional__c, EligibleCounterparty__c, Basic__c, Informed__c, Advanced__c, ExpertGermany__c, LowestRiskTolGer__c, CanNot__c, CanLimited__c, NoNeedCapGuarantee__c, CanNoLimit__c, Preservation__c, CapitalGrowth__c, Income__c,
                                 LeveragedReturn__c, PensionSchemeGer__c, MayTerminateEarlier__c, ExecutionOnly__c, AppropTest__c, InvestAdvice__c, PortfolioManagement__c,
                                 ProjectProduct__c, ShareclassInvestmentObjective__c, InvestorType__c,PerformanceFeeUCITSKIID__c,PerformanceFeeEPTKID__c, MaxPerfFees__c,
-                                PerformanceFeeMethod__c,MaxRedemptionFeesSubfund__c,MaxRedemptionFeesManCo__c,OngoingCostsExante__c
+                                PerformanceFeeMethod__c,MaxRedemptionFeesSubfund__c,MaxRedemptionFeesManCo__c,OngoingCostsExante__c,OngoingChargesKIID__c
                                 FROM projectShareClass__c
                                 WHERE id = :projectShareClassId];
         
@@ -265,17 +265,19 @@ public with sharing class VFC16_SequantisGenerateDraft {
         payload.put('maxPerformanceFees', projectShareClassRec.MaxPerfFees__c);
         payload.put('language', ProjectProductRec.DefaultLanguage__c);
         //payload.put('performanceFeeMethod', projectShareClassRec.PerformanceFeeMethod__c  ); 
-        String projectInvestmentObjectiveNoHTML = escapeHTML(ProjectProductRec.InvestmentObjective__c );
         String shareClassInvestmentObjectiveNoHTML = escapeHTML(projectShareClassRec.ShareclassInvestmentObjective__c);
+        String projectInvestmentObjectiveNoHTML = escapeHTML(ProjectProductRec.InvestmentObjective__c );
         payload.put('projectType',  ProjectProductRec.TECH_RTName__c);
-        payload.put('investmentObjective', projectInvestmentObjectiveNoHTML);
         payload.put('internalShortName',  ProjectProductRec.internalShortName__c);
         payload.put('ongoingCosts',projectShareClassRec.OngoingCostsExante__c != null ? projectShareClassRec.OngoingCostsExante__c : 0 );
+        payload.put('ongoingCostsKiid',projectShareClassRec.OngoingChargesKIID__c);
+
+
         payload.put('userMail', UserInfo.getUserEmail());
         Id rtId = ProjectProductRec.RecordTypeId;
 
         if (rtId == fundCreationRecordTypeId) {
-            
+            payload.put('investmentObjective', projectInvestmentObjectiveNoHTML);
             payload.put('sortieAnticipee1', ProjectProductRec.ReasonForRHP__c);
             payload.put('typeInvestisseur', ProjectProductRec.IntentedRetailInvestor__c);
             payload.put('shareClassInvestmentObjective', shareClassInvestmentObjectiveNoHTML);
