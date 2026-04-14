@@ -65,6 +65,10 @@ private class GridValidationControllerTest {
         GridValidationController.GridSaveResult result = GridValidationController.saveGrid(JSON.serialize(request), shareClassGridIdMap, null);
 
         Test.stopTest();
+
+        System.assert(result.success, 'Save should succeed: ' + result.errors);
+        Grid__c savedGrid = [SELECT Agreement__c FROM Grid__c WHERE Id = :result.gridId];
+        System.assertEquals(agreements[0].Id, savedGrid.Agreement__c, 'Agreement__c should be set on the new grid');
     }
 
     @IsTest

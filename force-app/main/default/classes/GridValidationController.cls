@@ -57,7 +57,7 @@ public with sharing class GridValidationController {
             GridSaveRequest request = (GridSaveRequest)JSON.deserialize(requestJson, GridSaveRequest.class);
 
             // 1. Create or update Grid__c
-            upsertCustomGrid(request.grid, draftGridId, result);
+            upsertCustomGrid(request.grid, draftGridId, result, request.agreementIds);
 
             // 2. Create GridCriteria__c (store Map<criteriaRefId, Id>)
             Map<String, GridCriteria__c> criteriaRefToRecordMap = insertGridCriteria_getCriteriaRefToIdMap(request);
@@ -83,8 +83,11 @@ public with sharing class GridValidationController {
         return result;
     }
 
-    private static void upsertCustomGrid(Grid__c grid, Id draftGridId, GridSaveResult result) {
+    private static void upsertCustomGrid(Grid__c grid, Id draftGridId, GridSaveResult result, List<Id> agreementIds) {
         if (draftGridId != null) grid.Id = draftGridId;
+        if (draftGridId == null && agreementIds != null && !agreementIds.isEmpty()) {
+            grid.Agreement__c = agreementIds[0];
+        }
         grid.RecordTypeId = Schema.SObjectType.Grid__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_CUSTOM_GRID).getRecordTypeId();
         upsert grid;
         result.gridId = grid.Id;

@@ -281,7 +281,7 @@
                                         <span class="new-money-display" data-id={row.shareClassId} onclick={handleNewMoneyClick}>{row.newMoneyFmt}</span>
                                     </template>
                                     <template if:true={row.isEditingNewMoney}>
-                                        <input type="number" class="slds-input custom-input" value={row.newMoney} step="1000" data-id={row.shareClassId} data-field="newMoney" onchange={handleNewMoney} onblur={handleNewMoneyBlur}/>
+                                        <input type="text" class="slds-input custom-input" value={row.newMoney} data-id={row.shareClassId} data-field="newMoney" onchange={handleNewMoney} onblur={handleNewMoneyBlur} onfocus={handleNewMoneyFocus}/>
                                     </template>
                                 </td>
                                 <td class="td-right td-sim" title={row.newAumFmt}>{row.newAumFmt}</td>
@@ -315,7 +315,7 @@
                                         <span class="new-money-display" data-id={row.shareClassId} onclick={handleNewMoneyClick}>{row.newMoneyFmt}</span>
                                     </template>
                                     <template if:true={row.isEditingNewMoney}>
-                                        <input type="number" class="slds-input custom-input" value={row.newMoney} step="1000" data-id={row.shareClassId} data-field="newMoney" onchange={handleCustomField} onblur={handleNewMoneyBlur}/>
+                                        <input type="text" class="slds-input custom-input" value={row.newMoney} data-id={row.shareClassId} data-field="newMoney" onchange={handleCustomField} onblur={handleNewMoneyBlur} onfocus={handleNewMoneyFocus}/>
                                     </template>
                                 </td>
                                 <td class="td-right td-sim" title={row.newAumFmt}>{row.newAumFmt}</td>
