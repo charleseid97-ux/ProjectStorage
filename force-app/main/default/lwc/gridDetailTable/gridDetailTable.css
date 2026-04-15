@@ -85,3 +85,10 @@
 .th-orange { background: #E65100; color: #ffffff; font-weight: 700; }
 .grid-table tbody tr:nth-child(odd)  .td-orange { background: rgb(255 245 225 / 75%); }
 .grid-table tbody tr:nth-child(even) .td-orange { background: rgb(255 225 185/ 70%); }
+
+/* ── Expired rows (EndDate < today) ── */
+.row-expired td {
+    background: #fff0f0 !important;
+    color: #999999;
+    font-style: italic;
+}

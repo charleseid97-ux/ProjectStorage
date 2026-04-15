@@ -14,7 +14,7 @@ public with sharing class GridDetailTableController {
     private static final String RULE_OTHER_GRID = 'Take Rebates Rate - Other Grid Rule';
 
     @AuraEnabled(cacheable=true)
-    public static GridDetailResult getGridDetails(Id gridId) {
+    public static GridDetailResult getGridDetails(Id gridId, Boolean activeOnly) {
         GridDetailResult result = new GridDetailResult();
         result.rows = new List<GridDetailRow>();
         result.errors = new List<String>();
@@ -44,6 +44,8 @@ public with sharing class GridDetailTableController {
             }
         }
 
+        // When activeOnly=true → cut off expired records; when false → cutoffDate=1900 passes all non-null dates
+        Date cutoffDate = (activeOnly == true) ? Date.today() : Date.newInstance(1900, 1, 1);
         List<GridDetail__c> details = [SELECT Id, ShareClass__c, ShareClass__r.Name__c, ShareClass__r.ISIN__c,
                                         ShareClass__r.EffectiveManagementFees__c, ShareClass__r.Fund__r.FundStrategy__r.AssetClass__c, ShareClass__r.Fund__r.FundStrategy__r.Name,
                                         ShareClass__r.Fund__r.LegalForm__c, ShareClass__r.Fund__r.InternalShortName__c, ShareClass__r.Fund__r.ProductName__c,
@@ -54,9 +56,10 @@ public with sharing class GridDetailTableController {
                                         StandardGridDetail__r.GridRule__r.RuleToApply__c, StandardGridDetail__r.GridRule__r.GridRate__c,
                                         StandardGridDetail__r.GridRule__r.OtherGridRule__c, StandardGridDetail__r.GridRule__r.OtherShareType__c, StandardGridDetail__r.GridRule__r.FinalRebateRate__c,
                                         GridRule__r.RuleToApply__c, GridRule__r.GridRate__c, GridRule__r.OtherGridRule__c, GridRule__r.OtherShareType__c, GridRule__r.FinalRebateRate__c,
-                                        StartDate__c, RebateRate__c, Grid__r.Name, StandardGridDetail__r.Grid__r.Name
+                                        StartDate__c, EndDate__c, RebateRate__c, EffectiveManagementFees__c, Grid__r.Name, StandardGridDetail__r.Grid__r.Name
                                        FROM GridDetail__c
                                        WHERE Grid__c = :gridId
+                                       AND (EndDate__c = null OR EndDate__c >= :cutoffDate)
                                        ORDER BY ShareClass__r.Fund__r.ProductName__c, ShareClass__r.Name__c];
         Set<Id> shareClassIds = new Set<Id>();
         for (GridDetail__c detail : details) {
@@ -237,12 +240,14 @@ public with sharing class GridDetailTableController {
         @AuraEnabled public String profitability;
         @AuraEnabled public String gridRule;
         @AuraEnabled public String ruleValue;
+        @AuraEnabled public Date endDate;
+        @AuraEnabled public Boolean isExpired;
         public GridDetailRow(GridDetail__c detail, Map<Id, String> aumByShareClass) {
             Boolean isCustom         =   detail.StandardGridDetail__c != null;
             Share_Class__c share     =   isCustom ? detail.StandardGridDetail__r.ShareClass__r : detail.ShareClass__r;
             Id effectiveScId         =   isCustom ? detail.StandardGridDetail__r.ShareClass__c : detail.ShareClass__c;
             GridRule__c gridRule     =   isCustom ? detail.StandardGridDetail__r.GridRule__r : detail.GridRule__r;
-            Decimal effFee           =   share != null ? share.EffectiveManagementFees__c : null;
+            Decimal effFee           =   detail.EffectiveManagementFees__c;
             Decimal baseRebateRate   =   isCustom ? detail.StandardGridDetail__r.RebateRate__c : detail.RebateRate__c;
             Boolean hasFinalRate     =   gridRule != null && gridRule.FinalRebateRate__c != null;
             Decimal effectiveRate    =   hasFinalRate ? gridRule.FinalRebateRate__c : baseRebateRate;
@@ -268,6 +273,8 @@ public with sharing class GridDetailTableController {
             this.profitability       =   GridBuilderHelper.formatPercent(profitabilityVal);
             this.gridRule            =   hasFinalRate ? 'Calculated Rebates' : (gridRule != null ? gridRule.RuleToApply__c : null);
             this.ruleValue           =   hasFinalRate ? GridBuilderHelper.formatPercent(gridRule.FinalRebateRate__c) : buildRuleValue(gridRule);
+            this.endDate             =   detail.EndDate__c;
+            this.isExpired           =   detail.EndDate__c != null && detail.EndDate__c < Date.today();
         }
     }
 }

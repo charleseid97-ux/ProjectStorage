@@ -2,8 +2,8 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>DCOOwner__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
-    <externalId>false</externalId>
     <description>DCO representative responsible for the operational management of this remuneration grid.</description>
+    <externalId>false</externalId>
     <inlineHelpText>The DCO representative to contact for any questions regarding the remuneration operational process.</inlineHelpText>
     <label>DCO Owner</label>
     <referenceTo>User</referenceTo>

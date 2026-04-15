@@ -12,6 +12,18 @@ const FMT_INT = new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 0 });
 const fmt     = (v, suffix = '') => (v == null ? '—' : FMT.format(v) + suffix);
 const fmtInt  = (v, suffix = '') => (v == null ? '—' : FMT_INT.format(Math.trunc(v)) + suffix);
 
+function parseNewMoney(raw) {
+    if (raw == null) return 0;
+    const s = String(raw).trim().replace(/\s/g, '').replace(',', '.').toUpperCase();
+    if (!s) return 0;
+    const m = s.match(/^(-?\d+(?:\.\d+)?)\s*([KM]?)$/);
+    if (!m) return parseFloat(s) || 0;
+    const n = parseFloat(m[1]);
+    if (m[2] === 'K') return n * 1_000;
+    if (m[2] === 'M') return n * 1_000_000;
+    return n;
+}
+
 export default class GridSimulation extends LightningElement {
 
     @api recordId;
@@ -240,8 +252,12 @@ export default class GridSimulation extends LightningElement {
     handleNewMoney(e) {
         const id = e.target.dataset.id;
         this.rows = this.rows.map(r =>
-            r.shareClassId === id ? { ...r, newMoney: parseFloat(e.target.value) || 0 } : r
+            r.shareClassId === id ? { ...r, newMoney: parseNewMoney(e.target.value) } : r
         );
+    }
+
+    handleNewMoneyFocus(e) {
+        e.target.select();
     }
 
     // ── Custom row handlers ───────────────────────────────────────────────────
@@ -258,7 +274,7 @@ export default class GridSimulation extends LightningElement {
         const id    = e.target.dataset.id;
         const field = e.target.dataset.field;
         const numericFields = ['effMgtFees', 'rebateRate', 'newMoney'];
-        const value = numericFields.includes(field) ? (parseFloat(e.target.value) || 0) : (e.target.value || '');
+        const value = numericFields.includes(field) ? (field === 'newMoney' ? parseNewMoney(e.target.value) : (parseFloat(e.target.value) || 0)) : (e.target.value || '');
         this.customRows = this.customRows.map(r => r.shareClassId === id ? { ...r, [field]: value } : r );
     }
 

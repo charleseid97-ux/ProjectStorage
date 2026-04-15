@@ -2,8 +2,8 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>SalesOwner__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
-    <externalId>false</externalId>
     <description>Sales representative responsible for this grid. Used as the point of contact for any remuneration-related questions.</description>
+    <externalId>false</externalId>
     <inlineHelpText>The Sales representative to contact for any questions regarding applicable remuneration.</inlineHelpText>
     <label>Sales Owner</label>
     <referenceTo>User</referenceTo>

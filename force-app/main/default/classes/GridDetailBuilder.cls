@@ -10,8 +10,6 @@
  * @coverage 85%   [19-03-26]
 ────────────────────────────────────── */
 public with sharing class GridDetailBuilder {
-    private static final Date DEFAULT_END_DATE = Date.newInstance(2099, 12, 31);
-
     private static final String RULE_PERCENTAGE = 'Percentage of Fees';
     private static final String RULE_OTHER_SHARE = 'Take Rebates Rate - Other Share Type';
     private static final String RULE_OTHER_SHARE_FEES = 'Take Rebates Rate - Other Share Type + Fees';
@@ -47,6 +45,40 @@ public with sharing class GridDetailBuilder {
 
         String rlQuery = gridRulesQuery + ' WHERE Grid__c IN :gridIds ORDER BY CreatedDate ASC';
         return build(Database.query(rlQuery), gridIdByName, result);
+    }
+
+    /** ──────────────────────────────────────
+     * @description Runs the full rule-evaluation and rebate-computation pipeline for the given grids
+     *              but stops before inserting/upserting any GridDetail__c records.
+     *              Used by GridUtility.refreshGridDetailsForShareClasses to obtain new rates
+     *              before performing the clone-and-expire pattern.
+     * @return Map keyed by gridId + ':' + shareClassId → computed rebate rate
+     ────────────────────────────────────── */
+    public static Map<String, Decimal> computeRebatesForGrids(Set<Id> gridIds) {
+        if (gridIds == null || gridIds.isEmpty()) { return new Map<String, Decimal>(); }
+
+        Map<String, Id> gridIdByName = new Map<String, Id>();
+        for (Grid__c grid : [SELECT Id, Name FROM Grid__c WHERE Id IN :gridIds]) {
+            gridIdByName.put(grid.Name, grid.Id);
+        }
+
+        String rlQuery = gridRulesQuery + ' WHERE Grid__c IN :gridIds ORDER BY CreatedDate ASC';
+        List<GridRule__c> gridRules = Database.query(rlQuery);
+        if (gridRules == null || gridRules.isEmpty()) { return new Map<String, Decimal>(); }
+
+        BuildResult result = new BuildResult();
+        result.errors = new List<BuildError>();
+
+        ensureOtherGridIds(gridRules, gridIdByName);
+        Map<Id, List<GridCriteriaDetail__c>> detailsByCriteriaId = loadCriteriaDetails(gridRules);
+        ShareClassData shareData = loadShareClasses();
+        List<GridRuleContext> contexts = buildGridRuleContexts(gridRules, detailsByCriteriaId, result);
+        if (contexts.isEmpty()) { return new Map<String, Decimal>(); }
+
+        AssignmentBuildResult assignmentBuild = buildAssignments(contexts, shareData, result);
+        if (assignmentBuild.assignments.isEmpty()) { return new Map<String, Decimal>(); }
+
+        return computeRebatesForAssignments(assignmentBuild, shareData, gridIdByName, result);
     }
 
     private static BuildResult build(List<GridRule__c> gridRules, BuildResult result) {
@@ -328,7 +360,6 @@ public with sharing class GridDetailBuilder {
             detail.ShareClass__c   = assignment.shareClassId;
             detail.RebateRate__c   = assignment.rebate;
             detail.StartDate__c    = startDate;
-            detail.EndDate__c      = DEFAULT_END_DATE;
 
             // Attach existing Id if found → triggers update in upsert
             String key = assignment.gridId + '_-_' + (assignment.gridRuleId != null ? String.valueOf(assignment.gridRuleId) : 'null') + '_-_' + assignment.shareClassId;

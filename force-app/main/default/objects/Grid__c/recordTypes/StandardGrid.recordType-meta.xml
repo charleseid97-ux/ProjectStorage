@@ -5,6 +5,25 @@
     <description>Standard Grid created via Excel Import</description>
     <label>Standard Grid</label>
     <picklistValues>
+        <picklist>ApprovalStatus__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Draft</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Pending Approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Kind__c</picklist>
         <values>
             <fullName>IX FEE</fullName>
@@ -62,6 +81,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>RateCalculationBasis__c</picklist>
+        <values>
+            <fullName>Agreement</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Product</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>ThresholdAmountCurrency__c</picklist>
         <values>
             <fullName>CHF</fullName>
@@ -78,6 +108,17 @@
         <values>
             <fullName>USD</fullName>
             <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>ThresholdMode__c</picklist>
+        <values>
+            <fullName>Scale</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tiers</fullName>
+            <default>true</default>
         </values>
     </picklistValues>
     <picklistValues>

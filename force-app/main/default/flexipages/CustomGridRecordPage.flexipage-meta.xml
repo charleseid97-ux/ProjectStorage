@@ -57,8 +57,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.GridTag__c</fieldItem>
-                <identifier>RecordGridTag_cField</identifier>
+                <fieldItem>Record.Agreement__c</fieldItem>
+                <identifier>RecordAgreement_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-89ac1129-7a6f-4e88-b2a8-0c4280f68c94</name>
@@ -83,6 +83,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.ApprovalStatus__c</fieldItem>
                 <identifier>RecordApprovalStatus_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.GridTag__c</fieldItem>
+                <identifier>RecordGridTag_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-11c0d744-2943-43ac-931e-a24c0372a449</name>
@@ -143,6 +153,10 @@
                 <identifier>RecordAutomaticGridUpdate_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <name>Facet-cf1316cc-5a9d-4c14-a8a2-6d6360e00c64</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
@@ -161,60 +175,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.EndDate__c</fieldItem>
                 <identifier>RecordEndDate_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-cf1316cc-5a9d-4c14-a8a2-6d6360e00c64</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ThresholdAmount__c</fieldItem>
-                <identifier>RecordThresholdAmount_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.ThresholdAmountCurrency__c</fieldItem>
-                <identifier>RecordThresholdAmountCurrency_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.MinimumAmount__c</fieldItem>
-                <identifier>RecordMinimumAmount_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.MinimumAmountCurrency__c</fieldItem>
-                <identifier>RecordMinimumAmountCurrency_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.MinimumAmountFrequency__c</fieldItem>
-                <identifier>RecordMinimumAmountFrequency_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-80875b1b-5e6b-4820-89d1-7628b749d1a3</name>
@@ -251,8 +211,204 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.ThresholdAmount__c</fieldItem>
+                <identifier>RecordThresholdAmount_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ThresholdAmountCurrency__c</fieldItem>
+                <identifier>RecordThresholdAmountCurrency_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-ab01bef8-576f-41eb-9f94-b0687f1cef78</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ThresholdMode__c</fieldItem>
+                <identifier>RecordThresholdMode_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-e6a32024-007c-48a2-876e-99435ff4032f</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-ab01bef8-576f-41eb-9f94-b0687f1cef78</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column9</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-e6a32024-007c-48a2-876e-99435ff4032f</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column10</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-0c3b3134-d407-43d4-ac35-8aa40d92ae35</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.MinimumAmount__c</fieldItem>
+                <identifier>RecordMinimumAmount_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.MinimumAmountCurrency__c</fieldItem>
+                <identifier>RecordMinimumAmountCurrency_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-263e0711-d0d0-49ae-9f0d-fe07f3bb02ce</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.MinimumAmountFrequency__c</fieldItem>
+                <identifier>RecordMinimumAmountFrequency_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-eec00fb5-2b5d-4c1b-a4bf-1883511d069b</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-263e0711-d0d0-49ae-9f0d-fe07f3bb02ce</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column11</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-eec00fb5-2b5d-4c1b-a4bf-1883511d069b</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column12</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-aa25ab1c-c01d-442f-9490-8a09908e0c8a</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.SalesOwner__c</fieldItem>
+                <identifier>RecordSalesOwner_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.OwnerId</fieldItem>
+                <identifier>RecordOwnerIdField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-c284e710-c72d-435d-9d5a-ab7bf7579272</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.DCOOwner__c</fieldItem>
+                <identifier>RecordDCOOwner_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-bfb1bce8-03bc-4f69-8bf8-92ea6b6293dc</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-c284e710-c72d-435d-9d5a-ab7bf7579272</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column13</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-bfb1bce8-03bc-4f69-8bf8-92ea6b6293dc</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column14</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-4a94bf16-cd8d-486d-9b2f-8a79d91e177b</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.OtherFees__c</fieldItem>
                 <identifier>RecordOtherFees_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.RateCalculationBasis__c</fieldItem>
+                <identifier>RecordRateCalculationBasis_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-d1e2f3a4-b5c6-7890-d1e2-f3a4b5c67890</name>
@@ -313,8 +469,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.OwnerId</fieldItem>
-                <identifier>RecordOwnerIdField</identifier>
+                <fieldItem>Record.TECH_GridExternalID__c</fieldItem>
+                <identifier>RecordTECH_GridExternalID_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-fdd1bad4-9bdf-4d89-8f9e-007af6a86f28</name>
@@ -329,16 +485,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.LastModifiedById</fieldItem>
                 <identifier>RecordLastModifiedByIdField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.TECH_GridExternalID__c</fieldItem>
-                <identifier>RecordTECH_GridExternalID_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-350c243b-9adf-4078-a52e-1e25b67d115c</name>
@@ -403,6 +549,60 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-0c3b3134-d407-43d4-ac35-8aa40d92ae35</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Threshold Information</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection5</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-aa25ab1c-c01d-442f-9490-8a09908e0c8a</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Minimum Information</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection6</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-4a94bf16-cd8d-486d-9b2f-8a79d91e177b</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Owners</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection7</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>

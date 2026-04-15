@@ -81,7 +81,8 @@ public with sharing class GridSimulationController {
         for (GridDetail__c gd : [SELECT ShareClass__c, RebateRate__c, GridRule__r.FinalRebateRate__c
                                  FROM GridDetail__c
                                  WHERE Grid__c IN :gridIds
-                                 AND ShareClass__c IN :scIdSet]) {
+                                 AND ShareClass__c IN :scIdSet
+                                 AND (EndDate__c = null OR EndDate__c >= :Date.today())]) {
             Decimal rate = (gd.GridRule__r?.FinalRebateRate__c != null) ? gd.GridRule__r.FinalRebateRate__c : gd.RebateRate__c;
             if (rate != null) result.put(gd.ShareClass__c, rate);
         }
@@ -91,7 +92,7 @@ public with sharing class GridSimulationController {
     @AuraEnabled(cacheable=false)
     public static SimulationInitData getSimulationInitData(Id gridId) {
         // 1. Share class IDs + scGridMap from GridDetail__c
-        List<GridDetail__c> details = [SELECT ShareClass__c FROM GridDetail__c WHERE Grid__c = :gridId AND ShareClass__c != null];
+        List<GridDetail__c> details = [SELECT ShareClass__c FROM GridDetail__c WHERE Grid__c = :gridId AND ShareClass__c != null AND (EndDate__c = null OR EndDate__c >= :Date.today())];
         List<Id> shareClassIds = new List<Id>();
         Map<String, Object> scGridMap = new Map<String, Object>();
         for (GridDetail__c gd : details) {

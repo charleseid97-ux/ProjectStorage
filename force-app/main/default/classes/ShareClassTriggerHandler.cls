@@ -30,5 +30,15 @@ public class ShareClassTriggerHandler {
     public static void handleAfterUpdate(List<Share_Class__c> newShareClasses , Map<Id,Share_Class__c> oldShareClassesMap){
         FieldHistoryLogger.log( newShareClasses ,  oldShareClassesMap , 'Share_Class__c');
     	FieldHistoryLogger.logAllFields( newShareClasses ,  oldShareClassesMap , 'Share_Class__c');
+
+        Set<Id> changedEMFIds = new Set<Id>();
+        for (Share_Class__c sc : newShareClasses) {
+            if (sc.EffectiveManagementFees__c != oldShareClassesMap.get(sc.Id).EffectiveManagementFees__c) {
+                changedEMFIds.add(sc.Id);
+            }
+        }
+        if (!changedEMFIds.isEmpty()) {
+            GridUtility.refreshGridDetailsForShareClasses(changedEMFIds);
+        }
     }
 }

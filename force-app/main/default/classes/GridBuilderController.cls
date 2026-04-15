@@ -135,7 +135,8 @@ public with sharing class GridBuilderController {
             }
             for (GridDetail__c gd : [SELECT Id, ShareClass__c, GridCriteria__c
                                      FROM GridDetail__c
-                                     WHERE Grid__c = :gridId]) {
+                                     WHERE Grid__c = :gridId
+                                     AND (EndDate__c = null OR EndDate__c >= :Date.today())]) {
                 if (gd.GridCriteria__c != null && criteriaDataMap.containsKey(gd.GridCriteria__c)) {
                     criteriaDataMap.get(gd.GridCriteria__c).shareClassIds.add(gd.ShareClass__c);
                 }

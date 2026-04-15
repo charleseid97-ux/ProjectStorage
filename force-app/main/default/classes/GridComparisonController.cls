@@ -49,8 +49,8 @@ public with sharing class GridComparisonController {
     @AuraEnabled(cacheable=true)
     public static ComparisonData getComparisonData(Id currentGridId, Id selectedGridId) {
         ComparisonData data = new ComparisonData();
-        data.current  = GridDetailTableController.getGridDetails(currentGridId);
-        data.selected = GridDetailTableController.getGridDetails(selectedGridId);
+        data.current  = GridDetailTableController.getGridDetails(currentGridId, true);
+        data.selected = GridDetailTableController.getGridDetails(selectedGridId, true);
         return data;
     }
 
