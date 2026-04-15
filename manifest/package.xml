@@ -5,6 +5,10 @@
 		<name>ApexClass</name>
 	</types>
 	<types>
+		<members>AccountTrigger</members>
+		<name>ApexTrigger</name>
+	</types>
+	<types>
 		<members>Field_History_Config.Benchmark_Tracked_Fields</members>
 		<members>Field_History_Config.Fund_Manager_Tracked_Fields</members>
 		<members>Field_History_Config.Product_Tracked_Fields</members>
