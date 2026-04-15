@@ -15,7 +15,8 @@ const COLUMNS = [
     { key: 'shareClass',        label: 'Class',             group: 'blue' },
     { key: 'isin',              label: 'ISIN',              group: 'blue' },
     { key: 'aum',               label: 'AUM',               group: 'blue',   numeric: true },
-    { key: 'effMgtFeeDate',     label: 'Eff. Mgt Fee Date', group: '' },
+    { key: 'effMgtFeeDate',     label: 'Start Date',        group: '' },
+    { key: 'endDate',           label: 'End Date',          group: '' },
     { key: 'effMgtFee',         label: 'Eff. Mgt Fee',      group: 'blue',   numeric: true },
     { key: 'rebateRate',        label: 'Rebate Rate',       group: 'blue',   numeric: true },
     { key: 'netMargin',         label: 'Net Margin',        group: 'orange', numeric: true },
@@ -80,6 +81,7 @@ export default class GridDetailTable extends LightningElement {
     get processedRows() {
         return (this.rows || []).map(row => ({
             rowKey: row.id,
+            rowClass: row.isExpired ? 'row-expired' : '',
             cells: COLUMNS.map(col => ({
                 key: `${row.id}-${col.key}`,
                 value: row[col.key] ?? '',
@@ -92,7 +94,7 @@ export default class GridDetailTable extends LightningElement {
         this.isLoading = true;
         this.errors = [];
         try {
-            const result = await getGridDetails({ gridId: this._recordId });
+            const result = await getGridDetails({ gridId: this._recordId, activeOnly: false });
             this.rows = result?.rows || [];
             this.errors = result?.errors || [];
         } catch (error) {

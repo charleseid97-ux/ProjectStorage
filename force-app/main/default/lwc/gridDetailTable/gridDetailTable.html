@@ -62,7 +62,7 @@
                             </thead>
                             <tbody>
                                 <template for:each={processedRows} for:item="row">
-                                    <tr key={row.rowKey}>
+                                    <tr key={row.rowKey} class={row.rowClass}>
                                         <template for:each={row.cells} for:item="cell">
                                             <td key={cell.key} class={cell.cellClass}>{cell.value}</td>
                                         </template>
