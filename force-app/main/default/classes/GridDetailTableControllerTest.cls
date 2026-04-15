@@ -50,7 +50,7 @@ private with sharing class GridDetailTableControllerTest {
 
         Test.startTest();
 
-        GridDetailTableController.GridDetailResult result = GridDetailTableController.getGridDetails(grid.Id);
+        GridDetailTableController.GridDetailResult result = GridDetailTableController.getGridDetails(grid.Id, false);
 
         // Verify FinalRebateRate__c path: find the row that should show 'Calculated Rebates'
         GridDetailTableController.GridDetailRow finalRateRow = null;
@@ -64,10 +64,10 @@ private with sharing class GridDetailTableControllerTest {
         // Specific scenarios tests
         // 1- Test with no scope grid
         delete scope;
-        result = GridDetailTableController.getGridDetails(grid.Id);
+        result = GridDetailTableController.getGridDetails(grid.Id, false);
 
         // 2- Test with null gridId
-        result = GridDetailTableController.getGridDetails(null);
+        result = GridDetailTableController.getGridDetails(null, false);
 
         Test.stopTest();
     }
@@ -100,7 +100,7 @@ private with sharing class GridDetailTableControllerTest {
 
         Test.startTest();
 
-        GridDetailTableController.GridDetailResult result = GridDetailTableController.getGridDetails(customGrid.Id);
+        GridDetailTableController.GridDetailResult result = GridDetailTableController.getGridDetails(customGrid.Id, false);
 
         Test.stopTest();
 
@@ -129,7 +129,7 @@ private with sharing class GridDetailTableControllerTest {
 
         Test.startTest();
 
-        GridDetailTableController.GridDetailResult result = GridDetailTableController.getGridDetails(customGrid.Id);
+        GridDetailTableController.GridDetailResult result = GridDetailTableController.getGridDetails(customGrid.Id, false);
         
         Test.stopTest();
     }
