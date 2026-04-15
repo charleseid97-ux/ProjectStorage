@@ -322,12 +322,14 @@ public with sharing class GridBuilderHelper {
 
         Map<Id, StandardGridDetailInfo> stdGridDetailInfoByShareClass = new Map<Id, StandardGridDetailInfo>();
         String standardGridRT = RT_STANDARD_GRID;
+        Date today = Date.today();
         for (GridDetail__c detail : [SELECT Id, ShareClass__c, Grid__c, RebateRate__c, StartDate__c, CreatedDate
                                      FROM GridDetail__c
                                      WHERE ShareClass__c IN :shareClassIds
                                      AND Grid__c IN :gridIds
                                      AND RebateRate__c != null
                                      AND Grid__r.RecordType.DeveloperName = :standardGridRT
+                                     AND (EndDate__c = null OR EndDate__c >= :today)
                                      ORDER BY Grid__c, ShareClass__c, StartDate__c DESC, CreatedDate DESC]) {
             if (!stdGridDetailInfoByShareClass.containsKey(detail.ShareClass__c) && shareClassGridIdMap.get(detail.ShareClass__c) == detail.Grid__c) {
                 stdGridDetailInfoByShareClass.put(detail.ShareClass__c, new StandardGridDetailInfo(detail.Id, detail.RebateRate__c, formatPercent(detail.RebateRate__c)));
@@ -444,7 +446,7 @@ public with sharing class GridBuilderHelper {
     private static String getGridDetailShareClassCondition(List<String> availableGridIds) {
         if (availableGridIds == null || availableGridIds.isEmpty()) { return ''; }
         String gridIdsLiteral = toSoqlInListLiteral(String.join(availableGridIds, ','), ',');
-        return String.isNotBlank(gridIdsLiteral) ? 'Id IN (SELECT ShareClass__c FROM GridDetail__c WHERE ShareClass__c != null AND Grid__c IN ' + gridIdsLiteral + ')' : '';
+        return String.isNotBlank(gridIdsLiteral) ? 'Id IN (SELECT ShareClass__c FROM GridDetail__c WHERE ShareClass__c != null AND Grid__c IN ' + gridIdsLiteral + ' AND (EndDate__c = null OR EndDate__c >= TODAY))' : '';
     }
 
     private static String getRegisteredCountriesCondition(String countriesOfDistribution) {

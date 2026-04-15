@@ -111,4 +111,92 @@ public with sharing class GridUtility {
         agr.Amendment_Approval_Status__c = '';
         agr.Grid_Request_Approved__c     = false;
     }
+
+    /** ──────────────────────────────────────
+     * @description When a ShareClass EffectiveManagementFees__c changes, expire all active Standard Grid Details for those share classes and insert updated clones
+     *              (clone-and-expire pattern). Then do the same for any Custom Grid Details that point to the expired Standard Grid Details.
+     *
+     *              Standard Grid Details: rebate rate recalculated via GridDetailBuilder.
+     *              Custom Grid Details: rate and share class copied from the new Standard Grid Detail by GridDetailTriggerHandler on insert.
+     *              EffectiveManagementFees__c on all new details is auto-populated by the GridDetailTriggerHandler.BeforeInsert via populateEffectiveMgtFees().
+     ────────────────────────────────────── */
+    public static void refreshGridDetailsForShareClasses(Set<Id> changedShareClassIds) {
+        if (changedShareClassIds == null || changedShareClassIds.isEmpty()) return;
+
+        // ── Step 1: Standard Grid Details ────────────────────────────────────────────────
+        List<GridDetail__c> currentStdDetails = [SELECT Id, Grid__c, GridRule__c, GridCriteria__c, ShareClass__c, RebateRate__c, StartDate__c, RecordTypeId
+                                                 FROM GridDetail__c
+                                                 WHERE ShareClass__c IN :changedShareClassIds
+                                                 AND Grid__r.RecordType.DeveloperName = 'StandardGrid'
+                                                 AND (EndDate__c = null OR EndDate__c >= :Date.today())];
+        if (currentStdDetails.isEmpty()) return;
+
+        Set<Id> gridIds = new Set<Id>();
+        for (GridDetail__c d : currentStdDetails) { gridIds.add(d.Grid__c); }
+
+        Map<String, Decimal> newRates = GridDetailBuilder.computeRebatesForGrids(gridIds);
+
+        List<GridDetail__c> oldStdToUpdate   = new List<GridDetail__c>();
+        List<GridDetail__c> newStdToInsert   = new List<GridDetail__c>();
+        List<Id> oldStdDetailIds  = new List<Id>(); // parallel to newStdToInsert
+
+        Date today = Date.today();
+        for (GridDetail__c old : currentStdDetails) {
+            String key    = String.valueOf(old.Grid__c) + ':' + String.valueOf(old.ShareClass__c);
+            Decimal rate  = newRates.containsKey(key) ? newRates.get(key) : 0;
+
+            old.EndDate__c = today.addDays(-1);
+            oldStdToUpdate.add(old);
+
+            GridDetail__c clone      = new GridDetail__c();
+            clone.RecordTypeId       = old.RecordTypeId;
+            clone.Grid__c            = old.Grid__c;
+            clone.GridRule__c        = old.GridRule__c;
+            clone.GridCriteria__c    = old.GridCriteria__c;
+            clone.ShareClass__c      = old.ShareClass__c;
+            clone.RebateRate__c      = rate;
+            clone.StartDate__c       = today;
+            newStdToInsert.add(clone);
+            oldStdDetailIds.add(old.Id);
+        }
+
+        update oldStdToUpdate;
+        insert newStdToInsert;
+
+        // Build old → new standard detail Id map for the custom grid step
+        Map<Id, Id> oldStdDetailIdToNewStdDetailId = new Map<Id, Id>();
+        for (Integer i = 0; i < oldStdDetailIds.size(); i++) {
+            oldStdDetailIdToNewStdDetailId.put(oldStdDetailIds[i], newStdToInsert[i].Id);
+        }
+
+        // ── Step 2: Custom Grid Details ───────────────────────────────────────────────────
+        if (oldStdDetailIdToNewStdDetailId.isEmpty()) return;
+
+        List<GridDetail__c> currentCustomDetails = [SELECT Id, Grid__c, GridCriteria__c, StandardGridDetail__c, StartDate__c, RecordTypeId
+                                                    FROM GridDetail__c
+                                                    WHERE StandardGridDetail__c IN :oldStdDetailIdToNewStdDetailId.keySet()
+                                                    AND (EndDate__c = null OR EndDate__c >= :Date.today())];
+        if (currentCustomDetails.isEmpty()) return;
+
+        List<GridDetail__c> oldCustomToUpdate = new List<GridDetail__c>();
+        List<GridDetail__c> newCustomToInsert = new List<GridDetail__c>();
+
+        for (GridDetail__c old : currentCustomDetails) {
+            Id newStdDetailId = oldStdDetailIdToNewStdDetailId.get(old.StandardGridDetail__c);
+
+            old.EndDate__c = today.addDays(-1);
+            oldCustomToUpdate.add(old);
+
+            GridDetail__c clone         = new GridDetail__c();
+            clone.RecordTypeId          = old.RecordTypeId;
+            clone.Grid__c               = old.Grid__c;
+            clone.GridCriteria__c       = old.GridCriteria__c;
+            clone.StandardGridDetail__c = newStdDetailId;
+            clone.StartDate__c          = today;
+            newCustomToInsert.add(clone);
+        }
+
+        update oldCustomToUpdate;
+        insert newCustomToInsert;
+    }
 }

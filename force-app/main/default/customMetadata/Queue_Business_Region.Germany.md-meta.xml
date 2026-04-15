@@ -10,4 +10,8 @@
         <field>Queue__c</field>
         <value xsi:type="xsd:string">Germany</value>
     </values>
+    <values>
+        <field>HOCQueue__c</field>
+        <value xsi:type="xsd:string">HOC_DA_Queue</value>
+    </values>
 </CustomMetadata>

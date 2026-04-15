@@ -196,6 +196,20 @@
 		<members>GridCriteriaSetting.Product</members>
 		<members>GridCriteriaSetting.ShareClass</members>
 		<members>GridCriteriaSetting.Strategy</members>
+		<members>Queue_Business_Region.Belgium</members>
+		<members>Queue_Business_Region.France</members>
+		<members>Queue_Business_Region.Germany</members>
+		<members>Queue_Business_Region.International</members>
+		<members>Queue_Business_Region.Italy</members>
+		<members>Queue_Business_Region.Japon</members>
+		<members>Queue_Business_Region.LATAM</members>
+		<members>Queue_Business_Region.Luxembourg</members>
+		<members>Queue_Business_Region.Netherlands</members>
+		<members>Queue_Business_Region.Nordics</members>
+		<members>Queue_Business_Region.Spain</members>
+		<members>Queue_Business_Region.Switzerland</members>
+		<members>Queue_Business_Region.Taiwan</members>
+		<members>Queue_Business_Region.United_Kingdom</members>
 		<members>StandardGridRecapConfig.RecapConfigS1</members>
 		<members>StandardGridRecapConfig.RecapConfigS2</members>
 		<members>StandardGridRecapConfig.RecapConfigS3</members>
@@ -296,6 +310,7 @@
 		<members>GridBuilderSetting__mdt</members>
 		<members>GridCriteriaDetail__c</members>
 		<members>GridCriteriaSetting__mdt</members>
+		<members>Queue_Business_Region__mdt</members>
 		<members>GridCriteria__c</members>
 		<members>GridDetail__c</members>
 		<members>GridRule__c</members>
@@ -345,6 +360,7 @@
 		<members>GridScope__c-Grid Scope Layout</members>
 		<members>Grid__c-Custom Grid Layout</members>
 		<members>Grid__c-Standard Grid Layout</members>
+		<members>Queue_Business_Region__mdt-Queue Business Region Layout</members>
 		<members>StandardGridRecapConfig__mdt-Standard Grid Recap Config Layout</members>
 		<members>StandardGridRecapRule__mdt-Standard Grid Recap Rule Layout</members>
 		<name>Layout</name>

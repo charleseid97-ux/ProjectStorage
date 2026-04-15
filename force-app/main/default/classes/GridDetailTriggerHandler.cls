@@ -71,7 +71,7 @@ public with sharing class GridDetailTriggerHandler implements ITriggerHandler {
         for (GridDetail__c d : gdToUpdate) {
             Share_Class__c sc = scMap.get(d.ShareClass__c);
             if (sc != null) {
-                d.EffectivementManagementFees__c = sc.EffectiveManagementFees__c;
+                d.EffectiveManagementFees__c = sc.EffectiveManagementFees__c;
             }
         }
     }
