@@ -135,8 +135,7 @@ stages:
 
         sort -u sonar-inclusions.txt -o sonar-inclusions.txt
         if [[ ! -s sonar-inclusions.txt ]]; then
-          echo "INFO: aucun composant scannable (Apex/LWC/Aura/VF) dans package.xml -> Sonar stage skipped."
-          echo "##vso[task.setvariable variable=SKIP_SONAR]true"
+          echo "Aucune inclusion Sonar générée depuis package.xml. Sonar ignoré (succès)."
           exit 0
         fi
 
