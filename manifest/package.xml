@@ -3,8 +3,13 @@
     <types>
         <members>FundManager__c</members>
         <members>FundManagerAssignment__c</members>
-        <members>Narrative__c</members>
         <name>CustomObject</name>
+    </types>
+	<types>
+        <members>Narrative__c.NarrativeLink__c</members>
+		<members>Narrative__c.Usage__c</members>
+		<members>Narrative__c.FundManagerName__c</members>
+        <name>CustomField</name>
     </types>
     <types>
         <members>FundManager__c</members>
