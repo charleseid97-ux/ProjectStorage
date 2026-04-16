@@ -815,7 +815,7 @@
                 <label>Performance Fee UCITS</label>
             </value>
             <value>
-                <fullName>REASON_FOR_RHP</fullName>
+                <fullName>REASON_FOR_PHP</fullName>
                 <default>false</default>
                 <label>Reason for RHP</label>
             </value>
@@ -827,7 +827,7 @@
             <value>
                 <fullName>Prime_Agent</fullName>
                 <default>false</default>
-                <label>Prime Transfer Agent</label>
+                <label>Prime Agent</label>
             </value>
             <value>
                 <fullName>Pre_CentralAdmin</fullName>
@@ -865,6 +865,11 @@
                 <label>Custodian</label>
             </value>
             <value>
+                <fullName>Central_Admins</fullName>
+                <default>false</default>
+                <label>Central Admin(s)</label>
+            </value>
+            <value>
                 <fullName>Share_Class_Investment_Objective</fullName>
                 <default>false</default>
                 <label>Share Class Investment Objective</label>
@@ -878,6 +883,11 @@
                 <fullName>Performance_fee_EPT/KID</fullName>
                 <default>false</default>
                 <label>Performance fee EPT/KID</label>
+            </value>
+            <value>
+                <fullName>Delegated_Investment_Managers</fullName>
+                <default>false</default>
+                <label>Delegated Investment Manager(s)</label>
             </value>
             <value>
                 <fullName>High_yield</fullName>
@@ -935,10 +945,6 @@
             <controllingFieldValue>Investment Strategy</controllingFieldValue>
             <controllingFieldValue>PRIIPs</controllingFieldValue>
             <valueName>Description</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Investment Objective</controllingFieldValue>
-            <valueName>PRIIPS</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Biography</controllingFieldValue>
@@ -1006,7 +1012,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>PRIIPs</controllingFieldValue>
-            <valueName>REASON_FOR_RHP</valueName>
+            <valueName>REASON_FOR_PHP</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>PRIIPs</controllingFieldValue>
@@ -1023,18 +1029,6 @@
         <valueSettings>
             <controllingFieldValue>PRIIPs</controllingFieldValue>
             <valueName>Performance_fee_EPT/KID</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>PRIIPs</controllingFieldValue>
-            <valueName>Settlement Period</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>PRIIPs</controllingFieldValue>
-            <valueName>Other relevant information</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>PRIIPs</controllingFieldValue>
-            <valueName>Reason for RHP - Redemption shareclass</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Glossary</controllingFieldValue>
