@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR04_NarrativeTP_RequiredFields</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(NOT($User.BypassValidationRules__c),
+RecordType.DeveloperName = &apos;Narrative&apos;,
+ISPICKVAL(Type__c, &apos;Third Party&apos;),
+OR(ISBLANK(Product__c),ISBLANK(Narrative__c))
+)</errorConditionFormula>
+    <errorMessage>For narratives of type Third Party, both the Product and Narrative fields are required.</errorMessage>
+</ValidationRule>

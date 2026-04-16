@@ -6,6 +6,7 @@
     <referenceTo>ProjectProduct__c</referenceTo>
     <relationshipName>Fund_Manager_Assignments</relationshipName>
     <required>false</required>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>
