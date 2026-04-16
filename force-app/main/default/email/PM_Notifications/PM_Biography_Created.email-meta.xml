@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>Carmignac</letterhead>
+    <name>PM Biography Created</name>
+    <style>freeForm</style>
+    <subject>New Product Manager Biography Created</subject>
+    <textOnly>Hello,
+
+A new Biography for the Product Manager {!Narrative__c.FundManagerName__c} has been added. Please find the details below:
+
+Language: {!Narrative__c.Language__c}
+Biography Content: {!Narrative__c.Content__c}
+
+You can access the Biography record using the link below: {!Narrative__c.NarrativeLink__c}
+
+Best regards,</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

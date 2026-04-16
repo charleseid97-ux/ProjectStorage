@@ -2,6 +2,7 @@
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>All</fullName>
     <columns>NAME</columns>
+    <columns>JobTitle__c</columns>
     <columns>Nationality__c</columns>
     <columns>DateJoined__c</columns>
     <filterScope>Everything</filterScope>

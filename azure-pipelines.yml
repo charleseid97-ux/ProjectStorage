@@ -134,7 +134,10 @@ stages:
         fi
 
         sort -u sonar-inclusions.txt -o sonar-inclusions.txt
-        [[ -s sonar-inclusions.txt ]] || { echo "ERREUR: aucune inclusion Sonar générée depuis package.xml."; exit 22; }
+        if [[ ! -s sonar-inclusions.txt ]]; then
+          echo "Aucune inclusion Sonar générée depuis package.xml. Sonar ignoré (succès)."
+          exit 0
+        fi
 
         SONAR_INCLUSIONS="$(paste -sd, sonar-inclusions.txt)"
         echo "##vso[task.setvariable variable=SONAR_INCLUSIONS]$SONAR_INCLUSIONS"

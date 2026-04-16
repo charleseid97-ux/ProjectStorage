@@ -4,6 +4,9 @@
     <columns>NAME</columns>
     <columns>DomiciliedIn__c</columns>
     <columns>Product__c</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <columns>Type__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>RECORDTYPE</field>
