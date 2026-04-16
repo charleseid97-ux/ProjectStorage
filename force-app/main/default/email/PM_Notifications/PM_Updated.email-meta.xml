@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>Carmignac</letterhead>
+    <name>PM Updated</name>
+    <style>freeForm</style>
+    <subject>Product Manager Updated</subject>
+    <textOnly>Hello,
+
+The Product Manager {!FundManager__c.FirstName__c} {!FundManager__c.LastName__c} has been updated. Please find the details below:
+
+Name: {!FundManager__c.FirstName__c} {!FundManager__c.LastName__c}
+EmpId: {!FundManager__c.EmpId__c}
+Date Joined: {!FundManager__c.DateJoined__c}
+Nationality: {!FundManager__c.Nationality__c}
+Job Title: {!FundManager__c.JobTitle__c}
+Years of Experience: {!FundManager__c.YearsofExperience__c}
+
+You can access the Product Manager record using the link below: {!FundManager__c.RecordLink__c}
+
+Best regards,</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

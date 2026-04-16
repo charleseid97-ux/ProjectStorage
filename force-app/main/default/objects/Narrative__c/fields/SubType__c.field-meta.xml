@@ -937,6 +937,10 @@
             <valueName>Description</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>Investment Objective</controllingFieldValue>
+            <valueName>PRIIPS</valueName>
+        </valueSettings>
+        <valueSettings>
             <controllingFieldValue>Biography</controllingFieldValue>
             <valueName>Standard</valueName>
         </valueSettings>
@@ -1019,6 +1023,18 @@
         <valueSettings>
             <controllingFieldValue>PRIIPs</controllingFieldValue>
             <valueName>Performance_fee_EPT/KID</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRIIPs</controllingFieldValue>
+            <valueName>Settlement Period</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRIIPs</controllingFieldValue>
+            <valueName>Other relevant information</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRIIPs</controllingFieldValue>
+            <valueName>Reason for RHP - Redemption shareclass</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Glossary</controllingFieldValue>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>Carmignac</letterhead>
+    <name>PM No Longer Liaised</name>
+    <style>freeForm</style>
+    <subject>Product Manager No Longer Liaised</subject>
+    <textOnly>Hello,
+
+Please note that Product Manager {!FundManagerAssignment__c.PortfolioManagerFullName__c} is no longer liaised with the product {!FundManagerAssignment__c.ProductName__c}.
+
+Details:
+Start Date: {!FundManagerAssignment__c.StartDate__c}
+End Date: {!FundManagerAssignment__c.EndDate__c}
+
+
+Best regards,</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>
