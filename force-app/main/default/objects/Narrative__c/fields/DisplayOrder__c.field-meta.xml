@@ -5,18 +5,15 @@
     <formula>CASE(
   TEXT(SubType__c),
   &quot;ManagementCompany&quot;, 1,
-  &quot;Delegated_Investment_Management_1&quot;, 2,
-		&quot;Delegated_Investment_Management_2&quot;, 3,
-		&quot;Delegated_Investment_Management_3&quot;, 4,	
-  &quot;FundAdvisor&quot;, 5,
-  &quot;FundAdmin&quot;, 6,
-  &quot;Custodian&quot;, 7,
-  &quot;Central Admin	&quot;, 8,
-		&quot;Central_Admin2&quot;, 9,
-  &quot;Pre-central admin&quot;, 10,
-  &quot;Prime_Agent&quot;, 11,
-  &quot;TransferAgent&quot;, 12,
-  &quot;FundAuditor&quot;, 13,
+  &quot;Delegated_Investment_Managers&quot;, 2,
+  &quot;FundAdvisor&quot;, 3,
+  &quot;FundAdmin&quot;, 4,
+  &quot;Custodian&quot;, 5,
+  &quot;Central_Admins&quot;, 6,
+  &quot;Pre_CentralAdmin&quot;, 7,
+  &quot;Prime_Agent&quot;, 8,
+  &quot;TransferAgent&quot;, 9,
+  &quot;FundAuditor&quot;, 10,
   99 /* défaut si aucune correspondance */
 )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
