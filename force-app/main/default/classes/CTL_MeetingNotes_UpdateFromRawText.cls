@@ -14,12 +14,18 @@ public without sharing class CTL_MeetingNotes_UpdateFromRawText {
     private static final String FN_CI_INTEREST      = 'Interest__c';
     private static final String FN_CI_PRODUCTCODE   = 'ProductCode__c';
 
+    // ---- LOGGING ----
+    private static final String LOG_CI_BUILT        = '[CI_PARSE] Built ';
+
     // ===================================================================
     // INVOCABLE METHOD
     // ===================================================================
     @InvocableMethod(label='Update Meeting Note from Flow (AI Summary + Interests)')
     public static void updateMeetingNoteFromFlow(List<Meeting_Note__c> meetingNotes) {
         if (meetingNotes == null || meetingNotes.isEmpty()) return;
+
+        List<Meeting_Note__c> notesToUpdate = new List<Meeting_Note__c>();
+        List<ClientInterest__c> allClientInterests = new List<ClientInterest__c>();
 
         for (Meeting_Note__c mn : meetingNotes) {
             try {
@@ -40,25 +46,44 @@ public without sharing class CTL_MeetingNotes_UpdateFromRawText {
                 System.debug(LoggingLevel.DEBUG, '[CTL_MN] Summary from flow: ' + summaryText);
                 System.debug(LoggingLevel.DEBUG, '[CTL_MN] Interests JSON from flow: ' + interestsJson);
 
-                // ---- 2️⃣ Mise à jour du résumé ----
+                // ---- 2️⃣ Accumulate Meeting Notes to update ----
                 if (!String.isBlank(summaryText)) {
                     Meeting_Note__c mnToUpdate = new Meeting_Note__c(Id = mn.Id, Note__c = summaryText);
-                    update mnToUpdate;
+                    notesToUpdate.add(mnToUpdate);
                 }
 
-                // ---- 3️⃣ Création des ClientInterests ----
+                // ---- 3️⃣ Accumulate Client Interests ----
                 List<ClientInterest__c> cis = parseClientInterestsJSON(interestsJson, mn.Id);
                 if (!cis.isEmpty()) {
-                    System.debug(LoggingLevel.INFO, '[CTL_MN] Inserting ' + cis.size() + ' ClientInterest__c records for MeetingNote ' + mn.Id);
+                    System.debug(LoggingLevel.INFO, '[CTL_MN] Preparing ' + cis.size() + ' ClientInterest__c records for MeetingNote ' + mn.Id);
                     System.debug(LoggingLevel.DEBUG, '[CTL_MN] Sample ClientInterest__c to insert: ' + String.valueOf(cis[0]));
-                    insert cis;
+                    allClientInterests.addAll(cis);
                 }
             } 
             catch (Exception e) {
                 System.debug(
                     LoggingLevel.ERROR,
-                    'Error updating Meeting Note ' + mn.Id + ': ' + e.getTypeName() + ' - ' + e.getMessage()
+                    'Error processing Meeting Note ' + mn.Id + ': ' + e.getTypeName() + ' - ' + e.getMessage()
                 );
+            }
+        }
+
+        // ---- 4️⃣ Bulk DML operations outside loop ----
+        if (!notesToUpdate.isEmpty()) {
+            try {
+                update notesToUpdate;
+                System.debug(LoggingLevel.INFO, '[CTL_MN] Successfully updated ' + notesToUpdate.size() + ' Meeting Note(s)');
+            } catch (Exception e) {
+                System.debug(LoggingLevel.ERROR, '[CTL_MN] Error updating Meeting Notes: ' + e.getTypeName() + ' - ' + e.getMessage());
+            }
+        }
+
+        if (!allClientInterests.isEmpty()) {
+            try {
+                insert allClientInterests;
+                System.debug(LoggingLevel.INFO, '[CTL_MN] Successfully inserted ' + allClientInterests.size() + ' ClientInterest__c record(s)');
+            } catch (Exception e) {
+                System.debug(LoggingLevel.ERROR, '[CTL_MN] Error inserting ClientInterests: ' + e.getTypeName() + ' - ' + e.getMessage());
             }
         }
     }
@@ -78,98 +103,114 @@ public without sharing class CTL_MeetingNotes_UpdateFromRawText {
         System.debug(LoggingLevel.DEBUG, '[CI_PARSE] Raw JSON: ' + preview);
 
         try {
-            // ---- Cas OBJET à la racine ----
             if (trimmed.startsWith('{')) {
-                Object raw = JSON.deserializeUntyped(trimmed);
-
-                if (!(raw instanceof Map<String, Object>)) {
-                    System.debug(LoggingLevel.WARN, '[CI_PARSE] Root is "{" but not a Map<String,Object> (value=' + String.valueOf(raw) + ')');
-                    return rows;
-                }
-
-                Map<String, Object> root = (Map<String, Object>) raw;
-                System.debug(LoggingLevel.DEBUG, '[CI_PARSE] Root keys=' + String.valueOf(root.keySet()));
-
-                // Enveloppe d'erreur éventuelle
-                if (root.containsKey('error')) {
-                    System.debug(LoggingLevel.WARN, '[CI_PARSE] Error envelope from flow: ' + String.valueOf(root.get('error')));
-                    return rows;
-                }
-
-                // Enveloppe avec liste : Result/result/Products/products
-                Object listCandidate = null;
-                if (root.containsKey('Result')) {
-                    listCandidate = root.get('Result');
-                } else if (root.containsKey('result')) {
-                    listCandidate = root.get('result');
-                } else if (root.containsKey('Products')) {
-                    listCandidate = root.get('Products');
-                } else if (root.containsKey('products')) {
-                    listCandidate = root.get('products');
-                } else if (root.containsKey('results')) {
-                    listCandidate = root.get('results');
-                } else if (root.containsKey('Results')) {
-                    listCandidate = root.get('Results');
-                }
-
-                if (listCandidate != null) {
-                    // Cas : liste d'objets
-                    if (listCandidate instanceof List<Object>) {
-                        List<Object> productsList = (List<Object>) listCandidate;
-                        System.debug(LoggingLevel.DEBUG, '[CI_PARSE] Detected envelope with list, size=' + productsList.size());
-
-                        for (Object o : productsList) {
-                            if (o instanceof Map<String, Object>) {
-                                ClientInterest__c ci = buildClientInterestFromMap((Map<String, Object>) o, meetingNoteId);
-                                if (ci != null) rows.add(ci);
-                            }
-                        }
-
-                        System.debug(LoggingLevel.INFO, '[CI_PARSE] Built ' + rows.size() + ' CI rows from envelope list');
-                        return rows;
-                    }
-
-                    // Cas : un seul objet dans Result/products
-                    if (listCandidate instanceof Map<String, Object>) {
-                        System.debug(LoggingLevel.DEBUG, '[CI_PARSE] Detected envelope with single object');
-                        ClientInterest__c ci = buildClientInterestFromMap((Map<String, Object>) listCandidate, meetingNoteId);
-                        if (ci != null) rows.add(ci);
-
-                        System.debug(LoggingLevel.INFO, '[CI_PARSE] Built ' + rows.size() + ' CI rows from single object in envelope');
-                        return rows;
-                    }
-                }
-
-                // Sinon : on traite la racine comme un seul produit
-                System.debug(LoggingLevel.DEBUG, '[CI_PARSE] Treating root object as single product');
-                ClientInterest__c singleCi = buildClientInterestFromMap(root, meetingNoteId);
-                if (singleCi != null) rows.add(singleCi);
-
-                System.debug(LoggingLevel.INFO, '[CI_PARSE] Built ' + rows.size() + ' CI rows from single root object');
-                return rows;
+                return parseObjectJSON(trimmed, meetingNoteId);
             }
 
-            // ---- Cas TABLEAU à la racine ----
             if (trimmed.startsWith('[')) {
-                List<Object> arr = (List<Object>) JSON.deserializeUntyped(trimmed);
-                System.debug(LoggingLevel.DEBUG, '[CI_PARSE] Root is ARRAY, size=' + arr.size());
-
-                for (Object o : arr) {
-                    if (o instanceof Map<String, Object>) {
-                        ClientInterest__c ci = buildClientInterestFromMap((Map<String, Object>) o, meetingNoteId);
-                        if (ci != null) rows.add(ci);
-                    }
-                }
-
-                System.debug(LoggingLevel.INFO, '[CI_PARSE] Built ' + rows.size() + ' CI rows from array');
-                return rows;
+                return parseArrayJSON(trimmed, meetingNoteId);
             }
 
-            // ---- Format non supporté ----
             System.debug(LoggingLevel.WARN, '[CI_PARSE] JSON does not start with { or [ - unsupported format');
         } 
         catch (Exception e) {
             System.debug(LoggingLevel.ERROR, '[CI_PARSE] Exception while parsing JSON: ' + e.getTypeName() + ' - ' + e.getMessage());
+        }
+
+        return rows;
+    }
+
+    // Parse un JSON qui commence par un objet
+    @TestVisible
+    private static List<ClientInterest__c> parseObjectJSON(String jsonString, Id meetingNoteId) {
+        List<ClientInterest__c> rows = new List<ClientInterest__c>();
+        Object raw = JSON.deserializeUntyped(jsonString);
+
+        if (!(raw instanceof Map<String, Object>)) {
+            System.debug(LoggingLevel.WARN, '[CI_PARSE] Root is "{" but not a Map<String,Object> (value=' + String.valueOf(raw) + ')');
+            return rows;
+        }
+
+        Map<String, Object> root = (Map<String, Object>) raw;
+        System.debug(LoggingLevel.DEBUG, '[CI_PARSE] Root keys=' + String.valueOf(root.keySet()));
+
+        if (root.containsKey('error')) {
+            System.debug(LoggingLevel.WARN, '[CI_PARSE] Error envelope from flow: ' + String.valueOf(root.get('error')));
+            return rows;
+        }
+
+        Object listCandidate = extractListCandidate(root);
+        
+        if (listCandidate != null) {
+            return processListCandidate(listCandidate, meetingNoteId);
+        }
+
+        // Sinon : on traite la racine comme un seul produit
+        System.debug(LoggingLevel.DEBUG, '[CI_PARSE] Treating root object as single product');
+        ClientInterest__c singleCi = buildClientInterestFromMap(root, meetingNoteId);
+        if (singleCi != null) rows.add(singleCi);
+
+        System.debug(LoggingLevel.INFO, LOG_CI_BUILT + rows.size() + ' CI rows from single root object');
+        return rows;
+    }
+
+    // Parse un JSON qui commence par un tableau
+    @TestVisible
+    private static List<ClientInterest__c> parseArrayJSON(String jsonString, Id meetingNoteId) {
+        List<ClientInterest__c> rows = new List<ClientInterest__c>();
+        List<Object> arr = (List<Object>) JSON.deserializeUntyped(jsonString);
+        System.debug(LoggingLevel.DEBUG, '[CI_PARSE] Root is ARRAY, size=' + arr.size());
+
+        for (Object o : arr) {
+            if (o instanceof Map<String, Object>) {
+                ClientInterest__c ci = buildClientInterestFromMap((Map<String, Object>) o, meetingNoteId);
+                if (ci != null) rows.add(ci);
+            }
+        }
+
+        System.debug(LoggingLevel.INFO, LOG_CI_BUILT + rows.size() + ' CI rows from array');
+        return rows;
+    }
+
+    // Extrait le candidat de liste depuis une enveloppe JSON
+    @TestVisible
+    private static Object extractListCandidate(Map<String, Object> root) {
+        if (root.containsKey('Result')) return root.get('Result');
+        if (root.containsKey('result')) return root.get('result');
+        if (root.containsKey('Products')) return root.get('Products');
+        if (root.containsKey('products')) return root.get('products');
+        if (root.containsKey('results')) return root.get('results');
+        if (root.containsKey('Results')) return root.get('Results');
+        return null;
+    }
+
+    // Traite le candidat de liste (peut être une liste ou un objet unique)
+    @TestVisible
+    private static List<ClientInterest__c> processListCandidate(Object listCandidate, Id meetingNoteId) {
+        List<ClientInterest__c> rows = new List<ClientInterest__c>();
+
+        if (listCandidate instanceof List<Object>) {
+            List<Object> productsList = (List<Object>) listCandidate;
+            System.debug(LoggingLevel.DEBUG, '[CI_PARSE] Detected envelope with list, size=' + productsList.size());
+
+            for (Object o : productsList) {
+                if (o instanceof Map<String, Object>) {
+                    ClientInterest__c ci = buildClientInterestFromMap((Map<String, Object>) o, meetingNoteId);
+                    if (ci != null) rows.add(ci);
+                }
+            }
+
+            System.debug(LoggingLevel.INFO, LOG_CI_BUILT + rows.size() + ' CI rows from envelope list');
+            return rows;
+        }
+
+        if (listCandidate instanceof Map<String, Object>) {
+            System.debug(LoggingLevel.DEBUG, '[CI_PARSE] Detected envelope with single object');
+            ClientInterest__c ci = buildClientInterestFromMap((Map<String, Object>) listCandidate, meetingNoteId);
+            if (ci != null) rows.add(ci);
+
+            System.debug(LoggingLevel.INFO, LOG_CI_BUILT + rows.size() + ' CI rows from single object in envelope');
+            return rows;
         }
 
         return rows;
