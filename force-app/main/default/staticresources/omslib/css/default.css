@@ -1,0 +1,125 @@
+/* Get rid of salesforce body padding on lightning. */
+html body.sfdcBody {
+    padding: 0px;
+}
+/* Get rid of salesforce body padding on aloha. */
+.noSidebarCell, .sidebarCell .fixed {
+    padding: 0px;
+}
+/* Get rid of salesforce body padding on setup enabled vf pages. */
+.setupTab .outer .oRight,
+.sysAdminTab .outer .oRight {
+    padding: 0px;
+}
+
+.banner-padding {
+    margin-bottom: 15px;
+}
+
+.oms-container {
+    padding: 10px;
+}
+
+.prog-bar {
+    height: 14px;
+    margin: 3px;
+    padding: 0px;
+    padding-right:3px;
+    background: #FFA037;
+    text-align:right;
+    font-size:12px;
+    font-weight:bold;
+    color:#333333;
+}
+
+.prog-bar-done {
+    height: 14px;
+    margin: 3px;
+    padding: 0px;
+    padding-right:3px;
+    background: #C9DDEC;
+}
+
+.prog-border {
+    width: 209px;
+    background: #fff;
+    border: 1px solid silver;
+    margin: 0px;
+    padding: 0px;
+}
+
+/* missing slds style */
+.slds-text-title--caps {
+    font-size: .75rem;
+    line-height: 1.25;
+    color: #54698d;
+    text-transform: uppercase;
+    letter-spacing: .0625rem;
+}
+
+/* table loading spinner */
+.tb-rec-loading {
+    width: 17px;
+    margin-right: 10px;
+}
+
+/* Style page messages */
+.message {
+    /*background-image: linear-gradient(45deg,rgba(0,0,0,.025) 25%,transparent 25%,transparent 50%,rgba(0,0,0,.025) 50%,rgba(0,0,0,.025) 75%,transparent 75%,transparent); */
+    color: #fff;
+    position: relative;
+    font-weight: 300;
+    padding: .5rem;
+    margin: -1rem 0 .5rem 0;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+}
+
+.message.confirmM3 {
+    background-color: #04844b;
+}
+
+.message.errorM3 {
+    background: #54698d;
+}
+
+.message .messageTable .messageCell {
+    color: #fff;
+}
+
+.message .messageText h4 {
+    color: #fff !important;
+    display: none;
+}
+
+.errorM6,
+.errorM4,
+.errorM3,
+.errorM2,
+.errorS1 {
+    border-color: transparent;
+}
+
+.errorM3 .msgIcon,
+.errorMedium {
+    background-image: url(../images/error_120.png);
+    background-position: 0 0;
+    background-size: 24px 24px;
+    background-repeat: no-repeat;
+    width: 24px;
+    height: 24px;
+}
+
+.confirmM3 .msgIcon,
+.confirmMedium {
+    background-image: url(../images/success_120.png);
+    background-position: 0 0;
+    background-size: 24px 24px;
+    background-repeat: no-repeat;
+    width: 24px;
+    height: 24px;
+}
+
+table.messageTable tbody tr:first-child td:first-child {
+    width: 27px !important;
+}
