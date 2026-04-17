@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR_ClientInterestRating</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(
+ISBLANK	(Interest__c),	Interest__c&lt; 1, Interest__c&gt; 5
+)</errorConditionFormula>
+    <errorMessage>The field value must be between 1 and 5.</errorMessage>
+</ValidationRule>

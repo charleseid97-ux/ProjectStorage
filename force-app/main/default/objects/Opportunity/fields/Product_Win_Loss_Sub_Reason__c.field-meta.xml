@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_Win_Loss_Sub_Reason__c</fullName>
+    <label>Product Win/Loss Sub Reason</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Secondary_Win_Loss_Reason__c</controllingField>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>Asset Allocation</fullName>
+                <default>false</default>
+                <label>Asset Allocation</label>
+            </value>
+            <value>
+                <fullName>Benchmark</fullName>
+                <default>false</default>
+                <label>Benchmark</label>
+            </value>
+            <value>
+                <fullName>Buy / Sell Discipline</fullName>
+                <default>false</default>
+                <label>Buy / Sell Discipline</label>
+            </value>
+            <value>
+                <fullName>Cash Management</fullName>
+                <default>false</default>
+                <label>Cash Management</label>
+            </value>
+            <value>
+                <fullName>Credit</fullName>
+                <default>false</default>
+                <label>Credit</label>
+            </value>
+            <value>
+                <fullName>Currency Management</fullName>
+                <default>false</default>
+                <label>Currency Management</label>
+            </value>
+            <value>
+                <fullName>Derivates</fullName>
+                <default>false</default>
+                <label>Derivates</label>
+            </value>
+            <value>
+                <fullName>ESG Approach</fullName>
+                <default>false</default>
+                <label>ESG Approach</label>
+            </value>
+            <value>
+                <fullName>Fee Structure</fullName>
+                <default>false</default>
+                <label>Fee Structure</label>
+            </value>
+            <value>
+                <fullName>Flexibility</fullName>
+                <default>false</default>
+                <label>Flexibility</label>
+            </value>
+            <value>
+                <fullName>Fund Category</fullName>
+                <default>false</default>
+                <label>Fund Category</label>
+            </value>
+            <value>
+                <fullName>Fund Manager Tenure</fullName>
+                <default>false</default>
+                <label>Fund Manager Tenure</label>
+            </value>
+            <value>
+                <fullName>Fund Size</fullName>
+                <default>false</default>
+                <label>Fund Size</label>
+            </value>
+            <value>
+                <fullName>Idea Generation</fullName>
+                <default>false</default>
+                <label>Idea Generation</label>
+            </value>
+            <value>
+                <fullName>Investment Style</fullName>
+                <default>false</default>
+                <label>Investment Style</label>
+            </value>
+            <value>
+                <fullName>Investment Team Size / Capabilities</fullName>
+                <default>false</default>
+                <label>Investment Team Size / Capabilities</label>
+            </value>
+            <value>
+                <fullName>Modified Duration</fullName>
+                <default>false</default>
+                <label>Modified Duration</label>
+            </value>
+            <value>
+                <fullName>Net Equity Exposure</fullName>
+                <default>false</default>
+                <label>Net Equity Exposure</label>
+            </value>
+            <value>
+                <fullName>Net Fixed Income Exposure</fullName>
+                <default>false</default>
+                <label>Net Fixed Income Exposure</label>
+            </value>
+            <value>
+                <fullName>Opportunity Closed with Generic Reason</fullName>
+                <default>false</default>
+                <label>Opportunity Closed with Generic Reason</label>
+            </value>
+            <value>
+                <fullName>Performance Fee</fullName>
+                <default>false</default>
+                <label>Performance Fee</label>
+            </value>
+            <value>
+                <fullName>Rates</fullName>
+                <default>false</default>
+                <label>Rates</label>
+            </value>
+            <value>
+                <fullName>Relative Performance 1y</fullName>
+                <default>false</default>
+                <label>Relative Performance 1y</label>
+            </value>
+            <value>
+                <fullName>Relative Performance 3y</fullName>
+                <default>false</default>
+                <label>Relative Performance 3y</label>
+            </value>
+            <value>
+                <fullName>Relative Performance 5y</fullName>
+                <default>false</default>
+                <label>Relative Performance 5y</label>
+            </value>
+            <value>
+                <fullName>Risk Management Process</fullName>
+                <default>false</default>
+                <label>Risk Management Process</label>
+            </value>
+            <value>
+                <fullName>Risk Ratios</fullName>
+                <default>false</default>
+                <label>Risk Ratios</label>
+            </value>
+            <value>
+                <fullName>Share Class</fullName>
+                <default>false</default>
+                <label>Share Class</label>
+            </value>
+            <value>
+                <fullName>Stock Selection</fullName>
+                <default>false</default>
+                <label>Stock Selection</label>
+            </value>
+            <value>
+                <fullName>Stop Loss Procedures</fullName>
+                <default>false</default>
+                <label>Stop Loss Procedures</label>
+            </value>
+            <value>
+                <fullName>Total Return 1y</fullName>
+                <default>false</default>
+                <label>Total Return 1y</label>
+            </value>
+            <value>
+                <fullName>Total Return 3y</fullName>
+                <default>false</default>
+                <label>Total Return 3y</label>
+            </value>
+            <value>
+                <fullName>Total Return 5y</fullName>
+                <default>false</default>
+                <label>Total Return 5y</label>
+            </value>
+            <value>
+                <fullName>Track Record</fullName>
+                <default>false</default>
+                <label>Track Record</label>
+            </value>
+            <value>
+                <fullName>Turnover</fullName>
+                <default>false</default>
+                <label>Turnover</label>
+            </value>
+            <value>
+                <fullName>Yield to Maturity / Worst (YTM / YTW)</fullName>
+                <default>false</default>
+                <label>Yield to Maturity / Worst (YTM / YTW)</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Investment Process</controllingFieldValue>
+            <valueName>Buy / Sell Discipline</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Investment Process</controllingFieldValue>
+            <valueName>ESG Approach</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Investment Process</controllingFieldValue>
+            <valueName>Flexibility</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Investment Process</controllingFieldValue>
+            <valueName>Fund Manager Tenure</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Investment Process</controllingFieldValue>
+            <valueName>Idea Generation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Investment Process</controllingFieldValue>
+            <valueName>Investment Style</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Investment Process</controllingFieldValue>
+            <valueName>Investment Team Size / Capabilities</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Investment Process</controllingFieldValue>
+            <valueName>Risk Management Process</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Investment Process</controllingFieldValue>
+            <valueName>Risk Ratios</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Investment Process</controllingFieldValue>
+            <valueName>Stop Loss Procedures</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Investment Process</controllingFieldValue>
+            <valueName>Track Record</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Investment Process</controllingFieldValue>
+            <valueName>Turnover</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Non-Product Reason</controllingFieldValue>
+            <valueName>Opportunity Closed with Generic Reason</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Alpha Generation Drivers</controllingFieldValue>
+            <valueName>Asset Allocation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Alpha Generation Drivers</controllingFieldValue>
+            <valueName>Cash Management</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Alpha Generation Drivers</controllingFieldValue>
+            <valueName>Credit</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Alpha Generation Drivers</controllingFieldValue>
+            <valueName>Currency Management</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Alpha Generation Drivers</controllingFieldValue>
+            <valueName>Derivates</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Alpha Generation Drivers</controllingFieldValue>
+            <valueName>Modified Duration</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Alpha Generation Drivers</controllingFieldValue>
+            <valueName>Net Equity Exposure</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Alpha Generation Drivers</controllingFieldValue>
+            <valueName>Net Fixed Income Exposure</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Alpha Generation Drivers</controllingFieldValue>
+            <valueName>Rates</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Alpha Generation Drivers</controllingFieldValue>
+            <valueName>Stock Selection</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Alpha Generation Drivers</controllingFieldValue>
+            <valueName>Yield to Maturity / Worst (YTM / YTW)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Performance</controllingFieldValue>
+            <valueName>Relative Performance 1y</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Performance</controllingFieldValue>
+            <valueName>Relative Performance 3y</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Performance</controllingFieldValue>
+            <valueName>Relative Performance 5y</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Performance</controllingFieldValue>
+            <valueName>Total Return 1y</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Performance</controllingFieldValue>
+            <valueName>Total Return 3y</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Performance</controllingFieldValue>
+            <valueName>Total Return 5y</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Product Features</controllingFieldValue>
+            <valueName>Benchmark</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Product Features</controllingFieldValue>
+            <valueName>Fee Structure</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Product Features</controllingFieldValue>
+            <valueName>Fund Category</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Product Features</controllingFieldValue>
+            <valueName>Fund Size</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Product Features</controllingFieldValue>
+            <valueName>Performance Fee</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Product Features</controllingFieldValue>
+            <valueName>Share Class</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

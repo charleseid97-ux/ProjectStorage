@@ -1,0 +1,29 @@
+<template>
+    <lightning-card>
+        <div class="slds-grid slds-m-around_medium">
+            <div class="slds-col">
+                <template if:true={displayCurrentPhaseTitle}>
+                    <div class="phase-label">Current Phase :</div>
+                    <div class="phase-name">{title}</div>
+                </template>
+<div class="info-text">Time remaining :</div>
+<div class="remaining-days">{RemainingProjectDays} days</div>
+
+                <div class="info-text">Launch Date :</div>
+                <div class="deadline">
+                    <lightning-formatted-date-time value={EndDate}></lightning-formatted-date-time>
+                </div>
+            </div>
+            <div class="slds-col">
+                <div class="phase-label">{progressTitle}</div>
+                <div class="progress-circle"> 
+                    <svg viewBox="0 0 36 36" class="circular-chart"> 
+                        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" /> 
+                        <path class="circle" stroke-dasharray={progressValue} d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" /> 
+                        <text x="18" y="20.35" class="percentage">{percentage}%</text> 
+                    </svg> 
+                </div>        
+            </div>
+        </div>
+    </lightning-card>
+</template>

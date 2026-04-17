@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>64.0</apiVersion>
+    <description>Automatically updates the standard Name field of a Fund Manager with the value from the Full Name formula field, ensuring clean display in lookup references.</description>
+    <environments>Default</environments>
+    <interviewLabel>FL_PM_Name from Full Name {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>PMT - AutoName Product Manager</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>This Record-Triggered Flow automatically updates the standard Name field on the FundManager__c object whenever a record is created or when the first name or last name is modified.
+
+The Name field is populated with the value of the FullName__c formula field (which combines FirstName__c and LastName__c).
+This ensures that lookups to Fund Managers (e.g. Portfolio Manager Name) display a clean and readable full name instead of an internal ID or a non-meaningful value.</description>
+        <name>UpdatePMNameField</name>
+        <label>Update PM Name Field</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>$Record.FullName__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>UpdatePMNameField</targetReference>
+        </connector>
+        <filterFormula>ISNEW() || ISCHANGED({!$Record.FirstName__c}) || ISCHANGED({!$Record.LastName__c})</filterFormula>
+        <object>FundManager__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

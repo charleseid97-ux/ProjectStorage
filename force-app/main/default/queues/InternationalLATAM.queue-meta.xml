@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesSendEmailToMembers>false</doesSendEmailToMembers>
+    <name>International &amp; LATAM</name>
+    <queueMembers>
+        <users>
+            <user>charlotte.samson-crm@carmignac.com</user>
+            <user>seiya.noaro-baba-crm@carmignac.com</user>
+        </users>
+    </queueMembers>
+    <queueSobject>
+        <sobjectType>Lead</sobjectType>
+    </queueSobject>
+</Queue>

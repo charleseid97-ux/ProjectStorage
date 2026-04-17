@@ -1,0 +1,87 @@
+<!--
+    @description       :
+    @author            : Thanina YAYA
+    @history
+    [25-10-2024]    [SILA Nicolas]
+    [16-12-2025]    [EID Charles]   [Add showValuesWhenNotSelecting feature]
+    [23-01-2025]	[EID Charles]   [Add enableSelectAll feature]
+-->
+<template>
+    <div class="slds-form-element">
+         <div class="slds-form-element__control">
+             <div class="slds-combobox_container">
+                <div  class={mainDivClass} aria-expanded="false" aria-haspopup="listbox" role="combobox" >
+                    <div  style="width:100%;" onclick={handleClick} >
+                         <template if:true={requiredLabel}>
+                            <label for="inputSearch" class={labelStyle}><abbr class="slds-required" title="required">* </abbr>{label}</label>
+                         </template>
+                         <template if:false={requiredLabel}>
+                            <label for="inputSearch" class={labelStyle}>{label}</label>
+                         </template>
+                         <template if:true={helptext} >
+                            <lightning-helptext content={helptext}></lightning-helptext>
+                        </template>
+                         <lightning-input
+                                id="inputSearch"
+                                name="searchAll"
+                                variant="label-hidden"
+                                type="search"
+                                value={searchKey}
+                                autocomplete="off"
+                                onchange={handleChangeSearch}
+                                disabled={disabled}>
+                         </lightning-input>
+                         
+                    </div>
+                    <div  class={dropdownOuterStyle} role="listbox"  style="height:12rem; overflow: scroll;" onmouseleave={closeDropdown} >
+                        <template if:true={options} >
+                        <template if:false={monoSelect} >
+                            <template if:true={showSelectAll}>
+                                <div class="select-all-row">
+                                    <lightning-input type="checkbox"
+                                                     label={selectAllLabel}
+                                                     checked={isAllSelected}
+                                                     onchange={handleSelectAllToggle}
+                                                     disabled={disabled}>
+                                    </lightning-input>
+                                </div>
+                            </template>
+                             <lightning-checkbox-group name="Checkbox Group"
+                                                       label=""
+                                                       options={options}
+                                                       value={value}
+                                                       onchange={handleChange}
+                                                       onfocus={closeDropdown}>
+                             </lightning-checkbox-group>
+                         </template>
+                         <template if:true={monoSelect} >
+                             <lightning-radio-group name="radioButtonGroup"
+                                                       label=""
+                                                       options={options}
+                                                       value={value}
+                                                       onchange={handleChange}
+                                                       class="slds-truncate"
+                                                       onfocus={closeDropdown}>
+                             </lightning-radio-group>
+                         </template>
+                        </template>
+                    </div>
+                </div>
+             </div>
+         </div>
+    </div>
+    <template if:true={showPills}>
+        <template if:true={isTranslationComponent}>
+            <div>
+                <lightning-pill-container items={pills} onitemremove={handleItemRemove} is-collapsible="true" is-expanded="false">
+                </lightning-pill-container>
+            </div>
+        </template>
+        <template if:false={isTranslationComponent}>
+            <div style="max-height: 3rem;overflow:scroll;">
+                <lightning-pill-container items={pills} onitemremove={handleItemRemove} is-collapsible="true" is-expanded="false">
+                </lightning-pill-container>
+            </div>
+        </template>
+    </template>
+</template>

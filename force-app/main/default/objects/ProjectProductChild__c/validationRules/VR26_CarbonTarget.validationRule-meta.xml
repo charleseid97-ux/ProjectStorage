@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR26_CarbonTarget</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  NOT($User.BypassValidationRules__c),
+  NOT(ISBLANK(CarbonTarget__c)),
+  OR(
+    CarbonTarget__c &lt; 0,
+    CarbonTarget__c &gt; 1
+  )
+)</errorConditionFormula>
+    <errorDisplayField>CarbonTarget__c</errorDisplayField>
+    <errorMessage>Carbon reduction target must be between 0% and 100%</errorMessage>
+</ValidationRule>

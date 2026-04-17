@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Language__c</fullName>
+    <defaultValue>IF(NOT(ISBLANK( $User.Secondary_Teams__c )),&quot;&quot;,
+IF(
+ISPICKVAL( $User.Team__c,&quot;France&quot;),&quot;French&quot;,
+IF(ISPICKVAL($User.Team__c,&quot;United Kingdom&quot;),&quot;English&quot;,
+IF(ISPICKVAL($User.Team__c,&quot;Germany&quot;),&quot;German&quot;,
+IF(ISPICKVAL($User.Team__c,&quot;Italy&quot;),&quot;Italian&quot;,
+IF(ISPICKVAL($User.Team__c,&quot;LATAM&quot;),&quot;English&quot;,
+IF(ISPICKVAL($User.Team__c,&quot;Belgium&quot;),&quot;Dutch&quot;,
+IF(ISPICKVAL($User.Team__c,&quot;Spain&quot;),&quot;Spanish&quot;,
+IF(ISPICKVAL($User.Team__c,&quot;International&quot;),&quot;French&quot;,
+IF(ISPICKVAL($User.Team__c,&quot;Luxembourg&quot;),&quot;English&quot;,
+IF(ISPICKVAL($User.Team__c,&quot;Japan&quot;),&quot;English&quot;,
+IF(ISPICKVAL($User.Team__c,&quot;Netherlands&quot;),&quot;Dutch&quot;,
+IF(ISPICKVAL($User.Team__c,&quot;Nordics&quot;),&quot;English&quot;,
+IF(ISPICKVAL($User.Team__c,&quot;Taiwan&quot;),&quot;English&quot;,
+IF(ISPICKVAL($User.Team__c,&quot;Switzerland&quot;),&quot;German&quot;,&quot;&quot;
+)))))))))))))
+))</defaultValue>
+    <label>Language</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>French</fullName>
+                <default>false</default>
+                <label>French</label>
+            </value>
+            <value>
+                <fullName>English</fullName>
+                <default>false</default>
+                <label>English</label>
+            </value>
+            <value>
+                <fullName>German</fullName>
+                <default>false</default>
+                <label>German</label>
+            </value>
+            <value>
+                <fullName>Spanish</fullName>
+                <default>false</default>
+                <label>Spanish</label>
+            </value>
+            <value>
+                <fullName>Portuguese</fullName>
+                <default>false</default>
+                <label>Portuguese</label>
+            </value>
+            <value>
+                <fullName>Italian</fullName>
+                <default>false</default>
+                <label>Italian</label>
+            </value>
+            <value>
+                <fullName>Dutch</fullName>
+                <default>false</default>
+                <label>Dutch</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

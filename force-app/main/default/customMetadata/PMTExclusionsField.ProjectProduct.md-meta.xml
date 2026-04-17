@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>ProjectProduct Creation</label>
+    <protected>false</protected>
+    <values>
+        <field>FieldsToExclude__c</field>
+        <value xsi:type="xsd:string">id;name;createddate;createdbyid;lastmodifieddate;lastmodifiedbyid;systemmodstamp;isdeleted;lastactivitydate;lastvieweddate;lastreferenceddate;ownerid;recordtypeid;AMFESGCommunication__c;BenchmarkName__c;CarbonTarget__c;EET20190__c;EET20200__c;EET20210__c;EET20220__c;EET20250__c;EET20400__c;EET20430__c;EET20460__c;EET20570__c;EET40000__c;EET60440__c;ESGLabelForeseen__c;ESGLabel__c;FundSpecificExclusions__c;GIINSponsorCode__c;HasCarbonTarget__c;HasInvestmentUniverseReduction__c;InvestmentUniverseReduction__c;IsLeveragedUCITS__c;IsUsingPAI__c;MasterFund__c;MinSustainableInvest__c;MinTaxAlignment__c;RecommendedHoldingLabel__c;RecommendedHoldingPeriod__c;RecommendedHoldingPeriodUnit__c;SustainabilityIndicators__c;VARMethod__c;EET20080__c;LeveragewithIRD__c;LeveragewoIRD__c;Useref__c;InvestmentObjective__c;efamaefcinvesttheme__c;InternalShortName__c;LEICode__c</value>
+    </values>
+</CustomMetadata>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_Status_Comment__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(ISPICKVAL(KYD_Due_Diligence_Oversight__r.KYD_Responsible__c, &apos;CACEIS&apos;),
+		IF(ISPICKVAL(Account_Status__c, &apos;Completed&apos;), 
+					&apos;Caceis Account opened&apos;, 
+					&apos;Waiting for Caceis Account opening&apos;
+			),
+		&apos;&apos;
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Account Status Comment</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>InvestmentStyle__c</fullName>
+    <label>Old_Investment Style</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Bottom-Up</fullName>
+                <default>false</default>
+                <label>Bottom-Up</label>
+            </value>
+            <value>
+                <fullName>Quantitative</fullName>
+                <default>false</default>
+                <label>Quantitative</label>
+            </value>
+            <value>
+                <fullName>Top-Down</fullName>
+                <default>false</default>
+                <label>Top-Down</label>
+            </value>
+            <value>
+                <fullName>Top-Down/Bottom-Up</fullName>
+                <default>false</default>
+                <label>Top-Down/Bottom-Up</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

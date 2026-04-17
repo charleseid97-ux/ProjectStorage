@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FP_Carmignac_Emerging_Market_UKCE__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Interest OEIC Funds</description>
+    <inlineHelpText>Interest OEIC Funds</inlineHelpText>
+    <label>FP Carmignac Emerging Market (UKCE)</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

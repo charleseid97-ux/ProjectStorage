@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_config</fullName>
+    <columns>MasterLabel</columns>
+    <columns>DeveloperName</columns>
+    <columns>FieldName__c</columns>
+    <columns>FieldType__c</columns>
+    <columns>IsActive__c</columns>
+    <columns>IsMultiSelectLookup__c</columns>
+    <columns>MaxNumber__c</columns>
+    <columns>Object__c</columns>
+    <columns>Order__c</columns>
+    <columns>IconName__c</columns>
+    <columns>Section__c</columns>
+    <columns>Type__c</columns>
+    <columns>Values__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All config</label>
+    <language>en_US</language>
+</ListView>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Legal_Status__c</fullName>
+    <label>Old_Legal Form</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>FCP</fullName>
+                <default>false</default>
+                <label>FCP</label>
+            </value>
+            <value>
+                <fullName>SICAV</fullName>
+                <default>false</default>
+                <label>SICAV</label>
+            </value>
+            <value>
+                <fullName>AIF</fullName>
+                <default>false</default>
+                <label>AIF</label>
+            </value>
+            <value>
+                <fullName>OEIC</fullName>
+                <default>false</default>
+                <label>OEIC</label>
+            </value>
+            <value>
+                <fullName>NOLS</fullName>
+                <default>false</default>
+                <label>NOLS</label>
+            </value>
+            <value>
+                <fullName>Others</fullName>
+                <default>false</default>
+                <label>Others</label>
+            </value>
+            <value>
+                <fullName>ICAV</fullName>
+                <default>false</default>
+                <label>ICAV</label>
+            </value>
+            <value>
+                <fullName>SICAV (RAIF)</fullName>
+                <default>false</default>
+                <label>SICAV (RAIF)</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

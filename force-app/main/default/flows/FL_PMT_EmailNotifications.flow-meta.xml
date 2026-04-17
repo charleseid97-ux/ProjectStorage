@@ -1,0 +1,537 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Copy_1_of_SendActivationEmail</name>
+        <label>SendActivationEmail</label>
+        <locationX>50</locationX>
+        <locationY>1055</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>emailsDistributionList</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>$Label.NoReplayWideAddress</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>EmailSubjectModification</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>ActivationEmailBodyModification</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>logEmailOnSend</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <name>Copy_3_of_SendActivationEmail</name>
+        <label>SendActivationEmail</label>
+        <locationX>314</locationX>
+        <locationY>647</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>emailsDistributionList</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>$Label.NoReplayWideAddress</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>ActivationEmailSubject</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>ActivationEmailBody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>logEmailOnSend</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <name>getTeams</name>
+        <label>getTeams</label>
+        <locationX>50</locationX>
+        <locationY>647</locationY>
+        <actionName>FlowEmailNotificationCtrl</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>teams</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>$Record.RecordTypeId</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>FlowEmailNotificationCtrl</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <actionCalls>
+        <name>SendOnholdOrCancelledEmail</name>
+        <label>Send On hold or Cancelled Email</label>
+        <locationX>578</locationX>
+        <locationY>431</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>emailsDistributionList</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>$Label.NoReplayWideAddress</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>OnHoldOrCancelledEmailSubject</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>OnHoldOrCancelledEmailBody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>logEmailOnSend</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <apiVersion>62.0</apiVersion>
+    <assignments>
+        <name>assign_Teams</name>
+        <label>assign Teams</label>
+        <locationX>138</locationX>
+        <locationY>863</locationY>
+        <assignmentItems>
+            <assignToReference>teamsReturned</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>• {!teams}&lt;br/&gt;</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>teams</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>Has_been_ActivatedHas_been_Activated</name>
+        <label>Has been ActivatedHas been Activated</label>
+        <locationX>512</locationX>
+        <locationY>323</locationY>
+        <defaultConnectorLabel>No</defaultConnectorLabel>
+        <rules>
+            <name>ProjectActivation</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.ProjectStatus__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Active</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.ProjectStatus__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>GetMileStones</targetReference>
+            </connector>
+            <label>Project Activation</label>
+        </rules>
+        <rules>
+            <name>ProjectOnHoldOrCancelled</name>
+            <conditionLogic>(1 OR 2) AND 3</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.ProjectStatus__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>On hold</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.ProjectStatus__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Cancelled</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.ProjectStatus__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>SendOnholdOrCancelledEmail</targetReference>
+            </connector>
+            <label>Project &apos;On Hold&apos; or &apos;Cancelled&apos;</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Distinguer la création de la modification</description>
+        <name>Type_of_project</name>
+        <label>Type of project</label>
+        <locationX>182</locationX>
+        <locationY>539</locationY>
+        <defaultConnector>
+            <targetReference>Copy_3_of_SendActivationEmail</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default</defaultConnectorLabel>
+        <rules>
+            <name>Project_Modification</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>FundShareClassModification</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getTeams</targetReference>
+            </connector>
+            <label>Project Modification</label>
+        </rules>
+    </decisions>
+    <description>This Record-Triggered Flow is used in the Product Management Tool (PMT) to automatically notify relevant distribution lists based on project status updates.
+An email notification is sent when a PMT project is marked as Activated, On Hold, Cancelled.
+Each status triggers a specific email template sent to all distribution lists defined at the project level.
+
+ESG (responsible.investment@carmignac.com) is included only if SFDR Category = 6, 8 or 9</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>EMAILRECIPIENTSTESTS</name>
+        <dataType>String</dataType>
+        <expression>&apos;nicolas.rossignol@carmignac.com&apos;&amp;&apos;,&apos;&amp;&apos;salesforcesupport@carmignac.com&apos;</expression>
+    </formulas>
+    <formulas>
+        <description>Distribution list of all teams involved in PMT:
+
+Communication &gt; communication@carmignac.com
+Compliance &gt; complianceinternalcontrol.generalsecretary@carmignac.com
+DCO &gt; digitaloperationsfordistribution@carmignac.com
+DCP &gt; privateclients@carmignac.com
+DCR &gt; dataclientreporting@carmignac.com
+Distribution &gt; konstantinos.sinioris@carmignac.com
+DM &gt; digitalmarketing@carmignac.com
+DBS &gt; digitalbusinesssolutions@carmignac.com
+ESG &gt; responsible.investment@carmignac.com
+Finance &gt; financecontrol.financeaccounting@carmignac.com
+Fund Marketing &amp; Event &gt; campaignsandeventsteam@carmignac365.onmicrosoft.com
+Investment Management &gt; laurent.mathieu@carmignac.com
+Investment Performance &gt; performance.management@carmignac.com
+Legal &gt; legalaffairsproductdevelopment.generalsecretary@carmignac.com
+Ops &gt; middleofficefunds2@carmignac.com
+Product Specialist &gt; productspecialists@carmignac.com
+Product Strategy &gt; productstrategy@carmignac.com
+RFP &gt; rfp@carmignac.com
+Risk &gt; risk_prod@carmignac.com
+Tax  &gt; tax.generalsecretary@carmignac.com
+Techno Fund Management &gt; supportfundmanagement.technology@carmignac.com
+Working Group EPC &gt; workgroup.executiveproductcommittee@carmignac.com 
+Support Salesforce &gt; sf_pmt@carmignac.com</description>
+        <name>emailsDistributionList</name>
+        <dataType>String</dataType>
+        <expression>IF(
+  OR(
+    ISPICKVAL({!$Record.SFDRcategory__c}, &apos;6&apos;),
+    ISPICKVAL({!$Record.SFDRcategory__c}, &apos;8&apos;),
+    ISPICKVAL({!$Record.SFDRcategory__c}, &apos;9&apos;)
+  ),
+   /* responsible.investment included */
+  &apos;communication@carmignac.com,&apos; &amp;
+  &apos;complianceinternalcontrol.generalsecretary@carmignac.com,&apos; &amp;
+  &apos;digitaloperationsfordistribution@carmignac.com,&apos; &amp;
+  &apos;financecontrol.financeaccounting@carmignac.com,&apos; &amp;
+  &apos;responsible.investment@carmignac.com,&apos; &amp;
+  &apos;performance.management@carmignac.com,&apos; &amp;
+  &apos;legalaffairsproductdevelopment.generalsecretary@carmignac.com,&apos; &amp;
+  &apos;middleofficefunds2@carmignac.com,&apos; &amp;
+  &apos;productstrategy@carmignac.com,&apos; &amp;
+  &apos;risk_prod@carmignac.com,&apos; &amp;
+  &apos;tax.generalsecretary@carmignac.com,&apos; &amp;
+  &apos;supportfundmanagement.technology@carmignac.com,&apos; &amp;
+  &apos;workgroup.executiveproductcommittee@carmignac.com,&apos; &amp;
+  &apos;sf_pmt@carmignac.com&apos;,
+
+  /* responsible.investment excluded */
+  &apos;communication@carmignac.com,&apos; &amp;
+  &apos;complianceinternalcontrol.generalsecretary@carmignac.com,&apos; &amp;
+  &apos;digitaloperationsfordistribution@carmignac.com,&apos; &amp;
+  &apos;financecontrol.financeaccounting@carmignac.com,&apos; &amp;
+  &apos;performance.management@carmignac.com,&apos; &amp;
+  &apos;legalaffairsproductdevelopment.generalsecretary@carmignac.com,&apos; &amp;
+  &apos;middleofficefunds2@carmignac.com,&apos; &amp;
+  &apos;productstrategy@carmignac.com,&apos; &amp;
+  &apos;risk_prod@carmignac.com,&apos; &amp;
+  &apos;tax.generalsecretary@carmignac.com,&apos; &amp;
+  &apos;supportfundmanagement.technology@carmignac.com,&apos; &amp;
+  &apos;workgroup.executiveproductcommittee@carmignac.com,&apos; &amp;
+  &apos;sf_pmt@carmignac.com&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>recordlink</name>
+        <dataType>String</dataType>
+        <expression>LEFT($Api.Partner_Server_URL_520, FIND(&quot;/services&quot;, $Api.Partner_Server_URL_520)) &amp; &quot;/lightning/r/Project__c/&quot; &amp; $Record.Id &amp; &quot;/view&quot;</expression>
+    </formulas>
+    <formulas>
+        <name>Today</name>
+        <dataType>Date</dataType>
+        <expression>TODAY()</expression>
+    </formulas>
+    <interviewLabel>FL_PMT_EmailNotifications {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>PMT - Email Notification - Activate Project</label>
+    <loops>
+        <name>teams</name>
+        <label>teams</label>
+        <locationX>50</locationX>
+        <locationY>755</locationY>
+        <collectionReference>getTeams.teamNames</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>assign_Teams</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Copy_1_of_SendActivationEmail</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>GetMileStones</name>
+        <label>GetMileStones</label>
+        <locationX>182</locationX>
+        <locationY>431</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Type_of_project</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Project_product__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>StartDate__c</field>
+            <operator>GreaterThanOrEqualTo</operator>
+            <value>
+                <elementReference>Today</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Status__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Completed</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Milestone__c</object>
+        <sortField>StartDate__c</sortField>
+        <sortOrder>Asc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>386</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Has_been_ActivatedHas_been_Activated</targetReference>
+        </connector>
+        <filterLogic>(1 AND 2) OR (2 AND (3 OR 4)) OR (2 AND 5)</filterLogic>
+        <filters>
+            <field>ProjectStatus__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Active</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>ProjectStatus__c</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>ProjectStatus__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>On hold</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>ProjectStatus__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Cancelled</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>ProjectStatus__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Closed</stringValue>
+            </value>
+        </filters>
+        <object>ProjectProduct__c</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <name>ActivationEmailBody</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;Hi Team,&lt;/p&gt;&lt;p&gt;The project &lt;strong&gt;{!$Record.Name}&lt;/strong&gt; is now activated in Salesforce.&lt;/p&gt;&lt;p&gt;You can start contributing by reviewing your assigned fields and tasks.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;&lt;u&gt;KEY INFO&lt;/u&gt;&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Type:&lt;/strong&gt; {!$Record.RecordType.Name}&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Estimated Launch Date:&lt;/strong&gt; {!$Record.EndDate__c}&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Description:&lt;/strong&gt; {!$Record.ProductDescription__c}&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Next Milestone:&lt;/strong&gt; {!GetMileStones.Name} – {!GetMileStones.StartDate__c}&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;strong&gt;&lt;u&gt;REMINDER&lt;/u&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;Please assign the &lt;strong&gt;Team Owner&lt;/strong&gt; for this project in Salesforce — only the designated owner will receive Teams notifications.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;{!recordlink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(1, 118, 211);&quot;&gt;&lt;strong&gt;ACCESS THE PROJECT IN SALESFORCE&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Thank you,&lt;/p&gt;&lt;p&gt;&lt;strong&gt;The Product Strategy Team&lt;/strong&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>ActivationEmailBodyModification</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;Hi Team,&lt;/p&gt;&lt;p&gt;The modification project called &lt;a href=&quot;{!recordlink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;{!$Record.Name}&lt;/a&gt; is now activated in Salesforce. You are receiving this notification because your team may review and validate specific updates related to this modification.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;&lt;u&gt;KEY INFO&lt;/u&gt;&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong&gt;Type:&lt;/strong&gt; &lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.RecordType.Name}&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Estimated Launch Date:&lt;/strong&gt; {!$Record.EndDate__c}&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Description:&lt;/strong&gt; {!$Record.ProductDescription__c}&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Next Milestone:&lt;/strong&gt; {!GetMileStones.Name} – {!GetMileStones.StartDate__c}&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;strong&gt;&lt;u&gt;INVOLVED TEAMS in the modification&lt;/u&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;{!teamsReturned}&lt;/p&gt;&lt;p&gt;&lt;strong&gt;&lt;u&gt;REMINDER&lt;/u&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;Please make sure the &lt;strong&gt;Team Owner&lt;/strong&gt;  is assigned in Salesforce — only the designated Team Owner will receive future Teams notifications for this project.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;{!recordlink} &quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;ACCESS THE PROJECT IN SALESFORCE&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Thank you,&lt;/p&gt;&lt;p&gt;&lt;strong&gt;The Product Strategy Team&lt;/strong&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>ActivationEmailSubject</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>PMT - Project Activated – {!$Record.Name}</text>
+    </textTemplates>
+    <textTemplates>
+        <name>ClosedEmailBody</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;Hi Team,&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;The project&amp;nbsp;&lt;/span&gt;&lt;a href=&quot;{!recordlink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px;&quot;&gt;&lt;strong&gt;{!$Record.Name} &lt;/strong&gt;&lt;/a&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt; has now been &lt;/span&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;closed &lt;/strong&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;in Salesforce.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;All data contributed during the project is now available in the &lt;/span&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;Product Catalog&lt;/strong&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;&lt;u&gt;KEY INFO&lt;/u&gt;&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;Type of project :&amp;nbsp;&lt;/strong&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;{!$Record.RecordType.Name}&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;Go Live Date : &lt;/strong&gt;&lt;span style=&quot;font-size: 14px; background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.EndDate__c}&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;On the &lt;/span&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;morning of the Go Live Date&lt;/strong&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;, all data managed in PMT during the project was &lt;/span&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;automatically injected into the Product Catalog&lt;/strong&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;. This transfer ensures that the Product Catalog now reflects the final validated data from the project.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;Thank you for your collaboration,&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;The Product Strategy Team&lt;/span&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>ClosedSubject</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>PMT - {!$Record.Name} – Go Live!</text>
+    </textTemplates>
+    <textTemplates>
+        <name>EmailSubjectModification</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>PMT - Project Activated – {!$Record.Name}</text>
+    </textTemplates>
+    <textTemplates>
+        <name>OnHoldOrCancelledEmailBody</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;Hi Team, &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;The status of the project&amp;nbsp;&lt;/span&gt;&lt;a href=&quot;{!recordlink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px; color: rgb(1, 118, 211);&quot;&gt;&lt;strong&gt;{!$Record.Name}&lt;/strong&gt;&lt;/a&gt;&lt;strong style=&quot;font-size: 14px; color: rgb(1, 118, 211);&quot;&gt; &lt;/strong&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;has been updated to {!$Record.ProjectStatus__c} in Salesforce.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;Please pause all contributions until further notice. We will inform you as soon as the project resumes or if further action is required.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;&lt;u&gt;KEY INFO&lt;/u&gt;:&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;Type of project :&amp;nbsp;&lt;/strong&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;{!$Record.RecordType.Name}&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;Justification for change : &lt;/strong&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;{!$Record.StatusComment__c}&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;If you have any questions or require support, feel free to reach out to the &lt;/span&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;Product Strategy Team&lt;/strong&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;Thank you,&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;The Product Strategy Team&lt;/span&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>OnHoldOrCancelledEmailSubject</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>Project {!$Record.Name} – Status Updated to {!$Record.ProjectStatus__c}</text>
+    </textTemplates>
+    <variables>
+        <name>teamsReturned</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IS_Steps__c</fullName>
+    <label>IS Step</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Pre-gouvernance</fullName>
+                <default>true</default>
+                <label>Pre-governance</label>
+            </value>
+            <value>
+                <fullName>Ready for governance</fullName>
+                <default>false</default>
+                <label>Ready for governance</label>
+            </value>
+            <value>
+                <fullName>Rejected</fullName>
+                <color>#FF0000</color>
+                <default>false</default>
+                <label>Rejected</label>
+            </value>
+            <value>
+                <fullName>Post Governance</fullName>
+                <default>false</default>
+                <label>Post Governance</label>
+            </value>
+            <value>
+                <fullName>Ready to execute</fullName>
+                <default>false</default>
+                <label>Ready to execute</label>
+            </value>
+            <value>
+                <fullName>Signed</fullName>
+                <default>false</default>
+                <label>Signed</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

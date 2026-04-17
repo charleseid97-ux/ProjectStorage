@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Get_Info_From_Etouches</fullName>
+    <availability>online</availability>
+    <description>Get Info from Etouches for this Campaign</description>
+    <displayType>button</displayType>
+    <linkType>javascript</linkType>
+    <masterLabel>Get Info From Etouches</masterLabel>
+    <openType>onClickJavaScript</openType>
+    <protected>false</protected>
+    <url>{!REQUIRESCRIPT(&quot;/soap/ajax/25.0/connection.js&quot;)} 
+{!REQUIRESCRIPT(&quot;/soap/ajax/25.0/apex.js&quot;)} 
+
+var CampaignId= &apos;{!Campaign.Id}&apos;; 
+
+if (CampaignId){ 
+
+var agree = confirm(&quot;Are you sure you want to update this Campaign with Etouches data ??&quot;); 
+if(agree &amp;&amp; CampaignId){ 
+
+var result = sforce.apex.execute(&quot;SM20_EtouchesBouton&quot;,&quot;LaunchesEtouches&quot;,{CampaignId: CampaignId}); 
+
+
+alert(result); 
+
+} 
+} 
+else { 
+alert(&apos;This Campaign is not synch with Etouches&apos;); 
+}</url>
+</WebLink>

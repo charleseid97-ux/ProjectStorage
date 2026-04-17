@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CventEvents__ValueText__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Stores answers for the rest of the question types.</description>
+    <encryptionScheme>None</encryptionScheme>
+    <inlineHelpText>Stores answers for the rest of the question types.</inlineHelpText>
+    <label>Value</label>
+    <length>131072</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>fpro__References_Total_Count__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Total # of metadata references found for this custom field.</description>
+    <externalId>false</externalId>
+    <formula>fpro__References_Apex_Class_Count__c +
+fpro__References_Apex_Trigger_Count__c +
+fpro__References_Flow_Count__c +
+fpro__References_Formula_Fields_Count__c +
+fpro__References_Others_Count__c +
+fpro__References_Page_Layouts_Count__c +
+fpro__References_Profile_Visibility_Count__c +
+fpro__References_Reports_Count__c +
+fpro__References_ReportType_Count__c +
+fpro__References_Validation_Rules_Count__c +
+fpro__References_Visualforce_Components_Count__c +
+fpro__References_Visualforce_Page_Count__c +
+fpro__References_Workflow_Field_Updates_Count__c +
+fpro__References_Workflow_Rules_Count__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Total # of metadata references found for this custom field.</inlineHelpText>
+    <label>References Total Count</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FR_view1</fullName>
+    <columns>Date__c</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>NAME</columns>
+    <columns>Meeting_Type__c</columns>
+    <columns>Note__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CREATEDBY_USER</field>
+        <operation>equals</operation>
+        <value>Frank RUETTENAUER</value>
+    </filters>
+    <filters>
+        <field>Date__c</field>
+        <operation>greaterThan</operation>
+        <value>1/1/2019</value>
+    </filters>
+    <label>FR view</label>
+</ListView>

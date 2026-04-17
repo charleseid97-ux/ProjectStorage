@@ -1,0 +1,15 @@
+<template>
+<strong>/****************************************************************/</strong> <br/>
+<strong>/********* THIS BUTTON IS ONLY FOR TEST PURPOSE *********/</strong> <br/>
+<strong>/****************************************************************/</strong> <br/> <br/>
+The batch will launch for product projects with an end date of today and a status of "closed" (the entry conditions will be changed). <br/>
+You only need to click once, and the process may take a little while (it's not instantaneous because it's a batch that manages the process asynchronously). <br/><br/>
+    <lightning-button
+        label="Launch ProjectProduct Batch"
+        onclick={handleClick}
+        variant="brand"  disabled={boutonDisabled}>
+    </lightning-button>
+
+    <br/> <br/>
+    <strong>If you want logs, please open the Salesforce Developer Console, click on "Debug Only" and select one of the two Operations named "SerialBatchApexRangeChunkHandler" or ask a developer</strong>
+</template>

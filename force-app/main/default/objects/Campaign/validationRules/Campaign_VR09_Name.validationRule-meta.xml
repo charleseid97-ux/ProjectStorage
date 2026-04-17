@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Campaign_VR09_Name</fullName>
+    <active>true</active>
+    <description>Block the modification of the campaign name. The newsletter, marketing channel and conversion point name are modified by trigger eveytime  name, description, language, country or expected start date are modified. Only after taxonmy creation.</description>
+    <errorConditionFormula>AND(
+NOT(ISNEW()),
+ISCHANGED(Name),
+NOT($User.BypassValidationRules__c),
+OR(AND(RecordType.DeveloperName != &apos;Newsletters&apos;, CreatedDate &lt; DATETIMEVALUE(&quot;2022-12-08 15:00:00&quot;)),
+AND(RecordType.DeveloperName != &apos;Marketing_Channel&apos;, CreatedDate &lt; DATETIMEVALUE(&quot;2023-03-30 11:00:00&quot;)),
+AND(RecordType.DeveloperName != &apos;Conversion_point&apos;, CreatedDate &lt; DATETIMEVALUE(&quot;2023-03-30 11:00:00&quot;))
+))</errorConditionFormula>
+    <errorDisplayField>Name</errorDisplayField>
+    <errorMessage>You cannot modify the name of the campaign.</errorMessage>
+</ValidationRule>

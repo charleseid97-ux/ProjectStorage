@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Data_Quality__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(Agreement__r.Company__c &lt;&gt;  Legal_Entity__r.Company__c, &apos;Company on legal entity and agreement does not match&apos;, &apos;OK&apos;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Data Quality</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

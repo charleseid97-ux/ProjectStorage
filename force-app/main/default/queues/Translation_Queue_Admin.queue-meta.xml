@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesSendEmailToMembers>true</doesSendEmailToMembers>
+    <name>Translation Queue Admin</name>
+    <queueMembers>
+        <users>
+            <user>faith.blakesley-park.external-crm@carmignac.com</user>
+            <user>khadija.el-gdaouni.external-crm@carmignac.com</user>
+            <user>nicolas.sila.external-crm@carmignac.com</user>
+            <user>coullon.thomas-crm@carmignac.com</user>
+        </users>
+    </queueMembers>
+    <queueSobject>
+        <sobjectType>Case</sobjectType>
+    </queueSobject>
+</Queue>

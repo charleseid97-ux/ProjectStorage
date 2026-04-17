@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Solution_Validation__c</fullName>
+    <label>Solution Validation</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Empty</fullName>
+                <default>false</default>
+                <label>Empty</label>
+            </value>
+            <value>
+                <fullName>Rejected</fullName>
+                <default>false</default>
+                <label>Rejected</label>
+            </value>
+            <value>
+                <fullName>IS Team OK</fullName>
+                <default>false</default>
+                <label>IS Team OK</label>
+            </value>
+            <value>
+                <fullName>Waiting for HOC</fullName>
+                <default>false</default>
+                <label>Waiting for HOC</label>
+            </value>
+            <value>
+                <fullName>IS OK HOC OK</fullName>
+                <default>false</default>
+                <label>IS OK HOC OK</label>
+            </value>
+            <value>
+                <fullName>Waiting for GHOS Validation</fullName>
+                <default>false</default>
+                <label>Waiting for GHOS Validation</label>
+            </value>
+            <value>
+                <fullName>GHOS OK</fullName>
+                <default>false</default>
+                <label>GHOS OK</label>
+            </value>
+            <value>
+                <fullName>GHOS OK High Priority</fullName>
+                <default>false</default>
+                <label>GHOS OK High Priority</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

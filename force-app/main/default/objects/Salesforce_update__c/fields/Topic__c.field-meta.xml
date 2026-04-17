@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Topic__c</fullName>
+    <label>Topic</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>Agreements</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Agreements</label>
+            </value>
+            <value>
+                <fullName>Campaigns</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Campaigns</label>
+            </value>
+            <value>
+                <fullName>Companies</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Companies</label>
+            </value>
+            <value>
+                <fullName>Contact</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Contact</label>
+            </value>
+            <value>
+                <fullName>Event / Meeting Notes</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Event / Meeting Notes</label>
+            </value>
+            <value>
+                <fullName>How to</fullName>
+                <default>false</default>
+                <label>How to</label>
+            </value>
+            <value>
+                <fullName>Leads</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Leads</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Overview on</fullName>
+                <default>false</default>
+                <label>Overview on</label>
+            </value>
+            <value>
+                <fullName>Reports &amp; Dashboards</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Reports &amp; Dashboards</label>
+            </value>
+            <value>
+                <fullName>WTP</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>WTP</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>60.0</apiVersion>
+    <decisions>
+        <name>Check_RecordType</name>
+        <label>Check RecordType</label>
+        <locationX>182</locationX>
+        <locationY>431</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>If_IS_Agreement</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_RecTypeName.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>IS_Agreement</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Name</targetReference>
+            </connector>
+            <label>If IS_Agreement</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <formulas>
+        <name>ConvName</name>
+        <dataType>String</dataType>
+        <expression>IF(NOT(ISBLANK({!$Record.Business_Region__c})) &amp;&amp; (LEN({!$Record.Business_Region__c}) &gt;= 4), {!$Record.Company__r.Name}&amp; &quot;_&quot; &amp; RIGHT({!$Record.Business_Region__c} ,2),{!$Record.Name})</expression>
+    </formulas>
+    <interviewLabel>FL After Insert Update IS Agreement Name {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>FL After Insert Update IS Agreement Name</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_RecTypeName</name>
+        <label>Get RecTypeName</label>
+        <locationX>182</locationX>
+        <locationY>323</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_RecordType</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.RecordTypeId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>DeveloperName</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_Name</name>
+        <label>Update Name</label>
+        <locationX>50</locationX>
+        <locationY>539</locationY>
+        <inputAssignments>
+            <field>ConventionName__c</field>
+            <value>
+                <elementReference>ConvName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>$Record.IS__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>TECH_ConventionExternalID__c</field>
+            <value>
+                <elementReference>$Record.IS__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_RecTypeName</targetReference>
+        </connector>
+        <filterLogic>or</filterLogic>
+        <filters>
+            <field>Code_Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>IS Portfolio Management Delegation</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Code_Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>IS Dedicated Product Distribution</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Code_Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>IS Advisory</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Code_Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>IS Master Feeder</stringValue>
+            </value>
+        </filters>
+        <object>Convention__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Draft</status>
+</Flow>

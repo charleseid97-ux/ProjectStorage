@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CventEvents__UserIds__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Stores the Ids of the users to share the events with.</description>
+    <encryptionScheme>None</encryptionScheme>
+    <inlineHelpText>Stores the Ids of the users to share the events with.</inlineHelpText>
+    <label>User Ids</label>
+    <length>500</length>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

@@ -1,0 +1,376 @@
+<!--
+  @description       :
+  @author            : SILA Nicolas
+  @group             :
+  @last modified on  : 03-12-2024
+  @last modified by  : Khadija EL GDAOUNI
+-->
+ 
+<template>
+ 
+    <template if:true={showSpinner}>
+       
+        <div class="slds-spinner_container" style="position: fixed;">
+            <lightning-spinner variant="brand" alternative-text="Loading" size="medium"></lightning-spinner>
+        </div>
+     </template>
+ 
+   
+    <lightning-record-edit-form record-type-id={recordTypeId} object-api-name="Case">
+       
+        <div class="slds-grid" style="padding-left: 25%;width:75%;">
+           
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-docked-composer__body_form" style="background-color:white;">
+                    <!-- Request Type -->
+                    <div class="form-section">
+                        <h3 class="slds-section-title--divider">Request Type</h3>
+                        <div class="slds-grid slds-wrap slds-gutters">
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-input-field value={reqType} field-name="Translation_Request_Type__c" required onchange={handleTransRequestType}></lightning-input-field>
+                            </div>
+                            <template if:true={isPubOrPubTrans}>
+                                <div class="slds-col slds-size_1-of-2" style="
+                                margin: auto ;
+                                text-align: center;" >
+                                    <a href={pubURL} target=”_blank”>Publication Templates</a>
+                                </div>
+                            </template>
+                            <template if:true={isMonthlyComm}>
+                                <div class="slds-col slds-size_1-of-2" style="
+                                margin: auto ;
+                                text-align: center;" >
+                                    <a href={montlyCommentsURL} target=”_blank”>Comment process planning</a>
+                                </div>
+                            </template>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input-field style="display:none" field-name="Origin" class="slds-hidden" value="Web"></lightning-input-field>
+                        </div>
+                    </div>
+                    <template if:true={isTransOnly}>
+                        <!-- Content Information Section -->
+                        <div class="form-section">
+                            <h3 class="slds-section-title--divider">Content Information</h3>
+                            <div class="slds-grid slds-wrap slds-gutters">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning-input-field field-name="Document_Type__c" required value={docType}
+                                        onchange={handleDocTypeChange}></lightning-input-field>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning-input-field field-name="Source_Language__c" value={sourceLanguageValue} onchange={handleSourceLanguage} required></lightning-input-field>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <c-multi-select-search-list required-label="true" is-translation-component="true" pill-icon="standard:display_rich_text" diplay-pills="true" label="Target Languages" options={pickListTargetLang} value={selectedLanguagesTrans}   data-id="targetLanguageTransId"  onchange={handleTargetLangTransChange}>
+                                    </c-multi-select-search-list>
+                                    <template if:true={showErrorLang}>
+                                    <div>
+                                        <lightning-icon icon-name="utility:error" variant="error" size="x-small"></lightning-icon>
+                                        <span class="slds-p-left_xx-small" style="color: red;">You can't remove English language</span>
+                                    </div>
+                                    </template>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <template if:true={isMonthlyComm}>
+                                        <lightning-input-field field-name="Monthly_Comment_Date__c" onchange={handleMonthlyCommentDateChange}
+                                            value={monthlyCommentDate} required></lightning-input-field>
+ 
+                                    </template>
+                                </div>
+                               
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning-input-field field-name="Translation_mode__c" required
+                                        onchange={handleTranslationModeChange}></lightning-input-field>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <template if:true={isPressRelease}>
+                                        <lightning-input-field field-name="Sensitive_Content__c" ></lightning-input-field>
+ 
+                                    </template>
+                                </div>
+                                <!-- Additional fields here -->
+                            </div>
+                        </div>
+ 
+                        <!-- Additionnal Information Section -->
+                        <div class="form-section">
+                            <h3 class="slds-section-title--divider">Additional Information</h3>
+                            <div class="slds-grid slds-wrap slds-gutters">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning-input-field field-name="Subject" value={reqTitle}
+                                        required></lightning-input-field>
+                                </div>
+                               
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning-input-field field-name="Status" class="slds-hidden" value={defaultStatus}></lightning-input-field>
+                                </div>
+                                
+                                       
+                                <!-- <template if:true={isTranslationAgency}> -->
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <lightning-input-field field-name="Translation_Due_Date__c" required value={dueDateDefaultValue} data-id ="translationDueDate"> 
+                                        </lightning-input-field>
+                                    </div>
+                                <!-- </template>                       -->
+                                <div class="slds-col slds-size_1-of-2" style="display:none">
+                                        <lightning-input-field field-name="DueDate__c" required 
+                                            value={dueDateDefaultValue}>
+                                        </lightning-input-field>
+                                   
+                                </div> 
+                                <!-- Additional fields here -->
+                            </div>
+                        </div>
+ 
+                    </template>
+                    <template if:false={isTransOnly}>
+                        <template if:true={isPubOrPubTrans}>
+                            <template if:true={isPubOnly}>
+                                <!-- Content Information Section For Publication Only-->
+                                <div class="form-section">
+                                    <h3 class="slds-section-title--divider">Content Information</h3>
+                                    <div class="slds-grid slds-wrap slds-gutters">
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <lightning-input-field field-name="Website_Type__c" required value={WebSiteType}
+                                            onchange={handleWebSiteTypeChange}></lightning-input-field>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <lightning-input-field field-name="Website_SubType__c" required value={WebSiteSubType}
+                                            onchange={handleSubTypeChange}></lightning-input-field>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <c-multi-select-search-list required-label="true" is-translation-component="true" pill-icon="standard:display_rich_text" diplay-pills="true" label="Target Language" options={pickListTargetLang} value={selectedLanguages}  data-id="targetLanguageId"  onchange={handleTargetLangChange}>
+                                            </c-multi-select-search-list>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2">  
+                                            <template if:true={targetWebsiteOptions} >    
+                                                <c-multi-select-search-list required-label="true" is-translation-component="true" label="Target Website" disabled={PickWebsiteDisabled} options={targetWebsiteOptions} value={selectedWebsites} diplay-pills="true" pill-icon="custom:custom68" data-id="TargetWebsiteId"  onchange={handleWebsiteSelection}>
+                                                </c-multi-select-search-list>  
+                                            </template>                      
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <lightning-input-field style="display:none" class="slds-hidden" field-name="Sub_Target_language__c" required value="Parent Case"></lightning-input-field>
+                                        </div>
+                                   
+                                        <!-- Additional fields here -->
+                                    </div>
+                                </div>
+                            </template>
+                            <template if:true={isPubAndTrans}>
+                                <!-- Content Translation Information Section PubAndTrans -->
+                                <div class="form-section">
+                                    <h3 class="slds-section-title--divider">Content Translation information</h3>
+                                    <div class="slds-grid slds-wrap slds-gutters">
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <lightning-input-field field-name="Document_Type__c" required value={docType}
+                                            onchange={handleDocTypeChange}></lightning-input-field>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <lightning-input-field field-name="Source_Language__c" value={sourceLanguageValue} onchange={handleSourceLanguagePubAndTrans} required></lightning-input-field>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <c-multi-select-search-list required-label="true" is-translation-component="true" pill-icon="standard:display_rich_text" diplay-pills="true" label="Target Language" helptext={tooltipTargetLang} options={pickListTargetLang} value={selectedLanguages}  data-id="targetLanguageId"  onchange={handleTargetLangChange}>
+                                            </c-multi-select-search-list>
+                                           
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <lightning-input-field field-name="Translation_mode__c" required
+                                                onchange={handleTranslationModeChange}></lightning-input-field>
+                                        </div>
+                                       
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <lightning-input-field style="display:none" class="slds-hidden" field-name="Sub_Target_language__c" required value="Parent Case"></lightning-input-field>
+                                        </div>
+                                        <!-- Additional fields here -->
+                                    </div>
+                                </div>
+                           
+                                <!-- Content Publication Information Section PubAndTrans -->
+                                <div class="form-section">
+                                    <h3 class="slds-section-title--divider">Content Publication information</h3>
+                                    <div class="slds-grid slds-wrap slds-gutters">
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <lightning-input-field field-name="Website_Type__c" required value={WebSiteType}
+                                            onchange={handleWebSiteTypeChange}></lightning-input-field>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2">  
+                                            <template if:true={targetWebsiteOptions} >    
+                                                <c-multi-select-search-list required-label="true" is-translation-component="true" label="Target Website" disabled={PickWebsiteDisabled} options={targetWebsiteOptions} value={selectedWebsites} diplay-pills="true" pill-icon="custom:custom68" data-id="TargetWebsiteId"  onchange={handleWebsiteSelection}>
+                                                </c-multi-select-search-list>  
+                                            </template>                      
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <lightning-input-field field-name="Website_SubType__c" required value={WebSiteSubType}
+                                            onchange={handleSubTypeChange}></lightning-input-field>
+                                        </div>
+                                        <!-- Additional fields here -->
+                                    </div>
+                                </div>
+                            </template>
+ 
+                            <!-- Article Information Section -->
+                            <template if:true={isArticle}>
+                                <div class="form-section">
+                                    <h3 class="slds-section-title--divider">Article Information</h3>
+                                    <div class="slds-grid slds-wrap slds-gutters">
+                                       
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <span>Final Specific Disclaimer ?</span>
+                                            <lightning-input type="checkbox" label="" name="findalSpecificDisclaimer" value={isFindalSpecificDisclaimer} onchange={handleFinalDisclaimer}></lightning-input>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <span>It's a fund promotion ?</span>
+                                            <lightning-input type="checkbox" label="" name="fundPromotion" value={isFundPromotion} onchange={handleFundPromotion}></lightning-input>
+                                        </div>
+                                     
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <lightning-input-field field-name="SEO_Title__c" disabled={isFindalSpecificDisclaimer}  ></lightning-input-field>
+                                        </div>
+                                       
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <c-multi-select-search-list required-label="true" is-translation-component="true" pill-icon="custom:custom5" diplay-pills="true"  data-id="FundId" label="Funds" disabled={picklistFundDisabled} options={funds} value={selectedFunds} onchange={handleProducts}>
+                                            </c-multi-select-search-list>
+                                           
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <lightning-input-field field-name="SEO_Description__c" disabled={isFindalSpecificDisclaimer}  ></lightning-input-field>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2">
+                                           
+                                                <c-multi-select-search-list is-translation-component="true"  data-id="shareClassId" pill-icon="custom:custom64" diplay-pills="true" disabled={disabled} label="Shareclass" options={shareClasses} value={selectedShareCls} onchange={handleShareCls}>
+                                                </c-multi-select-search-list>
+                                     
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <lightning-input-field field-name="Final_Specific_Disclaimer__c" disabled={isFindalSpecificDisclaimer} aria-readonly={isFindalSpecificDisclaimer} ></lightning-input-field>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <lightning-input-field field-name="Audience__c" required></lightning-input-field>
+                                        </div>
+                                       
+                                        <!-- Additional fields here -->
+                                    </div>
+                                   
+                                </div>
+                            </template>
+ 
+                            <!-- Newsletter Information Section -->
+                            <template if:true={isNewsletter}>
+                                <div class="form-section">
+                                    <h3 class="slds-section-title--divider">Newsletter Information</h3>
+                                    <div class="slds-grid slds-wrap slds-gutters">
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <span>Final Specific Disclaimer ?</span>
+                                            <lightning-input type="checkbox" label="" name="findalSpecificDisclaimer" value={isFindalSpecificDisclaimer} onchange={handleFinalDisclaimer}></lightning-input>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <span>It's a fund promotion ?</span>
+                                            <lightning-input type="checkbox" label="" name="fundPromotion" value={isFundPromotion} onchange={handleFundPromotion}></lightning-input>
+                                        </div>
+                                     
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <lightning-input-field field-name="SEO_Title__c" disabled={isFindalSpecificDisclaimer}  ></lightning-input-field>
+                                        </div>
+                                       
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <c-multi-select-search-list required-label="true" is-translation-component="true" pill-icon="custom:custom5" diplay-pills="true"  data-id="FundId" label="Funds" disabled={picklistFundDisabled} options={funds} value={selectedFunds} onchange={handleProducts2}>
+                                            </c-multi-select-search-list>                                            
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <lightning-input-field field-name="SEO_Description__c" disabled={isFindalSpecificDisclaimer}  ></lightning-input-field>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <c-multi-select-search-list is-translation-component="true"  data-id="shareClassId2" pill-icon="custom:custom64" diplay-pills="true" disabled={disabled} label="Shareclass" options={shareClasses} value={selectedShareCls} onchange={handleShareCls}>
+                                            </c-multi-select-search-list>                                      
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <lightning-input-field field-name="Final_Specific_Disclaimer__c" disabled={isFindalSpecificDisclaimer} aria-readonly={isFindalSpecificDisclaimer} ></lightning-input-field>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <lightning-input-field field-name="CampaignNewletter__c" required ></lightning-input-field>
+                                        </div>
+                                    </div>                                        
+                                </div>
+                            </template>
+ 
+                            <!-- Additionnal Information Section -->
+                            <div class="form-section">
+                                <h3 class="slds-section-title--divider">Additional Information</h3>
+                                <div class="slds-grid slds-wrap slds-gutters">
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <lightning-input-field field-name="Subject" value={reqTitle}
+                                            required></lightning-input-field>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <lightning-input-field class="slds-hidden" field-name="Priority" value={priority} onchange={handlePriority} required></lightning-input-field>
+                                    </div>
+                                    
+                                    <template if:true={isPubAndTrans}>
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <lightning-input-field field-name="Translation_Due_Date__c" required value={dueDateDefaultValue} onchange={handleTransOrPubDueDate} data-id ="translationDueDate">
+                                            </lightning-input-field>
+                                        </div>
+                                    
+                                        <div class="slds-col slds-size_1-of-2">
+                                            <lightning-input-field field-name="DueDate__c" required value={FinalDueDateDefaultValue} onchange={handleTransOrPubDueDate} data-id ="finalDueDate">
+                                            </lightning-input-field>
+                                        </div>
+                                    </template>    
+                                    <template if:false={isPubAndTrans}>
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <lightning-input-field field-name="DueDate__c" required value={dueDateDefaultValue} data-id ="dueDate">
+                                        </lightning-input-field>
+                                    </div>
+                                </template>
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <lightning-input-field field-name="Status" class="slds-hidden" value={defaultStatus}></lightning-input-field>
+                                    </div>
+                                   
+                                    <!-- Additional fields here -->
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                    <!-- Content Information Section -->
+                    <div class="form-section">
+                        <h3 class="slds-section-title--divider">Upload Content Source</h3>
+                        <div class="slds-grid slds-grid_align-center slds-wrap slds-gutters">
+ 
+                            <div class="slds-col slds-size_1-of-1">
+                                <lightning-input-field field-name="Instructions__c"></lightning-input-field>
+                            </div>
+                           
+                            <div class="slds-col slds-size_1-of-2">
+                               
+                            <template if:true={isPubOnly}>
+                               
+                                <c-file-upload-multi-l-w-c class="file-selector-large" multiple-files="true" file-prefix="Source_" is-source="true"
+                                    ></c-file-upload-multi-l-w-c>
+                            </template>
+                            <template if:false={isPubOnly}>
+                               
+                                <c-file-upload-multi-l-w-c class="file-selector-large" multiple-files="false" file-prefix="Source_" is-source="true"
+                                    ></c-file-upload-multi-l-w-c>
+                            </template>
+                            </div>
+                            <!-- Additional fields here -->
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-grid_align-center slds-var-p-top_small slds-docked-composer__footer">
+                    <div class="slds-col">
+                        <lightning-button icon-name="utility:skip_back" variant="brand" name="cancel" label="Cancel"
+                            class="slds-var-m-left_x-small" onclick={handleCancel}>
+                        </lightning-button>
+                    </div>
+                    <div class="slds-col">
+                        <lightning-button icon-name="utility:save" variant="brand" onclick={isInputValid}
+                            label="Submit Request" class="slds-var-m-left_x-small" >
+                        </lightning-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </lightning-record-edit-form>
+   
+</template>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>User_Story__c</fullName>
+    <label>User Story</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Data Solution &amp; Solvency requests</fullName>
+                <default>false</default>
+                <label>Data Solution &amp; Solvency requests</label>
+            </value>
+            <value>
+                <fullName>Due Diligence</fullName>
+                <default>false</default>
+                <label>Due Diligence</label>
+            </value>
+            <value>
+                <fullName>Follow up Leads &amp; Leads qualification</fullName>
+                <default>false</default>
+                <label>Follow up Leads &amp; Leads qualification</label>
+            </value>
+            <value>
+                <fullName>Opportunity Management</fullName>
+                <default>false</default>
+                <label>Opportunity Management</label>
+            </value>
+            <value>
+                <fullName>Organizing Events &amp; Meetings</fullName>
+                <default>false</default>
+                <label>Organizing Events &amp; Meetings</label>
+            </value>
+            <value>
+                <fullName>Organizing meetings (one to one), meeting report and call report (follow up)</fullName>
+                <default>false</default>
+                <label>Organizing meetings (one to one), meeting report and call report (follow up)</label>
+            </value>
+            <value>
+                <fullName>Sales Activity Reporting</fullName>
+                <default>false</default>
+                <label>Sales Activity Reporting</label>
+            </value>
+            <value>
+                <fullName>Sending out Newsletters</fullName>
+                <default>false</default>
+                <label>Sending out Newsletters</label>
+            </value>
+            <value>
+                <fullName>Third-Party Management</fullName>
+                <default>false</default>
+                <label>Third-Party Management</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

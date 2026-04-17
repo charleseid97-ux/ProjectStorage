@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Duplicates_Errors</fullName>
+    <columns>NAME</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>CventEvents__Detail__c</columns>
+    <columns>CventEvents__LogDate__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CventEvents__Severity__c</field>
+        <operation>equals</operation>
+        <value>Error</value>
+    </filters>
+    <label>Duplicates Errors</label>
+</ListView>

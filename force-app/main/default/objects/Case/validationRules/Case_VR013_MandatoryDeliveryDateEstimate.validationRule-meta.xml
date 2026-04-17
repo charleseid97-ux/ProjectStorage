@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_VR013_MandatoryDeliveryDateEstimate</fullName>
+    <active>true</active>
+    <description>The Delivery Date Estimate is mandatory if the Status is Work In Progress</description>
+    <errorConditionFormula>AND(
+!$User.BypassValidationRules__c,
+AND(
+RecordType.DeveloperName = &quot;Client_delivery_request&quot;,
+ISPICKVAL(Status,&apos;Work in progress&apos;),
+ISBLANK(Delivery_Date_Estimate__c)
+)
+)</errorConditionFormula>
+    <errorDisplayField>Delivery_Date_Estimate__c</errorDisplayField>
+    <errorMessage>The Delivery Date Estimate is mandatory if the Status is Work In Progress</errorMessage>
+</ValidationRule>

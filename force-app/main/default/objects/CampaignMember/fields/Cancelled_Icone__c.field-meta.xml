@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cancelled_Icone__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF( Cancelled__c , IMAGE(&quot;/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_Png&amp;versionId=068aT00000CPb2P&amp;operationContext=CHATTER&amp;contentId=05TaT00000FfHqm&quot;, &quot;cancelled&quot;, 30, 30)  , &quot;&quot; )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Cancelled</label>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fixed_Income_Strategy__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Interest</description>
+    <inlineHelpText>Fixed Income Strategy Interest main</inlineHelpText>
+    <label>Fixed Income</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

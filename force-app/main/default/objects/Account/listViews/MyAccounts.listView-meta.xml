@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MyAccounts</fullName>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>Distributor_Type__c</columns>
+    <columns>Sub_Type__c</columns>
+    <columns>Tiering__c</columns>
+    <filterScope>Mine</filterScope>
+    <filters>
+        <field>Is_IN_my_Team__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>Team__c</field>
+        <operation>notEqual</operation>
+    </filters>
+    <filters>
+        <field>CompanyStatus__c</field>
+        <operation>equals</operation>
+        <value>Active</value>
+    </filters>
+    <label>My Companies</label>
+</ListView>

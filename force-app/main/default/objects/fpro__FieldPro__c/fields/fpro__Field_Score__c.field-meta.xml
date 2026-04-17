@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>fpro__Field_Score__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Roughly calculated score for this salesforce field using other parameters like field usage, apex/metadata references etc. Score 0 means the field is a potential candidate for deletion, as probably not being used anywhere.</description>
+    <externalId>false</externalId>
+    <formula>IF(ISNULL(fpro__Last_Refresh_Date_MCD__c), -1, 
+(
+IF(fpro__Populate_Percentage__c &lt; (10/100), 0, 30)
++
+IF(fpro__References_Apex_Class_Count__c = 0, 0, 5)
++
+IF(fpro__References_Apex_Trigger_Count__c = 0, 0, 5)
++
+IF(fpro__References_Visualforce_Page_Count__c = 0, 0, 5)
++
+IF(fpro__References_Visualforce_Components_Count__c = 0, 0, 5)
++
+IF(fpro__References_Formula_Fields_Count__c = 0, 0, 5)
++
+IF(fpro__References_Page_Layouts_Count__c = 0, 0, 5)
++
+IF(fpro__References_Profile_Visibility_Count__c = 0, 0, 5)
++
+IF(fpro__References_Permission_Sets_Count__c = 0, 0, 5)
++
+IF(fpro__References_Validation_Rules_Count__c = 0, 0, 5)
++
+IF(fpro__References_Workflow_Field_Updates_Count__c = 0, 0, 5)
++
+IF(fpro__References_Workflow_Rules_Count__c = 0, 0, 5)
++
+IF(fpro__References_Flow_Count__c = 0, 0, 5)
++
+IF(fpro__References_Reports_Count__c = 0, 0, 5)
++
+IF(fpro__References_ReportType_Count__c = 0, 0, 5)
++
+IF(fpro__References_Others_Count__c = 0, 0, 5)
+))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Roughly calculated score for this salesforce field using other parameters like field usage, apex/metadata references etc. Score 0 means the field is a potential candidate for deletion, as probably not being used anywhere.</inlineHelpText>
+    <label>Field Score</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

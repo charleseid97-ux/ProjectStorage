@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesSendEmailToMembers>false</doesSendEmailToMembers>
+    <name>HOC UK</name>
+    <queueMembers>
+        <roles>
+            <role>UKHeadofCountry</role>
+        </roles>
+        <users>
+            <user>david.beacham-crm@carmignac.com</user>
+            <user>roland.bagnall-crm@carmignac.com</user>
+        </users>
+    </queueMembers>
+    <queueSobject>
+        <sobjectType>Convention__c</sobjectType>
+    </queueSobject>
+</Queue>

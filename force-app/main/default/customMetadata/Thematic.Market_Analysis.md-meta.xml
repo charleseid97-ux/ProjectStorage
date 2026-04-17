@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Market Analysis</label>
+    <protected>false</protected>
+    <values>
+        <field>Thematic__c</field>
+        <value xsi:type="xsd:string">Market Analysis</value>
+    </values>
+    <values>
+        <field>Thematic_values__c</field>
+        <value xsi:type="xsd:string">carmignacs-note;conference-web;web-conference;webinar;conferenza-web;web-konferenz;kevin-thozet;didier-saint-georges;market-analysis</value>
+    </values>
+</CustomMetadata>

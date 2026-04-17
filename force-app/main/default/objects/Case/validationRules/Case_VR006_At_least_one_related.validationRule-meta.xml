@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_VR006_At_least_one_related</fullName>
+    <active>false</active>
+    <description>At least one related object must be completed</description>
+    <errorConditionFormula>AND(
+ (RecordType.DeveloperName   =  &quot;Product_Marketing_Request&quot;),
+OR(ISBLANK(ContactId)),
+OR(ISBLANK(Opportunity__c)),
+OR(ISBLANK(Campaign__c)), !$User.BypassValidationRules__c
+)</errorConditionFormula>
+    <errorDisplayField>Opportunity__c</errorDisplayField>
+    <errorMessage>At least one related object must be completed : Contact, Meeting/Conference or Opportunity</errorMessage>
+</ValidationRule>

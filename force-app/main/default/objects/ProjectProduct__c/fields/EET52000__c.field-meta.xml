@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EET52000__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>52000_Financial_Instrument_Tobacco_Exclusion</description>
+    <label>52000 Financial Instrument Tobacco Excl</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

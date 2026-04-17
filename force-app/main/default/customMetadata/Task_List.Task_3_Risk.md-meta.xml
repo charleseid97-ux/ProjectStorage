@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Task 3 Risk</label>
+    <protected>false</protected>
+    <values>
+        <field>Comment__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Description__c</field>
+        <value xsi:type="xsd:string">We are supportive of the product proposal as characterized in the product description document (Y/N)</value>
+    </values>
+    <values>
+        <field>Order__c</field>
+        <value xsi:type="xsd:double">3.0</value>
+    </values>
+    <values>
+        <field>Task_Type__c</field>
+        <value xsi:type="xsd:string">Control</value>
+    </values>
+    <values>
+        <field>Task__c</field>
+        <value xsi:type="xsd:string">We are supportive of the product proposal as characterized in the product description document (Y/N)</value>
+    </values>
+    <values>
+        <field>Team__c</field>
+        <value xsi:type="xsd:string">Control Risk</value>
+    </values>
+    <values>
+        <field>Type__c</field>
+        <value xsi:type="xsd:string">Checkbox</value>
+    </values>
+</CustomMetadata>

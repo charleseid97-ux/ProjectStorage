@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR11_ReutersLipperCode</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  NOT($User.BypassValidationRules__c),
+  NOT(ISBLANK(ReutersLipperCode__c)),
+  NOT(REGEX(ReutersLipperCode__c, &quot;^LP[0-9]{8}$&quot;))
+)</errorConditionFormula>
+    <errorDisplayField>ReutersLipperCode__c</errorDisplayField>
+    <errorMessage>The Reuters Lipper Code must start with &apos;LP&apos; followed by exactly 8 digits (e.g. LP12345678).</errorMessage>
+</ValidationRule>

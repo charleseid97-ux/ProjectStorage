@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NumberofSpamComplaint__c</fullName>
+    <label>Number of Spam Complaint</label>
+    <summaryFilterItems>
+        <field>CampaignMember.Status</field>
+        <operation>equals</operation>
+        <value>Spam Complaint</value>
+    </summaryFilterItems>
+    <summaryForeignKey>CampaignMember.CampaignId</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

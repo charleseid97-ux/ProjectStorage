@@ -1,0 +1,45 @@
+<!--
+  @description       : 
+  @author            : SILA Nicolas
+  @group             : 
+  @last modified on  : 07-15-2024
+  @last modified by  : SILA Nicolas
+-->
+<template>
+    <div class="record-type-selector">
+        <h2 class="inlineTitle slds-p-top--large slds-p-horizontal--medium slds-p-bottom--medium slds-text-heading--medium">New Case</h2>
+        <div class="selector-content">
+            <p class="instruction">Select a record type</p>
+            <fieldset>
+                <template for:each={recordTypeOptions} for:item="option">
+                    <div key={option.id}>
+
+                    <span class="slds-radio" style="margin:1% 15%">
+                        <input type="radio" id={option.id} name="recordTypes" value={option.url} onchange={handleRecordTypeChange}/>
+                        <label class="slds-radio__label" for={option.id}>
+                            <span class="slds-radio_faux"></span>
+                            <span class="slds-form-element__label">{option.name}</span>
+                        </label>
+                    </span>
+                    <div if:true={option.description} class="slds-m-left_x-large option-description slds-text-color_weak">
+                        {option.description}
+                    </div>
+                    </div>
+                    <!-- <div key={option.id} class="record-type-option">
+                        <input type="radio" id={option.id} name="recordTypeGroup"  value={option.url} onchange={handleRecordTypeChange}/>
+
+                        <label for={option.id}>
+                            <span class="option-label">{option.name}</span>
+                            <span if:true={option.description} class="option-description">{option.description}</span>
+                        </label>
+                    </div> -->
+                </template>
+                
+            </fieldset>
+        </div>
+        <div class="selector-footer inlineFooter">
+            <button class="cancel-button" onclick={closeModal}>Cancel</button>
+            <button class="next-button" onclick={handleContinue}>Next</button>
+        </div>
+    </div>
+</template>

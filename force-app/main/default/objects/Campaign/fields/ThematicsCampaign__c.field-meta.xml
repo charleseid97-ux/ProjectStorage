@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ThematicsCampaign__c</fullName>
+    <label>ThematicsCampaign</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>BRND</fullName>
+                <default>false</default>
+                <label>Brand</label>
+            </value>
+            <value>
+                <fullName>RIMA</fullName>
+                <default>false</default>
+                <label>Risk Managers</label>
+            </value>
+            <value>
+                <fullName>RETI</fullName>
+                <default>false</default>
+                <label>Retirement</label>
+            </value>
+            <value>
+                <fullName>EMEQ</fullName>
+                <default>false</default>
+                <label>Emerging</label>
+            </value>
+            <value>
+                <fullName>FIXI</fullName>
+                <default>false</default>
+                <label>Fixed Income</label>
+            </value>
+            <value>
+                <fullName>GLMA</fullName>
+                <default>false</default>
+                <label>Global Macro</label>
+            </value>
+            <value>
+                <fullName>EUEQ</fullName>
+                <default>false</default>
+                <label>Europe</label>
+            </value>
+            <value>
+                <fullName>QUAT</fullName>
+                <default>false</default>
+                <label>Quantitative</label>
+            </value>
+            <value>
+                <fullName>INSO</fullName>
+                <default>false</default>
+                <label>Investment Solutions</label>
+            </value>
+            <value>
+                <fullName>CARA</fullName>
+                <default>false</default>
+                <label>Active Risk Allocation</label>
+            </value>
+            <value>
+                <fullName>CCC</fullName>
+                <default>false</default>
+                <label>Capital Cube</label>
+            </value>
+            <value>
+                <fullName>CC+</fullName>
+                <default>false</default>
+                <label>Capital Plus</label>
+            </value>
+            <value>
+                <fullName>CC</fullName>
+                <default>false</default>
+                <label>Commodities</label>
+            </value>
+            <value>
+                <fullName>CCT</fullName>
+                <default>false</default>
+                <label>Court Terme</label>
+            </value>
+            <value>
+                <fullName>CE</fullName>
+                <default>false</default>
+                <label>Emergents</label>
+            </value>
+            <value>
+                <fullName>CED</fullName>
+                <default>false</default>
+                <label>Emerging Discovery</label>
+            </value>
+            <value>
+                <fullName>CEMP</fullName>
+                <default>false</default>
+                <label>Emerging Patrimoine</label>
+            </value>
+            <value>
+                <fullName>CEE</fullName>
+                <default>false</default>
+                <label>Euro-Entrepreneurs</label>
+            </value>
+            <value>
+                <fullName>CEP</fullName>
+                <default>false</default>
+                <label>Euro-Patrimoine</label>
+            </value>
+            <value>
+                <fullName>CGB</fullName>
+                <default>false</default>
+                <label>Global Bond</label>
+            </value>
+            <value>
+                <fullName>CGE</fullName>
+                <default>false</default>
+                <label>Grande Europe</label>
+            </value>
+            <value>
+                <fullName>CI</fullName>
+                <default>false</default>
+                <label>Investissement</label>
+            </value>
+            <value>
+                <fullName>CIL</fullName>
+                <default>false</default>
+                <label>Investissement Latitude</label>
+            </value>
+            <value>
+                <fullName>CP</fullName>
+                <default>false</default>
+                <label>Patrimoine</label>
+            </value>
+            <value>
+                <fullName>CPRs</fullName>
+                <default>false</default>
+                <label>Profil Réactif</label>
+            </value>
+            <value>
+                <fullName>CS</fullName>
+                <default>false</default>
+                <label>Sécurité</label>
+            </value>
+            <value>
+                <fullName>GSMDARTA</fullName>
+                <default>false</default>
+                <label>Allianz Darta</label>
+            </value>
+            <value>
+                <fullName>AXA60</fullName>
+                <default>false</default>
+                <label>Axa Selection</label>
+            </value>
+            <value>
+                <fullName>GSMBIGBA</fullName>
+                <default>false</default>
+                <label>Inversis Big Battle</label>
+            </value>
+            <value>
+                <fullName>MFP</fullName>
+                <default>false</default>
+                <label>Mapfre Carmignac F.P.</label>
+            </value>
+            <value>
+                <fullName>GSMMEDIO</fullName>
+                <default>false</default>
+                <label>Mediolanum Carmignac Strategy</label>
+            </value>
+            <value>
+                <fullName>UFFGE</fullName>
+                <default>false</default>
+                <label>UFF Grande Europe 0-100</label>
+            </value>
+            <value>
+                <fullName>CC31</fullName>
+                <default>false</default>
+                <label>CC31</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>10</visibleLines>
+</CustomField>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>64.0</apiVersion>
+    <assignments>
+        <description>Add Link To Prompt</description>
+        <name>Add_Link_To_Prompt</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>Add Link To Prompt</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>$Output.Prompt</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>&lt;Link&gt;
+{!formula_EventLink}
+&lt;/Link
+</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Through_the_Client_Interests</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Add to Prompt the Client Interests</description>
+        <name>Add_to_Prompt_the_Client_Interests</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>Add to Prompt the Client Interests</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>$Output.Prompt</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>&lt;Product&gt;
+&lt;Interest&gt;
+{!Loop_Through_the_Client_Interests.Interest__c}/5
+&lt;/Interest&gt;
+&lt;ProductName&gt;
+{!Loop_Through_the_Client_Interests.Strategy__r.Name}
+&lt;/ProductName&gt;
+&lt;/Product&gt;
+</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Through_the_Client_Interests</targetReference>
+        </connector>
+    </assignments>
+    <description>Use this action to add Client Interests to a prompt</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>formula_EventLink</name>
+        <dataType>String</dataType>
+        <expression>LEFT( {!$Api.Partner_Server_URL_520}, FIND( &apos;/services&apos;, {!$Api.Partner_Server_URL_520} ))&amp;{!Get_Child_Event.Id}</expression>
+    </formulas>
+    <interviewLabel>PT_MeetingNotes_AddClientInterestsToPrompt {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>PT_MeetingNotes_AddClientInterestsToPrompt</label>
+    <loops>
+        <description>Loop Through the Client Interests</description>
+        <name>Loop_Through_the_Client_Interests</name>
+        <label>Loop Through the Client Interests</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <collectionReference>Get_Client_Interests</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Add_to_Prompt_the_Client_Interests</targetReference>
+        </nextValueConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>PromptFlow</processType>
+    <recordLookups>
+        <description>Retrieves the created Event</description>
+        <name>Get_Child_Event</name>
+        <label>Get Child Event</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Add_Link_To_Prompt</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Meeting_Note__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Meeting_Note.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Event</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Retrieves the child records of Client Interests from the Parent Meeting Note</description>
+        <name>Get_Client_Interests</name>
+        <label>Get Client Interests</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Child_Event</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>MeetingNote__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Meeting_Note.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>ClientInterest__c</object>
+        <sortField>Interest__c</sortField>
+        <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Client_Interests</targetReference>
+        </connector>
+        <triggerType>Capability</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>The Meeting Note Record</description>
+        <name>Meeting_Note</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Meeting_Note__c</objectType>
+    </variables>
+</Flow>

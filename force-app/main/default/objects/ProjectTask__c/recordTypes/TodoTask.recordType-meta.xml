@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TodoTask</fullName>
+    <active>true</active>
+    <label>Todo Task</label>
+    <picklistValues>
+        <picklist>Team__c</picklist>
+        <values>
+            <fullName>Control Compliance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Control Legal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Control PS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Control Risk</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Control Tax</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Legal FCP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Legal Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Legal SICAV%2FICAV</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OPS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Techno</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type__c</picklist>
+        <values>
+            <fullName>Control</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Todo</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

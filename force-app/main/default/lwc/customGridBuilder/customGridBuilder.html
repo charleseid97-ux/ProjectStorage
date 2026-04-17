@@ -1,0 +1,131 @@
+<template>
+    <lightning-card title={labels.Grid_Builder}>
+        <template if:true={isLoading}>
+            <div class="centerSpinner">
+                <lightning-spinner alternative-text={labels.UI_Loading} size="medium"></lightning-spinner>
+            </div>
+        </template>
+        <div class="mainDiv">
+            <template if:true={showAgreementsPage}>
+                <c-grid-agreements-selection agreement-selection-mode={agreementSelectionMode}
+                                             options={agreementOptions}
+                                             value={selectedAgreements}
+                                             available-teams={availableTeams}
+                                             primary-team={primaryTeam}
+                                             selected-team={selectedTeam}
+                                             rec-id={recId}
+                                             grid-data={gridRequestData}
+                                             existing-grid-info={existingGridInfo}
+                                             has-draft-grid={hasDraftGrid}
+                                             onagreementsnext={handleAgreementsNext}>
+                </c-grid-agreements-selection>
+            </template>
+
+            <template if:true={isGridBuilderOrValidationPage}>
+                <template if:true={showGridBuilderPage}>
+                    <div class="gridBuilderClass">
+                        <div class="builderLeftSection">
+                            <c-filter-builder object-options={objectOptions}
+                                            filter-logic-options={filterLogicOptions}
+                                            show-values-when-not-selecting={showValuesWhenNotSelecting}
+                                            filter-value-separator={filterValueSeparator}
+                                            fields-by-object={fieldsByObject}
+                                            default-filter-operator={defaultFilterOperator}
+                                            operators-by-field={operatorsByField}
+                                            picklist-values-by-field={picklistValuesByField}
+                                            filter-limit={filterLimit}
+                                            starting-logic-type={startingLogicType}
+                                            filter-picklist-empty-val={filterPicklistEmptyVal}
+                                            onapplyfilters={handleApplyFilters}
+                                            onresetfilters={handleFilterReset}>
+                            </c-filter-builder>
+
+                            <div class="displayFlex_ColumnGap">
+                                <div class="slds-col granularColumn">
+                                    <div class="slds-col slds-size_2-of-12">
+                                        <c-custom-combobox name="grid"
+                                                          value={selectedGrid}
+                                                          options={computedGridOptions}
+                                                          label={labels.Grid_Label}
+                                                          onchange={handleGridChange}>
+                                        </c-custom-combobox>
+                                    </div>
+                                    <div class="granularColumn">
+                                        <lightning-button label={labels.Grid_AddToGrid} variant="brand" onclick={handleAddAllToSelection} disabled={addToGridDisabled}></lightning-button>
+                                        <lightning-button label={labels.Grid_ResetAll} variant="destructive" onclick={handleResetAllClick}></lightning-button>
+                                        <lightning-button label={labels.Grid_ViewRecap} variant="neutral" onclick={handleOpenSelectedPanel}></lightning-button>
+                                        <lightning-button label={labels.UI_Back} variant="neutral" onclick={handleBackToAgreementSelection}></lightning-button>
+                                        <lightning-button label={labels.UI_Next} variant="brand" onclick={handleGridValidation} disabled={validateGridDisabled}></lightning-button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="builderRightSection">
+                            <c-grid-share-type-selector all-share-type-options={allShareTypeOptions}
+                                                        selected-share-types={selectedShareTypes}
+                                                        enabled-share-type-values={enabledShareTypeValues}
+                                                        onsharetypeschanged={handleShareTypeSelection}
+                                                        onenabledchanged={handleEnabledShareTypesChanged}>
+                            </c-grid-share-type-selector>
+                        </div>
+                    </div>
+
+                    <c-results-table columns={resultColumns}
+                                    rows={shareClasses}
+                                    selected-share-classes={selectedShareClasses}
+                                    onremoveproduct={handleRemoveProductFromResults}>
+                    </c-results-table>
+                </template>
+
+                <template if:true={showValidationPage}>
+                    <template if:false={showSimulation}>
+                        <c-grid-validation-page grid-builder-setting-name={gridBuilderSettingName}
+                                                countries-of-distribution={countriesOfDistribution}
+                                                selected-share-classes={selectedShareClasses}
+                                                selected-agreements={selectedAgreements}
+                                                criteria-list={criteriaList}
+                                                grid-request-data={gridRequestData}
+                                                agreement-names={selectedAgreementNames}
+                                                grid-share-class-map={gridShareClassMap}
+                                                existing-grid-id={draftGridId}
+                                                onselectionchange={handleValidationSelectionChange}
+                                                onremoveproduct={handleRemoveProductFromSelection}
+                                                onviewrecap={handleOpenSelectedPanelFromValidation}
+                                                onback={handleBackToBuilder}
+                                                ongridsaved={handleGridSaved}
+                                                onsimulationrequested={handleSimulationRequested}>
+                        </c-grid-validation-page>
+                    </template>
+                </template>
+
+                <template if:true={showSimulation}>
+                    <c-grid-simulation
+                        selected-share-classes={selectedShareClasses}
+                        selected-agreements={selectedAgreements}
+                        grid-share-class-map={gridShareClassMap}
+                        onback={handleSimulationBack}>
+                    </c-grid-simulation>
+                </template>
+                <!-- RIGHT COLUMN: Selected products panel -->
+                <c-grid-selection-display-panel columns={selectedResultColumns}
+                                                rows={selectedShareClasses}
+                                                all-rows={allQueriedShareClasses}
+                                                criteria-list={criteriaList}
+                                                show-excluded-only={showRecapExcludedOnly}
+                                                is-open={showSelectedPanel}
+                                                onremoveproduct={handleRemoveProductFromSelection}
+                                                onclose={handleCloseSelectedPanel}>
+                </c-grid-selection-display-panel>
+            </template>
+        </div>
+        <c-modal is-visible-modal={showConfirmationModal}
+                 confirm-button-label={labels.UI_Confirm}
+                 close-button-label={labels.UI_Cancel}
+                 onconfirm={handleConfirmationConfirm}
+                 onclose={handleConfirmationCancel}>
+            <h2 slot="header">{confirmationContext.title}</h2>
+            <p slot="body">{confirmationContext.message}</p>
+        </c-modal>
+    </lightning-card>
+</template>

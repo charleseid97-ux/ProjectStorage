@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR08_CFICode</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  NOT($User.BypassValidationRules__c),
+  NOT(ISBLANK(CFICode__c)),
+  NOT(REGEX(CFICode__c, &quot;^[A-Z]{1,6}$&quot;))
+)</errorConditionFormula>
+    <errorDisplayField>CFICode__c</errorDisplayField>
+    <errorMessage>Invalid CFI Code format. Please enter up to 6 uppercase letters (A–Z), e.g., &apos;ESVUFR&apos;, &apos;ABC&apos;.</errorMessage>
+</ValidationRule>

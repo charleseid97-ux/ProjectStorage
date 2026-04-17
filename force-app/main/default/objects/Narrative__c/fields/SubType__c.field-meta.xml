@@ -1,0 +1,1568 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SubType__c</fullName>
+    <label>Sub Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Type__c</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Description</fullName>
+                <default>false</default>
+                <label>Description</label>
+            </value>
+            <value>
+                <fullName>Performance</fullName>
+                <default>false</default>
+                <label>Performance</label>
+            </value>
+            <value>
+                <fullName>Portfolio summary</fullName>
+                <default>false</default>
+                <label>Portfolio summary</label>
+            </value>
+            <value>
+                <fullName>Main Risk of the Fund</fullName>
+                <default>false</default>
+                <label>Main Risk of the Fund</label>
+            </value>
+            <value>
+                <fullName>Legal</fullName>
+                <default>false</default>
+                <label>Legal</label>
+            </value>
+            <value>
+                <fullName>UNSDG</fullName>
+                <default>false</default>
+                <label>UNSDG</label>
+            </value>
+            <value>
+                <fullName>Carbon Emission Figures</fullName>
+                <default>false</default>
+                <label>Carbon Emission Figures</label>
+            </value>
+            <value>
+                <fullName>KID</fullName>
+                <default>false</default>
+                <label>KID</label>
+            </value>
+            <value>
+                <fullName>Alpha</fullName>
+                <default>false</default>
+                <label>Alpha</label>
+            </value>
+            <value>
+                <fullName>Beta</fullName>
+                <default>false</default>
+                <label>Beta</label>
+            </value>
+            <value>
+                <fullName>Capitalisation</fullName>
+                <default>false</default>
+                <label>Capitalisation</label>
+            </value>
+            <value>
+                <fullName>Duration</fullName>
+                <default>false</default>
+                <label>Duration</label>
+            </value>
+            <value>
+                <fullName>FCP</fullName>
+                <default>false</default>
+                <label>FCP</label>
+            </value>
+            <value>
+                <fullName>High Yield</fullName>
+                <default>false</default>
+                <label>High Yield</label>
+            </value>
+            <value>
+                <fullName>Investment grade</fullName>
+                <default>false</default>
+                <label>Investment grade</label>
+            </value>
+            <value>
+                <fullName>Rating</fullName>
+                <default>false</default>
+                <label>Rating</label>
+            </value>
+            <value>
+                <fullName>Sharpe Ratio</fullName>
+                <default>false</default>
+                <label>Sharpe Ratio</label>
+            </value>
+            <value>
+                <fullName>Modified Duration</fullName>
+                <default>false</default>
+                <label>Modified Duration</label>
+            </value>
+            <value>
+                <fullName>Investment exposure</fullName>
+                <default>false</default>
+                <label>Investment exposure</label>
+            </value>
+            <value>
+                <fullName>Net Asset Value</fullName>
+                <default>false</default>
+                <label>Net Asset Value</label>
+            </value>
+            <value>
+                <fullName>VaR</fullName>
+                <default>false</default>
+                <label>VaR</label>
+            </value>
+            <value>
+                <fullName>Volatility</fullName>
+                <default>false</default>
+                <label>Volatility</label>
+            </value>
+            <value>
+                <fullName>Yield to Maturity</fullName>
+                <default>false</default>
+                <label>Yield to Maturity</label>
+            </value>
+            <value>
+                <fullName>ESG Scoring</fullName>
+                <default>false</default>
+                <label>ESG Scoring</label>
+            </value>
+            <value>
+                <fullName>SFDR Classification</fullName>
+                <default>false</default>
+                <label>SFDR Classification</label>
+            </value>
+            <value>
+                <fullName>ESG</fullName>
+                <default>false</default>
+                <label>ESG</label>
+            </value>
+            <value>
+                <fullName>Sustainable Investment</fullName>
+                <default>false</default>
+                <label>Sustainable Investment</label>
+            </value>
+            <value>
+                <fullName>Principal Adverse Indicators - PAI</fullName>
+                <default>false</default>
+                <label>Principal Adverse Indicators - PAI</label>
+            </value>
+            <value>
+                <fullName>Standard</fullName>
+                <default>false</default>
+                <label>Standard</label>
+            </value>
+            <value>
+                <fullName>Long</fullName>
+                <default>false</default>
+                <label>Long</label>
+            </value>
+            <value>
+                <fullName>Short</fullName>
+                <default>false</default>
+                <label>Short</label>
+            </value>
+            <value>
+                <fullName>PRIIPS</fullName>
+                <default>false</default>
+                <label>PRIIPS</label>
+            </value>
+            <value>
+                <fullName>NON_BENCHMARKED_FUND_OR_APPROACH</fullName>
+                <default>false</default>
+                <label>Non-benchmarked fund or approach</label>
+            </value>
+            <value>
+                <fullName>COLLATERALIZED_LOAN_OBLIGATION_CLO</fullName>
+                <default>false</default>
+                <label>Collateralized Loan Obligation (CLO)</label>
+            </value>
+            <value>
+                <fullName>MARKET_CAPITALISATION</fullName>
+                <default>false</default>
+                <label>Market capitalisation</label>
+            </value>
+            <value>
+                <fullName>FORWARD_FINANCIAL_INSTRUMENTS</fullName>
+                <default>false</default>
+                <label>Forward financial instruments</label>
+            </value>
+            <value>
+                <fullName>MID_CAPITALISATION_COMPANIES</fullName>
+                <default>false</default>
+                <label>Mid-capitalisation companies</label>
+            </value>
+            <value>
+                <fullName>SMALL_CAPITALISATION_COMPANIES</fullName>
+                <default>false</default>
+                <label>Small-capitalisation companies</label>
+            </value>
+            <value>
+                <fullName>ACTIVE_MANAGEMENT</fullName>
+                <default>false</default>
+                <label>Active Management</label>
+            </value>
+            <value>
+                <fullName>DRAWDOWN</fullName>
+                <default>false</default>
+                <label>Drawdown</label>
+            </value>
+            <value>
+                <fullName>UCITS_FUND</fullName>
+                <default>false</default>
+                <label>UCITS Fund</label>
+            </value>
+            <value>
+                <fullName>FUND_TURNOVER</fullName>
+                <default>false</default>
+                <label>Fund Turnover</label>
+            </value>
+            <value>
+                <fullName>ISSUER</fullName>
+                <default>false</default>
+                <label>Issuer</label>
+            </value>
+            <value>
+                <fullName>SUSTAINABLE_INVESTMENTS</fullName>
+                <default>false</default>
+                <label>Sustainable Investments</label>
+            </value>
+            <value>
+                <fullName>PRINCIPAL_ADVERSE_INDICATORS_PAI</fullName>
+                <default>false</default>
+                <label>Principal Adverse Indicators (PAI)</label>
+            </value>
+            <value>
+                <fullName>LABEL_ISR</fullName>
+                <default>false</default>
+                <label>Label ISR</label>
+            </value>
+            <value>
+                <fullName>TOWARDS_SUSTAINABILITY_LABEL</fullName>
+                <default>false</default>
+                <label>“Towards Sustainability” label:</label>
+            </value>
+            <value>
+                <fullName>TAXONOMY_ALIGNMENT</fullName>
+                <default>false</default>
+                <label>Taxonomy Alignment</label>
+            </value>
+            <value>
+                <fullName>CARMIGNAC_PROPRIETARY_SCORING_SYSTEM_START</fullName>
+                <default>false</default>
+                <label>Carmignac Proprietary Scoring System (START)</label>
+            </value>
+            <value>
+                <fullName>GREEN_AND_SOCIAL_BONDS</fullName>
+                <default>false</default>
+                <label>Green and Social Bonds</label>
+            </value>
+            <value>
+                <fullName>YIELD_TO_WORST_EUR</fullName>
+                <default>false</default>
+                <label>Yield to Worst (EUR)</label>
+            </value>
+            <value>
+                <fullName>FINANCE</fullName>
+                <default>false</default>
+                <label>Finance</label>
+            </value>
+            <value>
+                <fullName>INDUSTRIE</fullName>
+                <default>false</default>
+                <label>Industrie</label>
+            </value>
+            <value>
+                <fullName>LIQUIDITES_EMPLOIS</fullName>
+                <default>false</default>
+                <label>Liquidités_Emplois</label>
+            </value>
+            <value>
+                <fullName>MARCHES_EMERGENTS</fullName>
+                <default>false</default>
+                <label>Marchés émergents</label>
+            </value>
+            <value>
+                <fullName>NOTATION_MORNINGSTAR</fullName>
+                <default>false</default>
+                <label>Notation morningstar</label>
+            </value>
+            <value>
+                <fullName>PAYS_DEVELOPPES</fullName>
+                <default>false</default>
+                <label>Pays développés</label>
+            </value>
+            <value>
+                <fullName>SANTE</fullName>
+                <default>false</default>
+                <label>Santé</label>
+            </value>
+            <value>
+                <fullName>VALEUR_LIQUIDATIVE_VL_VNI</fullName>
+                <default>false</default>
+                <label>Valeur liquidative (VL/VNI)</label>
+            </value>
+            <value>
+                <fullName>TECHNOLOGIE_DE_L_INFORMATION</fullName>
+                <default>false</default>
+                <label>Technologie de l’information</label>
+            </value>
+            <value>
+                <fullName>GLOSSARY</fullName>
+                <default>false</default>
+                <label>Glossary</label>
+            </value>
+            <value>
+                <fullName>SICAV</fullName>
+                <default>false</default>
+                <label>SICAV</label>
+            </value>
+            <value>
+                <fullName>INVESTMENT_EXPOSURE_RATE</fullName>
+                <default>false</default>
+                <label>Investment/exposure rate</label>
+            </value>
+            <value>
+                <fullName>BOTTOM_UP_INVESTING</fullName>
+                <default>false</default>
+                <label>Bottom-up investing</label>
+            </value>
+            <value>
+                <fullName>TOP_DOWN_INVESTING</fullName>
+                <default>false</default>
+                <label>Top-down investing</label>
+            </value>
+            <value>
+                <fullName>DIRECTIONAL_STRATEGIES</fullName>
+                <default>false</default>
+                <label>Directional strategies</label>
+            </value>
+            <value>
+                <fullName>RELATIVE_STRATEGIES</fullName>
+                <default>false</default>
+                <label>Relative strategies</label>
+            </value>
+            <value>
+                <fullName>FRONTIER_MARKETS</fullName>
+                <default>false</default>
+                <label>Frontier markets</label>
+            </value>
+            <value>
+                <fullName>RQFII</fullName>
+                <default>false</default>
+                <label>RQFII</label>
+            </value>
+            <value>
+                <fullName>TRACK_RECORD</fullName>
+                <default>false</default>
+                <label>Track record</label>
+            </value>
+            <value>
+                <fullName>CORRELATION</fullName>
+                <default>false</default>
+                <label>Correlation</label>
+            </value>
+            <value>
+                <fullName>QUANTITATIVE_EASING</fullName>
+                <default>false</default>
+                <label>Quantitative easing</label>
+            </value>
+            <value>
+                <fullName>INDEX</fullName>
+                <default>false</default>
+                <label>Index</label>
+            </value>
+            <value>
+                <fullName>ABS</fullName>
+                <default>false</default>
+                <label>ABS</label>
+            </value>
+            <value>
+                <fullName>UNCONSTRAINED_APPROACH</fullName>
+                <default>false</default>
+                <label>Unconstrained approach</label>
+            </value>
+            <value>
+                <fullName>CREDIT_CYCLE</fullName>
+                <default>false</default>
+                <label>Credit Cycle</label>
+            </value>
+            <value>
+                <fullName>ADVANCED_DEVELOPED_MARKETS</fullName>
+                <default>false</default>
+                <label>Advanced/developed markets</label>
+            </value>
+            <value>
+                <fullName>BOND</fullName>
+                <default>false</default>
+                <label>Bond</label>
+            </value>
+            <value>
+                <fullName>CAPITAL_MARKETS</fullName>
+                <default>false</default>
+                <label>Capital markets</label>
+            </value>
+            <value>
+                <fullName>CURRENCY_EXPOSURE</fullName>
+                <default>false</default>
+                <label>Currency exposure</label>
+            </value>
+            <value>
+                <fullName>DIVERSIFICATION</fullName>
+                <default>false</default>
+                <label>Diversification</label>
+            </value>
+            <value>
+                <fullName>EMERGING_MARKETS</fullName>
+                <default>false</default>
+                <label>Emerging markets</label>
+            </value>
+            <value>
+                <fullName>LIQUIDITY</fullName>
+                <default>false</default>
+                <label>Liquidity</label>
+            </value>
+            <value>
+                <fullName>RETURN</fullName>
+                <default>false</default>
+                <label>Return</label>
+            </value>
+            <value>
+                <fullName>SHARE</fullName>
+                <default>false</default>
+                <label>Share</label>
+            </value>
+            <value>
+                <fullName>ROLLING_THREE_YEAR_PERIOD</fullName>
+                <default>false</default>
+                <label>Rolling three year period</label>
+            </value>
+            <value>
+                <fullName>SHARE_CLASS</fullName>
+                <default>false</default>
+                <label>Share class</label>
+            </value>
+            <value>
+                <fullName>UNIT</fullName>
+                <default>false</default>
+                <label>Unit</label>
+            </value>
+            <value>
+                <fullName>YIELD</fullName>
+                <default>false</default>
+                <label>Yield</label>
+            </value>
+            <value>
+                <fullName>BOTTOM_UP</fullName>
+                <default>false</default>
+                <label>Bottom-up</label>
+            </value>
+            <value>
+                <fullName>DRAWDOWNS</fullName>
+                <default>false</default>
+                <label>Drawdowns</label>
+            </value>
+            <value>
+                <fullName>MACROECONOMIC_FUNDAMENTALS</fullName>
+                <default>false</default>
+                <label>Macroeconomic fundamentals</label>
+            </value>
+            <value>
+                <fullName>UNDERPENETRATED_SECTORS</fullName>
+                <default>false</default>
+                <label>Underpenetrated sectors</label>
+            </value>
+            <value>
+                <fullName>SCOPE_1</fullName>
+                <default>false</default>
+                <label>Scope 1</label>
+            </value>
+            <value>
+                <fullName>SCOPE_2</fullName>
+                <default>false</default>
+                <label>Scope 2</label>
+            </value>
+            <value>
+                <fullName>SCOPE_3</fullName>
+                <default>false</default>
+                <label>Scope 3</label>
+            </value>
+            <value>
+                <fullName>S_P_TRUCOST_METHODOLOGY</fullName>
+                <default>false</default>
+                <label>S&amp;P Trucost methodology</label>
+            </value>
+            <value>
+                <fullName>CARBON_EMISSIONS_AS_DEFINED_BY_THE_GHG_PROTOCOL</fullName>
+                <default>false</default>
+                <label>Carbon Emissions (as defined by the GHG Protocol)</label>
+            </value>
+            <value>
+                <fullName>ACTIVE_WEIGHT</fullName>
+                <default>false</default>
+                <label>Active Weight</label>
+            </value>
+            <value>
+                <fullName>ESG_SCORE_CALCULATION</fullName>
+                <default>false</default>
+                <label>ESG score Calculation:</label>
+            </value>
+            <value>
+                <fullName>CONSOMMATION_DE_BASE</fullName>
+                <default>false</default>
+                <label>Consommation de base</label>
+            </value>
+            <value>
+                <fullName>CONSOMMATION_DISCRETIONNAIRE</fullName>
+                <default>false</default>
+                <label>Consommation discrétionnaire</label>
+            </value>
+            <value>
+                <fullName>PRECOMPTE_MOBILIER</fullName>
+                <default>false</default>
+                <label>Précompte mobilier</label>
+            </value>
+            <value>
+                <fullName>VOLATILITE</fullName>
+                <default>false</default>
+                <label>Volatilité</label>
+            </value>
+            <value>
+                <fullName>LIQUIDITES</fullName>
+                <default>false</default>
+                <label>Liquidités</label>
+            </value>
+            <value>
+                <fullName>EXPOSITION_COURTE</fullName>
+                <default>false</default>
+                <label>Exposition courte</label>
+            </value>
+            <value>
+                <fullName>EXPOSITION_LONGUE</fullName>
+                <default>false</default>
+                <label>Exposition longue</label>
+            </value>
+            <value>
+                <fullName>EXPOSITION_BRUTE</fullName>
+                <default>false</default>
+                <label>Exposition brute</label>
+            </value>
+            <value>
+                <fullName>EXPOSITION_NETTE</fullName>
+                <default>false</default>
+                <label>Exposition nette</label>
+            </value>
+            <value>
+                <fullName>EMPRUNTS_PRIVES</fullName>
+                <default>false</default>
+                <label>Emprunts privés</label>
+            </value>
+            <value>
+                <fullName>EMPRUNTS_PUBLICS</fullName>
+                <default>false</default>
+                <label>Emprunts publics</label>
+            </value>
+            <value>
+                <fullName>EMPRUNTS_SUPRANATIONAUX</fullName>
+                <default>false</default>
+                <label>Emprunts supranationaux</label>
+            </value>
+            <value>
+                <fullName>CDS</fullName>
+                <default>false</default>
+                <label>CDS</label>
+            </value>
+            <value>
+                <fullName>EMPRUNTS_PRIVES_CONVERTIBLES</fullName>
+                <default>false</default>
+                <label>Emprunts privés convertibles</label>
+            </value>
+            <value>
+                <fullName>SENSIBILITE</fullName>
+                <default>false</default>
+                <label>Sensibilité</label>
+            </value>
+            <value>
+                <fullName>SFDR_FUND_CLASSIFICATION</fullName>
+                <default>false</default>
+                <label>SFDR Fund Classification</label>
+            </value>
+            <value>
+                <fullName>YIELD_TO_WORST</fullName>
+                <default>false</default>
+                <label>Yield to Worst</label>
+            </value>
+            <value>
+                <fullName>GREEN_ENERGY_PROVIDERS</fullName>
+                <default>false</default>
+                <label>Green energy providers</label>
+            </value>
+            <value>
+                <fullName>GREEN_SOLUTION_ENABLERS</fullName>
+                <default>false</default>
+                <label>Green solution enablers</label>
+            </value>
+            <value>
+                <fullName>ENERGY_TRANSITION</fullName>
+                <default>false</default>
+                <label>Energy transition</label>
+            </value>
+            <value>
+                <fullName>GINI_COEFFICIENT</fullName>
+                <default>false</default>
+                <label>GINI Coefficient</label>
+            </value>
+            <value>
+                <fullName>GDP_PER_CAPITA_PPP</fullName>
+                <default>false</default>
+                <label>GDP Per Capita PPP</label>
+            </value>
+            <value>
+                <fullName>ACTIVE_SHARE</fullName>
+                <default>false</default>
+                <label>Active share</label>
+            </value>
+            <value>
+                <fullName>YIELD_TO_MATURITY_EUR</fullName>
+                <default>false</default>
+                <label>Yield to Maturity (EUR)</label>
+            </value>
+            <value>
+                <fullName>INTEREST_RATE_EFFECT</fullName>
+                <default>false</default>
+                <label>Interest rate effect</label>
+            </value>
+            <value>
+                <fullName>SPREAD_EFFECT</fullName>
+                <default>false</default>
+                <label>Spread Effect</label>
+            </value>
+            <value>
+                <fullName>CARRY_EFFECT</fullName>
+                <default>false</default>
+                <label>Carry Effect</label>
+            </value>
+            <value>
+                <fullName>FX_EFFECT</fullName>
+                <default>false</default>
+                <label>FX Effect</label>
+            </value>
+            <value>
+                <fullName>INFLATION_EFFECT</fullName>
+                <default>false</default>
+                <label>Inflation effect</label>
+            </value>
+            <value>
+                <fullName>TURNOVER</fullName>
+                <default>false</default>
+                <label>Turnover</label>
+            </value>
+            <value>
+                <fullName>MERGER_ARBITRAGE_EXPOSURE</fullName>
+                <default>false</default>
+                <label>Merger Arbitrage Exposure</label>
+            </value>
+            <value>
+                <fullName>MERGER_ARBITRAGE_RISK</fullName>
+                <default>false</default>
+                <label>Merger Arbitrage Risk</label>
+            </value>
+            <value>
+                <fullName>MERGER_ARBITRAGE_TYPE_NATURE</fullName>
+                <default>false</default>
+                <label>Merger Arbitrage Type/Nature</label>
+            </value>
+            <value>
+                <fullName>LOCAL_DEBT</fullName>
+                <default>false</default>
+                <label>Local debt</label>
+            </value>
+            <value>
+                <fullName>EXTERNAL_DEBT</fullName>
+                <default>false</default>
+                <label>External debt</label>
+            </value>
+            <value>
+                <fullName>CORPORATE_CREDIT</fullName>
+                <default>false</default>
+                <label>Corporate credit</label>
+            </value>
+            <value>
+                <fullName>MSCI_METHODOLOGY</fullName>
+                <default>false</default>
+                <label>MSCI methodology</label>
+            </value>
+            <value>
+                <fullName>TECH_MATERIALS</fullName>
+                <default>false</default>
+                <label>Tech materials</label>
+            </value>
+            <value>
+                <fullName>INDUSTRIAL_TECH_DIGITAL_INFRASTRUCTURE</fullName>
+                <default>false</default>
+                <label>Industrial Tech &amp; Digital Infrastructure</label>
+            </value>
+            <value>
+                <fullName>CLIMATE_TECH</fullName>
+                <default>false</default>
+                <label>Climate tech</label>
+            </value>
+            <value>
+                <fullName>HEALTH_WELL_BEING</fullName>
+                <default>false</default>
+                <label>Health &amp; Well being</label>
+            </value>
+            <value>
+                <fullName>CLOUD_SOFTWARE</fullName>
+                <default>false</default>
+                <label>Cloud &amp; Software</label>
+            </value>
+            <value>
+                <fullName>CO_INVESTMENT</fullName>
+                <default>false</default>
+                <label>Co-investment</label>
+            </value>
+            <value>
+                <fullName>DIRECT_FUND</fullName>
+                <default>false</default>
+                <label>Direct fund</label>
+            </value>
+            <value>
+                <fullName>GENERAL_PARTNER_GP</fullName>
+                <default>false</default>
+                <label>General Partner (GP)</label>
+            </value>
+            <value>
+                <fullName>LIMITED_PARTNERS_LPS</fullName>
+                <default>false</default>
+                <label>Limited Partners (LPs)</label>
+            </value>
+            <value>
+                <fullName>LIQUID_SLEEVE</fullName>
+                <default>false</default>
+                <label>Liquid sleeve</label>
+            </value>
+            <value>
+                <fullName>PORTFOLIO_COMPANY</fullName>
+                <default>false</default>
+                <label>Portfolio company</label>
+            </value>
+            <value>
+                <fullName>PRIMARY_FUND_OF_FUNDS</fullName>
+                <default>false</default>
+                <label>Primary fund of funds</label>
+            </value>
+            <value>
+                <fullName>PRIVATE_EQUITY_PE</fullName>
+                <default>false</default>
+                <label>Private Equity (PE)</label>
+            </value>
+            <value>
+                <fullName>PRIVATE_MARKETS</fullName>
+                <default>false</default>
+                <label>Private markets</label>
+            </value>
+            <value>
+                <fullName>SECONDARY_FUNDS</fullName>
+                <default>false</default>
+                <label>Secondary funds</label>
+            </value>
+            <value>
+                <fullName>VINTAGE_YEAR</fullName>
+                <default>false</default>
+                <label>Vintage year</label>
+            </value>
+            <value>
+                <fullName>EVERGREEN_FUNDS</fullName>
+                <default>false</default>
+                <label>Evergreen funds</label>
+            </value>
+            <value>
+                <fullName>LOOK_THROUGH_ALLOCATION</fullName>
+                <default>false</default>
+                <label>Look_through_allocation</label>
+            </value>
+            <value>
+                <fullName>ACTIFS_NETS</fullName>
+                <default>false</default>
+                <label>Actifs nets</label>
+            </value>
+            <value>
+                <fullName>COMMUNICATION</fullName>
+                <default>false</default>
+                <label>Communication</label>
+            </value>
+            <value>
+                <fullName>INTENDED_RETAIL_INVESTOR</fullName>
+                <default>false</default>
+                <label>Intented Retail Investor</label>
+            </value>
+            <value>
+                <fullName>LMT</fullName>
+                <default>false</default>
+                <label>LMT</label>
+            </value>
+            <value>
+                <fullName>PERFORMANCE_FEE</fullName>
+                <default>false</default>
+                <label>Performance Fee</label>
+            </value>
+            <value>
+                <fullName>PERFORMANCE_FEE_UCITS</fullName>
+                <default>false</default>
+                <label>Performance Fee UCITS</label>
+            </value>
+            <value>
+                <fullName>REASON_FOR_PHP</fullName>
+                <default>false</default>
+                <label>Reason for RHP</label>
+            </value>
+            <value>
+                <fullName>REDEEM_CONDITION</fullName>
+                <default>false</default>
+                <label>Redeem Condition</label>
+            </value>
+            <value>
+                <fullName>Prime_Agent</fullName>
+                <default>false</default>
+                <label>Prime Agent</label>
+            </value>
+            <value>
+                <fullName>Pre_CentralAdmin</fullName>
+                <default>false</default>
+                <label>Pre Central Admin</label>
+            </value>
+            <value>
+                <fullName>FundAdmin</fullName>
+                <default>false</default>
+                <label>Fund Admin</label>
+            </value>
+            <value>
+                <fullName>FundAuditor</fullName>
+                <default>false</default>
+                <label>Fund Auditor</label>
+            </value>
+            <value>
+                <fullName>ManagementCompany</fullName>
+                <default>false</default>
+                <label>Management Company</label>
+            </value>
+            <value>
+                <fullName>TransferAgent</fullName>
+                <default>false</default>
+                <label>Transfer Agent</label>
+            </value>
+            <value>
+                <fullName>FundAdvisor</fullName>
+                <default>false</default>
+                <label>Fund Advisor</label>
+            </value>
+            <value>
+                <fullName>Custodian</fullName>
+                <default>false</default>
+                <label>Custodian</label>
+            </value>
+            <value>
+                <fullName>Central_Admins</fullName>
+                <default>false</default>
+                <label>Central Admin(s)</label>
+            </value>
+            <value>
+                <fullName>Share_Class_Investment_Objective</fullName>
+                <default>false</default>
+                <label>Share Class Investment Objective</label>
+            </value>
+            <value>
+                <fullName>Performance_fee_UCITS_KIID</fullName>
+                <default>false</default>
+                <label>Performance fee UCITS KIID</label>
+            </value>
+            <value>
+                <fullName>Performance_fee_EPT/KID</fullName>
+                <default>false</default>
+                <label>Performance fee EPT/KID</label>
+            </value>
+            <value>
+                <fullName>Delegated_Investment_Managers</fullName>
+                <default>false</default>
+                <label>Delegated Investment Manager(s)</label>
+            </value>
+            <value>
+                <fullName>High_yield</fullName>
+                <default>false</default>
+                <label>High_yield</label>
+            </value>
+            <value>
+                <fullName>Modified_duration</fullName>
+                <default>false</default>
+                <label>Modified_duration</label>
+            </value>
+            <value>
+                <fullName>Net_asset_value</fullName>
+                <default>false</default>
+                <label>Net_asset_value</label>
+            </value>
+            <value>
+                <fullName>Yield_to_maturity</fullName>
+                <default>false</default>
+                <label>Yield_to_maturity</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Investment Objective</controllingFieldValue>
+            <controllingFieldValue>Investment Strategy</controllingFieldValue>
+            <controllingFieldValue>PRIIPs</controllingFieldValue>
+            <valueName>Description</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Biography</controllingFieldValue>
+            <valueName>Standard</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Biography</controllingFieldValue>
+            <valueName>Long</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Biography</controllingFieldValue>
+            <valueName>Short</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Third Party</controllingFieldValue>
+            <valueName>Prime_Agent</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Third Party</controllingFieldValue>
+            <valueName>Pre_CentralAdmin</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Third Party</controllingFieldValue>
+            <valueName>FundAdmin</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Third Party</controllingFieldValue>
+            <valueName>FundAuditor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Third Party</controllingFieldValue>
+            <valueName>ManagementCompany</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Third Party</controllingFieldValue>
+            <valueName>TransferAgent</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Third Party</controllingFieldValue>
+            <valueName>FundAdvisor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Third Party</controllingFieldValue>
+            <valueName>Custodian</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Third Party</controllingFieldValue>
+            <valueName>Central_Admins</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Third Party</controllingFieldValue>
+            <valueName>Delegated_Investment_Managers</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Risk</controllingFieldValue>
+            <valueName>Main Risk of the Fund</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRIIPs</controllingFieldValue>
+            <valueName>INTENDED_RETAIL_INVESTOR</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRIIPs</controllingFieldValue>
+            <valueName>LMT</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRIIPs</controllingFieldValue>
+            <valueName>PERFORMANCE_FEE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRIIPs</controllingFieldValue>
+            <valueName>PERFORMANCE_FEE_UCITS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRIIPs</controllingFieldValue>
+            <valueName>REASON_FOR_PHP</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRIIPs</controllingFieldValue>
+            <valueName>REDEEM_CONDITION</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRIIPs</controllingFieldValue>
+            <valueName>Share_Class_Investment_Objective</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRIIPs</controllingFieldValue>
+            <valueName>Performance_fee_UCITS_KIID</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRIIPs</controllingFieldValue>
+            <valueName>Performance_fee_EPT/KID</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>Alpha</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>Beta</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>Capitalisation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>Duration</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>FCP</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>High Yield</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>Investment grade</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>Rating</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>Sharpe Ratio</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>Modified Duration</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>Net Asset Value</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>VaR</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>Volatility</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>Yield to Maturity</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>ESG</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>NON_BENCHMARKED_FUND_OR_APPROACH</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>COLLATERALIZED_LOAN_OBLIGATION_CLO</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>MARKET_CAPITALISATION</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>FORWARD_FINANCIAL_INSTRUMENTS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>MID_CAPITALISATION_COMPANIES</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>SMALL_CAPITALISATION_COMPANIES</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>ACTIVE_MANAGEMENT</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>DRAWDOWN</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>UCITS_FUND</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>FUND_TURNOVER</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>ISSUER</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>SUSTAINABLE_INVESTMENTS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>PRINCIPAL_ADVERSE_INDICATORS_PAI</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>LABEL_ISR</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>TOWARDS_SUSTAINABILITY_LABEL</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>TAXONOMY_ALIGNMENT</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>CARMIGNAC_PROPRIETARY_SCORING_SYSTEM_START</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>GREEN_AND_SOCIAL_BONDS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>YIELD_TO_WORST_EUR</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>FINANCE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>INDUSTRIE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>LIQUIDITES_EMPLOIS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>MARCHES_EMERGENTS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>NOTATION_MORNINGSTAR</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>PAYS_DEVELOPPES</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>SANTE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>VALEUR_LIQUIDATIVE_VL_VNI</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>TECHNOLOGIE_DE_L_INFORMATION</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>GLOSSARY</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>SICAV</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>INVESTMENT_EXPOSURE_RATE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>BOTTOM_UP_INVESTING</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>TOP_DOWN_INVESTING</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>DIRECTIONAL_STRATEGIES</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>RELATIVE_STRATEGIES</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>FRONTIER_MARKETS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>RQFII</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>TRACK_RECORD</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>CORRELATION</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>QUANTITATIVE_EASING</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>INDEX</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>ABS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>UNCONSTRAINED_APPROACH</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>CREDIT_CYCLE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>ADVANCED_DEVELOPED_MARKETS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>BOND</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>CAPITAL_MARKETS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>CURRENCY_EXPOSURE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>DIVERSIFICATION</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>EMERGING_MARKETS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>LIQUIDITY</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>RETURN</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>SHARE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>ROLLING_THREE_YEAR_PERIOD</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>SHARE_CLASS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>UNIT</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>YIELD</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>BOTTOM_UP</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>DRAWDOWNS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>MACROECONOMIC_FUNDAMENTALS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>UNDERPENETRATED_SECTORS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>SCOPE_1</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>SCOPE_2</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>SCOPE_3</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>S_P_TRUCOST_METHODOLOGY</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>CARBON_EMISSIONS_AS_DEFINED_BY_THE_GHG_PROTOCOL</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>ACTIVE_WEIGHT</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>ESG_SCORE_CALCULATION</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>CONSOMMATION_DE_BASE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>CONSOMMATION_DISCRETIONNAIRE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>PRECOMPTE_MOBILIER</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>LIQUIDITES</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>EXPOSITION_COURTE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>EXPOSITION_LONGUE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>EXPOSITION_BRUTE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>EXPOSITION_NETTE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>EMPRUNTS_PRIVES</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>EMPRUNTS_PUBLICS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>EMPRUNTS_SUPRANATIONAUX</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>CDS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>EMPRUNTS_PRIVES_CONVERTIBLES</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>SENSIBILITE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>SFDR_FUND_CLASSIFICATION</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>YIELD_TO_WORST</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>GREEN_ENERGY_PROVIDERS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>GREEN_SOLUTION_ENABLERS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>ENERGY_TRANSITION</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>GINI_COEFFICIENT</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>GDP_PER_CAPITA_PPP</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>ACTIVE_SHARE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>YIELD_TO_MATURITY_EUR</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>INTEREST_RATE_EFFECT</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>SPREAD_EFFECT</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>CARRY_EFFECT</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>FX_EFFECT</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>INFLATION_EFFECT</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>TURNOVER</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>MERGER_ARBITRAGE_EXPOSURE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>MERGER_ARBITRAGE_RISK</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>MERGER_ARBITRAGE_TYPE_NATURE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>LOCAL_DEBT</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>EXTERNAL_DEBT</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>CORPORATE_CREDIT</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>MSCI_METHODOLOGY</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>TECH_MATERIALS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>INDUSTRIAL_TECH_DIGITAL_INFRASTRUCTURE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>CLIMATE_TECH</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>HEALTH_WELL_BEING</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>CLOUD_SOFTWARE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>CO_INVESTMENT</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>DIRECT_FUND</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>GENERAL_PARTNER_GP</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>LIMITED_PARTNERS_LPS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>LIQUID_SLEEVE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>PORTFOLIO_COMPANY</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>PRIMARY_FUND_OF_FUNDS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>PRIVATE_EQUITY_PE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>PRIVATE_MARKETS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>SECONDARY_FUNDS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>VINTAGE_YEAR</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>EVERGREEN_FUNDS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>LOOK_THROUGH_ALLOCATION</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>ACTIFS_NETS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Glossary</controllingFieldValue>
+            <valueName>COMMUNICATION</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

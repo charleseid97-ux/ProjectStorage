@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR30_SubscriptionSettlementPeriod</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  NOT($User.BypassValidationRules__c),
+  NOT(ISBLANK(SubscriptionSettlementPeriod__c)),
+  OR(
+    SubscriptionSettlementPeriod__c &lt; 1,
+    SubscriptionSettlementPeriod__c &gt; 10
+  )
+)</errorConditionFormula>
+    <errorDisplayField>SubscriptionSettlementPeriod__c</errorDisplayField>
+    <errorMessage>Subscription Settlement Period must be between 1 and 10 days</errorMessage>
+</ValidationRule>

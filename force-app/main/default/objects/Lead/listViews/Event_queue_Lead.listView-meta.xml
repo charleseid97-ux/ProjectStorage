@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Event_queue_Lead</fullName>
+    <columns>FULL_NAME</columns>
+    <columns>LEAD.COMPANY</columns>
+    <columns>LEAD.STATE_CODE</columns>
+    <columns>LEAD.EMAIL</columns>
+    <columns>LEAD.STATUS</columns>
+    <columns>Lead_Status_Logo__c</columns>
+    <columns>LEAD.CREATED_DATE</columns>
+    <columns>CORE.USERS.ALIAS</columns>
+    <columns>LEAD.UNREAD</columns>
+    <filterScope>Queue</filterScope>
+    <label>Event queue</label>
+    <language>en_US</language>
+    <queue>Event_queue</queue>
+    <sharedTo>
+        <group>Administrators</group>
+        <group>Belgium</group>
+        <group>CSC_Bug_Team</group>
+        <group>Data_Solution_Team</group>
+        <group>Distribution_Support</group>
+        <group>Distribution_et_Digital</group>
+        <group>France</group>
+        <group>Germany</group>
+        <group>Group_CRM</group>
+        <group>HeadOfCountries</group>
+        <group>International</group>
+        <group>Italy</group>
+        <group>LATAM</group>
+        <group>Luxembourg</group>
+        <group>Marketing_for_Newsletters</group>
+        <group>Netherlands</group>
+        <group>Nordics</group>
+        <group>RFP_DD_Team</group>
+        <group>Spain</group>
+        <group>Switzerland</group>
+        <group>UnitedKingdom</group>
+    </sharedTo>
+</ListView>

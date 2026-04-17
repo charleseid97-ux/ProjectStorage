@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>BrightTALK__Sync__c</fullName>
+    <defaultValue>true</defaultValue>
+    <deprecated>false</deprecated>
+    <inlineHelpText>Tick this box to enable synchronization of this Channel&apos;s reports.</inlineHelpText>
+    <label>Sync Leads</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_VR012_MandatoryCaseProduct</fullName>
+    <active>true</active>
+    <description>WTP cannot be put into service without a Product.</description>
+    <errorConditionFormula>AND(
+!$User.BypassValidationRules__c,
+RecordType.DeveloperName = &quot;Client_delivery_request&quot;,
+			
+ISPICKVAL(Status,&apos;In Service&apos;),
+ISPICKVAL( Data_Solutions_Type__c , &apos;Recurring Report Request&apos;),
+ISCHANGED(Status),
+OR(Total_Products__c = 0))</errorConditionFormula>
+    <errorMessage>WTP cannot be put into service without a Product.</errorMessage>
+</ValidationRule>

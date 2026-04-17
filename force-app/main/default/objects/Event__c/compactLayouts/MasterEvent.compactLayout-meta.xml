@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MasterEvent</fullName>
+    <fields>Name</fields>
+    <fields>category__c</fields>
+    <fields>startDate__c</fields>
+    <fields>salesTeam__c</fields>
+    <fields>status__c</fields>
+    <label>Master Event</label>
+</CompactLayout>

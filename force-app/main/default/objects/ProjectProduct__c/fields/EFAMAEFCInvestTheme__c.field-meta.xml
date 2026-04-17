@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EFAMAEFCInvestTheme__c</fullName>
+    <label>EFAMA EFC Invest Theme</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Biotechnology</fullName>
+                <default>false</default>
+                <label>Biotechnology</label>
+            </value>
+            <value>
+                <fullName>Medtech</fullName>
+                <default>false</default>
+                <label>Medtech</label>
+            </value>
+            <value>
+                <fullName>Digitalisation</fullName>
+                <default>false</default>
+                <label>Digitalisation</label>
+            </value>
+            <value>
+                <fullName>Automation</fullName>
+                <default>false</default>
+                <label>Automation</label>
+            </value>
+            <value>
+                <fullName>Innovationanddisruptivetechnology</fullName>
+                <default>false</default>
+                <label>Innovation and disruptive technology</label>
+            </value>
+            <value>
+                <fullName>Climate</fullName>
+                <default>false</default>
+                <label>Climate</label>
+            </value>
+            <value>
+                <fullName>Water</fullName>
+                <default>false</default>
+                <label>Water</label>
+            </value>
+            <value>
+                <fullName>Cleanenergy</fullName>
+                <default>false</default>
+                <label>Clean energy</label>
+            </value>
+            <value>
+                <fullName>Environmentalgeneral</fullName>
+                <default>false</default>
+                <label>Environmental - general</label>
+            </value>
+            <value>
+                <fullName>Infrastructure</fullName>
+                <default>false</default>
+                <label>Infrastructure</label>
+            </value>
+            <value>
+                <fullName>Naturalresources</fullName>
+                <default>false</default>
+                <label>Natural resources</label>
+            </value>
+            <value>
+                <fullName>Agriculture</fullName>
+                <default>false</default>
+                <label>Agriculture</label>
+            </value>
+            <value>
+                <fullName>Nutrition</fullName>
+                <default>false</default>
+                <label>Nutrition</label>
+            </value>
+            <value>
+                <fullName>Lifestyle</fullName>
+                <default>false</default>
+                <label>Lifestyle</label>
+            </value>
+            <value>
+                <fullName>Agingpopulationanddemographics</fullName>
+                <default>false</default>
+                <label>Aging population and demographics</label>
+            </value>
+            <value>
+                <fullName>Socialgeneral</fullName>
+                <default>false</default>
+                <label>Social – general</label>
+            </value>
+            <value>
+                <fullName>Globaltrends</fullName>
+                <default>false</default>
+                <label>Global trends</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

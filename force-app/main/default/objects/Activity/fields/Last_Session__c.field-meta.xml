@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Last_Session__c</fullName>
+    <encryptionScheme>None</encryptionScheme>
+    <inlineHelpText>Most recent date at which the client viewed the content.</inlineHelpText>
+    <label>Last Session</label>
+    <required>false</required>
+    <type>DateTime</type>
+</CustomField>

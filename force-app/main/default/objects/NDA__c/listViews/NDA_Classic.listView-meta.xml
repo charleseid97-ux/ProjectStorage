@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NDA_Classic</fullName>
+    <columns>NAME</columns>
+    <columns>Company__c</columns>
+    <columns>WorkTogetherProcess__c</columns>
+    <columns>Stage__c</columns>
+    <columns>OWNER.FIRST_NAME</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>NDA__c.NDA_Classic</value>
+    </filters>
+    <label>NDA Bipartite</label>
+</ListView>

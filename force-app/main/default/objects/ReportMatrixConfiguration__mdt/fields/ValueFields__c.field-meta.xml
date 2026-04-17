@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ValueFields__c</fullName>
+    <label>Value Fields</label>
+    <type>LongTextArea</type>
+    <length>1000</length>
+    <visibleLines>4</visibleLines>
+    <description>Field(s) shown at each row/column intersection. One API name per line. When a single field is specified, only its value is displayed. When multiple fields are specified, each is shown as "Label: Value" on separate lines.</description>
+    <inlineHelpText>Enter one field API name per line. Example:
+RegistrationStatus__c
+RegistrationDate__c</inlineHelpText>
+</CustomField>

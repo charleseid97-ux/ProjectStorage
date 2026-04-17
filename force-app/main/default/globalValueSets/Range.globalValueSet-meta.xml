@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>FIX</fullName>
+        <default>false</default>
+        <label>Fixed Income</label>
+    </customValue>
+    <customValue>
+        <fullName>EQU</fullName>
+        <default>false</default>
+        <label>Equity</label>
+    </customValue>
+    <customValue>
+        <fullName>DIV</fullName>
+        <default>false</default>
+        <label>Diversified</label>
+    </customValue>
+    <customValue>
+        <fullName>PRF</fullName>
+        <default>false</default>
+        <label>Profiled</label>
+    </customValue>
+    <customValue>
+        <fullName>NOR</fullName>
+        <default>false</default>
+        <label>No Range</label>
+    </customValue>
+    <masterLabel>Range</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

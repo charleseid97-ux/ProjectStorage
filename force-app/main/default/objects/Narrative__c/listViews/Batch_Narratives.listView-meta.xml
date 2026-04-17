@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Batch_Narratives</fullName>
+    <columns>NAME</columns>
+    <columns>Narrative_Scope__c</columns>
+    <columns>ShareClass__c</columns>
+    <columns>Type__c</columns>
+    <columns>SubType__c</columns>
+    <columns>Language__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Product__c</field>
+        <operation>equals</operation>
+        <value>PP</value>
+    </filters>
+    <filters>
+        <field>Language__c</field>
+        <operation>equals</operation>
+        <value>English</value>
+    </filters>
+    <label>CPEG Narratives</label>
+    <sharedTo>
+        <group>Administrators</group>
+    </sharedTo>
+</ListView>

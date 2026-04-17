@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TECH_ShareClassCountry__c</fullName>
+    <description>Convert the multipick list in a string since includes method compare only string litterals
+Used to align migration date</description>
+    <externalId>false</externalId>
+    <formula>IF(INCLUDES( ShareClass__r.Country__c , &quot;FR&quot;), &quot;FR&quot;, NULL) + BR() +
+IF(INCLUDES( ShareClass__r.Country__c , &quot;AT&quot;), &quot;AT&quot;, NULL) + BR() +
+IF(INCLUDES( ShareClass__r.Country__c , &quot;BE&quot;), &quot;BE&quot;, NULL) + BR() +
+IF(INCLUDES( ShareClass__r.Country__c , &quot;DE&quot;), &quot;DE&quot;, NULL) + BR() +
+IF(INCLUDES( ShareClass__r.Country__c , &quot;GB&quot;), &quot;GB&quot;, NULL) + BR() +
+IF(INCLUDES( ShareClass__r.Country__c , &quot;XI&quot;), &quot;XI&quot;, NULL) + BR() +
+IF(INCLUDES( ShareClass__r.Country__c , &quot;LU&quot;), &quot;LU&quot;, NULL) + BR() +
+IF(INCLUDES( ShareClass__r.Country__c , &quot;IT&quot;), &quot;IT&quot;, NULL) + BR() +
+IF(INCLUDES( ShareClass__r.Country__c , &quot;ES&quot;), &quot;ES&quot;, NULL) + BR() +
+IF(INCLUDES( ShareClass__r.Country__c , &quot;SE&quot;), &quot;SE&quot;, NULL) + BR() +
+IF(INCLUDES( ShareClass__r.Country__c , &quot;CH&quot;), &quot;CH&quot;, NULL) + BR() +
+IF(INCLUDES( ShareClass__r.Country__c , &quot;TW&quot;), &quot;TW&quot;, NULL) + BR() +
+IF(INCLUDES( ShareClass__r.Country__c , &quot;NL&quot;), &quot;NL&quot;, NULL) + BR() +
+IF(INCLUDES( ShareClass__r.Country__c , &quot;PT&quot;), &quot;PT&quot;, NULL)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>TECH_ShareClassCountry</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

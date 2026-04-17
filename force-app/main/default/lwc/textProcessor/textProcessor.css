@@ -1,0 +1,122 @@
+/* Header: Title + Picklist */
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.use-case-picklist {
+    min-width: 200px;
+}
+
+/* Align input/output boxes side by side */
+.slds-grid {
+    margin-bottom: 20px;
+}
+
+/* Errors Section */
+.errors-section {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.error-text {
+    font-size: 16px;
+    color: black;
+    display: inline-block;
+}
+
+/* Red Dot */
+.error-dot {
+    display: inline-block;
+    color: red;
+    font-size: 20px;
+    cursor: pointer;
+    position: relative;
+    margin-left: 5px;
+}
+
+/* Tooltip Styling */
+.tooltip {
+    visibility: hidden;
+    width: 250px;
+    background-color: #ffdddd;
+    color: black;
+    text-align: left;
+    padding: 8px;
+    border-radius: 5px;
+    position: absolute;
+    z-index: 1;
+    top: 25px;
+    left: -50px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+}
+
+.error-dot:hover .tooltip {
+    visibility: visible;
+}
+
+/* Buttons Section */
+.buttons-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* :host{
+    --sds-c-textarea-sizing-min-height: var(--rtf-size);
+    --sds-c-textarea-sizing-max-height: var(--rtf-size);
+} */
+
+:host{
+    --sds-c-textarea-sizing-min-height: 400px;
+    --sds-c-textarea-sizing-max-height: 400px;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding-top: 20px;
+}
+
+
+
+.input-box {
+    margin-bottom: 12px;
+    background: white;
+    border-radius: 4px;
+    padding: 8px;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 12px;
+}
+
+
+.content-card {
+    background: #f8f9fa;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+}
+
+.pill-container {
+    padding: 6px;
+    background: white;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.output-box {
+    background: white;
+    padding: 12px;
+    border-radius: 6px;
+    min-height: 50px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}

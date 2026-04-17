@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Narrative_Scope__c</fullName>
+    <description>Defines the type of object (Product, Share Class, or Strategy) the narrative is associated with. Used to drive conditional display of lookup fields.</description>
+    <inlineHelpText>Select the type of entity this narrative refers to. This will determine which lookup field (Product, Share Class, or Strategy) you should complete below.</inlineHelpText>
+    <label>Narrative Scope</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Strategy</fullName>
+                <default>false</default>
+                <label>Strategy</label>
+            </value>
+            <value>
+                <fullName>Product</fullName>
+                <default>false</default>
+                <label>Product</label>
+            </value>
+            <value>
+                <fullName>Shareclass</fullName>
+                <default>false</default>
+                <label>Shareclass</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

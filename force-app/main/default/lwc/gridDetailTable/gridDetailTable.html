@@ -1,0 +1,81 @@
+<template>
+    <section class="slds-card cardContainer">
+        <div class="slds-card__header slds-grid headerClass">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <lightning-icon icon-name={iconName} size="small" class="relatedIcon"></lightning-icon>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <span class="slds-truncate" title={labels.Grid_DetailsTitle}>{labels.Grid_DetailsTitle}</span>
+                    </h2>
+                    <p class="slds-text-body_small slds-text-color_weak">
+                        <span>{rowCountLabel}</span>
+                        <span class="headerDot">&bull;</span>
+                        <span>{labels.Grid_SortedBy} {sortedByLabel}</span>
+                    </p>
+                </div>
+            </header>
+            <div class="slds-no-flex header-actions">
+                <lightning-button
+                    icon-name="utility:download"
+                    icon-position="left"
+                    label="Export Excel"
+                    variant="neutral"
+                    onclick={handleExport}
+                ></lightning-button>
+                <lightning-button-icon
+                    icon-name="utility:refresh"
+                    variant="border"
+                    alternative-text={labels.UI_Refresh}
+                    title={labels.UI_Refresh}
+                    onclick={handleRefresh}
+                ></lightning-button-icon>
+            </div>
+        </div>
+        <div class="tableContainer">
+            <template if:true={isLoading}>
+                <div class="centerSpinner">
+                    <lightning-spinner alternative-text={labels.UI_Loading} size="medium"></lightning-spinner>
+                </div>
+            </template>
+            <div class="slds-card__body slds-card__body_inner">
+                <template if:true={hasErrors}>
+                    <div class="slds-text-color_error slds-m-bottom_small">
+                        <p>{labels.Grid_RowErrors}</p>
+                        <ul class="slds-list_dotted">
+                            <template for:each={errors} for:item="err">
+                                <li key={err}>{err}</li>
+                            </template>
+                        </ul>
+                    </div>
+                </template>
+                <template if:true={hasRows}>
+                    <div class="slds-scrollable_x">
+                        <table class="grid-table">
+                            <thead>
+                                <tr>
+                                    <template for:each={headerCells} for:item="col">
+                                        <th key={col.key} class={col.headerClass}>{col.label}</th>
+                                    </template>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={processedRows} for:item="row">
+                                    <tr key={row.rowKey} class={row.rowClass}>
+                                        <template for:each={row.cells} for:item="cell">
+                                            <td key={cell.key} class={cell.cellClass}>{cell.value}</td>
+                                        </template>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </template>
+                <template if:false={hasRows}>
+                    <p class="slds-text-color_weak">{labels.Grid_NoDetailsFound}</p>
+                </template>
+            </div>
+        </div>
+    </section>
+</template>

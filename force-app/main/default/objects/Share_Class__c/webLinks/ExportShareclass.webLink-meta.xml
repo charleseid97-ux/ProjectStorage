@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ExportShareclass</fullName>
+    <availability>online</availability>
+    <description>Link to report PRP Shareclass Export</description>
+    <displayType>button</displayType>
+    <encodingKey>UTF-8</encodingKey>
+    <height>600</height>
+    <linkType>url</linkType>
+    <masterLabel>Export Shareclass</masterLabel>
+    <openType>noSidebar</openType>
+    <protected>false</protected>
+    <url>/flow/Redirect_To_Reports_Product_Shareclass?recordId={!Share_Class__c.Id}&amp;buttonType=Shareclass&amp;retURL=https://carmignac-crm.lightning.force.com/lightning/r/Report/00OaT000002h51hUAA/view?fv0={!Share_Class__c.Id}</url>
+</WebLink>

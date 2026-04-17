@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EET60420__c</fullName>
+    <label>60420 Financial Instrument Social Topic</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Investment in human capital (including health)</fullName>
+                <default>false</default>
+                <label>Investment in human capital (including health)</label>
+            </value>
+            <value>
+                <fullName>Labour relations</fullName>
+                <default>false</default>
+                <label>Labour relations</label>
+            </value>
+            <value>
+                <fullName>None</fullName>
+                <default>false</default>
+                <label>None</label>
+            </value>
+            <value>
+                <fullName>Social &amp; human rights</fullName>
+                <default>false</default>
+                <label>Social &amp; human rights</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

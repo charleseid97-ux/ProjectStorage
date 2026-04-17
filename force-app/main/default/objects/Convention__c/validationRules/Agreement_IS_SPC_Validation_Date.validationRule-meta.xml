@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Agreement_IS_SPC_Validation_Date</fullName>
+    <active>true</active>
+    <description>SPC Validation Date rempli IF SPC= Oui</description>
+    <errorConditionFormula>AND(
+		RecordType.Name = &quot;IS Agreement&quot;, 
+		NOT($User.BypassValidationRules__c),
+		ISPICKVAL(Status__c, &quot;Ready to execute&quot;), 
+				
+				
+OR(
+AND(ISPICKVAL(SPC_Status__c, &quot;Yes Approved&quot;),  
+ISBLANK(SPC_Validation_Date__c)),
+ISPICKVAL(SPC_Status__c, &quot;Yes To-do&quot;))
+ 
+)</errorConditionFormula>
+    <errorMessage>To proceed to &quot;Ready to execute&quot; stage, SPC Status cannot be &apos;To Do&apos;.
+If SPC Status is &apos;Yes Approved&apos; then you must provide a Validation Date.</errorMessage>
+</ValidationRule>

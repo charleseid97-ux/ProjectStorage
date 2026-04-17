@@ -1,0 +1,151 @@
+<template>
+    <lightning-card title="Strategic News" icon-name="standard:strategy">
+        
+        <template if:true={switchTo}>
+            <lightning-button variant="brand" label="Create Strategic News" onclick={clickSwitch} class="slds-float_right"></lightning-button>
+            <br><br>
+            <template if:true={snList}>
+                <lightning-datatable 
+                                    data={snList} 
+                                    columns={columns} 
+                                    key-field="Id"
+                                    sorted-by={sortBy}
+                                    sorted-direction={sortDirection}
+                                    onsort={handleSortdata}
+                                    hide-checkbox-column="true">
+                </lightning-datatable>
+            </template>
+            <template if:true={error}>
+                {error}
+            </template>
+
+        </template>
+
+        <template if:false={switchTo}>
+
+            <div class="slds-m-around_medium">
+                <lightning-button variant="brand" label="Table" onclick={clickSwitch} class="slds-float_right"></lightning-button>
+                <br><br>
+                <lightning-layout horizontal-align="space">
+                    <lightning-layout-item size="4" flexibility="auto" padding="around-small">
+                        <lightning-combobox 
+                                        name="Type" 
+                                        label="Type" 
+                                        placeholder="Select Type" 
+                                        options={typeOptions}
+                                        onchange={handleTypeChange}
+                                        required>
+                        </lightning-combobox>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item size="4" flexibility="auto" padding="around-small">
+                        <lightning-input 
+                                        name="ShortSubjectDescription" 
+                                        label="Short Subject Description"
+                                        onchange={handleShortSubjectDescriptionChange} 
+                                        class="slds-m-bottom_x-small"
+                                        required>
+                        </lightning-input>
+                    </lightning-layout-item>
+
+                </lightning-layout>
+
+                <lightning-layout horizontal-align="space">
+
+                    <lightning-layout-item size="4" flexibility="auto" padding="around-small">
+                        <lightning-combobox 
+                                            name="SubType" 
+                                            label="Sub Type" 
+                                            placeholder="Select Sub Type"
+                                            options={subTypeOptions}
+                                            onchange={handleSubTypeChange}
+                                            required>
+                        </lightning-combobox>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item size="4" flexibility="auto" padding="around-small">
+                        <lightning-input 
+                                        name="LongTitle" 
+                                        label="Long Title" 
+                                        onchange={handleLongTitleChange}
+                                        class="slds-m-bottom_x-small">
+                        </lightning-input>
+                    </lightning-layout-item>
+
+                </lightning-layout>
+
+                <lightning-layout horizontal-align="space">
+                    <template if:true={showProductSelector}>
+
+                        <lightning-layout-item size="4,5" flexibility="auto" padding="around-small">
+                            
+                                <div class="slds-p-horizontal_medium">
+                                    <c-lwc-multi-select-lookup 
+                                                                label-name="Product"
+                                                                object-api-name="Product__c"
+                                                                field-api-names="Id,Name"
+                                                                filter-field-api-name="Name"
+                                                                icon-name="custom:custom5"
+                                                                onretrieve={selectItemEventHandler} 
+                                                                onremove={deleteItemEventHandler}>
+                                    </c-lwc-multi-select-lookup>
+                                </div> 
+                                <!-- <br><br>
+                                <template if:true={isItemExists}>
+                                    <h3 class="slds-p-horizontal_small">
+                                        Message from Parent Component <br />
+                                        You have chosen: {selectedItemsToDisplay}
+                                    </h3>
+
+                                </template> -->
+                        </lightning-layout-item>
+
+                    </template>
+
+                    <lightning-layout-item size="4" flexibility="auto" padding="around-small">
+                        
+                            <p class="slds-p-horizontal_small">
+                                <c-lookup 
+                                            onselected={objSelected} 
+                                            objectname={objectname}
+                                            keyfieldapiname={keyfieldapiname}
+                                            autoselectsinglematchingrecord={autoselectsinglematchingrecord}
+                                            lookup-label={lookupLabel} 
+                                            invalid-option-chosen-message={invalidOptionChosenMessage}>
+                                </c-lookup>
+                            </p>
+                            <template if:true={searchKey}>
+                                <!-- <div class="slds-p-horizontal_small slds-p-top_small">
+                                    You selected record with name {searchKey},
+                                    <template if:true={object}>
+                                        Id as {object.Id}
+                                    </template>
+                                </div> -->
+                            </template>
+                            
+                    </lightning-layout-item>
+
+                </lightning-layout>
+
+                <lightning-input-rich-text
+                                            name="Strategic News" 
+                                            label="Strategic News"  
+                                            formats={allowedFormats} 
+                                            value={myVal}
+                                            onchange={handleStrategicNewsChange}
+                                            required>
+                </lightning-input-rich-text>
+                <br><br>
+                <lightning-button 
+                                label="Save" 
+                                onclick={createRec} 
+                                variant="brand"
+                                class="slds-float_right">
+                </lightning-button>
+                <br><br>
+            </div>
+ 
+    </template>
+    </lightning-card>
+
+</template>

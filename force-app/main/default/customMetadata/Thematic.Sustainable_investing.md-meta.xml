@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Sustainable investing</label>
+    <protected>false</protected>
+    <values>
+        <field>Thematic__c</field>
+        <value xsi:type="xsd:string">Sustainable investing</value>
+    </values>
+    <values>
+        <field>Thematic_values__c</field>
+        <value xsi:type="xsd:string">investissement-durable;investissement-socialement-responsable;-isr-;sustainable-investing;socially-responsible-investing;-sri-;inversion-sostenible;inversion-socialmente-responsible;investimento-sostenibile;investimento-socialmente-responsabile;nachhaltiges-investieren;nachhaltige-anlagen;sozialverantwortliches-investieren;duurzaam-beleggen;maatschappelijk-verantwoord-beleggen;-mvb-;green-gold;sandra-crowl;justin-kew;sustainable-investing</value>
+    </values>
+</CustomMetadata>

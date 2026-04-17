@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AlertRecipients__c</fullName>
+    <description>JSON object mapping each tracked field API name to an array of recipient email addresses. Use "*" as a wildcard key to receive alerts for all field changes. Wildcard recipients are always notified on top of any field-specific recipients. If a field has no mapping and there is no "*" key, no email is sent for that field.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Enter a JSON object. Each key is a tracked field API name (e.g. "Name__c"), its value is an array of email addresses. Use "*" to subscribe to all fields. Example: {"Name__c": ["a@x.com"], "*": ["admin@x.com"]}</inlineHelpText>
+    <label>Alert Recipients (JSON)</label>
+    <length>32768</length>
+    <type>LongTextArea</type>
+    <visibleLines>8</visibleLines>
+</CustomField>

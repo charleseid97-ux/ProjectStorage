@@ -1,0 +1,15 @@
+<template>
+   <template if:true={apList}>
+        <lightning-datatable  data={apList} 
+                              columns={columns} 
+                              key-field="Id"                                     
+                              sorted-by={sortBy}
+                              sorted-direction={sortDirection}
+                              onsort={handleSortdata}
+                              hide-checkbox-column="true">
+        </lightning-datatable>
+    </template> 
+    <template if:true={error}>
+        {error}
+    </template>
+</template>

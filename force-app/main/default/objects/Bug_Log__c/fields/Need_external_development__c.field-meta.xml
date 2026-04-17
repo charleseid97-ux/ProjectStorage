@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Need_external_development__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>If the enhancement in question needs external development (e.g. JL Conseil)</description>
+    <inlineHelpText>If the enhancement in question needs external development (e.g. JL Conseil)</inlineHelpText>
+    <label>Need external development</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

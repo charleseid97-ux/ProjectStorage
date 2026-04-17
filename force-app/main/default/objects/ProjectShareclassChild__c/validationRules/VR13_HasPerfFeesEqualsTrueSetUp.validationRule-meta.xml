@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR13_HasPerfFeesEqualsTrueSetUp</fullName>
+    <active>false</active>
+    <description>Display &amp; Mandatory ONLY If HasPerfFees=&apos;True&apos;</description>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+$Permission.PRPProductStrategy  = true,
+RecordType.DeveloperName = &apos;SetUp&apos;,
+ISPICKVAL(ProjectShareclasses__r.HasPerfFees__c, &apos;true&apos;),
+ISBLANK(PerfFeesCrystallisationDate__c))</errorConditionFormula>
+    <errorMessage>If Has Perf Fees=&apos;True&apos;, you must provide a value for Perf Fees Crystallisation Date.</errorMessage>
+</ValidationRule>

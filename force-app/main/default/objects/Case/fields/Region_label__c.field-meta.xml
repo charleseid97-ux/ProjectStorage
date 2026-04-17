@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Region_label__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE(Company_s_Business_Development_Region__c,
+  &quot;BP_BE&quot;,&quot;Belgium&quot;,
+  &quot;BP_FR&quot;,&quot;France&quot;,
+  &quot;BP_DA&quot;,&quot;Germany&quot;,
+  &quot;BP_IN&quot;,&quot;International&quot;,
+  &quot;BP_IT&quot;,&quot;Italy&quot;,
+  &quot;BP_JP&quot;,&quot;Japan&quot;,
+  &quot;BP_LA&quot;,&quot;LATAM&quot;,
+  &quot;BP_LU&quot;,&quot;Luxembourg&quot;,
+  &quot;BP_NL&quot;,&quot;Netherlands&quot;,
+  &quot;BP_NO&quot;,&quot;Nordics&quot;,
+  &quot;BP_ES&quot;,&quot;Spain&quot;,
+  &quot;BP_CH&quot;,&quot;Switzerland&quot;,
+  &quot;BP_TW&quot;,&quot;Taiwan&quot;,
+  &quot;BP_UK&quot;,&quot;United Kingdom&quot;,
+  &quot;BP_IP&quot;,&quot;International Platform&quot;,
+  &quot;Other&quot;
+					)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Region label</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

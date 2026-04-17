@@ -1,0 +1,220 @@
+<!--
+  @description       : 
+  @author            : SILA Nicolas
+  @group             : 
+  @last modified on  : 04-05-2024
+  @last modified by  : SILA Nicolas
+-->
+<template>
+    <!-- START : Opt Out Toggle -->
+    <lightning-record-edit-form data-id="recordViewForm" name="recordViewForm" record-id={recordId}
+        object-api-name="Contact" onsuccess={handleFormSuccess} onsubmit={handleFormSuccess} onerror={handleFormError}>
+
+        <div class="slds-section slds-is-open" data-id="generalOptOut">
+            <h3 class="slds-section__title">
+                <button type="button" aria-controls="generalOptOut" class="slds-button slds-section__title-action"
+                    data-buttonid="generalOptOut" onclick={toggleSection}>
+                    <lightning-icon icon-name="utility:switch" alternative-text="button icon" size="x-small"
+                        class="slds-section_title-action-icon slds-button_icon_left"></lightning-icon>
+                    <span class="slds-truncate" title="General Status">General Communication Status</span>
+                </button>
+            </h3>
+            <div class="slds-section__content">
+                <div class="slds-grid slds-wrap slds-p-top_medium slds-p-bottom_large">
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                        <div class="slds-form-element slds-p-around_x-small">
+                            <div class="slds-grid slds-grid_vertical-align-center">
+                                <div class="slds-col slds-size_1-of-1 slds-large-size_2-of-12">
+                                    <lightning-input aria-label="interestLabel" class="toggle" data-id="optOut"
+                                        onchange={updateToggleOptOut} name="HasOptedOutOfEmail"
+                                        checked={generalOptOut} type="toggle" message-toggle-active=""
+                                        message-toggle-inactive="" disabled={gdprFlag}>
+                                    </lightning-input>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12" style="padding-left: 3%;">
+                                    <span class="slds-form-element__label slds-m-bottom_none">General Opt Out</span>
+                                </div>
+                            </div>
+                            <lightning-output-field field-name="General_Opt_Out_Message__c"
+                                name="General_Opt_Out_Message__c" variant="label-hidden">
+                            </lightning-output-field>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12" style="visibility: hidden;">
+                        <!-- Hidden Column Content Removed -->
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                        <div class="slds-form-element slds-p-around_x-small">
+                            <div class="slds-grid slds-grid_vertical-align-center">
+                                <div class="slds-col slds-size_1-of-1 slds-large-size_2-of-12">
+                                    <lightning-input aria-label="HardBounced" class="toggle"
+                                        data-id="hardbounceToggle" disabled={notHardbounced} value={hardbounced}
+                                        checked={hardbounced} type="toggle" onchange={handleHardBounced}
+                                        message-toggle-active="" message-toggle-inactive="">
+                                    </lightning-input>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12" style="padding-left: 3%;">
+                                    <span class="slds-form-element__label slds-m-bottom_none">HardBounced</span>
+                                </div>
+                            </div>
+                            <lightning-output-field class="slds-large-size_4-of-12" field-name="Hardbounced_Message__c"
+                                name="Hardbounced_Message__c" variant="label-hidden">
+                            </lightning-output-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-p-top_large">
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                            <div class="slds-form-element slds-p-around_x-small">
+                                <div class="slds-grid slds-grid_vertical-align-center">
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_2-of-12">
+                                        <lightning-input aria-label="HardBounced" class="toggle"
+                                            onchange={updateAllToggles} name="Newsletter_Opt_Out__c"
+                                            checked={newsletterOptOut} type="toggle" message-toggle-active=""
+                                            message-toggle-inactive="" disabled={gdprFlag}>
+                                        </lightning-input>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12" style="padding-left: 3%;">
+                                        <span class="slds-form-element__label slds-m-bottom_none">Newsletter Opt Out</span>
+                                    </div>
+                                </div>
+                                <lightning-output-field style="text-wrap: balance;"
+                                    field-name="Newsletter_Opt_Out_Message__c" name="Email_bounce_reason__c"
+                                    variant="label-hidden">
+                                </lightning-output-field>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                            <div class="slds-form-element slds-p-around_x-small">
+                                <div class="slds-grid slds-grid_vertical-align-center">
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_2-of-12">
+                                        <lightning-input aria-label="HardBounced" class="toggle"
+                                            onchange={updateAllToggles} name="Invitation_Opt_Out__c"
+                                            checked={InvitationOptOut} type="toggle" message-toggle-active=""
+                                            message-toggle-inactive="" disabled={gdprFlag}>
+                                        </lightning-input>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12" style="padding-left: 3%;">
+                                        <span class="slds-form-element__label slds-m-bottom_none">Invitation Opt Out</span>
+                                    </div>
+                                </div>
+                                <lightning-output-field style="text-wrap: balance;"
+                                    field-name="Invitation_Opt_Out_Message__c" name="Email_bounce_reason__c"
+                                    variant="label-hidden">
+                                </lightning-output-field>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                            <div class="slds-form-element slds-p-around_x-small">
+                                <div class="slds-grid slds-grid_vertical-align-center">
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_2-of-12">
+                                        <lightning-input aria-label="HardBounced" class="toggle"
+                                            onchange={updateAllToggles} name="Prospace_Opt_Out__c"
+                                            checked={prospaceOptOut} type="toggle" message-toggle-active=""
+                                            message-toggle-inactive="" disabled={gdprFlag}>
+                                        </lightning-input>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12" style="padding-left: 3%;">
+                                        <span class="slds-form-element__label slds-m-bottom_none">Prospace Opt Out</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <lightning-output-field style="text-wrap: balance;"
+                                field-name="Prospace_Opt_Out_Message__c" name="Email_bounce_reason__c"
+                                variant="label-hidden">
+                            </lightning-output-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </lightning-record-edit-form>
+    <!--START: Display Modal-->
+    <template lwc:if={openModal}>
+        <section role="dialog" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse">
+                    <lightning-icon class="white-icon" icon-name="utility:close" alternative-text="Close" title="Close"
+                        onclick={closeOptOutModal}></lightning-icon>
+                    <span class="slds-assistive-text">Cancel</span>
+                </button>
+                <template if:true={OptReasonLoading}>
+                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                </template>
+                <template if:true={optOutModal}>
+
+                    <div class="slds-modal__header">
+                        <h1 class="slds-modal__title slds-hyphenate">Opt out</h1>
+                    </div>
+                    <lightning-record-edit-form name="modalForm" id="modalForm" record-id={recordId}
+                        object-api-name="Contact" onsuccess={closeOptOutModalWithReason}>
+
+                        <div class="slds-modal__content slds-p-around_medium" style="height:200px;">
+                            <lightning-input-field field-name="OptOut_Reason__c"> </lightning-input-field>
+
+                        </div>
+                        <div class="slds-modal__footer" data-id="modal_buttons_container">
+                            <button class="slds-button slds-button_neutral" name="Close"
+                                onclick={closeOptOutModal}>Cancel</button>
+                            <button class="slds-button slds-button_brand" name="Save" type="submit"
+                                onclick={handleSaveClick}>Save</button>
+                        </div>
+
+
+                    </lightning-record-edit-form>
+                </template>
+                <template if:true={hardBounceModal}>
+
+                    <div class="slds-modal__header">
+                        <h1 class="slds-modal__title slds-hyphenate">HardBounce</h1>
+                    </div>
+                    <div class="slds-modal__content slds-p-around_medium">
+                        <p>
+                            <b>Please Note:</b> if the hard bounce is due to an error in the email address, adding a new
+                            email will trigger an
+                            <b> automatic reset in less than 15 minutes</b>.
+                            </br>
+                            </br>A manual reset is also possible while keeping the same email address:
+                            </br>- Directly from Pardot (with the CRM profile)
+                            </br> - By making a request to Salesforce support (<a>salesforcesupport@carmignac.com</a>)
+                            regarding Prospace
+                            </br></br>
+                            Be aware that if the hard bounce results from an anti-spam filter at the recipient's end,
+                            forcing a reset can harm the reputation of our domain name.
+                        </p>
+                        <lightning-record-edit-form name="modalFormHardbounce" record-id={recordId}
+                            object-api-name="Contact" onsuccess={closeHardBounceModalOnSuccess}
+                            onsubmit={closeHardBounceModalOnSubmit}>
+                            <div class="slds-modal__content slds-p-around_medium" style="height:200px;">
+                                <template if:true={hardbouncePardot}>
+                                    <label for="prof-email">Professional Email (Pardot)</label>
+                                    <lightning-input-field field-name="Email" required="true" onchange={deblockSave} id="prof-email" variant="label-hidden">
+                                    </lightning-input-field>
+                                    <br>
+                                </template>
+                                <template if:true={hardBounceMandrill}>
+                                    <!-- <lightning-helptext content="To reset Prospace"></lightning-helptext> -->
+                                    <label for="web-email">Website Login (Prospace)</label>
+
+                                    <lightning-input-field field-name="WebsiteLogin__c" required="true" id="web-email" variant="label-hidden"
+                                        onchange={deblockSave}> </lightning-input-field>
+                                </template>
+                            </div>
+                            <div class="slds-modal__footer" data-id="modal_buttons_container">
+                                <button class="slds-button slds-button_neutral" name="Close"
+                                    onclick={closeOptOutModal}>Cancel</button>
+                                <button class="slds-button slds-button_brand" name="Save" type="submit"
+                                    disabled={isNotChanged} onclick={handleSaveClick}>Save</button>
+                            </div>
+                        </lightning-record-edit-form>
+                    </div>
+
+                </template>
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+
+    </template>
+</template>

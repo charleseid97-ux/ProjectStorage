@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Carmignac_Alt_European_Long_Short_CAELS__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Interest Alternative Strategy</description>
+    <inlineHelpText>Interest Alternative Strategy</inlineHelpText>
+    <label>Carmignac Alt European Long Short(CAELS)</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

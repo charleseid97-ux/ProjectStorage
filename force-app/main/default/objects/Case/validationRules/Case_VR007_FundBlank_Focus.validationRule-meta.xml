@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_VR007_FundBlank_Focus</fullName>
+    <active>false</active>
+    <description>Fund is mandatory when DD focus is equal to DD Product and non mandatory when DD Focus is equal to DD Corporate</description>
+    <errorConditionFormula>OR( 
+AND( 
+RecordType.DeveloperName = &quot;RFP_RFI_Questionnaire&quot;, 
+NOT($User.BypassValidationRules__c), 
+ISPICKVAL(Focus__c, &quot;DD Corporate&quot;), 
+NOT(ISBLANK(Fund__c)) 
+), 
+AND( 
+RecordType.DeveloperName = &quot;RFP_RFI_Questionnaire&quot;, 
+NOT($User.BypassValidationRules__c), 
+ISPICKVAL(Focus__c, &quot;DD Product&quot;), 
+ISBLANK(Fund__c) 
+) 
+)</errorConditionFormula>
+    <errorDisplayField>Fund__c</errorDisplayField>
+    <errorMessage>Please select a Fund when you choose &quot;DD Product&quot;. 
+Fund is non mandatory when you choose &quot;DD Corporate&quot;</errorMessage>
+</ValidationRule>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>CGL</fullName>
+        <default>false</default>
+        <label>CGL</label>
+    </customValue>
+    <customValue>
+        <fullName>CG</fullName>
+        <default>false</default>
+        <label>CG</label>
+    </customValue>
+    <customValue>
+        <fullName>CACEIS</fullName>
+        <default>false</default>
+        <label>RELIANCE CACEIS</label>
+    </customValue>
+    <customValue>
+        <fullName>SS&amp;C</fullName>
+        <default>false</default>
+        <label>RELIANCE SS&amp;C</label>
+    </customValue>
+    <customValue>
+        <fullName>BPSS</fullName>
+        <default>false</default>
+        <label>RELIANCE BPSS</label>
+    </customValue>
+    <customValue>
+        <fullName>SGSS</fullName>
+        <default>false</default>
+        <label>RELIANCE SGSS</label>
+    </customValue>
+    <customValue>
+        <fullName>RELIANCE</fullName>
+        <default>false</default>
+        <label>RELIANCE</label>
+    </customValue>
+    <customValue>
+        <fullName>MFEX</fullName>
+        <default>false</default>
+        <label>RELIANCE MFEX</label>
+    </customValue>
+    <customValue>
+        <fullName>FUNDCHANNEL</fullName>
+        <default>false</default>
+        <label>RELIANCE FUNDCHANNEL</label>
+    </customValue>
+    <customValue>
+        <fullName>INVERSIS</fullName>
+        <default>false</default>
+        <label>RELIANCE INVERSIS</label>
+    </customValue>
+    <customValue>
+        <fullName>OTHER</fullName>
+        <default>false</default>
+        <label>OTHER</label>
+    </customValue>
+    <customValue>
+        <fullName>AFB</fullName>
+        <default>false</default>
+        <label>RELIANCE AFB</label>
+    </customValue>
+    <masterLabel>KYD Responsible</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

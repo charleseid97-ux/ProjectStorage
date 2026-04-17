@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR06_DividendFrequencyMandatory</fullName>
+    <active>false</active>
+    <description>Display &amp; Mandatory Only If DividendPolicy = Distributing</description>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+$Permission.PRPLegal  = true,
+RecordType.DeveloperName = &apos;Engineering&apos;,
+ISPICKVAL( ProjectShareclasses__r.DividendPolicy__c , &apos;Distributing&apos;),
+ISBLANK(TEXT(DividendFrequency__c))
+)</errorConditionFormula>
+    <errorMessage>If DividendPolicy = Distributing you must provide the Dividend Frequency</errorMessage>
+</ValidationRule>

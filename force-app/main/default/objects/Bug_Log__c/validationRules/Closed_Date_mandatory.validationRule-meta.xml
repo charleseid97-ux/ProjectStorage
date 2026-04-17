@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Closed_Date_mandatory</fullName>
+    <active>false</active>
+    <description>Closed date is mandatory if status is &quot;closed&quot;</description>
+    <errorConditionFormula>AND(
+ISBLANK(CloseDate__c), 
+ISPICKVAL(Status__c,&apos;Closed&apos;), NOT($User.BypassValidationRules__c) 
+)</errorConditionFormula>
+    <errorDisplayField>CloseDate__c</errorDisplayField>
+    <errorMessage>Close date is mandatory if status is &quot;Closed&quot;</errorMessage>
+</ValidationRule>

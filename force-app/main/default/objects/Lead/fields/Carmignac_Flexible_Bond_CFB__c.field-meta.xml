@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Carmignac_Flexible_Bond_CFB__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Interest Fixed Income Strategy</description>
+    <inlineHelpText>Interest Fixed Income Strategy</inlineHelpText>
+    <label>Carmignac Flexible Bond (CFB)</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

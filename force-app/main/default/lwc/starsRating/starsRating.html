@@ -1,0 +1,21 @@
+<!--
+  @description       : 
+  @author            : Thanina YAYA
+  @last modified on  : 31-07-2023
+  @last modified by  : Thanina YAYA
+-->
+<template>
+    <template for:each={stars} for:item="star">
+        <lightning-icon
+            key={star.Index}
+            icon-name="utility:favorite" 
+            variant={star.State}
+            onmouseover={handleRatingHover}
+            onmouseout={handleRatingHoverOut}
+            onclick={handleRatingClick}
+            data-id={star.Index}
+            size={size}
+            src={star.CustomUrl}>
+        </lightning-icon>
+    </template>
+</template>

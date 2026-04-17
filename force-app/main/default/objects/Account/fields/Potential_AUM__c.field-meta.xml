@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Potential_AUM__c</fullName>
+    <inlineHelpText>Threshold of the potential AUM with Carmignac</inlineHelpText>
+    <label>Potential AUM</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>0</fullName>
+                <default>false</default>
+                <label>0</label>
+            </value>
+            <value>
+                <fullName>&lt;10</fullName>
+                <default>false</default>
+                <label>&lt;10</label>
+            </value>
+            <value>
+                <fullName>&lt;50</fullName>
+                <default>false</default>
+                <label>&lt;50</label>
+            </value>
+            <value>
+                <fullName>&lt;200</fullName>
+                <default>false</default>
+                <label>&lt;200</label>
+            </value>
+            <value>
+                <fullName>&gt;=200</fullName>
+                <default>false</default>
+                <label>&gt;=200</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

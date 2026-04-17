@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_VR008_Fax_Prefered_Method</fullName>
+    <active>true</active>
+    <description>The Fax number is mandatory if it&apos;s selected as the prefered method of contact</description>
+    <errorConditionFormula>AND(NOT($User.BypassValidationRules__c),AND(
+   ISPICKVAL( PreferredMethodOfContact__c, &quot;Fax&quot;),
+   ISBLANK(Fax),
+   $User.BypassValidationRules__c = false 
+   ))</errorConditionFormula>
+    <errorDisplayField>Fax</errorDisplayField>
+    <errorMessage>Prefered Method of contact must be filled</errorMessage>
+</ValidationRule>

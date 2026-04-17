@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Agreement_No_Master_Agreement_for_Type</fullName>
+    <active>true</active>
+    <description>No Master Agreement must be set for specific Code Types</description>
+    <errorConditionFormula>AND(
+  NOT(ISPICKVAL( Code_Type__c , &apos;Sub-distributor via Platforms&apos;)),
+  NOT(ISPICKVAL( Code_Type__c , &apos;Technical&apos;)),
+  NOT(ISBLANK( MasterConvention__c )),
+  NOT($User.BypassValidationRules__c)
+)</errorConditionFormula>
+    <errorDisplayField>MasterConvention__c</errorDisplayField>
+    <errorMessage>You cannot select a Master Agreement for this Code Type</errorMessage>
+</ValidationRule>

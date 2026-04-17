@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Send_Notification</name>
+        <label>Send Notification</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <stringValue>middleofficefunds2@carmignac.com</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>ccRecipientAddressList</name>
+            <value>
+                <stringValue>philippe.pauchont@carmignac.com,arnaud.sankou@carmignac.com,francois.charles@carmignac.com,clement.bensoussan@carmignac.com,sf_pmt@carmignac.com</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>$Label.NoReplayWideAddress</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>EmailSubject</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>EmailBody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <apiVersion>64.0</apiVersion>
+    <environments>Default</environments>
+    <formulas>
+        <name>emailDistributionList</name>
+        <dataType>String</dataType>
+        <expression>&apos;middleofficefunds2@carmignac.com,&apos; &amp;
+  &apos;philippe.pauchont@carmignac.com,&apos; &amp;
+  &apos;arnaud.sankou@carmignac.com,&apos; &amp;
+  &apos;sf_pmt@carmignac.com,&apos; &amp;
+  &apos;francois.charles@carmignac.com,&apos;</expression>
+    </formulas>
+    <formulas>
+        <name>emailTEST</name>
+        <dataType>String</dataType>
+        <expression>  &apos;salesforcesupport@carmignac.com&apos;</expression>
+    </formulas>
+    <formulas>
+        <name>ProjectLink</name>
+        <dataType>String</dataType>
+        <expression>LEFT( {!$Api.Partner_Server_URL_520}, FIND( &apos;/services&apos;, {!$Api.Partner_Server_URL_520} ))&amp;{!$Record.Id}</expression>
+    </formulas>
+    <formulas>
+        <name>recordlink</name>
+        <dataType>String</dataType>
+        <expression>LEFT($Api.Partner_Server_URL_520, FIND(&quot;/services&quot;, $Api.Partner_Server_URL_520)) &amp; &quot;/lightning/r/ProjectProduct__c/&quot; &amp; {!$Record.Project_product__c} &amp; &quot;/view&quot;</expression>
+    </formulas>
+    <interviewLabel>PMT - Email Notification - Milestone &apos;Filing&apos; in 7 days {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>PMT - Email Notification - Milestone &apos;Filing&apos; in 7 days</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Send_Notification</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Send_Notification__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>Milestone__c</object>
+        <schedule>
+            <frequency>Daily</frequency>
+            <startDate>2025-08-27</startDate>
+            <startTime>17:48:00.000Z</startTime>
+        </schedule>
+        <triggerType>Scheduled</triggerType>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <name>EmailBody</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;Dear all,&lt;/p&gt;&lt;p&gt;The project&lt;strong&gt; {!$Record.Project_product__r.Name} &lt;/strong&gt;is approaching its Filing milestone.&lt;/p&gt;&lt;p&gt;Can you please request the &lt;strong&gt;ISIN Code&lt;/strong&gt; for all share classes, so that we can&lt;strong&gt; finalize the PRIIPS KID&lt;/strong&gt; on time?&lt;/p&gt;&lt;p&gt;You can access the project directly by clicking here: &lt;a href=&quot;{!recordlink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;{!$Record.Project_product__r.Name}&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Thank you for your support.&lt;/p&gt;&lt;p&gt;Best regards,&amp;nbsp;&amp;nbsp;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;The PMT Team&lt;/strong&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>EmailSubject</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>Action Required – Project {!$Record.Project_product__r.Name}: Create ISIN Code (Filing in 7 days)</text>
+    </textTemplates>
+</Flow>

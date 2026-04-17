@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>fpro__Tech_Debt_Fields_With_No_Profiles_PS</fullName>
+    <columns>NAME</columns>
+    <columns>fpro__Salesforce_Record_Link__c</columns>
+    <columns>fpro__Label__c</columns>
+    <columns>fpro__API_Name__c</columns>
+    <columns>fpro__Object_Label__c</columns>
+    <columns>fpro__Object_API_Name__c</columns>
+    <columns>fpro__Field_Type__c</columns>
+    <columns>fpro__NamespacePrefix__c</columns>
+    <columns>fpro__Field_Score__c</columns>
+    <columns>fpro__Populate_Percentage__c</columns>
+    <columns>fpro__References_Total_Count__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>fpro__Last_Refresh_Date_MCD__c</field>
+        <operation>notEqual</operation>
+    </filters>
+    <filters>
+        <field>fpro__Last_Refresh_Date_Usage__c</field>
+        <operation>notEqual</operation>
+    </filters>
+    <filters>
+        <field>fpro__Is_Custom_Field__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>fpro__References_Profile_Visibility_Count__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <filters>
+        <field>fpro__References_Permission_Sets_Count__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <label>Tech Debt: Fields With No Profiles/PS</label>
+</ListView>

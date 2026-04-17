@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_Status_Logo__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(
+AND (
+OR (
+ISPICKVAL(ContactStatus__c, &quot;false&quot;),
+HasOptedOutOfEmail = true ,
+Global_Hardbounced__c = true,
+UnwantedforEvent__c = true, 
+ISPICKVAL(ContactStatus__c, &quot;true&quot;)),
+OR(GDPR_external_request_for_data_deletion__c= true, To_Delete__c = true)),
+(IMAGE(&quot;/resource/1706526257000/StatusGDPRDelete?&quot;, &quot;GDPR Deleted&quot;, 30, 80)),
+				
+				
+				
+IF (
+AND(
+ISPICKVAL(ContactStatus__c, &quot;false&quot;), 
+OR(NOT(GDPR_external_request_for_data_deletion__c= true), NOT(To_Delete__c = true))),
+
+ 
+(IMAGE(&quot;/resource/1706526160000/StatusInactive?&quot;, &quot;Inactive&quot;, 30,80)) ,
+				
+				
+				
+				
+IF (
+AND (
+OR (
+Global_Hardbounced__c = true,
+UnwantedforEvent__c = true,
+ISPICKVAL(ContactStatus__c, &quot;true&quot;)),
+HasOptedOutOfEmail = true),
+(IMAGE(&quot;/resource/1706526180000/StatusOptOut?&quot;, &quot;Opt-Out&quot;, 30, 80)),
+IF (
+AND (
+OR (
+UnwantedforEvent__c = true,
+ISPICKVAL(ContactStatus__c, &quot;true&quot;)),
+Global_Hardbounced__c = true),
+(IMAGE(&quot;/resource/1706526198000/StatusHardBounced?&quot;, &quot;Hardbounced&quot;, 30, 80)),
+IF (
+AND(
+UnwantedforEvent__c = true,
+ISPICKVAL(ContactStatus__c, &quot;true&quot;)),
+(IMAGE(&quot;/resource/1706526232000/StatusUnwanted?&quot;, &quot;Unwanted&quot;, 30, 80)),
+(IMAGE(&quot;/resource/1706526122000/StatusActive?&quot;, &quot;Active&quot;, 30,80))
+)))))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Contact Status Logo</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

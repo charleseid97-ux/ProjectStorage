@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>strategy__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Strategy</label>
+    <referenceTo>Strategy__c</referenceTo>
+    <relationshipLabel>Session Speakers &amp; Products</relationshipLabel>
+    <relationshipName>Session_Speakers_Products</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

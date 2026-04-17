@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <description>What is the purpose of the request / log ? 
+=&gt; 1st contact pattern</description>
+    <inlineHelpText>What can we do for you ?</inlineHelpText>
+    <label>Type</label>
+    <required>true</required>
+    <trackFeedHistory>true</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Bug</fullName>
+                <default>false</default>
+                <label>I have a problem... (Bug)</label>
+            </value>
+            <value>
+                <fullName>Support</fullName>
+                <default>false</default>
+                <label>I need assistance ... (Support)</label>
+            </value>
+            <value>
+                <fullName>Information/Question</fullName>
+                <default>false</default>
+                <label>I have a question about... (Information)</label>
+            </value>
+            <value>
+                <fullName>Evolution/Suggestion</fullName>
+                <default>false</default>
+                <label>I have an idea/suggestion... (Evolution)</label>
+            </value>
+            <value>
+                <fullName>Bug - Integration</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Bug - Editor</label>
+            </value>
+            <value>
+                <fullName>Bug - Functional</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Bug - Functional</label>
+            </value>
+            <value>
+                <fullName>Bug - Migration</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Bug - Migration</label>
+            </value>
+            <value>
+                <fullName>Bug – Migration</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Bug – Migration</label>
+            </value>
+            <value>
+                <fullName>Bug – Technical</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Bug – Technical</label>
+            </value>
+            <value>
+                <fullName>Project - Evolution</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Project - Evolution</label>
+            </value>
+            <value>
+                <fullName>Support - Admin Action</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Support - Admin Action</label>
+            </value>
+            <value>
+                <fullName>Support - Information</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Support - Information</label>
+            </value>
+            <value>
+                <fullName>Support – Data cleansing</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Support – Data cleansing</label>
+            </value>
+            <value>
+                <fullName>Support – Evolution</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Support – Evolution</label>
+            </value>
+            <value>
+                <fullName>Support – Governance</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Support – Governance</label>
+            </value>
+            <value>
+                <fullName>Support – Training</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Support – Training</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

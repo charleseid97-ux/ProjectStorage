@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Secondary_Win_Loss_Reason__c</fullName>
+    <label>Product Win/Loss Reason</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Alpha Generation Drivers</fullName>
+                <default>false</default>
+                <label>Alpha Generation Drivers</label>
+            </value>
+            <value>
+                <fullName>Investment Process</fullName>
+                <default>false</default>
+                <label>Investment Process</label>
+            </value>
+            <value>
+                <fullName>Performance</fullName>
+                <default>false</default>
+                <label>Performance</label>
+            </value>
+            <value>
+                <fullName>Product Features</fullName>
+                <default>false</default>
+                <label>Product Features</label>
+            </value>
+            <value>
+                <fullName>Non-Product Reason</fullName>
+                <default>false</default>
+                <label>Non-Product Reason</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

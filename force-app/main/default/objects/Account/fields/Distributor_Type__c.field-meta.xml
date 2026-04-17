@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Distributor_Type__c</fullName>
+    <label>Distributor Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Platform</fullName>
+                <default>false</default>
+                <label>Platform</label>
+            </value>
+            <value>
+                <fullName>IFA</fullName>
+                <default>false</default>
+                <label>IFA</label>
+            </value>
+            <value>
+                <fullName>Bank</fullName>
+                <default>false</default>
+                <label>Bank</label>
+            </value>
+            <value>
+                <fullName>Insurance</fullName>
+                <default>false</default>
+                <label>Insurance</label>
+            </value>
+            <value>
+                <fullName>Other Wealth Managers</fullName>
+                <default>false</default>
+                <label>Other Wealth Managers</label>
+            </value>
+            <value>
+                <fullName>Proprietary Desk</fullName>
+                <default>false</default>
+                <label>Proprietary Desk</label>
+            </value>
+            <value>
+                <fullName>Single Family Office</fullName>
+                <default>false</default>
+                <label>Single Family Office</label>
+            </value>
+            <value>
+                <fullName>Other Institutions</fullName>
+                <default>false</default>
+                <label>Other Institutions</label>
+            </value>
+            <value>
+                <fullName>Consultant</fullName>
+                <default>false</default>
+                <label>Consultant</label>
+            </value>
+            <value>
+                <fullName>Fund Selection Unit</fullName>
+                <default>false</default>
+                <label>Fund Selection Unit</label>
+            </value>
+            <value>
+                <fullName>Third Party</fullName>
+                <default>false</default>
+                <label>Third Party</label>
+            </value>
+            <value>
+                <fullName>Media</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Media</label>
+            </value>
+            <value>
+                <fullName>Multi-family office</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Multi-family office</label>
+            </value>
+            <value>
+                <fullName>Other Wealth Mangers</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other Wealth Mangers</label>
+            </value>
+            <value>
+                <fullName>Other_Institutions</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other_Institutions</label>
+            </value>
+            <value>
+                <fullName>Other_Wealth_Managers</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other_Wealth_Managers</label>
+            </value>
+            <value>
+                <fullName>Researc / consultant / data</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Researc / consultant / data</label>
+            </value>
+            <value>
+                <fullName>Research / consultant / data</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Research / consultant / data</label>
+            </value>
+            <value>
+                <fullName>Research/Consutant/Data</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Research/Consutant/Data</label>
+            </value>
+            <value>
+                <fullName>Service Provider</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Service Provider</label>
+            </value>
+            <value>
+                <fullName>Single_Family_Office</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Single_Family_Office</label>
+            </value>
+            <value>
+                <fullName>n/a - make company inactive</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>n/a - make company inactive</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

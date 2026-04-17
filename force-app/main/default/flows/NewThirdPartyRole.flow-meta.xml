@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>63.0</apiVersion>
+    <assignments>
+        <name>AssignmentValues</name>
+        <label>Assignment Values</label>
+        <locationX>176</locationX>
+        <locationY>242</locationY>
+        <assignmentItems>
+            <assignToReference>NewTPR.TECH_RecordTypeName__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Narrative</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>NewTPR.Project_Contribution_at_Product_level__c</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>NewTPR.Type__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Third Party</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>NewTPR.SubType__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Role</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>NewTPR.Narrative__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>ThirdParty.recordId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>NewTPR.Language__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>English</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>NewTPR.Name</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>NarrativeName</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_Records_1</targetReference>
+        </connector>
+    </assignments>
+    <choices>
+        <name>Central_Admin</name>
+        <choiceText>Central Admin</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Central Admin</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Custodian</name>
+        <choiceText>Custodian</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Custodian</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Entitled_Man_Comp</name>
+        <choiceText>Entitled Man Comp</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Entitled Man Comp</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Fund_Admin</name>
+        <choiceText>Fund Admin</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Fund Admin</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Fund_Advisor</name>
+        <choiceText>Fund Advisor</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Fund Advisor</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Fund_Auditor</name>
+        <choiceText>Fund Auditor</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Fund Auditor</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Investment_Man_Comp_1</name>
+        <choiceText>Investment Man Comp 1</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Investment Man Comp 1</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Investment_Man_Comp_2</name>
+        <choiceText>Investment Man Comp 2</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Investment Man Comp 2</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Investment_Man_Comp_3</name>
+        <choiceText>Investment Man Comp 3</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Investment Man Comp 3</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Prime_Agent</name>
+        <choiceText>Prime Agent</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Prime_Agent</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>Transfer_Agent</name>
+        <choiceText>Transfer Agent</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Transfer Agent</stringValue>
+        </value>
+    </choices>
+    <description>This Screen Flow is used within the Product Management Tool (PMT) to assign a Third Party and its corresponding role to a PMT project.
+The association is initially made at the project level only. Once the project reaches Go Live, the Third Party record will be linked to the corresponding product code via a batch process that transfers data from PMT to the Product Catalog.</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>NarrativeName</name>
+        <dataType>String</dataType>
+        <expression>{!ThirdParty.recordName}&amp;&apos; - &apos;&amp;{!Role}</expression>
+    </formulas>
+    <interviewLabel>New Third Party Role {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>PMT - Third Party &amp; Role Assignment</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordCreates>
+        <name>Create_Records_1</name>
+        <label>Create Records 1</label>
+        <locationX>176</locationX>
+        <locationY>350</locationY>
+        <inputReference>NewTPR</inputReference>
+    </recordCreates>
+    <screens>
+        <description>This Screen Flow is used within the Product Management Tool (PMT) to assign a Third Party and its corresponding role to a PMT project.
+The association is initially made at the project level only. Once the project reaches Go Live, the Third Party record will be linked to the corresponding product code via a batch process that transfers data from PMT to the Product Catalog.</description>
+        <name>SC01_Create_Third_Party_Role</name>
+        <label>SC01 Create Third Party Role</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>AssignmentValues</targetReference>
+        </connector>
+        <fields>
+            <name>SC01_Create_Third_Party_Role_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>SC01_Create_Third_Party_Role_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Role</name>
+                    <choiceReferences>Transfer_Agent</choiceReferences>
+                    <choiceReferences>Central_Admin</choiceReferences>
+                    <choiceReferences>Fund_Admin</choiceReferences>
+                    <choiceReferences>Custodian</choiceReferences>
+                    <choiceReferences>Fund_Auditor</choiceReferences>
+                    <choiceReferences>Fund_Advisor</choiceReferences>
+                    <choiceReferences>Entitled_Man_Comp</choiceReferences>
+                    <choiceReferences>Investment_Man_Comp_1</choiceReferences>
+                    <choiceReferences>Investment_Man_Comp_2</choiceReferences>
+                    <choiceReferences>Investment_Man_Comp_3</choiceReferences>
+                    <choiceReferences>Prime_Agent</choiceReferences>
+                    <dataType>String</dataType>
+                    <fieldText>Role</fieldText>
+                    <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>SC01_Create_Third_Party_Role_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>ThirdParty</name>
+                    <extensionName>flowruntime:lookup</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>fieldApiName</name>
+                        <value>
+                            <stringValue>Narrative__c</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>label</name>
+                        <value>
+                            <stringValue>Third Party</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>objectApiName</name>
+                        <value>
+                            <stringValue>Narrative__c</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>required</name>
+                        <value>
+                            <booleanValue>true</booleanValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <nextOrFinishButtonLabel>Save</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>SC01_Create_Third_Party_Role</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>NewTPR</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Narrative__c</objectType>
+    </variables>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

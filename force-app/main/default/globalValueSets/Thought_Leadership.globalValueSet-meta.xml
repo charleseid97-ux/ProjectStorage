@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>RIMA</fullName>
+        <default>false</default>
+        <label>Risk Manager</label>
+    </customValue>
+    <customValue>
+        <fullName>RETI</fullName>
+        <default>false</default>
+        <label>Retirement</label>
+    </customValue>
+    <masterLabel>Thought Leadership</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

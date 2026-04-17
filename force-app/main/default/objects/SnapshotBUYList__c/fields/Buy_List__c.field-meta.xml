@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Buy_List__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>link with the Product Status.</description>
+    <label>Buy List</label>
+    <referenceTo>Product_Status__c</referenceTo>
+    <relationshipName>SnapshotBUYList</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

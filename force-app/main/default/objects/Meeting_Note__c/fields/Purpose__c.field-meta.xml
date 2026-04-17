@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Purpose__c</fullName>
+    <label>Purpose</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Meeting_Type__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Sales Presentation</fullName>
+                <default>false</default>
+                <label>Sales Presentation</label>
+            </value>
+            <value>
+                <fullName>Relationship Management</fullName>
+                <default>false</default>
+                <label>Relationship Management</label>
+            </value>
+            <value>
+                <fullName>Training with Partners</fullName>
+                <default>false</default>
+                <label>Training with Partners</label>
+            </value>
+            <value>
+                <fullName>Invitation / Meeting Scheduling</fullName>
+                <default>false</default>
+                <label>Invitation / Meeting Scheduling</label>
+            </value>
+            <value>
+                <fullName>Investment Professional Presentation</fullName>
+                <default>false</default>
+                <label>Investment Professional Presentation</label>
+            </value>
+            <value>
+                <fullName>Due Diligence (Conference Call / Onsite)</fullName>
+                <default>false</default>
+                <label>Due Diligence (Conference Call / Onsite)</label>
+            </value>
+            <value>
+                <fullName>Partnership</fullName>
+                <default>false</default>
+                <label>Partnership</label>
+            </value>
+            <value>
+                <fullName>Sponsorship</fullName>
+                <default>false</default>
+                <label>Sponsorship</label>
+            </value>
+            <value>
+                <fullName>Incentive</fullName>
+                <default>false</default>
+                <label>Incentive</label>
+            </value>
+            <value>
+                <fullName>Exclusive Event</fullName>
+                <default>false</default>
+                <label>Exclusive Event</label>
+            </value>
+            <value>
+                <fullName>Quarterly Meeting</fullName>
+                <default>false</default>
+                <label>Quarterly Meeting</label>
+            </value>
+            <value>
+                <fullName>Client Sponsored Hospitality</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Client Sponsored Hospitality</label>
+            </value>
+            <value>
+                <fullName>Due Diligence</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Due Diligence</label>
+            </value>
+            <value>
+                <fullName>Entertainment</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Entertainment</label>
+            </value>
+            <value>
+                <fullName>Investment Events</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Investment Events</label>
+            </value>
+            <value>
+                <fullName>Investment Review</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Investment Review</label>
+            </value>
+            <value>
+                <fullName>Seminar / Round Table</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Seminar / Round Table</label>
+            </value>
+            <value>
+                <fullName>Sponsored Hospitality</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Sponsored Hospitality</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Client meeting</controllingFieldValue>
+            <controllingFieldValue>Client phone call / conference call</controllingFieldValue>
+            <valueName>Sales Presentation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Client meeting</controllingFieldValue>
+            <controllingFieldValue>Client phone call / conference call</controllingFieldValue>
+            <valueName>Relationship Management</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Client meeting</controllingFieldValue>
+            <valueName>Training with Partners</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Client phone call / conference call</controllingFieldValue>
+            <valueName>Invitation / Meeting Scheduling</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Event (Schedule)</controllingFieldValue>
+            <valueName>Investment Professional Presentation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Event (Schedule)</controllingFieldValue>
+            <valueName>Due Diligence (Conference Call / Onsite)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Event (Schedule)</controllingFieldValue>
+            <valueName>Partnership</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Event (Schedule)</controllingFieldValue>
+            <valueName>Sponsorship</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Event (Schedule)</controllingFieldValue>
+            <valueName>Incentive</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Event (Schedule)</controllingFieldValue>
+            <valueName>Exclusive Event</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Event (Schedule)</controllingFieldValue>
+            <valueName>Quarterly Meeting</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

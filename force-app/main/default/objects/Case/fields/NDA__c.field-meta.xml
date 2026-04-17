@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NDA__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>NDA</label>
+    <lookupFilter>
+        <active>true</active>
+        <booleanFilter>(1 OR 2 OR 3) AND 4</booleanFilter>
+        <filterItems>
+            <field>NDA__c.Company__c</field>
+            <operation>equals</operation>
+            <valueField>$Source.AccountId</valueField>
+        </filterItems>
+        <filterItems>
+            <field>NDA__c.Company__c</field>
+            <operation>equals</operation>
+            <value></value>
+        </filterItems>
+        <filterItems>
+            <field>$Source.AccountId</field>
+            <operation>equals</operation>
+            <value></value>
+        </filterItems>
+        <filterItems>
+            <field>NDA__c.RecordType.Name</field>
+            <operation>notEqual</operation>
+            <value>Master NDA</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>NDA__c</referenceTo>
+    <relationshipLabel>Work Together Processes</relationshipLabel>
+    <relationshipName>Work_Together_Processes</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

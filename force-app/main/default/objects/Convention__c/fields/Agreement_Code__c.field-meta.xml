@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Agreement_Code__c</fullName>
+    <defaultValue>&apos;Enter &quot;1&quot; for code creation. System will automatically assign final Agreement Code&apos;</defaultValue>
+    <encryptionScheme>None</encryptionScheme>
+    <label>Agreement Code Description</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>TextArea</type>
+</CustomField>

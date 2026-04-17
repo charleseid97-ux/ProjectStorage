@@ -1,0 +1,242 @@
+<!--
+  @description       : 
+  @author            : SILA Nicolas
+  @group             : 
+  @last modified on  : 02-27-2024
+  @last modified by  : SILA Nicolas
+-->
+<template>
+    <lightning-card>
+        <c-manage-opt-out record-id={recordId}></c-manage-opt-out>
+
+        <template lwc:if={isOptOutLoading}>
+            <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+        </template>
+              
+        <div class="slds-p-bottom_medium  slds-section slds-is-open" data-id="prefOptOut">
+            <h3 class="slds-section__title">
+                <button type="button" aria-controls="prefOptOut" class="slds-button slds-section__title-action" data-buttonid="prefOptOut"
+                    onclick={toggleSection}>
+                    <lightning-icon icon-name="utility:switch" alternative-text="button icon" size="x-small"
+                        class="slds-section__title-action-icon slds-button__icon_left"></lightning-icon>
+                    <span class="slds-truncate" title="General Status">Client Communication Interests </span>
+                </button>
+            </h3>
+            <div class="slds-grid slds-wrap slds-section__content">
+            <!-- <div class="slds-grid slds-wrap"> -->
+                <!-- START : Assets class / funds preferences Section -->
+                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12 slds-p-bottom_xx-large">
+                    <div class="slds-col slds-size_1-of-1">
+                        <div class="slds-text-title_bold slds-text-align_center slds-p-bottom_large slds-size_1-of-2">
+                            Asset Class
+                        </div>
+                        <template lwc:if={isPreferenceLoading}>
+                            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                        </template>
+                        <template for:each={preferences} for:item="preference">
+                            <div key={preference}
+                                class="slds-form-element slds-p-around_x-small">
+                                <div class="slds-grid slds-grid_vertical-align-center slds-wrap">
+
+                                    <!-- 1️⃣ TOGGLE -->
+                                    <div class="slds-col slds-size_2-of-12 slds-text-align_center">
+                                        <lightning-input data-id={preference.checkboxAPI}
+                                                        type="toggle"
+                                                        value={preference.checkboxAPI}
+                                                        label=""
+                                                        message-toggle-active=""
+                                                        message-toggle-inactive="" 
+                                                        name={preference.checkboxAPI}
+                                                        aria-label={preference.checkboxLabel}
+                                                        onchange={updateTogglePreference}
+                                                        checked={preference.checkboxValue}>
+                                        </lightning-input>
+                                    </div>
+
+                                    <!-- 2️⃣ CRAYON -->
+                                    <div class="slds-col slds-size_1-of-12 slds-text-align_center">
+                                        <lightning-button-icon icon-name="utility:edit"
+                                                            size="small"
+                                                            value={preference.checkboxAPI}
+                                                            variant="bare"
+                                                            alternative-text="Preference"
+                                                            title="Preference"
+                                                            onclick={openModal}
+                                                            aria-label={preference.checkboxLabel}>
+                                        </lightning-button-icon>
+                                    </div>
+
+                                    <!-- 3️⃣ TEXTE -->
+                                    <div class="slds-col slds-size_9-of-12 slds-text-align_left">
+                                        <span class="slds-form-element__label slds-m-bottom_none">
+                                            {preference.checkboxLabel}
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </template>
+
+                    </div>
+                </div>
+                <!-- END : Preference Section -->
+                <!-- START : Other interests Section -->
+                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                    <div class="slds-col slds-size_1-of-1">
+                        <div class="slds-text-title_bold slds-text-align_center slds-p-bottom_large slds-size_1-of-2">
+                            Other Interests
+                        </div>
+                        <template lwc:if={isInterestLoading}>
+                            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                        </template>
+                        <template for:each={interests} for:item="interest">
+                            <div key={interest} class="slds-form-element slds-p-around_x-small">
+                                <div class="slds-grid slds-grid_vertical-align-center">
+
+                                    <!-- Toggle à gauche -->
+                                    <div class="slds-col slds-size_2-of-12">
+                                        <lightning-input
+                                            type="toggle"
+                                            data-id={interest.checkboxAPI}
+                                            name={interest.checkboxAPI}
+                                            aria-label="interestLabel"
+                                            onchange={updateToggleInterest}
+                                            checked={interest.checkboxValue}
+                                            label=""
+                                            message-toggle-active=""
+                                            message-toggle-inactive="">
+                                        </lightning-input>
+                                    </div>
+
+                                    <!-- Texte à droite -->
+                                    <div class="slds-col slds-size_10-of-12 slds-text-align_left slds-p-left_small">
+                                        <span class="slds-form-element__label">
+                                            {interest.checkboxLabel}
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </template>
+
+                    </div>
+                </div>
+                <!-- END : Other interests Type -->
+                <!-- START : Region Section -->
+                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                    <div class="slds-col slds-size_1-of-1">
+                        <div class="slds-text-title_bold slds-text-align_center slds-p-bottom_large slds-size_1-of-2">
+                            Region
+                        </div>
+                        <template lwc:if={isRegionLoading}>
+                            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                        </template>
+                        <template for:each={regions} for:item="region">
+                            <div key={region} class="slds-form-element slds-p-around_x-small">
+                                <div class="slds-grid slds-grid_vertical-align-center">
+
+                                    <!-- Toggle à gauche -->
+                                    <div class="slds-col slds-size_2-of-12">
+                                        <lightning-input
+                                            type="toggle"
+                                            data-id={region.checkboxAPI}
+                                            name={region.checkboxAPI}
+                                            aria-label="regionLabel"
+                                            onchange={updateToggleInterest}
+                                            checked={region.checkboxValue}
+                                            label=""
+                                            message-toggle-active=""
+                                            message-toggle-inactive="">
+                                        </lightning-input>
+                                    </div>
+
+                                    <!-- Texte à droite -->
+                                    <div class="slds-col slds-size_10-of-12 slds-text-align_left slds-p-left_small">
+                                        <span class="slds-form-element__label">
+                                            {region.checkboxLabel}
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </template>
+
+                    </div>
+                </div>
+                <!-- END : Region Type -->
+            </div>
+        </div>
+    </lightning-card>
+
+    <!--START: Display Modal-->
+    <!-- <template lwc:if={optOutModal}>
+        <section role="dialog" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse">
+                    <lightning-icon class="white-icon" icon-name="utility:close" alternative-text="Close" title="Close"
+                        onclick={closeOptOutModal}></lightning-icon>
+                    <span class="slds-assistive-text">Cancel</span>
+                </button>
+                <div class="slds-modal__header">
+                    <h1 class="slds-modal__title slds-hyphenate">Opt out</h1>
+                </div>
+                    <template if:true={OptReasonLoading}>
+                            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                    </template>
+                <lightning-record-edit-form name="modalForm" id="modalForm" record-id={recordId} object-api-name="Contact"
+                    onsuccess={closeOptOutModalWithReason}>
+                    <div class="slds-modal__content slds-p-around_medium" style="height:200px;">
+                        <lightning-input-field field-name="OptOut_Reason__c"> </lightning-input-field>
+
+                    </div>
+                    <div class="slds-modal__footer" data-id="modal_buttons_container">
+                        <button class="slds-button slds-button_neutral" name="Close"
+                            onclick={closeOptOutModal}>Cancel</button>
+                        <button class="slds-button slds-button_brand" name="Save" type="submit"
+                            onclick={handleSaveClick}>Save</button>
+                    </div>
+                </lightning-record-edit-form>
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+        
+    </template> -->
+    <!--END: Display Modal-->
+
+    <template lwc:if={isModalDisplayed}>
+        <section role="dialog" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse">
+                    <lightning-icon class="white-icon" icon-name="utility:close" alternative-text="Close" title="Close"
+                        onclick={closeModal}></lightning-icon>
+                    <span class="slds-assistive-text">Cancel</span>
+                </button>
+                <div class="slds-modal__header">
+                    <h1 class="slds-modal__title slds-hyphenate">{modalTitle}</h1>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium" style="height:500px;overflow-x:scroll;">
+                    <div data-id="interestContainer">
+                        <template for:each={subinterests} for:item="subinterest">
+                            <lightning-input key={subinterest} data-id={subinterest.checkboxAPI} type="checkbox"
+                                message-toggle-active="" message-toggle-inactive="" name={subinterest.checkboxAPI}
+                                label={subinterest.checkboxLabel} checked={subinterest.checkboxValue}>
+                            </lightning-input>
+                        </template>
+                    </div>
+                    <template if:true={isInterestLoading}>
+                        <div class="spinnerContainer">
+                            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                        </div>
+                    </template>
+                </div>
+                <div class="slds-modal__footer" data-id="modal_buttons_container">
+                    <button class="slds-button slds-button_neutral" name="Close" onclick={closeModal}>Cancel</button>
+                    <button class="slds-button slds-button_brand" name="Save" onclick={saveModal}>Save</button>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+    <!--END: Display Modal-->
+</template>

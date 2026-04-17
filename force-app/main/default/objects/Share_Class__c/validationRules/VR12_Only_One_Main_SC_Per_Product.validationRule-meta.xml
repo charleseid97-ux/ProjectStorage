@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR12_Only_One_Main_SC_Per_Product</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  ISPICKVAL(IsMainShareClass__c, &quot;TRUE&quot;),
+  OR(
+    ISNEW(),
+    TEXT(PRIORVALUE(IsMainShareClass__c)) &lt;&gt; &quot;TRUE&quot;
+  ),
+  Fund__r.Count_SC__c &gt;= 1
+)</errorConditionFormula>
+    <errorMessage>A product can only have one Main Share Class.</errorMessage>
+</ValidationRule>

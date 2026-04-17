@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Agreement_Code_Type_locked_to_Legal_edit</fullName>
+    <active>true</active>
+    <description>Only Legal can edit Code Type</description>
+    <errorConditionFormula>AND(
+  ISCHANGED( Code_Type__c ),   
+  NOT($Profile.Name = &apos;System Administrator&apos;),
+		NOT($Profile.Name = &apos;Carmignac - System Administrator&apos;),
+  NOT($Profile.Name = &apos;Carmignac - Legal and Compliance&apos;),
+  NOT($User.BypassValidationRules__c)
+)</errorConditionFormula>
+    <errorDisplayField>Code_Type__c</errorDisplayField>
+    <errorMessage>Only Legal can edit a Code Type</errorMessage>
+</ValidationRule>

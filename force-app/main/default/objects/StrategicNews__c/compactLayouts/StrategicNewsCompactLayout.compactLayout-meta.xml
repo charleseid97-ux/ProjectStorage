@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>StrategicNewsCompactLayout</fullName>
+    <fields>Name</fields>
+    <fields>Company__c</fields>
+    <fields>ShortSubjectDescription__c</fields>
+    <fields>Type__c</fields>
+    <fields>Subtype__c</fields>
+    <fields>LastModifiedById</fields>
+    <label>Strategic News Compact Layout</label>
+</CompactLayout>

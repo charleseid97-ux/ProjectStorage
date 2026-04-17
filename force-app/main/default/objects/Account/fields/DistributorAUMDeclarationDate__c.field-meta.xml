@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DistributorAUMDeclarationDate__c</fullName>
+    <description>The field is automatically populated when Client asset is first entered or modificated</description>
+    <encryptionScheme>None</encryptionScheme>
+    <label>Latest Update</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Date</type>
+</CustomField>

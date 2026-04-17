@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>KYD_Documentary</fullName>
+    <columns>NAME</columns>
+    <columns>Status__c</columns>
+    <columns>Context__c</columns>
+    <columns>LAST_UPDATE</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Assigned_To__c</field>
+        <operation>equals</operation>
+        <value>Noor Goolamnabee</value>
+    </filters>
+    <filters>
+        <field>Sprint__c</field>
+        <operation>equals</operation>
+        <value>8. KYD Due Diligence Oversight</value>
+    </filters>
+    <label>KYD Documentary</label>
+</ListView>

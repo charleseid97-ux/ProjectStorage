@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Active_Permanent_Agreements_LU_NL_Nordic</fullName>
+    <columns>SignedDate__c</columns>
+    <columns>NAME</columns>
+    <columns>MasterConvention__c</columns>
+    <columns>ConventionName__c</columns>
+    <columns>Code_Type__c</columns>
+    <columns>Grid__c</columns>
+    <columns>Status__c</columns>
+    <columns>TECH_Business_Region__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>In Negotiation,Signed</value>
+    </filters>
+    <filters>
+        <field>Permanent_Agreement__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Convention__c.Agreement,Convention__c.Institutional_Agreement</value>
+    </filters>
+    <filters>
+        <field>TECH_Business_Region__c</field>
+        <operation>equals</operation>
+        <value>BP_LU,BP_NO,BP_NL</value>
+    </filters>
+    <label>Active Permanent Agreements LU NL Nordic</label>
+    <sharedTo>
+        <roleAndSubordinatesInternal>LuxembourgNetherlandsHeadofCountry</roleAndSubordinatesInternal>
+        <roleAndSubordinatesInternal>NordicsHeadofCountry</roleAndSubordinatesInternal>
+    </sharedTo>
+</ListView>

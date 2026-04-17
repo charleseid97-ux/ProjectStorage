@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CventEvents__Object__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Name of the Salesforce object which triggers automatic task creation. Can be either Attendee__c or AttendeeActivity__c.</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>Name of the Salesforce object which triggers automatic task creation. Can be either Attendee__c or AttendeeActivity__c.</inlineHelpText>
+    <label>Object</label>
+    <length>40</length>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

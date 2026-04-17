@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ContactStatus__c</fullName>
+    <label>Contact Status</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>true</fullName>
+                <default>true</default>
+                <label>Active</label>
+            </value>
+            <value>
+                <fullName>false</fullName>
+                <default>false</default>
+                <label>Deactivated</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

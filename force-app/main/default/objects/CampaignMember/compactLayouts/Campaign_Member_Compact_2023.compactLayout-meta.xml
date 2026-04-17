@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Campaign_Member_Compact_2023</fullName>
+    <fields>CampaignId</fields>
+    <fields>FirstName</fields>
+    <fields>LastName</fields>
+    <fields>Status</fields>
+    <fields>CompanyOrAccount</fields>
+    <fields>Contact_Status__c</fields>
+    <label>Campaign Member Compact 2023</label>
+</CompactLayout>

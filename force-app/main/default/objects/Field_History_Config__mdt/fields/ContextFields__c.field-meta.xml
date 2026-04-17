@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ContextFields__c</fullName>
+    <description>Fields (one per line) from the tracked object to include as extra columns in the alert email table or CSV, placed between Record Id and the changed Field column. Example: Name, ISIN__c</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Enter field API names one per line. These fields will appear as context columns (e.g. Name, ISIN__c) between the Record Id link and the Field that changed.</inlineHelpText>
+    <label>Context Fields</label>
+    <length>32768</length>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

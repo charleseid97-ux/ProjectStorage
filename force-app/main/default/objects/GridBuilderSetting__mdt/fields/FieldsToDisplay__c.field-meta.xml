@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FieldsToDisplay__c</fullName>
+    <description>Defines which fields appear as columns in the results table</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Enter one field per line using the format ObjectApiName =&gt; FieldApiName.
+Example:
+Strategy__c =&gt; AssetClass__c
+Share_Class__c =&gt; ISIN__c</inlineHelpText>
+    <label>Fields to Display</label>
+    <length>4096</length>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

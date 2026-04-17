@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EET20400__c</fullName>
+    <description>20400_Financial_Instrument_EU_SFDR_Minimum_Or_Planned_Investments_With_Environmental_Or_Social_Characteristics</description>
+    <inlineHelpText>Enter a number between 1 and 100</inlineHelpText>
+    <label>Alignment with E/S Characteristics</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

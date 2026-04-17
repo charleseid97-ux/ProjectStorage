@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Email_Status__c</fullName>
+    <label>Email Status</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Soft bounce</fullName>
+                <default>false</default>
+                <label>Soft bounce</label>
+            </value>
+            <value>
+                <fullName>Hard bounce</fullName>
+                <default>false</default>
+                <label>Hard bounce</label>
+            </value>
+            <value>
+                <fullName>Rejected</fullName>
+                <default>false</default>
+                <label>Rejected</label>
+            </value>
+            <value>
+                <fullName>Deferred</fullName>
+                <default>false</default>
+                <label>Deferred</label>
+            </value>
+            <value>
+                <fullName>Delivered</fullName>
+                <default>false</default>
+                <label>Delivered</label>
+            </value>
+            <value>
+                <fullName>Spam Complaint</fullName>
+                <default>false</default>
+                <label>Spam Complaint</label>
+            </value>
+            <value>
+                <fullName>Bounce</fullName>
+                <default>false</default>
+                <label>Bounce</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

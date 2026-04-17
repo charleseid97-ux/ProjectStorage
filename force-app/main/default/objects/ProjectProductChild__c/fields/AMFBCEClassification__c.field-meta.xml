@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AMFBCEClassification__c</fullName>
+    <description>AMF_BCE Category assigned to the fund according to the French Market Authority (AMF), as available on the page https://geco.amf-france.org/Bio/rech_opcvm.aspx.</description>
+    <inlineHelpText>To specify only for the French registered foreseen moneymarket or structured funds</inlineHelpText>
+    <label>AMF BCE Classification</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Fonds actions</fullName>
+                <default>false</default>
+                <label>Fonds actions</label>
+            </value>
+            <value>
+                <fullName>Fonds obligations</fullName>
+                <default>false</default>
+                <label>Fonds obligations</label>
+            </value>
+            <value>
+                <fullName>Fonds mixtes</fullName>
+                <default>false</default>
+                <label>Fonds mixtes</label>
+            </value>
+            <value>
+                <fullName>Fonds investis en biens immobiliers</fullName>
+                <default>false</default>
+                <label>Fonds investis en biens immobiliers</label>
+            </value>
+            <value>
+                <fullName>Fonds spéculatifs</fullName>
+                <default>false</default>
+                <label>Fonds spéculatifs</label>
+            </value>
+            <value>
+                <fullName>Autres fonds</fullName>
+                <default>false</default>
+                <label>Autres fonds</label>
+            </value>
+            <value>
+                <fullName>Obligations et/ou titres de créances libellés en euros</fullName>
+                <default>false</default>
+                <label>Obligations et/ou titres de créances libellés en euros</label>
+            </value>
+            <value>
+                <fullName>Actions internationales</fullName>
+                <default>false</default>
+                <label>Actions internationales</label>
+            </value>
+            <value>
+                <fullName>Fonds monétaire à valeur liquidative variable (VNAV) court terme</fullName>
+                <default>false</default>
+                <label>Fonds monétaire à valeur liquidative variable (VNAV) court terme</label>
+            </value>
+            <value>
+                <fullName>123</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>123</label>
+            </value>
+            <value>
+                <fullName>dssdf</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>dssdf</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

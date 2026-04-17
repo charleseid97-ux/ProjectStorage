@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>mainSession__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Main one to one</label>
+    <referenceTo>Event__c</referenceTo>
+    <relationshipLabel>Main Session</relationshipLabel>
+    <relationshipName>MainSession</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Data_need__c</fullName>
+    <label>Please select the data need</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <controllingField>Data_Solutions_Type__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Holdings</fullName>
+                <default>false</default>
+                <label>Holdings</label>
+            </value>
+            <value>
+                <fullName>Breakdown sector</fullName>
+                <default>false</default>
+                <label>Breakdown sector</label>
+            </value>
+            <value>
+                <fullName>Breakdown country</fullName>
+                <default>false</default>
+                <label>Breakdown country</label>
+            </value>
+            <value>
+                <fullName>Top 10</fullName>
+                <default>false</default>
+                <label>Top 10</label>
+            </value>
+            <value>
+                <fullName>Bond data</fullName>
+                <default>false</default>
+                <label>Bond data</label>
+            </value>
+            <value>
+                <fullName>Equity Exposure</fullName>
+                <default>false</default>
+                <label>Equity Exposure</label>
+            </value>
+            <value>
+                <fullName>Statistics</fullName>
+                <default>false</default>
+                <label>Statistics</label>
+            </value>
+            <value>
+                <fullName>Performances</fullName>
+                <default>false</default>
+                <label>Performances</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>EPT</fullName>
+                <default>false</default>
+                <label>EPT</label>
+            </value>
+            <value>
+                <fullName>CEPT</fullName>
+                <default>false</default>
+                <label>CEPT</label>
+            </value>
+            <value>
+                <fullName>Economic Sector</fullName>
+                <default>false</default>
+                <label>Economic Sector</label>
+            </value>
+            <value>
+                <fullName>Geographical Breakdown</fullName>
+                <default>false</default>
+                <label>Geographical Breakdown</label>
+            </value>
+            <value>
+                <fullName>Top/Bottom Holdings</fullName>
+                <default>false</default>
+                <label>Top/Bottom Holdings</label>
+            </value>
+            <value>
+                <fullName>Fixed Income data</fullName>
+                <default>false</default>
+                <label>Fixed Income data</label>
+            </value>
+            <value>
+                <fullName>Financial Ratios</fullName>
+                <default>false</default>
+                <label>Financial Ratios</label>
+            </value>
+            <value>
+                <fullName>Fund Exposure</fullName>
+                <default>false</default>
+                <label>Fund Exposure</label>
+            </value>
+            <value>
+                <fullName>Fund Statistics</fullName>
+                <default>false</default>
+                <label>Fund Statistics</label>
+            </value>
+            <value>
+                <fullName>Performance</fullName>
+                <default>false</default>
+                <label>Performance</label>
+            </value>
+            <value>
+                <fullName>NAV/AuM</fullName>
+                <default>false</default>
+                <label>NAV/AuM</label>
+            </value>
+            <value>
+                <fullName>Regulatory Reports</fullName>
+                <default>false</default>
+                <label>Regulatory Reports</label>
+            </value>
+            <value>
+                <fullName>Fund Commentary</fullName>
+                <default>false</default>
+                <label>Fund Commentary</label>
+            </value>
+            <value>
+                <fullName>Factsheet Request</fullName>
+                <default>false</default>
+                <label>Factsheet Request</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Recurring Report Request</controllingFieldValue>
+            <controllingFieldValue>Ad Hoc Data &amp; Client Reporting Request</controllingFieldValue>
+            <valueName>Holdings</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recurring Report Request</controllingFieldValue>
+            <valueName>Breakdown sector</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recurring Report Request</controllingFieldValue>
+            <valueName>Breakdown country</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recurring Report Request</controllingFieldValue>
+            <valueName>Top 10</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recurring Report Request</controllingFieldValue>
+            <valueName>Bond data</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recurring Report Request</controllingFieldValue>
+            <valueName>Equity Exposure</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recurring Report Request</controllingFieldValue>
+            <valueName>Statistics</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recurring Report Request</controllingFieldValue>
+            <valueName>Performances</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recurring Report Request</controllingFieldValue>
+            <controllingFieldValue>Ad Hoc Data &amp; Client Reporting Request</controllingFieldValue>
+            <valueName>Other</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recurring Report Request</controllingFieldValue>
+            <valueName>EPT</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recurring Report Request</controllingFieldValue>
+            <valueName>CEPT</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ad Hoc Data &amp; Client Reporting Request</controllingFieldValue>
+            <valueName>Economic Sector</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ad Hoc Data &amp; Client Reporting Request</controllingFieldValue>
+            <valueName>Geographical Breakdown</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ad Hoc Data &amp; Client Reporting Request</controllingFieldValue>
+            <valueName>Top/Bottom Holdings</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ad Hoc Data &amp; Client Reporting Request</controllingFieldValue>
+            <valueName>Fixed Income data</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ad Hoc Data &amp; Client Reporting Request</controllingFieldValue>
+            <valueName>Financial Ratios</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ad Hoc Data &amp; Client Reporting Request</controllingFieldValue>
+            <valueName>Fund Exposure</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ad Hoc Data &amp; Client Reporting Request</controllingFieldValue>
+            <valueName>Fund Statistics</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ad Hoc Data &amp; Client Reporting Request</controllingFieldValue>
+            <valueName>Performance</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ad Hoc Data &amp; Client Reporting Request</controllingFieldValue>
+            <valueName>NAV/AuM</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ad Hoc Data &amp; Client Reporting Request</controllingFieldValue>
+            <valueName>Regulatory Reports</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ad Hoc Data &amp; Client Reporting Request</controllingFieldValue>
+            <valueName>Fund Commentary</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Ad Hoc Data &amp; Client Reporting Request</controllingFieldValue>
+            <valueName>Factsheet Request</valueName>
+        </valueSettings>
+    </valueSet>
+    <visibleLines>9</visibleLines>
+</CustomField>

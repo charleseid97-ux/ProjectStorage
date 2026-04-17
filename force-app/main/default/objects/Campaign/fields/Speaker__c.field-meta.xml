@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Speaker__c</fullName>
+    <label>Speaker</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Speaker 1</fullName>
+                <default>false</default>
+                <label>Speaker 1</label>
+            </value>
+            <value>
+                <fullName>Speaker 2</fullName>
+                <default>false</default>
+                <label>Speaker 2</label>
+            </value>
+            <value>
+                <fullName>Speaker MIC 3</fullName>
+                <default>false</default>
+                <label>Speaker MIC 3</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

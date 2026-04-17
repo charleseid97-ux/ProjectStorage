@@ -1,0 +1,83 @@
+<!--
+  @description       : 
+  @author            : Khadija EL GDAOUNI
+  @group             : 
+  @last modified on  : 03-02-2025
+  @last modified by  : Khadija EL GDAOUNI
+-->
+<template>
+
+    <lightning-record-edit-form record-type-id={recordTypeId} object-api-name="Case" onsubmit={handleSubmit} onsuccess={handleSuccess}> 
+        <div class="slds-grid" style="padding-left: 25%;width:75%;">
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-docked-composer__body_form" style="background-color:white;">
+                    <div class="form-section">
+                        <h3 class="slds-section-title--divider">
+                            Please share your feedback on content, event & campaign
+                        </h3>
+                        <div class="slds-grid slds-wrap slds-gutters">
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-input-field required field-name="Subject" ></lightning-input-field>
+                            </div> 
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-input-field required field-name="FeedbackStrategy__c" ></lightning-input-field>
+                            </div>  
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-input-field required field-name="Category__c" ></lightning-input-field>
+                            </div>  
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-input-field required  field-name="Client_Type__c" ></lightning-input-field>
+                            </div>  
+                            <div class="slds-col slds-size_2-of-2">
+                                <lightning-input-field required  field-name="Content_Reference__c" ></lightning-input-field>
+                            </div>                          
+                        </div>
+                        
+                    </div>
+                    <div class="form-section">
+                        <h3 class="slds-section-title--divider">Overall Feedback Rating</h3>
+                        <div class="slds-grid slds-wrap slds-gutters">
+                            <div class="slds-col slds-size_1-of-2"> 
+                                <lightning-slider label="Overall rating (From low 1 to high 10)" value={sliderValues.overallRating} onchange={handleOverallRatingChange} min="0" max="10"></lightning-slider> 
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <h3 class="slds-section-title--divider">Feedback Details</h3>
+                        <div class="slds-grid slds-wrap slds-gutters">
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-slider label="Time to market (From 1 not the right timing to perfect timing 10)" value={sliderValues.interestTopic} onchange={handleInterestTopicChange} min="0" max="10"></lightning-slider> 
+                            </div> 
+                            <div class="slds-col slds-size_1-of-2"> 
+                                <lightning-slider label="Length (1= too short, 5= adequate length, 10 = too long)" value={sliderValues.length} onchange={handleLengthChange} min="0" max="10"></lightning-slider> 
+                            </div> 
+                            <div class="slds-col slds-size_1-of-2"> 
+                                <lightning-slider label="Editorial Qualities (From 1 poor to perfect quality 10)" value={sliderValues.sentToClient} onchange={handleSentToClientChange} min="0" max="10"></lightning-slider> 
+                            </div> 
+                            <div class="slds-col slds-size_1-of-2"> 
+                                <lightning-slider label="Technicity (1= too basic, 5=adequate, 10= too technical)" value={sliderValues.technicity} onchange={handleTechnicityChange} min="0" max="10"></lightning-slider> 
+                            </div>                        
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <h3 class="slds-section-title--divider">Qualitative Feedback</h3>
+                        <div class="slds-grid slds-wrap slds-gutters">
+                            <div class="slds-col slds-size_2-of-2">
+                                <lightning-input-field required field-name="Qualitative_Feedback__c" ></lightning-input-field>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-grid_align-center slds-var-p-top_small slds-docked-composer__footer">
+                    
+                    <div class="slds-col">
+                        <lightning-button icon-name="utility:save" variant="brand"
+                            label="Save" type="submit" class="slds-var-m-left_x-small" >
+                        </lightning-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </lightning-record-edit-form>
+    
+</template>

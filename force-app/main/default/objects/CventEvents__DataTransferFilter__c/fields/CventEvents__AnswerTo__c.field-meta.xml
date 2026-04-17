@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CventEvents__AnswerTo__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Stores either question or question tag stub.</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>true</externalId>
+    <inlineHelpText>Stores either question or question tag stub.</inlineHelpText>
+    <label>Answer To</label>
+    <length>36</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

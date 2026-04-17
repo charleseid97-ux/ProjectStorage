@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Requester_Department__c</fullName>
+    <label>Requester Department</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Performance Management</fullName>
+                <default>false</default>
+                <label>Performance Management</label>
+            </value>
+            <value>
+                <fullName>Data Solution Team</fullName>
+                <default>false</default>
+                <label>Data Solution Team</label>
+            </value>
+            <value>
+                <fullName>MI Team</fullName>
+                <default>false</default>
+                <label>MI Team</label>
+            </value>
+            <value>
+                <fullName>Product Marketing</fullName>
+                <default>false</default>
+                <label>Product Marketing</label>
+            </value>
+            <value>
+                <fullName>RFP Team</fullName>
+                <default>false</default>
+                <label>RFP Team</label>
+            </value>
+            <value>
+                <fullName>Sales</fullName>
+                <default>false</default>
+                <label>Sales</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

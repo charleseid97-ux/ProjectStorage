@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR42_HasPerfFeesFalse</fullName>
+    <active>false</active>
+    <description>si HasPerfFees = false alors IsESMAPerfFeesGuidelines = N/A</description>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+$Permission.PRPProductStrategy = true,
+  ISPICKVAL(HasPerfFees__c, &quot;False&quot;),
+  NOT( ISPICKVAL(IsESMAPerfFeesGuidelines__c, &quot;N/A&quot;) )
+)</errorConditionFormula>
+    <errorDisplayField>IsESMAPerfFeesGuidelines__c</errorDisplayField>
+    <errorMessage>Is ESMA Perf Fees Guidelines must be N/A when Has Perf Fees = False.</errorMessage>
+</ValidationRule>

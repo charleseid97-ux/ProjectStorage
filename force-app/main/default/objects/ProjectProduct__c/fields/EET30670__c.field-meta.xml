@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EET30670__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>30670_Energy_Consumption_Intensity_Per_High_Impact_Climate_Sector_NACE_E_Considered_In_The_Investment_Strategy</description>
+    <label>30670 Energy Consumption Intensity Per</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

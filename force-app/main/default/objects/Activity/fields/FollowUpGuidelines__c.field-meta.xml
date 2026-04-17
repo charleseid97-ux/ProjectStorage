@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FollowUpGuidelines__c</fullName>
+    <defaultValue>&quot;PARTICIPANT(S):&quot;&amp; BR() &amp; 
+&quot;TOPIC / OBJECTIVE:&quot;&amp; BR() &amp; 
+&quot;OPPORTUNITY:&quot;&amp; BR() &amp; 
+&quot;CRITICALITY:&quot;&amp; BR() &amp; 
+&quot;CONCLUSION:&quot;&amp; BR() &amp; 
+&quot;NEXT STEP(S):&quot;&amp; BR() &amp; 
+&quot;&quot;&amp; BR() &amp; 
+&quot;Best Practice: TIMELY, ACCURATE, QUALITATIVE&quot;</defaultValue>
+    <encryptionScheme>None</encryptionScheme>
+    <label>Follow Up Guidelines</label>
+    <required>false</required>
+    <type>TextArea</type>
+</CustomField>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Fixed Income Strategy</label>
+    <protected>false</protected>
+    <values>
+        <field>Thematic__c</field>
+        <value xsi:type="xsd:string">Fixed Income Strategy</value>
+    </values>
+    <values>
+        <field>Thematic_values__c</field>
+        <value xsi:type="xsd:string">strategie-obligataire;gestion-obligataire;gestions-obligataires;approche-obligataire;unconstrained;credit;dette-emergente;fixed-income;emerging-markets-debt;renta-fija;sin-restricciones;deuda-corporativa;deuda-emergente;strategia-obbligazionaria;privo-di-vincoli;credito;debito-emergente;rentenstrategie;unternehmensanleihen;emerging-markets-anleihen;obligatie-strategie;uneingeschraenkten-ansatz;bedrijfsobligaties;obligaties-van-opkomende-markten;unconstrained-credit;unconstrained-global-bond;unconstrained-euro-fixed-income;securite;guillaume-rigeade;eliezer-ben-zimra;keith-ney;charles-zerah;pierre-verle;alexandre-deneuville;marches-obligataires;bond-market;mercati-obbligazionari-internazionali;anleihenmaerkte;obligatiemarkten; anleihenmanagement;global-bond;fixed-income</value>
+    </values>
+</CustomMetadata>

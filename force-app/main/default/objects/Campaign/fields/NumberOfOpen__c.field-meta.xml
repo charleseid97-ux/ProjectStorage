@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NumberOfOpen__c</fullName>
+    <description>For Newsletter Campaigns, total number of opened = number of opened AND number of clicked</description>
+    <label>Number of Open</label>
+    <summaryFilterItems>
+        <field>CampaignMember.Status</field>
+        <operation>equals</operation>
+        <value>Opened, Clicked, Resubscribed, Spam Complaint, Unsubscribed</value>
+    </summaryFilterItems>
+    <summaryForeignKey>CampaignMember.CampaignId</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

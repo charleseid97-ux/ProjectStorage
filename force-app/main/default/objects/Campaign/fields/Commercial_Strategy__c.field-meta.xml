@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Commercial_Strategy__c</fullName>
+    <label>Commercial Strategy</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>ADEV</fullName>
+                <default>false</default>
+                <label>Asset Development</label>
+            </value>
+            <value>
+                <fullName>ARET</fullName>
+                <default>false</default>
+                <label>Asset Retention</label>
+            </value>
+            <value>
+                <fullName>DECL</fullName>
+                <default>false</default>
+                <label>Deal Closing</label>
+            </value>
+            <value>
+                <fullName>DUDI</fullName>
+                <default>false</default>
+                <label>Due Diligence</label>
+            </value>
+            <value>
+                <fullName>FIIN</fullName>
+                <default>false</default>
+                <label>First Introduction</label>
+            </value>
+            <value>
+                <fullName>FSEL</fullName>
+                <default>false</default>
+                <label>Fund Selection List</label>
+            </value>
+            <value>
+                <fullName>NEWL</fullName>
+                <default>false</default>
+                <label>New Launch</label>
+            </value>
+            <value>
+                <fullName>OTH</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>UPD</fullName>
+                <default>false</default>
+                <label>Update</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

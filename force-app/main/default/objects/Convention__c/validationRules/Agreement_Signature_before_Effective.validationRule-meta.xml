@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Agreement_Signature_before_Effective</fullName>
+    <active>false</active>
+    <description>The signature date must not be after the Effective Date</description>
+    <errorConditionFormula>AND(
+  NOT(ISBLANK(SignedDate__c )),
+  SignedDate__c &gt;  EffectiveDate__c,
+  NOT($User.BypassValidationRules__c)
+)</errorConditionFormula>
+    <errorDisplayField>SignedDate__c</errorDisplayField>
+    <errorMessage>Signature Date cannot be after the Effective Data</errorMessage>
+</ValidationRule>

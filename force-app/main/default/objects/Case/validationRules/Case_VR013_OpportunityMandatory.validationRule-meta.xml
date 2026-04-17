@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_VR013_OpportunityMandatory</fullName>
+    <active>true</active>
+    <description>Opportunity (Record Type = Due Diligence) needs to be mandatory when the case type are
+DDQ Initial, Pure RFPs, DDQ Follow up and DD onsite</description>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+OR(ISPICKVAL(Type, &apos;DD - On-site&apos;),
+ISPICKVAL(Type, &apos;RFP&apos;)),
+ISBLANK(Opportunity__c),
+RecordType.DeveloperName = &apos;RFP_RFI_Questionnaire&apos;
+)</errorConditionFormula>
+    <errorMessage>You need to link an opportunity for the chosen Type</errorMessage>
+</ValidationRule>

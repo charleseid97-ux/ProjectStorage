@@ -1,0 +1,303 @@
+.timeline-container {
+    background-color: white;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 85px;
+    padding-bottom: 78px;
+    padding-left: 40px;
+    padding-right: 40px;
+    /*overflow: auto;*/
+
+}
+
+.timeline-line {
+    width: 100%;
+    height: 10px;
+    background-color: lightgray;    
+}
+.etape-line{
+  width: 100%;
+  height: 10px;
+  top: -10px;
+  position: absolute;
+  background: linear-gradient(
+      to right,
+      green var(--progress),
+      lightgray var(--progress)
+    ); /* Dégradé selon le pourcentage */
+  /*margin-top: 30px;*/
+}
+
+.timeline-steps {
+    position: relative;
+    width: 100%;
+    
+}
+.start{
+  position: absolute;
+  top: -10px; /* Aligné sur la ligne */
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 20;
+}
+.step{
+    position: absolute;
+    top: -15px; /* Aligné sur la ligne */
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 20;
+}
+.milestone {
+  position: absolute;
+  top: -10px; /* Aligné sur la ligne */
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 10;
+}
+.start-circle{
+  position: relative;
+  top: -16px;
+  /*left: -497px;*/
+  background-color: green;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  transform: translateX(-49%);
+  z-index: 10;
+}
+.start-circle:hover::after{
+  position: absolute;
+  content: attr(data-deadline);
+  top: -35px; /* Afficher le message au-dessus */
+  left: -5px;
+  background-color: #03376f;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  white-space: nowrap;
+  font-size: 16px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.step-circle {
+    position: relative;
+    top: -15px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    z-index: 100;
+}
+.step-circle:hover::after{
+  position: absolute;
+  content: attr(data-deadline);
+  top: -35px; /* Afficher le message au-dessus */
+  left: -25px;
+  background-color: #03376f;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  white-space: nowrap;
+  font-size: 16px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+.step-name {
+  position: absolute;
+    margin-top: 7px;
+    font-size: 14px;
+    font-weight: bold;
+
+}
+
+/*.milestone-circle {
+    position: relative;
+    top: -3px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: white;
+    border: 3px solid green;
+    margin: 0 auto;
+}
+      .milestone-circle:hover::after{
+    position: absolute;
+  content: attr(data-deadline);
+  top: -60px; 
+  background-color: lightgray;
+  color: black;
+  padding: 5px 10px;
+  border-radius: 5px;
+  white-space: nowrap;
+  font-size: 16px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}*/
+.milestone-circle{
+position: relative;
+top: -40px;
+left: 50%;
+width: 3px;
+height: 40px;
+background-color: green;
+z-index: 10;
+}
+
+
+
+.milestone-name {
+        position: absolute;
+        content: attr(data-deadline);
+        top: -74px; /* Afficher le message au-dessus */
+        
+        color: white;
+        padding: 4px 8px;
+        border-radius: 5px;
+        white-space: nowrap;
+        font-size: 16px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+       
+      
+      }
+      .milestone-name:hover::after{
+        position: absolute;
+        content: attr(data-deadline);
+        top: -35px; /* Afficher le message au-dessus */
+        /*left: -25px;*/
+        background-color: #03376f;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        white-space: nowrap;
+        font-size: 16px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+      }
+
+.road-to-market {
+    position: relative;
+    margin-top: 85px;
+    display: flex;
+    width: 100%;
+}
+
+.road-line {
+    position: absolute;
+    height: 8px;
+    background-color: green;
+}
+
+
+.road-circle {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border: 2px solid green; /* Couleur verte pour les cercles */
+  border-radius: 50%;
+  background-color: white; /* Cercle vide */
+  top: -12px; /* Aligné avec la ligne */
+}
+.road-circle:hover::after{
+  position: absolute;
+  content: attr(data-deadline);
+  top: -35px; /* Afficher le message au-dessus */
+  left: -25px;
+  width: 100px;
+  height: 30px;
+  background-color: #03376f;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  white-space: nowrap;
+  font-size: 16px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.road-label a{
+    position: absolute;
+    top: -25px; /* Place au-dessus de la ligne */
+    text-align: center;
+    white-space: nowrap;
+    font-size: 14px;
+    color: green;
+    font-weight: bold;
+}
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 500px;
+  
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal h1 {
+  margin-top: 0;
+  font-size: large;
+  font-weight: bold;
+}
+
+.button-container {
+  text-align: right;
+  margin-top: 1rem;
+}
+.button-spacing{
+  margin-right: 10px;
+}
+
+.save-button {
+  background-color: green;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cancel-button {
+  background-color: #e4e4e4;
+  color: #000;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.save-button:hover {
+  background-color: green;
+}
+
+.cancel-button:hover {
+  background-color: #ccc;
+}
+.slds-modal__footer {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1rem;
+}

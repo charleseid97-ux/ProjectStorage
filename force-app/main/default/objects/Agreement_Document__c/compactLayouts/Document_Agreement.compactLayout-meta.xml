@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Document_Agreement</fullName>
+    <fields>Agreement_Code__c</fields>
+    <fields>Name</fields>
+    <fields>Document_Type__c</fields>
+    <fields>Sharepoint_ID__c</fields>
+    <fields>URL__c</fields>
+    <label>Document Agreement</label>
+</CompactLayout>

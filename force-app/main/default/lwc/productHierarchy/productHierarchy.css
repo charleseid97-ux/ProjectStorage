@@ -1,0 +1,15 @@
+.lgc-bg {
+    background-color: rgb(242, 242, 242);
+}
+
+.lgc-bg-inverse {
+    background-color: rgb(22, 50, 92);
+}
+.checkboxes{
+    display: inline-flex;
+    margin-bottom: 20px;
+}
+.slds-select_container{
+    width: 35%;
+    margin-bottom: 20px;
+}

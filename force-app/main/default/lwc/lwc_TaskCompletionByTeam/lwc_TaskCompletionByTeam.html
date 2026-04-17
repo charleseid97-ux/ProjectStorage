@@ -1,0 +1,52 @@
+<template>
+   
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Chargement des étapes"></lightning-spinner>
+        </template> <!-- Afficher les étapes si isLoading est false -->
+        <template if:false={isLoading}>
+        <lightning-tabset active-tab-value={stepactive}>
+            <template for:each={stepsData} for:item="step">
+                <lightning-tab key={step.id} label={step.name}  value={step.name} >
+                    <lightning-datatable
+                        key-field="id"
+                        data={step.teams}
+                        columns={columns}
+                        onrowaction={handleRowAction}
+                        hide-checkbox-column>
+                    </lightning-datatable>
+                </lightning-tab>
+            </template>
+        </lightning-tabset>
+        <!-- Modal -->
+        <template if:true={isModalOpen}>
+            <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h2 class="slds-text-heading_medium">Edit Owner</h2>
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                            <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"></lightning-icon>
+                        </button>
+                    </header>
+                    <!-- Body -->
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning-record-edit-form
+                    record-id={recordId}
+                    object-api-name="ProjectProduct__c"
+                    onsuccess={handleSuccess}
+                    onerror={handleError}>
+                    <!-- Champ Save Owner -->
+                    <lightning-input-field field-name={ownerfield}></lightning-input-field>
+                </lightning-record-edit-form>
+                </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button label="Cancel" onclick={closeModal}></lightning-button>
+                        <lightning-button variant="brand" label="Save" onclick={saveChanges}></lightning-button>
+                    </footer>
+                </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+    </template>
+
+</template>

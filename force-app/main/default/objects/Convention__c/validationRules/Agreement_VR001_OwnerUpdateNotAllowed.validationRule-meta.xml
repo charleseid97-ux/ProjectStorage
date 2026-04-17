@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Agreement_VR001_OwnerUpdateNotAllowed</fullName>
+    <active>true</active>
+    <description>Prevent user from changing agreement manager on agreement</description>
+    <errorConditionFormula>AND(AND( 
+ISCHANGED(ConventionManager__c), 
+OR( 
+NOT($User.ProfileId = &apos;Carmignac - System Administrator&apos;), 
+NOT($User.ProfileId = &apos;Carmignac - Interface&apos;), 
+NOT($User.ProfileId = &apos;System Administrator&apos;) 
+), 
+$User.BypassValidationRules__c = false 
+),NOT($User.BypassValidationRules__c))</errorConditionFormula>
+    <errorMessage>You are not authorized to change Agreement Manager of this record</errorMessage>
+</ValidationRule>

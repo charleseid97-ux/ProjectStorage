@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Object__c</fullName>
+    <description>Objects are dependent of the solution / App</description>
+    <inlineHelpText>Precise your request by selecting the concerned object</inlineHelpText>
+    <label>Object</label>
+    <required>true</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>App__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Admin</fullName>
+                <default>false</default>
+                <label>Admin</label>
+            </value>
+            <value>
+                <fullName>Alerts &amp; Newsletter</fullName>
+                <default>false</default>
+                <label>Alerts &amp; Newsletter</label>
+            </value>
+            <value>
+                <fullName>AUM &amp; Net Flows</fullName>
+                <default>false</default>
+                <label>AUM &amp; Net Flows</label>
+            </value>
+            <value>
+                <fullName>AUM Reports</fullName>
+                <default>false</default>
+                <label>AUM Reports</label>
+            </value>
+            <value>
+                <fullName>BrightTalk</fullName>
+                <default>false</default>
+                <label>BrightTalk</label>
+            </value>
+            <value>
+                <fullName>Calendar</fullName>
+                <default>false</default>
+                <label>Calendar</label>
+            </value>
+            <value>
+                <fullName>Campaign</fullName>
+                <default>false</default>
+                <label>Campaign</label>
+            </value>
+            <value>
+                <fullName>Carmignac Product</fullName>
+                <default>false</default>
+                <label>Carmignac Product</label>
+            </value>
+            <value>
+                <fullName>Chatter</fullName>
+                <default>false</default>
+                <label>Chatter</label>
+            </value>
+            <value>
+                <fullName>Company</fullName>
+                <default>false</default>
+                <label>Company</label>
+            </value>
+            <value>
+                <fullName>Connexion btw Etouches and SF</fullName>
+                <default>false</default>
+                <label>Connexion btw Etouches and SF</label>
+            </value>
+            <value>
+                <fullName>Contact</fullName>
+                <default>false</default>
+                <label>Contact</label>
+            </value>
+            <value>
+                <fullName>Content</fullName>
+                <default>false</default>
+                <label>Content</label>
+            </value>
+            <value>
+                <fullName>Dashboards</fullName>
+                <default>false</default>
+                <label>Dashboards</label>
+            </value>
+            <value>
+                <fullName>Event</fullName>
+                <default>false</default>
+                <label>Event</label>
+            </value>
+            <value>
+                <fullName>Events Reports</fullName>
+                <default>false</default>
+                <label>Events Reports</label>
+            </value>
+            <value>
+                <fullName>Flow Reports</fullName>
+                <default>false</default>
+                <label>Flow Reports</label>
+            </value>
+            <value>
+                <fullName>General Information</fullName>
+                <default>false</default>
+                <label>General Information</label>
+            </value>
+            <value>
+                <fullName>Home</fullName>
+                <default>false</default>
+                <label>Home</label>
+            </value>
+            <value>
+                <fullName>Lead</fullName>
+                <default>false</default>
+                <label>Lead</label>
+            </value>
+            <value>
+                <fullName>Locations</fullName>
+                <default>false</default>
+                <label>Locations</label>
+            </value>
+            <value>
+                <fullName>Login</fullName>
+                <default>false</default>
+                <label>Login</label>
+            </value>
+            <value>
+                <fullName>Mailing Lists</fullName>
+                <default>false</default>
+                <label>Mailing Lists</label>
+            </value>
+            <value>
+                <fullName>Marketing</fullName>
+                <default>false</default>
+                <label>Marketing</label>
+            </value>
+            <value>
+                <fullName>Opportunities</fullName>
+                <default>false</default>
+                <label>Opportunities</label>
+            </value>
+            <value>
+                <fullName>Options in an Event</fullName>
+                <default>false</default>
+                <label>Options in an Event</label>
+            </value>
+            <value>
+                <fullName>Others</fullName>
+                <default>false</default>
+                <label>Others</label>
+            </value>
+            <value>
+                <fullName>Outlook Invitation</fullName>
+                <default>false</default>
+                <label>Outlook Invitation</label>
+            </value>
+            <value>
+                <fullName>Process</fullName>
+                <default>false</default>
+                <label>Process</label>
+            </value>
+            <value>
+                <fullName>Prospects</fullName>
+                <default>false</default>
+                <label>Prospects</label>
+            </value>
+            <value>
+                <fullName>Reports</fullName>
+                <default>false</default>
+                <label>Reports</label>
+            </value>
+            <value>
+                <fullName>Speaker</fullName>
+                <default>false</default>
+                <label>Speaker</label>
+            </value>
+            <value>
+                <fullName>Webstatistics Reports</fullName>
+                <default>false</default>
+                <label>Webstatistics Reports</label>
+            </value>
+            <value>
+                <fullName>WorkTogetherProcess</fullName>
+                <default>false</default>
+                <label>WorkTogetherProcess</label>
+            </value>
+            <value>
+                <fullName>AUM</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>AUM</label>
+            </value>
+            <value>
+                <fullName>App Launcher</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>App Launcher</label>
+            </value>
+            <value>
+                <fullName>Campaign - Event</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Campaign - Event</label>
+            </value>
+            <value>
+                <fullName>Campaign - Newsletter</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Campaign - Newsletter</label>
+            </value>
+            <value>
+                <fullName>Category</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Category</label>
+            </value>
+            <value>
+                <fullName>Communication Subscription</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Communication Subscription</label>
+            </value>
+            <value>
+                <fullName>Competitor Asset</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Competitor Asset</label>
+            </value>
+            <value>
+                <fullName>Convention</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Convention</label>
+            </value>
+            <value>
+                <fullName>Dashboard</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Dashboard</label>
+            </value>
+            <value>
+                <fullName>Follow up - Report</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Follow up - Report</label>
+            </value>
+            <value>
+                <fullName>Group</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Group</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Product Status</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Product Status</label>
+            </value>
+            <value>
+                <fullName>Rebates</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Rebates</label>
+            </value>
+            <value>
+                <fullName>Related Company</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Related Company</label>
+            </value>
+            <value>
+                <fullName>Relationship Status</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Relationship Status</label>
+            </value>
+            <value>
+                <fullName>Report -Management</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Report -Management</label>
+            </value>
+            <value>
+                <fullName>Report – CRM</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Report – CRM</label>
+            </value>
+            <value>
+                <fullName>Reports – Sales</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Reports – Sales</label>
+            </value>
+            <value>
+                <fullName>Segmentation</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Segmentation</label>
+            </value>
+            <value>
+                <fullName>Strategic News</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Strategic News</label>
+            </value>
+            <value>
+                <fullName>Task</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Task</label>
+            </value>
+            <value>
+                <fullName>Web Stats</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Web Stats</label>
+            </value>
+            <value>
+                <fullName>Work Together Process</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Work Together Process</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Salesforce</controllingFieldValue>
+            <valueName>AUM &amp; Net Flows</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Salesforce</controllingFieldValue>
+            <valueName>BrightTalk</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Salesforce</controllingFieldValue>
+            <controllingFieldValue>Schedule</controllingFieldValue>
+            <valueName>Calendar</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Salesforce</controllingFieldValue>
+            <controllingFieldValue>Pardot</controllingFieldValue>
+            <valueName>Campaign</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Salesforce</controllingFieldValue>
+            <valueName>Carmignac Product</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Salesforce</controllingFieldValue>
+            <valueName>Chatter</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Salesforce</controllingFieldValue>
+            <valueName>Company</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Salesforce</controllingFieldValue>
+            <controllingFieldValue>Prospace</controllingFieldValue>
+            <valueName>Contact</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Salesforce</controllingFieldValue>
+            <valueName>Dashboards</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Salesforce</controllingFieldValue>
+            <valueName>Home</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Salesforce</controllingFieldValue>
+            <valueName>Lead</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Salesforce</controllingFieldValue>
+            <controllingFieldValue>Pardot</controllingFieldValue>
+            <controllingFieldValue>etouches</controllingFieldValue>
+            <controllingFieldValue>Schedule</controllingFieldValue>
+            <controllingFieldValue>Prospace</controllingFieldValue>
+            <valueName>Login</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Salesforce</controllingFieldValue>
+            <valueName>Opportunities</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Salesforce</controllingFieldValue>
+            <controllingFieldValue>Pardot</controllingFieldValue>
+            <controllingFieldValue>etouches</controllingFieldValue>
+            <controllingFieldValue>Schedule</controllingFieldValue>
+            <valueName>Others</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Salesforce</controllingFieldValue>
+            <valueName>WorkTogetherProcess</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pardot</controllingFieldValue>
+            <controllingFieldValue>etouches</controllingFieldValue>
+            <valueName>Mailing Lists</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pardot</controllingFieldValue>
+            <valueName>Reports</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>etouches</controllingFieldValue>
+            <valueName>Connexion btw Etouches and SF</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>etouches</controllingFieldValue>
+            <controllingFieldValue>Schedule</controllingFieldValue>
+            <valueName>Event</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>etouches</controllingFieldValue>
+            <controllingFieldValue>Schedule</controllingFieldValue>
+            <controllingFieldValue>Prospace</controllingFieldValue>
+            <valueName>Process</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Schedule</controllingFieldValue>
+            <valueName>General Information</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Schedule</controllingFieldValue>
+            <valueName>Locations</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Schedule</controllingFieldValue>
+            <valueName>Options in an Event</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Schedule</controllingFieldValue>
+            <valueName>Speaker</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Prospace</controllingFieldValue>
+            <valueName>Alerts &amp; Newsletter</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Prospace</controllingFieldValue>
+            <valueName>Content</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

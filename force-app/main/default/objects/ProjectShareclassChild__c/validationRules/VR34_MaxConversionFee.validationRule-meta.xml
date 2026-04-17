@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR34_MaxConversionFee</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  NOT($User.BypassValidationRules__c),
+  NOT(ISBLANK(MaxConversionFee__c)),
+  OR(
+    MaxConversionFee__c &lt; 0,
+    MaxConversionFee__c &gt; 1
+  )
+)</errorConditionFormula>
+    <errorMessage>Maximum conversion fee must be between 0% and 100%</errorMessage>
+</ValidationRule>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Agreement_Termination_Status__c</fullName>
+    <label>Agreement Termination Status</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Need Submission</fullName>
+                <default>false</default>
+                <label>Need Submission</label>
+            </value>
+            <value>
+                <fullName>Pre-Approval</fullName>
+                <default>false</default>
+                <label>Pre-Approval</label>
+            </value>
+            <value>
+                <fullName>HOC Approval</fullName>
+                <default>false</default>
+                <label>HOC Approval</label>
+            </value>
+            <value>
+                <fullName>Top Mgmt Approval</fullName>
+                <default>false</default>
+                <label>Top Mgmt Approval</label>
+            </value>
+            <value>
+                <fullName>Legal Approval</fullName>
+                <default>false</default>
+                <label>Legal Approval</label>
+            </value>
+            <value>
+                <fullName>Approval Rejected</fullName>
+                <default>false</default>
+                <label>Approval Rejected</label>
+            </value>
+            <value>
+                <fullName>Approval Reset</fullName>
+                <default>false</default>
+                <label>Approval Reset</label>
+            </value>
+            <value>
+                <fullName>Approved</fullName>
+                <default>false</default>
+                <label>Approved</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

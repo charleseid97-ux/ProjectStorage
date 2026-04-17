@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>ProjectShareclass Creation</label>
+    <protected>false</protected>
+    <values>
+        <field>FieldsToExclude__c</field>
+        <value xsi:type="xsd:string">id,name,createddate,createdbyid,lastmodifieddate,lastmodifiedbyid,systemmodstamp,isdeleted,sri__c,lastactivitydate,lastvieweddate,lastreferenceddate;EndClientSustPref__c,LockUp__c,cficode__c,clawback__c,dividendfrequency__c,efamaefccategory__c,efamaefcclassification__c,efamaefcclassificationtype__c,effectiveperffees__c,esmaapplicationstartdate__c,highwatermarkperiod__c,hurdlerate__c,hurdletype__c,isesmaperffeesguidelines__c,maxconversionfee__c,maxperffees__c,overperformancecondition__c,perffeescrystallisationdate__c,perffeescrystallisationfreq__c,perffeesrefperiod__c,performancefeemethod__c,ismainshareclass__c,share_class_inception_date__c,ISIN__c,CUSIPCode__c,mexidcode__c,morningstarcode__c,ReutersLipperCode__c,SEDOLcode__c,valorencode__c,WKNcode__c,BloombergCode__c,CITIcode__c,Income__c,TargetDistributionRate__c,maxredemptionfeessubfund__c,ProxyRisk__c</value>
+    </values>
+</CustomMetadata>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EET20440__c</fullName>
+    <description>20440_Financial_Instrument_EU_SFDR_Minimum_Or_Planned_Investments_Sustainable_Investments_Environmental</description>
+    <label>20440 Financial Instrument EU SFDR Mini</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

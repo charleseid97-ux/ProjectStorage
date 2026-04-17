@@ -1,0 +1,184 @@
+<!--
+  @description       : 
+  @author            : Khadija EL GDAOUNI
+  @group             : 
+  @last modified on  : 19-05-2025
+  @last modified by  : Khadija EL GDAOUNI
+-->
+
+<template>
+    <div class="slds-m-top_medium slds-m-bottom_x-large">
+        <div class="slds-p-around_medium ">
+            <!-- Grille horizontale -->
+            <div class="slds-grid slds-wrap lgc-bg" >
+            
+                <!-- Colonne gauche : Filtres -->
+                <div class="slds-col slds-size_1-of-4 slds-p-around_small filter" >
+                    <template if:true={isStrategiesVersion}>
+                        <!-- Fund List -->
+                        <div class="slds-form-element">
+                            <lightning-input name="searchAll" label="Search by fund name, acronyme or ISIN code" type="search"
+                                autocomplete="off"  onkeyup={handleSearch}
+                                                    ></lightning-input>
+                        </div>
+                        <!-- Asset Class Picklist -->
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="assetClassSelect">Asset Class</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <select class="slds-select" id="assetClassSelect" data-id="assetClassSelect" onchange={handleAssetClassChange}>
+                                        <option value="">None</option>
+                                        <template for:each={assetClassOptions} for:item="option">
+                                            <option key={option.label} value={option.value}>{option.label}</option>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Shareclass Type Picklist -->
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="scTypeSelect">Shareclass Type</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <select class="slds-select" id="scTypeSelect" data-id="scTypeSelect" onchange={handleCSTypeChange}>
+                                        <option value="">None</option>
+                                        <template for:each={shareClassTypeOptions} for:item="option">
+                                            <option key={option.label} value={option.value}>{option.label}</option>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Dividend Policy Picklist -->
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="dividendPSelect">Distribution Type</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <select class="slds-select" id="dividendPSelect" data-id="dividendPSelect" onchange={handleDividendPChange}>
+                                        <option value="">None</option>
+                                        <template for:each={dividendpolicyOptions} for:item="option">
+                                            <option key={option.label} value={option.value}>{option.label}</option>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Registration Country Picklist -->
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="countrySelect">Registration Country</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <select class="slds-select" id="countrySelect" data-id="countrySelect" onchange={handleCountryChange}>
+                                        <option value="All countries">All countries</option>
+                                        <template for:each={countries} for:item="option">
+                                            <option key={option.label} value={option.value}>{option.label}</option>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Legal Form Picklist -->
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="legalFormSelect">Legal Form</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <select class="slds-select" id="legalFormSelect" data-id="legalFormSelect" onchange={handleLegalFormChange}>
+                                        <option value="">None</option>
+                                        <template for:each={legalFormOptions} for:item="option">
+                                            <option key={option.label} value={option.value}>{option.label}</option>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Currency Picklist -->
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="currencySelect">Currency</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <select class="slds-select" id="currencySelect" data-id="currencySelect" onchange={handleCurrencyChange}>
+                                        <option value="">None</option>
+                                        <template for:each={currencyOptions} for:item="option">
+                                            <option key={option.label} value={option.value}>{option.label}</option>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                       
+                        <!-- Fund Type Picklist -->
+                        <!--div class="slds-form-element">
+                            <label class="slds-form-element__label" for="fundTypeSelect">Fund Type</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <select class="slds-select" id="fundTypeSelect" onchange={handleFundTypeChange}>
+                                        <option value="">None</option>
+                                        <template for:each={fundTypeOptions} for:item="option">
+                                            <option key={option.label} value={option.value}>{option.label}</option>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+                        </div-->
+                        <!-- SFDR Classification Picklist -->
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="sfdrSelect">SFDR Classification</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <select class="slds-select" id="sfdrSelect" data-id="sfdrSelect" onchange={handleSFDRChange}>
+                                        <option value="">None</option>
+                                        <template for:each={sfdrOptions} for:item="option">
+                                            <option key={option.label} value={option.value}>{option.label}</option>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Active Products Checkbox -->
+                        <div class="slds-form-element input_buttom">
+                            <lightning-input label="Active Products" data-id="isActiveProducts" type="checkbox" checked={isActiveProducts} onchange={handleActiveProductsChange}>
+                            </lightning-input>
+                        </div>
+                        <!-- Bouton Reset -->
+                        <div class="slds-m-top_medium slds-align_absolute-center" style="justify-content: flex-end;">
+                            <lightning-button label="Reset Filters" onclick={handleResetFilters} variant="neutral"></lightning-button>
+                        </div>
+                    </template>
+                </div>
+            
+                <!-- Colonne droite : Tree -->
+                <div class="slds-col slds-size_3-of-4 slds-p-around_small lgc-bg">
+                    <!-- Boutons Data Dic et Export -->
+                    <div class="slds-grid slds-grid_align-end slds-m-bottom_small">
+                        <div class="slds-m-right_small">
+                            <lightning-button label="Data Dic" onclick={handleOpenDataDic} variant="neutral"></lightning-button>
+                        </div>
+                        <div class="slds-m-right_small">
+                            <lightning-button label="NAV Calendar" onclick={handleOpenNavCalendar} variant="neutral"></lightning-button>
+                        </div>
+                        <div class="slds-m-right_small">
+                            <lightning-button label="Export" onclick={handleExport} variant="brand"></lightning-button>
+                        </div>
+                        
+                    </div>
+                    <template if:true={noResults}>
+                        <div class="slds-text-align_center slds-m-top_x-large slds-m-bottom_large">
+                            <div class="slds-box slds-theme_alert-texture" style="display: inline-block;">
+                                <p class="slds-text-heading_medium slds-m-top_small">
+                                    No products match your criteria.
+                                </p>
+                                <p class="slds-text-body_regular slds-m-top_x-small">
+                                    Please broaden your search or reset the filters.
+                                </p>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template if:false={noResults}>
+                        <c-tree-referential items={items} header="Product Hierarchy"></c-tree-referential>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

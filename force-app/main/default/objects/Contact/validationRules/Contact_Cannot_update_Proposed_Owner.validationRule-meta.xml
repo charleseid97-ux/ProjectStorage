@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_Cannot_update_Proposed_Owner</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+NOT(ISNEW()),
+ISCHANGED( Proposed_Contact_Owner__c ),
+NOT(ISBLANK(Proposed_Contact_Owner__c)),
+NOT(BypassProposedOwnerVR__c)
+)</errorConditionFormula>
+    <errorDisplayField>Proposed_Contact_Owner__c</errorDisplayField>
+    <errorMessage>You cannot update the Proposed Contact Owner. Please use the Change Owner button at the top right of the page.</errorMessage>
+</ValidationRule>

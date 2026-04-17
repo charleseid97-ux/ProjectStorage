@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CventEvents__StatusPending</fullName>
+    <columns>NAME</columns>
+    <columns>CventEvents__pkg_FirstName__c</columns>
+    <columns>CventEvents__pkg_LastName__c</columns>
+    <columns>CventEvents__pkg_Email__c</columns>
+    <columns>CventEvents__pkg_Message__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CventEvents__pkg_ProcessStatus__c</field>
+        <operation>equals</operation>
+        <value>Pending</value>
+    </filters>
+    <label>Status Pending</label>
+</ListView>

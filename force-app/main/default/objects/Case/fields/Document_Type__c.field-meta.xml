@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Document_Type__c</fullName>
+    <label>Document Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Translation_Request_Type__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Monthly comments</fullName>
+                <default>false</default>
+                <label>Monthly comments</label>
+            </value>
+            <value>
+                <fullName>Article (web / media)</fullName>
+                <default>false</default>
+                <label>Article (web / media)</label>
+            </value>
+            <value>
+                <fullName>Biography</fullName>
+                <default>false</default>
+                <label>Biography</label>
+            </value>
+            <value>
+                <fullName>Carmignac’s note</fullName>
+                <default>false</default>
+                <label>Carmignac’s note</label>
+            </value>
+            <value>
+                <fullName>Disclaimer</fullName>
+                <default>false</default>
+                <label>Disclaimer</label>
+            </value>
+            <value>
+                <fullName>EC Letter</fullName>
+                <default>false</default>
+                <label>EC Letter</label>
+            </value>
+            <value>
+                <fullName>ESG documentation</fullName>
+                <default>false</default>
+                <label>ESG documentation</label>
+            </value>
+            <value>
+                <fullName>IS Monthly Comments</fullName>
+                <default>false</default>
+                <label>IS Monthly Comments</label>
+            </value>
+            <value>
+                <fullName>KID</fullName>
+                <default>false</default>
+                <label>KID</label>
+            </value>
+            <value>
+                <fullName>Letter to Shareholders</fullName>
+                <default>false</default>
+                <label>Letter to Shareholders</label>
+            </value>
+            <value>
+                <fullName>Marketing / Corporate material</fullName>
+                <default>false</default>
+                <label>Marketing / Corporate material</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>PPT Presentation</fullName>
+                <default>false</default>
+                <label>PPT Presentation</label>
+            </value>
+            <value>
+                <fullName>Press Release</fullName>
+                <default>false</default>
+                <label>Press Release</label>
+            </value>
+            <value>
+                <fullName>Product sheet</fullName>
+                <default>false</default>
+                <label>Product sheet</label>
+            </value>
+            <value>
+                <fullName>Prospectus</fullName>
+                <default>false</default>
+                <label>Prospectus</label>
+            </value>
+            <value>
+                <fullName>Quarterly reports</fullName>
+                <default>false</default>
+                <label>Quarterly reports</label>
+            </value>
+            <value>
+                <fullName>Reporting</fullName>
+                <default>false</default>
+                <label>Reporting</label>
+            </value>
+            <value>
+                <fullName>Video subtitles &amp; Inserts</fullName>
+                <default>false</default>
+                <label>Video subtitles &amp; Inserts</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Publication and Translation</controllingFieldValue>
+            <controllingFieldValue>Translation Only</controllingFieldValue>
+            <controllingFieldValue>Publication Only</controllingFieldValue>
+            <valueName>Article (web / media)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Publication and Translation</controllingFieldValue>
+            <controllingFieldValue>Translation Only</controllingFieldValue>
+            <controllingFieldValue>Publication Only</controllingFieldValue>
+            <valueName>Biography</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Publication and Translation</controllingFieldValue>
+            <controllingFieldValue>Translation Only</controllingFieldValue>
+            <controllingFieldValue>Publication Only</controllingFieldValue>
+            <valueName>Carmignac’s note</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Publication and Translation</controllingFieldValue>
+            <controllingFieldValue>Translation Only</controllingFieldValue>
+            <controllingFieldValue>Publication Only</controllingFieldValue>
+            <valueName>Disclaimer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Publication and Translation</controllingFieldValue>
+            <controllingFieldValue>Translation Only</controllingFieldValue>
+            <controllingFieldValue>Publication Only</controllingFieldValue>
+            <valueName>EC Letter</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Publication and Translation</controllingFieldValue>
+            <controllingFieldValue>Translation Only</controllingFieldValue>
+            <controllingFieldValue>Publication Only</controllingFieldValue>
+            <valueName>ESG documentation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Publication and Translation</controllingFieldValue>
+            <controllingFieldValue>Translation Only</controllingFieldValue>
+            <controllingFieldValue>Publication Only</controllingFieldValue>
+            <valueName>KID</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Publication and Translation</controllingFieldValue>
+            <controllingFieldValue>Translation Only</controllingFieldValue>
+            <controllingFieldValue>Publication Only</controllingFieldValue>
+            <valueName>Letter to Shareholders</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Publication and Translation</controllingFieldValue>
+            <controllingFieldValue>Translation Only</controllingFieldValue>
+            <controllingFieldValue>Publication Only</controllingFieldValue>
+            <valueName>Marketing / Corporate material</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Publication and Translation</controllingFieldValue>
+            <controllingFieldValue>Translation Only</controllingFieldValue>
+            <controllingFieldValue>Publication Only</controllingFieldValue>
+            <valueName>Other</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Publication and Translation</controllingFieldValue>
+            <controllingFieldValue>Translation Only</controllingFieldValue>
+            <controllingFieldValue>Publication Only</controllingFieldValue>
+            <valueName>PPT Presentation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Publication and Translation</controllingFieldValue>
+            <controllingFieldValue>Translation Only</controllingFieldValue>
+            <controllingFieldValue>Publication Only</controllingFieldValue>
+            <valueName>Press Release</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Publication and Translation</controllingFieldValue>
+            <controllingFieldValue>Translation Only</controllingFieldValue>
+            <controllingFieldValue>Publication Only</controllingFieldValue>
+            <valueName>Product sheet</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Publication and Translation</controllingFieldValue>
+            <controllingFieldValue>Translation Only</controllingFieldValue>
+            <controllingFieldValue>Publication Only</controllingFieldValue>
+            <valueName>Prospectus</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Publication and Translation</controllingFieldValue>
+            <controllingFieldValue>Translation Only</controllingFieldValue>
+            <controllingFieldValue>Publication Only</controllingFieldValue>
+            <valueName>Quarterly reports</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Publication and Translation</controllingFieldValue>
+            <controllingFieldValue>Translation Only</controllingFieldValue>
+            <controllingFieldValue>Publication Only</controllingFieldValue>
+            <valueName>Reporting</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Publication and Translation</controllingFieldValue>
+            <controllingFieldValue>Translation Only</controllingFieldValue>
+            <controllingFieldValue>Publication Only</controllingFieldValue>
+            <valueName>Video subtitles &amp; Inserts</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Translation Only</controllingFieldValue>
+            <valueName>Monthly comments</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Translation Only</controllingFieldValue>
+            <valueName>IS Monthly Comments</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

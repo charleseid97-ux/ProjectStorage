@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TranslationPublicationStatus__c</fullName>
+    <label>Translation/Publication Status</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>New</fullName>
+                <default>false</default>
+                <label>New</label>
+            </value>
+            <value>
+                <fullName>Translation In Progress</fullName>
+                <default>false</default>
+                <label>Translation In Progress</label>
+            </value>
+            <value>
+                <fullName>Proofreading Validation</fullName>
+                <default>false</default>
+                <label>Proofreading Validation</label>
+            </value>
+            <value>
+                <fullName>Publication in Progress</fullName>
+                <default>false</default>
+                <label>Publication in Progress</label>
+            </value>
+            <value>
+                <fullName>Done</fullName>
+                <default>false</default>
+                <label>Done</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

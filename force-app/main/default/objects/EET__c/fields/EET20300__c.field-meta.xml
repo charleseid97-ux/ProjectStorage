@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EET20300__c</fullName>
+    <label>20300 Financial Instrument Alignment Wi</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Affordable and Clean Energy</fullName>
+                <default>false</default>
+                <label>Affordable and Clean Energy</label>
+            </value>
+            <value>
+                <fullName>Clean Water and Sanitation</fullName>
+                <default>false</default>
+                <label>Clean Water and Sanitation</label>
+            </value>
+            <value>
+                <fullName>Climate Action</fullName>
+                <default>false</default>
+                <label>Climate Action</label>
+            </value>
+            <value>
+                <fullName>Decent Work and Economic Growth</fullName>
+                <default>false</default>
+                <label>Decent Work and Economic Growth</label>
+            </value>
+            <value>
+                <fullName>Gender Equality</fullName>
+                <default>false</default>
+                <label>Gender Equality</label>
+            </value>
+            <value>
+                <fullName>Good Health and Well-being</fullName>
+                <default>false</default>
+                <label>Good Health and Well-being</label>
+            </value>
+            <value>
+                <fullName>Industry, Innovation and Infrastructure</fullName>
+                <default>false</default>
+                <label>Industry, Innovation and Infrastructure</label>
+            </value>
+            <value>
+                <fullName>Life Below Water</fullName>
+                <default>false</default>
+                <label>Life Below Water</label>
+            </value>
+            <value>
+                <fullName>Life On Land</fullName>
+                <default>false</default>
+                <label>Life On Land</label>
+            </value>
+            <value>
+                <fullName>No Poverty</fullName>
+                <default>false</default>
+                <label>No Poverty</label>
+            </value>
+            <value>
+                <fullName>None</fullName>
+                <default>false</default>
+                <label>None</label>
+            </value>
+            <value>
+                <fullName>Partnerships for the Goals</fullName>
+                <default>false</default>
+                <label>Partnerships for the Goals</label>
+            </value>
+            <value>
+                <fullName>Peace &amp; Justice &amp; and Strong Institutions</fullName>
+                <default>false</default>
+                <label>Peace &amp; Justice &amp; and Strong Institutions</label>
+            </value>
+            <value>
+                <fullName>Quality Education</fullName>
+                <default>false</default>
+                <label>Quality Education</label>
+            </value>
+            <value>
+                <fullName>Reduced Inequality</fullName>
+                <default>false</default>
+                <label>Reduced Inequality</label>
+            </value>
+            <value>
+                <fullName>Responsible Consumption and Production</fullName>
+                <default>false</default>
+                <label>Responsible Consumption and Production</label>
+            </value>
+            <value>
+                <fullName>Sustainable Cities and Communities</fullName>
+                <default>false</default>
+                <label>Sustainable Cities and Communities</label>
+            </value>
+            <value>
+                <fullName>Zero Hunger</fullName>
+                <default>false</default>
+                <label>Zero Hunger</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

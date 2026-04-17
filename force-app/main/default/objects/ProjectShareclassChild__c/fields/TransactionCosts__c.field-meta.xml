@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TransactionCosts__c</fullName>
+    <description>Transaction Costs Ex-ante</description>
+    <inlineHelpText>Enter the transaction costs as a percentage.</inlineHelpText>
+    <label>Transaction Costs Ex-ante</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

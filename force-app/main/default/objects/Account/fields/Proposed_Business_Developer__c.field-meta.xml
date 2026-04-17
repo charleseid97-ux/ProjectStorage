@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Proposed_Business_Developer__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <inlineHelpText>Please select here proposal for new Business Developer instead of Business Developer already identified on this Company</inlineHelpText>
+    <label>Proposed Business Developer</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>Companies</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Lookup</type>
+</CustomField>

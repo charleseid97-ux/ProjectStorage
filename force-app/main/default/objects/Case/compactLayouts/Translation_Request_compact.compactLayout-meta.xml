@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Translation_Request_compact</fullName>
+    <fields>Subject</fields>
+    <fields>Document_Type__c</fields>
+    <fields>Translation_mode__c</fields>
+    <fields>DueDate__c</fields>
+    <fields>Status</fields>
+    <fields>Translation_Request_Type__c</fields>
+    <label>Translation Request compact</label>
+</CompactLayout>

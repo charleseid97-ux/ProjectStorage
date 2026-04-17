@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR11_EET20080</fullName>
+    <active>true</active>
+    <description>20080_Financial_Instrument_%_Of_Minimum_SFDR_Art_9_Funds</description>
+    <errorConditionFormula>AND(
+  NOT($User.BypassValidationRules__c),
+  NOT(ISBLANK(EET20080__c)),
+  OR(
+    EET20080__c &lt; 0,
+    EET20080__c &gt; 1
+  )
+)</errorConditionFormula>
+    <errorDisplayField>EET20080__c</errorDisplayField>
+    <errorMessage>Planned SFDR Art 9 minimum % must be between 0% and 100%</errorMessage>
+</ValidationRule>

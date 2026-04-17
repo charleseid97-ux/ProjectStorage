@@ -1,0 +1,72 @@
+.validated-icon {
+    margin-left: 10px;
+}
+
+.status-container {
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+ 
+.status-label {
+    margin-right: 5px;
+}
+ 
+.status-value {
+    display: flex;
+    align-items: center;
+}
+ 
+.status-icon {
+    margin-left: 5px;
+}
+ 
+.status-message {
+    margin-top: 10px;
+    font-size: 14px;
+}
+ 
+.validate-button {
+    margin-top: 15px;
+    background-color: #008000;
+    color: white;
+    font-weight: bold;
+}
+
+.phase-label {
+    font-size: 14px;
+    color: #666;
+}
+ 
+.phase-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #000;
+}
+ 
+.info-text {
+    font-size: 14px;
+    color: #666;
+    margin-top: 10px;
+}
+ 
+.remaining-days {
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+}
+ 
+.deadline {
+    font-size: 16px;
+    font-weight: bold;
+    color: #000;
+}
+
+.completedIcon{
+    --slds-c-icon-color-background: #008000; 
+}
+
+.draftIcon{
+    --slds-c-icon-color-background: orange; 
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Fixed Income</label>
+    <protected>false</protected>
+    <values>
+        <field>Category__c</field>
+        <value xsi:type="xsd:string">Preference</value>
+    </values>
+    <values>
+        <field>Childs__c</field>
+        <value xsi:type="xsd:string">Carmignac_Credit_2031_CC31__c:Carmignac Credit 2031 (CC31);Carmignac_Credit_2027_CC27__c:Carmignac Credit 2027 (CC27);Carmignac_Credit_2029_CC29__c:Carmignac Credit 2029 (CC29);Carmignac_Credit_CCR__c:Carmignac Credit (CCR);Carmignac_EM_Debt_CEMD__c:Carmignac EM Debt (CEMD);Carmignac_Flexible_Bond_CFB__c:Carmignac Flexible Bond (CFB);Carmignac_Global_Bond_CGB_UKCGB__c:Carmignac Global Bond (CGB/UKCGB);Carmignac_S_curit_CSC_PSC__c:Carmignac Sécurité (CSC/PSC);Carmignac_Court_Terme_CCT__c:Carmignac Court Terme (CCT);FP_Carmignac_Unconstrained_Global_Bond__c:FP Carmignac Unconstrained Global Bond (UKCGB)</value>
+    </values>
+    <values>
+        <field>Order__c</field>
+        <value xsi:type="xsd:double">3.0</value>
+    </values>
+</CustomMetadata>

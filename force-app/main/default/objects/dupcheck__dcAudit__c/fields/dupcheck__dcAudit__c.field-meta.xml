@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>dupcheck__dcAudit__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <deprecated>false</deprecated>
+    <label>Deduplicate Audit</label>
+    <referenceTo>dupcheck__dcAudit__c</referenceTo>
+    <relationshipLabel>Deduplicate Audits</relationshipLabel>
+    <relationshipName>Duplicate_Check_Audits</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

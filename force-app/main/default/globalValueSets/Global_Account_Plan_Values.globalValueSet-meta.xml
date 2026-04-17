@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Service Requirements</fullName>
+        <default>false</default>
+        <label>Service Requirements</label>
+    </customValue>
+    <customValue>
+        <fullName>Performance</fullName>
+        <default>false</default>
+        <label>Performance</label>
+    </customValue>
+    <customValue>
+        <fullName>Pricing</fullName>
+        <default>false</default>
+        <label>Pricing</label>
+    </customValue>
+    <customValue>
+        <fullName>Product</fullName>
+        <default>false</default>
+        <label>Product</label>
+    </customValue>
+    <customValue>
+        <fullName>Brand</fullName>
+        <default>false</default>
+        <label>Brand</label>
+    </customValue>
+    <customValue>
+        <fullName>Regulation</fullName>
+        <default>false</default>
+        <label>Regulation</label>
+    </customValue>
+    <customValue>
+        <fullName>Relationship</fullName>
+        <default>false</default>
+        <label>Relationship</label>
+    </customValue>
+    <customValue>
+        <fullName>Competition</fullName>
+        <default>false</default>
+        <label>Competition</label>
+    </customValue>
+    <customValue>
+        <fullName>3rd Party Fund Architecture</fullName>
+        <default>false</default>
+        <label>3rd Party Fund Architecture</label>
+    </customValue>
+    <masterLabel>Global Account Plan Values</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

@@ -1,0 +1,149 @@
+.sectionPadding {
+    padding: 10px !important;
+}
+
+.main-body {
+    position: relative;
+    min-height: 100px;
+}
+
+.col-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    position: relative;
+}
+
+.col-left {
+    width: 50%;
+    flex-shrink: 0;
+    min-width: 0;
+}
+
+.col-right {
+    flex: 1;
+    min-width: 0;
+}
+
+.col-resizer {
+    width: 8px;
+    flex-shrink: 0;
+    cursor: col-resize;
+    position: relative;
+    z-index: 10;
+    align-self: stretch;
+    padding: 0px 10px;
+    opacity: 50%;
+}
+
+.col-resizer::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    background: rgba(200, 200, 200, 0.35);
+    border-radius: 1px;
+    transition: background 0.15s;
+}
+
+.col-resizer:hover::after {
+    background: #0176D3;
+}
+
+.col-resize-overlay {
+    position: fixed;
+    inset: 0;
+    cursor: col-resize;
+    z-index: 9999;
+}
+
+.card-header {
+    background-color: rgb(243, 243, 243);
+    border: solid 1px rgb(200 200 200);
+    border-radius: var(--lwc-borderRadiusMedium, 0.25rem);
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    padding: 10px !important;
+    margin: 0px !important;
+}
+
+.card-body {
+    margin-top: 0;
+    border: solid 1px rgb(200 200 200);
+    border-top: 0;
+    border-bottom-left-radius: var(--lwc-borderRadiusMedium, 0.25rem);
+    border-bottom-right-radius: var(--lwc-borderRadiusMedium, 0.25rem);
+}
+
+/* ── Share Class Overview sections ── */
+
+.comp-section-title {
+    font-weight: 600;
+    font-size: 12px;
+    margin-top: 10px;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.comp-section-sub {
+    font-weight: 400;
+    color: #706e6b;
+}
+
+.comp-type-label {
+    font-size: 13px;
+    color: #181818;
+    font-weight: 700;
+    margin-right: 8px;
+    white-space: nowrap;
+}
+
+.comp-dash {
+    color: #706e6b;
+    margin: 0 8px;
+}
+
+.comp-group {
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.comp-empty {
+    font-size: 11px;
+    font-style: italic;
+}
+
+.section-divider {
+    border-top: 1px solid #e0e0e0;
+    margin: 10px 0;
+}
+
+.badge-restricted, .badge-unrestricted, .badge-excluded, .badge-missing {
+    font-size: 11px;
+}
+
+.badge-restricted, .badge-missing {
+    background-color: #FDECEA;
+    color: #8B0000;
+}
+
+.badge-unrestricted {
+    background-color: #E8F5E9;
+    color: #1B5E20;
+}
+
+.badge-excluded {
+    background-color: #F5F5F5;
+    color: #616161;
+}
+
+.badge-fund-highlight {
+    outline: 2px solid #0176D3;
+    outline-offset: 1px;
+}

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Campaign_Targeting__c</fullName>
+    <label>Campaign Targeting (OLD)</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <controllingField>Investment_seminar__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Fund Selector Day</fullName>
+                <default>false</default>
+                <label>Fund Selector Day (OLD)</label>
+            </value>
+            <value>
+                <fullName>Investment Seminars</fullName>
+                <default>false</default>
+                <label>Investment Seminars (OLD)</label>
+            </value>
+            <value>
+                <fullName>Thematic Lunch</fullName>
+                <default>false</default>
+                <label>Thematic Lunch (OLD)</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>Fund Selector Day</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>Investment Seminars</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>Thematic Lunch</valueName>
+        </valueSettings>
+    </valueSet>
+    <visibleLines>5</visibleLines>
+</CustomField>

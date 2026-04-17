@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Proposed_HOC_approval__c</fullName>
+    <defaultValue>false</defaultValue>
+    <inlineHelpText>Checkbox dedicated to approval by HOC of proposed Business Developer</inlineHelpText>
+    <label>Proposed HOC approval</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

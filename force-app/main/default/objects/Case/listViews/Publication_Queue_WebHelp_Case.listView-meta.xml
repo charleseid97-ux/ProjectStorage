@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Publication_Queue_WebHelp_Case</fullName>
+    <columns>CASES.SUBJECT</columns>
+    <columns>OWNER_NAME</columns>
+    <columns>Article_Funds__c</columns>
+    <columns>CASES.STATUS</columns>
+    <columns>CASES.PRIORITY</columns>
+    <columns>CASES.CREATED_DATE_DATE_ONLY</columns>
+    <columns>CASES.CASE_NUMBER</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Translation_Request_Type__c</field>
+        <operation>equals</operation>
+        <value>Publication and Translation,Publication Only</value>
+    </filters>
+    <filters>
+        <field>CASES.STATUS</field>
+        <operation>notEqual</operation>
+        <value>Published,Closed</value>
+    </filters>
+    <label>Publication Queue WebHelp</label>
+</ListView>

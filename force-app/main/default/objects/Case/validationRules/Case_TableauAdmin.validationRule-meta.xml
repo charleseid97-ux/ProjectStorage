@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_TableauAdmin</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+
+NOT($Permission.TableauAdmin),
+NOT($Profile.Name =	&quot;System Administrator&quot;),
+NOT($Profile.Name = &quot;Carmignac - System Administrator&quot;),
+
+				
+				
+RecordType.DeveloperName = &quot;Tableau_Request&quot;,
+ISPICKVAL(Type_of_Request__c, &apos;New Report&apos;),
+				
+OR(ISCHANGED(Tableau_Report_Path_Folder__c),
+	ISCHANGED( Report_Owner__c) )
+				)</errorConditionFormula>
+    <errorMessage>Only Tableau Admins can edit the following fields : Tableau Report Path/Folder, Report Owner.</errorMessage>
+</ValidationRule>

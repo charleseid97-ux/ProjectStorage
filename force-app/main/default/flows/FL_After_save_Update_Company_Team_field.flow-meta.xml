@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <assignments>
+        <name>AssigneTeam_Value</name>
+        <label>AssigneTeam Value</label>
+        <locationX>176</locationX>
+        <locationY>287</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Team__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Form_Team_field_value</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <description>Optimisation / fill Team field in company before save in database</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>Form_Team_field_value</name>
+        <dataType>String</dataType>
+        <expression>IF(TEXT({!$Record.BusinessDevelopmentRegion__c}) =&quot;BP_BE&quot;, &quot;Belgium&quot;, 
+IF(TEXT({!$Record.BusinessDevelopmentRegion__c}) =&quot;BP_FR&quot;, &quot;France&quot;,
+IF(TEXT({!$Record.BusinessDevelopmentRegion__c}) =&quot;BP_DA&quot;, &quot;Germany&quot;,
+IF(TEXT({!$Record.BusinessDevelopmentRegion__c}) =&quot;BP_IN&quot;, &quot;International&quot;,
+IF(TEXT({!$Record.BusinessDevelopmentRegion__c})=&quot;BP_IT&quot;, &quot;Italy&quot;,
+IF(TEXT({!$Record.BusinessDevelopmentRegion__c})=&quot;BP_JP&quot;, &quot;Japan&quot;,
+IF(TEXT({!$Record.BusinessDevelopmentRegion__c})=&quot;BP_LA&quot;, &quot;LATAM&quot;,
+IF(TEXT({!$Record.BusinessDevelopmentRegion__c})=&quot;BP_LU&quot;, &quot;Luxembourg&quot;,
+IF(TEXT({!$Record.BusinessDevelopmentRegion__c})=&quot;BP_NL&quot;, &quot;Netherlands&quot;,
+IF(TEXT({!$Record.BusinessDevelopmentRegion__c})=&quot;BP_NO&quot;, &quot;Nordics&quot;,
+IF(TEXT({!$Record.BusinessDevelopmentRegion__c})=&quot;BP_ES&quot;, &quot;Spain&quot;,
+IF(TEXT({!$Record.BusinessDevelopmentRegion__c})=&quot;BP_CH&quot;, &quot;Switzerland&quot;,
+IF(TEXT({!$Record.BusinessDevelopmentRegion__c})=&quot;BP_TW&quot;, &quot;Taiwan&quot;,
+IF(TEXT({!$Record.BusinessDevelopmentRegion__c})=&quot;BP_UK&quot;, &quot;United Kingdom&quot;,&quot;&quot;
+))))))))))))))</expression>
+    </formulas>
+    <interviewLabel>FL_After_save_Company_Team_field {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>FL_After_save_Update_Company_Team_field</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>AssigneTeam_Value</targetReference>
+        </connector>
+        <filterFormula>OR(
+AND(ISNEW(),NOT(ISBLANK(TEXT({!$Record.BusinessDevelopmentRegion__c})))),
+ISCHANGED({!$Record.BusinessDevelopmentRegion__c})
+)</filterFormula>
+        <object>Account</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

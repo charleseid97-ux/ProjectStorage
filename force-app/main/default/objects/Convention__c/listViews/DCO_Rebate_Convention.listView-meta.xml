@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DCO_Rebate_Convention</fullName>
+    <filterScope>Queue</filterScope>
+    <label>DCO Rebate</label>
+    <queue>DCO_Rebate</queue>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+    </sharedTo>
+</ListView>

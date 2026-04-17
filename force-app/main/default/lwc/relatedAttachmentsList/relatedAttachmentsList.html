@@ -1,0 +1,317 @@
+<!--
+  @description       : 
+  @author            : SILA Nicolas
+  @group             : 
+  @last modified on  : 17-12-2024
+  @last modified by  : Khadija EL GDAOUNI
+-->
+<template>
+    <template if:false={isPublication}>
+
+    <lightning-accordion allow-multiple-sections-open active-section-name="fileSection">
+        <lightning-accordion-section name="fileSection" label={title} class="custom-section-header">
+
+            <template if:true={attachments}>
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <template if:true={isSource}>
+                        <template if:true={isDeepLPro}>
+                            <template if:false={isTranslationParent}>
+                                <div class="slds-col slds-size_3-of-3" style="position: absolute;" >
+                                    <article class="slds-card slds-m-around_x-small">
+                                        <div
+                                        class="slds-card__body  slds-grid_vertical-align-center slds-grid_align-spread">
+                                        
+                                    <a href="https://eu.phrase.com/smt-ui/portal/169344be6d53479284874bda214c3b01" style="float: inline-end;z-index: 11;" target=”_blank” 
+                                    class="slds-button slds-button_neutral slds-m-left_x-small">Open Worldclass</a>
+                                        </div>    
+                                    </article>
+                                </div>
+                            </template>
+                        </template>
+                    </template>
+                    <template for:each={attachments} for:item="attachment">
+                        <div key={attachment.Id} class="slds-col slds-size_3-of-3" >
+                            <article class="slds-card slds-m-around_x-small">
+                                <!-- Enhanced layout using flexbox for alignment -->
+                                <div
+                                    class="slds-card__body slds-grid slds-grid_vertical-align-center slds-grid_align-spread">
+                                    <a href={attachment.url} target="_blank" class="slds-media slds-media_center slds-size_1-of-2">
+                                        <div class="slds-media__figure">
+                                            <lightning-icon icon-name="doctype:image" alternative-text="File"
+                                                size="small">
+                                            </lightning-icon>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <h3 class="slds-truncate" title={attachment.fileName}>{attachment.fileName}
+                                            </h3>
+                                        </div>
+                                    </a>
+                                    <div class="slds-shrink-none">
+                                        <template if:false={isSource}>
+                                            <template if:false={isRecTypepublication}>
+                                                <lightning-button variant="neutral" label="Update Version"
+                                                    onclick={handleOpenModal} data-file-id={attachment.Id}
+                                                    class="slds-m-left_x-small">
+                                                </lightning-button>
+                                               
+                                            </template>
+                                        </template>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </template>
+                </div>
+            </template>
+            <!--template if:true={isDeepLPro}>
+                <template if:false={isSource}>
+                    <template if:false={statusClosed}>
+                        <c-file-upload-multi-l-w-c class="file-selector-large" multiple-files="false" file-prefix="Target_"
+                            file-id={currentFileId} is-source="false" onfinishupload={refreshAttachments}
+                            onuploadcomplete={handleUploadFile}>
+                        </c-file-upload-multi-l-w-c>
+                    </template>
+                </template>
+            </template-->
+            <template if:false={isDeepLPro}>
+                <template if:false={attachmentExist}>
+                        <c-file-upload-multi-l-w-c class="file-selector-large" multiple-files="false" file-prefix="Target_"
+                            file-id={currentFileId} is-source="false" onfinishupload={refreshAttachments}
+                            onuploadcomplete={handleUploadFile}>
+                        </c-file-upload-multi-l-w-c>
+                    </template>
+            </template>
+            <!-- Modal Dialog -->
+            
+        </lightning-accordion-section>
+
+    </lightning-accordion>
+
+    <template if:true={isDeepLPro}>
+        <template if:true={showConfirmPopUp}>
+            <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+                class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- Modal/Popup Header -->
+                    <header class="slds-modal__header">
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium">Add More Files</h2>
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                            title="Close" onclick={handleClosePopUp}>
+                            <lightning-icon icon-name="utility:close" alternative-text="Close"
+                                size="small"></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                    </header>
+                    <!-- Modal Body -->
+                    <div class="slds-modal__content slds-p-around_medium">
+                        <p>Do you wish to add another file ?</p>
+                    </div>
+                    <!-- Modal/Popup Footer -->
+                    <div class="slds-grid slds-gutter slds-grid_align-center slds-var-p-top_small slds-modal__footer">
+                        <div class="slds-col slds-m-horizontal_small">
+                            <lightning-button variant="brand" name="Yes" data-id="yes"
+                                label="Yes" 
+                                onclick={handleClosePopUp}>
+                            </lightning-button>
+                        </div>
+                        
+                        <div class="slds-col slds-m-horizontal_small">
+                            <lightning-button variant="neutral" name="No" data-id="no"
+                                label="No"
+                                onclick={handleClosePopUp}>
+                            </lightning-button>
+                        </div>
+                    </div>
+                        
+                    
+                </div>
+            </section>
+            <!-- Modal Backdrop -->
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+    </template>
+    
+    <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading"
+            class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Header -->
+                <header class="slds-modal__header">
+                    <h2 id="modal-heading" class="slds-text-heading_medium">Update File Version</h2>
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={handleCloseModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="Close"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <template if:true={isSource}>
+                        <c-file-upload-multi-l-w-c class="file-selector-large" multiple-files="false"
+                            file-prefix="Source_" file-id={currentFileId} is-source={isSource} onuploadcomplete={handleUploadFile} onfinishupload={refreshAttachments}
+                            ></c-file-upload-multi-l-w-c>
+                    </template>
+                    <template if:false={isSource}>
+                        <c-file-upload-multi-l-w-c class="file-selector-large" multiple-files="false"
+                            file-prefix="Target_" file-id={currentFileId} is-source="false" onuploadcomplete={handleUploadFile} onfinishupload={refreshAttachments}
+                            ></c-file-upload-multi-l-w-c>                                            
+                    </template>
+                </div>
+                <!-- Modal/Popup Footer -->
+                <div class="slds-grid slds-grid_align-center slds-var-p-top_small slds-modal__footer">
+                    <div class="slds-col">
+                        <lightning-button icon-name="utility:skip_back" variant="brand" name="cancel"
+                            label="Cancel" class="slds-var-m-left_x-small slds-var-m-right_x-small"
+                            onclick={handleCloseModal}>
+                        </lightning-button>
+                    </div>
+                    <div class="slds-col">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Modal Backdrop -->
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    </template>
+    <template if:true={isPublication}>
+        <lightning-accordion allow-multiple-sections-open active-section-name="pubSection">
+            <lightning-accordion-section name="pubSection" label={publciationTitle} class="custom-section-header">
+    
+                <template if:true={attachments}>
+                    <div class="slds-grid slds-wrap slds-gutters">
+                        <template for:each={attachments} for:item="attachment">
+                            <div key={attachment.Id} class="slds-col slds-size_3-of-3">
+                                <article class="slds-card slds-m-around_x-small">
+                                    <!-- Enhanced layout using flexbox for alignment -->
+                                    <div
+                                        class="slds-card__body slds-grid slds-grid_vertical-align-center slds-grid_align-spread">
+                                        <a href={attachment.url} target="_blank" class="slds-media slds-media_center slds-size_1-of-2">
+                                            <div class="slds-media__figure">
+                                                <lightning-icon icon-name="doctype:image" alternative-text="File"
+                                                    size="small">
+                                                </lightning-icon>
+                                            </div>
+                                            <div class="slds-media__body">
+                                                <h3 class="slds-truncate" title={attachment.fileName}>{attachment.fileName}
+                                                </h3>
+                                            </div>
+                                        </a>
+                                        <div class="slds-shrink-none">
+                                            <lightning-button variant="neutral" label="Update Version"
+                                                onclick={handleOpenModal} data-file-id={attachment.Id}
+                                                class="slds-m-left_x-small">
+                                            </lightning-button>
+                                            <lightning-button variant="destructive" label="Delete File"
+                                                onclick={handleDeleteFile} data-file-id={attachment.Id}
+                                                class="slds-m-left_x-small">
+                                            </lightning-button>
+                                        </div>
+
+                                    </div>
+                                </article>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+                <template if:false={isModalOpen}>
+
+                <c-file-upload-multi-l-w-c class="file-selector-large" multiple-files="false" file-prefix="Publication_" is-publication="true"
+                file-id={currentFileId} is-source="false" onfinishupload={refreshAttachments}
+                onuploadcomplete={handleUploadFile}></c-file-upload-multi-l-w-c>
+                </template>
+            </lightning-accordion-section>
+    
+        </lightning-accordion>
+        
+        <template if:true={isModalOpen}>
+            <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading"
+                class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- Modal/Popup Header -->
+                    <header class="slds-modal__header">
+                        <h2 id="modal-heading-pub" class="slds-text-heading_medium">Update File Version</h2>
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                            title="Close" onclick={handleCloseModal}>
+                            <lightning-icon icon-name="utility:close" alternative-text="Close"
+                                size="small"></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium">
+                        <c-file-upload-multi-l-w-c class="file-selector-large" multiple-files="false" file-prefix="Publication_" is-publication="true"
+                            file-id={currentFileId} is-source="false" onfinishupload={refreshAttachments} onuploadcomplete={handleUploadFile}
+                            >
+                        </c-file-upload-multi-l-w-c>
+                    </div>
+                    <!-- Modal/Popup Footer -->
+                    <div class="slds-grid slds-grid_align-center slds-var-p-top_small slds-modal__footer">
+                        <div class="slds-col">
+                            <lightning-button icon-name="utility:skip_back" variant="brand" name="cancel"
+                                label="Cancel" class="slds-var-m-left_x-small slds-var-m-right_x-small"
+                                onclick={handleCloseModal}>
+                            </lightning-button>
+                        </div>
+                        <div class="slds-col">
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Modal Backdrop -->
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+    </template>
+    <template if:true={toBeValidated}>
+        <lightning-accordion allow-multiple-sections-open active-section-name="validationSection">
+            <lightning-accordion-section name="validationSection" label="Content Validation" class="custom-section-header">
+                <div class="slds-grid slds-wrap slds-gutters">
+                        <div class="slds-col slds-size_3-of-3">
+                            <article class="slds-card slds-m-around_x-small">
+                                <!-- Enhanced layout using flexbox for alignment -->
+                                <div
+                                    class="slds-card__body slds-grid slds-grid_vertical-align-center slds-grid_align-spread">
+                                    <p class="custom-section-text">                                    
+                                        Clicking the button will validate the content and notify the relevant teams
+                                    </p>
+                                    <div class="slds-shrink-none">
+                                        
+                                        <lightning-button variant="brand" name="validate"
+                                            label={ConfirmationButton}
+                                            onclick={validateCase}>>
+                                        </lightning-button>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                </div>
+            </lightning-accordion-section>
+        </lightning-accordion>
+    </template>
+    <template if:true={notifyPubCRM}>
+        <lightning-accordion allow-multiple-sections-open active-section-name="validationSection">
+            <lightning-accordion-section name="validationSection" label="Content Preview Validation" class="custom-section-header">
+                <div class="slds-grid slds-wrap slds-gutters">
+                        <div class="slds-col slds-size_3-of-3">
+                            <article class="slds-card slds-m-around_x-small">
+                                <!-- Enhanced layout using flexbox for alignment -->
+                                <div
+                                    class="slds-card__body slds-grid slds-grid_vertical-align-center slds-grid_align-spread">
+                                    <p class="custom-section-text">                                    
+                                        Clicking the button will notify the relevant CRM team to confirm the publication of the content preview.<br>
+                                        When the Taget Website language is French or English, the requester is notified instead.
+                                    </p>
+                                    <div class="slds-shrink-none">
+                                        
+                                        <lightning-button variant="brand" name="validate"
+                                            label="Notify CRM Team"
+                                            onclick={validatePublication}>>
+                                        </lightning-button>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                </div>
+            </lightning-accordion-section>
+        </lightning-accordion>
+    </template>
+</template>

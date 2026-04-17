@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_VR023_DataSolutions</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND( NOT($User.BypassValidationRules__c),
+RecordType.DeveloperName = &apos;Client_delivery_request&apos;,
+ISPICKVAL(Data_Solutions_Type__c, &apos;&apos;))</errorConditionFormula>
+    <errorMessage>You must select a Data Solutions Request Type before Saving</errorMessage>
+</ValidationRule>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Azure_DevOps_Link__c</fullName>
+    <description>For admins only</description>
+    <encryptionScheme>None</encryptionScheme>
+    <label>Azure DevOps Link</label>
+    <length>32768</length>
+    <trackTrending>false</trackTrending>
+    <type>Html</type>
+    <visibleLines>25</visibleLines>
+</CustomField>

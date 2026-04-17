@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Team__c</fullName>
+    <label>Team</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Control PS</fullName>
+                <default>false</default>
+                <label>Control PS</label>
+            </value>
+            <value>
+                <fullName>Control Tax</fullName>
+                <default>false</default>
+                <label>Control Tax</label>
+            </value>
+            <value>
+                <fullName>Control Legal</fullName>
+                <default>false</default>
+                <label>Control Legal</label>
+            </value>
+            <value>
+                <fullName>Control Risk</fullName>
+                <default>false</default>
+                <label>Control Risk</label>
+            </value>
+            <value>
+                <fullName>Control Compliance</fullName>
+                <default>false</default>
+                <label>Control Compliance</label>
+            </value>
+            <value>
+                <fullName>Techno</fullName>
+                <default>false</default>
+                <label>Techno</label>
+            </value>
+            <value>
+                <fullName>Legal FCP</fullName>
+                <default>false</default>
+                <label>Legal FCP</label>
+            </value>
+            <value>
+                <fullName>Legal SICAV/ICAV</fullName>
+                <default>false</default>
+                <label>Legal SICAV/ICAV</label>
+            </value>
+            <value>
+                <fullName>Legal Other</fullName>
+                <default>false</default>
+                <label>Legal Other</label>
+            </value>
+            <value>
+                <fullName>OPS</fullName>
+                <default>false</default>
+                <label>OPS</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

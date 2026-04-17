@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR03_BiographyRT_ProductFieldsEmpty</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+RecordType.DeveloperName = &quot;Biography&quot;,
+OR(
+NOT(ISBLANK(Product__c)),
+NOT(ISBLANK(Project_Contribution_at_Product_level__c)),
+NOT(ISBLANK(ShareClass__c)),
+NOT(ISBLANK(Strategy__c)),
+NOT(ISBLANK(Narrative__c))
+)
+)</errorConditionFormula>
+    <errorMessage>The fields Product, Project Contribution at Product level, Narrative, Share Class and Strategy should be empty for Biography records</errorMessage>
+</ValidationRule>

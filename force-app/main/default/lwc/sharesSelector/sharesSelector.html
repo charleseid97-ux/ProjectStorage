@@ -1,0 +1,18 @@
+<!--
+ - Created by Saad LOZZI on 09/11/2021.
+ -->
+
+<!-- Shares Selector -->
+<template>
+    <div class="slds-m-top_medium slds-m-bottom_x-large">
+        <div class="slds-p-around_medium lgc-bg">
+            <lightning-tree-grid
+                    columns={gridColumns}
+                    data={gridData}
+                    key-field="id"
+                    onrowselection={updateSelectedRows}
+                    selected-rows={selectedRows}
+            ></lightning-tree-grid>
+        </div>
+    </div>
+</template>

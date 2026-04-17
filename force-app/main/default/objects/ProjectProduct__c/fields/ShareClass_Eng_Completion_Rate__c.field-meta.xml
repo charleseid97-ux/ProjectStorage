@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ShareClass_Eng_Completion_Rate__c</fullName>
+    <label>ShareClass Eng Completion Rate</label>
+    <summarizedField>ProjectShareclass__c.ShareClassChilds_Eng_Completion_Rate__c</summarizedField>
+    <summaryForeignKey>ProjectShareclass__c.ProjectProduct__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

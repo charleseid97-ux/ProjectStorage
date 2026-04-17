@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>follow_up_delay__c</fullName>
+    <description>Time between the event date and today&apos;s date</description>
+    <externalId>false</externalId>
+    <formula>TODAY() - ActivityDate</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Report delay</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

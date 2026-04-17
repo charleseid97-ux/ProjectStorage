@@ -1,0 +1,25 @@
+.custom-section-header  {
+    --slds-c-accordion-summary-color-background: #f3f2f2
+    /* --slds-c-accordion-summary-color-background: #f3f2f2; Standard Salesforce grey background */
+
+}
+.custom-section-header-info {
+    background-color: #f4f6f9; /* Light background color */
+    padding: 20px;
+    border-radius: 8px;
+}
+.custom-section-text {
+    /* font-family: 'Arial, sans-serif'; Custom font */
+    font-size: 16px;
+    color: #333333; /* Dark text color */
+    margin-top: 20px;
+}
+.custom-button {
+    font-family: 'Arial, sans-serif'; /* Custom font */
+    font-size: 16px;
+    padding: 10px 20px;
+    background-color: #0070d2; /* Brand color background */
+    color: #ffffff; /* White text color */
+    border-radius: 8px;
+    margin-left: 0; /* Align button to the left */
+}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ConventionCompactLayout</fullName>
+    <fields>Name</fields>
+    <fields>ConventionName__c</fields>
+    <fields>Status__c</fields>
+    <fields>Grid__c</fields>
+    <fields>RecordTypeId</fields>
+    <fields>Send_SharePoint_Email__c</fields>
+    <label>Convention Compact Layout</label>
+</CompactLayout>

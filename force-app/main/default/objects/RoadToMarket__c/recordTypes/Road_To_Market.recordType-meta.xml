@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Road_To_Market</fullName>
+    <active>true</active>
+    <label>Road To Market</label>
+    <picklistValues>
+        <picklist>Status__c</picklist>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dropped</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>On Hold</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ongoing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>To Be Started</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Team__c</picklist>
+        <values>
+            <fullName>Communication</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Compliance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DBS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DCP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Data Client Reporting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Digital Business Solution</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Digital Marketing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Distribution</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Distribution and Client Operations</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fund Marketing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Legal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Operations</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Product Specialist</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Product Strategy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RFP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tax</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Technology</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Tech_Type__c</picklist>
+        <values>
+            <fullName>Child</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Parent</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

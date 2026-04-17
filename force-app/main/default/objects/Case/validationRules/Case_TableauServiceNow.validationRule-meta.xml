@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_TableauServiceNow</fullName>
+    <active>true</active>
+    <description>If no is selected, the WTP cannot be put into service as we cannot perform any tasks without the appropriate access rights.
+The creator should be able to save the request in the &quot;New&quot; status</description>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+ISNEW(),
+ ISPICKVAL( Type_of_Request__c, &apos;User management&apos;),
+Service_Now_Request_Made__c = false, 
+RecordType.DeveloperName = &apos;Tableau_Request&apos;)</errorConditionFormula>
+    <errorDisplayField>Service_Now_Request_Made__c</errorDisplayField>
+    <errorMessage>You must make a Service Now request before creating a WTP.
+Tableau Admins cannot perform any tasks without the appropriate access rights (AAD_TBLServer_PRD_User)</errorMessage>
+</ValidationRule>

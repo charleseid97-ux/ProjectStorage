@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Link_to_Teams_Channel2__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF (AND(Teams_Channel_2__c !=&apos;&apos;,Name_for_Team_Channel2__c !=&apos;&apos;), HYPERLINK( Teams_Channel_2__c ,Name_for_Team_Channel2__c), 
+				IF(AND(Teams_Channel_2__c =&apos;&apos;, Name_for_Team_Channel2__c !=&apos;&apos;), &apos;Please paste a Teams Link into Teams Channel 2&apos;,
+							IF(AND(Teams_Channel_2__c !=&apos;&apos;,Name_for_Team_Channel2__c =&apos;&apos;), HYPERLINK( Teams_Channel_2__c ,&quot;Channel Link&quot;)
+										, 
+										&apos;&apos;)))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>BAU Team Channel</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

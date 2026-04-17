@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Agreement_IS_PostGovernance</fullName>
+    <active>true</active>
+    <description>OBJECTIF : Post Governance : SPC/Governance Date !=null // Governance Outcome doit être &quot;Approved&quot;</description>
+    <errorConditionFormula>AND ( 
+RecordType.Name = &quot;IS Agreement&quot; , 
+NOT($User.BypassValidationRules__c), 
+ISPICKVAL(Status__c, &quot;Post Governance&quot;), 
+OR(
+ISBLANK(TEXT(SPC_Status__c)), 
+ISBLANK(Governance_Decision_Date__c),
+NOT(ISPICKVAL(Governance_Decision__c, &quot;Approved&quot;))
+				)
+				
+			)</errorConditionFormula>
+    <errorMessage>To proceed to &quot;Post Governance&quot; stage, the following criteria need to be met : SPC Status and Gouvernance Decision Date cannot be blank and the Gouvernance Decision must be &apos;Approved&apos;.</errorMessage>
+</ValidationRule>

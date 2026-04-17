@@ -1,0 +1,19 @@
+<!--
+ - Created by noorg on 12/07/2021.
+ -->
+
+<!-- Kyd File Upload -->
+<template>
+    <lightning-card title="Upload File" class="slds-card slds-card_boundary custom_block" icon-name="standard:document">
+        <div class="slds-grid_align-center center_button">
+            <lightning-file-upload
+                    name="fileUploader"
+                    accept={acceptedFormats}
+                    record-id={recordId}
+                    onuploadfinished={handleUploadFinished}
+                    multiple
+            >
+            </lightning-file-upload>
+        </div>
+    </lightning-card>
+</template>

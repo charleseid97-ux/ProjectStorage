@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Legal_Entity_Identifier_VR</fullName>
+    <active>false</active>
+    <description>Only System Administrators can change a Legal Entity Identifier (LEI).</description>
+    <errorConditionFormula>AND (
+ISCHANGED(LEI__c),
+NOT($User.ProfileId = &apos;00e58000000s3v6AAA&apos;),
+NOT($User.BypassValidationRules__c)
+)</errorConditionFormula>
+    <errorDisplayField>LEI__c</errorDisplayField>
+    <errorMessage>Only System Administrators can change a Legal Entity Identifier (LEI).
+Please contact a System Admin for this update.</errorMessage>
+</ValidationRule>

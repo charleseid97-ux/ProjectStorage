@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_VR014_AssetClassFocusMandatory</fullName>
+    <active>false</active>
+    <description>Asset Class Focus is mandatory if Company Segmentation is Wholesale or Institutional (Investment decision) except for profiles Carmignac - System Administrator, Carmignac - Interface et System Administrator</description>
+    <errorConditionFormula>AND( 
+ISNULL( AssetClassFocus__c ), 
+RecordType.Name = &apos;Distribution Contact&apos;, 
+NOT(ISPICKVAL(Account.In__c, &apos;Retail&apos;)) , 
+NOT($User.ProfileId = &apos;00e58000000z9hS&apos;), 
+NOT($User.ProfileId = &apos;00e58000000z6UE&apos;), 
+NOT($User.ProfileId = &apos;00e58000000z6UC&apos;), 
+NOT($User.ProfileId = &apos;00e58000000s3v6&apos;), 
+$User.BypassValidationRules__c = false 
+)</errorConditionFormula>
+    <errorMessage>Asset Class Focus is mandatory for Contacts related to a Company with Investment Decision Wholesale or Institutional</errorMessage>
+</ValidationRule>

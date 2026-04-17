@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_VR07_FaxNumberFormat</fullName>
+    <active>false</active>
+    <description>Fax number format shall always start by &quot;+&quot; and contain a country code</description>
+    <errorConditionFormula>AND(
+Bypass_Apex__c = false,
+NOT (ISBLANK(MobilePhone )),
+NOT(
+REGEX( MobilePhone , &quot;^\\+([0-9 ]+)$&quot; )
+&amp;&amp; LEN( SUBSTITUTE(MobilePhone , &quot; &quot;, &quot;&quot;) ) &lt; 26
+&amp;&amp; LEN( SUBSTITUTE(MobilePhone , &quot; &quot;, &quot;&quot;) ) &gt; 6
+), $User.BypassValidationRules__c = false)</errorConditionFormula>
+    <errorDisplayField>Fax</errorDisplayField>
+    <errorMessage>Please enter a fax number starting with &quot;+&quot; and a country code 
+(Example : +33 142 86 XX XX)</errorMessage>
+</ValidationRule>

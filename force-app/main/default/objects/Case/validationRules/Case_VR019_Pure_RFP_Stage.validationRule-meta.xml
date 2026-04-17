@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_VR019_Pure_RFP_Stage</fullName>
+    <active>false</active>
+    <description>Validation rule for RFP WTPs. Only when the Field Type is under &apos;Pure RFP&apos;, the status can be moved to Pure RFP.</description>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+RecordType.DeveloperName = &apos;RFP_RFI_Questionnaire&apos;,
+NOT(ISPICKVAL(Type,&apos;RFP&apos;)),
+ISPICKVAL( Status, &apos;Pure RFP stage&apos;))</errorConditionFormula>
+    <errorDisplayField>Due_Diligence_type_del__c</errorDisplayField>
+    <errorMessage>This Status is usedd for the Pure RFP type only.</errorMessage>
+</ValidationRule>

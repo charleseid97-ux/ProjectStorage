@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Agreement_Lock_terminated_record</fullName>
+    <active>true</active>
+    <description>Only admins can modify certain fields after termination</description>
+    <errorConditionFormula>IF(
+AND(
+
+NOT($User.BypassValidationRules__c),
+PRIORVALUE(Status__c)=&apos;Terminated&apos;,
+OR($Profile.Name = &apos;Carmignac - System Administrator&apos;, $Profile.Name = &apos;System Administrator&apos;),
+NOT(ISCHANGED(OwnerId)),
+NOT(ISCHANGED(Company__c)),
+NOT(ISCHANGED( Primary_Rebate_Contact__c)),
+NOT(ISCHANGED( Rebate_Contact_Company__c )),
+NOT(ISCHANGED( Email_Distribution_List__c )),
+NOT(ISCHANGED( PrimaryReallocationContact__c )),
+NOT(ISCHANGED( ReallocationContactCompany__c )),
+NOT(ISCHANGED( ReallocationEmailDistributionList__c )),
+NOT(ISCHANGED( After_Termination_Alterations__c))), true,
+
+IF(
+AND(
+NOT($User.BypassValidationRules__c),
+ISPICKVAL(Status__c, &apos;Terminated&apos;),
+ISPICKVAL(PRIORVALUE(Status__c), &apos;Terminated&apos;),
+$Profile.Name &lt;&gt; &apos;Carmignac - System Administrator&apos;,
+$Profile.Name &lt;&gt; &apos;System Administrator&apos;
+
+),
+
+true,false))</errorConditionFormula>
+    <errorMessage>This agreement is terminated and cannot be modified.</errorMessage>
+</ValidationRule>

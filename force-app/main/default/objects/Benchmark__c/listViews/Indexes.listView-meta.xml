@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Indexes</fullName>
+    <columns>NAME</columns>
+    <columns>Description__c</columns>
+    <columns>BloombergCode__c</columns>
+    <columns>CURRENCY_ISO_CODE</columns>
+    <columns>IndexCategory__c</columns>
+    <columns>InternalName__c</columns>
+    <columns>QuoteCurrency__c</columns>
+    <columns>Type__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Type__c</field>
+        <operation>equals</operation>
+        <value>Index</value>
+    </filters>
+    <label>Indexes</label>
+</ListView>

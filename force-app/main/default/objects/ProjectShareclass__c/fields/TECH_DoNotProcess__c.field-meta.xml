@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TECH_DoNotProcess__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Permet d&apos;éviter de cloner/copier/supprimer/modifier ces Shareclass dans le développement.
+Utilisé dans l&apos;outil PMT (Project Management Tool)
+Le cas principal est la création de &quot;New Shareclass&quot; qui va permettre de contribuer sur une nouvelle Shareclass sans modifier les autres Shareclass dans le composant ShareclassNavigator.
+Il permet d&apos;éviter de transferer les informations du ProjectShareclass vers Shareclass lors du déclenchement du batch</description>
+    <label>TECH_DoNotProcess</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Session</fullName>
+    <fields>Name</fields>
+    <fields>status__c</fields>
+    <fields>format__c</fields>
+    <fields>salesTeam__c</fields>
+    <fields>eventOwner__c</fields>
+    <label>Session</label>
+</CompactLayout>

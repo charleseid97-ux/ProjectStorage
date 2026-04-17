@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NumberOfSent__c</fullName>
+    <description>As Ready to be sent means email not sent, Sent number = Total status - Ready to be sent
+Sent status means that prospect received the email but did not take an action (unsubscribed, opened, clicked...) and email was not bounced</description>
+    <label>Number of Sent</label>
+    <summaryFilterItems>
+        <field>CampaignMember.Status</field>
+        <operation>notEqual</operation>
+        <value>Ready to be Sent</value>
+    </summaryFilterItems>
+    <summaryForeignKey>CampaignMember.CampaignId</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

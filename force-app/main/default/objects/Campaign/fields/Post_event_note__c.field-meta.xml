@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Post_event_note__c</fullName>
+    <description>Field dedicated to post-event comments for all contributors and organizator of the event</description>
+    <encryptionScheme>None</encryptionScheme>
+    <label>Post-event note</label>
+    <length>131072</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

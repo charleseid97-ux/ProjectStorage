@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Country_In__c</fullName>
+    <label>Country In</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>France</fullName>
+                <default>false</default>
+                <label>France</label>
+            </value>
+            <value>
+                <fullName>United Kingdom</fullName>
+                <default>false</default>
+                <label>United Kingdom</label>
+            </value>
+            <value>
+                <fullName>Germany</fullName>
+                <default>false</default>
+                <label>Germany</label>
+            </value>
+            <value>
+                <fullName>Italy</fullName>
+                <default>false</default>
+                <label>Italy</label>
+            </value>
+            <value>
+                <fullName>Switzerland</fullName>
+                <default>false</default>
+                <label>Switzerland</label>
+            </value>
+            <value>
+                <fullName>Belgium</fullName>
+                <default>false</default>
+                <label>Belgium</label>
+            </value>
+            <value>
+                <fullName>Spain</fullName>
+                <default>false</default>
+                <label>Spain</label>
+            </value>
+            <value>
+                <fullName>Nordics</fullName>
+                <default>false</default>
+                <label>Nordics</label>
+            </value>
+            <value>
+                <fullName>Luxembourg</fullName>
+                <default>false</default>
+                <label>Luxembourg</label>
+            </value>
+            <value>
+                <fullName>Netherlands</fullName>
+                <default>false</default>
+                <label>Netherlands</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

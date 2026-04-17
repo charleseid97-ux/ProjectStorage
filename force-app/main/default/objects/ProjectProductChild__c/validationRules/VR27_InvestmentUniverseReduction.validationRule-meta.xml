@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR27_InvestmentUniverseReduction</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  NOT($User.BypassValidationRules__c),
+  NOT(ISBLANK(InvestmentUniverseReduction__c)),
+  OR(
+    InvestmentUniverseReduction__c &lt; 0,
+    InvestmentUniverseReduction__c &gt; 1
+  )
+)</errorConditionFormula>
+    <errorDisplayField>InvestmentUniverseReduction__c</errorDisplayField>
+    <errorMessage>Investment universe reduction must be between 0% and 100%</errorMessage>
+</ValidationRule>

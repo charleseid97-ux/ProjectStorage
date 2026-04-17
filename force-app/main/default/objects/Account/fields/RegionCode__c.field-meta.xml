@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RegionCode__c</fullName>
+    <description>This field is used in reports.</description>
+    <externalId>false</externalId>
+    <formula>CASE( BusinessDevelopmentRegion__c ,  
+&quot;Belgium&quot;, &quot;BE&quot;,
+&quot;France&quot;, &quot;FR&quot;,
+&quot;Germany and Austria&quot;, &quot;DE&quot;,
+&quot;Italy&quot;, &quot;IT&quot;,
+&quot;Luxemburg&quot;, &quot;LU&quot;,
+&quot;Netherlands&quot;, &quot;NL&quot;,
+&quot;Nordics&quot;, &quot;NORDICS&quot;,
+&quot;Spain&quot;, &quot;ES&quot;,
+&quot;Switzerland&quot;, &quot;CH&quot;,
+&quot;United Kingdom&quot;, &quot;UK&quot;,
+&quot;International&quot;, &quot;INTL&quot;,
+&quot;LATAM&quot;, &quot;LATAM&quot;,
+&quot;Other&quot;, &quot;Other&quot;, &quot;&quot;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Region Code</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

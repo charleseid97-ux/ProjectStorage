@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Role__c</fullName>
+    <label>Role</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>TECH_Agreement_CodeType__c</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Distribution Delegate</fullName>
+                <default>false</default>
+                <label>Distribution Delegate</label>
+            </value>
+            <value>
+                <fullName>Distribution Intermediary</fullName>
+                <default>false</default>
+                <label>Distribution Intermediary</label>
+            </value>
+            <value>
+                <fullName>Investment Advisor</fullName>
+                <default>false</default>
+                <label>Investment Advisor</label>
+            </value>
+            <value>
+                <fullName>Carmignac Entity</fullName>
+                <default>false</default>
+                <label>Carmignac Entity</label>
+            </value>
+            <value>
+                <fullName>Platform&apos;s Sub-Distributor</fullName>
+                <default>false</default>
+                <label>Platform&apos;s Sub-Distributor</label>
+            </value>
+            <value>
+                <fullName>Direct Investor</fullName>
+                <default>false</default>
+                <label>Direct Investor</label>
+            </value>
+            <value>
+                <fullName>End Investor</fullName>
+                <default>false</default>
+                <label>End Investor</label>
+            </value>
+            <value>
+                <fullName>Consultant</fullName>
+                <default>false</default>
+                <label>Consultant</label>
+            </value>
+            <value>
+                <fullName>Distribution Platform</fullName>
+                <default>false</default>
+                <label>Distribution Platform</label>
+            </value>
+            <value>
+                <fullName>Manco and Asset owner</fullName>
+                <default>false</default>
+                <label>Manco and Asset owner</label>
+            </value>
+            <value>
+                <fullName>Portfolio Manager</fullName>
+                <default>false</default>
+                <label>Portfolio Manager</label>
+            </value>
+            <value>
+                <fullName>Advisee</fullName>
+                <default>false</default>
+                <label>Advisee</label>
+            </value>
+            <value>
+                <fullName>Advisor (MIFID)</fullName>
+                <default>false</default>
+                <label>Advisor (MIFID)</label>
+            </value>
+            <value>
+                <fullName>Distributor</fullName>
+                <default>false</default>
+                <label>Distributor</label>
+            </value>
+            <value>
+                <fullName>Sub-Distributor</fullName>
+                <default>false</default>
+                <label>Sub-Distributor</label>
+            </value>
+            <value>
+                <fullName>Other Role</fullName>
+                <default>false</default>
+                <label>Other Role</label>
+            </value>
+            <value>
+                <fullName>Advisor (Non MIFID)</fullName>
+                <default>false</default>
+                <label>Advisor (Non MIFID)</label>
+            </value>
+            <value>
+                <fullName>Master Fund Manco</fullName>
+                <default>false</default>
+                <label>Master Fund Manco</label>
+            </value>
+            <value>
+                <fullName>Feeder Fund Manco</fullName>
+                <default>false</default>
+                <label>Feeder Fund Manco</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Direct Investor</controllingFieldValue>
+            <valueName>Direct Investor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>End Investor</controllingFieldValue>
+            <valueName>End Investor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Consultant</controllingFieldValue>
+            <valueName>Consultant</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IS Portfolio Management Delegation</controllingFieldValue>
+            <controllingFieldValue>IS Dedicated Product Distribution</controllingFieldValue>
+            <controllingFieldValue>IS Advisory</controllingFieldValue>
+            <controllingFieldValue>IS Master Feeder</controllingFieldValue>
+            <valueName>Manco and Asset owner</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IS Portfolio Management Delegation</controllingFieldValue>
+            <controllingFieldValue>IS Dedicated Product Distribution</controllingFieldValue>
+            <controllingFieldValue>IS Advisory</controllingFieldValue>
+            <controllingFieldValue>IS Master Feeder</controllingFieldValue>
+            <valueName>Portfolio Manager</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IS Portfolio Management Delegation</controllingFieldValue>
+            <controllingFieldValue>IS Dedicated Product Distribution</controllingFieldValue>
+            <controllingFieldValue>IS Advisory</controllingFieldValue>
+            <controllingFieldValue>IS Master Feeder</controllingFieldValue>
+            <valueName>Advisee</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IS Portfolio Management Delegation</controllingFieldValue>
+            <controllingFieldValue>IS Dedicated Product Distribution</controllingFieldValue>
+            <controllingFieldValue>IS Advisory</controllingFieldValue>
+            <controllingFieldValue>IS Master Feeder</controllingFieldValue>
+            <valueName>Advisor (MIFID)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IS Portfolio Management Delegation</controllingFieldValue>
+            <controllingFieldValue>IS Dedicated Product Distribution</controllingFieldValue>
+            <controllingFieldValue>IS Advisory</controllingFieldValue>
+            <controllingFieldValue>IS Master Feeder</controllingFieldValue>
+            <valueName>Distributor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IS Portfolio Management Delegation</controllingFieldValue>
+            <controllingFieldValue>IS Dedicated Product Distribution</controllingFieldValue>
+            <controllingFieldValue>IS Advisory</controllingFieldValue>
+            <controllingFieldValue>IS Master Feeder</controllingFieldValue>
+            <valueName>Sub-Distributor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IS Portfolio Management Delegation</controllingFieldValue>
+            <controllingFieldValue>IS Dedicated Product Distribution</controllingFieldValue>
+            <controllingFieldValue>IS Advisory</controllingFieldValue>
+            <controllingFieldValue>IS Master Feeder</controllingFieldValue>
+            <valueName>Other Role</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IS Portfolio Management Delegation</controllingFieldValue>
+            <controllingFieldValue>IS Dedicated Product Distribution</controllingFieldValue>
+            <controllingFieldValue>IS Advisory</controllingFieldValue>
+            <controllingFieldValue>IS Master Feeder</controllingFieldValue>
+            <valueName>Advisor (Non MIFID)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IS Portfolio Management Delegation</controllingFieldValue>
+            <controllingFieldValue>IS Dedicated Product Distribution</controllingFieldValue>
+            <controllingFieldValue>IS Advisory</controllingFieldValue>
+            <controllingFieldValue>IS Master Feeder</controllingFieldValue>
+            <valueName>Master Fund Manco</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IS Portfolio Management Delegation</controllingFieldValue>
+            <controllingFieldValue>IS Dedicated Product Distribution</controllingFieldValue>
+            <controllingFieldValue>IS Advisory</controllingFieldValue>
+            <controllingFieldValue>IS Master Feeder</controllingFieldValue>
+            <valueName>Feeder Fund Manco</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Distribution Agreement</controllingFieldValue>
+            <controllingFieldValue>Platform Master Agreement</controllingFieldValue>
+            <controllingFieldValue>OEIC Distribution Agreement</controllingFieldValue>
+            <valueName>Distribution Delegate</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>French IFA Agreement</controllingFieldValue>
+            <controllingFieldValue>Swiss IFA Agreement</controllingFieldValue>
+            <valueName>Investment Advisor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Execution only Platform Agreement</controllingFieldValue>
+            <controllingFieldValue>Placement Agreement</controllingFieldValue>
+            <controllingFieldValue>Private Placement Agreement</controllingFieldValue>
+            <controllingFieldValue>UK Execution only Platform Agreement</controllingFieldValue>
+            <valueName>Distribution Intermediary</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sub-distributor via Platforms</controllingFieldValue>
+            <valueName>Platform&apos;s Sub-Distributor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sub-distributor via Platforms</controllingFieldValue>
+            <valueName>Distribution Platform</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

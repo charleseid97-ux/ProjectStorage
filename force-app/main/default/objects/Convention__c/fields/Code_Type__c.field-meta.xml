@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Code_Type__c</fullName>
+    <label>Code Type</label>
+    <required>true</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Agreement_Type__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Distribution Agreement</fullName>
+                <default>false</default>
+                <label>Distribution Agreement</label>
+            </value>
+            <value>
+                <fullName>French IFA Agreement</fullName>
+                <default>false</default>
+                <label>French IFA Agreement</label>
+            </value>
+            <value>
+                <fullName>Swiss IFA Agreement</fullName>
+                <default>false</default>
+                <label>Swiss IFA Agreement</label>
+            </value>
+            <value>
+                <fullName>Execution only Platform Agreement</fullName>
+                <default>false</default>
+                <label>Execution only Platform Agreement</label>
+            </value>
+            <value>
+                <fullName>Placement Agreement</fullName>
+                <default>false</default>
+                <label>Placement Agreement</label>
+            </value>
+            <value>
+                <fullName>Platform Master Agreement</fullName>
+                <default>false</default>
+                <label>Platform Master Agreement</label>
+            </value>
+            <value>
+                <fullName>Private Placement Agreement</fullName>
+                <default>false</default>
+                <label>Private Placement Agreement</label>
+            </value>
+            <value>
+                <fullName>OEIC Distribution Agreement</fullName>
+                <default>false</default>
+                <label>OEIC Distribution Agreement</label>
+            </value>
+            <value>
+                <fullName>UK Execution only Platform Agreement</fullName>
+                <default>false</default>
+                <label>UK Execution only Platform Agreement</label>
+            </value>
+            <value>
+                <fullName>Sub-distributor via Platforms</fullName>
+                <default>false</default>
+                <label>Sub-distributor via Platforms</label>
+            </value>
+            <value>
+                <fullName>Direct Investor</fullName>
+                <default>false</default>
+                <label>Direct Investor</label>
+            </value>
+            <value>
+                <fullName>End Investor</fullName>
+                <default>false</default>
+                <label>End Investor</label>
+            </value>
+            <value>
+                <fullName>Consultant</fullName>
+                <default>false</default>
+                <label>Consultant</label>
+            </value>
+            <value>
+                <fullName>Technical</fullName>
+                <default>false</default>
+                <label>Technical</label>
+            </value>
+            <value>
+                <fullName>IS Portfolio Management Delegation</fullName>
+                <default>false</default>
+                <label>IS Portfolio Management Delegation</label>
+            </value>
+            <value>
+                <fullName>IS Dedicated Product Distribution</fullName>
+                <default>false</default>
+                <label>IS Dedicated Product Distribution</label>
+            </value>
+            <value>
+                <fullName>IS Advisory</fullName>
+                <default>false</default>
+                <label>IS Advisory</label>
+            </value>
+            <value>
+                <fullName>IS Master Feeder</fullName>
+                <default>false</default>
+                <label>IS Master Feeder</label>
+            </value>
+            <value>
+                <fullName>Agreement without Rebates</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Agreement without Rebates</label>
+            </value>
+            <value>
+                <fullName>Direct Investor without Agreement</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Direct Investor without Agreement</label>
+            </value>
+            <value>
+                <fullName>Distributor platform agreement for clearing</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Distributor platform agreement for clearing</label>
+            </value>
+            <value>
+                <fullName>French IFA Agreement (CGP)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>French IFA Agreement (CGP)</label>
+            </value>
+            <value>
+                <fullName>IS Dedicated Fund</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>IS Dedicated Fund</label>
+            </value>
+            <value>
+                <fullName>Institutional without Agreement</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Institutional without Agreement</label>
+            </value>
+            <value>
+                <fullName>Only Clearing Platform Agreement</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Only Clearing Platform Agreement</label>
+            </value>
+            <value>
+                <fullName>Reporting</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Reporting</label>
+            </value>
+            <value>
+                <fullName>Sub-intermediary Agreement via platform</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Sub-intermediary Agreement via platform</label>
+            </value>
+            <value>
+                <fullName>UK intermediaries (none platform)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>UK intermediaries (none platform)</label>
+            </value>
+            <value>
+                <fullName>US Offshore Agreement</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>US Offshore Agreement</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Standard</controllingFieldValue>
+            <controllingFieldValue>Master</controllingFieldValue>
+            <valueName>Distribution Agreement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Standard</controllingFieldValue>
+            <valueName>French IFA Agreement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Standard</controllingFieldValue>
+            <valueName>Swiss IFA Agreement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Standard</controllingFieldValue>
+            <controllingFieldValue>Master</controllingFieldValue>
+            <valueName>Placement Agreement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Standard</controllingFieldValue>
+            <valueName>Private Placement Agreement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Standard</controllingFieldValue>
+            <valueName>OEIC Distribution Agreement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Standard</controllingFieldValue>
+            <valueName>Sub-distributor via Platforms</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Standard</controllingFieldValue>
+            <valueName>Direct Investor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Standard</controllingFieldValue>
+            <valueName>End Investor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Standard</controllingFieldValue>
+            <valueName>Consultant</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Standard</controllingFieldValue>
+            <controllingFieldValue>Master</controllingFieldValue>
+            <valueName>Technical</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Standard</controllingFieldValue>
+            <valueName>IS Portfolio Management Delegation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Standard</controllingFieldValue>
+            <valueName>IS Dedicated Product Distribution</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Standard</controllingFieldValue>
+            <valueName>IS Advisory</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Standard</controllingFieldValue>
+            <valueName>IS Master Feeder</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Master</controllingFieldValue>
+            <valueName>Execution only Platform Agreement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Master</controllingFieldValue>
+            <valueName>Platform Master Agreement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Master</controllingFieldValue>
+            <valueName>UK Execution only Platform Agreement</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

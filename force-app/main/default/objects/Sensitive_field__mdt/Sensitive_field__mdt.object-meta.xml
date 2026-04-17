@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This Custom Metadata defines the list of sensitive fields. These fields are considered sensitive because they can only be modified through dedicated Modification Projects and must never be editable directly from the Product Catalog.
+
+By maintaining this list, we ensure that sensitive information is managed exclusively through controlled modification workflows, preserving data integrity and governance across Product and Share Class records.</description>
+    <label>PMT - Sensitive field</label>
+    <pluralLabel>Sensitive fields</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

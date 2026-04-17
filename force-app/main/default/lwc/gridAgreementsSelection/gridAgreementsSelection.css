@@ -1,0 +1,130 @@
+.gridAgreementSelectionPage {
+    max-width: 70%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;
+}
+
+/* ── Two-column layout ── */
+.form-columns {
+    display: flex;
+    column-gap: 32px;
+    align-items: flex-start;
+}
+
+.form-col-left,
+.form-col-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    row-gap: 12px;
+}
+
+/* ── Start Date + End Date side by side ── */
+.date-row {
+    display: flex;
+    column-gap: 12px;
+}
+
+.date-row > * {
+    flex: 1;
+    min-width: 0;
+}
+
+/* ── Amount field (checkbox + optional number input) ── */
+.amount-field {
+    display: flex;
+    flex-direction: column;
+    row-gap: 6px;
+}
+
+/* ── Agreement section disabled state ── */
+.agreement-section--disabled {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+/* ── AutoUpdate toggle row ── */
+.toggle-grid-update {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2px;
+}
+
+.toggle-header {
+    display: flex;
+    align-items: flex-end;
+    column-gap: 5px;
+}
+
+.toggle-row {
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+}
+
+.toggle-label {
+    font-size: 0.75rem;
+    font-family: var(--lwc-fontFamily);
+    color: var(--slds-g-color-neutral-base-30, var(--lwc-colorTextLabel, rgb(68, 68, 68)));
+}
+
+.message-toggle-label {
+    font-size: 12px;
+}
+
+/* ── Info / Error / Warning banners ── */
+.info-banner,
+.error-banner,
+.warning-banner {
+    display: flex;
+    align-items: flex-start;
+    column-gap: 6px;
+    padding: 8px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    line-height: 1.4;
+}
+
+.info-banner {
+    background: #e9f0ff;
+    border: 1px solid #1b5297;
+    color: #1b5297;
+}
+
+.error-banner {
+    background: #fde8e8;
+    border: 1px solid #c23934;
+    color: #c23934;
+    margin-top: 4px;
+}
+
+.warning-banner {
+    background: #fff3cd;
+    border: 1px solid #b47d00;
+    color: #7d5200;
+    margin-top: 4px;
+}
+
+/* ── Date field wrapper (to stack error below input) ── */
+.date-field {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Additional fields (Other Fees / Comment) separator ── */
+.additional-fields {
+    display: flex;
+    flex-direction: column;
+    row-gap: 12px;
+    padding-top: 50px;
+}
+
+/* ── Footer ── */
+.form-footer {
+    margin-top: 4px;
+    display: flex;
+    justify-content: center;
+}

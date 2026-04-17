@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DistributorsRegion__c</fullName>
+    <inlineHelpText>Information on the distributors</inlineHelpText>
+    <label>Distributors Region</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Our distribution network in Europe</fullName>
+                <default>false</default>
+                <label>Our distribution network in Europe</label>
+            </value>
+            <value>
+                <fullName>Dedicated distribution partner</fullName>
+                <default>false</default>
+                <label>Dedicated distribution partner</label>
+            </value>
+            <value>
+                <fullName>Distributors outside Europe</fullName>
+                <default>false</default>
+                <label>Distributors outside Europe</label>
+            </value>
+            <value>
+                <fullName>Our distribution network in Europe|Dedicated distribution partner|Distributors outside Europe</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Our distribution network in Europe|Dedicated distribution partner|Distributors outside Europe</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>5</visibleLines>
+</CustomField>

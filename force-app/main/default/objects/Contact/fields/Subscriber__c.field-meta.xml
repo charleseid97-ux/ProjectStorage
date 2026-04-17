@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Subscriber__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>If the field &quot;Event OptOut&quot; is ticked, the Contact won&apos;t receive Carmignac&apos;s Event invitations or Post meetings (Etouches Emails)</description>
+    <inlineHelpText>If the field « Event Opt out » is ticked, the contact won’t receive any Carmignac Invitation from Pardot</inlineHelpText>
+    <label>Event Optout (OLD)</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

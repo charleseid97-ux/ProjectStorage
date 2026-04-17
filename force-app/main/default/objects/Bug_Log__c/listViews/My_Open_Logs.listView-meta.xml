@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>My_Open_Logs</fullName>
+    <columns>NAME</columns>
+    <columns>AssignedTo__c</columns>
+    <columns>App__c</columns>
+    <columns>Description__c</columns>
+    <columns>Owner__c</columns>
+    <columns>PrioritySeverity__c</columns>
+    <columns>Status__c</columns>
+    <columns>Title__c</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Mine</filterScope>
+    <filters>
+        <field>Status__c</field>
+        <operation>notEqual</operation>
+        <value>Closed</value>
+    </filters>
+    <label>My Open Logs</label>
+    <language>en_US</language>
+</ListView>

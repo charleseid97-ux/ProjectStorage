@@ -1,0 +1,56 @@
+<template>
+    <div class="slds-m-top_medium slds-m-bottom_x-large">
+        <div class="slds-p-around_medium lgc-bg">
+            <div class="container">
+                <lightning:layout >
+                    <lightning:layoutItem padding="around-small" size="6">
+                        <span class="checkboxes">
+                            <template if:true={ishighlevel}>
+                                <lightning-input type="checkbox" label="Asset Class" name="assetclasscbx" onchange={handleChangeAssetCbx} unchecked disabled></lightning-input>
+                                <lightning-input type="checkbox" label="Regional Focus" name="regionalfocuscbx" onchange={handleChangeRegionalCbx} unchecked disabled></lightning-input>
+                            </template>
+                            <template if:false={ishighlevel}>
+                                <template if:true={showAC}>
+                                    <lightning-input type="checkbox" label="Asset Class" name="assetclasscbx" onchange={handleChangeAssetCbx} checked></lightning-input>
+                                    <lightning-input type="checkbox" label="Regional Focus" name="regionalfocuscbx" onchange={handleChangeRegionalCbx} unchecked></lightning-input>
+                                </template>
+                                <template if:true={showRF}>
+                                    <lightning-input type="checkbox" label="Asset Class" name="assetclasscbx" onchange={handleChangeAssetCbx} unchecked></lightning-input>
+                                    <lightning-input type="checkbox" label="Regional Focus" name="regionalfocuscbx" onchange={handleChangeRegionalCbx} checked></lightning-input>
+                                </template>
+                                <template if:false={showRF}>
+                                    <template if:false={showAC}>
+                                        <lightning-input type="checkbox" label="Asset Class" name="assetclasscbx" onchange={handleChangeAssetCbx} unchecked></lightning-input>
+                                    <lightning-input type="checkbox" label="Regional Focus" name="regionalfocuscbx" onchange={handleChangeRegionalCbx} unchecked></lightning-input>
+                                    </template>
+                                </template>
+                            </template>
+
+                            <lightning-input type="checkbox" label="SRI/ESG" name="sricbx" onchange={handleChangeSRICbx} unchecked></lightning-input>
+                        </span>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem padding="around-small" size="6">
+                        <template if:true={isStrategiesVersion}>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <select class="slds-select"
+                                            onchange={handleCountryChange}>
+                                        <option value="All countries">Countries of Registration</option>
+                                        <template for:each={countries} for:item="option">
+                                            <option key={option.label} class="uiInputSelectOption" value={option.value}>{option.label}</option>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+                        </template>
+                    </lightning:layoutItem>
+                </lightning:layout>
+
+
+                <span>
+                    <c-tree items={items} header="Product Hierarchy"></c-tree>
+                </span>
+            </div>
+        </div>
+    </div>
+</template>

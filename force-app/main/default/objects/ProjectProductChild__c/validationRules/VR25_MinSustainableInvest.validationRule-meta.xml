@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR25_MinSustainableInvest</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  NOT($User.BypassValidationRules__c),
+  NOT(ISBLANK(MinSustainableInvest__c)),
+  OR(
+    MinSustainableInvest__c &lt; 0,
+    MinSustainableInvest__c &gt; 1
+  )
+)</errorConditionFormula>
+    <errorDisplayField>MinSustainableInvest__c</errorDisplayField>
+    <errorMessage>Minimum sustainable investment must be between 1% and 100%.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,38 @@
+<template>
+    <div class="slds-box slds-theme_default">
+        <div class="slds-page-header">
+            <div class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center">
+                <div class="slds-media slds-media_center">
+                    <div class="slds-media__figure">
+                        <lightning-icon icon-name="utility:description" alternative-text="Project Management Phase" size="medium"></lightning-icon>
+                    </div>
+                    <div class="slds-media__body">
+                        <h1 class="slds-page-header__title slds-truncate" title="Project Management Phase">
+                           Project Management Phase
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+ 
+        <div class="slds-p-around_medium">
+              <div class="datatable-container">
+            <template if:true={isLoading}>
+                <div class="spinner-overlay">
+                    <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
+                </div>
+            </template>
+ 
+            <lightning-datatable
+                key-field="Id"
+                data={records}
+                columns={columns}
+                onsave={handleSave}
+                draft-values={draftValues}
+                hide-checkbox-column
+            ></lightning-datatable>
+        </div>
+        </div>
+           
+    </div>
+</template>

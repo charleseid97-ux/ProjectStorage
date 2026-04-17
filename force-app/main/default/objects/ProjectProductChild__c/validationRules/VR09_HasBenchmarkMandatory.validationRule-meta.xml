@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR09_HasBenchmarkMandatory</fullName>
+    <active>false</active>
+    <description>Display &amp; Mandatory ONLY if HasBenchmark = True</description>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+$Permission.PRPProductStrategy,
+Name = &apos;Proposal&apos;,
+ISPICKVAL(HasBenchmark__c, &quot;True&quot;),
+OR((ISBLANK(BenchmarkName__c)),
+(ISBLANK(Useref__c)))
+
+)</errorConditionFormula>
+    <errorMessage>HasBenchmark = True, please provide a value for Benchmark and Use of Reference Indicator.</errorMessage>
+</ValidationRule>

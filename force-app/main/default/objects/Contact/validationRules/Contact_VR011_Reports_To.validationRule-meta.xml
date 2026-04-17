@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_VR011_Reports_To</fullName>
+    <active>true</active>
+    <description>Prevents users from selecting a reports to contact which is not part of the same company / GAM</description>
+    <errorConditionFormula>OR(
+AND(
+ISNEW(),
+OR(
+AND(
+ISBLANK(Account.Ultimate_Parent_ID__c) ,
+AccountId &lt;&gt; ReportsTo.AccountId ),
+AND(
+NOT(ISBLANK(Account.Ultimate_Parent_ID__c)),
+Account.Ultimate_Parent_ID__c &lt;&gt; ReportsTo.Account.Ultimate_Parent_ID__c )
+),
+NOT(ISBLANK(ReportsToId)) ,
+$User.BypassValidationRules__c = false
+),
+AND(
+NOT(ISNEW()),
+OR(
+AND(
+ISBLANK(Account.Ultimate_Parent_ID__c) ,
+AccountId &lt;&gt; ReportsTo.AccountId ),
+AND(
+NOT(ISBLANK(Account.Ultimate_Parent_ID__c)),
+Account.Ultimate_Parent_ID__c &lt;&gt; ReportsTo.Account.Ultimate_Parent_ID__c )
+),
+NOT(ISBLANK(ReportsToId)) ,
+ISCHANGED(ReportsToId),
+$User.BypassValidationRules__c = false
+)
+)</errorConditionFormula>
+    <errorDisplayField>ReportsToId</errorDisplayField>
+    <errorMessage>You cannot choose a contact who is not part of the same company or of the same GAM</errorMessage>
+</ValidationRule>

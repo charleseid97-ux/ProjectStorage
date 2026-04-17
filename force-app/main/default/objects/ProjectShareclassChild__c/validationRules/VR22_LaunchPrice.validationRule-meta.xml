@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR22_LaunchPrice</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  NOT($User.BypassValidationRules__c),
+  OR(
+    LaunchPrice__c &lt; 1,
+    LaunchPrice__c &gt; 10000
+  )
+)</errorConditionFormula>
+    <errorMessage>Launch Price must be between 1 and 10,000</errorMessage>
+</ValidationRule>

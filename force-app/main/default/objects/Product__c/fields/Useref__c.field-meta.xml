@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Useref__c</fullName>
+    <description>Use of ref indicator</description>
+    <inlineHelpText>How the benchmark will be used?</inlineHelpText>
+    <label>Use of Reference Indicator</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>To measure relative performance</fullName>
+                <default>false</default>
+                <label>To measure relative performance</label>
+            </value>
+            <value>
+                <fullName>To define find&apos;s investment universe</fullName>
+                <default>false</default>
+                <label>To define find&apos;s investment universe</label>
+            </value>
+            <value>
+                <fullName>funds universe is partly derived from ref. indicator</fullName>
+                <default>false</default>
+                <label>funds universe is partly derived from ref. indicator</label>
+            </value>
+            <value>
+                <fullName>fund&apos;s investment strategy is not depenent on ref. indicator</fullName>
+                <default>false</default>
+                <label>fund&apos;s investment strategy is not depenent on ref. indicator</label>
+            </value>
+            <value>
+                <fullName>used to calculate performance fees</fullName>
+                <default>false</default>
+                <label>used to calculate performance fees</label>
+            </value>
+            <value>
+                <fullName>Useref</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Useref</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>5</visibleLines>
+</CustomField>

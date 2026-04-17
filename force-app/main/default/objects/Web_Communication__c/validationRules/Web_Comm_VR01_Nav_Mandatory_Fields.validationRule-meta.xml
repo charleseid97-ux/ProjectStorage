@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Web_Comm_VR01_Nav_Mandatory_Fields</fullName>
+    <active>true</active>
+    <description>If the the alert type chosen is of type NAV then Shares classes and funds should be mandatory</description>
+    <errorConditionFormula>AND(!$User.BypassValidationRules__c,
+				!AlertTypeRecord__r.isPublication__c &amp;&amp; ISBLANK(Fund__c) 
+				&amp;&amp; ISBLANK(ShareClass__c) 
+				&amp;&amp; ISBLANK(TECH_CommunicationWebsiteId__c)
+			)</errorConditionFormula>
+    <errorMessage>Please choose a Fund and Share class for a Nav Alert</errorMessage>
+</ValidationRule>

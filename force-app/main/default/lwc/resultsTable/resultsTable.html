@@ -1,0 +1,72 @@
+<template>
+    <template if:true={showTable}>
+        <div class="accordion-controls">
+            <lightning-button label={toggleAllLabel} variant="neutral" onclick={handleToggleAll}></lightning-button>
+        </div>
+        <div class="custom-accordion">
+            <template for:each={productGroups} for:item="prod">
+                <div key={prod.productId} class="custom-accordion-item">
+                    <div class="custom-accordion-header">
+                        <button class="accordion-toggle-button" data-id={prod.productId} aria-expanded={prod.isOpen} onclick={handleToggleProduct}>
+                            <div class="main-header-left">
+                                <lightning-icon class="accordion-toggle-icon" icon-name={prod.toggleIconName} alternative-text="Toggle section" size="x-small"></lightning-icon>
+                                <div class="header-left">
+                                    <span class="header-title header-title--large">{prod.productLabel}</span>
+                                    <template if:true={prod.hasSelected}>
+                                        <span class="already-selected-warning">(<span class="warning-label">{labels.UI_Warning}</span>: {labels.Grid_ProductAlreadyAssignedWarning})</span>
+                                    </template>
+                                </div>
+                            </div>
+                        </button>
+                        <lightning-button-icon class="remove-product-button"
+                                               icon-name="utility:delete"
+                                               alternative-text={labels.Grid_RemoveProduct}
+                                               title={labels.Grid_RemoveProduct}
+                                               data-id={prod.productId}
+                                               onclick={handleRemoveProduct}>
+                        </lightning-button-icon>
+                    </div>
+                    <template if:true={prod.isOpen}>
+                        <div class="table-scroll-container">
+                            <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <template for:each={columns} for:item="col">
+                                            <th key={col.apiName} scope="col">
+                                                <div class="slds-truncate" title={col.label}>{col.label}</div>
+                                            </th>
+                                        </template>
+                                        <th scope="col">
+                                            <div class="slds-truncate" title={labels.Grid_Selection}>{labels.Grid_Selection}</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={prod.shareClasses} for:item="row">
+                                        <tr key={row.id}>
+                                            <template for:each={row.cells} for:item="cell">
+                                                <td key={cell.label} data-label={cell.label}>
+                                                    <div class="slds-truncate" title={cell.value}>{cell.value}</div>
+                                                </td>
+                                            </template>
+                                            <td data-label={labels.Grid_Selection}>
+                                                <template if:true={row.isAlreadySelected}>
+                                                    <div class="slds-truncate selection-status" title={labels.Grid_AlreadySelected}>{labels.Grid_AlreadySelected}</div>
+                                                </template>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+                </div>
+            </template>
+        </div>
+    </template>
+    <template if:false={showTable}>
+        <div class="slds-text-color_weak">
+            {labels.Grid_NoProducts}
+        </div>
+    </template>
+</template>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ContentViewed__c</fullName>
+    <defaultValue>false</defaultValue>
+    <inlineHelpText>Has the client viewed the content?</inlineHelpText>
+    <label>Content Viewed</label>
+    <type>Checkbox</type>
+</CustomField>

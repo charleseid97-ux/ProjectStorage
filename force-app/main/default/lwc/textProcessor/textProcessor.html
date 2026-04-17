@@ -1,0 +1,99 @@
+<template>
+    <template if:true={isLoading}>
+        <lightning-spinner alternative-text="Loading" variant="brand" size="medium" style="position: fixed;"></lightning-spinner>
+    </template>
+
+    <div>
+        <lightning-card icon-name="utility:magic" hide-header="true">
+            <div class="slds-p-around_medium">
+                <lightning-tabset active-tab-value={activeTab} onchange={handleTabChange}>
+
+                    <!-- Typo Assistant Tab -->
+                    <template if:true={typoAssistant}>
+                        <lightning-tab label="Typo Assistant" value="typoAssistant">
+                            <div class="content-card">
+                                <lightning-input-rich-text class="input-box" label="Input Text" value={inputText}
+                                    onchange={handleInputChange}>
+                                </lightning-input-rich-text>
+
+                                <lightning-input-rich-text class="output-box" label="Corrected Output" data-id="outputCorrected"
+                                    value={outputText} readonly>
+                                </lightning-input-rich-text>
+                                <lightning-input-rich-text class="output-box" label="Corrected Output" style="display: none;" data-id="outputValue"
+                                    value={outputValue} readonly>
+                                </lightning-input-rich-text>
+
+                                <div class="buttons-container">
+                                    <lightning-button  label="Process" variant="brand"
+                                        onclick={processText}>
+                                    </lightning-button>
+                                    <lightning-button class="slds-m-left_medium" label="Copy Output" variant="neutral" onclick={copyToClipboard}>
+                                    </lightning-button>
+                                </div>
+                            </div>
+                        </lightning-tab>
+                    </template>
+
+                    <!-- Product Overview Tab -->
+                    <template if:true={productOverview}>
+                        <lightning-tab label="Product Sentiment" value="productOverview">
+                            <div class="content-card">
+                                
+                                <!-- Strategy Selection & Analysis Period in the Same Row -->
+                                <div class="slds-grid slds-gutters">
+                                    <!-- Strategy Selection -->
+                                    <div class="slds-col slds-size_1-of-3">
+                                        <template if:true={allProducts}>
+                                            <template if:true={selectedProduct}>
+                                                <label class="slds-form-element__label">Strategy</label>
+                                                <div class="pill-container">
+                                                    <lightning-pill id={selectedProduct} label={selectedProductLabel}
+                                                        onremove={handleRemoveSelectedStrat}>
+                                                        <lightning-icon icon-name="standard:product" size="medium"></lightning-icon>
+                                                    </lightning-pill>
+                                                </div>
+                                            </template>
+                                            <template if:false={selectedProduct}>
+                                                <c-multi-select-search-list label="Select Strategy" mono-select="true"
+                                                    options={allProducts} value={selectedProduct}
+                                                    more-searching-fields={productSearchFields} onchange={handleProducts}>
+                                                </c-multi-select-search-list>
+                                            </template>
+                                        </template>
+                                    </div>
+                                    <!-- Analysis Period -->
+                                    <div class="slds-col slds-size_1-of-3">
+                                        <lightning-combobox label="Analysis Period" value={selectedPeriod}
+                                            options={periodOptions} onchange={handlePeriodChange}>
+                                        </lightning-combobox>
+                                    </div>
+                                    
+                                    <!-- Analysis Period -->
+                                    <div class="slds-col slds-size_1-of-3">
+                                        <lightning-combobox label="Country" value={selectedCountry}
+                                            options={countryOptions} onchange={handleCountryChange}>
+                                        </lightning-combobox>
+                                    </div>
+                                </div>
+
+                                <!-- Process Button in the Center -->
+                                <div class="slds-grid slds-grid_align-center slds-m-top_medium">
+                                    <lightning-button label="Process" variant="brand" onclick={processProductOverview}>
+                                    </lightning-button>
+                                </div>
+
+                                <!-- Product Overview Result -->
+                                 <template if:true={productOverviewResult}>
+                                    <div class="output-box slds-m-top_medium">
+                                        <lightning-formatted-rich-text value={productOverviewResult}></lightning-formatted-rich-text>
+                                    </div>
+                                </template>
+                            </div>
+                        </lightning-tab>
+                    </template>
+
+                </lightning-tabset>
+            </div>
+        </lightning-card>
+    </div>
+</template>

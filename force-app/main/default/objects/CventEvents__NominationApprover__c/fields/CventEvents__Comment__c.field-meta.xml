@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CventEvents__Comment__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Stores the comment leaved by approver.</description>
+    <encryptionScheme>None</encryptionScheme>
+    <inlineHelpText>Stores the comment leaved by approver.</inlineHelpText>
+    <label>Comment</label>
+    <length>2000</length>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

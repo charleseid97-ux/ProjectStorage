@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Switzerland_Lead</fullName>
+    <booleanFilter>(1 OR 2 OR 3) AND 4</booleanFilter>
+    <columns>FULL_NAME</columns>
+    <columns>LEAD.COMPANY</columns>
+    <columns>City__c</columns>
+    <columns>LEAD.EMAIL</columns>
+    <columns>LEAD.LEAD_SOURCE</columns>
+    <columns>LEAD.STATUS</columns>
+    <columns>Lead_Status_Logo__c</columns>
+    <columns>LEAD.CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CORE.USERS.ALIAS</field>
+        <operation>equals</operation>
+        <value>Switzerland</value>
+    </filters>
+    <filters>
+        <field>LeadOwnercountry__c</field>
+        <operation>equals</operation>
+        <value>Switzerland</value>
+    </filters>
+    <filters>
+        <field>LEAD.COUNTRY_CODE</field>
+        <operation>equals</operation>
+        <value>CH</value>
+    </filters>
+    <filters>
+        <field>LEAD.STATUS</field>
+        <operation>notEqual</operation>
+        <value>Disqualified,Qualified</value>
+    </filters>
+    <label>Switzerland - All Active Leads</label>
+    <sharedTo>
+        <roleAndSubordinatesInternal>SwitzerlandHeadofCountry</roleAndSubordinatesInternal>
+    </sharedTo>
+</ListView>

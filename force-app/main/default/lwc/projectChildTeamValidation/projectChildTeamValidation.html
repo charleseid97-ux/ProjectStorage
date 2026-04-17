@@ -1,0 +1,176 @@
+<template>
+    <template if:true={shouldDisplay}>
+        <lightning-card>
+            <div class="slds-m-around_medium">
+                <!-- Bloc de statut de l'équipe -->
+                <div>
+                    <div>
+
+                        <div class="phase-label">Team status :&nbsp; <span
+                                class="phase-name">{statusLabel}&nbsp;{iconType} </span></div>
+
+                    </div>
+
+                    <!-- Message en fonction du statut -->
+                    <div class="status-message phase-label">
+                        <template if:true={isValidated}>
+                            This step has been validated for {teamNameWithoutSpace} team.
+                            <br /> <br />
+                            <b>Need to modify after validation?</b> Contact the project owner.
+                        </template>
+                    </div>
+
+                    <!-- Bouton de validation (Masqué si l'utilisateur n'a pas la permission) -->
+                    <template if:true={hasPermission}>
+                        <template if:false={isValidated}>
+                            <div class="status-message phase-label">
+                                Click to validate this phase :
+                            </div>
+
+
+                            <div class="slds-m-top_small">
+                                <lightning-button label="Validate Phase" variant="brand" onclick={openModal}
+                                    class="validate-button" disabled={isButtonDisabled}>
+                                </lightning-button>
+                            </div>
+                        </template>
+                    </template>
+                </div>
+            </div>
+        </lightning-card>
+
+        <!-- MODAL CONTENT -->
+        <template if:true={isModalOpen}>
+            <section role="dialog" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h2 class="slds-text-heading_medium">Confirm validation</h2>
+                        <button class="slds-button slds-button_icon slds-modal__close" title="Close"
+                            onclick={closeModal}>
+                            <lightning-icon icon-name="utility:close" alternative-text="close"></lightning-icon>
+                        </button>
+                    </header>
+
+                    <!-- Missing fields block -->
+                    <!-- <template if:true={isEmptyRequiredFields}>
+                    <div class="slds-modal__content slds-p-around_medium">
+                        <p>Please fill in all required fields to validate this step.</p>
+     
+                        <template if:true={emptyFundRequiredFields}>
+                            <div class="slds-m-top_medium">
+                                <p><strong>FUND:</strong></p>
+                                <template for:each={emptyFundRequiredFields} for:item="item">
+                                    <template for:each={item.fields} for:item="field">
+                                        <p key={field}>- {field}</p>
+                                    </template>
+                                </template>
+                            </div>
+                        </template>
+     
+                        <template if:true={emptySCRequiredFields}>
+                            <div class="slds-m-top_medium">
+                                <p><strong>SHARECLASS:</strong></p>
+                                <template for:each={emptySCRequiredFields} for:item="sc">
+                                    <p key={sc}>{sc.name}:</p>
+                                    <template for:each={sc.fields} for:item="field">
+                                        <p key={field}>- {field}</p>
+                                    </template>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                </template> -->
+                    <template if:true={isEmptyRequiredFields}>
+                        <div class="slds-modal__content slds-p-around_medium"
+                            style="max-height: 400px; overflow-y: auto;">
+                            <p class="slds-text-body_regular">Please fill in all required fields to validate this step.
+                            </p>
+
+                            <!-- FUND SECTION -->
+                            <template if:true={emptyFundRequiredFields}>
+                                <template if:false={isEmptyFundRequiredFields}>
+                                    <div class="slds-m-top_medium">
+                                        <h3 class="slds-text-title_bold slds-m-bottom_small">FUND:</h3>
+                                        <ul class="slds-list_dotted slds-m-left_medium">
+                                            <template for:each={emptyFundRequiredFields} for:item="item">
+                                                <li key={item.name}>
+                                                    <!-- <a href="javascript:void(0);" class="slds-text-link_bold"
+                                                        onclick={handleFundClick} data-name={item.name}>
+                                                        {item.name}
+                                                    </a> -->
+                                                    <ul class="slds-list_dotted slds-m-left_medium">
+                                                        <template for:each={item.fields} for:item="field">
+                                                            <p key={field}>{field}</p>
+                                                        </template>
+                                                    </ul>
+                                                </li>
+                                            </template>
+                                        </ul>
+                                    </div>
+                                </template>
+                            </template>
+
+                            <!-- SHARECLASS SECTION -->
+                            <template if:true={emptySCRequiredFields}>
+                                <div class="slds-m-top_large">
+                                    <h3 class="slds-text-title_bold slds-m-bottom_small">SHARECLASSES:</h3>
+                                    <ul class="slds-list_dotted slds-m-left_medium">
+                                        <template for:each={emptySCRequiredFields} for:item="sc">
+                                            <li key={sc.name}>
+                                                <!-- <a target="_blank" href={} class="slds-text-link_bold"
+                                                    onclick={handleShareClassClick} data-name={sc.name}>
+                                                    {sc.name}
+                                                </a> -->
+                                                <a target="_blank"
+                                                    href="javascript:void(0)"
+                                                    class="slds-text-link_bold"
+                                                    onclick={handleShareClassClick}
+                                                    data-id={sc.id}
+                                                    data-name={sc.name}>
+                                                    {sc.name}
+                                                </a>
+                                                <ul class="slds-list_dotted slds-m-left_medium">
+                                                    <template for:each={sc.fields} for:item="field">
+                                                        <li key={field}>{field}</li>
+                                                    </template>
+                                                </ul>
+                                            </li>
+                                        </template>
+                                    </ul>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                    <!-- Confirmation message -->
+                    <template if:false={isEmptyRequiredFields}>
+                        <div class="slds-modal__content slds-p-around_medium">
+                            <p>Are you sure you want to validate this step for {teamNameWithoutSpace}?</p>
+                        </div>
+                    </template>
+
+                    <footer class="slds-modal__footer">
+                        <lightning-button label="Cancel" onclick={closeModal}></lightning-button>
+                        <template if:false={isEmptyRequiredFields}>
+                            <lightning-button label="OK" variant="brand" onclick={confirmValidation}></lightning-button>
+                        </template>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+            <!-- Message de confirmation -->
+            <template if:false={isEmptyRequiredFields}>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <p>Are you sure you want to validate this step for {teamNameWithoutSpace}?</p>
+                </div>
+            </template>
+
+            <footer class="slds-modal__footer">
+                <lightning-button label="Cancel" onclick={closeModal}></lightning-button>
+                <template if:false={isEmptyRequiredFields}>
+                    <lightning-button label="OK" variant="brand" onclick={confirmValidation}></lightning-button>
+                </template>
+            </footer>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+    </template>
+</template>

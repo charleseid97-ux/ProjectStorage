@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Number_of_contacts_CONFIRMED_by_Events__c</fullName>
+    <description>Only contact confirmed</description>
+    <label>Number of contacts CONFIRMED by Events</label>
+    <summaryFilterItems>
+        <field>CampaignMember.Status</field>
+        <operation>equals</operation>
+        <value>Confirmed</value>
+    </summaryFilterItems>
+    <summaryFilterItems>
+        <field>CampaignMember.ContactId</field>
+        <operation>notEqual</operation>
+        <value></value>
+    </summaryFilterItems>
+    <summaryForeignKey>CampaignMember.CampaignId</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

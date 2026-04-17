@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CampaignMember_VR03_BlcokedUpdate</fullName>
+    <active>false</active>
+    <description>#15844
+Prevent camp member update if campaign is closed</description>
+    <errorConditionFormula>AND(!$User.BypassValidationRules__c, OR(ISPICKVAL(Campaign.Status, &quot;Closed&quot;),  
+ISPICKVAL(Campaign.Status, &quot;Cancelled&quot;),
+ISPICKVAL(Campaign.Status, &quot;Rejected&quot;)))</errorConditionFormula>
+    <errorMessage>Please note that you cannot update a campaign member whose campaign is &quot;Closed&quot; or &quot;Cancelled&quot; or &quot;Rejected&quot;</errorMessage>
+</ValidationRule>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PE_Meeting_Notes</fullName>
+    <columns>Date__c</columns>
+    <columns>NAME</columns>
+    <columns>Meeting_Type__c</columns>
+    <columns>CREATEDBY_USER</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Private_Assets__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <label>PE Meeting Notes</label>
+</ListView>

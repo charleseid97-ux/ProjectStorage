@@ -1,0 +1,354 @@
+<!--
+  @description       : 
+  @author            : Khadija EL GDAOUNI
+  @group             : 
+  @last modified on  : 13-02-2025
+  @last modified by  : Khadija EL GDAOUNI
+-->
+<template>
+   <template lwc:if={contactNotSynchronised}>
+    <div class="slds-text-heading_medium slds-align_absolute-center" style="color:#747474;">
+        {customLabelsReference.contactNotSynchronizedMSG}
+    </div>
+   </template>
+   <template lwc:elseif={showSpinner}>
+    <div style="height: 10rem; position:relative">
+        <lightning-spinner alternative-text="Loading" size="x-small"></lightning-spinner>
+    </div>           
+</template>
+    <template lwc:elseif={wiredProspaceAlerts}>
+        <lightning-card>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                    <div class="slds-text-title_caps slds-text-title_bold slds-text-align_left slds-p-bottom_small">
+                        Nav & Reports
+                    </div>
+                    <template for:each={navs} for:item="nav">
+                        <div key={nav} class="slds-form-element slds-p-around_x-small">
+                            <div class="slds-grid slds-grid_vertical-align-center">
+
+                                <!-- 1️⃣ TOGGLE -->
+                                <div class="slds-col slds-size_2-of-12">
+                                    <lightning-input
+                                        type="toggle"
+                                        data-id={nav.checkboxWebsiteId}
+                                        value={nav.checkboxWebsiteId}
+                                        message-toggle-active="" message-toggle-inactive=""
+                                        label=""
+                                        title="Nav"
+                                        name={nav.checkboxLabel}
+                                        onchange={openModal}
+                                        checked={nav.checkboxValue}>
+                                    </lightning-input>
+                                </div>
+
+                                <!-- 2️⃣ EDIT -->
+                                <div class="slds-col slds-size_1-of-12 slds-text-align_center">
+                                    <lightning-button-icon
+                                        icon-name="utility:edit"
+                                        size="small"
+                                        value={nav.checkboxWebsiteId}
+                                        variant="bare"
+                                        alternative-text="Open Pop-Up"
+                                        title="Nav"
+                                        onclick={editSubscriptions}
+                                        name={nav.checkboxLabel}
+                                        tooltip="Edit Subscriptions">
+                                    </lightning-button-icon>
+                                </div>
+
+                                <!-- 3️⃣ LABEL -->
+                                <div class="slds-col slds-size_9-of-12 slds-text-align_left ">
+                                    <span class="slds-form-element__label slds-m-bottom_none">
+                                        {nav.checkboxLabel}
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </template>
+
+                    <template for:each={reports} for:item="report">
+                        <div key={report} class="slds-form-element slds-p-around_x-small">
+                            <div class="slds-grid slds-grid_vertical-align-center">
+
+                                <!-- 1️⃣ TOGGLE -->
+                                <div class="slds-col slds-size_2-of-12">
+                                    <lightning-input
+                                        type="toggle"
+                                        data-id={report.checkboxWebsiteId}
+                                        value={report.checkboxWebsiteId}
+                                        message-toggle-active="" message-toggle-inactive=""
+                                        label=""
+                                        title="Report"
+                                        name={report.checkboxLabel}
+                                        onchange={openModal}
+                                        checked={report.checkboxValue}>
+                                    </lightning-input>
+                                </div>
+
+                                <!-- 2️⃣ EDIT -->
+                                <div class="slds-col slds-size_1-of-12 slds-text-align_center">
+                                    <lightning-button-icon
+                                        icon-name="utility:edit"
+                                        size="small"
+                                        value={report.checkboxWebsiteId}
+                                        variant="bare"
+                                        alternative-text="Open Pop-Up"
+                                        title="Report"
+                                        onclick={editSubscriptions}
+                                        name={report.checkboxLabel}
+                                        tooltip="Edit Subscriptions">
+                                    </lightning-button-icon>
+                                </div>
+
+                                <!-- 3️⃣ LABEL -->
+                                <div class="slds-col slds-size_9-of-12 slds-text-align_left ">
+                                    <span class="slds-form-element__label slds-m-bottom_none">
+                                        {report.checkboxLabel}
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </template>
+
+                    <template for:each={performances} for:item="performance">
+                        <div key={performance} class="slds-form-element slds-p-around_x-small">
+                            <div class="slds-grid slds-grid_vertical-align-center">
+
+                                <!-- 1️⃣ TOGGLE -->
+                                <div class="slds-col slds-size_2-of-12">
+                                    <lightning-input
+                                        type="toggle"
+                                        data-id={performance.checkboxWebsiteId}
+                                        value={performance.checkboxWebsiteId}
+                                        label=""
+                                        message-toggle-active="" message-toggle-inactive=""
+                                        title="Performance"
+                                        name={performance.checkboxLabel}
+                                        onchange={openModal}
+                                        checked={performance.checkboxValue}>
+                                    </lightning-input>
+                                </div>
+
+                                <!-- 2️⃣ EDIT -->
+                                <div class="slds-col slds-size_1-of-12 slds-text-align_center">
+                                    <lightning-button-icon
+                                        icon-name="utility:edit"
+                                        size="small"
+                                        value={performance.checkboxWebsiteId}
+                                        variant="bare"
+                                        alternative-text="Open Pop-Up"
+                                        title="Performance"
+                                        onclick={editSubscriptions}
+                                        name={performance.checkboxLabel}
+                                        tooltip="Edit Subscriptions">
+                                    </lightning-button-icon>
+                                </div>
+
+                                <!-- 3️⃣ LABEL -->
+                                <div class="slds-col slds-size_9-of-12 slds-text-align_left">
+                                    <span class="slds-form-element__label slds-m-bottom_none">
+                                        {performance.checkboxLabel}
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </template>
+
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                    <div class="slds-text-title_caps slds-text-title_bold slds-text-align_left slds-p-bottom_x-large">
+                    </div>
+                    
+                    <template for:each={funds} for:item="fund">
+                        <div key={fund} class="slds-form-element slds-p-around_x-small">
+                            <div class="slds-grid slds-grid_vertical-align-center">
+
+                                <!-- 1️⃣ TOGGLE -->
+                                <div class="slds-col slds-size_2-of-12">
+                                    <lightning-input
+                                        type="toggle"
+                                        data-id={fund.checkboxWebsiteId}
+                                        value={fund.checkboxWebsiteId}
+                                        label=""
+                                        message-toggle-active="" message-toggle-inactive=""
+                                        title="Fund"
+                                        name={fund.checkboxLabel}
+                                        onchange={openModal}
+                                        checked={fund.checkboxValue}>
+                                    </lightning-input>
+                                </div>
+
+                                <!-- 2️⃣ EDIT -->
+                                <div class="slds-col slds-size_1-of-12 slds-text-align_center">
+                                    <lightning-button-icon
+                                        icon-name="utility:edit"
+                                        size="small"
+                                        value={fund.checkboxWebsiteId}
+                                        variant="bare"
+                                        alternative-text="Open Pop-Up"
+                                        title="Fund"
+                                        onclick={editSubscriptions}
+                                        name={fund.checkboxLabel}
+                                        tooltip="Edit Subscriptions">
+                                    </lightning-button-icon>
+                                </div>
+
+                                <!-- 3️⃣ LABEL -->
+                                <div class="slds-col slds-size_9-of-12 slds-text-align_left ">
+                                    <span class="slds-form-element__label slds-m-bottom_none">
+                                        {fund.checkboxLabel}
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </template>
+
+                    <template for:each={holdings} for:item="hold">
+                        <div key={hold} class="slds-form-element slds-p-around_x-small">
+                            <div class="slds-grid slds-grid_vertical-align-center">
+
+                                <!-- 1️⃣ TOGGLE -->
+                                <div class="slds-col slds-size_2-of-12">
+                                    <lightning-input
+                                        type="toggle"
+                                        data-id={hold.checkboxWebsiteId}
+                                        value={hold.checkboxWebsiteId}
+                                        label=""
+                                        message-toggle-active="" message-toggle-inactive=""
+                                        title="Holdings"
+                                        name={hold.checkboxLabel}
+                                        onchange={openModal}
+                                        checked={hold.checkboxValue}>
+                                    </lightning-input>
+                                </div>
+
+                                <!-- 2️⃣ EDIT -->
+                                <div class="slds-col slds-size_1-of-12 slds-text-align_center">
+                                    <lightning-button-icon
+                                        icon-name="utility:edit"
+                                        size="small"
+                                        value={hold.checkboxWebsiteId}
+                                        variant="bare"
+                                        alternative-text="Open Pop-Up"
+                                        title="Holdings"
+                                        onclick={editSubscriptions}
+                                        name={hold.checkboxLabel}
+                                        tooltip="Edit Subscriptions">
+                                    </lightning-button-icon>
+                                </div>
+
+                                <!-- 3️⃣ LABEL -->
+                                <div class="slds-col slds-size_9-of-12 slds-text-align_left ">
+                                    <span class="slds-form-element__label slds-m-bottom_none">
+                                        {hold.checkboxLabel}
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </template>
+                    
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                    <div class="slds-text-title_caps slds-text-title_bold slds-text-align_left slds-p-bottom_small">
+                        Publications & Regulatory
+                    </div>
+                    
+                    <template for:each={publications} for:item="publication">
+                        <div key={publication} class="slds-form-element slds-p-around_x-small">
+                            <div class="slds-grid slds-grid_vertical-align-center">
+
+                                <!-- 1️⃣ TOGGLE -->
+                                <div class="slds-col slds-size_2-of-12">
+                                    <lightning-input 
+                                        type="toggle"
+                                        aria-label="publicationLabel"
+                                        message-toggle-active=""
+                                        message-toggle-inactive=""
+                                        name={publication.checkboxLabel}
+                                        onchange={handleSavePublication}
+                                        checked={publication.checkboxValue}
+                                        value={publication.checkboxWebsiteId}
+                                        label="">
+                                    </lightning-input>
+                                </div>
+
+                                <!-- 2️⃣ LABEL -->
+                                <div class="slds-col slds-size_10-of-12 slds-text-align_left slds-p-left_small">
+                                    <span class="slds-form-element__label slds-m-bottom_none">
+                                        {publication.checkboxLabel}
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </template>
+
+                    <div class="slds-text-title_caps slds-text-title_bold slds-text-align_left slds-p-bottom_small">
+                        
+                    </div>
+                    
+                    <template for:each={regularities} for:item="regularity">
+                        <div key={regularity} class="slds-form-element slds-p-around_x-small">
+                            <div class="slds-grid slds-grid_vertical-align-center">
+
+                                <!-- 1️⃣ TOGGLE -->
+                                <div class="slds-col slds-size_2-of-12">
+                                    <lightning-input 
+                                        type="toggle"
+                                        aria-label="regularityLabel"
+                                        message-toggle-active=""
+                                        message-toggle-inactive=""
+                                        name={regularity.checkboxLabel}
+                                        onchange={handleSavePublication}
+                                        checked={regularity.checkboxValue}
+                                        value={regularity.checkboxWebsiteId}
+                                        label="">
+                                    </lightning-input>
+                                </div>
+
+                                <!-- 2️⃣ LABEL -->
+                                <div class="slds-col slds-size_10-of-12 slds-text-align_left slds-p-left_small">
+                                    <span class="slds-form-element__label slds-m-bottom_none">
+                                        {regularity.checkboxLabel}
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </template>
+
+                </div>
+            </div>
+        </lightning-card>
+    </template>
+    <template lwc:if={isModalDisplayed}>
+        <section role="dialog" class="slds-modal slds-fade-in-open slds-modal_medium">
+            <div class="slds-modal__container">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse">
+                    <lightning-icon class="white-icon" icon-name="utility:close" alternative-text="Cancel and Close"
+                        title="Cancel and Close" onclick={closeModal}></lightning-icon>
+                    <span class="slds-assistive-text">Cancel and Close</span>
+                </button>
+                <div class="slds-modal__header">
+                    <h1 class="slds-modal__title slds-hyphenate">{modalTitle}</h1>
+                </div>
+                <div class="slds-modal__content slds-var-p-around_medium">
+                    <c-search-subscription-product onsubscriptionssaved={subscriptionsSaved} fund-only={fundOnly} is-performance={isPerformance} alert-type={alertType} record-id={recordId} show-spinner={showSpinner} counter={counter}>
+                    </c-search-subscription-product>
+                </div> 
+                <div class="slds-modal__footer" data-id="modal_buttons_container">
+                    <lightning-button label="Cancel" title="Cancel action" icon-name="utility:refresh" class="slds-var-m-left_x-small" onclick={closeModal} variant="brand"></lightning-button>
+                    <lightning-button label="Save" title="Save action" icon-name="utility:save" class="slds-var-m-left_x-small" onclick={handleSaveSubscriptions} variant="brand"></lightning-button>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+    
+</template>

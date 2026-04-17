@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesSendEmailToMembers>false</doesSendEmailToMembers>
+    <name>Data Solution Team</name>
+    <queueMembers>
+        <users>
+            <user>abdelatif.elghazouani-crm@carmignac.com</user>
+            <user>chris.hermans-crm@carmignac.com</user>
+            <user>franck.rio-crm@carmignac.com</user>
+            <user>lisa.tanguy-crm@carmignac.com</user>
+            <user>marc.lagrange-crm@carmignac.com</user>
+            <user>matthieu.adoux-crm@carmignac.com</user>
+        </users>
+    </queueMembers>
+    <queueSobject>
+        <sobjectType>Case</sobjectType>
+    </queueSobject>
+    <queueSobject>
+        <sobjectType>Task</sobjectType>
+    </queueSobject>
+</Queue>

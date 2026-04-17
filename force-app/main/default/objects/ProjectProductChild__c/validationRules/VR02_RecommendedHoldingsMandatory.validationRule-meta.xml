@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR02_RecommendedHoldingsMandatory</fullName>
+    <active>false</active>
+    <description>Display &amp; Mandatory ONLY If ((LegalForm&lt;&gt;OEIC) AND (MaturityDate=Empty))
+&gt; Conflit avec Display conditionnel</description>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+ $Permission.PRPProductStrategy ,
+Name = &apos;Proposal&apos;,
+OR (
+	ISPICKVAL(LegalForm__c, &apos;SICAV&apos;),
+	ISPICKVAL(LegalForm__c, &apos;FCP&apos;)
+),
+ISBLANK(MaturityDate__c),
+OR(ISBLANK(RecommendedHoldingPeriod__c), 
+ISBLANK(TEXT(RecommendedHoldingPeriodUnit__c)), 
+ISBLANK(TEXT(RecommendedHoldingLabel__c)))
+)</errorConditionFormula>
+    <errorMessage>If Legal Form &lt;&gt; OEIC and Maturity Date is blank, please provide values for Recommended Holding Period, Recommended Holding Period Unit and Recommended Holding Label.</errorMessage>
+</ValidationRule>

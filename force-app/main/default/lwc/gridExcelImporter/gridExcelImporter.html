@@ -1,0 +1,52 @@
+<template>
+	<lightning-card title={labels.Grid_ExcelImportTitle}>
+		<template if:true={isLoading}>
+			<div class="centerSpinner">
+				<lightning-spinner alternative-text={labels.UI_Loading} size="medium"></lightning-spinner>
+			</div>
+		</template>
+		<div class="mainDiv">
+			<lightning-input type="file" accept={acceptedFormats} label={labels.Grid_SelectExcelFile} onchange={handleFileChange}></lightning-input>
+			<template if:true={importedFileName}>
+				<p class="slds-m-top_x-small">{labels.Grid_ImportedFilePrefix}: {importedFileName}</p>
+			</template>
+			<div class="slds-m-top_small">
+				<lightning-button variant="brand" label={labels.UI_Import} onclick={handleImport} disabled={isImportDisabled}></lightning-button>
+			</div>
+			<template if:true={hasErrors}>
+				<div class="slds-m-top_medium slds-text-color_error">
+					<p>{labels.Grid_ValidationErrors}</p>
+					<ul class="slds-list_dotted">
+						<template for:each={errors} for:item="err">
+							<li key={err}>{err}</li>
+						</template>
+					</ul>
+				</div>
+			</template>
+			<template if:true={result}>
+				<div class="slds-m-top_medium">
+					<p>{labels.Grid_GridsUpserted}: {result.gridsUpserted}</p>
+					<p>{labels.Grid_ScopesUpserted}: {result.scopesUpserted}</p>
+					<p>{labels.Grid_CriteriaCreated}: {result.criteriaCreated}</p>
+					<p>{labels.Grid_CriteriaDetailsCreated}: {result.criteriaDetailsCreated}</p>
+					<p>{labels.Grid_GridRulesCreated}: {result.gridRulesCreated}</p>
+					<p>{labels.Grid_GridRulesUpdated}: {result.gridRulesUpdated}</p>
+					<p>{labels.Grid_GridDetailsCreated}: {result.gridDetailsCreated}</p>
+					<p>{labels.Grid_GridDetailsUpdated}: {result.gridDetailsUpdated}</p>
+				</div>
+				<template if:true={hasResultErrors}>
+					<div class="slds-m-top_medium slds-text-color_error">
+						<p>{labels.Grid_RowErrors}</p>
+						<ul class="slds-list_dotted">
+							<template for:each={result.errors} for:item="err">
+								<li key={err.key}>
+									[{err.sheetName} row {err.rowNumber}] {err.message}
+								</li>
+							</template>
+						</ul>
+					</div>
+				</template>
+			</template>
+		</div>
+	</lightning-card>
+</template>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TECH_MIGRATIONPROSPACE__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Technical field used to distinguish which records have been migrated during the prospace implementation.</description>
+    <label>TECH_MIGRATIONPROSPACE</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

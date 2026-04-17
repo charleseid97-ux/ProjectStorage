@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EFAMAEFCClassification__c</fullName>
+    <description>EFAMA Active EFC Classification</description>
+    <label>EFAMA EFC Classification</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>ARIS Long/Short Equity Variable Bias Strategy</fullName>
+                <default>false</default>
+                <label>ARIS Long/Short Equity Variable Bias Strategy</label>
+            </value>
+            <value>
+                <fullName>ARIS Merger Arbitrage</fullName>
+                <default>false</default>
+                <label>ARIS Merger Arbitrage</label>
+            </value>
+            <value>
+                <fullName>Bond Aggregate High Yield FD EUR</fullName>
+                <default>false</default>
+                <label>Bond Aggregate High Yield FD EUR</label>
+            </value>
+            <value>
+                <fullName>Bond Aggregate MT</fullName>
+                <default>false</default>
+                <label>Bond Aggregate MT</label>
+            </value>
+            <value>
+                <fullName>Bond Aggregate MT CHF</fullName>
+                <default>false</default>
+                <label>Bond Aggregate MT CHF</label>
+            </value>
+            <value>
+                <fullName>Bond Aggregate MT EUR</fullName>
+                <default>false</default>
+                <label>Bond Aggregate MT EUR</label>
+            </value>
+            <value>
+                <fullName>Bond Aggregate MT GBP</fullName>
+                <default>false</default>
+                <label>Bond Aggregate MT GBP</label>
+            </value>
+            <value>
+                <fullName>Bond Aggregate MT USD</fullName>
+                <default>false</default>
+                <label>Bond Aggregate MT USD</label>
+            </value>
+            <value>
+                <fullName>Bond Aggregate ST CHF</fullName>
+                <default>false</default>
+                <label>Bond Aggregate ST CHF</label>
+            </value>
+            <value>
+                <fullName>Bond Aggregate ST EUR</fullName>
+                <default>false</default>
+                <label>Bond Aggregate ST EUR</label>
+            </value>
+            <value>
+                <fullName>Bond Aggregate ST GBP</fullName>
+                <default>false</default>
+                <label>Bond Aggregate ST GBP</label>
+            </value>
+            <value>
+                <fullName>Bond Aggregate ST USD</fullName>
+                <default>false</default>
+                <label>Bond Aggregate ST USD</label>
+            </value>
+            <value>
+                <fullName>Bond Corporate FD CAD</fullName>
+                <default>false</default>
+                <label>Bond Corporate FD CAD</label>
+            </value>
+            <value>
+                <fullName>Bond Corporate FD CHF</fullName>
+                <default>false</default>
+                <label>Bond Corporate FD CHF</label>
+            </value>
+            <value>
+                <fullName>Bond Corporate FD EUR</fullName>
+                <default>false</default>
+                <label>Bond Corporate FD EUR</label>
+            </value>
+            <value>
+                <fullName>Bond Corporate FD USD</fullName>
+                <default>false</default>
+                <label>Bond Corporate FD USD</label>
+            </value>
+            <value>
+                <fullName>Bond Corporate MT CHF</fullName>
+                <default>false</default>
+                <label>Bond Corporate MT CHF</label>
+            </value>
+            <value>
+                <fullName>Bond Corporate MT EUR</fullName>
+                <default>false</default>
+                <label>Bond Corporate MT EUR</label>
+            </value>
+            <value>
+                <fullName>Bond Corporate MT USD</fullName>
+                <default>false</default>
+                <label>Bond Corporate MT USD</label>
+            </value>
+            <value>
+                <fullName>Bond Emerging Global</fullName>
+                <default>false</default>
+                <label>Bond Emerging Global</label>
+            </value>
+            <value>
+                <fullName>Bond High Yield FD CHF</fullName>
+                <default>false</default>
+                <label>Bond High Yield FD CHF</label>
+            </value>
+            <value>
+                <fullName>Bond High Yield FD EUR</fullName>
+                <default>false</default>
+                <label>Bond High Yield FD EUR</label>
+            </value>
+            <value>
+                <fullName>Bond High Yield FD USD</fullName>
+                <default>false</default>
+                <label>Bond High Yield FD USD</label>
+            </value>
+            <value>
+                <fullName>Capital Protected</fullName>
+                <default>false</default>
+                <label>Capital Protected</label>
+            </value>
+            <value>
+                <fullName>Equity Advanced Europe</fullName>
+                <default>false</default>
+                <label>Equity Advanced Europe</label>
+            </value>
+            <value>
+                <fullName>Equity Advanced Europe Small Cap</fullName>
+                <default>false</default>
+                <label>Equity Advanced Europe Small Cap</label>
+            </value>
+            <value>
+                <fullName>Equity Emerging Asia Pacific</fullName>
+                <default>false</default>
+                <label>Equity Emerging Asia Pacific</label>
+            </value>
+            <value>
+                <fullName>Equity Emerging Market Global</fullName>
+                <default>false</default>
+                <label>Equity Emerging Market Global</label>
+            </value>
+            <value>
+                <fullName>Equity Emerging Market Global Small Cap</fullName>
+                <default>false</default>
+                <label>Equity Emerging Market Global Small Cap</label>
+            </value>
+            <value>
+                <fullName>Equity Europe</fullName>
+                <default>false</default>
+                <label>Equity Europe</label>
+            </value>
+            <value>
+                <fullName>Equity Global</fullName>
+                <default>false</default>
+                <label>Equity Global</label>
+            </value>
+            <value>
+                <fullName>Equity Global Advanced Markets</fullName>
+                <default>false</default>
+                <label>Equity Global Advanced Markets</label>
+            </value>
+            <value>
+                <fullName>Equity Greater China</fullName>
+                <default>false</default>
+                <label>Equity Greater China</label>
+            </value>
+            <value>
+                <fullName>Equity Information Technology</fullName>
+                <default>false</default>
+                <label>Equity Information Technology</label>
+            </value>
+            <value>
+                <fullName>Flexible Bond</fullName>
+                <default>false</default>
+                <label>Flexible Bond</label>
+            </value>
+            <value>
+                <fullName>Flexible Bond CHF</fullName>
+                <default>false</default>
+                <label>Flexible Bond CHF</label>
+            </value>
+            <value>
+                <fullName>Flexible Bond EUR</fullName>
+                <default>false</default>
+                <label>Flexible Bond EUR</label>
+            </value>
+            <value>
+                <fullName>Flexible Bond GBP</fullName>
+                <default>false</default>
+                <label>Flexible Bond GBP</label>
+            </value>
+            <value>
+                <fullName>Flexible Bond USD</fullName>
+                <default>false</default>
+                <label>Flexible Bond USD</label>
+            </value>
+            <value>
+                <fullName>Multi-Asset Advanced Europe Balanced EUR</fullName>
+                <default>false</default>
+                <label>Multi-Asset Advanced Europe Balanced EUR</label>
+            </value>
+            <value>
+                <fullName>Multi-Asset Europe Balanced</fullName>
+                <default>false</default>
+                <label>Multi-Asset Europe Balanced</label>
+            </value>
+            <value>
+                <fullName>Multi-Asset Europe Balanced GBP</fullName>
+                <default>false</default>
+                <label>Multi-Asset Europe Balanced GBP</label>
+            </value>
+            <value>
+                <fullName>Multi-Asset Global Aggressive</fullName>
+                <default>false</default>
+                <label>Multi-Asset Global Aggressive</label>
+            </value>
+            <value>
+                <fullName>Multi-Asset Global Balanced</fullName>
+                <default>false</default>
+                <label>Multi-Asset Global Balanced</label>
+            </value>
+            <value>
+                <fullName>Multi-Asset Global Balanced CHF</fullName>
+                <default>false</default>
+                <label>Multi-Asset Global Balanced CHF</label>
+            </value>
+            <value>
+                <fullName>Multi-Asset Global Balanced EUR</fullName>
+                <default>false</default>
+                <label>Multi-Asset Global Balanced EUR</label>
+            </value>
+            <value>
+                <fullName>Multi-Asset Global Balanced GBP</fullName>
+                <default>false</default>
+                <label>Multi-Asset Global Balanced GBP</label>
+            </value>
+            <value>
+                <fullName>Multi-Asset Global Balanced USD</fullName>
+                <default>false</default>
+                <label>Multi-Asset Global Balanced USD</label>
+            </value>
+            <value>
+                <fullName>Multi-Asset Global Emerging Markets Balanced</fullName>
+                <default>false</default>
+                <label>Multi-Asset Global Emerging Markets Balanced</label>
+            </value>
+            <value>
+                <fullName>Multi-Asset Global Emerging Markets Balanced CHF</fullName>
+                <default>false</default>
+                <label>Multi-Asset Global Emerging Markets Balanced CHF</label>
+            </value>
+            <value>
+                <fullName>Multi-Asset Global Emerging Markets Balanced USD</fullName>
+                <default>false</default>
+                <label>Multi-Asset Global Emerging Markets Balanced USD</label>
+            </value>
+            <value>
+                <fullName>Multi-Asset Global Flexible</fullName>
+                <default>false</default>
+                <label>Multi-Asset Global Flexible</label>
+            </value>
+            <value>
+                <fullName>Multi-Strategy ARIS</fullName>
+                <default>false</default>
+                <label>Multi-Strategy ARIS</label>
+            </value>
+            <value>
+                <fullName>Private Equity</fullName>
+                <default>false</default>
+                <label>Private Equity</label>
+            </value>
+            <value>
+                <fullName>Short-term variable NAV Money Market EUR</fullName>
+                <default>false</default>
+                <label>Short-term variable NAV Money Market EUR</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

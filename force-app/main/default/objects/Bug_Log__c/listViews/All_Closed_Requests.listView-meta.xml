@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Closed_Requests</fullName>
+    <columns>NAME</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>AssignedTo__c</columns>
+    <columns>CloseDate__c</columns>
+    <columns>Type__c</columns>
+    <columns>App__c</columns>
+    <columns>Object__c</columns>
+    <columns>Priority_Severity_status__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>Closed,Re-test /Answered,Cancelled,Rejected</value>
+    </filters>
+    <label>All Closed Requests</label>
+</ListView>

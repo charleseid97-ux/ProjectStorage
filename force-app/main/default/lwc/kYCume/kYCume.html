@@ -1,0 +1,47 @@
+<template>
+	<lightning-card title="">
+	
+	
+	<table class="slds-table slds-table_bordered slds-border_left slds-border_right">
+	<thead>
+	<tr class="slds-line-height_reset">
+	<th class="" scope="col">
+	<div class="slds-truncate" title="First Name">{label.KYC_First_Name}</div>
+	</th>
+	<th class="" scope="col">
+	<div class="slds-truncate" title="Last Name">{label.KYC_Last_Name}</div>
+	</th>
+	<th class="" scope="col">
+	<div class="slds-truncate" title="Date of birth">{label.KYC_Date_of_Birth}</div>
+	</th>
+	<th class="" scope="col">
+	<div class="slds-truncate" title="Role">{label.KYC_Role}</div>
+	</th>
+	<th class="" scope="col">
+	<div class="slds-truncate" title="Role">{label.KYC_Action}</div>
+	</th>
+	</tr>
+	</thead>
+	<tbody>
+	<template for:each={alldata} for:item="bod">
+	<tr class="slds-hint-parent" key={bod.guid}>
+	<td><div class="slds-truncate">{bod.firstName}</div></td>
+	<td><div class="slds-truncate">{bod.lastName}</div></td>
+	<td><div class="slds-truncate">{bod.dateOfBirth}</div></td>
+	<td>
+	<template for:each={bod.kycCategories} for:item="kycCategories">
+	<div class="slds-truncate" key={kycCategories.name}>{kycCategories.name}</div>
+	</template>
+	</td>
+	<td><lightning-button variant="brand" label="Add" value={bod} onclick={handleCreateKYC}
+	class="slds-m-left_x-small"></lightning-button>
+	</td>
+	</tr>
+	</template>
+	</tbody>
+	</table>
+	
+	<p slot="footer"><lightning-badge label="Source from UME" class="slds-badge_inverse"></lightning-badge></p>
+	</lightning-card>
+	
+	</template>

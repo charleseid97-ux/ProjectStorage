@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>In__c</fullName>
+    <label>Investment Decision</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Distributor_Type__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Retail</fullName>
+                <default>false</default>
+                <label>Retail</label>
+            </value>
+            <value>
+                <fullName>Wholesale</fullName>
+                <default>false</default>
+                <label>Wholesale</label>
+            </value>
+            <value>
+                <fullName>Institutional</fullName>
+                <default>false</default>
+                <label>Institutional</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Platform</controllingFieldValue>
+            <controllingFieldValue>IFA</controllingFieldValue>
+            <controllingFieldValue>Bank</controllingFieldValue>
+            <controllingFieldValue>Insurance</controllingFieldValue>
+            <controllingFieldValue>Other Wealth Managers</controllingFieldValue>
+            <valueName>Retail</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Platform</controllingFieldValue>
+            <controllingFieldValue>IFA</controllingFieldValue>
+            <controllingFieldValue>Bank</controllingFieldValue>
+            <controllingFieldValue>Insurance</controllingFieldValue>
+            <controllingFieldValue>Other Wealth Managers</controllingFieldValue>
+            <valueName>Wholesale</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Proprietary Desk</controllingFieldValue>
+            <controllingFieldValue>Single Family Office</controllingFieldValue>
+            <controllingFieldValue>Other Institutions</controllingFieldValue>
+            <controllingFieldValue>Consultant</controllingFieldValue>
+            <valueName>Institutional</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

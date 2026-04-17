@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Translation_mode__c</fullName>
+    <label>Translation mode</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Document_Type__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>IA only</fullName>
+                <default>false</default>
+                <label>IA only</label>
+            </value>
+            <value>
+                <fullName>Post-editing</fullName>
+                <default>false</default>
+                <label>Post-editing</label>
+            </value>
+            <value>
+                <fullName>Full humain</fullName>
+                <default>false</default>
+                <label>Full human</label>
+            </value>
+            <value>
+                <fullName>DeeplPro</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>DeeplPro</label>
+            </value>
+            <value>
+                <fullName>Translation Agencies</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Translation Agencies</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Marketing / Corporate material</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>PPT Presentation</controllingFieldValue>
+            <controllingFieldValue>Product sheet</controllingFieldValue>
+            <controllingFieldValue>Quarterly reports</controllingFieldValue>
+            <controllingFieldValue>Reporting</controllingFieldValue>
+            <controllingFieldValue>Video subtitles &amp; Inserts</controllingFieldValue>
+            <controllingFieldValue>Monthly comments</controllingFieldValue>
+            <controllingFieldValue>Article (web / media)</controllingFieldValue>
+            <controllingFieldValue>Disclaimer</controllingFieldValue>
+            <controllingFieldValue>IS Monthly Comments</controllingFieldValue>
+            <controllingFieldValue>Letter to Shareholders</controllingFieldValue>
+            <valueName>IA only</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing / Corporate material</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>Press Release</controllingFieldValue>
+            <controllingFieldValue>Product sheet</controllingFieldValue>
+            <controllingFieldValue>Prospectus</controllingFieldValue>
+            <controllingFieldValue>Video subtitles &amp; Inserts</controllingFieldValue>
+            <controllingFieldValue>Article (web / media)</controllingFieldValue>
+            <controllingFieldValue>Carmignac’s note</controllingFieldValue>
+            <controllingFieldValue>ESG documentation</controllingFieldValue>
+            <controllingFieldValue>KID</controllingFieldValue>
+            <valueName>Post-editing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing / Corporate material</controllingFieldValue>
+            <controllingFieldValue>Video subtitles &amp; Inserts</controllingFieldValue>
+            <controllingFieldValue>Article (web / media)</controllingFieldValue>
+            <controllingFieldValue>Biography</controllingFieldValue>
+            <controllingFieldValue>Carmignac’s note</controllingFieldValue>
+            <controllingFieldValue>EC Letter</controllingFieldValue>
+            <valueName>Full humain</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

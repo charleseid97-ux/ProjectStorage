@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CFD_Long_Comment__c</fullName>
+    <description>How many Prime Brokers are required at launch?</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <label># of PBs at launch</label>
+    <length>255</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

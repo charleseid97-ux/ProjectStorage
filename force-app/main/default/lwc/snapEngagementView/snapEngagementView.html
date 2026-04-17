@@ -1,0 +1,37 @@
+<template>
+
+    <div class="slds-float_right">
+        <lightning-button     label="Filter List by Type"
+                              title="Filter List" 
+                              alternative-text="Show menu" 
+                              icon-name="utility:filterList" 
+                              onclick={clickFilter}>
+        </lightning-button>
+    </div>
+    
+    <c-chart type="line" responsive="true">
+
+         <c-dataset labels={months}>
+            <template if:true={mapData}>
+                <template for:each={mapData} for:item="mapKey">
+                      <c-data   key={mapKey.key} 
+                                label={mapKey.key} 
+                                detail={mapKey.value.v}
+                                backgroundcolor={mapKey.value.backgroundcolor} 
+                                bordercolor={mapKey.value.backgroundcolor} 
+                                stack="1" 
+                                fill="false">
+                      </c-data>
+                </template>
+            </template>
+        </c-dataset>
+
+        <c-legend position="right" 
+            display={showFilter}>
+        </c-legend> 
+        <c-title 
+            text="Digital Interactions by Month">
+        </c-title>
+
+    </c-chart>
+</template>

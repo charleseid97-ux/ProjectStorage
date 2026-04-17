@@ -1,0 +1,371 @@
+<!--
+  @description       : 
+  @author            : Thanina YAYA
+  @last modified on  : 02-08-2024
+  @last modified by  : SILA Nicolas
+-->
+<template>
+    <template if:true={showSpinner}>
+        <div class="">
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </div>
+    </template>
+    <!-- Modal for the children filters of the Customer Interests filter -->
+    <template lwc:if={childModalOpened}>
+        <section role="dialog" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse">
+                    <lightning-icon class="white-icon" icon-name="utility:close" alternative-text="Close"
+                        title="Close" onclick={closeModalChild}></lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <div class="slds-modal__header">
+                    <h1 class="slds-modal__title slds-hyphenate">{childModalTitle}</h1>
+                </div>
+                <div class="slds-modal__content slds-var-p-around_medium" style="height:500px;overflow-x:scroll;">
+                    <div data-id="interestContainer">
+                        <template for:each={childModalFilters} for:item="filter">
+                            <lightning-input key={filter.name} data-id={filter.name} data-parent={filter.parentName} type="checkbox" message-toggle-active="" message-toggle-inactive=""
+                                checked={filter.checked} name={filter.fieldName} label={filter.label} onchange={handleChangeToggle}>
+                            </lightning-input>
+                        </template>
+                    </div>
+                </div>
+                <div class="slds-modal__footer" data-id="modal_buttons_container">
+                    <button class="slds-button slds-button_neutral" name="Close" data-parent={childModalTitle} onclick={closeModalChild}>Close</button>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+    <lightning-card>
+        <div class="slds-var-m-around_medium slds-grid">
+            <div class="slds-col slds-text-align_left slds-text-heading_medium">
+                Available filters
+            </div>
+            <div class="slds-col slds-text-align_right">
+                <lightning-button-group>
+                    <lightning-button label="Reset filters" icon-name="utility:rotate" onclick={handleClickReset}></lightning-button>
+                    <lightning-button label="Search results" icon-name="utility:play" onclick={handleClickRun}></lightning-button>
+                </lightning-button-group>
+            </div>
+        </div>
+        <lightning-accordion allow-multiple-sections-open
+                             active-section-name={activeSections}>
+            <!-- Contact and Company filters Section -->
+            <lightning-accordion-section name="ContactCompany" label="Contact and Company filters">
+                <div class="slds-grid slds-wrap">
+                    <template for:each={contactCompanyFilters} for:item="filter">
+                        <div class="slds-col slds-size_1-of-4 " key={filter.name}>
+                            <div class="slds-var-m-around_x-small">
+                                <template if:true={filter.isPicklist}>
+                                    <template if:true={filter.isMultiLookup}>
+                                        <template if:true={filter.picklistValues}>
+                                            <c-multi-select-search-list label={filter.label} options={filter.picklistValues} value={filter.selectionSet} diplay-pills="true" pill-icon={filter.pillsIcon} data-id={filter.name} onchange={handleMultiSelection}>
+                                            </c-multi-select-search-list> 
+                                        </template>
+                                    </template>
+                                    <template if:false={filter.isMultiLookup}>
+                                        <lightning-combobox label={filter.label} data-id={filter.name} options={filter.picklistValues} onchange={handleChangePicklist}>
+                                        </lightning-combobox>
+                                    </template>
+                                    
+                                </template>
+                                <template if:true={filter.isMultipicklist}>
+                                    <lightning-dual-listbox label={filter.label} data-id={filter.name} options={filter.picklistValues} onchange={handleChangeMultipicklist}>
+                                    </lightning-dual-listbox>
+                                </template>
+                                <template if:true={filter.isText}>
+                                    <lightning-input type="text" label={filter.label} data-id={filter.name} onchange={handleChangeText}></lightning-input>
+                                </template>
+                                <template if:true={filter.isDate}>
+                                    <lightning-input type="date" label={filter.label} data-id={filter.name} onchange={handleChangeDate}></lightning-input>
+                                </template>
+                                <template if:true={filter.isCheckbox}>
+                                    <div class="slds-grid slds-var-m-top_x-large">
+                                        <div class="slds-col slds-size_1-of-4">
+                                            <span class="slds-form-element__label slds-m-bottom_none">{filter.label}</span>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-4">
+                                            <lightning-input type="toggle" data-id={filter.name} message-toggle-active="" message-toggle-inactive="" label=""
+                                                onchange={handleChangeToggle}>
+                                            </lightning-input>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>                            
+                        </div>                    
+                    </template>
+                    <!-- Contact Owner -->
+                    <div class="slds-col slds-size_1-of-4">
+                        <div class="slds-var-m-around_x-small">
+                            <template if:true={allContOwner}>
+                                    <c-multi-select-search-list label="Contact Owner"  options={allContOwner} value={selectedUserContact} data-id="ContactOwner" onchange={handleMultiSelection}>
+                                    </c-multi-select-search-list>
+                            </template>
+                            <template if:true={dispSelectionPills.ContactOwner}>
+                                <div style="max-height: 3rem;overflow:scroll;">
+                                    <lightning-pill-container items={contOwnersPills} onitemremove={handleMultiItemRemove} is-collapsible="true" is-expanded="false" data-id="ContactOwner">
+                                    </lightning-pill-container>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                    <!-- Company is owned by the current user filter -->
+                    <div class="slds-col slds-size_1-of-4">
+                        <div class="slds-var-m-around_x-small">
+                            <div class="slds-grid slds-var-m-top_x-large">
+                                <div class="slds-col slds-size_1-of-4">
+                                    <span class="slds-form-element__label slds-m-bottom_none">My Companies</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-4">
+                                    <lightning-input type="toggle" data-id="myCompanyFilter" message-toggle-active="" message-toggle-inactive="" label=""
+                                       checked={myCompanyFilter} onchange={handleChangeMyCompany}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+                    <!-- Company is in my team filter -->
+                    <div class="slds-col slds-size_1-of-4">
+                        <div class="slds-var-m-around_x-small">
+                            <div class="slds-grid slds-var-m-top_x-large">
+                                <div class="slds-col slds-size_1-of-3">
+                                    <span class="slds-form-element__label slds-m-bottom_none">My Team's companies</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-4">
+                                    <lightning-input type="toggle" data-id="myTeamCompanyFilter" message-toggle-active="" message-toggle-inactive="" label=""
+                                       checked={myTeamCompanyFilter} onchange={handleChangeMyTeamCompany}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>   
+                    <!-- Company owner filter -->
+                    <div class="slds-col slds-size_1-of-4">
+                        <div class="slds-var-m-around_x-small">
+                            <template if:true={allUsers}>
+                                <c-multi-select-search-list label="Company Owner" options={allUsers} value={selectedUser}  data-id="CompanyOwner" onchange={handleMultiSelection}>
+                                </c-multi-select-search-list>  
+                            </template>
+                            <template if:true={dispSelectionPills.CompanyOwner}>
+                                <div style="max-height: 3rem;overflow:scroll;">
+                                    <lightning-pill-container items={compOwnesPills} onitemremove={handleMultiItemRemove} is-collapsible="true" is-expanded="false" data-id="CompanyOwner">
+                                    </lightning-pill-container>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                    <!-- Company owner filter -->
+                    <div class="slds-col slds-size_1-of-4">
+                        <div class="slds-var-m-around_x-small">
+                            
+                                <lightning-input type="text" value={domainName} label="Domain Name or Email" data-id="DomainName" onchange={handleDomainName}></lightning-input>
+                           
+                            
+                        </div>
+                    </div>
+
+
+                </div>                
+            </lightning-accordion-section>
+
+            <!-- Product Interests filters section -->
+            <lightning-accordion-section name="ProdInterest" label="Product Interest Management">
+                <div class="slds-grid slds-wrap">
+                    <!-- Product lookup filter -->
+                    <div class="slds-col slds-size_1-of-4">
+                        <div class="slds-var-m-around_x-small">
+                            <template if:true={allProducts}>
+                                <template if:true={selectedProduct}>
+                                    <label class="slds-form-element__label">Product</label>
+                                    <div class="slds-pill-container slds-border_right slds-border_top slds-border_bottom slds-border_left slds-var-p-top_xxx-small" style="border-radius: 0.25rem;min-height: 2rem;">
+                                        <lightning-pill
+                                                id={selectedProduct.id}
+                                                label={selectedProduct.name}
+                                                onremove={handleRemoveSelectedProduct}
+                                        >
+                                        <lightning-icon
+                                                icon-name="custom:custom5"
+                                                size="medium"></lightning-icon>
+                                        </lightning-pill>
+                                    </div>
+                                </template>
+                                <template if:false={selectedProduct}>
+                                    <c-multi-select-search-list label="Product" mono-select="true" options={allProducts} value={selectedProduct} more-searching-fields={productSearchFields} onchange={handleProducts}>
+                                    </c-multi-select-search-list>
+                                </template>
+                            </template>                            
+                        </div>                        
+                    </div>
+                    <!-- Meeting from date filter -->
+                    <div class="slds-col slds-size_1-of-4">
+                        <div class="slds-var-m-around_x-small">
+                            <lightning-input type="date" label="Meeting from" onchange={handleChangeDateProduct}></lightning-input>
+                        </div>                                              
+                    </div>
+                    <!-- Product interest rating filter -->
+                    <div class="slds-col slds-size_1-of-4">
+                        <template if:true={selectedProduct}>
+                            <div class="slds-var-m-around_x-small">
+                                <div class="slds-grid slds-var-m-top_x-large">
+                                    <div class="slds-col slds-size_1-of-3">
+                                        <span class="slds-form-element__label slds-m-bottom_none">Interest over</span>
+                                    </div>
+                                    <div class="slds-col slds-size_2-of-3">                                    
+                                        <c-stars-rating selected-rating={selectedRating} onratingclick={handleRating}></c-stars-rating>
+                                    </div>
+                                </div>
+                            </div> 
+                        </template>                                               
+                    </div>
+                    <!-- Product invested filter -->
+                    <div class="slds-col slds-size_1-of-4">
+                        <template if:true={selectedProduct}>
+                            <div class="slds-grid slds-var-m-top_x-large">
+                                <div class="slds-col slds-size_1-of-4">
+                                    <span class="slds-form-element__label slds-m-bottom_none">Invested</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-4">
+                                    <lightning-input type="toggle" message-toggle-active="" message-toggle-inactive="" label=""
+                                        onchange={handleChangeInvested}>
+                                    </lightning-input>
+                                </div>
+                            </div>
+                        </template>                        
+                    </div>                    
+                </div>                
+            </lightning-accordion-section>
+
+            <!-- Event Preferences filter section -->
+            <lightning-accordion-section name="EventPreferences" label="Event Preferences">
+                <div class="slds-grid slds-wrap">
+                    <template for:each={eventPrefFilters} for:item="filter">
+                        <div class="slds-col slds-size_1-of-3" key={filter.name}>
+                            <div class="slds-var-m-around_x-small">
+                                <template if:true={filter.isPicklist}>
+                                    <lightning-combobox label={filter.label} data-id={filter.name} options={filter.picklistValues} onchange={handleChangePicklist}>
+            
+                                    </lightning-combobox>
+                                </template>                                
+                                <template if:true={filter.isMultipicklist}>
+                                    <lightning-dual-listbox label={filter.label} data-id={filter.name} options={filter.picklistValues} onchange={handleChangeMultipicklist}>
+                                    </lightning-dual-listbox>
+                                </template>
+                                <template if:true={filter.isText}>
+                                    <lightning-input type="text" label={filter.label} data-id={filter.name} onchange={handleChangeText}></lightning-input>
+                                </template>
+                                <template if:true={filter.isDate}>
+                                    <lightning-input type="date" label={filter.label} data-id={filter.name} onchange={handleChangeDate}></lightning-input>
+                                </template>
+                                <template if:true={filter.isCheckbox}>
+                                    <div class="slds-grid slds-var-m-top_x-small slds-var-m-bottom_x-small">
+                                        <div class="slds-col slds-size_1-of-3">
+                                            <span class="slds-form-element__label slds-m-bottom_none">{filter.label}</span>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-4">
+                                            <lightning-input type="toggle" data-id={filter.name} message-toggle-active="" message-toggle-inactive="" label=""
+                                                onchange={handleChangeToggle}>
+                                            </lightning-input>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>            
+                        </div>        
+                    </template>               
+                </div>
+            </lightning-accordion-section>
+            <!-- Customer Interests filters section -->
+            <lightning-accordion-section name="CustInterest" label="Customer Interests">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_1-of-3">
+                        <template for:each={preferencesFilters} for:item="filter">                                
+                            <template if:true={filter.isCheckbox}>
+                                <div class="slds-grid slds-var-m-top_x-small slds-var-m-bottom_x-small" key={filter.name}>
+                                    <template if:true={filter.hasChildren}>
+                                        <div class="slds-col slds-size_1-of-3">
+                                            <lightning-button variant="base" label={filter.label} 
+                                            title="Open Pop-Up" 
+                                            icon-name="utility:edit" class="slds-var-m-left_x-small" 
+                                            onclick={handleOpenChildrenModal} aria-label={filter.name}
+                                            tooltip="Preferences have been created. Click here to View."></lightning-button>
+                                        </div>     
+                                        <div class="slds-col slds-size_1-of-4">
+                                            <lightning-input type="toggle" data-id={filter.name} message-toggle-active="" message-toggle-inactive="" label=""
+                                            aria-label={filter.name} onchange={handleChangeToggleWithChilds}>
+                                            </lightning-input>
+                                        </div>                                       
+                                    </template>
+                                    <template if:false={filter.hasChildren}>
+                                    <div class="slds-col slds-size_1-of-3">
+                                        <span class="slds-form-element__label slds-m-bottom_none" >{filter.label}</span>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-4">
+                                        <lightning-input type="toggle" data-id={filter.name} message-toggle-active="" message-toggle-inactive="" label=""
+                                            onchange={handleChangeToggle}>
+                                        </lightning-input>
+                                    </div>
+                                </template>
+                                </div>
+                            </template>                   
+                        </template>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <template for:each={otherInterestsFilters} for:item="filter">                                
+                            <template if:true={filter.isCheckbox}>
+                                <div class="slds-grid slds-var-m-top_x-small slds-var-m-bottom_x-small" key={filter.name}>
+                                    <template if:true={filter.hasChildren}>
+                                        <div class="slds-col slds-size_1-of-8">
+                                            <span class="slds-form-element__label">
+                                                <lightning-button-icon icon-name="utility:edit" size="small"
+                                                    value={filter.name} variant="bare" alternative-text="Open Pop-Up"
+                                                    title="Open Pop-Up" onclick={handleOpenChildrenModal} aria-label={filter.name}
+                                                    tooltip="Preferences have been created. Click here to View." label="">
+                                                </lightning-button-icon>
+                                            </span>
+                                        </div>                                            
+                                    </template>
+                                    <div class="slds-col slds-size_1-of-3">
+                                        <span class="slds-form-element__label slds-m-bottom_none">{filter.label}</span>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-4">
+                                        <lightning-input type="toggle" data-id={filter.name} message-toggle-active="" message-toggle-inactive="" label=""
+                                            onchange={handleChangeToggle}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </template>                   
+                        </template>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <template for:each={regionsFilters} for:item="filter">                                
+                            <template if:true={filter.isCheckbox}>
+                                <div class="slds-grid slds-var-m-top_x-small slds-var-m-bottom_x-small" key={filter.name}>
+                                    <template if:true={filter.hasChildren}>
+                                        <div class="slds-col slds-size_1-of-8">
+                                            <span class="slds-form-element__label">
+                                                <lightning-button-icon icon-name="utility:edit" size="small"
+                                                    value={filter.name} variant="bare" alternative-text="Open Pop-Up"
+                                                    title="Open Pop-Up" onclick={handleOpenChildrenModal} aria-label={filter.name}
+                                                    tooltip="Preferences have been created. Click here to View." >
+                                                </lightning-button-icon>
+                                            </span>
+                                        </div>                                            
+                                    </template>
+                                    <div class="slds-col slds-size_1-of-3">
+                                        <span class="slds-form-element__label slds-m-bottom_none">{filter.label}</span>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-4">
+                                        <lightning-input type="toggle" data-id={filter.name} message-toggle-active="" message-toggle-inactive="" label=""
+                                            onchange={handleChangeToggle}>
+                                        </lightning-input>
+                                    </div>
+                                </div>
+                            </template>                   
+                        </template>
+                    </div>
+                </div>
+            </lightning-accordion-section>
+        </lightning-accordion>
+    </lightning-card>
+</template>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IsUSEligible__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Eligible for US persons or US citizens (Category value)</description>
+    <inlineHelpText>Share Class eligible for US persons or US citizens</inlineHelpText>
+    <label>Is US Eligible</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

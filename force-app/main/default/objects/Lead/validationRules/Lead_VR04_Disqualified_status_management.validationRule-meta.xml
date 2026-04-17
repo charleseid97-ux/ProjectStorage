@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lead_VR04_Disqualified_status_management</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(NOT($User.BypassValidationRules__c),AND(ispickval(Status, &quot;Disqualified&quot;),  ispickval(Reason_for_disqualification__c, &quot;Other&quot;) , Disqualification_comment__c =&quot;&quot;))</errorConditionFormula>
+    <errorMessage>You will disqualify this lead. Please add a reason and comment</errorMessage>
+</ValidationRule>

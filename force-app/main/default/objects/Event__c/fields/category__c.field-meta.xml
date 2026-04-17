@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>category__c</fullName>
+    <label>Request type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Event conference</fullName>
+                <default>false</default>
+                <label>Event conference</label>
+            </value>
+            <value>
+                <fullName>Sponsorship</fullName>
+                <default>false</default>
+                <label>Sponsorship</label>
+            </value>
+            <value>
+                <fullName>Exclusive event</fullName>
+                <default>false</default>
+                <label>Exclusive event</label>
+            </value>
+            <value>
+                <fullName>Incentive</fullName>
+                <default>false</default>
+                <label>Incentive</label>
+            </value>
+            <value>
+                <fullName>One to One meeting</fullName>
+                <default>false</default>
+                <label>One to One meeting</label>
+            </value>
+            <value>
+                <fullName>Meeting day(s)</fullName>
+                <default>false</default>
+                <label>Meeting day(s)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

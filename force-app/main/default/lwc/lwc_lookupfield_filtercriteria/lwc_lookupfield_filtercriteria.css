@@ -1,0 +1,6 @@
+div:focus{
+    border:1px solid #1b96ff;
+    border-radius:.25rem;
+    -webkit-box-shadow: 0 0 3px #0176d3;
+    box-shadow:0 0 1.7px #0176d3;
+}

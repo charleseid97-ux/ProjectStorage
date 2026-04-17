@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Target_list_confirmed__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Once you finish to add contacts to the campaign, please confirm that your target list is ready to be sent</description>
+    <inlineHelpText>Once you finish to add contacts to the campaign, please confirm that your target list is ready to be sent</inlineHelpText>
+    <label>Target list confirmed</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

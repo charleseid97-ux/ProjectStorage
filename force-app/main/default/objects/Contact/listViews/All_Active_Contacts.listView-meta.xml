@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Active_Contacts</fullName>
+    <columns>FULL_NAME</columns>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>Persona__c</columns>
+    <columns>JobTitle__c</columns>
+    <columns>VIP__c</columns>
+    <columns>CONTACT.ADDRESS2_COUNTRY_CODE</columns>
+    <columns>CONTACT.EMAIL</columns>
+    <columns>CONTACT.PHONE1</columns>
+    <filterScope>Mine</filterScope>
+    <filters>
+        <field>ContactStatus__c</field>
+        <operation>equals</operation>
+        <value>true</value>
+    </filters>
+    <label>My Contacts</label>
+</ListView>

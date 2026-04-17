@@ -1,0 +1,51 @@
+<!--
+  @description       : 
+  @author            : SILA Nicolas
+  @group             : 
+  @last modified on  : 10-14-2024
+  @last modified by  : SILA Nicolas
+-->
+<template>
+    <div>
+        <!-- Spinner for loading indication -->
+        <template if:true={showSpinner}>
+            <div class="slds-align_absolute-center" style="width: 100%; height: 100%; background-color: rgba(255,255,255,.8);">
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <!-- File input using lightning:fileUpload -->
+        <div class="slds-m-bottom_medium">
+            <!-- <template if:true={multipleFiles}> -->
+                
+                <lightning-file-upload
+                    label="Upload Files"
+                    multiple
+                    onuploadfinished={handleUploadFinished}>
+                </lightning-file-upload>
+            <!-- </template> -->
+            <!-- <template if:false={multipleFiles}>
+                
+                <lightning-file-upload
+                    label="Upload Files"
+                    onuploadfinished={handleUploadFinished}>
+                </lightning-file-upload>
+            </template> -->
+        </div>
+
+        <!-- Display uploaded file names with icons and a remove option -->
+        <template if:true={filesData}>
+            <ul>
+                <template for:each={filesData} for:item="imgName" for:index="index">
+                    <li key={imgName.fileName}
+                        class="slds-box slds-box_x-small slds-theme_shade slds-item slds-m-vertical_x-small slds-grid slds-grid_vertical-align-center" style="width: fit-content;">
+                        <span class="slds-truncate" title={imgName.fileName}>{imgName.fileName}</span>
+                        <button class="slds-button slds-button_icon slds-button_icon-x-small slds-m-left_xx-small" title="Remove" data-id={index} onclick={removeReceiptImage}>
+                            <lightning-icon icon-name="utility:delete" alternative-text="Remove" size="xx-small"></lightning-icon>
+                        </button>
+                    </li>
+                </template>
+            </ul>
+        </template>
+    </div>
+</template>

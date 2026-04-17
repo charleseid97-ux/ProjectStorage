@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>dupcheck__autoProcessSourceFilterMethod__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Contains the filter method or predefined filter.</description>
+    <label>Auto Process Source Filter Method</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>filter</fullName>
+                <default>false</default>
+                <label>filter</label>
+            </value>
+            <value>
+                <fullName>all</fullName>
+                <default>false</default>
+                <label>all</label>
+            </value>
+            <value>
+                <fullName>predefined</fullName>
+                <default>false</default>
+                <label>predefined</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

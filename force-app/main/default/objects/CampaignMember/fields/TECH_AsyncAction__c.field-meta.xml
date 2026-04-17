@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TECH_AsyncAction__c</fullName>
+    <description>Field used to store the status of the campaign</description>
+    <label>TECH_AsyncAction</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Create</fullName>
+                <default>false</default>
+                <label>Create</label>
+            </value>
+            <value>
+                <fullName>Update</fullName>
+                <default>false</default>
+                <label>Update</label>
+            </value>
+            <value>
+                <fullName>Error</fullName>
+                <default>false</default>
+                <label>Error</label>
+            </value>
+            <value>
+                <fullName>Complete</fullName>
+                <default>false</default>
+                <label>Complete</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

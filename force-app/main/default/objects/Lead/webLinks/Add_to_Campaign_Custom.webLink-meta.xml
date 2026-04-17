@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Add_to_Campaign_Custom</fullName>
+    <availability>online</availability>
+    <description>O.Lemaire 17/4/14 Custom mass add to campaign button extended to support Campaign Category copy to new member(s)</description>
+    <displayType>massActionButton</displayType>
+    <height>600</height>
+    <linkType>page</linkType>
+    <masterLabel>Add to Events</masterLabel>
+    <openType>sidebar</openType>
+    <page>CPGN_AddToCampaignLeadMass_VFP</page>
+    <protected>false</protected>
+    <requireRowSelection>true</requireRowSelection>
+</WebLink>

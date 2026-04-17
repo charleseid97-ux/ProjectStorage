@@ -1,0 +1,72 @@
+<template>
+    <template if:true={isLoading}>
+        <lightning-spinner alternative-text="Chargement" size="small"></lightning-spinner>
+    </template>
+
+    <template if:true={error}>
+        <div class="slds-p-around_medium">
+            <div class="slds-text-color_error">{error.message}</div>
+        </div>
+    </template>
+
+    <template if:true={shareClasses}>
+        <template if:true={shareClasses.length}>
+
+            <!-- Picklist pour choisir une ShareClass -->
+            <lightning-combobox 
+                name="shareClassPicklist"
+                label="Select a ShareClass"
+                value={selectedShareClassId}
+                options={shareClassOptions}
+                onchange={handlePicklistChange}
+                class="slds-m-bottom_medium">
+            </lightning-combobox>
+
+            <template if:true={selectedShareClass}>
+                <div class="slds-m-bottom_medium">
+                    <lightning-card>
+                        <h3 slot="title">
+                            <lightning-icon icon-name="utility:layers" size="small" class="slds-m-right_small"></lightning-icon>
+                            <a href={selectedShareClassUrl} target="_blank" class="slds-text-link">
+                                {selectedShareClass.name}
+                            </a>
+                        </h3>
+                        <div class="slds-p-around_medium">
+                            <c-layout-editable-fields object-api-name="ProjectShareclass__c"
+                                record-id={selectedShareClass.id} view-all="true"></c-layout-editable-fields>
+                        </div>
+                    </lightning-card>
+                </div>
+
+                <!-- Bouton Réinitialiser -->
+                <lightning-button label="All ShareClasses" onclick={resetFilter} variant="neutral"></lightning-button>
+            </template>
+
+            <template if:false={selectedShareClass}>
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <template for:each={shareClasses} for:item="shareClass">
+                        <div key={shareClass.id} class="slds-col slds-size_1-of-1">
+                            <lightning-card>
+                                <h3 slot="title">
+                                    <lightning-icon icon-name="utility:layers" size="small" class="slds-m-right_small"></lightning-icon>
+                                    <a href={shareClass.url} target="_blank" class="slds-text-link">
+                                        {shareClass.name}
+                                    </a>
+                                </h3>
+                                <div class="slds-p-around_medium">
+                                    <c-layout-editable-fields object-api-name="ProjectShareclass__c"
+                                        record-id={shareClass.id} view-all="true"></c-layout-editable-fields>
+                                </div>
+                            </lightning-card>
+                        </div>
+                    </template>
+                </div>
+            </template>
+
+        </template>
+
+        <template if:false={shareClasses.length}>
+            <div class="slds-p-around_medium slds-text-align_center">No Shareclass found</div>
+        </template>
+    </template>
+</template>

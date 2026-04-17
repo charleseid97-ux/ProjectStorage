@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AlertEmailTemplate__c</fullName>
+    <description>Developer name of the Salesforce email template to use for tracked field change alerts. The template body must include the following placeholders: {_Changes_Table_} — replaced with an HTML table (or a CSV attachment notice) listing all changed fields per record; {_Record_Number_} — replaced with the number of distinct records affected. If this field is blank, no email will be sent even if Send Alert is enabled.</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Enter the Developer Name of the email template. Use {_Changes_Table_} in the template body to inject the field changes table, and {_Record_Number_} to show how many records were affected.</inlineHelpText>
+    <label>Alert Email Template</label>
+    <length>255</length>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

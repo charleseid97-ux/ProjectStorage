@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Share_Class__c</fullName>
+    <label>Share Class</label>
+    <referenceTo>Share_Class__c</referenceTo>
+    <relationshipLabel>ShareclassRegistration_Websites</relationshipLabel>
+    <relationshipName>ShareclassRegistration_Websites</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

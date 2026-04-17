@@ -1,0 +1,66 @@
+/* Fixes the accordion header background color */
+.custom-accordion lightning-accordion-section {
+    --slds-c-accordion-section-color-background: #f3f3f3;
+}
+.slds-accordion__summary{
+    background-color: #f3f3f3;
+}
+/* Keeps section content white */
+.section-content {
+    background-color: white;
+    /* padding: 10px; */
+    /* border: 1px solid #ddd; */
+    border-radius: 5px;
+}
+
+/* Restores the original field alignment */
+.section-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    align-items: center;
+}
+
+/* Fields inside sections */
+.field-container {
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+}
+
+/* Fixes the button positioning */
+.footer {
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    background: white;
+    padding: 10px;
+    margin-top: 100px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(250, 230, 230, 0.1); /*  Semi-transparent background */
+    z-index: 9999; 
+    pointer-events: all; 
+}
+
+.minimumheight {
+    min-height: 300px;
+}
+
+
+.edit-content {
+    position: relative; 
+    z-index: 10000; 
+    pointer-events: auto; 
+    background-color: white;
+    max-height: 80vh;
+    overflow-y: auto; 
+}

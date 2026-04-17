@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Proposed_BD_Business_Region__c</fullName>
+    <description>TECH business regions of proposed Business Developer (coming from user setup)</description>
+    <externalId>false</externalId>
+    <formula>Proposed_Business_Developer__r.TECH_TextBusinessDevelopmentRegions__c</formula>
+    <label>Proposed BD Business Region</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

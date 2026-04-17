@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_VR005_DueDate_Client_delivery</fullName>
+    <active>true</active>
+    <description>Due Date must be in the future</description>
+    <errorConditionFormula>OR(
+				AND(
+				NOT($User.BypassValidationRules__c), 
+    ISNEW(), 
+				RecordType.DeveloperName = &apos;Client_delivery_request&apos;,
+				ISPICKVAL(Data_Solutions_Type__c, &apos;Recurring Report Request&apos;),
+    Due_date__c &lt; TODAY() +21
+),
+					AND(
+				NOT($User.BypassValidationRules__c), 
+    ISNEW(), 
+				RecordType.DeveloperName = &apos;Client_delivery_request&apos;,
+				ISPICKVAL(Data_Solutions_Type__c, &apos;Ad Hoc Data &amp; Client Reporting Request&apos;),
+    Due_date__c &lt; TODAY() +2)
+				
+				)</errorConditionFormula>
+    <errorDisplayField>Due_date__c</errorDisplayField>
+    <errorMessage>You cannot enter a Due Date that is less than 21 days for Data Solution Recurring Report Requests. 
+For Ad Hoc Data &amp; Client Reporting Requests, the due date must be at least 48h in the future.</errorMessage>
+</ValidationRule>

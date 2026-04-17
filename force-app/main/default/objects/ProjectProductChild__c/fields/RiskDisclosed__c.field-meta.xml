@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RiskDisclosed__c</fullName>
+    <description>Risk disclosed</description>
+    <label>Risk Disclosed</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Risks associated with equity investments</fullName>
+                <default>false</default>
+                <label>Risks associated with equity investments</label>
+            </value>
+            <value>
+                <fullName>Risks associated with investments in debt securities</fullName>
+                <default>false</default>
+                <label>Risks associated with investments in debt securities</label>
+            </value>
+            <value>
+                <fullName>Risks associated with OTC transactions</fullName>
+                <default>false</default>
+                <label>Risks associated with OTC transactions</label>
+            </value>
+            <value>
+                <fullName>Risks associated with currencies</fullName>
+                <default>false</default>
+                <label>Risks associated with currencies</label>
+            </value>
+            <value>
+                <fullName>Liquidity risk</fullName>
+                <default>false</default>
+                <label>Liquidity risk</label>
+            </value>
+            <value>
+                <fullName>Risks of leverage</fullName>
+                <default>false</default>
+                <label>Risks of leverage</label>
+            </value>
+            <value>
+                <fullName>Risks associated with credit derivative transactions</fullName>
+                <default>false</default>
+                <label>Risks associated with credit derivative transactions</label>
+            </value>
+            <value>
+                <fullName>Emerging markets risks</fullName>
+                <default>false</default>
+                <label>Emerging markets risks</label>
+            </value>
+            <value>
+                <fullName>Volatility risk</fullName>
+                <default>false</default>
+                <label>Volatility risk</label>
+            </value>
+            <value>
+                <fullName>Risks associated with commodity indices</fullName>
+                <default>false</default>
+                <label>Risks associated with commodity indices</label>
+            </value>
+            <value>
+                <fullName>Risks associated with hedging foreign currency units</fullName>
+                <default>false</default>
+                <label>Risks associated with hedging foreign currency units</label>
+            </value>
+            <value>
+                <fullName>Risks associated with market capitalisation</fullName>
+                <default>false</default>
+                <label>Risks associated with market capitalisation</label>
+            </value>
+            <value>
+                <fullName>Risks of capital loss</fullName>
+                <default>false</default>
+                <label>Risks of capital loss</label>
+            </value>
+            <value>
+                <fullName>Risks associated with discretionary management</fullName>
+                <default>false</default>
+                <label>Risks associated with discretionary management</label>
+            </value>
+            <value>
+                <fullName>Risks associated with Asset Backed Securities (ABD) or Mortgage backed Securities (MBS)</fullName>
+                <default>false</default>
+                <label>Risks associated with Asset Backed Securities (ABD) or Mortgage backed Securities (MBS)</label>
+            </value>
+            <value>
+                <fullName>Risks associated with management of collateral</fullName>
+                <default>false</default>
+                <label>Risks associated with management of collateral</label>
+            </value>
+            <value>
+                <fullName>Long/Short risk</fullName>
+                <default>false</default>
+                <label>Long/Short risk</label>
+            </value>
+            <value>
+                <fullName>ESG risk</fullName>
+                <default>false</default>
+                <label>ESG risk</label>
+            </value>
+            <value>
+                <fullName>Sustainability risk</fullName>
+                <default>false</default>
+                <label>Sustainability risk</label>
+            </value>
+            <value>
+                <fullName>Risks associated with unlisted securities</fullName>
+                <default>false</default>
+                <label>Risks associated with unlisted securities</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>5</visibleLines>
+</CustomField>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TableauTeams__c</fullName>
+    <inlineHelpText>If no team is selected, rights of the requester will be assigned.</inlineHelpText>
+    <label>Tableau Team(s)</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>all users</fullName>
+                <default>false</default>
+                <label>all users</label>
+            </value>
+            <value>
+                <fullName>tbl_Product strategy</fullName>
+                <default>false</default>
+                <label>tbl_Product strategy</label>
+            </value>
+            <value>
+                <fullName>tbl_Communication</fullName>
+                <default>false</default>
+                <label>tbl_Communication</label>
+            </value>
+            <value>
+                <fullName>tbl_Compliance</fullName>
+                <default>false</default>
+                <label>tbl_Compliance</label>
+            </value>
+            <value>
+                <fullName>tbl_Direction</fullName>
+                <default>false</default>
+                <label>tbl_Direction</label>
+            </value>
+            <value>
+                <fullName>tbl_Finance accounting</fullName>
+                <default>false</default>
+                <label>tbl_Finance accounting</label>
+            </value>
+            <value>
+                <fullName>tbl_Finance control</fullName>
+                <default>false</default>
+                <label>tbl_Finance control</label>
+            </value>
+            <value>
+                <fullName>tbl_General secretary</fullName>
+                <default>false</default>
+                <label>tbl_General secretary</label>
+            </value>
+            <value>
+                <fullName>tbl_Marketing distribution client operations</fullName>
+                <default>false</default>
+                <label>tbl_Marketing distribution client operations</label>
+            </value>
+            <value>
+                <fullName>tbl_Marketing data client reporting</fullName>
+                <default>false</default>
+                <label>tbl_Marketing data client reporting</label>
+            </value>
+            <value>
+                <fullName>tbl_Marketing digital marketing</fullName>
+                <default>false</default>
+                <label>tbl_Marketing digital marketing</label>
+            </value>
+            <value>
+                <fullName>tbl_Marketing digital business solution</fullName>
+                <default>false</default>
+                <label>tbl_Marketing digital business solution</label>
+            </value>
+            <value>
+                <fullName>tbl_Marketing product</fullName>
+                <default>false</default>
+                <label>tbl_Marketing product</label>
+            </value>
+            <value>
+                <fullName>tbl_Marketing RFP</fullName>
+                <default>false</default>
+                <label>tbl_Marketing RFP</label>
+            </value>
+            <value>
+                <fullName>tbl_Marketing specialists events</fullName>
+                <default>false</default>
+                <label>tbl_Marketing specialists events</label>
+            </value>
+            <value>
+                <fullName>tbl_Operation operational excellence</fullName>
+                <default>false</default>
+                <label>tbl_Operation operational excellence</label>
+            </value>
+            <value>
+                <fullName>tbl_Operations middle office</fullName>
+                <default>false</default>
+                <label>tbl_Operations middle office</label>
+            </value>
+            <value>
+                <fullName>tbl_Operations performance investment</fullName>
+                <default>false</default>
+                <label>tbl_Operations performance investment</label>
+            </value>
+            <value>
+                <fullName>tbl_Operations private middle office</fullName>
+                <default>false</default>
+                <label>tbl_Operations private middle office</label>
+            </value>
+            <value>
+                <fullName>tbl_Technology change management</fullName>
+                <default>false</default>
+                <label>tbl_Technology change management</label>
+            </value>
+            <value>
+                <fullName>tbl_Technology infrastructure</fullName>
+                <default>false</default>
+                <label>tbl_Technology infrastructure</label>
+            </value>
+            <value>
+                <fullName>tbl_Trading desk</fullName>
+                <default>false</default>
+                <label>tbl_Trading desk</label>
+            </value>
+            <value>
+                <fullName>tbl_Portfolio management</fullName>
+                <default>false</default>
+                <label>tbl_Portfolio management</label>
+            </value>
+            <value>
+                <fullName>tbl_Portfolio management investment solutions</fullName>
+                <default>false</default>
+                <label>tbl_Portfolio management investment solutions</label>
+            </value>
+            <value>
+                <fullName>tbl_Private clients</fullName>
+                <default>false</default>
+                <label>tbl_Private clients</label>
+            </value>
+            <value>
+                <fullName>tbl_Professional clients</fullName>
+                <default>false</default>
+                <label>tbl_Professional clients</label>
+            </value>
+            <value>
+                <fullName>tbl_Risk management</fullName>
+                <default>false</default>
+                <label>tbl_Risk management</label>
+            </value>
+            <value>
+                <fullName>tbl_Risk Front management</fullName>
+                <default>false</default>
+                <label>tbl_Risk Front management</label>
+            </value>
+            <value>
+                <fullName>tbl_Service desk</fullName>
+                <default>false</default>
+                <label>tbl_Service desk</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>6</visibleLines>
+</CustomField>

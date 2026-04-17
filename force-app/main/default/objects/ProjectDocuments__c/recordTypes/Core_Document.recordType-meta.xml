@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Core_Document</fullName>
+    <active>true</active>
+    <label>Core Document</label>
+    <picklistValues>
+        <picklist>Type__c</picklist>
+        <values>
+            <fullName>Notice to Shareholders</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PRIIPS KID</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Portfolio Model</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prospectus</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

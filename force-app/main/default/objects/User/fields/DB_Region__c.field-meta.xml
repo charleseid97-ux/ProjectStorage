@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DB_Region__c</fullName>
+    <description>This is a field that is installed by and used with the Adoption Dashboard AppExchange package. If your org already has a similar field, you can change the reports that are part of the Adoption Dashboard package to use your custom field and then delete this field.</description>
+    <label>Orga Entite</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Communication</fullName>
+                <color>#FF99FF</color>
+                <default>false</default>
+                <label>Communication</label>
+            </value>
+            <value>
+                <fullName>Digital</fullName>
+                <color>#339999</color>
+                <default>false</default>
+                <label>Digital</label>
+            </value>
+            <value>
+                <fullName>Finance &amp; Accounting</fullName>
+                <color>#E27001</color>
+                <default>false</default>
+                <label>Finance &amp; Accounting</label>
+            </value>
+            <value>
+                <fullName>Fund Management</fullName>
+                <color>#33CCFF</color>
+                <default>false</default>
+                <label>Fund Management</label>
+            </value>
+            <value>
+                <fullName>Top Management</fullName>
+                <color>#FF0000</color>
+                <default>false</default>
+                <label>Top Management</label>
+            </value>
+            <value>
+                <fullName>General Secretary</fullName>
+                <color>#FF9966</color>
+                <default>false</default>
+                <label>General Secretary</label>
+            </value>
+            <value>
+                <fullName>Global Professional Clients</fullName>
+                <color>#78C953</color>
+                <default>false</default>
+                <label>Global Professional Clients</label>
+            </value>
+            <value>
+                <fullName>Marketing</fullName>
+                <color>#339999</color>
+                <default>false</default>
+                <label>Marketing</label>
+            </value>
+            <value>
+                <fullName>Operations</fullName>
+                <color>#993399</color>
+                <default>false</default>
+                <label>Operations</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

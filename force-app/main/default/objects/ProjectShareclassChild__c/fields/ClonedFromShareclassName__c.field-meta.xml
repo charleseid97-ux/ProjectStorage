@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ClonedFromShareclassName__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(ISBLANK(ProjectShareclasses__r.ClonedByProjectShareclass__r.Name),  ProjectShareclasses__r.ClonedByReferential__r.Name , ProjectShareclasses__r.ClonedByProjectShareclass__r.Name )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Cloned from</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

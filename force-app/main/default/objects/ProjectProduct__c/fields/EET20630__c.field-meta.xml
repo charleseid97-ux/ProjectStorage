@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EET20630__c</fullName>
+    <label>20630 Financial Instrument Methodology</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Revenue</fullName>
+                <default>false</default>
+                <label>Revenue</label>
+            </value>
+            <value>
+                <fullName>CapEx</fullName>
+                <default>false</default>
+                <label>CapEx</label>
+            </value>
+            <value>
+                <fullName>OpEx</fullName>
+                <default>false</default>
+                <label>OpEx</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

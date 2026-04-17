@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Role__c</fullName>
+    <label>Role</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Rebate/ IS Contact</fullName>
+                <default>false</default>
+                <label>Rebate/ IS Contact</label>
+            </value>
+            <value>
+                <fullName>Legal &amp; Compliance</fullName>
+                <default>false</default>
+                <label>Legal &amp; Compliance</label>
+            </value>
+            <value>
+                <fullName>Accounting Contact</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Accounting Contact</label>
+            </value>
+            <value>
+                <fullName>Rebate Contact</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Rebate Contact</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

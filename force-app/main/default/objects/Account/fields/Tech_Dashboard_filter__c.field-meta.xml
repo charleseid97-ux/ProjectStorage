@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Tech_Dashboard_filter__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF (AND(GFI__c = true,Owner.Id = $User.Id),1,
+				IF ( Owner.Id = $User.Id,2,
+								IF (CONTAINS($User.TECH_TextBusinessDevelopmentRegions__c, BusinessDevelopmentRegion_TEXT__c) = true,3,0)))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Tech Dashboard filter</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,62 @@
+<template>
+    <div class="slds-box slds-theme_default">
+        <div class="slds-page-header">
+            <div class="slds-grid slds-grid_align-spread slds-grid_vertical-align-center">
+                <div class="slds-media slds-media_center">
+                    <div class="slds-media__figure">
+                        <lightning-icon icon-name="utility:description" alternative-text="Milestones management" size="medium"></lightning-icon>
+                    </div>
+                    <div class="slds-media__body">
+                        <h1 class="slds-page-header__title slds-truncate" title="Milestones management">
+                            Milestones management
+                        </h1>
+                    </div>
+                </div>
+                <div class="slds-col_bump-left">
+                    <lightning-button label="New" onclick={handleNewClick} class="slds-m-bottom_small"></lightning-button>
+                </div>
+            </div>
+        </div>
+ 
+        <div>
+            <div class="datatable-container">
+                <c-datatable-picklist
+                    key-field="Id"
+                    data={data}
+                    columns={columns}
+                    draft-values={draftValues}
+                    onsave={handleSave}
+                    onrowaction={handleRowAction}
+                    hide-checkbox-column>
+                </c-datatable-picklist>
+ 
+                <template if:true={showModal}>
+                    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+                        <div class="slds-modal__container">
+                            <header class="slds-modal__header">
+                                <h2 class="slds-modal__title">New Milestone</h2>
+                            </header>
+                            <div class="slds-modal__content slds-p-around_medium">
+                                <lightning-input label="Name" name="newName" value={newName} onchange={handleInputChange}></lightning-input>
+                                <lightning-input type="date" label="Start Date" name="newStartDate" value={newStartDate} onchange={handleInputChange}></lightning-input>
+                                <lightning-combobox
+                                    name="newStatus"
+                                    label="Status"
+                                    value={newStatus}
+                                    placeholder="Select status"
+                                    options={statusOptions}
+                                    onchange={handleInputChange}>
+                                </lightning-combobox>
+                            </div>
+                            <footer class="slds-modal__footer">
+                                <lightning-button label="Cancel" onclick={handleModalClose} class="slds-m-right_small"></lightning-button>
+                                <lightning-button variant="brand" label="Save" onclick={handleCreate}></lightning-button>
+                            </footer>
+                        </div>
+                    </section>
+                    <div class="slds-backdrop slds-backdrop_open"></div>
+                </template>
+            </div>
+        </div>
+    </div>
+</template>

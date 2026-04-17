@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>HurdleRate__c</fullName>
+    <description>Hurdle rate</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>Description of the hurdle rate that is used for the calculation of the performance calculation (e.g. 5%; Benchmark + 3%)</inlineHelpText>
+    <label>Hurdle Rate</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

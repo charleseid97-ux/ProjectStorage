@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fund__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Fund</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Product__c.Validity__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </filterItems>
+        <filterItems>
+            <field>$Source.AlertType__c</field>
+            <operation>notEqual</operation>
+            <value>Carmignac, Video, Letter, Flash, Report</value>
+        </filterItems>
+        <filterItems>
+            <field>Product__c.Record_Type_Name__c</field>
+            <operation>equals</operation>
+            <value>Fund</value>
+        </filterItems>
+        <isOptional>true</isOptional>
+    </lookupFilter>
+    <referenceTo>Product__c</referenceTo>
+    <relationshipLabel>Prospace Alerts</relationshipLabel>
+    <relationshipName>WebCommunications</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

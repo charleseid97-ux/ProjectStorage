@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fund_Selection_List_Opportunity__c</fullName>
+    <label>Fund Selection List Opportunity</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Buy List (general)</fullName>
+                <default>false</default>
+                <label>Buy List (general)</label>
+            </value>
+            <value>
+                <fullName>Advisory List (local)</fullName>
+                <default>false</default>
+                <label>Advisory List (local)</label>
+            </value>
+            <value>
+                <fullName>Advisory List (global)</fullName>
+                <default>false</default>
+                <label>Advisory List (global)</label>
+            </value>
+            <value>
+                <fullName>DPM List (local)</fullName>
+                <default>false</default>
+                <label>DPM List (local)</label>
+            </value>
+            <value>
+                <fullName>DPM List (global)</fullName>
+                <default>false</default>
+                <label>DPM List (global)</label>
+            </value>
+            <value>
+                <fullName>Execution Only Platform List</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Execution Only Platform List</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>YTD_NetFlows__c</fullName>
+    <label>YTD Net Flows</label>
+    <summarizedField>Flow__c.AmountEUR__c</summarizedField>
+    <summaryFilterItems>
+        <field>Flow__c.Tech_ThisYear__c</field>
+        <operation>equals</operation>
+        <value>True</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Flow__c.Company__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

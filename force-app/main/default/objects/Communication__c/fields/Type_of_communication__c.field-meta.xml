@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type_of_communication__c</fullName>
+    <label>Type of communication</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Alert Website</fullName>
+                <default>false</default>
+                <label>Alert Website</label>
+            </value>
+            <value>
+                <fullName>Client Delivery</fullName>
+                <default>false</default>
+                <label>Data Solution</label>
+            </value>
+            <value>
+                <fullName>Postal Service</fullName>
+                <default>false</default>
+                <label>Postal Service</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

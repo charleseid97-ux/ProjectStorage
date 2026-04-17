@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Agreement_IS_Signed</fullName>
+    <active>true</active>
+    <description>OBJECTIF : Signed : First Execution Date != Null / Bau team channel != null // Servicing Source =! Null // Code Produit Interne != null</description>
+    <errorConditionFormula>AND(
+RecordType.Name = &quot;IS Agreement&quot;,
+NOT($User.BypassValidationRules__c),
+ISPICKVAL(Status__c, &quot;Signed&quot;), 
+
+OR(
+ISBLANK(EffectiveDate__c),
+ISBLANK(Teams_Channel_2__c), 
+ISBLANK(SignedDate__c),  
+ISBLANK(TEXT(Servicing_Source__c)), 
+ISBLANK(Internal_Servicing_Code__c)
+ 
+))</errorConditionFormula>
+    <errorMessage>To proceed to &quot;Signed&quot; stage, the following fields cannot be blank : 
+Effective and Signed Dates, Teams Channel 2, Servicing Source, Internal Servicing Code.</errorMessage>
+</ValidationRule>

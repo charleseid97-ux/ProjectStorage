@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Agreement_Countries_of_Distrbution</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+NOT(RecordType.Name =&apos;IS Agreement&apos;),
+ISBLANK(Countries_of_Distribution__c))</errorConditionFormula>
+    <errorMessage>Please add at least one Country of Distribution</errorMessage>
+</ValidationRule>

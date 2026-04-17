@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Duplicate_Contacts</fullName>
+    <columns>Name</columns>
+    <columns>LastModifiedDate</columns>
+    <columns>CreatedBy</columns>
+    <columns>LastModifiedBy</columns>
+    <columns>DuplicateRule</columns>
+    <columns>RecordCount</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>DuplicateRule</field>
+        <operation>equals</operation>
+        <value>Contact_Duplicate Rule</value>
+    </filters>
+    <filters>
+        <field>RecordCount</field>
+        <operation>greaterThan</operation>
+        <value>1</value>
+    </filters>
+    <label>Duplicate Contacts</label>
+    <sharedTo>
+        <group>Administrators</group>
+    </sharedTo>
+</ListView>

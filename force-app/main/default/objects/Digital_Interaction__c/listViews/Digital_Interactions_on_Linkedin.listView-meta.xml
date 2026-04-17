@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Digital_Interactions_on_Linkedin</fullName>
+    <columns>NAME</columns>
+    <columns>Date_of_Interaction__c</columns>
+    <columns>Contact_lu__c</columns>
+    <columns>Lead_lu__c</columns>
+    <columns>Company__c</columns>
+    <columns>Action__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Engagement_Type__c</field>
+        <operation>equals</operation>
+        <value>LinkedIn</value>
+    </filters>
+    <filters>
+        <field>Company__c</field>
+        <operation>notEqual</operation>
+        <value>Carmignac</value>
+    </filters>
+    <label>Digital Interactions on Linkedin</label>
+</ListView>

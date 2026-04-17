@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Engagement_Type__c</fullName>
+    <label>Engagement Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Events</fullName>
+                <default>false</default>
+                <label>Events</label>
+            </value>
+            <value>
+                <fullName>LinkedIn</fullName>
+                <default>false</default>
+                <label>LinkedIn</label>
+            </value>
+            <value>
+                <fullName>Webinars</fullName>
+                <default>false</default>
+                <label>Live Webinar</label>
+            </value>
+            <value>
+                <fullName>Newsletters</fullName>
+                <default>false</default>
+                <label>Newsletters</label>
+            </value>
+            <value>
+                <fullName>Replay Webinar</fullName>
+                <default>false</default>
+                <label>Replay Webinar</label>
+            </value>
+            <value>
+                <fullName>Seismic</fullName>
+                <default>false</default>
+                <label>Seismic</label>
+            </value>
+            <value>
+                <fullName>Subscriptions</fullName>
+                <default>false</default>
+                <label>Subscriptions</label>
+            </value>
+            <value>
+                <fullName>Web</fullName>
+                <default>false</default>
+                <label>Web</label>
+            </value>
+            <value>
+                <fullName>Prospace</fullName>
+                <default>false</default>
+                <label>Prospace</label>
+            </value>
+            <value>
+                <fullName>Newsletter</fullName>
+                <default>false</default>
+                <label>Newsletter</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

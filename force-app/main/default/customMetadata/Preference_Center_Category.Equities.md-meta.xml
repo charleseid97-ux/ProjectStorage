@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Equities</label>
+    <protected>false</protected>
+    <values>
+        <field>Category__c</field>
+        <value xsi:type="xsd:string">Preference</value>
+    </values>
+    <values>
+        <field>Childs__c</field>
+        <value xsi:type="xsd:string">Carmignac_China_New_Economy_CCNE_PCNE__c:Carmignac China New Economy (CCNE/PCNE);Carmignac_Emergents_CE_PE_UKCE__c:Carmignac Emergents (CE/PE/UKCE);Carmignac_Emerging_Discovery_CED_UKCED__c:Carmignac Emerging Discovery (CED/UKCED);Carmignac_Climate_Transition_CC__c:Carmignac Climate Transition (CC);Carmignac_Family_Governed_CFG__c:Carmignac Family Governed (CFG);Carmignac_Grandchildren_CGC_UKCGEC__c:Carmignac Grandchildren (CGC/UKCGEC);Carmignac_Grande_Europe_CGE__c:Carmignac Grande Europe (CGE);Carmignac_Human_Xperience_CHX__c:Carmignac Human Xperience (CHX);Carmignac_Investissement_CI_PI__c:Carmignac Investissement (CI/PI);FP_Carmignac_European_Leaders_UKCEL__c:FP Carmignac European Leaders (UKCEL);FP_Carmignac_Emerging_Market_UKCE__c:FP Carmignac Emerging Market (UKCE);FP_Carmignac_Global_Equity_Compounders__c:FP Carmignac Global Equity Compounders (UKCGEC)</value>
+    </values>
+    <values>
+        <field>Order__c</field>
+        <value xsi:type="xsd:double">2.0</value>
+    </values>
+</CustomMetadata>

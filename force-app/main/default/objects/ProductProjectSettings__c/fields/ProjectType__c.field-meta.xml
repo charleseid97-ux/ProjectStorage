@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ProjectType__c</fullName>
+    <label>Project type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Creation</fullName>
+                <default>false</default>
+                <label>Creation</label>
+            </value>
+            <value>
+                <fullName>Modification</fullName>
+                <default>false</default>
+                <label>Modification</label>
+            </value>
+            <value>
+                <fullName>Shareclass creation</fullName>
+                <default>false</default>
+                <label>Shareclass creation</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

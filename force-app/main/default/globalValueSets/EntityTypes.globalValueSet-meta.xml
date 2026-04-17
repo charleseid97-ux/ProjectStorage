@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Regulated &amp; Listed Entities</fullName>
+        <default>false</default>
+        <label>Regulated &amp; Listed Entities</label>
+    </customValue>
+    <customValue>
+        <fullName>Regulated &amp; Non-Listed Entities</fullName>
+        <default>false</default>
+        <label>Regulated &amp; Non-Listed Entities</label>
+    </customValue>
+    <customValue>
+        <fullName>Non-Regulated Entities</fullName>
+        <default>false</default>
+        <label>Non-Regulated Entities</label>
+    </customValue>
+    <customValue>
+        <fullName>Regulated Investment Funds</fullName>
+        <default>false</default>
+        <label>Regulated Investment Funds</label>
+    </customValue>
+    <customValue>
+        <fullName>Direct Investor / Natural Person</fullName>
+        <default>false</default>
+        <label>Direct Investor / Natural Person</label>
+    </customValue>
+    <masterLabel>EntityTypes</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

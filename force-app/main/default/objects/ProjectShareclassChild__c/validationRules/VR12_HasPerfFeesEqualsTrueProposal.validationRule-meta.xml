@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR12_HasPerfFeesEqualsTrueProposal</fullName>
+    <active>false</active>
+    <description>Display &amp; Mandatory ONLY If HasPerfFees=&apos;True&apos;</description>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+$Permission.PRPProductStrategy  = true,
+RecordType.DeveloperName = &apos;DesignAndProposal&apos;,
+ISPICKVAL(HasPerfFees__c, &apos;True&apos;),
+OR(ISBLANK(MaxPerfFees__c), 
+			ISBLANK(EffectivePerfFees__c), 
+			ISBLANK(PerformanceFeeMethod__c),
+			ISBLANK(PerfFeesRefPeriod__c),
+			ISBLANK(PerfFeesCrystallisationFreq__c ))
+				)</errorConditionFormula>
+    <errorMessage>If Has Perf Fees=&apos;True&apos;, you must provide values for all of the following fields : Max Perf Fees, Effective Perf Fees, Performance Fee Method, Perf Fees Ref Period and Perf Fees Crystallisation Freq</errorMessage>
+</ValidationRule>

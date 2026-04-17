@@ -1,0 +1,208 @@
+<!--
+  Copyright (c) 2019, salesforce.com, inc.
+  All rights reserved.
+  SPDX-License-Identifier: MIT
+  For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/MIT
+ -->
+
+ <template>
+    <template if:true={isRoot}>
+        <template for:each={children} for:item="item" for:index="index">
+            <template if:true={item.node.isLeaf}>
+                <c-tree-item
+                    role="treeitem"
+                    data-key={item.node.key}
+                    key={item.node.key}
+                    node-key={item.node.key}
+                    aria-selected={item.selected}
+                    aria-level={item.node.level}
+                    label={item.node.label}
+                    isin={item.node.isin}
+                    assetclass={item.node.assetclass}
+                    regionalfocus={item.node.regionalfocus}
+                    type={item.node.type}
+                    isproduct={item.node.isproduct}
+                    currentproduct={item.node.currentproduct}
+                    investstyle={item.node.investstyle}
+                    isvalid={item.node.isvalid}
+                    aum={item.node.aum}
+                    lastaum={item.node.lastaum}
+                    ytdnet={item.node.ytdnet}
+                    href={item.node.href}
+                    metatext={item.node.metatext}
+                    node-ref={item.node.nodeRef}
+                    is-expanded={item.node.isExpanded}
+                    is-disabled={item.node.isDisabled}
+                    focused-child={item.node.focusedChild}
+                    nodename={item.node.name}
+                    is-leaf={item.node.isLeaf}
+                    child-items={item.node.children}
+                >
+                </c-tree-item>
+            </template>
+            <template if:false={item.node.isLeaf}>
+                <c-tree-item
+                    role="treeitem"
+                    data-key={item.node.key}
+                    key={item.node.key}
+                    node-key={item.node.key}
+                    aria-selected={item.selected}
+                    aria-level={item.node.level}
+                    label={item.node.label}
+                    isin={item.node.isin}
+                    assetclass={item.node.assetclass}
+                    regionalfocus={item.node.regionalfocus}
+                    type={item.node.type}
+                    isvalid={item.node.isvalid}
+                    isproduct={item.node.isproduct}
+                    currentproduct={item.node.currentproduct}
+                    investstyle={item.node.investstyle}
+                    aum={item.node.aum}
+                    lastaum={item.node.lastaum}
+                    ytdnet={item.node.ytdnet}
+                    href={item.node.href}
+                    metatext={item.node.metatext}
+                    node-ref={item.node.nodeRef}
+                    is-expanded={item.node.isExpanded}
+                    is-disabled={item.node.isDisabled}
+                    focused-child={item.node.focusedChild}
+                    nodename={item.node.name}
+                    is-leaf={item.node.isLeaf}
+                    child-items={item.node.children}
+                    aria-label={item.node.label}
+                    aria-expanded={item.node.strexpanded}
+                >
+                </c-tree-item>
+            </template>
+        </template>
+    </template>
+    <template if:false={isRoot}>
+        <div class="slds-tree__item" onclick={handleClick}>
+            <button
+                type="button"
+                class={computedButtonClass}
+                tabindex="-1"
+                aria-hidden="true"
+                title={buttonLabel}
+            >
+                <c-primitive-icon
+                    icon-name={computedIconName}
+                    variant="bare"
+                    svg-class="slds-button__icon slds-button__icon_small"
+                >
+                </c-primitive-icon>
+                <span class="slds-assistive-text">
+                    {buttonLabel}
+                </span>
+            </button>
+            <span class="slds-has-flexi-truncate">
+                <a href={href} tabindex="-1" role="presentation">
+                    <span
+                        class="slds-tree__item-label slds-truncate"
+                        title={assetclass}>
+                            <template if:true={isproduct}>
+                                <lightning-icon icon-name="custom:custom5" size="xx-small" alternative-text="product" title="product"></lightning-icon>&nbsp;
+                            </template>
+                            <template if:false={isproduct}>
+                                <lightning-icon icon-name="custom:custom64" size="xx-small" alternative-text="product" title="product"></lightning-icon>&nbsp;
+                            </template>
+                            <template if:true={currentproduct}>
+                                <u>
+                                    {type} 
+                                    <b> {label}&nbsp;</b>{investstyle}
+                                </u>&nbsp;  
+                            </template>
+                            <template if:false={currentproduct}>
+                                {type} 
+                                <b> {label}&nbsp;</b>{investstyle}  {isin}&nbsp; {aum}&nbsp; {lastaum}&nbsp; {ytdnet}&nbsp; 
+                            </template>
+                            <template if:false={isvalid}>
+                                <lightning-icon icon-name="utility:error" alternative-text="Inactif!" variant="error"
+                                title="Inactif" size="xx-small"></lightning-icon>
+                            </template>
+                        </span>
+                    <template if:true={metatext}>
+                        <span
+                            class="slds-tree__item-meta slds-truncate"
+                            title={metatext}
+                        >
+                            <span class="slds-assistive-text">:</span>{metatext}
+                        </span>
+                    </template>
+                </a>
+            </span>
+        </div>
+        <template if:true={showExpanded}>
+            <div role="group">
+                <template for:each={children} for:item="item">
+                    <template if:true={item.node.isLeaf}>
+                        <c-tree-item
+                            role="treeitem"
+                            data-key={item.node.key}
+                            key={item.node.key}
+                            node-key={item.node.key}
+                            aria-selected={item.selected}
+                            aria-level={item.node.level}
+                            label={item.node.label}
+                            isin={item.node.isin}
+                            assetclass={item.node.assetclass}
+                            regionalfocus={item.node.regionalfocus}
+                            type={item.node.type}
+                            currentproduct={item.node.currentproduct}
+                            investstyle={item.node.investstyle}
+                            isvalid={item.node.isvalid}
+                            isproduct={item.node.isproduct}
+                            aum={item.node.aum}
+                            lastaum={item.node.lastaum}
+                            ytdnet={item.node.ytdnet}
+                            href={item.node.href}
+                            metatext={item.node.metatext}
+                            node-ref={item.node.nodeRef}
+                            is-expanded={item.node.isExpanded}
+                            is-disabled={item.node.isDisabled}
+                            focused-child={item.node.focusedChild}
+                            nodename={item.node.name}
+                            is-leaf={item.node.isLeaf}
+                            child-items={item.node.children}
+                        >
+                        </c-tree-item>
+                    </template>
+                    <template if:false={item.node.isLeaf}>
+                        <c-tree-item
+                            role="treeitem"
+                            data-key={item.node.key}
+                            key={item.node.key}
+                            node-key={item.node.key}
+                            aria-selected={item.selected}
+                            aria-level={item.node.level}
+                            label={item.node.label}
+                            isin={item.node.isin}
+                            assetclass={item.node.assetclass}
+                            regionalfocus={item.node.regionalfocus}
+                            type={item.node.type}
+                            currentproduct={item.node.currentproduct}
+                            investstyle={item.node.investstyle}
+                            isvalid={item.node.isvalid}
+                            isproduct={item.node.isproduct}
+                            aum={item.node.aum}
+                            lastaum={item.node.lastaum}
+                            ytdnet={item.node.ytdnet}
+                            href={item.node.href}
+                            metatext={item.node.metatext}
+                            node-ref={item.node.nodeRef}
+                            is-expanded={item.node.isExpanded}
+                            is-disabled={item.node.isDisabled}
+                            focused-child={item.node.focusedChild}
+                            nodename={item.node.name}
+                            is-leaf={item.node.isLeaf}
+                            child-items={item.node.children}
+                            aria-label={item.node.label}
+                            aria-expanded={item.node.strexpanded}
+                        >
+                        </c-tree-item>
+                    </template>
+                </template>
+            </div>
+        </template>
+    </template>
+</template>

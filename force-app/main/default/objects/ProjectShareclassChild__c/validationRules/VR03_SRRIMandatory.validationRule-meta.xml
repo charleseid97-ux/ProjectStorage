@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR03_SRRIMandatory</fullName>
+    <active>false</active>
+    <description>Mandatory only if CountryRegNeeded includes &quot;UK&quot;</description>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+$Permission.PRPRisk  = true,
+RecordType.DeveloperName = &apos;Filing&apos;,
+INCLUDES(ProjectShareclasses__r.CountryRegNeeded__c, &apos;United Kingdom&apos;),
+ISBLANK(TEXT(SRRI__c))
+								)</errorConditionFormula>
+    <errorMessage>If Country Reg Needed contains &quot;UnitedKingdom&quot;, please provide a value for SRRI.</errorMessage>
+</ValidationRule>

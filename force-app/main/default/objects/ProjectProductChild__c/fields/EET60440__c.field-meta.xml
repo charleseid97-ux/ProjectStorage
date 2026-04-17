@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EET60440__c</fullName>
+    <inlineHelpText>This field contains information on the sustainability characteristics of the financial instrument as communicated by the manufacturer and provides information on whether it is part of the sustainability preferences in accordance with MiFID II Delegated Regulation (EU) 2017/565 (specification P-V) or not (specification O-E).</inlineHelpText>
+    <label>German MIFID Market</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>B</fullName>
+                <default>false</default>
+                <label>B</label>
+            </value>
+            <value>
+                <fullName>E</fullName>
+                <default>false</default>
+                <label>E</label>
+            </value>
+            <value>
+                <fullName>N</fullName>
+                <default>false</default>
+                <label>N</label>
+            </value>
+            <value>
+                <fullName>O</fullName>
+                <default>false</default>
+                <label>O</label>
+            </value>
+            <value>
+                <fullName>P</fullName>
+                <default>false</default>
+                <label>P</label>
+            </value>
+            <value>
+                <fullName>Q</fullName>
+                <default>false</default>
+                <label>Q</label>
+            </value>
+            <value>
+                <fullName>R</fullName>
+                <default>false</default>
+                <label>R</label>
+            </value>
+            <value>
+                <fullName>S</fullName>
+                <default>false</default>
+                <label>S</label>
+            </value>
+            <value>
+                <fullName>T</fullName>
+                <default>false</default>
+                <label>T</label>
+            </value>
+            <value>
+                <fullName>U</fullName>
+                <default>false</default>
+                <label>U</label>
+            </value>
+            <value>
+                <fullName>V</fullName>
+                <default>false</default>
+                <label>V</label>
+            </value>
+            <value>
+                <fullName>German MIFID Market Sustainable Indicators</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>German MIFID Market Sustainable Indicators</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

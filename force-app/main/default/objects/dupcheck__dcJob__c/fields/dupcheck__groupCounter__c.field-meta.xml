@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>dupcheck__groupCounter__c</fullName>
+    <deprecated>false</deprecated>
+    <label>Group Count</label>
+    <summaryFilterItems>
+        <field>dupcheck__dcGroup__c.dupcheck__duplicateCount__c</field>
+        <operation>greaterThan</operation>
+        <value>0</value>
+    </summaryFilterItems>
+    <summaryForeignKey>dupcheck__dcGroup__c.dupcheck__dcJob__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Local_zone__c</fullName>
+    <label>Local zone</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>1</fullName>
+                <default>false</default>
+                <label>[GMT-12:00] International Date Line West</label>
+            </value>
+            <value>
+                <fullName>2</fullName>
+                <default>false</default>
+                <label>[GMT-11:00] Midway Island, Samoa</label>
+            </value>
+            <value>
+                <fullName>3</fullName>
+                <default>false</default>
+                <label>[GMT-10:00] Hawaii</label>
+            </value>
+            <value>
+                <fullName>4</fullName>
+                <default>false</default>
+                <label>[GMT-09:00] Alaska</label>
+            </value>
+            <value>
+                <fullName>5</fullName>
+                <default>false</default>
+                <label>[GMT-08:00] Pacific Time (US &amp; Canada); Tijuana</label>
+            </value>
+            <value>
+                <fullName>6</fullName>
+                <default>false</default>
+                <label>[GMT-07:00] Arizona</label>
+            </value>
+            <value>
+                <fullName>7</fullName>
+                <default>false</default>
+                <label>[GMT-07:00] Chihuahua, La Paz, Mazatlan</label>
+            </value>
+            <value>
+                <fullName>8</fullName>
+                <default>false</default>
+                <label>[GMT-07:00] Mountain Time (US &amp; Canada)</label>
+            </value>
+            <value>
+                <fullName>9</fullName>
+                <default>false</default>
+                <label>[GMT-06:00] Central America</label>
+            </value>
+            <value>
+                <fullName>10</fullName>
+                <default>false</default>
+                <label>[GMT-06:00] Central Time (US &amp; Canada)</label>
+            </value>
+            <value>
+                <fullName>11</fullName>
+                <default>false</default>
+                <label>[GMT-06:00] Guadalajara, Mexico City, Monterrey</label>
+            </value>
+            <value>
+                <fullName>12</fullName>
+                <default>false</default>
+                <label>[GMT-06:00] Saskatchewan</label>
+            </value>
+            <value>
+                <fullName>13</fullName>
+                <default>false</default>
+                <label>[GMT-05:00] Bogota, Lima, Quito</label>
+            </value>
+            <value>
+                <fullName>14</fullName>
+                <default>false</default>
+                <label>[GMT-05:00] Eastern Time (US &amp; Canada)</label>
+            </value>
+            <value>
+                <fullName>15</fullName>
+                <default>false</default>
+                <label>[GMT-05:00] Indiana (East)</label>
+            </value>
+            <value>
+                <fullName>16</fullName>
+                <default>false</default>
+                <label>[GMT-04:00] Atlantic Time (Canada)</label>
+            </value>
+            <value>
+                <fullName>17</fullName>
+                <default>false</default>
+                <label>[GMT-04:30] Caracas, La Paz</label>
+            </value>
+            <value>
+                <fullName>18</fullName>
+                <default>false</default>
+                <label>[GMT-04:00] Santiago</label>
+            </value>
+            <value>
+                <fullName>19</fullName>
+                <default>false</default>
+                <label>[GMT-03:30] Newfoundland</label>
+            </value>
+            <value>
+                <fullName>20</fullName>
+                <default>false</default>
+                <label>[GMT-03:00] Brasilia</label>
+            </value>
+            <value>
+                <fullName>21</fullName>
+                <default>false</default>
+                <label>[GMT-03:00] Buenos Aires, Georgetown</label>
+            </value>
+            <value>
+                <fullName>22</fullName>
+                <default>false</default>
+                <label>[GMT-03:00] Greenland</label>
+            </value>
+            <value>
+                <fullName>23</fullName>
+                <default>false</default>
+                <label>[GMT-02:00] Mid-Atlantic</label>
+            </value>
+            <value>
+                <fullName>24</fullName>
+                <default>false</default>
+                <label>[GMT-01:00] Azores</label>
+            </value>
+            <value>
+                <fullName>25</fullName>
+                <default>false</default>
+                <label>[GMT-01:00] Cape Verde Is.</label>
+            </value>
+            <value>
+                <fullName>26</fullName>
+                <default>false</default>
+                <label>[UTC] Coordinated Universal Time</label>
+            </value>
+            <value>
+                <fullName>27</fullName>
+                <default>false</default>
+                <label>[GMT] Greenwich Mean Time: Dublin, Edinburgh, Lisbon, London</label>
+            </value>
+            <value>
+                <fullName>28</fullName>
+                <default>false</default>
+                <label>[GMT+01:00] Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna</label>
+            </value>
+            <value>
+                <fullName>29</fullName>
+                <default>false</default>
+                <label>[GMT+01:00] Belgrade, Bratislava, Budapest, Ljubljana, Prague</label>
+            </value>
+            <value>
+                <fullName>30</fullName>
+                <default>false</default>
+                <label>[GMT+01:00] Brussels, Copenhagen, Madrid, Paris</label>
+            </value>
+            <value>
+                <fullName>31</fullName>
+                <default>false</default>
+                <label>[GMT+01:00] Sarajevo, Skopje, Warsaw, Zagreb</label>
+            </value>
+            <value>
+                <fullName>32</fullName>
+                <default>false</default>
+                <label>[GMT+01:00] West Central Africa</label>
+            </value>
+            <value>
+                <fullName>33</fullName>
+                <default>false</default>
+                <label>[GMT+02:00] Athens, Istanbul</label>
+            </value>
+            <value>
+                <fullName>34</fullName>
+                <default>false</default>
+                <label>[GMT+02:00] Bucharest</label>
+            </value>
+            <value>
+                <fullName>35</fullName>
+                <default>false</default>
+                <label>[GMT+02:00] Cairo</label>
+            </value>
+            <value>
+                <fullName>36</fullName>
+                <default>false</default>
+                <label>[GMT+02:00] Harare, Pretoria</label>
+            </value>
+            <value>
+                <fullName>37</fullName>
+                <default>false</default>
+                <label>[GMT+02:00] Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius</label>
+            </value>
+            <value>
+                <fullName>38</fullName>
+                <default>false</default>
+                <label>[GMT+02:00] Jerusalem</label>
+            </value>
+            <value>
+                <fullName>39</fullName>
+                <default>false</default>
+                <label>[GMT+03:00] Baghdad</label>
+            </value>
+            <value>
+                <fullName>40</fullName>
+                <default>false</default>
+                <label>[GMT+03:00] Kuwait, Riyadh</label>
+            </value>
+            <value>
+                <fullName>41</fullName>
+                <default>false</default>
+                <label>[GMT+03:00] Nairobi</label>
+            </value>
+            <value>
+                <fullName>42</fullName>
+                <default>false</default>
+                <label>[GMT+03:30] Tehran</label>
+            </value>
+            <value>
+                <fullName>43</fullName>
+                <default>false</default>
+                <label>[GMT+03:00] Moscow, St. Petersburg, Volgograd</label>
+            </value>
+            <value>
+                <fullName>44</fullName>
+                <default>false</default>
+                <label>[GMT+04:00] Abu Dhabi, Muscat</label>
+            </value>
+            <value>
+                <fullName>45</fullName>
+                <default>false</default>
+                <label>[GMT+04:00] Baku, Tbilisi, Yerevan</label>
+            </value>
+            <value>
+                <fullName>46</fullName>
+                <default>false</default>
+                <label>[GMT+04:30] Kabul</label>
+            </value>
+            <value>
+                <fullName>47</fullName>
+                <default>false</default>
+                <label>[GMT+05:00] Ekaterinburg</label>
+            </value>
+            <value>
+                <fullName>48</fullName>
+                <default>false</default>
+                <label>[GMT+05:00] Islamabad, Karachi, Tashkent</label>
+            </value>
+            <value>
+                <fullName>49</fullName>
+                <default>false</default>
+                <label>[GMT+05:30] Chennai, Kolkata, Mumbai, New Delhi</label>
+            </value>
+            <value>
+                <fullName>50</fullName>
+                <default>false</default>
+                <label>[GMT+05:45] Kathmandu</label>
+            </value>
+            <value>
+                <fullName>51</fullName>
+                <default>false</default>
+                <label>[GMT+06:00] Almaty, Novosibirsk</label>
+            </value>
+            <value>
+                <fullName>52</fullName>
+                <default>false</default>
+                <label>[GMT+06:00] Astana, Dhaka</label>
+            </value>
+            <value>
+                <fullName>53</fullName>
+                <default>false</default>
+                <label>[GMT+06:00] Sri Jayawardenepura</label>
+            </value>
+            <value>
+                <fullName>54</fullName>
+                <default>false</default>
+                <label>[GMT+06:30] Rangoon</label>
+            </value>
+            <value>
+                <fullName>55</fullName>
+                <default>false</default>
+                <label>[GMT+07:00] Bangkok, Hanoi, Jakarta</label>
+            </value>
+            <value>
+                <fullName>56</fullName>
+                <default>false</default>
+                <label>[GMT+07:00] Krasnoyarsk</label>
+            </value>
+            <value>
+                <fullName>57</fullName>
+                <default>false</default>
+                <label>[GMT+08:00] Beijing, Chongqing, Hong Kong, Urumqi</label>
+            </value>
+            <value>
+                <fullName>58</fullName>
+                <default>false</default>
+                <label>[GMT+08:00] Irkutsk, Ulaan Bataar</label>
+            </value>
+            <value>
+                <fullName>59</fullName>
+                <default>false</default>
+                <label>[GMT+08:00] Kuala Lumpur, Singapore</label>
+            </value>
+            <value>
+                <fullName>60</fullName>
+                <default>false</default>
+                <label>[GMT+08:00] Perth</label>
+            </value>
+            <value>
+                <fullName>61</fullName>
+                <default>false</default>
+                <label>[GMT+08:00] Taipei</label>
+            </value>
+            <value>
+                <fullName>62</fullName>
+                <default>false</default>
+                <label>[GMT+09:00] Osaka, Sapporo, Tokyo</label>
+            </value>
+            <value>
+                <fullName>63</fullName>
+                <default>false</default>
+                <label>[GMT+09:00] Seoul</label>
+            </value>
+            <value>
+                <fullName>64</fullName>
+                <default>false</default>
+                <label>[GMT+09:00] Yakutsk</label>
+            </value>
+            <value>
+                <fullName>65</fullName>
+                <default>false</default>
+                <label>[GMT+09:30] Adelaide</label>
+            </value>
+            <value>
+                <fullName>66</fullName>
+                <default>false</default>
+                <label>[GMT+09:30] Darwin</label>
+            </value>
+            <value>
+                <fullName>67</fullName>
+                <default>false</default>
+                <label>[GMT+10:00] Brisbane</label>
+            </value>
+            <value>
+                <fullName>68</fullName>
+                <default>false</default>
+                <label>[GMT+10:00] Canberra, Melbourne, Sydney</label>
+            </value>
+            <value>
+                <fullName>69</fullName>
+                <default>false</default>
+                <label>[GMT+10:00] Guam, Port Moresby</label>
+            </value>
+            <value>
+                <fullName>70</fullName>
+                <default>false</default>
+                <label>[GMT+10:00] Hobart</label>
+            </value>
+            <value>
+                <fullName>71</fullName>
+                <default>false</default>
+                <label>[GMT+10:00] Vladivostok</label>
+            </value>
+            <value>
+                <fullName>72</fullName>
+                <default>false</default>
+                <label>[GMT+11:00] Magadan, Solomon Is., New Caledonia</label>
+            </value>
+            <value>
+                <fullName>73</fullName>
+                <default>false</default>
+                <label>[GMT+12:00] Auckland, Wellington</label>
+            </value>
+            <value>
+                <fullName>74</fullName>
+                <default>false</default>
+                <label>[GMT+12:00] Fiji, Kamchatka, Marshall Is.</label>
+            </value>
+            <value>
+                <fullName>75</fullName>
+                <default>false</default>
+                <label>[GMT+13:00] Nuku&apos;alofa</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

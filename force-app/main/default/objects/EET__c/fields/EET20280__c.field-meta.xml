@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EET20280__c</fullName>
+    <label>20280 Financial Instrument Social Thema</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Biodiversity</fullName>
+                <default>false</default>
+                <label>Biodiversity</label>
+            </value>
+            <value>
+                <fullName>Circular economy</fullName>
+                <default>false</default>
+                <label>Circular economy</label>
+            </value>
+            <value>
+                <fullName>Energy</fullName>
+                <default>false</default>
+                <label>Energy</label>
+            </value>
+            <value>
+                <fullName>Greenhouse gas emissions</fullName>
+                <default>false</default>
+                <label>Greenhouse gas emissions</label>
+            </value>
+            <value>
+                <fullName>Environment other</fullName>
+                <default>false</default>
+                <label>Environment other</label>
+            </value>
+            <value>
+                <fullName>Raw materials</fullName>
+                <default>false</default>
+                <label>Raw materials</label>
+            </value>
+            <value>
+                <fullName>Renewable energy</fullName>
+                <default>false</default>
+                <label>Renewable energy</label>
+            </value>
+            <value>
+                <fullName>Waste</fullName>
+                <default>false</default>
+                <label>Waste</label>
+            </value>
+            <value>
+                <fullName>Water and land</fullName>
+                <default>false</default>
+                <label>Water and land</label>
+            </value>
+            <value>
+                <fullName>Employee relations</fullName>
+                <default>false</default>
+                <label>Employee relations</label>
+            </value>
+            <value>
+                <fullName>Governance other</fullName>
+                <default>false</default>
+                <label>Governance other</label>
+            </value>
+            <value>
+                <fullName>Sound management structures</fullName>
+                <default>false</default>
+                <label>Sound management structures</label>
+            </value>
+            <value>
+                <fullName>Remuneration of staff</fullName>
+                <default>false</default>
+                <label>Remuneration of staff</label>
+            </value>
+            <value>
+                <fullName>Tax compliance</fullName>
+                <default>false</default>
+                <label>Tax compliance</label>
+            </value>
+            <value>
+                <fullName>Economically or socially disadvantaged communities</fullName>
+                <default>false</default>
+                <label>Economically or socially disadvantaged communities</label>
+            </value>
+            <value>
+                <fullName>Investment in human capital</fullName>
+                <default>false</default>
+                <label>Investment in human capital</label>
+            </value>
+            <value>
+                <fullName>Inequality</fullName>
+                <default>false</default>
+                <label>Inequality</label>
+            </value>
+            <value>
+                <fullName>Labour relations</fullName>
+                <default>false</default>
+                <label>Labour relations</label>
+            </value>
+            <value>
+                <fullName>Social cohesion</fullName>
+                <default>false</default>
+                <label>Social cohesion</label>
+            </value>
+            <value>
+                <fullName>Social integration</fullName>
+                <default>false</default>
+                <label>Social integration</label>
+            </value>
+            <value>
+                <fullName>Social other</fullName>
+                <default>false</default>
+                <label>Social other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

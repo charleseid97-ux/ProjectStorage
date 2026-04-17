@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>GridCriteria__c</fullName>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <description>The grid criteria record from which this grid detail was generated.</description>
+    <externalId>false</externalId>
+    <label>Grid Criteria</label>
+    <referenceTo>GridCriteria__c</referenceTo>
+    <relationshipLabel>Grid Details</relationshipLabel>
+    <relationshipName>GridDetails</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

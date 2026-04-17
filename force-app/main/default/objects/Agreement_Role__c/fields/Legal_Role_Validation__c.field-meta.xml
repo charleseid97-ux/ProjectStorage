@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Legal_Role_Validation__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Agreement Request is validated and converted to an Agreement Record.</description>
+    <label>Legal Role Validation</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

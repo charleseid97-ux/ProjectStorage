@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR04_CITICode</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  NOT($User.BypassValidationRules__c),
+  NOT(ISBLANK(CITICode__c)),
+  NOT(REGEX(CITICode__c, &quot;^[A-Z0-9]{1,5}$&quot;))
+)</errorConditionFormula>
+    <errorDisplayField>CITICode__c</errorDisplayField>
+    <errorMessage>CITI Code must be alphanumeric and up to 5 characters only.</errorMessage>
+</ValidationRule>

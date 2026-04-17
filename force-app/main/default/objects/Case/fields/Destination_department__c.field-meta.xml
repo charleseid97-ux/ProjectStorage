@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Destination_department__c</fullName>
+    <label>Destination department</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Communication</fullName>
+                <default>false</default>
+                <label>Communication</label>
+            </value>
+            <value>
+                <fullName>On Line</fullName>
+                <default>false</default>
+                <label>On Line</label>
+            </value>
+            <value>
+                <fullName>Product Marketing</fullName>
+                <default>false</default>
+                <label>Product Marketing</label>
+            </value>
+            <value>
+                <fullName>Graphic Design</fullName>
+                <default>false</default>
+                <label>Graphic Design</label>
+            </value>
+            <value>
+                <fullName>Reporting</fullName>
+                <default>false</default>
+                <label>Reporting</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

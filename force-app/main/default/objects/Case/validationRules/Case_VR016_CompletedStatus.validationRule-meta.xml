@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_VR016_CompletedStatus</fullName>
+    <active>true</active>
+    <description>If the value of field &apos;Status&apos; is Completed, the field &apos;Request_handled&apos; shouldnt be null.</description>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+RecordType.DeveloperName = &apos;Data_Performance_Management_Request&apos;, 
+				ISPICKVAL (Status,&apos;Completed&apos;),
+	 ISPICKVAL( Request_Handled__c, &apos;&apos;)
+)</errorConditionFormula>
+    <errorMessage>Ensure that the field Request Handled is filled if the request is completed .</errorMessage>
+</ValidationRule>

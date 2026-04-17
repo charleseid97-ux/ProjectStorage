@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>Sends an Error Email</description>
+        <name>ErrorEmail</name>
+        <label>ErrorEmail</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <stringValue>salesforcesupport@carmignac.com</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <stringValue>salesforcesupport@carmignac.com</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>Error while creating the Platform Event VideoCall</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <stringValue>&lt;p&gt;There was an error creating the platform event on the VideoCall record : &lt;/p&gt;&lt;p&gt;{!VideoCallId}&lt;/p&gt;</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <apiVersion>64.0</apiVersion>
+    <description>Autolaunched flow used to create a VideoCallWithTranscript Platform Event</description>
+    <environments>Default</environments>
+    <interviewLabel>AL_VideoCall_GeneratePlatformEvent {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>AL_VideoCall_GeneratePlatformEvent</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <description>Create a platform event with the VideoCall RecordId</description>
+        <name>Create_VideoCall_Platform_Event</name>
+        <label>Create VideoCall Platform Event</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <faultConnector>
+            <targetReference>ErrorEmail</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>VideoCallId__c</field>
+            <value>
+                <elementReference>VideoCallId</elementReference>
+            </value>
+        </inputAssignments>
+        <object>VideoCallWithTranscript__e</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Create_VideoCall_Platform_Event</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>The recordId of the video call record</description>
+        <name>VideoCallId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EET80000__c</fullName>
+    <description>80000_Use_Of_Proceeds_Asset_Pooling</description>
+    <label>80000 Use Of Proceeds Asset Pooling</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>S</fullName>
+                <default>false</default>
+                <label>S</label>
+            </value>
+            <value>
+                <fullName>U</fullName>
+                <default>false</default>
+                <label>U</label>
+            </value>
+            <value>
+                <fullName>N</fullName>
+                <default>false</default>
+                <label>N</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

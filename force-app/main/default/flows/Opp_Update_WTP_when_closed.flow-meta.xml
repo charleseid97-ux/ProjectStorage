@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>56.0</apiVersion>
+    <decisions>
+        <name>Bypass_flow</name>
+        <label>Bypass flow</label>
+        <locationX>182</locationX>
+        <locationY>335</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Opp_Update_Bypass_flow</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$User.Bypass_Flow__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Related_WTP</targetReference>
+            </connector>
+            <label>Bypass flow</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <interviewLabel>Opp-Update WTP when closed {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Opp-Update WTP when closed</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>once the status of the opportunity is changed to “Notified Win” or “Closed – Lost” the Linked WTP’s status should automatically switch to “Completed”</description>
+        <name>Update_Related_WTP</name>
+        <label>Update Related WTP</label>
+        <locationX>50</locationX>
+        <locationY>455</locationY>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Completed</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record.Work_Together_Processes__r</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Bypass_flow</targetReference>
+        </connector>
+        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+        <filterLogic>or</filterLogic>
+        <filters>
+            <field>StageName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Notified Win</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>StageName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Closed - Lost</stringValue>
+            </value>
+        </filters>
+        <object>Opportunity</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Draft</status>
+</Flow>

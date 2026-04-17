@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>DesignAndProposal</fullName>
+        <default>false</default>
+        <label>DesignAndProposal</label>
+    </customValue>
+    <customValue>
+        <fullName>Engineering</fullName>
+        <default>false</default>
+        <label>Engineering</label>
+    </customValue>
+    <customValue>
+        <fullName>Filing</fullName>
+        <default>false</default>
+        <label>Filing</label>
+    </customValue>
+    <customValue>
+        <fullName>SetUp</fullName>
+        <default>false</default>
+        <label>SetUp</label>
+    </customValue>
+    <masterLabel>PRP - Child type</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

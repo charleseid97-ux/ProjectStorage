@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR16_BenchmarkonSetup</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+$Permission.PRPInvestmentPerf,
+RecordType.DeveloperName = &apos;SetUp&apos;,
+ISPICKVAL(ProjectProductParent__r.HasBenchmark__c , &apos;true&apos;),
+ISBLANK(Benchmark__c)
+)</errorConditionFormula>
+    <errorDisplayField>Benchmark__c</errorDisplayField>
+    <errorMessage>Please link a Benchmark record to the Project before validating the Set Up phase.</errorMessage>
+</ValidationRule>

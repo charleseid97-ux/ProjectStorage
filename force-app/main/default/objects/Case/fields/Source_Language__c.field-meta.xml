@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Source_Language__c</fullName>
+    <label>Source Language</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Document_Type__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetName>Languages</valueSetName>
+        <valueSettings>
+            <controllingFieldValue>Marketing / Corporate material</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>PPT Presentation</controllingFieldValue>
+            <controllingFieldValue>Press Release</controllingFieldValue>
+            <controllingFieldValue>Product sheet</controllingFieldValue>
+            <controllingFieldValue>Prospectus</controllingFieldValue>
+            <controllingFieldValue>Quarterly reports</controllingFieldValue>
+            <controllingFieldValue>Reporting</controllingFieldValue>
+            <controllingFieldValue>Video subtitles &amp; Inserts</controllingFieldValue>
+            <controllingFieldValue>Monthly comments</controllingFieldValue>
+            <controllingFieldValue>Article (web / media)</controllingFieldValue>
+            <controllingFieldValue>Biography</controllingFieldValue>
+            <controllingFieldValue>Carmignac’s note</controllingFieldValue>
+            <controllingFieldValue>Disclaimer</controllingFieldValue>
+            <controllingFieldValue>EC Letter</controllingFieldValue>
+            <controllingFieldValue>ESG documentation</controllingFieldValue>
+            <controllingFieldValue>IS Monthly Comments</controllingFieldValue>
+            <controllingFieldValue>KID</controllingFieldValue>
+            <controllingFieldValue>Letter to Shareholders</controllingFieldValue>
+            <valueName>English</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Marketing / Corporate material</controllingFieldValue>
+            <controllingFieldValue>Other</controllingFieldValue>
+            <controllingFieldValue>PPT Presentation</controllingFieldValue>
+            <controllingFieldValue>Press Release</controllingFieldValue>
+            <controllingFieldValue>Product sheet</controllingFieldValue>
+            <controllingFieldValue>Prospectus</controllingFieldValue>
+            <controllingFieldValue>Quarterly reports</controllingFieldValue>
+            <controllingFieldValue>Reporting</controllingFieldValue>
+            <controllingFieldValue>Video subtitles &amp; Inserts</controllingFieldValue>
+            <controllingFieldValue>Article (web / media)</controllingFieldValue>
+            <controllingFieldValue>Biography</controllingFieldValue>
+            <controllingFieldValue>Carmignac’s note</controllingFieldValue>
+            <controllingFieldValue>Disclaimer</controllingFieldValue>
+            <controllingFieldValue>EC Letter</controllingFieldValue>
+            <controllingFieldValue>ESG documentation</controllingFieldValue>
+            <controllingFieldValue>IS Monthly Comments</controllingFieldValue>
+            <controllingFieldValue>KID</controllingFieldValue>
+            <controllingFieldValue>Letter to Shareholders</controllingFieldValue>
+            <valueName>French</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PerfFeesRefPeriod__c</fullName>
+    <description>Performance fees reference period</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Reference period for the calculation of the performance fees (in years, usually 5 years)</inlineHelpText>
+    <label>Perf Fees Ref Period</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

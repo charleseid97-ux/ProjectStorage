@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Send_CRM_Email</name>
+        <label>Send CRM Email</label>
+        <locationX>50</locationX>
+        <locationY>431</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>EmailAddressListCRM</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>$Label.NoReplayWideAddress</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>A contact has updated their ProSpace Website Login</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>EmailBody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <apiVersion>60.0</apiVersion>
+    <decisions>
+        <name>Email_Update</name>
+        <label>Email Update</label>
+        <locationX>314</locationX>
+        <locationY>323</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Client_Update</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$User.LastName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>ProSpace</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.WebsiteLogin__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record.WebsiteLogin__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Send_CRM_Email</targetReference>
+            </connector>
+            <label>Client Prospace Update</label>
+        </rules>
+        <rules>
+            <name>Main_Email_Update</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.WebsiteLogin__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.Email</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record__Prior.WebsiteLogin__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Email</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Website_Login</targetReference>
+            </connector>
+            <label>Main Email Update</label>
+        </rules>
+    </decisions>
+    <description>When a contact&apos;s professional email is changed, the website login is also updated and the synch with the website is triggered
+=&gt; only if the prior email = prior website login (some contacts have their personal emails attached tot he website)</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>EmailAddressListCRM</name>
+        <dataType>String</dataType>
+        <expression>IF({!$Record.Team__c} = &apos;France&apos;, &apos;workgroup.crmfrance@carmignac.com&apos;,
+IF({!$Record.Team__c} = &apos;Italy&apos;, &apos;workgroup.crmitaly@carmignac.com&apos;,
+IF({!$Record.Team__c} = &apos;United Kingdom&apos;, &apos;workgroup.crmuk@carmignac.com&apos;,
+IF({!$Record.Team__c} = &apos;Germany&apos;, &apos;workgroup.crmgermany@carmignac.com&apos;,
+IF({!$Record.Team__c} =  &apos;Switzerland&apos;, &apos;workgroup.crmswitzerland@carmignac.com&apos;,
+IF({!$Record.Team__c} = &apos;Belgium&apos;,&apos;workgroup.crmbeneluxnordics@carmignac.com&apos;,
+IF({!$Record.Team__c} = &apos;Netherlands&apos;,&apos;workgroup.crmbeneluxnordics@carmignac.com&apos;,
+IF({!$Record.Team__c} = &apos;Luxembourg&apos;,&apos;workgroup.crmbeneluxnordics@carmignac.com&apos;,
+IF({!$Record.Team__c} = &apos;Nordics&apos;,&apos;workgroup.crmbeneluxnordics@carmignac.com&apos;,
+IF({!$Record.Team__c} = &apos;International&apos;, &apos;workgroup.crminternational@carmignac.com&apos;,
+IF({!$Record.Team__c} = &apos;LATAM&apos;, &apos;workgroup.crminternational@carmignac.com&apos;,
+&apos;SalesforceSupport@carmignac.com&apos;)))))))))))</expression>
+    </formulas>
+    <formulas>
+        <name>RecordLink</name>
+        <dataType>String</dataType>
+        <expression>LEFT( {!$Api.Partner_Server_URL_520}, FIND( &apos;/services&apos;, {!$Api.Partner_Server_URL_520} ))&amp;{!$Record.Id}</expression>
+    </formulas>
+    <interviewLabel>FL_AfterSave_WebsiteEmailUpdate {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>FL_AfterSave_WebsiteEmailUpdate</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>update website email and triger website synch</description>
+        <name>Update_Website_Login</name>
+        <label>Update Website Login</label>
+        <locationX>314</locationX>
+        <locationY>431</locationY>
+        <inputAssignments>
+            <field>Synchrostatus__c</field>
+            <value>
+                <stringValue>To be synced</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>WebsiteLogin__c</field>
+            <value>
+                <elementReference>$Record.Email</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>188</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Email_Update</targetReference>
+        </connector>
+        <filterFormula>OR (
+AND( 
+NOT(ISBLANK({!$Record.WebsiteLogin__c})),
+{!$Record__Prior.Email} = {!$Record__Prior.WebsiteLogin__c}, 
+ISCHANGED({!$Record.Email})),
+AND({!$User.LastName} = &apos;ProSpace&apos;,
+{!$Record.WebsiteLogin__c} &lt;&gt; {!$Record__Prior.WebsiteLogin__c}
+)
+)</filterFormula>
+        <object>Contact</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Draft</status>
+    <textTemplates>
+        <name>EmailBody</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;Dear CRM Team,&lt;/p&gt;&lt;p&gt;Please note that the Contact &lt;a href=&quot;{!RecordLink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;{!$Record.First_Last_name__c}&lt;/a&gt; has changed their ProSpace Website Login&lt;/p&gt;&lt;p&gt;It is recommenced to check this new email and if necessary update the contact&apos;s main email address.&lt;/p&gt;&lt;p&gt;Kind regards,&lt;/p&gt;&lt;p&gt;Salesforce Support&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</text>
+    </textTemplates>
+</Flow>

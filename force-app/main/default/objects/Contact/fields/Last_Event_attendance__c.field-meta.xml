@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Last_Event_attendance__c</fullName>
+    <description>Tracks last attendance to an event. Filled-in with last etouches action by process builder set on campaign member when status is &quot;attended&quot;</description>
+    <encryptionScheme>None</encryptionScheme>
+    <inlineHelpText>Date and Time of the last Event (etouches) that the contact attended.</inlineHelpText>
+    <label>Last Event attendance</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>DateTime</type>
+</CustomField>

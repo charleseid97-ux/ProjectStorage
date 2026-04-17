@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sc_SUM_Nb_Of_Required_Fields_Filing__c</fullName>
+    <label>Sc SUM Nb Of Required Fields Filing</label>
+    <summarizedField>ProjectShareclass__c.Nb_Of_Required_FieldsFiling__c</summarizedField>
+    <summaryForeignKey>ProjectShareclass__c.ProjectProduct__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

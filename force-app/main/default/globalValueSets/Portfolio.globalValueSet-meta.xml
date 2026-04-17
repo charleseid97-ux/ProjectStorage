@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>CCT</fullName>
+        <default>false</default>
+        <label>Carmignac Court Terme</label>
+    </customValue>
+    <customValue>
+        <fullName>CE</fullName>
+        <default>false</default>
+        <label>Carmignac Emergents</label>
+    </customValue>
+    <customValue>
+        <fullName>CEE</fullName>
+        <default>false</default>
+        <label>Carmignac Euro-Entrepreneurs</label>
+    </customValue>
+    <customValue>
+        <fullName>CAGR</fullName>
+        <default>false</default>
+        <label>Carmignac Global Absolute Return</label>
+    </customValue>
+    <customValue>
+        <fullName>CIN</fullName>
+        <default>false</default>
+        <label>Carmignac Innovation</label>
+    </customValue>
+    <customValue>
+        <fullName>CI</fullName>
+        <default>false</default>
+        <label>Carmignac Investissement</label>
+    </customValue>
+    <customValue>
+        <fullName>CIL</fullName>
+        <default>false</default>
+        <label>Carmignac Investissement Latitude</label>
+    </customValue>
+    <customValue>
+        <fullName>CEP</fullName>
+        <default>false</default>
+        <label>Carmignac Long-Short European Equities</label>
+    </customValue>
+    <customValue>
+        <fullName>CP</fullName>
+        <default>false</default>
+        <label>Carmignac Patrimoine</label>
+    </customValue>
+    <customValue>
+        <fullName>CARA</fullName>
+        <default>false</default>
+        <label>Carmignac Portfolio Active Risk Allocation</label>
+    </customValue>
+    <customValue>
+        <fullName>CCC</fullName>
+        <default>false</default>
+        <label>Carmignac Portfolio Capital Cube</label>
+    </customValue>
+    <customValue>
+        <fullName>CCP</fullName>
+        <default>false</default>
+        <label>Carmignac Portfolio Unconstrained Euro Fixed Income</label>
+    </customValue>
+    <customValue>
+        <fullName>CGCN</fullName>
+        <default>false</default>
+        <label>Carmignac Portfolio China</label>
+    </customValue>
+    <customValue>
+        <fullName>CGG</fullName>
+        <default>false</default>
+        <label>Carmignac Portfolio Green Gold</label>
+    </customValue>
+    <customValue>
+        <fullName>CAO</fullName>
+        <default>false</default>
+        <label>Carmignac Portfolio Cross Asset Opportunities</label>
+    </customValue>
+    <customValue>
+        <fullName>PE</fullName>
+        <default>false</default>
+        <label>Carmignac Portfolio Emergents</label>
+    </customValue>
+    <customValue>
+        <fullName>CED</fullName>
+        <default>false</default>
+        <label>Carmignac Portfolio Emerging Discovery</label>
+    </customValue>
+    <customValue>
+        <fullName>CEMP</fullName>
+        <default>false</default>
+        <label>Carmignac Portfolio Emerging Patrimoine</label>
+    </customValue>
+    <customValue>
+        <fullName>PEE</fullName>
+        <default>false</default>
+        <label>Carmignac Portfolio Euro-Entrepreneurs</label>
+    </customValue>
+    <customValue>
+        <fullName>CFA24</fullName>
+        <default>false</default>
+        <label>Carmignac Portfolio Flexible Allocation 2024</label>
+    </customValue>
+    <customValue>
+        <fullName>CGB</fullName>
+        <default>false</default>
+        <label>Carmignac Portfolio Global Bond</label>
+    </customValue>
+    <customValue>
+        <fullName>CGE</fullName>
+        <default>false</default>
+        <label>Carmignac Portfolio Grande Europe</label>
+    </customValue>
+    <customValue>
+        <fullName>CIT</fullName>
+        <default>false</default>
+        <label>Carmignac Portfolio Infotech</label>
+    </customValue>
+    <customValue>
+        <fullName>PI</fullName>
+        <default>false</default>
+        <label>Carmignac Portfolio Investissement</label>
+    </customValue>
+    <customValue>
+        <fullName>PIL</fullName>
+        <default>false</default>
+        <label>Carmignac Portfolio Investissement Latitude</label>
+    </customValue>
+    <customValue>
+        <fullName>PEP</fullName>
+        <default>false</default>
+        <label>Carmignac Portfolio Long-Short European Equities</label>
+    </customValue>
+    <customValue>
+        <fullName>CLSGE</fullName>
+        <default>false</default>
+        <label>Carmignac Portfolio Long-Short Global Equities</label>
+    </customValue>
+    <customValue>
+        <fullName>CMN</fullName>
+        <default>false</default>
+        <label>Carmignac Portfolio Market Neutral</label>
+    </customValue>
+    <customValue>
+        <fullName>PP</fullName>
+        <default>false</default>
+        <label>Carmignac Portfolio Patrimoine</label>
+    </customValue>
+    <customValue>
+        <fullName>CPE</fullName>
+        <default>false</default>
+        <label>Carmignac Portfolio Patrimoine Europe</label>
+    </customValue>
+    <customValue>
+        <fullName>PSC</fullName>
+        <default>false</default>
+        <label>Carmignac Portfolio Sécurité</label>
+    </customValue>
+    <customValue>
+        <fullName>CCR</fullName>
+        <default>false</default>
+        <label>Carmignac Portfolio Unconstrained Credit</label>
+    </customValue>
+    <customValue>
+        <fullName>CPR100</fullName>
+        <default>false</default>
+        <label>Carmignac Profil Réactif 100</label>
+    </customValue>
+    <customValue>
+        <fullName>CPR50</fullName>
+        <default>false</default>
+        <label>Carmignac Profil Réactif 50</label>
+    </customValue>
+    <customValue>
+        <fullName>CPR75</fullName>
+        <default>false</default>
+        <label>Carmignac Profil Réactif 75</label>
+    </customValue>
+    <customValue>
+        <fullName>CSC</fullName>
+        <default>false</default>
+        <label>Carmignac Sécurité</label>
+    </customValue>
+    <customValue>
+        <fullName>CSEM</fullName>
+        <default>false</default>
+        <label>Credit Suisse Carmignac Emerging Markets Multi-Asset Fund</label>
+    </customValue>
+    <customValue>
+        <fullName>MFP</fullName>
+        <default>false</default>
+        <label>Mapfre Carmignac F.P.</label>
+    </customValue>
+    <customValue>
+        <fullName>NOFUND</fullName>
+        <default>false</default>
+        <label>No Fund</label>
+    </customValue>
+    <customValue>
+        <fullName>UKCP</fullName>
+        <default>false</default>
+        <label>FP Carmignac Patrimoine</label>
+    </customValue>
+    <customValue>
+        <fullName>UKCEMP</fullName>
+        <default>false</default>
+        <label>FP Carmignac Emerging Patrimoine</label>
+    </customValue>
+    <customValue>
+        <fullName>UKCE</fullName>
+        <default>false</default>
+        <label>FP Carmignac Emerging Markets</label>
+    </customValue>
+    <customValue>
+        <fullName>UKCED</fullName>
+        <default>false</default>
+        <label>FP Carmignac Emerging Discovery</label>
+    </customValue>
+    <customValue>
+        <fullName>UKCEL</fullName>
+        <default>false</default>
+        <label>FP Carmignac European Leaders</label>
+    </customValue>
+    <customValue>
+        <fullName>UKCGB</fullName>
+        <default>false</default>
+        <label>FP Carmignac Unconstrained Global Bond</label>
+    </customValue>
+    <customValue>
+        <fullName>CGC</fullName>
+        <default>false</default>
+        <label>Carmignac Portfolio Grandchildren</label>
+    </customValue>
+    <customValue>
+        <fullName>CFG</fullName>
+        <default>false</default>
+        <label>Carmignac Portfolio Family Governed</label>
+    </customValue>
+    <customValue>
+        <fullName>CCNE</fullName>
+        <default>false</default>
+        <label>Carmignac China New Economy</label>
+    </customValue>
+    <customValue>
+        <fullName>UKCGEC</fullName>
+        <default>false</default>
+        <label>FP Carmignac Global Equity Compounders</label>
+    </customValue>
+    <customValue>
+        <fullName>CC25</fullName>
+        <default>false</default>
+        <label>Carmignac Credit 2025</label>
+    </customValue>
+    <customValue>
+        <fullName>CEMD</fullName>
+        <default>false</default>
+        <label>Carmignac Portfolio EM Debt</label>
+    </customValue>
+    <customValue>
+        <fullName>UFFGE</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>UFF Grande Europe 0-100</label>
+    </customValue>
+    <customValue>
+        <fullName>Carmignac Euro-Investissement</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Carmignac Euro-Investissement</label>
+    </customValue>
+    <masterLabel>Portfolio</masterLabel>
+    <sorted>true</sorted>
+</GlobalValueSet>

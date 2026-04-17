@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Data_Quality_Score__c</fullName>
+    <description>Check data quality based on important fields for a company</description>
+    <externalId>false</externalId>
+    <formula>IF(ISPICKVAL(Distributor_Type__c,&quot;&quot;), 0,20)
++ IF(ISPICKVAL(Sub_Type__c,&quot;&quot;), 0,10)
++ IF(ISPICKVAL(In__c,&quot;&quot;), 0,10)
++ IF(ISPICKVAL(Final_Distribution__c,&quot;&quot;), 0,15)
++ IF(ISPICKVAL(LegalForm__c,&quot;&quot;), 0,20)
++ IF(LEN(BillingCity) = 0, 0,5)
++ IF(LEN(BillingStreet) = 0, 0,5)
++ IF(LEN(BillingCountry) = 0, 0,5)
++ IF(LEN(Phone) = 0, 0,10)</formula>
+    <label>Data Quality Score</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

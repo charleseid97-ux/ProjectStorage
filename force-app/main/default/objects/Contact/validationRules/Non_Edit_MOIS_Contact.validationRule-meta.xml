@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Non_Edit_MOIS_Contact</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(MOIS_Default_Contact__c = true,  !$User.BypassValidationRules__c)</errorConditionFormula>
+    <errorMessage>You cannot edit the Middle Office Investor Services Default Contact</errorMessage>
+</ValidationRule>

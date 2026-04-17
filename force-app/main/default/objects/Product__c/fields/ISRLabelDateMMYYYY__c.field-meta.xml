@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ISRLabelDateMMYYYY__c</fullName>
+    <description>Displays the ISR Label Date in MM-YYYY format for user-friendly visualization in the Product Catalog and reports.
+This field is automatically calculated from ISR Label Date and should not be edited manually.</description>
+    <externalId>false</externalId>
+    <formula>IF(
+  ISBLANK(ISRLabelDate__c),
+  &quot;&quot;,
+  RIGHT(&quot;0&quot; &amp; TEXT(MONTH(ISRLabelDate__c)), 2)
+  &amp; &quot;-&quot; &amp;
+  TEXT(YEAR(ISRLabelDate__c))
+)</formula>
+    <label>ISR Label Date</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ESMAApplicationStartDate__c</fullName>
+    <encryptionScheme>None</encryptionScheme>
+    <inlineHelpText>automaticaly contributed with the Go-Live date of the project of creation or modification</inlineHelpText>
+    <label>ESMA Application Start Date</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

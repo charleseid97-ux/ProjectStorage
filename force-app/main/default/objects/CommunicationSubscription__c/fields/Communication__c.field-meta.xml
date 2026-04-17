@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Communication__c</fullName>
+    <description>Master detail relationship between Communication Subscription &amp; Communication objects</description>
+    <label>Communication</label>
+    <referenceTo>Communication__c</referenceTo>
+    <relationshipLabel>Communication Subscriptions</relationshipLabel>
+    <relationshipName>Communication_Subscriptions</relationshipName>
+    <relationshipOrder>1</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Third_Party__c</fullName>
+    <defaultValue>false</defaultValue>
+    <inlineHelpText>A party that isn&apos;t involved with a contract but is involved with the transaction</inlineHelpText>
+    <label>Third Party</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

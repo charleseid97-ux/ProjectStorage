@@ -1,0 +1,65 @@
+<template>
+    <lightning-card title={listTitle} icon-name="standard:account">
+        <!-- Filter Dropdown -->
+        <div class="slds-m-around_medium">
+            <lightning-combobox
+                label="Filter by Team Owner"
+                value={selectedTeamOwner}
+                options={teamOwnerOptions}
+                hide-checkbox-column="true"
+                onchange={handleFilterChange}>
+            </lightning-combobox>
+            <template if:false={fund}>
+            
+                <lightning-combobox
+                    label="Filter by Share Class"
+                    value={selectedShareClass}
+                    options={shareClassOptions}
+                    hide-checkbox-column="true"
+                    onchange={handleScChange}>
+                </lightning-combobox>
+            </template>
+
+            </div>
+        <!-- Data Table -->
+        <div class="slds-m-around_medium" style="overflow-y: auto;max-height: 300px;">
+            <lightning-datatable
+                key-field="id"
+                data={filteredFields}
+                onrowaction={handleRowAction}
+                hide-checkbox-column="true"
+                columns={columns}>
+            </lightning-datatable>
+        </div>
+    </lightning-card>
+
+    <!-- Modal for Editing -->
+    <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 class="slds-modal__title">Edit {selectedRow.fieldName}</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <!-- Spinner -->
+                    <template if:true={isSaving}>
+                        <lightning-spinner alternative-text="Saving..." size="medium"></lightning-spinner>
+                    </template>
+                    <lightning-record-edit-form
+                    object-api-name={objectApiName}
+                    record-id={selectedRow.childRecordId}
+                    onsubmit={handleSubmit}
+                    onsuccess={handleSuccess}
+                    onerror={handleError}>
+                        <lightning-input-field field-name={selectedRow.fieldApiName}></lightning-input-field>
+                        <div class="slds-m-top_medium">
+                            <lightning-button type="submit" label="Save" variant="brand"></lightning-button>
+                            <lightning-button label="Cancel" onclick={closeModal} class="slds-m-left_small"></lightning-button>
+                        </div>
+                    </lightning-record-edit-form>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

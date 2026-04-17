@@ -1,0 +1,44 @@
+.card-container {
+    background-color: white;
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+}
+ 
+.card {
+    width: 300px;
+    height: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: bold;
+}
+ 
+.current-step {
+    border: 3px solid gold !important;
+}
+ 
+.home-icon {
+    cursor: pointer;
+    float: left;
+    margin-right: 10px;
+    --slds-c-icon-color-background: rgba(106, 160, 102, 1);
+    --slds-c-icon-color-foreground-default:white;
+}
+ 
+.card:hover {
+    transform: scale(1.03);
+    transition: transform 0.3s;
+}
+ 
+.home-icon:hover {
+    transform: scale(1.03);
+    transition: transform 0.3s;
+}

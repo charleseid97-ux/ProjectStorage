@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Logic__c</fullName>
+    <description>The comparison operator: = (equals), != (not equals), IN (value is in list), NOT IN (value not in list).</description>
+    <externalId>false</externalId>
+    <label>Logic</label>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>=</fullName>
+                <default>false</default>
+                <label>=</label>
+            </value>
+            <value>
+                <fullName>!=</fullName>
+                <default>false</default>
+                <label>!=</label>
+            </value>
+            <value>
+                <fullName>IN</fullName>
+                <default>false</default>
+                <label>IN</label>
+            </value>
+            <value>
+                <fullName>NOT IN</fullName>
+                <default>false</default>
+                <label>NOT IN</label>
+            </value>
+            <value>
+                <fullName>LIKE</fullName>
+                <default>false</default>
+                <label>LIKE</label>
+            </value>
+            <value>
+                <fullName>NOT {_} LIKE</fullName>
+                <default>false</default>
+                <label>NOT LIKE</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,20 @@
+.lgc-bg {
+    background-color: rgb(242 242 242);
+}
+:host {
+    --slds-c-accordion-heading-font-size: .8rem;
+   
+    /*--slds-c-badge-color-background: var(--c-example-purple);
+    --slds-c-badge-text-color: var(--c-example-white);*/
+  }
+  :host .shareClassText{
+    --lwc-formLabelFontSize: .6rem;
+    --lwc-fontSize3: .7rem;
+    --lwc-widthToggle: 2.25rem;
+    --lwc-heightToggle: 1.25rem;
+    --lwc-squareToggleSlider: 1rem;
+  }
+
+  .input-toggle{
+    width: fit-content !important;
+  }

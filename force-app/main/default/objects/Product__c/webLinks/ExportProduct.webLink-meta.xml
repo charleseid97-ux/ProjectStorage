@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ExportProduct</fullName>
+    <availability>online</availability>
+    <description>Link to report PRP Product Export</description>
+    <displayType>button</displayType>
+    <encodingKey>UTF-8</encodingKey>
+    <height>600</height>
+    <linkType>url</linkType>
+    <masterLabel>Export Product</masterLabel>
+    <openType>noSidebar</openType>
+    <protected>false</protected>
+    <url>/flow/Redirect_To_Reports_Product_Shareclass?recordId={!Product__c.Id}&amp;buttonType=Product&amp;retURL=https://carmignac-crm.lightning.force.com/lightning/r/Report/00OaT000002dNq7UAE/view?fv0={!Product__c.Id}</url>
+</WebLink>

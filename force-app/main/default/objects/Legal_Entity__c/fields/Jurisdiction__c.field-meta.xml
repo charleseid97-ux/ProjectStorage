@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Jurisdiction__c</fullName>
+    <description>Regulatory system under which the Entity Legal Form is formed (i.e. country where the authority / or power is
+established to decide legal cases)</description>
+    <label>Jurisdiction</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Country</valueSetName>
+    </valueSet>
+</CustomField>

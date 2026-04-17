@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>BugLog_VR001_TestCommentMandatory</fullName>
+    <active>false</active>
+    <description>If result OK -&gt; no comment
+If result KO =&gt; comment mandatory</description>
+    <errorConditionFormula>AND(ISPICKVAL(RetestResult__c, &quot;KO&quot;),NOT($User.BypassValidationRules__c))</errorConditionFormula>
+    <errorDisplayField>ReTestDetail__c</errorDisplayField>
+    <errorMessage>Please complete Result Detail</errorMessage>
+</ValidationRule>

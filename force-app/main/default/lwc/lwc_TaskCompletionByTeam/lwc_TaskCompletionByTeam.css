@@ -1,0 +1,31 @@
+th {
+    font-weight: bold;
+    background-color: #f3f3f3;
+}
+
+td {
+    padding: 0.75rem;
+}
+
+a {
+    color: #0070d2;
+    text-decoration: underline;
+}
+
+.slds-modal__container {
+    max-width: 60rem;
+}
+
+.iconRed {
+    --slds-c-icon-color-foreground-default: red;
+}
+
+.iconYellow {
+    --slds-c-icon-color-foreground-default: #FFBF00;
+
+    
+}
+
+.iconGreen {
+    --slds-c-icon-color-foreground-default: green;
+}

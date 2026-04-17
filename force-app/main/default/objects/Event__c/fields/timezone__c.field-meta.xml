@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>timezone__c</fullName>
+    <label>Timezone</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>UTC-05</fullName>
+                <default>false</default>
+                <label>UTC-5 Toronto</label>
+            </value>
+            <value>
+                <fullName>UTC+00</fullName>
+                <default>false</default>
+                <label>UTC+0 London</label>
+            </value>
+            <value>
+                <fullName>UTC+01</fullName>
+                <default>true</default>
+                <label>UTC+1 Paris</label>
+            </value>
+            <value>
+                <fullName>UTC+02</fullName>
+                <default>false</default>
+                <label>UTC+2 Helsinki</label>
+            </value>
+            <value>
+                <fullName>UTC+04</fullName>
+                <default>false</default>
+                <label>UTC+4 Dubai</label>
+            </value>
+            <value>
+                <fullName>UTC+08</fullName>
+                <default>false</default>
+                <label>UTC+8 Singapore</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,38 @@
+/* Example CSS for myTranslationRequestForm component */
+.slds-p-around_medium {
+    padding: 1rem;
+}
+
+.slds-p-bottom_medium {
+    padding-bottom: 1rem;
+}
+
+/* You can add more styles as needed for your form */
+/* SLDS Section Divider Title */
+.slds-section-title--divider {
+    border-bottom: 1px solid #e0e5ee;
+    color: #3e3e3c;
+    padding-bottom: 0.5rem;
+    /* font-size: 1.125rem; Matches SLDS title sizes */
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Form Section Spacing */
+.form-section {
+    margin-bottom: 2rem;
+}
+
+/* Field Column Spacing */
+.slds-col {
+    padding-bottom: 1rem; /* Spacing between fields */
+}
+
+/* Specific Field Adjustments (if necessary) */
+.lightning-input-field {
+    width: 100%;
+}
+.slds-file-selector__dropzone{
+    width: 14rem;
+    height: 10rem;
+}

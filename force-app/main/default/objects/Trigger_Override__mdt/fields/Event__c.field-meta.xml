@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Event__c</fullName>
+    <description>The trigger event. Must be one of Update, Insert, Delete</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Event</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>ISUPDATE</fullName>
+                <default>true</default>
+                <label>ISUPDATE</label>
+            </value>
+            <value>
+                <fullName>ISINSERT</fullName>
+                <default>false</default>
+                <label>ISINSERT</label>
+            </value>
+            <value>
+                <fullName>ISDELETE</fullName>
+                <default>false</default>
+                <label>ISDELETE</label>
+            </value>
+            <value>
+                <fullName>ISUNDELETE</fullName>
+                <default>false</default>
+                <label>ISUNDELETE</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>App__c</fullName>
+    <description>2nd Level of contact pattern - Solution concerned by the issue</description>
+    <inlineHelpText>On which application are you facing an issue ?</inlineHelpText>
+    <label>App</label>
+    <required>true</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Salesforce</fullName>
+                <default>true</default>
+                <label>Salesforce</label>
+            </value>
+            <value>
+                <fullName>Schedule</fullName>
+                <default>false</default>
+                <label>Schedule</label>
+            </value>
+            <value>
+                <fullName>etouches</fullName>
+                <default>false</default>
+                <label>etouches</label>
+            </value>
+            <value>
+                <fullName>Prospace</fullName>
+                <default>false</default>
+                <label>Prospace</label>
+            </value>
+            <value>
+                <fullName>Pardot</fullName>
+                <default>false</default>
+                <label>Pardot</label>
+            </value>
+            <value>
+                <fullName>BrightTalk</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>BrightTalk</label>
+            </value>
+            <value>
+                <fullName>Interface</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Interface</label>
+            </value>
+            <value>
+                <fullName>Intranet</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Intranet</label>
+            </value>
+            <value>
+                <fullName>Pyramid Sales&amp;Marketing</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Pyramid Sales&amp;Marketing</label>
+            </value>
+            <value>
+                <fullName>RCP</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>RCP</label>
+            </value>
+            <value>
+                <fullName>Tableau Software</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Tableau Software</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

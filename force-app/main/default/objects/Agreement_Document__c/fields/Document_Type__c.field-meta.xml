@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Document_Type__c</fullName>
+    <description>The document type, e.g. Scanned Agreement</description>
+    <label>Document Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Scanned Agreement</fullName>
+                <default>false</default>
+                <label>Scanned Agreement</label>
+            </value>
+            <value>
+                <fullName>KYD</fullName>
+                <default>false</default>
+                <label>KYD</label>
+            </value>
+            <value>
+                <fullName>IS Post-Governance memo</fullName>
+                <default>false</default>
+                <label>IS Post-Governance memo</label>
+            </value>
+            <value>
+                <fullName>IS Pre-Execution memo</fullName>
+                <default>false</default>
+                <label>IS Pre-Execution memo</label>
+            </value>
+            <value>
+                <fullName>IS IMA</fullName>
+                <default>false</default>
+                <label>IS IMA</label>
+            </value>
+            <value>
+                <fullName>IS Advisory agreement</fullName>
+                <default>false</default>
+                <label>IS Advisory agreement</label>
+            </value>
+            <value>
+                <fullName>IS Cooperation agreement</fullName>
+                <default>false</default>
+                <label>IS Cooperation agreement</label>
+            </value>
+            <value>
+                <fullName>IS Distribution agreement</fullName>
+                <default>false</default>
+                <label>IS Distribution agreement</label>
+            </value>
+            <value>
+                <fullName>IS Service agreement</fullName>
+                <default>false</default>
+                <label>IS Service agreement</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

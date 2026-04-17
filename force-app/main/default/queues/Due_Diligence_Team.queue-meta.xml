@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesSendEmailToMembers>false</doesSendEmailToMembers>
+    <email>rfp@carmignac.com</email>
+    <name>RFP Team</name>
+    <queueMembers>
+        <users>
+            <user>abdelatif.elghazouani-crm@carmignac.com</user>
+            <user>benjamin.roffi-crm@carmignac.com</user>
+            <user>david.lanza-crm@carmignac.com</user>
+            <user>guillaume.edery-crm@carmignac.com</user>
+            <user>jamie.mccreddie-crm@carmignac.com</user>
+            <user>jeremie.breton-crm@carmignac.com</user>
+            <user>jeremy.cavailles-crm@carmignac.com</user>
+            <user>laurence.vallot-crm@carmignac.com</user>
+            <user>olivier.carton-crm@carmignac.com</user>
+            <user>pierre.briffaut-crm@carmignac.com</user>
+            <user>robert.greenway-crm@carmignac.com</user>
+            <user>said.abdullaev-crm@carmignac.com</user>
+            <user>zoe.charny.external-crm@carmignac.com</user>
+        </users>
+    </queueMembers>
+    <queueSobject>
+        <sobjectType>Case</sobjectType>
+    </queueSobject>
+</Queue>

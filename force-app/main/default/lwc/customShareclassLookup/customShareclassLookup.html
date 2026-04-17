@@ -1,0 +1,24 @@
+<template>
+    <lightning-input
+        type="search"
+        label="Search Shareclass"
+        value={selectedDisplayName}
+        placeholder="Search..."
+        onchange={handleSearchChange}>
+    </lightning-input>
+
+    <template if:true={showResults}>
+        <template for:each={results} for:item="result">
+            <div key={result.Id} data-id={result.Id} data-name={result.displayName} onclick={selectResult}
+                 class="slds-box slds-box_link slds-m-top_xx-small slds-p-around_x-small">
+                {result.displayName}
+            </div>
+        </template>
+    </template>
+
+    <template if:true={noResults}>
+        <div class="slds-text-color_weak slds-m-top_small">
+            No results found.
+        </div>
+    </template>
+</template>

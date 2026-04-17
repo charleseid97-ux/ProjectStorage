@@ -1,0 +1,8 @@
+.slds-tree-container, .slds-tree_container {
+    min-width: 9rem;
+    max-width: var(--sds-c-tree-sizing-max-width, 100%);
+}
+.header-font{
+    font-size: 18px;
+    line-height: 1.5;
+}

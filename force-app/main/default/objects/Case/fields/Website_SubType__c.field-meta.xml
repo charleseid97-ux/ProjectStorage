@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Website_SubType__c</fullName>
+    <label>Website SubType</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Website_Type__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>About Us</fullName>
+                <default>false</default>
+                <label>About Us</label>
+            </value>
+            <value>
+                <fullName>Awards</fullName>
+                <default>false</default>
+                <label>Awards</label>
+            </value>
+            <value>
+                <fullName>Biographies</fullName>
+                <default>false</default>
+                <label>Biographies</label>
+            </value>
+            <value>
+                <fullName>Events</fullName>
+                <default>false</default>
+                <label>Events</label>
+            </value>
+            <value>
+                <fullName>Fund Content</fullName>
+                <default>false</default>
+                <label>Fund Content</label>
+            </value>
+            <value>
+                <fullName>ESG</fullName>
+                <default>false</default>
+                <label>ESG</label>
+            </value>
+            <value>
+                <fullName>Macro</fullName>
+                <default>false</default>
+                <label>Macro</label>
+            </value>
+            <value>
+                <fullName>Fund Insights</fullName>
+                <default>false</default>
+                <label>Fund Insights</label>
+            </value>
+            <value>
+                <fullName>Fund Manager’s Letter</fullName>
+                <default>false</default>
+                <label>Fund Manager’s Letter</label>
+            </value>
+            <value>
+                <fullName>Homepage update</fullName>
+                <default>false</default>
+                <label>Homepage update</label>
+            </value>
+            <value>
+                <fullName>Job Offer</fullName>
+                <default>false</default>
+                <label>Job Offer</label>
+            </value>
+            <value>
+                <fullName>Equipe de gestion</fullName>
+                <default>false</default>
+                <label>Management Team</label>
+            </value>
+            <value>
+                <fullName>Monthly/Annual Dividend Notices</fullName>
+                <default>false</default>
+                <label>Monthly/Annual Dividend Notices</label>
+            </value>
+            <value>
+                <fullName>Monthly Newsletters</fullName>
+                <default>false</default>
+                <label>Monthly Newsletters</label>
+            </value>
+            <value>
+                <fullName>Monthly Reporting</fullName>
+                <default>false</default>
+                <label>Monthly Reporting</label>
+            </value>
+            <value>
+                <fullName>Legal Notices</fullName>
+                <default>false</default>
+                <label>Legal Notices</label>
+            </value>
+            <value>
+                <fullName>Personal Data Policy</fullName>
+                <default>false</default>
+                <label>Personal Data Policy</label>
+            </value>
+            <value>
+                <fullName>Press release</fullName>
+                <default>false</default>
+                <label>Press release</label>
+            </value>
+            <value>
+                <fullName>Private Management</fullName>
+                <default>false</default>
+                <label>Private Management</label>
+            </value>
+            <value>
+                <fullName>RI Hub</fullName>
+                <default>false</default>
+                <label>RI Hub</label>
+            </value>
+            <value>
+                <fullName>Regulatory Information</fullName>
+                <default>false</default>
+                <label>Regulatory Information</label>
+            </value>
+            <value>
+                <fullName>Newsletters Sales</fullName>
+                <default>false</default>
+                <label>Sales Newsletters</label>
+            </value>
+            <value>
+                <fullName>Sales Teams</fullName>
+                <default>false</default>
+                <label>Sales Teams</label>
+            </value>
+            <value>
+                <fullName>Shareholder Letters</fullName>
+                <default>false</default>
+                <label>Shareholder Letters</label>
+            </value>
+            <value>
+                <fullName>EC Letter</fullName>
+                <default>false</default>
+                <label>EC Letter</label>
+            </value>
+            <value>
+                <fullName>Carmignac&apos;s Note</fullName>
+                <default>false</default>
+                <label>Carmignac&apos;s Note</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Push</fullName>
+                <default>false</default>
+                <label>Push</label>
+            </value>
+            <value>
+                <fullName>Communiqué Privée</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Private Communication</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Corporate</controllingFieldValue>
+            <valueName>About Us</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Corporate</controllingFieldValue>
+            <valueName>Biographies</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Corporate</controllingFieldValue>
+            <valueName>Homepage update</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Corporate</controllingFieldValue>
+            <valueName>Job Offer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Corporate</controllingFieldValue>
+            <valueName>Equipe de gestion</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Corporate</controllingFieldValue>
+            <valueName>Legal Notices</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Corporate</controllingFieldValue>
+            <valueName>Personal Data Policy</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Corporate</controllingFieldValue>
+            <valueName>Regulatory Information</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Corporate</controllingFieldValue>
+            <valueName>Sales Teams</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Corporate</controllingFieldValue>
+            <controllingFieldValue>Article</controllingFieldValue>
+            <valueName>Other</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Article</controllingFieldValue>
+            <valueName>Awards</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Article</controllingFieldValue>
+            <valueName>Events</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Article</controllingFieldValue>
+            <valueName>Fund Content</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Article</controllingFieldValue>
+            <valueName>ESG</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Article</controllingFieldValue>
+            <valueName>Macro</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Article</controllingFieldValue>
+            <valueName>Fund Insights</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Article</controllingFieldValue>
+            <valueName>Fund Manager’s Letter</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Article</controllingFieldValue>
+            <valueName>Monthly/Annual Dividend Notices</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Article</controllingFieldValue>
+            <valueName>Press release</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Article</controllingFieldValue>
+            <controllingFieldValue>Newsletter</controllingFieldValue>
+            <valueName>Private Management</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Article</controllingFieldValue>
+            <valueName>RI Hub</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Article</controllingFieldValue>
+            <valueName>Shareholder Letters</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Article</controllingFieldValue>
+            <valueName>EC Letter</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Article</controllingFieldValue>
+            <valueName>Carmignac&apos;s Note</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Newsletter</controllingFieldValue>
+            <valueName>Monthly Newsletters</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Newsletter</controllingFieldValue>
+            <valueName>Monthly Reporting</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Newsletter</controllingFieldValue>
+            <valueName>Newsletters Sales</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Newsletter</controllingFieldValue>
+            <valueName>Push</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Expiration_Today_Warning_Email</name>
+        <label>Expiration Today Warning Email</label>
+        <locationX>842</locationX>
+        <locationY>360</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>Recipients</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>$Label.NoReplayWideAddress</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>EmailSubject</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>ExpirationTodayBody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>logEmailOnSend</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>ccRecipientAddressList</name>
+            <value>
+                <stringValue>salesforcesupport@carmignac.com</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <name>X15_Days_Before_Warning_Email</name>
+        <label>15 Days Before Warning Email</label>
+        <locationX>578</locationX>
+        <locationY>360</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>Recipients</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>$Label.NoReplayWideAddress</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>EmailSubject</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>x15DaysBody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>logEmailOnSend</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>ccRecipientAddressList</name>
+            <value>
+                <stringValue>salesforcesupport@carmignac.com</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <name>X30_Days_Before_Warning_Email</name>
+        <label>30 Days Before Warning Email</label>
+        <locationX>314</locationX>
+        <locationY>360</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>Recipients</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>$Label.NoReplayWideAddress</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>EmailSubject</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>x30DaysBody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>logEmailOnSend</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>ccRecipientAddressList</name>
+            <value>
+                <stringValue>salesforcesupport@carmignac.com</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <name>X60_Days_Before_Warning_Email</name>
+        <label>60 Days Before Warning Email</label>
+        <locationX>50</locationX>
+        <locationY>360</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>Recipients</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>$Label.NoReplayWideAddress</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>EmailSubject</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>x60DaysBody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>logEmailOnSend</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>ccRecipientAddressList</name>
+            <value>
+                <stringValue>salesforcesupport@carmignac.com</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <apiVersion>62.0</apiVersion>
+    <decisions>
+        <name>Expiration_Date</name>
+        <label>Expiration Date</label>
+        <locationX>578</locationX>
+        <locationY>252</locationY>
+        <defaultConnectorLabel>Default</defaultConnectorLabel>
+        <rules>
+            <name>Under_60_Days</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>x60DaysBefore</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Today</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>X60_Days_Before_Warning_Email</targetReference>
+            </connector>
+            <label>60 Days Before</label>
+        </rules>
+        <rules>
+            <name>X30_Days_Before</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>x30DaysBefore</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Today</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>X30_Days_Before_Warning_Email</targetReference>
+            </connector>
+            <label>30 Days Before</label>
+        </rules>
+        <rules>
+            <name>X15_Days_Before</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>x15DaysBefore</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Today</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>X15_Days_Before_Warning_Email</targetReference>
+            </connector>
+            <label>15 Days Before</label>
+        </rules>
+        <rules>
+            <name>Day_Of</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.ExpirationDate__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Today</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Expiration_Today_Warning_Email</targetReference>
+            </connector>
+            <label>Day Of</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <formulas>
+        <description>CRMs
+Owner
+Investor Services</description>
+        <name>Recipients</name>
+        <dataType>String</dataType>
+        <expression>IF( 
+CONTAINS( {!$Record.Business_Region__c}, &apos;BP_CH&apos;), &apos;workgroup.crmswitzerland@carmignac.com&apos;, 
+IF( 
+CONTAINS( {!$Record.Business_Region__c}, &apos;BP_DA&apos;), &apos;workgroup.crmgermany@carmignac.com&apos;, 
+IF( 
+CONTAINS( {!$Record.Business_Region__c}, &apos;BP_ES&apos;), &apos;workgroup.crmspain@carmignac.com&apos;, 
+IF( 
+CONTAINS( {!$Record.Business_Region__c}, &apos;BP_FR&apos;), &apos;workgroup.crmfrance@carmignac.com&apos;, 
+IF( 
+CONTAINS( {!$Record.Business_Region__c}, &apos;BP_IN&apos;), &apos;workgroup.crminternational@carmignac.com&apos;, 
+IF( 
+CONTAINS( {!$Record.Business_Region__c}, &apos;BP_IT&apos;), &apos;workgroup.crmitaly@carmignac.com&apos;, 
+IF( 
+CONTAINS( {!$Record.Business_Region__c}, &apos;BP_LA&apos;), &apos;workgroup.crminternational@carmignac.com&apos;, 
+IF( 
+CONTAINS( {!$Record.Business_Region__c}, &apos;BP_BE&apos;), &apos;workgroup.crmbeneluxnordics@carmignac.com&apos;, 
+IF( 
+CONTAINS( {!$Record.Business_Region__c}, &apos;BP_NL&apos;), &apos;workgroup.crmbeneluxnordics@carmignac.com&apos;, 
+IF( 
+CONTAINS( {!$Record.Business_Region__c}, &apos;BP_LU&apos;), &apos;workgroup.crmbeneluxnordics@carmignac.com&apos;, 
+IF( 
+CONTAINS( {!$Record.Business_Region__c}, &apos;BP_NO&apos;), &apos;workgroup.crmbeneluxnordics@carmignac.com&apos;, 
+IF( 
+CONTAINS( {!$Record.Business_Region__c}, &apos;BP_UK&apos;), &apos;workgroup.crmuk@carmignac.com&apos;, 
+&apos;SalesforceSupport@carmignac.com&apos;
+))))))))))))+&apos;,{!$Record.Owner:User.Email}&apos;+&apos;,investorservices.middleofficefunds@carmignac.com&apos;</expression>
+    </formulas>
+    <formulas>
+        <name>RecordLink</name>
+        <dataType>String</dataType>
+        <expression>LEFT( {!$Api.Partner_Server_URL_520}, FIND( &apos;/services&apos;, {!$Api.Partner_Server_URL_520} ))&amp;{!$Record.Id}</expression>
+    </formulas>
+    <formulas>
+        <name>Today</name>
+        <dataType>Date</dataType>
+        <expression>TODAY()</expression>
+    </formulas>
+    <formulas>
+        <name>todaysdate</name>
+        <dataType>Date</dataType>
+        <expression>TODAY()</expression>
+    </formulas>
+    <formulas>
+        <name>x15DaysBefore</name>
+        <dataType>Date</dataType>
+        <expression>{!$Record.ExpirationDate__c}-15</expression>
+    </formulas>
+    <formulas>
+        <name>x30DaysBefore</name>
+        <dataType>Date</dataType>
+        <expression>{!$Record.ExpirationDate__c}-30</expression>
+    </formulas>
+    <formulas>
+        <name>x60DaysBefore</name>
+        <dataType>Date</dataType>
+        <expression>{!$Record.ExpirationDate__c}-60</expression>
+    </formulas>
+    <interviewLabel>FL_Agreement Expiration Email Notifications {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>FL_Agreement Expiration Email Notifications</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>452</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Expiration_Date</targetReference>
+        </connector>
+        <object>Convention__c</object>
+        <schedule>
+            <frequency>Daily</frequency>
+            <startDate>2024-11-25</startDate>
+            <startTime>06:00:00.000Z</startTime>
+        </schedule>
+        <triggerType>Scheduled</triggerType>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <name>EmailSubject</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>{!$Record.ConventionName__c} - will expire on {!$Record.ExpirationDate__c} - {!$Record.Company__c} - {!$Record.Company_Country__c}</text>
+    </textTemplates>
+    <textTemplates>
+        <name>ExpirationTodayBody</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;Hello,&lt;/p&gt;&lt;p&gt;Please note that the Agreement &lt;a href=&quot;{!RecordLink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;{!$Record.ConventionName__c}&lt;/a&gt;&lt;a href=&quot;https://carmignac-crm--dev47q3.sandbox.lightning.force.com/builder_platform_interaction/%7B!RecordLink%7D&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt; &lt;/a&gt;expires TODAY , {!$Record.ExpirationDate__c}.&lt;/p&gt;&lt;p&gt;Kind Regards,&lt;/p&gt;&lt;p&gt;Salesforce Support&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>x15DaysBody</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;Hello,&lt;/p&gt;&lt;p&gt;Please note that the Agreement &lt;a href=&quot;{!RecordLink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;{!$Record.ConventionName__c}&lt;/a&gt;&lt;a href=&quot;https://carmignac-crm--dev47q3.sandbox.lightning.force.com/builder_platform_interaction/%7B!RecordLink%7D&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt; &lt;/a&gt;is due to expire in 15 Days on {!$Record.ExpirationDate__c}.&lt;/p&gt;&lt;p&gt;Kind Regards,&lt;/p&gt;&lt;p&gt;Salesforce Support&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>x30DaysBody</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;Hello,&lt;/p&gt;&lt;p&gt;Please note that the Agreement &lt;a href=&quot;{!RecordLink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;{!$Record.ConventionName__c}&lt;/a&gt;&lt;a href=&quot;https://carmignac-crm--dev47q3.sandbox.lightning.force.com/builder_platform_interaction/%7B!RecordLink%7D&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt; &lt;/a&gt;is due to expire in 30 Days on {!$Record.ExpirationDate__c}.&lt;/p&gt;&lt;p&gt;Kind Regards,&lt;/p&gt;&lt;p&gt;Salesforce Support&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>x60DaysBody</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;Hello,&lt;/p&gt;&lt;p&gt;Please note that the Agreement &lt;a href=&quot;https://carmignac-crm--dev47q3.sandbox.lightning.force.com/builder_platform_interaction/%7B!RecordLink%7D&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;{!$Record.ConventionName__c} &lt;/a&gt;is due to expire in 60 Days on {!$Record.ExpirationDate__c}.&lt;/p&gt;&lt;p&gt;Kind Regards,&lt;/p&gt;&lt;p&gt;Salesforce Support&lt;/p&gt;</text>
+    </textTemplates>
+</Flow>

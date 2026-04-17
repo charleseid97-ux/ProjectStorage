@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR21_HurdleMandatory</fullName>
+    <active>false</active>
+    <description>Display &amp; Mandatory ONLY If PerformanceFeeMethod=&apos;Hurdle&apos;</description>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+$Permission.PRPProductStrategy  = true,
+RecordType.DeveloperName = &apos;DesignAndProposal&apos;,
+INCLUDES(PerformanceFeeMethod__c, &apos;Hurdle&apos;),
+OR(ISBLANK(HurdleRate__c),
+ISBLANK(TEXT(HurdleType__c)))
+				)</errorConditionFormula>
+    <errorMessage>If PerformanceFeeMethod contains &apos;Hurdle&apos;, please provide values for the Hurdle Type and the Hurdle Rate.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>New_RFP_Library</fullName>
+    <availability>online</availability>
+    <description>opens a Flow</description>
+    <displayType>massActionButton</displayType>
+    <encodingKey>UTF-8</encodingKey>
+    <height>600</height>
+    <linkType>url</linkType>
+    <masterLabel>New RFP Library</masterLabel>
+    <openType>sidebar</openType>
+    <protected>false</protected>
+    <requireRowSelection>true</requireRowSelection>
+    <url>/lightning/action/quick/Case.New_RFP_library?objectApiName&amp;context=RECORD_DETAIL&amp;recordId={!CASESAFEID(Case.Id)}&amp;backgroundContext=%2Flightning%2Fr%2FCase%2F{!CASESAFEID(Case.Id)}%2Fview</url>
+</WebLink>

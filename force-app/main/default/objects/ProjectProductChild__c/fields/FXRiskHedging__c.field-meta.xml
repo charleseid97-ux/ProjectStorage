@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FXRiskHedging__c</fullName>
+    <description>Portfolio Currency Hedge</description>
+    <inlineHelpText>Portfolio Currency Hedge</inlineHelpText>
+    <label>FX Risk Hedging</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>No</fullName>
+                <default>false</default>
+                <label>No</label>
+            </value>
+            <value>
+                <fullName>Yes</fullName>
+                <default>false</default>
+                <label>Yes</label>
+            </value>
+            <value>
+                <fullName>Yes &amp; full portfolio hedge</fullName>
+                <default>false</default>
+                <label>Yes &amp; full portfolio hedge</label>
+            </value>
+            <value>
+                <fullName>Yes &amp; partial hedge</fullName>
+                <default>false</default>
+                <label>Yes &amp; partial hedge</label>
+            </value>
+            <value>
+                <fullName>Yes &amp; currency overlay</fullName>
+                <default>false</default>
+                <label>Yes &amp; currency overlay</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

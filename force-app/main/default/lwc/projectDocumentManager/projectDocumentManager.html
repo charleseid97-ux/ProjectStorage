@@ -1,0 +1,96 @@
+<!--
+-->
+<template>
+    <div class="slds-grid slds-grid_align-spread slds-p-around_medium" style="padding-top: 0;">
+        <div></div> <!-- Espace vide pour pousser le bouton à droite -->
+        <lightning-button label="Add Content" onclick={openModal} icon-name="utility:upload"></lightning-button>
+    </div>
+
+    <template if:true={hasDocuments}>
+        <div style="max-height: 300px; overflow-y: auto;">
+
+            <template if:true={isCore}>
+
+                <lightning-datatable key-field="Id" data={documents} columns={core_columns} hide-checkbox-column
+                    onrowaction={handleRowAction}>
+                </lightning-datatable>
+            </template>
+            <template if:true={isMeetingNote}>
+
+                <lightning-datatable key-field="Id" data={documents} columns={mn_columns} hide-checkbox-column
+                    onrowaction={handleRowAction}>
+                </lightning-datatable>
+            </template>
+            <template if:true={isOtherDoc}>
+
+                <lightning-datatable key-field="Id" data={documents} columns={other_columns} hide-checkbox-column
+                    onrowaction={handleRowAction}>
+                </lightning-datatable>
+            </template>
+        </div>
+    </template>
+
+<!-- Upload Document Modal -->
+<template if:true={isModalOpen}>
+    <section role="dialog" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <header class="slds-modal__header">
+                <h2 class="slds-text-heading_medium">Upload Document</h2>
+                <lightning-button-icon icon-name="utility:close" alternative-text="Close" onclick={closeModal}
+                    class="slds-modal__close"></lightning-button-icon>
+            </header>
+
+            <div class="slds-modal__content slds-p-around_medium">
+                <!-- Record Edit Form -->
+                <lightning-record-edit-form record-type-id={recordTypeId} object-api-name="ProjectDocuments__c"
+                    onsuccess={handleSuccess} onerror={handleError}>
+                    <lightning-input-field field-name="Project_product__c" value={recordId}
+                        class="slds-hide"></lightning-input-field>
+                    <lightning-input-field field-name="Name" required="true"></lightning-input-field>
+
+                    <template if:true={isMeetingNote}>
+                        <lightning-input-field field-name="Date__c"></lightning-input-field>
+                    </template>
+                    <template if:true={isCore}>
+                        <lightning-input-field field-name="Type__c" required="true"></lightning-input-field>
+                    </template>
+                    <template if:false={isMeetingNote}>
+                        <lightning-input-field field-name="OneDriveLink__c"></lightning-input-field>
+                    </template>
+                    <lightning-input-field field-name="NotifyAllTeamOwners__c"></lightning-input-field>
+                    <lightning-input-field field-name="Note__c"></lightning-input-field>
+
+                    <div class="slds-m-top_medium">
+                        <lightning-file-upload label="Upload Files" name="fileUploader" record-id={tempRecordId}
+                            multiple="true" onuploadfinished={handleFileUpload}>
+                        </lightning-file-upload>
+                    </div>
+
+                    <!-- Display uploaded files with delete option -->
+                    <template if:true={uploadedFiles.length}>
+                        <div class="slds-m-top_medium">
+                            <lightning-layout multiple-rows>
+                                <template for:each={uploadedFiles} for:item="file">
+                                    <lightning-layout-item key={file.documentId}
+                                        class="slds-box slds-p-around_x-small slds-m-around_x-small">
+                                        <p>{file.name}</p>
+                                        <lightning-button-icon icon-name="utility:delete" alternative-text="Delete"
+                                            onclick={handleDeleteFile}
+                                            data-id={file.documentId}></lightning-button-icon>
+                                    </lightning-layout-item>
+                                </template>
+                            </lightning-layout>
+                        </div>
+                    </template>
+
+                    <footer class="slds-modal__footer">
+                        <lightning-button label="Cancel" onclick={closeModal}></lightning-button>
+                        <lightning-button type="submit" label="Save" variant="brand"></lightning-button>
+                    </footer>
+                </lightning-record-edit-form>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>
+</template>

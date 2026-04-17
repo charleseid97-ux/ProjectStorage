@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <label>Type</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>KEY PEOPLE CHANGE</fullName>
+                <default>false</default>
+                <label>KEY PEOPLE CHANGE</label>
+            </value>
+            <value>
+                <fullName>COMPANY RE-ORGANISATION</fullName>
+                <default>false</default>
+                <label>COMPANY RE-ORGANISATION</label>
+            </value>
+            <value>
+                <fullName>PRODUCT/ BUY LIST</fullName>
+                <default>false</default>
+                <label>PRODUCT/ BUY LIST</label>
+            </value>
+            <value>
+                <fullName>INVESTMENT SOLUTIONS</fullName>
+                <default>false</default>
+                <label>INVESTMENT SOLUTIONS</label>
+            </value>
+            <value>
+                <fullName>AGREEMENT &amp; NEGOTIATION</fullName>
+                <default>false</default>
+                <label>AGREEMENT &amp; NEGOTIATION</label>
+            </value>
+            <value>
+                <fullName>MERGERS &amp; ACQUISITIONS</fullName>
+                <default>false</default>
+                <label>MERGERS &amp; ACQUISITIONS</label>
+            </value>
+            <value>
+                <fullName>MEETING</fullName>
+                <default>false</default>
+                <label>MEETING</label>
+            </value>
+            <value>
+                <fullName>OTHER</fullName>
+                <default>false</default>
+                <label>OTHER</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

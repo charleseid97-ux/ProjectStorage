@@ -1,0 +1,1848 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>ADD_TO_EVENT_CAMPAIGN</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ADD TO EVENT CAMPAIGN</shortDescription>
+        <value>Campaign</value>
+    </labels>
+    <labels>
+        <fullName>ADD_TO_EVENT_ERROR</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ADD TO EVENT ERROR</shortDescription>
+        <value>An error occured while creating the members.</value>
+    </labels>
+    <labels>
+        <fullName>ADD_TO_EVENT_KEEP_STATUS</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ADD TO EVENT KEEP STATUS</shortDescription>
+        <value>Keep Status if member exists</value>
+    </labels>
+    <labels>
+        <fullName>ADD_TO_EVENT_SELECT_AT_LEAST</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ADD TO EVENT SELECT AT LEAST</shortDescription>
+        <value>Select at least one record and try again.</value>
+    </labels>
+    <labels>
+        <fullName>ADD_TO_EVENT_SELECT_CATEG</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ADD TO EVENT SELECT CATEG</shortDescription>
+        <value>Please select a value</value>
+    </labels>
+    <labels>
+        <fullName>ADD_TO_EVENT_SUCCESS</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ADD TO EVENT SUCCESS</shortDescription>
+        <value>Campaign members has been created successfully.</value>
+    </labels>
+    <labels>
+        <fullName>ADD_TO_EVENT_TITLE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ADD TO EVENT TITLE</shortDescription>
+        <value>Choose Campaign and Category</value>
+    </labels>
+    <labels>
+        <fullName>AddingAlertsPerType</fullName>
+        <categories>Alerts</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AddingAlertsPerType</shortDescription>
+        <value>Subscribing to all shares per alert types</value>
+    </labels>
+    <labels>
+        <fullName>AddingAllAlerts</fullName>
+        <categories>Alerts</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AddingAllAlerts</shortDescription>
+        <value>Subscribing to all alerts. Please wait...</value>
+    </labels>
+    <labels>
+        <fullName>ApprovalProcessMandotoryFieldsAgreement</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Approval Process Mandotory Fields - Agreement</shortDescription>
+        <value>Please ensure the related Company has an attached &apos;LEGAL ENTITY&apos; before submitting for approval</value>
+    </labels>
+    <labels>
+        <fullName>CAMPAIGN_MEMBER_TEMPLATE_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CAMPAIGN_MEMBER_TEMPLATE_URL</shortDescription>
+        <value>https://carmignac-crm.my.salesforce.com/sfc/p/58000000ZABI/a/1i0000012xn9/ir8Yw6XeBQ2pv2tW_nT.BSyLplzKT8r_wUr9U8x0aGE</value>
+    </labels>
+    <labels>
+        <fullName>CPGN_Add_To_Campaign</fullName>
+        <categories>CPGN, Campaign, Add2Campaign</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CPGN_Add_To_Campaign</shortDescription>
+        <value>Add to Campaign</value>
+    </labels>
+    <labels>
+        <fullName>CPGN_Campaign</fullName>
+        <categories>CPGN, Campaign, Add2Campaign</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CPGN_Campaign</shortDescription>
+        <value>Campaign</value>
+    </labels>
+    <labels>
+        <fullName>CPGN_Cancel</fullName>
+        <categories>CPGN, Campaign, Add2Campaign</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CPGN_Cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>CPGN_Category</fullName>
+        <categories>CPGN, Campaign, Add2Campaign</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CPGN_Category</shortDescription>
+        <value>Category</value>
+    </labels>
+    <labels>
+        <fullName>CPGN_Keep_Existing_Status</fullName>
+        <categories>CPGN, Campaign, Add2Campaign</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CPGN_Keep_Existing_Status</shortDescription>
+        <value>Keep Status if member exists</value>
+    </labels>
+    <labels>
+        <fullName>CPGN_Member_Status</fullName>
+        <categories>CPGN, Campaign, Add2Campaign</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CPGN_Member_Status</shortDescription>
+        <value>Member Status</value>
+    </labels>
+    <labels>
+        <fullName>CPGN_Name_Start_With</fullName>
+        <categories>CPGN, Campaign, Add2Campaign</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CPGN_Name_Start_With</shortDescription>
+        <value>Campaign Name starts with (one char at least)</value>
+    </labels>
+    <labels>
+        <fullName>CPGN_Pick_Campaign_And_Category</fullName>
+        <categories>CPGN, Campaign, Add2Campaign</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CPGN_Pick_Campaign_And_Category</shortDescription>
+        <value>Pick Campaign and Category</value>
+    </labels>
+    <labels>
+        <fullName>CPGN_Selected_contact</fullName>
+        <categories>CPGN, Campaign, Add2Campaign</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CPGN_Selected_contact</shortDescription>
+        <value>Selected Record(s)</value>
+    </labels>
+    <labels>
+        <fullName>CarmignacAssetsRecordTypeID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Carmignac Assets Record Type ID</shortDescription>
+        <value>01258000000ce6f</value>
+    </labels>
+    <labels>
+        <fullName>CarmignacEntity</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Used in AgreementUtil Class method getallLegalEntities</shortDescription>
+        <value>Carmignac Entity</value>
+    </labels>
+    <labels>
+        <fullName>Comment_process_planning</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Comment process planning</shortDescription>
+        <value>/sfc/p/58000000ZABI/a/aT00000000uT/1tbA7W6fI.kwjYqwYvyvLzuSW3Lv3U.vOAVApz3pNyQ</value>
+    </labels>
+    <labels>
+        <fullName>Compliance_Clearing_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Compliance Clearing Error Message</shortDescription>
+        <value>You must tick a Compliance Clearing.</value>
+    </labels>
+    <labels>
+        <fullName>ContactNotSycned</fullName>
+        <categories>Alerts</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ContactNotSynced</shortDescription>
+        <value>Error! Record is not validated or not properly synced. You are being redirected to record page.</value>
+    </labels>
+    <labels>
+        <fullName>DataDicURL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DataDicURL</shortDescription>
+        <value>https://carmignac365-my.sharepoint.com/:x:/r/personal/ldanino_carmignac_com/_layouts/15/Doc.aspx?sourcedoc=%7B10A174A0-D680-435B-8D13-8AB8F153A006%7D&amp;file=Product%20Data%20Dictionary%20-%20PUBLIC%20Version.xlsx&amp;action=default&amp;mobileredirect=true</value>
+    </labels>
+    <labels>
+        <fullName>DeleteAllAlerts</fullName>
+        <categories>Alerts</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DeleteAllAlerts</shortDescription>
+        <value>Deleting all alerts. Please wait...</value>
+    </labels>
+    <labels>
+        <fullName>DeletingAlertsPerType</fullName>
+        <categories>Alerts</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DeletingAlertsPerType</shortDescription>
+        <value>Deleting all shares per alert types</value>
+    </labels>
+    <labels>
+        <fullName>Due_Diligence_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Due Diligence Error Message</shortDescription>
+        <value>You must complete KYD Due Diligence Oversight before IS can approve</value>
+    </labels>
+    <labels>
+        <fullName>ErrorNotSync</fullName>
+        <categories>Alerts</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ErrorNotSync</shortDescription>
+        <value>Record has not yet been synced with website.</value>
+    </labels>
+    <labels>
+        <fullName>ErrorNotSyncRedirect</fullName>
+        <categories>Alerts</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ErrorNotSyncRedirect</shortDescription>
+        <value>Error! Please sync record before resetting password. You are being redirected to record. Please wait...</value>
+    </labels>
+    <labels>
+        <fullName>Error_Country_Webcommunication</fullName>
+        <categories>Errors</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error Country - Webcommunication</shortDescription>
+        <value>Contact&apos;s website country does not correspond to share class selected countries. Please update the share class field.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_AddFilter</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Button label to add a new filter</shortDescription>
+        <value>+ Add Filter</value>
+    </labels>
+    <labels>
+        <fullName>Grid_AddRestrictedShareTypes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Button/label for adding restricted share types</shortDescription>
+        <value>Add Restricted Share Types</value>
+    </labels>
+    <labels>
+        <fullName>Grid_AddToGrid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Button label to add items to the Grid</shortDescription>
+        <value>Add to Grid</value>
+    </labels>
+    <labels>
+        <fullName>Grid_AgreementErrorLoadingSettings</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error message when agreement settings fail to load</shortDescription>
+        <value>Error loading agreement settings</value>
+    </labels>
+    <labels>
+        <fullName>Grid_AgreementGridRecap</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Section title for the grids recap in the Agreement Grid Recap component</shortDescription>
+        <value>Grids Recap</value>
+    </labels>
+    <labels>
+        <fullName>Grid_AgreementGridTimeline</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header for Agreement Grid Timeline</shortDescription>
+        <value>Grid Timeline</value>
+    </labels>
+    <labels>
+        <fullName>Grid_Agreements</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Label for agreements section</shortDescription>
+        <value>Agreements</value>
+    </labels>
+    <labels>
+        <fullName>Grid_AllRowsImported</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Success message for full import</shortDescription>
+        <value>All rows imported.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_AlreadySelected</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Status text for already selected items</shortDescription>
+        <value>Already selected</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ApplyFilters</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Button label to apply filters</shortDescription>
+        <value>Apply Filters</value>
+    </labels>
+    <labels>
+        <fullName>Grid_AutoIncludeHelpText</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Help text explaining automatic Grid update behavior</shortDescription>
+        <value>When enabled, any newly created funds or share classes that meet the Grid criteria will be automatically added to the Grid. With Automatic Grid Update, only one Standard Grid can be used across all criteria.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_AutoIncludeLabel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Label for automatic Grid update toggle</shortDescription>
+        <value>Automatically include new funds and share classes in the Grid</value>
+    </labels>
+    <labels>
+        <fullName>Grid_AutomaticUpdate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Field label for the Automatic Grid Update flag in Agreement Grid Recap</shortDescription>
+        <value>Automatic Update</value>
+    </labels>
+    <labels>
+        <fullName>Grid_Builder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title of the Grid Builder module</shortDescription>
+        <value>Grid Builder</value>
+    </labels>
+    <labels>
+        <fullName>Grid_CreatedSuccess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Success message after grid creation</shortDescription>
+        <value>Grid &quot;{0}&quot; created successfully</value>
+    </labels>
+    <labels>
+        <fullName>Grid_CriteriaCreated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Result label for import</shortDescription>
+        <value>Criteria created</value>
+    </labels>
+    <labels>
+        <fullName>Grid_CriteriaDetailsCreated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Result label for import</shortDescription>
+        <value>Criteria details created</value>
+    </labels>
+    <labels>
+        <fullName>Grid_CriteriaHistory</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Button label for criteria history</shortDescription>
+        <value>Criteria history</value>
+    </labels>
+    <labels>
+        <fullName>Grid_CriteriaLabel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Label for criteria section</shortDescription>
+        <value>Criteria</value>
+    </labels>
+    <labels>
+        <fullName>Grid_CriteriaNumber</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header for criteria number</shortDescription>
+        <value>Criteria #</value>
+    </labels>
+    <labels>
+        <fullName>Grid_CurrentGridRecap</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header for current grid recap</shortDescription>
+        <value>Current Grid</value>
+    </labels>
+    <labels>
+        <fullName>Grid_DetailsTitle</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for grid details section</shortDescription>
+        <value>Grid Details</value>
+    </labels>
+    <labels>
+        <fullName>Grid_DifferentGridsSelected</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Warning: different grids selected</shortDescription>
+        <value>Different Grids selected</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ErrorLoadingGrids</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error context for grid loading failure</shortDescription>
+        <value>Error loading grids</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ErrorLoadingProducts</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error message when loading products fails</shortDescription>
+        <value>Error loading products</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ErrorLoadingSettings</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error message when grid settings fail to load</shortDescription>
+        <value>Error loading grid settings</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ErrorRetrievingProducts</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error message when retrieving products fails</shortDescription>
+        <value>Error retrieving products</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ErrorSavingGrid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error context for grid save failure</shortDescription>
+        <value>Error saving grid</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ErrorValidatingProducts</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error context for validation failure</shortDescription>
+        <value>Error validating products</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ExcelImportTitle</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for Excel import page</shortDescription>
+        <value>Grid Excel Import</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ExcludedProducts</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Section heading for excluded products</shortDescription>
+        <value>Excluded Product</value>
+    </labels>
+    <labels>
+        <fullName>Grid_FailedToLoadSheetJS</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error when SheetJS fails to load</shortDescription>
+        <value>Failed to load SheetJS static resource</value>
+    </labels>
+    <labels>
+        <fullName>Grid_FilterNumber</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header for filter number</shortDescription>
+        <value>Filter #</value>
+    </labels>
+    <labels>
+        <fullName>Grid_FixValidationErrors</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Instruction message</shortDescription>
+        <value>Fix the validation errors before importing.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_GridDetailsCreated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Result label for import</shortDescription>
+        <value>Grid details created</value>
+    </labels>
+    <labels>
+        <fullName>Grid_GridDetailsUpdated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Result label for import</shortDescription>
+        <value>Grid details updated</value>
+    </labels>
+    <labels>
+        <fullName>Grid_GridName</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Field label for Grid Name in the Agreement Grid Recap component</shortDescription>
+        <value>Grid</value>
+    </labels>
+    <labels>
+        <fullName>Grid_GridRulesCreated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Result label for import</shortDescription>
+        <value>Grid Rules created</value>
+    </labels>
+    <labels>
+        <fullName>Grid_GridRulesUpdated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Result label for import</shortDescription>
+        <value>Grid Rules updated</value>
+    </labels>
+    <labels>
+        <fullName>Grid_GridsUpserted</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Result label for import</shortDescription>
+        <value>Grids upserted</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ImportCompleted</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Success toast title</shortDescription>
+        <value>Import completed</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ImportCompletedWithErrors</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Warning toast title</shortDescription>
+        <value>Import completed with errors</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ImportFailed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error toast title for import</shortDescription>
+        <value>Import failed</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ImportedFilePrefix</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Label prefix for imported file name</shortDescription>
+        <value>Imported file</value>
+    </labels>
+    <labels>
+        <fullName>Grid_IncludedInGrid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Status text for included share class</shortDescription>
+        <value>Included in grid</value>
+    </labels>
+    <labels>
+        <fullName>Grid_IncludedProducts</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Section heading for included products</shortDescription>
+        <value>Included Products</value>
+    </labels>
+    <labels>
+        <fullName>Grid_Label</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic label for Grid</shortDescription>
+        <value>Grid</value>
+    </labels>
+    <labels>
+        <fullName>Grid_LogicLabel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Label for filter logic</shortDescription>
+        <value>Filter Logic Expression</value>
+    </labels>
+    <labels>
+        <fullName>Grid_MissingShareClass</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Status text for missing share class</shortDescription>
+        <value>Missing share class</value>
+    </labels>
+    <labels>
+        <fullName>Grid_MissingShareClasses</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Warning for missing share classes</shortDescription>
+        <value>Missing share class(es)</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoActiveGridAssigned</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Empty state when no active grid is assigned to the agreement</shortDescription>
+        <value>No active grid assigned.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoDetailsFound</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Empty state for grid details</shortDescription>
+        <value>No grid details found.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoExcludedProducts</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Empty state for excluded products</shortDescription>
+        <value>No excluded products to display.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoGridAvailable</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Toast title when no grid available</shortDescription>
+        <value>No grid available</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoGridSelectionFound</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message when no grid is found</shortDescription>
+        <value>No grid selection found for this product.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoNewShareClassesAdded</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message when no new share classes were added</shortDescription>
+        <value>No new share classes were added.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoProducts</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message displayed when no products are available</shortDescription>
+        <value>No products to display yet.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoProductsFound</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title shown when no products are found</shortDescription>
+        <value>No Products Found</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoProductsFoundValidation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Validation empty state message</shortDescription>
+        <value>No products found to validate with the current selection.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoProductsMatched</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message shown when no products match the search criteria</shortDescription>
+        <value>No products matched the search criteria.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoProductsSelected</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Empty state for product selection</shortDescription>
+        <value>No products selected yet.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoProductsToDisplay</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Empty state for results table</shortDescription>
+        <value>No products to display yet.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoProductsToValidate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Empty state for validation page</shortDescription>
+        <value>No products to validate.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoShareClassesFound</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title when no share classes are found</shortDescription>
+        <value>No share classes found</value>
+    </labels>
+    <labels>
+        <fullName>Grid_NoShareClassesToAdd</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message when no share classes are available to add to the Grid</shortDescription>
+        <value>No share classes found to add to the Grid.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ProductAlreadyAssignedWarning</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Warning for grid conflict</shortDescription>
+        <value>This product is already assigned to a grid. New share classes can only be added to the same grid. To reassign, remove the product from the Recap first.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ProductNameLabel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Label for product name field</shortDescription>
+        <value>Product Name</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ProductsRecap</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for products recap panel</shortDescription>
+        <value>Products Recap</value>
+    </labels>
+    <labels>
+        <fullName>Grid_RemoveFilter</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Label for remove filter action</shortDescription>
+        <value>Remove filter</value>
+    </labels>
+    <labels>
+        <fullName>Grid_RemoveProduct</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Action label to remove a product</shortDescription>
+        <value>Remove product</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ResetAll</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Button label to reset all selections</shortDescription>
+        <value>Reset All</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ResetAll_Confirm</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Confirmation text before resetting all selected share classes and criteria</shortDescription>
+        <value>Are you sure you want to reset all selected share classes and criteria? This action cannot be undone.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ResetAll_Success</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Notification shown after all selections and criteria have been reset</shortDescription>
+        <value>All selections and criteria have been reset.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ResetFilters</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Button label to reset filters</shortDescription>
+        <value>Reset Filters</value>
+    </labels>
+    <labels>
+        <fullName>Grid_RowErrors</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Section label for row errors</shortDescription>
+        <value>Row errors</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SaveGrid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Button label to save Grid</shortDescription>
+        <value>Save Grid</value>
+    </labels>
+    <labels>
+        <fullName>Grid_Saved_Success</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Message shown after saving a grid; use {0} as placeholder for the grid name</shortDescription>
+        <value>Grid &quot;{0}&quot; saved successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ScopesUpserted</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Result label for import</shortDescription>
+        <value>Scopes upserted</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SelectExcelFile</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Input label for file selection</shortDescription>
+        <value>Select Excel file</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SelectGrid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Modal title for grid selection</shortDescription>
+        <value>Select Grid</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SelectShareTypes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Label for selecting share types</shortDescription>
+        <value>Select Share Types</value>
+    </labels>
+    <labels>
+        <fullName>Grid_Selection</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header for selection</shortDescription>
+        <value>Selection</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SettingNotFound</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Error message when Grid Builder Setting is not found; use {0} for setting name</shortDescription>
+        <value>The Grid Builder Setting {0} was not found. Please contact your system administrator.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ShareClassesAdded</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Success message when share classes are added; use {0} for count</shortDescription>
+        <value>{0} share classes have been added to the Grid.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ShareClassesAddedTitle</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Toast title for added share classes</shortDescription>
+        <value>Share classes added</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ShareClassesNotAdded_DifferentGrid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Warning when share classes cannot be added due to grid conflict</shortDescription>
+        <value>{0} share class(es) were not added because their product is already assigned to a different grid.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ShareClassesNotAdded_NotInGrid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Warning: share classes not added, not in selected standard grid</shortDescription>
+        <value>{0} share class(es) matched your filter but were not added because they don&apos;t belong to the selected standard grid.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ShareTypeFilterIndependentInfo</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Info: this filter is applied independently of other filter logic</shortDescription>
+        <value>This filter is applied independently of other filter logic.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ShareTypesLabel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Label for share types section</shortDescription>
+        <value>Share Types</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Col_EffMgtFees_EN</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - Effective Management Fees (EN)</shortDescription>
+        <value>Management fees effectively charged</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Col_EffMgtFees_FR</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - Effective Management Fees (FR)</shortDescription>
+        <value>Frais de gestion fixes effectivement prélevés</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Col_EffMgtFees_IT</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - Effective Management Fees (IT)</shortDescription>
+        <value>Commissioni effettive di gestione</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Col_FundName_EN</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - Fund Name (EN)</shortDescription>
+        <value>Name of Funds</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Col_FundName_FR</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - Fund Name (FR)</shortDescription>
+        <value>Nom des Fonds</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Col_FundName_IT</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - Fund Name (IT)</shortDescription>
+        <value>Denominazione dei Fondi</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Col_ISIN_EN</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - ISIN Code (EN)</shortDescription>
+        <value>ISIN</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Col_ISIN_FR</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - ISIN Code (FR)</shortDescription>
+        <value>Code ISIN</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Col_ISIN_IT</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - ISIN Code (IT)</shortDescription>
+        <value>Codice ISIN</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Col_Rebate_EN</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - Rebate (EN)</shortDescription>
+        <value>Remuneration</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Col_Rebate_FR</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - Rebate (FR)</shortDescription>
+        <value>Taux de rémunération</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Col_Rebate_IT</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - Rebate (IT)</shortDescription>
+        <value>Retrocessione spettante al soggetto collocatore</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Col_ShareClass_EN</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - Share Class (EN)</shortDescription>
+        <value>Share Class</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Col_ShareClass_FR</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - Share Class (FR)</shortDescription>
+        <value>Parts/actions</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Col_ShareClass_IT</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Column - Share Class (IT)</shortDescription>
+        <value>Share class</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Footer_EN</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Footer - Formula block (EN)</shortDescription>
+        <value>Calculation formula: DFfm = [(NUfdm x NAVfdm) + (NUfdm-1 x NAVfdm-1)] /2 x (DFRfdm/12)
+
+DFfm: Remuneration amount for the Fund (f) for the month (m)
+NUfdm: number of units of the Fund (f) held on the last business day (d) of the month (m)
+NAVfdm: net asset value of the Fund (f) on the last business day (d) of the month (m)
+NUfdm-1: number of units of the Fund (f) held on the last business day (d) of the month (m-1)
+NAVfdm-1: net asset value of the Fund (f) on the last business day (d) of the month (m-1)
+DFRfdm: Remuneration rate applicable to the Fund (f) on the last business day (d) of the month (m)</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Footer_FR</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Footer - Formula block (FR)</shortDescription>
+        <value>Formule de calcul: MRfm = [(NPfjm x VLfjm) + (NPfjm-1 x VLfjm-1)] / 2 x (TRfjm/12)
+MRfm: montant de la rémunération pour le fonds f le mois m
+NPfjm: nombre de parts du fonds f détenues le dernier jour ouvré du mois m
+VLfjm: valeur liquidative du fonds f le dernier jour ouvré du mois m
+NPfjm-1: nombre de parts du fonds f détenues le dernier jour ouvré du mois m-1
+VLfjm-1: valeur liquidative du fonds f le dernier jour ouvré du mois m-1
+TRfjm: taux de rémunération en vigueur pour le fonds f le dernier jour ouvré du mois m</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Footer_IT</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Footer - Formula block (IT)</shortDescription>
+        <value>Formula di calcolo: DFfm = [(NUfdm x NAVfdm) + (NUfdm-1 x NAVfdm-1)] /2 x (DFRfdm/12)
+
+DFfm: Importo della remunerazione del Fondo (f) per il mese (m)
+NUfdm: Numero di quote del Fondo (f) detenute l&apos;ultimo giorno lavorativo (d) del mese (m)
+NAVfdm: Valore patrimoniale netto del Fondo (f) l&apos;ultimo giorno lavorativo (d) del mese (m)
+NUfdm-1: Numero di quote del Fondo (f) detenute l&apos;ultimo giorno lavorativo (d) del mese (m-1)
+NAVfdm-1: Valore patrimoniale netto del Fondo (f) l&apos;ultimo giorno lavorativo (d) del mese (m-1)
+FRfdm: Tasso della remunerazione applicabile al Fondo (f) l&apos;ultimo giorno lavorativo (d) del mese (m)</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Header_EN</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Header - Annex text (EN)</shortDescription>
+        <value>ANNEXE - REMUNERATION
+
+The remuneration is calculated on the basis of the average assets under management (AUM) at month-end (average between the AUM on the last business day of the month and on the last business day of the previous month according to the calculation formula below).
+The remuneration is correlated to the management fees effectively charged of the Funds.
+If the management fees effectively charged vary during the year, an updated fee schedule will be sent.
+For the avoidance of doubt, even if the fee schedule is sent a posteriori, the calculation is adapted at the date of modification of the management effectively charged.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Header_FR</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Header - Annex text (FR)</shortDescription>
+        <value>ANNEXE - REMUNERATION
+L&apos;assiette est constituée de la moyenne mensuelle des encours (moyenne entre les encours du dernier jour ouvré du mois et ceux du dernier jour ouvré du mois précédent) selon la formule explicitée ci-après.
+La rémunération est corrélée aux frais de gestion effectivement prélevés des Fonds.
+Si les frais effectivement prélevés varient en cours d&apos;années, une grille actualisée vous sera envoyée.
+Le calcul est adapté à la date de modification des frais effectivement prélevés, même si la grille actualisée est envoyée a posteriori.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SimExport_Header_IT</fullName>
+        <categories>Grid</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Sim Export Header - Annex text (IT)</shortDescription>
+        <value>ALLEGATO - REMUNERAZIONE
+
+La base di calcolo è costituita dalla media del patrimonio a fine mese (media tra il patrimonio dell&apos;ultimo giorno lavorativo del mese e quello dell&apos;ultimo giorno lavorativo del mese precedente) secondo la formula di seguito illustrata.
+La remunerazione è correlata alle spese di gestione effettivamente spettanti ai Fondi.
+Nel caso tali spese cambino nel corso dell&apos;anno, sarà inviata una griglia aggiornata.
+Il calcolo viene adattato alla data di variazione delle spese effettivamente applicate, anche nel caso in cui la griglia aggiornata sia inviata a modifica avvenuta.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SomeRowsFailed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Warning message for partial import</shortDescription>
+        <value>Some rows failed. Review details below.</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SortedBy</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Prefix for sorted column label</shortDescription>
+        <value>Sorted by</value>
+    </labels>
+    <labels>
+        <fullName>Grid_StandardGridsSelected</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Section label for standard grids in Agreement Grid Recap</shortDescription>
+        <value>Standard Grids</value>
+    </labels>
+    <labels>
+        <fullName>Grid_StartDate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Label for start date input</shortDescription>
+        <value>Start Date</value>
+    </labels>
+    <labels>
+        <fullName>Grid_SystemFilters</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Label for system-generated filters</shortDescription>
+        <value>System filters</value>
+    </labels>
+    <labels>
+        <fullName>Grid_Team</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Label for team selection</shortDescription>
+        <value>Team</value>
+    </labels>
+    <labels>
+        <fullName>Grid_Title</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Label for Grid section</shortDescription>
+        <value>Grid</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ValidateGrid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Button label to validate Grid</shortDescription>
+        <value>Validate Grid</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ValidationErrors</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Section label for validation errors</shortDescription>
+        <value>Validation errors</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ViewExcludedProducts</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Button label to view excluded products</shortDescription>
+        <value>View Excluded Products</value>
+    </labels>
+    <labels>
+        <fullName>Grid_ViewRecap</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Button label to view recap</shortDescription>
+        <value>View Recap</value>
+    </labels>
+    <labels>
+        <fullName>KYCDocStatus</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>used in VFC01_KYCDocuments</shortDescription>
+        <value>Uploaded</value>
+    </labels>
+    <labels>
+        <fullName>KYC_Action</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>KYC Action</shortDescription>
+        <value>Action</value>
+    </labels>
+    <labels>
+        <fullName>KYC_Date_of_Birth</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>KYC Date of Birth</shortDescription>
+        <value>Date of Birth</value>
+    </labels>
+    <labels>
+        <fullName>KYC_First_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>KYC First Name</shortDescription>
+        <value>First Name</value>
+    </labels>
+    <labels>
+        <fullName>KYC_Last_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>KYC Last Name</shortDescription>
+        <value>Last Name</value>
+    </labels>
+    <labels>
+        <fullName>KYC_Role</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>KYC Role</shortDescription>
+        <value>Role</value>
+    </labels>
+    <labels>
+        <fullName>KYDocStatusPending</fullName>
+        <categories>Used in VFC01_KYDocuments</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>KYDocStatusPending</shortDescription>
+        <value>Pending</value>
+    </labels>
+    <labels>
+        <fullName>KYDocStatusReceived</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>KYDocStatusReceived</shortDescription>
+        <value>Received</value>
+    </labels>
+    <labels>
+        <fullName>MissingClientProduct</fullName>
+        <categories>New Meeting Note</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Missing ClientProduct</shortDescription>
+        <value>Please select a client attendees, and be sure to choose products and select rating for each one in case of Sales Presentation!</value>
+    </labels>
+    <labels>
+        <fullName>MissingDataTitle</fullName>
+        <categories>New Meeting Note</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Missing Data Title</shortDescription>
+        <value>Mandatory Data Is Missing!</value>
+    </labels>
+    <labels>
+        <fullName>MissingProductRating</fullName>
+        <categories>New Meeting Note</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Missing ProductRating</shortDescription>
+        <value>Please add a rating for each discussed product!</value>
+    </labels>
+    <labels>
+        <fullName>MissingTaskInfos</fullName>
+        <categories>New Meeting Note</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Missing TaskInfos</shortDescription>
+        <value>Please fill up requiered fields in &apos;Follow Up section&apos;!</value>
+    </labels>
+    <labels>
+        <fullName>MonthlyCommentsDeadline</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MonthlyCommentsDeadline</shortDescription>
+        <value>1</value>
+    </labels>
+    <labels>
+        <fullName>NAVCalendar</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>NAVCalendar</shortDescription>
+        <value>https://carmignac365-my.sharepoint.com/:w:/g/personal/sdegeneve_carmignac_com/EWjR8i4C1DtCu3EKc5t8F5sBAxC9oenEEZX33oAHg9_xyA?e=CFHytC</value>
+    </labels>
+    <labels>
+        <fullName>NoReplayWideAddress</fullName>
+        <categories>Org Wide Address</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No Replay Wide Address</shortDescription>
+        <value>salesforcesupport@carmignac.com</value>
+    </labels>
+    <labels>
+        <fullName>PreferenceCenter_Contact_Not_Sync</fullName>
+        <categories>Preference Center</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreferenceCenter_Contact_Not_Sync</shortDescription>
+        <value>Contact is NOT Synchronized.</value>
+    </labels>
+    <labels>
+        <fullName>PreferenceCenter_Duplicate_Subscription_Msg</fullName>
+        <categories>Preference Center</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreferenceCenter_Duplicate_Subscription_Msg</shortDescription>
+        <value>This subscription already exists.</value>
+    </labels>
+    <labels>
+        <fullName>PreferenceCenter_General_Error_Msg</fullName>
+        <categories>Preference Center</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreferenceCenter_General_Error_Msg</shortDescription>
+        <value>Error Occurred. Please contact your Admin.</value>
+    </labels>
+    <labels>
+        <fullName>PreferenceCenter_Subscription_Creation_Msg</fullName>
+        <categories>Preference Center</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreferenceCenter_Subscription_Creation_Msg</shortDescription>
+        <value>Subscription has been added successfully.</value>
+    </labels>
+    <labels>
+        <fullName>PreferenceCenter_Subscription_Deletion_Msg</fullName>
+        <categories>Preference Center</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreferenceCenter_Subscription_Deletion_Msg</shortDescription>
+        <value>Subscription has been removed successfully.</value>
+    </labels>
+    <labels>
+        <fullName>PreferenceCenter_Subscription_Update_Msg</fullName>
+        <categories>Preference Center</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreferenceCenter_Subscription_Update_Msg</shortDescription>
+        <value>Subscription has been updated successfully.</value>
+    </labels>
+    <labels>
+        <fullName>PreferenceCenter_Subscriptions_Creation_Confirmation_Msg</fullName>
+        <categories>Preference Center</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreferenceCenter_Subscriptions_Creation_Confirmation_Msg</shortDescription>
+        <value>Do you want to add all subscriptions?</value>
+    </labels>
+    <labels>
+        <fullName>PreferenceCenter_Subscriptions_Creation_Msg</fullName>
+        <categories>Preference Center</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreferenceCenter_Subscriptions_Creation_Msg</shortDescription>
+        <value>Subscriptions for all the Fund/Shares have been added successfully.</value>
+    </labels>
+    <labels>
+        <fullName>PreferenceCenter_Subscriptions_Deletion_Confirmation_Msg</fullName>
+        <categories>Preference Center</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreferenceCenter_Subscriptions_Deletion_Confirmation_Msg</shortDescription>
+        <value>Do you want to remove all subscriptions?</value>
+    </labels>
+    <labels>
+        <fullName>PreferenceCenter_Subscriptions_Deletion_Msg</fullName>
+        <categories>Preference Center</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PreferenceCenter_Subscriptions_Deletion_Msg</shortDescription>
+        <value>Subscriptions for all the Fund/Shares have been removed successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Publication_Library_Link</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Publication_Library_Link</shortDescription>
+        <value>/sfc/p/#58000000ZABI/a/aT00000000sr/7PuLzAVhN9x6KQkYUZWmumIiK94SwZVvFbMVQflC4zA</value>
+    </labels>
+    <labels>
+        <fullName>RedirectAlerts</fullName>
+        <categories>Alerts</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RedirectAlerts</shortDescription>
+        <value>Please wait, you are being redirected... Please refresh the record page once it is loaded to see the changes.</value>
+    </labels>
+    <labels>
+        <fullName>ReportHomeProductCatalog</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ReportHomeProductCatalog</shortDescription>
+        <value>00OaT000002dNq6UAE</value>
+    </labels>
+    <labels>
+        <fullName>ResetingPassword</fullName>
+        <categories>Alerts</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ResetingPassword</shortDescription>
+        <value>Resetting ProSpace Password. Please wait...</value>
+    </labels>
+    <labels>
+        <fullName>Risk_level_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Risk level Error Message</shortDescription>
+        <value>You must select a Risk Level.</value>
+    </labels>
+    <labels>
+        <fullName>SESSIONS_LIMIT</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SESSIONS LIMIT</shortDescription>
+        <value>100</value>
+    </labels>
+    <labels>
+        <fullName>SyncingToWebsite</fullName>
+        <categories>Alerts</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SyncingToWebsite</shortDescription>
+        <value>Syncing to Website. Please wait...</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Error_Apex</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Error_Apex</shortDescription>
+        <value>Apex error</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Error_JavaScriptResources</fullName>
+        <categories>TImeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Error_JavaScriptResources</shortDescription>
+        <value>Unable to load JavaScript resources</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Error_NoDataHeader</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Error_NoDataHeader</shortDescription>
+        <value>No data to display</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Error_NoDataSubHeader</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Error_NoDataSubHeader</shortDescription>
+        <value>Related records show up here on an interactive timeline. Check your filter or create a record.</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Error_Setup</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Error_Setup</shortDescription>
+        <value>Setup error</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Error_Unhandled</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Error_Unhandled</shortDescription>
+        <value>Houston..we&apos;ve had a problem</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Label_Apply</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Label_Apply</shortDescription>
+        <value>Apply</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Label_Cancel</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Label_Cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Label_Date_Range_Legend</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Label_Date_Range_Legend</shortDescription>
+        <value>Date Range</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Label_Days</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Label_Days</shortDescription>
+        <value>day(s)</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Label_Files</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Label_Files</shortDescription>
+        <value>Files | Notes</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Label_Filter_All_Types</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Label_Filter_All_Types</shortDescription>
+        <value>All Types</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Label_Filter_Type_Legend</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Label_Filter_Type_Legend</shortDescription>
+        <value>Types to Show</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Label_Filters</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Label_Filters</shortDescription>
+        <value>Filters</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Label_Items</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Label_Items</shortDescription>
+        <value>item(s)</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Label_Showing</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Label_Showing</shortDescription>
+        <value>Showing:</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Navigation_Toast_Body</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Navigation_Toast_Body</shortDescription>
+        <value>Records of type &apos;{0}&apos; are not supported.</value>
+    </labels>
+    <labels>
+        <fullName>Timeline_Navigation_Toast_Header</fullName>
+        <categories>Timeline</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Timeline_Navigation_Toast_Header</shortDescription>
+        <value>Navigation Not Permitted</value>
+    </labels>
+    <labels>
+        <fullName>ToolTip_Target_Language</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ToolTip Target Language</shortDescription>
+        <value>If you want a publication in the language specified in the &apos;source language&apos; field, make sure it is also included in the &apos;target languages&apos; field. If the source language is missing from the target languages, no publication request will be created for it</value>
+    </labels>
+    <labels>
+        <fullName>UI_Add</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic action: Add</shortDescription>
+        <value>Add</value>
+    </labels>
+    <labels>
+        <fullName>UI_Back</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic navigation: Back</shortDescription>
+        <value>Back</value>
+    </labels>
+    <labels>
+        <fullName>UI_Cancel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic action: Cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>UI_Close</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic action: Close</shortDescription>
+        <value>Close</value>
+    </labels>
+    <labels>
+        <fullName>UI_CollapseAll</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic action: Collapse All</shortDescription>
+        <value>Collapse All</value>
+    </labels>
+    <labels>
+        <fullName>UI_Confirm</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic action: Confirm</shortDescription>
+        <value>Confirm</value>
+    </labels>
+    <labels>
+        <fullName>UI_Error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic error title</shortDescription>
+        <value>Error</value>
+    </labels>
+    <labels>
+        <fullName>UI_ErrorMessage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic label for error message text</shortDescription>
+        <value>Error message</value>
+    </labels>
+    <labels>
+        <fullName>UI_Errors</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic label: Errors</shortDescription>
+        <value>Errors</value>
+    </labels>
+    <labels>
+        <fullName>UI_Excluded</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic label: Excluded</shortDescription>
+        <value>Excluded</value>
+    </labels>
+    <labels>
+        <fullName>UI_ExpandAll</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic action: Expand All</shortDescription>
+        <value>Expand All</value>
+    </labels>
+    <labels>
+        <fullName>UI_Field</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic label: Field</shortDescription>
+        <value>Field</value>
+    </labels>
+    <labels>
+        <fullName>UI_Import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic action: Import</shortDescription>
+        <value>Import</value>
+    </labels>
+    <labels>
+        <fullName>UI_Included</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic label: Included</shortDescription>
+        <value>Included</value>
+    </labels>
+    <labels>
+        <fullName>UI_Loading</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic label: Loading</shortDescription>
+        <value>Loading</value>
+    </labels>
+    <labels>
+        <fullName>UI_NA</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic label: Not Available</shortDescription>
+        <value>N/A</value>
+    </labels>
+    <labels>
+        <fullName>UI_Next</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic navigation: Next</shortDescription>
+        <value>Next</value>
+    </labels>
+    <labels>
+        <fullName>UI_Object</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic label: Object</shortDescription>
+        <value>Object</value>
+    </labels>
+    <labels>
+        <fullName>UI_Off</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic toggle: Off</shortDescription>
+        <value>Off</value>
+    </labels>
+    <labels>
+        <fullName>UI_On</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic toggle: On</shortDescription>
+        <value>On</value>
+    </labels>
+    <labels>
+        <fullName>UI_Operator</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic label: Operator</shortDescription>
+        <value>Operator</value>
+    </labels>
+    <labels>
+        <fullName>UI_Refresh</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic action: Refresh</shortDescription>
+        <value>Refresh</value>
+    </labels>
+    <labels>
+        <fullName>UI_Remove</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic action: Remove</shortDescription>
+        <value>Remove</value>
+    </labels>
+    <labels>
+        <fullName>UI_SelectOption</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic placeholder: Select an Option</shortDescription>
+        <value>Select an Option</value>
+    </labels>
+    <labels>
+        <fullName>UI_Success</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic success label</shortDescription>
+        <value>Success</value>
+    </labels>
+    <labels>
+        <fullName>UI_UnknownField</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic label for unknown field</shortDescription>
+        <value>Unknown Field</value>
+    </labels>
+    <labels>
+        <fullName>UI_UnknownObject</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic label for unknown object</shortDescription>
+        <value>Unknown Object</value>
+    </labels>
+    <labels>
+        <fullName>UI_Value</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic label: Value</shortDescription>
+        <value>Value</value>
+    </labels>
+    <labels>
+        <fullName>UI_Warning</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Generic warning title</shortDescription>
+        <value>Warning</value>
+    </labels>
+    <labels>
+        <fullName>UnknownCompetitorAssetsRecordTypeID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Unknown Competitor Assets Record Type ID</shortDescription>
+        <value>01258000000ce6h</value>
+    </labels>
+    <labels>
+        <fullName>UsernameId_Lyyti</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>UsernameId_Lyyti</shortDescription>
+        <value>0051i000002Ben4AAC</value>
+    </labels>
+    <labels>
+        <fullName>Username_Lyyti</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Username Lyyti</shortDescription>
+        <value>seb.prod@carmignac.com</value>
+    </labels>
+    <labels>
+        <fullName>VR01_AGREEMENT_ROLE_UNIQUENESS</fullName>
+        <categories>Validation</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>VR01_AGREEMENT_ROLE_UNIQUENESS</shortDescription>
+        <value>This role already exist for this legal entity and agreement</value>
+    </labels>
+    <labels>
+        <fullName>Validate_Agreement_Roles_Error_message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Validate Agreement Roles Error message</shortDescription>
+        <value>You must validate Agreement Roles.</value>
+    </labels>
+    <labels>
+        <fullName>WTPccAddresses</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>WTPccAddresses</shortDescription>
+        <value>datasolutions@carmignac.com</value>
+    </labels>
+    <labels>
+        <fullName>WarningInvitationOptOut</fullName>
+        <categories>Audience Management</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Warning Invitation Opt Out</shortDescription>
+        <value>For the event campaign you&apos;ve chosen, we&apos;ve automatically excluded all contacts who have opted out of receiving event invitations!</value>
+    </labels>
+    <labels>
+        <fullName>WarningNewsletterOptOut</fullName>
+        <categories>Audience Management</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Warning Newsletter Opt Out</shortDescription>
+        <value>For the newsletter campaign you&apos;ve selected, we&apos;ve automatically excluded all contacts who have opted out of receiving newsletters!</value>
+    </labels>
+    <labels>
+        <fullName>WarningQueryResults</fullName>
+        <categories>Audience Management</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Warning Query Results</shortDescription>
+        <value>The Carmignac contacts, opt-out and hard bounced contacts have been excluded from the results.</value>
+    </labels>
+    <labels>
+        <fullName>WebsiteProspaceId</fullName>
+        <categories>Salesforce ID</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>WebsiteProspaceId</shortDescription>
+        <value>00558000002Fj01AAC</value>
+    </labels>
+    <labels>
+        <fullName>Website_Recordtype_Name</fullName>
+        <categories>RecordtypeName</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Website Recordtype Name</shortDescription>
+        <value>Website Lead</value>
+    </labels>
+    <labels>
+        <fullName>Website_Sync_Failed</fullName>
+        <categories>Alerts</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Website Sync Failed</shortDescription>
+        <value>Synced failed. Please fill in all the website fields.</value>
+    </labels>
+    <labels>
+        <fullName>seqlgn</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>seqlgn</shortDescription>
+        <value>carmignac@sequantis.com</value>
+    </labels>
+    <labels>
+        <fullName>seqpwd</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>seqpwd</shortDescription>
+        <value>fPCKUJiXa38Tw7yo!</value>
+    </labels>
+</CustomLabels>

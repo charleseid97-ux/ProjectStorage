@@ -1,0 +1,25 @@
+<template>
+    <lightning-card class="green-header">
+        <h2>Overdue Tasks Deadlines</h2>
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+            <thead>
+                <tr class="slds-line-height_reset">
+                    <th scope="col">Overdue</th>
+                    <th scope="col">Owner</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Stage</th>
+                </tr>
+            </thead>
+            <tbody>
+                <template for:each={overdueTasks} for:item="task">
+                    <tr key={task.id}>
+                        <td class="overdue-days">{task.daysOverdue} Days</td>
+                        <td>{task.Owner}</td>
+                        <td>{task.Status}</td>
+                        <td>{task.Stage}</td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+    </lightning-card>
+</template>

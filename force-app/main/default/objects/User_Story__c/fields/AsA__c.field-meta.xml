@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AsA__c</fullName>
+    <label>As A...</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>All</fullName>
+                <default>false</default>
+                <label>All</label>
+            </value>
+            <value>
+                <fullName>BrightTalk</fullName>
+                <default>false</default>
+                <label>BrightTalk</label>
+            </value>
+            <value>
+                <fullName>Carmignac - Business Developer</fullName>
+                <default>false</default>
+                <label>Carmignac - Business Developer</label>
+            </value>
+            <value>
+                <fullName>Carmignac - Campaign Automation</fullName>
+                <default>false</default>
+                <label>Carmignac - Campaign Automation</label>
+            </value>
+            <value>
+                <fullName>Carmignac - Contributor</fullName>
+                <default>false</default>
+                <label>Carmignac - Contributor</label>
+            </value>
+            <value>
+                <fullName>Carmignac - CRM</fullName>
+                <default>false</default>
+                <label>Carmignac - CRM</label>
+            </value>
+            <value>
+                <fullName>Carmignac - Interface</fullName>
+                <default>false</default>
+                <label>Carmignac - Interface</label>
+            </value>
+            <value>
+                <fullName>Carmignac - Interface Etouches</fullName>
+                <default>false</default>
+                <label>Carmignac - Interface Etouches</label>
+            </value>
+            <value>
+                <fullName>Carmignac - Investor Services</fullName>
+                <default>false</default>
+                <label>Carmignac - Investor Services</label>
+            </value>
+            <value>
+                <fullName>Carmignac - Legal and Compliance</fullName>
+                <default>false</default>
+                <label>Carmignac - Legal and Compliance</label>
+            </value>
+            <value>
+                <fullName>Carmignac - Market Intelligence</fullName>
+                <default>false</default>
+                <label>Carmignac - Market Intelligence</label>
+            </value>
+            <value>
+                <fullName>Carmignac - Standard User</fullName>
+                <default>false</default>
+                <label>Carmignac - Standard User</label>
+            </value>
+            <value>
+                <fullName>Carmignac - System Administrator</fullName>
+                <default>false</default>
+                <label>Carmignac - System Administrator</label>
+            </value>
+            <value>
+                <fullName>Carmignac - Top Management</fullName>
+                <default>false</default>
+                <label>Carmignac - Top Management</label>
+            </value>
+            <value>
+                <fullName>Customer Community User</fullName>
+                <default>false</default>
+                <label>Customer Community User</label>
+            </value>
+            <value>
+                <fullName>System Administrator</fullName>
+                <default>false</default>
+                <label>System Administrator</label>
+            </value>
+            <value>
+                <fullName>B2BMA Integration User</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>B2BMA Integration User</label>
+            </value>
+            <value>
+                <fullName>Chatter External User</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Chatter External User</label>
+            </value>
+            <value>
+                <fullName>Chatter Free User</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Chatter Free User</label>
+            </value>
+            <value>
+                <fullName>Chatter Moderator User</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Chatter Moderator User</label>
+            </value>
+            <value>
+                <fullName>Contract Manager</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Contract Manager</label>
+            </value>
+            <value>
+                <fullName>Marketing User</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Marketing User</label>
+            </value>
+            <value>
+                <fullName>Read Only</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Read Only</label>
+            </value>
+            <value>
+                <fullName>Solution Manager</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Solution Manager</label>
+            </value>
+            <value>
+                <fullName>Standard User</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Standard User</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

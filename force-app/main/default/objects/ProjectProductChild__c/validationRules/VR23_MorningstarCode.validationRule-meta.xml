@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR23_MorningstarCode</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  NOT($User.BypassValidationRules__c),
+  NOT(ISBLANK(MorningstarCode__c)),
+  NOT(REGEX(MorningstarCode__c, &quot;^[A-Z0-9]{10,12}$&quot;))
+)</errorConditionFormula>
+    <errorDisplayField>MorningstarCode__c</errorDisplayField>
+    <errorMessage>Invalid Morningstar Code format. Please enter 10 to 12 uppercase letters and numbers only (e.g. F0GBR04VX3).</errorMessage>
+</ValidationRule>

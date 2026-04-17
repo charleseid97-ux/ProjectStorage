@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>fpro__Time_to_complete_minutes__c</fullName>
+    <deprecated>false</deprecated>
+    <description>Time taken by the apex job to complete.</description>
+    <externalId>false</externalId>
+    <formula>(fpro__Apex_Job_CompletedDate__c-fpro__Apex_Job_SubmittedDate__c)*24*60</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Time taken by the apex job to complete.</inlineHelpText>
+    <label>Time to complete (minutes)</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

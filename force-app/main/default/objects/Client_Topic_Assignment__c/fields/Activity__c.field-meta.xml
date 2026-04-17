@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Activity__c</fullName>
+    <description>Formulated link back to the Event or Task where the Custom Topic Post originated as there is no ability to create a true lookup.</description>
+    <externalId>false</externalId>
+    <formula>HYPERLINK(&quot;/&quot; &amp; Activity_ID__c, Activity_Subject__c, &quot;_self&quot;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Activity</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

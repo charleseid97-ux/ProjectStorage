@@ -1,0 +1,1706 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RFP</fullName>
+    <active>true</active>
+    <businessProcess>Market Watch process</businessProcess>
+    <description>All that is related to fund competitive positioning and comparisons with peers, buy lists or portfolios analysis, etc.</description>
+    <label>Product Strategy Request</label>
+    <picklistValues>
+        <picklist>Amount_Shares__c</picklist>
+        <values>
+            <fullName>Amount</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Number of Shares</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Audience__c</picklist>
+        <values>
+            <fullName>All Audiences</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Private only</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Professionals only</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Category__c</picklist>
+        <values>
+            <fullName>Belgium</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Communication</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Compliance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DCR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Digital Marketing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ESG</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>France</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fund Marketing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Germany</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>International</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Investment Solutions</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Italy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Japan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LATAM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Legal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Local Marketing %26 Event</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Luxembourg</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Netherlands</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nordics</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Private Equity</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Product</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Spain</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Switzerland</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Taiwan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>United Kingdom</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Change_Licence_Type__c</picklist>
+        <values>
+            <fullName>Creator %28create and change dashboards%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Explorer %28change dashboards%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Viewer  %28view dashboards%29</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Client_Type__c</picklist>
+        <values>
+            <fullName>Institutional</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Retail</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wholesale</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Country_In__c</picklist>
+        <values>
+            <fullName>Belgium</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>France</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Germany</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Italy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Luxembourg</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Netherlands</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nordics</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Spain</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Switzerland</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>United Kingdom</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Country_Out__c</picklist>
+        <values>
+            <fullName>Belgium</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>France</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Germany</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Italy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Luxembourg</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Netherlands</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nordics</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Spain</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Switzerland</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>United Kingdom</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Current_RFP_Stage__c</picklist>
+        <values>
+            <fullName>Stage 1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stage 2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stage 3</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>DataSolutionsSubtype__c</picklist>
+        <values>
+            <fullName>Allocations</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Characteristics</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Financial Metrics</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Holdings</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PCA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Performance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Regulatory</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Risk</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Data_Solutions_Type__c</picklist>
+        <values>
+            <fullName>Ad Hoc Data %26 Client Reporting Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Recurring Report Request</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Data_need__c</picklist>
+        <values>
+            <fullName>Bond data</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Breakdown country</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Breakdown sector</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Equity Exposure</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Holdings</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Performances</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Statistics</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Top 10</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Date_Range__c</picklist>
+        <values>
+            <fullName>Date</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Date Range</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Delay_reason__c</picklist>
+        <values>
+            <fullName>Data insufficiency</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IT issues</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Information insufficiency</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other teams dependency</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reduced Team</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Request complexity</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Short deadline</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Destination_department__c</picklist>
+        <values>
+            <fullName>Communication</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Graphic Design</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>On Line</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Product Marketing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reporting</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Document_Type__c</picklist>
+        <values>
+            <fullName>Article %28web %2F media%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Biography</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Carmignac%E2%80%99s note</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Disclaimer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EC Letter</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ESG documentation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IS Monthly Comments</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>KID</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Letter to Shareholders</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Marketing %2F Corporate material</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Monthly comments</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PPT Presentation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Press Release</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Product sheet</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prospectus</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Quarterly reports</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reporting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Video subtitles %26 Inserts</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Due_Diligence_type_del__c</picklist>
+        <values>
+            <fullName>System Value</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>ESG_Interest_Level__c</picklist>
+        <values>
+            <fullName>ESG focused questionnaire</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No specific ESG requirements</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Strong emphasis on ESG</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>FeedbackStrategy__c</picklist>
+        <values>
+            <fullName>Alternatives</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Campaign</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Equity</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Event</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Macro</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Focus__c</picklist>
+        <values>
+            <fullName>DD Corporate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DD Product</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Funds_Corporate__c</picklist>
+        <values>
+            <fullName>AECI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AECP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ASP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AXA60</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CARA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CC25</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CCC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CCP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CCT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CED</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CEE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CEMP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CEP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CFG</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CGB</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CGC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CGE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CIL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CPR100</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CPR50</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CPR75</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CSC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CSEM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ECE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ECP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GSMBIGBA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GSMDARTA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GSMMEDIO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MACP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MAIC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MECP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MFP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NOM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PEE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PEP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PIL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PSC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SAG</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SAL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UKCE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UKCED</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UKCEL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UKCEMP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UKCGB</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UKCP</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Language__c</picklist>
+        <values>
+            <fullName>Dutch</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>English</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>French</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>German</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Italian</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Spanish</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>NDA_Mkt_Intelligence__c</picklist>
+        <values>
+            <fullName>Not Signed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Signature ongoing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Signed</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>NDA_Type__c</picklist>
+        <values>
+            <fullName>Close ended</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Open ended</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Nature_of_the_Request__c</picklist>
+        <values>
+            <fullName>Asset Retention</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Development</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Follow-up</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Origin</picklist>
+        <values>
+            <fullName>Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Web</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Outcome_Shared_Client__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Output_Type__c</picklist>
+        <values>
+            <fullName>Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Excel</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PDF</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PowerPoint</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Word</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Priority</picklist>
+        <values>
+            <fullName>High</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Low</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medium</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>PublicationStatus__c</picklist>
+        <values>
+            <fullName>Brief</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>On Hold</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Reason</picklist>
+        <values>
+            <fullName>Fonctionnalité complexe</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>L%E2%80%99utilisateur n%E2%80%99a pas assisté à la forma</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manque de clarté des instructions</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nouveau problème</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Problème actuel</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Rejected__c</picklist>
+        <values>
+            <fullName>No data available</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not the right service</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Report_Dashboard_Issue_Type__c</picklist>
+        <values>
+            <fullName>Other issue</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Report%2FDashboard Access Issue</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Report%2FDashboard Data Issue %28eg%2E%3A not refreshed%2C too slow%2C incorrect data%2C%2E%2E%2E%29</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Report_Data_Extract_Frequency__c</picklist>
+        <values>
+            <fullName>Annually</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Daily</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hourly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Monthly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Weekly</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Report_frequency__c</picklist>
+        <values>
+            <fullName>Annually</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Monthly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Quarterly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Weekly</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Request_Handled__c</picklist>
+        <values>
+            <fullName>Awaiting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Data Already Available</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Request_Recipients__c</picklist>
+        <values>
+            <fullName>Digital Business Solution</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Marketing Project</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Product Marketing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reporting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SSI</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Request_exhaustivity__c</picklist>
+        <values>
+            <fullName>Exhaustive - %3E10 slides %28max 3 weeks deadline%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Light - 3 slides %28max 3-4 days deadline%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medium - 6%2F7 slides %28max 2 weeks deadline%29</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Request_type__c</picklist>
+        <values>
+            <fullName>Market Watch</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RFI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RFP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Survey</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Requester_Department__c</picklist>
+        <values>
+            <fullName>Data Solution Team</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MI Team</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Performance Management</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Product Marketing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RFP Team</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Source_Language__c</picklist>
+        <values>
+            <fullName>Dutch</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>English</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>French</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>German</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Italian</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Portuguese</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Spanish</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Sub_Target_language__c</picklist>
+        <values>
+            <fullName>Dutch</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>English</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>French</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>German</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Italian</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Parent Case</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Portuguese</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Spanish</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>TableauTeams__c</picklist>
+        <values>
+            <fullName>all users</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tbl_Communication</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tbl_Compliance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tbl_Direction</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tbl_Finance accounting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tbl_Finance control</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tbl_General secretary</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tbl_Marketing RFP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tbl_Marketing data client reporting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tbl_Marketing digital business solution</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tbl_Marketing digital marketing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tbl_Marketing distribution client operations</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tbl_Marketing product</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tbl_Marketing specialists events</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tbl_Operation operational excellence</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tbl_Operations middle office</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tbl_Operations performance investment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tbl_Operations private middle office</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tbl_Portfolio management</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tbl_Portfolio management investment solutions</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tbl_Private clients</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tbl_Product strategy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tbl_Professional clients</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tbl_Risk Front management</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tbl_Risk management</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tbl_Service desk</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tbl_Technology change management</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tbl_Technology infrastructure</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>tbl_Trading desk</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Tableau_User_Action__c</picklist>
+        <values>
+            <fullName>Add</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Modify</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Remove</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>TargetWebsite__c</picklist>
+        <values>
+            <fullName>Austria %28DE%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Belgium %28FR%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Belgium %28NL%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Deutschland %28DE%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>France %28EN%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>France %28FR%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>International %28EN%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>International %28ES%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Intesa %28IT%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Italy %28IT%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Luxembourg %28EN%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Luxembourg %28FR%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nederland %28NL%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Portugal %28PT%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Spain %28ES%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sweden %28EN%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Switzerland  %28DE%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Switzerland %28EN%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Switzerland %28FR%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Switzerland %28IT%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UK %28EN%29%E2%80%8B</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>United Kingdom %28EN%29</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Target_languages__c</picklist>
+        <values>
+            <fullName>Dutch</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>English</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>French</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>German</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Italian</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Portuguese</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Spanish</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>TranslationPublicationStatus__c</picklist>
+        <values>
+            <fullName>Done</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Proofreading Validation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Publication in Progress</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Translation In Progress</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Translation_Request_Type__c</picklist>
+        <values>
+            <fullName>Publication Only</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Publication and Translation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Translation Only</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Translation_Status__c</picklist>
+        <values>
+            <fullName>Awaiting Client%27s Feedback</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In Service</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Past Due Date</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Proofreading</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Under Review</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Work in progress</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Translation_mode__c</picklist>
+        <values>
+            <fullName>Full humain</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IA only</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Post-editing</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type</picklist>
+        <values>
+            <fullName>Buy List%2FPortfolio analysis</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Comparison 1 to 1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Comparison 1 to many</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Composite Analysis</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type_of_Request__c</picklist>
+        <values>
+            <fullName>Allocation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Funds %2F Benchmark Performance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PC%26A Report</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Performance Attribution %28StatPro%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Performance Attribution %28UBS Delta%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Portfolio Indicators %2F Statistics</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Portfolio Turnover</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type_of_client__c</picklist>
+        <values>
+            <fullName>Institutiona</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Institutional %2B Retail</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Press</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Private</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Professional</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Retail</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Website_SubType__c</picklist>
+        <values>
+            <fullName>About Us</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Awards</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Biographies</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Carmignac%27s Note</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EC Letter</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Equipe de gestion</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Events</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fund Content</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Homepage update</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Job Offer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Legal Notices</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Monthly Newsletters</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Monthly Reporting</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Monthly%2FAnnual Dividend Notices</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Newsletters Sales</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Personal Data Policy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Press release</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Private Management</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RI Hub</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Regulatory Information</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sales Teams</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Shareholder Letters</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Website_Type__c</picklist>
+        <values>
+            <fullName>Article</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Corporate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Newsletter</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

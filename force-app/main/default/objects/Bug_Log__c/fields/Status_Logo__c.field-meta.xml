@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status_Logo__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(ISPICKVAL(Status__c,&quot;Open&quot;), IMAGE(&quot;https://carmignac-crm--c.eu6.content.force.com/servlet/servlet.FileDownload?file=01558000003AvBl&quot;,&quot;Open&quot;,15,150), 
+IF(ISPICKVAL(Status__c,&quot;Ongoing&quot;), (IMAGE(&quot;https://carmignac-crm--c.eu6.content.force.com/servlet/servlet.FileDownload?file=01558000003AvCA&quot;,&quot;Ongoing&quot;,15,150)),
+IF(ISPICKVAL(Status__c,&quot;Pending&quot;), (IMAGE(&quot;https://carmignac-crm--c.eu6.content.force.com/servlet/servlet.FileDownload?file=01558000003AvCF&quot;,&quot;Pending&quot;,15,150)),
+IF(ISPICKVAL(Status__c,&quot;Closed&quot;), (IMAGE(&quot;https://carmignac-crm--c.eu6.content.force.com/servlet/servlet.FileDownload?file=01558000003AvCU&quot;,&quot;Closed&quot;,15,150)),&quot;N/C&quot;))))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Status Logo</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

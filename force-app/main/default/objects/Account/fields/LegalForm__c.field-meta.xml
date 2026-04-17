@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LegalForm__c</fullName>
+    <label>Legal Form</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>AB (Aktiebolag)</fullName>
+                <default>false</default>
+                <label>AB (Aktiebolag)</label>
+            </value>
+            <value>
+                <fullName>AG (Aktiengesellschaft)</fullName>
+                <default>false</default>
+                <label>AG (Aktiengesellschaft)</label>
+            </value>
+            <value>
+                <fullName>BV (Besloten Vennootschap)</fullName>
+                <default>false</default>
+                <label>BV (Besloten Vennootschap)</label>
+            </value>
+            <value>
+                <fullName>E.U.R.L. (Entreprise Unipersonnelle à Responsabilité Limitée)</fullName>
+                <default>false</default>
+                <label>E.U.R.L. (Entreprise Unipersonnelle à Responsabilité Limitée)</label>
+            </value>
+            <value>
+                <fullName>GmbH (Gesellschaft mit beschränkter Haftung)</fullName>
+                <default>false</default>
+                <label>GmbH (Gesellschaft mit beschränkter Haftung)</label>
+            </value>
+            <value>
+                <fullName>Individual Person</fullName>
+                <default>false</default>
+                <label>Individual Person</label>
+            </value>
+            <value>
+                <fullName>INC (Incorporated)</fullName>
+                <default>false</default>
+                <label>INC (Incorporated)</label>
+            </value>
+            <value>
+                <fullName>LP (Limited Partnership)</fullName>
+                <default>false</default>
+                <label>LP (Limited Partnership)</label>
+            </value>
+            <value>
+                <fullName>LTD (Limited Company)</fullName>
+                <default>false</default>
+                <label>LTD (Limited Company)</label>
+            </value>
+            <value>
+                <fullName>LLC (Limited Liability Company)</fullName>
+                <default>false</default>
+                <label>LLC (Limited Liability Company)</label>
+            </value>
+            <value>
+                <fullName>NV (Naamloze Vennootschap)</fullName>
+                <default>false</default>
+                <label>NV (Naamloze Vennootschap)</label>
+            </value>
+            <value>
+                <fullName>PLC (Public Limited Company)</fullName>
+                <default>false</default>
+                <label>PLC (Public Limited Company)</label>
+            </value>
+            <value>
+                <fullName>SA (Société Anonyme)</fullName>
+                <default>false</default>
+                <label>SA (Société Anonyme)</label>
+            </value>
+            <value>
+                <fullName>SARL (Société Anonyme à Responsabilité Limitée)</fullName>
+                <default>false</default>
+                <label>SARL (Société Anonyme à Responsabilité Limitée)</label>
+            </value>
+            <value>
+                <fullName>SE (Societas Europaea)</fullName>
+                <default>false</default>
+                <label>SE (Societas Europaea)</label>
+            </value>
+            <value>
+                <fullName>SECA (Société en Commandite par Actions)</fullName>
+                <default>false</default>
+                <label>SECA (Société en Commandite par Actions)</label>
+            </value>
+            <value>
+                <fullName>SPA (Società per Azioni)</fullName>
+                <default>false</default>
+                <label>SPA (Società per Azioni)</label>
+            </value>
+            <value>
+                <fullName>SRL (Società a Responsabilità Limitata)</fullName>
+                <default>false</default>
+                <label>SRL (Società a Responsabilità Limitata)</label>
+            </value>
+            <value>
+                <fullName>Trust Company</fullName>
+                <default>false</default>
+                <label>Trust Company</label>
+            </value>
+            <value>
+                <fullName>有限公司 (Limited Company)</fullName>
+                <default>false</default>
+                <label>有限公司 (Limited Company)</label>
+            </value>
+            <value>
+                <fullName>股份有限公司 (Public Limited Company or Corporation)</fullName>
+                <default>false</default>
+                <label>股份有限公司 (Public Limited Company or Corporation)</label>
+            </value>
+            <value>
+                <fullName>株式会社 KK (Kabushiki Kaisha) Stock Company</fullName>
+                <default>false</default>
+                <label>株式会社 KK (Kabushiki Kaisha) Stock Company</label>
+            </value>
+            <value>
+                <fullName>匿名組合 TK (Tokumei Kumiai) Anonymous Partnership</fullName>
+                <default>false</default>
+                <label>匿名組合 TK (Tokumei Kumiai) Anonymous Partnership</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Not Applicable</fullName>
+                <default>false</default>
+                <label>Not Applicable</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,65 @@
+<!--
+  @description       : 
+  @author            : Khadija EL GDAOUNI
+  @group             : 
+  @last modified on  : 23-12-2024
+  @last modified by  : Khadija EL GDAOUNI
+-->
+<template>
+    <lightning-quick-action-panel header="Request a review">
+            <div class="slds-p-around_medium"> 
+                <!-- Loading Spinner --> 
+                <template if:true={isLoading}> 
+                    <lightning-spinner alternative-text="Chargement" size="medium"></lightning-spinner> 
+                </template> 
+                <!-- Error Message --> 
+                <template if:true={error}> 
+                    <div class="slds-notify slds-notify_alert slds-alert_error" role="alert"> 
+                        <span class="slds-assistive-text">Erreur</span> 
+                        <h2>{error.body.message}</h2> 
+                    </div> 
+                </template> 
+                <!-- Email Composition --> 
+                <div class="slds-form">
+                    <!-- Emails Editor --> 
+                    <div class="slds-p-bottom_medium"> 
+                        <lightning-input label="recipients" placeholder="Add emails" value={recipientEmails} onchange={handleEmailChange} required class="recipient-input" ></lightning-input> 
+                        <template if:true={invalidEmailsString}> 
+                            <div class="slds-text-color_error slds-m-top_x-small"> 
+                                These emails adresses are not valid : {invalidEmailsString} 
+                            </div> 
+                        </template>
+                    </div> 
+                    <!-- Rich Text Editor --> 
+                    <div class="slds-p-bottom_medium"> 
+                        <lightning-input-rich-text label="Corps de l'email" value={emailBody} onchange={handleRichTextChange} ></lightning-input-rich-text> 
+                    </div> 
+                    <!-- File Upload --> 
+                    <div class="slds-p-bottom_medium"> 
+                        <lightning-file-upload label="Pièces jointes" name="fileUploader" accept={acceptedFormats} multiple onuploadfinished={handleUploadFinished} ></lightning-file-upload> 
+                    </div> <!-- Attached Files List --> 
+                    <template if:true={files.length}> 
+                        <div class="slds-p-bottom_medium"> 
+                            <div class="slds-text-title_caps slds-p-bottom_x-small"> 
+                                Fichiers joints ({files.length}) 
+                            </div> 
+                            <template for:each={files} for:item="file"> 
+                                <div key={file.documentId} class="slds-p-bottom_xx-small"> 
+                                    <lightning-pill label={file.name} onremove={removeFile} data-id={file.documentId}> 
+                                        <lightning-icon icon-name="doctype:attachment" size="xx-small"></lightning-icon> 
+                                    </lightning-pill> 
+                                </div> 
+                            </template> 
+                        </div> 
+                    </template> 
+                    
+                </div> 
+            </div> 
+            <!-- Send Button --> 
+            <div slot="footer">
+                
+               
+                <lightning-button  variant="brand" label="Send" onclick={handleSend} disabled={isLoading} ></lightning-button> 
+            </div> 
+    </lightning-quick-action-panel>
+</template>

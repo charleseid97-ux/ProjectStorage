@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR01_ClawbackMandatory</fullName>
+    <active>false</active>
+    <description>Display &amp; Mandatory ONLY If PerformanceFeeMethod=&apos;HighWaterMark&apos;</description>
+    <errorConditionFormula>AND(
+NOT($User.BypassValidationRules__c),
+$Permission.PRPProductStrategy = true,
+RecordType.DeveloperName = &apos;DesignAndProposal&apos;,
+INCLUDES(PerformanceFeeMethod__c, &apos;HighWaterMark&apos;),
+ISBLANK(TEXT( Clawback__c ))
+								)</errorConditionFormula>
+    <errorMessage>Please provide a value for Clawback if Performance Fee Method Contains &quot;HighWaterMark&quot;.</errorMessage>
+</ValidationRule>

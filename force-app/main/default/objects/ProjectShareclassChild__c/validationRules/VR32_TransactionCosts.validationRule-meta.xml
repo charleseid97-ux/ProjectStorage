@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR32_TransactionCosts</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+  NOT($User.BypassValidationRules__c),
+  NOT(ISBLANK(TransactionCosts__c)),
+  OR(
+    TransactionCosts__c &lt; 0,
+    TransactionCosts__c &gt; 100
+  )
+)</errorConditionFormula>
+    <errorMessage>Transaction costs must be between 0% and 100%.</errorMessage>
+</ValidationRule>
