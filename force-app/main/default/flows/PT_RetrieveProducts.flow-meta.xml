@@ -3,59 +3,140 @@
     <apiVersion>62.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
-        <description>Add the record to the Prompt</description>
-        <name>Add_Strategy_to_Prompt</name>
+        <name>AddCommaToPrompt</name>
         <elementSubtype>AddPromptInstructions</elementSubtype>
-        <label>Add Strategy to Prompt</label>
+        <label>Add Comma to Prompt</label>
         <locationX>264</locationX>
+        <locationY>566</locationY>
+        <assignmentItems>
+            <assignToReference>$Output.Prompt</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>,
+</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>AddProductsToPrompt</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>AddProductsToPrompt</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>Add Products to Prompt</label>
+        <locationX>396</locationX>
         <locationY>758</locationY>
         <assignmentItems>
             <assignToReference>$Output.Prompt</assignToReference>
             <operator>Add</operator>
             <value>
-                <stringValue>&lt;Strategy&gt;
-Strategy Id : {!LoopOverStrategies.Id} ,
-Strategy Code: {!LoopOverStrategies.Code__c} ,
-Strategy Name: {!LoopOverStrategies.Name}
-&lt;/Strategy&gt;
+                <stringValue>{
+  &quot;Product Short Code&quot;: &quot;{!productsLoop.InternalShortName__c}&quot;,
+  &quot;Product Name&quot;: &quot;{!productsLoop.ProductName__c}&quot;,
+  &quot;Product Strategy Id&quot;: &quot;{!productsLoop.FundStrategy__c}&quot;,
+  &quot;Product Strategy Name&quot;: &quot;{!productsLoop.FundStrategy__r.Name}&quot;
+}
 </stringValue>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>LoopOverStrategies</targetReference>
+            <targetReference>SetFirstProductAddedTrue</targetReference>
         </connector>
     </assignments>
     <assignments>
-        <name>Collect_Strategy_Ids</name>
-        <label>Collect Strategy Ids</label>
-        <locationX>264</locationX>
-        <locationY>350</locationY>
+        <name>EndJSONObject</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>End JSON Object</label>
+        <locationX>176</locationX>
+        <locationY>1058</locationY>
         <assignmentItems>
-            <assignToReference>StrategyIds</assignToReference>
+            <assignToReference>$Output.Prompt</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>productsLoop.FundStrategy__c</elementReference>
+                <stringValue>]
+</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>SetFirstProductAddedTrue</name>
+        <label>Set First Product Added to True</label>
+        <locationX>396</locationX>
+        <locationY>866</locationY>
+        <assignmentItems>
+            <assignToReference>IfFirstProductAdded</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
             </value>
         </assignmentItems>
         <connector>
             <targetReference>productsLoop</targetReference>
         </connector>
     </assignments>
-    <description>Use this Prompt Template flow to retrieve product info</description>
+    <assignments>
+        <name>StartJSONObject</name>
+        <elementSubtype>AddPromptInstructions</elementSubtype>
+        <label>Start JSON Object</label>
+        <locationX>176</locationX>
+        <locationY>242</locationY>
+        <assignmentItems>
+            <assignToReference>$Output.Prompt</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>[
+</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>productsLoop</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>CheckIfFirstProduct</name>
+        <label>Check if First Product</label>
+        <locationX>396</locationX>
+        <locationY>458</locationY>
+        <defaultConnector>
+            <targetReference>AddProductsToPrompt</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No</defaultConnectorLabel>
+        <rules>
+            <name>YesFirstProduct</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>IfFirstProductAdded</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>AddCommaToPrompt</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <description>Use this Prompt Template flow to retrieve product info
+
+V3:
+- Added Products to Prompt</description>
     <environments>Default</environments>
     <interviewLabel>PT_RetrieveProducts {!$Flow.CurrentDateTime}</interviewLabel>
     <label>PT_RetrieveProducts</label>
     <loops>
-        <description>Loop over the strategy collection</description>
-        <name>LoopOverStrategies</name>
-        <label>LoopOverStrategies</label>
+        <name>productsLoop</name>
+        <label>Products loop</label>
         <locationX>176</locationX>
-        <locationY>650</locationY>
-        <collectionReference>GetStrategy</collectionReference>
+        <locationY>350</locationY>
+        <collectionReference>Get_Active_Products</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
-            <targetReference>Add_Strategy_to_Prompt</targetReference>
+            <targetReference>CheckIfFirstProduct</targetReference>
         </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>EndJSONObject</targetReference>
+        </noMoreValuesConnector>
     </loops>
     <loops>
         <name>productsLoop</name>
@@ -97,7 +178,7 @@ Strategy Name: {!LoopOverStrategies.Name}
         <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>productsLoop</targetReference>
+            <targetReference>StartJSONObject</targetReference>
         </connector>
         <filterLogic>1 AND  NOT(2)</filterLogic>
         <filters>
@@ -118,28 +199,10 @@ Strategy Name: {!LoopOverStrategies.Name}
         <object>Product__c</object>
         <queriedFields>Id</queriedFields>
         <queriedFields>FundStrategy__c</queriedFields>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
-        <description>Retrieve all /strategies</description>
-        <name>GetStrategy</name>
-        <label>GetStrategy</label>
-        <locationX>176</locationX>
-        <locationY>542</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>LoopOverStrategies</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>In</operator>
-            <value>
-                <elementReference>StrategyIds</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>false</getFirstRecordOnly>
-        <object>Strategy__c</object>
+        <queriedFields>InternalShortName__c</queriedFields>
+        <queriedFields>ProductName__c</queriedFields>
+        <sortField>FundStrategy__c</sortField>
+        <sortOrder>Asc</sortOrder>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
@@ -151,15 +214,16 @@ Strategy Name: {!LoopOverStrategies.Name}
         <triggerType>Capability</triggerType>
     </start>
     <status>Active</status>
-    <textTemplates>
-        <name>products</name>
-        <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>{
-Product Id: {!LoopOverStrategies.Id} ,
-Product Code: {!LoopOverStrategies.Code__c} ,
-Product  Name: {!LoopOverStrategies.Name} 
-},</text>
-    </textTemplates>
+    <variables>
+        <name>IfFirstProductAdded</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
     <variables>
         <name>out</name>
         <dataType>String</dataType>
