@@ -17,7 +17,7 @@
             <value>
                 <fullName>requested</fullName>
                 <default>false</default>
-                <label>Requested</label>
+                <label>Due</label>
             </value>
             <value>
                 <fullName>required</fullName>
@@ -27,6 +27,7 @@
             <value>
                 <fullName>ready</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Ready</label>
             </value>
         </valueSetDefinition>

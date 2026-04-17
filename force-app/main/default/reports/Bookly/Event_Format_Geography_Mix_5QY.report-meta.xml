@@ -12,9 +12,6 @@
     <columns>
         <field>Event__c.Organizer__c</field>
     </columns>
-    <columns>
-        <field>Event__c.city__c</field>
-    </columns>
     <currency>EUR</currency>
     <description>Understand distribution strategy (Digital vs Physical vs Hybrid / Country mix).</description>
     <filter>

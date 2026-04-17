@@ -11,8 +11,17 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
     // Flow inputs/outputs (do not rename)
     @api debug = false;
     @api outputValue = '[]';
-    @api parentEventId;
-
+    @api showTimeSlots = false;
+    @api defaultStartTime;
+    @api defaultEndTime;
+    _parentEventId = null;
+    @api
+    set parentEventId(value) {
+        this._parentEventId = value ?? null;
+    }
+    get parentEventId() {
+        return this._parentEventId;
+    }
     // Optional JSON input (Lightning pages / parent components).
     // Accepts JSON string OR array of sessionSpeakerProduct__c-like objects.
     @api
@@ -34,9 +43,13 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
     @track entries = [
         {
             key: uniq(),
-            speakerIds: [],
+            speakerId: null,
             productIds: [],
             language: null,
+            speakerLanguage: null,
+            startTime: null,
+            endTime: null,
+            showSlidesLanguage: false,
             speakerPills: [],
             productPills: []
         }
@@ -57,12 +70,24 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
     }
 
     connectedCallback() {
-        // Avoid class fields: keep parser compatible
         if (this._hasExistingInput === undefined) {
             this._hasExistingInput = false;
         }
         this._pendingInputValue = null;
         this._hasAppliedInput = false;
+
+        if (this.entries && this.entries.length > 0) {
+            this.entries = this.entries.map((entry, index) => {
+                if (index === 0) {
+                    return {
+                        ...entry,
+                        startTime: entry.startTime || this.defaultStartTime || null,
+                        endTime: entry.endTime || this.defaultEndTime || null
+                    };
+                }
+                return entry;
+            });
+        }
 
         if (this._inputValue !== null && this._inputValue !== undefined && this._inputValue !== '') {
             this._applyInputValue(this._inputValue);
@@ -84,37 +109,48 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
     }
 
     // ===== SPEAKER OPTIONS (Contacts) =====
-    @wire(getSpeakerContacts)
-    wiredSpeakerContacts({ data, error }) {
-        if (data) {
-            // Supports both [{label,value}] and Contact[] styles
-            if (data.length && data[0].label !== undefined && data[0].value !== undefined) {
-                this.allSpeakers = data;
-            } else {
-                this.allSpeakers = (data || []).map((c) => ({
-                    label: c.Name,
-                    value: c.Id
-                }));
-            }
-
-            // Sort speakers alphabetically
-            this.allSpeakers = (this.allSpeakers || [])
-                .slice()
-                .sort((a, b) => (a.label || '').localeCompare(b.label || ''));
-
-            this._refreshPills();
-
-            // Apply pending input (if any) when options become ready
-            this._applyPendingInputIfAny();
-
-            // try apply default speaker when options are ready
-            this._tryApplyDefaultSpeaker();
-        } else if (error) {
-            // eslint-disable-next-line no-console
-            console.error('Error loading speakers (Contacts): ', error);
-            this.allSpeakers = [];
+  @wire(getSpeakerContacts, { parentEventId: '$_parentEventId' })
+wiredSpeakerContacts({ data, error }) {
+    if (data) {
+        if (data.length && data[0].label !== undefined && data[0].value !== undefined) {
+            this.allSpeakers = (data || []).map((s) => ({
+                label: s.label,
+                value: s.value,
+                jobTitle: s.jobTitle
+            }));
+        } else {
+            this.allSpeakers = (data || []).map((c) => ({
+                label: c.Name,
+                value: c.Id,
+                jobTitle: c.JobTitle__c
+            }));
         }
+
+        this.allSpeakers = (this.allSpeakers || [])
+            .slice()
+            .sort((a, b) => (a.label || '').localeCompare(b.label || ''));
+
+        this._refreshPills();
+        this._applyVisibilityRules();
+        this._applyPendingInputIfAny();
+        this._tryApplyDefaultSpeaker();
+    } else if (error) {
+        // eslint-disable-next-line no-console
+        console.error('Error loading speakers (Contacts): ', error);
+        this.allSpeakers = [];
     }
+}
+_applyVisibilityRules() {
+    const cloned = JSON.parse(JSON.stringify(this.entries || []));
+    const speakerById = new Map((this.allSpeakers || []).map((s) => [s.value, s]));
+
+    cloned.forEach((entry) => {
+        const speaker = speakerById.get(entry.speakerId);
+        entry.showSlidesLanguage = !!speaker && speaker.jobTitle !== 'Sales';
+    });
+
+    this.entries = cloned;
+}
 
     // ===== PRODUCT OPTIONS =====
     @wire(getProducts)
@@ -149,7 +185,7 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
     }
 
     // ===== DEFAULT SPEAKER FROM PARENT EVENT =====
-    @wire(getDefaultSpeakerForEvent, { parentEventId: '$parentEventId' })
+    @wire(getDefaultSpeakerForEvent, { parentEventId: '$_parentEventId' })
     wiredDefaultSpeaker({ data, error }) {
         if (data) {
             this.defaultSpeakerId = data; // Contact Id
@@ -243,8 +279,25 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
             const normalized = this._normalizeRow(r);
             if (!normalized) continue;
 
-            const { speakerId, productId, lang, key } = normalized;
-            const entry = this._ensureGroupedEntry(byKey, key, speakerId, lang);
+            const {
+                speakerId,
+                productId,
+                lang,
+                speakerLanguage,
+                startTime,
+                endTime,
+                key
+            } = normalized;
+
+            const entry = this._ensureGroupedEntry(
+                byKey,
+                key,
+                speakerId,
+                lang,
+                speakerLanguage,
+                startTime,
+                endTime
+            );
 
             if (productId) this._pushUnique(entry.productIds, productId);
         }
@@ -258,22 +311,31 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
 
         const productId = r && r.strategy__c ? r.strategy__c : null;
         const lang = r && r.Language__c ? r.Language__c : null;
-
+        const speakerLanguage = r && r.speakerLanguage__c ? r.speakerLanguage__c : null;
+        const startTime = r && r.startTime__c ? r.startTime__c : null;
+        const endTime = r && r.endTime__c ? r.endTime__c : null;
         return {
             speakerId,
             productId,
             lang,
-            key: `${speakerId}|${lang || ''}`
+            speakerLanguage,
+            startTime,
+            endTime,
+            key: `${speakerId}|${lang || ''}|${speakerLanguage || ''}|${startTime || ''}|${endTime || ''}`
         };
     }
 
-    _ensureGroupedEntry(byKey, key, speakerId, lang) {
+    _ensureGroupedEntry(byKey, key, speakerId, lang, speakerLanguage, startTime, endTime) {
         if (!byKey.has(key)) {
             byKey.set(key, {
                 key: uniq(),
-                speakerIds: [speakerId],
+                speakerId: speakerId,
                 productIds: [],
                 language: lang,
+                speakerLanguage: speakerLanguage,
+                startTime: startTime,
+                endTime: endTime,
+                showSlidesLanguage: false,
                 speakerPills: [],
                 productPills: []
             });
@@ -289,8 +351,8 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
         const labelById = new Map((this.allSpeakers || []).map((s) => [s.value, s.label]));
 
         return (entries || []).slice().sort((a, b) => {
-            const la = labelById.get(a.speakerIds && a.speakerIds[0]) || '';
-            const lb = labelById.get(b.speakerIds && b.speakerIds[0]) || '';
+            const la = labelById.get(a.speakerId) || '';
+            const lb = labelById.get(b.speakerId) || '';
             return la.localeCompare(lb);
         });
     }
@@ -298,9 +360,13 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
     _emptyEntry() {
         return {
             key: uniq(),
-            speakerIds: [],
+            speakerId: null,
             productIds: [],
             language: null,
+            speakerLanguage: null,
+            startTime: null,
+            endTime: null,
+            showSlidesLanguage: false,
             speakerPills: [],
             productPills: []
         };
@@ -308,6 +374,7 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
 
     _finalizeApplyInput() {
         this._refreshPills();
+        this._applyVisibilityRules();
         this._rebuildRecords();
 
         this._pendingInputValue = null;
@@ -321,7 +388,11 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
         const cloned = JSON.parse(JSON.stringify(this.entries || []));
         for (let i = 0; i < cloned.length; i++) {
             const e = cloned[i];
-            e.speakerPills = this.selectionPills(this.allSpeakers, 'standard:contact', e.speakerIds || []);
+            e.speakerPills = this.selectionPills(
+                this.allSpeakers,
+                'standard:contact',
+                e.speakerId ? [e.speakerId] : []
+            );
             e.productPills = this.selectionPills(this.allProducts, 'standard:product', e.productIds || []);
         }
         this.entries = cloned;
@@ -342,9 +413,13 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
 
         const newEntry = {
             key: uniq(),
-            speakerIds: [],
+            speakerId: null,
             productIds: [],
             language: lastLanguage,
+            speakerLanguage: null,
+            startTime: this.defaultStartTime || null,
+            endTime: this.defaultEndTime || null,
+            showSlidesLanguage: false,
             speakerPills: [],
             productPills: []
         };
@@ -377,16 +452,13 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
 
     handleMultiSelection = (event) => {
         const index = parseInt(event.currentTarget.dataset.index, 10);
-        const field = event.currentTarget.dataset.field; // "Speakers" or "Products"
+        const field = event.currentTarget.dataset.field;
         const selectedValues = event.detail && event.detail.selectedValues ? event.detail.selectedValues : [];
 
         const cloned = JSON.parse(JSON.stringify(this.entries));
         const entry = cloned[index];
 
-        if (field === 'Speakers') {
-            entry.speakerIds = [...selectedValues];
-            entry.speakerPills = this.selectionPills(this.allSpeakers, 'standard:contact', entry.speakerIds);
-        } else if (field === 'Products') {
+        if (field === 'Products') {
             entry.productIds = [...selectedValues];
             entry.productPills = this.selectionPills(this.allProducts, 'standard:product', entry.productIds);
         }
@@ -397,7 +469,7 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
 
     handleMultiItemRemove = (event) => {
         const index = parseInt(event.currentTarget.dataset.index, 10);
-        const field = event.currentTarget.dataset.field; // "Speakers" or "Products"
+        const field = event.currentTarget.dataset.field;
         const item = event.detail ? event.detail.item : null;
         const nameToRemove = item ? item.name : null;
 
@@ -408,10 +480,7 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
         const cloned = JSON.parse(JSON.stringify(this.entries));
         const entry = cloned[index];
 
-        if (field === 'Speakers') {
-            entry.speakerIds = (entry.speakerIds || []).filter((id) => id !== nameToRemove);
-            entry.speakerPills = (entry.speakerPills || []).filter((pill) => pill.name !== nameToRemove);
-        } else if (field === 'Products') {
+        if (field === 'Products') {
             entry.productIds = (entry.productIds || []).filter((id) => id !== nameToRemove);
             entry.productPills = (entry.productPills || []).filter((pill) => pill.name !== nameToRemove);
         }
@@ -426,6 +495,16 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
 
         const cloned = JSON.parse(JSON.stringify(this.entries));
         cloned[index].language = value;
+        this.entries = cloned;
+
+        this._rebuildRecords();
+    };
+    handleSpeakerLanguageChange = (event) => {
+        const index = parseInt(event.currentTarget.dataset.index, 10);
+        const value = event.detail.value;
+
+        const cloned = JSON.parse(JSON.stringify(this.entries));
+        cloned[index].speakerLanguage = value;
         this.entries = cloned;
 
         this._rebuildRecords();
@@ -450,15 +529,27 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
     }
 
     _entryToRecords(entry) {
-        const speakers = this._toArray(entry && entry.speakerIds ? entry.speakerIds : []);
+        const speakers = entry && entry.speakerId ? [entry.speakerId] : [];
         const products = this._toArray(entry && entry.productIds ? entry.productIds : []);
         const lang = entry ? entry.language || null : null;
+        const speakerLanguage = entry ? entry.speakerLanguage || null : null;
+        const startTime = entry ? entry.startTime || null : null;
+        const endTime = entry ? entry.endTime || null : null;
 
-        if (!speakers.length && !products.length) {
+        const hasSpeaker = speakers.length > 0;
+        const hasProducts = products.length > 0;
+
+        // Règle métier
+        if (hasSpeaker && !hasProducts) {
             return [];
         }
-        console.debug('===[SSPRepeater] _entryToRecords speakers=', speakers, 'products=', products, 'lang=', lang);    
-        return this._pairSelections(speakers, products).map(({ sid, pid }) => this._makeRecord(sid, pid, lang));
+
+        if (!hasSpeaker && !hasProducts) {
+            return [];
+        }
+
+        return this._pairSelections(speakers, products)
+            .map(({ sid, pid }) => this._makeRecord(sid, pid, lang, speakerLanguage, startTime, endTime));
     }
 
     _toArray(value) {
@@ -471,22 +562,31 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
         const hasSpeakers = speakers.length > 0;
         const hasProducts = products.length > 0;
 
+        // speaker sans produit = interdit
         if (hasSpeakers && !hasProducts) {
-            return speakers.map((sid) => ({ sid, pid: null }));
+            return [];
         }
+
         if (!hasSpeakers && hasProducts) {
             return products.map((pid) => ({ sid: null, pid }));
+        }
+
+        if (!hasSpeakers && !hasProducts) {
+            return [];
         }
 
         return speakers.flatMap((sid) => products.map((pid) => ({ sid, pid })));
     }
 
-    _makeRecord(contactId, productId, lang) {
+    _makeRecord(contactId, productId, lang, speakerLanguage, startTime, endTime) {
         return {
             attributes: { type: 'sessionSpeakerProduct__c' },
             speakerContact__c: contactId,
             strategy__c: productId,
             Language__c: lang,
+            speakerLanguage__c: speakerLanguage,
+            startTime__c: startTime,
+            endTime__c: endTime,
             Session__c: null
         };
     }
@@ -500,17 +600,19 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
         if (!this.allSpeakers || this.allSpeakers.length === 0) return;
         if (!this.entries || this.entries.length === 0) return;
 
-        // Ensure speaker exists in current options
         const exists = (this.allSpeakers || []).some((s) => s.value === this.defaultSpeakerId);
         if (!exists) return;
 
         const cloned = JSON.parse(JSON.stringify(this.entries));
+        const speaker = (this.allSpeakers || []).find((s) => s.value === this.defaultSpeakerId);
 
-        // Apply only to the first row
-        cloned[0].speakerIds = [this.defaultSpeakerId];
-        cloned[0].speakerPills = this.selectionPills(this.allSpeakers, 'standard:contact', cloned[0].speakerIds);
-
-        // Keep products empty
+        cloned[0].speakerId = this.defaultSpeakerId;
+        cloned[0].showSlidesLanguage = !!speaker && speaker.jobTitle !== 'Sales';
+        cloned[0].speakerPills = this.selectionPills(
+            this.allSpeakers,
+            'standard:contact',
+            cloned[0].speakerId ? [cloned[0].speakerId] : []
+        );
         cloned[0].productIds = [];
         cloned[0].productPills = [];
 
@@ -518,4 +620,66 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
         this._defaultApplied = true;
         this._rebuildRecords();
     }
+
+    handleSpeakerChange = (event) => {
+        const index = parseInt(event.currentTarget.dataset.index, 10);
+        const value = event.detail.value;
+
+        const cloned = JSON.parse(JSON.stringify(this.entries));
+        cloned[index].speakerId = value;
+
+        const speaker = (this.allSpeakers || []).find((s) => s.value === value);
+        cloned[index].showSlidesLanguage = !!speaker && speaker.jobTitle !== 'Sales';
+
+        this.entries = cloned;
+        this._rebuildRecords();
+    };
+    handleStartTimeChange = (event) => {
+        const index = parseInt(event.currentTarget.dataset.index, 10);
+        const value = event.detail.value;
+
+        const cloned = JSON.parse(JSON.stringify(this.entries));
+        cloned[index].startTime = value;
+        this.entries = cloned;
+
+        this._rebuildRecords();
+    };
+
+    handleEndTimeChange = (event) => {
+        const index = parseInt(event.currentTarget.dataset.index, 10);
+        const value = event.detail.value;
+
+        const cloned = JSON.parse(JSON.stringify(this.entries));
+        cloned[index].endTime = value;
+        this.entries = cloned;
+
+        this._rebuildRecords();
+    };
+
+
+    @api
+    validate() {
+        const hasInvalidRow = (this.entries || []).some((e) => {
+            const hasSpeaker = !!e.speakerId;
+            const hasProducts = Array.isArray(e.productIds) && e.productIds.length > 0;
+            return hasSpeaker && !hasProducts;
+        });
+
+        if (hasInvalidRow) {
+            return {
+                isValid: false,
+                errorMessage: 'Any line with a speaker must include at least one product.'
+            };
+        }
+
+        return { isValid: true };
+    }
+get hasError() {
+    return false; // ou ta logique
+}
+
+get errorMessage() {
+    return 'Any line with a speaker must include at least one product.';
+}
+
 }

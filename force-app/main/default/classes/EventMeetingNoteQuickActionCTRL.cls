@@ -1,4 +1,4 @@
-public with sharing class EventMeetingNoteQuickActionCTRL {
+public without sharing class EventMeetingNoteQuickActionCTRL {
 
     public class Payload {
         @AuraEnabled public Id eventId;

@@ -1,4 +1,4 @@
-<messaging:emailTemplate subject="Approval request — {!relatedTo.title__c}"
+<messaging:emailTemplate subject="[Bookly] Approval request — {!relatedTo.title__c}"
     recipientType="User"
     relatedToType="Event__c">
 
@@ -73,12 +73,7 @@
                                                                 &nbsp;({!relatedTo.timezone__c})
                                                             </apex:outputPanel>
                                                         </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td valign="top" style="padding:4px 0; color:#6b7280;">Language</td>
-                                                        <td valign="top" style="padding:4px 0;">{!relatedTo.language__c}</td>
-                                                    </tr>
+                                                    </tr>                                                   
 
                                                     <tr>
                                                         <td valign="top" style="padding:4px 0; color:#6b7280;">Location</td>

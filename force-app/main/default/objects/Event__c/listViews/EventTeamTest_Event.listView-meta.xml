@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>EventTeamTest_Event</fullName>
-    <filterScope>Queue</filterScope>
-    <label>EventTeamTest</label>
-    <queue>EventTeamTest</queue>
+    <columns>NAME</columns>
+    <columns>category__c</columns>
+    <columns>startDate__c</columns>
+    <columns>city__c</columns>
+    <columns>StatusDisplay__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>salesTeam__c</field>
+        <operation>equals</operation>
+        <value>Italy</value>
+    </filters>
+    <label>Bookly Requests Italy</label>
     <sharedTo>
         <allInternalUsers></allInternalUsers>
     </sharedTo>

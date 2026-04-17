@@ -3,6 +3,7 @@
     <fullName>isCarmignacOffice__c</fullName>
     <defaultValue>false</defaultValue>
     <label>Carmignac office</label>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

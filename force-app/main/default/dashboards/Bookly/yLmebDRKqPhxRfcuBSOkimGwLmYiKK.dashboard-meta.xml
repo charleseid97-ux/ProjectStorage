@@ -126,6 +126,9 @@
                 <dashboardFilterColumns>
                     <column>sessionSpeakerProduct__c.Product__c</column>
                 </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>sessionSpeakerProduct__c.speakerContact__c</column>
+                </dashboardFilterColumns>
                 <decimalPrecision>-1</decimalPrecision>
                 <displayUnits>Auto</displayUnits>
                 <groupingSortProperties/>
@@ -135,7 +138,7 @@
                 <indicatorHighColor>#00716B</indicatorHighColor>
                 <indicatorLowColor>#C23934</indicatorLowColor>
                 <indicatorMiddleColor>#CA8501</indicatorMiddleColor>
-                <report>Bookly/Event_Volume_Overview_MRZ</report>
+                <report>Bookly/BooklyKPI/Event_Volume_Overview_MRZ</report>
                 <showRange>false</showRange>
             </dashboardComponent>
             <rowIndex>2</rowIndex>
@@ -174,7 +177,7 @@
                 <indicatorHighColor>#00716B</indicatorHighColor>
                 <indicatorLowColor>#C23934</indicatorLowColor>
                 <indicatorMiddleColor>#CA8501</indicatorMiddleColor>
-                <report>Bookly/Event_Volume_Overview_ex_11_Mw5</report>
+                <report>Bookly/BooklyKPI/Event_Volume_Overview_ex_11_Mw5</report>
                 <showRange>false</showRange>
             </dashboardComponent>
             <rowIndex>2</rowIndex>
@@ -213,7 +216,7 @@
                 <indicatorHighColor>#00716B</indicatorHighColor>
                 <indicatorLowColor>#C23934</indicatorLowColor>
                 <indicatorMiddleColor>#CA8501</indicatorMiddleColor>
-                <report>Bookly/Event_Volume_Overview_11_only_nvD</report>
+                <report>Bookly/BooklyKPI/Event_Volume_Overview_11_only_nvD</report>
                 <showRange>false</showRange>
             </dashboardComponent>
             <rowIndex>2</rowIndex>
@@ -252,7 +255,7 @@
                 <indicatorHighColor>#00716B</indicatorHighColor>
                 <indicatorLowColor>#C23934</indicatorLowColor>
                 <indicatorMiddleColor>#CA8501</indicatorMiddleColor>
-                <report>Bookly/Event_Volume_Overview_cohost_v3z</report>
+                <report>Bookly/BooklyKPI/Event_Volume_Overview_cohost_v3z</report>
                 <showRange>false</showRange>
             </dashboardComponent>
             <rowIndex>2</rowIndex>
@@ -295,7 +298,9 @@
                 <dashboardFilterColumns>
                     <column>sessionSpeakerProduct__c.Product__c</column>
                 </dashboardFilterColumns>
-                <decimalPrecision>-1</decimalPrecision>
+                <dashboardFilterColumns>
+                    <column>sessionSpeakerProduct__c.speakerContact__c</column>
+                </dashboardFilterColumns>
                 <displayUnits>Auto</displayUnits>
                 <drillEnabled>false</drillEnabled>
                 <drillToDetailEnabled>false</drillToDetailEnabled>
@@ -310,7 +315,7 @@
                 </groupingSortProperties>
                 <header>Type of Events</header>
                 <legendPosition>Right</legendPosition>
-                <report>Bookly/Event_Volume_Overview_MRZ</report>
+                <report>Bookly/BooklyKPI/Event_Volume_Overview_MRZ</report>
                 <showPercentage>false</showPercentage>
                 <showTotal>true</showTotal>
                 <showValues>true</showValues>
@@ -363,7 +368,7 @@
                 <header>Events by Category</header>
                 <legendPosition>Right</legendPosition>
                 <maxValuesDisplayed>6</maxValuesDisplayed>
-                <report>Bookly/Event_Volume_Overview_Event_only_KgV</report>
+                <report>Bookly/BooklyKPI/Event_Volume_Overview_Event_only_KgV</report>
                 <showPercentage>false</showPercentage>
                 <showTotal>true</showTotal>
                 <showValues>true</showValues>
@@ -397,7 +402,9 @@
                 <dashboardFilterColumns>
                     <column>sessionSpeakerProduct__c.Product__c</column>
                 </dashboardFilterColumns>
-                <decimalPrecision>-1</decimalPrecision>
+                <dashboardFilterColumns>
+                    <column>sessionSpeakerProduct__c.speakerContact__c</column>
+                </dashboardFilterColumns>
                 <displayUnits>Auto</displayUnits>
                 <drillEnabled>false</drillEnabled>
                 <drillToDetailEnabled>false</drillToDetailEnabled>
@@ -413,7 +420,7 @@
                 <header>Events by Format</header>
                 <legendPosition>Right</legendPosition>
                 <maxValuesDisplayed>6</maxValuesDisplayed>
-                <report>Bookly/Event_Volume_Overview_Group_by_Format_nVh</report>
+                <report>Bookly/BooklyKPI/Event_Volume_Overview_Group_by_Format_nVh</report>
                 <showPercentage>false</showPercentage>
                 <showTotal>true</showTotal>
                 <showValues>true</showValues>
@@ -447,7 +454,9 @@
                 <dashboardFilterColumns>
                     <column>sessionSpeakerProduct__c.Product__c</column>
                 </dashboardFilterColumns>
-                <decimalPrecision>-1</decimalPrecision>
+                <dashboardFilterColumns>
+                    <column>sessionSpeakerProduct__c.speakerContact__c</column>
+                </dashboardFilterColumns>
                 <displayUnits>Auto</displayUnits>
                 <drillEnabled>false</drillEnabled>
                 <drillToDetailEnabled>false</drillToDetailEnabled>
@@ -463,7 +472,7 @@
                 </groupingSortProperties>
                 <header>Events by Sales Team</header>
                 <legendPosition>Bottom</legendPosition>
-                <report>Bookly/Event_Volume_Overview_Group_by_Team_2uZ</report>
+                <report>Bookly/BooklyKPI/Event_Volume_Overview_Group_by_Team_2uZ</report>
                 <showPercentage>false</showPercentage>
                 <showValues>true</showValues>
                 <sortBy>RowLabelAscending</sortBy>
@@ -515,7 +524,7 @@
                 </groupingSortProperties>
                 <header>Event by Organizer</header>
                 <legendPosition>Bottom</legendPosition>
-                <report>Bookly/Event_Volume_Overview_by_Organizer_IjO</report>
+                <report>Bookly/BooklyKPI/Event_Volume_Overview_by_Organizer_IjO</report>
                 <showPercentage>false</showPercentage>
                 <showValues>true</showValues>
                 <sortBy>RowLabelAscending</sortBy>
@@ -548,7 +557,9 @@
                 <dashboardFilterColumns>
                     <column>sessionSpeakerProduct__c.Product__c</column>
                 </dashboardFilterColumns>
-                <decimalPrecision>-1</decimalPrecision>
+                <dashboardFilterColumns>
+                    <column>sessionSpeakerProduct__c.speakerContact__c</column>
+                </dashboardFilterColumns>
                 <displayUnits>Auto</displayUnits>
                 <drillEnabled>false</drillEnabled>
                 <drillToDetailEnabled>false</drillToDetailEnabled>
@@ -564,7 +575,7 @@
                 </groupingSortProperties>
                 <header>Events by Strategy</header>
                 <legendPosition>Bottom</legendPosition>
-                <report>Bookly/Product_Exposure_Report_HSv</report>
+                <report>Bookly/BooklyKPI/Product_Exposure_Report_HSv</report>
                 <showPercentage>false</showPercentage>
                 <showValues>true</showValues>
                 <sortBy>RowLabelAscending</sortBy>
@@ -631,7 +642,7 @@
                 <header>Top 10 Speakers</header>
                 <legendPosition>Bottom</legendPosition>
                 <maxValuesDisplayed>10</maxValuesDisplayed>
-                <report>Bookly/Speaker_Workload_Report_O1L</report>
+                <report>Bookly/BooklyKPI/Speaker_Workload_Report_O1L</report>
                 <showPercentage>false</showPercentage>
                 <showValues>true</showValues>
                 <sortBy>RowLabelAscending</sortBy>
@@ -684,7 +695,7 @@
                 <header>Top 10 Strategies (Product)</header>
                 <legendPosition>Bottom</legendPosition>
                 <maxValuesDisplayed>10</maxValuesDisplayed>
-                <report>Bookly/Product_Exposure_Report_HSv</report>
+                <report>Bookly/BooklyKPI/Product_Exposure_Report_HSv</report>
                 <showPercentage>false</showPercentage>
                 <showValues>true</showValues>
                 <sortBy>RowLabelAscending</sortBy>
@@ -736,7 +747,7 @@
                 </groupingSortProperties>
                 <header>Events by Speaker Type</header>
                 <legendPosition>Bottom</legendPosition>
-                <report>Bookly/Speaker_Workload_Report_iwd</report>
+                <report>Bookly/BooklyKPI/Speaker_Workload_Report_iwd</report>
                 <showPercentage>false</showPercentage>
                 <showValues>true</showValues>
                 <sortBy>RowLabelAscending</sortBy>
@@ -744,6 +755,162 @@
                 <useReportChart>false</useReportChart>
             </dashboardComponent>
             <rowIndex>26</rowIndex>
+            <rowSpan>8</rowSpan>
+        </dashboardGridComponents>
+        <dashboardGridComponents>
+            <colSpan>4</colSpan>
+            <columnIndex>0</columnIndex>
+            <dashboardComponent>
+                <autoselectColumnsFromReport>false</autoselectColumnsFromReport>
+                <chartAxisRange>Auto</chartAxisRange>
+                <chartSummary>
+                    <aggregate>Unique</aggregate>
+                    <axisBinding>y</axisBinding>
+                    <column>CDF1</column>
+                </chartSummary>
+                <componentType>Column</componentType>
+                <dashboardFilterColumns>
+                    <column>Event__c$startDate__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>Event__c$salesTeam__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>Event__c$RecordType</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>Event__c.SpeakersProducts__r$Product__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>Event__c.SpeakersProducts__r$speakerContact__c</column>
+                </dashboardFilterColumns>
+                <decimalPrecision>-1</decimalPrecision>
+                <displayUnits>Auto</displayUnits>
+                <drillEnabled>false</drillEnabled>
+                <drillToDetailEnabled>false</drillToDetailEnabled>
+                <enableHover>false</enableHover>
+                <expandOthers>false</expandOthers>
+                <groupingColumn>Event__c$category__c</groupingColumn>
+                <groupingSortProperties>
+                    <groupingSorts>
+                        <groupingLevel>g1</groupingLevel>
+                        <sortOrder>d</sortOrder>
+                    </groupingSorts>
+                </groupingSortProperties>
+                <header>Unique count by Request Type</header>
+                <legendPosition>Bottom</legendPosition>
+                <report>Bookly/BooklyKPI/Speaker_Unique_count_Rzm</report>
+                <showPercentage>false</showPercentage>
+                <showValues>true</showValues>
+                <sortBy>RowLabelAscending</sortBy>
+                <sortLegendValues>true</sortLegendValues>
+                <useReportChart>false</useReportChart>
+            </dashboardComponent>
+            <rowIndex>34</rowIndex>
+            <rowSpan>8</rowSpan>
+        </dashboardGridComponents>
+        <dashboardGridComponents>
+            <colSpan>4</colSpan>
+            <columnIndex>4</columnIndex>
+            <dashboardComponent>
+                <autoselectColumnsFromReport>false</autoselectColumnsFromReport>
+                <chartAxisRange>Auto</chartAxisRange>
+                <chartSummary>
+                    <axisBinding>y</axisBinding>
+                    <column>RowCount</column>
+                </chartSummary>
+                <componentType>Column</componentType>
+                <dashboardFilterColumns>
+                    <column>Event__c$startDate__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>Event__c$salesTeam__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>Event__c$RecordType</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>Event__c.SpeakersProducts__r$Product__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>Event__c.SpeakersProducts__r$speakerContact__c</column>
+                </dashboardFilterColumns>
+                <decimalPrecision>-1</decimalPrecision>
+                <displayUnits>Auto</displayUnits>
+                <drillEnabled>false</drillEnabled>
+                <drillToDetailEnabled>false</drillToDetailEnabled>
+                <enableHover>false</enableHover>
+                <expandOthers>false</expandOthers>
+                <groupingColumn>Event__c.SpeakersProducts__r$strategy__c.Name</groupingColumn>
+                <groupingSortProperties>
+                    <groupingSorts>
+                        <groupingLevel>g1</groupingLevel>
+                        <sortColumn>RowCount</sortColumn>
+                        <sortOrder>d</sortOrder>
+                    </groupingSorts>
+                </groupingSortProperties>
+                <header>Unique count by Strategy</header>
+                <legendPosition>Bottom</legendPosition>
+                <report>Bookly/BooklyKPI/Speaker_Unique_count_Rzm</report>
+                <showPercentage>false</showPercentage>
+                <showValues>true</showValues>
+                <sortBy>RowLabelAscending</sortBy>
+                <sortLegendValues>true</sortLegendValues>
+                <useReportChart>false</useReportChart>
+            </dashboardComponent>
+            <rowIndex>34</rowIndex>
+            <rowSpan>8</rowSpan>
+        </dashboardGridComponents>
+        <dashboardGridComponents>
+            <colSpan>4</colSpan>
+            <columnIndex>8</columnIndex>
+            <dashboardComponent>
+                <autoselectColumnsFromReport>false</autoselectColumnsFromReport>
+                <chartAxisRange>Auto</chartAxisRange>
+                <chartSummary>
+                    <aggregate>Unique</aggregate>
+                    <axisBinding>y</axisBinding>
+                    <column>CDF1</column>
+                </chartSummary>
+                <componentType>Column</componentType>
+                <dashboardFilterColumns>
+                    <column>Event__c$startDate__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>Event__c$salesTeam__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>Event__c$RecordType</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>Event__c.SpeakersProducts__r$Product__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>Event__c.SpeakersProducts__r$speakerContact__c</column>
+                </dashboardFilterColumns>
+                <decimalPrecision>-1</decimalPrecision>
+                <displayUnits>Auto</displayUnits>
+                <drillEnabled>false</drillEnabled>
+                <drillToDetailEnabled>false</drillToDetailEnabled>
+                <enableHover>false</enableHover>
+                <expandOthers>false</expandOthers>
+                <groupingColumn>Event__c.SpeakersProducts__r$speakerContact__c.JobTitle__c</groupingColumn>
+                <groupingSortProperties>
+                    <groupingSorts>
+                        <groupingLevel>g1</groupingLevel>
+                        <sortOrder>d</sortOrder>
+                    </groupingSorts>
+                </groupingSortProperties>
+                <header>Unique count by Speaker Type</header>
+                <legendPosition>Bottom</legendPosition>
+                <report>Bookly/BooklyKPI/Speaker_Unique_count_Rzm</report>
+                <showPercentage>false</showPercentage>
+                <showValues>true</showValues>
+                <sortBy>RowLabelAscending</sortBy>
+                <sortLegendValues>true</sortLegendValues>
+                <useReportChart>false</useReportChart>
+            </dashboardComponent>
+            <rowIndex>34</rowIndex>
             <rowSpan>8</rowSpan>
         </dashboardGridComponents>
         <numberOfColumns>12</numberOfColumns>
@@ -754,7 +921,7 @@
     <owner>coullon.thomas-crm@carmignac.com</owner>
     <runningUser>coullon.thomas-crm@carmignac.com</runningUser>
     <textColor>#000000</textColor>
-    <title>GLOBAL EXECUTIVE EVENT OVERVIEW</title>
+    <title>Bookly - Global Executive Event Overview</title>
     <titleColor>#000000</titleColor>
     <titleSize>12</titleSize>
 </Dashboard>

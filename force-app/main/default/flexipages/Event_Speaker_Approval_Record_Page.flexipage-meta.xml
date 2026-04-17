@@ -56,36 +56,14 @@
         </itemInstances>
         <itemInstances>
             <fieldInstance>
-                <fieldItem>Record.Event__r.endDate__c</fieldItem>
-                <identifier>RecordEvent_rendDate_cField</identifier>
+                <fieldItem>Record.Event__r.timezone__c</fieldItem>
+                <identifier>RecordEvent_rtimezone_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
             <fieldInstance>
-                <fieldItem>Record.Event__r.format__c</fieldItem>
-                <identifier>RecordEvent_rformat_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldItem>Record.Event__r.category__c</fieldItem>
-                <identifier>RecordEvent_rcategory_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldItem>Record.Event__r.meetingGoal__c</fieldItem>
-                <identifier>RecordEvent_rmeetingGoal_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.statusChangedBy__c</fieldItem>
-                <identifier>RecordstatusChangedBy_cField</identifier>
+                <fieldItem>Record.approvalType__c</fieldItem>
+                <identifier>RecordapprovalType__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-5bb9d43a-f84d-4ae7-af02-adc6f32ad456</name>
@@ -94,38 +72,8 @@
     <flexiPageRegions>
         <itemInstances>
             <fieldInstance>
-                <fieldItem>Record.Event__r.company__c</fieldItem>
-                <identifier>RecordEvent_rcompany_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldItem>Record.Event__r.startTime__c</fieldItem>
-                <identifier>RecordEvent_rstartTime_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldItem>Record.Event__r.endTime__c</fieldItem>
-                <identifier>RecordEvent_rendTime_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldItem>Record.Event__r.timezone__c</fieldItem>
-                <identifier>RecordEvent_rtimezone_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldItem>Record.Event__r.Organizer__c</fieldItem>
-                <identifier>RecordEvent_rOrganizer_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldItem>Record.Event__r.meetingBackground__c</fieldItem>
-                <identifier>RecordEvent_rmeetingBackground_cField</identifier>
+                <fieldItem>Record.Event__r.category__c</fieldItem>
+                <identifier>RecordEvent_rcategory_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -134,8 +82,18 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.statusChangeDate__c</fieldItem>
-                <identifier>RecordstatusChangeDate_cField</identifier>
+                <fieldItem>Record.Status__c</fieldItem>
+                <identifier>RecordStatus_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.HopApprovalRequired__c</fieldItem>
+                <identifier>RecordHopApprovalRequired_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-e36551ee-ecb3-450b-9b4a-4c84980a9855</name>
@@ -167,6 +125,120 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ApprovalDeadline__c</fieldItem>
+                <identifier>RecordApprovalDeadline_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-9924c38c-0618-4bbb-9e8a-39ccbeb7c100</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ApprovalPriority__c</fieldItem>
+                <identifier>RecordApprovalPriority_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-6030a2a3-d35c-439d-ad18-7bc0a774c07b</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-9924c38c-0618-4bbb-9e8a-39ccbeb7c100</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column5</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-6030a2a3-d35c-439d-ad18-7bc0a774c07b</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column6</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-58b274fe-a382-43bf-89f9-9af21473109a</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.CreatedById</fieldItem>
+                <identifier>RecordCreatedByIdField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-9d5db87e-1272-4ffc-9845-a261f8488638</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.statusChangeDate__c</fieldItem>
+                <identifier>RecordstatusChangeDate_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.statusChangedBy__c</fieldItem>
+                <identifier>RecordstatusChangedBy_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-60173a97-c334-456d-a532-fcfe927bf1b7</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-9d5db87e-1272-4ffc-9845-a261f8488638</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-60173a97-c334-456d-a532-fcfe927bf1b7</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column4</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-b7bf3e92-0fcb-4e14-aa07-82d2e9988487</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
@@ -178,10 +250,46 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
-                    <value>Event</value>
+                    <value>Speaker Approval</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-58b274fe-a382-43bf-89f9-9af21473109a</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Approval Priority</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection3</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-b7bf3e92-0fcb-4e14-aa07-82d2e9988487</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Information System</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection2</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -231,7 +339,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
-                    <value>Details</value>
+                    <value>Approval Speaker Details</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>relatedListsTab</identifier>
@@ -245,7 +353,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
-                    <value>Standard.Tab.detail</value>
+                    <value>History Speaker Approval</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>flexipage_tab</identifier>
@@ -275,12 +383,6 @@
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>runtime_approvals:approvalTrace</componentName>
-                <identifier>runtime_approvals_approvalTrace</identifier>
-            </componentInstance>
-        </itemInstances>
         <mode>Replace</mode>
         <name>sidebar</name>
         <type>Region</type>

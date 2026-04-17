@@ -1,0 +1,45 @@
+<template>
+    <div class="slds-form-element">
+        <div class="slds-form-element__control">
+            <lightning-record-picker
+                label={accountLabel}
+                placeholder="Search Account"
+                object-api-name="Account"
+                value={accountPickerValue}
+                onchange={handleAccountChange}>
+            </lightning-record-picker>
+        </div>
+
+        <div class="slds-m-top_small">
+            <div class="slds-form-element__control">
+                <template if:true={isLoading}>
+                    <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                </template>
+
+                <template if:false={isLoading}>
+                    <c-multi-select-search-list
+                        label={picklistLabel}
+                        options={options}
+                        value={selectedIds}
+                        onchange={handleMultiSelection}>
+                    </c-multi-select-search-list>
+                </template>
+            </div>
+
+            <div class="slds-m-top_x-small" style="max-height: 3rem;">
+                <lightning-pill-container
+                    items={selectedPills}
+                    onitemremove={handlePillRemove}
+                    is-collapsible="true"
+                    is-expanded="false">
+                </lightning-pill-container>
+            </div>
+        </div>
+
+        <template if:true={lastError}>
+            <div class="slds-m-top_small slds-text-color_error slds-text-body_small">
+                {lastError}
+            </div>
+        </template>
+    </div>
+</template>

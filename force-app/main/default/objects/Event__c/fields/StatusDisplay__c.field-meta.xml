@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>StatusDisplay__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE(
+   TEXT(status__c),
+
+   &quot;SubmittedToEventTeam&quot;, &quot;🔵 Created&quot;,
+   &quot;WaitingForSpeakerApprovals&quot;, &quot;🟠 Pending Approval&quot;,
+   &quot;Rejected&quot;, &quot;🔴 Rejected&quot;,
+   &quot;Cancelled&quot;, &quot;⚫ Cancelled&quot;,
+
+   &quot;Draft&quot;, &quot;⚪ Draft&quot;,
+   &quot;FullyApproved&quot;, &quot;🟢 Validated&quot;,
+   &quot;InvitationsSent&quot;, &quot;📨 Invitations Sent&quot;,
+   &quot;PartiallyApproved&quot;, &quot;🟡 Event Partially Approved&quot;,
+
+   TEXT(status__c)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Status Display</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

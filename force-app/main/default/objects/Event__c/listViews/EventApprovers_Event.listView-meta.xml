@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>EventApprovers_Event</fullName>
-    <filterScope>Queue</filterScope>
-    <label>Event team</label>
-    <queue>EventTeam</queue>
+    <columns>NAME</columns>
+    <columns>startDate__c</columns>
+    <columns>endDate__c</columns>
+    <columns>status__c</columns>
+    <columns>salesTeam__c</columns>
+    <columns>Organizer__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>category__c</field>
+        <operation>equals</operation>
+        <value>One to One meeting</value>
+    </filters>
+    <label>All 1:1 Meeting</label>
     <sharedTo>
         <allInternalUsers></allInternalUsers>
     </sharedTo>

@@ -1,4 +1,4 @@
-<messaging:emailTemplate subject="Speaker presentation request — {!relatedTo.title__c}"
+<messaging:emailTemplate subject="[Bookly] Speaker presentation request — {!relatedTo.title__c}"
     recipientType="User"
     relatedToType="Event__c">
 
@@ -87,11 +87,6 @@
                                                                 &nbsp;({!relatedTo.Timezone__c})
                                                             </apex:outputPanel>
                                                         </td>
-                                                    </tr>
-
-                                                    <tr>
-                                                        <td valign="top" style="padding:4px 0; color:#6b7280;">Language</td>
-                                                        <td valign="top" style="padding:4px 0;">{!relatedTo.Language__c}</td>
                                                     </tr>
 
                                                     <tr>

@@ -8,6 +8,10 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Required</behavior>
+                <field>salesTeam__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
                 <field>Co_hosted__c</field>
             </layoutItems>
             <layoutItems>
@@ -17,6 +21,14 @@
             <layoutItems>
                 <behavior>Required</behavior>
                 <field>endDate__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>city__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>country__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
@@ -39,8 +51,12 @@
                 <field>RecordTypeId</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>category__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>salesOwner__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -76,7 +92,7 @@
                 <field>location__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>format__c</field>
             </layoutItems>
             <layoutItems>
@@ -117,16 +133,12 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>audience__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>capacity__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>targetedAttendees__c</field>
             </layoutItems>
         </layoutColumns>
@@ -156,9 +168,12 @@
         <style>CustomLinks</style>
     </layoutSections>
     <miniLayout>
+        <fields>salesTeam__c</fields>
         <fields>Co_hosted__c</fields>
         <fields>startDate__c</fields>
         <fields>endDate__c</fields>
+        <fields>city__c</fields>
+        <fields>country__c</fields>
         <fields>clientType__c</fields>
     </miniLayout>
     <showEmailCheckbox>false</showEmailCheckbox>

@@ -7,6 +7,7 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         @AuraEnabled public String startTime;
         @AuraEnabled public String endTime;
         @AuraEnabled public String language;
+        @AuraEnabled public String speakerLanguage;
 
         @AuraEnabled public List<ProductItem> products = new List<ProductItem>();
     }
@@ -22,6 +23,7 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         @AuraEnabled public Id speakerContactId;
         @AuraEnabled public Id productId;
         @AuraEnabled public String language;
+        @AuraEnabled public String speakerLanguage;
     }
 
     @AuraEnabled(cacheable=false)
@@ -35,7 +37,11 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
                    speakerContact__r.Name,
                    strategy__c,
                    strategy__r.Name,
-                   Language__c
+                   Language__c,
+                   speakerLanguage__c,
+                   startTime__c,
+                   endTime__c
+
             FROM sessionSpeakerProduct__c
             WHERE Session__c = :eventId
             ORDER BY speakerContact__r.Name, strategy__r.Name
@@ -79,6 +85,10 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
                     ? r.speakerContact__r.Name
                     : '—';
                 block.language = r.Language__c;
+                block.speakerLanguage = r.speakerLanguage__c;
+                block.startTime = formatTime(r.startTime__c);
+                block.endTime = formatTime(r.endTime__c);
+
                 gb.grouped.put(r.speakerContact__c, block);
                 gb.speakerOrder.add(r.speakerContact__c);
             }
@@ -121,10 +131,7 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
                 ? approvalsBySpeaker.get(speakerId)
                 : null;
 
-            if (esa != null) {
-                b.startTime = formatTime(esa.start__c);
-                b.endTime = formatTime(esa.end__c);
-            }
+            
 
             result.add(b);
         }
@@ -162,13 +169,13 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
      * Returns the existing link records for an Event in the same JSON shape
      * that the repeater produces (list of sessionSpeakerProduct__c-like objects).
      */
-    @AuraEnabled(cacheable=true)
+    @AuraEnabled(cacheable=false)
     public static String getRepeaterInputByEvent(Id eventId) {
         System.debug(LoggingLevel.INFO, 'sessionSpeakerProductRelatedListCTRL.getRepeaterInputByEvent - START eventId=' + String.valueOf(eventId));
         if (eventId == null) return '[]';
 
         List<sessionSpeakerProduct__c> rows = [
-            SELECT Id, speakerContact__c, speakerContact__r.Name, strategy__c, strategy__r.Name, Language__c
+            SELECT Id, speakerContact__c, speakerContact__r.Name, strategy__c, strategy__r.Name, Language__c,speakerLanguage__c,startTime__c, endTime__c
             FROM sessionSpeakerProduct__c
             WHERE Session__c = :eventId
             ORDER BY speakerContact__r.Name, strategy__r.Name
@@ -192,7 +199,10 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         o.put('speakerContact__c', r.speakerContact__c);
         o.put('strategy__c', r.strategy__c);
         o.put('Language__c', r.Language__c);
+        o.put('speakerLanguage__c', r.speakerLanguage__c);
         o.put('Session__c', eventId);
+        o.put('startTime__c', r.startTime__c);
+        o.put('endTime__c', r.endTime__c);
         return o;
     }
 
@@ -243,7 +253,7 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
 
     private static Map<String, sessionSpeakerProduct__c> loadExistingByKey(Id eventId) {
         List<sessionSpeakerProduct__c> existing = [
-            SELECT Id, speakerContact__c, strategy__c, Language__c, Session__c
+            SELECT Id, speakerContact__c, strategy__c, Language__c, speakerLanguage__c, Session__c, startTime__c, endTime__c
             FROM sessionSpeakerProduct__c
             WHERE Session__c = :eventId
             LIMIT 5000
@@ -251,7 +261,10 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
 
         Map<String, sessionSpeakerProduct__c> existingByKey = new Map<String, sessionSpeakerProduct__c>();
         for (sessionSpeakerProduct__c r : existing) {
-            existingByKey.put(makeKey(r.speakerContact__c, r.strategy__c, r.Language__c), r);
+            existingByKey.put(
+                makeKey(r.speakerContact__c, r.strategy__c, r.Language__c, r.speakerLanguage__c, r.startTime__c, r.endTime__c)  
+                ,r
+            );
         }
         return existingByKey;
     }
@@ -265,7 +278,10 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         Id speakerId;
         Id productId;
         String lang;
+        String speakerLanguage;
         Integer rowIndex;
+        Time startTime;
+        Time endTime;
     }
 
     private static IncomingBuild buildIncoming(List<Object> raw) {
@@ -275,7 +291,7 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         for (Object o : raw) {
             rowIndex++;
             LinkParts parts = parseRowToParts(o, rowIndex);
-            String key = makeKey(parts.speakerId, parts.productId, parts.lang);
+            String key = makeKey(parts.speakerId, parts.productId, parts.lang, parts.speakerLanguage, parts.startTime, parts.endTime);
 
             if (incoming.incomingKeys.contains(key)) {
                 continue;
@@ -293,7 +309,9 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         Id speakerId = (m.get('speakerContact__c') != null) ? (Id) String.valueOf(m.get('speakerContact__c')) : null;
         Id productId = (m.get('strategy__c') != null) ? (Id) String.valueOf(m.get('strategy__c')) : null;
         String lang = (m.get('Language__c') != null) ? String.valueOf(m.get('Language__c')) : null;
-
+        String speakerLanguage = (m.get('speakerLanguage__c') != null) ? String.valueOf(m.get('speakerLanguage__c')) : null;
+        String startTime = (m.get('startTime__c') != null) ? String.valueOf(m.get('startTime__c')) : null;
+        String endTime = (m.get('endTime__c') != null) ? String.valueOf(m.get('endTime__c')) : null;
         if (speakerId == null) {
             throw new AuraHandledException('Missing speaker at row ' + rowIndex + '.');
         }
@@ -302,7 +320,10 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         parts.speakerId = speakerId;
         parts.productId = productId;
         parts.lang = lang;
+        parts.speakerLanguage = speakerLanguage;
         parts.rowIndex = rowIndex;
+        parts.startTime = parseTimeValue(startTime);
+        parts.endTime = parseTimeValue(endTime);
         return parts;
     }
 
@@ -314,7 +335,8 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         List<sessionSpeakerProduct__c> toInsert = new List<sessionSpeakerProduct__c>();
 
         for (LinkParts parts : incoming.incomingParts) {
-            String key = makeKey(parts.speakerId, parts.productId, parts.lang);
+            String key = makeKey(parts.speakerId, parts.productId, parts.lang, parts.speakerLanguage, parts.startTime, parts.endTime);
+
             if (existingByKey.containsKey(key)) continue;
 
             sessionSpeakerProduct__c rec = new sessionSpeakerProduct__c();
@@ -322,6 +344,9 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
             rec.speakerContact__c = parts.speakerId;
             rec.strategy__c = parts.productId;
             rec.Language__c = parts.lang;
+            rec.speakerLanguage__c = parts.speakerLanguage;
+            rec.startTime__c = parts.startTime;
+            rec.endTime__c = parts.endTime;
             toInsert.add(rec);
         }
 
@@ -341,11 +366,16 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         return toDelete;
     }
 
-    private static String makeKey(Id speakerId, Id productId, String lang) {
-        return String.valueOf(speakerId) + '|' + String.valueOf(productId) + '|' + String.valueOf(lang);
+    private static String makeKey(Id speakerId, Id productId, String lang, String speakerLanguage, Time startTime, Time endTime) {
+        return String.valueOf(speakerId)
+            + '|' + String.valueOf(productId)
+            + '|' + String.valueOf(lang)
+            + '|' + String.valueOf(speakerLanguage)
+            + '|' + String.valueOf(startTime)
+            + '|' + String.valueOf(endTime);
     }
 
-    @AuraEnabled(cacheable=true)
+    @AuraEnabled(cacheable=false)
     public static List<SpeakerBlock> getBySession(Id sessionId) {
         return getByEvent(sessionId);
     }
@@ -388,6 +418,10 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
             return null;
         }
 
+        if (value.contains('.')) {
+            value = value.substringBefore('.');
+        }
+
         List<String> parts = value.split(':');
         if (parts.size() < 2) {
             throw new AuraHandledException('Invalid time format: ' + value);
@@ -398,5 +432,23 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         Integer ss = (parts.size() > 2) ? Integer.valueOf(parts[2]) : 0;
 
         return Time.newInstance(hh, mm, ss, 0);
+    }
+
+    @AuraEnabled(cacheable=false)
+    public static Boolean canUserEditEvent(Id eventId) {
+        if (eventId == null) {
+            return false;
+        }
+        System.debug('+++++++++++++++++++UserId:    '+UserInfo.getUserId() );
+        System.debug('+++++++++++++++++++eventId:    '+eventId );
+        List<UserRecordAccess> accessRows = [
+            SELECT HasEditAccess,RecordId
+            FROM UserRecordAccess
+            WHERE UserId = :UserInfo.getUserId()
+            AND RecordId = :eventId
+            LIMIT 1
+        ];
+
+        return !accessRows.isEmpty() && accessRows[0].HasEditAccess;
     }
 }

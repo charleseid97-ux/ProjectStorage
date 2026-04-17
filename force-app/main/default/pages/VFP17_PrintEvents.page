@@ -1,157 +1,373 @@
 <apex:page controller="VFC17_PrintEvents"
            showHeader="false"
            sidebar="false"
-           standardStylesheets="true"
+           standardStylesheets="false"
+           lightningStylesheets="true"
            docType="html-5.0">
 
-  <style>
-    @page { size: A4; margin: 12mm 10mm 12mm 10mm; }
-    body { font-family: Arial, sans-serif; font-size: 10pt; color: #111; }
+    <apex:slds />
 
-    .page { page-break-after: always; }
-    .page:last-child { page-break-after: auto; }
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Salesforce Sans", Arial, sans-serif;
+            background: #f4f6f9;
+            font-size: 12px;
+            color: #181818;
+        }
 
-    table.layout { width: 100%; border-collapse: collapse; table-layout: fixed; }
+        .page-shell {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 16px;
+        }
 
-    td.col {
-      width: 33.33%;
-      vertical-align: top;
-      border-right: 1px solid #BFBFBF;
-      border-left: none;
-      border-top: none;
-      border-bottom: none;
-      padding: 4mm;
-    }
-    td.col:first-child { border-left: 1px solid #BFBFBF; }
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 12px;
+        }
 
-    .monthBanner {
-      height: 100pt;
-      border-radius: 6px;
-      margin: 0 0 6px 0;
-      border: 1px solid #D0D0D0;
-      overflow: hidden;
+        .header {
+            padding: 14px 18px;
+            background: linear-gradient(135deg, #0176d3, #0b5cab);
+            color: #fff;
+        }
 
-      text-align: center;
-      line-height: 100pt;
-      color: #fff;
-      font-weight: bold;
-      font-size: 12pt;
-      text-transform: uppercase;
-      letter-spacing: 0.5pt;
-      white-space: nowrap;
-    }
+        .header h1 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+        }
 
-    .eventBlock { border:1px solid #D0D0D0; border-radius:6px; margin:0 0 6px 0; overflow:hidden; }
-    .eventColorBar { height: 6pt; }
-    .eventHeader { background:#F2F2F2; padding:6px 8px; font-weight:bold; border-bottom:1px solid #D9D9D9; }
-    .eventHeaderTz { font-weight: normal; color: #666; }
+        .filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            padding: 12px 16px;
+            align-items: end;
+        }
 
-    .conflictIcon {
-      display: inline-block;
-      width: 12pt; height: 12pt; line-height: 12pt;
-      text-align: center;
-      border-radius: 50%;
-      border: 1px solid #C0392B;
-      color: #C0392B;
-      font-weight: bold;
-      font-size: 9pt;
-      margin-left: 6pt;
-    }
+        .filter {
+            flex: 1 1 200px;
+        }
 
-    .eventBody { padding:6px 8px; }
-    .title { font-weight:bold; line-height:12pt; height:36pt; overflow:hidden; }
-    .speakers { font-style:italic; color:#444; line-height:12pt; height:24pt; overflow:hidden; margin-top:2px; }
-    .separator { border-top:1px solid #E0E0E0; margin:6px 0; }
+        .filter label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #374151;
+        }
 
-    .controls { margin: 0 0 12px 0; padding: 10px; border: 1px solid #DDD; border-radius: 8px; }
-    .controls label { margin-right: 6px; }
-    .controls .field { display:inline-block; margin-right: 12px; }
-    .controls .dateInput { width: 160px; }
-  </style>
+        input,
+        select {
+            width: 100%;
+            height: 34px;
+            border-radius: 8px;
+            border: 1px solid #d8dde6;
+            padding: 0 8px;
+            box-sizing: border-box;
+            background: #fff;
+        }
 
-  <apex:form id="f">
+        .btn {
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+        }
 
-    <!-- Auto refresh  without button click -->
-    <apex:actionFunction name="refreshNow"
-                         action="{!applyDates}"
-                         rerender="printArea"/>
+        .btn-primary input {
+            background: #0176d3;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 12px;
+        }
 
-    <div class="controls">
-      <span class="field">
-        <label>Start:</label>
-        <apex:input id="startDt" value="{!startDate}" type="date" styleClass="dateInput"  onchange="refreshNow();"/>
-      </span>
+        .btn-secondary {
+            background: #eef4ff;
+            color: #0176d3;
+            border: 1px solid #c9ddff;
+        }
 
-      <span class="field">
-        <label>End:</label>
-        <apex:input id="endDt" value="{!endDate}" type="date" styleClass="dateInput"  onchange="refreshNow();"/>
-      </span>
+        .agenda {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 12px;
+        }
 
-      <span class="field">
-        <label>Timezone:</label>
-        <apex:selectList value="{!selectedTimezone}" size="1" onchange="refreshNow();">
-          <apex:selectOptions value="{!timezoneOptions}"/>
-        </apex:selectList>
-      </span>
+        .dayGroup {
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #fff;
+        }
 
-      <apex:commandButton value="Apply" action="{!applyDates}" style="margin-left:10px;"/>
-      <apex:commandLink value="Open PDF"
-                        action="{!openPdf}"
-                        target="_blank"
-                        style="margin-left:10px;"/>
-    </div>
+        .dayHeader {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: #f3f4f6;
+            font-weight: 700;
+            color: #111827;
+            border-bottom: 1px solid #e5e7eb;
+        }
 
-    <apex:outputPanel id="printArea">
-      <apex:repeat value="{!pages}" var="p">
-        <div class="page">
-          <table class="layout">
-            <tr>
-              <apex:repeat value="{!p.columns}" var="col">
-                <td class="col">
-                  <apex:repeat value="{!col.blocks}" var="b">
+        .eventRow {
+            display: grid;
+            grid-template-columns: 120px 130px 18px 1fr;
+            gap: 10px;
+            padding: 7px 12px;
+            border-bottom: 1px solid #f1f3f5;
+            align-items: center;
+        }
 
-                    <apex:outputPanel rendered="{!b.isMonthBanner}">
-                      <div class="monthBanner" style="background:{!b.monthColor}">
-                        {!b.monthLabel}
-                      </div>
-                    </apex:outputPanel>
+        .eventRow:last-child {
+            border-bottom: none;
+        }
 
-                    <apex:outputPanel rendered="{!NOT(b.isMonthBanner)}">
-                      <div class="eventBlock">
-                        <div class="eventColorBar" style="background:{!b.eventColor}"></div>
+        .timeCol {
+            font-weight: 600;
+            color: #374151;
+            white-space: nowrap;
+        }
 
-                        <div class="eventHeader">
-                          {!b.dayLabel}
+        .tzCol {
+            color: #6b7280;
+            font-size: 11px;
+            white-space: nowrap;
+        }
 
-                          <apex:outputPanel rendered="{!NOT(ISBLANK(b.timeRangeLabel))}">
-                            <span class="eventHeaderTz"> — {!b.timeRangeLabel}</span>
-                          </apex:outputPanel>
+        .dotCol {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-                          <apex:outputPanel rendered="{!NOT(ISBLANK(b.displayTimezone))}">
-                            <span class="eventHeaderTz"> ({!b.displayTimezone})</span>
-                          </apex:outputPanel>
+        .eventDot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 0 2px #fff, 0 0 0 3px rgba(0,0,0,0.08);
+        }
 
-                          <apex:outputPanel rendered="{!b.isSpeakerConflict}">
-                            <span class="conflictIcon">!</span>
-                          </apex:outputPanel>
-                        </div>
+        .line {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            min-width: 0;
+            width: 100%;
+        }
 
-                        <div class="eventBody">
-                          <div class="title">{!b.title}</div>
-                          <div class="separator"></div>
-                          <div class="speakers">{!b.speakersLabel}</div>
-                        </div>
-                      </div>
-                    </apex:outputPanel>
+        .titleLink {
+            font-weight: 700;
+            color: #0b5cab;
+            text-decoration: none;
+            white-space: normal;
+            flex-shrink: 0;
+        }
 
-                  </apex:repeat>
-                </td>
-              </apex:repeat>
-            </tr>
-          </table>
+        .titleLink:hover {
+            text-decoration: underline;
+            color: #014486;
+        }
+
+        .speakers {
+            color: #0176d3;
+            font-weight: 600;
+            white-space: normal;
+            flex-shrink: 0;
+        }
+
+        .speakers:before {
+            content: " - ";
+            color: #9ca3af;
+            font-weight: 400;
+        }
+
+        .strategies {
+            color: #4b5563;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .strategies:before {
+            content: " | ";
+            color: #c4c9cf;
+            font-weight: 400;
+        }
+
+        .conflict {
+            background: #fee2e2;
+            border: 1px solid #ef4444;
+            color: #b91c1c;
+            border-radius: 50%;
+            width: 14px;
+            height: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .truncate {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            min-width: 0;
+        }
+
+        @media screen and (max-width: 1100px) {
+            .eventRow {
+                grid-template-columns: 110px 110px 18px 1fr;
+            }
+        }
+
+        @media screen and (max-width: 900px) {
+            .eventRow {
+                grid-template-columns: 1fr;
+                gap: 6px;
+                align-items: start;
+            }
+
+            .dotCol {
+                justify-content: flex-start;
+            }
+
+            .line {
+                flex-wrap: nowrap;
+            }
+        }
+    </style>
+
+    <apex:form >
+
+        <apex:actionFunction name="refreshNow"
+                             action="{!applyDates}"
+                             rerender="printArea"/>
+
+        <div class="page-shell">
+
+            <div class="card">
+                <div class="header">
+                    <h1>Events Schedule</h1>
+                </div>
+
+                <div class="filters">
+                    <div class="filter">
+                        <label>Start</label>
+                        <apex:input value="{!startDate}" type="date" onchange="refreshNow();"/>
+                    </div>
+
+                    <div class="filter">
+                        <label>End</label>
+                        <apex:input value="{!endDate}" type="date" onchange="refreshNow();"/>
+                    </div>
+
+                    <div class="filter">
+                        <label>Sales Team</label>
+                        <apex:selectList value="{!selectedSalesTeam}" size="1" onchange="refreshNow();">
+                            <apex:selectOptions value="{!salesTeamOptions}"/>
+                        </apex:selectList>
+                    </div>
+
+                    <div>
+                        <apex:commandButton value="Apply"
+                                            action="{!applyDates}"
+                                            styleClass="btn btn-primary"/>
+                    </div>
+
+                    <div>
+                        <apex:commandLink value="Open PDF"
+                                          action="{!openPdf}"
+                                          target="_blank"
+                                          styleClass="btn btn-secondary"/>
+                    </div>
+                </div>
+            </div>
+
+            <apex:outputPanel id="printArea">
+                <div class="card">
+                    <div class="agenda">
+
+                        <apex:repeat value="{!pages}" var="p">
+                            <apex:repeat value="{!p.columns}" var="col">
+                                <apex:repeat value="{!col.dayGroups}" var="g">
+
+                                    <div class="dayGroup">
+                                        <div class="dayHeader">
+                                            <span>{!g.dayLabel}</span>
+                                            <span>{!g.fullDateLabel}</span>
+                                        </div>
+
+                                        <apex:repeat value="{!g.events}" var="e">
+                                            <div class="eventRow">
+
+                                                <div class="timeCol">
+                                                    {!e.timeRangeLabel}
+                                                </div>
+
+                                                <div class="tzCol">
+                                                    {!e.displayTimezone}
+                                                </div>
+
+                                                <div class="dotCol">
+                                                    <span class="eventDot"
+                                                        style="background:{!e.eventColor};"
+                                                        title="{!e.tooltipLabel}">
+                                                  </span>
+                                                </div>
+
+                                                <div class="line truncate">
+
+                                                    <a href="/{!e.id}" target="_blank" class="titleLink truncate">
+                                                        {!e.title}
+                                                    </a>
+
+                                                    <apex:outputPanel rendered="{!NOT(ISBLANK(e.speakersLabel))}">
+                                                        <span class="speakers truncate">
+                                                            {!e.speakersLabel}
+                                                        </span>
+                                                    </apex:outputPanel>
+
+                                                    <apex:outputPanel rendered="{!NOT(ISBLANK(e.strategiesLabel))}">
+                                                        <span class="strategies truncate">
+                                                            {!e.strategiesLabel}
+                                                        </span>
+                                                    </apex:outputPanel>
+
+                                                    <apex:outputPanel rendered="{!e.isSpeakerConflict}">
+                                                        <span class="conflict">!</span>
+                                                    </apex:outputPanel>
+
+                                                </div>
+
+                                            </div>
+                                        </apex:repeat>
+
+                                    </div>
+
+                                </apex:repeat>
+                            </apex:repeat>
+                        </apex:repeat>
+
+                    </div>
+                </div>
+            </apex:outputPanel>
+
         </div>
-      </apex:repeat>
-    </apex:outputPanel>
-
-  </apex:form>
+    </apex:form>
 </apex:page>

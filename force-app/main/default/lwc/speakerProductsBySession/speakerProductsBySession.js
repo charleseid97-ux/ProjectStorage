@@ -1,24 +1,64 @@
-import { LightningElement, api, track } from 'lwc';
+import { LightningElement, api, track, wire } from 'lwc';
+import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
+import PARENT_EVENT_FIELD from '@salesforce/schema/Event__c.parentEvent__c';
+import EVENT_OBJECT from '@salesforce/schema/Event__c';
+import RECORDTYPEID_FIELD from '@salesforce/schema/Event__c.RecordTypeId';
+import { getObjectInfo } from 'lightning/uiObjectInfoApi';
+
 import getByEvent from '@salesforce/apex/sessionSpeakerProductRelatedListCTRL.getByEvent';
 import getRepeaterInputByEvent from '@salesforce/apex/sessionSpeakerProductRelatedListCTRL.getRepeaterInputByEvent';
 import saveFromRepeaterJson from '@salesforce/apex/sessionSpeakerProductRelatedListCTRL.saveFromRepeaterJson';
 import updateSpeakerSlot from '@salesforce/apex/sessionSpeakerProductRelatedListCTRL.updateSpeakerSlot';
+import canUserEditEvent from '@salesforce/apex/sessionSpeakerProductRelatedListCTRL.canUserEditEvent';
 
 export default class SpeakerProductsBySession extends LightningElement {
     @api recordId;
     @api selectedRecordId;
 
+    @track parentEventId;
     @track groups = [];
     @track loading = false;
     @track error;
-
+    @track canEditEvent = false;
     @track isEditOpen = false;
     @track initialJson = '[]';
     @track draftJson = '[]';
     @track impactedCount;
-
+    @track recordTypeId;
+    recordTypeDeveloperName;
     _lastEffectiveId;
 
+    @wire(getRecord, {
+        recordId: '$recordId',
+        fields: [PARENT_EVENT_FIELD, RECORDTYPEID_FIELD]
+    })
+    wiredEvent({ error, data }) {
+        if (data) {
+            this.parentEventId = getFieldValue(data, PARENT_EVENT_FIELD);
+            this.recordTypeId = getFieldValue(data, RECORDTYPEID_FIELD);
+
+            // eslint-disable-next-line no-console
+            console.debug('[speakerProductsBySession] parentEventId loaded', this.parentEventId);
+            // eslint-disable-next-line no-console
+            console.debug('[speakerProductsBySession] recordTypeId loaded', this.recordTypeId);
+        } else if (error) {
+            // eslint-disable-next-line no-console
+            console.error('[speakerProductsBySession] error loading parentEventId / recordTypeId', error);
+            this.parentEventId = null;
+            this.recordTypeId = null;
+        }
+    }
+    get showSlots() {
+        const infos = this.objectInfo?.data?.recordTypeInfos;
+        const rtId = this.recordTypeId;
+
+        if (!infos || !rtId || !infos[rtId]) {
+            return true;
+        }
+
+        const developerName = infos[rtId].developerName;
+        return developerName !== 'meetingDays';
+    }
     get effectiveEventId() {
         return this.selectedRecordId || this.recordId;
     }
@@ -58,6 +98,7 @@ export default class SpeakerProductsBySession extends LightningElement {
         if (!this.hasEventId) {
             this.groups = [];
             this.error = null;
+            this.canEditEvent = false;
             return;
         }
 
@@ -65,8 +106,14 @@ export default class SpeakerProductsBySession extends LightningElement {
         this.error = null;
 
         try {
-            const data = await getByEvent({ eventId: this.effectiveEventId });
-            this.groups = (data || []).map((s) => {
+            const [data, canEdit] = await Promise.all([
+            getByEvent({ eventId: this.effectiveEventId }),
+            canUserEditEvent({ eventId: this.effectiveEventId })
+        ]);
+
+        this.canEditEvent = !!canEdit;
+
+        this.groups = (data || []).map((s) => {
                 const formattedStartTime = this.formatTime(s.startTime);
                 const formattedEndTime = this.formatTime(s.endTime);
 
@@ -77,6 +124,7 @@ export default class SpeakerProductsBySession extends LightningElement {
                     language: s.language,
                     startTime: formattedStartTime,
                     endTime: formattedEndTime,
+                    duration: this.calculateDuration(formattedStartTime, formattedEndTime),
                     draftStartTime: formattedStartTime,
                     draftEndTime: formattedEndTime,
                     slotLabel: this.buildSlotLabel(formattedStartTime, formattedEndTime),
@@ -93,13 +141,14 @@ export default class SpeakerProductsBySession extends LightningElement {
             console.error('[speakerProductsBySession] load error', e);
             this.error = e;
             this.groups = [];
+            this.canEditEvent = false;
         } finally {
             this.loading = false;
         }
     }
 
     async openEdit() {
-        if (!this.hasEventId) {
+        if (!this.hasEventId || !this.canEditEvent) {
             return;
         }
 
@@ -108,6 +157,8 @@ export default class SpeakerProductsBySession extends LightningElement {
         this.impactedCount = null;
 
         try {
+            await this.load();
+
             const json = await getRepeaterInputByEvent({ eventId: this.effectiveEventId });
             this.initialJson = json || '[]';
             this.draftJson = this.initialJson;
@@ -141,6 +192,17 @@ export default class SpeakerProductsBySession extends LightningElement {
         this.impactedCount = null;
 
         try {
+            const repeater = this.template.querySelector('c-session-speaker-product-repeater');
+
+            if (repeater) {
+                const validation = repeater.validate();
+
+                if (!validation.isValid) {
+                    this.error = { message: validation.errorMessage };
+                    return;
+                }
+            }
+
             const impacted = await saveFromRepeaterJson({
                 eventId: this.effectiveEventId,
                 payloadJson: this.draftJson
@@ -243,6 +305,7 @@ export default class SpeakerProductsBySession extends LightningElement {
                     endTime: formattedEndTime,
                     draftStartTime: formattedStartTime,
                     draftEndTime: formattedEndTime,
+                    duration: this.calculateDuration(formattedStartTime, formattedEndTime),
                     slotLabel: this.buildSlotLabel(formattedStartTime, formattedEndTime),
                     isEditingSlot: false
                 };

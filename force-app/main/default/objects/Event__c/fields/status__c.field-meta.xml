@@ -3,6 +3,7 @@
     <fullName>status__c</fullName>
     <label>Status</label>
     <required>false</required>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -16,7 +17,7 @@
             <value>
                 <fullName>FullyApproved</fullName>
                 <default>false</default>
-                <label>Approved</label>
+                <label>Validated</label>
             </value>
             <value>
                 <fullName>InvitationsSent</fullName>
@@ -26,7 +27,7 @@
             <value>
                 <fullName>SubmittedToEventTeam</fullName>
                 <default>false</default>
-                <label>Submitted</label>
+                <label>Created</label>
             </value>
             <value>
                 <fullName>WaitingForSpeakerApprovals</fullName>

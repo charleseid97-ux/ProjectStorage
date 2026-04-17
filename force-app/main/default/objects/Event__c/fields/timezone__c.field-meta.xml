@@ -1,42 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>timezone__c</fullName>
+    <inlineHelpText>The city is indicative. The actual time is defined by GMT.</inlineHelpText>
     <label>Timezone</label>
     <required>false</required>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>UTC-05</fullName>
+                <fullName>America/Toronto</fullName>
                 <default>false</default>
-                <label>UTC-5 Toronto</label>
+                <label>Montreal Time</label>
             </value>
             <value>
-                <fullName>UTC+00</fullName>
+                <fullName>Europe/London</fullName>
                 <default>false</default>
-                <label>UTC+0 London</label>
+                <label>London Time</label>
             </value>
             <value>
-                <fullName>UTC+01</fullName>
+                <fullName>Europe/Paris</fullName>
                 <default>true</default>
-                <label>UTC+1 Paris</label>
+                <label>Paris Time</label>
             </value>
             <value>
-                <fullName>UTC+02</fullName>
+                <fullName>Europe/Helsinki</fullName>
                 <default>false</default>
-                <label>UTC+2 Helsinki</label>
+                <label>Helsinki Time</label>
             </value>
             <value>
-                <fullName>UTC+04</fullName>
+                <fullName>Asia/Dubai</fullName>
                 <default>false</default>
-                <label>UTC+4 Dubai</label>
+                <label>Dubai Time</label>
             </value>
             <value>
-                <fullName>UTC+08</fullName>
+                <fullName>Asia/Singapore</fullName>
                 <default>false</default>
-                <label>UTC+8 Singapore</label>
+                <label>Singapore Time</label>
             </value>
         </valueSetDefinition>
     </valueSet>

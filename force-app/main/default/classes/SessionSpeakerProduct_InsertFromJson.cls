@@ -121,7 +121,9 @@ public without sharing class SessionSpeakerProduct_InsertFromJson {
         rec.speakerContact__c = pickId(m, 'speakerContact__c', 'Speaker__c');
         rec.strategy__c = asId(m.get('strategy__c'));
         rec.Language__c = asString(m.get('Language__c'));
-
+        rec.speakerLanguage__c = asString(m.get('speakerLanguage__c'));
+        rec.startTime__c = parseTimeValue(asString(m.get('startTime__c')));
+        rec.endTime__c = parseTimeValue(asString(m.get('endTime__c')));
         return rec;
     }
 
@@ -181,4 +183,20 @@ public without sharing class SessionSpeakerProduct_InsertFromJson {
     private static String asString(Object v) {
         return (v == null) ? null : String.valueOf(v);
     }
+
+    private static Time parseTimeValue(String value) {
+        if (String.isBlank(value)) return null;
+
+        if (value.contains('.')) {
+            value = value.substringBefore('.');
+        }
+
+        List<String> parts = value.split(':');
+        Integer hh = Integer.valueOf(parts[0]);
+        Integer mm = Integer.valueOf(parts[1]);
+        Integer ss = (parts.size() > 2) ? Integer.valueOf(parts[2]) : 0;
+
+        return Time.newInstance(hh, mm, ss, 0);
+    }
+
 }

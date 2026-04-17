@@ -36,6 +36,75 @@ public with sharing class sessionSpeakerProductService {
         Set<Id> speakerIds = new Set<Id>();
     }
 
+    public static void updateSSPName(
+        List<SessionSpeakerProduct__c> newSsps,
+        Map<Id, SessionSpeakerProduct__c> oldSsps
+    ) {
+        List<SessionSpeakerProduct__c> records = new List<SessionSpeakerProduct__c>();
+
+        if (newSsps != null) records.addAll(newSsps);
+        else if (oldSsps != null) records.addAll(oldSsps.values());
+
+        if (records.isEmpty()) return;
+
+        Set<Id> strategyIds = new Set<Id>();
+        Set<Id> speakerIds  = new Set<Id>();
+        Set<Id> sessionIds  = new Set<Id>();
+
+        for (SessionSpeakerProduct__c s : records) {
+            if (s.Strategy__c != null) strategyIds.add(s.Strategy__c);
+            if (s.SpeakerContact__c != null) speakerIds.add(s.SpeakerContact__c);
+            if (s.Session__c != null) sessionIds.add(s.Session__c);
+        }
+
+        Map<Id, Strategy__c> strategies = new Map<Id, Strategy__c>([
+            SELECT Id, Name, AssetClass__c
+            FROM Strategy__c
+            WHERE Id IN :strategyIds
+        ]);
+
+        Map<Id, Contact> speakers = new Map<Id, Contact>([
+            SELECT Id, FirstName, LastName
+            FROM Contact
+            WHERE Id IN :speakerIds
+        ]);
+
+        Map<Id, Event__c> sessions = new Map<Id, Event__c>([
+            SELECT Id, RecordType.Name
+            FROM Event__c
+            WHERE Id IN :sessionIds
+        ]);
+
+        for (SessionSpeakerProduct__c s : records) {
+
+            Strategy__c strat = strategies.get(s.Strategy__c);
+            Contact c         = speakers.get(s.SpeakerContact__c);
+            Event__c ev       = sessions.get(s.Session__c);
+
+            String rangePart    = strat != null ? strat.AssetClass__c : null;
+            String strategyPart = strat != null ? strat.Name : null;
+
+            String speakerPart;
+            if (c != null && !String.isBlank(c.FirstName) && !String.isBlank(c.LastName)) {
+                speakerPart = (c.FirstName.substring(0,1) + c.LastName.substring(0,1)).toUpperCase();
+            }
+
+            String requestTypePart = ev != null ? ev.RecordType.Name : null;
+            String languagePart    = s.Language__c;
+
+            s.Name = String.join(
+                new List<String>{
+                    rangePart,
+                    strategyPart,
+                    speakerPart,
+                    requestTypePart,
+                    languagePart
+                },
+                ' – '
+            );
+        }
+    }
+
     private static RecalcData buildRecalcData(Id eventId) {
         RecalcData d = new RecalcData();
 
@@ -237,9 +306,16 @@ public with sharing class sessionSpeakerProductService {
         }
 
         Set<Id> speakerIds = new Set<Id>();
+        Set<Id> sessionIds = new Set<Id>();
+
         for (SessionSpeakerProduct__c ssp : ssps) {
-            if (ssp != null && ssp.SpeakerContact__c != null) {
+            if (ssp == null) continue;
+
+            if (ssp.SpeakerContact__c != null) {
                 speakerIds.add(ssp.SpeakerContact__c);
+            }
+            if (ssp.Session__c != null) {
+                sessionIds.add(ssp.Session__c);
             }
         }
 
@@ -253,13 +329,32 @@ public with sharing class sessionSpeakerProductService {
             WHERE Id IN :speakerIds
         ]);
 
+        Map<Id, Event__c> sessionsById = new Map<Id, Event__c>();
+        if (!sessionIds.isEmpty()) {
+            sessionsById = new Map<Id, Event__c>([
+                SELECT Id, RecordTypeId
+                FROM Event__c
+                WHERE Id IN :sessionIds
+            ]);
+        }
+
+        Id meetingDaysRtId = Schema.SObjectType.Event__c
+            .getRecordTypeInfosByDeveloperName()
+            .get('MeetingDays')
+            .getRecordTypeId();
+
         for (SessionSpeakerProduct__c ssp : ssps) {
             if (ssp == null || ssp.SpeakerContact__c == null) {
                 continue;
             }
 
             Contact speaker = speakersById.get(ssp.SpeakerContact__c);
-            if (speaker != null && speaker.IsTopSpeaker__c == true) {
+            Event__c session = sessionsById.get(ssp.Session__c);
+
+            Boolean isTopSpeaker = speaker != null && speaker.IsTopSpeaker__c == true;
+            Boolean isMeetingDays = session != null && session.RecordTypeId == meetingDaysRtId;
+
+            if (isTopSpeaker && !isMeetingDays) {
                 ssp.PresentationStatus__c = PRES_REQUIRED_STATUS;
             }
         }
@@ -347,5 +442,52 @@ public with sharing class sessionSpeakerProductService {
         }
 
         update sspsToUpdate;
+    }
+
+    public static void updateEventNamesFromSSP(List<SessionSpeakerProduct__c> ssps) {
+        if (ssps == null || ssps.isEmpty()) return;
+
+        Set<Id> eventIds = new Set<Id>();
+        for (SessionSpeakerProduct__c s : ssps) {
+            if (s.Session__c != null) eventIds.add(s.Session__c);
+        }
+
+        if (eventIds.isEmpty()) return;
+
+        List<Event__c> events = [
+            SELECT Id, Name, startDate__c, SalesTeam__c, Title__c
+            FROM Event__c
+            WHERE Id IN :eventIds
+        ];
+
+        if (events.isEmpty()) return;
+
+        Map<Id, String> oldNames = new Map<Id, String>();
+        for (Event__c e : events) {
+            oldNames.put(e.Id, e.Name);
+        }
+
+        customEventService.setEventName(events, false);
+
+        List<Event__c> toUpdate = new List<Event__c>();
+        for (Event__c e : events) {
+            if (oldNames.get(e.Id) != e.Name) {
+                toUpdate.add(e);
+            }
+        }
+
+        if (!toUpdate.isEmpty()) {
+            try {
+                update toUpdate;
+            } catch (Exception ex) {
+                System.debug(LoggingLevel.ERROR,
+                    'ERROR updating Event names from SSP - ' +
+                    'EventIds=' + eventIds +
+                    ' | toUpdate=' + toUpdate +
+                    ' | Message=' + ex.getMessage() +
+                    ' | Stack=' + ex.getStackTraceString()
+                );
+            }
+        }
     }
 }

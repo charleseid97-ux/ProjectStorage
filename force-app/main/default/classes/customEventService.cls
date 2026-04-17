@@ -53,39 +53,27 @@ public without sharing class customEventService {
     // ---------------------------
 
     // Build event Name from time, country, title and format
-    public static void setEventName(List<Event__c> newEvents, Map<Id, Event__c> oldMap) {
-        if (newEvents == null || newEvents.isEmpty()) return;
-        for (Event__c e : newEvents) {
-            if (!shouldRebuildName(e, oldMap)) continue;
-            e.Name = buildEventName(e);
+    public static void setEventName(List<Event__c> events, Boolean isInit) {
+        if (events == null || events.isEmpty()) return;
+
+        Map<Id, String> eventToSpeakers = isInit ? new Map<Id, String>() : getSpeakers(events);
+
+        for (Event__c e : events) {
+            String datePart    = (e.startDate__c != null) ? String.valueOf(e.startDate__c) : null;
+            String countryPart = countryToInitials(e.SalesTeam__c);
+            String titlePart   = e.Title__c;
+            String speakerPart = isInit ? null : eventToSpeakers.get(e.Id);
+
+            e.Name = joinNonBlank(
+                new List<String>{ datePart, countryPart, titlePart, speakerPart },
+                SEP_NAME_PARTS
+            );
         }
     }
 
-    // Decide whether to rebuild the Name (insert or relevant field changed)
-    private static Boolean shouldRebuildName(Event__c e, Map<Id, Event__c> oldMap) {
-        if (e == null) return false;
-        if (oldMap == null || e.Id == null || !oldMap.containsKey(e.Id)) return true;
-        Event__c oldE = oldMap.get(e.Id);
-        return hasNameRelevantChange(e, oldE);
-    }
+  
 
-    // Compare relevant fields to determine change
-    private static Boolean hasNameRelevantChange(Event__c e, Event__c oldE) {
-        if (e == null || oldE == null) return true;
-        return e.startTime__c != oldE.startTime__c
-            || e.SalesTeam__c  != oldE.SalesTeam__c
-            || e.Title__c      != oldE.Title__c
-            || e.Format__c     != oldE.Format__c;
-    }
 
-    // Compose the event name from parts, skipping blanks
-    private static String buildEventName(Event__c e) {
-        String timePart     = formatTime12hFromText(e.startTime__c);
-        String countryPart  = countryToInitials(e.SalesTeam__c);
-        String meetingTitle = e.Title__c;
-        String formatPart   = toFormatInitial(e.Format__c);
-        return joinNonBlank(new List<String>{ timePart, countryPart, meetingTitle, formatPart }, SEP_NAME_PARTS);
-    }
 
     // ---------------------------
     // Helpers: format / join / parse
@@ -249,11 +237,14 @@ public without sharing class customEventService {
     // Query Accounts by collected ids
     private static Map<Id, Account> queryAccounts(Set<Id> accountIds) {
         if (accountIds == null || accountIds.isEmpty()) return new Map<Id, Account>();
-        return new Map<Id, Account>([
+        List<Account> accounts = [
             SELECT Id, Name, BillingStreet, BillingCity, BillingPostalCode, BillingCountry
             FROM Account
             WHERE Id IN :accountIds
-        ]);
+            WITH SECURITY_ENFORCED
+        ];
+        accounts = (List<Account>)Security.stripInaccessible(AccessType.READABLE, accounts).getRecords();
+        return new Map<Id, Account>(accounts);
     }
 
     // Apply billing info into eligible events
@@ -304,47 +295,40 @@ public without sharing class customEventService {
     // ---------------------------
     // Event Team / Approval helper
     // ---------------------------
-
-    // Mark events as submitted to event team (only for RecordTypes MeetingDays and Event)
-    public static void startEventTeamApproval(List<Event__c> events) {
-        if (events == null || events.isEmpty()) return;
-
-        // Collect RecordTypeIds present in the incoming events
-        Set<Id> rtIds = new Set<Id>();
-        for (Event__c e : events) {
-            if (e != null && e.RecordTypeId != null) rtIds.add(e.RecordTypeId);
+    // BEFORE UPDATE:
+    // When events are created, speakers are not yet linked, so Name is incomplete.
+    // Once speakers are added (after insert), the record is updated → we recompute Name
+    // and move the status from Draft to SubmittedToEventTeam.
+    // The actual approval submission must happen in AFTER UPDATE.
+    public static void setReadyForApprovalProcess(List<Event__c> events, Map<Id, Event__c> oldMap) {
+        if (events == null || events.isEmpty() || oldMap == null || oldMap.isEmpty()) {
+            return;
         }
 
-        // Map RecordTypeId -> DeveloperName (for the Event__c sObject)
-        Map<Id, RecordType> rtById = new Map<Id, RecordType>();
-        if (!rtIds.isEmpty()) {
-            for (RecordType rt : [SELECT Id, DeveloperName FROM RecordType WHERE Id IN :rtIds]) {
-                rtById.put(rt.Id, rt);
-            }
-        }
-
-        // Allowed developer names (lowercase to allow case-insensitive compare)
-        Set<String> allowedRtDevNames = new Set<String>{ 'meetingdays', 'event' };
+        // Recompute name with speakers now available
+        setEventName(events, false);
 
         for (Event__c evt : events) {
-            if (evt == null) continue;
-            // Only set Status__c when the event's RecordType DeveloperName is in the allowed set
-            RecordType rt = (evt.RecordTypeId != null) ? rtById.get(evt.RecordTypeId) : null;
-            String devName = (rt != null && rt.DeveloperName != null) ? rt.DeveloperName.toLowerCase() : null;
-            if (devName != null && allowedRtDevNames.contains(devName)) {
+            if (evt == null || evt.Id == null) continue;
+
+            Event__c oldEvt = oldMap.get(evt.Id);
+            if (oldEvt == null) continue;
+
+            // If still Draft after update → ready to be submitted
+            if (oldEvt.Status__c == 'Draft' && evt.Status__c == 'Draft') {
                 evt.Status__c = 'SubmittedToEventTeam';
             }
         }
     }
-
     // AFTER INSERT: submit approval + send notification
-    public static void startEventTeamApprovalAfterInsert(List<Event__c> events) {
+    public static void startEventTeamApprovalAfterUpdate(List<Event__c> events,Map<Id, Event__c> oldMap) {
+        
 
         if (events == null || events.isEmpty()) return;
 
 
         for (Event__c evt : events) {
-            if (evt != null && evt.Id != null && evt.Status__c == 'SubmittedToEventTeam') {
+            if (evt != null && evt.Id != null && evt.Status__c == 'SubmittedToEventTeam' && oldMap.get(evt.Id).Status__c != 'SubmittedToEventTeam' ) {
                 Approval.ProcessSubmitRequest req = new Approval.ProcessSubmitRequest();
                 req.setObjectId(evt.Id);
                 req.setProcessDefinitionNameOrId('EventApprovalProcess');
@@ -362,6 +346,7 @@ public without sharing class customEventService {
 
         List<Event__c> eligibleEvents = detectBecameFullyApproved(newEvents, oldMap);
         if (eligibleEvents.isEmpty()) return;
+        eligibleEvents = (List<Event__c>)Security.stripInaccessible(AccessType.READABLE, eligibleEvents).getRecords();
 
         List<Campaign> campaignsToInsert = new List<Campaign>();
         Map<Id, Campaign> eventIdToCampaign = new Map<Id, Campaign>();
@@ -519,6 +504,7 @@ public without sharing class customEventService {
     }
     // set automatic location for digital events, and remove it if format is changed from digital to something else
     public static void setDigitalLocation(List<Event__c> newEvents, Map<Id, Event__c> oldMap) {
+        newEvents =  newEvents  ;
         for (Event__c ev : newEvents) {
 
             if (oldMap == null) {
@@ -539,4 +525,108 @@ public without sharing class customEventService {
         }
     }
 
+    public static Map<Id, String> getSpeakers(List<Event__c> events) {
+        Set<Id> eventIds = new Set<Id>();
+        for (Event__c e : events) {
+            if (e.Id != null) eventIds.add(e.Id);
+        }
+
+        Map<Id, Set<String>> tmp = new Map<Id, Set<String>>();
+
+        for (SessionSpeakerProduct__c s : [
+            SELECT Session__c, SpeakerContact__r.Name
+            FROM SessionSpeakerProduct__c
+            WHERE Session__c IN :eventIds
+            AND SpeakerContact__c != null
+        ]) {
+            if (!tmp.containsKey(s.Session__c)) {
+                tmp.put(s.Session__c, new Set<String>());
+            }
+            tmp.get(s.Session__c).add(getSpeakerInitials(s.SpeakerContact__r.Name));
+        }
+
+        Map<Id, String> res = new Map<Id, String>();
+        for (Id eid : tmp.keySet()) {
+            List<String> vals = new List<String>(tmp.get(eid));
+            vals.sort();
+            res.put(eid, String.join(vals, '/'));
+        }
+        return res;
+    }
+
+    public static String getSpeakerInitials(String fullName) {
+        if (String.isBlank(fullName)) {
+            return null;
+        }
+
+        List<String> p = fullName.trim().split('\\s+');
+        if (p.size() < 2) {
+            return null;
+        }
+
+        String firstInitial = p[0].substring(0, 1);
+        String lastInitial  = p[p.size() - 1].substring(0, 1);
+
+        return (firstInitial + lastInitial).toUpperCase();
+    }
+
+    public static void updateName(Map<Id, Event__c> oldMap, Map<Id, Event__c> newMap) {
+        List<Event__c> toUpdate = new List<Event__c>();
+
+        for (Event__c e : newMap.values()) {
+            Event__c oldE = oldMap.get(e.Id);
+            if (oldE == null) continue;
+
+            if (
+                e.startDate__c != oldE.startDate__c ||
+                e.SalesTeam__c != oldE.SalesTeam__c ||
+                e.Title__c     != oldE.Title__c
+            ) {
+                toUpdate.add(e);
+            }
+        }
+
+        if (!toUpdate.isEmpty()) {
+            setEventName(toUpdate, false);
+        }
+    }
+
+    /**
+     * Generic validation method for Event__c records.
+     * Used in before insert/update to enforce business rules.
+     */
+    public static void validateEvents(List<Event__c> records, Map<Id, Event__c> oldMap) {
+        if (records == null || records.isEmpty()) return;
+
+        for (Event__c rec : records) {
+            // Ensure Organizer is always populated
+            if (rec.Organizer__c == null) {
+                rec.addError('Organizer is required.');
+            }
+        }
+    }
+
+    // ---------------------------
+    // Timezone via LocationTimezoneResolver
+    // ---------------------------
+    public static void setTimeZone(List<Event__c> events) {
+        if (events == null || events.isEmpty()) return;
+
+        for (Event__c ev : events) {
+            if (ev == null) continue;
+
+            //  ne rien faire si déjà renseigné
+            if (!String.isBlank(ev.TimeZone__c)) continue;
+
+            // skip si pas de données
+            if (String.isBlank(ev.country__c) && String.isBlank(ev.city__c)) continue;
+
+            LocationTimezoneResolver.Result res =
+                LocationTimezoneResolver.resolve(ev.country__c, ev.city__c);
+
+            if (res != null && !String.isBlank(res.timezoneId)) {
+                ev.TimeZone__c = res.timezoneId;
+            }
+        }
+    }
 }

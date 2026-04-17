@@ -49,6 +49,33 @@
         </outputParameters>
     </actionCalls>
     <actionCalls>
+        <name>Copy_1_of_insert_Event_Attendees</name>
+        <label>Copy 1 of insert Event Attendees</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>EventAttendee_InsertFromIds</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Copy_1_of_InsertSpeakers</targetReference>
+        </connector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>contactIdsJson</name>
+            <value>
+                <elementReference>AttendeesMultiSelect.selectedIdsJson</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>eventId</name>
+            <value>
+                <elementReference>MasterEvent.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>EventAttendee_InsertFromIds</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <actionCalls>
         <name>Copy_1_of_InsertSpeakers</name>
         <label>InsertSpeakers</label>
         <locationX>0</locationX>
@@ -116,7 +143,7 @@
         <inputParameters>
             <name>contactIdsJson</name>
             <value>
-                <elementReference>contactList.selectedIdsJson</elementReference>
+                <elementReference>attendeesContacts.selectedIdsJson</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -282,7 +309,7 @@
     </assignments>
     <assignments>
         <name>Copy_2_of_setStartEndDates</name>
-        <label>Copy 2 of setStartEndDates</label>
+        <label>Copy 2 of</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <assignmentItems>
@@ -321,13 +348,12 @@
             </value>
         </assignmentItems>
         <connector>
-            <isGoTo>true</isGoTo>
-            <targetReference>Copy_1_of_Speakers_Products</targetReference>
+            <targetReference>Copy_2_of_Speakers_Products</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>InitValuesforoneToOne</name>
-        <label>InitValues for oneToOne</label>
+        <label>InitValues for oneToOneco</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <assignmentItems>
@@ -428,6 +454,27 @@
                 <stringValue>No</stringValue>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterEvent.status__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>FullyApproved</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterEvent.timezone__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>GetParent.timezone__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterEvent.Organizer__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>GetParent.Organizer__c</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Copy_1_of_get_Speakers</targetReference>
         </connector>
@@ -465,6 +512,13 @@
                 <elementReference>Meeting_Backgroundd</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterEvent.company__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>attendeesContacts.accountId</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Copy_2_of_CreateEventRec</targetReference>
         </connector>
@@ -499,6 +553,22 @@
         </assignmentItems>
         <connector>
             <targetReference>RecapScreen</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>set_copyaddress_to_true</name>
+        <label>set copyaddress to true</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>MasterEvent.copyAddress__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Copy_1_of_Speakers_Products</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -568,13 +638,6 @@
                 <elementReference>$User.Team__c</elementReference>
             </value>
         </assignmentItems>
-        <assignmentItems>
-            <assignToReference>MasterEvent.Co_hosted__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>No</stringValue>
-            </value>
-        </assignmentItems>
         <connector>
             <targetReference>Event_Details</targetReference>
         </connector>
@@ -642,8 +705,22 @@
                 <elementReference>Meeting_Goal</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterEvent.company__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>AttendeesMultiSelect.accountId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterEvent.locationAddress__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Adresse_input</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
-            <targetReference>Copy_1_of_Speakers_Products</targetReference>
+            <targetReference>copy_attnddee_s_address</targetReference>
         </connector>
     </assignments>
     <choices>
@@ -1087,6 +1164,31 @@
         </value>
     </choices>
     <decisions>
+        <name>copy_attnddee_s_address</name>
+        <label>copy attnddee&apos;s address?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Copy_1_of_Speakers_Products</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>copyAddress</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>AddressTypemeetings</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Attendes_s_address</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>set_copyaddress_to_true</targetReference>
+            </connector>
+            <label>copyAddress</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>copyAddressFromContact</name>
         <label>copyAddressFromContact ?</label>
         <locationX>0</locationX>
@@ -1145,7 +1247,7 @@
             <connector>
                 <targetReference>setRT_Meeting</targetReference>
             </connector>
-            <label>Meeting Path</label>
+            <label>OneToOne</label>
         </rules>
         <rules>
             <name>Meeting_day_s_Path</name>
@@ -1313,7 +1415,7 @@
         <locationX>0</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Copy_1_of_InsertSpeakers</targetReference>
+            <targetReference>Copy_1_of_insert_Event_Attendees</targetReference>
         </connector>
         <inputReference>MasterEvent</inputReference>
     </recordCreates>
@@ -1490,7 +1592,7 @@
         </fields>
         <fields>
             <name>Copy_1_of_Event_DetailsSection</name>
-            <fieldText>Meeting days Details</fieldText>
+            <fieldText>meeting details</fieldText>
             <fieldType>RegionContainer</fieldType>
             <fields>
                 <name>Copy_1_of_Event_DetailsSection_Column1</name>
@@ -1528,6 +1630,20 @@
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>MasterEvent.Organizer__c</objectFieldReference>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>MasterEvent.salesOwner__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -1792,210 +1908,6 @@
             </styleProperties>
         </fields>
         <fields>
-            <name>Copy_1_of_Address</name>
-            <fieldText>Location</fieldText>
-            <fieldType>RegionContainer</fieldType>
-            <fields>
-                <name>Copy_1_of_Address_Column1</name>
-                <fieldType>Region</fieldType>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.format__c</objectFieldReference>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                    <visibilityRule>
-                        <conditionLogic>and</conditionLogic>
-                        <conditions>
-                            <leftValueReference>MasterEvent.category__c</leftValueReference>
-                            <operator>EqualTo</operator>
-                            <rightValue>
-                                <stringValue>Meeting day(s)</stringValue>
-                            </rightValue>
-                        </conditions>
-                    </visibilityRule>
-                </fields>
-                <fields>
-                    <name>AddressTypemeetings</name>
-                    <choiceReferences>Attendes_s_address</choiceReferences>
-                    <choiceReferences>Other_address</choiceReferences>
-                    <dataType>String</dataType>
-                    <defaultSelectedChoiceReference>Attendes_s_address</defaultSelectedChoiceReference>
-                    <fieldText>Address</fieldText>
-                    <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                </fields>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.isCarmignacOffice__c</objectFieldReference>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                    <visibilityRule>
-                        <conditionLogic>and</conditionLogic>
-                        <conditions>
-                            <leftValueReference>MasterEvent.format__c</leftValueReference>
-                            <operator>EqualTo</operator>
-                            <rightValue>
-                                <stringValue>Physical</stringValue>
-                            </rightValue>
-                        </conditions>
-                    </visibilityRule>
-                </fields>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.officeLocation__c</objectFieldReference>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                    <visibilityRule>
-                        <conditionLogic>and</conditionLogic>
-                        <conditions>
-                            <leftValueReference>AddressTypemeetings</leftValueReference>
-                            <operator>EqualTo</operator>
-                            <rightValue>
-                                <elementReference>Other_address</elementReference>
-                            </rightValue>
-                        </conditions>
-                    </visibilityRule>
-                </fields>
-                <inputParameters>
-                    <name>width</name>
-                    <value>
-                        <stringValue>6</stringValue>
-                    </value>
-                </inputParameters>
-                <isRequired>false</isRequired>
-            </fields>
-            <fields>
-                <name>Copy_1_of_Address_Column2</name>
-                <fieldType>Region</fieldType>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.locationAddress__c</objectFieldReference>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                    <visibilityRule>
-                        <conditionLogic>and</conditionLogic>
-                        <conditions>
-                            <leftValueReference>AddressTypemeetings</leftValueReference>
-                            <operator>EqualTo</operator>
-                            <rightValue>
-                                <elementReference>Other_address</elementReference>
-                            </rightValue>
-                        </conditions>
-                    </visibilityRule>
-                </fields>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.country__c</objectFieldReference>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                </fields>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.city__c</objectFieldReference>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                </fields>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.locationPostCode__c</objectFieldReference>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                    <visibilityRule>
-                        <conditionLogic>and</conditionLogic>
-                        <conditions>
-                            <leftValueReference>AddressTypemeetings</leftValueReference>
-                            <operator>EqualTo</operator>
-                            <rightValue>
-                                <elementReference>Other_address</elementReference>
-                            </rightValue>
-                        </conditions>
-                    </visibilityRule>
-                </fields>
-                <inputParameters>
-                    <name>width</name>
-                    <value>
-                        <stringValue>6</stringValue>
-                    </value>
-                </inputParameters>
-                <isRequired>false</isRequired>
-            </fields>
-            <isRequired>false</isRequired>
-            <regionContainerType>SectionWithHeader</regionContainerType>
-            <styleProperties>
-                <verticalAlignment>
-                    <stringValue>top</stringValue>
-                </verticalAlignment>
-                <width>
-                    <stringValue>12</stringValue>
-                </width>
-            </styleProperties>
-        </fields>
-        <fields>
             <name>Copy_2_of_Audience_details</name>
             <fieldText>Audience &amp; Targeting</fieldText>
             <fieldType>RegionContainer</fieldType>
@@ -2052,10 +1964,70 @@
                 <name>Copy_2_of_Audience_details_Column2</name>
                 <fieldType>Region</fieldType>
                 <fields>
+                    <name>AttendeesMultiSelect</name>
+                    <extensionName>c:accountContactMultiSelectLookup</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>accountLabel</name>
+                        <value>
+                            <stringValue>Company</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>picklistLabel</name>
+                        <value>
+                            <stringValue>Contact(s) who will attend</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>limitSize</name>
+                        <value>
+                            <numberValue>500.0</numberValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithHeader</regionContainerType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>Copy_1_of_Address</name>
+            <fieldText>Location</fieldText>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Copy_1_of_Address_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.company__c</objectFieldReference>
+                    <objectFieldReference>MasterEvent.format__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -2066,10 +2038,15 @@
                     </styleProperties>
                 </fields>
                 <fields>
-                    <fieldType>ObjectProvided</fieldType>
+                    <name>AddressTypemeetings</name>
+                    <choiceReferences>Attendes_s_address</choiceReferences>
+                    <choiceReferences>Other_address</choiceReferences>
+                    <dataType>String</dataType>
+                    <defaultSelectedChoiceReference>Attendes_s_address</defaultSelectedChoiceReference>
+                    <fieldText>Address</fieldText>
+                    <fieldType>DropdownBox</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.attendingContacts__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -2078,6 +2055,125 @@
                             <stringValue>12</stringValue>
                         </width>
                     </styleProperties>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>MasterEvent.format__c</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>Physical</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Copy_1_of_Address_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Adresse_input</name>
+                    <dataType>String</dataType>
+                    <fieldText>Adresse</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>AddressTypemeetings</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <elementReference>Other_address</elementReference>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>MasterEvent.country__c</objectFieldReference>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>AddressTypemeetings</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <elementReference>Other_address</elementReference>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>MasterEvent.city__c</objectFieldReference>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>AddressTypemeetings</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <elementReference>Other_address</elementReference>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>MasterEvent.timezone__c</objectFieldReference>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>MasterEvent.format__c</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>Digital</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -2136,20 +2232,6 @@
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.Organizer__c</objectFieldReference>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                </fields>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
                     <objectFieldReference>MasterEvent.title__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
@@ -2191,25 +2273,78 @@
                     </styleProperties>
                 </fields>
                 <fields>
-                    <name>contactList</name>
-                    <extensionName>c:genericMultiSelectLookup</extensionName>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>MasterEvent.salesOwner__c</objectFieldReference>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>12</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithHeader</regionContainerType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>Audience_Targeting</name>
+            <fieldText>Audience &amp; Targeting</fieldText>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Audience_Targeting_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>MasterEvent.clientType__c</objectFieldReference>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Audience_Targeting_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>attendeesContacts</name>
+                    <extensionName>c:accountContactMultiSelectLookup</extensionName>
                     <fieldType>ComponentInstance</fieldType>
                     <inputParameters>
-                        <name>labelFieldApiName</name>
+                        <name>accountLabel</name>
                         <value>
-                            <stringValue>Name</stringValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>objectApiName</name>
-                        <value>
-                            <stringValue>Contact</stringValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>valueFieldApiName</name>
-                        <value>
-                            <stringValue>Id</stringValue>
+                            <stringValue>Company</stringValue>
                         </value>
                     </inputParameters>
                     <inputParameters>
@@ -2219,21 +2354,9 @@
                         </value>
                     </inputParameters>
                     <inputParameters>
-                        <name>filterFieldApiName</name>
+                        <name>limitSize</name>
                         <value>
-                            <stringValue>AccountId</stringValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>filterOperator</name>
-                        <value>
-                            <stringValue>=</stringValue>
-                        </value>
-                    </inputParameters>
-                    <inputParameters>
-                        <name>filterValue</name>
-                        <value>
-                            <elementReference>GetParent.company__c</elementReference>
+                            <numberValue>1000.0</numberValue>
                         </value>
                     </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -2251,7 +2374,7 @@
                 <inputParameters>
                     <name>width</name>
                     <value>
-                        <stringValue>12</stringValue>
+                        <stringValue>6</stringValue>
                     </value>
                 </inputParameters>
                 <isRequired>false</isRequired>
@@ -2518,54 +2641,6 @@
                         </conditions>
                     </visibilityRule>
                 </fields>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.isCarmignacOffice__c</objectFieldReference>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                    <visibilityRule>
-                        <conditionLogic>and</conditionLogic>
-                        <conditions>
-                            <leftValueReference>Other_address</leftValueReference>
-                            <operator>EqualTo</operator>
-                            <rightValue>
-                                <elementReference>Other_address</elementReference>
-                            </rightValue>
-                        </conditions>
-                    </visibilityRule>
-                </fields>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.officeLocation__c</objectFieldReference>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                    <visibilityRule>
-                        <conditionLogic>and</conditionLogic>
-                        <conditions>
-                            <leftValueReference>Addresstype</leftValueReference>
-                            <operator>EqualTo</operator>
-                            <rightValue>
-                                <elementReference>Other_address</elementReference>
-                            </rightValue>
-                        </conditions>
-                    </visibilityRule>
-                </fields>
                 <inputParameters>
                     <name>width</name>
                     <value>
@@ -2614,26 +2689,22 @@
                             <stringValue>12</stringValue>
                         </width>
                     </styleProperties>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Addresstype</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <elementReference>Other_address</elementReference>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
                 </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>MasterEvent.city__c</objectFieldReference>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                </fields>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.locationPostCode__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -2745,6 +2816,24 @@
                             <elementReference>GetParent.Id</elementReference>
                         </value>
                     </inputParameters>
+                    <inputParameters>
+                        <name>showTimeSlots</name>
+                        <value>
+                            <booleanValue>false</booleanValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>defaultEndTime</name>
+                        <value>
+                            <elementReference>clickedEndTime</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>defaultStartTime</name>
+                        <value>
+                            <elementReference>clickedStartTime</elementReference>
+                        </value>
+                    </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <outputParameters>
@@ -2785,7 +2874,7 @@
     </screens>
     <screens>
         <name>Copy_1_of_Meeting_Meeting_days_Details</name>
-        <label>Meeting days Details</label>
+        <label>meeting days details</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <allowBack>true</allowBack>
@@ -2809,7 +2898,7 @@
         </fields>
         <fields>
             <name>Copy_2_of_Copy_1_of_Event_DetailsSection</name>
-            <fieldText>Meeting days Details</fieldText>
+            <fieldText>meeting details</fieldText>
             <fieldType>RegionContainer</fieldType>
             <fields>
                 <name>Copy_2_of_Copy_1_of_Event_DetailsSection_Column1</name>
@@ -2847,6 +2936,20 @@
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>MasterEvent.Organizer__c</objectFieldReference>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>MasterEvent.salesOwner__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -3145,35 +3248,6 @@
                             <stringValue>12</stringValue>
                         </width>
                     </styleProperties>
-                    <visibilityRule>
-                        <conditionLogic>and</conditionLogic>
-                        <conditions>
-                            <leftValueReference>MasterEvent.category__c</leftValueReference>
-                            <operator>EqualTo</operator>
-                            <rightValue>
-                                <stringValue>Meeting day(s)</stringValue>
-                            </rightValue>
-                        </conditions>
-                    </visibilityRule>
-                </fields>
-                <fields>
-                    <name>AddressTypeMDAYS</name>
-                    <choiceReferences>Other_address</choiceReferences>
-                    <choiceReferences>CompanyAddress</choiceReferences>
-                    <dataType>String</dataType>
-                    <defaultSelectedChoiceReference>CompanyAddress</defaultSelectedChoiceReference>
-                    <fieldText>Address</fieldText>
-                    <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -3186,30 +3260,6 @@
             <fields>
                 <name>Copy_2_of_Copy_1_of_Address_Column2</name>
                 <fieldType>Region</fieldType>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.locationAddress__c</objectFieldReference>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                    <visibilityRule>
-                        <conditionLogic>and</conditionLogic>
-                        <conditions>
-                            <leftValueReference>AddressTypeMDAYS</leftValueReference>
-                            <operator>EqualTo</operator>
-                            <rightValue>
-                                <elementReference>Other_address</elementReference>
-                            </rightValue>
-                        </conditions>
-                    </visibilityRule>
-                </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -3262,7 +3312,7 @@
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.locationPostCode__c</objectFieldReference>
+                    <objectFieldReference>MasterEvent.timezone__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -3274,10 +3324,10 @@
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
-                            <leftValueReference>AddressTypeMDAYS</leftValueReference>
+                            <leftValueReference>MasterEvent.format__c</leftValueReference>
                             <operator>EqualTo</operator>
                             <rightValue>
-                                <elementReference>Other_address</elementReference>
+                                <stringValue>Digital</stringValue>
                             </rightValue>
                         </conditions>
                     </visibilityRule>
@@ -3376,6 +3426,70 @@
                     <booleanValue>false</booleanValue>
                 </value>
             </inputParameters>
+            <inputParameters>
+                <name>showTimeSlots</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>defaultEndTime</name>
+                <value>
+                    <elementReference>End1</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>defaultStartTime</name>
+                <value>
+                    <elementReference>Start1</elementReference>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <outputParameters>
+                <assignToReference>SSPs</assignToReference>
+                <name>outputValue</name>
+            </outputParameters>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Copy_2_of_Speakers_Products</name>
+        <label>Speakers &amp; Products</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>build_speakersHTML</targetReference>
+        </connector>
+        <fields>
+            <name>Copy_1_of_Copy_1_of_SSP_LWC</name>
+            <extensionName>c:sessionSpeakerProductRepeater</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>debug</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>showTimeSlots</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <outputParameters>
@@ -3458,6 +3572,20 @@
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>MasterEvent.Organizer__c</objectFieldReference>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>MasterEvent.salesOwner__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -3819,6 +3947,30 @@
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
+                    <objectFieldReference>MasterEvent.timezone__c</objectFieldReference>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>MasterEvent.format__c</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>Digital</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <fields>
+                    <fieldType>ObjectProvided</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>false</isRequired>
                     <objectFieldReference>MasterEvent.locationAddress__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
@@ -4094,6 +4246,12 @@
                     <booleanValue>false</booleanValue>
                 </value>
             </inputParameters>
+            <inputParameters>
+                <name>showTimeSlots</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <outputParameters>
@@ -4150,6 +4308,13 @@
         </connector>
     </start>
     <status>Active</status>
+    <variables>
+        <name>adresse</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
     <variables>
         <name>allspeakers</name>
         <dataType>SObject</dataType>

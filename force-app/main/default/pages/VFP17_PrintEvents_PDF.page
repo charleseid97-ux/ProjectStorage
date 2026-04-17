@@ -5,102 +5,253 @@
            standardStylesheets="false"
            renderAs="pdf">
 
-  <html>
-  <head>
-    <style>
-      @page { size: A4; margin: 12mm 10mm 12mm 10mm; }
-      body { font-family: Arial, sans-serif; font-size: 10pt; color: #111; }
+    <html>
+    <head>
+        <style>
+            @page {
+                size: A4;
+                margin: 10mm;
+            }
 
-      .page { page-break-after: always; }
-      .page:last-child { page-break-after: auto; }
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: Arial, sans-serif;
+                font-size: 10pt;
+                color: #181818;
+                background: #ffffff;
+            }
 
-      table.layout { width: 100%; border-collapse: collapse; table-layout: fixed; }
-      td.col {
-        width: 33.33%;
-        vertical-align: top;
-        border-right: 1px solid #BFBFBF;
-        border-left: none;
-        border-top: none;
-        border-bottom: none;
-        padding: 4mm;
-      }
-      td.col:first-child { border-left: 1px solid #BFBFBF; }
+            .page-shell {
+                width: 100%;
+            }
 
-      .monthBanner { height: 96pt; border-radius: 6px; margin: 0 0 6px 0; border: 1px solid #D0D0D0; }
-      .eventBlock { border:1px solid #D0D0D0; border-radius:6px; margin:0 0 6px 0; overflow:hidden; }
-      .eventColorBar { height: 6pt; }
+            .card {
+                border: 1px solid #e5e7eb;
+                border-radius: 8px;
+                margin-bottom: 10pt;
+                overflow: hidden;
+            }
 
-      .eventHeader { background:#F2F2F2; padding:6px 8px; font-weight:bold; border-bottom:1px solid #D9D9D9; }
-      .eventHeaderTz { font-weight: normal; color: #666; }
-      .conflictIcon {
-        display: inline-block;
-        width: 12pt; height: 12pt; line-height: 12pt;
-        text-align: center;
-        border-radius: 50%;
-        border: 1px solid #C0392B;
-        color: #C0392B;
-        font-weight: bold;
-        font-size: 9pt;
-        margin-left: 6pt;
-      }
+            .header {
+                padding: 10pt 12pt;
+                background: #0b5cab;
+                color: #ffffff;
+            }
 
-      .eventBody { padding:6px 8px; }
-      .title { font-weight:bold; line-height:12pt; height:36pt; overflow:hidden; }
-      .speakers { font-style:italic; color:#444; line-height:12pt; height:24pt; overflow:hidden; margin-top:2px; }
-      .separator { border-top:1px solid #E0E0E0; margin:6px 0; }
-    </style>
-  </head>
+            .headerTitle {
+                font-size: 15pt;
+                font-weight: bold;
+                margin: 0;
+            }
 
-  <body>
-    <apex:repeat value="{!pages}" var="p">
-      <div class="page">
-        <table class="layout">
-          <tr>
-            <apex:repeat value="{!p.columns}" var="col">
-              <td class="col">
-                <apex:repeat value="{!col.blocks}" var="b">
+            .headerSub {
+                margin-top: 3pt;
+                font-size: 9pt;
+            }
 
-                  <apex:outputPanel rendered="{!b.isMonthBanner}">
-                    <div class="monthBanner" style="background:{!b.monthColor};">
-                      <div style="padding:10px; font-weight:bold; color:#fff;">{!b.monthLabel}</div>
+            .contentCard {
+                border: 1px solid #e5e7eb;
+                border-radius: 8px;
+                padding: 8pt;
+            }
+
+            .page {
+                page-break-after: always;
+            }
+
+            .page:last-child {
+                page-break-after: auto;
+            }
+
+            .dayGroup {
+                border: 1px solid #e5e7eb;
+                border-radius: 6px;
+                margin-bottom: 8pt;
+                overflow: hidden;
+            }
+
+            .dayHeader {
+                background: #f3f4f6;
+                border-bottom: 1px solid #e5e7eb;
+                padding: 6pt 8pt;
+                font-weight: bold;
+            }
+
+            .dayHeaderLeft {
+                float: left;
+            }
+
+            .dayHeaderRight {
+                float: right;
+                color: #374151;
+            }
+
+            .clear {
+                clear: both;
+            }
+
+            .eventRow {
+                border-bottom: 1px solid #f1f3f5;
+                padding: 6pt 8pt;
+            }
+
+            .eventRow:last-child {
+                border-bottom: none;
+            }
+
+            .eventTable {
+                width: 100%;
+                border-collapse: collapse;
+                table-layout: fixed;
+            }
+
+            .eventTable td {
+                vertical-align: middle;
+            }
+
+            .timeCol {
+                width: 78pt;
+                font-weight: bold;
+                color: #374151;
+                white-space: nowrap;
+            }
+
+            .tzCol {
+                width: 78pt;
+                color: #6b7280;
+                white-space: nowrap;
+                font-size: 8.5pt;
+            }
+
+            .dotCol {
+                width: 14pt;
+                text-align: center;
+            }
+
+            .contentCol {
+                width: auto;
+            }
+
+            .eventDot {
+                display: inline-block;
+                width: 7pt;
+                height: 7pt;
+                border-radius: 50%;
+            }
+
+            .title {
+                font-weight: bold;
+                color: #0b5cab;
+            }
+
+            .speakers {
+                color: #0176d3;
+                font-weight: bold;
+            }
+
+            .strategies {
+                color: #4b5563;
+            }
+
+            .sep {
+                color: #9ca3af;
+            }
+
+            .conflict {
+                display: inline-block;
+                width: 11pt;
+                height: 11pt;
+                line-height: 11pt;
+                text-align: center;
+                border-radius: 50%;
+                border: 1px solid #ef4444;
+                color: #b91c1c;
+                background: #fee2e2;
+                font-size: 7pt;
+                font-weight: bold;
+                margin-left: 4pt;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="page-shell">
+
+            <div class="card">
+                <div class="header">
+                    <div class="headerTitle">Events Schedule</div>
+                    <div class="headerSub">
+                        <apex:outputText value="Events from {0} to {1}">
+                            <apex:param value="{!startDate}" />
+                            <apex:param value="{!endDate}" />
+                        </apex:outputText>
+
+                        <apex:outputPanel rendered="{!selectedSalesTeam = '__ALL__'}" layout="none">
+                            for all sales teams
+                        </apex:outputPanel>
+
+                        <apex:outputPanel rendered="{!selectedSalesTeam != '__ALL__'}" layout="none">
+                            for {!selectedSalesTeam}
+                        </apex:outputPanel>
                     </div>
-                  </apex:outputPanel>
+                </div>
+            </div>
 
-                  <apex:outputPanel rendered="{!NOT(b.isMonthBanner)}">
-                    <div class="eventBlock">
-                      <div class="eventColorBar" style="background:{!b.eventColor}"></div>
+            <apex:repeat value="{!pages}" var="p">
+                <div class="page">
 
-                      <div class="eventHeader">
-                        {!b.dayLabel}
+                    <div class="contentCard">
+                        <apex:repeat value="{!p.columns}" var="col">
+                            <apex:repeat value="{!col.dayGroups}" var="g">
 
-                        <apex:outputPanel rendered="{!NOT(ISBLANK(b.timeRangeLabel))}">
-                          <span class="eventHeaderTz"> — {!b.timeRangeLabel}</span>
-                        </apex:outputPanel>
+                                <div class="dayGroup">
+                                    <div class="dayHeader">
+                                        <div class="dayHeaderLeft">{!g.dayLabel}</div>
+                                        <div class="dayHeaderRight">{!g.fullDateLabel}</div>
+                                        <div class="clear"></div>
+                                    </div>
 
-                        <apex:outputPanel rendered="{!NOT(ISBLANK(b.displayTimezone))}">
-                          <span class="eventHeaderTz"> ({!b.displayTimezone})</span>
-                        </apex:outputPanel>
+                                    <apex:repeat value="{!g.events}" var="e">
+                                        <div class="eventRow">
+                                            <table class="eventTable">
+                                                <tr>
+                                                    <td class="timeCol">{!e.timeRangeLabel}</td>
+                                                    <td class="tzCol">{!e.displayTimezone}</td>
+                                                    <td class="dotCol">
+                                                        <span class="eventDot" style="background:{!e.eventColor};"></span>
+                                                    </td>
+                                                    <td class="contentCol">
+                                                        <span class="title">{!e.title}</span>
 
-                        <apex:outputPanel rendered="{!b.isSpeakerConflict}">
-                          <span class="conflictIcon">!</span>
-                        </apex:outputPanel>
-                      </div>
+                                                        <apex:outputPanel rendered="{!NOT(ISBLANK(e.speakersLabel))}" layout="none">
+                                                            <span class="sep"> - </span>
+                                                            <span class="speakers">{!e.speakersLabel}</span>
+                                                        </apex:outputPanel>
 
-                      <div class="eventBody">
-                        <div class="title">{!b.title}</div>
-                        <div class="separator"></div>
-                        <div class="speakers">{!b.speakersLabel}</div>
-                      </div>
+                                                        <apex:outputPanel rendered="{!NOT(ISBLANK(e.strategiesLabel))}" layout="none">
+                                                            <span class="sep"> | </span>
+                                                            <span class="strategies">{!e.strategiesLabel}</span>
+                                                        </apex:outputPanel>
+
+                                                        <apex:outputPanel rendered="{!e.isSpeakerConflict}" layout="none">
+                                                            <span class="conflict">!</span>
+                                                        </apex:outputPanel>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </apex:repeat>
+                                </div>
+
+                            </apex:repeat>
+                        </apex:repeat>
                     </div>
-                  </apex:outputPanel>
 
-                </apex:repeat>
-              </td>
+                </div>
             </apex:repeat>
-          </tr>
-        </table>
-      </div>
-    </apex:repeat>
-  </body>
-  </html>
+
+        </div>
+    </body>
+    </html>
 </apex:page>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ApprovalPriority__c</fullName>
+    <description>Visual indicator of approval urgency based on deadline</description>
+    <externalId>false</externalId>
+    <formula>IF(
+    Days_to_Approval_Deadline__c &lt; 0,
+    &quot;🔴 Overdue&quot;,
+    IF(
+        Days_to_Approval_Deadline__c &lt;= 2,
+        &quot;🟠 Soon&quot;,
+        &quot;🟢 On Track&quot;
+    )
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Approval Priority</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

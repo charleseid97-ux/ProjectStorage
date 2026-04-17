@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Copy_of_Bookly_Requests_Benelux</fullName>
+    <columns>NAME</columns>
+    <columns>category__c</columns>
+    <columns>startDate__c</columns>
+    <columns>city__c</columns>
+    <columns>StatusDisplay__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>salesTeam__c</field>
+        <operation>equals</operation>
+        <value>Switzerland</value>
+    </filters>
+    <label>Bookly Requests Switzerland</label>
+</ListView>

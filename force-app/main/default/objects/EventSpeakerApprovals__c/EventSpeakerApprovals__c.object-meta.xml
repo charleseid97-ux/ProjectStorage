@@ -161,9 +161,9 @@
     <externalSharingModel>ControlledByParent</externalSharingModel>
     <label>Event Speaker Approval</label>
     <nameField>
-        <displayFormat>ESA-{0000}</displayFormat>
-        <label>Event Speaker Approval Name</label>
-        <type>AutoNumber</type>
+        <encryptionScheme>None</encryptionScheme>
+        <label>Name</label>
+        <type>Text</type>
     </nameField>
     <pluralLabel>Event Speaker Approvals</pluralLabel>
     <searchLayouts></searchLayouts>

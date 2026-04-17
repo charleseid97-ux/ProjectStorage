@@ -46,12 +46,18 @@ public with sharing class sessionSpeakerProductRepeaterCTRL {
     public static List<PickOpt> getProducts() {
         List<PickOpt> out = new List<PickOpt>();
 
-        for (Strategy__c p : [
+        for (Strategy__c s : [
             SELECT Id, Name
             FROM Strategy__c
+            WHERE Id IN (
+                SELECT FundStrategy__c
+                FROM Product__c
+                WHERE VehicleType__c = 'Funds'
+                AND Validity__c = true
+            )
             ORDER BY Name
         ]) {
-            out.add(new PickOpt(p.Name, p.Id));
+            out.add(new PickOpt(s.Name, s.Id));
         }
 
         return out;

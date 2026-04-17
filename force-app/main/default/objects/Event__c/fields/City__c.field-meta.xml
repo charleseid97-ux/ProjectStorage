@@ -2,7 +2,8 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>city__c</fullName>
     <label>Location City</label>
-    <required>false</required>
+    <required>true</required>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -1473,6 +1474,10 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Austria</controllingFieldValue>
+            <valueName>Bregenz</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Austria</controllingFieldValue>
             <valueName>Graz</valueName>
         </valueSettings>
         <valueSettings>
@@ -1518,6 +1523,10 @@
         <valueSettings>
             <controllingFieldValue>Belgium</controllingFieldValue>
             <valueName>Ghent</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Groot-Bijgaarden</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Belgium</controllingFieldValue>

@@ -4,49 +4,71 @@ public with sharing class customEventHandler implements ITriggerHandler {
 
     public void BeforeInsert(List<SObject> newItems) {
         List<Event__c> newEvents = (List<Event__c>) newItems;
+        List<Event__c> eventsToProcess = filterAutomatedEvents(newEvents);
 
-        customEventService.setEventName(newEvents, null);
-        customEventService.setDigitalLocation(newEvents, null);
-        customEventService.copyCompanyBillingAddressToEvent(newEvents, null);
+        if (eventsToProcess.isEmpty()) return;
 
-        // Start Event Team approval logic (temporary forced status)
-        customEventService.startEventTeamApproval(newEvents);
+        customEventService.validateEvents(eventsToProcess, null);
+        customEventService.setEventName(eventsToProcess, true);       
+        customEventService.setDigitalLocation(eventsToProcess, null);
+        customEventService.copyCompanyBillingAddressToEvent(eventsToProcess, null);    
+        //should come after the address is set 
+        customEventService.setTimeZone(eventsToProcess);       
+
     }
 
     public void BeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
         Map<Id, Event__c> newEvents = (Map<Id, Event__c>) newItems;
         Map<Id, Event__c> oldEvents = (Map<Id, Event__c>) oldItems;
-        
-        customEventService.setDigitalLocation(newEvents.values(), oldEvents);
-        customEventSpeakerApprovalService.markEventFullyApprovedIfNoSSP(newEvents, oldEvents);
-        customEventService.setEventName(newEvents.values(), oldEvents);
-        customEventService.copyCompanyBillingAddressToEvent(newEvents.values(), oldEvents);
-        customEventSpeakerApprovalService.prepareSpeakerHTMLforNotifications(newEvents, oldEvents);    
+
+        Map<Id, Event__c> newEventsToProcess = filterAutomatedEventsMap(newEvents);
+        Map<Id, Event__c> oldEventsToProcess = filterOldMap(oldEvents, newEventsToProcess.keySet());
+
+        if (newEventsToProcess.isEmpty()) return;
+
+        customEventService.validateEvents(newEventsToProcess.values(), oldEventsToProcess);
+        customEventService.setDigitalLocation(newEventsToProcess.values(), oldEventsToProcess);
+        customEventService.updateName(oldEventsToProcess, newEventsToProcess);
+        customEventService.copyCompanyBillingAddressToEvent(newEventsToProcess.values(), oldEventsToProcess);
+        customEventSpeakerApprovalService.prepareSpeakerHTMLforNotifications(newEventsToProcess, oldEventsToProcess);    
+        customEventSpeakerApprovalService.markEventFullyApprovedIfNoSSP(newEventsToProcess, oldEventsToProcess);
+
+        // We submit on update, not on insert, because speakers are linked after creation.
+        // That later update lets us rebuild the final event Name and then move the record
+        // from Draft to SubmittedToEventTeam. The actual Approval.process call is done in after update.
+        customEventService.setReadyForApprovalProcess(newEventsToProcess.values(), oldEventsToProcess);
     }
 
     public void BeforeDelete(Map<Id, SObject> oldItems) {}
 
     public void AfterInsert(Map<Id, SObject> newItems) {
         Map<Id, Event__c> newEvents = (Map<Id, Event__c>) newItems;
+        Map<Id, Event__c> newEventsToProcess = filterAutomatedEventsMap(newEvents);
+
+        if (newEventsToProcess.isEmpty()) return;
 
         customEventSpeakerApprovalService.createOrUpdateSpeakerApprovals(
-            newEvents,
+            newEventsToProcess,
             null
         );
-
-        customEventService.startEventTeamApprovalAfterInsert(newEvents.values());
     }
 
     public void AfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
         Map<Id, Event__c> newEvents = (Map<Id, Event__c>) newItems;
         Map<Id, Event__c> oldEvents = (Map<Id, Event__c>) oldItems;
 
-        customEventSpeakerApprovalService.createOrUpdateSpeakerApprovals(newEvents,oldEvents);
-        sessionSpeakerProductService.requestRequiredPresentationsForWaitingEvents(newEvents,oldEvents);
+        Map<Id, Event__c> newEventsToProcess = filterAutomatedEventsMap(newEvents);
+        Map<Id, Event__c> oldEventsToProcess = filterOldMap(oldEvents, newEventsToProcess.keySet());
+
+        if (newEventsToProcess.isEmpty()) return;
+
+        customEventSpeakerApprovalService.createOrUpdateSpeakerApprovals(newEventsToProcess, oldEventsToProcess);
+        sessionSpeakerProductService.requestRequiredPresentationsForWaitingEvents(newEventsToProcess, oldEventsToProcess);
         // Send approval notification email if status changes to SubmittedToEventTeam
-        customEventNotificationService.manageNotifications(newEvents,oldEvents);
+        customEventNotificationService.manageNotifications(newEventsToProcess, oldEventsToProcess);
         // Create Campaign when Event is fully approved
-        customEventService.createCampaign(new List<Event__c>(newEvents.values()),oldEvents);
+        customEventService.createCampaign(new List<Event__c>(newEventsToProcess.values()), oldEventsToProcess);
+        customEventService.startEventTeamApprovalAfterUpdate(newEventsToProcess.values(), oldEventsToProcess);
     }
 
     public void AfterDelete(Map<Id, SObject> oldItems) {}
@@ -58,5 +80,35 @@ public with sharing class customEventHandler implements ITriggerHandler {
         } else {
             return true;
         }
+    }
+
+    private static List<Event__c> filterAutomatedEvents(List<Event__c> events) {
+        List<Event__c> result = new List<Event__c>();
+        for (Event__c e : events) {
+            if (e.noAutomations__c != true) {
+                result.add(e);
+            }
+        }
+        return result;
+    }
+
+    private static Map<Id, Event__c> filterAutomatedEventsMap(Map<Id, Event__c> events) {
+        Map<Id, Event__c> result = new Map<Id, Event__c>();
+        for (Id eventId : events.keySet()) {
+            if (events.get(eventId).noAutomations__c != true) {
+                result.put(eventId, events.get(eventId));
+            }
+        }
+        return result;
+    }
+
+    private static Map<Id, Event__c> filterOldMap(Map<Id, Event__c> oldEvents, Set<Id> idsToKeep) {
+        Map<Id, Event__c> result = new Map<Id, Event__c>();
+        for (Id eventId : idsToKeep) {
+            if (oldEvents.containsKey(eventId)) {
+                result.put(eventId, oldEvents.get(eventId));
+            }
+        }
+        return result;
     }
 }

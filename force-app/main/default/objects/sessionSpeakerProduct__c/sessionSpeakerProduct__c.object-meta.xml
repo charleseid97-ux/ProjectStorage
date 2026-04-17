@@ -161,9 +161,9 @@
     <externalSharingModel>ControlledByParent</externalSharingModel>
     <label>Session Speakers &amp; Products</label>
     <nameField>
-        <displayFormat>SSP{000000}</displayFormat>
+        <encryptionScheme>None</encryptionScheme>
         <label>Session Speakers Name</label>
-        <type>AutoNumber</type>
+        <type>Text</type>
     </nameField>
     <pluralLabel>Session Speakers &amp; Products</pluralLabel>
     <searchLayouts></searchLayouts>

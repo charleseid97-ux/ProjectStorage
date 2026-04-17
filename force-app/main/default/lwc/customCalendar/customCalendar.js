@@ -1,41 +1,45 @@
 import { api, wire, LightningElement, track } from "lwc";
 import { NavigationMixin } from "lightning/navigation";
 import { subscribe /*, unsubscribe*/ } from "lightning/empApi";
-import { encodeDefaultFieldValues } from "lightning/pageReferenceUtils";
 import Id from "@salesforce/user/Id";
+import { getObjectInfo, getPicklistValues } from "lightning/uiObjectInfoApi";
+import EVENT_OBJECT from "@salesforce/schema/Event__c";
+import TIMEZONE_FIELD from "@salesforce/schema/Event__c.timezone__c";
 
 // Apex
 import getEvents from "@salesforce/apex/CustomCalendarHelper.getEvents";
 import getEventPrefix from "@salesforce/apex/CustomCalendarHelper.getEventPrefix";
 import getSpeakerContacts from "@salesforce/apex/CustomCalendarHelper.getSpeakerContacts";
 import getUserUtcOffset from "@salesforce/apex/CustomCalendarHelper.getUserUtcOffset";
+import getEventColors from "@salesforce/apex/CustomCalendarHelper.getEventColors";
 
 // Utils
 import { formatEvents } from "c/calendarUtils";
 
 export default class CustomCalendar extends NavigationMixin(LightningElement) {
-  /* ============================================================
-   * FILTER STATE
-   * ============================================================
-   */
-
-  @track selectedSpeakerContactIds = []; // Speakers (Contacts)
-  @track selectedCountries = []; // Sales Teams (Countries)
-  @track selectedTimezone; // ✅ Time zone (UTC±HH) e.g. "UTC+01"
-
-  @track allSpeakers = []; // Speakers options (Contacts)
-  @track allSalesTeams = []; // Sales Teams options
-  @track allTimezones = []; // ✅ Time zone options
+  activeSections = [];
+  @track selectedSpeakerContactIds = [];
+  @track selectedCountries = [];
+  @track selectedTimezone = "UTC";
+  @track colorLegendRows = [];
+  @track colorLegendHeaders = [];
+  @track allSpeakers = [];
+  @track allSalesTeams = [];
+  @track allTimezones = [];
 
   @track speakerPills = [];
   @track salesTeamPills = [];
 
+  @track selectedJobTitles = [];
+  @track allJobTitles = [];
+  @track jobTitlePills = [];
+
   @track dispSelectionPills = {
     Speakers: false,
-    SalesTeams: false
+    SalesTeams: false,
+    JobTitles: false
   };
 
-  // Static Sales Teams (temporary)
   countryOptions = [
     { label: "France", value: "France" },
     { label: "Germany", value: "Germany" },
@@ -49,16 +53,10 @@ export default class CustomCalendar extends NavigationMixin(LightningElement) {
     { label: "Austria", value: "Austria" }
   ];
 
-  /* ============================================================
-   * API PROPERTIES / CONTEXT
-   * ============================================================
-   */
-
   @api recordId;
   @api childObject = "Event__c";
   @api parentFieldName = "parentEvent__c";
 
-  // NEW MODEL FIELDS (kept for future; helper currently hardcodes model fields)
   @api startDateField = "startDate__c";
   @api startTimeField = "startTime__c";
   @api endDateField = "endDate__c";
@@ -72,19 +70,13 @@ export default class CustomCalendar extends NavigationMixin(LightningElement) {
   @api startDate;
   @api endDate;
 
- 
   userId = Id;
   eventPrefix;
   isEvent = false;
   subscription;
   errorMsg;
-
-  /* ============================================================
-   * DEBOUNCE (avoid Apex spam)
-   * ============================================================
-   */
-
   _fetchTimeout;
+  userTimezoneLoaded = false;
 
   scheduleFetchEvents(delay = 300) {
     window.clearTimeout(this._fetchTimeout);
@@ -93,38 +85,60 @@ export default class CustomCalendar extends NavigationMixin(LightningElement) {
     }, delay);
   }
 
-  /* ============================================================
-   * TIMEZONE OPTIONS
-   * ============================================================
-   */
+  // Récupère les métadonnées de l'objet pour obtenir le record type par défaut.
+  @wire(getObjectInfo, { objectApiName: EVENT_OBJECT })
+  objectInfo;
 
-  buildTimezoneOptions() {
-    const opts = [];
-    for (let h = -5; h <= 5; h++) {
-      const sign = h >= 0 ? "+" : "-";
-      const abs = String(Math.abs(h)).padStart(2, "0");
-      const v = `UTC${sign}${abs}`;
-      opts.push({ label: v, value: v });
+  // Charge dynamiquement les valeurs de la picklist Timezone__c.
+  @wire(getPicklistValues, {
+    recordTypeId: "$objectInfo.data.defaultRecordTypeId",
+    fieldApiName: TIMEZONE_FIELD
+  })
+  wiredTimezonePicklist({ data, error }) {
+    if (data) {
+      this.allTimezones = (data.values || []).map((item) => ({
+        label: item.label,
+        value: item.value
+      }));
+
+      const exists = this.allTimezones.some(
+        (tz) => tz.value === this.selectedTimezone
+      );
+
+      if (!exists && this.allTimezones.length) {
+        this.selectedTimezone = this.allTimezones[0].value;
+      }
+    } else if (error) {
+      console.error("Error loading timezone picklist", error);
+      this.allTimezones = [];
     }
-    this.allTimezones = opts;
   }
 
-  /* ============================================================
-   * LOAD USER TZ (default selection)
-   * ============================================================
-   */
-
+  // Initialise la timezone à partir de la valeur utilisateur si elle existe dans la picklist.
   @wire(getUserUtcOffset)
   wiredUserTz({ data, error }) {
-    if (!this.allTimezones?.length) this.buildTimezoneOptions();
+    this.userTimezoneLoaded = true;
 
     if (data) {
-      this.selectedTimezone = data; // ex "UTC+01"
-      // optional: refresh immediately when TZ arrives
+      this.selectedTimezone = data;
+
+      const exists = (this.allTimezones || []).some(
+        (tz) => tz.value === this.selectedTimezone
+      );
+
+      if (!exists && this.allTimezones.length) {
+        this.selectedTimezone = this.allTimezones[0].value;
+      }
+
       this.scheduleFetchEvents(0);
     } else if (error) {
-      console.error("Error loading user timezone offset", error);
-      this.selectedTimezone = "UTC+00";
+      console.error("Error loading user timezone", error);
+
+      if (this.allTimezones.length) {
+        this.selectedTimezone = this.allTimezones[0].value;
+      } else {
+        this.selectedTimezone = "UTC";
+      }
     }
   }
 
@@ -133,33 +147,106 @@ export default class CustomCalendar extends NavigationMixin(LightningElement) {
     this.scheduleFetchEvents();
   };
 
-  /* ============================================================
-   * LOAD SPEAKERS (Contacts)
-   * ============================================================
-   */
+  @wire(getEventColors)
+  wiredEventColors({ data, error }) {
+    if (data) {
+      const records = (data || []).map((row) => ({
+        id: row.id,
+        label: row.label,
+        meetingDays: this.normalizeHex(row.meetingDays),
+        oneToOne: this.normalizeHex(row.oneToOne),
+        eventColor: this.normalizeHex(row.eventColor)
+      }));
+
+      this.colorLegendHeaders = records.map((rec) => ({
+        key: rec.id,
+        label: rec.label
+      }));
+
+      this.colorLegendRows = [
+        {
+          key: "meetingDays",
+          label: "Meeting Days",
+          cells: records.map((rec) => ({
+            key: `meeting-${rec.id}`,
+            style: this.buildLegendCellStyle(rec.meetingDays)
+          }))
+        },
+        {
+          key: "oneToOne",
+          label: "One to One",
+          cells: records.map((rec) => ({
+            key: `oto-${rec.id}`,
+            style: this.buildLegendCellStyle(rec.oneToOne)
+          }))
+        },
+        {
+          key: "event",
+          label: "Event",
+          cells: records.map((rec) => ({
+            key: `event-${rec.id}`,
+            style: this.buildLegendCellStyle(rec.eventColor)
+          }))
+        }
+      ];
+    } else {
+      this.colorLegendHeaders = [];
+      this.colorLegendRows = [];
+    }
+  }
 
   @wire(getSpeakerContacts)
   wiredSpeakerContacts({ data, error }) {
     if (data) {
-      console.log("====Loaded Speaker Contacts", data);
-      // data is Option[] => {label,value}
-      this.allSpeakers =
-        data.length && data[0].label !== undefined && data[0].value !== undefined
-          ? data
-          : (data || []).map((c) => ({
-              label: c.Name,
-              value: c.Id
-            }));
+      this.allSpeakers = (data || []).map((c) => ({
+        label: c.label,
+        value: c.value,
+        jobTitle: c.jobTitle
+      }));
+
+      const titles = [
+        ...new Set(
+          (data || [])
+            .map((c) => c.jobTitle)
+            .filter((v) => !!v)
+        )
+      ].sort();
+
+      this.allJobTitles = titles.map((title) => ({
+        label: title,
+        value: title
+      }));
     } else if (error) {
       console.error("Error loading Speaker Contacts", error);
       this.allSpeakers = [];
+      this.allJobTitles = [];
     }
   }
 
-  /* ============================================================
-   * ERROR HANDLER
-   * ============================================================
-   */
+  @wire(getEventPrefix)
+  wiredPrefix({ data }) {
+    if (data) {
+      this.eventPrefix = data;
+      this.updateContextFlags();
+    }
+  }
+
+  connectedCallback() {
+    this.allSalesTeams = this.countryOptions;
+
+    this.updateContextFlags();
+
+    this.addEventListener("fceventclick", this.handleEventClick);
+    this.addEventListener("fcdateclick", this.handleDateClick);
+
+    if (this.channelName) {
+      this.handleSubscribe();
+    }
+  }
+
+  renderedCallback() {
+    this.updateContextFlags();
+  }
 
   errorCallback(error, stack) {
     console.error("LWC errorCallback", error, stack);
@@ -167,10 +254,20 @@ export default class CustomCalendar extends NavigationMixin(LightningElement) {
       (error && (error.message || error.body?.message)) || "Unknown error";
   }
 
-  /* ============================================================
-   * GENERIC INPUT HANDLERS
-   * ============================================================
-   */
+  updateContextFlags() {
+    this.isEvent =
+      !!this.recordId &&
+      !!this.eventPrefix &&
+      this.recordId.startsWith(this.eventPrefix);
+  }
+
+  get isUserContext() {
+    return !!this.recordId && !this.isEvent;
+  }
+
+  get eventRecordId() {
+    return this.isEvent ? this.recordId : null;
+  }
 
   handleChange(event) {
     const { name, value } = event.target;
@@ -183,11 +280,6 @@ export default class CustomCalendar extends NavigationMixin(LightningElement) {
     this.fetchEvents();
   }
 
-  /* ============================================================
-   * PILLS UTILITY
-   * ============================================================
-   */
-
   selectionPills(sourceOptions, iconName, selectedValues) {
     const set = new Set(selectedValues || []);
     return (sourceOptions || [])
@@ -199,10 +291,15 @@ export default class CustomCalendar extends NavigationMixin(LightningElement) {
       }));
   }
 
-  /* ============================================================
-   * MULTI-SELECT CHANGE (AUTO REFRESH)
-   * ============================================================
-   */
+  normalizeHex(value) {
+    if (!value) return null;
+    const v = String(value).trim().replace(/^#/, "");
+    return v ? `#${v}` : null;
+  }
+
+  get hasColorLegend() {
+    return (this.colorLegendHeaders || []).length > 0;
+  }
 
   handleMultiSelection = (e) => {
     const lookup = e.target?.dataset?.id;
@@ -228,18 +325,22 @@ export default class CustomCalendar extends NavigationMixin(LightningElement) {
         this.dispSelectionPills.SalesTeams = this.salesTeamPills.length > 0;
         break;
 
+      case "JobTitles":
+        this.selectedJobTitles = [...(e.detail.selectedValues || [])];
+        this.jobTitlePills = this.selectionPills(
+          this.allJobTitles,
+          "standard:skill_entity",
+          this.selectedJobTitles
+        );
+        this.dispSelectionPills.JobTitles = this.jobTitlePills.length > 0;
+        break;
+
       default:
         return;
     }
 
-    // 🔁 Auto refresh calendar
     this.scheduleFetchEvents();
   };
-
-  /* ============================================================
-   * PILL REMOVE (AUTO REFRESH)
-   * ============================================================
-   */
 
   handleMultiItemRemove = (event) => {
     const type = event.target.dataset.id;
@@ -266,35 +367,40 @@ export default class CustomCalendar extends NavigationMixin(LightningElement) {
       this.dispSelectionPills.SalesTeams = this.salesTeamPills.length > 0;
     }
 
-    // 🔁 Auto refresh calendar
+    if (type === "JobTitles") {
+      this.selectedJobTitles = this.selectedJobTitles.filter(
+        (val) => val !== nameToRemove
+      );
+      this.jobTitlePills = this.jobTitlePills.filter(
+        (pill) => pill.name !== nameToRemove
+      );
+      this.dispSelectionPills.JobTitles = this.jobTitlePills.length > 0;
+    }
+
     this.scheduleFetchEvents();
   };
-
-  /* ============================================================
-   * CLEAR FILTERS
-   * ============================================================
-   */
 
   handleClear = () => {
     this.selectedSpeakerContactIds = [];
     this.selectedCountries = [];
-    this.selectedTimezone = this.selectedTimezone || "UTC+00"; // keep user default if already loaded
+    this.selectedTimezone = this.selectedTimezone || "UTC";
 
     this.speakerPills = [];
     this.salesTeamPills = [];
-    this.dispSelectionPills = { Speakers: false, SalesTeams: false };
-
+    this.selectedJobTitles = [];
+    this.jobTitlePills = [];
+    this.dispSelectionPills = {
+      Speakers: false,
+      SalesTeams: false,
+      JobTitles: false
+    };
     this.fetchEvents();
   };
 
-  /* ============================================================
-   * APPLY FILTERS (your template calls it)
-   * ============================================================
-   * If you keep auto-refresh, this can just fetch immediately.
-   */
   applyFilters = () => {
     this.fetchEvents();
   };
+
   openPrintVF = () => {
     this[NavigationMixin.Navigate]({
       type: "standard__webPage",
@@ -303,43 +409,6 @@ export default class CustomCalendar extends NavigationMixin(LightningElement) {
       }
     });
   };
-  /* ============================================================
-   * LIFECYCLE
-   * ============================================================
-   */
-
-  connectedCallback() {
-    if (!this.recordId) {
-      this.recordId = this.userId;
-    }
-
-    this.allSalesTeams = this.countryOptions;
-
-    if (!this.allTimezones?.length) this.buildTimezoneOptions();
-
-    this.addEventListener("fceventclick", this.handleEventClick);
-    this.addEventListener("fcdateclick", this.handleDateClick);
-
-    if (this.channelName) {
-      this.handleSubscribe();
-    }
-  }
-
-  // Optional: avoid ghost subscriptions
-  // disconnectedCallback() {
-  //   try {
-  //     if (this.subscription) {
-  //       unsubscribe(this.subscription, () => {});
-  //     }
-  //   } catch (e) {
-  //     // ignore
-  //   }
-  // }
-
-  /* ============================================================
-   * EMP API SUBSCRIPTION
-   * ============================================================
-   */
 
   async handleSubscribe() {
     const messageCallback = () => {
@@ -352,37 +421,27 @@ export default class CustomCalendar extends NavigationMixin(LightningElement) {
     return `/event/${this.channelName}`;
   }
 
-  /* ============================================================
-   * CONFIG SENT TO APEX
-   * ============================================================
-   */
-
   get config() {
     return {
-      recordId: this.recordId,
+      recordId: this.recordId || null,
       childObject: this.childObject,
       parentFieldName: this.parentFieldName,
-
-      // backward compat (still sent)
-      startDatetimeField: this.startDatetimeField,
-      endDatetimeField: this.endDatetimeField,
-
+      startDatetimeField: this.startDateField,
+      endDatetimeField: this.endDateField,
       titleField: this.titleField,
       startDate: this.startDate,
       endDate: this.endDate,
       colorField: this.colorField,
-
-      // ✅ filters
       speakerIds: this.selectedSpeakerContactIds,
+      speakerJobTitles: this.selectedJobTitles,
       salesTeams: this.selectedCountries,
-      targetTimezone: this.selectedTimezone || "UTC+00"
+      targetTimezone: this.selectedTimezone || "UTC"
     };
   }
 
-  /* ============================================================
-   * DATE RANGE CHANGE (FROM CALENDAR)
-   * ============================================================
-   */
+  get hasJobTitles() {
+    return (this.allJobTitles || []).length > 0;
+  }
 
   handleDateChange(event) {
     const { startDate, endDate } = event.detail.value;
@@ -391,18 +450,15 @@ export default class CustomCalendar extends NavigationMixin(LightningElement) {
     this.fetchEvents();
   }
 
-  /* ============================================================
-   * EVENT CLICK
-   * ============================================================
-   */
-
   handleEventClick = (e) => {
     this.selectedRecordId =
-      e.detail?.value?.event?._def?.extendedProps?.Id || e.detail?.value?.event?.id;
+      e.detail?.value?.event?._def?.extendedProps?.Id ||
+      e.detail?.value?.event?.id;
   };
 
   openRecord = () => {
     if (!this.selectedRecordId) return;
+
     this[NavigationMixin.Navigate]({
       type: "standard__recordPage",
       attributes: {
@@ -412,18 +468,13 @@ export default class CustomCalendar extends NavigationMixin(LightningElement) {
       }
     });
   };
+
   get canCreateEventFromDateClick() {
     return this.isEvent;
   }
-  /* ============================================================
-   * DATE CLICK → FLOW
-   * ============================================================
-   */
 
   handleDateClick = (event) => {
-    // Do nothing if current record IS not an Event
     if (!this.canCreateEventFromDateClick) return;
-
 
     const date = event.detail?.value?.date;
     if (!date) return;
@@ -450,6 +501,7 @@ export default class CustomCalendar extends NavigationMixin(LightningElement) {
       `&clickedDate=${encodeURIComponent(clickedDate)}` +
       `&clickedStartTime=${encodeURIComponent(clickedStartTime)}` +
       `&clickedEndTime=${encodeURIComponent(clickedEndTime)}` +
+      `&timezone=${encodeURIComponent(this.selectedTimezone || "UTC")}` +
       `&retURL=${encodeURIComponent(retURL)}`;
 
     this[NavigationMixin.Navigate]({
@@ -457,11 +509,6 @@ export default class CustomCalendar extends NavigationMixin(LightningElement) {
       attributes: { url }
     });
   };
-
-  /* ============================================================
-   * FETCH EVENTS
-   * ============================================================
-   */
 
   async fetchEvents() {
     try {
@@ -475,8 +522,8 @@ export default class CustomCalendar extends NavigationMixin(LightningElement) {
       }));
 
       const events = formatEvents(normalizedRows, this.config);
-
       const calendarCmp = this.template.querySelector("c-calendar");
+
       if (calendarCmp) {
         calendarCmp.setEvents(events);
       }
@@ -484,25 +531,6 @@ export default class CustomCalendar extends NavigationMixin(LightningElement) {
       console.error("fetchEvents error", e);
       this.errorMsg =
         (e && (e.message || e.body?.message)) || "Error fetching events";
-    }
-  }
-
-  /* ============================================================
-   * EVENT PREFIX
-   * ============================================================
-   */
-
-  @wire(getEventPrefix)
-  wiredPrefix({ data }) {
-    if (data) {
-      this.eventPrefix = data;
-      this.isEvent = this.recordId?.startsWith(this.eventPrefix);
-    }
-  }
-
-  renderedCallback() {
-    if (this.eventPrefix && this.recordId) {
-      this.isEvent = this.recordId.startsWith(this.eventPrefix);
     }
   }
 
@@ -514,31 +542,21 @@ export default class CustomCalendar extends NavigationMixin(LightningElement) {
     return (this.allSalesTeams || []).length > 0;
   }
 
-   /*openRecap() {
-        const modal = this.template.querySelector('c-event-recap-modal');
-        if (!modal) {
-            // safety fallback
-            // eslint-disable-next-line no-console
-            console.error('EventRecapModal not found in template');
-            return;
-        }
-        modal.open(this.recordId);
-    }*/
-   openRecap() {
-    // Exemple: https://carmignac-crm--partcopy.lightning.force.com
-    // ou https://carmignac-crm--partcopy.sandbox.lightning.force.com
-    const origin = window.location.origin;
+  buildLegendCellStyle(hex) {
+    const bg = hex || "#FFFFFF";
+    return `display:block;min-height:2rem;border-radius:0.25rem;border:1px solid #d8dde6;background-color:${bg};`;
+  }
 
-    // On passe du domaine lightning.force.com au domaine "my.salesforce-sites.com"
-    // (ça garde le bon préfixe d'env: carmignac-crm--partcopy)
+  openRecap() {
+    const origin = window.location.origin;
     const siteOrigin = origin.replace(
-        /\.lightning\.force\.com$/i,
-        '.my.salesforce-sites.com'
+      /\.lightning\.force\.com$/i,
+      ".my.salesforce-sites.com"
     );
 
-    const path = '/EventAgenda/apex/VFP18_EventAgenda';
+    const path = "/EventAgenda/apex/VFP18_EventAgenda";
     const url = `${siteOrigin}${path}?EventId=${this.recordId}&SMN=false`;
 
-    window.open(url, '_blank');
-}
+    window.open(url, "_blank");
+  }
 }

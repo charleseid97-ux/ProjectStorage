@@ -76,7 +76,7 @@ export default class EventApprovalsPanel extends LightningElement {
         });
     }
 
-    handleRejectCommentChange(event) {
+   handleRejectCommentChange(event) {
         const workItemId = event.currentTarget.dataset.workitemId;
         const value = event.target.value;
 
@@ -89,6 +89,9 @@ export default class EventApprovalsPanel extends LightningElement {
             }
             return row;
         });
+
+        event.target.setCustomValidity('');
+        event.target.reportValidity();
     }
 
     handleSubmitReject(event) {
@@ -100,7 +103,25 @@ export default class EventApprovalsPanel extends LightningElement {
             return;
         }
 
-        const finalComment = (row.rejectComment || '').trim() || 'Actioned from Event Approvals Panel';
+        const textarea = this.template.querySelector(
+            `lightning-textarea[data-workitem-id="${workItemId}"]`
+        );
+
+        const finalComment = (row.rejectComment || '').trim();
+
+        if (!finalComment) {
+            if (textarea) {
+                textarea.setCustomValidity('Rejection comment is required.');
+                textarea.reportValidity();
+            }
+            return;
+        }
+
+        if (textarea) {
+            textarea.setCustomValidity('');
+            textarea.reportValidity();
+        }
+
         this.act(workItemId, 'Reject', finalComment);
     }
 

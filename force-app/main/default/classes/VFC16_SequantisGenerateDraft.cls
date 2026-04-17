@@ -270,7 +270,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
         payload.put('projectType',  ProjectProductRec.TECH_RTName__c);
         payload.put('investmentObjective', projectInvestmentObjectiveNoHTML);
         payload.put('internalShortName',  ProjectProductRec.internalShortName__c);
-        payload.put('ongoingCosts', projectShareClassRec.OngoingCostsExante__c);
+        payload.put('ongoingCosts',projectShareClassRec.OngoingCostsExante__c != null ? projectShareClassRec.OngoingCostsExante__c : 0 );
         payload.put('userMail', UserInfo.getUserEmail());
         Id rtId = ProjectProductRec.RecordTypeId;
 
@@ -297,8 +297,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
         req.setHeader('Authorization', 'Bearer ' + token); 
         req.setHeader('Content-Type','application/json');
         req.setMethod('POST');
-        req.setEndpoint('callout:Sequantis/rest/CARMIGNAC_PROJECT');
-        
+        req.setEndpoint('https://demo-rr.sequantis.com/SequantisPRIIPS/rest/CARMIGNAC_PROJECT');        
 
         // Sérialisation du Map en JSON
         system.debug('payload====='+JSON.serialize(payload));
@@ -357,7 +356,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
         req.setMethod('POST');
         // Utilise le Named Credential
         //req.setEndpoint('callout:Sequantis' + tokenPath);
-        req.setEndpoint('callout:Sequantis/rest/authentication/');
+        req.setEndpoint('https://demo-rr.sequantis.com/SequantisPRIIPS/rest/authentication/');
         req.setHeader('Content-Type', 'application/json');
         String username = Label.seqlgn;
         String password = Label.seqpwd;

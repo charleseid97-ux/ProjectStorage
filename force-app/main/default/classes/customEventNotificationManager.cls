@@ -259,4 +259,52 @@ public with sharing class customEventNotificationManager {
 
         return out;
     }
+
+
+    /**
+     * Notify organizer (Contact) when events are created
+     */
+    public static void notifyOrganizer(List<Event__c> eventsList) {
+
+        if (eventsList == null || eventsList.isEmpty()) {
+            return;
+        }
+
+        // Reload events to get Organizer contact info
+        List<Event__c> eventsWithOrganizer = [
+            SELECT Id, Name, Organizer__c, Organizer__r.Name, Organizer__r.Email
+            FROM Event__c
+            WHERE Id IN :new Map<Id, Event__c>(eventsList).keySet()
+        ];
+
+        List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
+
+        for (Event__c evt : eventsWithOrganizer) {
+
+            // Skip if no valid organizer or email
+            if (evt.Organizer__c == null || evt.Organizer__r == null || String.isBlank(evt.Organizer__r.Email)) {
+                continue;
+            }
+
+            Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+            mail.setToAddresses(new List<String>{ evt.Organizer__r.Email });
+            mail.setSubject('New event created: ' + evt.Name);
+
+            // Basic HTML body for notification
+            mail.setHtmlBody(
+                '<div style="font-size:14px; line-height:20px;">'
+                + 'Hello ' + evt.Organizer__r.Name + ',<br/><br/>'
+                + 'The event <b>' + evt.Name + '</b> has been created.'
+                + '</div>'
+            );
+
+            mail.setSaveAsActivity(false);
+            emails.add(mail);
+        }
+
+        // Send all emails in one call (bulk safe)
+        if (!emails.isEmpty()) {
+            Messaging.sendEmail(emails, false);
+        }
+    }
 }

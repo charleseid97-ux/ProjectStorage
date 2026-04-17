@@ -2,8 +2,8 @@
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>EventTeamTest_Event1</fullName>
     <filterScope>Queue</filterScope>
-    <label>EventTeamTest</label>
-    <queue>EventTeamTest</queue>
+    <label>EventTeam</label>
+    <queue>	BooklyEventTeam</queue>
     <sharedTo>
         <allInternalUsers></allInternalUsers>
     </sharedTo>

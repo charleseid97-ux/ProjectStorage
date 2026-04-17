@@ -204,6 +204,22 @@
         <viewAllFields>true</viewAllFields>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
+    <pageAccesses>
+        <apexPage>VFP17_PrintEvents</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>VFP17_PrintEvents_PDF</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>VFP18_EventAgenda</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>VFP18_EventAgendaPDF</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
     <recordTypeVisibilities>
         <recordType>Event__c.Meeting</recordType>
         <visible>true</visible>
@@ -219,5 +235,9 @@
     <tabSettings>
         <tab>Event__c</tab>
         <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>EventsOverView</tab>
+        <visibility>Available</visibility>
     </tabSettings>
 </PermissionSet>

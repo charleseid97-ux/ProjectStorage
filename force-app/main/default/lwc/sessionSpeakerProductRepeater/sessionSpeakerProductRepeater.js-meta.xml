@@ -24,6 +24,21 @@
                       role="inputOnly"
                       label="Parent Event Id (preselect speaker)"/>
 
+            <property name="showTimeSlots"
+                      type="Boolean"
+                      role="inputOnly"
+                      label="Show Start and End Time"/>
+
+            <property name="defaultStartTime"
+                      type="String"
+                      role="inputOnly"
+                      label="Default Start Time"/>
+
+            <property name="defaultEndTime"
+                      type="String"
+                      role="inputOnly"
+                      label="Default End Time"/>
+
             <property name="outputValue"
                       type="String"
                       role="outputOnly"

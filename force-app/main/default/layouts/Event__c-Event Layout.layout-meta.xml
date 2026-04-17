@@ -35,6 +35,10 @@
                 <behavior>Required</behavior>
                 <field>endDate__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>salesOwner__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -42,7 +46,7 @@
                 <field>eventOwner__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>salesTeam__c</field>
             </layoutItems>
         </layoutColumns>
@@ -55,16 +59,12 @@
         <label>Event details</label>
         <layoutColumns>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>category__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>format__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>coHosted__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -95,7 +95,7 @@
         <label>Localisation</label>
         <layoutColumns>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>city__c</field>
             </layoutItems>
             <layoutItems>
@@ -109,7 +109,7 @@
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>country__c</field>
             </layoutItems>
             <layoutItems>
@@ -138,15 +138,11 @@
                 <field>capacity__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>targetedAttendees__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>audience__c</field>
-            </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
                 <field>clientType__c</field>

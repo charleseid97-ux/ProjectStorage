@@ -49,7 +49,6 @@ public without sharing class VFC18_EventAgenda {
                    MeetingGoal__c
             FROM Event__c
             WHERE Id = :parentEventId
-            WITH SECURITY_ENFORCED
             LIMIT 1
         ];
 
@@ -72,7 +71,6 @@ public without sharing class VFC18_EventAgenda {
                    MeetingNote__r.Note__c
             FROM Event__c
             WHERE ParentEvent__c = :parentEventId
-            WITH SECURITY_ENFORCED
             ORDER BY StartDate__c ASC, StartTime__c ASC
         ];
 
@@ -265,7 +263,6 @@ public without sharing class VFC18_EventAgenda {
                 SELECT Id, Event__c, Contact__c
                 FROM EventAttendee__c
                 WHERE Event__c IN :childIds
-                WITH SECURITY_ENFORCED
             ];
         } catch (Exception e) {
             errorMessage = 'Access error on EventAttendee__c query: ' + e.getMessage();
@@ -290,7 +287,6 @@ public without sharing class VFC18_EventAgenda {
                     SELECT Id, FirstName, LastName
                     FROM Contact
                     WHERE Id IN :attendeeContactIds
-                    WITH SECURITY_ENFORCED
                 ]) {
                     String fn = (c.FirstName == null) ? '' : c.FirstName;
                     String ln = (c.LastName == null) ? '' : c.LastName;
@@ -334,7 +330,6 @@ public without sharing class VFC18_EventAgenda {
                 SELECT Session__c, SpeakerContact__c, strategy__c
                 FROM SessionSpeakerProduct__c
                 WHERE Session__c IN :childIds
-                WITH SECURITY_ENFORCED
             ];
         } catch (Exception e) {
             errorMessage = 'Access error on SessionSpeakerProduct__c query: ' + e.getMessage();
@@ -384,7 +379,7 @@ public without sharing class VFC18_EventAgenda {
         Map<Id, String> speakerNameById = new Map<Id, String>();
         if (!speakerIds.isEmpty()) {
             try {
-                for (Contact c : [SELECT Id, Name FROM Contact WHERE Id IN :speakerIds WITH SECURITY_ENFORCED]) {
+                for (Contact c : [SELECT Id, Name FROM Contact WHERE Id IN :speakerIds ]) {
                     speakerNameById.put(c.Id, c.Name);
                 }
             } catch (Exception e) {
@@ -402,7 +397,7 @@ public without sharing class VFC18_EventAgenda {
                 for (strategy__c p : [
                     SELECT Id, Name
                     FROM strategy__c
-                    WHERE Id IN :productIds WITH SECURITY_ENFORCED
+                    WHERE Id IN :productIds 
                 ]) {
                     productNameById.put(p.Id, p.Name);
                 }

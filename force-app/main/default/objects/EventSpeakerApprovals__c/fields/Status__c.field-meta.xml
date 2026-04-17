@@ -31,12 +31,17 @@
             <value>
                 <fullName>approved_speaker</fullName>
                 <default>false</default>
-                <label>Approve by speaker</label>
+                <label>Approved by speaker</label>
             </value>
             <value>
                 <fullName>recalled</fullName>
                 <default>false</default>
                 <label>Recalled</label>
+            </value>
+            <value>
+                <fullName>autoApproved</fullName>
+                <default>false</default>
+                <label>Auto Approved</label>
             </value>
         </valueSetDefinition>
     </valueSet>

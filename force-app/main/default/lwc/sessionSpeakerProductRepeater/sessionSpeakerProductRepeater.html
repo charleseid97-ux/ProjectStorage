@@ -3,99 +3,122 @@
         <template for:each={entries} for:item="entry" for:index="index">
             <div key={entry.key} class="slds-box slds-m-bottom_small slds-theme_default">
                 <div class="slds-grid slds-wrap slds-gutters">
-                    <!-- Speakers (multi-select + pills) -->
-                    <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-3">
-                        <div class="slds-form-element">
-                            <div class="slds-form-element__control">
-                                <template if:true={allSpeakers}>
-                                    <c-multi-select-search-list
-                                        label="Speakers"
-                                        options={allSpeakers}
-                                        value={entry.speakerIds}
-                                        data-index={index}
-                                        data-field="Speakers"
-                                        onchange={handleMultiSelection}>
-                                    </c-multi-select-search-list>
-                                </template>
-                            </div>
+                    
+                    <!-- Speaker -->
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-6">
+                        <lightning-combobox
+                            label="Speaker"
+                            placeholder="Select speaker"
+                            options={allSpeakers}
+                            value={entry.speakerId}
+                            onchange={handleSpeakerChange}
+                            data-index={index}>
+                        </lightning-combobox>
+                    </div>
 
-                            <div class="slds-m-top_x-small" style="max-height: 3rem;">
-                                <lightning-pill-container
-                                    items={entry.speakerPills}
-                                    onitemremove={handleMultiItemRemove}
-                                    is-collapsible="true"
-                                    is-expanded="false"
-                                    data-index={index}
-                                    data-field="Speakers">
-                                </lightning-pill-container>
-                            </div>
+                    <!-- Products -->
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-6">
+                        <template if:true={allProducts}>
+                            <c-multi-select-search-list
+                                label="Products"
+                                options={allProducts}
+                                value={entry.productIds}
+                                data-index={index}
+                                data-field="Products"
+                                onchange={handleMultiSelection}>
+                            </c-multi-select-search-list>
+                        </template>
+
+                        <div class="slds-m-top_x-small" style="max-height: 3rem;">
+                            <lightning-pill-container
+                                items={entry.productPills}
+                                onitemremove={handleMultiItemRemove}
+                                is-collapsible="true"
+                                is-expanded="false"
+                                data-index={index}
+                                data-field="Products">
+                            </lightning-pill-container>
                         </div>
                     </div>
 
-                    <!-- Products (multi-select + pills) -->
-                    <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-3">
-                        <div class="slds-form-element">
-                            <div class="slds-form-element__control">
-                                <template if:true={allProducts}>
-                                    <c-multi-select-search-list
-                                        label="Products"
-                                        options={allProducts}
-                                        value={entry.productIds}
-                                        data-index={index}
-                                        data-field="Products"
-                                        onchange={handleMultiSelection}>
-                                    </c-multi-select-search-list>
-                                </template>
-                            </div>
-
-                            <div class="slds-m-top_x-small" style="max-height: 3rem;">
-                                <lightning-pill-container
-                                    items={entry.productPills}
-                                    onitemremove={handleMultiItemRemove}
-                                    is-collapsible="true"
-                                    is-expanded="false"
-                                    data-index={index}
-                                    data-field="Products">
-                                </lightning-pill-container>
-                            </div>
-                        </div>
+                    <!-- Speaker Language -->
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-6">
+                        <template if:true={hasLanguagePicklist}>
+                            <lightning-combobox
+                                label="Speaker Language"
+                                placeholder="Select speaker language"
+                                options={languageOptions}
+                                value={entry.speakerLanguage}
+                                onchange={handleSpeakerLanguageChange}
+                                data-index={index}>
+                            </lightning-combobox>
+                        </template>
+                        <template if:false={hasLanguagePicklist}>
+                            <lightning-input
+                                type="text"
+                                label="Speaker Language"
+                                value={entry.speakerLanguage}
+                                onchange={handleSpeakerLanguageChange}
+                                data-index={index}>
+                            </lightning-input>
+                        </template>
                     </div>
 
-                    <!-- Language__c -->
-                    <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-3">
-                        <div class="slds-form-element">
-                            <div class="slds-form-element__control">
-                                <template if:true={hasLanguagePicklist}>
-                                    <lightning-combobox
-                                        label="Language"
-                                        placeholder="Select language"
-                                        options={languageOptions}
-                                        value={entry.language}
-                                        onchange={handleLanguageChange}
-                                        data-index={index}>
-                                    </lightning-combobox>
-                                </template>
-                                <template if:false={hasLanguagePicklist}>
-                                    <lightning-input
-                                        type="text"
-                                        label="Language"
-                                        placeholder="Enter language"
-                                        value={entry.language}
-                                        onchange={handleLanguageChange}
-                                        data-index={index}>
-                                    </lightning-input>
-                                </template>
-                            </div>
+                    <!-- Start Time -->
+                    <template if:true={showTimeSlots}>
+                        <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-6">
+                            <lightning-input
+                                type="time"
+                                label="Start Time"
+                                value={entry.startTime}
+                                onchange={handleStartTimeChange}
+                                data-index={index}>
+                            </lightning-input>
                         </div>
-                    </div>
+
+                        <!-- End Time -->
+                        <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-6">
+                            <lightning-input
+                                type="time"
+                                label="End Time"
+                                value={entry.endTime}
+                                onchange={handleEndTimeChange}
+                                data-index={index}>
+                            </lightning-input>
+                        </div>
+                    </template>
+                    <!-- Language of Slides (conditionnel) -->
+                    <template if:true={entry.showSlidesLanguage}>
+                        <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-6">
+                            <template if:true={hasLanguagePicklist}>
+                                <lightning-combobox
+                                    label="Language of Slides"
+                                    options={languageOptions}
+                                    value={entry.language}
+                                    onchange={handleLanguageChange}
+                                    data-index={index}>
+                                </lightning-combobox>
+                            </template>
+                            <template if:false={hasLanguagePicklist}>
+                                <lightning-input
+                                    type="text"
+                                    label="Language of Slides"
+                                    value={entry.language}
+                                    onchange={handleLanguageChange}
+                                    data-index={index}>
+                                </lightning-input>
+                            </template>
+                        </div>
+                    </template>
+
                 </div>
 
+                <!-- Remove -->
                 <div class="slds-m-top_small slds-grid slds-grid_align-end">
                     <lightning-button-icon
                         icon-name="utility:delete"
                         variant="bare"
                         alternative-text="Remove"
-                        title="Remove this speaker/product block"
                         onclick={removeEntry}
                         data-index={index}>
                     </lightning-button-icon>
@@ -103,6 +126,7 @@
             </div>
         </template>
 
+        <!-- Actions -->
         <div class="slds-m-top_small slds-grid slds-grid_align-spread">
             <lightning-button
                 icon-name="utility:add"
@@ -110,7 +134,6 @@
                 onclick={addEntry}>
             </lightning-button>
 
-            <!-- Visible uniquement si debug -->
             <template if:true={debugEnabled}>
                 <lightning-button
                     variant="brand"
@@ -120,6 +143,16 @@
             </template>
         </div>
 
+        <!--  Zone erreur (proche du bouton Save du Flow) -->
+        <div class="slds-m-top_medium">
+            <template if:true={hasError}>
+                <div class="slds-text-color_error slds-text-body_regular">
+                    {errorMessage}
+                </div>
+            </template>
+        </div>
+
+        <!-- Debug -->
         <template if:true={debugEnabled}>
             <div class="slds-m-top_medium slds-box slds-theme_alert-texture">
                 <h3 class="slds-text-title_bold slds-m-bottom_x-small">

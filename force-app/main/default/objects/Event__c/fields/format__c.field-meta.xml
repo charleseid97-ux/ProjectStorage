@@ -2,21 +2,22 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>format__c</fullName>
     <label>Format</label>
-    <required>false</required>
+    <required>true</required>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
         <valueSetDefinition>
-            <sorted>true</sorted>
-            <value>
-                <fullName>Digital</fullName>
-                <default>false</default>
-                <label>Digital</label>
-            </value>
+            <sorted>false</sorted>
             <value>
                 <fullName>Physical</fullName>
                 <default>false</default>
                 <label>Physical</label>
+            </value>
+            <value>
+                <fullName>Digital</fullName>
+                <default>false</default>
+                <label>Digital</label>
             </value>
         </valueSetDefinition>
     </valueSet>
