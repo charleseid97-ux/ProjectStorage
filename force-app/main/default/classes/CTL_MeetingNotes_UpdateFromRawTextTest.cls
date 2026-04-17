@@ -49,7 +49,7 @@ private class CTL_MeetingNotes_UpdateFromRawTextTest {
     static void test_parse_root_object_single_product() {
         Id mnId = [SELECT Id FROM Meeting_Note__c LIMIT 1].Id;
 
-        String json = '{"productId":"STRAT_1","rating":5}';
+        String json = '{"StrategyId":"STRAT_1","rating":5}';
         List<ClientInterest__c> rows =
             CTL_MeetingNotes_UpdateFromRawText.parseClientInterestsJSON(json, mnId);
 
@@ -63,7 +63,7 @@ private class CTL_MeetingNotes_UpdateFromRawTextTest {
     static void test_parse_root_array() {
         Id mnId = [SELECT Id FROM Meeting_Note__c LIMIT 1].Id;
 
-        String json = '[{"productId":"A","rating":1},{"ProductId":"B","Rating":"3"}]';
+        String json = '[{"StrategyId":"A","rating":1},{"StrategyId":"B","Rating":"3"}]';
         List<ClientInterest__c> rows =
             CTL_MeetingNotes_UpdateFromRawText.parseClientInterestsJSON(json, mnId);
 
@@ -78,7 +78,7 @@ private class CTL_MeetingNotes_UpdateFromRawTextTest {
     static void test_parse_envelope_result_list() {
         Id mnId = [SELECT Id FROM Meeting_Note__c LIMIT 1].Id;
 
-        String json = '{"Result":[{"productId":"X","rating":2},{"productId":"Y","rating":4}]}';
+        String json = '{"Result":[{"StrategyId":"X","rating":2},{"StrategyId":"Y","rating":4}]}';
         List<ClientInterest__c> rows =
             CTL_MeetingNotes_UpdateFromRawText.parseClientInterestsJSON(json, mnId);
 
@@ -89,7 +89,7 @@ private class CTL_MeetingNotes_UpdateFromRawTextTest {
     static void test_parse_envelope_single_object() {
         Id mnId = [SELECT Id FROM Meeting_Note__c LIMIT 1].Id;
 
-        String json = '{"products":{"ProductId":"ONE","Rating":5}}';
+        String json = '{"products":{"StrategyId":"ONE","Rating":5}}';
         List<ClientInterest__c> rows =
             CTL_MeetingNotes_UpdateFromRawText.parseClientInterestsJSON(json, mnId);
 
@@ -109,13 +109,13 @@ private class CTL_MeetingNotes_UpdateFromRawTextTest {
         System.assertEquals(0, rowsErr.size(), 'Error envelope => 0 rows');
 
         // missing rating => skipped
-        String missingRating = '[{"productId":"A"}]';
+        String missingRating = '[{"StrategyId":"A"}]';
         List<ClientInterest__c> rowsMissingRating =
             CTL_MeetingNotes_UpdateFromRawText.parseClientInterestsJSON(missingRating, mnId);
         System.assertEquals(0, rowsMissingRating.size(), 'Missing rating => 0 rows');
 
         // rating non numérique => skipped (rating devient null)
-        String badRating = '[{"productId":"A","rating":"notANumber"}]';
+        String badRating = '[{"StrategyId":"A","rating":"notANumber"}]';
         List<ClientInterest__c> rowsBadRating =
             CTL_MeetingNotes_UpdateFromRawText.parseClientInterestsJSON(badRating, mnId);
         System.assertEquals(0, rowsBadRating.size(), 'Bad rating => 0 rows');
