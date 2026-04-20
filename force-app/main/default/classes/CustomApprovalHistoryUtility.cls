@@ -21,12 +21,25 @@ public with sharing class CustomApprovalHistoryUtility {
         result.errorMessage = null;
 
         try {
+            // Resolve the approver for the initial step before submitting
+            List<ApprovalStepConfig__mdt> initCfgs = [SELECT StepDeveloperName__c
+                                                       FROM ApprovalStepConfig__mdt
+                                                       WHERE ProcessConfig__r.ProcessDeveloperName__c = :processName
+                                                       AND IsInitialStep__c = true
+                                                       LIMIT 1];
+            String initialStepDevName = initCfgs.isEmpty() ? null : initCfgs[0].StepDeveloperName__c;
+            List<Id> initialApprovers = resolveApprovers(processName, initialStepDevName, recordId, null);
+
             Approval.ProcessSubmitRequest req = new Approval.ProcessSubmitRequest();
             req.setObjectId(recordId);
             req.setProcessDefinitionNameOrId(processName);
+            if (!initialApprovers.isEmpty()) {
+                req.setNextApproverIds(initialApprovers);
+            }
             if (String.isNotBlank(comments)) {
                 req.setComments(comments);
             }
+
             Approval.ProcessResult approvalResult = Approval.process(req);
             result.success = approvalResult.isSuccess();
             if (!approvalResult.isSuccess()) {
@@ -46,23 +59,20 @@ public with sharing class CustomApprovalHistoryUtility {
     // ─────────────────────────────────────── processApproval ───────────────────────────────────────
     @AuraEnabled(cacheable=false)
     public static ProcessResult processApproval(Id workItemId, String action, String comments, List<Id> nextApproverIds) {
-        System.debug('We are in processApproval');
         ProcessResult result = new ProcessResult();
         result.success      = false;
         result.errorMessage = null;
 
         try {
-            // Load work item with process and target object context
             ProcessInstanceWorkitem wi = [SELECT Id, ProcessInstanceId, ProcessInstance.TargetObjectId, ProcessInstance.ProcessDefinition.DeveloperName, ActorId
                                           FROM ProcessInstanceWorkitem
                                           WHERE Id = :workItemId
                                           LIMIT 1];
 
             String processDeveloperName = wi.ProcessInstance.ProcessDefinition.DeveloperName;
-            System.debug('processDeveloperName: '+processDeveloperName);
             Id targetObjectId = wi.ProcessInstance.TargetObjectId;
 
-            // Find the active ProcessInstanceNode for this work item's PI
+            // Identify the active step
             String stepDevName = null;
             List<ProcessInstanceNode> activePins = [SELECT ProcessNodeId
                                                     FROM ProcessInstanceNode
@@ -76,32 +86,7 @@ public with sharing class CustomApprovalHistoryUtility {
                 }
             }
 
-            // Resolve next approvers based on step config
-            List<Id> resolvedApprovers = new List<Id>();
-            if (stepDevName != null) {
-                List<ApprovalStepConfig__mdt> cfgs = [SELECT NextApproverSource__c, ApproverResolverClass__c
-                                                      FROM ApprovalStepConfig__mdt
-                                                      WHERE ProcessConfig__r.ProcessDeveloperName__c = :processDeveloperName
-                                                      AND StepDeveloperName__c = :stepDevName
-                                                      LIMIT 1];
-                System.debug('cfgs: '+cfgs);
-                if (!cfgs.isEmpty()) {
-                    ApprovalStepConfig__mdt stepCfg = cfgs[0];
-                    System.debug('stepCfg: '+stepCfg);
-                    if (stepCfg.NextApproverSource__c == 'Dynamic' && String.isNotBlank(stepCfg.ApproverResolverClass__c)) {
-                        Type resolverType = Type.forName(stepCfg.ApproverResolverClass__c);
-                        IApproverResolver resolver = (IApproverResolver) resolverType.newInstance();
-                        resolvedApprovers = resolver.resolve(targetObjectId);
-                    }
-                    else if (stepCfg.NextApproverSource__c == 'UserInput') {
-                        resolvedApprovers = nextApproverIds != null ? nextApproverIds : new List<Id>();
-                    }
-                    // NotRequired: resolvedApprovers stays empty — pre-configured approver or last step
-                }
-                else { // No config found — fall back to user-provided
-                    resolvedApprovers = nextApproverIds != null ? nextApproverIds : new List<Id>();
-                }
-            }
+            List<Id> resolvedApprovers = resolveApprovers(processDeveloperName, stepDevName, targetObjectId, nextApproverIds);
 
             Approval.ProcessWorkitemRequest req = new Approval.ProcessWorkitemRequest();
             req.setWorkitemId(workItemId);
@@ -128,5 +113,34 @@ public with sharing class CustomApprovalHistoryUtility {
             result.errorMessage = ex.getMessage();
         }
         return result;
+    }
+
+    // ─────────────────────────────────────── resolveApprovers ───────────────────────────────────────
+    private static List<Id> resolveApprovers(String processDeveloperName, String stepDevName, Id targetObjectId, List<Id> userInputIds) {
+        if (String.isBlank(stepDevName)) {
+            return userInputIds != null ? userInputIds : new List<Id>();
+        }
+
+        List<ApprovalStepConfig__mdt> cfgs = [SELECT NextApproverSource__c, ApproverResolverClass__c
+                                               FROM ApprovalStepConfig__mdt
+                                               WHERE ProcessConfig__r.ProcessDeveloperName__c = :processDeveloperName
+                                               AND StepDeveloperName__c = :stepDevName
+                                               LIMIT 1];
+
+        if (cfgs.isEmpty()) {
+            return userInputIds != null ? userInputIds : new List<Id>();
+        }
+
+        ApprovalStepConfig__mdt stepCfg = cfgs[0];
+
+        if (stepCfg.NextApproverSource__c == 'Dynamic' && String.isNotBlank(stepCfg.ApproverResolverClass__c)) {
+            IApproverResolver resolver = (IApproverResolver) Type.forName(stepCfg.ApproverResolverClass__c).newInstance();
+            return resolver.resolve(targetObjectId);
+        }
+        if (stepCfg.NextApproverSource__c == 'UserInput') {
+            return userInputIds != null ? userInputIds : new List<Id>();
+        }
+        // NotRequired: Salesforce uses the pre-configured approver
+        return new List<Id>();
     }
 }
