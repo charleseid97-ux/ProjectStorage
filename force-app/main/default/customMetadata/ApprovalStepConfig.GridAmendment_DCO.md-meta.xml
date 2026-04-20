@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Grid Amendment - DCO</label>
+    <protected>false</protected>
+    <values>
+        <field>ProcessConfig__c</field>
+        <value xsi:type="xsd:string">GridAmendment</value>
+    </values>
+    <values>
+        <field>StepDeveloperName__c</field>
+        <value xsi:type="xsd:string">DCOApproval</value>
+    </values>
+    <values>
+        <field>NextApproverSource__c</field>
+        <value xsi:type="xsd:string">NotRequired</value>
+    </values>
+    <values>
+        <field>ApproverResolverClass__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

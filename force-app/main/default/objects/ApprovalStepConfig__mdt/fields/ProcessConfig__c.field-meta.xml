@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ProcessConfig__c</fullName>
+    <description>Lookup to the parent ApprovalProcessConfig__mdt record. Links this step to its approval process configuration.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Select the ApprovalProcessConfig record for the process this step belongs to.</inlineHelpText>
+    <label>Process Config</label>
+    <referenceTo>ApprovalProcessConfig__mdt</referenceTo>
+    <relationshipLabel>Approval Step Configs</relationshipLabel>
+    <relationshipName>ApprovalStepConfigs</relationshipName>
+    <required>true</required>
+    <type>MetadataRelationship</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ObjectType__c</fullName>
+    <description>API name of the Salesforce object this approval process applies to, e.g. Grid__c. Used for documentation and future filtering.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Enter the API name of the object, for example: Grid__c or Opportunity. This helps admins understand which object each process configuration belongs to.</inlineHelpText>
+    <label>Object Type</label>
+    <length>80</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

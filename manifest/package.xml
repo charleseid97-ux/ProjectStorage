@@ -2,6 +2,9 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
 		<members>AgreementGridRecapController</members>
+		<members>CustomApprovalHistoryController</members>
+		<members>CustomApprovalHistoryControllerTest</members>
+		<members>CustomApprovalHistoryUtility</members>
 		<members>AgreementGridRecapControllerTest</members>
 		<members>AgreementGridTimelineUtility</members>
 		<members>AgreementUtil</members>
@@ -23,7 +26,9 @@
 		<members>GridExcelImportService</members>
 		<members>GridExcelImportServiceTest</members>
 		<members>GridRecapHelper</members>
+		<members>GridHOCApproverResolver</members>
 		<members>GridTestSetupHelper</members>
+		<members>IApproverResolver</members>
 		<members>GridValidationController</members>
 		<members>GridLifecycleTest</members>
 		<members>GridTriggerHandler</members>
@@ -192,6 +197,9 @@
 		<name>CustomLabel</name>
 	</types>
 	<types>
+		<members>ApprovalProcessConfig.GridAmendment</members>
+		<members>ApprovalStepConfig.GridAmendment_DCO</members>
+		<members>ApprovalStepConfig.GridAmendment_HOC</members>
 		<members>GridBuilderSetting.CustomGridBuilderSetting</members>
 		<members>GridCriteriaSetting.Product</members>
 		<members>GridCriteriaSetting.ShareClass</members>
@@ -305,6 +313,8 @@
 		<name>CustomMetadata</name>
 	</types>
 	<types>
+		<members>ApprovalProcessConfig__mdt</members>
+		<members>ApprovalStepConfig__mdt</members>
 		<members>AgreementGridTimeline__c</members>
 		<members>Convention__c</members>
 		<members>GridBuilderSetting__mdt</members>
@@ -366,6 +376,8 @@
 		<name>Layout</name>
 	</types>
 	<types>
+		<members>customApprovalHistory</members>
+		<members>gridSubmitAmendmentForApproval</members>
 		<members>agreementGridRecap</members>
 		<members>customCombobox</members>
 		<members>filterBuilder</members>
