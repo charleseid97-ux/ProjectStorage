@@ -421,18 +421,23 @@ export default class GridSimulation extends LightningElement {
         const buffer = window.XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' });
 
         // Step 2: re-open with ExcelJS to add freeze pane, then write
-        this.freezeExcelExport(buffer);
+        this.freezeExcelExport(buffer, colHdrRow + 1);
     }
 
-    async freezeExcelExport(buffer) {
-        const workbook = new ExcelJS.Workbook();
+    async freezeExcelExport(buffer, ySplit) {
+        const workbook = new window.ExcelJS.Workbook();
         await workbook.xlsx.load(buffer);
 
-        const sheet = workbook.getWorksheet("Allegato");
-        sheet.views = [
-            { state: "frozen", xSplit: 0, ySplit: 7 } // Freeze first row
-        ];
+        const sheet = workbook.getWorksheet('Allegato');
+        sheet.views = [{ state: 'frozen', xSplit: 0, ySplit: ySplit }];
 
-        await workbook.xlsx.writeFile("GridSimulation.xlsx");
+        const finalBuffer = await workbook.xlsx.writeBuffer();
+        const blob = new Blob([finalBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'GridSimulation_Allegato.xlsx';
+        a.click();
+        URL.revokeObjectURL(url);
     }
 }
