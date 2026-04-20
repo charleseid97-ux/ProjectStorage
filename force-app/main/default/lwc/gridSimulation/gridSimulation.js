@@ -367,16 +367,19 @@ export default class GridSimulation extends LightningElement {
             merges.push({ s: { r: footerStart + i, c: 0 }, e: { r: footerStart + i, c: COLS - 1 } });
         });
 
+        // Dynamic column widths: measure only from the column header row down to the footer gap
+        const colWidths = Array(COLS).fill(10);
+        aoa.slice(colHdrRow, footerStart - 1).forEach(rowData => {
+            rowData.forEach((cell, ci) => {
+                if (cell != null) colWidths[ci] = Math.max(colWidths[ci], String(cell).length);
+            });
+        });
+
         // Build worksheet
         const ws = window.XLSX.utils.aoa_to_sheet(aoa);
         ws['!merges'] = merges;
-        ws['!cols'] = [
-            { wch: 35 },
-            { wch: 20 },
-            { wch: 15 },
-            { wch: 30 },
-            { wch: 40 }
-        ];
+        ws['!cols'] = colWidths.map(w => ({ wch: w + 4 }));
+        ws['!freeze'] = { xSplit: 0, ySplit: colHdrRow + 1 };
 
         // Apply cell styles
         Object.keys(styles).forEach(key => {
