@@ -25,7 +25,7 @@ public with sharing class GridHOCApproverResolver implements IApproverResolver {
             return new List<Id>();
         }
 
-        List<Group> queues = [SELECT Id FROM Group WHERE Name = :mdts[0].HOCQueue__c AND Type = 'Queue' LIMIT 1];
+        List<Group> queues = [SELECT Id FROM Group WHERE DeveloperName = :mdts[0].HOCQueue__c AND Type = 'Queue' LIMIT 1];
         return queues.isEmpty() ? new List<Id>() : new List<Id>{ queues[0].Id };
     }
 }

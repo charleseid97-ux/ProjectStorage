@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IsInitialStep__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>When true, this step is the first approval step entered when a record is submitted. Used by CustomApprovalHistoryUtility.submitForApproval to resolve the initial approver before calling Approval.process.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <label>Is Initial Step</label>
+    <type>Checkbox</type>
+</CustomField>

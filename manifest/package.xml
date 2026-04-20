@@ -414,5 +414,9 @@
 		<members>GridTrigger</members>
 		<name>ApexTrigger</name>
 	</types>
+	<types>
+		<members>Grid__c</members>
+		<name>Workflow</name>
+	</types>
 	<version>66.0</version>
 </Package>
