@@ -234,9 +234,14 @@ export default class GridSimulation extends LightningElement {
         }
         if (!this.excelJsLoaded) {
             this.excelJsLoaded = true;
-            loadScript(this, ExcelJs)
-                .then(() => { console.log('ExcelJS loaded:', !!window.ExcelJS); })
-                .catch(e => { console.error('Failed to load ExcelJS:', e); });
+            console.log('ExcelJS resource URL:', ExcelJs);
+            if (!ExcelJs) {
+                console.error('ExcelJS static resource URL is undefined — make sure the resource is deployed to the org with the name "exceljs"');
+            } else {
+                loadScript(this, ExcelJs)
+                    .then(() => { console.log('ExcelJS loaded successfully, window.ExcelJS:', !!window.ExcelJS); })
+                    .catch(e => { console.error('Failed to load ExcelJS script:', e); });
+            }
         }
         if (this._focusNewMoney && this.editingNewMoneyId) {
             this._focusNewMoney = false;
