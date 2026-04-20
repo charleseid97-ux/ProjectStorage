@@ -15,10 +15,8 @@
             </value>
         </inputParameters>
         <nameSegment>CTL_MeetingNotes_UpdateFromRawText</nameSegment>
-        <offset>0</offset>
     </actionCalls>
     <apiVersion>65.0</apiVersion>
-    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <environments>Default</environments>
     <interviewLabel>AI_Meeting_Note_RawText {!$Flow.CurrentDateTime}</interviewLabel>
     <label>AI_Meeting_Note_RawText</label>
@@ -44,9 +42,6 @@
     <start>
         <locationX>0</locationX>
         <locationY>0</locationY>
-        <connector>
-            <targetReference>Update_Meeting_Note_from_Raw_Text_Action_1</targetReference>
-        </connector>
         <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
         <filterLogic>and</filterLogic>
         <filters>
@@ -58,6 +53,12 @@
         </filters>
         <object>Meeting_Note__c</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <scheduledPaths>
+            <connector>
+                <targetReference>Update_Meeting_Note_from_Raw_Text_Action_1</targetReference>
+            </connector>
+            <pathType>AsyncAfterCommit</pathType>
+        </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
