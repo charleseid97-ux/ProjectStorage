@@ -4,32 +4,11 @@
         <name>GenerateClientInterestsFromRawNote</name>
         <label>GenerateClientInterestsFromRawNote</label>
         <locationX>50</locationX>
-        <locationY>350</locationY>
+        <locationY>242</locationY>
         <actionName>flex_GenerateClientInterestsFromRawNote</actionName>
         <actionType>generatePromptResponse</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>Input:Meeting_Note__c</name>
-            <value>
-                <elementReference>MeetingNote</elementReference>
-            </value>
-        </inputParameters>
-        <nameSegment>flex_GenerateClientInterestsFromRawNote</nameSegment>
-        <offset>0</offset>
-        <outputParameters>
-            <assignToReference>Output_ClientInterests</assignToReference>
-            <name>promptResponse</name>
-        </outputParameters>
-    </actionCalls>
-    <actionCalls>
-        <name>SummaryFromRawNote</name>
-        <label>SummaryFromRawNote</label>
-        <locationX>50</locationX>
-        <locationY>242</locationY>
-        <actionName>flex_SummaryFromRawNote</actionName>
-        <actionType>generatePromptResponse</actionType>
         <connector>
-            <targetReference>GenerateClientInterestsFromRawNote</targetReference>
+            <targetReference>SummaryFromRawNoteV2</targetReference>
         </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
@@ -38,15 +17,39 @@
                 <elementReference>MeetingNote</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>flex_SummaryFromRawNote</nameSegment>
-        <offset>0</offset>
+        <nameSegment>flex_GenerateClientInterestsFromRawNote</nameSegment>
+        <outputParameters>
+            <assignToReference>Output_ClientInterests</assignToReference>
+            <name>promptResponse</name>
+        </outputParameters>
+    </actionCalls>
+    <actionCalls>
+        <name>SummaryFromRawNoteV2</name>
+        <label>SummaryFromRawNoteV2</label>
+        <locationX>50</locationX>
+        <locationY>350</locationY>
+        <actionName>flex_SummaryFromRawNoteV2</actionName>
+        <actionType>generatePromptResponse</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>Input:Meeting_Note_c</name>
+            <value>
+                <elementReference>MeetingNote</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>Input:Products</name>
+            <value>
+                <elementReference>GenerateClientInterestsFromRawNote</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>flex_SummaryFromRawNoteV2</nameSegment>
         <outputParameters>
             <assignToReference>Output_Summary</assignToReference>
             <name>promptResponse</name>
         </outputParameters>
     </actionCalls>
     <apiVersion>63.0</apiVersion>
-    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <assignments>
         <name>Assignment_1</name>
         <label>set AI Note the same As original Note</label>
@@ -87,11 +90,12 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>SummaryFromRawNote</targetReference>
+                <targetReference>GenerateClientInterestsFromRawNote</targetReference>
             </connector>
             <label>is SalesPresentation only</label>
         </rules>
     </decisions>
+    <description>AI Logic Changes</description>
     <environments>Default</environments>
     <interviewLabel>AL_RawText_GeneratePromptsResponses {!$Flow.CurrentDateTime}</interviewLabel>
     <label>AL_RawText_GeneratePromptsResponses</label>

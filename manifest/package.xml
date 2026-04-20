@@ -10,11 +10,18 @@
         <name>CustomField</name>
     </types>
     <types>
+        <members>MeetingNoteAIUpdateFinish</members>
+        <name>CustomNotificationType</name>
+    </types>
+    <types>
         <members>PT_RetrieveProducts</members>
+		<members>AI_Meeting_Note_RawText</members>
+		<members>AL_RawText_GeneratePromptsResponses</members>
         <name>Flow</name>
     </types>
     <types>
         <members>flex_GenerateClientInterestsFromRawNote</members>
+		<members>flex_SummaryFromRawNoteV2</members>
         <name>GenAiPromptTemplate</name>
     </types>
     <types>

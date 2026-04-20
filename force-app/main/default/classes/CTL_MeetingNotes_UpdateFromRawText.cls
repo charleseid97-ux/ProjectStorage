@@ -73,6 +73,10 @@ public without sharing class CTL_MeetingNotes_UpdateFromRawText {
             try {
                 update notesToUpdate;
                 System.debug(LoggingLevel.INFO, '[CTL_MN] Successfully updated ' + notesToUpdate.size() + ' Meeting Note(s)');
+
+                // Send Notification
+                Set<String> recipients = new Set<String>{ UserInfo.getUserId() };
+                sendActionDoneNotification(recipients, notesToUpdate[0].Id, 'Meeting Note Updated', 'The AI job has successfully updated the meeting note.');
             } catch (Exception e) {
                 System.debug(LoggingLevel.ERROR, '[CTL_MN] Error updating Meeting Notes: ' + e.getTypeName() + ' - ' + e.getMessage());
             }
@@ -248,5 +252,29 @@ public without sharing class CTL_MeetingNotes_UpdateFromRawText {
         ci.put(FN_CI_PRODUCTCODE, productCode);
         System.debug(LoggingLevel.DEBUG, '[CI_PARSE] Built ClientInterest__c: MeetingNote=' + meetingNoteId + ', StrategyId=' + strategyId + ', Rating=' + rating);  
         return ci;
+    }
+
+    public static void sendActionDoneNotification(Set<String> recipientUserIds, Id targetRecordId, String title, String body) {
+        if (recipientUserIds == null || recipientUserIds.isEmpty()) {
+            return;
+        }
+
+        CustomNotificationType notifType = [SELECT Id, DeveloperName
+                                            FROM CustomNotificationType
+                                            WHERE DeveloperName = 'MeetingNoteAIUpdateFinish'
+                                            LIMIT 1];
+
+        Messaging.CustomNotification notification = new Messaging.CustomNotification();
+        notification.setTitle(title);
+        notification.setBody(body);
+        notification.setNotificationTypeId(notifType.Id);
+        notification.setTargetId(targetRecordId);
+
+        try {
+            notification.send(recipientUserIds);
+        } catch (Exception e) {
+            System.debug('Custom notification failed: ' + e.getMessage());
+            throw e;
+        }
     }
 }
