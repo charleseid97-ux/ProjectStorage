@@ -58,6 +58,7 @@ public with sharing class GridSimulationController {
                    ' FROM AUM__c' +
                    ' WHERE ShareClass__c IN :scIdSet';
         q += (!agrIdSet.isEmpty())? ' AND Convention__c IN :agrIdSet' : '';
+        q += ' AND Last_AUM__c = true';
         q += ' GROUP BY ShareClass__c';
 
         for (AggregateResult ar : Database.query(q)) {

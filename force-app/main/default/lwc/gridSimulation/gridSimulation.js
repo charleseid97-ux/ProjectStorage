@@ -12,10 +12,12 @@ const FMT_INT = new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 0 });
 const fmt     = (v, suffix = '') => (v == null ? '—' : FMT.format(v) + suffix);
 const fmtInt  = (v, suffix = '') => {
     if (v == null) return '—';
-    const abs = Math.abs(v);
-    if (abs >= 1_000_000_000) return FMT_INT.format(Math.trunc(v / 1_000_000)) + ' M';
-    if (abs > 1_000_000)     return FMT.format(v / 1_000_000) + ' M';
-    return FMT_INT.format(Math.trunc(v)) + suffix;
+    const n = +v;
+    if (!isFinite(n)) return '—';
+    const abs = Math.abs(n);
+    if (abs >= 1_000_000_000) return FMT_INT.format(Math.trunc(n / 1_000_000)) + ' M';
+    if (abs > 1_000_000)     return FMT.format(n / 1_000_000) + ' M';
+    return FMT_INT.format(Math.trunc(n)) + suffix;
 };
 
 function parseNewMoney(raw) {
@@ -53,9 +55,9 @@ export default class GridSimulation extends LightningElement {
     get rawRows() {
         const globalPct = parseFloat(this.aumChangePercent) || 0;
         return [...this.rows, ...this.customRows].map(r => {
-            const curAum     = r.aum        || 0;
-            const effFee     = r.effMgtFees || 0;
-            const curRebRate = r.rebateRate || 0;
+            const curAum     = parseFloat(r.aum)        || 0;
+            const effFee     = parseFloat(r.effMgtFees) || 0;
+            const curRebRate = parseFloat(r.rebateRate) || 0;
             const curGross   = effFee * curAum / 100;
             const curRebates = curRebRate * curAum / 100;
             const curNet     = curGross - curRebates;
@@ -122,7 +124,7 @@ export default class GridSimulation extends LightningElement {
     // ── Step 3: totals ────────────────────────────────────────────────────────
     get totals() {
         const rr = this.rawRows;
-        const sum = key => rr.reduce((acc, r) => acc + (r[key] || 0), 0);
+        const sum = key => rr.reduce((acc, r) => acc + (parseFloat(r[key]) || 0), 0);
         const curAum=sum('curAum');
         const curGross=sum('curGross');
         const curRebates=sum('curRebates');
