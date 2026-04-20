@@ -10,7 +10,13 @@ import getSimulationInitData from '@salesforce/apex/GridSimulationController.get
 const FMT     = new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const FMT_INT = new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 0 });
 const fmt     = (v, suffix = '') => (v == null ? '—' : FMT.format(v) + suffix);
-const fmtInt  = (v, suffix = '') => (v == null ? '—' : FMT_INT.format(Math.trunc(v)) + suffix);
+const fmtInt  = (v, suffix = '') => {
+    if (v == null) return '—';
+    const abs = Math.abs(v);
+    if (abs >= 1_000_000_000) return FMT.format(v / 1_000_000) + 'M';
+    if (abs > 1_000_000)     return FMT_INT.format(Math.trunc(v / 1_000_000)) + 'M';
+    return FMT_INT.format(Math.trunc(v)) + suffix;
+};
 
 function parseNewMoney(raw) {
     if (raw == null) return 0;
