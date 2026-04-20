@@ -13,8 +13,8 @@ const fmt     = (v, suffix = '') => (v == null ? '—' : FMT.format(v) + suffix)
 const fmtInt  = (v, suffix = '') => {
     if (v == null) return '—';
     const abs = Math.abs(v);
-    if (abs >= 1_000_000_000) return FMT.format(v / 1_000_000) + 'M';
-    if (abs > 1_000_000)     return FMT_INT.format(Math.trunc(v / 1_000_000)) + 'M';
+    if (abs >= 1_000_000_000) return FMT_INT.format(Math.trunc(v / 1_000_000)) + ' M';
+    if (abs > 1_000_000)     return FMT.format(v / 1_000_000) + ' M';
     return FMT_INT.format(Math.trunc(v)) + suffix;
 };
 
