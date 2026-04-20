@@ -228,9 +228,15 @@ export default class GridSimulation extends LightningElement {
     renderedCallback() {
         if (!this.sheetJsLoaded) {
             this.sheetJsLoaded = true;
-            Promise.all([loadScript(this, XlsxJsStyle), loadScript(this, ExcelJs)])
-                .then(() => { this.sheetJsReady = true; this.excelJsLoaded = true; })
-                .catch(() => {});
+            loadScript(this, XlsxJsStyle)
+                .then(() => { this.sheetJsReady = true; })
+                .catch(e => { console.error('Failed to load XlsxJsStyle:', e); });
+        }
+        if (!this.excelJsLoaded) {
+            this.excelJsLoaded = true;
+            loadScript(this, ExcelJs)
+                .then(() => { console.log('ExcelJS loaded:', !!window.ExcelJS); })
+                .catch(e => { console.error('Failed to load ExcelJS:', e); });
         }
         if (this._focusNewMoney && this.editingNewMoneyId) {
             this._focusNewMoney = false;
@@ -409,20 +415,19 @@ export default class GridSimulation extends LightningElement {
         // Step 1: write to buffer with xlsxjsstyle (preserves cell styles)
         const buffer = window.XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' });
 
-        // Step 2: re-open with ExcelJS to add freeze pane, then download
-        (async () => {
-            const workbook = new window.ExcelJS.Workbook();
-            await workbook.xlsx.load(buffer);
-            const sheet = workbook.getWorksheet('Allegato');
-            sheet.views = [{ state: 'frozen', xSplit: 0, ySplit: colHdrRow + 1 }];
-            const finalBuffer = await workbook.xlsx.writeBuffer();
-            const blob = new Blob([finalBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'GridSimulation_Allegato.xlsx';
-            a.click();
-            URL.revokeObjectURL(url);
-        })();
+        // Step 2: re-open with ExcelJS to add freeze pane, then write
+        this.freezeExcelExport(buffer);
+    }
+
+    async freezeExcelExport(buffer) {
+        const workbook = new ExcelJS.Workbook();
+        await workbook.xlsx.load(buffer);
+
+        const sheet = workbook.getWorksheet("Allegato");
+        sheet.views = [
+            { state: "frozen", xSplit: 0, ySplit: 7 } // Freeze first row
+        ];
+
+        await workbook.xlsx.writeFile("GridSimulation.xlsx");
     }
 }
