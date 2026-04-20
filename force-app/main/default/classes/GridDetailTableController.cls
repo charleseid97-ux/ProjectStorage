@@ -24,14 +24,12 @@ public with sharing class GridDetailTableController {
             return result;
         }
 
-        Grid__c grid = [SELECT Id, RecordType.DeveloperName FROM Grid__c WHERE Id = :gridId LIMIT 1];
+        Grid__c grid = [SELECT Id, Agreement__c, RecordType.DeveloperName FROM Grid__c WHERE Id = :gridId LIMIT 1];
         AgreementSelection agreementSelection = new AgreementSelection();
 
         // Custom Grid: agreements are those where this grid is set as Grid_Request__c or Grid__c
-        if (grid.RecordType.DeveloperName == GridBuilderHelper.RT_CUSTOM_GRID) { 
-            for (Convention__c agr : [SELECT Id FROM Convention__c WHERE Grid_Request__c = :gridId OR Grid__c = :gridId]) {
-                agreementSelection.agreementIds.add(agr.Id);
-            }
+        if (grid.RecordType.DeveloperName == GridBuilderHelper.RT_CUSTOM_GRID) {
+            agreementSelection.agreementIds.add(grid.Agreement__c);
         }
         // Standard Grid: use GridScope__c
         else { 
