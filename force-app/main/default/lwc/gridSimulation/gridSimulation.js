@@ -379,7 +379,7 @@ export default class GridSimulation extends LightningElement {
         const ws = window.XLSX.utils.aoa_to_sheet(aoa);
         ws['!merges'] = merges;
         ws['!cols'] = colWidths.map(w => ({ wch: w + 4 }));
-        ws['!freeze'] = { xSplit: 0, ySplit: colHdrRow + 1 };
+        ws['!views'] = [{ state: 'frozen', ySplit: colHdrRow + 1 }];
 
         // Apply cell styles
         Object.keys(styles).forEach(key => {
