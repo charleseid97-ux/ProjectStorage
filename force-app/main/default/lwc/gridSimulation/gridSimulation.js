@@ -3,6 +3,7 @@ import { loadScript } from 'lightning/platformResourceLoader';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { LABELS } from 'c/gridBuilderUtils';
 import XlsxJsStyle from '@salesforce/resourceUrl/xlsxjsstyle';
+import ExcelJs     from '@salesforce/resourceUrl/exceljs';
 import getSimulationData    from '@salesforce/apex/GridSimulationController.getSimulationData';
 import getAgreementRegion  from '@salesforce/apex/GridSimulationController.getAgreementRegion';
 import getSimulationInitData from '@salesforce/apex/GridSimulationController.getSimulationInitData';
@@ -49,6 +50,7 @@ export default class GridSimulation extends LightningElement {
     labels                     = LABELS;
     sheetJsLoaded              = false;
     sheetJsReady               = false;
+    excelJsLoaded              = false;
     agreementRegion            = null;
 
     // ── Step 1: raw numbers — base for all derived getters ───────────────────
@@ -226,8 +228,8 @@ export default class GridSimulation extends LightningElement {
     renderedCallback() {
         if (!this.sheetJsLoaded) {
             this.sheetJsLoaded = true;
-            loadScript(this, XlsxJsStyle)
-                .then(() => { this.sheetJsReady = true; })
+            Promise.all([loadScript(this, XlsxJsStyle), loadScript(this, ExcelJs)])
+                .then(() => { this.sheetJsReady = true; this.excelJsLoaded = true; })
                 .catch(() => {});
         }
         if (this._focusNewMoney && this.editingNewMoneyId) {
@@ -403,6 +405,24 @@ export default class GridSimulation extends LightningElement {
 
         const wb = window.XLSX.utils.book_new();
         window.XLSX.utils.book_append_sheet(wb, ws, 'Allegato');
-        window.XLSX.writeFile(wb, 'GridSimulation_Allegato.xlsx');
+
+        // Step 1: write to buffer with xlsxjsstyle (preserves cell styles)
+        const buffer = window.XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' });
+
+        // Step 2: re-open with ExcelJS to add freeze pane, then download
+        (async () => {
+            const workbook = new window.ExcelJS.Workbook();
+            await workbook.xlsx.load(buffer);
+            const sheet = workbook.getWorksheet('Allegato');
+            sheet.views = [{ state: 'frozen', xSplit: 0, ySplit: colHdrRow + 1 }];
+            const finalBuffer = await workbook.xlsx.writeBuffer();
+            const blob = new Blob([finalBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'GridSimulation_Allegato.xlsx';
+            a.click();
+            URL.revokeObjectURL(url);
+        })();
     }
 }
