@@ -306,10 +306,10 @@ export default class GridSimulation extends LightningElement {
 
     // ── Excel export (ALLEGATO template) ─────────────────────────────────────
     handleExport() {
-        if (!window.XLSX) {
+        if (!window.XLSX || !window.ExcelJS) {
             this.dispatchEvent(new ShowToastEvent({
                 title: 'Export not ready',
-                message: 'Excel library is still loading. Please try again.',
+                message: 'Excel libraries are still loading. Please try again.',
                 variant: 'warning'
             }));
             return;
@@ -432,12 +432,15 @@ export default class GridSimulation extends LightningElement {
         sheet.views = [{ state: 'frozen', xSplit: 0, ySplit: ySplit }];
 
         const finalBuffer = await workbook.xlsx.writeBuffer();
-        const blob = new Blob([finalBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-        const url = URL.createObjectURL(blob);
+        const uint8 = new Uint8Array(finalBuffer);
+        let binary = '';
+        for (let i = 0; i < uint8.length; i += 8192) {
+            binary += String.fromCharCode(...uint8.subarray(i, i + 8192));
+        }
+        const base64 = btoa(binary);
         const a = document.createElement('a');
-        a.href = url;
-        a.download = 'GridSimulation_Allegato.xlsx';
+        a.href = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + base64;
+        a.download = 'GridSimulation.xlsx';
         a.click();
-        URL.revokeObjectURL(url);
     }
 }
