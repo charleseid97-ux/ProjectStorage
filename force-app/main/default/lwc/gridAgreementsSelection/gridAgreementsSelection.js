@@ -238,12 +238,21 @@ export default class GridAgreementsSelection extends LightningElement {
         return res;
     }
 
+    notifyValidity() {
+        this.dispatchEvent(new CustomEvent('formvaliditychange', { detail: { isValid: !this.isNextDisabled } }));
+    }
+
+    @api triggerNext() {
+        if (!this.isNextDisabled) this.handleNext();
+    }
+
     handleAgreementsChange(event) {
         let isSearchChange = event.detail && event.detail.isSearchChange;
         if (!isSearchChange) {
             let selected = (event.detail && event.detail.selectedValues) ? event.detail.selectedValues : [];
             this.selectedValues = selected? (Array.isArray(selected)? selected : [selected]) : [];
             this.pills = this.getPills();
+            this.notifyValidity();
         }
     }
 
@@ -252,6 +261,7 @@ export default class GridAgreementsSelection extends LightningElement {
         this.selectedValues = [];
         this.finalOptionsList = this.getFinalOptionsList();
         this.pills = this.getPills();
+        this.notifyValidity();
     }
 
     handlePillRemove(event) {
@@ -270,13 +280,13 @@ export default class GridAgreementsSelection extends LightningElement {
     }
 
     // ── AG field handlers ──
-    handleAgKind(e)           { this.agKind = e.detail.value; }
-    handleAgType(e)           { this.agType = e.detail.value; if (this.agType === 'MULTI RULE') { this.isAutoGridUpdate = false; } }
+    handleAgKind(e)           { this.agKind = e.detail.value; this.notifyValidity(); }
+    handleAgType(e)           { this.agType = e.detail.value; if (this.agType === 'MULTI RULE') { this.isAutoGridUpdate = false; } this.notifyValidity(); }
     handleAutoUpdateToggle(e) { this.isAutoGridUpdate = e.target.checked; }
-    handleAgStartDate(event)  { this.agStartDate = event.detail.value; }
-    handleAgEndDate(e)        { this.agEndDate = e.detail.value; }
-    handleAgThreshold(e)      { this.agThreshold = e.detail.value; if (!this.isThreshAboveZero) { this.agThreshCcy = ''; } }
-    handleAgThreshCcy(e)      { this.agThreshCcy = e.detail.value; }
+    handleAgStartDate(event)  { this.agStartDate = event.detail.value; this.notifyValidity(); }
+    handleAgEndDate(e)        { this.agEndDate = e.detail.value; this.notifyValidity(); }
+    handleAgThreshold(e)      { this.agThreshold = e.detail.value; if (!this.isThreshAboveZero) { this.agThreshCcy = ''; } this.notifyValidity(); }
+    handleAgThreshCcy(e)      { this.agThreshCcy = e.detail.value; this.notifyValidity(); }
     handleAgOtherFees(e)      { this.agOtherFees = e.target.checked; }
     handleAgComment(e)        { this.agComment = e.detail.value; }
 
