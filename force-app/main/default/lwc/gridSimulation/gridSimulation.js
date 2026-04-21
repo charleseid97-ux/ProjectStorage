@@ -3,6 +3,7 @@ import { loadScript } from 'lightning/platformResourceLoader';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { LABELS } from 'c/gridBuilderUtils';
 import XlsxJsStyle from '@salesforce/resourceUrl/xlsxjsstyle';
+import ExcelJs     from '@salesforce/resourceUrl/exceljs';
 import getSimulationData    from '@salesforce/apex/GridSimulationController.getSimulationData';
 import getAgreementRegion  from '@salesforce/apex/GridSimulationController.getAgreementRegion';
 import getSimulationInitData from '@salesforce/apex/GridSimulationController.getSimulationInitData';
@@ -10,7 +11,15 @@ import getSimulationInitData from '@salesforce/apex/GridSimulationController.get
 const FMT     = new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const FMT_INT = new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 0 });
 const fmt     = (v, suffix = '') => (v == null ? '—' : FMT.format(v) + suffix);
-const fmtInt  = (v, suffix = '') => (v == null ? '—' : FMT_INT.format(Math.trunc(v)) + suffix);
+const fmtInt  = (v, suffix = '') => {
+    if (v == null) return '—';
+    const n = +v;
+    if (!isFinite(n)) return '—';
+    const abs = Math.abs(n);
+    if (abs >= 1_000_000_000) return FMT_INT.format(Math.trunc(n / 1_000_000)) + ' M';
+    if (abs > 1_000_000)     return FMT.format(n / 1_000_000) + ' M';
+    return FMT_INT.format(Math.trunc(n)) + suffix;
+};
 
 function parseNewMoney(raw) {
     if (raw == null) return 0;
@@ -41,15 +50,16 @@ export default class GridSimulation extends LightningElement {
     labels                     = LABELS;
     sheetJsLoaded              = false;
     sheetJsReady               = false;
+    excelJsLoaded              = false;
     agreementRegion            = null;
 
     // ── Step 1: raw numbers — base for all derived getters ───────────────────
     get rawRows() {
         const globalPct = parseFloat(this.aumChangePercent) || 0;
         return [...this.rows, ...this.customRows].map(r => {
-            const curAum     = r.aum        || 0;
-            const effFee     = r.effMgtFees || 0;
-            const curRebRate = r.rebateRate || 0;
+            const curAum     = parseFloat(r.aum)        || 0;
+            const effFee     = parseFloat(r.effMgtFees) || 0;
+            const curRebRate = parseFloat(r.rebateRate) || 0;
             const curGross   = effFee * curAum / 100;
             const curRebates = curRebRate * curAum / 100;
             const curNet     = curGross - curRebates;
@@ -116,7 +126,7 @@ export default class GridSimulation extends LightningElement {
     // ── Step 3: totals ────────────────────────────────────────────────────────
     get totals() {
         const rr = this.rawRows;
-        const sum = key => rr.reduce((acc, r) => acc + (r[key] || 0), 0);
+        const sum = key => rr.reduce((acc, r) => acc + (parseFloat(r[key]) || 0), 0);
         const curAum=sum('curAum');
         const curGross=sum('curGross');
         const curRebates=sum('curRebates');
@@ -220,7 +230,18 @@ export default class GridSimulation extends LightningElement {
             this.sheetJsLoaded = true;
             loadScript(this, XlsxJsStyle)
                 .then(() => { this.sheetJsReady = true; })
-                .catch(() => {});
+                .catch(e => { console.error('Failed to load XlsxJsStyle:', e); });
+        }
+        if (!this.excelJsLoaded) {
+            this.excelJsLoaded = true;
+            console.log('ExcelJS resource URL:', ExcelJs);
+            if (!ExcelJs) {
+                console.error('ExcelJS static resource URL is undefined — make sure the resource is deployed to the org with the name "exceljs"');
+            } else {
+                loadScript(this, ExcelJs)
+                    .then(() => { console.log('ExcelJS loaded successfully, window.ExcelJS:', !!window.ExcelJS); })
+                    .catch(e => { console.error('Failed to load ExcelJS script:', e); });
+            }
         }
         if (this._focusNewMoney && this.editingNewMoneyId) {
             this._focusNewMoney = false;
@@ -285,10 +306,10 @@ export default class GridSimulation extends LightningElement {
 
     // ── Excel export (ALLEGATO template) ─────────────────────────────────────
     handleExport() {
-        if (!window.XLSX) {
+        if (!window.XLSX || !window.ExcelJS) {
             this.dispatchEvent(new ShowToastEvent({
                 title: 'Export not ready',
-                message: 'Excel library is still loading. Please try again.',
+                message: 'Excel libraries are still loading. Please try again.',
                 variant: 'warning'
             }));
             return;
@@ -359,16 +380,19 @@ export default class GridSimulation extends LightningElement {
             merges.push({ s: { r: footerStart + i, c: 0 }, e: { r: footerStart + i, c: COLS - 1 } });
         });
 
+        // Dynamic column widths: measure only from the column header row down to the footer gap
+        const colWidths = Array(COLS).fill(10);
+        aoa.slice(colHdrRow, footerStart - 1).forEach(rowData => {
+            rowData.forEach((cell, ci) => {
+                if (cell != null) colWidths[ci] = Math.max(colWidths[ci], String(cell).length);
+            });
+        });
+
         // Build worksheet
         const ws = window.XLSX.utils.aoa_to_sheet(aoa);
         ws['!merges'] = merges;
-        ws['!cols'] = [
-            { wch: 35 },
-            { wch: 20 },
-            { wch: 15 },
-            { wch: 30 },
-            { wch: 40 }
-        ];
+        ws['!cols'] = colWidths.map(w => ({ wch: w + 4 }));
+        ws['!views'] = [{ state: 'frozen', ySplit: colHdrRow + 1, xSplit: 0, topLeftCell: 'A' + (colHdrRow + 2) }];
 
         // Apply cell styles
         Object.keys(styles).forEach(key => {
@@ -392,6 +416,31 @@ export default class GridSimulation extends LightningElement {
 
         const wb = window.XLSX.utils.book_new();
         window.XLSX.utils.book_append_sheet(wb, ws, 'Allegato');
-        window.XLSX.writeFile(wb, 'GridSimulation_Allegato.xlsx');
+
+        // Step 1: write to buffer with xlsxjsstyle (preserves cell styles)
+        const buffer = window.XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' });
+
+        // Step 2: re-open with ExcelJS to add freeze pane, then write
+        this.freezeExcelExport(buffer, colHdrRow + 1);
+    }
+
+    async freezeExcelExport(buffer, ySplit) {
+        const workbook = new window.ExcelJS.Workbook();
+        await workbook.xlsx.load(buffer);
+
+        const sheet = workbook.getWorksheet('Allegato');
+        sheet.views = [{ state: 'frozen', xSplit: 0, ySplit: ySplit }];
+
+        const finalBuffer = await workbook.xlsx.writeBuffer();
+        const uint8 = new Uint8Array(finalBuffer);
+        let binary = '';
+        for (let i = 0; i < uint8.length; i += 8192) {
+            binary += String.fromCharCode(...uint8.subarray(i, i + 8192));
+        }
+        const base64 = btoa(binary);
+        const a = document.createElement('a');
+        a.href = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + base64;
+        a.download = 'GridSimulation.xlsx';
+        a.click();
     }
 }

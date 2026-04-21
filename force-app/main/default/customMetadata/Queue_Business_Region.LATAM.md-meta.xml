@@ -7,11 +7,11 @@
         <value xsi:type="xsd:string">BP_LA</value>
     </values>
     <values>
-        <field>Queue__c</field>
-        <value xsi:type="xsd:string">International &amp; LATAM</value>
-    </values>
-    <values>
         <field>HOCQueue__c</field>
         <value xsi:type="xsd:string">HOC_LA_Queue</value>
+    </values>
+    <values>
+        <field>Queue__c</field>
+        <value xsi:type="xsd:string">International &amp; LATAM</value>
     </values>
 </CustomMetadata>

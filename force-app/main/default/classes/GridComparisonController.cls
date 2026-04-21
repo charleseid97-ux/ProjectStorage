@@ -17,7 +17,7 @@ public with sharing class GridComparisonController {
                           WHERE Name LIKE :term
                           AND Id != :currentGridId
                           AND ((RecordType.DeveloperName = 'StandardGrid' AND ActiveGrid__c = true)
-                            OR (RecordType.DeveloperName = 'CustomGrid' AND ApprovalStatus__c = 'Approved'))
+                            OR (RecordType.DeveloperName = 'CustomGrid'))
                           ORDER BY Name LIMIT 500]) {
             results.add(new LookupResult(g.Id, g.Name, g.RecordType.Name));
         }

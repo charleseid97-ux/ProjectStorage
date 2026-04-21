@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Configuration record for a single step within an Approval Process used by the Custom Approval History LWC. Create one record per step that requires custom next-approver resolution. Steps with a pre-configured approver (NotRequired) still need a record so the LWC knows not to prompt for one.</description>
+    <label>Approval Step Config</label>
+    <pluralLabel>Approval Step Configs</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

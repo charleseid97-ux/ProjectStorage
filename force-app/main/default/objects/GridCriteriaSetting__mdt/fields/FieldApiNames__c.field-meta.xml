@@ -2,6 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>FieldApiNames__c</fullName>
     <description>Contains the API name(s) of the field or fields on this object that can be used in filters. Used to determine which fields are available in the filter builder for this object.</description>
+    <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <inlineHelpText>List the API names of the fields that can be used for filtering on this object. Separate multiple field names with a comma (,)</inlineHelpText>
     <label>Field Api Names</label>

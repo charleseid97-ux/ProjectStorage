@@ -1,0 +1,189 @@
+<template>
+    <section class="slds-card cardContainer">
+        <!-- Card Header -->
+        <div class="slds-card__header slds-grid headerClass">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <lightning-icon icon-name="utility:approval" size="x-small" class="relatedIcon"></lightning-icon>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <span class="slds-truncate" title={headerTitle}>{headerTitle}</span>
+                    </h2>
+                    <template if:true={hasProcessStatus}>
+                        <p class="slds-text-body_small slds-text-color_weak">{processStatus}</p>
+                    </template>
+                </div>
+            </header>
+            <div class="slds-no-flex header-actions">
+                <lightning-button-icon icon-name="utility:refresh" variant="border" alternative-text="Refresh" title="Refresh" onclick={handleRefresh}></lightning-button-icon>
+                <lightning-button-group>
+                    <template if:true={canApproveOrReject}>
+                        <lightning-button label="Approve" variant="neutral" onclick={handleHeaderApprove}></lightning-button>
+                        <lightning-button label="Reject" variant="neutral" onclick={handleHeaderReject}></lightning-button>
+                    </template>
+                    <template if:true={canRecall}>
+                        <lightning-button label="Recall" variant="neutral" onclick={handleHeaderRecall}></lightning-button>
+                    </template>
+                </lightning-button-group>
+            </div>
+        </div>
+
+        <!-- Card Body -->
+        <div class="tableContainer">
+            <template if:true={isLoading}>
+                <div class="centerSpinner">
+                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                </div>
+            </template>
+            <div class="slds-card__body slds-card__body_inner">
+                <template if:true={hasError}>
+                    <div class="slds-text-color_error slds-m-bottom_small">
+                        <p>{errorMessage}</p>
+                    </div>
+                </template>
+                <template if:true={hasRows}>
+                    <div class="slds-scrollable_x">
+                        <table class="grid-table">
+                            <thead>
+                                <tr>
+                                    <th class="th-default">Step Name</th>
+                                    <th class="th-default">Date</th>
+                                    <th class="th-default">Status</th>
+                                    <th class="th-default">Assigned To</th>
+                                    <th class="th-default">Actual Approver</th>
+                                    <th class="th-default">Comments</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={rows} for:item="row">
+                                    <tr key={row.id}>
+                                        <td>
+                                            <button
+                                                class="step-link"
+                                                data-row-id={row.id}
+                                                onclick={handleRowClick}
+                                            >{row.stepName}</button>
+                                        </td>
+                                        <td>{row.stepDateFormatted}</td>
+                                        <td class={row.statusClass}>
+                                            <span class="status-badge">{row.status}</span>
+                                        </td>
+                                        <td>{row.assignedTo}</td>
+                                        <td>{row.actualApprover}</td>
+                                        <td>{row.comments}</td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal Header -->
+                <header class="slds-modal__header slds-grid modal-header-grid">
+                    <div class="slds-has-flexi-truncate">
+                        <h2 class="slds-text-heading_medium slds-truncate">{selectedRow.stepName}</h2>
+                    </div>
+                    <div class="slds-no-flex modal-header-actions">
+                        <lightning-button-group>
+                            <template if:true={showModalApproveReject}>
+                                <lightning-button label="Approve" variant="neutral" onclick={handleModalApprove} disabled={isActionLoading}></lightning-button>
+                                <lightning-button label="Reject" variant="neutral" onclick={handleModalReject} disabled={isActionLoading}></lightning-button>
+                            </template>
+                            <template if:true={showModalRecall}>
+                                <lightning-button label="Recall" variant="neutral" onclick={handleModalRecall} disabled={isActionLoading}></lightning-button>
+                            </template>
+                        </lightning-button-group>
+                        <lightning-button-icon icon-name="utility:close" variant="border-filled" alternative-text="Close" title="Close" onclick={handleModalClose}></lightning-button-icon>
+                    </div>
+                </header>
+
+                <!-- Modal Body -->
+                <div class="slds-modal__content slds-p-around_medium">
+                    <template if:true={isActionLoading}>
+                        <div class="centerSpinner modal-spinner">
+                            <lightning-spinner alternative-text="Processing" size="small"></lightning-spinner>
+                        </div>
+                    </template>
+                    <template if:true={actionError}>
+                        <div class="slds-text-color_error slds-m-bottom_small">
+                            <p>{actionError}</p>
+                        </div>
+                    </template>
+
+                    <!-- 2-column record layout -->
+                    <div class="slds-grid slds-wrap slds-gutters_small">
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-form-element slds-m-bottom_small">
+                                <label class="slds-form-element__label slds-text-color_weak modal-field-label">Step Name</label>
+                                <div class="slds-form-element__control">
+                                    <span class="modal-field-value">{selectedRow.stepName}</span>
+                                </div>
+                            </div>
+                            <div class="slds-form-element slds-m-bottom_small">
+                                <label class="slds-form-element__label slds-text-color_weak modal-field-label">Date</label>
+                                <div class="slds-form-element__control">
+                                    <span class="modal-field-value">{selectedRow.stepDateFormatted}</span>
+                                </div>
+                            </div>
+                            <div class="slds-form-element slds-m-bottom_small">
+                                <label class="slds-form-element__label slds-text-color_weak modal-field-label">Status</label>
+                                <div class="slds-form-element__control">
+                                    <span class={selectedRow.statusClass}><strong>{selectedRow.status}</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-form-element slds-m-bottom_small">
+                                <label class="slds-form-element__label slds-text-color_weak modal-field-label">Assigned To</label>
+                                <div class="slds-form-element__control">
+                                    <span class="modal-field-value">{selectedRow.assignedTo}</span>
+                                </div>
+                            </div>
+                            <div class="slds-form-element slds-m-bottom_small">
+                                <label class="slds-form-element__label slds-text-color_weak modal-field-label">Actual Approver</label>
+                                <div class="slds-form-element__control">
+                                    <span class="modal-field-value">{selectedRow.actualApprover}</span>
+                                </div>
+                            </div>
+                            <div class="slds-form-element slds-m-bottom_small">
+                                <label class="slds-form-element__label slds-text-color_weak modal-field-label">Comments</label>
+                                <div class="slds-form-element__control">
+                                    <span class="modal-field-value">{selectedRow.comments}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Next Approver picker (UserInput only) -->
+                    <template if:true={showNextApproverInput}>
+                        <div class="slds-form-element slds-m-top_small">
+                            <label class="slds-form-element__label">Next Approver</label>
+                            <div class="slds-form-element__control">
+                                <lightning-record-picker label="Next Approver" placeholder="Search Users..." object-api-name="User" onchange={handleNextApproverChange}></lightning-record-picker>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- Comments input (always shown for pending rows) -->
+                    <template if:true={showModalInputs}>
+                        <div class="slds-form-element slds-m-top_small">
+                            <lightning-textarea label="Comments" placeholder="Optional comments..." value={modalComments} onchange={handleModalCommentChange}></lightning-textarea>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Empty footer — close via X only -->
+                <footer class="slds-modal__footer"></footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

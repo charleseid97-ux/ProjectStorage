@@ -1,5 +1,5 @@
-import { LightningElement, api, track } from 'lwc';
-import { NavigationMixin } from 'lightning/navigation';
+import { LightningElement, api, track, wire } from 'lwc';
+import { NavigationMixin, CurrentPageReference } from 'lightning/navigation';
 import getGridSettings from '@salesforce/apex/GridBuilderController.getGridSettings';
 import getAvailableGrids from '@salesforce/apex/GridBuilderController.getAvailableGrids';
 import getAgreementSelectionPageSettings from '@salesforce/apex/GridBuilderController.getAgreementSelectionPageSettings';
@@ -7,7 +7,7 @@ import getDraftGridData from '@salesforce/apex/GridBuilderController.getDraftGri
 import getApprovedGridData from '@salesforce/apex/GridBuilderController.getApprovedGridData';
 import getAllProductsForSelection from '@salesforce/apex/GridBuilderController.getAllProductsForSelection';
 import getProductsAndShareClasses from '@salesforce/apex/GridBuilderController.getProductsAndShareClasses';
-import {LABELS, reduceError, showToast, buildShareTypesKey, getProductNameFromRows, getQueryParam, getSystemProductExclusionDetail, 
+import {LABELS, reduceError, showToast, buildShareTypesKey, getProductNameFromRows, getQueryParam, getRecordIdFromPageRef, getSystemProductExclusionDetail,
     applySystemProductExclusion, mergeSystemDetail, addIsinExclusionsFromRows, pruneOrphanedCriteria} from 'c/gridBuilderUtils';
 
 export default class CustomGridBuilder extends NavigationMixin(LightningElement) {
@@ -20,6 +20,9 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
     @track showGridBuilderPage = false;
     @track showValidationPage = false;
     @track showSimulation = false;
+    @track maxReachedStep = 1;
+    @track isAgreementsFormValid = false;
+    @track savedLoadPreviousGrid = false;
 
     // First Page: Agreement Selection
     @track agreementSelectionMode = 'Single';
@@ -89,6 +92,64 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
         return !this.selectedShareClasses || this.selectedShareClasses.length === 0;
     }
 
+    get currentStep() {
+        if (this.showSimulation)    return '4';
+        if (this.showValidationPage) return '3';
+        if (this.showGridBuilderPage) return '2';
+        return '1';
+    }
+
+    isStepEnabled(step) {
+        const current = parseInt(this.currentStep, 10);
+        if (step === current) return false;
+        if (step < current)  return true;
+        if (step <= this.maxReachedStep) return true;
+        if (step === current + 1) {
+            if (current === 1) return this.isAgreementsFormValid;
+            if (current === 2) return !this.validateGridDisabled;
+            if (current === 3) return true;
+        }
+        return false;
+    }
+
+    get step1Enabled() { return this.isStepEnabled(1); }
+    get step2Enabled() { return this.isStepEnabled(2); }
+    get step3Enabled() { return this.isStepEnabled(3); }
+    get step4Enabled() { return this.isStepEnabled(4); }
+
+    handleAgreementsFormValidityChange(event) {
+        this.isAgreementsFormValid = event.detail.isValid;
+        this.maxReachedStep = 1;
+    }
+
+    handleLoadPreviousChange(event) {
+        this.savedLoadPreviousGrid = event.detail.value;
+    }
+
+    handlePathStepClick(event) {
+        const step = parseInt(event.currentTarget.dataset.step, 10);
+        if (!this.isStepEnabled(step)) return;
+        this.maxReachedStep = Math.max(step, this.maxReachedStep);
+        if (step === 1) {
+            this.showSimulation = false;
+            this.handlePages(true, false, false);
+        } else if (step === 2) {
+            if (parseInt(this.currentStep, 10) === 1) {
+                const agreementsComp = this.template.querySelector('c-grid-agreements-selection');
+                if (agreementsComp) agreementsComp.triggerNext();
+            } else {
+                this.showSimulation = false;
+                this.handlePages(false, true, false);
+            }
+        } else if (step === 3) {
+            this.showSimulation = false;
+            this.handlePages(false, false, true);
+        } else if (step === 4) {
+            this.handlePages(false, false, true);
+            this.showSimulation = true;
+        }
+    }
+
     get isGridBuilderOrValidationPage() {
         return this.showGridBuilderPage || this.showValidationPage;
     }
@@ -104,7 +165,52 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
         }));
     }
 
+    _isConnected = false;
+
+    @wire(CurrentPageReference)
+    async wiredPageRef(pageRef) {
+        if (!pageRef || !this._isConnected) return;
+        const newId = getRecordIdFromPageRef(pageRef);
+        if (newId !== this.recId) {
+            this._resetState();
+            await this._initialize();
+        }
+    }
+
+    _resetState() {
+        this.showAgreementsPage    = false;
+        this.showGridBuilderPage   = false;
+        this.showValidationPage    = false;
+        this.showSimulation        = false;
+        this.isLoading             = true;
+        this.maxReachedStep        = 1;
+        this.isAgreementsFormValid = false;
+        this.savedLoadPreviousGrid = false;
+        this.selectedAgreements    = [];
+        this.selectedAgreementNames = [];
+        this.selectedShareClasses  = [];
+        this.shareClasses          = [];
+        this.allQueriedShareClasses = [];
+        this.criteriaList          = [];
+        this.criteria              = { ...this.criteriaDefVal };
+        this.gridOptions           = [];
+        this.selectedGrid          = null;
+        this.gridShareClassMap     = {};
+        this.gridRequestData       = {};
+        this.draftGridId           = null;
+        this.pendingDraftData      = null;
+        this.hasDraftGrid          = false;
+        this.existingGridInfo      = { hasExistingGrid: false, kind: null, type: null, endDate: null };
+        this.showSelectedPanel     = false;
+        this.countriesOfDistribution = null;
+    }
+
     async connectedCallback() {
+        this._isConnected = true;
+        await this._initialize();
+    }
+
+    async _initialize() {
         try {
             this.recId = getQueryParam('c__recordId');
             let agreementSettings = await getAgreementSelectionPageSettings({
@@ -783,10 +889,13 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
             this.pendingDraftData = null;
         }
 
-        if (event.detail?.loadPreviousGrid && this.recId) {
+        const prevLoadPrevious = this.savedLoadPreviousGrid;
+        this.savedLoadPreviousGrid = event.detail?.loadPreviousGrid || false;
+        if (!prevLoadPrevious && this.savedLoadPreviousGrid && this.recId) {
             await this.loadApprovedGridAsTemplate();
         }
 
+        this.maxReachedStep = Math.max(2, this.maxReachedStep);
         this.handlePages(false, true, false);
     }
 
@@ -811,6 +920,7 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
     }
 
     handleGridValidation() {
+        this.maxReachedStep = Math.max(3, this.maxReachedStep);
         this.handlePages(false, false, true);
     }
 
@@ -820,6 +930,7 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
     }
 
     handleSimulationRequested() {
+        this.maxReachedStep = Math.max(4, this.maxReachedStep);
         this.showSimulation = true;
     }
 

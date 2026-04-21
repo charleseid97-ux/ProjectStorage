@@ -395,6 +395,10 @@ export function getQueryParam(paramName) {
     return null;
 }
 
+export function getRecordIdFromPageRef(pageRef) {
+    return (pageRef && pageRef.state && pageRef.state.c__recordId) ? pageRef.state.c__recordId : null;
+}
+
 export function buildDefaultLogicExpression(count, logicType) {
     if (count <= 0) {
         return '';

@@ -210,16 +210,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Grid__c</fieldItem>
-                <identifier>RecordGrid_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.EffectiveDate__c</fieldItem>
                 <identifier>RecordEffectiveDate_cField</identifier>
             </fieldInstance>
@@ -240,8 +230,25 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.NoGridRequired__c</fieldItem>
+                <identifier>RecordNoGridRequired_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Grid_Start_Date__c</fieldItem>
                 <identifier>RecordGrid_Start_Date_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.NoGridRequired__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>false</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-eceb1a75-b686-45a2-94d6-d7924a800069</name>
@@ -264,16 +271,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.ExpirationDate__c</fieldItem>
-                <identifier>RecordExpirationDate_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.AUM_To_Date__c</fieldItem>
                 <identifier>RecordAUM_To_Date_cField</identifier>
             </fieldInstance>
@@ -286,6 +283,23 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.YTDNetFlows__c</fieldItem>
                 <identifier>RecordYTDNetFlows_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.ExpirationDate__c</fieldItem>
+                <identifier>RecordExpirationDate_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.NoGridRequired__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>false</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-da24a851-4c30-44e3-bece-c33d955e98a3</name>
@@ -313,6 +327,58 @@
             </componentInstance>
         </itemInstances>
         <name>Facet-9561fc40-87d5-4a6b-9877-2605f330744a</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Grid_Request__c</fieldItem>
+                <identifier>RecordGrid_Request_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-9171e4b0-523e-4be7-baf5-d662f7d01f2b</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Grid_Request_Start_Date__c</fieldItem>
+                <identifier>RecordGrid_Request_Start_Date_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-9dccaf3e-bb74-43ca-a6f1-678d8cb7c10c</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-9171e4b0-523e-4be7-baf5-d662f7d01f2b</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column13</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-9dccaf3e-bb74-43ca-a6f1-678d8cb7c10c</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:column</componentName>
+                <identifier>flexipage_column14</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-1d143cba-22e5-432b-9b68-ff18e3dd4eda</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -890,58 +956,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Grid_Request__c</fieldItem>
-                <identifier>RecordGrid_Request_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-9171e4b0-523e-4be7-baf5-d662f7d01f2b</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Grid_Request_Start_Date__c</fieldItem>
-                <identifier>RecordGrid_Request_Start_Date_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-9dccaf3e-bb74-43ca-a6f1-678d8cb7c10c</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-9171e4b0-523e-4be7-baf5-d662f7d01f2b</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column13</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-9dccaf3e-bb74-43ca-a6f1-678d8cb7c10c</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:column</componentName>
-                <identifier>flexipage_column14</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-1d143cba-22e5-432b-9b68-ff18e3dd4eda</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.Renewal_Request_End_Date__c</fieldItem>
                 <identifier>RecordRenewal_Request_End_Date_cField</identifier>
             </fieldInstance>
@@ -1174,6 +1188,13 @@
             <componentInstance>
                 <componentName>agreementGridRecap</componentName>
                 <identifier>c_agreementGridRecap</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.NoGridRequired__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>false</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1192,6 +1213,31 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>columns</name>
+                    <value>Facet-1d143cba-22e5-432b-9b68-ff18e3dd4eda</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>horizontalAlignment</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>label</name>
+                    <value>Grid Amendment Request</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:fieldSection</componentName>
+                <identifier>flexipage_fieldSection7</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.NoGridRequired__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>false</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <itemInstances>
@@ -1264,24 +1310,6 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection6</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>columns</name>
-                    <value>Facet-1d143cba-22e5-432b-9b68-ff18e3dd4eda</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>Grid Amendment Request</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:fieldSection</componentName>
-                <identifier>flexipage_fieldSection7</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>

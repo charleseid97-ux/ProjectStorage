@@ -7,11 +7,11 @@
         <value xsi:type="xsd:string">BP_BE</value>
     </values>
     <values>
-        <field>Queue__c</field>
-        <value xsi:type="xsd:string">Belgium</value>
-    </values>
-    <values>
         <field>HOCQueue__c</field>
         <value xsi:type="xsd:string">BENELUX</value>
+    </values>
+    <values>
+        <field>Queue__c</field>
+        <value xsi:type="xsd:string">Belgium</value>
     </values>
 </CustomMetadata>

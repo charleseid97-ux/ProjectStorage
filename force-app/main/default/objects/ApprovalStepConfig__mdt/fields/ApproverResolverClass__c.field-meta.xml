@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ApproverResolverClass__c</fullName>
+    <description>Apex class name (without namespace) that implements the IApproverResolver interface. Only required when NextApproverSource__c = Dynamic. The class receives the record Id and returns a list of approver Ids (users or queues).</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Enter the Apex class name, for example: GridHOCApproverResolver. The class must implement IApproverResolver and be deployed to the org. Leave blank for NotRequired or UserInput steps.</inlineHelpText>
+    <label>Approver Resolver Class</label>
+    <length>80</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
