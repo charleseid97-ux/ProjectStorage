@@ -72,6 +72,10 @@ export default class GridAgreementsSelection extends LightningElement {
 
     @api hasDraftGrid = false;
     @track loadPreviousGrid = false;
+
+    @api
+    set initialLoadPreviousGrid(val) { this.loadPreviousGrid = val || false; }
+    get initialLoadPreviousGrid()    { return this.loadPreviousGrid; }
     _existingGridInfo = { hasExistingGrid: false, kind: null, type: null, endDate: null };
 
     @api
@@ -277,6 +281,8 @@ export default class GridAgreementsSelection extends LightningElement {
             this.agType = this.existingGridType;
             if (this.agType === 'MULTI RULE') { this.isAutoGridUpdate = false; }
         }
+        this.dispatchEvent(new CustomEvent('loadpreviouschange', { detail: { value: this.loadPreviousGrid } }));
+        this.notifyValidity();
     }
 
     // ── AG field handlers ──

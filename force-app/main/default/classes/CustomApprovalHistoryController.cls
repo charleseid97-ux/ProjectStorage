@@ -159,11 +159,8 @@ public with sharing class CustomApprovalHistoryController {
                 }
             }
 
-            // Recall eligibility (only for Pending PIs; AllowRecall enforced server-side by Salesforce)
-            if (pi.Status == 'Pending') {
-                if (isAdmin || pi.SubmittedById == currentUserId) {
-                    canRecall = true;
-                }
+            if (isRecallEligible(pi, currentUserId, isAdmin)) {
+                canRecall = true;
             }
         }
 
@@ -180,6 +177,12 @@ public with sharing class CustomApprovalHistoryController {
     }
 
     // ─────────────────────────────────────── Private helpers ───────────────────────────────────────
+    // Recall allowed when PI is pending AND the user is the submitter or an admin.
+    // AllowRecall setting is enforced server-side by Salesforce.
+    private static Boolean isRecallEligible(ProcessInstance pi, Id userId, Boolean isAdmin) {
+        return pi.Status == 'Pending' && (isAdmin || pi.SubmittedById == userId);
+    }
+
     private static String resolveStepName(Id stepNodeId, List<ProcessInstanceNode> pins, Map<Id, String> nodeIdToDeveloperName) {
         if (stepNodeId == null) return null;
         for (ProcessInstanceNode pin : pins) {
