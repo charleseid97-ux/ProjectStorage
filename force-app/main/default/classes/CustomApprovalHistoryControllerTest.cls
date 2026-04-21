@@ -9,6 +9,9 @@
 @IsTest
 public with sharing class CustomApprovalHistoryControllerTest {
 
+    private static final String SHOULD_FAIL_INVALID_WORKITEM = 'Should fail for invalid work item Id';
+    private static final String ERROR_MSG_SHOULD_BE_SET = 'Error message should be set';
+
     @TestSetup
     static void setupTestData() {
         GridTestSetupHelper.setupTestData();
@@ -56,8 +59,8 @@ public with sharing class CustomApprovalHistoryControllerTest {
         CustomApprovalHistoryUtility.ProcessResult result = CustomApprovalHistoryController.processApproval(fakeWorkItemId, 'Approve', null, null);
         Test.stopTest();
 
-        System.assertEquals(false, result.success, 'Should fail for invalid work item Id');
-        System.assertNotEquals(null, result.errorMessage, 'Error message should be set');
+        System.assertEquals(false, result.success, SHOULD_FAIL_INVALID_WORKITEM);
+        System.assertNotEquals(null, result.errorMessage, ERROR_MSG_SHOULD_BE_SET);
     }
 
     @IsTest
@@ -68,8 +71,8 @@ public with sharing class CustomApprovalHistoryControllerTest {
         CustomApprovalHistoryUtility.ProcessResult result = CustomApprovalHistoryController.processApproval(fakeWorkItemId, 'Reject', 'No reason', null);
         Test.stopTest();
 
-        System.assertEquals(false, result.success, 'Should fail for invalid work item Id');
-        System.assertNotEquals(null, result.errorMessage, 'Error message should be set');
+        System.assertEquals(false, result.success, SHOULD_FAIL_INVALID_WORKITEM);
+        System.assertNotEquals(null, result.errorMessage, ERROR_MSG_SHOULD_BE_SET);
     }
 
     @IsTest
@@ -80,8 +83,8 @@ public with sharing class CustomApprovalHistoryControllerTest {
         CustomApprovalHistoryUtility.ProcessResult result = CustomApprovalHistoryController.processApproval(fakeWorkItemId, 'Removed', null, null);
         Test.stopTest();
 
-        System.assertEquals(false, result.success, 'Should fail for invalid work item Id');
-        System.assertNotEquals(null, result.errorMessage, 'Error message should be set');
+        System.assertEquals(false, result.success, SHOULD_FAIL_INVALID_WORKITEM);
+        System.assertNotEquals(null, result.errorMessage, ERROR_MSG_SHOULD_BE_SET);
     }
 
     @IsTest
@@ -93,7 +96,7 @@ public with sharing class CustomApprovalHistoryControllerTest {
         CustomApprovalHistoryUtility.ProcessResult result = CustomApprovalHistoryController.processApproval(fakeWorkItemId, 'Approve', 'Approved', nextApprovers);
         Test.stopTest();
 
-        System.assertEquals(false, result.success, 'Should fail for invalid work item Id');
-        System.assertNotEquals(null, result.errorMessage, 'Error message should be set');
+        System.assertEquals(false, result.success, SHOULD_FAIL_INVALID_WORKITEM);
+        System.assertNotEquals(null, result.errorMessage, ERROR_MSG_SHOULD_BE_SET);
     }
 }

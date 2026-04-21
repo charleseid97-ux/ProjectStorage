@@ -35,8 +35,10 @@
                                              grid-data={gridRequestData}
                                              existing-grid-info={existingGridInfo}
                                              has-draft-grid={hasDraftGrid}
+                                             initial-load-previous-grid={savedLoadPreviousGrid}
                                              onagreementsnext={handleAgreementsNext}
-                                             onformvaliditychange={handleAgreementsFormValidityChange}>
+                                             onformvaliditychange={handleAgreementsFormValidityChange}
+                                             onloadpreviouschange={handleLoadPreviousChange}>
                 </c-grid-agreements-selection>
             </template>
 
