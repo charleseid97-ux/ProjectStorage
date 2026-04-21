@@ -1,5 +1,23 @@
 <template>
-    <lightning-card title={labels.Grid_Builder}>
+    <div class="grid-builder">
+        <div class="slds-card__header grid-builder-header">
+            <div class="grid-builder-header-left">
+                <h2 class="slds-card__header-title">
+                    <span class="slds-truncate">{labels.Grid_Builder}</span>
+                </h2>
+            </div>
+            <div class="grid-builder-header-center">
+                <div class="grid-builder-progress-bar">
+                    <lightning-progress-indicator current-step={currentStep} type="path" variant="base">
+                        <lightning-progress-step label="Agreement" value="1" data-step="1" onclick={handlePathStepClick} class={step1Enabled}></lightning-progress-step>
+                        <lightning-progress-step label="Grid Builder" value="2" data-step="2" onclick={handlePathStepClick} class={step2Enabled}></lightning-progress-step>
+                        <lightning-progress-step label="Grid Validation" value="3" data-step="3" onclick={handlePathStepClick} class={step3Enabled}></lightning-progress-step>
+                        <lightning-progress-step label="Grid Simulation" value="4" data-step="4" onclick={handlePathStepClick} class={step4Enabled}></lightning-progress-step>
+                    </lightning-progress-indicator>
+                </div>
+            </div>
+            <div class="grid-builder-header-right"></div>
+        </div>
         <template if:true={isLoading}>
             <div class="centerSpinner">
                 <lightning-spinner alternative-text={labels.UI_Loading} size="medium"></lightning-spinner>
@@ -17,7 +35,8 @@
                                              grid-data={gridRequestData}
                                              existing-grid-info={existingGridInfo}
                                              has-draft-grid={hasDraftGrid}
-                                             onagreementsnext={handleAgreementsNext}>
+                                             onagreementsnext={handleAgreementsNext}
+                                             onformvaliditychange={handleAgreementsFormValidityChange}>
                 </c-grid-agreements-selection>
             </template>
 
@@ -127,5 +146,5 @@
             <h2 slot="header">{confirmationContext.title}</h2>
             <p slot="body">{confirmationContext.message}</p>
         </c-modal>
-    </lightning-card>
+    </div>
 </template>

@@ -1,6 +1,44 @@
+lightning-progress-step.true {
+    cursor: pointer;
+}
+
+lightning-progress-step.false {
+    cursor: not-allowed;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.grid-builder {
+    background-color: white;
+    border-radius: 5px;
+}
+
+.grid-builder-header {
+    display: flex;
+    align-items: baseline;
+}
+
+.grid-builder-header-left {
+    flex: 1;
+}
+
+.grid-builder-header-center {
+    flex: 4;
+    display: flex;
+    justify-content: center;
+}
+
+.grid-builder-header-right {
+    flex: 1;
+}
+
+.grid-builder-progress-bar {
+    width: 100%;
+}
+
 .mainDiv {
     max-width: 100%;
-    padding: 0 1rem 0 1rem;
+    padding: 0 1rem 0.75rem 1rem;
     display: flex;
     flex-direction: column;
     row-gap: 10px;

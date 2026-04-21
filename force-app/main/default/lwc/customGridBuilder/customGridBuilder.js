@@ -20,6 +20,8 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
     @track showGridBuilderPage = false;
     @track showValidationPage = false;
     @track showSimulation = false;
+    @track maxReachedStep = 1;
+    @track isAgreementsFormValid = false;
 
     // First Page: Agreement Selection
     @track agreementSelectionMode = 'Single';
@@ -87,6 +89,58 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
 
     get validateGridDisabled() {
         return !this.selectedShareClasses || this.selectedShareClasses.length === 0;
+    }
+
+    get currentStep() {
+        if (this.showSimulation)    return '4';
+        if (this.showValidationPage) return '3';
+        if (this.showGridBuilderPage) return '2';
+        return '1';
+    }
+
+    isStepEnabled(step) {
+        const current = parseInt(this.currentStep, 10);
+        if (step === current) return false;
+        if (step < current)  return true;
+        if (step <= this.maxReachedStep) return true;
+        if (step === current + 1) {
+            if (current === 1) return this.isAgreementsFormValid;
+            if (current === 2) return !this.validateGridDisabled;
+            if (current === 3) return true;
+        }
+        return false;
+    }
+
+    get step1Enabled() { return this.isStepEnabled(1); }
+    get step2Enabled() { return this.isStepEnabled(2); }
+    get step3Enabled() { return this.isStepEnabled(3); }
+    get step4Enabled() { return this.isStepEnabled(4); }
+
+    handleAgreementsFormValidityChange(event) {
+        this.isAgreementsFormValid = event.detail.isValid;
+    }
+
+    handlePathStepClick(event) {
+        const step = parseInt(event.currentTarget.dataset.step, 10);
+        if (!this.isStepEnabled(step)) return;
+        this.maxReachedStep = Math.max(step, this.maxReachedStep);
+        if (step === 1) {
+            this.showSimulation = false;
+            this.handlePages(true, false, false);
+        } else if (step === 2) {
+            if (parseInt(this.currentStep, 10) === 1) {
+                const agreementsComp = this.template.querySelector('c-grid-agreements-selection');
+                if (agreementsComp) agreementsComp.triggerNext();
+            } else {
+                this.showSimulation = false;
+                this.handlePages(false, true, false);
+            }
+        } else if (step === 3) {
+            this.showSimulation = false;
+            this.handlePages(false, false, true);
+        } else if (step === 4) {
+            this.showSimulation = true;
+        }
     }
 
     get isGridBuilderOrValidationPage() {
@@ -787,6 +841,7 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
             await this.loadApprovedGridAsTemplate();
         }
 
+        this.maxReachedStep = Math.max(2, this.maxReachedStep);
         this.handlePages(false, true, false);
     }
 
@@ -811,6 +866,7 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
     }
 
     handleGridValidation() {
+        this.maxReachedStep = Math.max(3, this.maxReachedStep);
         this.handlePages(false, false, true);
     }
 
@@ -820,6 +876,7 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
     }
 
     handleSimulationRequested() {
+        this.maxReachedStep = Math.max(4, this.maxReachedStep);
         this.showSimulation = true;
     }
 
