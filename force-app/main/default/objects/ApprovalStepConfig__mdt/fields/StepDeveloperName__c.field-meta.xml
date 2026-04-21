@@ -4,7 +4,7 @@
     <description>Developer name of the approval step as defined in the Approval Process setup (e.g. HOCApproval). Must match exactly — this is how the LWC identifies which config applies at runtime.</description>
     <externalId>false</externalId>
     <fieldManageability>SubscriberControlled</fieldManageability>
-    <inlineHelpText>Enter the step's API name from Setup → Approval Processes → [Process] → Approval Steps. For example: HOCApproval or DCOApproval.</inlineHelpText>
+    <inlineHelpText>Enter the step&apos;s API name from Setup → Approval Processes → [Process] → Approval Steps. For example: HOCApproval or DCOApproval.</inlineHelpText>
     <label>Step Developer Name</label>
     <length>80</length>
     <required>true</required>

@@ -92,7 +92,6 @@ public with sharing class GridSimulationController {
 
     @AuraEnabled(cacheable=false)
     public static SimulationInitData getSimulationInitData(Id gridId) {
-        // 1. Share class IDs + scGridMap from GridDetail__c
         List<GridDetail__c> details = [SELECT ShareClass__c FROM GridDetail__c WHERE Grid__c = :gridId AND ShareClass__c != null AND (EndDate__c = null OR EndDate__c >= :Date.today())];
         List<Id> shareClassIds = new List<Id>();
         Map<String, Object> scGridMap = new Map<String, Object>();
@@ -101,20 +100,14 @@ public with sharing class GridSimulationController {
             scGridMap.put(String.valueOf(gd.ShareClass__c), String.valueOf(gridId));
         }
 
-        // 2. Agreement IDs (custom grid: Grid__c or Grid_Request__c)
         List<Id> agreementIds = new List<Id>();
-        for (Convention__c c : [SELECT Id FROM Convention__c WHERE Grid__c = :gridId OR Grid_Request__c = :gridId]) {
-            agreementIds.add(c.Id);
-        }
-
-        // 3. Agreement region
         String region = null;
-        if (!agreementIds.isEmpty()) {
-            List<Convention__c> convs = [SELECT Business_Region__c FROM Convention__c WHERE Id IN :agreementIds LIMIT 1];
-            if (!convs.isEmpty()) region = convs[0].Business_Region__c;
+        for (Grid__c grid : [SELECT Id, Agreement__c, Agreement__r.Business_Region__c FROM Grid__c WHERE Id = :gridId]) {
+            if(String.isBlank(grid.Agreement__c)) continue;
+            agreementIds.add(grid.Agreement__c);
+            region = grid.Agreement__r.Business_Region__c;
         }
 
-        // 4. Reuse existing simulation logic
         SimulationInitData result = new SimulationInitData();
         result.rows            = getSimulationData(shareClassIds, agreementIds, JSON.serialize(scGridMap));
         result.agreementRegion = region;

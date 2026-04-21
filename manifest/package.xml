@@ -405,6 +405,7 @@
 	</types>
 	<types>
 		<members>sheetjs</members>
+        <members>exceljs</members>
 		<name>StaticResource</name>
 	</types>
 	<types>
@@ -412,6 +413,10 @@
 		<members>GridDetailTrigger</members>
 		<members>GridTrigger</members>
 		<name>ApexTrigger</name>
+	</types>
+	<types>
+		<members>Grid__c</members>
+		<name>Workflow</name>
 	</types>
 	<version>66.0</version>
 </Package>

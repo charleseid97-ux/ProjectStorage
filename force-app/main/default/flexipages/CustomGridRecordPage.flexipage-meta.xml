@@ -737,6 +737,12 @@
                 <identifier>force_relatedListSingleContainer</identifier>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>customApprovalHistory</componentName>
+                <identifier>c_customApprovalHistory</identifier>
+            </componentInstance>
+        </itemInstances>
         <name>Facet-db0de6c3-0e3f-46b2-bc0c-1826b098e228</name>
         <type>Facet</type>
     </flexiPageRegions>

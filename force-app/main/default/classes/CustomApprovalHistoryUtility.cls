@@ -22,7 +22,7 @@ public with sharing class CustomApprovalHistoryUtility {
 
         try {
             // Resolve the approver for the initial step before submitting
-            List<ApprovalStepConfig__mdt> initCfgs = [SELECT StepDeveloperName__c
+            List<ApprovalStepConfig__mdt> initCfgs = [SELECT Id, StepDeveloperName__c
                                                        FROM ApprovalStepConfig__mdt
                                                        WHERE ProcessConfig__r.ProcessDeveloperName__c = :processName
                                                        AND IsInitialStep__c = true
@@ -126,7 +126,6 @@ public with sharing class CustomApprovalHistoryUtility {
                                                WHERE ProcessConfig__r.ProcessDeveloperName__c = :processDeveloperName
                                                AND StepDeveloperName__c = :stepDevName
                                                LIMIT 1];
-
         if (cfgs.isEmpty()) {
             return userInputIds != null ? userInputIds : new List<Id>();
         }

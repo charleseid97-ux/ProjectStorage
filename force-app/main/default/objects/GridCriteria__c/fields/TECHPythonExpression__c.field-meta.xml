@@ -2,10 +2,13 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>TECHPythonExpression__c</fullName>
     <description>Technical field storing the full combined Pandas-syntax filter expression for this criteria, built from all detail rows and the filter logic. Populated automatically by trigger.</description>
-    <inlineHelpText>Auto-computed combined Pandas expression (e.g. (LegalForm__c.isin(['FCP','SICAV']))&amp;(Type__c.eq('E')))</inlineHelpText>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>Auto-computed combined Pandas expression (e.g. (LegalForm__c.isin([&apos;FCP&apos;,&apos;SICAV&apos;]))&amp;(Type__c.eq(&apos;E&apos;)))</inlineHelpText>
     <label>TECH Python Expression</label>
     <length>5000</length>
-    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
     <type>LongTextArea</type>
     <visibleLines>3</visibleLines>
 </CustomField>
