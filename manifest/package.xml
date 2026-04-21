@@ -406,6 +406,10 @@
 		<name>PermissionSet</name>
 	</types>
 	<types>
+		<members>Grid__c.SubmitForAmendmentApproval</members>
+		<name>QuickAction</name>
+	</types>
+	<types>
 		<members>sheetjs</members>
         <members>exceljs</members>
 		<name>StaticResource</name>
