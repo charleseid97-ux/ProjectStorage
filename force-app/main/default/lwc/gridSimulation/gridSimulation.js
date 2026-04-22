@@ -47,6 +47,7 @@ export default class GridSimulation extends LightningElement {
     @track error               = null;
     @track editingNewMoneyId   = null;
     _focusNewMoney             = false;
+    _manualOverrideIds         = new Set();
     labels                     = LABELS;
     sheetJsLoaded              = false;
     sheetJsReady               = false;
@@ -55,71 +56,68 @@ export default class GridSimulation extends LightningElement {
 
     // ── Step 1: raw numbers — base for all derived getters ───────────────────
     get rawRows() {
-        const globalPct = parseFloat(this.aumChangePercent) || 0;
         return [...this.rows, ...this.customRows].map(r => {
-            const curAum     = parseFloat(r.aum)        || 0;
-            const effFee     = parseFloat(r.effMgtFees) || 0;
-            const curRebRate = parseFloat(r.rebateRate) || 0;
-            const curGross   = effFee * curAum / 100;
-            const curRebates = curRebRate * curAum / 100;
-            const curNet     = curGross - curRebates;
-            const simAum     = curAum * (1 + globalPct / 100);
-            const newMoney   = r.newMoney || 0;
-            const newAum     = simAum + newMoney;
-            const simGross   = effFee * newAum / 100;
-            const simRebates = curRebRate * newAum / 100;   // uses original rate
-            const simNet     = simGross - simRebates;
-            return { ...r, curAum, curGross, curRebates, curNet, simAum, newMoney, newAum, simGross, simRebates, simNet };
+            const curAum          = parseFloat(r.aum)        || 0;
+            const effFee          = parseFloat(r.effMgtFees) || 0;
+            const curRebRate      = parseFloat(r.rebateRate) || 0;
+            const curGross        = effFee * curAum / 100;
+            const curRebates      = curRebRate * curAum / 100;
+            const curNet          = curGross - curRebates;
+            const additionalMoney = r.newMoney || 0;
+            const newAum          = curAum + additionalMoney;
+            const simGross        = effFee * newAum / 100;
+            const simRebates      = curRebRate * newAum / 100;
+            const simNet          = simGross - simRebates;
+            return { ...r, curAum, curGross, curRebates, curNet, additionalMoney, newAum, simGross, simRebates, simNet };
         });
     }
 
     // ── Step 2: formatted rows for the main tbody (real rows only) ───────────
     get processedRows() {
         return this.rawRows.filter(r => !r.isCustom).map(r => ({
-            key:               r.shareClassId,
-            shareClassId:      r.shareClassId,
-            range:             r.range   || '—',
-            ptfCode:           r.ptfCode || '—',
-            name:              r.name    || '—',
-            isin:              r.isin    || '—',
-            effMgtFeesFmt:     fmt(r.effMgtFees, '%'),
-            curAumFmt:         fmtInt(r.curAum),
-            curGrossFmt:       fmtInt(r.curGross),
-            curRebRateFmt:     fmt(r.rebateRate, '%'),
-            curRebatesFmt:     fmtInt(r.curRebates),
-            curNetFmt:         fmtInt(r.curNet),
-            newMoney:          r.newMoney,
-            newMoneyFmt:       fmtInt(r.newMoney),
-            isEditingNewMoney: this.editingNewMoneyId === r.shareClassId,
-            newMoneyCellClass: this.editingNewMoneyId === r.shareClassId ? 'td-sim td-input' : 'td-sim td-right',
-            simAumFmt:         fmtInt(r.simAum),
-            newAumFmt:         fmtInt(r.newAum),
-            simGrossFmt:       fmtInt(r.simGross),
-            simRebRateFmt:     fmt(r.rebateRate, '%'),  // read-only display
-            simRebatesFmt:     fmtInt(r.simRebates),
-            simNetFmt:         fmtInt(r.simNet)
+            key:                  r.shareClassId,
+            shareClassId:         r.shareClassId,
+            range:                r.range          || '—',
+            ptfCode:              r.ptfCode        || '—',
+            productName:          r.name           || '',
+            type:                 r.shareClassName || '—',
+            isin:                 r.isin           || '',
+            effMgtFeesFmt:        fmt(r.effMgtFees, '%'),
+            curAumFmt:            fmtInt(r.curAum),
+            curGrossFmt:          fmtInt(r.curGross),
+            curRebRateFmt:        fmt(r.rebateRate, '%'),
+            curRebatesFmt:        fmtInt(r.curRebates),
+            curNetFmt:            fmtInt(r.curNet),
+            additionalMoney:      r.additionalMoney,
+            additionalMoneyFmt:   fmtInt(r.additionalMoney),
+            isEditingNewMoney:    this.editingNewMoneyId === r.shareClassId,
+            newMoneyCellClass:    this.editingNewMoneyId === r.shareClassId ? 'td-sim td-input' : 'td-sim td-right',
+            newAumFmt:            fmtInt(r.newAum),
+            simGrossFmt:          fmtInt(r.simGross),
+            simRebRateFmt:        fmt(r.rebateRate, '%'),
+            simRebatesFmt:        fmtInt(r.simRebates),
+            simNetFmt:            fmtInt(r.simNet)
         }));
     }
 
     // ── Step 2b: formatted custom rows for the custom tbody ──────────────────
     get processedCustomRows() {
         return this.rawRows.filter(r => r.isCustom).map(r => ({
-            key:               r.shareClassId,
-            shareClassId:      r.shareClassId,
-            range:             r.range      || '',
-            ptfCode:           r.ptfCode    || '',
-            name:              r.name       || '',
-            isin:              r.isin       || '',
-            effMgtFees:        r.effMgtFees || 0,
-            rebateRate:        r.rebateRate || 0,
-            newMoney:          r.newMoney   || 0,
-            newMoneyFmt:       fmtInt(r.newMoney || 0),
-            isEditingNewMoney: this.editingNewMoneyId === r.shareClassId,
-            newMoneyCellClass: this.editingNewMoneyId === r.shareClassId ? 'td-sim td-input' : 'td-sim td-right',
-            newAumFmt:         fmtInt(r.newAum),
-            simGrossFmt:       fmtInt(r.simGross),
-            simRebatesFmt:     fmtInt(r.simRebates),
-            simNetFmt:         fmtInt(r.simNet)
+            key:                  r.shareClassId,
+            shareClassId:         r.shareClassId,
+            range:                r.range      || '',
+            ptfCode:              r.ptfCode    || '',
+            type:                 r.type       || '',
+            effMgtFees:           r.effMgtFees || 0,
+            rebateRate:           r.rebateRate || 0,
+            additionalMoney:      r.additionalMoney || 0,
+            additionalMoneyFmt:   fmtInt(r.additionalMoney || 0),
+            isEditingNewMoney:    this.editingNewMoneyId === r.shareClassId,
+            newMoneyCellClass:    this.editingNewMoneyId === r.shareClassId ? 'td-sim td-input' : 'td-sim td-right',
+            newAumFmt:            fmtInt(r.newAum),
+            simGrossFmt:          fmtInt(r.simGross),
+            simRebatesFmt:        fmtInt(r.simRebates),
+            simNetFmt:            fmtInt(r.simNet)
         }));
     }
 
@@ -127,20 +125,26 @@ export default class GridSimulation extends LightningElement {
     get totals() {
         const rr = this.rawRows;
         const sum = key => rr.reduce((acc, r) => acc + (parseFloat(r[key]) || 0), 0);
-        const curAum=sum('curAum');
-        const curGross=sum('curGross');
-        const curRebates=sum('curRebates');
-        const curNet=sum('curNet');
-        const simAum=sum('simAum');
-        const newMoney=sum('newMoney');
-        const newAum=sum('newAum')
-        const simGross=sum('simGross');
-        const simRebates=sum('simRebates');
-        const simNet=sum('simNet');
+        const curAum          = sum('curAum');
+        const curGross        = sum('curGross');
+        const curRebates      = sum('curRebates');
+        const curNet          = sum('curNet');
+        const additionalMoney = sum('additionalMoney');
+        const newAum          = sum('newAum');
+        const simGross        = sum('simGross');
+        const simRebates      = sum('simRebates');
+        const simNet          = sum('simNet');
         return {
-            curAum, curGross, curRebates, curNet, simAum, newMoney, newAum, simGross, simRebates, simNet,
-            curAumFmt:fmtInt(curAum), curGrossFmt:fmtInt(curGross), curRebatesFmt:fmtInt(curRebates), curNetFmt:fmtInt(curNet),
-            simAumFmt:fmtInt(simAum), newMoneyFmt:fmtInt(newMoney), newAumFmt:fmtInt(newAum), simGrossFmt:fmtInt(simGross), simRebatesFmt:fmtInt(simRebates), simNetFmt:fmtInt(simNet)
+            curAum, curGross, curRebates, curNet, additionalMoney, newAum, simGross, simRebates, simNet,
+            curAumFmt:          fmtInt(curAum),
+            curGrossFmt:        fmtInt(curGross),
+            curRebatesFmt:      fmtInt(curRebates),
+            curNetFmt:          fmtInt(curNet),
+            additionalMoneyFmt: fmtInt(additionalMoney),
+            newAumFmt:          fmtInt(newAum),
+            simGrossFmt:        fmtInt(simGross),
+            simRebatesFmt:      fmtInt(simRebates),
+            simNetFmt:          fmtInt(simNet)
         };
     }
 
@@ -155,8 +159,12 @@ export default class GridSimulation extends LightningElement {
         const simNetPct     = t.newAum ? t.simNet     / t.newAum : 0;
         return {
             curGrossPct, curRebatesPct, curNetPct, simGrossPct, simRebatesPct, simNetPct,
-            curGrossFmt: fmt(curGrossPct * 100, '%'), curRebatesFmt: fmt(curRebatesPct * 100, '%'), curNetFmt: fmt(curNetPct * 100, '%'),
-            simGrossFmt: fmt(simGrossPct * 100, '%'), simRebatesFmt: fmt(simRebatesPct * 100, '%'), simNetFmt: fmt(simNetPct * 100, '%')
+            curGrossFmt:   fmt(curGrossPct * 100, '%'),
+            curRebatesFmt: fmt(curRebatesPct * 100, '%'),
+            curNetFmt:     fmt(curNetPct * 100, '%'),
+            simGrossFmt:   fmt(simGrossPct * 100, '%'),
+            simRebatesFmt: fmt(simRebatesPct * 100, '%'),
+            simNetFmt:     fmt(simNetPct * 100, '%')
         };
     }
 
@@ -173,10 +181,10 @@ export default class GridSimulation extends LightningElement {
             grossChgFmt:      fmt(grossChgBP, ' bp'),
             rebatesChgFmt:    fmt(rebatesChgBP, ' bp'),
             netChgFmt:        fmt(netChgBP, ' bp'),
-            aumChgAbsFmt:     fmtInt(t.newAum    - t.curAum),
-            grossChgAbsFmt:   fmtInt(t.simGross  - t.curGross),
+            aumChgAbsFmt:     fmtInt(t.newAum     - t.curAum),
+            grossChgAbsFmt:   fmtInt(t.simGross   - t.curGross),
             rebatesChgAbsFmt: fmtInt(t.simRebates - t.curRebates),
-            netChgAbsFmt:     fmtInt(t.simNet    - t.curNet)
+            netChgAbsFmt:     fmtInt(t.simNet     - t.curNet)
         };
     }
 
@@ -193,12 +201,10 @@ export default class GridSimulation extends LightningElement {
         this.error = null;
         try {
             if (this.recordId) {
-                // Record page: single round-trip
                 const init = await getSimulationInitData({ gridId: this.recordId });
                 this.rows            = (init.rows || []).map(r => ({ ...r, newMoney: 0 }));
                 this.agreementRegion = init.agreementRegion;
             } else {
-                // customGridBuilder: props-driven path
                 const shareClassIds = (this.selectedShareClasses || []).map(sc => sc.id);
                 const scGridMap = {};
                 const map = this.gridShareClassMap || {};
@@ -234,12 +240,11 @@ export default class GridSimulation extends LightningElement {
         }
         if (!this.excelJsLoaded) {
             this.excelJsLoaded = true;
-            console.log('ExcelJS resource URL:', ExcelJs);
             if (!ExcelJs) {
                 console.error('ExcelJS static resource URL is undefined — make sure the resource is deployed to the org with the name "exceljs"');
             } else {
                 loadScript(this, ExcelJs)
-                    .then(() => { console.log('ExcelJS loaded successfully, window.ExcelJS:', !!window.ExcelJS); })
+                    .then(() => { console.log('ExcelJS loaded successfully'); })
                     .catch(e => { console.error('Failed to load ExcelJS script:', e); });
             }
         }
@@ -254,12 +259,18 @@ export default class GridSimulation extends LightningElement {
         this.dispatchEvent(new CustomEvent('back'));
     }
 
-    // ── Global AUM % change ───────────────────────────────────────────────────
+    // ── Global AUM % change → updates Additional Money on non-overridden rows ─
     handleAumChange(e) {
-        this.aumChangePercent = e.target.value;
+        this.aumChangePercent = parseFloat(e.target.value) || 0;
+        const pct = this.aumChangePercent;
+        this.rows = this.rows.map(r => {
+            if (this._manualOverrideIds.has(r.shareClassId)) return r;
+            const curAum = parseFloat(r.aum) || 0;
+            return { ...r, newMoney: curAum * pct / 100 };
+        });
     }
 
-    // ── New Money click-to-edit ───────────────────────────────────────────────
+    // ── Additional Money click-to-edit ────────────────────────────────────────
     handleNewMoneyClick(e) {
         this.editingNewMoneyId = e.currentTarget.dataset.id;
         this._focusNewMoney = true;
@@ -272,6 +283,7 @@ export default class GridSimulation extends LightningElement {
     // ── Per-row inputs (real rows) ────────────────────────────────────────────
     handleNewMoney(e) {
         const id = e.target.dataset.id;
+        this._manualOverrideIds.add(id);
         this.rows = this.rows.map(r =>
             r.shareClassId === id ? { ...r, newMoney: parseNewMoney(e.target.value) } : r
         );
@@ -286,7 +298,7 @@ export default class GridSimulation extends LightningElement {
         this.customRows = [...this.customRows, {
             shareClassId: `custom-${Date.now()}`,
             isCustom: true,
-            range: '', ptfCode: '', name: '', isin: '',
+            range: '', ptfCode: '', type: '',
             effMgtFees: 0, rebateRate: 0, aum: 0, newMoney: 0
         }];
     }
@@ -295,12 +307,16 @@ export default class GridSimulation extends LightningElement {
         const id    = e.target.dataset.id;
         const field = e.target.dataset.field;
         const numericFields = ['effMgtFees', 'rebateRate', 'newMoney'];
-        const value = numericFields.includes(field) ? (field === 'newMoney' ? parseNewMoney(e.target.value) : (parseFloat(e.target.value) || 0)) : (e.target.value || '');
-        this.customRows = this.customRows.map(r => r.shareClassId === id ? { ...r, [field]: value } : r );
+        const value = numericFields.includes(field)
+            ? (field === 'newMoney' ? parseNewMoney(e.target.value) : (parseFloat(e.target.value) || 0))
+            : (e.target.value || '');
+        if (field === 'newMoney') this._manualOverrideIds.add(id);
+        this.customRows = this.customRows.map(r => r.shareClassId === id ? { ...r, [field]: value } : r);
     }
 
     handleRemoveRow(e) {
         const id = e.currentTarget.dataset.id;
+        this._manualOverrideIds.delete(id);
         this.customRows = this.customRows.filter(r => r.shareClassId !== id);
     }
 
@@ -331,7 +347,6 @@ export default class GridSimulation extends LightningElement {
         const dataStyle = { alignment: { vertical: 'center' }, border };
         const numStyle  = { alignment: { horizontal: 'right', vertical: 'center' }, border };
 
-        // 1. Header block — each line becomes its own row, merged A–E
         const headerLines = L('Grid_SimExport_Header').split('\n');
         headerLines.forEach((line, i) => {
             aoa.push([line, null, null, null, null]);
@@ -339,10 +354,8 @@ export default class GridSimulation extends LightningElement {
             merges.push({ s: { r: i, c: 0 }, e: { r: i, c: COLS - 1 } });
         });
 
-        // 2. Blank separator
         aoa.push([null, null, null, null, null]);
 
-        // 3. Column header row
         const colHdrRow = aoa.length;
         aoa.push([
             L('Grid_SimExport_Col_FundName'),
@@ -353,7 +366,6 @@ export default class GridSimulation extends LightningElement {
         ]);
         for (let c = 0; c < COLS; c++) styles[`${colHdrRow},${c}`] = hdrStyle;
 
-        // 4. Data rows (real + custom rows, non-custom only for the official export)
         this.rawRows.filter(r => !r.isCustom).forEach(r => {
             const row = aoa.length;
             aoa.push([
@@ -368,10 +380,8 @@ export default class GridSimulation extends LightningElement {
             }
         });
 
-        // 5. Blank separator
         aoa.push([null, null, null, null, null]);
 
-        // 6. Footer block — each line merged A–E
         const footerStart = aoa.length;
         const footerLines = L('Grid_SimExport_Footer').split('\n');
         footerLines.forEach((line, i) => {
@@ -380,7 +390,6 @@ export default class GridSimulation extends LightningElement {
             merges.push({ s: { r: footerStart + i, c: 0 }, e: { r: footerStart + i, c: COLS - 1 } });
         });
 
-        // Dynamic column widths: measure only from the column header row down to the footer gap
         const colWidths = Array(COLS).fill(10);
         aoa.slice(colHdrRow, footerStart - 1).forEach(rowData => {
             rowData.forEach((cell, ci) => {
@@ -388,13 +397,10 @@ export default class GridSimulation extends LightningElement {
             });
         });
 
-        // Build worksheet
         const ws = window.XLSX.utils.aoa_to_sheet(aoa);
         ws['!merges'] = merges;
         ws['!cols'] = colWidths.map(w => ({ wch: w + 4 }));
-        ws['!views'] = [{ state: 'frozen', ySplit: colHdrRow + 1, xSplit: 0, topLeftCell: 'A' + (colHdrRow + 2) }];
 
-        // Apply cell styles
         Object.keys(styles).forEach(key => {
             const [r, c] = key.split(',').map(Number);
             const addr = window.XLSX.utils.encode_cell({ r, c });
@@ -402,7 +408,6 @@ export default class GridSimulation extends LightningElement {
             ws[addr].s = styles[key];
         });
 
-        // Apply percentage number format to fee/rebate columns
         this.rawRows.filter(r => !r.isCustom).forEach((_, ri) => {
             const row = colHdrRow + 1 + ri;
             [3, 4].forEach(c => {
@@ -417,10 +422,7 @@ export default class GridSimulation extends LightningElement {
         const wb = window.XLSX.utils.book_new();
         window.XLSX.utils.book_append_sheet(wb, ws, 'Allegato');
 
-        // Step 1: write to buffer with xlsxjsstyle (preserves cell styles)
         const buffer = window.XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' });
-
-        // Step 2: re-open with ExcelJS to add freeze pane, then write
         this.freezeExcelExport(buffer, colHdrRow + 1);
     }
 
