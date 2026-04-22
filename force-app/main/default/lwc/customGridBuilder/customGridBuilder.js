@@ -61,6 +61,7 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
 
     @track draftGridId = null;
     pendingDraftData = null;
+    _approvedGridLoaded = false;
 
     @track gridOptions = [];
     @track selectedGrid;
@@ -200,6 +201,7 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
         this.draftGridId           = null;
         this.pendingDraftData      = null;
         this.hasDraftGrid          = false;
+        this._approvedGridLoaded   = false;
         this.existingGridInfo      = { hasExistingGrid: false, kind: null, type: null, endDate: null };
         this.showSelectedPanel     = false;
         this.countriesOfDistribution = null;
@@ -889,9 +891,9 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
             this.pendingDraftData = null;
         }
 
-        const prevLoadPrevious = this.savedLoadPreviousGrid;
         this.savedLoadPreviousGrid = event.detail?.loadPreviousGrid || false;
-        if (!prevLoadPrevious && this.savedLoadPreviousGrid && this.recId) {
+        if (this.savedLoadPreviousGrid && !this._approvedGridLoaded && this.recId) {
+            this._approvedGridLoaded = true;
             await this.loadApprovedGridAsTemplate();
         }
 

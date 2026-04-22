@@ -168,6 +168,7 @@ export default class GridAgreementsSelection extends LightningElement {
         if (this.recId) {
             this.selectedValues = [this.recId];
             this.pills = this.getPills();
+            this.notifyValidity();
         }
     }
 
