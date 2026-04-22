@@ -21,7 +21,7 @@ public with sharing class GridSimulationController {
         Map<Id, Decimal> rebateByScId = buildRebateMap(shareClassIds, shareClassGridIdMapJson);
 
         // ── 3. ShareClass info ───────────────────────────────────────────────
-        Map<Id, Share_Class__c> scById = new Map<Id, Share_Class__c>([SELECT Id, Name, ISIN__c, EffectiveManagementFees__c, Fund__r.InternalShortName__c, Fund__r.ProductName__c, Fund__r.FundStrategy__r.AssetClass__c
+        Map<Id, Share_Class__c> scById = new Map<Id, Share_Class__c>([SELECT Id, Name, Name__c, ISIN__c, EffectiveManagementFees__c, Fund__r.InternalShortName__c, Fund__r.ProductName__c, Fund__r.FundStrategy__r.AssetClass__c
                                                                       FROM Share_Class__c
                                                                       WHERE Id IN :shareClassIds
                                                                       ORDER BY Fund__r.InternalShortName__c ASC, ISIN__c ASC]);
@@ -35,6 +35,7 @@ public with sharing class GridSimulationController {
             SimulationRow row = new SimulationRow();
             row.shareClassId   = scId;
             row.shareClassName = sc.Name;
+            row.shareClassType = sc.Name__c;
             row.range          = sc.Fund__r?.FundStrategy__r?.AssetClass__c;
             row.ptfCode        = sc.Fund__r?.InternalShortName__c;
             row.name           = sc.Fund__r?.ProductName__c;
@@ -130,6 +131,7 @@ public with sharing class GridSimulationController {
     public class SimulationRow {
         @AuraEnabled public Id      shareClassId;
         @AuraEnabled public String  shareClassName;
+        @AuraEnabled public String  shareClassType;
         @AuraEnabled public String  range;
         @AuraEnabled public String  ptfCode;
         @AuraEnabled public String  name;
