@@ -263,7 +263,7 @@
                     <!-- ── Main data tbody (real rows) ── -->
                     <tbody>
                         <template for:each={processedRows} for:item="row">
-                            <tr key={row.key}>
+                            <tr key={row.key} class={row.rowClass}>
                                 <!-- Share Class Info -->
                                 <td class="td-info" title={row.range}>{row.range}</td>
                                 <td class="td-info" title={row.productName}>{row.ptfCode}</td>

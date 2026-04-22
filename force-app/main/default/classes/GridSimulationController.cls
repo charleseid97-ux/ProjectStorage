@@ -115,6 +115,25 @@ public with sharing class GridSimulationController {
         return result;
     }
 
+    @AuraEnabled(cacheable=false)
+    public static List<SimulationRow> getActiveGridSimulationData(Id agreementId) {
+        if (agreementId == null) return new List<SimulationRow>();
+        List<Convention__c> convs = [SELECT Grid__c FROM Convention__c WHERE Id = :agreementId LIMIT 1];
+        if (convs.isEmpty() || convs[0].Grid__c == null) return new List<SimulationRow>();
+        Id gridId = convs[0].Grid__c;
+
+        List<Id> shareClassIds = new List<Id>();
+        Map<String, Object> scGridMap = new Map<String, Object>();
+        for (GridDetail__c gd : [SELECT ShareClass__c FROM GridDetail__c
+                                  WHERE Grid__c = :gridId AND ShareClass__c != null
+                                  AND (EndDate__c = null OR EndDate__c >= :Date.today())]) {
+            shareClassIds.add(gd.ShareClass__c);
+            scGridMap.put(String.valueOf(gd.ShareClass__c), String.valueOf(gridId));
+        }
+        if (shareClassIds.isEmpty()) return new List<SimulationRow>();
+        return getSimulationData(shareClassIds, new List<Id>{ agreementId }, JSON.serialize(scGridMap));
+    }
+
     @AuraEnabled(cacheable=true)
     public static String getAgreementRegion(List<Id> agreementIds) {
         if (agreementIds == null || agreementIds.isEmpty()) return null;
