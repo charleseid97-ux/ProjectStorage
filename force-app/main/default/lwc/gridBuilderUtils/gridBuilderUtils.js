@@ -399,6 +399,10 @@ export function getRecordIdFromPageRef(pageRef) {
     return (pageRef && pageRef.state && pageRef.state.c__recordId) ? pageRef.state.c__recordId : null;
 }
 
+export function getGridIdFromPageRef(pageRef) {
+    return (pageRef && pageRef.state && pageRef.state.c__gridId) ? pageRef.state.c__gridId : null;
+}
+
 export function buildDefaultLogicExpression(count, logicType) {
     if (count <= 0) {
         return '';
