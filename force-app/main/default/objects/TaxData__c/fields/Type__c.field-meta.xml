@@ -4,9 +4,11 @@
     <externalId>false</externalId>
     <label>Type</label>
     <required>false</required>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
+        <controllingField>Country__c</controllingField>
         <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
@@ -31,5 +33,24 @@
                 <label>Belgium Simulator</label>
             </value>
         </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>BE</controllingFieldValue>
+            <valueName>BE Asset Test</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>BE</controllingFieldValue>
+            <valueName>BE TIS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>BE</controllingFieldValue>
+            <valueName>Belgium Simulator</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IT</controllingFieldValue>
+            <controllingFieldValue>UK</controllingFieldValue>
+            <controllingFieldValue>AT</controllingFieldValue>
+            <controllingFieldValue>CH</controllingFieldValue>
+            <valueName>Transparency</valueName>
+        </valueSettings>
     </valueSet>
 </CustomField>

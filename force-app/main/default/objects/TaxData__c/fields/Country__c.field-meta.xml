@@ -4,6 +4,7 @@
     <externalId>false</externalId>
     <label>Country</label>
     <required>false</required>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -11,9 +12,14 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>BE</fullName>
+                <fullName>AT</fullName>
                 <default>false</default>
-                <label>BE</label>
+                <label>AT</label>
+            </value>
+            <value>
+                <fullName>CH</fullName>
+                <default>false</default>
+                <label>CH</label>
             </value>
             <value>
                 <fullName>IT</fullName>
@@ -26,14 +32,9 @@
                 <label>UK</label>
             </value>
             <value>
-                <fullName>AT</fullName>
+                <fullName>BE</fullName>
                 <default>false</default>
-                <label>AT</label>
-            </value>
-            <value>
-                <fullName>CH</fullName>
-                <default>false</default>
-                <label>CH</label>
+                <label>BE</label>
             </value>
         </valueSetDefinition>
     </valueSet>

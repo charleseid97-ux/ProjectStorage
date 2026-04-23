@@ -4,6 +4,7 @@
     <externalId>false</externalId>
     <label>Status</label>
     <required>false</required>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -16,6 +17,11 @@
                 <label>Requested</label>
             </value>
             <value>
+                <fullName>Canceled</fullName>
+                <default>false</default>
+                <label>Canceled</label>
+            </value>
+            <value>
                 <fullName>Yes</fullName>
                 <default>false</default>
                 <label>Yes</label>
@@ -26,14 +32,16 @@
                 <label>No</label>
             </value>
             <value>
-                <fullName>Available</fullName>
-                <default>false</default>
-                <label>Available</label>
-            </value>
-            <value>
                 <fullName>Closed</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Closed</label>
+            </value>
+            <value>
+                <fullName>De-Registered Requested</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>De-Registered Requested</label>
             </value>
         </valueSetDefinition>
     </valueSet>
