@@ -41,7 +41,9 @@ private class CustomReportMatrixControllerTest {
                     ISIN_Code__c               = isin,
                     Type__c                    = 'A',
                     Currency__c                = 'EUR',
-                    EffectiveManagementFees__c = 1.0
+                    EffectiveManagementFees__c = 1.0,
+                    Validity__c 			   = true,
+                    Status__c 				   = 'Active'
                 ));
             }
         }
@@ -61,10 +63,24 @@ private class CustomReportMatrixControllerTest {
             ));
         }
         insert countries;
+        
+        List<TaxData__c> taxDataList = new List<TaxData__c>();
+        for (Integer i = 0; i < 3; i++) {
+            taxDataList.add(new TaxData__c(
+                ShareClass__c = shareClasses[i].Id,
+                Product__c = shareClasses[i].Fund__c,
+                Country__c = 'IT',
+                Type__c = 'Transparency',
+                Status__c = 'Yes',
+                Source__c = 'Manual',
+                StartDate__c = Date.Today()
+            ));
+        }
+        insert taxDataList;
     }
 
     @IsTest
-    static void testGetMatrixData() {
+    static void testCountryRegistrationStatusMatrixData() {
         Test.startTest();
 
         CustomReportMatrixController.getMatrixData('CountryRegistrationStatusMatrix', null, true);
@@ -73,6 +89,16 @@ private class CustomReportMatrixControllerTest {
         try {
             CustomReportMatrixController.getMatrixData('NonExistentConfig', null, true);
         } catch (AuraHandledException e) { }
+
+        Test.stopTest();
+    }
+    
+    @IsTest
+    static void testCountryTaxStatusMatrixData() {
+        Test.startTest();
+
+        String filterTestDate = '{"StartDate__c":["2025-01-01"]}';
+        CustomReportMatrixController.getMatrixData('CountryTaxStatusMatrix', filterTestDate, true);
 
         Test.stopTest();
     }
