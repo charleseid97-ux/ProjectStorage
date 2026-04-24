@@ -146,25 +146,21 @@ public with sharing class GridValidationController {
         Map<Id, GridBuilderHelper.StandardGridDetailInfo> stdGridDetailInfoByShareClass = (shareClassGridIdMap != null && !shareClassGridIdMap.isEmpty()) ? GridBuilderHelper.buildStandardGridDetailInfoByShareClass(shareClassGridIdMap) : new Map<Id, GridBuilderHelper.StandardGridDetailInfo>();
         List<GridDetail__c> gridDetailsToInsert = new List<GridDetail__c>();
         Id customGridDetailRtId = Schema.SObjectType.GridDetail__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_CUSTOM_GRID_DETAIL).getRecordTypeId();
-        Date criteriaStartDate;
         for (CriteriaWrapper cw : request.criteriaList) {
-            criteriaStartDate = cw.criteria != null ? cw.criteria.StartDate__c : null;
-            if (cw.shareClassIds != null) {
-                GridCriteria__c criteriaRecord = criteriaRefToRecordMap.get(cw.criteriaRefId);
-                for (Id scId : cw.shareClassIds) {
-                    gridDetailsToInsert.add(new GridDetail__c(
-                        RecordTypeId = customGridDetailRtId,
-                        Grid__c = request.grid.Id,
-                        StandardGridDetail__c = stdGridDetailInfoByShareClass.containsKey(scId) ? stdGridDetailInfoByShareClass.get(scId).gridDetailId : null,
-                        GridCriteria__c = criteriaRecord.Id,
-                        StartDate__c = criteriaStartDate
-                    ));
-                }
+            if (cw.shareClassIds == null) continue;
+            GridCriteria__c criteriaRecord = criteriaRefToRecordMap.get(cw.criteriaRefId);
+            for (Id scId : cw.shareClassIds) {
+                GridBuilderHelper.StandardGridDetailInfo info = stdGridDetailInfoByShareClass.get(scId);
+                if (info == null) continue;
+                gridDetailsToInsert.add(new GridDetail__c(
+                    RecordTypeId = customGridDetailRtId,
+                    Grid__c = request.grid.Id,
+                    StandardGridDetail__c = info.gridDetailId,
+                    GridCriteria__c = criteriaRecord != null ? criteriaRecord.Id : null
+                ));
             }
         }
-        if (!gridDetailsToInsert.isEmpty()) {
-            insert gridDetailsToInsert;
-        }
+        if (!gridDetailsToInsert.isEmpty()) insert gridDetailsToInsert;
     }
 
     private static void updateAgreements(GridSaveRequest request) {

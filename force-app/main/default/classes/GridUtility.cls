@@ -26,6 +26,9 @@ public with sharing class GridUtility {
     public static final String GRID_STATUS_APPROVED          = 'Approved';
     public static final String GRID_STATUS_REJECTED          = 'Rejected';
 
+    public static final String FIELD_EFF_MGT_FEES = 'EffectiveManagementFees__c';
+    private static final String RULE_PERCENTAGE_LABEL = 'Percentage of Fees';
+
     /** ──────────────────────────────────────
      * @description Single loop over agreements: classifies each into a transition bucket,
      *              performs Agreement field swaps, collects Grid__c approval updates,
@@ -103,13 +106,94 @@ public with sharing class GridUtility {
         }
     }
 
-    private static void setGridOnAgreement(Convention__c agr) {
-        agr.Grid__c                      = agr.Grid_Request__c;
-        agr.Grid_Request__c              = null;
-        agr.Grid_Start_Date__c           = agr.Grid_Request_Start_Date__c;
-        agr.Grid_Request_Start_Date__c   = null;
-        agr.Amendment_Approval_Status__c = '';
-        agr.Grid_Request_Approved__c     = false;
+    public static Date effectiveStart(Date gridStart, Date scCreated) {
+        if (gridStart == null) return scCreated;
+        if (scCreated == null) return gridStart;
+        return gridStart > scCreated ? gridStart : scCreated;
+    }
+
+    /** ──────────────────────────────────────
+     * @description Builds historical GridDetail__c records (past EffMgtFees periods) for the given base details.
+     *              Queries ALL Fund_Field_ApplicabilityHistory__c periods per share class, validates continuity,
+     *              then creates one closed-period record per valid historical window that overlaps the grid's lifetime.
+     *              The active (End_Date = null) period is skipped — the base detail covers it.
+     *              Pre-sets EffectiveManagementFees__c so the BeforeInsert trigger does not overwrite it.
+     *
+     * @param baseDetails       Already-inserted/upserted base GridDetail__c records (one per share class / current period).
+     * @param gridStartDateMap  Grid__c.StartDate__c by Grid Id.
+     * @param scCreatedDateMap  Share_Class__c.CreatedDate (as Date) by Share Class Id.
+     * @param gridRuleById      GridRule__c by Id for RULE_PERCENTAGE rebate recalculation. Pass null for custom details.
+     * @param errors            Accumulated error strings — continuity violations are appended here.
+     ────────────────────────────────────── */
+    public static List<GridDetail__c> buildHistoricalDetailsFromFieldHistory(List<GridDetail__c> baseDetails, Map<Id, Date> gridStartDateMap, Map<Id, Date> scCreatedDateMap, Map<Id, GridRule__c> gridRuleById, List<String> errors) {
+        Set<Id> shareClassIds = new Set<Id>();
+        for (GridDetail__c d : baseDetails) {
+            if (d.ShareClass__c != null) shareClassIds.add(d.ShareClass__c);
+        }
+        if (shareClassIds.isEmpty()) return new List<GridDetail__c>();
+
+        Map<Id, List<Fund_Field_ApplicabilityHistory__c>> allHistByShareClass = new Map<Id, List<Fund_Field_ApplicabilityHistory__c>>();
+        for (Fund_Field_ApplicabilityHistory__c h : [SELECT Share_Class_Reference__c, Start_Date__c, End_Date__c, New_Value__c
+                                                     FROM Fund_Field_ApplicabilityHistory__c
+                                                     WHERE Share_Class_Reference__c IN :shareClassIds
+                                                     AND FieldAPIName__c = :FIELD_EFF_MGT_FEES
+                                                     ORDER BY Share_Class_Reference__c, Start_Date__c ASC]) {
+            if (!allHistByShareClass.containsKey(h.Share_Class_Reference__c)) {
+                allHistByShareClass.put(h.Share_Class_Reference__c, new List<Fund_Field_ApplicabilityHistory__c>());
+            }
+            allHistByShareClass.get(h.Share_Class_Reference__c).add(h);
+        }
+        if (allHistByShareClass.isEmpty()) return new List<GridDetail__c>();
+
+        Set<Id> validShareClassIds = new Set<Id>();
+        for (Id scId : allHistByShareClass.keySet()) {
+            String err = validateHistoryContinuity(allHistByShareClass.get(scId));
+            if (err != null) {
+                errors.add('Share class ' + scId + ' has discontinuous EffMgtFees history: ' + err);
+            } else {
+                validShareClassIds.add(scId);
+            }
+        }
+        if (validShareClassIds.isEmpty()) return new List<GridDetail__c>();
+
+        List<GridDetail__c> historicalDetails = new List<GridDetail__c>();
+        for (GridDetail__c base : baseDetails) {
+            if (base.ShareClass__c == null || !validShareClassIds.contains(base.ShareClass__c)) continue;
+            List<Fund_Field_ApplicabilityHistory__c> allPeriods = allHistByShareClass.get(base.ShareClass__c);
+
+            Date gridStart = gridStartDateMap?.get(base.Grid__c);
+            Date scCreated = scCreatedDateMap?.get(base.ShareClass__c);
+            Date effGridStart = effectiveStart(gridStart, scCreated);
+
+            GridRule__c rule = (gridRuleById != null && base.GridRule__c != null) ? gridRuleById.get(base.GridRule__c) : null;
+
+            for (Fund_Field_ApplicabilityHistory__c hist : allPeriods) {
+                if (hist.End_Date__c == null) continue;
+                if (effGridStart != null && hist.End_Date__c < effGridStart) continue;
+
+                Decimal histEffMgtFees = String.isNotBlank(hist.New_Value__c) ? Decimal.valueOf(hist.New_Value__c) : null;
+
+                Decimal historicalRebate = base.RebateRate__c;
+                if (rule != null && rule.RuleToApply__c == RULE_PERCENTAGE_LABEL && histEffMgtFees != null && rule.GridRate__c != null) {
+                    historicalRebate = (histEffMgtFees * rule.GridRate__c / 100).setScale(2, System.RoundingMode.HALF_UP);
+                }
+
+                GridDetail__c clone = new GridDetail__c();
+                clone.RecordTypeId                    = base.RecordTypeId;
+                clone.Grid__c                         = base.Grid__c;
+                clone.GridRule__c                     = base.GridRule__c;
+                clone.GridCriteria__c                 = base.GridCriteria__c;
+                clone.ShareClass__c                   = base.ShareClass__c;
+                clone.StandardGridDetail__c           = base.StandardGridDetail__c;
+                clone.RebateRate__c                   = historicalRebate;
+                clone.EffectiveManagementFees__c      = histEffMgtFees;
+                clone.StartDate__c                    = hist.Start_Date__c;
+                clone.EndDate__c                      = hist.End_Date__c;
+                clone.TECH_EffMgtFeesAuditHistory__c  = hist.Id;
+                historicalDetails.add(clone);
+            }
+        }
+        return historicalDetails;
     }
 
     /** ──────────────────────────────────────
@@ -198,5 +282,50 @@ public with sharing class GridUtility {
 
         update oldCustomToUpdate;
         insert newCustomToInsert;
+    }
+
+    private static void setGridOnAgreement(Convention__c agr) {
+        agr.Grid__c                      = agr.Grid_Request__c;
+        agr.Grid_Request__c              = null;
+        agr.Grid_Start_Date__c           = agr.Grid_Request_Start_Date__c;
+        agr.Grid_Request_Start_Date__c   = null;
+        agr.Amendment_Approval_Status__c = '';
+        agr.Grid_Request_Approved__c     = false;
+    }
+    
+    /** ──────────────────────────────────────
+     * @description Validates that a list of Fund_Field_ApplicabilityHistory__c records (sorted ASC by Start_Date__c)
+     *              forms a continuous, non-overlapping sequence ending with exactly one active record (End_Date__c = null).
+     * @return Error message string, or null if the sequence is valid.
+     ────────────────────────────────────── */
+    private static String validateHistoryContinuity(List<Fund_Field_ApplicabilityHistory__c> allPeriods) {
+        Integer nullEndCount = 0;
+        for (Fund_Field_ApplicabilityHistory__c h : allPeriods) {
+            if (h.End_Date__c == null) nullEndCount++;
+        }
+        if (nullEndCount != 1) {
+            return 'Expected exactly 1 active (End_Date = null) record, found ' + nullEndCount + '.';
+        }
+        Fund_Field_ApplicabilityHistory__c last = allPeriods[allPeriods.size() - 1];
+        if (last.End_Date__c != null) {
+            return 'The last period must be the active one (End_Date = null).';
+        }
+        for (Integer i = 0; i < allPeriods.size() - 1; i++) {
+            Fund_Field_ApplicabilityHistory__c curr = allPeriods[i];
+            Fund_Field_ApplicabilityHistory__c next = allPeriods[i + 1];
+            if (curr.End_Date__c == null) {
+                return 'An active (End_Date = null) record was found before the last position (index ' + i + ').';
+            }
+            if (curr.Start_Date__c > curr.End_Date__c) {
+                return 'Invalid period at index ' + i + ': Start_Date (' + curr.Start_Date__c + ') is after End_Date (' + curr.End_Date__c + ').';
+            }
+            Date expectedNextStart = curr.End_Date__c.addDays(1);
+            if (next.Start_Date__c != expectedNextStart) {
+                return 'Gap or overlap detected: period ending ' + curr.End_Date__c +
+                       ' is followed by a period starting ' + next.Start_Date__c +
+                       ' (expected ' + expectedNextStart + ').';
+            }
+        }
+        return null;
     }
 }

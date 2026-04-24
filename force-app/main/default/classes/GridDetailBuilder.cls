@@ -344,14 +344,49 @@ public with sharing class GridDetailBuilder {
             }
         }
 
+        // Collect grid and share class IDs for effectiveGridStart + current-period history lookup
+        Set<Id> gridIds = new Set<Id>();
+        Set<Id> shareClassIds = new Set<Id>();
+        for (RuleAssignment a : assignments) {
+            if (!a.hasError && a.rebate != null) {
+                gridIds.add(a.gridId);
+                if (a.shareClassId != null) shareClassIds.add(a.shareClassId);
+            }
+        }
+        Map<Id, Date> gridStartDateMap = new Map<Id, Date>();
+        for (Grid__c g : [SELECT Id, StartDate__c FROM Grid__c WHERE Id IN :gridIds]) {
+            gridStartDateMap.put(g.Id, g.StartDate__c);
+        }
+        Map<Id, Date> scCreatedDateMap = new Map<Id, Date>();
+        for (Share_Class__c sc : [SELECT Id, CreatedDate FROM Share_Class__c WHERE Id IN :shareClassIds]) {
+            scCreatedDateMap.put(sc.Id, sc.CreatedDate != null ? sc.CreatedDate.date() : null);
+        }
+        // Current active history period (End_Date = null) → determines base StartDate for each share class
+        Map<Id, Date> currentHistStartByShareClass = new Map<Id, Date>();
+        for (Fund_Field_ApplicabilityHistory__c h : [SELECT Share_Class_Reference__c, Start_Date__c
+                                                     FROM Fund_Field_ApplicabilityHistory__c
+                                                     WHERE Share_Class_Reference__c IN :shareClassIds
+                                                     AND FieldAPIName__c = :GridUtility.FIELD_EFF_MGT_FEES
+                                                     AND End_Date__c = null]) {
+            currentHistStartByShareClass.put(h.Share_Class_Reference__c, h.Start_Date__c);
+        }
+
         List<GridDetail__c> detailsToUpsert = new List<GridDetail__c>();
         List<RuleAssignment> assignmentsForUpsert = new List<RuleAssignment>();
-        Date startDate = Date.today();
         Id standardGridDetailRtId = Schema.SObjectType.GridDetail__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_STANDARD_GRID_DETAIL).getRecordTypeId();
         for (RuleAssignment assignment : assignments) {
             if (assignment.hasError || assignment.rebate == null) {
                 continue;
             }
+
+            // Determine per-assignment start date: max(Grid.StartDate, SC.CreatedDate, currentHistoryPeriod.Start_Date)
+            Date gridStart  = gridStartDateMap.get(assignment.gridId);
+            Date scCreated  = scCreatedDateMap.get(assignment.shareClassId);
+            Date effStart   = GridUtility.effectiveStart(gridStart, scCreated);
+            Date histStart  = currentHistStartByShareClass.get(assignment.shareClassId);
+            Date detailStartDate = (histStart != null && (effStart == null || histStart > effStart)) ? histStart : effStart;
+            if (detailStartDate == null) detailStartDate = Date.today();
+
             GridDetail__c detail   = new GridDetail__c();
             detail.RecordTypeId    = standardGridDetailRtId;
             detail.Grid__c         = assignment.gridId;
@@ -359,7 +394,7 @@ public with sharing class GridDetailBuilder {
             detail.GridCriteria__c = assignment.criteriaId;
             detail.ShareClass__c   = assignment.shareClassId;
             detail.RebateRate__c   = assignment.rebate;
-            detail.StartDate__c    = startDate;
+            detail.StartDate__c    = detailStartDate;
 
             // Attach existing Id if found → triggers update in upsert
             String key = assignment.gridId + '_-_' + (assignment.gridRuleId != null ? String.valueOf(assignment.gridRuleId) : 'null') + '_-_' + assignment.shareClassId;
@@ -377,6 +412,7 @@ public with sharing class GridDetailBuilder {
         }
 
         Database.UpsertResult[] upsertResults = Database.upsert(detailsToUpsert, false);
+        List<GridDetail__c> upsertedDetails = new List<GridDetail__c>();
         for (Integer i = 0; i < upsertResults.size(); i++) {
             RuleAssignment assignment = assignmentsForUpsert[i];
             if (upsertResults[i].isSuccess()) {
@@ -385,8 +421,41 @@ public with sharing class GridDetailBuilder {
                 } else {
                     result.gridDetailsUpdated++;
                 }
+                detailsToUpsert[i].Id = upsertResults[i].getId();
+                upsertedDetails.add(detailsToUpsert[i]);
             } else {
                 result.errors.add(new BuildError(assignment.gridRuleId, 'Failed to upsert GridDetail__c: ' + upsertResults[i].getErrors()[0].getMessage()));
+            }
+        }
+
+        // Build and insert historical records for each share class based on Fund_Field_ApplicabilityHistory__c
+        if (!upsertedDetails.isEmpty()) {
+            Set<Id> upsertedRuleIds = new Set<Id>();
+            for (GridDetail__c d : upsertedDetails) { if (d.GridRule__c != null) upsertedRuleIds.add(d.GridRule__c); }
+            Map<Id, GridRule__c> gridRuleById = new Map<Id, GridRule__c>();
+            if (!upsertedRuleIds.isEmpty()) {
+                gridRuleById = new Map<Id, GridRule__c>([SELECT Id, RuleToApply__c, GridRate__c FROM GridRule__c WHERE Id IN :upsertedRuleIds]);
+            }
+            List<String> histErrors = new List<String>();
+            List<GridDetail__c> historicalDetails = GridUtility.buildHistoricalDetailsFromFieldHistory(
+                upsertedDetails, gridStartDateMap, scCreatedDateMap, gridRuleById, histErrors
+            );
+            for (String e : histErrors) {
+                result.errors.add(new BuildError(null, e));
+            }
+            if (!historicalDetails.isEmpty()) {
+                Set<Id> remainingIds = new Set<Id>();
+                for (GridDetail__c h : historicalDetails) {
+                    if (h.TECH_EffMgtFeesAuditHistory__c != null) remainingIds.add(h.TECH_EffMgtFeesAuditHistory__c);
+                }
+                for (GridDetail__c ex : [SELECT TECH_EffMgtFeesAuditHistory__c FROM GridDetail__c WHERE TECH_EffMgtFeesAuditHistory__c IN :remainingIds]) {
+                    remainingIds.remove(ex.TECH_EffMgtFeesAuditHistory__c);
+                }
+                List<GridDetail__c> toInsert = new List<GridDetail__c>();
+                for (GridDetail__c h : historicalDetails) {
+                    if (remainingIds.contains(h.TECH_EffMgtFeesAuditHistory__c)) toInsert.add(h);
+                }
+                if (!toInsert.isEmpty()) insert toInsert;
             }
         }
     }
