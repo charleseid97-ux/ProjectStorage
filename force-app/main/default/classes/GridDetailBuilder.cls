@@ -443,7 +443,27 @@ public with sharing class GridDetailBuilder {
             for (String e : histErrors) {
                 result.errors.add(new BuildError(null, e));
             }
-            if (!historicalDetails.isEmpty()) insert historicalDetails;
+            if (!historicalDetails.isEmpty()) {
+                Set<Id> histGridIds = new Set<Id>();
+                Set<Id> histScIds   = new Set<Id>();
+                for (GridDetail__c h : historicalDetails) {
+                    if (h.Grid__c != null)       histGridIds.add(h.Grid__c);
+                    if (h.ShareClass__c != null) histScIds.add(h.ShareClass__c);
+                }
+                Set<String> existingKeys = new Set<String>();
+                for (GridDetail__c ex : [SELECT Grid__c, ShareClass__c, StartDate__c, EndDate__c
+                                         FROM GridDetail__c
+                                         WHERE Grid__c IN :histGridIds AND ShareClass__c IN :histScIds AND EndDate__c != null]) {
+                    existingKeys.add(ex.Grid__c + '_' + ex.ShareClass__c + '_' + ex.StartDate__c + '_' + ex.EndDate__c);
+                }
+                List<GridDetail__c> toInsert = new List<GridDetail__c>();
+                for (GridDetail__c h : historicalDetails) {
+                    if (!existingKeys.contains(h.Grid__c + '_' + h.ShareClass__c + '_' + h.StartDate__c + '_' + h.EndDate__c)) {
+                        toInsert.add(h);
+                    }
+                }
+                if (!toInsert.isEmpty()) insert toInsert;
+            }
         }
     }
 
