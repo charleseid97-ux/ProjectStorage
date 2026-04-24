@@ -178,8 +178,6 @@ public with sharing class GridUtility {
                     historicalRebate = (histEffMgtFees * rule.GridRate__c / 100).setScale(2, System.RoundingMode.HALF_UP);
                 }
 
-                Date detailStart = (effGridStart != null && hist.Start_Date__c < effGridStart) ? effGridStart : hist.Start_Date__c;
-
                 GridDetail__c clone = new GridDetail__c();
                 clone.RecordTypeId                    = base.RecordTypeId;
                 clone.Grid__c                         = base.Grid__c;
@@ -189,7 +187,7 @@ public with sharing class GridUtility {
                 clone.StandardGridDetail__c           = base.StandardGridDetail__c;
                 clone.RebateRate__c                   = historicalRebate;
                 clone.EffectiveManagementFees__c      = histEffMgtFees;
-                clone.StartDate__c                    = detailStart;
+                clone.StartDate__c                    = hist.Start_Date__c;
                 clone.EndDate__c                      = hist.End_Date__c;
                 clone.TECH_EffMgtFeesAuditHistory__c  = hist.Id;
                 historicalDetails.add(clone);
