@@ -181,16 +181,17 @@ public with sharing class GridUtility {
                 Date detailStart = (effGridStart != null && hist.Start_Date__c < effGridStart) ? effGridStart : hist.Start_Date__c;
 
                 GridDetail__c clone = new GridDetail__c();
-                clone.RecordTypeId               = base.RecordTypeId;
-                clone.Grid__c                    = base.Grid__c;
-                clone.GridRule__c                = base.GridRule__c;
-                clone.GridCriteria__c            = base.GridCriteria__c;
-                clone.ShareClass__c              = base.ShareClass__c;
-                clone.StandardGridDetail__c      = base.StandardGridDetail__c;
-                clone.RebateRate__c              = historicalRebate;
-                clone.EffectiveManagementFees__c = histEffMgtFees;
-                clone.StartDate__c               = detailStart;
-                clone.EndDate__c                 = hist.End_Date__c;
+                clone.RecordTypeId                    = base.RecordTypeId;
+                clone.Grid__c                         = base.Grid__c;
+                clone.GridRule__c                     = base.GridRule__c;
+                clone.GridCriteria__c                 = base.GridCriteria__c;
+                clone.ShareClass__c                   = base.ShareClass__c;
+                clone.StandardGridDetail__c           = base.StandardGridDetail__c;
+                clone.RebateRate__c                   = historicalRebate;
+                clone.EffectiveManagementFees__c      = histEffMgtFees;
+                clone.StartDate__c                    = detailStart;
+                clone.EndDate__c                      = hist.End_Date__c;
+                clone.TECH_EffMgtFeesAuditHistory__c  = hist.Id;
                 historicalDetails.add(clone);
             }
         }
