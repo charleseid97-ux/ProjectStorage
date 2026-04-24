@@ -317,6 +317,9 @@ public with sharing class GridUtility {
             if (curr.End_Date__c == null) {
                 return 'An active (End_Date = null) record was found before the last position (index ' + i + ').';
             }
+            if (curr.Start_Date__c > curr.End_Date__c) {
+                return 'Invalid period at index ' + i + ': Start_Date (' + curr.Start_Date__c + ') is after End_Date (' + curr.End_Date__c + ').';
+            }
             Date expectedNextStart = curr.End_Date__c.addDays(1);
             if (next.Start_Date__c != expectedNextStart) {
                 return 'Gap or overlap detected: period ending ' + curr.End_Date__c +
