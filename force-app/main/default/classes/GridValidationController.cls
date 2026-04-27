@@ -70,9 +70,6 @@ public with sharing class GridValidationController {
 
             // 5. Update Convention__c with Grid_Request__c (new grid only — draft edit leaves agreement unchanged)
             if (draftGridId == null) updateAgreements(request);
-
-            // 6. Create or update AgreementGridTimeline__c
-            upsertAgreementGridTimelines(request, draftGridId);
         }
         catch (Exception e) {
             Database.rollback(sp);
@@ -173,31 +170,6 @@ public with sharing class GridValidationController {
         }
 
         Database.update(agreementsToUpdate, false); // allOrNone=false: org process builders may reject the update for certain record types; grid + AGT creation must not be blocked
-    }
-
-    private static void upsertAgreementGridTimelines(GridSaveRequest request, Id draftGridId) {
-        // Always derive agreements from the request list; for draft edit also look up existing AGTs by grid
-        List<Id> agreementIds = new List<Id>();
-        if (request.agreementIds != null) agreementIds.addAll(request.agreementIds);
-        if (agreementIds.isEmpty()) return;
-
-        // Build map of existing AGT Ids keyed by Agreement__c (only populated for draft edit)
-        Map<Id, Id> agtIdByAgreement = new Map<Id, Id>();
-        if (draftGridId != null) {
-            for (AgreementGridTimeline__c agt : [SELECT Id, Agreement__c FROM AgreementGridTimeline__c WHERE Grid__c = :draftGridId AND Status__c = 'Draft']) {
-                agtIdByAgreement.put(agt.Agreement__c, agt.Id);
-            }
-        }
-
-        Map<Id, Convention__c> agreements = new Map<Id, Convention__c>([SELECT Id, Name FROM Convention__c WHERE Id IN :agreementIds]);
-        List<AgreementGridTimeline__c> timelinesToUpsert = new List<AgreementGridTimeline__c>();
-        for (Id agmtId : agreementIds) {
-            AgreementGridTimeline__c agt = AgreementGridTimelineUtility.createAgreementGridTimeline(agreements.get(agmtId), request.grid, request.grid.StartDate__c, request.grid.EndDate__c, 'Draft');
-            if (agtIdByAgreement.containsKey(agmtId)) agt.Id = agtIdByAgreement.get(agmtId);
-            timelinesToUpsert.add(agt);
-        }
-
-        if (!timelinesToUpsert.isEmpty()) upsert timelinesToUpsert;
     }
 
     // ────────────────────────────────────── WRAPPERS ──────────────────────────────────────
