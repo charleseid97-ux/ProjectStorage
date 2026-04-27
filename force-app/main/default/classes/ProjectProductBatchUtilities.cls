@@ -1,24 +1,25 @@
 public class ProjectProductBatchUtilities {
 
-    public static List<Narrative__c> createNarratives(ProjectProduct__c projectProduct, String recordTypeId, String language, String productId) {
+    public static List<Narrative__c> createNarratives(ProjectProduct__c projectProduct, String recordTypeId, String language, String productId, String scope) {
         List<Narrative__c> newNarrative = new List<Narrative__c>();
         String investmentStrategy = projectProduct.InvestmentStrategy__c;
         String investmentObjective = projectProduct.InvestmentObjective__c;
         String riskAssociatedMultiPicklist = projectProduct.RiskAssociated__c;
+        //String riskNotConsideredPicklist = projectProduct.RiskNotConsideredinIndicator__c;
         String intendedRetail = projectProduct.IntentedRetailInvestor__c;
         String reasonForRHP = projectProduct.ReasonForRHP__c;
         /*String redeemCondition = projectProduct.RedeemCondition__c;
         String lmt = projectProduct.LMT__c;*/
 
         if (investmentObjective != '') {
-            Narrative__c investmentObjectiveNarrative = new Narrative__c(Name = 'Investment Objective PRIIPS', RecordTypeId = recordTypeId, 
+            Narrative__c investmentObjectiveNarrative = new Narrative__c(Name = 'Investment Objective PRIIPS', RecordTypeId = recordTypeId, Narrative_Scope__c = scope,
                                                                         Type__c = 'Investment Objective', SubType__c = 'PRIIPS', Language__c = language, 
                                                                         Product__c = productId, Content__c = investmentObjective, StartDate__c = System.today());
             newNarrative.add(investmentObjectiveNarrative);
         }
         
         if (investmentStrategy != '') {
-            Narrative__c investmentStrategyNarrative = new Narrative__c(Name = 'Investment Strategy Description', RecordTypeId = recordTypeId, 
+            Narrative__c investmentStrategyNarrative = new Narrative__c(Name = 'Investment Strategy Description', RecordTypeId = recordTypeId, Narrative_Scope__c = scope,
                                                                         Type__c = 'Investment Strategy', SubType__c = 'Description', Language__c = language, 
                                                                         Product__c = productId, Content__c = investmentStrategy, StartDate__c = System.today());
             newNarrative.add(investmentStrategyNarrative);
@@ -26,21 +27,29 @@ public class ProjectProductBatchUtilities {
 
         if (riskAssociatedMultiPicklist != '') {
             String content = getRiskNarrativeContent(riskAssociatedMultiPicklist);
-            Narrative__c riskAssociatedMultiPicklistNarrative = new Narrative__c(Name = 'Risk Main Risk of the Fund', RecordTypeId = recordTypeId, 
+            Narrative__c riskAssociatedMultiPicklistNarrative = new Narrative__c(Name = 'Risk Main Risk of the Fund', RecordTypeId = recordTypeId, Narrative_Scope__c = scope, 
                                                                         Type__c = 'Risk', SubType__c = 'Main Risk of the Fund', Language__c = language, 
                                                                         Product__c = productId, Content__c = content, StartDate__c = System.today());
             newNarrative.add(riskAssociatedMultiPicklistNarrative);
         }
+        // Send Legal form
+        /*if (riskNotConsideredPicklist != '') {
+            String content = getRiskNotConsideredContent(riskNotConsideredPicklist);
+            Narrative__c riskNotConsideredPicklistNarrative = new Narrative__c(Name = 'Risk Main Risk of the Fund', RecordTypeId = recordTypeId, Narrative_Scope__c = scope, 
+                                                                        Type__c = 'Risk', SubType__c = 'Main Risk of the Fund', Language__c = language, 
+                                                                        Product__c = productId, Content__c = content, StartDate__c = System.today());
+            newNarrative.add(riskNotConsideredPicklistNarrative);
+        }*/
 
         if (intendedRetail != '') {
-            Narrative__c intendedRetailNarrative = new Narrative__c(Name = 'PRIIPs Intended Retail Investor', RecordTypeId = recordTypeId, 
+            Narrative__c intendedRetailNarrative = new Narrative__c(Name = 'PRIIPs Intended Retail Investor', RecordTypeId = recordTypeId, Narrative_Scope__c = scope, 
                                                                         Type__c = 'PRIIPs', SubType__c = 'INTENDED_RETAIL_INVESTOR', Language__c = language, 
                                                                         Product__c = productId, Content__c = intendedRetail, StartDate__c = System.today());
             newNarrative.add(intendedRetailNarrative);
         }
 
         if (reasonForRHP != '') {
-            Narrative__c reasonForRHPNarrative = new Narrative__c(Name = 'PRIIPs Reason For PHP', RecordTypeId = recordTypeId, 
+            Narrative__c reasonForRHPNarrative = new Narrative__c(Name = 'PRIIPs Reason For PHP', RecordTypeId = recordTypeId, Narrative_Scope__c = scope, 
                                                                         Type__c = 'PRIIPs', SubType__c = 'REASON_FOR_PHP', Language__c = language, 
                                                                         Product__c = productId, Content__c = reasonForRHP, StartDate__c = System.today());
             newNarrative.add(reasonForRHPNarrative);
@@ -123,7 +132,7 @@ public class ProjectProductBatchUtilities {
                 + ' (SELECT Id FROM Narratives__r WHERE Type__c = \'Third Party\'),'
                 + ' (SELECT Id, ProjectShareclass__c, ProjectProduct__c, Product__c, ShareClass__c, Type__c, Status__c, Source__c '
                 + '    FROM Tax_Data__r '
-                + '    WHERE Source__c = \'PMT\' AND Type__c = \'Transparency\' AND Status__c = \'Requested\' '
+                + '    WHERE Source__c = \'PMT\' AND Status__c = \'Requested\' '
                 + '      AND (Product__c = NULL OR ShareClass__c = NULL)'
                 + ' )'
                 + ' FROM ProjectProduct__c WHERE Id IN :setProjetctIds';
@@ -192,6 +201,63 @@ public class ProjectProductBatchUtilities {
         return result;
     }
 
+    // version of UpsertDebugResult that siplay fields with error
+   /* public static UpsertDebugResult logUpsertResults(List<SObject> recordsToUpsert) {
+    UpsertDebugResult result = new UpsertDebugResult();
+
+    if (recordsToUpsert == null || recordsToUpsert.isEmpty()) {
+        return result;
+    }
+
+    List<Database.UpsertResult> saveResults = Database.upsert(recordsToUpsert, false);
+
+    for (Integer index = 0; index < saveResults.size(); index++) {
+        Database.UpsertResult sr = saveResults[index];
+        SObject record = recordsToUpsert[index];
+        String key = 'record_' + index;
+
+        if (!sr.isSuccess()) {
+            for (Database.Error error : sr.getErrors()) {
+                List<String> fieldNames = new List<String>();
+
+                if (error.getFields() != null) {
+                    for (String fieldName : error.getFields()) {
+                        fieldNames.add(fieldName);
+                    }
+                }
+
+                String objectName = record.getSObjectType().getDescribe().getName();
+
+                String recordName = '(no Name field)';
+                Map<String, Object> populatedFields = record.getPopulatedFieldsAsMap();
+                if (populatedFields.containsKey('Name')) {
+                    recordName = String.valueOf(record.get('Name'));
+                }
+
+                String detailedError =
+                    'Object=' + objectName +
+                    ', RecordKey=' + key +
+                    ', RecordName=' + recordName +
+                    ', StatusCode=' + String.valueOf(error.getStatusCode()) +
+                    ', Fields=' + String.join(fieldNames, ', ') +
+                    ', Message=' + error.getMessage();
+
+                result.errorMap.put(key, detailedError);
+                result.failedRecords.put(key, record);
+
+                System.debug(LoggingLevel.ERROR, '[BATCH ERROR] ' + detailedError);
+                System.debug(LoggingLevel.ERROR, '[FAILED RECORD VALUES] ' + JSON.serializePretty(record.getPopulatedFieldsAsMap()));
+            }
+        } else {
+            record.put('Id', sr.getId());
+            result.successRecords.put(key, record);
+            System.debug(LoggingLevel.INFO, '[BATCH RECORD SUCCESS] KEY: ' + key + ' - ' + record);
+        }
+    }
+
+    return result;
+}*/
+    
      public static List<ProjectShareclass__c> getProjectShareclass(List<ProjectProduct__c> listProjectProduct) {
         List<ProjectShareclass__c> listProjectShareclass = new List<ProjectShareclass__c>();
         listProjectShareclass = [SELECT Id, TECH_ShareClass__c, TECH_FieldsToModify__c FROM ProjectShareclass__c WHERE ProjectProduct__c IN :listProjectProduct];
@@ -245,6 +311,36 @@ public class ProjectProductBatchUtilities {
                 content += 'CURRENCY: Currency risk is linked to exposure to a currency other than the Fund\'s valuation currency, either through direct investment or the use of forward financial instruments.\n';
             }
         }
+
+        content += 'The Fund presents a risk of loss of capital.';
+        return content;
+    }
+
+    private static String getRiskNotConsideredContent(String riskNotConsideredPicklist) {
+        String content = '';
+        List<String> listRiskAssociated = new List<String>();
+        if (riskNotConsideredPicklist == '' || riskNotConsideredPicklist == null) {
+            return '';
+        }
+       
+            // Condition sur Legal form et riskNotConsideredPicklist value
+            //If FCP { switch riskNotConsideredPicklist }
+            //projet modification
+            if (riskNotConsideredPicklist == 'Counterparty risk') {
+                content += 'EQUITY: The Fund may be affected by stock price variations, the scale of which is dependent on external factors, stock trading volumes or market capitalization.\n';
+            }
+            if (riskNotConsideredPicklist == 'Credit risk') {
+                content += 'INTEREST RATE: Interest rate risk results in a decline in the net asset value in the event of changes in interest rates.\n';
+            }
+            if (riskNotConsideredPicklist == 'Liquidity risk') {
+                content += 'CREDIT: Credit risk is the risk that the issuer may default.\n';
+            }
+            if (riskNotConsideredPicklist == 'Pooled investments in secondaries risk') {
+                content += 'CURRENCY: Currency risk is linked to exposure to a currency other than the Fund\'s valuation currency, either through direct investment or the use of forward financial instruments.\n';
+            }
+            if (riskNotConsideredPicklist == 'Risks associated with China') {
+                content += 'CURRENCY: Currency risk is linked to exposure to a currency other than the Fund\'s valuation currency, either through direct investment or the use of forward financial instruments.\n';
+            }
 
         content += 'The Fund presents a risk of loss of capital.';
         return content;
