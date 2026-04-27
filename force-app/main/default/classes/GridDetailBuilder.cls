@@ -394,12 +394,7 @@ public with sharing class GridDetailBuilder {
         return dateMap;
     }
 
-    private static UpsertBatch buildDetailsForUpsert(
-            List<RuleAssignment> assignments,
-            Map<String, Id> existingByKey,
-            Map<Id, Date> gridStartDateMap,
-            Map<Id, Date> scCreatedDateMap,
-            Map<Id, Date> currentHistStartByShareClass) {
+    private static UpsertBatch buildDetailsForUpsert(List<RuleAssignment> assignments, Map<String, Id> existingByKey, Map<Id, Date> gridStartDateMap, Map<Id, Date> scCreatedDateMap, Map<Id, Date> currentHistStartByShareClass) {
         UpsertBatch batch = new UpsertBatch();
         Id standardRtId = Schema.SObjectType.GridDetail__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_STANDARD_GRID_DETAIL).getRecordTypeId();
         for (RuleAssignment assignment : assignments) {
@@ -459,9 +454,7 @@ public with sharing class GridDetailBuilder {
             gridRuleById = new Map<Id, GridRule__c>([SELECT Id, RuleToApply__c, GridRate__c FROM GridRule__c WHERE Id IN :upsertedRuleIds]);
         }
         List<String> histErrors = new List<String>();
-        List<GridDetail__c> historicalDetails = GridUtility.buildHistoricalDetailsFromFieldHistory(
-            upsertedDetails, gridStartDateMap, scCreatedDateMap, gridRuleById, histErrors
-        );
+        List<GridDetail__c> historicalDetails = GridUtility.buildHistoricalDetailsFromFieldHistory(upsertedDetails, gridStartDateMap, scCreatedDateMap, gridRuleById, histErrors);
         for (String e : histErrors) {
             result.errors.add(new BuildError(null, e));
         }
