@@ -24,14 +24,12 @@ public with sharing class GridDetailTableController {
             return result;
         }
 
-        Grid__c grid = [SELECT Id, RecordType.DeveloperName FROM Grid__c WHERE Id = :gridId LIMIT 1];
+        Grid__c grid = [SELECT Id, RecordType.DeveloperName, Agreement__c FROM Grid__c WHERE Id = :gridId LIMIT 1];
         AgreementSelection agreementSelection = new AgreementSelection();
 
         // Custom Grid: agreements are those where this grid is set as Grid_Request__c or Grid__c
         if (grid.RecordType.DeveloperName == GridBuilderHelper.RT_CUSTOM_GRID) { 
-            for (Convention__c agr : [SELECT Id FROM Convention__c WHERE Grid_Request__c = :gridId OR Grid__c = :gridId]) {
-                agreementSelection.agreementIds.add(agr.Id);
-            }
+            agreementSelection.agreementIds.add(grid.Agreement__c);
         }
         // Standard Grid: use GridScope__c
         else { 
@@ -60,7 +58,7 @@ public with sharing class GridDetailTableController {
                                        FROM GridDetail__c
                                        WHERE Grid__c = :gridId
                                        AND (EndDate__c = null OR EndDate__c >= :cutoffDate)
-                                       ORDER BY ShareClass__r.Fund__r.ProductName__c, ShareClass__r.Name__c];
+                                       ORDER BY ShareClass__r.Fund__r.ProductName__c, ShareClass__r.Name__c, StartDate__c DESC];
         Set<Id> shareClassIds = new Set<Id>();
         for (GridDetail__c detail : details) {
             Id scId = detail.StandardGridDetail__c != null ? detail.StandardGridDetail__r.ShareClass__c : detail.ShareClass__c;

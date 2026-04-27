@@ -17,6 +17,19 @@
                         </valueListItems>
                         <valueListItems>
                             <value>CustomButton.Grid__c.EditGridDetails</value>
+                            <visibilityRule>
+                                <booleanFilter>1 OR 2</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.ApprovalStatus__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Draft</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.ApprovalStatus__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Rejected</rightValue>
+                                </criteria>
+                            </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>Grid__c.SubmitGridAmendment</value>
