@@ -317,25 +317,20 @@ public with sharing class GridDetailBuilder {
     private static void insertGridDetails(List<RuleAssignment> assignments, BuildResult result) {
         Map<String, Id> existingByKey = buildExistingKeyMap(assignments);
 
-        Set<Id> gridIds = new Set<Id>();
         Set<Id> shareClassIds = new Set<Id>();
         for (RuleAssignment a : assignments) {
-            if (!a.hasError && a.rebate != null) {
-                gridIds.add(a.gridId);
-                if (a.shareClassId != null) shareClassIds.add(a.shareClassId);
-            }
+            if (!a.hasError && a.rebate != null && a.shareClassId != null) shareClassIds.add(a.shareClassId);
         }
 
-        Map<Id, Date> gridStartDateMap             = loadGridStartDates(gridIds);
         Map<Id, Date> scCreatedDateMap             = loadShareClassCreatedDates(shareClassIds);
         Map<Id, Date> currentHistStartByShareClass = loadCurrentHistStart(shareClassIds);
 
-        UpsertBatch batch = buildDetailsForUpsert(assignments, existingByKey, gridStartDateMap, scCreatedDateMap, currentHistStartByShareClass);
+        UpsertBatch batch = buildDetailsForUpsert(assignments, existingByKey, scCreatedDateMap, currentHistStartByShareClass);
         if (batch.details.isEmpty()) return;
 
         List<GridDetail__c> upsertedDetails = executeUpsert(batch, result);
         if (!upsertedDetails.isEmpty()) {
-            insertHistoricalDetails(upsertedDetails, gridStartDateMap, scCreatedDateMap, result);
+            insertHistoricalDetails(upsertedDetails, scCreatedDateMap, result);
         }
     }
 
@@ -366,14 +361,6 @@ public with sharing class GridDetailBuilder {
         return existingByKey;
     }
 
-    private static Map<Id, Date> loadGridStartDates(Set<Id> gridIds) {
-        Map<Id, Date> dateMap = new Map<Id, Date>();
-        for (Grid__c g : [SELECT Id, StartDate__c FROM Grid__c WHERE Id IN :gridIds]) {
-            dateMap.put(g.Id, g.StartDate__c);
-        }
-        return dateMap;
-    }
-
     private static Map<Id, Date> loadShareClassCreatedDates(Set<Id> shareClassIds) {
         Map<Id, Date> dateMap = new Map<Id, Date>();
         for (Share_Class__c sc : [SELECT Id, CreatedDate FROM Share_Class__c WHERE Id IN :shareClassIds]) {
@@ -394,16 +381,14 @@ public with sharing class GridDetailBuilder {
         return dateMap;
     }
 
-    private static UpsertBatch buildDetailsForUpsert(List<RuleAssignment> assignments, Map<String, Id> existingByKey, Map<Id, Date> gridStartDateMap, Map<Id, Date> scCreatedDateMap, Map<Id, Date> currentHistStartByShareClass) {
+    private static UpsertBatch buildDetailsForUpsert(List<RuleAssignment> assignments, Map<String, Id> existingByKey, Map<Id, Date> scCreatedDateMap, Map<Id, Date> currentHistStartByShareClass) {
         UpsertBatch batch = new UpsertBatch();
         Id standardRtId = Schema.SObjectType.GridDetail__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_STANDARD_GRID_DETAIL).getRecordTypeId();
         for (RuleAssignment assignment : assignments) {
             if (assignment.hasError || assignment.rebate == null) continue;
-            Date gridStart       = gridStartDateMap.get(assignment.gridId);
             Date scCreated       = scCreatedDateMap.get(assignment.shareClassId);
-            Date effStart        = GridUtility.effectiveStart(gridStart, scCreated);
             Date histStart       = currentHistStartByShareClass.get(assignment.shareClassId);
-            Date detailStartDate = (histStart != null && (effStart == null || histStart > effStart)) ? histStart : effStart;
+            Date detailStartDate = (histStart != null && (scCreated == null || histStart > scCreated)) ? histStart : scCreated;
             if (detailStartDate == null) detailStartDate = Date.today();
 
             GridDetail__c detail   = new GridDetail__c();
@@ -444,7 +429,7 @@ public with sharing class GridDetailBuilder {
         return upsertedDetails;
     }
 
-    private static void insertHistoricalDetails(List<GridDetail__c> upsertedDetails, Map<Id, Date> gridStartDateMap, Map<Id, Date> scCreatedDateMap, BuildResult result) {
+    private static void insertHistoricalDetails(List<GridDetail__c> upsertedDetails, Map<Id, Date> scCreatedDateMap, BuildResult result) {
         Set<Id> upsertedRuleIds = new Set<Id>();
         for (GridDetail__c d : upsertedDetails) {
             if (d.GridRule__c != null) upsertedRuleIds.add(d.GridRule__c);
@@ -454,7 +439,7 @@ public with sharing class GridDetailBuilder {
             gridRuleById = new Map<Id, GridRule__c>([SELECT Id, RuleToApply__c, GridRate__c FROM GridRule__c WHERE Id IN :upsertedRuleIds]);
         }
         List<String> histErrors = new List<String>();
-        List<GridDetail__c> historicalDetails = GridUtility.buildHistoricalDetailsFromFieldHistory(upsertedDetails, gridStartDateMap, scCreatedDateMap, gridRuleById, histErrors);
+        List<GridDetail__c> historicalDetails = GridUtility.buildHistoricalDetailsFromFieldHistory(upsertedDetails, new Map<Id, Date>(), scCreatedDateMap, gridRuleById, histErrors);
         for (String e : histErrors) {
             result.errors.add(new BuildError(null, e));
         }
