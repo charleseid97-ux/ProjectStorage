@@ -322,10 +322,10 @@ public with sharing class GridDetailBuilder {
             if (!a.hasError && a.rebate != null && a.shareClassId != null) shareClassIds.add(a.shareClassId);
         }
 
-        Map<Id, Date> scCreatedDateMap             = loadShareClassCreatedDates(shareClassIds);
-        Map<Id, Date> currentHistStartByShareClass = loadCurrentHistStart(shareClassIds);
+        ShareClassMaps scMaps                      = loadShareClassMaps(shareClassIds);
+        Map<Id, Date>  currentHistStartByShareClass = loadCurrentHistStart(shareClassIds);
 
-        UpsertBatch batch = buildDetailsForUpsert(assignments, existingByKey, scCreatedDateMap, currentHistStartByShareClass);
+        UpsertBatch batch = buildDetailsForUpsert(assignments, existingByKey, scMaps, currentHistStartByShareClass);
         if (batch.details.isEmpty()) return;
 
         List<GridDetail__c> upsertedDetails = executeUpsert(batch, result);
@@ -361,12 +361,13 @@ public with sharing class GridDetailBuilder {
         return existingByKey;
     }
 
-    private static Map<Id, Date> loadShareClassCreatedDates(Set<Id> shareClassIds) {
-        Map<Id, Date> dateMap = new Map<Id, Date>();
-        for (Share_Class__c sc : [SELECT Id, CreatedDate FROM Share_Class__c WHERE Id IN :shareClassIds]) {
-            dateMap.put(sc.Id, sc.CreatedDate != null ? sc.CreatedDate.date() : null);
+    private static ShareClassMaps loadShareClassMaps(Set<Id> shareClassIds) {
+        ShareClassMaps maps = new ShareClassMaps();
+        for (Share_Class__c sc : [SELECT Id, CreatedDate, EffectiveManagementFees__c FROM Share_Class__c WHERE Id IN :shareClassIds]) {
+            maps.createdDateMap.put(sc.Id, sc.CreatedDate != null ? sc.CreatedDate.date() : null);
+            maps.effMgtFeesMap.put(sc.Id, sc.EffectiveManagementFees__c);
         }
-        return dateMap;
+        return maps;
     }
 
     private static Map<Id, Date> loadCurrentHistStart(Set<Id> shareClassIds) {
@@ -381,24 +382,25 @@ public with sharing class GridDetailBuilder {
         return dateMap;
     }
 
-    private static UpsertBatch buildDetailsForUpsert(List<RuleAssignment> assignments, Map<String, Id> existingByKey, Map<Id, Date> scCreatedDateMap, Map<Id, Date> currentHistStartByShareClass) {
+    private static UpsertBatch buildDetailsForUpsert(List<RuleAssignment> assignments, Map<String, Id> existingByKey, ShareClassMaps scMaps, Map<Id, Date> currentHistStartByShareClass) {
         UpsertBatch batch = new UpsertBatch();
         Id standardRtId = Schema.SObjectType.GridDetail__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_STANDARD_GRID_DETAIL).getRecordTypeId();
         for (RuleAssignment assignment : assignments) {
             if (assignment.hasError || assignment.rebate == null) continue;
-            Date scCreated       = scCreatedDateMap.get(assignment.shareClassId);
+            Date scCreated       = scMaps.createdDateMap.get(assignment.shareClassId);
             Date histStart       = currentHistStartByShareClass.get(assignment.shareClassId);
             Date detailStartDate = (histStart != null && (scCreated == null || histStart > scCreated)) ? histStart : scCreated;
             if (detailStartDate == null) detailStartDate = Date.today();
 
-            GridDetail__c detail   = new GridDetail__c();
-            detail.RecordTypeId    = standardRtId;
-            detail.Grid__c         = assignment.gridId;
-            detail.GridRule__c     = assignment.gridRuleId;
-            detail.GridCriteria__c = assignment.criteriaId;
-            detail.ShareClass__c   = assignment.shareClassId;
-            detail.RebateRate__c   = assignment.rebate;
-            detail.StartDate__c    = detailStartDate;
+            GridDetail__c detail              = new GridDetail__c();
+            detail.RecordTypeId               = standardRtId;
+            detail.Grid__c                    = assignment.gridId;
+            detail.GridRule__c                = assignment.gridRuleId;
+            detail.GridCriteria__c            = assignment.criteriaId;
+            detail.ShareClass__c              = assignment.shareClassId;
+            detail.RebateRate__c              = assignment.rebate;
+            detail.EffectiveManagementFees__c = scMaps.effMgtFeesMap.get(assignment.shareClassId);
+            detail.StartDate__c               = detailStartDate;
 
             String key = assignment.gridId + '_-_' + (assignment.gridRuleId != null ? String.valueOf(assignment.gridRuleId) : 'null') + '_-_' + assignment.shareClassId;
             Id existingId = existingByKey.get(key);
@@ -1141,8 +1143,13 @@ public with sharing class GridDetailBuilder {
     }
 
     // ────────────────────────────────────── WRAPPERS ──────────────────────────────────────
+    private class ShareClassMaps {
+        Map<Id, Date>    createdDateMap = new Map<Id, Date>();
+        Map<Id, Decimal> effMgtFeesMap  = new Map<Id, Decimal>();
+    }
+
     private class UpsertBatch {
-        List<GridDetail__c> details     = new List<GridDetail__c>();
+        List<GridDetail__c> details      = new List<GridDetail__c>();
         List<RuleAssignment> assignments = new List<RuleAssignment>();
     }
 
