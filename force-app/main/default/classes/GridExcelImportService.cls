@@ -424,8 +424,10 @@ public with sharing class GridExcelImportService {
             return;
         }
         GridDetailBuilder.BuildResult detailResult = GridDetailBuilder.buildForGridRules(rowByRuleId.keySet());
-        result.gridDetailsCreated += detailResult.gridDetailsCreated;
-        result.gridDetailsUpdated += detailResult.gridDetailsUpdated;
+        result.gridDetailsCreated      += detailResult.gridDetailsCreated;
+        result.gridDetailsUpdated      += detailResult.gridDetailsUpdated;
+        result.histGridDetailsInserted += detailResult.histGridDetailsInserted;
+        result.histGridDetailsUpdated  += detailResult.histGridDetailsUpdated;
         if (detailResult.errors != null) {
             for (GridDetailBuilder.BuildError detailError : detailResult.errors) {
                 Integer rowNumber = detailError.gridRuleId != null ? rowByRuleId.get(detailError.gridRuleId) : null;
@@ -670,8 +672,10 @@ public with sharing class GridExcelImportService {
         @AuraEnabled public Integer criteriaDetailsCreated = 0;
         @AuraEnabled public Integer gridRulesCreated       = 0;
         @AuraEnabled public Integer gridRulesUpdated       = 0;
-        @AuraEnabled public Integer gridDetailsCreated     = 0;
-        @AuraEnabled public Integer gridDetailsUpdated     = 0;
+        @AuraEnabled public Integer gridDetailsCreated      = 0;
+        @AuraEnabled public Integer gridDetailsUpdated      = 0;
+        @AuraEnabled public Integer histGridDetailsInserted = 0;
+        @AuraEnabled public Integer histGridDetailsUpdated  = 0;
         @AuraEnabled public List<ImportError> errors;
     }
 
