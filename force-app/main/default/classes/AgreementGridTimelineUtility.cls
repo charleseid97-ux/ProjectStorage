@@ -8,11 +8,12 @@
 ────────────────────────────────────── */
 public with sharing class AgreementGridTimelineUtility {
 
-    private static final String AGT_DRAFT           = 'Draft';
-    private static final String AGT_PENDINGAPPROVAL = 'Pending Approval';
-    private static final String AGT_ACTIVE          = 'Active';
-    private static final String AGT_INACTIVE        = 'Inactive';
-    private static final String AGT_REJECTED        = 'Rejected';
+    public static final String AGT_DRAFT           = 'Draft';
+    public static final String AGT_PENDINGAPPROVAL = 'Pending Approval';
+    public static final String AGT_ACTIVE          = 'Active';
+    public static final String AGT_APPROVED        = 'Approved';
+    public static final String AGT_INACTIVE        = 'Inactive';
+    public static final String AGT_REJECTED        = 'Rejected';
 
     /** ──────────────────────────────────────
      * @description Applies AGT status transitions for pre-classified agreement sets and commits the update.
@@ -26,7 +27,7 @@ public with sharing class AgreementGridTimelineUtility {
 
         Set<Id> gridIds;
         List<AgreementGridTimeline__c> timelinesToUpdate = new List<AgreementGridTimeline__c>();
-        for(AgreementGridTimeline__c agt : [SELECT Id, Status__c, Agreement__c, Grid__c, GridEndDate__c
+        for(AgreementGridTimeline__c agt : [SELECT Id, Status__c, Agreement__c, Grid__c, GridStartDate__c, GridEndDate__c
                                             FROM AgreementGridTimeline__c
                                             WHERE Agreement__c IN :agreementIds]) {
             if(submittedAgrToGridIds.containsKey(agt.Agreement__c)) {
@@ -106,10 +107,10 @@ public with sharing class AgreementGridTimelineUtility {
         Set<Id> gridIds = flattenGridIds(agrToGridIds);
         if(agt.Status__c == AGT_ACTIVE && gridIds.contains(agt.Grid__c)) {
             agt.Status__c = AGT_INACTIVE;
-            agt.GridEndDate__c = requestStartDateByAgreement.get(agt.Agreement__c);
+            agt.GridEndDate__c = requestStartDateByAgreement.get(agt.Agreement__c).addDays(-1);
         }
         else if((agt.Status__c == AGT_DRAFT || agt.Status__c == AGT_PENDINGAPPROVAL) && gridIds.contains(agt.Grid__c)) {
-            agt.Status__c = AGT_ACTIVE;
+            agt.Status__c = (agt.GridStartDate__c != null && agt.GridStartDate__c > Date.today()) ? AGT_APPROVED : AGT_ACTIVE;
         }
         return agt;
     }
