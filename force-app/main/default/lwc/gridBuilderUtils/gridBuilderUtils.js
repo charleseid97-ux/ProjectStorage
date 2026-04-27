@@ -110,6 +110,8 @@ import Grid_RowErrors from '@salesforce/label/c.Grid_RowErrors';
 import Grid_GridRulesCreated from '@salesforce/label/c.Grid_GridRulesCreated';
 import Grid_GridRulesUpdated from '@salesforce/label/c.Grid_GridRulesUpdated';
 import Grid_GridDetailsUpdated from '@salesforce/label/c.Grid_GridDetailsUpdated';
+import Grid_HistGridDetailsInserted from '@salesforce/label/c.Grid_HistGridDetailsInserted';
+import Grid_HistGridDetailsUpdated from '@salesforce/label/c.Grid_HistGridDetailsUpdated';
 import Grid_GridsUpserted from '@salesforce/label/c.Grid_GridsUpserted';
 import Grid_Saved_Success from '@salesforce/label/c.Grid_Saved_Success';
 import Grid_ScopesUpserted from '@salesforce/label/c.Grid_ScopesUpserted';
@@ -168,7 +170,7 @@ export const LABELS = {
     Grid_CriteriaLabel, Grid_CriteriaNumber, Grid_AgreementGridTimeline, Grid_AgreementGridRecap, Grid_CurrentGridRecap, Grid_DetailsTitle, Grid_DifferentGridsSelected,
     Grid_ErrorLoadingGrids, Grid_ErrorLoadingProducts, Grid_ErrorLoadingSettings, Grid_ErrorRetrievingProducts,
     Grid_ErrorSavingGrid, Grid_ErrorValidatingProducts, Grid_ExcelImportTitle, Grid_ExcludedProducts,
-    Grid_FailedToLoadSheetJS, Grid_FilterNumber, Grid_FixValidationErrors, Grid_GridDetailsCreated, Grid_GridDetailsUpdated, Grid_GridName,
+    Grid_FailedToLoadSheetJS, Grid_FilterNumber, Grid_FixValidationErrors, Grid_GridDetailsCreated, Grid_GridDetailsUpdated, Grid_HistGridDetailsInserted, Grid_HistGridDetailsUpdated, Grid_GridName,
     Grid_ImportCompleted, Grid_ImportCompletedWithErrors, Grid_ImportFailed, Grid_ImportedFilePrefix,
     Grid_IncludedInGrid, Grid_IncludedProducts, Grid_Label, Grid_LogicLabel,
     Grid_MissingShareClass, Grid_MissingShareClasses, Grid_NoActiveGridAssigned, Grid_NoDetailsFound, Grid_NoExcludedProducts,
