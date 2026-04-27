@@ -12,161 +12,60 @@ public with sharing class CustomApprovalHistoryController {
     @AuraEnabled(cacheable=false)
     public static ApprovalHistoryResult getApprovalHistory(Id recordId) {
         ApprovalHistoryResult result = new ApprovalHistoryResult();
-        result.rows              = new List<ApprovalRow>();
+        result.rows               = new List<ApprovalRow>();
         result.canApproveOrReject = false;
         result.canRecall          = false;
         result.processStatus      = null;
 
-        if (recordId == null) {
-            return result;
-        }
+        if (recordId == null) return result;
 
-        // 1. Load all ProcessInstances for this record
-        // Note: ProcessDefinition.AllowRecall is not queryable via SOQL.
-        // Recall eligibility is evaluated for pending PIs by submitter/admin;
-        // the Salesforce engine will enforce the AllowRecall setting server-side.
-        List<ProcessInstance> instances = [SELECT Id, Status, SubmittedById, CreatedDate, ProcessDefinition.Name, ProcessDefinition.DeveloperName
-                                           FROM ProcessInstance
-                                           WHERE TargetObjectId = :recordId
-                                           ORDER BY CreatedDate DESC];
-        if (instances.isEmpty()) {
-            return result;
-        }
+        List<ProcessInstance> instances = queryProcessInstances(recordId);
+        if (instances.isEmpty()) return result;
 
-        Set<Id> piIds = new Map<Id, ProcessInstance>(instances).keySet();
-
-        // 2. Completed steps
-        List<ProcessInstanceStep> steps = [SELECT Id, StepNodeId, StepStatus, Comments, CreatedDate, Actor.Name, OriginalActor.Name, ProcessInstanceId
-                                           FROM ProcessInstanceStep
-                                           WHERE ProcessInstanceId IN :piIds
-                                           ORDER BY CreatedDate ASC];
-
-        // 3. ProcessInstanceNodes — ProcessNodeName gives the step label directly,
-        //    so no separate ProcessNode query is needed.
-        //    Sort ASC so the most recently created node overwrites earlier ones in the active-node map.
-        List<ProcessInstanceNode> pins = [SELECT Id, ProcessInstanceId, ProcessNodeId, ProcessNodeName, NodeStatus
-                                          FROM ProcessInstanceNode
-                                          WHERE ProcessInstanceId IN :piIds
-                                          ORDER BY CreatedDate ASC];
-        // Map ProcessNodeId → step label (ProcessNodeName)
-        Map<Id, String> nodeIdToLabel = new Map<Id, String>();
-        for (ProcessInstanceNode pin : pins) {
-            if (pin.ProcessNodeId != null && String.isNotBlank(pin.ProcessNodeName)) {
-                nodeIdToLabel.put(pin.ProcessNodeId, pin.ProcessNodeName);
-            }
-        }
-        // Map processInstanceId → most recent active ProcessNodeId.
-        // Don't filter by NodeStatus — the active node for a pending PI may have status 'Pending'
-        // or 'Started' depending on the org version. Taking the last non-null ProcessNodeId (ASC order)
-        // gives us the currently active step for any pending PI.
-        Map<Id, Id> piIdToActiveNodeId = new Map<Id, Id>();
-        for (ProcessInstanceNode pin : pins) {
-            if (pin.ProcessNodeId != null) {
-                piIdToActiveNodeId.put(pin.ProcessInstanceId, pin.ProcessNodeId);
-            }
-        }
-
-        // 4. Pending work items
-        List<ProcessInstanceWorkitem> workItems = [SELECT Id, ProcessInstanceId, ActorId, Actor.Name, OriginalActorId, OriginalActor.Name, CreatedDate
-                                                   FROM ProcessInstanceWorkitem
-                                                   WHERE ProcessInstanceId IN :piIds];
-        Map<Id, ProcessInstanceWorkitem> piIdToWorkItem = new Map<Id, ProcessInstanceWorkitem>();
-        for (ProcessInstanceWorkitem wi : workItems) {
-            piIdToWorkItem.put(wi.ProcessInstanceId, wi);
-        }
-
-        // 5. Load ApprovalStepConfig__mdt for all process developer names
-        Set<String> processDevNames = new Set<String>();
-        for (ProcessInstance pi : instances) {
-            processDevNames.add(pi.ProcessDefinition.DeveloperName);
-        }
-        // Build map: processDevName + stepDevName → NextApproverSource__c
-        Map<String, ApprovalStepConfig__mdt> stepConfigMap = new Map<String, ApprovalStepConfig__mdt>();
-        for (ApprovalStepConfig__mdt cfg : [SELECT ProcessConfig__r.ProcessDeveloperName__c, StepDeveloperName__c, NextApproverSource__c, ApproverResolverClass__c
-                                            FROM ApprovalStepConfig__mdt
-                                            WHERE ProcessConfig__r.ProcessDeveloperName__c IN :processDevNames]) {
-            String key = cfg.ProcessConfig__r.ProcessDeveloperName__c + '__' + cfg.StepDeveloperName__c;
-            stepConfigMap.put(key, cfg);
-        }
-
-        // 6. Determine current user permissions
+        Set<Id> piIds    = new Map<Id, ProcessInstance>(instances).keySet();
         Id currentUserId = UserInfo.getUserId();
-        Boolean isAdmin = false;
-        for (PermissionSetAssignment psa : [SELECT PermissionSet.Name
-                                            FROM PermissionSetAssignment
-                                            WHERE AssigneeId = :currentUserId
-                                            AND PermissionSet.IsOwnedByProfile = true
-                                            AND PermissionSet.Profile.Name LIKE '%Administrator%']) {
-            isAdmin = true;
-        }
+        Boolean isAdmin  = isAdministrator(currentUserId);
 
-        // 7. Build rows
+        List<ProcessInstanceStep> steps         = querySteps(piIds);
+        List<ProcessInstanceNode> pins          = queryNodes(piIds);
+        List<ProcessInstanceWorkitem> workItems = queryWorkItems(piIds);
+
+        Map<Id, String> nodeIdToLabel                      = buildNodeIdToLabel(pins);
+        Map<Id, Id> piIdToActiveNodeId                     = buildPiIdToActiveNodeId(pins);
+        Map<Id, ProcessInstanceWorkitem> piIdToWorkItem    = buildWorkItemMap(workItems);
+        Set<Id> userQueueIds                               = resolveUserQueueMembership(workItems, currentUserId);
+        Map<String, ApprovalStepConfig__mdt> stepConfigMap = buildStepConfigMap(instances);
+
         Boolean canApproveOrReject = false;
-        Boolean canRecall = false;
-        String processStatus = instances[0].Status;
+        Boolean canRecall          = false;
 
         for (ProcessInstance pi : instances) {
-            String processName = pi.ProcessDefinition.Name;
-            String processDeveloperName = pi.ProcessDefinition.DeveloperName;
-
-            // Completed steps for this PI
             for (ProcessInstanceStep step : steps) {
                 if (step.ProcessInstanceId != pi.Id) continue;
-                ApprovalRow row = new ApprovalRow();
-                String resolvedName = resolveStepName(step.StepNodeId, pins, nodeIdToLabel);
-                row.id                 = step.Id;
-                row.workItemId         = null;
-                row.stepName           = String.isNotBlank(resolvedName) ? resolvedName
-                                         : (step.StepStatus == 'Started' ? 'Approval Request Submitted' : step.StepStatus);
-                row.stepDate           = step.CreatedDate;
-                row.stepDateFormatted  = formatDatetime(step.CreatedDate);
-                row.status             = step.StepStatus == 'Started' ? 'Submitted' : step.StepStatus;
-                row.assignedTo         = step.OriginalActor?.Name;
-                row.actualApprover     = step.Actor?.Name;
-                row.comments           = step.Comments;
-                row.isPending          = false;
-                row.processName        = processName;
-                row.nextApproverSource = null;
-                result.rows.add(row);
+                result.rows.add(buildCompletedRow(step, pi.ProcessDefinition.Name, pins, nodeIdToLabel));
             }
 
-            // Pending work item for this PI
             if (piIdToWorkItem.containsKey(pi.Id)) {
                 ProcessInstanceWorkitem wi = piIdToWorkItem.get(pi.Id);
-                Id activeNodeId = piIdToActiveNodeId.get(pi.Id);
-                String stepLabel = activeNodeId != null ? nodeIdToLabel.get(activeNodeId) : null;
-                String cfgKey = processDeveloperName + '__' + (stepLabel != null ? stepLabel : '');
-                ApprovalStepConfig__mdt stepCfg = stepConfigMap.get(cfgKey);
-                String nextApproverSource = stepCfg != null ? stepCfg.NextApproverSource__c : null;
+                String stepLabel           = resolveActiveStepLabel(pi.Id, piIdToActiveNodeId, nodeIdToLabel);
+                String cfgKey              = pi.ProcessDefinition.DeveloperName + '__' + (stepLabel != null ? stepLabel : '');
+                String nextApproverSource  = stepConfigMap.containsKey(cfgKey) ? stepConfigMap.get(cfgKey).NextApproverSource__c : null;
 
-                ApprovalRow row = new ApprovalRow();
-                row.id                 = wi.Id;
-                row.workItemId         = wi.Id;
-                row.stepName           = stepLabel != null ? stepLabel : 'Pending';
-                row.stepDate           = wi.CreatedDate;
-                row.stepDateFormatted  = formatDatetime(wi.CreatedDate);
-                row.status             = 'Pending';
-                row.assignedTo         = wi.OriginalActor?.Name;
-                row.actualApprover     = wi.Actor?.Name;
-                row.comments           = null;
-                row.isPending          = true;
-                row.processName        = processName;
-                row.nextApproverSource = nextApproverSource;
-                result.rows.add(row);
+                result.rows.add(buildPendingRow(wi, pi.ProcessDefinition.Name, stepLabel, nextApproverSource));
 
-                if (wi.ActorId == currentUserId || isAdmin) {
-                    canApproveOrReject = true;
+                if (!canApproveOrReject) {
+                    canApproveOrReject = canApproveOrRejectWorkItem(wi.ActorId, currentUserId, userQueueIds, isAdmin);
                 }
             }
 
-            if (isRecallEligible(pi, currentUserId, isAdmin)) {
+            if (!canRecall && isRecallEligible(pi, currentUserId, isAdmin)) {
                 canRecall = true;
             }
         }
 
         result.canApproveOrReject = canApproveOrReject;
         result.canRecall          = canRecall;
-        result.processStatus      = processStatus;
+        result.processStatus      = instances[0].Status;
         return result;
     }
 
@@ -176,18 +75,166 @@ public with sharing class CustomApprovalHistoryController {
         return CustomApprovalHistoryUtility.processApproval(workItemId, action, comments, nextApproverIds);
     }
 
-    // ─────────────────────────────────────── Private helpers ───────────────────────────────────────
-    // Recall allowed when PI is pending AND the user is the submitter or an admin.
-    // AllowRecall setting is enforced server-side by Salesforce.
+    // ─────────────────────────────────────── Queries ───────────────────────────────────────
+    private static List<ProcessInstance> queryProcessInstances(Id recordId) {
+        return [SELECT Id, Status, SubmittedById, CreatedDate, ProcessDefinition.Name, ProcessDefinition.DeveloperName
+                FROM ProcessInstance
+                WHERE TargetObjectId = :recordId
+                ORDER BY CreatedDate DESC];
+    }
+
+    private static List<ProcessInstanceStep> querySteps(Set<Id> piIds) {
+        return [SELECT Id, StepNodeId, StepStatus, Comments, CreatedDate, Actor.Name, OriginalActor.Name, ProcessInstanceId
+                FROM ProcessInstanceStep
+                WHERE ProcessInstanceId IN :piIds
+                ORDER BY CreatedDate ASC];
+    }
+
+    private static List<ProcessInstanceNode> queryNodes(Set<Id> piIds) {
+        // Sort ASC so the last entry per PI is the most recently active node
+        return [SELECT Id, ProcessInstanceId, ProcessNodeId, ProcessNodeName, NodeStatus
+                FROM ProcessInstanceNode
+                WHERE ProcessInstanceId IN :piIds
+                ORDER BY CreatedDate ASC];
+    }
+
+    private static List<ProcessInstanceWorkitem> queryWorkItems(Set<Id> piIds) {
+        return [SELECT Id, ProcessInstanceId, ActorId, Actor.Name, OriginalActorId, OriginalActor.Name, CreatedDate
+                FROM ProcessInstanceWorkitem
+                WHERE ProcessInstanceId IN :piIds];
+    }
+
+    // ─────────────────────────────────────── Map builders ───────────────────────────────────────
+    private static Map<Id, String> buildNodeIdToLabel(List<ProcessInstanceNode> pins) {
+        Map<Id, String> m = new Map<Id, String>();
+        for (ProcessInstanceNode pin : pins) {
+            if (pin.ProcessNodeId != null && String.isNotBlank(pin.ProcessNodeName)) {
+                m.put(pin.ProcessNodeId, pin.ProcessNodeName);
+            }
+        }
+        return m;
+    }
+
+    private static Map<Id, Id> buildPiIdToActiveNodeId(List<ProcessInstanceNode> pins) {
+        Map<Id, Id> m = new Map<Id, Id>();
+        for (ProcessInstanceNode pin : pins) {
+            if (pin.ProcessNodeId != null) {
+                m.put(pin.ProcessInstanceId, pin.ProcessNodeId);
+            }
+        }
+        return m;
+    }
+
+    private static Map<Id, ProcessInstanceWorkitem> buildWorkItemMap(List<ProcessInstanceWorkitem> workItems) {
+        Map<Id, ProcessInstanceWorkitem> m = new Map<Id, ProcessInstanceWorkitem>();
+        for (ProcessInstanceWorkitem wi : workItems) {
+            m.put(wi.ProcessInstanceId, wi);
+        }
+        return m;
+    }
+
+    private static Map<String, ApprovalStepConfig__mdt> buildStepConfigMap(List<ProcessInstance> instances) {
+        Set<String> processDevNames = new Set<String>();
+        for (ProcessInstance pi : instances) {
+            processDevNames.add(pi.ProcessDefinition.DeveloperName);
+        }
+        Map<String, ApprovalStepConfig__mdt> m = new Map<String, ApprovalStepConfig__mdt>();
+        for (ApprovalStepConfig__mdt cfg : [SELECT ProcessConfig__r.ProcessDeveloperName__c, StepDeveloperName__c, NextApproverSource__c, ApproverResolverClass__c
+                                            FROM ApprovalStepConfig__mdt
+                                            WHERE ProcessConfig__r.ProcessDeveloperName__c IN :processDevNames]) {
+            m.put(cfg.ProcessConfig__r.ProcessDeveloperName__c + '__' + cfg.StepDeveloperName__c, cfg);
+        }
+        return m;
+    }
+
+    // ─────────────────────────────────────── Permissions ───────────────────────────────────────
+    private static Boolean isAdministrator(Id userId) {
+        for (PermissionSetAssignment psa : [SELECT Id FROM PermissionSetAssignment
+                                            WHERE AssigneeId = :userId
+                                            AND PermissionSet.IsOwnedByProfile = true
+                                            AND PermissionSet.Profile.Name LIKE '%Administrator%'
+                                            LIMIT 1]) {
+            return true;
+        }
+        return false;
+    }
+
+    // Returns the subset of queue ActorIds that the current user is a member of.
+    // Queue IDs start with '00G' (Group prefix); User IDs start with '005'.
+    private static Set<Id> resolveUserQueueMembership(List<ProcessInstanceWorkitem> workItems, Id currentUserId) {
+        Set<Id> queueActorIds = new Set<Id>();
+        for (ProcessInstanceWorkitem wi : workItems) {
+            if (wi.ActorId != null && String.valueOf(wi.ActorId).startsWith('00G')) {
+                queueActorIds.add(wi.ActorId);
+            }
+        }
+        Set<Id> userQueueIds = new Set<Id>();
+        if (!queueActorIds.isEmpty()) {
+            for (GroupMember gm : [SELECT GroupId FROM GroupMember
+                                   WHERE GroupId IN :queueActorIds
+                                   AND UserOrGroupId = :currentUserId]) {
+                userQueueIds.add(gm.GroupId);
+            }
+        }
+        return userQueueIds;
+    }
+
+    private static Boolean canApproveOrRejectWorkItem(Id actorId, Id currentUserId, Set<Id> userQueueIds, Boolean isAdmin) {
+        return isAdmin || actorId == currentUserId || userQueueIds.contains(actorId);
+    }
+
+    // AllowRecall is enforced server-side by Salesforce — only check pending + submitter/admin here.
     private static Boolean isRecallEligible(ProcessInstance pi, Id userId, Boolean isAdmin) {
         return pi.Status == 'Pending' && (isAdmin || pi.SubmittedById == userId);
     }
 
-    private static String resolveStepName(Id stepNodeId, List<ProcessInstanceNode> pins, Map<Id, String> nodeIdToDeveloperName) {
+    // ─────────────────────────────────────── Row builders ───────────────────────────────────────
+    private static ApprovalRow buildCompletedRow(ProcessInstanceStep step, String processName, List<ProcessInstanceNode> pins, Map<Id, String> nodeIdToLabel) {
+        String resolvedName = resolveStepName(step.StepNodeId, pins, nodeIdToLabel);
+        ApprovalRow row = new ApprovalRow();
+        row.id                 = step.Id;
+        row.workItemId         = null;
+        row.stepName           = String.isNotBlank(resolvedName) ? resolvedName : (step.StepStatus == 'Started' ? 'Approval Request Submitted' : step.StepStatus);
+        row.stepDate           = step.CreatedDate;
+        row.stepDateFormatted  = formatDatetime(step.CreatedDate);
+        row.status             = step.StepStatus == 'Started' ? 'Submitted' : step.StepStatus;
+        row.assignedTo         = step.OriginalActor?.Name;
+        row.actualApprover     = step.Actor?.Name;
+        row.comments           = step.Comments;
+        row.isPending          = false;
+        row.processName        = processName;
+        row.nextApproverSource = null;
+        return row;
+    }
+
+    private static ApprovalRow buildPendingRow(ProcessInstanceWorkitem wi, String processName, String stepLabel, String nextApproverSource) {
+        ApprovalRow row = new ApprovalRow();
+        row.id                 = wi.Id;
+        row.workItemId         = wi.Id;
+        row.stepName           = stepLabel != null ? stepLabel : 'Pending';
+        row.stepDate           = wi.CreatedDate;
+        row.stepDateFormatted  = formatDatetime(wi.CreatedDate);
+        row.status             = 'Pending';
+        row.assignedTo         = wi.OriginalActor?.Name;
+        row.actualApprover     = wi.Actor?.Name;
+        row.comments           = null;
+        row.isPending          = true;
+        row.processName        = processName;
+        row.nextApproverSource = nextApproverSource;
+        return row;
+    }
+
+    // ─────────────────────────────────────── Private helpers ───────────────────────────────────────
+    private static String resolveActiveStepLabel(Id piId, Map<Id, Id> piIdToActiveNodeId, Map<Id, String> nodeIdToLabel) {
+        Id activeNodeId = piIdToActiveNodeId.get(piId);
+        return activeNodeId != null ? nodeIdToLabel.get(activeNodeId) : null;
+    }
+
+    private static String resolveStepName(Id stepNodeId, List<ProcessInstanceNode> pins, Map<Id, String> nodeIdToLabel) {
         if (stepNodeId == null) return null;
         for (ProcessInstanceNode pin : pins) {
             if (pin.ProcessNodeId == stepNodeId) {
-                return nodeIdToDeveloperName.get(pin.ProcessNodeId);
+                return nodeIdToLabel.get(pin.ProcessNodeId);
             }
         }
         return null;
