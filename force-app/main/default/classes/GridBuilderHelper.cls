@@ -449,7 +449,7 @@ public with sharing class GridBuilderHelper {
         return String.isNotBlank(gridIdsLiteral) ? 'Id IN (SELECT ShareClass__c FROM GridDetail__c WHERE ShareClass__c != null AND Grid__c IN ' + gridIdsLiteral + ' AND (EndDate__c = null OR EndDate__c >= TODAY))' : '';
     }
 
-    private static String getRegisteredCountriesCondition(String countriesOfDistribution) {
+    public static String getRegisteredCountriesCondition(String countriesOfDistribution) {
         String countriesInListLiteral = toSoqlInListLiteral(countriesOfDistribution, ';');
         String condition = String.isNotBlank(countriesInListLiteral) ? 'Id IN (SELECT ShareClass__c FROM Country__c WHERE (RegistrationStatus__c = \'REG\' OR RegistrationStatus__c = \'INSTITUTIONAL_ONLY\') and ShareClass__c != null AND Country__c IN '+countriesInListLiteral+')' : '';
         return condition;
