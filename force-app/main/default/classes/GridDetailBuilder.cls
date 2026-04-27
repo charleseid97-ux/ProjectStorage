@@ -330,7 +330,7 @@ public with sharing class GridDetailBuilder {
 
         List<GridDetail__c> upsertedDetails = executeUpsert(batch, result);
         if (!upsertedDetails.isEmpty()) {
-            insertHistoricalDetails(upsertedDetails, scCreatedDateMap, result);
+            insertHistoricalDetails(upsertedDetails, result);
         }
     }
 
@@ -429,33 +429,162 @@ public with sharing class GridDetailBuilder {
         return upsertedDetails;
     }
 
-    private static void insertHistoricalDetails(List<GridDetail__c> upsertedDetails, Map<Id, Date> scCreatedDateMap, BuildResult result) {
+    private static void insertHistoricalDetails(List<GridDetail__c> upsertedDetails, BuildResult result) {
         Set<Id> upsertedRuleIds = new Set<Id>();
         for (GridDetail__c d : upsertedDetails) {
             if (d.GridRule__c != null) upsertedRuleIds.add(d.GridRule__c);
         }
         Map<Id, GridRule__c> gridRuleById = new Map<Id, GridRule__c>();
         if (!upsertedRuleIds.isEmpty()) {
-            gridRuleById = new Map<Id, GridRule__c>([SELECT Id, RuleToApply__c, GridRate__c FROM GridRule__c WHERE Id IN :upsertedRuleIds]);
+            gridRuleById = new Map<Id, GridRule__c>([SELECT Id, RuleToApply__c, GridRate__c, FinalRebateRate__c FROM GridRule__c WHERE Id IN :upsertedRuleIds]);
         }
         List<String> histErrors = new List<String>();
-        List<GridDetail__c> historicalDetails = GridUtility.buildHistoricalDetailsFromFieldHistory(upsertedDetails, new Map<Id, Date>(), scCreatedDateMap, gridRuleById, histErrors);
+        List<GridDetail__c> historicalDetails = buildStandardHistoricalDetails(upsertedDetails, gridRuleById, histErrors);
         for (String e : histErrors) {
             result.errors.add(new BuildError(null, e));
         }
         if (historicalDetails.isEmpty()) return;
-        Set<Id> remainingIds = new Set<Id>();
+        Set<Id> auditHistoryIds = new Set<Id>();
         for (GridDetail__c h : historicalDetails) {
-            if (h.TECH_EffMgtFeesAuditHistory__c != null) remainingIds.add(h.TECH_EffMgtFeesAuditHistory__c);
+            if (h.TECH_EffMgtFeesAuditHistory__c != null) auditHistoryIds.add(h.TECH_EffMgtFeesAuditHistory__c);
         }
-        for (GridDetail__c ex : [SELECT TECH_EffMgtFeesAuditHistory__c FROM GridDetail__c WHERE TECH_EffMgtFeesAuditHistory__c IN :remainingIds]) {
-            remainingIds.remove(ex.TECH_EffMgtFeesAuditHistory__c);
+        Map<Id, Id> existingIdByAuditHistory = new Map<Id, Id>();
+        for (GridDetail__c ex : [SELECT Id, TECH_EffMgtFeesAuditHistory__c FROM GridDetail__c WHERE TECH_EffMgtFeesAuditHistory__c IN :auditHistoryIds]) {
+            existingIdByAuditHistory.put(ex.TECH_EffMgtFeesAuditHistory__c, ex.Id);
         }
-        List<GridDetail__c> toInsert = new List<GridDetail__c>();
         for (GridDetail__c h : historicalDetails) {
-            if (remainingIds.contains(h.TECH_EffMgtFeesAuditHistory__c)) toInsert.add(h);
+            Id existingId = existingIdByAuditHistory.get(h.TECH_EffMgtFeesAuditHistory__c);
+            if (existingId != null) h.Id = existingId;
         }
-        if (!toInsert.isEmpty()) insert toInsert;
+        Database.UpsertResult[] upsertResults = Database.upsert(historicalDetails, false);
+        for (Integer i = 0; i < upsertResults.size(); i++) {
+            if (upsertResults[i].isSuccess()) {
+                if (upsertResults[i].isCreated()) {
+                    result.histGridDetailsInserted++;
+                } else {
+                    result.histGridDetailsUpdated++;
+                }
+            } else {
+                result.errors.add(new BuildError(null, 'Failed to upsert historical GridDetail__c: ' + upsertResults[i].getErrors()[0].getMessage()));
+            }
+        }
+    }
+
+    private static List<GridDetail__c> buildStandardHistoricalDetails(List<GridDetail__c> baseDetails, Map<Id, GridRule__c> gridRuleById, List<String> errors) {
+        Set<Id> shareClassIds = new Set<Id>();
+        for (GridDetail__c d : baseDetails) {
+            if (d.ShareClass__c != null) shareClassIds.add(d.ShareClass__c);
+        }
+        if (shareClassIds.isEmpty()) return new List<GridDetail__c>();
+
+        Map<Id, List<Fund_Field_ApplicabilityHistory__c>> allHistByShareClass = new Map<Id, List<Fund_Field_ApplicabilityHistory__c>>();
+        for (Fund_Field_ApplicabilityHistory__c h : [SELECT Share_Class_Reference__c, Start_Date__c, End_Date__c, New_Value__c
+                                                     FROM Fund_Field_ApplicabilityHistory__c
+                                                     WHERE Share_Class_Reference__c IN :shareClassIds
+                                                     AND FieldAPIName__c = :GridUtility.FIELD_EFF_MGT_FEES
+                                                     ORDER BY Share_Class_Reference__c, Start_Date__c ASC]) {
+            if (!allHistByShareClass.containsKey(h.Share_Class_Reference__c)) {
+                allHistByShareClass.put(h.Share_Class_Reference__c, new List<Fund_Field_ApplicabilityHistory__c>());
+            }
+            allHistByShareClass.get(h.Share_Class_Reference__c).add(h);
+        }
+        if (allHistByShareClass.isEmpty()) return new List<GridDetail__c>();
+
+        Set<Id> validShareClassIds = new Set<Id>();
+        for (Id scId : allHistByShareClass.keySet()) {
+            String err = validateHistoryContinuity(allHistByShareClass.get(scId));
+            if (err != null) {
+                errors.add('Share class ' + scId + ' has discontinuous EffMgtFees history: ' + err);
+            } else {
+                validShareClassIds.add(scId);
+            }
+        }
+        if (validShareClassIds.isEmpty()) return new List<GridDetail__c>();
+
+        List<GridDetail__c> historicalDetails = new List<GridDetail__c>();
+        for (GridDetail__c base : baseDetails) {
+            if (base.ShareClass__c == null || !validShareClassIds.contains(base.ShareClass__c)) continue;
+            List<Fund_Field_ApplicabilityHistory__c> allPeriods = allHistByShareClass.get(base.ShareClass__c);
+            GridRule__c rule = (base.GridRule__c != null) ? gridRuleById.get(base.GridRule__c) : null;
+
+            for (Fund_Field_ApplicabilityHistory__c hist : allPeriods) {
+                if (hist.End_Date__c == null) continue;
+
+                Decimal histEffMgtFees  = String.isNotBlank(hist.New_Value__c) ? Decimal.valueOf(hist.New_Value__c) : null;
+                Decimal historicalRebate = computeHistoricalRebate(base, rule, histEffMgtFees);
+
+                GridDetail__c clone = new GridDetail__c();
+                clone.RecordTypeId                   = base.RecordTypeId;
+                clone.Grid__c                        = base.Grid__c;
+                clone.GridRule__c                    = base.GridRule__c;
+                clone.GridCriteria__c                = base.GridCriteria__c;
+                clone.ShareClass__c                  = base.ShareClass__c;
+                clone.RebateRate__c                  = historicalRebate;
+                clone.EffectiveManagementFees__c     = histEffMgtFees;
+                clone.StartDate__c                   = hist.Start_Date__c;
+                clone.EndDate__c                     = hist.End_Date__c;
+                clone.TECH_EffMgtFeesAuditHistory__c = hist.Id;
+                historicalDetails.add(clone);
+            }
+        }
+        return historicalDetails;
+    }
+
+    private static Decimal computeHistoricalRebate(GridDetail__c base, GridRule__c rule, Decimal histEffMgtFees) {
+        if (rule == null) return base.RebateRate__c;
+
+        if (rule.FinalRebateRate__c != null) {
+            return rule.FinalRebateRate__c;
+        }
+
+        if (rule.RuleToApply__c == RULE_PERCENTAGE) {
+            if (histEffMgtFees == null || rule.GridRate__c == null) return base.RebateRate__c;
+            return (histEffMgtFees * rule.GridRate__c / 100).setScale(2, System.RoundingMode.HALF_UP);
+        }
+
+        if (rule.RuleToApply__c == RULE_OTHER_SHARE_FEES) {
+            // deltaFees requires the other share type's historical EffMgtFees, which is not available here.
+            // The full recalculation is deferred to the custom-grid historical logic.
+            return base.RebateRate__c;
+        }
+
+        if (rule.RuleToApply__c == RULE_OTHER_SHARE || rule.RuleToApply__c == RULE_OTHER_GRID) {
+            // The historical rebate of the referenced share/grid is not available in this context.
+            return base.RebateRate__c;
+        }
+
+        return base.RebateRate__c;
+    }
+
+    private static String validateHistoryContinuity(List<Fund_Field_ApplicabilityHistory__c> allPeriods) {
+        Integer nullEndCount = 0;
+        for (Fund_Field_ApplicabilityHistory__c h : allPeriods) {
+            if (h.End_Date__c == null) nullEndCount++;
+        }
+        if (nullEndCount != 1) {
+            return 'Expected exactly 1 active (End_Date = null) record, found ' + nullEndCount + '.';
+        }
+        Fund_Field_ApplicabilityHistory__c last = allPeriods[allPeriods.size() - 1];
+        if (last.End_Date__c != null) {
+            return 'The last period must be the active one (End_Date = null).';
+        }
+        for (Integer i = 0; i < allPeriods.size() - 1; i++) {
+            Fund_Field_ApplicabilityHistory__c curr = allPeriods[i];
+            Fund_Field_ApplicabilityHistory__c next = allPeriods[i + 1];
+            if (curr.End_Date__c == null) {
+                return 'An active (End_Date = null) record was found before the last position (index ' + i + ').';
+            }
+            if (curr.Start_Date__c > curr.End_Date__c) {
+                return 'Invalid period at index ' + i + ': Start_Date (' + curr.Start_Date__c + ') is after End_Date (' + curr.End_Date__c + ').';
+            }
+            Date expectedNextStart = curr.End_Date__c.addDays(1);
+            if (next.Start_Date__c != expectedNextStart) {
+                return 'Gap or overlap detected: period ending ' + curr.End_Date__c +
+                       ' is followed by a period starting ' + next.Start_Date__c +
+                       ' (expected ' + expectedNextStart + ').';
+            }
+        }
+        return null;
     }
 
     private static Set<Id> evaluateCriteria(GridRuleContext ctx, Map<String, Map<String, Set<Id>>> indexByField, Set<Id> allShareClassIds, BuildResult result) {
@@ -1017,8 +1146,10 @@ public with sharing class GridDetailBuilder {
     }
 
     public class BuildResult {
-        @AuraEnabled public Integer gridDetailsCreated = 0;
-        @AuraEnabled public Integer gridDetailsUpdated = 0;
+        @AuraEnabled public Integer gridDetailsCreated     = 0;
+        @AuraEnabled public Integer gridDetailsUpdated     = 0;
+        @AuraEnabled public Integer histGridDetailsInserted = 0;
+        @AuraEnabled public Integer histGridDetailsUpdated  = 0;
         @AuraEnabled public List<BuildError> errors;
     }
 
