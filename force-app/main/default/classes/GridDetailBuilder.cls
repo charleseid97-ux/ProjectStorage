@@ -315,36 +315,8 @@ public with sharing class GridDetailBuilder {
     }
 
     private static void insertGridDetails(List<RuleAssignment> assignments, BuildResult result) {
-        // Collect rule IDs to look up existing GridDetail__c records
-        Set<Id> ruleIds = new Set<Id>();
-        for (RuleAssignment a : assignments) {
-            if (!a.hasError && a.rebate != null && a.gridRuleId != null) {
-                ruleIds.add(a.gridRuleId);
-            }
-        }
+        Map<String, Id> existingByKey = buildExistingKeyMap(assignments);
 
-        // Build existing-key map: gridId_-_ruleId_-_shareClassId → existing GridDetail Id
-        Map<String, Id> existingByKey = new Map<String, Id>();
-        if (!ruleIds.isEmpty()) {
-            for (GridDetail__c existing : [SELECT Id, Grid__c, GridRule__c, ShareClass__c FROM GridDetail__c WHERE GridRule__c IN :ruleIds]) {
-                existingByKey.put(existing.Grid__c + '_-_' + existing.GridRule__c + '_-_' + existing.ShareClass__c, existing.Id);
-            }
-        }
-        Set<Id> zeroRebateGridIds = new Set<Id>();
-        Set<Id> zeroRebateShareIds = new Set<Id>();
-        for (RuleAssignment a : assignments) {
-            if (!a.hasError && a.gridRuleId == null && a.rebate != null) {
-                zeroRebateGridIds.add(a.gridId);
-                zeroRebateShareIds.add(a.shareClassId);
-            }
-        }
-        if (!zeroRebateGridIds.isEmpty()) {
-            for (GridDetail__c existing : [SELECT Id, Grid__c, GridRule__c, ShareClass__c FROM GridDetail__c WHERE GridRule__c = null AND Grid__c IN :zeroRebateGridIds AND ShareClass__c IN :zeroRebateShareIds]) {
-                existingByKey.put(existing.Grid__c + '_-_null_-_' + existing.ShareClass__c, existing.Id);
-            }
-        }
-
-        // Collect grid and share class IDs for effectiveGridStart + current-period history lookup
         Set<Id> gridIds = new Set<Id>();
         Set<Id> shareClassIds = new Set<Id>();
         for (RuleAssignment a : assignments) {
@@ -353,42 +325,94 @@ public with sharing class GridDetailBuilder {
                 if (a.shareClassId != null) shareClassIds.add(a.shareClassId);
             }
         }
-        Map<Id, Date> gridStartDateMap = new Map<Id, Date>();
+
+        Map<Id, Date> gridStartDateMap             = loadGridStartDates(gridIds);
+        Map<Id, Date> scCreatedDateMap             = loadShareClassCreatedDates(shareClassIds);
+        Map<Id, Date> currentHistStartByShareClass = loadCurrentHistStart(shareClassIds);
+
+        UpsertBatch batch = buildDetailsForUpsert(assignments, existingByKey, gridStartDateMap, scCreatedDateMap, currentHistStartByShareClass);
+        if (batch.details.isEmpty()) return;
+
+        List<GridDetail__c> upsertedDetails = executeUpsert(batch, result);
+        if (!upsertedDetails.isEmpty()) {
+            insertHistoricalDetails(upsertedDetails, gridStartDateMap, scCreatedDateMap, result);
+        }
+    }
+
+    private static Map<String, Id> buildExistingKeyMap(List<RuleAssignment> assignments) {
+        Set<Id> ruleIds = new Set<Id>();
+        for (RuleAssignment a : assignments) {
+            if (!a.hasError && a.rebate != null && a.gridRuleId != null) ruleIds.add(a.gridRuleId);
+        }
+        Map<String, Id> existingByKey = new Map<String, Id>();
+        if (!ruleIds.isEmpty()) {
+            for (GridDetail__c ex : [SELECT Id, Grid__c, GridRule__c, ShareClass__c FROM GridDetail__c WHERE GridRule__c IN :ruleIds]) {
+                existingByKey.put(ex.Grid__c + '_-_' + ex.GridRule__c + '_-_' + ex.ShareClass__c, ex.Id);
+            }
+        }
+        Set<Id> zeroRebateGridIds  = new Set<Id>();
+        Set<Id> zeroRebateShareIds = new Set<Id>();
+        for (RuleAssignment a : assignments) {
+            if (!a.hasError && a.gridRuleId == null && a.rebate != null) {
+                zeroRebateGridIds.add(a.gridId);
+                zeroRebateShareIds.add(a.shareClassId);
+            }
+        }
+        if (!zeroRebateGridIds.isEmpty()) {
+            for (GridDetail__c ex : [SELECT Id, Grid__c, GridRule__c, ShareClass__c FROM GridDetail__c WHERE GridRule__c = null AND Grid__c IN :zeroRebateGridIds AND ShareClass__c IN :zeroRebateShareIds]) {
+                existingByKey.put(ex.Grid__c + '_-_null_-_' + ex.ShareClass__c, ex.Id);
+            }
+        }
+        return existingByKey;
+    }
+
+    private static Map<Id, Date> loadGridStartDates(Set<Id> gridIds) {
+        Map<Id, Date> dateMap = new Map<Id, Date>();
         for (Grid__c g : [SELECT Id, StartDate__c FROM Grid__c WHERE Id IN :gridIds]) {
-            gridStartDateMap.put(g.Id, g.StartDate__c);
+            dateMap.put(g.Id, g.StartDate__c);
         }
-        Map<Id, Date> scCreatedDateMap = new Map<Id, Date>();
+        return dateMap;
+    }
+
+    private static Map<Id, Date> loadShareClassCreatedDates(Set<Id> shareClassIds) {
+        Map<Id, Date> dateMap = new Map<Id, Date>();
         for (Share_Class__c sc : [SELECT Id, CreatedDate FROM Share_Class__c WHERE Id IN :shareClassIds]) {
-            scCreatedDateMap.put(sc.Id, sc.CreatedDate != null ? sc.CreatedDate.date() : null);
+            dateMap.put(sc.Id, sc.CreatedDate != null ? sc.CreatedDate.date() : null);
         }
-        // Current active history period (End_Date = null) → determines base StartDate for each share class
-        Map<Id, Date> currentHistStartByShareClass = new Map<Id, Date>();
+        return dateMap;
+    }
+
+    private static Map<Id, Date> loadCurrentHistStart(Set<Id> shareClassIds) {
+        Map<Id, Date> dateMap = new Map<Id, Date>();
         for (Fund_Field_ApplicabilityHistory__c h : [SELECT Share_Class_Reference__c, Start_Date__c
                                                      FROM Fund_Field_ApplicabilityHistory__c
                                                      WHERE Share_Class_Reference__c IN :shareClassIds
                                                      AND FieldAPIName__c = :GridUtility.FIELD_EFF_MGT_FEES
                                                      AND End_Date__c = null]) {
-            currentHistStartByShareClass.put(h.Share_Class_Reference__c, h.Start_Date__c);
+            dateMap.put(h.Share_Class_Reference__c, h.Start_Date__c);
         }
+        return dateMap;
+    }
 
-        List<GridDetail__c> detailsToUpsert = new List<GridDetail__c>();
-        List<RuleAssignment> assignmentsForUpsert = new List<RuleAssignment>();
-        Id standardGridDetailRtId = Schema.SObjectType.GridDetail__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_STANDARD_GRID_DETAIL).getRecordTypeId();
+    private static UpsertBatch buildDetailsForUpsert(
+            List<RuleAssignment> assignments,
+            Map<String, Id> existingByKey,
+            Map<Id, Date> gridStartDateMap,
+            Map<Id, Date> scCreatedDateMap,
+            Map<Id, Date> currentHistStartByShareClass) {
+        UpsertBatch batch = new UpsertBatch();
+        Id standardRtId = Schema.SObjectType.GridDetail__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_STANDARD_GRID_DETAIL).getRecordTypeId();
         for (RuleAssignment assignment : assignments) {
-            if (assignment.hasError || assignment.rebate == null) {
-                continue;
-            }
-
-            // Determine per-assignment start date: max(Grid.StartDate, SC.CreatedDate, currentHistoryPeriod.Start_Date)
-            Date gridStart  = gridStartDateMap.get(assignment.gridId);
-            Date scCreated  = scCreatedDateMap.get(assignment.shareClassId);
-            Date effStart   = GridUtility.effectiveStart(gridStart, scCreated);
-            Date histStart  = currentHistStartByShareClass.get(assignment.shareClassId);
+            if (assignment.hasError || assignment.rebate == null) continue;
+            Date gridStart       = gridStartDateMap.get(assignment.gridId);
+            Date scCreated       = scCreatedDateMap.get(assignment.shareClassId);
+            Date effStart        = GridUtility.effectiveStart(gridStart, scCreated);
+            Date histStart       = currentHistStartByShareClass.get(assignment.shareClassId);
             Date detailStartDate = (histStart != null && (effStart == null || histStart > effStart)) ? histStart : effStart;
             if (detailStartDate == null) detailStartDate = Date.today();
 
             GridDetail__c detail   = new GridDetail__c();
-            detail.RecordTypeId    = standardGridDetailRtId;
+            detail.RecordTypeId    = standardRtId;
             detail.Grid__c         = assignment.gridId;
             detail.GridRule__c     = assignment.gridRuleId;
             detail.GridCriteria__c = assignment.criteriaId;
@@ -396,68 +420,64 @@ public with sharing class GridDetailBuilder {
             detail.RebateRate__c   = assignment.rebate;
             detail.StartDate__c    = detailStartDate;
 
-            // Attach existing Id if found → triggers update in upsert
             String key = assignment.gridId + '_-_' + (assignment.gridRuleId != null ? String.valueOf(assignment.gridRuleId) : 'null') + '_-_' + assignment.shareClassId;
             Id existingId = existingByKey.get(key);
-            if (existingId != null) {
-                detail.Id = existingId;
-            }
+            if (existingId != null) detail.Id = existingId;
 
-            detailsToUpsert.add(detail);
-            assignmentsForUpsert.add(assignment);
+            batch.details.add(detail);
+            batch.assignments.add(assignment);
         }
+        return batch;
+    }
 
-        if (detailsToUpsert.isEmpty()) {
-            return;
-        }
-
-        Database.UpsertResult[] upsertResults = Database.upsert(detailsToUpsert, false);
+    private static List<GridDetail__c> executeUpsert(UpsertBatch batch, BuildResult result) {
+        Database.UpsertResult[] upsertResults = Database.upsert(batch.details, false);
         List<GridDetail__c> upsertedDetails = new List<GridDetail__c>();
         for (Integer i = 0; i < upsertResults.size(); i++) {
-            RuleAssignment assignment = assignmentsForUpsert[i];
             if (upsertResults[i].isSuccess()) {
                 if (upsertResults[i].isCreated()) {
                     result.gridDetailsCreated++;
                 } else {
                     result.gridDetailsUpdated++;
                 }
-                detailsToUpsert[i].Id = upsertResults[i].getId();
-                upsertedDetails.add(detailsToUpsert[i]);
+                batch.details[i].Id = upsertResults[i].getId();
+                upsertedDetails.add(batch.details[i]);
             } else {
-                result.errors.add(new BuildError(assignment.gridRuleId, 'Failed to upsert GridDetail__c: ' + upsertResults[i].getErrors()[0].getMessage()));
+                result.errors.add(new BuildError(batch.assignments[i].gridRuleId, 'Failed to upsert GridDetail__c: ' + upsertResults[i].getErrors()[0].getMessage()));
             }
         }
+        return upsertedDetails;
+    }
 
-        // Build and insert historical records for each share class based on Fund_Field_ApplicabilityHistory__c
-        if (!upsertedDetails.isEmpty()) {
-            Set<Id> upsertedRuleIds = new Set<Id>();
-            for (GridDetail__c d : upsertedDetails) { if (d.GridRule__c != null) upsertedRuleIds.add(d.GridRule__c); }
-            Map<Id, GridRule__c> gridRuleById = new Map<Id, GridRule__c>();
-            if (!upsertedRuleIds.isEmpty()) {
-                gridRuleById = new Map<Id, GridRule__c>([SELECT Id, RuleToApply__c, GridRate__c FROM GridRule__c WHERE Id IN :upsertedRuleIds]);
-            }
-            List<String> histErrors = new List<String>();
-            List<GridDetail__c> historicalDetails = GridUtility.buildHistoricalDetailsFromFieldHistory(
-                upsertedDetails, gridStartDateMap, scCreatedDateMap, gridRuleById, histErrors
-            );
-            for (String e : histErrors) {
-                result.errors.add(new BuildError(null, e));
-            }
-            if (!historicalDetails.isEmpty()) {
-                Set<Id> remainingIds = new Set<Id>();
-                for (GridDetail__c h : historicalDetails) {
-                    if (h.TECH_EffMgtFeesAuditHistory__c != null) remainingIds.add(h.TECH_EffMgtFeesAuditHistory__c);
-                }
-                for (GridDetail__c ex : [SELECT TECH_EffMgtFeesAuditHistory__c FROM GridDetail__c WHERE TECH_EffMgtFeesAuditHistory__c IN :remainingIds]) {
-                    remainingIds.remove(ex.TECH_EffMgtFeesAuditHistory__c);
-                }
-                List<GridDetail__c> toInsert = new List<GridDetail__c>();
-                for (GridDetail__c h : historicalDetails) {
-                    if (remainingIds.contains(h.TECH_EffMgtFeesAuditHistory__c)) toInsert.add(h);
-                }
-                if (!toInsert.isEmpty()) insert toInsert;
-            }
+    private static void insertHistoricalDetails(List<GridDetail__c> upsertedDetails, Map<Id, Date> gridStartDateMap, Map<Id, Date> scCreatedDateMap, BuildResult result) {
+        Set<Id> upsertedRuleIds = new Set<Id>();
+        for (GridDetail__c d : upsertedDetails) {
+            if (d.GridRule__c != null) upsertedRuleIds.add(d.GridRule__c);
         }
+        Map<Id, GridRule__c> gridRuleById = new Map<Id, GridRule__c>();
+        if (!upsertedRuleIds.isEmpty()) {
+            gridRuleById = new Map<Id, GridRule__c>([SELECT Id, RuleToApply__c, GridRate__c FROM GridRule__c WHERE Id IN :upsertedRuleIds]);
+        }
+        List<String> histErrors = new List<String>();
+        List<GridDetail__c> historicalDetails = GridUtility.buildHistoricalDetailsFromFieldHistory(
+            upsertedDetails, gridStartDateMap, scCreatedDateMap, gridRuleById, histErrors
+        );
+        for (String e : histErrors) {
+            result.errors.add(new BuildError(null, e));
+        }
+        if (historicalDetails.isEmpty()) return;
+        Set<Id> remainingIds = new Set<Id>();
+        for (GridDetail__c h : historicalDetails) {
+            if (h.TECH_EffMgtFeesAuditHistory__c != null) remainingIds.add(h.TECH_EffMgtFeesAuditHistory__c);
+        }
+        for (GridDetail__c ex : [SELECT TECH_EffMgtFeesAuditHistory__c FROM GridDetail__c WHERE TECH_EffMgtFeesAuditHistory__c IN :remainingIds]) {
+            remainingIds.remove(ex.TECH_EffMgtFeesAuditHistory__c);
+        }
+        List<GridDetail__c> toInsert = new List<GridDetail__c>();
+        for (GridDetail__c h : historicalDetails) {
+            if (remainingIds.contains(h.TECH_EffMgtFeesAuditHistory__c)) toInsert.add(h);
+        }
+        if (!toInsert.isEmpty()) insert toInsert;
     }
 
     private static Set<Id> evaluateCriteria(GridRuleContext ctx, Map<String, Map<String, Set<Id>>> indexByField, Set<Id> allShareClassIds, BuildResult result) {
@@ -1013,6 +1033,11 @@ public with sharing class GridDetailBuilder {
     }
 
     // ────────────────────────────────────── WRAPPERS ──────────────────────────────────────
+    private class UpsertBatch {
+        List<GridDetail__c> details     = new List<GridDetail__c>();
+        List<RuleAssignment> assignments = new List<RuleAssignment>();
+    }
+
     public class BuildResult {
         @AuraEnabled public Integer gridDetailsCreated = 0;
         @AuraEnabled public Integer gridDetailsUpdated = 0;
