@@ -448,12 +448,13 @@ public with sharing class GridDetailBuilder {
         for (GridDetail__c h : historicalDetails) {
             if (h.TECH_EffMgtFeesAuditHistory__c != null) auditHistoryIds.add(h.TECH_EffMgtFeesAuditHistory__c);
         }
-        Map<Id, Id> existingIdByAuditHistory = new Map<Id, Id>();
-        for (GridDetail__c ex : [SELECT Id, TECH_EffMgtFeesAuditHistory__c FROM GridDetail__c WHERE TECH_EffMgtFeesAuditHistory__c IN :auditHistoryIds]) {
-            existingIdByAuditHistory.put(ex.TECH_EffMgtFeesAuditHistory__c, ex.Id);
+        Map<String, Id> existingIdByKey = new Map<String, Id>();
+        for (GridDetail__c ex : [SELECT Id, Grid__c, GridRule__c, TECH_EffMgtFeesAuditHistory__c FROM GridDetail__c WHERE TECH_EffMgtFeesAuditHistory__c IN :auditHistoryIds]) {
+            existingIdByKey.put(String.valueOf(ex.Grid__c) + '_' + String.valueOf(ex.GridRule__c) + '_' + String.valueOf(ex.TECH_EffMgtFeesAuditHistory__c), ex.Id);
         }
         for (GridDetail__c h : historicalDetails) {
-            Id existingId = existingIdByAuditHistory.get(h.TECH_EffMgtFeesAuditHistory__c);
+            String key = String.valueOf(h.Grid__c) + '_' + String.valueOf(h.GridRule__c) + '_' + String.valueOf(h.TECH_EffMgtFeesAuditHistory__c);
+            Id existingId = existingIdByKey.get(key);
             if (existingId != null) h.Id = existingId;
         }
         Database.UpsertResult[] upsertResults = Database.upsert(historicalDetails, false);
