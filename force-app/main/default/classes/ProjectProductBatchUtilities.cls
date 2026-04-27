@@ -1,5 +1,8 @@
 public class ProjectProductBatchUtilities {
 
+    private static final String RISK_LOSS_OF_CAPITAL = 'The Fund presents a risk of loss of capital.';
+    private static final String RISK_CURRENCY = 'CURRENCY: Currency risk is linked to exposure to a currency other than the Fund\'s valuation currency, either through direct investment or the use of forward financial instruments.\n';
+
     public static List<Narrative__c> createNarratives(ProjectProduct__c projectProduct, String recordTypeId, String language, String productId, String scope) {
         List<Narrative__c> newNarrative = new List<Narrative__c>();
         String investmentStrategy = projectProduct.InvestmentStrategy__c;
@@ -289,7 +292,7 @@ public class ProjectProductBatchUtilities {
         String content = '';
         List<String> listRiskAssociated = new List<String>();
         if (riskAssociatedMultiPicklist == '' || riskAssociatedMultiPicklist == null) {
-            return 'The Fund presents a risk of loss of capital.';
+            return RISK_LOSS_OF_CAPITAL;
         }
         if (riskAssociatedMultiPicklist.contains(';')) {
             listRiskAssociated = riskAssociatedMultiPicklist.split(';');
@@ -308,11 +311,11 @@ public class ProjectProductBatchUtilities {
                 content += 'CREDIT: Credit risk is the risk that the issuer may default.\n';
             }
             if (risk == 'Currency') {
-                content += 'CURRENCY: Currency risk is linked to exposure to a currency other than the Fund\'s valuation currency, either through direct investment or the use of forward financial instruments.\n';
+                content += RISK_CURRENCY;
             }
         }
 
-        content += 'The Fund presents a risk of loss of capital.';
+        content += RISK_LOSS_OF_CAPITAL;
         return content;
     }
 
@@ -336,13 +339,11 @@ public class ProjectProductBatchUtilities {
                 content += 'CREDIT: Credit risk is the risk that the issuer may default.\n';
             }
             if (riskNotConsideredPicklist == 'Pooled investments in secondaries risk') {
-                content += 'CURRENCY: Currency risk is linked to exposure to a currency other than the Fund\'s valuation currency, either through direct investment or the use of forward financial instruments.\n';
             }
             if (riskNotConsideredPicklist == 'Risks associated with China') {
-                content += 'CURRENCY: Currency risk is linked to exposure to a currency other than the Fund\'s valuation currency, either through direct investment or the use of forward financial instruments.\n';
             }
 
-        content += 'The Fund presents a risk of loss of capital.';
+        content += RISK_LOSS_OF_CAPITAL;
         return content;
     }
 
