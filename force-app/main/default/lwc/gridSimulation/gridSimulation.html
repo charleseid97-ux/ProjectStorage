@@ -33,7 +33,6 @@
                     <colgroup>
                         <col style="width:80px"/>
                         <col style="width:80px"/>
-                        <col style="width:160px"/>
                         <col style="width:100px"/>
                         <col style="width:80px"/>
                         <col style="width:16px"/>
@@ -43,7 +42,6 @@
                         <col style="width:100px"/>
                         <col style="width:100px"/>
                         <col style="width:16px"/>
-                        <col style="width:100px"/>
                         <col style="width:110px"/>
                         <col style="width:100px"/>
                         <col style="width:90px"/>
@@ -56,38 +54,38 @@
                     <!-- ── Summary tbody ── -->
                     <tbody class="summary-body">
                         <tr>
-                            <td colspan="5" class="td-empty"></td>
+                            <td colspan="4" class="td-empty"></td>
                             <td class="section-gap"></td>
-                            <td colspan="13" class="section-title summary-title" title="SUMMARY">SUMMARY</td>
+                            <td colspan="12" class="section-title summary-title" title="SUMMARY">SUMMARY</td>
                             <td class="td-empty"></td>
                         </tr>
                         <tr>
-                            <td colspan="5" class="td-empty"></td>
+                            <td colspan="4" class="td-empty"></td>
                             <td class="section-gap"></td>
                             <td colspan="5" class="th-group th-current" title="CURRENT">CURRENT</td>
                             <td class="section-gap"></td>
-                            <td colspan="2" class="td-empty"></td>
+                            <td class="td-empty"></td>
                             <td colspan="5" class="th-group th-simulated" title="SIMULATED">SIMULATED</td>
                             <td class="td-empty"></td>
                         </tr>
                         <tr>
-                            <td colspan="5" class="td-empty"></td>
+                            <td colspan="4" class="td-empty"></td>
                             <td class="section-gap"></td>
                             <td colspan="2" class="th-col th-cur td-right" title="Total AUM">Total AUM</td>
                             <td class="th-col th-cur td-right" title="Current Gross Fees (% of AUM)">MgtFees (%)</td>
                             <td class="th-col th-cur td-right" title="Current Rebates (% of AUM)">Rebates (%)</td>
                             <td class="th-col th-cur td-right" title="Current Net Fees (% of AUM)">NetFees (%)</td>
                             <td class="section-gap"></td>
-                            <td colspan="2" class="td-empty"></td>
+                            <td class="td-empty"></td>
                             <td colspan="2" class="th-col th-sim td-right" title="Total New AUM">Total New AUM</td>
                             <td class="th-col th-sim td-right" title="Simulated Gross Fees (% of New AUM)">MgtFees (%)</td>
                             <td class="th-col th-sim td-right" title="Simulated Rebates (% of New AUM)">Rebates (%)</td>
                             <td class="th-col th-sim td-right" title="Simulated Net Fees (% of New AUM)">NetFees (%)</td>
                             <td class="td-empty"></td>
                         </tr>
-                        <!-- TOTAL row: integer amounts -->
+                        <!-- TOTAL row -->
                         <tr class="summary-row">
-                            <td colspan="5" class="td-empty"></td>
+                            <td colspan="4" class="td-empty"></td>
                             <td class="section-gap"></td>
                             <td class="td-row-label td-summary-cur">TOTAL</td>
                             <td class="td-right td-summary-cur" title={totals.curAumFmt}>{totals.curAumFmt}</td>
@@ -95,7 +93,7 @@
                             <td class="td-right td-summary-cur" title={totals.curRebatesFmt}>{totals.curRebatesFmt}</td>
                             <td class="td-right td-summary-cur" title={totals.curNetFmt}>{totals.curNetFmt}</td>
                             <td class="section-gap"></td>
-                            <td colspan="2" class="td-empty"></td>
+                            <td class="td-empty"></td>
                             <td class="td-row-label td-summary-sim">TOTAL</td>
                             <td class="td-right td-summary-sim" title={totals.newAumFmt}>{totals.newAumFmt}</td>
                             <td class="td-right td-summary-sim" title={totals.simGrossFmt}>{totals.simGrossFmt}</td>
@@ -103,9 +101,9 @@
                             <td class="td-right td-summary-sim" title={totals.simNetFmt}>{totals.simNetFmt}</td>
                             <td class="td-empty"></td>
                         </tr>
-                        <!-- TOTAL % row: percentages (AUM has no %) -->
+                        <!-- TOTAL % row -->
                         <tr class="summary-row">
-                            <td colspan="5" class="td-empty"></td>
+                            <td colspan="4" class="td-empty"></td>
                             <td class="section-gap"></td>
                             <td class="td-row-label td-summary-cur">TOTAL %</td>
                             <td class="td-summary-cur"></td>
@@ -113,7 +111,7 @@
                             <td class="td-right td-summary-cur" title={summary.curRebatesFmt}>{summary.curRebatesFmt}</td>
                             <td class="td-right td-summary-cur" title={summary.curNetFmt}>{summary.curNetFmt}</td>
                             <td class="section-gap"></td>
-                            <td colspan="2" class="td-empty"></td>
+                            <td class="td-empty"></td>
                             <td class="td-row-label td-summary-sim">TOTAL %</td>
                             <td class="td-summary-sim"></td>
                             <td class="td-right td-summary-sim" title={summary.simGrossFmt}>{summary.simGrossFmt}</td>
@@ -125,22 +123,22 @@
 
                     <!-- ── Analysis tbody ── -->
                     <tbody class="analysis-body">
-                        <tr class="section-spacer"><td colspan="20"></td></tr>
+                        <tr class="section-spacer"><td colspan="18"></td></tr>
                         <tr>
-                            <td colspan="5" class="td-empty"></td>
+                            <td colspan="4" class="td-empty"></td>
                             <td class="section-gap"></td>
                             <td colspan="5" class="td-empty"></td>
                             <td class="section-gap"></td>
-                            <td colspan="2" class="td-empty"></td>
+                            <td class="td-empty"></td>
                             <td colspan="5" class="th-group th-analysis" title="CURRENT & SIMULATED CHANGE">CURRENT &amp; SIMULATED CHANGE</td>
                             <td class="td-empty"></td>
                         </tr>
                         <tr>
-                            <td colspan="5" class="td-empty"></td>
+                            <td colspan="4" class="td-empty"></td>
                             <td class="section-gap"></td>
                             <td colspan="5" class="td-empty"></td>
                             <td class="section-gap"></td>
-                            <td colspan="2" class="td-empty"></td>
+                            <td class="td-empty"></td>
                             <td class="th-col th-anl"></td>
                             <td class="th-col th-anl td-right" title="AUM Change">AUM</td>
                             <td class="th-col th-anl td-right" title="Gross Fees Change">MgtFees</td>
@@ -150,11 +148,11 @@
                         </tr>
                         <!-- TOTAL row: absolute integer changes -->
                         <tr class="analysis-row">
-                            <td colspan="5" class="td-empty"></td>
+                            <td colspan="4" class="td-empty"></td>
                             <td class="section-gap"></td>
                             <td colspan="5" class="td-empty"></td>
                             <td class="section-gap"></td>
-                            <td colspan="2" class="td-empty"></td>
+                            <td class="td-empty"></td>
                             <td class="td-row-label td-analysis">TOTAL</td>
                             <td class="td-right td-analysis" title={analysis.aumChgAbsFmt}>{analysis.aumChgAbsFmt}</td>
                             <td class="td-right td-analysis" title={analysis.grossChgAbsFmt}>{analysis.grossChgAbsFmt}</td>
@@ -164,11 +162,11 @@
                         </tr>
                         <!-- TOTAL % row: AUM evo % + BP changes -->
                         <tr class="analysis-row">
-                            <td colspan="5" class="td-empty"></td>
+                            <td colspan="4" class="td-empty"></td>
                             <td class="section-gap"></td>
                             <td colspan="5" class="td-empty"></td>
                             <td class="section-gap"></td>
-                            <td colspan="2" class="td-empty"></td>
+                            <td class="td-empty"></td>
                             <td class="td-row-label td-analysis">TOTAL %</td>
                             <td class="td-right td-analysis" title={analysis.aumEvoFmt}>{analysis.aumEvoFmt}</td>
                             <td class="td-right td-analysis" title={analysis.grossChgFmt}>{analysis.grossChgFmt}</td>
@@ -186,7 +184,6 @@
                     <colgroup>
                         <col style="width:80px"/>
                         <col style="width:80px"/>
-                        <col style="width:160px"/>
                         <col style="width:100px"/>
                         <col style="width:80px"/>
                         <col style="width:16px"/>
@@ -196,7 +193,6 @@
                         <col style="width:100px"/>
                         <col style="width:100px"/>
                         <col style="width:16px"/>
-                        <col style="width:100px"/>
                         <col style="width:110px"/>
                         <col style="width:100px"/>
                         <col style="width:90px"/>
@@ -208,7 +204,7 @@
                     <thead>
                         <!-- AUM change input row -->
                         <tr class="aum-change-row">
-                            <td colspan="5" class="aum-empty"></td>
+                            <td colspan="4" class="aum-empty"></td>
                             <td class="section-gap"></td>
                             <td colspan="5" class="aum-empty"></td>
                             <td class="section-gap"></td>
@@ -220,23 +216,22 @@
                                     </div>
                                 </div>
                             </td>
-                            <td colspan="7" class="aum-empty"></td>
+                            <td colspan="6" class="aum-empty"></td>
                         </tr>
                         <!-- Group header row -->
                         <tr>
-                            <th colspan="5" class="th-group th-info" title="Share Class Info">Share Class Info</th>
+                            <th colspan="4" class="th-group th-info" title="Share Class Info">Share Class Info</th>
                             <th class="section-gap"></th>
                             <th colspan="5" class="th-group th-current" title="CURRENT">CURRENT</th>
                             <th class="section-gap"></th>
-                            <th colspan="7" class="th-group th-simulated" title="SIMULATED">SIMULATED</th>
+                            <th colspan="6" class="th-group th-simulated" title="SIMULATED">SIMULATED</th>
                             <th class="td-empty"></th>
                         </tr>
                         <!-- Column header row -->
                         <tr>
                             <th class="th-col" title="Range">Range</th>
                             <th class="th-col" title="Portfolio Code">PtfCode</th>
-                            <th class="th-col" title="Name">Name</th>
-                            <th class="th-col" title="ISIN">ISIN</th>
+                            <th class="th-col" title="Share Class Type">Type</th>
                             <th class="th-col td-right" title="Effective Management Fees">EffMgtFees</th>
                             <th class="section-gap"></th>
                             <th class="th-col th-cur td-right" title="Current AUM">AUM</th>
@@ -245,9 +240,8 @@
                             <th class="th-col th-cur td-right" title="Current Rebates">Rebates</th>
                             <th class="th-col th-cur td-right" title="Current Net Fees">NetFees</th>
                             <th class="section-gap"></th>
-                            <th class="th-col th-sim td-right" title="Simulated AUM (after global % change)">AUM</th>
-                            <th class="th-col th-sim" title="New Money input">New Money</th>
-                            <th class="th-col th-sim td-right" title="New AUM = Simulated AUM + New Money">New AUM</th>
+                            <th class="th-col th-sim" title="Additional Money input">Additional Money</th>
+                            <th class="th-col th-sim td-right" title="New AUM = Current AUM + Additional Money">New AUM</th>
                             <th class="th-col th-sim td-right" title="Rebate Rate (read-only)">RebateRate</th>
                             <th class="th-col th-sim td-right" title="Simulated Gross Fees">MgtFees</th>
                             <th class="th-col th-sim td-right" title="Simulated Rebates">Rebates</th>
@@ -259,29 +253,27 @@
                     <!-- ── Main data tbody (real rows) ── -->
                     <tbody>
                         <template for:each={processedRows} for:item="row">
-                            <tr key={row.key}>
-                                <!-- SHARECLASS Info -->
+                            <tr key={row.key} class={row.rowClass}>
+                                <!-- Share Class Info -->
                                 <td class="td-info" title={row.range}>{row.range}</td>
-                                <td class="td-info" title={row.ptfCode}>{row.ptfCode}</td>
-                                <td class="td-info" title={row.name}>{row.name}</td>
-                                <td class="td-info" title={row.isin}>{row.isin}</td>
+                                <td class="td-info" title={row.productName}>{row.ptfCode}</td>
+                                <td class="td-info" title={row.isin}>{row.type}</td>
                                 <td class="td-info td-right" title={row.effMgtFeesFmt}>{row.effMgtFeesFmt}</td>
                                 <td class="section-gap"></td>
-                                <!-- CURRENT Info -->
+                                <!-- CURRENT -->
                                 <td class="td-right td-current" title={row.curAumFmt}>{row.curAumFmt}</td>
                                 <td class="td-right td-current" title={row.curRebRateFmt}>{row.curRebRateFmt}</td>
                                 <td class="td-right td-current" title={row.curGrossFmt}>{row.curGrossFmt}</td>
                                 <td class="td-right td-current" title={row.curRebatesFmt}>{row.curRebatesFmt}</td>
                                 <td class="td-right td-current" title={row.curNetFmt}>{row.curNetFmt}</td>
                                 <td class="section-gap"></td>
-                                <!-- SIMULATED Info -->
-                                <td class="td-right td-sim" title={row.simAumFmt}>{row.simAumFmt}</td>
+                                <!-- SIMULATED -->
                                 <td class={row.newMoneyCellClass}>
                                     <template if:false={row.isEditingNewMoney}>
-                                        <span class="new-money-display" data-id={row.shareClassId} onclick={handleNewMoneyClick}>{row.newMoneyFmt}</span>
+                                        <span class="new-money-display" data-id={row.shareClassId} onclick={handleNewMoneyClick}>{row.additionalMoneyFmt}</span>
                                     </template>
                                     <template if:true={row.isEditingNewMoney}>
-                                        <input type="text" class="slds-input custom-input" value={row.newMoney} data-id={row.shareClassId} data-field="newMoney" onchange={handleNewMoney} onblur={handleNewMoneyBlur} onfocus={handleNewMoneyFocus}/>
+                                        <input type="text" class="slds-input custom-input" value={row.additionalMoney} data-id={row.shareClassId} data-field="newMoney" onchange={handleNewMoney} onblur={handleNewMoneyBlur} onfocus={handleNewMoneyFocus}/>
                                     </template>
                                 </td>
                                 <td class="td-right td-sim" title={row.newAumFmt}>{row.newAumFmt}</td>
@@ -301,21 +293,19 @@
                                 <!-- INFO: editable inputs -->
                                 <td class="td-input"><input type="text" class="slds-input custom-input" value={row.range} data-id={row.shareClassId} data-field="range" onchange={handleCustomField}/></td>
                                 <td class="td-input"><input type="text" class="slds-input custom-input" value={row.ptfCode} data-id={row.shareClassId} data-field="ptfCode" onchange={handleCustomField}/></td>
-                                <td class="td-input"><input type="text" class="slds-input custom-input" value={row.name} data-id={row.shareClassId} data-field="name" onchange={handleCustomField}/></td>
-                                <td class="td-input"><input type="text" class="slds-input custom-input" value={row.isin} data-id={row.shareClassId} data-field="isin" onchange={handleCustomField}/></td>
+                                <td class="td-input"><input type="text" class="slds-input custom-input" value={row.type} data-id={row.shareClassId} data-field="type" onchange={handleCustomField}/></td>
                                 <td class="td-input"><input type="number" class="slds-input custom-input" value={row.effMgtFees} step="0.01" data-id={row.shareClassId} data-field="effMgtFees" onchange={handleCustomField}/></td>
                                 <td class="section-gap"></td>
                                 <!-- CURRENT: blank -->
                                 <td colspan="5" class="td-custom-blank"></td>
                                 <td class="section-gap"></td>
                                 <!-- SIMULATED -->
-                                <td class="td-right td-sim" title="0">0</td>
                                 <td class={row.newMoneyCellClass}>
                                     <template if:false={row.isEditingNewMoney}>
-                                        <span class="new-money-display" data-id={row.shareClassId} onclick={handleNewMoneyClick}>{row.newMoneyFmt}</span>
+                                        <span class="new-money-display" data-id={row.shareClassId} onclick={handleNewMoneyClick}>{row.additionalMoneyFmt}</span>
                                     </template>
                                     <template if:true={row.isEditingNewMoney}>
-                                        <input type="text" class="slds-input custom-input" value={row.newMoney} data-id={row.shareClassId} data-field="newMoney" onchange={handleCustomField} onblur={handleNewMoneyBlur} onfocus={handleNewMoneyFocus}/>
+                                        <input type="text" class="slds-input custom-input" value={row.additionalMoney} data-id={row.shareClassId} data-field="newMoney" onchange={handleCustomField} onblur={handleNewMoneyBlur} onfocus={handleNewMoneyFocus}/>
                                     </template>
                                 </td>
                                 <td class="td-right td-sim" title={row.newAumFmt}>{row.newAumFmt}</td>
@@ -323,7 +313,6 @@
                                 <td class="td-right td-sim" title={row.simGrossFmt}>{row.simGrossFmt}</td>
                                 <td class="td-right td-sim" title={row.simRebatesFmt}>{row.simRebatesFmt}</td>
                                 <td class="td-right td-sim" title={row.simNetFmt}>{row.simNetFmt}</td>
-                                <!-- delete button -->
                                 <td class="td-actions">
                                     <button class="delete-btn" data-id={row.shareClassId} onclick={handleRemoveRow}>×</button>
                                 </td>
@@ -334,22 +323,20 @@
                     <!-- ── Totals tbody ── -->
                     <tbody class="totals-body">
                         <tr class="totals-row">
-                            <!-- SHARECLASS Info -->
-                            <td colspan="5" class="totals-label" title="TOTAL">
+                            <td colspan="4" class="totals-label" title="TOTAL">
                                 <button class="add-row-btn" onclick={handleAddRow} title="Add Simulated Row">+</button>
                                 TOTAL
                             </td>
                             <td class="section-gap"></td>
-                            <!-- CURRENT Info -->
+                            <!-- CURRENT -->
                             <td class="td-right td-total" title={totals.curAumFmt}>{totals.curAumFmt}</td>
                             <td class="td-total"></td>
                             <td class="td-right td-total" title={totals.curGrossFmt}>{totals.curGrossFmt}</td>
                             <td class="td-right td-total" title={totals.curRebatesFmt}>{totals.curRebatesFmt}</td>
                             <td class="td-right td-total" title={totals.curNetFmt}>{totals.curNetFmt}</td>
                             <td class="section-gap"></td>
-                            <!-- SIMULATED Info -->
-                            <td class="td-right td-total" title={totals.simAumFmt}>{totals.simAumFmt}</td>
-                            <td class="td-right td-total" title={totals.newMoneyFmt}>{totals.newMoneyFmt}</td>
+                            <!-- SIMULATED -->
+                            <td class="td-right td-total" title={totals.additionalMoneyFmt}>{totals.additionalMoneyFmt}</td>
                             <td class="td-right td-total" title={totals.newAumFmt}>{totals.newAumFmt}</td>
                             <td class="td-total"></td>
                             <td class="td-right td-total" title={totals.simGrossFmt}>{totals.simGrossFmt}</td>
@@ -362,7 +349,6 @@
                 </table>
             </div>
         </template>
-
 
         <template if:false={hasRows}>
             <template if:false={isLoading}>

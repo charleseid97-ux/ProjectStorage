@@ -4,10 +4,12 @@ import getGridSettings from '@salesforce/apex/GridBuilderController.getGridSetti
 import getAvailableGrids from '@salesforce/apex/GridBuilderController.getAvailableGrids';
 import getAgreementSelectionPageSettings from '@salesforce/apex/GridBuilderController.getAgreementSelectionPageSettings';
 import getDraftGridData from '@salesforce/apex/GridBuilderController.getDraftGridData';
+import getDraftGridDataByGridId from '@salesforce/apex/GridBuilderController.getDraftGridDataByGridId';
+import getAgreementSelectionPageSettingsByGridId from '@salesforce/apex/GridBuilderController.getAgreementSelectionPageSettingsByGridId';
 import getApprovedGridData from '@salesforce/apex/GridBuilderController.getApprovedGridData';
 import getAllProductsForSelection from '@salesforce/apex/GridBuilderController.getAllProductsForSelection';
 import getProductsAndShareClasses from '@salesforce/apex/GridBuilderController.getProductsAndShareClasses';
-import {LABELS, reduceError, showToast, buildShareTypesKey, getProductNameFromRows, getQueryParam, getRecordIdFromPageRef, getSystemProductExclusionDetail,
+import {LABELS, reduceError, showToast, buildShareTypesKey, getProductNameFromRows, getQueryParam, getRecordIdFromPageRef, getGridIdFromPageRef, getSystemProductExclusionDetail,
     applySystemProductExclusion, mergeSystemDetail, addIsinExclusionsFromRows, pruneOrphanedCriteria} from 'c/gridBuilderUtils';
 
 export default class CustomGridBuilder extends NavigationMixin(LightningElement) {
@@ -61,6 +63,7 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
 
     @track draftGridId = null;
     pendingDraftData = null;
+    approvedGridLoaded = false;
 
     @track gridOptions = [];
     @track selectedGrid;
@@ -83,6 +86,7 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
     @track criteria = {};
 
     recId;
+    sourceGridId; // set when entering from a Grid__c record (c__gridId param)
 
     get addToGridDisabled() {
         return !this.selectedGrid || !(this.shareClasses && this.shareClasses.length > 0);
@@ -170,8 +174,11 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
     @wire(CurrentPageReference)
     async wiredPageRef(pageRef) {
         if (!pageRef || !this._isConnected) return;
-        const newId = getRecordIdFromPageRef(pageRef);
-        if (newId !== this.recId) {
+        const newRecordId = getRecordIdFromPageRef(pageRef);
+        const newGridId   = getGridIdFromPageRef(pageRef);
+        const incoming    = newGridId || newRecordId;
+        const current     = this.sourceGridId || this.recId;
+        if (incoming !== current) {
             this._resetState();
             await this._initialize();
         }
@@ -200,6 +207,8 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
         this.draftGridId           = null;
         this.pendingDraftData      = null;
         this.hasDraftGrid          = false;
+        this.approvedGridLoaded   = false;
+        this.sourceGridId         = null;
         this.existingGridInfo      = { hasExistingGrid: false, kind: null, type: null, endDate: null };
         this.showSelectedPanel     = false;
         this.countriesOfDistribution = null;
@@ -212,13 +221,30 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
 
     async _initialize() {
         try {
-            this.recId = getQueryParam('c__recordId');
-            let agreementSettings = await getAgreementSelectionPageSettings({
-                gridBuilderSettingName: this.gridBuilderSettingName,
-                agreementId: this.recId
-            });
+            const gridId    = getQueryParam('c__gridId');
+            const recordId  = getQueryParam('c__recordId');
+            let agreementSettings;
+
+            if (gridId) {
+                // ── Entry from Grid__c "Edit Grid Details" button ──
+                this.sourceGridId = gridId;
+                agreementSettings = await getAgreementSelectionPageSettingsByGridId({
+                    gridBuilderSettingName: this.gridBuilderSettingName,
+                    gridId: gridId
+                });
+                // agreementId is resolved server-side and returned in the settings
+                this.recId = agreementSettings?.agreementId || null;
+            } else {
+                // ── Entry from Convention__c "Grid Request" button ──
+                this.recId = recordId;
+                agreementSettings = await getAgreementSelectionPageSettings({
+                    gridBuilderSettingName: this.gridBuilderSettingName,
+                    agreementId: this.recId
+                });
+            }
+
             if (agreementSettings) {
-                if(!agreementSettings.gridBuilderFound) {
+                if (!agreementSettings.gridBuilderFound) {
                     showToast(this, this.labels.UI_Error, this.labels.Grid_SettingNotFound.replace('{0}', this.gridBuilderSettingName), 'error');
                     return;
                 }
@@ -236,13 +262,31 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
                 };
                 this.hasDraftGrid = agreementSettings.hasDraftGrid || false;
 
-                // If a Draft grid request exists, prefill the builder from it
-                if (agreementSettings.hasDraftGrid && this.recId) {
+                if (gridId) {
+                    // Coming from Grid record: load that grid directly
+                    const draftData = await getDraftGridDataByGridId({ gridId: gridId });
+                    if (draftData) {
+                        this.draftGridId      = draftData.grid.Id;
+                        this.pendingDraftData = draftData;
+                        this.gridRequestData  = {
+                            kind:                    draftData.grid.Kind__c,
+                            gridType:                draftData.grid.Type__c,
+                            isAutoGridUpdate:        draftData.grid.AutomaticGridUpdate__c,
+                            startDate:               draftData.grid.StartDate__c,
+                            endDate:                 draftData.grid.EndDate__c,
+                            thresholdAmount:         draftData.grid.ThresholdAmount__c,
+                            thresholdAmountCurrency: draftData.grid.ThresholdAmountCurrency__c,
+                            otherFees:               draftData.grid.OtherFees__c,
+                            comment:                 draftData.grid.Comment__c
+                        };
+                    }
+                } else if (agreementSettings.hasDraftGrid && this.recId) {
+                    // Coming from Convention record with an existing draft
                     const draftData = await getDraftGridData({ agreementId: this.recId });
                     if (draftData) {
-                        this.draftGridId     = draftData.grid.Id;
+                        this.draftGridId      = draftData.grid.Id;
                         this.pendingDraftData = draftData;
-                        this.gridRequestData = {
+                        this.gridRequestData  = {
                             kind:                    draftData.grid.Kind__c,
                             gridType:                draftData.grid.Type__c,
                             isAutoGridUpdate:        draftData.grid.AutomaticGridUpdate__c,
@@ -889,9 +933,9 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
             this.pendingDraftData = null;
         }
 
-        const prevLoadPrevious = this.savedLoadPreviousGrid;
         this.savedLoadPreviousGrid = event.detail?.loadPreviousGrid || false;
-        if (!prevLoadPrevious && this.savedLoadPreviousGrid && this.recId) {
+        if (this.savedLoadPreviousGrid && !this.approvedGridLoaded && this.recId) {
+            this.approvedGridLoaded = true;
             await this.loadApprovedGridAsTemplate();
         }
 

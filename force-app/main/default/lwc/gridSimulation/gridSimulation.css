@@ -243,3 +243,12 @@ tr:nth-child(even) .td-sim { background: #e8dcfc; }
     border-color: #0176D3;
     border-style: solid;
 }
+
+/* ── Row in active grid but removed in new grid (will be lost) ── */
+.row-current-only .td-info    { background: #fde8c8 !important; }
+.row-current-only .td-current { background: #fde8c8 !important; }
+.row-current-only .td-sim     { background: #fdf3f3 !important; }
+
+/* ── Row newly added in new grid, not in active grid ── */
+.row-simulated-only .td-info    { background: #e8f5e0 !important; }
+.row-simulated-only .td-current { background: #e8f5e0 !important; }

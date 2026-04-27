@@ -26,6 +26,7 @@ public with sharing class GridUtility {
     public static final String GRID_STATUS_APPROVED          = 'Approved';
     public static final String GRID_STATUS_REJECTED          = 'Rejected';
 
+    public static final String FIELD_EFF_MGT_FEES = 'EffectiveManagementFees__c';
     /** ──────────────────────────────────────
      * @description Single loop over agreements: classifies each into a transition bucket,
      *              performs Agreement field swaps, collects Grid__c approval updates,
@@ -103,13 +104,10 @@ public with sharing class GridUtility {
         }
     }
 
-    private static void setGridOnAgreement(Convention__c agr) {
-        agr.Grid__c                      = agr.Grid_Request__c;
-        agr.Grid_Request__c              = null;
-        agr.Grid_Start_Date__c           = agr.Grid_Request_Start_Date__c;
-        agr.Grid_Request_Start_Date__c   = null;
-        agr.Amendment_Approval_Status__c = '';
-        agr.Grid_Request_Approved__c     = false;
+    public static Date effectiveStart(Date gridStart, Date scCreated) {
+        if (gridStart == null) return scCreated;
+        if (scCreated == null) return gridStart;
+        return gridStart > scCreated ? gridStart : scCreated;
     }
 
     /** ──────────────────────────────────────
@@ -199,4 +197,13 @@ public with sharing class GridUtility {
         update oldCustomToUpdate;
         insert newCustomToInsert;
     }
+
+    private static void setGridOnAgreement(Convention__c agr) {
+        agr.Grid__c                      = agr.Grid_Request__c;
+        agr.Grid_Request__c              = null;
+        agr.Grid_Start_Date__c           = agr.Grid_Request_Start_Date__c;
+        agr.Grid_Request_Start_Date__c   = null;
+        agr.Amendment_Approval_Status__c = '';
+        agr.Grid_Request_Approved__c     = false;
+    }   
 }

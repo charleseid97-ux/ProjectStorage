@@ -103,6 +103,21 @@ public with sharing class GridBuilderController {
     }
 
     @AuraEnabled
+    public static DraftGridData getDraftGridDataByGridId(Id gridId) {
+        return buildGridData(gridId);
+    }
+
+    @AuraEnabled(cacheable=true)
+    public static AgreementSelectionPageSettings getAgreementSelectionPageSettingsByGridId(String gridBuilderSettingName, Id gridId) {
+        List<Convention__c> agrs = [SELECT Id FROM Convention__c WHERE Grid_Request__c = :gridId LIMIT 1];
+        String agreementId = agrs.isEmpty() ? null : agrs[0].Id;
+        AgreementSelectionPageSettings settings = getAgreementSelectionPageSettings(gridBuilderSettingName, agreementId);
+        settings.agreementId = agreementId;
+        settings.hasDraftGrid = true;
+        return settings;
+    }
+
+    @AuraEnabled
     public static DraftGridData getApprovedGridData(Id agreementId) {
         Convention__c agr = [SELECT Id, Grid__c FROM Convention__c WHERE Id = :agreementId LIMIT 1];
         if (agr.Grid__c == null) return null;
@@ -370,6 +385,7 @@ public with sharing class GridBuilderController {
         @AuraEnabled public String existingGridType { get; set; }
         @AuraEnabled public String existingGridEndDate { get; set; }
         @AuraEnabled public Boolean hasDraftGrid { get; set; }
+        @AuraEnabled public String agreementId { get; set; }
         public AgreementSelectionPageSettings(Boolean gridBuilderFound, String agreementSelectionMode, String primaryTeam, Set<String> setAvailableTeams, List<AgreementWrapper> agreementOptions, Grid__c existingGrid, Boolean hasDraftGrid) {
             this.gridBuilderFound       = gridBuilderFound;
             this.agreementSelectionMode = agreementSelectionMode;

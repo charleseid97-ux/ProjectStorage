@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TECH_EffMgtFeesAuditHistory__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Populated on historical Grid Details. References the Fund Field Applicability History record that defines the EffMgtFees period for this detail.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Populated on historical Grid Details. References the Fund Field Applicability History record that defines the EffMgtFees period for this detail.</inlineHelpText>
+    <label>Eff Mgt Fees Audit History</label>
+    <referenceTo>Fund_Field_ApplicabilityHistory__c</referenceTo>
+    <relationshipLabel>Grid Details</relationshipLabel>
+    <relationshipName>GridDetails</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

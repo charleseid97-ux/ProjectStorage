@@ -43,6 +43,44 @@ public with sharing class AgreementGridTimelineUtility {
         if (!timelinesToUpdate.isEmpty()) update timelinesToUpdate;
     }
 
+    /** ── On Grid__c AfterInsert / AfterUpdate: upsert a Draft AGT for every eligible Custom Grid.
+     *     Pass oldGrids on update to skip grids where no relevant field changed. ── */
+    public static void handleGridUpsert(List<Grid__c> newGrids, Map<Id, Grid__c> oldGrids) {
+        Id customGridRtId = Schema.SObjectType.Grid__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_CUSTOM_GRID).getRecordTypeId();
+        Set<Id> agreementIds = new Set<Id>();
+        Set<Id> gridIds      = new Set<Id>();
+        List<Grid__c> eligible = new List<Grid__c>();
+
+        for (Grid__c g : newGrids) {
+            if (g.RecordTypeId != customGridRtId || g.Agreement__c == null) continue;
+            if (oldGrids != null) {
+                Grid__c old = oldGrids.get(g.Id);
+                if (g.Agreement__c == old.Agreement__c && g.StartDate__c == old.StartDate__c && g.EndDate__c == old.EndDate__c) continue;
+            }
+            eligible.add(g);
+            agreementIds.add(g.Agreement__c);
+            gridIds.add(g.Id);
+        }
+        if (eligible.isEmpty()) return;
+
+        Map<Id, Convention__c> agreements = new Map<Id, Convention__c>([SELECT Id, Name FROM Convention__c WHERE Id IN :agreementIds]);
+
+        Map<Id, Id> agtIdByGrid = new Map<Id, Id>();
+        for (AgreementGridTimeline__c agt : [SELECT Id, Grid__c FROM AgreementGridTimeline__c WHERE Grid__c IN :gridIds AND Status__c = :AGT_DRAFT]) {
+            agtIdByGrid.put(agt.Grid__c, agt.Id);
+        }
+
+        List<AgreementGridTimeline__c> toUpsert = new List<AgreementGridTimeline__c>();
+        for (Grid__c g : eligible) {
+            Convention__c agr = agreements.get(g.Agreement__c);
+            if (agr == null) continue;
+            AgreementGridTimeline__c agt = createAgreementGridTimeline(agr, g, g.StartDate__c, g.EndDate__c, AGT_DRAFT);
+            if (agtIdByGrid.containsKey(g.Id)) agt.Id = agtIdByGrid.get(g.Id);
+            toUpsert.add(agt);
+        }
+        if (!toUpsert.isEmpty()) upsert toUpsert;
+    }
+
     public static AgreementGridTimeline__c createAgreementGridTimeline(Convention__c agmt, Grid__c grid, Date startDate, Date endDate, String status) {
         String agrGridTimelineName = agmt.Name + ' - ' + grid.Name;
         return new AgreementGridTimeline__c(

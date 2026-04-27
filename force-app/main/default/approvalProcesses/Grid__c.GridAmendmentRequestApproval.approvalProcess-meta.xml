@@ -32,10 +32,14 @@
                 <name>DCO_KYD</name>
                 <type>queue</type>
             </approver>
-            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+            <approver>
+                <name>DCO_Rebate</name>
+                <type>queue</type>
+            </approver>
+            <whenMultipleApprovers>Unanimous</whenMultipleApprovers>
         </assignedApprover>
-        <label>DCO Approval</label>
-        <name>DCOApproval</name>
+        <label>DCO-DO Approval</label>
+        <name>DCO_DO_Approval</name>
         <rejectBehavior>
             <type>RejectRequest</type>
         </rejectBehavior>

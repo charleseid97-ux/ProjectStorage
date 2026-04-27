@@ -21,7 +21,7 @@ public with sharing class GridSimulationController {
         Map<Id, Decimal> rebateByScId = buildRebateMap(shareClassIds, shareClassGridIdMapJson);
 
         // ── 3. ShareClass info ───────────────────────────────────────────────
-        Map<Id, Share_Class__c> scById = new Map<Id, Share_Class__c>([SELECT Id, Name, ISIN__c, EffectiveManagementFees__c, Fund__r.InternalShortName__c, Fund__r.ProductName__c, Fund__r.FundStrategy__r.AssetClass__c
+        Map<Id, Share_Class__c> scById = new Map<Id, Share_Class__c>([SELECT Id, Name, Name__c, ISIN__c, EffectiveManagementFees__c, Fund__r.InternalShortName__c, Fund__r.ProductName__c, Fund__r.FundStrategy__r.AssetClass__c
                                                                       FROM Share_Class__c
                                                                       WHERE Id IN :shareClassIds
                                                                       ORDER BY Fund__r.InternalShortName__c ASC, ISIN__c ASC]);
@@ -35,6 +35,7 @@ public with sharing class GridSimulationController {
             SimulationRow row = new SimulationRow();
             row.shareClassId   = scId;
             row.shareClassName = sc.Name;
+            row.shareClassType = sc.Name__c;
             row.range          = sc.Fund__r?.FundStrategy__r?.AssetClass__c;
             row.ptfCode        = sc.Fund__r?.InternalShortName__c;
             row.name           = sc.Fund__r?.ProductName__c;
@@ -92,13 +93,9 @@ public with sharing class GridSimulationController {
 
     @AuraEnabled(cacheable=false)
     public static SimulationInitData getSimulationInitData(Id gridId) {
-        List<GridDetail__c> details = [SELECT ShareClass__c FROM GridDetail__c WHERE Grid__c = :gridId AND ShareClass__c != null AND (EndDate__c = null OR EndDate__c >= :Date.today())];
         List<Id> shareClassIds = new List<Id>();
         Map<String, Object> scGridMap = new Map<String, Object>();
-        for (GridDetail__c gd : details) {
-            shareClassIds.add(gd.ShareClass__c);
-            scGridMap.put(String.valueOf(gd.ShareClass__c), String.valueOf(gridId));
-        }
+        fillShareClassToGridInfo(shareClassIds, scGridMap, gridId);
 
         List<Id> agreementIds = new List<Id>();
         String region = null;
@@ -114,11 +111,36 @@ public with sharing class GridSimulationController {
         return result;
     }
 
+    @AuraEnabled(cacheable=false)
+    public static List<SimulationRow> getActiveGridSimulationData(Id agreementId) {
+        if (agreementId == null) return new List<SimulationRow>();
+        List<Convention__c> convs = [SELECT Grid__c FROM Convention__c WHERE Id = :agreementId LIMIT 1];
+        if (convs.isEmpty() || convs[0].Grid__c == null) return new List<SimulationRow>();
+        Id gridId = convs[0].Grid__c;
+
+        List<Id> shareClassIds = new List<Id>();
+        Map<String, Object> scGridMap = new Map<String, Object>();
+        fillShareClassToGridInfo(shareClassIds, scGridMap, gridId);
+
+        if (shareClassIds.isEmpty()) return new List<SimulationRow>();
+        return getSimulationData(shareClassIds, new List<Id>{ agreementId }, JSON.serialize(scGridMap));
+    }
+
     @AuraEnabled(cacheable=true)
     public static String getAgreementRegion(List<Id> agreementIds) {
         if (agreementIds == null || agreementIds.isEmpty()) return null;
         List<Convention__c> convs = [SELECT Business_Region__c FROM Convention__c WHERE Id IN :agreementIds LIMIT 1];
         return convs.isEmpty() ? null : convs[0].Business_Region__c;
+    }
+
+    private static void fillShareClassToGridInfo(List<Id> shareClassIds, Map<String, Object> scGridMap, Id gridId) {
+        for (GridDetail__c gd : [SELECT ShareClass__c FROM GridDetail__c
+                                 WHERE Grid__c = :gridId
+                                 AND ShareClass__c != null
+                                 AND (EndDate__c = null OR EndDate__c >= :Date.today())]) {
+            shareClassIds.add(gd.ShareClass__c);
+            scGridMap.put(String.valueOf(gd.ShareClass__c), String.valueOf(gridId));
+        }
     }
 
     // ── Wrappers ───────────────────────────────────────────────────────────
@@ -130,6 +152,7 @@ public with sharing class GridSimulationController {
     public class SimulationRow {
         @AuraEnabled public Id      shareClassId;
         @AuraEnabled public String  shareClassName;
+        @AuraEnabled public String  shareClassType;
         @AuraEnabled public String  range;
         @AuraEnabled public String  ptfCode;
         @AuraEnabled public String  name;
