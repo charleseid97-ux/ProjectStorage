@@ -11,12 +11,16 @@
 
 		<members>TaxDataActionController</members>
 		<members>Test_TaxDataActionController</members>
+
+		<members>TaxDataExportController</members>
+		<members>Test_TaxDataExportController</members>
 		
 		<name>ApexClass</name>
 	</types>
 
 	<types>
         <members>taxDataAction</members>
+		<members>exportBetisHistoryButton</members>
         <name>LightningComponentBundle</name>
     </types>
 	
