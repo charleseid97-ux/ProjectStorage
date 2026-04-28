@@ -62,16 +62,12 @@ public with sharing class GridTriggerHandler implements ITriggerHandler {
         allGridIds.addAll(rejectedGridIds);
 
         List<Convention__c> agreementsToUpdate = new List<Convention__c>();
-        Map<Id, List<Id>> rejectedAgrToGridIds = new Map<Id, List<Id>>();
         for (Convention__c agr : [SELECT Id, Grid_Request__c FROM Convention__c WHERE Grid_Request__c IN :allGridIds]) {
-            if      (pendingGridIds.contains(agr.Grid_Request__c))  agreementsToUpdate.add(new Convention__c(Id = agr.Id, Amendment_Approval_Status__c = 'Approval Required'));
-            else if (approvedGridIds.contains(agr.Grid_Request__c)) agreementsToUpdate.add(new Convention__c(Id = agr.Id, Amendment_Approval_Status__c = 'Approved', Grid_Request_Approved__c = true));
-            else if (rejectedGridIds.contains(agr.Grid_Request__c)) rejectedAgrToGridIds.put(agr.Id, new List<Id>{ agr.Grid_Request__c });
+            if      (pendingGridIds.contains(agr.Grid_Request__c))  agreementsToUpdate.add(new Convention__c(Id = agr.Id, Amendment_Approval_Status__c = GridUtility.AGR_AMDMT_APPROVAL_REQUIRED));
+            else if (approvedGridIds.contains(agr.Grid_Request__c)) agreementsToUpdate.add(new Convention__c(Id = agr.Id, Amendment_Approval_Status__c = GridUtility.AGR_AMDMT_APPROVED, Grid_Request_Approved__c = true));
+            else if (rejectedGridIds.contains(agr.Grid_Request__c)) agreementsToUpdate.add(new Convention__c(Id = agr.Id, Amendment_Approval_Status__c = GridUtility.AGR_AMDMT_APPROVAL_REJECTED));
         }
 
         if (!agreementsToUpdate.isEmpty()) update agreementsToUpdate;
-        if (!rejectedAgrToGridIds.isEmpty()) {
-            AgreementGridTimelineUtility.updateTimelines(new Map<Id, List<Id>>(), new Map<Id, List<Id>>(), rejectedAgrToGridIds, new Map<Id, Date>());
-        }
     }
 }

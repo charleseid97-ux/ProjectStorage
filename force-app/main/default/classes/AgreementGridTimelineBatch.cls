@@ -29,9 +29,10 @@ public with sharing class AgreementGridTimelineBatch implements Database.Batchab
             WHERE Id IN :agreementIds
         ]);
 
-        List<AgreementGridTimeline__c> agtsToActivate  = new List<AgreementGridTimeline__c>();
-        List<Convention__c>           agreementsToUpdate = new List<Convention__c>();
-        Set<Id>                       processedAgreements = new Set<Id>();
+        List<AgreementGridTimeline__c> agtsToActivate   = new List<AgreementGridTimeline__c>();
+        List<Convention__c>            agreementsToUpdate = new List<Convention__c>();
+        Map<Id, Date>                  oldGridToEndDate  = new Map<Id, Date>();
+        Set<Id>                        processedAgreements = new Set<Id>();
 
         for (AgreementGridTimeline__c agt : scope) {
             agt.Status__c = AgreementGridTimelineUtility.AGT_ACTIVE;
@@ -42,12 +43,13 @@ public with sharing class AgreementGridTimelineBatch implements Database.Batchab
 
             Convention__c agr = agreementsById.get(agt.Agreement__c);
             if (agr == null || agr.Grid_Request__c == null) continue;
-            agr.Grid__c                      = agr.Grid_Request__c;
-            agr.Grid_Request__c              = null;
-            agr.Grid_Start_Date__c           = agr.Grid_Request_Start_Date__c;
-            agr.Grid_Request_Start_Date__c   = null;
-            agr.Amendment_Approval_Status__c = '';
-            agr.Grid_Request_Approved__c     = false;
+
+            if (agr.Grid__c != null) {
+                Date endDate = agt.GridStartDate__c != null ? agt.GridStartDate__c.addDays(-1) : Date.today().addDays(-1);
+                oldGridToEndDate.put(agr.Grid__c, endDate);
+            }
+
+            GridUtility.setGridOnAgreement(agr);
             agreementsToUpdate.add(agr);
         }
 
@@ -56,6 +58,13 @@ public with sharing class AgreementGridTimelineBatch implements Database.Batchab
         // Agreement trigger fires on update — isD will not re-fire:
         //   isD requires !oldAgr.Grid_Request_Approved__c, but the old value is already true (transition guard fails)
         //   After swap, Grid_Request__c = null → isC/isE conditions also fail
+        if (!oldGridToEndDate.isEmpty()) {
+            List<Grid__c> gridsToExpire = new List<Grid__c>();
+            for (Id gridId : oldGridToEndDate.keySet()) {
+                gridsToExpire.add(new Grid__c(Id = gridId, EndDate__c = oldGridToEndDate.get(gridId)));
+            }
+            update gridsToExpire; // GridTriggerHandler → handleGridUpsert → old AGT becomes Inactive
+        }
     }
 
     public void finish(Database.BatchableContext bc) {}
