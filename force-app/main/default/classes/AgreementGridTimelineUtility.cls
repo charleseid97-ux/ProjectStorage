@@ -50,63 +50,67 @@ public with sharing class AgreementGridTimelineUtility {
         if (!timelinesToUpdate.isEmpty()) update timelinesToUpdate;
     }
 
-    /** ── On Grid__c AfterInsert / AfterUpdate:
-     *     - Upsert a Draft AGT for every eligible Custom Grid that has no Active AGT yet.
-     *     - Set Active AGTs to Inactive when their Grid's EndDate is newly set (old Grid expiring). ── */
-    public static void handleGridUpsert(List<Grid__c> newGrids, Map<Id, Grid__c> oldGrids) {
+    /** ── On Grid__c AfterInsert: create a Draft AGT for every new Custom Grid linked to an Agreement. ── */
+    public static void handleGridInsert(List<Grid__c> newGrids) {
         Id customGridRtId = Schema.SObjectType.Grid__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_CUSTOM_GRID).getRecordTypeId();
         Set<Id> agreementIds = new Set<Id>();
-        Set<Id> gridIds      = new Set<Id>();
         List<Grid__c> eligible = new List<Grid__c>();
 
         for (Grid__c g : newGrids) {
             if (g.RecordTypeId != customGridRtId || g.Agreement__c == null) continue;
-            if (oldGrids != null) {
-                Grid__c old = oldGrids.get(g.Id);
-                if (g.Agreement__c == old.Agreement__c && g.StartDate__c == old.StartDate__c && g.EndDate__c == old.EndDate__c) continue;
-            }
             eligible.add(g);
             agreementIds.add(g.Agreement__c);
-            gridIds.add(g.Id);
         }
         if (eligible.isEmpty()) return;
 
         Map<Id, Convention__c> agreements = new Map<Id, Convention__c>([SELECT Id, Name FROM Convention__c WHERE Id IN :agreementIds]);
 
-        Map<Id, Id>                       draftAgtIdByGrid = new Map<Id, Id>();
-        Map<Id, AgreementGridTimeline__c> activeAgtByGrid  = new Map<Id, AgreementGridTimeline__c>();
-        for (AgreementGridTimeline__c agt : [SELECT Id, Grid__c, Status__c FROM AgreementGridTimeline__c
-                                             WHERE Grid__c IN :gridIds
-                                             AND Status__c IN (:AGT_DRAFT, :AGT_ACTIVE)]) {
-            if      (agt.Status__c == AGT_DRAFT)  draftAgtIdByGrid.put(agt.Grid__c, agt.Id);
-            else if (agt.Status__c == AGT_ACTIVE) activeAgtByGrid.put(agt.Grid__c, agt);
-        }
-
-        // Draft AGT upsert — skip grids that already have an Active AGT (they are handled below)
-        List<AgreementGridTimeline__c> toUpsert = new List<AgreementGridTimeline__c>();
+        List<AgreementGridTimeline__c> toInsert = new List<AgreementGridTimeline__c>();
         for (Grid__c g : eligible) {
-            if (activeAgtByGrid.containsKey(g.Id)) continue;
             Convention__c agr = agreements.get(g.Agreement__c);
             if (agr == null) continue;
-            AgreementGridTimeline__c agt = createAgreementGridTimeline(agr, g, g.StartDate__c, g.EndDate__c, AGT_DRAFT);
-            if (draftAgtIdByGrid.containsKey(g.Id)) agt.Id = draftAgtIdByGrid.get(g.Id);
-            toUpsert.add(agt);
+            toInsert.add(createAgreementGridTimeline(agr, g, g.StartDate__c, g.EndDate__c, AGT_DRAFT));
         }
-        if (!toUpsert.isEmpty()) upsert toUpsert;
+        if (!toInsert.isEmpty()) insert toInsert;
+    }
 
-        // Active → Inactive: when the old Grid's EndDate is newly set
-        List<AgreementGridTimeline__c> toInactivate = new List<AgreementGridTimeline__c>();
-        for (Grid__c g : eligible) {
-            if (!activeAgtByGrid.containsKey(g.Id)) continue;
-            if (oldGrids == null) continue;
+    /** ── On Grid__c AfterUpdate: sync StartDate/EndDate onto the live AGT (any non-terminal status).
+     *     If the AGT was Active and EndDate is newly set, transition it to Inactive. ── */
+    public static void handleGridUpdate(List<Grid__c> newGrids, Map<Id, Grid__c> oldGrids) {
+        Id customGridRtId = Schema.SObjectType.Grid__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_CUSTOM_GRID).getRecordTypeId();
+        Set<Id> gridIds = new Set<Id>();
+        List<Grid__c> eligible = new List<Grid__c>();
+
+        for (Grid__c g : newGrids) {
+            if (g.RecordTypeId != customGridRtId || g.Agreement__c == null) continue;
             Grid__c old = oldGrids.get(g.Id);
-            if (g.EndDate__c == old.EndDate__c || g.EndDate__c == null) continue;
-            AgreementGridTimeline__c agt = activeAgtByGrid.get(g.Id);
-            agt.Status__c    = AGT_INACTIVE;
-            agt.GridEndDate__c = g.EndDate__c;
-            toInactivate.add(agt);
+            if (g.StartDate__c == old.StartDate__c && g.EndDate__c == old.EndDate__c) continue;
+            eligible.add(g);
+            gridIds.add(g.Id);
         }
-        if (!toInactivate.isEmpty()) update toInactivate;
+        if (eligible.isEmpty()) return;
+
+        Map<Id, AgreementGridTimeline__c> agtByGrid = new Map<Id, AgreementGridTimeline__c>();
+        for (AgreementGridTimeline__c agt : [SELECT Id, Grid__c, Status__c, GridStartDate__c, GridEndDate__c
+                                             FROM AgreementGridTimeline__c
+                                             WHERE Grid__c IN :gridIds
+                                             AND Status__c IN (:AGT_DRAFT, :AGT_PENDINGAPPROVAL, :AGT_APPROVED, :AGT_ACTIVE)]) {
+            agtByGrid.put(agt.Grid__c, agt);
+        }
+
+        List<AgreementGridTimeline__c> toUpdate = new List<AgreementGridTimeline__c>();
+        for (Grid__c g : eligible) {
+            AgreementGridTimeline__c agt = agtByGrid.get(g.Id);
+            if (agt == null) continue;
+            Grid__c old = oldGrids.get(g.Id);
+            agt.GridStartDate__c = g.StartDate__c;
+            agt.GridEndDate__c   = g.EndDate__c;
+            if (agt.Status__c == AGT_ACTIVE && g.EndDate__c != old.EndDate__c && g.EndDate__c != null) {
+                agt.Status__c = AGT_INACTIVE;
+            }
+            toUpdate.add(agt);
+        }
+        if (!toUpdate.isEmpty()) update toUpdate;
     }
 
     public static AgreementGridTimeline__c createAgreementGridTimeline(Convention__c agmt, Grid__c grid, Date startDate, Date endDate, String status) {

@@ -10,29 +10,24 @@ public with sharing class AgreementGridTimelineBatch implements Database.Batchab
 
     public Database.QueryLocator start(Database.BatchableContext bc) {
         Date today = Date.today();
-        return Database.getQueryLocator([
-            SELECT Id, Agreement__c, Grid__c, GridStartDate__c
-            FROM AgreementGridTimeline__c
-            WHERE Status__c = :AgreementGridTimelineUtility.AGT_APPROVED
-            AND GridStartDate__c <= :today
-        ]);
+        return Database.getQueryLocator([SELECT Id, Agreement__c, Grid__c, GridStartDate__c
+                                         FROM AgreementGridTimeline__c
+                                         WHERE Status__c = :AgreementGridTimelineUtility.AGT_APPROVED
+                                         AND GridStartDate__c <= :today]);
     }
 
     public void execute(Database.BatchableContext bc, List<AgreementGridTimeline__c> scope) {
         Set<Id> agreementIds = new Set<Id>();
         for (AgreementGridTimeline__c agt : scope) agreementIds.add(agt.Agreement__c);
 
-        Map<Id, Convention__c> agreementsById = new Map<Id, Convention__c>([
-            SELECT Id, Grid__c, Grid_Request__c, Grid_Request_Start_Date__c,
-                   Grid_Start_Date__c, Amendment_Approval_Status__c, Grid_Request_Approved__c
-            FROM Convention__c
-            WHERE Id IN :agreementIds
-        ]);
+        Map<Id, Convention__c> agreementsById = new Map<Id, Convention__c>([SELECT Id, Grid__c, Grid_Request__c, Grid_Request_Start_Date__c, Grid_Start_Date__c, Amendment_Approval_Status__c, Grid_Request_Approved__c
+                                                                            FROM Convention__c
+                                                                            WHERE Id IN :agreementIds]);
 
-        List<AgreementGridTimeline__c> agtsToActivate   = new List<AgreementGridTimeline__c>();
-        List<Convention__c>            agreementsToUpdate = new List<Convention__c>();
-        Map<Id, Date>                  oldGridToEndDate  = new Map<Id, Date>();
-        Set<Id>                        processedAgreements = new Set<Id>();
+        List<AgreementGridTimeline__c> agtsToActivate = new List<AgreementGridTimeline__c>();
+        List<Convention__c> agreementsToUpdate        = new List<Convention__c>();
+        Map<Id, Date> oldGridToEndDate                = new Map<Id, Date>();
+        Set<Id> processedAgreements                   = new Set<Id>();
 
         for (AgreementGridTimeline__c agt : scope) {
             agt.Status__c = AgreementGridTimelineUtility.AGT_ACTIVE;
