@@ -5,17 +5,18 @@ private class Test_TaxDataExportController {
         .getRecordTypeInfosByName()
         .get('Fund')
         .getRecordTypeId();
+    private static final String SHARE_CLASS_NAME = 'BE TIS Fund';
 
     private static Share_Class__c createShareClass() {
         Product__c fund = PMTTestFactoryData.getProduct(
             fundRecordTypeId,
             'BETISFundCode',
-            'BE TIS Fund',
+            SHARE_CLASS_NAME,
             true
         );
 
         Share_Class__c sc = new Share_Class__c(
-            Name = 'BE TIS Fund',
+            Name = SHARE_CLASS_NAME,
             Fund__c = fund.Id,
             Validity__c = true,
             ISIN__c = 'LU1234567890'
@@ -52,11 +53,11 @@ private class Test_TaxDataExportController {
         Test.stopTest();
 
         System.assertNotEquals(null, result, 'Un résultat doit être retourné');
-        System.assertEquals('BE_TIS_BE TIS Fund.xls', result.fileName);
+        System.assertEquals('BE_TIS_'+ SHARE_CLASS_NAME + '.xls', result.fileName);
 
         System.assertEquals(true, result.content.contains('<table>'));
         System.assertEquals(true, result.content.contains('LU1234567890'));
-        System.assertEquals(true, result.content.contains('BE TIS Fund'));
+        System.assertEquals(true, result.content.contains(SHARE_CLASS_NAME));
         System.assertEquals(true, result.content.contains('2026-04-28'));
         System.assertEquals(true, result.content.contains('12.34'));
     }
@@ -128,7 +129,7 @@ private class Test_TaxDataExportController {
         Test.stopTest();
 
         System.assertNotEquals(null, result);
-        System.assertEquals('BE_TIS_BE TIS Fund.xls', result.fileName);
+        System.assertEquals('BE_TIS_'+SHARE_CLASS_NAME+ '.xls', result.fileName);
         System.assertEquals(true, result.content.contains('<th>ISIN</th>'));
         System.assertEquals(true, result.content.contains('<th>Share Class</th>'));
         System.assertEquals(true, result.content.contains('<th>Nav Date</th>'));
