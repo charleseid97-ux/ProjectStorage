@@ -24,6 +24,13 @@
             </div>
         </template>
         <div class="mainDiv">
+            <template if:true={hasPendingGrid}>
+                <div class="slds-notify slds-notify_alert slds-theme_warning slds-m-bottom_small" role="alert">
+                    <span class="slds-assistive-text">{labels.UI_Warning}</span>
+                    <lightning-icon icon-name="utility:warning" alternative-text={labels.UI_Warning} size="x-small" class="slds-m-right_x-small"></lightning-icon>
+                    <h2>{labels.Grid_PendingApprovalWarning}</h2>
+                </div>
+            </template>
             <template if:true={showAgreementsPage}>
                 <c-grid-agreements-selection agreement-selection-mode={agreementSelectionMode}
                                              options={agreementOptions}

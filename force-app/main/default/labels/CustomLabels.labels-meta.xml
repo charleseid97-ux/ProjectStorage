@@ -711,6 +711,13 @@
         <value>No share classes found to add to the Grid.</value>
     </labels>
     <labels>
+        <fullName>Grid_PendingApprovalWarning</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Warning shown when a grid request is already pending approval</shortDescription>
+        <value>A grid request for this agreement is currently pending approval. You cannot create a new request until it is approved or rejected.</value>
+    </labels>
+    <labels>
         <fullName>Grid_ProductAlreadyAssignedWarning</fullName>
         <language>en_US</language>
         <protected>false</protected>
