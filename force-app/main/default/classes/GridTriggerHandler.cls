@@ -17,13 +17,13 @@ public with sharing class GridTriggerHandler implements ITriggerHandler {
 
     public void AfterInsert(Map<Id, SObject> newItems) {
         if (PAD.canTrigger('GridAGTCreation')) {
-            AgreementGridTimelineUtility.handleGridUpsert((List<Grid__c>) newItems.values(), null);
+            AgreementGridTimelineUtility.handleGridInsert((List<Grid__c>) newItems.values());
         }
     }
 
     public void AfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
         if (PAD.canTrigger('GridAGTCreation')) {
-            AgreementGridTimelineUtility.handleGridUpsert((List<Grid__c>) newItems.values(), (Map<Id, Grid__c>) oldItems);
+            AgreementGridTimelineUtility.handleGridUpdate((List<Grid__c>) newItems.values(), (Map<Id, Grid__c>) oldItems);
         }
         if (PAD.canTrigger('GridApprovalTransitions')) {
             syncGridApprovalStatusToAgreement((List<Grid__c>) newItems.values(), (Map<Id, Grid__c>) oldItems);
