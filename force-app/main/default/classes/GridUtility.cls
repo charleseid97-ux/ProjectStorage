@@ -43,7 +43,7 @@ public with sharing class GridUtility {
         Map<Id, List<Id>> approvedAgrToGridIds   = new Map<Id, List<Id>>();
         Map<Id, List<Id>> rejectedAgrToGridIds   = new Map<Id, List<Id>>();
         Map<Id, List<Id>> historicalAgrToGridIds = new Map<Id, List<Id>>(); // Scenario 3: approved but predates active — new AGT → Inactive
-        Map<Id, Date>     oldGridEndDates        = new Map<Id, Date>();     // Scenario 2: old Grid Id → EndDate to set (immediate activation)
+        Map<Id, Date>     oldGridEndDates        = new Map<Id, Date>();     // Scenarios 1 & 2: old Grid Id → EndDate to set
 
         List<String> firstGridTerminalStatuses  = new List<String>{AGR_STATUS_PRE_APPROVAL, AGR_STATUS_APPROVAL_COMPLETE, AGR_STATUS_APPROVAL_REJECTED}; // A: excluded from "intermediate"
         List<String> amendmentNonSubmitStatuses = new List<String>{AGR_AMDMT_NEED_SUBMISSION, AGR_AMDMT_APPROVAL_REJECTED, AGR_AMDMT_APPROVED};          // C: excluded from "submitted"
@@ -99,12 +99,12 @@ public with sharing class GridUtility {
                 if (isChronologicallyValid) {
                     approvedAgrToGridIds.put(agr.Id, new List<Id>{ agr.Grid_Request__c });
 
+                    if (agr.Grid__c != null) {
+                        // Scenarios 1 & 2: set old Grid EndDate now → trigger chain sets old AGT Inactive
+                        oldGridEndDates.put(agr.Grid__c, requestAgtStart != null ? requestAgtStart.addDays(-1) : Date.today().addDays(-1));
+                    }
                     if (isImmediate) {
-                        // Scenario 2: start ≤ today — swap Agreement fields now; old Grid gets EndDate → trigger chain sets old AGT Inactive
-                        if (agr.Grid__c != null) {
-                            oldGridEndDates.put(agr.Grid__c, requestAgtStart != null ? requestAgtStart.addDays(-1) : Date.today().addDays(-1));
-                        }
-                        setGridOnAgreement(agr);
+                        setGridOnAgreement(agr); // Scenario 2: swap Agreement fields immediately; new AGT → Active
                     }
                     // else Scenario 1: start > today — Agreement keeps Grid_Request__c; new AGT → Approved; batch activates later
                 } else {
@@ -119,34 +119,23 @@ public with sharing class GridUtility {
             }
         }
 
-        updateGridApprovalStatuses(gridApprovalUpdates);
-        expireOldGrids(oldGridEndDates); // Scenario 2: trigger chain sets old Active AGT → Inactive before updateTimelines queries
+        updateGrids(gridApprovalUpdates, oldGridEndDates); // single DML: ApprovalStatus + EndDate; trigger chain sets old Active AGT → Inactive
         AgreementGridTimelineUtility.updateTimelines(submittedAgrToGridIds, approvedAgrToGridIds, rejectedAgrToGridIds, historicalAgrToGridIds);
     }
 
-    public static void updateGridApprovalStatuses(Map<Id, String> gridIdToApprovalStatus) {
-        if (gridIdToApprovalStatus == null || gridIdToApprovalStatus.isEmpty()) return;
-        List<Grid__c> gridsToUpdate = new List<Grid__c>();
-        for (Id gridId : gridIdToApprovalStatus.keySet()) {
-            gridsToUpdate.add(new Grid__c(Id = gridId, ApprovalStatus__c = gridIdToApprovalStatus.get(gridId)));
+    private static void updateGrids(Map<Id, String> approvalUpdates, Map<Id, Date> endDateUpdates) {
+        Map<Id, Grid__c> gridsById = new Map<Id, Grid__c>();
+        for (Id gridId : approvalUpdates.keySet()) {
+            gridsById.put(gridId, new Grid__c(Id = gridId, ApprovalStatus__c = approvalUpdates.get(gridId)));
         }
+        for (Id gridId : endDateUpdates.keySet()) {
+            if (!gridsById.containsKey(gridId)) gridsById.put(gridId, new Grid__c(Id = gridId));
+            gridsById.get(gridId).EndDate__c = endDateUpdates.get(gridId);
+        }
+        if (gridsById.isEmpty()) return;
         isUpdatingGridsFromAgreementTrigger = true;
         try {
-            update gridsToUpdate;
-        } finally {
-            isUpdatingGridsFromAgreementTrigger = false;
-        }
-    }
-
-    private static void expireOldGrids(Map<Id, Date> oldGridEndDates) {
-        if (oldGridEndDates == null || oldGridEndDates.isEmpty()) return;
-        List<Grid__c> gridsToExpire = new List<Grid__c>();
-        for (Id gridId : oldGridEndDates.keySet()) {
-            gridsToExpire.add(new Grid__c(Id = gridId, EndDate__c = oldGridEndDates.get(gridId)));
-        }
-        isUpdatingGridsFromAgreementTrigger = true;
-        try {
-            update gridsToExpire; // GridTriggerHandler → handleGridUpsert → old Active AGT becomes Inactive
+            update gridsById.values();
         } finally {
             isUpdatingGridsFromAgreementTrigger = false;
         }
