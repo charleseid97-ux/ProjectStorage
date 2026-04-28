@@ -90,24 +90,27 @@ public with sharing class AgreementGridTimelineUtility {
         }
         if (eligible.isEmpty()) return;
 
-        Map<Id, AgreementGridTimeline__c> agtByGrid = new Map<Id, AgreementGridTimeline__c>();
+        Map<Id, List<AgreementGridTimeline__c>> agtsByGrid = new Map<Id, List<AgreementGridTimeline__c>>();
         for (AgreementGridTimeline__c agt : [SELECT Id, Grid__c, Status__c, GridStartDate__c, GridEndDate__c
                                              FROM AgreementGridTimeline__c
                                              WHERE Grid__c IN :gridIds]) {
-            agtByGrid.put(agt.Grid__c, agt);
+            if (!agtsByGrid.containsKey(agt.Grid__c)) agtsByGrid.put(agt.Grid__c, new List<AgreementGridTimeline__c>());
+            agtsByGrid.get(agt.Grid__c).add(agt);
         }
 
         List<AgreementGridTimeline__c> toUpdate = new List<AgreementGridTimeline__c>();
         for (Grid__c g : eligible) {
-            AgreementGridTimeline__c agt = agtByGrid.get(g.Id);
-            if (agt == null) continue;
+            List<AgreementGridTimeline__c> agts = agtsByGrid.get(g.Id);
+            if (agts == null) continue;
             Grid__c old = oldGrids.get(g.Id);
-            agt.GridStartDate__c = g.StartDate__c;
-            agt.GridEndDate__c   = g.EndDate__c;
-            if (agt.Status__c == AGT_ACTIVE && g.EndDate__c != old.EndDate__c && g.EndDate__c != null) {
-                agt.Status__c = AGT_INACTIVE;
+            for (AgreementGridTimeline__c agt : agts) {
+                agt.GridStartDate__c = g.StartDate__c;
+                agt.GridEndDate__c   = g.EndDate__c;
+                if (agt.Status__c == AGT_ACTIVE && g.EndDate__c != old.EndDate__c && g.EndDate__c != null) {
+                    agt.Status__c = AGT_INACTIVE;
+                }
+                toUpdate.add(agt);
             }
-            toUpdate.add(agt);
         }
         if (!toUpdate.isEmpty()) update toUpdate;
     }
