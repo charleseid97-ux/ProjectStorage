@@ -93,8 +93,7 @@ public with sharing class AgreementGridTimelineUtility {
         Map<Id, AgreementGridTimeline__c> agtByGrid = new Map<Id, AgreementGridTimeline__c>();
         for (AgreementGridTimeline__c agt : [SELECT Id, Grid__c, Status__c, GridStartDate__c, GridEndDate__c
                                              FROM AgreementGridTimeline__c
-                                             WHERE Grid__c IN :gridIds
-                                             AND Status__c IN (:AGT_DRAFT, :AGT_PENDINGAPPROVAL, :AGT_APPROVED, :AGT_ACTIVE)]) {
+                                             WHERE Grid__c IN :gridIds]) {
             agtByGrid.put(agt.Grid__c, agt);
         }
 
