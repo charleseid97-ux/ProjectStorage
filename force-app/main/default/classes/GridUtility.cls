@@ -35,17 +35,34 @@ public with sharing class GridUtility {
      *              B) First Grid approved     → field swap + Grid Approved
      *              C) Amendment submitted     → Grid Pending Approval
      *              D) Amendment approved      → field swap + Grid Approved
-     *              E) Amendment rejected      → Grid Rejected
+     *              E) Grid rejected (first or amendment) → Grid Rejected
      ────────────────────────────────────── */
     public static void handleAgreementGridTransitions(List<Convention__c> newAgreements, Map<Id, Convention__c> oldAgreements) {
-        Map<Id, String>   gridApprovalUpdates         = new Map<Id, String>();
-        Map<Id, Date>     requestStartDateByAgreement = new Map<Id, Date>();
-        Map<Id, List<Id>> submittedAgrToGridIds       = new Map<Id, List<Id>>();
-        Map<Id, List<Id>> approvedAgrToGridIds        = new Map<Id, List<Id>>();
-        Map<Id, List<Id>> rejectedAgrToGridIds        = new Map<Id, List<Id>>();
+        Map<Id, String>   gridApprovalUpdates    = new Map<Id, String>();
+        Map<Id, List<Id>> submittedAgrToGridIds  = new Map<Id, List<Id>>();
+        Map<Id, List<Id>> approvedAgrToGridIds   = new Map<Id, List<Id>>();
+        Map<Id, List<Id>> rejectedAgrToGridIds   = new Map<Id, List<Id>>();
+        Map<Id, List<Id>> historicalAgrToGridIds = new Map<Id, List<Id>>(); // Scenario 3: approved but predates active — new AGT → Inactive
+        Map<Id, Date>     oldGridEndDates        = new Map<Id, Date>();     // Scenarios 1 & 2: old Grid Id → EndDate to set
 
         List<String> firstGridTerminalStatuses  = new List<String>{AGR_STATUS_PRE_APPROVAL, AGR_STATUS_APPROVAL_COMPLETE, AGR_STATUS_APPROVAL_REJECTED}; // A: excluded from "intermediate"
         List<String> amendmentNonSubmitStatuses = new List<String>{AGR_AMDMT_NEED_SUBMISSION, AGR_AMDMT_APPROVAL_REJECTED, AGR_AMDMT_APPROVED};          // C: excluded from "submitted"
+
+        Set<Id> allAgreementIds = new Set<Id>();
+        for (Convention__c agr : newAgreements) allAgreementIds.add(agr.Id);
+
+        Map<Id, Date> activeAgtStartByAgreement  = new Map<Id, Date>();
+        Map<Id, Date> requestAgtStartByAgreement = new Map<Id, Date>();
+        for (AgreementGridTimeline__c agt : [SELECT Agreement__c, Status__c, GridStartDate__c
+                                             FROM AgreementGridTimeline__c
+                                             WHERE Agreement__c IN :allAgreementIds
+                                             AND Status__c IN (:AgreementGridTimelineUtility.AGT_ACTIVE, :AgreementGridTimelineUtility.AGT_PENDINGAPPROVAL, :AgreementGridTimelineUtility.AGT_DRAFT)]) {
+            if (agt.Status__c == AgreementGridTimelineUtility.AGT_ACTIVE) {
+                activeAgtStartByAgreement.put(agt.Agreement__c, agt.GridStartDate__c);
+            } else {
+                requestAgtStartByAgreement.put(agt.Agreement__c, agt.GridStartDate__c);
+            }
+        }
 
         String oldStatus, newStatus, oldAmdmt, newAmdmt;
         Boolean isFirstGrid, isA, isB, isC, isD, isE;
@@ -59,25 +76,41 @@ public with sharing class GridUtility {
 
             // Classify the transition (conditions only — actions below)
             isFirstGrid = (agr.Grid__c == null && agr.Grid_Request__c != null);
-            isA = isFirstGrid  && oldStatus != newStatus && String.isNotBlank(newStatus) && !firstGridTerminalStatuses.contains(newStatus);                                                   // A: First-grid intermediate
-            isB = isFirstGrid  && oldStatus != AGR_STATUS_APPROVAL_COMPLETE && newStatus == AGR_STATUS_APPROVAL_COMPLETE;                                                                     // B: First-grid approved
-            isC = !isFirstGrid && oldAmdmt  != newAmdmt  && String.isNotEmpty(newAmdmt)  && !amendmentNonSubmitStatuses.contains(newAmdmt) && agr.Grid_Request__c != null;                   // C: Amendment submitted
-            isD = !isFirstGrid && newAmdmt  == AGR_AMDMT_APPROVED && agr.Grid_Request_Approved__c;                                                                                           // D: Amendment approved
-            isE = !isFirstGrid && newAmdmt  == AGR_AMDMT_APPROVAL_REJECTED && oldAmdmt != AGR_AMDMT_APPROVAL_REJECTED && agr.Grid_Request__c != null;                                       // E: Amendment rejected
+            isA = isFirstGrid  && oldStatus != newStatus && String.isNotBlank(newStatus) && !firstGridTerminalStatuses.contains(newStatus);                                 // A: First-grid intermediate
+            isB = isFirstGrid  && oldStatus != AGR_STATUS_APPROVAL_COMPLETE && newStatus == AGR_STATUS_APPROVAL_COMPLETE;                                                   // B: First-grid approved
+            isC = !isFirstGrid && oldAmdmt  != newAmdmt  && String.isNotEmpty(newAmdmt)  && !amendmentNonSubmitStatuses.contains(newAmdmt) && agr.Grid_Request__c != null;  // C: Amendment submitted
+            isD = !isFirstGrid && newAmdmt  == AGR_AMDMT_APPROVED && agr.Grid_Request_Approved__c && !oldAgr.Grid_Request_Approved__c;                                      // D: Amendment approved (transition false → true only)
+            isE = newAmdmt  == AGR_AMDMT_APPROVAL_REJECTED && oldAmdmt != AGR_AMDMT_APPROVAL_REJECTED && agr.Grid_Request__c != null;                                       // E: Grid rejected (first or amendment)
 
             // Pending Approval (A or C) — grid + AGT → Pending Approval
             if (isA || isC) {
                 submittedAgrToGridIds.put(agr.Id, new List<Id>{ agr.Grid_Request__c });
                 gridApprovalUpdates.put(agr.Grid_Request__c, GRID_STATUS_PENDING_APPROVAL);
             }
-            // Approved (B or D) — swap Agreement fields, grid + AGT → Approved / Active
+            // Approved (B or D) — three scenarios based on chronology and start date
             if (isB || isD) {
-                List<Id> gridIds = new List<Id>{ agr.Grid_Request__c }; // new grid, captured before swap
-                if (agr.Grid__c != null) gridIds.add(agr.Grid__c);      // old grid (amendment only), captured before swap
-                approvedAgrToGridIds.put(agr.Id, gridIds);
-                requestStartDateByAgreement.put(agr.Id, agr.Grid_Request_Start_Date__c); // captured before swap
-                gridApprovalUpdates.put(agr.Grid_Request__c, GRID_STATUS_APPROVED);      // captured before swap
-                setGridOnAgreement(agr);
+                Date activeAgtStart  = activeAgtStartByAgreement.get(agr.Id);
+                Date requestAgtStart = requestAgtStartByAgreement.get(agr.Id);
+                Boolean isChronologicallyValid = activeAgtStart == null || requestAgtStart == null || requestAgtStart > activeAgtStart;
+                Boolean isImmediate            = requestAgtStart == null || requestAgtStart <= Date.today();
+
+                gridApprovalUpdates.put(agr.Grid_Request__c, GRID_STATUS_APPROVED); // Grid ApprovalStatus always updated
+
+                if (isChronologicallyValid) {
+                    approvedAgrToGridIds.put(agr.Id, new List<Id>{ agr.Grid_Request__c });
+
+                    if (agr.Grid__c != null) {
+                        // Scenarios 1 & 2: set old Grid EndDate now → trigger chain sets old AGT Inactive
+                        oldGridEndDates.put(agr.Grid__c, requestAgtStart != null ? requestAgtStart.addDays(-1) : Date.today().addDays(-1));
+                    }
+                    if (isImmediate) {
+                        setGridOnAgreement(agr); // Scenario 2: swap Agreement fields immediately; new AGT → Active
+                    }
+                    // else Scenario 1: start > today — Agreement keeps Grid_Request__c; new AGT → Approved; batch activates later
+                } else {
+                    // Scenario 3: approved Grid predates active AGT — new AGT → Inactive; no Agreement or old Grid change
+                    historicalAgrToGridIds.put(agr.Id, new List<Id>{ agr.Grid_Request__c });
+                }
             }
             // Rejected (E) — grid + AGT → Rejected
             if (isE) {
@@ -86,19 +119,23 @@ public with sharing class GridUtility {
             }
         }
 
-        updateGridApprovalStatuses(gridApprovalUpdates);
-        AgreementGridTimelineUtility.updateTimelines(submittedAgrToGridIds, approvedAgrToGridIds, rejectedAgrToGridIds, requestStartDateByAgreement);
+        updateGrids(gridApprovalUpdates, oldGridEndDates); // single DML: ApprovalStatus + EndDate; trigger chain sets old Active AGT → Inactive
+        AgreementGridTimelineUtility.updateTimelines(submittedAgrToGridIds, approvedAgrToGridIds, rejectedAgrToGridIds, historicalAgrToGridIds);
     }
 
-    public static void updateGridApprovalStatuses(Map<Id, String> gridIdToApprovalStatus) {
-        if (gridIdToApprovalStatus == null || gridIdToApprovalStatus.isEmpty()) return;
-        List<Grid__c> gridsToUpdate = new List<Grid__c>();
-        for (Id gridId : gridIdToApprovalStatus.keySet()) {
-            gridsToUpdate.add(new Grid__c(Id = gridId, ApprovalStatus__c = gridIdToApprovalStatus.get(gridId)));
+    private static void updateGrids(Map<Id, String> approvalUpdates, Map<Id, Date> endDateUpdates) {
+        Map<Id, Grid__c> gridsById = new Map<Id, Grid__c>();
+        for (Id gridId : approvalUpdates.keySet()) {
+            gridsById.put(gridId, new Grid__c(Id = gridId, ApprovalStatus__c = approvalUpdates.get(gridId)));
         }
+        for (Id gridId : endDateUpdates.keySet()) {
+            if (!gridsById.containsKey(gridId)) gridsById.put(gridId, new Grid__c(Id = gridId));
+            gridsById.get(gridId).EndDate__c = endDateUpdates.get(gridId);
+        }
+        if (gridsById.isEmpty()) return;
         isUpdatingGridsFromAgreementTrigger = true;
         try {
-            update gridsToUpdate;
+            update gridsById.values();
         } finally {
             isUpdatingGridsFromAgreementTrigger = false;
         }
@@ -198,7 +235,7 @@ public with sharing class GridUtility {
         insert newCustomToInsert;
     }
 
-    private static void setGridOnAgreement(Convention__c agr) {
+    public static void setGridOnAgreement(Convention__c agr) {
         agr.Grid__c                      = agr.Grid_Request__c;
         agr.Grid_Request__c              = null;
         agr.Grid_Start_Date__c           = agr.Grid_Request_Start_Date__c;
