@@ -6,6 +6,8 @@ private class Test_TaxDataActionController {
         .get('Fund')
         .getRecordTypeId();
 
+    private static final String KEY_AT_TRANSPARENCY = 'AT|Transparency';
+
     private static Product__c createFund() {
         return PMTTestFactoryData.getProduct(
             fundRecordTypeId,
@@ -77,7 +79,7 @@ private class Test_TaxDataActionController {
             keys.add(td.Country__c + '|' + td.Type__c);
         }
 
-        System.assertEquals(true, keys.contains('AT|Transparency'));
+        System.assertEquals(true, keys.contains(KEY_AT_TRANSPARENCY));
         System.assertEquals(true, keys.contains('BE|BE TIS'));
         System.assertEquals(true, keys.contains('BE|BE Asset Test'));
     }
@@ -149,7 +151,7 @@ private class Test_TaxDataActionController {
             keys.add(option.key);
         }
 
-        System.assertEquals(true, keys.contains('AT|Transparency'));
+        System.assertEquals(true, keys.contains(KEY_AT_TRANSPARENCY));
         System.assertEquals(true, keys.contains('BE|BE TIS'));
     }
 
@@ -173,7 +175,7 @@ private class Test_TaxDataActionController {
         TaxDataActionController.UpdateResult result =
             TaxDataActionController.submitClosureRequests(
                 sc.Id,
-                new List<String>{ 'AT|Transparency' }
+                new List<String>{ KEY_AT_TRANSPARENCY }
             );
         Test.stopTest();
 
