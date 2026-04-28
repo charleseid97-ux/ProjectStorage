@@ -8,9 +8,17 @@
 		<members>ProjectProductBatchController</members>
 		<members>ProjectProductBatchUtilities</members>
 		<members>Test_ProjectProductBatch</members>
+
+		<members>TaxDataActionController</members>
+		<members>Test_TaxDataActionController</members>
 		
 		<name>ApexClass</name>
 	</types>
+
+	<types>
+        <members>taxDataAction</members>
+        <name>LightningComponentBundle</name>
+    </types>
 	
-	<version>66.0</version>
+	<version>65.0</version>
 </Package>
