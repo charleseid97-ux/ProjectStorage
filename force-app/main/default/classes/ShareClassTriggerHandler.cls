@@ -31,7 +31,7 @@ public class ShareClassTriggerHandler {
         FieldHistoryLogger.log( newShareClasses ,  oldShareClassesMap , 'Share_Class__c');
     	FieldHistoryLogger.logAllFields( newShareClasses ,  oldShareClassesMap , 'Share_Class__c');
         
-        Set<Id> changedEMFIds = new Set<Id>();
+        /*Set<Id> changedEMFIds = new Set<Id>();
         for (Share_Class__c sc : newShareClasses) {
             if (sc.EffectiveManagementFees__c != oldShareClassesMap.get(sc.Id).EffectiveManagementFees__c) {
                 changedEMFIds.add(sc.Id);
@@ -39,7 +39,7 @@ public class ShareClassTriggerHandler {
         }
         if (!changedEMFIds.isEmpty()) {
             GridUtility.refreshGridDetailsForShareClasses(changedEMFIds);
-        }
+        }*/
 
         TaxEmailService.sendATMergerLiquidationEmails(newShareClasses, oldShareClassesMap);
         ShareClassHandler.closeTaxDataOnShareClassClosure(newShareClasses, oldShareClassesMap);
