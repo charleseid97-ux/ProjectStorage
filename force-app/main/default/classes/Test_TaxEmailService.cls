@@ -1,7 +1,12 @@
 @IsTest
 public with sharing class Test_TaxEmailService {
+
+    // ✅ Constant Sonar
+    private static final String UK_FUND_NAME = 'UK Fund';
+
     @IsTest
     static void test_sendUKQuarterlyTransparencyEmails_path() {
+
         Strategy__c strategy = new Strategy__c(
             Name = 'S UK',
             AssetClass__c = 'Equity',
@@ -16,9 +21,9 @@ public with sharing class Test_TaxEmailService {
             .getRecordTypeId();
 
         Product__c fund = new Product__c(
-            Name = 'UK Fund',
-            Product_Name__c = 'UK Fund',
-            ProductName__c = 'UK Fund',
+            Name = UK_FUND_NAME,
+            Product_Name__c = UK_FUND_NAME,
+            ProductName__c = UK_FUND_NAME,
             FundStrategy__c = strategy.Id,
             Record_Type_Name__c = 'Fund',
             RecordTypeId = fundRtId,
@@ -79,6 +84,7 @@ public with sharing class Test_TaxEmailService {
 
     @IsTest
     static void test_TaxUKQuarterlyEmailJob_execute() {
+
         Test.startTest();
 
         String jobId = System.schedule(
