@@ -1,4 +1,4 @@
-public  class ShareClassHandler {
+public with sharing  class ShareClassHandler {
     
     public static void updateFormattedName(List<Share_Class__c> newShareclass, Map<Id, Share_Class__c> oldMap) {
         Boolean isInsert = (oldMap == null);
