@@ -26,6 +26,10 @@
 		<members>ShareClassTriggerHandler</members>
 		<members>ShareClassHandler</members>
 		<members>ShareclassTriggerTest</members>
+
+		<members>TaxUKQuarterlyEmailJob</members>
+		<members>TaxEmailService</members>
+		<members>Test_TaxEmailService</members>
 		
 		<name>ApexClass</name>
 	</types>
