@@ -19,7 +19,7 @@ public with sharing class AgreementGridTimelineUtility {
      * @description Applies AGT status transitions for pre-classified agreement sets and commits the update.
      *              Called by GridUtility after it has run its own Agreement/Grid field updates.
      ────────────────────────────────────── */
-    public static void updateTimelines(Map<Id, List<Id>> submittedAgrToGridIds, Map<Id, List<Id>> approvedAgrToGridIds, Map<Id, List<Id>> rejectedAgrToGridIds, Map<Id, List<Id>> historicalAgrToGridIds) {
+    public static void updateTimelines(Map<Id, List<Id>> submittedAgrToGridIds, Map<Id, List<Id>> approvedAgrToGridIds, Map<Id, List<Id>> rejectedAgrToGridIds, Map<Id, List<Id>> historicalAgrToGridIds, Set<Id> immediateOldGridIds) {
         Set<Id> agreementIds = new Set<Id>();
         agreementIds.addAll(submittedAgrToGridIds.keySet());
         agreementIds.addAll(approvedAgrToGridIds.keySet());
@@ -37,12 +37,11 @@ public with sharing class AgreementGridTimelineUtility {
                 timelinesToUpdate.add(setNewTimelineStatus(rejectedAgrToGridIds, agt, new List<String>{AGT_DRAFT, AGT_PENDINGAPPROVAL}, AGT_REJECTED));
             }
             else if(approvedAgrToGridIds.containsKey(agt.Agreement__c)) {
-                // Old Active AGT was already set to Inactive by GridUtility.expireOldGrids → handleGridUpsert before this query
-                AgreementGridTimeline__c updated = SetNewTimelineStatusApproved(approvedAgrToGridIds, agt);
+                AgreementGridTimeline__c updated = SetNewTimelineStatusApproved(approvedAgrToGridIds, agt, immediateOldGridIds);
                 if (updated != null) timelinesToUpdate.add(updated);
             }
+            // Scenario 3: Grid approved but predates active AGT — request AGT → Inactive
             else if(historicalAgrToGridIds.containsKey(agt.Agreement__c)) {
-                // Scenario 3: Grid approved but predates active AGT — request AGT → Inactive
                 timelinesToUpdate.add(setNewTimelineStatus(historicalAgrToGridIds, agt, new List<String>{AGT_DRAFT, AGT_PENDINGAPPROVAL, AGT_APPROVED}, AGT_INACTIVE));
             }
         }
@@ -74,8 +73,7 @@ public with sharing class AgreementGridTimelineUtility {
         if (!toInsert.isEmpty()) insert toInsert;
     }
 
-    /** ── On Grid__c AfterUpdate: sync StartDate/EndDate onto the live AGT (any non-terminal status).
-     *     If the AGT was Active and EndDate is newly set, transition it to Inactive. ── */
+    /** ── On Grid__c AfterUpdate: sync StartDate/EndDate onto all AGTs for the grid. ── */
     public static void handleGridUpdate(List<Grid__c> newGrids, Map<Id, Grid__c> oldGrids) {
         Id customGridRtId = Schema.SObjectType.Grid__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_CUSTOM_GRID).getRecordTypeId();
         Set<Id> gridIds = new Set<Id>();
@@ -91,7 +89,7 @@ public with sharing class AgreementGridTimelineUtility {
         if (eligible.isEmpty()) return;
 
         Map<Id, List<AgreementGridTimeline__c>> agtsByGrid = new Map<Id, List<AgreementGridTimeline__c>>();
-        for (AgreementGridTimeline__c agt : [SELECT Id, Grid__c, Status__c, GridStartDate__c, GridEndDate__c
+        for (AgreementGridTimeline__c agt : [SELECT Id, Grid__c, GridStartDate__c, GridEndDate__c
                                              FROM AgreementGridTimeline__c
                                              WHERE Grid__c IN :gridIds]) {
             if (!agtsByGrid.containsKey(agt.Grid__c)) agtsByGrid.put(agt.Grid__c, new List<AgreementGridTimeline__c>());
@@ -102,13 +100,9 @@ public with sharing class AgreementGridTimelineUtility {
         for (Grid__c g : eligible) {
             List<AgreementGridTimeline__c> agts = agtsByGrid.get(g.Id);
             if (agts == null) continue;
-            Grid__c old = oldGrids.get(g.Id);
             for (AgreementGridTimeline__c agt : agts) {
                 agt.GridStartDate__c = g.StartDate__c;
                 agt.GridEndDate__c   = g.EndDate__c;
-                if (agt.Status__c == AGT_ACTIVE && g.EndDate__c != old.EndDate__c && g.EndDate__c != null) {
-                    agt.Status__c = AGT_INACTIVE;
-                }
                 toUpdate.add(agt);
             }
         }
@@ -136,11 +130,15 @@ public with sharing class AgreementGridTimelineUtility {
         return agt;
     }
 
-    private static AgreementGridTimeline__c SetNewTimelineStatusApproved(Map<Id, List<Id>> agrToGridIds, AgreementGridTimeline__c agt) {
+    private static AgreementGridTimeline__c SetNewTimelineStatusApproved(Map<Id, List<Id>> agrToGridIds, AgreementGridTimeline__c agt, Set<Id> immediateOldGridIds) {
+        // Scenario 2: old Active AGT → Inactive
+        if (agt.Status__c == AGT_ACTIVE && immediateOldGridIds.contains(agt.Grid__c)) {
+            agt.Status__c = AGT_INACTIVE;
+            return agt;
+        }
+        // New request AGT: Draft/PendingApproval → Active (Scenario 2) or Approved (Scenario 1)
         Set<Id> gridIds = flattenGridIds(agrToGridIds);
         if ((agt.Status__c == AGT_DRAFT || agt.Status__c == AGT_PENDINGAPPROVAL) && gridIds.contains(agt.Grid__c)) {
-            // Scenario 1 (start > today) → Approved; Scenario 2 (start ≤ today) → Active
-            // Old Active AGT is already Inactive — set by GridUtility.expireOldGrids → handleGridUpsert before this runs
             agt.Status__c = (agt.GridStartDate__c != null && agt.GridStartDate__c > Date.today()) ? AGT_APPROVED : AGT_ACTIVE;
             return agt;
         }
