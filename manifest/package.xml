@@ -18,12 +18,17 @@
 		<members>CountryTriggerHandler</members>
 		<members>CountryHandler</members>
 		<members>Test_CountryTriggerHandler</members>
+
+		<members>TaxDataTriggerHandler</members>
+		<members>TaxTriggerHandler</members>
+		<members>Test_TaxTriggerHandler</members>
 		
 		<name>ApexClass</name>
 	</types>
 
 	<types>
 		<members>CountryTrigger</members>
+		<members>TaxTrigger</members>
 		<name>ApexTrigger</name>
 	</types>
 
