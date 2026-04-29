@@ -370,7 +370,7 @@ public with sharing class CustomReportMatrixController {
 
     private static List<ColNode> buildColTree(List<List<String>> colGroupLevels, Integer depth, String parentKey, Map<String, Set<String>> childrenByParentKey, List<String> columnKeys) {
         List<String> sorted = new List<String>(childrenByParentKey.get(parentKey) ?? new Set<String>());
-        sorted.sort();
+        //sorted.sort();
         List<ColNode> nodes = new List<ColNode>();
         Boolean isLeafLevel = (depth == colGroupLevels.size() - 1);
         for (String val : sorted) {

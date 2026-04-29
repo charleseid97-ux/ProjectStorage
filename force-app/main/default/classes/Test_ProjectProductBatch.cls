@@ -52,7 +52,8 @@ private class Test_ProjectProductBatch {
             proj,
             narrativeRtId,
             'EN',
-            product.Id
+            product.Id,
+            'Product'
         );
 
         List<String> errorMessages = new List<String>();
@@ -90,7 +91,8 @@ private class Test_ProjectProductBatch {
             proj,
             narrativeRtId,
             'EN',
-            product.Id
+            product.Id,
+            'Product'
         );
 
         List<String> errorMessages = new List<String>();
@@ -108,11 +110,22 @@ private class Test_ProjectProductBatch {
         ProjectProduct__c proj = PMTTestFactoryData.createProjectProductWithAllFields(fundModificationRtId);
         proj.EndDate__c = Date.today();
         proj.Product__c = product.Id;
-        proj.TECH_FieldsToModify__c = 'Name';
+        proj.InvestmentObjective__c = 'Test Content';
+        proj.RiskAssociated__c = 'Equity;Interest rates;Credit;Currency';
+        proj.IntentedRetailInvestor__c = 'Test Retail';
+        proj.ReasonForRHP__c = 'Test Reason';
+        proj.TECH_FieldsToModify__c = 'InvestmentObjective__c;RiskAssociated__c;IntentedRetailInvestor__c;ReasonForRHP__c';
+        
         update proj;
  
         ProjectShareclass__c shc = PMTTestFactoryData.createProjectShareclass(proj.Id, 'Name');
-        shc.TECH_ShareClass__c = new Share_Class__c(Name = 'SC To Modify', Fund__c = product.Id, Validity__c = true).Id;
+        Share_Class__c sc = new Share_Class__c(Name = 'SC To Modify', Fund__c = product.Id, Validity__c = true);
+        insert sc;
+        shc.TECH_ShareClass__c = sc.Id;
+        shc.ShareclassInvestmentObjective__c = 'Test';
+        shc.PerformanceFeeUCITSKIID__c = 'Test';
+        shc.PerformanceFeeEPTKID__c = 'Test';
+        shc.TECH_FieldsToModify__c = 'ShareclassInvestmentObjective__c;PerformanceFeeUCITSKIID__c;PerformanceFeeEPTKID__c';
         upsert shc;
 
         Milestone__c currentMilestone = PMTTestFactoryData.createMilestone(proj.Id, 'Launch Date', proj.EndDate__c);
@@ -140,7 +153,17 @@ private class Test_ProjectProductBatch {
         proj.Product__c = product.Id;
         update proj;
  
-        PMTTestFactoryData.createProjectShareclass(proj.Id, 'CurrencyIsoCode;Type__c');
+        ProjectShareclass__c projectSc = PMTTestFactoryData.createProjectShareclass(proj.Id, 'CurrencyIsoCode;Type__c');
+        
+        TaxData__c taxData = new TaxData__c(
+            ProjectProduct__c = proj.Id,
+            ProjectShareclass__c = projectSc.Id,
+            Country__c = 'AT',
+            Type__c = 'Transparency',
+            Status__c = 'Requested',
+            Source__c = 'PMT'
+        );
+        insert taxData;
 
         Test.startTest();
         // Créer une instance du scheduler

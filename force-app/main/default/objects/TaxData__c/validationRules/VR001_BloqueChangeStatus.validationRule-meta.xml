@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR001_BloqueChangeStatus</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    NOT($User.BypassValidationRules__c),
+    ISCHANGED(Status__c),
+    OR(
+        AND(
+            ISPICKVAL(Status__c , &quot;Yes&quot;),
+            ISBLANK(StartDate__c)
+        ),
+        AND(
+            ISPICKVAL(Status__c , &quot;No&quot;),
+            ISBLANK(EndDate__c)
+        )
+    )
+)</errorConditionFormula>
+    <errorDisplayField>Status__c</errorDisplayField>
+    <errorMessage>Start Date is required when Status is Yes. End Date is required when Status is No.</errorMessage>
+</ValidationRule>

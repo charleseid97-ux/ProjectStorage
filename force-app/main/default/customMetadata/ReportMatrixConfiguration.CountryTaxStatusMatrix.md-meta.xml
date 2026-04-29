@@ -18,7 +18,7 @@
     &quot;rules&quot;:[
       {
         &quot;values&quot;:[
-          &quot;Available&quot;
+          &quot;Yes&quot;
         ],
         &quot;style&quot;:&quot;background-color: #1b5e20; color: #c8e6c9&quot;
       },
@@ -30,7 +30,7 @@
       },
       {
         &quot;values&quot;:[
-          &quot;Closed&quot;
+          &quot;No&quot;
         ],
         &quot;style&quot;:&quot;background-color: #ffcdd2; color: #b71c1c&quot;
       }
@@ -61,7 +61,7 @@ StartDate__c</value>
     </values>
     <values>
         <field>OnHoverFields__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Date__c</value>
     </values>
     <values>
         <field>OrderByClause__c</field>
@@ -69,7 +69,7 @@ StartDate__c</value>
     </values>
     <values>
         <field>RowGroups__c</field>
-        <value xsi:type="xsd:string">ShareClass__r.Fund__r.ProductName__c;ShareClass__r.Fund__r.InternalShortName__c
+        <value xsi:type="xsd:string">ShareClass__r.Fund__r.ProductName__c;ShareClass__r.Fund__r.Name
 ShareClass__r.Name__c
 ShareClass__r.ISIN__c</value>
     </values>
@@ -79,8 +79,7 @@ ShareClass__r.ISIN__c</value>
     </values>
     <values>
         <field>ValueFields__c</field>
-        <value xsi:type="xsd:string">Status__c
-StartDate__c</value>
+        <value xsi:type="xsd:string">Status__c</value>
     </values>
     <values>
         <field>WhereClause__c</field>
