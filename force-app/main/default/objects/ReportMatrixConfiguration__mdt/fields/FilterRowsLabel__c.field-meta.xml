@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>FilterRowsLabel__c</fullName>
-    <description>Label displayed on the Filter rows search input. Defaults to "Filter" when blank.</description>
+    <description>Label displayed on the Filter rows search input. Defaults to &quot;Filter&quot; when blank.</description>
     <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
     <inlineHelpText>Label for the free-text search bar. Example: Filter rows</inlineHelpText>

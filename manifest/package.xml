@@ -26,7 +26,8 @@
         <members>Test_TaxEmailService</members>
         <members>CustomReportMatrixController</members>
 		<members>CustomReportMatrixControllerTest</members>
-	
+		<members>Test_ShareclassNavigatorController</members>
+		
         <name>ApexClass</name>
     </types>
 
@@ -40,6 +41,8 @@
         <members>taxDataAction</members>
         <members>exportBetisHistoryButton</members>
         <members>referentialProductHomepage</members>
+		<members>customReportMatrix</members>
+        <members>multiSelectSearchList</members>
         <name>LightningComponentBundle</name>
     </types>
 
@@ -54,6 +57,7 @@
         <members>TaxData__c</members>
         <members>TaxDataHistory__c</members>
         <members>TaxEmailConfiguration__mdt</members>
+		<members>ReportMatrixConfiguration__mdt</members>
         <name>CustomObject</name>
     </types>
 
@@ -129,6 +133,7 @@
         <members>TaxData__c-Tax Data Layout</members>
         <members>TaxDataHistory__c-TaxDataHistory Layout</members>
         <members>TaxEmailConfiguration__mdt-TaxEmailConfiguration Layout</members>
+		<members>ReportMatrixConfiguration__mdt-Report Matrix Configuration Layout</members>
         <name>Layout</name>
     </types>
 
@@ -139,6 +144,7 @@
         <members>TaxEmailConfiguration.TaxNewRequest</members>
         <members>TaxEmailConfiguration.UKTransparency</members>
         <members>ReportMatrixConfiguration.CountryTaxStatusMatrix</members>
+		<members>ReportMatrixConfiguration.CountryRegistrationStatusMatrix</members>
         <name>CustomMetadata</name>
     </types>
 
@@ -166,5 +172,24 @@
         <name>QuickAction</name>
     </types>
 
+	<types>
+        <members>Matrix_Blank</members>
+        <members>Matrix_ConfigNotFound</members>
+        <members>Matrix_ConflictStyle</members>
+        <members>Matrix_InvalidField</members>
+        <members>Matrix_LoadSuccess</members>
+        <members>Matrix_NoData</members>
+        <members>Matrix_QueryError</members>
+        <name>CustomLabel</name>
+    </types>
+
     <version>65.0</version>
 </Package>
+
+
+ 
+
+ 
+ 
+
+ 
