@@ -14,8 +14,17 @@
 
 		<members>TaxDataExportController</members>
 		<members>Test_TaxDataExportController</members>
+
+		<members>CountryTriggerHandler</members>
+		<members>CountryHandler</members>
+		<members>Test_CountryTriggerHandler</members>
 		
 		<name>ApexClass</name>
+	</types>
+
+	<types>
+		<members>CountryTrigger</members>
+		<name>ApexTrigger</name>
 	</types>
 
 	<types>
