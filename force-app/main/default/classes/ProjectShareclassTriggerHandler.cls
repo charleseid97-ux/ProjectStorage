@@ -27,5 +27,6 @@ public class ProjectShareclassTriggerHandler {
         ProjectShareclassHandler.validateSteps(newProjectShareclass, oldProjectShareclass);
         ProjectShareclassHandler.emptyFields(newProjectShareclass, oldProjectShareclass);
         isBlankingChildFields = false;
+        ProjectShareclassHandler.syncTaxDataFromTaxTransparency(newProjectShareclass, oldProjectShareclass);
     }
 }

@@ -37,5 +37,76 @@ public class Test_ProjectShareclassTrigger {
         Test.stopTest();
         
     }
-    
+
+    @IsTest(SeeAllData=true)
+    static void test_TaxTransparency_CreateCancel_AndEmail() {
+        ProjectProduct__c proj = PMTTestFactoryData.createProjectProductWithAllFields(fundCreationRtId);
+
+        ProjectShareclass__c shareClass = PMTTestFactoryData.createProjectShareclass(
+            proj.Id,
+            'DividendFrequency__c;Type__c'
+        );
+
+        // Ancienne valeur vide -> nouvelle valeur remplie = création TaxData + email
+        Test.startTest();
+
+        shareClass.TaxTransparency__c = 'AT;BE TIS;Belgium Simulator';
+        update shareClass;
+
+        List<TaxData__c> createdTaxData = [
+            SELECT Id, Country__c, Type__c, Status__c, Source__c,
+                ProjectProduct__c, ProjectShareclass__c
+            FROM TaxData__c
+            WHERE ProjectShareclass__c = :shareClass.Id
+            AND Source__c = 'PMT'
+        ];
+
+        System.assertEquals(3, createdTaxData.size(), '3 TaxData doivent être créés');
+
+        Set<String> keys = new Set<String>();
+        for (TaxData__c td : createdTaxData) {
+            keys.add(td.Country__c + '|' + td.Type__c + '|' + td.Status__c);
+            System.assertEquals(proj.Id, td.ProjectProduct__c);
+            System.assertEquals(shareClass.Id, td.ProjectShareclass__c);
+            System.assertEquals('PMT', td.Source__c);
+        }
+
+        System.assert(keys.contains('AT|Transparency|Requested'));
+        System.assert(keys.contains('BE|BE TIS|Requested'));
+        System.assert(keys.contains('BE|Belgium Simulator|Requested'));
+
+        // Nouvelle valeur retire FR -> le TaxData FR doit passer à Canceled
+        shareClass.TaxTransparency__c = 'BE TIS;Belgium Simulator';
+        update shareClass;
+
+        TaxData__c canceledFr = [
+            SELECT Id, Country__c, Type__c, Status__c
+            FROM TaxData__c
+            WHERE ProjectShareclass__c = :shareClass.Id
+            AND Country__c = 'AT'
+            AND Type__c = 'Transparency'
+            LIMIT 1
+        ];
+
+        System.assertEquals('Canceled', canceledFr.Status__c);
+
+        // Si la custom metadata email existe et est active, l’email doit être invoqué
+        Integer activeConfigCount = [
+            SELECT COUNT()
+            FROM TaxEmailConfiguration__mdt
+            WHERE Country__c = 'ALL'
+            AND Scenario__c = 'InternalTaxTransparencyNotification'
+            AND IsActive__c = true
+        ];
+
+        if (activeConfigCount > 0) {
+            System.assert(
+                Limits.getEmailInvocations() > 0,
+                'Un email Tax Transparency doit être préparé/envoyé'
+            );
+        }
+
+        Test.stopTest();
+    }
+        
 }

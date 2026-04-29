@@ -1,0 +1,47 @@
+.section-label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.mode-selector {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.25rem;
+}
+
+.mode-card {
+    flex: 1;
+    border: 1px solid #d8dde6;
+    border-radius: 0.5rem;
+    padding: 0.9rem 1rem;
+    background: #ffffff;
+    cursor: pointer;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.mode-card:hover {
+    border-color: #0176d3;
+    box-shadow: 0 0 0 1px #0176d3 inset;
+}
+
+.mode-card.selected {
+    border-color: #0176d3;
+    background: #f3f9ff;
+    box-shadow: 0 0 0 1px #0176d3 inset;
+}
+
+.mode-card-title {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.mode-card-text {
+    color: #5c5c5c;
+    font-size: 0.85rem;
+}
+
+.section-box {
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #e5e5e5;
+}
