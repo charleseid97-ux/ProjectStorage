@@ -25,6 +25,8 @@
         <members>TaxEmailService</members>
         <members>Test_TaxEmailService</members>
         <members>CustomReportMatrixController</members>
+		<members>CustomReportMatrixControllerTest</members>
+	
         <name>ApexClass</name>
     </types>
 
@@ -93,6 +95,10 @@
 
         <members>ProjectShareclass__c.TaxTransparency__c</members>
         <members>ProjectShareclassChild__c.TaxTransparency__c</members>
+
+		<members>ReportMatrixConfiguration__mdt.ValueFields__c</members>
+
+		<members>Share_Class__c.ShareclassNameOverride__c</members>
 
         <name>CustomField</name>
     </types>
