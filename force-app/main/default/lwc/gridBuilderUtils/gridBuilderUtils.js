@@ -97,6 +97,7 @@ import Grid_NoProductsToDisplay from '@salesforce/label/c.Grid_NoProductsToDispl
 import Grid_NoProductsToValidate from '@salesforce/label/c.Grid_NoProductsToValidate';
 import Grid_NoShareClassesFound from '@salesforce/label/c.Grid_NoShareClassesFound';
 import Grid_NoShareClassesToAdd from '@salesforce/label/c.Grid_NoShareClassesToAdd';
+import Grid_PendingApprovalWarning from '@salesforce/label/c.Grid_PendingApprovalWarning';
 import Grid_ProductAlreadyAssignedWarning from '@salesforce/label/c.Grid_ProductAlreadyAssignedWarning';
 import Grid_ProductNameLabel from '@salesforce/label/c.Grid_ProductNameLabel';
 import Grid_ProductsRecap from '@salesforce/label/c.Grid_ProductsRecap';
@@ -177,7 +178,7 @@ export const LABELS = {
     Grid_NoGridAvailable, Grid_NoGridSelectionFound, Grid_NoNewShareClassesAdded, Grid_NoProducts,
     Grid_NoProductsFound, Grid_NoProductsFoundValidation, Grid_NoProductsMatched, Grid_NoProductsSelected,
     Grid_NoProductsToDisplay, Grid_NoProductsToValidate, Grid_NoShareClassesFound, Grid_NoShareClassesToAdd,
-    Grid_ProductAlreadyAssignedWarning, Grid_ProductNameLabel, Grid_ProductsRecap,
+    Grid_PendingApprovalWarning, Grid_ProductAlreadyAssignedWarning, Grid_ProductNameLabel, Grid_ProductsRecap,
     Grid_RemoveFilter, Grid_RemoveProduct, Grid_ResetAll, Grid_ResetAll_Confirm, Grid_ResetAll_Success,
     Grid_ResetFilters, Grid_RowErrors, Grid_GridRulesCreated, Grid_GridRulesUpdated, Grid_GridsUpserted, Grid_Saved_Success, Grid_ScopesUpserted,
     Grid_SelectExcelFile, Grid_SelectGrid, Grid_SelectShareTypes, Grid_Selection, Grid_SettingNotFound,

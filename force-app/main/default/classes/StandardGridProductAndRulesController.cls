@@ -16,17 +16,25 @@ public with sharing class StandardGridProductAndRulesController {
 
     @AuraEnabled(cacheable=true)
     public static ShareClassComposition getShareClassComposition(String gridId) {
-        GridBuilderSetting__mdt setting = [SELECT DefaultShareTypeInclusion__c FROM GridBuilderSetting__mdt WHERE DeveloperName = 'CustomGridBuilderSetting' LIMIT 1];
+        GridBuilderSetting__mdt setting = [SELECT DefaultShareTypeInclusion__c, DefinitiveShareTypeExclusion__c FROM GridBuilderSetting__mdt WHERE DeveloperName = 'CustomGridBuilderSetting' LIMIT 1];
         Set<String> defaultTypes = new Set<String>(GridBuilderHelper.stringToList(setting.DefaultShareTypeInclusion__c, ','));
+
+        String countriesOfDistribution = null;
+        List<Grid__c> grids = [SELECT Agreement__r.Countries_of_Distribution__c FROM Grid__c WHERE Id = :gridId LIMIT 1];
+        if (!grids.isEmpty()) {
+            countriesOfDistribution = grids[0].Agreement__r?.Countries_of_Distribution__c;
+        }
+
+        Map<String, Set<String>> availableFundsByShareType = buildAvailableFundsByShareType(countriesOfDistribution, setting.DefinitiveShareTypeExclusion__c);
 
         Map<String, Set<String>> restrictedMap   = new Map<String, Set<String>>();
         Map<String, Set<String>> unrestrictedMap = new Map<String, Set<String>>();
         Set<String> inGridShortNames = new Set<String>();
 
         for (GridDetail__c detail : [SELECT ShareClass__r.Type__c, ShareClass__r.Fund__r.InternalShortName__c,
-                                            GridCriteria__r.SelectedShareTypes__c 
-                                     FROM GridDetail__c 
-                                     WHERE Grid__c = :gridId 
+                                            GridCriteria__r.SelectedShareTypes__c
+                                     FROM GridDetail__c
+                                     WHERE Grid__c = :gridId
                                      AND ShareClass__c != null]) {
             String type = detail.ShareClass__r.Type__c;
             String shortName = detail.ShareClass__r.Fund__r?.InternalShortName__c;
@@ -44,7 +52,7 @@ public with sharing class StandardGridProductAndRulesController {
                 if (String.isNotBlank(shortName)) {
                     restrictedMap.get(type).add(shortName);
                 }
-            } 
+            }
             else if (criteriaTypes.contains(type)) {
                 if (!unrestrictedMap.containsKey(type)) {
                     unrestrictedMap.put(type, new Set<String>());
@@ -57,14 +65,9 @@ public with sharing class StandardGridProductAndRulesController {
 
         List<String> excludedFundShortNames = new List<String>();
         try {
-            List<Convention__c> agreements = [SELECT Countries_of_Distribution__c 
-                                              FROM Convention__c 
-                                              WHERE (Grid__c = :gridId OR Grid_Request__c = :gridId) 
-                                              AND Countries_of_Distribution__c != null LIMIT 1];
-            String countries = agreements.isEmpty() ? null : agreements[0].Countries_of_Distribution__c;
-            GridBuilderController.AvailableGridsResult gridsResult = GridBuilderController.getAvailableGrids(countries, '');
+            GridBuilderController.AvailableGridsResult gridsResult = GridBuilderController.getAvailableGrids(countriesOfDistribution, '');
             List<String> availableGridIds = new List<String>(gridsResult.gridShareClassIds.keySet());
-            GridBuilderHelper.ProductSelectionResult allProducts = GridBuilderHelper.buildProductSelectionResult('CustomGridBuilderSetting', countries, null, null, new Set<Id>(), null, new Map<Id, String>(), false, null, false, availableGridIds);
+            GridBuilderHelper.ProductSelectionResult allProducts = GridBuilderHelper.buildProductSelectionResult('CustomGridBuilderSetting', countriesOfDistribution, null, null, new Set<Id>(), null, new Map<Id, String>(), false, null, false, availableGridIds);
             for (GridBuilderHelper.ProductWrapper product : allProducts.products) {
                 String label     = product.productLabel;
                 Integer openIdx  = label != null ? label.lastIndexOf('(') : -1;
@@ -75,33 +78,50 @@ public with sharing class StandardGridProductAndRulesController {
                 }
             }
             excludedFundShortNames.sort();
-        } 
+        }
         catch (Exception e) {
             System.debug('No agreement or no available grids — Section 3 stays empty');
         }
 
         ShareClassComposition result = new ShareClassComposition();
         result.defaultShareTypeInclusion = setting.DefaultShareTypeInclusion__c;
-        result.restricted                = toShareTypeGroupList(restrictedMap, inGridShortNames);
-        result.unrestricted              = toShareTypeGroupList(unrestrictedMap, inGridShortNames);
+        result.restricted                = toShareTypeGroupList(restrictedMap, availableFundsByShareType);
+        result.unrestricted              = toShareTypeGroupList(unrestrictedMap, availableFundsByShareType);
         result.excludedFundShortNames    = excludedFundShortNames;
         return result;
     }
 
-    private static List<ShareTypeGroup> toShareTypeGroupList(Map<String, Set<String>> typeMap, Set<String> allShortNames) {
+    private static Map<String, Set<String>> buildAvailableFundsByShareType(String countriesOfDistribution, String definitiveShareTypeExclusion) {
+        Map<String, Set<String>> result = new Map<String, Set<String>>();
+        GridBuilderHelper.ShareTypeWrapper shareTypeWrp = new GridBuilderHelper.ShareTypeWrapper(null, definitiveShareTypeExclusion, new List<Map<String, String>>(), new List<String>());
+        List<String> conditions = GridBuilderHelper.buildDefaultConditions(true, true, countriesOfDistribution, shareTypeWrp, false, null);
+        String whereClause = String.join(conditions, ' AND ');
+        for (Share_Class__c sc : Database.query('SELECT Type__c, Fund__r.InternalShortName__c FROM Share_Class__c WHERE ' + whereClause)) {
+            String type = sc.Type__c;
+            String shortName = sc.Fund__r?.InternalShortName__c;
+            if (String.isBlank(type) || String.isBlank(shortName)) continue;
+            if (!result.containsKey(type)) {
+                result.put(type, new Set<String>());
+            }
+            result.get(type).add(shortName);
+        }
+        return result;
+    }
+
+    private static List<ShareTypeGroup> toShareTypeGroupList(Map<String, Set<String>> typeMap, Map<String, Set<String>> availableFundsByShareType) {
         List<String> sortedTypes = new List<String>(typeMap.keySet());
         sortedTypes.sort();
         List<ShareTypeGroup> groups = new List<ShareTypeGroup>();
         for (String type : sortedTypes) {
             Set<String> present = typeMap.get(type);
-            Set<String> missing = new Set<String>(allShortNames);
-            missing.removeAll(present);
+            Set<String> availableForType = availableFundsByShareType.containsKey(type) ? new Set<String>(availableFundsByShareType.get(type)) : new Set<String>();
+            availableForType.removeAll(present);
             ShareTypeGroup g = new ShareTypeGroup();
             g.shareType         = type;
-            g.isAllFunds        = missing.isEmpty();
+            g.isAllFunds        = availableForType.isEmpty();
             g.productShortNames = new List<String>(present);
             g.productShortNames.sort();
-            g.missingShortNames = new List<String>(missing);
+            g.missingShortNames = new List<String>(availableForType);
             g.missingShortNames.sort();
             groups.add(g);
         }

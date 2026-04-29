@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IsFirstGrid__c</fullName>
+    <externalId>false</externalId>
+    <formula>AND(Agreement__r.Grid__c == null, Agreement__r.Grid_Request__c == Id)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Is First Grid of Agreement</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

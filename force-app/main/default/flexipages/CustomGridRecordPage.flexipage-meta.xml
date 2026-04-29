@@ -17,9 +17,40 @@
                         </valueListItems>
                         <valueListItems>
                             <value>CustomButton.Grid__c.EditGridDetails</value>
+                            <visibilityRule>
+                                <booleanFilter>1 OR 2</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.ApprovalStatus__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Draft</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.ApprovalStatus__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Rejected</rightValue>
+                                </criteria>
+                            </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>Grid__c.SubmitGridAmendment</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND (2 OR 3)</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.IsFirstGrid__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.ApprovalStatus__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Draft</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.ApprovalStatus__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Rejected</rightValue>
+                                </criteria>
+                            </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>ChangeRecordType</value>
@@ -457,6 +488,16 @@
                 <identifier>RecordComment_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.IsFirstGrid__c</fieldItem>
+                <identifier>RecordIsFirstGrid_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-e2f3a4b5-c6d7-8901-e2f3-a4b5c6d78901</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -743,32 +784,6 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Grid__c.Id</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListApiName</name>
-                    <value>ProcessSteps</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListComponentOverride</name>
-                    <value>ADVGRID</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>rowsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer</identifier>
-            </componentInstance>
-        </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentName>customApprovalHistory</componentName>

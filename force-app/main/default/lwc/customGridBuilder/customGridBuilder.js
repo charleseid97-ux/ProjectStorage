@@ -39,6 +39,7 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
     // Existing grid info (from pre-selected agreement)
     @track existingGridInfo = { hasExistingGrid: false, kind: null, type: null, endDate: null };
     @track hasDraftGrid = false;
+    @track hasPendingGrid = false;
     
     // Second Page: Grid Builder
     @track gridRequestData = {};
@@ -207,6 +208,7 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
         this.draftGridId           = null;
         this.pendingDraftData      = null;
         this.hasDraftGrid          = false;
+        this.hasPendingGrid        = false;
         this.approvedGridLoaded   = false;
         this.sourceGridId         = null;
         this.existingGridInfo      = { hasExistingGrid: false, kind: null, type: null, endDate: null };
@@ -261,6 +263,7 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
                     endDate:         agreementSettings.existingGridEndDate || null
                 };
                 this.hasDraftGrid = agreementSettings.hasDraftGrid || false;
+                this.hasPendingGrid = agreementSettings.hasPendingGrid || false;
 
                 if (gridId) {
                     // Coming from Grid record: load that grid directly

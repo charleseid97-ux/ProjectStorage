@@ -40,6 +40,7 @@ public with sharing class GridBuilderController {
         Set<String> availableTeams = new Set<String>();
         Grid__c existingGrid = null;
         Boolean hasDraftGrid = false;
+        Boolean hasPendingGrid = false;
         for (Convention__c agreement : Database.query(agreementQuery)) {
             agreementOptions.add(new AgreementWrapper(agreement));
             availableTeams.add(agreement.Team__c);
@@ -47,13 +48,20 @@ public with sharing class GridBuilderController {
                 if (agreement.Grid__c != null) {
                     existingGrid = agreement.Grid__r;
                 }
-                if (agreement.Grid_Request__c != null && agreement.Grid_Request__r.ApprovalStatus__c == 'Draft') {
-                    hasDraftGrid = true;
+                if (agreement.Grid_Request__c != null) {
+                    String gridStatus = agreement.Grid_Request__r.ApprovalStatus__c;
+                    if (gridStatus == 'Draft' || gridStatus == 'Rejected') {
+                        hasDraftGrid = true;
+                    } else if (gridStatus == 'Pending Approval') {
+                        hasPendingGrid = true;
+                    }
                 }
             }
         }
 
-        return new AgreementSelectionPageSettings((gridSettings != null), gridSettings?.agreementSelectionMode, userPrimaryTeam, availableTeams, agreementOptions, existingGrid, hasDraftGrid);
+        AgreementSelectionPageSettings settings = new AgreementSelectionPageSettings((gridSettings != null), gridSettings?.agreementSelectionMode, userPrimaryTeam, availableTeams, agreementOptions, existingGrid, hasDraftGrid);
+        settings.hasPendingGrid = hasPendingGrid;
+        return settings;
     }
 
     @AuraEnabled(cacheable=true)
@@ -98,7 +106,9 @@ public with sharing class GridBuilderController {
         Convention__c agr = [SELECT Id, Grid_Request__c, Grid_Request__r.ApprovalStatus__c
                              FROM Convention__c
                              WHERE Id = :agreementId LIMIT 1];
-        if (agr.Grid_Request__c == null || agr.Grid_Request__r.ApprovalStatus__c != 'Draft') return null;
+        if (agr.Grid_Request__c == null) return null;
+        String status = agr.Grid_Request__r.ApprovalStatus__c;
+        if (status != 'Draft' && status != 'Rejected') return null;
         return buildGridData(agr.Grid_Request__c);
     }
 
@@ -109,11 +119,20 @@ public with sharing class GridBuilderController {
 
     @AuraEnabled(cacheable=true)
     public static AgreementSelectionPageSettings getAgreementSelectionPageSettingsByGridId(String gridBuilderSettingName, Id gridId) {
-        List<Convention__c> agrs = [SELECT Id FROM Convention__c WHERE Grid_Request__c = :gridId LIMIT 1];
-        String agreementId = agrs.isEmpty() ? null : agrs[0].Id;
+        List<Grid__c> grids = [SELECT Id, Agreement__c, ApprovalStatus__c FROM Grid__c WHERE Id = :gridId LIMIT 1];
+        String agreementId = (!grids.isEmpty() && grids[0].Agreement__c != null) ? grids[0].Agreement__c : null;
         AgreementSelectionPageSettings settings = getAgreementSelectionPageSettings(gridBuilderSettingName, agreementId);
         settings.agreementId = agreementId;
-        settings.hasDraftGrid = true;
+        if (!grids.isEmpty()) {
+            String gridStatus = grids[0].ApprovalStatus__c;
+            if (gridStatus == 'Draft' || gridStatus == 'Rejected') {
+                settings.hasDraftGrid = true;
+                settings.hasPendingGrid = false;
+            } else if (gridStatus == 'Pending Approval') {
+                settings.hasDraftGrid = false;
+                settings.hasPendingGrid = true;
+            }
+        }
         return settings;
     }
 
@@ -385,6 +404,7 @@ public with sharing class GridBuilderController {
         @AuraEnabled public String existingGridType { get; set; }
         @AuraEnabled public String existingGridEndDate { get; set; }
         @AuraEnabled public Boolean hasDraftGrid { get; set; }
+        @AuraEnabled public Boolean hasPendingGrid { get; set; }
         @AuraEnabled public String agreementId { get; set; }
         public AgreementSelectionPageSettings(Boolean gridBuilderFound, String agreementSelectionMode, String primaryTeam, Set<String> setAvailableTeams, List<AgreementWrapper> agreementOptions, Grid__c existingGrid, Boolean hasDraftGrid) {
             this.gridBuilderFound       = gridBuilderFound;
