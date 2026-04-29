@@ -1,50 +1,164 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-	<types>
-		<members>ProjectShareclassTriggerHandler</members>
-		<members>ProjectShareclassHandler</members>
-		<members>Test_ProjectShareclassTrigger</members>
 
-		<members>ProjectProductBatchController</members>
-		<members>ProjectProductBatchUtilities</members>
-		<members>Test_ProjectProductBatch</members>
+    <types>
+        <members>ProjectShareclassTriggerHandler</members>
+        <members>ProjectShareclassHandler</members>
+        <members>Test_ProjectShareclassTrigger</members>
+        <members>ProjectProductBatchController</members>
+        <members>ProjectProductBatchUtilities</members>
+        <members>Test_ProjectProductBatch</members>
+        <members>TaxDataActionController</members>
+        <members>Test_TaxDataActionController</members>
+        <members>TaxDataExportController</members>
+        <members>Test_TaxDataExportController</members>
+        <members>CountryTriggerHandler</members>
+        <members>CountryHandler</members>
+        <members>Test_CountryTriggerHandler</members>
+        <members>TaxDataTriggerHandler</members>
+        <members>TaxTriggerHandler</members>
+        <members>Test_TaxTriggerHandler</members>
+        <members>ShareClassTriggerHandler</members>
+        <members>ShareClassHandler</members>
+        <members>ShareclassTriggerTest</members>
+        <members>TaxUKQuarterlyEmailJob</members>
+        <members>TaxEmailService</members>
+        <members>Test_TaxEmailService</members>
+        <members>CustomReportMatrixController</members>
+        <name>ApexClass</name>
+    </types>
 
-		<members>TaxDataActionController</members>
-		<members>Test_TaxDataActionController</members>
+    <types>
+        <members>CountryTrigger</members>
+        <members>TaxTrigger</members>
+        <name>ApexTrigger</name>
+    </types>
 
-		<members>TaxDataExportController</members>
-		<members>Test_TaxDataExportController</members>
-
-		<members>CountryTriggerHandler</members>
-		<members>CountryHandler</members>
-		<members>Test_CountryTriggerHandler</members>
-
-		<members>TaxDataTriggerHandler</members>
-		<members>TaxTriggerHandler</members>
-		<members>Test_TaxTriggerHandler</members>
-
-		<members>ShareClassTriggerHandler</members>
-		<members>ShareClassHandler</members>
-		<members>ShareclassTriggerTest</members>
-
-		<members>TaxUKQuarterlyEmailJob</members>
-		<members>TaxEmailService</members>
-		<members>Test_TaxEmailService</members>
-		
-		<name>ApexClass</name>
-	</types>
-
-	<types>
-		<members>CountryTrigger</members>
-		<members>TaxTrigger</members>
-		<name>ApexTrigger</name>
-	</types>
-
-	<types>
+    <types>
         <members>taxDataAction</members>
-		<members>exportBetisHistoryButton</members>
+        <members>exportBetisHistoryButton</members>
+        <members>referentialProductHomepage</members>
         <name>LightningComponentBundle</name>
     </types>
-	
-	<version>65.0</version>
+
+    <types>
+        <members>Tax_Data_Record_Page</members>
+        <members>Tax_Data_Record_Page1</members>
+        <members>Tax_Transparency_Matrix</members>
+        <name>FlexiPage</name>
+    </types>
+
+    <types>
+        <members>TaxData__c</members>
+        <members>TaxDataHistory__c</members>
+        <members>TaxEmailConfiguration__mdt</members>
+        <name>CustomObject</name>
+    </types>
+
+    <types>
+        <members>TaxData__c.AgingDays__c</members>
+        <members>TaxData__c.Comment__c</members>
+        <members>TaxData__c.Country__c</members>
+        <members>TaxData__c.Date__c</members>
+        <members>TaxData__c.De_Register__c</members>
+        <members>TaxData__c.EndDate__c</members>
+        <members>TaxData__c.IsActive__c</members>
+        <members>TaxData__c.ISIN__c</members>
+        <members>TaxData__c.NAV_Date__c</members>
+        <members>TaxData__c.Product__c</members>
+        <members>TaxData__c.ProjectProduct__c</members>
+        <members>TaxData__c.ProjectShareclass__c</members>
+        <members>TaxData__c.ShareClass__c</members>
+        <members>TaxData__c.Source__c</members>
+        <members>TaxData__c.StartDate__c</members>
+        <members>TaxData__c.Status__c</members>
+        <members>TaxData__c.Tech_ShareclassExist__c</members>
+        <members>TaxData__c.Type__c</members>
+        <members>TaxData__c.Value__c</members>
+
+        <members>TaxDataHistory__c.ArchivedBy__c</members>
+        <members>TaxDataHistory__c.ArchivedOn__c</members>
+        <members>TaxDataHistory__c.EndDate__c</members>
+        <members>TaxDataHistory__c.NAV_Date__c</members>
+        <members>TaxDataHistory__c.StartDate__c</members>
+        <members>TaxDataHistory__c.TaxData__c</members>
+        <members>TaxDataHistory__c.Value__c</members>
+
+        <members>TaxEmailConfiguration__mdt.CcAddresses__c</members>
+        <members>TaxEmailConfiguration__mdt.Country__c</members>
+        <members>TaxEmailConfiguration__mdt.IsActive__c</members>
+        <members>TaxEmailConfiguration__mdt.Scenario__c</members>
+        <members>TaxEmailConfiguration__mdt.TemplateDeveloperName__c</members>
+        <members>TaxEmailConfiguration__mdt.ToAddresses__c</members>
+
+        <members>ProjectShareclass__c.TaxTransparency__c</members>
+        <members>ProjectShareclassChild__c.TaxTransparency__c</members>
+
+        <name>CustomField</name>
+    </types>
+
+    <types>
+        <members>TaxData__c.All_active_Tax_Transparency</members>
+        <members>TaxData__c.All</members>
+        <members>TaxData__c.AT</members>
+        <members>TaxData__c.BE_TIS_Request</members>
+        <members>TaxData__c.BE</members>
+        <members>TaxData__c.CH</members>
+        <members>TaxData__c.Copy_of_All_active_BE_Asset_Test</members>
+        <members>TaxData__c.Copy_of_All_active_BE_TIS</members>
+        <members>TaxData__c.Copy_of_All_active_Tax_Transparency</members>
+        <members>TaxData__c.IT</members>
+        <members>TaxData__c.Requests_BE_Asset_TEST</members>
+        <members>TaxData__c.Tax_transparancy_Request</members>
+        <members>TaxData__c.UK</members>
+        <name>ListView</name>
+    </types>
+
+    <types>
+        <members>TaxData__c.VR001_BloqueChangeStatus</members>
+        <name>ValidationRule</name>
+    </types>
+
+    <types>
+        <members>TaxData__c-Tax Data Layout</members>
+        <members>TaxDataHistory__c-TaxDataHistory Layout</members>
+        <members>TaxEmailConfiguration__mdt-TaxEmailConfiguration Layout</members>
+        <name>Layout</name>
+    </types>
+
+    <types>
+        <members>TaxEmailConfiguration.ATMergerLiquidation</members>
+        <members>TaxEmailConfiguration.ATTransparency</members>
+        <members>TaxEmailConfiguration.CHTransparency</members>
+        <members>TaxEmailConfiguration.TaxNewRequest</members>
+        <members>TaxEmailConfiguration.UKTransparency</members>
+        <members>ReportMatrixConfiguration.CountryTaxStatusMatrix</members>
+        <name>CustomMetadata</name>
+    </types>
+
+    <types>
+        <members>Tax_Notifications</members>
+        <name>EmailFolder</name>
+    </types>
+
+    <types>
+        <members>Tax_Notifications/AT_Merger_Liquidation_Request</members>
+        <members>Tax_Notifications/AT_Transparency_KPMG_Request</members>
+        <members>Tax_Notifications/CH_Transparency_KPMG_Request</members>
+        <members>Tax_Notifications/UK_Transparency_Quarterly_Request</members>
+        <name>EmailTemplate</name>
+    </types>
+
+    <types>
+        <members>Tax_Transparency_Matrix</members>
+        <members>TaxData__c</members>
+        <name>CustomTab</name>
+    </types>
+
+	<types>
+        <members>Share_Class__c.Request_Tax_Transparency</members>
+        <name>QuickAction</name>
+    </types>
+
+    <version>65.0</version>
 </Package>

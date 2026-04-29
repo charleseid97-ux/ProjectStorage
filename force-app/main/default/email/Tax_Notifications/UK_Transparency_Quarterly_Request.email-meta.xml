@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>Carmignac</letterhead>
+    <name>UK Transparency Quarterly Request</name>
+    <style>freeForm</style>
+    <subject>UK Tax Reporting Request - Quarterly Submission</subject>
+    <textOnly>Dear Team,
+
+New Tax Transparency requests have been submitted.
+
+Please find attached the list of share classes to be made tax reporting in the UK.
+
+Comment : To this extent, we will send you the last version of prospectus of the fund available.
+Could you please prepare the CISC1 forms accordingly ?
+
+Kind regards,</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

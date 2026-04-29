@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>EndDate__c</fullName>
+    <fullName>ArchivedOn__c</fullName>
     <encryptionScheme>None</encryptionScheme>
-    <label>End Date</label>
+    <label>Archived On</label>
     <required>false</required>
-    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Date</type>
+    <type>DateTime</type>
 </CustomField>

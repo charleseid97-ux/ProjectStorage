@@ -1,47 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Status__c</fullName>
-    <label>Status</label>
+    <fullName>TaxTransparency__c</fullName>
+    <label>Tax Transparency</label>
     <required>false</required>
-    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Picklist</type>
+    <type>MultiselectPicklist</type>
     <valueSet>
         <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Requested</fullName>
+                <fullName>CH</fullName>
                 <default>false</default>
-                <label>Requested</label>
+                <label>CH</label>
             </value>
             <value>
-                <fullName>Canceled</fullName>
+                <fullName>UK</fullName>
                 <default>false</default>
-                <label>Canceled</label>
+                <label>UK</label>
             </value>
             <value>
-                <fullName>Yes</fullName>
+                <fullName>IT</fullName>
                 <default>false</default>
-                <label>Yes</label>
+                <label>IT</label>
             </value>
             <value>
-                <fullName>No</fullName>
+                <fullName>AT</fullName>
                 <default>false</default>
-                <label>No</label>
+                <label>AT</label>
             </value>
             <value>
-                <fullName>Closed</fullName>
+                <fullName>BE TIS</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>Closed</label>
+                <label>BE TIS</label>
             </value>
             <value>
-                <fullName>De-Registered Requested</fullName>
+                <fullName>BE Asset Test</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>De-Registered Requested</label>
+                <label>BE Asset Test</label>
+            </value>
+            <value>
+                <fullName>Belgium Simulator</fullName>
+                <default>false</default>
+                <label>Belgium Simulator</label>
             </value>
         </valueSetDefinition>
     </valueSet>
+    <visibleLines>4</visibleLines>
 </CustomField>
