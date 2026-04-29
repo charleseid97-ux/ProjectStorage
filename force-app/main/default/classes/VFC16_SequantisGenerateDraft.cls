@@ -114,7 +114,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
                                 Retail__c, Professional__c, EligibleCounterparty__c, Basic__c, Informed__c, Advanced__c, ExpertGermany__c, LowestRiskTolGer__c, CanNot__c, CanLimited__c, NoNeedCapGuarantee__c, CanNoLimit__c, Preservation__c, CapitalGrowth__c, Income__c,
                                 LeveragedReturn__c, PensionSchemeGer__c, MayTerminateEarlier__c, ExecutionOnly__c, AppropTest__c, InvestAdvice__c, PortfolioManagement__c,
                                 ProjectProduct__c, ShareclassInvestmentObjective__c, InvestorType__c,PerformanceFeeUCITSKIID__c,PerformanceFeeEPTKID__c, MaxPerfFees__c,
-                                PerformanceFeeMethod__c,MaxRedemptionFeesSubfund__c,MaxRedemptionFeesManCo__c,OngoingCostsExante__c,OngoingChargesKIID__c
+                                PerformanceFeeMethod__c,MaxRedemptionFeesSubfund__c,MaxRedemptionFeesManCo__c,OngoingCostsExante__c,OngoingChargesKIID__c,ReasonforRHPRedemptionShareclass__c
                                 FROM projectShareClass__c
                                 WHERE id = :projectShareClassId];
         
@@ -123,7 +123,7 @@ public with sharing class VFC16_SequantisGenerateDraft {
                                 MinSustainableInvest__c, MinTaxAlignment__c, SFDRCategory__c, IsUsingPAI__c, EET20080__c, EET20190__c, 
                                 EET20200__c, EET20210__c, EET20400__c, EET20430__c, EET20460__c, EET20250__c, AMFESGCommunication__c, HasCarbonTarget__c, EET60440__c, FundSpecificExclusions__c,
                                 EndDate__c, Product__c,ParentProduct__r.Product_Name__c,InvestmentObjective__c,IntentedRetailInvestor__c,ReasonForRHP__c,RedeemCondition__c,LMT__c,
-                                internalShortName__c,TECH_RTName__c, BaseCurrency__c,RecordTypeId,DefaultLanguage__c
+                                internalShortName__c,TECH_RTName__c, BaseCurrency__c,RecordTypeId,DefaultLanguage__c,SettlementPeriod__c,OtherRelevantInformation__c
                             FROM ProjectProduct__c
                             WHERE Id = :projectShareClassRec.ProjectProduct__c];
         system.debug('====callSequantisService=======endDate = ' + ProjectProductRec.EndDate__c); 
@@ -242,7 +242,6 @@ public with sharing class VFC16_SequantisGenerateDraft {
         payload.put('launchDate', ProjectProductRec.EndDate__c);
         payload.put('legalForm', ProjectProductRec.LegalForm__c );
         payload.put('domiciliation', ProjectProductRec.DomiciledIn__c);
-        payload.put('rhp', ProjectProductRec.RecommendedHoldingPeriod__c);
         payload.put('navFrequency',ProjectProductRec.NAVFrequency__c);
         payload.put('currency',projectShareClassRec.Currency__c);
         payload.put('shareName',projectShareClassRec.Name__c);
@@ -253,6 +252,9 @@ public with sharing class VFC16_SequantisGenerateDraft {
         payload.put('projectShareClassId',projectShareClassRec.Id);
         payload.put('projectId',ProjectProductRec.Id);
         Payload.put('maxRedemptionFeesManco', projectShareClassRec.MaxRedemptionFeesManCo__c );
+        payload.put('settlementPeriod',escapeHTML(ProjectProductRec.SettlementPeriod__c));
+        payload.put('otherRelevantInformation',escapeHTML(ProjectProductRec.OtherRelevantInformation__c));    
+         
         if (ProjectProductRec.ParentProduct__r != null &&
             ProjectProductRec.ParentProduct__r.Product_Name__c != null) {
             payload.put('parentProduct', ProjectProductRec.ParentProduct__r.Product_Name__c);
@@ -272,11 +274,13 @@ public with sharing class VFC16_SequantisGenerateDraft {
         payload.put('ongoingCosts',projectShareClassRec.OngoingCostsExante__c != null ? projectShareClassRec.OngoingCostsExante__c : 0 );
         payload.put('ongoingCostsKiid',projectShareClassRec.OngoingChargesKIID__c);
 
-
         payload.put('userMail', UserInfo.getUserEmail());
         Id rtId = ProjectProductRec.RecordTypeId;
 
         if (rtId == fundCreationRecordTypeId) {
+            payload.put('rhp', ProjectProductRec.RecommendedHoldingPeriod__c);
+            payload.put('rhpUnit', escapeHTML(ProjectProductRec.RecommendedHoldingPeriodUnit__c));
+            payload.put('reasonForRedemptionShareClass',projectShareClassRec.ReasonforRHPRedemptionShareclass__c );
             payload.put('investmentObjective', projectInvestmentObjectiveNoHTML);
             payload.put('sortieAnticipee1', ProjectProductRec.ReasonForRHP__c);
             payload.put('typeInvestisseur', ProjectProductRec.IntentedRetailInvestor__c);
@@ -287,9 +291,10 @@ public with sharing class VFC16_SequantisGenerateDraft {
             if(narratives.size() > 0 ){payload.put('managementCompany',  narratives[0].Name );}
 
         }else if (rtId == shareclassCreationRecordTypeId) {
-                payload.put('shareClassInvestmentObjective', shareClassInvestmentObjectiveNoHTML);
-                payload.put('performanceFeesCommentEPT', projectShareClassRec.PerformanceFeeEPTKID__c);
-                payload.put('performanceFeesComment', projectShareClassRec.PerformanceFeeUCITSKIID__c);
+            payload.put('reasonForRedemptionShareClass',projectShareClassRec.ReasonforRHPRedemptionShareclass__c );
+            payload.put('shareClassInvestmentObjective', shareClassInvestmentObjectiveNoHTML);
+            payload.put('performanceFeesCommentEPT', projectShareClassRec.PerformanceFeeEPTKID__c);
+            payload.put('performanceFeesComment', projectShareClassRec.PerformanceFeeUCITSKIID__c);
         }
        // payload.put('fundcurrency',  ProjectProductRec.BaseCurrency__c); //champ pas encore créé coté Sequantis
         //payload.put('????'  shareClassInvestmentObjectiveNoHTML
