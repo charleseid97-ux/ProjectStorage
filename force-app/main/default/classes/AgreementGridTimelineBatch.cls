@@ -10,7 +10,7 @@ public with sharing class AgreementGridTimelineBatch implements Database.Batchab
 
     public Database.QueryLocator start(Database.BatchableContext bc) {
         Date today = Date.today();
-        return Database.getQueryLocator([SELECT Id, Agreement__c, Grid__c, GridStartDate__c
+        return Database.getQueryLocator([SELECT Id, Agreement__c
                                          FROM AgreementGridTimeline__c
                                          WHERE Status__c = :AgreementGridTimelineUtility.AGT_APPROVED
                                          AND GridStartDate__c <= :today]);
@@ -20,18 +20,20 @@ public with sharing class AgreementGridTimelineBatch implements Database.Batchab
         Set<Id> agreementIds = new Set<Id>();
         for (AgreementGridTimeline__c agt : scope) agreementIds.add(agt.Agreement__c);
 
-        Map<Id, Convention__c> agreementsById = new Map<Id, Convention__c>([SELECT Id, Grid__c, Grid_Request__c, Grid_Request_Start_Date__c, Grid_Start_Date__c, Amendment_Approval_Status__c, Grid_Request_Approved__c
+        Map<Id, Convention__c> agreementsById = new Map<Id, Convention__c>([SELECT Id, Grid__c, Grid_Request__c, Grid_Request_Start_Date__c
                                                                             FROM Convention__c
                                                                             WHERE Id IN :agreementIds]);
 
         List<AgreementGridTimeline__c> agtsToActivate = new List<AgreementGridTimeline__c>();
         List<Convention__c> agreementsToUpdate        = new List<Convention__c>();
-        Map<Id, Date> oldGridToEndDate                = new Map<Id, Date>();
+        Set<Id> activatedAgtIds                       = new Set<Id>();
+        Set<Id> swappedAgreementIds                   = new Set<Id>();
         Set<Id> processedAgreements                   = new Set<Id>();
 
         for (AgreementGridTimeline__c agt : scope) {
             agt.Status__c = AgreementGridTimelineUtility.AGT_ACTIVE;
             agtsToActivate.add(agt);
+            activatedAgtIds.add(agt.Id);
 
             if (processedAgreements.contains(agt.Agreement__c)) continue;
             processedAgreements.add(agt.Agreement__c);
@@ -39,26 +41,23 @@ public with sharing class AgreementGridTimelineBatch implements Database.Batchab
             Convention__c agr = agreementsById.get(agt.Agreement__c);
             if (agr == null || agr.Grid_Request__c == null) continue;
 
-            if (agr.Grid__c != null) {
-                Date endDate = agt.GridStartDate__c != null ? agt.GridStartDate__c.addDays(-1) : Date.today().addDays(-1);
-                oldGridToEndDate.put(agr.Grid__c, endDate);
-            }
-
             GridUtility.setGridOnAgreement(agr);
             agreementsToUpdate.add(agr);
+            swappedAgreementIds.add(agr.Id);
         }
 
         if (!agtsToActivate.isEmpty()) update agtsToActivate;
         if (!agreementsToUpdate.isEmpty()) update agreementsToUpdate;
-        // Agreement trigger fires on update — isD will not re-fire:
-        //   isD requires !oldAgr.Grid_Request_Approved__c, but the old value is already true (transition guard fails)
-        //   After swap, Grid_Request__c = null → isC/isE conditions also fail
-        if (!oldGridToEndDate.isEmpty()) {
-            List<Grid__c> gridsToExpire = new List<Grid__c>();
-            for (Id gridId : oldGridToEndDate.keySet()) {
-                gridsToExpire.add(new Grid__c(Id = gridId, EndDate__c = oldGridToEndDate.get(gridId)));
+        if (!swappedAgreementIds.isEmpty()) {
+            List<AgreementGridTimeline__c> agtsToInactivate = new List<AgreementGridTimeline__c>();
+            for (AgreementGridTimeline__c agt : [SELECT Id FROM AgreementGridTimeline__c
+                                                 WHERE Agreement__c IN :swappedAgreementIds
+                                                 AND Status__c = :AgreementGridTimelineUtility.AGT_ACTIVE
+                                                 AND Id NOT IN :activatedAgtIds]) {
+                agt.Status__c = AgreementGridTimelineUtility.AGT_INACTIVE;
+                agtsToInactivate.add(agt);
             }
-            update gridsToExpire; // GridTriggerHandler → handleGridUpsert → old AGT becomes Inactive
+            if (!agtsToInactivate.isEmpty()) update agtsToInactivate;
         }
     }
 

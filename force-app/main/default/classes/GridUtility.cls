@@ -43,7 +43,8 @@ public with sharing class GridUtility {
         Map<Id, List<Id>> approvedAgrToGridIds   = new Map<Id, List<Id>>();
         Map<Id, List<Id>> rejectedAgrToGridIds   = new Map<Id, List<Id>>();
         Map<Id, List<Id>> historicalAgrToGridIds = new Map<Id, List<Id>>(); // Scenario 3: approved but predates active — new AGT → Inactive
-        Map<Id, Date>     oldGridEndDates        = new Map<Id, Date>();     // Scenarios 1 & 2: old Grid Id → EndDate to set
+        Map<Id, Date>     oldGridEndDates       = new Map<Id, Date>();      // old Grid EndDate set at approval for both Scenario 1 and 2
+        Set<Id>           immediateOldGridIds   = new Set<Id>();             // Scenario 2: old Active AGT → Inactive immediately in updateTimelines
 
         List<String> firstGridTerminalStatuses  = new List<String>{AGR_STATUS_PRE_APPROVAL, AGR_STATUS_APPROVAL_COMPLETE, AGR_STATUS_APPROVAL_REJECTED}; // A: excluded from "intermediate"
         List<String> amendmentNonSubmitStatuses = new List<String>{AGR_AMDMT_NEED_SUBMISSION, AGR_AMDMT_APPROVAL_REJECTED, AGR_AMDMT_APPROVED};          // C: excluded from "submitted"
@@ -100,8 +101,9 @@ public with sharing class GridUtility {
                     approvedAgrToGridIds.put(agr.Id, new List<Id>{ agr.Grid_Request__c });
 
                     if (agr.Grid__c != null) {
-                        // Scenarios 1 & 2: set old Grid EndDate now → trigger chain sets old AGT Inactive
-                        oldGridEndDates.put(agr.Grid__c, requestAgtStart != null ? requestAgtStart.addDays(-1) : Date.today().addDays(-1));
+                        Date endDate = requestAgtStart != null ? requestAgtStart.addDays(-1) : Date.today().addDays(-1);
+                        oldGridEndDates.put(agr.Grid__c, endDate);
+                        if (isImmediate) immediateOldGridIds.add(agr.Grid__c); // Scenario 2: updateTimelines sets old Active AGT → Inactive
                     }
                     if (isImmediate) {
                         setGridOnAgreement(agr); // Scenario 2: swap Agreement fields immediately; new AGT → Active
@@ -119,8 +121,8 @@ public with sharing class GridUtility {
             }
         }
 
-        updateGrids(gridApprovalUpdates, oldGridEndDates); // single DML: ApprovalStatus + EndDate; trigger chain sets old Active AGT → Inactive
-        AgreementGridTimelineUtility.updateTimelines(submittedAgrToGridIds, approvedAgrToGridIds, rejectedAgrToGridIds, historicalAgrToGridIds);
+        updateGrids(gridApprovalUpdates, oldGridEndDates);
+        AgreementGridTimelineUtility.updateTimelines(submittedAgrToGridIds, approvedAgrToGridIds, rejectedAgrToGridIds, historicalAgrToGridIds, immediateOldGridIds);
     }
 
     private static void updateGrids(Map<Id, String> approvalUpdates, Map<Id, Date> endDateUpdates) {
