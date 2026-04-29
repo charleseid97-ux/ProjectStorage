@@ -26,12 +26,14 @@ public with sharing class AgreementGridTimelineBatch implements Database.Batchab
 
         List<AgreementGridTimeline__c> agtsToActivate = new List<AgreementGridTimeline__c>();
         List<Convention__c> agreementsToUpdate        = new List<Convention__c>();
-        Set<Id> oldGridIds                            = new Set<Id>();
+        Set<Id> activatedAgtIds                       = new Set<Id>();
+        Set<Id> swappedAgreementIds                   = new Set<Id>();
         Set<Id> processedAgreements                   = new Set<Id>();
 
         for (AgreementGridTimeline__c agt : scope) {
             agt.Status__c = AgreementGridTimelineUtility.AGT_ACTIVE;
             agtsToActivate.add(agt);
+            activatedAgtIds.add(agt.Id);
 
             if (processedAgreements.contains(agt.Agreement__c)) continue;
             processedAgreements.add(agt.Agreement__c);
@@ -39,17 +41,19 @@ public with sharing class AgreementGridTimelineBatch implements Database.Batchab
             Convention__c agr = agreementsById.get(agt.Agreement__c);
             if (agr == null || agr.Grid_Request__c == null) continue;
 
-            if (agr.Grid__c != null) oldGridIds.add(agr.Grid__c);
-
             GridUtility.setGridOnAgreement(agr);
             agreementsToUpdate.add(agr);
+            swappedAgreementIds.add(agr.Id);
         }
 
         if (!agtsToActivate.isEmpty()) update agtsToActivate;
         if (!agreementsToUpdate.isEmpty()) update agreementsToUpdate;
-        if (!oldGridIds.isEmpty()) {
+        if (!swappedAgreementIds.isEmpty()) {
             List<AgreementGridTimeline__c> agtsToInactivate = new List<AgreementGridTimeline__c>();
-            for (AgreementGridTimeline__c agt : [SELECT Id FROM AgreementGridTimeline__c WHERE Grid__c IN :oldGridIds AND Status__c = :AgreementGridTimelineUtility.AGT_ACTIVE]) {
+            for (AgreementGridTimeline__c agt : [SELECT Id FROM AgreementGridTimeline__c
+                                                 WHERE Agreement__c IN :swappedAgreementIds
+                                                 AND Status__c = :AgreementGridTimelineUtility.AGT_ACTIVE
+                                                 AND Id NOT IN :activatedAgtIds]) {
                 agt.Status__c = AgreementGridTimelineUtility.AGT_INACTIVE;
                 agtsToInactivate.add(agt);
             }
