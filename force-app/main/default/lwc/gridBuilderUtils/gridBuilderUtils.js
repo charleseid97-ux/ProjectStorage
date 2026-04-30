@@ -537,6 +537,33 @@ function buildGridDetailsExportColumns(label) {
     ];
 }
 
+function toExcelPercentValue(value) {
+    if (value == null || value === '') {
+        return '';
+    }
+
+    if (typeof value === 'number') {
+        return Number.isFinite(value) ? value / 100 : '';
+    }
+
+    let cleaned = String(value).replace(/%/g, '').replace(/\s/g, '');
+    const lastComma = cleaned.lastIndexOf(',');
+    const lastDot = cleaned.lastIndexOf('.');
+
+    if (lastComma >= 0 && lastDot >= 0) {
+        const decimalSeparator = lastComma > lastDot ? ',' : '.';
+        const thousandsSeparator = decimalSeparator === ',' ? '.' : ',';
+        cleaned = cleaned
+            .replace(new RegExp(`\\${thousandsSeparator}`, 'g'), '')
+            .replace(decimalSeparator, '.');
+    } else {
+        cleaned = cleaned.replace(',', '.');
+    }
+
+    const numberValue = Number(cleaned);
+    return Number.isFinite(numberValue) ? numberValue / 100 : '';
+}
+
 function buildGridDetailsExportRows(rows, source) {
     if (source === 'simulation') {
         return (rows || [])
@@ -545,8 +572,8 @@ function buildGridDetailsExportRows(rows, source) {
                 name:           row.name           || row.productName    || '',
                 shareClassName: row.shareClassName || row.shareClassType || '',
                 isin:           row.isin           || '',
-                effMgtFee:      row.simEffFee   != null ? row.simEffFee  / 100 : '',
-                rebateRate:     row.simRebRate  != null ? row.simRebRate / 100 : ''
+                effMgtFee:      toExcelPercentValue(row.simEffFee),
+                rebateRate:     toExcelPercentValue(row.simRebRate)
             }));
     }
 
@@ -554,8 +581,8 @@ function buildGridDetailsExportRows(rows, source) {
         name:           row.portfolio  || '',
         shareClassName: row.shareClass || '',
         isin:           row.isin       || '',
-        effMgtFee:      row.effMgtFee  != null ? row.effMgtFee  / 100 : '',
-        rebateRate:     row.rebateRate != null ? row.rebateRate / 100 : ''
+        effMgtFee:      toExcelPercentValue(row.effMgtFee),
+        rebateRate:     toExcelPercentValue(row.rebateRate)
     }));
 }
 
@@ -616,7 +643,14 @@ export async function exportGridExcel({ rows, columns, sheetName = 'Export', fil
     // Data rows
     (rows || []).forEach((row, ri) => {
         const r = colHdrRow + 1 + ri;
-        aoa.push(columns.map(c => row[c.key] ?? ''));
+        aoa.push(columns.map(c => {
+            const value = row[c.key] ?? '';
+            if (!c.numeric || value === '') {
+                return value;
+            }
+            const numericValue = Number(value);
+            return Number.isFinite(numericValue) ? numericValue : '';
+        }));
         columns.forEach((col, ci) => {
             styles[`${r},${ci}`] = col.numeric ? numStyle : dataStyle;
             if (col.numFormat) numFormats[`${r},${ci}`] = col.numFormat;
