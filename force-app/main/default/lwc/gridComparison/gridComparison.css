@@ -132,12 +132,10 @@ tr:nth-child(even) td.td-selected { background: #e0e0e0; }
 tr:nth-child(even) .td-diff { background: #e0e0e0; }
 
 /* ── Diff columns — green (favorable) ── */
-td.td-diff-green                    { font-weight: 600; background: #e8f5e9; }
-tr:nth-child(even) td.td-diff-green { background: #c8e6c9; }
+td.td-diff-green { font-weight: 600; background: #e8f5e9; }
 
 /* ── Diff columns — red (unfavorable) ── */
-td.td-diff-red                    { font-weight: 600; background: #ffebee; }
-tr:nth-child(even) td.td-diff-red { background: #ffcdd2; }
+td.td-diff-red { font-weight: 600; background: #ffebee; }
 
 /* ── Section padding ── */
 .section-class { padding: 0px 10px; }
