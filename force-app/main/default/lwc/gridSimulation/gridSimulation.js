@@ -500,6 +500,11 @@ export default class GridSimulation extends LightningElement {
             { key: 'effMgtFee',      label: L('Grid_SimExport_Col_EffMgtFees'), numeric: true, numFormat: '0.000%' },
             { key: 'rebateRate',     label: L('Grid_SimExport_Col_Rebate'),     numeric: true, numFormat: '0.000%' }
         ];
-        await exportGridExcel({ rows, columns, sheetName: 'Allegato', filename: 'GridSimulation.xlsx' });
+        await exportGridExcel({
+            rows, columns,
+            sheetName: 'Allegato', filename: 'GridSimulation.xlsx',
+            header: L('Grid_SimExport_Header'),
+            footer: L('Grid_SimExport_Footer')
+        });
     }
 }
