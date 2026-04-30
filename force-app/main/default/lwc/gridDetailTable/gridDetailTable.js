@@ -1,7 +1,6 @@
 import { LightningElement, api } from 'lwc';
 import { loadScript } from 'lightning/platformResourceLoader';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import { LABELS, reduceError, exportGridExcel } from 'c/gridBuilderUtils';
+import { LABELS, reduceError, exportGridDetailsExcel } from 'c/gridBuilderUtils';
 import getGridDetails from '@salesforce/apex/GridDetailTableController.getGridDetails';
 import getGridAgreementRegion from '@salesforce/apex/GridDetailTableController.getGridAgreementRegion';
 import XlsxJsStyle from '@salesforce/resourceUrl/xlsxjsstyle';
@@ -130,32 +129,12 @@ export default class GridDetailTable extends LightningElement {
     }
 
     async handleExport() {
-        if (!window.XLSX || !window.ExcelJS) {
-            this.dispatchEvent(new ShowToastEvent({ title: 'Export not ready', message: 'Excel libraries are still loading. Please try again.', variant: 'warning' }));
-            return;
-        }
-        const lang = this.agreementRegion === 'BP_IT' ? 'IT' : this.agreementRegion === 'BP_FR' ? 'FR' : 'EN';
-        const L    = key => this.labels[`${key}_${lang}`] || '';
-
-        const rows = (this.rows || []).map(r => ({
-            name:           r.portfolio  || '',
-            shareClassName: r.shareClass || '',
-            isin:           r.isin       || '',
-            effMgtFee:      r.effMgtFee  != null ? r.effMgtFee  / 100 : '',
-            rebateRate:     r.rebateRate != null ? r.rebateRate / 100 : ''
-        }));
-        const columns = [
-            { key: 'name',           label: L('Grid_SimExport_Col_FundName') },
-            { key: 'shareClassName', label: L('Grid_SimExport_Col_ShareClass') },
-            { key: 'isin',           label: L('Grid_SimExport_Col_ISIN') },
-            { key: 'effMgtFee',      label: L('Grid_SimExport_Col_EffMgtFees'), numeric: true, numFormat: '0.000%' },
-            { key: 'rebateRate',     label: L('Grid_SimExport_Col_Rebate'),     numeric: true, numFormat: '0.000%' }
-        ];
-        await exportGridExcel({
-            rows, columns,
-            sheetName: 'Allegato', filename: 'GridDetails.xlsx',
-            header: L('Grid_SimExport_Header'),
-            footer: L('Grid_SimExport_Footer')
+        await exportGridDetailsExcel({
+            component: this,
+            agreementRegion: this.agreementRegion,
+            rows: this.rows,
+            source: 'detail',
+            labels: this.labels
         });
     }
 }

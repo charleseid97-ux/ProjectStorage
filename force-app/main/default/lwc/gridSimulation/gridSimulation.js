@@ -1,7 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import { loadScript } from 'lightning/platformResourceLoader';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import { LABELS, exportGridExcel } from 'c/gridBuilderUtils';
+import { LABELS, exportGridDetailsExcel } from 'c/gridBuilderUtils';
 import XlsxJsStyle from '@salesforce/resourceUrl/xlsxjsstyle';
 import ExcelJs     from '@salesforce/resourceUrl/exceljs';
 import getSimulationData         from '@salesforce/apex/GridSimulationController.getSimulationData';
@@ -475,32 +474,12 @@ export default class GridSimulation extends LightningElement {
 
     // ── Excel export ──────────────────────────────────────────────────────────
     async handleExport() {
-        if (!window.XLSX || !window.ExcelJS) {
-            this.dispatchEvent(new ShowToastEvent({ title: 'Export not ready', message: 'Excel libraries are still loading. Please try again.', variant: 'warning' }));
-            return;
-        }
-        const lang = this.agreementRegion === 'BP_IT' ? 'IT' : this.agreementRegion === 'BP_FR' ? 'FR' : 'EN';
-        const L    = key => this.labels[`${key}_${lang}`] || '';
-
-        const rows = this.rawRows.filter(r => !r.isCustom && r.hasSimulatedData).map(r => ({
-            name:           r.name           || r.productName    || '',
-            shareClassName: r.shareClassName || r.shareClassType || '',
-            isin:           r.isin           || '',
-            effMgtFee:      r.simEffFee   != null ? r.simEffFee  / 100 : '',
-            rebateRate:     r.simRebRate  != null ? r.simRebRate / 100 : ''
-        }));
-        const columns = [
-            { key: 'name',           label: L('Grid_SimExport_Col_FundName') },
-            { key: 'shareClassName', label: L('Grid_SimExport_Col_ShareClass') },
-            { key: 'isin',           label: L('Grid_SimExport_Col_ISIN') },
-            { key: 'effMgtFee',      label: L('Grid_SimExport_Col_EffMgtFees'), numeric: true, numFormat: '0.000%' },
-            { key: 'rebateRate',     label: L('Grid_SimExport_Col_Rebate'),     numeric: true, numFormat: '0.000%' }
-        ];
-        await exportGridExcel({
-            rows, columns,
-            sheetName: 'Allegato', filename: 'GridDetails.xlsx',
-            header: L('Grid_SimExport_Header'),
-            footer: L('Grid_SimExport_Footer')
+        await exportGridDetailsExcel({
+            component: this,
+            agreementRegion: this.agreementRegion,
+            rows: this.rawRows,
+            source: 'simulation',
+            labels: this.labels
         });
     }
 }
