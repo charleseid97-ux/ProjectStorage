@@ -46,8 +46,13 @@
 }
 .lookup-wrapper {
     display: flex;
+    flex: 1;
     align-items: flex-end;
     gap: 10px;
+}
+c-multi-select-search-list {
+    flex: 0.5;
+    min-width: 0;
 }
 
 .selected-pill {
@@ -104,27 +109,60 @@
 .th-sub.th-section3 { background: #EEF5EB; color: #2E6B3E; }
 
 /* ── Row type colours — info columns (1-5) only, with odd/even striping ── */
-.row-green td:not(.td-current):not(.td-selected):not(.td-diff):not(.section-gap) { background: #e8f5e9; }
-.row-red   td:not(.td-current):not(.td-selected):not(.td-diff):not(.section-gap) { background: #ffebee; }
-.row-blue  td:not(.td-current):not(.td-selected):not(.td-diff):not(.section-gap) { background: #e3f2fd; }
-.row-gray  td:not(.td-current):not(.td-selected):not(.td-diff):not(.section-gap) { background: #f5f5f5; }
+.row-green td:not(.td-current):not(.td-selected):not(.td-diff):not(.td-diff-green):not(.td-diff-red):not(.section-gap) { background: #e8f5e9; }
+.row-red   td:not(.td-current):not(.td-selected):not(.td-diff):not(.td-diff-green):not(.td-diff-red):not(.section-gap) { background: #ffebee; }
+.row-blue  td:not(.td-current):not(.td-selected):not(.td-diff):not(.td-diff-green):not(.td-diff-red):not(.section-gap) { background: #e3f2fd; }
+.row-gray  td:not(.td-current):not(.td-selected):not(.td-diff):not(.td-diff-green):not(.td-diff-red):not(.section-gap) { background: #f5f5f5; }
 
-.row-green:nth-child(even) td:not(.td-current):not(.td-selected):not(.td-diff):not(.section-gap) { background: #c8e6c9; }
-.row-red:nth-child(even)   td:not(.td-current):not(.td-selected):not(.td-diff):not(.section-gap) { background: #ffcdd2; }
-.row-blue:nth-child(even)  td:not(.td-current):not(.td-selected):not(.td-diff):not(.section-gap) { background: #bbdefb; }
-.row-gray:nth-child(even)  td:not(.td-current):not(.td-selected):not(.td-diff):not(.section-gap) { background: #e0e0e0; }
+.row-green:nth-child(even) td:not(.td-current):not(.td-selected):not(.td-diff):not(.td-diff-green):not(.td-diff-red):not(.section-gap) { background: #c8e6c9; }
+.row-red:nth-child(even)   td:not(.td-current):not(.td-selected):not(.td-diff):not(.td-diff-green):not(.td-diff-red):not(.section-gap) { background: #ffcdd2; }
+.row-blue:nth-child(even)  td:not(.td-current):not(.td-selected):not(.td-diff):not(.td-diff-green):not(.td-diff-red):not(.section-gap) { background: #bbdefb; }
+.row-gray:nth-child(even)  td:not(.td-current):not(.td-selected):not(.td-diff):not(.td-diff-green):not(.td-diff-red):not(.section-gap) { background: #e0e0e0; }
 
-/* ── Current columns (green) ── */
-td.td-current                    { background: #e8f5e9; }
-tr:nth-child(even) td.td-current { background: #c8e6c9; }
+/* ── Current columns (gray, same as selected) ── */
+td.td-current                    { background: #f5f5f5; }
+tr:nth-child(even) td.td-current { background: #e0e0e0; }
 
 /* ── Selected columns (gray) ── */
 td.td-selected                    { background: #f5f5f5; }
 tr:nth-child(even) td.td-selected { background: #e0e0e0; }
 
-/* ── Diff columns (orange) ── */
-.td-diff                    { font-weight: 600; background: #fff3e0; }
-tr:nth-child(even) .td-diff { background: #ffe0b2; }
+/* ── Diff columns — neutral (null / zero) ── */
+.td-diff                    { font-weight: 600; background: #f5f5f5; }
+tr:nth-child(even) .td-diff { background: #e0e0e0; }
+
+/* ── Diff columns — green (favorable) ── */
+td.td-diff-green { font-weight: 600; background: #c8e6c9; }
+
+/* ── Diff columns — red (unfavorable) ── */
+td.td-diff-red { font-weight: 600; background: #ffcdd2; }
+
+/* ── Amount tooltip on Current / Selected cells ── */
+.has-tooltip {
+    position: relative;
+    cursor: default;
+}
+.cell-tooltip {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 4px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffffff;
+    border: 1px solid #c9c9c9;
+    border-radius: 4px;
+    padding: 3px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    color: #3e3e3c;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    pointer-events: none;
+    z-index: 100;
+}
+.has-tooltip:hover .cell-tooltip {
+    display: block;
+}
 
 /* ── Section padding ── */
 .section-class { padding: 0px 10px; }
