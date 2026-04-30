@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>PaymentMode__c</fullName>
-    <externalId>false</externalId>
     <description>Indicates whether payment is processed at Product or Agreement level. Product is the default; any deviation must be explicitly stated in the agreement and approved by the Head of DCO.</description>
+    <externalId>false</externalId>
     <inlineHelpText>Product by default. Any other mode must be written in the agreement and validated by the Head of DCO.</inlineHelpText>
     <label>Payment Mode</label>
     <required>false</required>
@@ -11,10 +11,19 @@
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
+        <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
-            <value><fullName>Agreement</fullName><default>false</default><label>Agreement</label></value>
-            <value><fullName>Product</fullName><default>false</default><label>Product</label></value>
+            <value>
+                <fullName>Agreement</fullName>
+                <default>false</default>
+                <label>Agreement</label>
+            </value>
+            <value>
+                <fullName>Product</fullName>
+                <default>false</default>
+                <label>Product</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

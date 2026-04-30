@@ -3,6 +3,7 @@
     <fullName>AdjutoAutoUpdate__c</fullName>
     <defaultValue>false</defaultValue>
     <description>Indicates whether this grid should be automatically pushed to Adjuto whenever it is updated in Salesforce.</description>
+    <externalId>false</externalId>
     <inlineHelpText>Check this box if the grid should be automatically updated in Adjuto.</inlineHelpText>
     <label>Adjuto Auto Update</label>
     <trackFeedHistory>false</trackFeedHistory>
