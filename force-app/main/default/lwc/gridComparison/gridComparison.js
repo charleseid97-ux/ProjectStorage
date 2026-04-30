@@ -73,6 +73,8 @@ export default class GridComparison extends LightningElement {
     @track mergedRows        = [];
     @track discrepanciesOnly = false;
     @track detailOpen        = true;
+    @track sortField         = 'diffRRAmt';
+    @track sortDir           = 'desc';
 
     // ── Lifecycle ──
     connectedCallback() {
@@ -268,13 +270,48 @@ export default class GridComparison extends LightningElement {
     get detailSectionClass() { return `slds-section${this.detailOpen ? ' slds-is-open' : ''}`; }
     get detailHidden()       { return !this.detailOpen; }
 
+    get sortIndicators() {
+        const cols = ['portfolio','shareClass','isin','aum','effMgtFee','currentStdGrid','selectedStdGrid',
+                      'currRR','selRR','diffRRAmt','diffRR','currNM','selNM','diffNMAmt','diffNM',
+                      'currPR','selPR','diffPRAmt','diffPR'];
+        return Object.fromEntries(
+            cols.map(c => [c, this.sortField === c ? (this.sortDir === 'asc' ? '↑' : '↓') : ''])
+        );
+    }
+
     get visibleRows() {
-        if (!this.discrepanciesOnly) return this.mergedRows;
-        return this.mergedRows.filter(r => r.rowType !== 'SAME_EXACT');
+        const TEXT_FIELDS = new Set(['portfolio', 'shareClass', 'isin', 'currentStdGrid', 'selectedStdGrid']);
+        let rows = this.discrepanciesOnly ? this.mergedRows.filter(r => r.rowType !== 'SAME_EXACT') : this.mergedRows;
+
+        if (this.sortField) {
+            const field  = this.sortField;
+            const rawKey = field + 'Raw';
+            const dir    = this.sortDir === 'asc' ? 1 : -1;
+            rows = [...rows].sort((a, b) => {
+                if (TEXT_FIELDS.has(field)) {
+                    return dir * String(a[field] || '').localeCompare(String(b[field] || ''), 'fr');
+                }
+                const va = a[rawKey] ?? 0;
+                const vb = b[rawKey] ?? 0;
+                return dir * (Math.abs(va) - Math.abs(vb));
+            });
+        }
+
+        return rows;
     }
 
     // ── Detail handlers ──
     handleToggleDetail() { this.detailOpen = !this.detailOpen; }
+
+    handleSort(e) {
+        const field = e.currentTarget.dataset.sort;
+        if (this.sortField === field) {
+            this.sortDir = this.sortDir === 'asc' ? 'desc' : 'asc';
+        } else {
+            this.sortField = field;
+            this.sortDir   = 'asc';
+        }
+    }
 
     // ── Detail logic ──
     buildMergedRows(currentRows, selectedRows) {
@@ -308,6 +345,10 @@ export default class GridComparison extends LightningElement {
             const cNMAmt  = calcAmt(currNM), sNMAmt = calcAmt(selNM);
             const cPRAmt  = calcAmt(currPR), sPRAmt = calcAmt(selPR);
 
+            const diffRRAmtVal  = cRRAmt != null && sRRAmt != null ? cRRAmt - sRRAmt : null;
+            const diffNMAmtVal  = cNMAmt != null && sNMAmt != null ? cNMAmt - sNMAmt : null;
+            const diffPRAmtVal  = cPRAmt != null && sPRAmt != null ? cPRAmt - sPRAmt : null;
+
             rows.push({
                 key             : ref.shareClassId,
                 rowType,
@@ -325,7 +366,7 @@ export default class GridComparison extends LightningElement {
                 selRRAmt        : fmtAmt(sRRAmt),
                 diffRR          : formatDiff(currRR, selRR),
                 diffRRClass     : diffCls(currRR, selRR, true),
-                diffRRAmt       : fmtDiffAmt(cRRAmt != null && sRRAmt != null ? cRRAmt - sRRAmt : null),
+                diffRRAmt       : fmtDiffAmt(diffRRAmtVal),
                 diffRRAmtClass  : diffCls(currRR, selRR, true),
                 currNM          : curr?.netMargin    ?? '',
                 currNMAmt       : fmtAmt(cNMAmt),
@@ -333,7 +374,7 @@ export default class GridComparison extends LightningElement {
                 selNMAmt        : fmtAmt(sNMAmt),
                 diffNM          : formatDiff(currNM, selNM),
                 diffNMClass     : diffCls(currNM, selNM, false),
-                diffNMAmt       : fmtDiffAmt(cNMAmt != null && sNMAmt != null ? cNMAmt - sNMAmt : null),
+                diffNMAmt       : fmtDiffAmt(diffNMAmtVal),
                 diffNMAmtClass  : diffCls(currNM, selNM, false),
                 currPR          : curr?.profitability ?? '',
                 currPRAmt       : fmtAmt(cPRAmt),
@@ -341,8 +382,23 @@ export default class GridComparison extends LightningElement {
                 selPRAmt        : fmtAmt(sPRAmt),
                 diffPR          : formatDiff(currPR, selPR),
                 diffPRClass     : diffCls(currPR, selPR, false),
-                diffPRAmt       : fmtDiffAmt(cPRAmt != null && sPRAmt != null ? cPRAmt - sPRAmt : null),
-                diffPRAmtClass  : diffCls(currPR, selPR, false)
+                diffPRAmt       : fmtDiffAmt(diffPRAmtVal),
+                diffPRAmtClass  : diffCls(currPR, selPR, false),
+                // raw numeric values for sorting
+                aumRaw          : aumNum,
+                effMgtFeeRaw    : parsePct(ref.effMgtFee),
+                currRRRaw       : currRR,
+                selRRRaw        : selRR,
+                diffRRRaw       : currRR != null && selRR != null ? currRR - selRR : null,
+                diffRRAmtRaw    : diffRRAmtVal,
+                currNMRaw       : currNM,
+                selNMRaw        : selNM,
+                diffNMRaw       : currNM != null && selNM != null ? currNM - selNM : null,
+                diffNMAmtRaw    : diffNMAmtVal,
+                currPRRaw       : currPR,
+                selPRRaw        : selPR,
+                diffPRRaw       : currPR != null && selPR != null ? currPR - selPR : null,
+                diffPRAmtRaw    : diffPRAmtVal
             });
         }
         return rows;

@@ -515,3 +515,116 @@ export function appendCustomLogicIfNeeded(filterLogicType, filterLogicText, upda
     const nextExpression = baseExpression ? `(${baseExpression}) AND ${systemNumber}` : String(systemNumber);
     return { filterLogicType: 'Custom Logic', filterLogicText: nextExpression };
 }
+
+/**
+ * Exports a flat list of rows to a styled Excel file with a frozen column-header row.
+ * Each column definition: { key, label, numeric?, numFormat? }
+ * Optional header/footer are multi-line strings (split on \n) rendered as full-width
+ * merged rows above/below the data table, matching the original Allegato layout.
+ */
+export async function exportGridExcel({ rows, columns, sheetName = 'Export', filename = 'Export.xlsx', header, footer }) {
+    const numCols   = columns.length;
+    const border    = { top: { style: 'thin', color: { rgb: 'CCCCCC' } }, bottom: { style: 'thin', color: { rgb: 'CCCCCC' } }, left: { style: 'thin', color: { rgb: 'CCCCCC' } }, right: { style: 'thin', color: { rgb: 'CCCCCC' } } };
+    const hdrStyle  = { fill: { fgColor: { rgb: 'E8E8E8' } }, font: { bold: true }, alignment: { horizontal: 'center', vertical: 'center' }, border };
+    const dataStyle = { alignment: { vertical: 'center' }, border };
+    const numStyle  = { alignment: { horizontal: 'right', vertical: 'center' }, border };
+    const textStyle = { alignment: { wrapText: true, vertical: 'top' } };
+
+    const aoa        = [];
+    const styles     = {};
+    const numFormats = {};
+    const merges     = [];
+
+    // Optional header block (full-width merged rows, first line bold + large)
+    if (header) {
+        header.split('\n').forEach((line, i) => {
+            aoa.push([line, ...Array(numCols - 1).fill(null)]);
+            styles[`${i},0`] = i === 0
+                ? { alignment: { wrapText: true, vertical: 'center', horizontal: 'center' }, font: { bold: true, sz: 13 } }
+                : textStyle;
+            merges.push({ s: { r: i, c: 0 }, e: { r: i, c: numCols - 1 } });
+        });
+        aoa.push(Array(numCols).fill(null)); // blank separator
+    }
+
+    // Column header row
+    const colHdrRow = aoa.length;
+    aoa.push(columns.map(c => c.label));
+    columns.forEach((_, ci) => { styles[`${colHdrRow},${ci}`] = hdrStyle; });
+
+    // Data rows
+    (rows || []).forEach((row, ri) => {
+        const r = colHdrRow + 1 + ri;
+        aoa.push(columns.map(c => row[c.key] ?? ''));
+        columns.forEach((col, ci) => {
+            styles[`${r},${ci}`] = col.numeric ? numStyle : dataStyle;
+            if (col.numFormat) numFormats[`${r},${ci}`] = col.numFormat;
+        });
+    });
+
+    // Optional footer block (full-width merged rows, first line bold)
+    if (footer) {
+        aoa.push(Array(numCols).fill(null)); // blank separator
+        const footerStart = aoa.length;
+        footer.split('\n').forEach((line, i) => {
+            aoa.push([line, ...Array(numCols - 1).fill(null)]);
+            styles[`${footerStart + i},0`] = i === 0 ? { ...textStyle, font: { bold: true } } : textStyle;
+            merges.push({ s: { r: footerStart + i, c: 0 }, e: { r: footerStart + i, c: numCols - 1 } });
+        });
+    }
+
+    const colWidths = columns.map(col => {
+        const maxLen = Math.max(col.label.length, ...(rows || []).map(r => String(r[col.key] ?? '').length));
+        return maxLen + 4;
+    });
+
+    await exportExcelWithFreeze({ aoa, styles, colWidths, merges, numFormats, sheetName, filename, freezeRow: colHdrRow + 1 });
+}
+
+/**
+ * Builds a styled XLSX sheet from an AOA, applies optional numeric formats,
+ * freezes the header row via ExcelJS, and triggers a file download.
+ */
+export async function exportExcelWithFreeze({ aoa, styles, colWidths, merges, numFormats, sheetName, filename, freezeRow }) {
+    const ws = window.XLSX.utils.aoa_to_sheet(aoa);
+    if (merges && merges.length) ws['!merges'] = merges;
+    ws['!cols'] = colWidths.map(w => ({ wch: w }));
+
+    Object.keys(styles).forEach(key => {
+        const [r, c] = key.split(',').map(Number);
+        const addr = window.XLSX.utils.encode_cell({ r, c });
+        if (!ws[addr]) ws[addr] = { v: '', t: 's' };
+        ws[addr].s = styles[key];
+    });
+
+    if (numFormats) {
+        Object.keys(numFormats).forEach(key => {
+            const [r, c] = key.split(',').map(Number);
+            const addr = window.XLSX.utils.encode_cell({ r, c });
+            if (ws[addr] && ws[addr].v !== '') {
+                ws[addr].t = 'n';
+                ws[addr].z = numFormats[key];
+            }
+        });
+    }
+
+    const wb = window.XLSX.utils.book_new();
+    window.XLSX.utils.book_append_sheet(wb, ws, sheetName);
+    const buffer = window.XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' });
+
+    const workbook = new window.ExcelJS.Workbook();
+    await workbook.xlsx.load(buffer);
+    workbook.getWorksheet(sheetName).views = [{ state: 'frozen', xSplit: 0, ySplit: freezeRow }];
+
+    const finalBuffer = await workbook.xlsx.writeBuffer();
+    const uint8 = new Uint8Array(finalBuffer);
+    let binary = '';
+    for (let i = 0; i < uint8.length; i += 8192) {
+        binary += String.fromCharCode(...uint8.subarray(i, i + 8192));
+    }
+    const base64 = btoa(binary);
+    const a = document.createElement('a');
+    a.href = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + base64;
+    a.download = filename;
+    a.click();
+}

@@ -1,7 +1,7 @@
 import { LightningElement, api, track } from 'lwc';
 import { loadScript } from 'lightning/platformResourceLoader';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import { LABELS } from 'c/gridBuilderUtils';
+import { LABELS, exportGridExcel } from 'c/gridBuilderUtils';
 import XlsxJsStyle from '@salesforce/resourceUrl/xlsxjsstyle';
 import ExcelJs     from '@salesforce/resourceUrl/exceljs';
 import getSimulationData         from '@salesforce/apex/GridSimulationController.getSimulationData';
@@ -473,130 +473,34 @@ export default class GridSimulation extends LightningElement {
         this.customRows = this.customRows.filter(r => r.shareClassId !== id);
     }
 
-    // ── Excel export (ALLEGATO template) ─────────────────────────────────────
-    handleExport() {
+    // ── Excel export ──────────────────────────────────────────────────────────
+    async handleExport() {
         if (!window.XLSX || !window.ExcelJS) {
-            this.dispatchEvent(new ShowToastEvent({
-                title: 'Export not ready',
-                message: 'Excel libraries are still loading. Please try again.',
-                variant: 'warning'
-            }));
+            this.dispatchEvent(new ShowToastEvent({ title: 'Export not ready', message: 'Excel libraries are still loading. Please try again.', variant: 'warning' }));
             return;
         }
-
-        const COLS = 5;
-        const aoa = [], styles = {}, merges = [];
         const lang = this.agreementRegion === 'BP_IT' ? 'IT' : this.agreementRegion === 'BP_FR' ? 'FR' : 'EN';
-        const L = key => this.labels[`${key}_${lang}`] || '';
+        const L    = key => this.labels[`${key}_${lang}`] || '';
 
-        const border = {
-            top:    { style: 'thin', color: { rgb: 'CCCCCC' } },
-            bottom: { style: 'thin', color: { rgb: 'CCCCCC' } },
-            left:   { style: 'thin', color: { rgb: 'CCCCCC' } },
-            right:  { style: 'thin', color: { rgb: 'CCCCCC' } }
-        };
-        const textStyle = { alignment: { wrapText: true, vertical: 'top' } };
-        const hdrStyle  = { fill: { fgColor: { rgb: 'E8E8E8' } }, font: { bold: true }, alignment: { horizontal: 'center', vertical: 'center' }, border };
-        const dataStyle = { alignment: { vertical: 'center' }, border };
-        const numStyle  = { alignment: { horizontal: 'right', vertical: 'center' }, border };
-
-        const headerLines = L('Grid_SimExport_Header').split('\n');
-        headerLines.forEach((line, i) => {
-            aoa.push([line, null, null, null, null]);
-            styles[`${i},0`] = (i === 0) ? { alignment: { wrapText: true, vertical: 'center', horizontal: 'center' }, font: { bold: true, sz: 13 } } : textStyle;
-            merges.push({ s: { r: i, c: 0 }, e: { r: i, c: COLS - 1 } });
+        const rows = this.rawRows.filter(r => !r.isCustom && r.hasSimulatedData).map(r => ({
+            name:           r.name           || r.productName    || '',
+            shareClassName: r.shareClassName || r.shareClassType || '',
+            isin:           r.isin           || '',
+            effMgtFee:      r.simEffFee   != null ? r.simEffFee  / 100 : '',
+            rebateRate:     r.simRebRate  != null ? r.simRebRate / 100 : ''
+        }));
+        const columns = [
+            { key: 'name',           label: L('Grid_SimExport_Col_FundName') },
+            { key: 'shareClassName', label: L('Grid_SimExport_Col_ShareClass') },
+            { key: 'isin',           label: L('Grid_SimExport_Col_ISIN') },
+            { key: 'effMgtFee',      label: L('Grid_SimExport_Col_EffMgtFees'), numeric: true, numFormat: '0.000%' },
+            { key: 'rebateRate',     label: L('Grid_SimExport_Col_Rebate'),     numeric: true, numFormat: '0.000%' }
+        ];
+        await exportGridExcel({
+            rows, columns,
+            sheetName: 'Allegato', filename: 'GridDetails.xlsx',
+            header: L('Grid_SimExport_Header'),
+            footer: L('Grid_SimExport_Footer')
         });
-
-        aoa.push([null, null, null, null, null]);
-
-        const colHdrRow = aoa.length;
-        aoa.push([
-            L('Grid_SimExport_Col_FundName'),
-            L('Grid_SimExport_Col_ShareClass'),
-            L('Grid_SimExport_Col_ISIN'),
-            L('Grid_SimExport_Col_EffMgtFees'),
-            L('Grid_SimExport_Col_Rebate')
-        ]);
-        for (let c = 0; c < COLS; c++) styles[`${colHdrRow},${c}`] = hdrStyle;
-
-        // Export uses the SIMULATED (new grid) rows for the allegato
-        this.rawRows.filter(r => !r.isCustom && r.hasSimulatedData).forEach(r => {
-            const row = aoa.length;
-            aoa.push([
-                r.name           || r.productName || '',
-                r.shareClassName || r.shareClassType || '',
-                r.isin           || '',
-                r.simEffFee != null ? r.simEffFee / 100 : '',
-                r.simRebRate != null ? r.simRebRate / 100 : ''
-            ]);
-            for (let c = 0; c < COLS; c++) {
-                styles[`${row},${c}`] = (c >= 3) ? numStyle : dataStyle;
-            }
-        });
-
-        aoa.push([null, null, null, null, null]);
-
-        const footerStart = aoa.length;
-        const footerLines = L('Grid_SimExport_Footer').split('\n');
-        footerLines.forEach((line, i) => {
-            aoa.push([line, null, null, null, null]);
-            styles[`${footerStart + i},0`] = (i === 0) ? { ...textStyle, font: { bold: true } } : textStyle;
-            merges.push({ s: { r: footerStart + i, c: 0 }, e: { r: footerStart + i, c: COLS - 1 } });
-        });
-
-        const colWidths = Array(COLS).fill(10);
-        aoa.slice(colHdrRow, footerStart - 1).forEach(rowData => {
-            rowData.forEach((cell, ci) => {
-                if (cell != null) colWidths[ci] = Math.max(colWidths[ci], String(cell).length);
-            });
-        });
-
-        const ws = window.XLSX.utils.aoa_to_sheet(aoa);
-        ws['!merges'] = merges;
-        ws['!cols'] = colWidths.map(w => ({ wch: w + 4 }));
-
-        Object.keys(styles).forEach(key => {
-            const [r, c] = key.split(',').map(Number);
-            const addr = window.XLSX.utils.encode_cell({ r, c });
-            if (!ws[addr]) ws[addr] = { v: '', t: 's' };
-            ws[addr].s = styles[key];
-        });
-
-        this.rawRows.filter(r => !r.isCustom && r.hasSimulatedData).forEach((_, ri) => {
-            const row = colHdrRow + 1 + ri;
-            [3, 4].forEach(c => {
-                const addr = window.XLSX.utils.encode_cell({ r: row, c });
-                if (ws[addr] && ws[addr].v !== '') {
-                    ws[addr].t = 'n';
-                    ws[addr].z = '0.000%';
-                }
-            });
-        });
-
-        const wb = window.XLSX.utils.book_new();
-        window.XLSX.utils.book_append_sheet(wb, ws, 'Allegato');
-
-        const buffer = window.XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' });
-        this.freezeExcelExport(buffer, colHdrRow + 1);
-    }
-
-    async freezeExcelExport(buffer, ySplit) {
-        const workbook = new window.ExcelJS.Workbook();
-        await workbook.xlsx.load(buffer);
-
-        const sheet = workbook.getWorksheet('Allegato');
-        sheet.views = [{ state: 'frozen', xSplit: 0, ySplit: ySplit }];
-
-        const finalBuffer = await workbook.xlsx.writeBuffer();
-        const uint8 = new Uint8Array(finalBuffer);
-        let binary = '';
-        for (let i = 0; i < uint8.length; i += 8192) {
-            binary += String.fromCharCode(...uint8.subarray(i, i + 8192));
-        }
-        const base64 = btoa(binary);
-        const a = document.createElement('a');
-        a.href = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + base64;
-        a.download = 'GridSimulation.xlsx';
-        a.click();
     }
 }

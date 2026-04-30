@@ -1,10 +1,11 @@
 import { LightningElement, api } from 'lwc';
 import { loadScript } from 'lightning/platformResourceLoader';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import { reduceError } from 'c/gridBuilderUtils';
+import { LABELS, reduceError, exportGridExcel } from 'c/gridBuilderUtils';
 import getGridDetails from '@salesforce/apex/GridDetailTableController.getGridDetails';
-import { LABELS } from 'c/gridBuilderUtils';
+import getGridAgreementRegion from '@salesforce/apex/GridDetailTableController.getGridAgreementRegion';
 import XlsxJsStyle from '@salesforce/resourceUrl/xlsxjsstyle';
+import ExcelJs     from '@salesforce/resourceUrl/exceljs';
 
 const COLUMNS = [
     { key: 'assetType',         label: 'Asset Type',        group: '' },
@@ -25,19 +26,20 @@ const COLUMNS = [
     { key: 'ruleValue',         label: 'Rule Value',        group: 'orange', numeric: true }
 ];
 
-const SORTED_BY_LABEL  = 'Eff Mgt Fee Date';
-const EXPORT_COLUMNS   = ['portfolio', 'shareClass', 'isin', 'aum', 'effMgtFee', 'rebateRate'];
+const SORTED_BY_LABEL = 'Eff Mgt Fee Date';
 
 export default class GridDetailTable extends LightningElement {
-    @api iconName = 'custom:custom63';
+    @api iconName   = 'custom:custom63';
+    agreementRegion = null;
 
     labels = LABELS;
     rows = [];
     errors = [];
     isLoading = false;
     _recordId;
-    sheetJsLoaded = false;
-    sheetJsReady  = false;
+    sheetJsLoaded  = false;
+    sheetJsReady   = false;
+    excelJsLoaded  = false;
 
     @api
     get recordId() {
@@ -94,9 +96,13 @@ export default class GridDetailTable extends LightningElement {
         this.isLoading = true;
         this.errors = [];
         try {
-            const result = await getGridDetails({ gridId: this._recordId, activeOnly: false });
-            this.rows = result?.rows || [];
-            this.errors = result?.errors || [];
+            const [result, region] = await Promise.all([
+                getGridDetails({ gridId: this._recordId, activeOnly: false }),
+                getGridAgreementRegion({ gridId: this._recordId })
+            ]);
+            this.rows            = result?.rows || [];
+            this.errors          = result?.errors || [];
+            this.agreementRegion = region;
         } catch (error) {
             this.rows = [];
             this.errors = [reduceError(error)];
@@ -111,48 +117,45 @@ export default class GridDetailTable extends LightningElement {
         }
     }
 
-    // ── XlsxJsStyle ──
+    // ── Script loading ──
     renderedCallback() {
-        if (this.sheetJsLoaded) return;
-        this.sheetJsLoaded = true;
-        loadScript(this, XlsxJsStyle).then(() => { this.sheetJsReady = true; }).catch(() => {});
+        if (!this.sheetJsLoaded) {
+            this.sheetJsLoaded = true;
+            loadScript(this, XlsxJsStyle).then(() => { this.sheetJsReady = true; }).catch(() => {});
+        }
+        if (!this.excelJsLoaded) {
+            this.excelJsLoaded = true;
+            loadScript(this, ExcelJs).catch(() => {});
+        }
     }
 
-    handleExport() {
-        if (!window.XLSX) {
-            this.dispatchEvent(new ShowToastEvent({ title: 'Export not ready', message: 'Excel library is still loading. Please try again.', variant: 'warning' }));
+    async handleExport() {
+        if (!window.XLSX || !window.ExcelJS) {
+            this.dispatchEvent(new ShowToastEvent({ title: 'Export not ready', message: 'Excel libraries are still loading. Please try again.', variant: 'warning' }));
             return;
         }
+        const lang = this.agreementRegion === 'BP_IT' ? 'IT' : this.agreementRegion === 'BP_FR' ? 'FR' : 'EN';
+        const L    = key => this.labels[`${key}_${lang}`] || '';
 
-        const exportCols = COLUMNS.filter(c => EXPORT_COLUMNS.includes(c.key));
-        const border     = { top: { style: 'thin', color: { rgb: 'DDDBDA' } }, bottom: { style: 'thin', color: { rgb: 'DDDBDA' } }, left: { style: 'thin', color: { rgb: 'DDDBDA' } }, right: { style: 'thin', color: { rgb: 'DDDBDA' } } };
-        const hdrStyle   = { fill: { fgColor: { rgb: 'F3F2F2' } }, font: { bold: true }, alignment: { horizontal: 'center' }, border };
-        const rowStyle   = { fill: { fgColor: { rgb: 'FFFFFF' } }, alignment: { horizontal: 'left' },  border };
-
-        const aoa    = [];
-        const styles = {};
-
-        // Header row
-        aoa.push(exportCols.map(c => c.label));
-        exportCols.forEach((_, ci) => { styles[`0,${ci}`] = hdrStyle; });
-
-        // Data rows
-        (this.rows || []).forEach((row, ri) => {
-            aoa.push(exportCols.map(c => row[c.key] ?? ''));
-            exportCols.forEach((_, ci) => { styles[`${ri + 1},${ci}`] = rowStyle; });
+        const rows = (this.rows || []).map(r => ({
+            name:           r.portfolio  || '',
+            shareClassName: r.shareClass || '',
+            isin:           r.isin       || '',
+            effMgtFee:      r.effMgtFee  != null ? r.effMgtFee  / 100 : '',
+            rebateRate:     r.rebateRate != null ? r.rebateRate / 100 : ''
+        }));
+        const columns = [
+            { key: 'name',           label: L('Grid_SimExport_Col_FundName') },
+            { key: 'shareClassName', label: L('Grid_SimExport_Col_ShareClass') },
+            { key: 'isin',           label: L('Grid_SimExport_Col_ISIN') },
+            { key: 'effMgtFee',      label: L('Grid_SimExport_Col_EffMgtFees'), numeric: true, numFormat: '0.000%' },
+            { key: 'rebateRate',     label: L('Grid_SimExport_Col_Rebate'),     numeric: true, numFormat: '0.000%' }
+        ];
+        await exportGridExcel({
+            rows, columns,
+            sheetName: 'Allegato', filename: 'GridDetails.xlsx',
+            header: L('Grid_SimExport_Header'),
+            footer: L('Grid_SimExport_Footer')
         });
-
-        const ws = window.XLSX.utils.aoa_to_sheet(aoa);
-        ws['!cols'] = exportCols.map(() => ({ wch: 20 }));
-        Object.keys(styles).forEach(key => {
-            const [r, c] = key.split(',').map(Number);
-            const addr = window.XLSX.utils.encode_cell({ r, c });
-            if (!ws[addr]) ws[addr] = { v: '', t: 's' };
-            ws[addr].s = styles[key];
-        });
-
-        const wb = window.XLSX.utils.book_new();
-        window.XLSX.utils.book_append_sheet(wb, ws, 'Grid Details');
-        window.XLSX.writeFile(wb, 'GridDetails.xlsx');
     }
 }

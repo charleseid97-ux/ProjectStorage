@@ -51,6 +51,9 @@ private with sharing class GridDetailTableControllerTest {
         Test.startTest();
 
         GridDetailTableController.GridDetailResult result = GridDetailTableController.getGridDetails(grid.Id, false);
+        Convention__c agreement = [SELECT Id, Business_Region__c FROM Convention__c WHERE Name = 'AGR-FR' LIMIT 1];
+        update new Grid__c(Id = grid.Id, Agreement__c = agreement.Id);
+        String region = GridDetailTableController.getGridAgreementRegion(grid.Id);
 
         // Verify FinalRebateRate__c path: find the row that should show 'Calculated Rebates'
         GridDetailTableController.GridDetailRow finalRateRow = null;

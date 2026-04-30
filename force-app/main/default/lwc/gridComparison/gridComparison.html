@@ -135,28 +135,28 @@
                                             </tr>
                                             <!-- Column label row -->
                                             <tr>
-                                                <th class="th-default">Portfolio</th>
-                                                <th class="th-default">Class</th>
-                                                <th class="th-default">ISIN</th>
-                                                <th class="th-default td-right">AUM</th>
-                                                <th class="th-default td-right">Eff. Mgt Fee</th>
-                                                <th class="th-default">Current</th>
-                                                <th class="th-default">Selected</th>
+                                                <th class="th-default sortable" onclick={handleSort} data-sort="portfolio">Portfolio<span class="sort-icon">{sortIndicators.portfolio}</span></th>
+                                                <th class="th-default sortable" onclick={handleSort} data-sort="shareClass">Class<span class="sort-icon">{sortIndicators.shareClass}</span></th>
+                                                <th class="th-default sortable" onclick={handleSort} data-sort="isin">ISIN<span class="sort-icon">{sortIndicators.isin}</span></th>
+                                                <th class="th-default td-right sortable" onclick={handleSort} data-sort="aum">AUM<span class="sort-icon">{sortIndicators.aum}</span></th>
+                                                <th class="th-default td-right sortable" onclick={handleSort} data-sort="effMgtFee">Eff. Mgt Fee<span class="sort-icon">{sortIndicators.effMgtFee}</span></th>
+                                                <th class="th-default sortable" onclick={handleSort} data-sort="currentStdGrid">Current<span class="sort-icon">{sortIndicators.currentStdGrid}</span></th>
+                                                <th class="th-default sortable" onclick={handleSort} data-sort="selectedStdGrid">Selected<span class="sort-icon">{sortIndicators.selectedStdGrid}</span></th>
                                                 <th class="section-gap"></th>
-                                                <th class="th-sub th-section1">Current</th>
-                                                <th class="th-sub th-section1">Selected</th>
-                                                <th class="th-sub th-section1">Diff (Amt)</th>
-                                                <th class="th-sub th-section1">Diff (%)</th>
+                                                <th class="th-sub th-section1 sortable" onclick={handleSort} data-sort="currRR">Current<span class="sort-icon">{sortIndicators.currRR}</span></th>
+                                                <th class="th-sub th-section1 sortable" onclick={handleSort} data-sort="selRR">Selected<span class="sort-icon">{sortIndicators.selRR}</span></th>
+                                                <th class="th-sub th-section1 sortable" onclick={handleSort} data-sort="diffRRAmt">Diff (Amt)<span class="sort-icon">{sortIndicators.diffRRAmt}</span></th>
+                                                <th class="th-sub th-section1 sortable" onclick={handleSort} data-sort="diffRR">Diff (%)<span class="sort-icon">{sortIndicators.diffRR}</span></th>
                                                 <th class="section-gap"></th>
-                                                <th class="th-sub th-section2">Current</th>
-                                                <th class="th-sub th-section2">Selected</th>
-                                                <th class="th-sub th-section2">Diff (Amt)</th>
-                                                <th class="th-sub th-section2">Diff (%)</th>
+                                                <th class="th-sub th-section2 sortable" onclick={handleSort} data-sort="currNM">Current<span class="sort-icon">{sortIndicators.currNM}</span></th>
+                                                <th class="th-sub th-section2 sortable" onclick={handleSort} data-sort="selNM">Selected<span class="sort-icon">{sortIndicators.selNM}</span></th>
+                                                <th class="th-sub th-section2 sortable" onclick={handleSort} data-sort="diffNMAmt">Diff (Amt)<span class="sort-icon">{sortIndicators.diffNMAmt}</span></th>
+                                                <th class="th-sub th-section2 sortable" onclick={handleSort} data-sort="diffNM">Diff (%)<span class="sort-icon">{sortIndicators.diffNM}</span></th>
                                                 <th class="section-gap"></th>
-                                                <th class="th-sub th-section3">Current</th>
-                                                <th class="th-sub th-section3">Selected</th>
-                                                <th class="th-sub th-section3">Diff (Amt)</th>
-                                                <th class="th-sub th-section3">Diff (%)</th>
+                                                <th class="th-sub th-section3 sortable" onclick={handleSort} data-sort="currPR">Current<span class="sort-icon">{sortIndicators.currPR}</span></th>
+                                                <th class="th-sub th-section3 sortable" onclick={handleSort} data-sort="selPR">Selected<span class="sort-icon">{sortIndicators.selPR}</span></th>
+                                                <th class="th-sub th-section3 sortable" onclick={handleSort} data-sort="diffPRAmt">Diff (Amt)<span class="sort-icon">{sortIndicators.diffPRAmt}</span></th>
+                                                <th class="th-sub th-section3 sortable" onclick={handleSort} data-sort="diffPR">Diff (%)<span class="sort-icon">{sortIndicators.diffPR}</span></th>
                                             </tr>
                                         </thead>
                                         <tbody>
