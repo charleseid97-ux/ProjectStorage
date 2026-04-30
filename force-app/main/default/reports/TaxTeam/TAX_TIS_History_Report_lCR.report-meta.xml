@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>TaxData__c$Name</field>
+    </columns>
+    <columns>
+        <field>TaxData__c$ShareClass__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>TaxData__c.TaxDataHistories__r$Value__c</field>
+    </columns>
+    <columns>
+        <field>TaxData__c.TaxDataHistories__r$ArchivedOn__c</field>
+    </columns>
+    <currency>EUR</currency>
+    <description>This report provides a historical view of TIS values (TISB Unit Price) across all share classes.
+It allows business users to filter by share class, country, and period to analyze TIS evolution over time and support reporting or audit needs.</description>
+    <filter>
+        <criteriaItems>
+            <column>TaxData__c$Status__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Yes</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>TaxData__c$Type__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>BE TIS</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>TaxData__c$ISIN__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <field>TaxData__c.TaxDataHistories__r$NAV_Date__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>TAX - BE TIS History Report per ISIN</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Tax_Data__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>false</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>TaxData__c$CreatedDate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>
