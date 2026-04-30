@@ -26,6 +26,33 @@ function formatDiff(a, b) {
     return sign + d.toFixed(2) + '%';
 }
 
+function fmtAmt(v) {
+    if (v == null || v === 0) return null;
+    const abs = Math.abs(v);
+    if (abs >= 1_000_000) return (v / 1_000_000).toFixed(1) + 'M';
+    if (abs >= 1_000)     return Math.round(v).toLocaleString();
+    return Math.round(v).toString();
+}
+
+function fmtDiffAmt(v) {
+    if (v == null || v === 0) return null;
+    const sign = v > 0 ? '+' : '';
+    const abs = Math.abs(v);
+    if (abs >= 1_000_000) return sign + (v / 1_000_000).toFixed(1) + 'M';
+    return sign + Math.round(v).toLocaleString();
+}
+
+// greenIfNegative=true  → RR  (lower rebate = better)
+// greenIfNegative=false → NM/PR (higher = better)
+function diffCls(a, b, greenIfNegative) {
+    const base = 'td-right td-diff';
+    if (a == null || b == null) return base;
+    const d = a - b;
+    if (d === 0) return base;
+    const isGreen = greenIfNegative ? d < 0 : d > 0;
+    return base + (isGreen ? '-green' : '-red');
+}
+
 export default class GridComparison extends LightningElement {
     @api recordId;
     @api iconName = 'utility:table';
@@ -85,33 +112,43 @@ export default class GridComparison extends LightningElement {
     handleShowAll()           { this.discrepanciesOnly = false; }
     handleShowDiscrepancies() { this.discrepanciesOnly = true;  }
 
-    async loadGridOptions() {
+    async loadGridOptions(searchTerm = '') {
         try {
-            const results = await searchGrids({ searchTerm: '', currentGridId: this.recordId });
+            const results = await searchGrids({ searchTerm, currentGridId: this.recordId });
             this.searchOptions = (results || []).map(r => ({
                 label : r.name + (r.subtitle ? ' – ' + r.subtitle : ''),
                 value : r.id
             }));
+            this._refreshSearchList();
         } catch (e) {
             this.errors = [reduceError(e)];
         }
     }
 
-    async loadAgreementOptions() {
+    async loadAgreementOptions(searchTerm = '') {
         try {
-            const results = await searchAgreements({ searchTerm: '' });
+            const results = await searchAgreements({ searchTerm });
             this.searchOptions = (results || []).map(r => ({
                 label : r.name + (r.subtitle ? ' – ' + r.subtitle : ''),
                 value : r.id
             }));
+            this._refreshSearchList();
         } catch (e) {
             this.errors = [reduceError(e)];
         }
+    }
+
+    _refreshSearchList() {
+        const list = this.template.querySelector('c-multi-select-search-list');
+        if (list) list.refreshOptions(this.searchOptions);
     }
 
     handleSearchChange(event) {
-        const { selectedValues, isSearchChange } = event.detail;
-        if (!isSearchChange && selectedValues) {
+        const { selectedValues, isSearchChange, searchKey } = event.detail;
+        if (isSearchChange) {
+            if (this.isModeGrid) this.loadGridOptions(searchKey);
+            else                 this.loadAgreementOptions(searchKey);
+        } else if (selectedValues) {
             this.handleSelectResult(selectedValues);
         }
     }
@@ -256,12 +293,20 @@ export default class GridComparison extends LightningElement {
         for (const [, { curr, sel }] of byScId) {
             let rowType = (curr && sel)? ((curr.standardGridDetailId === sel.standardGridDetailId)? 'SAME_EXACT' : 'SAME_DIFF') : (curr)? 'CURRENT_ONLY' : 'SELECTED_ONLY';
             const ref    = curr || sel;
+            // eslint-disable-next-line no-console
+            console.log('[GridComparison] row:', ref.shareClass, '| aum:', ref.aum, '| curr.rebateRate:', curr?.rebateRate, '| sel.rebateRate:', sel?.rebateRate, '| rowType:', rowType);
             const currRR = parsePct(curr?.rebateRate);
             const selRR  = parsePct(sel?.rebateRate);
             const currNM = parsePct(curr?.netMargin);
             const selNM  = parsePct(sel?.netMargin);
             const currPR = parsePct(curr?.profitability);
             const selPR  = parsePct(sel?.profitability);
+
+            const aumNum  = parseFloat((ref.aum || '').replace(/[^0-9]/g, '')) || 0;
+            const calcAmt = pct => (pct != null && aumNum) ? pct * aumNum / 100 : null;
+            const cRRAmt  = calcAmt(currRR), sRRAmt = calcAmt(selRR);
+            const cNMAmt  = calcAmt(currNM), sNMAmt = calcAmt(selNM);
+            const cPRAmt  = calcAmt(currPR), sPRAmt = calcAmt(selPR);
 
             rows.push({
                 key             : ref.shareClassId,
@@ -275,14 +320,29 @@ export default class GridComparison extends LightningElement {
                 currentStdGrid  : curr?.stdGridName  ?? '',
                 selectedStdGrid : sel?.stdGridName   ?? '',
                 currRR          : curr?.rebateRate   ?? '',
+                currRRAmt       : fmtAmt(cRRAmt),
                 selRR           : sel?.rebateRate    ?? '',
+                selRRAmt        : fmtAmt(sRRAmt),
                 diffRR          : formatDiff(currRR, selRR),
+                diffRRClass     : diffCls(currRR, selRR, true),
+                diffRRAmt       : fmtDiffAmt(cRRAmt != null && sRRAmt != null ? cRRAmt - sRRAmt : null),
+                diffRRAmtClass  : diffCls(currRR, selRR, true),
                 currNM          : curr?.netMargin    ?? '',
+                currNMAmt       : fmtAmt(cNMAmt),
                 selNM           : sel?.netMargin     ?? '',
+                selNMAmt        : fmtAmt(sNMAmt),
                 diffNM          : formatDiff(currNM, selNM),
+                diffNMClass     : diffCls(currNM, selNM, false),
+                diffNMAmt       : fmtDiffAmt(cNMAmt != null && sNMAmt != null ? cNMAmt - sNMAmt : null),
+                diffNMAmtClass  : diffCls(currNM, selNM, false),
                 currPR          : curr?.profitability ?? '',
+                currPRAmt       : fmtAmt(cPRAmt),
                 selPR           : sel?.profitability  ?? '',
-                diffPR          : formatDiff(currPR, selPR)
+                selPRAmt        : fmtAmt(sPRAmt),
+                diffPR          : formatDiff(currPR, selPR),
+                diffPRClass     : diffCls(currPR, selPR, false),
+                diffPRAmt       : fmtDiffAmt(cPRAmt != null && sPRAmt != null ? cPRAmt - sPRAmt : null),
+                diffPRAmtClass  : diffCls(currPR, selPR, false)
             });
         }
         return rows;

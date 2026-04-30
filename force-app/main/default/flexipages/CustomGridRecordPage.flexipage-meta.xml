@@ -590,6 +590,12 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>standardGridProductsAndRules</componentName>
+                <identifier>c_standardGridProductsAndRules</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-e148498f-bba8-4b71-a1f1-77e01c9bc25a</value>
@@ -694,12 +700,6 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection4</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>standardGridProductsAndRules</componentName>
-                <identifier>c_standardGridProductsAndRules</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>

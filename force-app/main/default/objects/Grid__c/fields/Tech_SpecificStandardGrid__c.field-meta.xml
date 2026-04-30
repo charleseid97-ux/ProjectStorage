@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Tech_SpecificStandardGrid__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>When checked, this standard grid is a specific/exception grid (e.g. CTS - S4 except X=60%). Leave unchecked for general standard grids (S1, S2, S3...).</description>
+    <externalId>false</externalId>
+    <label>Specific Standard Grid</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

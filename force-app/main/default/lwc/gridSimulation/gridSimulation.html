@@ -229,23 +229,23 @@
                         </tr>
                         <!-- Column header row -->
                         <tr>
-                            <th class="th-col" title="Range">Range</th>
-                            <th class="th-col" title="Portfolio Code">PtfCode</th>
-                            <th class="th-col" title="Share Class Type">Type</th>
-                            <th class="th-col td-right" title="Effective Management Fees">EffMgtFees</th>
+                            <th class="th-col sortable" title="Range" onclick={handleSort} data-sort="range">Range<span class="sort-icon">{sortIndicators.range}</span></th>
+                            <th class="th-col sortable" title="Portfolio Code" onclick={handleSort} data-sort="ptfCode">PtfCode<span class="sort-icon">{sortIndicators.ptfCode}</span></th>
+                            <th class="th-col sortable" title="Share Class Type" onclick={handleSort} data-sort="type">Type<span class="sort-icon">{sortIndicators.type}</span></th>
+                            <th class="th-col sortable td-right" title="Effective Management Fees" onclick={handleSort} data-sort="effMgtFees">EffMgtFees<span class="sort-icon">{sortIndicators.effMgtFees}</span></th>
                             <th class="section-gap"></th>
-                            <th class="th-col th-cur td-right" title="Current AUM">AUM</th>
-                            <th class="th-col th-cur td-right" title="Current Rebate Rate">RebateRate</th>
-                            <th class="th-col th-cur td-right" title="Current Gross Fees">MgtFees</th>
-                            <th class="th-col th-cur td-right" title="Current Rebates">Rebates</th>
-                            <th class="th-col th-cur td-right" title="Current Net Fees">NetFees</th>
+                            <th class="th-col th-cur sortable td-right" title="Current AUM" onclick={handleSort} data-sort="curAum">AUM<span class="sort-icon">{sortIndicators.curAum}</span></th>
+                            <th class="th-col th-cur sortable td-right" title="Current Rebate Rate" onclick={handleSort} data-sort="curRebRate">RebateRate<span class="sort-icon">{sortIndicators.curRebRate}</span></th>
+                            <th class="th-col th-cur sortable td-right" title="Current Gross Fees" onclick={handleSort} data-sort="curGross">MgtFees<span class="sort-icon">{sortIndicators.curGross}</span></th>
+                            <th class="th-col th-cur sortable td-right" title="Current Rebates" onclick={handleSort} data-sort="curRebates">Rebates<span class="sort-icon">{sortIndicators.curRebates}</span></th>
+                            <th class="th-col th-cur sortable td-right" title="Current Net Fees" onclick={handleSort} data-sort="curNet">NetFees<span class="sort-icon">{sortIndicators.curNet}</span></th>
                             <th class="section-gap"></th>
-                            <th class="th-col th-sim" title="Additional Money input">Additional Money</th>
-                            <th class="th-col th-sim td-right" title="New AUM = Current AUM + Additional Money">New AUM</th>
-                            <th class="th-col th-sim td-right" title="Rebate Rate (read-only)">RebateRate</th>
-                            <th class="th-col th-sim td-right" title="Simulated Gross Fees">MgtFees</th>
-                            <th class="th-col th-sim td-right" title="Simulated Rebates">Rebates</th>
-                            <th class="th-col th-sim td-right" title="Simulated Net Fees">NetFees</th>
+                            <th class="th-col th-sim sortable" title="Additional Money input" onclick={handleSort} data-sort="additionalMoney">Additional Money<span class="sort-icon">{sortIndicators.additionalMoney}</span></th>
+                            <th class="th-col th-sim sortable td-right" title="New AUM = Current AUM + Additional Money" onclick={handleSort} data-sort="newAum">New AUM<span class="sort-icon">{sortIndicators.newAum}</span></th>
+                            <th class="th-col th-sim sortable td-right" title="Rebate Rate (read-only)" onclick={handleSort} data-sort="simRebRate">RebateRate<span class="sort-icon">{sortIndicators.simRebRate}</span></th>
+                            <th class="th-col th-sim sortable td-right" title="Simulated Gross Fees" onclick={handleSort} data-sort="simGross">MgtFees<span class="sort-icon">{sortIndicators.simGross}</span></th>
+                            <th class="th-col th-sim sortable td-right" title="Simulated Rebates" onclick={handleSort} data-sort="simRebates">Rebates<span class="sort-icon">{sortIndicators.simRebates}</span></th>
+                            <th class="th-col th-sim sortable td-right" title="Simulated Net Fees" onclick={handleSort} data-sort="simNet">NetFees<span class="sort-icon">{sortIndicators.simNet}</span></th>
                             <th class="td-empty"></th>
                         </tr>
                     </thead>

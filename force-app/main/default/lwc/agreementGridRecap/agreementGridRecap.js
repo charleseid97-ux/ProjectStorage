@@ -4,7 +4,7 @@ import getRecap from '@salesforce/apex/AgreementGridRecapController.getRecap';
 
 const DATE_TYPE_ATTRS = { day: '2-digit', month: '2-digit', year: 'numeric' };
 const TIMELINE_COLUMNS = [
-    { label: 'Name',       fieldName: 'recordUrl',  type: 'url',        typeAttributes: { label: { fieldName: 'timelineName' }, target: '_self' } },
+    // { label: 'Name',       fieldName: 'recordUrl',  type: 'url',        typeAttributes: { label: { fieldName: 'timelineName' }, target: '_self' } },
     { label: 'Grid',       fieldName: 'gridUrl',    type: 'url',        typeAttributes: { label: { fieldName: 'gridName' }, target: '_self' } },
     { label: 'Status',     fieldName: 'status',     type: 'text',       initialWidth: 130 },
     { label: 'Start Date', fieldName: 'startDate',  type: 'date-local', typeAttributes: DATE_TYPE_ATTRS, initialWidth: 115 },

@@ -50,6 +50,8 @@ export default class GridSimulation extends LightningElement {
     @track isLoading           = false;
     @track error               = null;
     @track editingNewMoneyId   = null;
+    @track sortField           = 'curAum';
+    @track sortDir             = 'desc';
     focusNewMoney             = false;
     manualOverrideIds         = new Set();
     labels                     = LABELS;
@@ -166,9 +168,34 @@ export default class GridSimulation extends LightningElement {
         });
     }
 
+    // ── Column sort state ─────────────────────────────────────────────────────
+    get sortIndicators() {
+        const cols = ['range','ptfCode','type','effMgtFees','curAum','curRebRate','curGross','curRebates','curNet','additionalMoney','newAum','simRebRate','simGross','simRebates','simNet'];
+        return Object.fromEntries(
+            cols.map(c => [c, this.sortField === c ? (this.sortDir === 'asc' ? '↑' : '↓') : ''])
+        );
+    }
+
     // ── Step 2: formatted rows for the main tbody ─────────────────────────────
     get processedRows() {
-        return this.rawRows.filter(r => !r.isCustom).map(r => ({
+        const TEXT_FIELDS = new Set(['range', 'ptfCode', 'type']);
+        let rows = this.rawRows.filter(r => !r.isCustom);
+
+        if (this.sortField) {
+            const field  = this.sortField;
+            const dir    = this.sortDir === 'asc' ? 1 : -1;
+            const rawKey = field === 'type' ? 'shareClassType' : field;
+            rows = [...rows].sort((a, b) => {
+                const va = a[rawKey];
+                const vb = b[rawKey];
+                if (TEXT_FIELDS.has(field)) {
+                    return dir * String(va || '').localeCompare(String(vb || ''), 'fr');
+                }
+                return dir * (Math.abs(+va || 0) - Math.abs(+vb || 0));
+            });
+        }
+
+        return rows.map(r => ({
             key:               r.shareClassId,
             shareClassId:      r.shareClassId,
             range:             r.range          || '—',
@@ -372,6 +399,17 @@ export default class GridSimulation extends LightningElement {
 
     handleBack() {
         this.dispatchEvent(new CustomEvent('back'));
+    }
+
+    // ── Column sorting ────────────────────────────────────────────────────────
+    handleSort(e) {
+        const field = e.currentTarget.dataset.sort;
+        if (this.sortField === field) {
+            this.sortDir = this.sortDir === 'asc' ? 'desc' : 'asc';
+        } else {
+            this.sortField = field;
+            this.sortDir   = 'asc';
+        }
     }
 
     // ── Global AUM % change → updates Additional Money on non-overridden new-grid rows ─

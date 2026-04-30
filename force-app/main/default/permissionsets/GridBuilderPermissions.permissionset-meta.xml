@@ -417,6 +417,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Grid__c.Tech_SpecificStandardGrid__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Grid__c.ThresholdAmountCurrency__c</field>
         <readable>true</readable>
     </fieldPermissions>

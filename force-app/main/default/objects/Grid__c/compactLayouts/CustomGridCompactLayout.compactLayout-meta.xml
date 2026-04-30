@@ -3,6 +3,11 @@
     <fullName>CustomGridCompactLayout</fullName>
     <fields>Name</fields>
     <fields>Agreement__c</fields>
+    <fields>StartDate__c</fields>
+    <fields>EndDate__c</fields>
+    <fields>Kind__c</fields>
+    <fields>Type__c</fields>
+    <fields>AutomaticGridUpdate__c</fields>
     <fields>ApprovalStatus__c</fields>
     <label>Custom Grid Compact Layout</label>
 </CompactLayout>
