@@ -50,8 +50,8 @@ export default class GridSimulation extends LightningElement {
     @track isLoading           = false;
     @track error               = null;
     @track editingNewMoneyId   = null;
-    @track sortField           = null;
-    @track sortDir             = 'asc';
+    @track sortField           = 'curAum';
+    @track sortDir             = 'desc';
     focusNewMoney             = false;
     manualOverrideIds         = new Set();
     labels                     = LABELS;

@@ -26,6 +26,17 @@ function formatDiff(a, b) {
     return sign + d.toFixed(2) + '%';
 }
 
+// greenIfNegative=true  → RR  (lower rebate = better)
+// greenIfNegative=false → NM/PR (higher = better)
+function diffCls(a, b, greenIfNegative) {
+    const base = 'td-right td-diff';
+    if (a == null || b == null) return base;
+    const d = a - b;
+    if (d === 0) return base;
+    const isGreen = greenIfNegative ? d < 0 : d > 0;
+    return base + (isGreen ? '-green' : '-red');
+}
+
 export default class GridComparison extends LightningElement {
     @api recordId;
     @api iconName = 'utility:table';
@@ -277,12 +288,15 @@ export default class GridComparison extends LightningElement {
                 currRR          : curr?.rebateRate   ?? '',
                 selRR           : sel?.rebateRate    ?? '',
                 diffRR          : formatDiff(currRR, selRR),
+                diffRRClass     : diffCls(currRR, selRR, true),
                 currNM          : curr?.netMargin    ?? '',
                 selNM           : sel?.netMargin     ?? '',
                 diffNM          : formatDiff(currNM, selNM),
+                diffNMClass     : diffCls(currNM, selNM, false),
                 currPR          : curr?.profitability ?? '',
                 selPR           : sel?.profitability  ?? '',
-                diffPR          : formatDiff(currPR, selPR)
+                diffPR          : formatDiff(currPR, selPR),
+                diffPRClass     : diffCls(currPR, selPR, false)
             });
         }
         return rows;
