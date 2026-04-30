@@ -293,6 +293,8 @@ export default class GridComparison extends LightningElement {
         for (const [, { curr, sel }] of byScId) {
             let rowType = (curr && sel)? ((curr.standardGridDetailId === sel.standardGridDetailId)? 'SAME_EXACT' : 'SAME_DIFF') : (curr)? 'CURRENT_ONLY' : 'SELECTED_ONLY';
             const ref    = curr || sel;
+            // eslint-disable-next-line no-console
+            console.log('[GridComparison] row:', ref.shareClass, '| aum:', ref.aum, '| curr.rebateRate:', curr?.rebateRate, '| sel.rebateRate:', sel?.rebateRate, '| rowType:', rowType);
             const currRR = parsePct(curr?.rebateRate);
             const selRR  = parsePct(sel?.rebateRate);
             const currNM = parsePct(curr?.netMargin);
