@@ -132,10 +132,10 @@ tr:nth-child(even) td.td-selected { background: #e0e0e0; }
 tr:nth-child(even) .td-diff { background: #e0e0e0; }
 
 /* ── Diff columns — green (favorable) ── */
-td.td-diff-green { font-weight: 600; background: #e8f5e9; }
+td.td-diff-green { font-weight: 600; background: #c8e6c9; }
 
 /* ── Diff columns — red (unfavorable) ── */
-td.td-diff-red { font-weight: 600; background: #ffebee; }
+td.td-diff-red { font-weight: 600; background: #ffcdd2; }
 
 /* ── Section padding ── */
 .section-class { padding: 0px 10px; }
