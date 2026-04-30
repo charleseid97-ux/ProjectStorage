@@ -28,9 +28,12 @@ private with sharing class GridSimulationControllerTest {
         insert detail;
 
         String json = '{"' + sc.Id + '": "' + grid.Id + '"}';
+        Convention__c agreement = [SELECT Id, Business_Region__c FROM Convention__c WHERE Name = 'AGR-FR' LIMIT 1];
+        update new Grid__c(Id = grid.Id, Agreement__c = agreement.Id);
 
         Test.startTest();
         List<GridSimulationController.SimulationRow> result = GridSimulationController.getSimulationData(new List<Id>{ sc.Id }, null, json);
+        GridSimulationController.SimulationInitData initData = GridSimulationController.getSimulationInitData(grid.Id);
         Test.stopTest();
     }
 }

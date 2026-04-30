@@ -73,6 +73,11 @@ public with sharing class GridDetailTableController {
         return result;
     }
 
+    @AuraEnabled(cacheable=true)
+    public static String getGridAgreementRegion(Id gridId) {
+        return GridUtility.getGridAgreementRegion(gridId);
+    }
+
     private static AgreementSelection parseAgreementSelection(List<GridScope__c> scopes, GridDetailResult result) {
         AgreementSelection selection = new AgreementSelection();
 

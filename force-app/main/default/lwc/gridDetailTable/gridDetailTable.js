@@ -3,6 +3,7 @@ import { loadScript } from 'lightning/platformResourceLoader';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { LABELS, reduceError, exportGridExcel } from 'c/gridBuilderUtils';
 import getGridDetails from '@salesforce/apex/GridDetailTableController.getGridDetails';
+import getGridAgreementRegion from '@salesforce/apex/GridDetailTableController.getGridAgreementRegion';
 import XlsxJsStyle from '@salesforce/resourceUrl/xlsxjsstyle';
 import ExcelJs     from '@salesforce/resourceUrl/exceljs';
 
@@ -25,11 +26,11 @@ const COLUMNS = [
     { key: 'ruleValue',         label: 'Rule Value',        group: 'orange', numeric: true }
 ];
 
-const SORTED_BY_LABEL  = 'Eff Mgt Fee Date';
-const EXPORT_COLUMNS   = ['portfolio', 'shareClass', 'isin', 'aum', 'effMgtFee', 'rebateRate'];
+const SORTED_BY_LABEL = 'Eff Mgt Fee Date';
 
 export default class GridDetailTable extends LightningElement {
-    @api iconName = 'custom:custom63';
+    @api iconName   = 'custom:custom63';
+    agreementRegion = null;
 
     labels = LABELS;
     rows = [];
@@ -95,9 +96,13 @@ export default class GridDetailTable extends LightningElement {
         this.isLoading = true;
         this.errors = [];
         try {
-            const result = await getGridDetails({ gridId: this._recordId, activeOnly: false });
-            this.rows = result?.rows || [];
-            this.errors = result?.errors || [];
+            const [result, region] = await Promise.all([
+                getGridDetails({ gridId: this._recordId, activeOnly: false }),
+                getGridAgreementRegion({ gridId: this._recordId })
+            ]);
+            this.rows            = result?.rows || [];
+            this.errors          = result?.errors || [];
+            this.agreementRegion = region;
         } catch (error) {
             this.rows = [];
             this.errors = [reduceError(error)];
@@ -129,11 +134,28 @@ export default class GridDetailTable extends LightningElement {
             this.dispatchEvent(new ShowToastEvent({ title: 'Export not ready', message: 'Excel libraries are still loading. Please try again.', variant: 'warning' }));
             return;
         }
+        const lang = this.agreementRegion === 'BP_IT' ? 'IT' : this.agreementRegion === 'BP_FR' ? 'FR' : 'EN';
+        const L    = key => this.labels[`${key}_${lang}`] || '';
+
+        const rows = (this.rows || []).map(r => ({
+            name:           r.portfolio  || '',
+            shareClassName: r.shareClass || '',
+            isin:           r.isin       || '',
+            effMgtFee:      r.effMgtFee  != null ? r.effMgtFee  / 100 : '',
+            rebateRate:     r.rebateRate != null ? r.rebateRate / 100 : ''
+        }));
+        const columns = [
+            { key: 'name',           label: L('Grid_SimExport_Col_FundName') },
+            { key: 'shareClassName', label: L('Grid_SimExport_Col_ShareClass') },
+            { key: 'isin',           label: L('Grid_SimExport_Col_ISIN') },
+            { key: 'effMgtFee',      label: L('Grid_SimExport_Col_EffMgtFees'), numeric: true, numFormat: '0.000%' },
+            { key: 'rebateRate',     label: L('Grid_SimExport_Col_Rebate'),     numeric: true, numFormat: '0.000%' }
+        ];
         await exportGridExcel({
-            rows:      this.rows,
-            columns:   COLUMNS.filter(c => EXPORT_COLUMNS.includes(c.key)),
-            sheetName: 'Grid Details',
-            filename:  'GridDetails.xlsx'
+            rows, columns,
+            sheetName: 'Allegato', filename: 'GridDetails.xlsx',
+            header: L('Grid_SimExport_Header'),
+            footer: L('Grid_SimExport_Footer')
         });
     }
 }
