@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <buckets>
+        <bucketType>number</bucketType>
+        <developerName>BucketField_64481045</developerName>
+        <masterLabel>Days since request Creation</masterLabel>
+        <nullTreatment>z</nullTreatment>
+        <sourceColumnName>TaxData__c$AgingDays__c</sourceColumnName>
+        <useOther>false</useOther>
+        <values>
+            <sourceValues>
+                <to>30</to>
+            </sourceValues>
+            <value>In progress (0–30 days)</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>30</from>
+                <to>90</to>
+            </sourceValues>
+            <value>Pending submission (30–90 days)</value>
+        </values>
+        <values>
+            <sourceValues>
+                <from>90</from>
+            </sourceValues>
+            <value>Overdue (90+ days)</value>
+        </values>
+    </buckets>
+    <columns>
+        <field>TaxData__c$Name</field>
+    </columns>
+    <columns>
+        <field>TaxData__c$ISIN__c</field>
+    </columns>
+    <columns>
+        <field>TaxData__c$ShareClass__c</field>
+    </columns>
+    <columns>
+        <field>TaxData__c$StartDate__c</field>
+    </columns>
+    <columns>
+        <field>TaxData__c$EndDate__c</field>
+    </columns>
+    <columns>
+        <field>TaxData__c$Status__c</field>
+    </columns>
+    <currency>EUR</currency>
+    <description>Report dedicated to extracting Tax Transparency data across all share classes.</description>
+    <filter>
+        <booleanFilter>1 AND 2</booleanFilter>
+        <criteriaItems>
+            <column>TaxData__c$Status__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value>Requested,Canceled</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>TaxData__c$Type__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Transparency</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>TaxData__c$Country__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>TAX - Tax Transparency full scope</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Tax_Data__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>TaxData__c$CreatedDate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>
