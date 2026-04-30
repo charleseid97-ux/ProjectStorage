@@ -570,7 +570,7 @@ function buildGridDetailsExportRows(rows, source) {
             .filter(row => !row.isCustom && row.hasSimulatedData)
             .map(row => ({
                 name:           row.name           || row.productName    || '',
-                shareClassName: row.shareClassName || row.shareClassType || '',
+                shareClassName: row.shareClassType || row.shareClassName || '',
                 isin:           row.isin           || '',
                 effMgtFee:      toExcelPercentValue(row.simEffFee),
                 rebateRate:     toExcelPercentValue(row.simRebRate)
