@@ -26,6 +26,22 @@ function formatDiff(a, b) {
     return sign + d.toFixed(2) + '%';
 }
 
+function fmtAmt(v) {
+    if (v == null) return null;
+    const abs = Math.abs(v);
+    if (abs >= 1_000_000) return (v / 1_000_000).toFixed(1) + 'M';
+    if (abs >= 1_000)     return Math.round(v).toLocaleString();
+    return Math.round(v).toString();
+}
+
+function fmtDiffAmt(v) {
+    if (v == null || v === 0) return null;
+    const sign = v > 0 ? '+' : '';
+    const abs = Math.abs(v);
+    if (abs >= 1_000_000) return sign + (v / 1_000_000).toFixed(1) + 'M';
+    return sign + Math.round(v).toLocaleString();
+}
+
 // greenIfNegative=true  → RR  (lower rebate = better)
 // greenIfNegative=false → NM/PR (higher = better)
 function diffCls(a, b, greenIfNegative) {
@@ -284,6 +300,12 @@ export default class GridComparison extends LightningElement {
             const currPR = parsePct(curr?.profitability);
             const selPR  = parsePct(sel?.profitability);
 
+            const aumNum  = parseFloat((ref.aum || '').replace(/[^0-9]/g, '')) || 0;
+            const calcAmt = pct => (pct != null && aumNum) ? pct * aumNum / 100 : null;
+            const cRRAmt  = calcAmt(currRR), sRRAmt = calcAmt(selRR);
+            const cNMAmt  = calcAmt(currNM), sNMAmt = calcAmt(selNM);
+            const cPRAmt  = calcAmt(currPR), sPRAmt = calcAmt(selPR);
+
             rows.push({
                 key             : ref.shareClassId,
                 rowType,
@@ -296,17 +318,29 @@ export default class GridComparison extends LightningElement {
                 currentStdGrid  : curr?.stdGridName  ?? '',
                 selectedStdGrid : sel?.stdGridName   ?? '',
                 currRR          : curr?.rebateRate   ?? '',
+                currRRAmt       : fmtAmt(cRRAmt),
                 selRR           : sel?.rebateRate    ?? '',
+                selRRAmt        : fmtAmt(sRRAmt),
                 diffRR          : formatDiff(currRR, selRR),
                 diffRRClass     : diffCls(currRR, selRR, true),
+                diffRRAmt       : fmtDiffAmt(cRRAmt != null && sRRAmt != null ? cRRAmt - sRRAmt : null),
+                diffRRAmtClass  : diffCls(currRR, selRR, true),
                 currNM          : curr?.netMargin    ?? '',
+                currNMAmt       : fmtAmt(cNMAmt),
                 selNM           : sel?.netMargin     ?? '',
+                selNMAmt        : fmtAmt(sNMAmt),
                 diffNM          : formatDiff(currNM, selNM),
                 diffNMClass     : diffCls(currNM, selNM, false),
+                diffNMAmt       : fmtDiffAmt(cNMAmt != null && sNMAmt != null ? cNMAmt - sNMAmt : null),
+                diffNMAmtClass  : diffCls(currNM, selNM, false),
                 currPR          : curr?.profitability ?? '',
+                currPRAmt       : fmtAmt(cPRAmt),
                 selPR           : sel?.profitability  ?? '',
+                selPRAmt        : fmtAmt(sPRAmt),
                 diffPR          : formatDiff(currPR, selPR),
-                diffPRClass     : diffCls(currPR, selPR, false)
+                diffPRClass     : diffCls(currPR, selPR, false),
+                diffPRAmt       : fmtDiffAmt(cPRAmt != null && sPRAmt != null ? cPRAmt - sPRAmt : null),
+                diffPRAmtClass  : diffCls(currPR, selPR, false)
             });
         }
         return rows;

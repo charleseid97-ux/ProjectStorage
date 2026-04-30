@@ -127,11 +127,11 @@
                                             <tr>
                                                 <th colspan="7" class="th-group th-blue">Share Class Info</th>
                                                 <th class="section-gap"></th>
-                                                <th colspan="3" class="th-group th-section1">Rebate Rate</th>
+                                                <th colspan="4" class="th-group th-section1">Rebate Rate</th>
                                                 <th class="section-gap"></th>
-                                                <th colspan="3" class="th-group th-section2">Net Margin</th>
+                                                <th colspan="4" class="th-group th-section2">Net Margin</th>
                                                 <th class="section-gap"></th>
-                                                <th colspan="3" class="th-group th-section3">Profitability Rate</th>
+                                                <th colspan="4" class="th-group th-section3">Profitability Rate</th>
                                             </tr>
                                             <!-- Column label row -->
                                             <tr>
@@ -145,15 +145,18 @@
                                                 <th class="section-gap"></th>
                                                 <th class="th-sub th-section1">Current</th>
                                                 <th class="th-sub th-section1">Selected</th>
-                                                <th class="th-sub th-section1">Diff</th>
+                                                <th class="th-sub th-section1">Diff (Amt)</th>
+                                                <th class="th-sub th-section1">Diff (%)</th>
                                                 <th class="section-gap"></th>
                                                 <th class="th-sub th-section2">Current</th>
                                                 <th class="th-sub th-section2">Selected</th>
-                                                <th class="th-sub th-section2">Diff</th>
+                                                <th class="th-sub th-section2">Diff (Amt)</th>
+                                                <th class="th-sub th-section2">Diff (%)</th>
                                                 <th class="section-gap"></th>
                                                 <th class="th-sub th-section3">Current</th>
                                                 <th class="th-sub th-section3">Selected</th>
-                                                <th class="th-sub th-section3">Diff</th>
+                                                <th class="th-sub th-section3">Diff (Amt)</th>
+                                                <th class="th-sub th-section3">Diff (%)</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -167,16 +170,19 @@
                                                     <td class="td-current">{row.currentStdGrid}</td>
                                                     <td class="td-selected">{row.selectedStdGrid}</td>
                                                     <td class="section-gap"></td>
-                                                    <td class="td-right td-current">{row.currRR}</td>
-                                                    <td class="td-right td-selected">{row.selRR}</td>
+                                                    <td class="td-right td-current has-tooltip">{row.currRR}<template if:true={row.currRRAmt}><span class="cell-tooltip">{row.currRRAmt}</span></template></td>
+                                                    <td class="td-right td-selected has-tooltip">{row.selRR}<template if:true={row.selRRAmt}><span class="cell-tooltip">{row.selRRAmt}</span></template></td>
+                                                    <td class={row.diffRRAmtClass}>{row.diffRRAmt}</td>
                                                     <td class={row.diffRRClass}>{row.diffRR}</td>
                                                     <td class="section-gap"></td>
-                                                    <td class="td-right td-current">{row.currNM}</td>
-                                                    <td class="td-right td-selected">{row.selNM}</td>
+                                                    <td class="td-right td-current has-tooltip">{row.currNM}<template if:true={row.currNMAmt}><span class="cell-tooltip">{row.currNMAmt}</span></template></td>
+                                                    <td class="td-right td-selected has-tooltip">{row.selNM}<template if:true={row.selNMAmt}><span class="cell-tooltip">{row.selNMAmt}</span></template></td>
+                                                    <td class={row.diffNMAmtClass}>{row.diffNMAmt}</td>
                                                     <td class={row.diffNMClass}>{row.diffNM}</td>
                                                     <td class="section-gap"></td>
-                                                    <td class="td-right td-current">{row.currPR}</td>
-                                                    <td class="td-right td-selected">{row.selPR}</td>
+                                                    <td class="td-right td-current has-tooltip">{row.currPR}<template if:true={row.currPRAmt}><span class="cell-tooltip">{row.currPRAmt}</span></template></td>
+                                                    <td class="td-right td-selected has-tooltip">{row.selPR}<template if:true={row.selPRAmt}><span class="cell-tooltip">{row.selPRAmt}</span></template></td>
+                                                    <td class={row.diffPRAmtClass}>{row.diffPRAmt}</td>
                                                     <td class={row.diffPRClass}>{row.diffPR}</td>
                                                 </tr>
                                             </template>

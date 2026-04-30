@@ -137,6 +137,33 @@ td.td-diff-green { font-weight: 600; background: #c8e6c9; }
 /* ── Diff columns — red (unfavorable) ── */
 td.td-diff-red { font-weight: 600; background: #ffcdd2; }
 
+/* ── Amount tooltip on Current / Selected cells ── */
+.has-tooltip {
+    position: relative;
+    cursor: default;
+}
+.cell-tooltip {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 4px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffffff;
+    border: 1px solid #c9c9c9;
+    border-radius: 4px;
+    padding: 3px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    color: #3e3e3c;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    pointer-events: none;
+    z-index: 100;
+}
+.has-tooltip:hover .cell-tooltip {
+    display: block;
+}
+
 /* ── Section padding ── */
 .section-class { padding: 0px 10px; }
 .section-padding { padding: 5px 15px; }
