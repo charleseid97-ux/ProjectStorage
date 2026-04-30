@@ -244,6 +244,24 @@ tr:nth-child(even) .td-sim { background: #e8dcfc; }
     border-style: solid;
 }
 
+/* ── Column sorting ── */
+.th-col.sortable {
+    cursor: pointer;
+    user-select: none;
+}
+
+.th-col.sortable:hover {
+    filter: brightness(0.93);
+}
+
+.sort-icon {
+    margin-left: 3px;
+    font-size: 9px;
+    font-weight: 400;
+    opacity: 0.75;
+    vertical-align: middle;
+}
+
 /* ── Row in active grid but removed in new grid (will be lost) ── */
 .row-current-only .td-info    { background: #fde8c8 !important; }
 .row-current-only .td-current { background: #fde8c8 !important; }
