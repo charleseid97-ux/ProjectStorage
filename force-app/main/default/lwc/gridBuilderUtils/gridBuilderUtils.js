@@ -516,6 +516,94 @@ export function appendCustomLogicIfNeeded(filterLogicType, filterLogicText, upda
     return { filterLogicType: 'Custom Logic', filterLogicText: nextExpression };
 }
 
+function getGridExportLanguage(agreementRegion) {
+    if (agreementRegion === 'BP_IT') return 'IT';
+    if (agreementRegion === 'BP_FR') return 'FR';
+    return 'EN';
+}
+
+function getGridExportLabel(labels, agreementRegion) {
+    const lang = getGridExportLanguage(agreementRegion);
+    return key => labels[`${key}_${lang}`] || '';
+}
+
+function buildGridDetailsExportColumns(label) {
+    return [
+        { key: 'name',           label: label('Grid_SimExport_Col_FundName') },
+        { key: 'shareClassName', label: label('Grid_SimExport_Col_ShareClass') },
+        { key: 'isin',           label: label('Grid_SimExport_Col_ISIN') },
+        { key: 'effMgtFee',      label: label('Grid_SimExport_Col_EffMgtFees'), numeric: true, numFormat: '0.000%' },
+        { key: 'rebateRate',     label: label('Grid_SimExport_Col_Rebate'),     numeric: true, numFormat: '0.000%' }
+    ];
+}
+
+function toExcelPercentValue(value) {
+    if (value == null || value === '') {
+        return '';
+    }
+
+    if (typeof value === 'number') {
+        return Number.isFinite(value) ? value / 100 : '';
+    }
+
+    let cleaned = String(value).replace(/%/g, '').replace(/\s/g, '');
+    const lastComma = cleaned.lastIndexOf(',');
+    const lastDot = cleaned.lastIndexOf('.');
+
+    if (lastComma >= 0 && lastDot >= 0) {
+        const decimalSeparator = lastComma > lastDot ? ',' : '.';
+        const thousandsSeparator = decimalSeparator === ',' ? '.' : ',';
+        cleaned = cleaned
+            .replace(new RegExp(`\\${thousandsSeparator}`, 'g'), '')
+            .replace(decimalSeparator, '.');
+    } else {
+        cleaned = cleaned.replace(',', '.');
+    }
+
+    const numberValue = Number(cleaned);
+    return Number.isFinite(numberValue) ? numberValue / 100 : '';
+}
+
+function buildGridDetailsExportRows(rows, source) {
+    if (source === 'simulation') {
+        return (rows || [])
+            .filter(row => !row.isCustom && row.hasSimulatedData)
+            .map(row => ({
+                name:           row.name           || row.productName    || '',
+                shareClassName: row.shareClassType || row.shareClassName || '',
+                isin:           row.isin           || '',
+                effMgtFee:      toExcelPercentValue(row.simEffFee),
+                rebateRate:     toExcelPercentValue(row.simRebRate)
+            }));
+    }
+
+    return (rows || []).map(row => ({
+        name:           row.portfolio  || '',
+        shareClassName: row.shareClass || '',
+        isin:           row.isin       || '',
+        effMgtFee:      toExcelPercentValue(row.effMgtFee),
+        rebateRate:     toExcelPercentValue(row.rebateRate)
+    }));
+}
+
+export async function exportGridDetailsExcel({ component, agreementRegion, rows, source = 'detail', labels = LABELS }) {
+    if (!window.XLSX || !window.ExcelJS) {
+        showToast(component, 'Export not ready', 'Excel libraries are still loading. Please try again.', 'warning');
+        return;
+    }
+
+    const label = getGridExportLabel(labels, agreementRegion);
+
+    await exportGridExcel({
+        rows: buildGridDetailsExportRows(rows, source),
+        columns: buildGridDetailsExportColumns(label),
+        sheetName: 'Allegato',
+        filename: 'GridDetails.xlsx',
+        header: label('Grid_SimExport_Header'),
+        footer: label('Grid_SimExport_Footer')
+    });
+}
+
 /**
  * Exports a flat list of rows to a styled Excel file with a frozen column-header row.
  * Each column definition: { key, label, numeric?, numFormat? }
@@ -555,7 +643,14 @@ export async function exportGridExcel({ rows, columns, sheetName = 'Export', fil
     // Data rows
     (rows || []).forEach((row, ri) => {
         const r = colHdrRow + 1 + ri;
-        aoa.push(columns.map(c => row[c.key] ?? ''));
+        aoa.push(columns.map(c => {
+            const value = row[c.key] ?? '';
+            if (!c.numeric || value === '') {
+                return value;
+            }
+            const numericValue = Number(value);
+            return Number.isFinite(numericValue) ? numericValue : '';
+        }));
         columns.forEach((col, ci) => {
             styles[`${r},${ci}`] = col.numeric ? numStyle : dataStyle;
             if (col.numFormat) numFormats[`${r},${ci}`] = col.numFormat;
