@@ -96,33 +96,43 @@ export default class GridComparison extends LightningElement {
     handleShowAll()           { this.discrepanciesOnly = false; }
     handleShowDiscrepancies() { this.discrepanciesOnly = true;  }
 
-    async loadGridOptions() {
+    async loadGridOptions(searchTerm = '') {
         try {
-            const results = await searchGrids({ searchTerm: '', currentGridId: this.recordId });
+            const results = await searchGrids({ searchTerm, currentGridId: this.recordId });
             this.searchOptions = (results || []).map(r => ({
                 label : r.name + (r.subtitle ? ' – ' + r.subtitle : ''),
                 value : r.id
             }));
+            this._refreshSearchList();
         } catch (e) {
             this.errors = [reduceError(e)];
         }
     }
 
-    async loadAgreementOptions() {
+    async loadAgreementOptions(searchTerm = '') {
         try {
-            const results = await searchAgreements({ searchTerm: '' });
+            const results = await searchAgreements({ searchTerm });
             this.searchOptions = (results || []).map(r => ({
                 label : r.name + (r.subtitle ? ' – ' + r.subtitle : ''),
                 value : r.id
             }));
+            this._refreshSearchList();
         } catch (e) {
             this.errors = [reduceError(e)];
         }
+    }
+
+    _refreshSearchList() {
+        const list = this.template.querySelector('c-multi-select-search-list');
+        if (list) list.refreshOptions(this.searchOptions);
     }
 
     handleSearchChange(event) {
-        const { selectedValues, isSearchChange } = event.detail;
-        if (!isSearchChange && selectedValues) {
+        const { selectedValues, isSearchChange, searchKey } = event.detail;
+        if (isSearchChange) {
+            if (this.isModeGrid) this.loadGridOptions(searchKey);
+            else                 this.loadAgreementOptions(searchKey);
+        } else if (selectedValues) {
             this.handleSelectResult(selectedValues);
         }
     }
