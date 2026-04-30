@@ -1,5 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+
+    <types>
+        <members>TaxTeam</members>
+        <name>DashboardFolder</name>
+    </types>
+
+    <types>
+        <members>TaxTeam/MyjnXrOEFncFOQGmUIMOKdSlcGjsM</members>
+        <name>Dashboard</name>
+    </types>
 
     <types>
         <members>TaxTeam</members>
@@ -11,29 +21,24 @@
         <members>TaxTeam/TAX_BE_Asset_Test_full_scope_VtZ</members>
         <members>TaxTeam/TAX_BE_Belgium_Simulator_full_scope_wXW</members>
         <members>TaxTeam/TAX_BE_TIS_full_scope_7x8</members>
-        <members>TaxTeam/TAX_TIS_History_Report_lCR</members>
-        <members>TaxTeam/TAX_Tax_data_Backlog_L4k</members>
+        <members>TaxTeam/TAX_Tax_Data_Available_Qh_report</members>
         <members>TaxTeam/TAX_Tax_data_Backlog_at_risk_5Ol</members>
-        <members>TaxTeam/TAX_Tax_data_Backlog_on_Transparency_Cdh</members>
-        <members>TaxTeam/TAX_Tax_resquest_AT_Wk6</members>
-        <members>TaxTeam/TAX_Tax_resquest_BE_dgF</members>
-        <members>TaxTeam/TAX_Tax_resquest_CH_NGO</members>
-        <members>TaxTeam/TAX_Tax_resquest_IT_Kxl</members>
-        <members>TaxTeam/TAX_Tax_resquest_UK_sDz</members>
-        <members>TaxTeam/TAX_Tax_Data_Available_Ohq</members>
+        <members>TaxTeam/TAX_Tax_data_Backlog_l4k</members>
+        <members>TaxTeam/TAX_Tax_data_Backlog_on_Transparency_Cdhr</members>
+        <members>TaxTeam/TAX_Tax_request_AT_Wk6</members>
+        <members>TaxTeam/TAX_Tax_request_BE_dgF</members>
+        <members>TaxTeam/TAX_Tax_request_CH_NGO</members>
+        <members>TaxTeam/TAX_Tax_request_IT_KxI</members>
+        <members>TaxTeam/TAX_Tax_request_UK_sDz</members>
         <members>TaxTeam/TAX_Tax_Transparency_YES_5CZ</members>
+        <members>TaxTeam/TAX_TIS_History_Report_ICR</members>
         <name>Report</name>
     </types>
 
-	<types>
-		<members>TaxTeam</members>
-		<name>DashboardFolder</name>
-	</types>
-
-	<types>
-		<members>TaxTeam/MyjnXrOEFncFOQGmUlMOKdScIgFjsM</members>
-		<name>Dashboard</name>
-	</types>
+    <types>
+        <members>Tax_Data</members>
+        <name>ReportType</name>
+    </types>
 
     <version>65.0</version>
 </Package>
