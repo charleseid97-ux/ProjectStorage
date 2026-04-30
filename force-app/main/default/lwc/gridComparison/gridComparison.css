@@ -46,8 +46,13 @@
 }
 .lookup-wrapper {
     display: flex;
+    flex: 1;
     align-items: flex-end;
     gap: 10px;
+}
+c-multi-select-search-list {
+    flex: 1;
+    min-width: 0;
 }
 
 .selected-pill {

@@ -28,13 +28,16 @@ public with sharing class GridComparisonController {
         List<LookupResult> group2 = new List<LookupResult>(); // same-agreement grids
         List<LookupResult> group3 = new List<LookupResult>(); // other custom grids
 
+        String rtStandard = GridBuilderHelper.RT_STANDARD_GRID;
+        String rtCustom   = GridBuilderHelper.RT_CUSTOM_GRID;
+
         for (Grid__c g : [SELECT Id, Name, RecordType.DeveloperName, RecordType.Name, ActiveGrid__c, Tech_SpecificStandardGrid__c, Agreement__c
                           FROM Grid__c
                           WHERE Name LIKE :term
                             AND Id != :currentGridId
-                            AND (RecordType.DeveloperName = 'StandardGrid' OR RecordType.DeveloperName = 'CustomGrid')
+                            AND (RecordType.DeveloperName = :rtStandard OR RecordType.DeveloperName = :rtCustom)
                           ORDER BY Name LIMIT 600]) {
-            if (g.RecordType.DeveloperName == 'StandardGrid') {
+            if (g.RecordType.DeveloperName == rtStandard) {
                 if (g.ActiveGrid__c && !g.Tech_SpecificStandardGrid__c) {
                     group1.add(new LookupResult(g.Id, g.Name, null));
                 }
