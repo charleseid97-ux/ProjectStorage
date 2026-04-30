@@ -66,7 +66,6 @@ public with sharing class GridComparisonController {
                                   FROM Convention__c
                                   WHERE Name LIKE :term
                                   AND Grid__c != null
-                                  AND Grid__r.ApprovalStatus__c = 'Approved'
                                   ORDER BY Name LIMIT 500]) {
             results.add(new LookupResult(agr.Id, agr.Name, agr.Grid__r.Name));
         }
