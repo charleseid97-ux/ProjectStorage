@@ -11,16 +11,47 @@ public with sharing class GridComparisonController {
     @AuraEnabled(cacheable=true)
     public static List<LookupResult> searchGrids(String searchTerm, Id currentGridId) {
         String term = '%' + (String.isBlank(searchTerm) ? '' : String.escapeSingleQuotes(searchTerm.trim())) + '%';
-        List<LookupResult> results = new List<LookupResult>();
-        for (Grid__c g : [SELECT Id, Name, RecordType.Name
+
+        // Single-record lookup to resolve the current grid's agreement
+        Id currentAgreementId       = null;
+        String currentAgreementName = null;
+        if (currentGridId != null) {
+            List<Grid__c> cur = [SELECT Agreement__c, Agreement__r.Name FROM Grid__c WHERE Id = :currentGridId LIMIT 1];
+            if (!cur.isEmpty() && cur[0].Agreement__c != null) {
+                currentAgreementId   = cur[0].Agreement__c;
+                currentAgreementName = cur[0].Agreement__r.Name;
+            }
+        }
+
+        // Single query — classify into priority groups in-memory
+        List<LookupResult> group1 = new List<LookupResult>(); // general standard grids
+        List<LookupResult> group2 = new List<LookupResult>(); // same-agreement grids
+        List<LookupResult> group3 = new List<LookupResult>(); // other custom grids
+
+        for (Grid__c g : [SELECT Id, Name, RecordType.DeveloperName, RecordType.Name, ActiveGrid__c, Tech_SpecificStandardGrid__c, Agreement__c
                           FROM Grid__c
                           WHERE Name LIKE :term
-                          AND Id != :currentGridId
-                          AND ((RecordType.DeveloperName = 'StandardGrid' AND ActiveGrid__c = true)
-                            OR (RecordType.DeveloperName = 'CustomGrid'))
-                          ORDER BY Name LIMIT 500]) {
-            results.add(new LookupResult(g.Id, g.Name, g.RecordType.Name));
+                            AND Id != :currentGridId
+                            AND (RecordType.DeveloperName = 'StandardGrid' OR RecordType.DeveloperName = 'CustomGrid')
+                          ORDER BY Name LIMIT 600]) {
+            if (g.RecordType.DeveloperName == 'StandardGrid') {
+                if (g.ActiveGrid__c && !g.Tech_SpecificStandardGrid__c) {
+                    group1.add(new LookupResult(g.Id, g.Name, null));
+                }
+                // Tech_SpecificStandardGrid__c = true → hidden
+            } else {
+                if (currentAgreementId != null && g.Agreement__c == currentAgreementId) {
+                    group2.add(new LookupResult(g.Id, g.Name, currentAgreementName));
+                } else {
+                    group3.add(new LookupResult(g.Id, g.Name, g.RecordType.Name));
+                }
+            }
         }
+
+        List<LookupResult> results = new List<LookupResult>();
+        results.addAll(group1);
+        results.addAll(group2);
+        results.addAll(group3);
         return results;
     }
 
