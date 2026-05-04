@@ -71,7 +71,7 @@ export default class GridComparison extends LightningElement {
 
     // ── Detail state ──
     @track mergedRows        = [];
-    @track discrepanciesOnly = false;
+    @track discrepanciesOnly = true;
     @track detailOpen        = true;
     @track sortField         = 'diffRRAmt';
     @track sortDir           = 'desc';
@@ -186,7 +186,7 @@ export default class GridComparison extends LightningElement {
         this.errors            = [];
         this.overviewRows      = [];
         this.mergedRows        = [];
-        this.discrepanciesOnly = false;
+        this.discrepanciesOnly = true;
     }
 
     handleRefresh() {
@@ -281,7 +281,7 @@ export default class GridComparison extends LightningElement {
 
     get visibleRows() {
         const TEXT_FIELDS = new Set(['portfolio', 'shareClass', 'isin', 'currentStdGrid', 'selectedStdGrid']);
-        let rows = this.discrepanciesOnly ? this.mergedRows.filter(r => r.rowType !== 'SAME_EXACT') : this.mergedRows;
+        let rows = this.discrepanciesOnly ? this.mergedRows.filter(r => r.isDiscrepancy) : this.mergedRows;
 
         if (this.sortField) {
             const field  = this.sortField;
@@ -330,10 +330,9 @@ export default class GridComparison extends LightningElement {
         for (const [, { curr, sel }] of byScId) {
             let rowType = (curr && sel)? ((curr.standardGridDetailId === sel.standardGridDetailId)? 'SAME_EXACT' : 'SAME_DIFF') : (curr)? 'CURRENT_ONLY' : 'SELECTED_ONLY';
             const ref    = curr || sel;
-            // eslint-disable-next-line no-console
-            console.log('[GridComparison] row:', ref.shareClass, '| aum:', ref.aum, '| curr.rebateRate:', curr?.rebateRate, '| sel.rebateRate:', sel?.rebateRate, '| rowType:', rowType);
-            const currRR = parsePct(curr?.rebateRate);
-            const selRR  = parsePct(sel?.rebateRate);
+            const currRR = curr ? parsePct(curr.rebateRate) : 0;
+            const selRR  = sel  ? parsePct(sel.rebateRate)  : 0;
+            const isDiscrepancy = (currRR ?? 0) !== (selRR ?? 0);
             const currNM = parsePct(curr?.netMargin);
             const selNM  = parsePct(sel?.netMargin);
             const currPR = parsePct(curr?.profitability);
@@ -353,6 +352,7 @@ export default class GridComparison extends LightningElement {
                 key             : ref.shareClassId,
                 rowType,
                 rowClass        : ROW_TYPE_CSS[rowType],
+                isDiscrepancy,
                 portfolio       : ref.portfolio,
                 shareClass      : ref.shareClass,
                 isin            : ref.isin,
@@ -360,9 +360,9 @@ export default class GridComparison extends LightningElement {
                 effMgtFee       : ref.effMgtFee,
                 currentStdGrid  : curr?.stdGridName  ?? '',
                 selectedStdGrid : sel?.stdGridName   ?? '',
-                currRR          : curr?.rebateRate   ?? '',
+                currRR          : curr ? (curr.rebateRate ?? '') : '0.00%',
                 currRRAmt       : fmtAmt(cRRAmt),
-                selRR           : sel?.rebateRate    ?? '',
+                selRR           : sel  ? (sel.rebateRate  ?? '') : '0.00%',
                 selRRAmt        : fmtAmt(sRRAmt),
                 diffRR          : formatDiff(currRR, selRR),
                 diffRRClass     : diffCls(currRR, selRR, true),
@@ -389,7 +389,7 @@ export default class GridComparison extends LightningElement {
                 effMgtFeeRaw    : parsePct(ref.effMgtFee),
                 currRRRaw       : currRR,
                 selRRRaw        : selRR,
-                diffRRRaw       : currRR != null && selRR != null ? currRR - selRR : null,
+                diffRRRaw       : (currRR ?? 0) - (selRR ?? 0),
                 diffRRAmtRaw    : diffRRAmtVal,
                 currNMRaw       : currNM,
                 selNMRaw        : selNM,
