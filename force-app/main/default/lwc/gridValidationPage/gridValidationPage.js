@@ -102,7 +102,8 @@ export default class GridValidationPage extends LightningElement {
             ThresholdAmount__c:          this.gridRequestData.thresholdAmount         || null,
             ThresholdAmountCurrency__c:  this.gridRequestData.thresholdAmountCurrency || null,
             OtherFees__c:                this.gridRequestData.otherFees               ?? false,
-            Comment__c:                  this.gridRequestData.comment                 || null
+            Comment__c:                  this.gridRequestData.comment                 || null,
+            Tech_SingleRuleGridSelection__c: this.gridRequestData.singleRuleGrid?.label || null
         };
 
         // Group share classes by criteriaRefId

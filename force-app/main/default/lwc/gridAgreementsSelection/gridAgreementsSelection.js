@@ -1,6 +1,7 @@
 import { LightningElement, api, track, wire } from 'lwc';
 import { LABELS } from 'c/gridBuilderUtils';
 import getGridPicklistOptions from '@salesforce/apex/GridBuilderController.getGridPicklistOptions';
+import getAvailableGrids from '@salesforce/apex/GridBuilderController.getAvailableGrids';
 
 export default class GridAgreementsSelection extends LightningElement {
     @api hasTeamSelection = false;
@@ -55,6 +56,9 @@ export default class GridAgreementsSelection extends LightningElement {
     @track agOtherFees      = false; // AG9 — OtherFees__c
     @track agComment        = '';    // AG10 — Comment__c
 
+    @track singleRuleGridOptions = [];
+    @track selectedSingleRuleGrid = null;
+
     @api
     set gridData(val) {
         if (!val || !Object.keys(val).length) return;
@@ -67,6 +71,10 @@ export default class GridAgreementsSelection extends LightningElement {
         this.agThreshCcy      = val.thresholdAmountCurrency || '';
         this.agOtherFees      = val.otherFees ?? false;
         this.agComment        = val.comment || '';
+        this.selectedSingleRuleGrid = val.singleRuleGrid || null;
+        if (this.agType === 'SINGLE RULE') {
+            this.loadSingleRuleGridOptions();
+        }
     }
     get gridData() { return null; }
 
@@ -76,11 +84,11 @@ export default class GridAgreementsSelection extends LightningElement {
     @api
     set initialLoadPreviousGrid(val) { this.loadPreviousGrid = val || false; }
     get initialLoadPreviousGrid()    { return this.loadPreviousGrid; }
-    _existingGridInfo = { hasExistingGrid: false, kind: null, type: null, endDate: null };
+    _existingGridInfo = { hasExistingGrid: false, kind: null, type: null, endDate: null, singleRuleGridSelection: null };
 
     @api
     set existingGridInfo(val) {
-        this._existingGridInfo = val || { hasExistingGrid: false, kind: null, type: null, endDate: null };
+        this._existingGridInfo = val || { hasExistingGrid: false, kind: null, type: null, endDate: null, singleRuleGridSelection: null };
         // Auto-set Kind on first load if not yet chosen
         if (this._existingGridInfo.kind && !this.agKind) {
             this.agKind = this._existingGridInfo.kind;
@@ -88,9 +96,20 @@ export default class GridAgreementsSelection extends LightningElement {
     }
     get existingGridInfo() { return this._existingGridInfo; }
 
-    get hasExistingGrid()    { return this._existingGridInfo.hasExistingGrid; }
-    get existingGridEndDate(){ return this._existingGridInfo.endDate; }
-    get existingGridType()   { return this._existingGridInfo.type; }
+    get hasExistingGrid()                { return this._existingGridInfo.hasExistingGrid; }
+    get existingGridEndDate()            { return this._existingGridInfo.endDate; }
+    get existingGridType()               { return this._existingGridInfo.type; }
+    get existingGridSingleRuleSelection(){ return this._existingGridInfo.singleRuleGridSelection; }
+
+    get isLoadPreviousToggleDisabled() {
+        if (!this.isSingleRule) return false;
+        return !(
+            this.existingGridType === 'SINGLE RULE' &&
+            this.existingGridSingleRuleSelection &&
+            this.selectedSingleRuleGrid?.label &&
+            this.existingGridSingleRuleSelection === this.selectedSingleRuleGrid.label
+        );
+    }
 
     get isMultiAgreementSelection() {
         return this.agreementSelectionMode === 'Multiple' || this.multiAgreementSelection;
@@ -108,16 +127,23 @@ export default class GridAgreementsSelection extends LightningElement {
         return this.effectiveHasTeamSelection && (this.availableTeams || []).length > 1;
     }
 
+    get isSingleRule()             { return this.agType === 'SINGLE RULE'; }
+    get isSingleRuleGridDisabled() { return !(this.selectedValues || []).length; }
+    get isSingleRuleGridRequired() { return this.isSingleRule; }
+    get singleRuleGridValue()      { return this.selectedSingleRuleGrid?.value || ''; }
+
     get gridNamePreview() {
-        const firstId  = (this.selectedValues && this.selectedValues.length) ? this.selectedValues[0] : null;
-        const opt      = firstId ? this.findOptionById(firstId) : null;
-        const region   = (opt && opt.regionCode)  ? opt.regionCode : '…';
-        const agCode   = (opt && opt.name)         ? opt.name       : '…';
-        const kind     = this.agKind  || '…';
-        const type     = this.agType  || '…';
-        const update   = this.isAutoGridUpdate ? 'AUTOMATIC' : 'MANUAL';
-        const date     = this.agStartDate || '…';
-        return kind + ' – ' + region + ' – ' + agCode + ' – ' + type + ' – ' + update + ' – ' + date;
+        const firstId     = this.selectedValues?.length ? this.selectedValues[0] : null;
+        const opt         = firstId ? this.findOptionById(firstId) : null;
+        const region      = opt?.regionCode ?? '…';
+        const agCode      = opt?.name       ?? '…';
+        const kind        = this.agKind || '…';
+        const typeSegment = this.isSingleRule
+            ? (this.selectedSingleRuleGrid?.label || '…')
+            : (this.agType || '…');
+        const update      = this.isAutoGridUpdate ? 'AUTOMATIC' : 'MANUAL';
+        const date        = this.agStartDate || '…';
+        return kind + ' – ' + region + ' – ' + agCode + ' – ' + typeSegment + ' – ' + update + ' – ' + date;
     }
 
     get isThreshAboveZero()    { return this.agThreshold != null && parseFloat(this.agThreshold) > 0; }
@@ -134,12 +160,13 @@ export default class GridAgreementsSelection extends LightningElement {
     }
 
     get isNextDisabled() {
-        const hasAgreements  = (this.selectedValues || []).length > 0;
-        const hasDate        = this.agStartDate != null;
-        const hasTeam        = !this.showTeamPicker || !!this.selectedTeam;
-        const hasMeta        = !!this.agKind && !!this.agType;
-        const hasThreshCcy   = !this.isThreshAboveZero || !!this.agThreshCcy;
-        return !(hasAgreements && hasDate && hasTeam && hasMeta && hasThreshCcy) || this.isEndDateBeforeStartDate;
+        const hasAgreements     = (this.selectedValues || []).length > 0;
+        const hasDate           = this.agStartDate != null;
+        const hasTeam           = !this.showTeamPicker || !!this.selectedTeam;
+        const hasMeta           = !!this.agKind && !!this.agType;
+        const hasThreshCcy      = !this.isThreshAboveZero || !!this.agThreshCcy;
+        const hasSingleRuleGrid = !this.isSingleRule || !!this.selectedSingleRuleGrid;
+        return !(hasAgreements && hasDate && hasTeam && hasMeta && hasThreshCcy && hasSingleRuleGrid) || this.isEndDateBeforeStartDate;
     }
 
     get showLoadPreviousToggle()    { return !this.hasDraftGrid && this.hasExistingGrid; }
@@ -169,6 +196,12 @@ export default class GridAgreementsSelection extends LightningElement {
             this.selectedValues = [this.recId];
             this.pills = this.getPills();
             this.notifyValidity();
+        }
+        // When mounting with a pre-set SINGLE RULE type (e.g. editing a draft), the gridData
+        // setter fires before connectedCallback so selectedValues is still empty at that point.
+        // Re-trigger loading here now that selectedValues is populated.
+        if (this.isSingleRule && (this.selectedValues || []).length) {
+            this.loadSingleRuleGridOptions();
         }
     }
 
@@ -257,6 +290,9 @@ export default class GridAgreementsSelection extends LightningElement {
             let selected = (event.detail && event.detail.selectedValues) ? event.detail.selectedValues : [];
             this.selectedValues = selected? (Array.isArray(selected)? selected : [selected]) : [];
             this.pills = this.getPills();
+            if (this.isSingleRule) {
+                this.loadSingleRuleGridOptions();
+            }
             this.notifyValidity();
         }
     }
@@ -286,9 +322,58 @@ export default class GridAgreementsSelection extends LightningElement {
         this.notifyValidity();
     }
 
+    async loadSingleRuleGridOptions() {
+        if (!this.isSingleRule || !(this.selectedValues || []).length) return;
+        const prevLabel = this.selectedSingleRuleGrid?.label || null;
+        const countriesOfDistribution = this.buildCountriesOfDistribution();
+        const agreementNames = (this.selectedValues || [])
+            .map(id => { const o = this.findOptionById(id); return o ? o.name : null; })
+            .filter(Boolean)
+            .join(',');
+        try {
+            const result = await getAvailableGrids({ countriesOfDistribution, agreementNames });
+            this.singleRuleGridOptions = (result?.gridOptions || []).map(o => ({ label: o.label, value: o.label }));
+            // Restore previously selected grid if still available; otherwise clear
+            this.selectedSingleRuleGrid = prevLabel
+                ? (this.singleRuleGridOptions.find(o => o.label === prevLabel) || null)
+                : null;
+        } catch (e) {
+            this.singleRuleGridOptions = [];
+            this.selectedSingleRuleGrid = null;
+            console.error('Failed to load single rule grid options', e);
+        }
+        this.notifyValidity();
+    }
+
     // ── AG field handlers ──
-    handleAgKind(e)           { this.agKind = e.detail.value; this.notifyValidity(); }
-    handleAgType(e)           { this.agType = e.detail.value; if (this.agType === 'MULTI RULE') { this.isAutoGridUpdate = false; } this.notifyValidity(); }
+    handleAgKind(e) { this.agKind = e.detail.value; this.notifyValidity(); }
+    handleAgType(e) {
+        this.agType = e.detail.value;
+        if (this.agType === 'MULTI RULE') {
+            this.isAutoGridUpdate = false;
+            this.selectedSingleRuleGrid = null;
+            this.singleRuleGridOptions = [];
+        } else if (this.agType === 'SINGLE RULE') {
+            // A1: auto-clear "Load previous" when switching to SINGLE RULE
+            if (this.loadPreviousGrid) {
+                this.loadPreviousGrid = false;
+                this.dispatchEvent(new CustomEvent('loadpreviouschange', { detail: { value: false } }));
+            }
+            this.loadSingleRuleGridOptions();
+        }
+        this.notifyValidity();
+    }
+    handleSingleRuleGridChange(e) {
+        const val = e.detail.value;
+        const opt = this.singleRuleGridOptions.find(o => o.value === val);
+        this.selectedSingleRuleGrid = opt || null;
+        // A2: auto-clear "Load previous" if conditions no longer met
+        if (this.isLoadPreviousToggleDisabled && this.loadPreviousGrid) {
+            this.loadPreviousGrid = false;
+            this.dispatchEvent(new CustomEvent('loadpreviouschange', { detail: { value: false } }));
+        }
+        this.notifyValidity();
+    }
     handleAutoUpdateToggle(e) { this.isAutoGridUpdate = e.target.checked; }
     handleAgStartDate(event)  { this.agStartDate = event.detail.value; this.notifyValidity(); }
     handleAgEndDate(e)        { this.agEndDate = e.detail.value; this.notifyValidity(); }
@@ -322,7 +407,8 @@ export default class GridAgreementsSelection extends LightningElement {
                 otherFees:               this.agOtherFees,
                 comment:                 this.agComment,
                 gridName:                this.gridNamePreview,
-                loadPreviousGrid:        this.loadPreviousGrid
+                loadPreviousGrid:        this.loadPreviousGrid,
+                singleRuleGrid:          this.selectedSingleRuleGrid
             }
         }));
     }

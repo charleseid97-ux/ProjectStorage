@@ -397,11 +397,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Grid__c.RateCalculationBasis__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Grid__c.SalesOwner__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -418,6 +413,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Grid__c.Tech_SpecificStandardGrid__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Grid__c.Tech_SingleRuleGridSelection__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

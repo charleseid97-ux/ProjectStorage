@@ -31,7 +31,7 @@ public with sharing class GridBuilderController {
         }
 
         String agreementWhere = buildAgreementWhereClause(agreementId, userPrimaryTeam, userSecondaryTeams, gridSettings?.agreementQueryConditions);
-        String agreementQuery = 'SELECT Id, ConventionName__c, Name, Team__c, Countries_of_Distribution__c, Business_Region__c, Grid__c, Grid__r.Kind__c, Grid__r.Type__c, Grid__r.EndDate__c, Grid_Request__c, Grid_Request__r.ApprovalStatus__c '+
+        String agreementQuery = 'SELECT Id, ConventionName__c, Name, Team__c, Countries_of_Distribution__c, Business_Region__c, Grid__c, Grid__r.Kind__c, Grid__r.Type__c, Grid__r.EndDate__c, Grid__r.Tech_SingleRuleGridSelection__c, Grid_Request__c, Grid_Request__r.ApprovalStatus__c '+
                                 ' FROM Convention__c ';
         agreementQuery +=       ' WHERE ' + agreementWhere;
         agreementQuery +=       ' ORDER BY ConventionName__c ASC, Name ASC, Team__c ASC LIMIT 5000';
@@ -144,7 +144,7 @@ public with sharing class GridBuilderController {
     }
 
     private static DraftGridData buildGridData(Id gridId) {
-        Grid__c grid = [SELECT Id, Name, Kind__c, Type__c, AutomaticGridUpdate__c, StartDate__c, EndDate__c, ThresholdAmount__c, ThresholdAmountCurrency__c, OtherFees__c, Comment__c
+        Grid__c grid = [SELECT Id, Name, Kind__c, Type__c, AutomaticGridUpdate__c, StartDate__c, EndDate__c, ThresholdAmount__c, ThresholdAmountCurrency__c, OtherFees__c, Comment__c, Tech_SingleRuleGridSelection__c
                         FROM Grid__c
                         WHERE Id = :gridId LIMIT 1];
 
@@ -403,20 +403,22 @@ public with sharing class GridBuilderController {
         @AuraEnabled public String existingGridKind { get; set; }
         @AuraEnabled public String existingGridType { get; set; }
         @AuraEnabled public String existingGridEndDate { get; set; }
+        @AuraEnabled public String existingGridSingleRuleSelection { get; set; }
         @AuraEnabled public Boolean hasDraftGrid { get; set; }
         @AuraEnabled public Boolean hasPendingGrid { get; set; }
         @AuraEnabled public String agreementId { get; set; }
         public AgreementSelectionPageSettings(Boolean gridBuilderFound, String agreementSelectionMode, String primaryTeam, Set<String> setAvailableTeams, List<AgreementWrapper> agreementOptions, Grid__c existingGrid, Boolean hasDraftGrid) {
-            this.gridBuilderFound       = gridBuilderFound;
-            this.agreementSelectionMode = agreementSelectionMode;
-            this.agreementOptions       = agreementOptions;
-            this.primaryTeam            = primaryTeam;
-            this.availableTeams         = buildAvailableTeams(primaryTeam, setAvailableTeams);
-            this.hasExistingGrid        = existingGrid != null;
-            this.existingGridKind       = existingGrid?.Kind__c;
-            this.existingGridType       = existingGrid?.Type__c;
-            this.existingGridEndDate    = existingGrid?.EndDate__c != null ? String.valueOf(existingGrid.EndDate__c) : null;
-            this.hasDraftGrid           = hasDraftGrid;
+            this.gridBuilderFound                = gridBuilderFound;
+            this.agreementSelectionMode          = agreementSelectionMode;
+            this.agreementOptions                = agreementOptions;
+            this.primaryTeam                     = primaryTeam;
+            this.availableTeams                  = buildAvailableTeams(primaryTeam, setAvailableTeams);
+            this.hasExistingGrid                 = existingGrid != null;
+            this.existingGridKind                = existingGrid?.Kind__c;
+            this.existingGridType                = existingGrid?.Type__c;
+            this.existingGridEndDate             = existingGrid?.EndDate__c != null ? String.valueOf(existingGrid.EndDate__c) : null;
+            this.existingGridSingleRuleSelection = existingGrid?.Tech_SingleRuleGridSelection__c;
+            this.hasDraftGrid                    = hasDraftGrid;
         }
     }
     

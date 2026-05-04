@@ -58,6 +58,18 @@
                                     placeholder="-- Select --">
                 </lightning-combobox>
 
+                <!-- AG3b: Single Rule Grid Selection (SINGLE RULE only) -->
+                <template if:true={isSingleRule}>
+                    <lightning-combobox label="Grid"
+                                        value={singleRuleGridValue}
+                                        options={singleRuleGridOptions}
+                                        onchange={handleSingleRuleGridChange}
+                                        required={isSingleRuleGridRequired}
+                                        disabled={isSingleRuleGridDisabled}
+                                        placeholder="-- Select --">
+                    </lightning-combobox>
+                </template>
+
                 <!-- AG4: Automatic Grid Update toggle -->
                 <div class="toggle-grid-update">
                     <div class="toggle-header">
@@ -167,6 +179,7 @@
                                 <lightning-input type="toggle"
                                                 variant="label-hidden"
                                                 checked={loadPreviousGrid}
+                                                disabled={isLoadPreviousToggleDisabled}
                                                 onchange={handleLoadPreviousToggle}
                                                 message-toggle-active=""
                                                 message-toggle-inactive="">

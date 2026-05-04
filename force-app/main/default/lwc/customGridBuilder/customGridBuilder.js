@@ -159,6 +159,10 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
         return this.showGridBuilderPage || this.showValidationPage;
     }
 
+    get isGridComboboxDisabled() {
+        return this.gridRequestData?.gridType === 'SINGLE RULE';
+    }
+
     get computedGridOptions() {
         if (this.gridRequestData?.gridType !== 'SINGLE RULE' || !(this.selectedShareClasses || []).length) {
             return this.gridOptions || [];
@@ -257,10 +261,11 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
                 this.selectedTeam = this.primaryTeam || (this.availableTeams.length ? this.availableTeams[0].value : null);
                 this.gridRequestData.startDate = new Date().toISOString().split('T')[0];
                 this.existingGridInfo = {
-                    hasExistingGrid: agreementSettings.hasExistingGrid  || false,
-                    kind:            agreementSettings.existingGridKind || null,
-                    type:            agreementSettings.existingGridType || null,
-                    endDate:         agreementSettings.existingGridEndDate || null
+                    hasExistingGrid:        agreementSettings.hasExistingGrid             || false,
+                    kind:                   agreementSettings.existingGridKind             || null,
+                    type:                   agreementSettings.existingGridType             || null,
+                    endDate:                agreementSettings.existingGridEndDate           || null,
+                    singleRuleGridSelection: agreementSettings.existingGridSingleRuleSelection || null
                 };
                 this.hasDraftGrid = agreementSettings.hasDraftGrid || false;
                 this.hasPendingGrid = agreementSettings.hasPendingGrid || false;
@@ -280,7 +285,8 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
                             thresholdAmount:         draftData.grid.ThresholdAmount__c,
                             thresholdAmountCurrency: draftData.grid.ThresholdAmountCurrency__c,
                             otherFees:               draftData.grid.OtherFees__c,
-                            comment:                 draftData.grid.Comment__c
+                            comment:                 draftData.grid.Comment__c,
+                            singleRuleGrid:          draftData.grid.Tech_SingleRuleGridSelection__c ? { label: draftData.grid.Tech_SingleRuleGridSelection__c, value: draftData.grid.Tech_SingleRuleGridSelection__c } : null
                         };
                     }
                 } else if (agreementSettings.hasDraftGrid && this.recId) {
@@ -298,7 +304,8 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
                             thresholdAmount:         draftData.grid.ThresholdAmount__c,
                             thresholdAmountCurrency: draftData.grid.ThresholdAmountCurrency__c,
                             otherFees:               draftData.grid.OtherFees__c,
-                            comment:                 draftData.grid.Comment__c
+                            comment:                 draftData.grid.Comment__c,
+                            singleRuleGrid:          draftData.grid.Tech_SingleRuleGridSelection__c ? { label: draftData.grid.Tech_SingleRuleGridSelection__c, value: draftData.grid.Tech_SingleRuleGridSelection__c } : null
                         };
                     }
                 }
@@ -462,7 +469,7 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
 
     handleGridChange(event) {
         this.selectedGrid = event.detail.value;
-        this.criteria = { grid: this.selectedGrid, filterLogicType: this.criteria.filterLogicType, filterLogicText: this.criteria.filterLogicText, details: this.criteria.details };
+        this.criteria = { ...this.criteria, grid: this.selectedGrid };
 
         if (this.shareClasses?.length) {
             this.shareClasses = this.shareClasses.map(row => ({
@@ -750,7 +757,7 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
     resetResults(resetFilter) {
         this.resultColumns = [];
         this.shareClasses = [];
-        if (this.gridRequestData?.gridType !== 'SINGLE RULE' || !(this.selectedShareClasses || []).length) {
+        if (this.gridRequestData?.gridType !== 'SINGLE RULE') {
             this.selectedGrid = null;
         }
         const resultsTable = this.template.querySelector('c-results-table');
@@ -900,10 +907,18 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
         this.openConfirmation('resetAll', this.labels.Grid_ResetAll, this.labels.Grid_ResetAll_Confirm);
     }
 
+    syncSingleRuleGridSelection() {
+        if (this.gridRequestData?.gridType !== 'SINGLE RULE' || !this.gridRequestData?.singleRuleGrid) return;
+        const match = (this.gridOptions || []).find(o => o.label === this.gridRequestData.singleRuleGrid.label);
+        this.selectedGrid = match ? match.value : null;
+    }
+
     // ------------------------------------ Page Handling methods ------------------------------------
     async handleAgreementsNext(event) {
-        let alreadySelectedAgreements = JSON.stringify(this.selectedAgreements);
-        let alreadySelectedTeam = this.selectedTeam;
+        const alreadySelectedAgreements = JSON.stringify(this.selectedAgreements);
+        const alreadySelectedTeam       = this.selectedTeam;
+        const alreadySingleRuleGrid     = this.gridRequestData?.singleRuleGrid?.label || null;
+
         this.selectedAgreements = event.detail?.agreements || [];
         this.selectedTeam = event.detail?.team;
         this.countriesOfDistribution = event.detail?.countriesOfDistribution;
@@ -918,14 +933,34 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
             thresholdAmountCurrency: event.detail?.thresholdAmountCurrency,
             otherFees:               event.detail?.otherFees,
             comment:                 event.detail?.comment,
-            gridName:                event.detail?.gridName
+            gridName:                event.detail?.gridName,
+            singleRuleGrid:          event.detail?.singleRuleGrid
         };
 
-        if((alreadySelectedAgreements != JSON.stringify(this.selectedAgreements)) || (alreadySelectedTeam != this.selectedTeam)) {
+        const agreementsChanged    = alreadySelectedAgreements !== JSON.stringify(this.selectedAgreements) || alreadySelectedTeam !== this.selectedTeam;
+        const newSingleRuleGrid    = event.detail?.singleRuleGrid?.label || null;
+        const singleRuleGridChanged = this.gridRequestData.gridType === 'SINGLE RULE' && alreadySingleRuleGrid !== newSingleRuleGrid;
+
+        if (agreementsChanged) {
+            // B: agreements changed → full reset and reload
+            this.approvedGridLoaded = false;
             this.resetAll(false);
             await this.loadGrids();
+            this.syncSingleRuleGridSelection();
             await this.loadGridSettings();
             await this.loadAllProductsForSelection();
+        } else if (singleRuleGridChanged) {
+            // B: SINGLE RULE grid selection changed → reset results and update selected grid
+            this.approvedGridLoaded = false;
+            this.resetAll(false);
+            const match = (this.gridOptions || []).find(o => o.label === newSingleRuleGrid);
+            this.selectedGrid = match ? match.value : null;
+        }
+
+        // C: "Load previous grid details" was toggled off after approved grid was already loaded → reset
+        if (!event.detail?.loadPreviousGrid && this.approvedGridLoaded) {
+            this.resetAll(false);
+            this.approvedGridLoaded = false;
         }
 
         // Inject prefilled draft data if available (set in connectedCallback when hasDraftGrid)
