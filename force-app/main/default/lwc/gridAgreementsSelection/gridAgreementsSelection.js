@@ -2,6 +2,7 @@ import { LightningElement, api, track, wire } from 'lwc';
 import { LABELS } from 'c/gridBuilderUtils';
 import getGridPicklistOptions from '@salesforce/apex/GridBuilderController.getGridPicklistOptions';
 import getAvailableGrids from '@salesforce/apex/GridBuilderController.getAvailableGrids';
+import getSalesOwnerOptions from '@salesforce/apex/GridBuilderController.getSalesOwnerOptions';
 
 export default class GridAgreementsSelection extends LightningElement {
     @api hasTeamSelection = false;
@@ -10,7 +11,13 @@ export default class GridAgreementsSelection extends LightningElement {
 
     @api availableTeams = [];
     @api primaryTeam;
-    @api selectedTeam;
+    _selectedTeam;
+    @api
+    set selectedTeam(val) {
+        this._selectedTeam = val;
+        this.loadSalesOwnerOptions();
+    }
+    get selectedTeam() { return this._selectedTeam; }
     @api recId;
 
     labels = LABELS;
@@ -44,6 +51,10 @@ export default class GridAgreementsSelection extends LightningElement {
     @track kindOptions = [];
     @track typeOptions = [];
     @track ccyOptions  = [];
+    @track salesOwnerOptions = [];
+    @track salesOwnerId = null;
+    @track salesOwnerOptionsLoading = false;
+    salesOwnerHelpText = 'Select the Sales Owner for this grid request.';
 
     // ── AG data fields ──
     @track agKind           = '';    // AG2 — Kind__c
@@ -71,6 +82,7 @@ export default class GridAgreementsSelection extends LightningElement {
         this.agThreshCcy      = val.thresholdAmountCurrency || '';
         this.agOtherFees      = val.otherFees ?? false;
         this.agComment        = val.comment || '';
+        this.salesOwnerId     = val.salesOwnerId || null;
         this.selectedSingleRuleGrid = val.singleRuleGrid || null;
         if (this.agType === 'SINGLE RULE') {
             this.loadSingleRuleGridOptions();
@@ -138,15 +150,13 @@ export default class GridAgreementsSelection extends LightningElement {
         const region      = opt?.regionCode ?? '…';
         const agCode      = opt?.name       ?? '…';
         const kind        = this.agKind || '…';
-        const typeSegment = this.isSingleRule
-            ? (this.selectedSingleRuleGrid?.label || '…')
-            : (this.agType || '…');
+        const typeSegment = this.isSingleRule ? (this.selectedSingleRuleGrid?.label || '…') : (this.agType || '…');
         const update      = this.isAutoGridUpdate ? 'AUTOMATIC' : 'MANUAL';
         const date        = this.agStartDate || '…';
         return kind + ' – ' + region + ' – ' + agCode + ' – ' + typeSegment + ' – ' + update + ' – ' + date;
     }
 
-    get isThreshAboveZero()    { return this.agThreshold != null && parseFloat(this.agThreshold) > 0; }
+    get isThreshAboveZero()    { return this.agThreshold != null && Number.parseFloat(this.agThreshold) > 0; }
     get isAutoUpdateDisabled() { return this.agType === 'MULTI RULE'; }
 
     get isStartDateConflict() {
@@ -176,6 +186,7 @@ export default class GridAgreementsSelection extends LightningElement {
     get isTypeDisabled()         { return this.loadPreviousGrid && !!this.existingGridType; }
     get isAgreementDisabled()   { return !!this.recId; }
     get agreementSectionClass() { return this.isAgreementDisabled ? 'agreement-section agreement-section--disabled' : 'agreement-section'; }
+    get isSalesOwnerDisabled()  { return this.salesOwnerOptions?.length <= 0; }
     get isThreshCcyDisabled()   { return !this.isThreshAboveZero; }
     get toggleLabel()           { return this.isAutoGridUpdate ? this.labels.UI_On : this.labels.UI_Off; }
 
@@ -293,15 +304,19 @@ export default class GridAgreementsSelection extends LightningElement {
             if (this.isSingleRule) {
                 this.loadSingleRuleGridOptions();
             }
+            this.loadSalesOwnerOptions();
             this.notifyValidity();
         }
     }
 
     handleTeamChange(event) {
+        this.salesOwnerId = null;
+        this.salesOwnerOptions = [];
         this.selectedTeam = event.detail.value;
         this.selectedValues = [];
         this.finalOptionsList = this.getFinalOptionsList();
         this.pills = this.getPills();
+        this.loadSalesOwnerOptions();
         this.notifyValidity();
     }
 
@@ -363,6 +378,10 @@ export default class GridAgreementsSelection extends LightningElement {
         }
         this.notifyValidity();
     }
+    handleSalesOwnerChange(e) {
+        this.salesOwnerId = e.detail.value;
+        this.notifyValidity();
+    }
     handleSingleRuleGridChange(e) {
         const val = e.detail.value;
         const opt = this.singleRuleGridOptions.find(o => o.value === val);
@@ -408,9 +427,36 @@ export default class GridAgreementsSelection extends LightningElement {
                 comment:                 this.agComment,
                 gridName:                this.gridNamePreview,
                 loadPreviousGrid:        this.loadPreviousGrid,
-                singleRuleGrid:          this.selectedSingleRuleGrid
+                singleRuleGrid:          this.selectedSingleRuleGrid,
+                salesOwnerId:           this.salesOwnerId
             }
         }));
+    }
+
+    async loadSalesOwnerOptions() {
+        if (this.salesOwnerOptionsLoading) return;
+        const agreementId = (this.selectedValues && this.selectedValues.length === 1) ? this.selectedValues[0] : this.recId || null;
+        const team = this.selectedTeam || null;
+        if (!agreementId && !team) {
+            this.salesOwnerOptions = [];
+            return;
+        }
+
+        this.salesOwnerOptionsLoading = true;
+        try {
+            const result = await getSalesOwnerOptions({ agreementId, selectedTeam: team });
+            this.salesOwnerOptions = result || [];
+            if (this.salesOwnerId && !this.salesOwnerOptions.some(o => o.value === this.salesOwnerId)) {
+                this.salesOwnerId = null;
+            }
+        } catch (error) {
+            console.error('Failed loading sales owner options', error);
+            this.salesOwnerOptions = [];
+            this.salesOwnerId = null;
+        } finally {
+            this.salesOwnerOptionsLoading = false;
+            this.notifyValidity();
+        }
     }
 
     buildCountriesOfDistribution() {

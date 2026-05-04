@@ -153,6 +153,16 @@
                                     placeholder="-- Select --">
                 </lightning-combobox>
 
+                
+                <!-- Sales Owner -->
+                <lightning-combobox label="Sales Owner"
+                                    value={salesOwnerId}
+                                    options={salesOwnerOptions}
+                                    onchange={handleSalesOwnerChange}
+                                    placeholder="-- Select --"
+                                    disabled={isSalesOwnerDisabled}>
+                </lightning-combobox>
+
                 <div class="additional-fields">
                     <!-- AG12: Other Fees -->
                     <lightning-input type="checkbox"

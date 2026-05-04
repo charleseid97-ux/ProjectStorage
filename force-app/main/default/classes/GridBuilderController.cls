@@ -84,6 +84,22 @@ public with sharing class GridBuilderController {
         return result;
     }
 
+    @AuraEnabled(cacheable=true)
+    public static List<Map<String, String>> getSalesOwnerOptions(Id agreementId, String selectedTeam) {
+        Id profileId = UserInfo.getProfileId();
+        String profileName = [SELECT Name FROM Profile WHERE Id = :profileId LIMIT 1].Name;
+
+        String query = 'SELECT Id, Name FROM User WHERE IsActive = true AND ProfileId = :profileId';
+        query += ((profileName == 'Carmignac - CRM') && String.isNotBlank(selectedTeam)) ? ' AND Team__c = :selectedTeam' : '';
+        query += ' ORDER BY Name ASC LIMIT 200';
+
+        List<Map<String, String>> options = new List<Map<String, String>>();
+        for (User user : Database.query(query)) {
+            options.add(new Map<String, String>{ 'label' => user.Name, 'value' => String.valueOf(user.Id) });
+        }
+        return options;
+    }
+
     private static String buildAgreementWhereClause(String agreementId, String userPrimaryTeam, List<String> userSecondaryTeams, String agreementQueryConditions) {
         String agreementWhere = '';
         // Redirection from Agreement directly
@@ -144,7 +160,7 @@ public with sharing class GridBuilderController {
     }
 
     private static DraftGridData buildGridData(Id gridId) {
-        Grid__c grid = [SELECT Id, Name, Kind__c, Type__c, AutomaticGridUpdate__c, StartDate__c, EndDate__c, ThresholdAmount__c, ThresholdAmountCurrency__c, OtherFees__c, Comment__c, Tech_SingleRuleGridSelection__c
+        Grid__c grid = [SELECT Id, Name, Kind__c, Type__c, AutomaticGridUpdate__c, StartDate__c, EndDate__c, ThresholdAmount__c, ThresholdAmountCurrency__c, OtherFees__c, Comment__c, SalesOwner__c, Tech_SingleRuleGridSelection__c
                         FROM Grid__c
                         WHERE Id = :gridId LIMIT 1];
 

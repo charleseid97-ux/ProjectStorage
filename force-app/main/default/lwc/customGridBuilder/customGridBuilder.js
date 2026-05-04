@@ -286,6 +286,7 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
                             thresholdAmountCurrency: draftData.grid.ThresholdAmountCurrency__c,
                             otherFees:               draftData.grid.OtherFees__c,
                             comment:                 draftData.grid.Comment__c,
+                            salesOwnerId:            draftData.grid.SalesOwner__c,
                             singleRuleGrid:          draftData.grid.Tech_SingleRuleGridSelection__c ? { label: draftData.grid.Tech_SingleRuleGridSelection__c, value: draftData.grid.Tech_SingleRuleGridSelection__c } : null
                         };
                     }
@@ -305,6 +306,7 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
                             thresholdAmountCurrency: draftData.grid.ThresholdAmountCurrency__c,
                             otherFees:               draftData.grid.OtherFees__c,
                             comment:                 draftData.grid.Comment__c,
+                            salesOwnerId:            draftData.grid.SalesOwner__c,
                             singleRuleGrid:          draftData.grid.Tech_SingleRuleGridSelection__c ? { label: draftData.grid.Tech_SingleRuleGridSelection__c, value: draftData.grid.Tech_SingleRuleGridSelection__c } : null
                         };
                     }
@@ -934,6 +936,7 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
             otherFees:               event.detail?.otherFees,
             comment:                 event.detail?.comment,
             gridName:                event.detail?.gridName,
+            salesOwnerId:            event.detail?.salesOwnerId,
             singleRuleGrid:          event.detail?.singleRuleGrid
         };
 
