@@ -197,6 +197,12 @@ export default class GridAgreementsSelection extends LightningElement {
             this.pills = this.getPills();
             this.notifyValidity();
         }
+        // When mounting with a pre-set SINGLE RULE type (e.g. editing a draft), the gridData
+        // setter fires before connectedCallback so selectedValues is still empty at that point.
+        // Re-trigger loading here now that selectedValues is populated.
+        if (this.isSingleRule && (this.selectedValues || []).length) {
+            this.loadSingleRuleGridOptions();
+        }
     }
 
     getOptionsByValue() {
