@@ -85,19 +85,8 @@ public with sharing class GridBuilderController {
     }
 
     @AuraEnabled(cacheable=true)
-    public static List<Map<String, String>> getSalesOwnerOptions(Id agreementId, String selectedTeam) {
-        Id profileId = UserInfo.getProfileId();
-        String profileName = [SELECT Name FROM Profile WHERE Id = :profileId LIMIT 1].Name;
-
-        String query = 'SELECT Id, Name FROM User WHERE IsActive = true AND ProfileId = :profileId';
-        query += ((profileName == 'Carmignac - CRM') && String.isNotBlank(selectedTeam)) ? ' AND Team__c = :selectedTeam' : '';
-        query += ' ORDER BY Name ASC LIMIT 200';
-
-        List<Map<String, String>> options = new List<Map<String, String>>();
-        for (User user : Database.query(query)) {
-            options.add(new Map<String, String>{ 'label' => user.Name, 'value' => String.valueOf(user.Id) });
-        }
-        return options;
+    public static String getCurrentUserProfile() {
+        return [SELECT Name FROM Profile WHERE Id = :UserInfo.getProfileId() LIMIT 1].Name;
     }
 
     private static String buildAgreementWhereClause(String agreementId, String userPrimaryTeam, List<String> userSecondaryTeams, String agreementQueryConditions) {

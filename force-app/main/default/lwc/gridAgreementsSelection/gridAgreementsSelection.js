@@ -2,7 +2,7 @@ import { LightningElement, api, track, wire } from 'lwc';
 import { LABELS } from 'c/gridBuilderUtils';
 import getGridPicklistOptions from '@salesforce/apex/GridBuilderController.getGridPicklistOptions';
 import getAvailableGrids from '@salesforce/apex/GridBuilderController.getAvailableGrids';
-import getSalesOwnerOptions from '@salesforce/apex/GridBuilderController.getSalesOwnerOptions';
+import getCurrentUserProfile from '@salesforce/apex/GridBuilderController.getCurrentUserProfile';
 
 export default class GridAgreementsSelection extends LightningElement {
     @api hasTeamSelection = false;
@@ -15,7 +15,6 @@ export default class GridAgreementsSelection extends LightningElement {
     @api
     set selectedTeam(val) {
         this._selectedTeam = val;
-        this.loadSalesOwnerOptions();
     }
     get selectedTeam() { return this._selectedTeam; }
     @api recId;
@@ -37,6 +36,7 @@ export default class GridAgreementsSelection extends LightningElement {
     @track selectedValues = [];
     @track finalOptionsList = [];
     @track pills = [];
+    @track userProfile = null;
 
     @api
     set value(val) {
@@ -51,10 +51,7 @@ export default class GridAgreementsSelection extends LightningElement {
     @track kindOptions = [];
     @track typeOptions = [];
     @track ccyOptions  = [];
-    @track salesOwnerOptions = [];
     @track salesOwnerId = null;
-    @track salesOwnerOptionsLoading = false;
-    salesOwnerHelpText = 'Select the Sales Owner for this grid request.';
 
     // ── AG data fields ──
     @track agKind           = '';    // AG2 — Kind__c
@@ -186,7 +183,16 @@ export default class GridAgreementsSelection extends LightningElement {
     get isTypeDisabled()         { return this.loadPreviousGrid && !!this.existingGridType; }
     get isAgreementDisabled()   { return !!this.recId; }
     get agreementSectionClass() { return this.isAgreementDisabled ? 'agreement-section agreement-section--disabled' : 'agreement-section'; }
-    get isSalesOwnerDisabled()  { return this.salesOwnerOptions?.length <= 0; }
+    get isSalesOwnerDisabled()  { return !((this.selectedValues?.length > 0) || !!this.recId || !!this.selectedTeam); }
+    get salesOwnerFilter() {
+        if (!this.userProfile) return '';
+        if (this.userProfile === 'Carmignac - CRM') {
+            return this.selectedTeam ? `Profile.Name = 'Carmignac - CRM' AND Team__c = '${this.selectedTeam}'` : `Profile.Name = 'Carmignac - CRM'`;
+        } else if (this.userProfile === 'Carmignac - Investment Solutions') {
+            return `Profile.Name = 'Carmignac - Investment Solutions'`;
+        }
+        return '';
+    }
     get isThreshCcyDisabled()   { return !this.isThreshAboveZero; }
     get toggleLabel()           { return this.isAutoGridUpdate ? this.labels.UI_On : this.labels.UI_Off; }
 
@@ -203,6 +209,7 @@ export default class GridAgreementsSelection extends LightningElement {
     }
 
     connectedCallback() {
+        this.loadUserProfile();
         if (this.recId) {
             this.selectedValues = [this.recId];
             this.pills = this.getPills();
@@ -213,6 +220,15 @@ export default class GridAgreementsSelection extends LightningElement {
         // Re-trigger loading here now that selectedValues is populated.
         if (this.isSingleRule && (this.selectedValues || []).length) {
             this.loadSingleRuleGridOptions();
+        }
+    }
+
+    async loadUserProfile() {
+        try {
+            this.userProfile = await getCurrentUserProfile();
+        } catch (error) {
+            console.error('Failed to load user profile', error);
+            this.userProfile = null;
         }
     }
 
@@ -304,19 +320,16 @@ export default class GridAgreementsSelection extends LightningElement {
             if (this.isSingleRule) {
                 this.loadSingleRuleGridOptions();
             }
-            this.loadSalesOwnerOptions();
             this.notifyValidity();
         }
     }
 
     handleTeamChange(event) {
         this.salesOwnerId = null;
-        this.salesOwnerOptions = [];
         this.selectedTeam = event.detail.value;
         this.selectedValues = [];
         this.finalOptionsList = this.getFinalOptionsList();
         this.pills = this.getPills();
-        this.loadSalesOwnerOptions();
         this.notifyValidity();
     }
 
@@ -379,7 +392,7 @@ export default class GridAgreementsSelection extends LightningElement {
         this.notifyValidity();
     }
     handleSalesOwnerChange(e) {
-        this.salesOwnerId = e.detail.value;
+        this.salesOwnerId = e.detail?.recordId || null;
         this.notifyValidity();
     }
     handleSingleRuleGridChange(e) {
@@ -431,32 +444,6 @@ export default class GridAgreementsSelection extends LightningElement {
                 salesOwnerId:           this.salesOwnerId
             }
         }));
-    }
-
-    async loadSalesOwnerOptions() {
-        if (this.salesOwnerOptionsLoading) return;
-        const agreementId = (this.selectedValues && this.selectedValues.length === 1) ? this.selectedValues[0] : this.recId || null;
-        const team = this.selectedTeam || null;
-        if (!agreementId && !team) {
-            this.salesOwnerOptions = [];
-            return;
-        }
-
-        this.salesOwnerOptionsLoading = true;
-        try {
-            const result = await getSalesOwnerOptions({ agreementId, selectedTeam: team });
-            this.salesOwnerOptions = result || [];
-            if (this.salesOwnerId && !this.salesOwnerOptions.some(o => o.value === this.salesOwnerId)) {
-                this.salesOwnerId = null;
-            }
-        } catch (error) {
-            console.error('Failed loading sales owner options', error);
-            this.salesOwnerOptions = [];
-            this.salesOwnerId = null;
-        } finally {
-            this.salesOwnerOptionsLoading = false;
-            this.notifyValidity();
-        }
     }
 
     buildCountriesOfDistribution() {

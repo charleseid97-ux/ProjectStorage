@@ -155,13 +155,14 @@
 
                 
                 <!-- Sales Owner -->
-                <lightning-combobox label="Sales Owner"
-                                    value={salesOwnerId}
-                                    options={salesOwnerOptions}
-                                    onchange={handleSalesOwnerChange}
-                                    placeholder="-- Select --"
-                                    disabled={isSalesOwnerDisabled}>
-                </lightning-combobox>
+                <lightning-record-picker label="Sales Owner"
+                                        object-api-name="User"
+                                        record-id={salesOwnerId}
+                                        filter={salesOwnerFilter}
+                                        onchange={handleSalesOwnerChange}
+                                        placeholder="Search Users..."
+                                        disabled={isSalesOwnerDisabled}>
+                </lightning-record-picker>
 
                 <div class="additional-fields">
                     <!-- AG12: Other Fees -->
