@@ -84,11 +84,11 @@ export default class GridAgreementsSelection extends LightningElement {
     @api
     set initialLoadPreviousGrid(val) { this.loadPreviousGrid = val || false; }
     get initialLoadPreviousGrid()    { return this.loadPreviousGrid; }
-    _existingGridInfo = { hasExistingGrid: false, kind: null, type: null, endDate: null };
+    _existingGridInfo = { hasExistingGrid: false, kind: null, type: null, endDate: null, singleRuleGridSelection: null };
 
     @api
     set existingGridInfo(val) {
-        this._existingGridInfo = val || { hasExistingGrid: false, kind: null, type: null, endDate: null };
+        this._existingGridInfo = val || { hasExistingGrid: false, kind: null, type: null, endDate: null, singleRuleGridSelection: null };
         // Auto-set Kind on first load if not yet chosen
         if (this._existingGridInfo.kind && !this.agKind) {
             this.agKind = this._existingGridInfo.kind;
@@ -96,9 +96,20 @@ export default class GridAgreementsSelection extends LightningElement {
     }
     get existingGridInfo() { return this._existingGridInfo; }
 
-    get hasExistingGrid()    { return this._existingGridInfo.hasExistingGrid; }
-    get existingGridEndDate(){ return this._existingGridInfo.endDate; }
-    get existingGridType()   { return this._existingGridInfo.type; }
+    get hasExistingGrid()                { return this._existingGridInfo.hasExistingGrid; }
+    get existingGridEndDate()            { return this._existingGridInfo.endDate; }
+    get existingGridType()               { return this._existingGridInfo.type; }
+    get existingGridSingleRuleSelection(){ return this._existingGridInfo.singleRuleGridSelection; }
+
+    get isLoadPreviousToggleDisabled() {
+        if (!this.isSingleRule) return false;
+        return !(
+            this.existingGridType === 'SINGLE RULE' &&
+            this.existingGridSingleRuleSelection &&
+            this.selectedSingleRuleGrid?.label &&
+            this.existingGridSingleRuleSelection === this.selectedSingleRuleGrid.label
+        );
+    }
 
     get isMultiAgreementSelection() {
         return this.agreementSelectionMode === 'Multiple' || this.multiAgreementSelection;
@@ -307,7 +318,7 @@ export default class GridAgreementsSelection extends LightningElement {
 
     async loadSingleRuleGridOptions() {
         if (!this.isSingleRule || !(this.selectedValues || []).length) return;
-        this.selectedSingleRuleGrid = null;
+        const prevLabel = this.selectedSingleRuleGrid?.label || null;
         const countriesOfDistribution = this.buildCountriesOfDistribution();
         const agreementNames = (this.selectedValues || [])
             .map(id => { const o = this.findOptionById(id); return o ? o.name : null; })
@@ -316,8 +327,13 @@ export default class GridAgreementsSelection extends LightningElement {
         try {
             const result = await getAvailableGrids({ countriesOfDistribution, agreementNames });
             this.singleRuleGridOptions = (result?.gridOptions || []).map(o => ({ label: o.label, value: o.label }));
+            // Restore previously selected grid if still available; otherwise clear
+            this.selectedSingleRuleGrid = prevLabel
+                ? (this.singleRuleGridOptions.find(o => o.label === prevLabel) || null)
+                : null;
         } catch (e) {
             this.singleRuleGridOptions = [];
+            this.selectedSingleRuleGrid = null;
             console.error('Failed to load single rule grid options', e);
         }
         this.notifyValidity();
@@ -332,6 +348,11 @@ export default class GridAgreementsSelection extends LightningElement {
             this.selectedSingleRuleGrid = null;
             this.singleRuleGridOptions = [];
         } else if (this.agType === 'SINGLE RULE') {
+            // A1: auto-clear "Load previous" when switching to SINGLE RULE
+            if (this.loadPreviousGrid) {
+                this.loadPreviousGrid = false;
+                this.dispatchEvent(new CustomEvent('loadpreviouschange', { detail: { value: false } }));
+            }
             this.loadSingleRuleGridOptions();
         }
         this.notifyValidity();
@@ -340,6 +361,11 @@ export default class GridAgreementsSelection extends LightningElement {
         const val = e.detail.value;
         const opt = this.singleRuleGridOptions.find(o => o.value === val);
         this.selectedSingleRuleGrid = opt || null;
+        // A2: auto-clear "Load previous" if conditions no longer met
+        if (this.isLoadPreviousToggleDisabled && this.loadPreviousGrid) {
+            this.loadPreviousGrid = false;
+            this.dispatchEvent(new CustomEvent('loadpreviouschange', { detail: { value: false } }));
+        }
         this.notifyValidity();
     }
     handleAutoUpdateToggle(e) { this.isAutoGridUpdate = e.target.checked; }
