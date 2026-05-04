@@ -411,7 +411,7 @@ public class ProjectShareclassHandler {
                 + '<ul>'
                 + '<li><b>Share Class:</b> ' + htmlEscape(sc.Name__c) + '</li>'
                 + '<li><b>Requests:</b> ' + htmlEscape(String.join(new List<String>(labels), ', ')) + '</li>'
-                + '<li><b>Salesforce link (Share Class):</b> <a href="' + scLink + '">Open Share Class</a></li>'
+                
                 + (projectLink != null
                     ? '<li><b>Salesforce link (Project):</b> <a href="' + projectLink + '">Open Project</a></li>'
                     : '')
