@@ -119,6 +119,7 @@ export default class GridAgreementsSelection extends LightningElement {
     get isSingleRule()             { return this.agType === 'SINGLE RULE'; }
     get isSingleRuleGridDisabled() { return !(this.selectedValues || []).length; }
     get isSingleRuleGridRequired() { return this.isSingleRule; }
+    get singleRuleGridValue()      { return this.selectedSingleRuleGrid?.value || ''; }
 
     get gridNamePreview() {
         const firstId     = this.selectedValues?.length ? this.selectedValues[0] : null;

@@ -61,7 +61,7 @@
                 <!-- AG3b: Single Rule Grid Selection (SINGLE RULE only) -->
                 <template if:true={isSingleRule}>
                     <lightning-combobox label="Grid"
-                                        value={selectedSingleRuleGrid.value}
+                                        value={singleRuleGridValue}
                                         options={singleRuleGridOptions}
                                         onchange={handleSingleRuleGridChange}
                                         required={isSingleRuleGridRequired}
