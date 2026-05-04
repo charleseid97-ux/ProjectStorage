@@ -56,6 +56,35 @@ private with sharing class GridComparisonControllerTest {
             Grid__c sameAgreementGrid = GridTestSetupHelper.createGrid(SAME_AGR_GRID_NAME, '', true, GridBuilderHelper.RT_CUSTOM_GRID);
             sameAgreementGrid.Agreement__c = priorityAgreement.Id;
             insert sameAgreementGrid;
+
+            // Data for testGetComparisonData_withCountryFilter
+            // Two new share classes: one registered only in FR, one only in IT
+            List<Product__c> products = GridTestSetupHelper.getTestProducts();
+            Share_Class__c scFr = GridTestSetupHelper.createShareClass(products[0].Id, 'SC-FR-ONLY', 'ISIN-FR0001', GridTestSetupHelper.SHARE_TYPE_A, 1.5, GridTestSetupHelper.CURRENCY_EUR);
+            Share_Class__c scIt = GridTestSetupHelper.createShareClass(products[0].Id, 'SC-IT-ONLY', 'ISIN-IT0001', GridTestSetupHelper.SHARE_TYPE_A, 1.5, GridTestSetupHelper.CURRENCY_EUR);
+            insert new List<Share_Class__c>{ scFr, scIt };
+
+            insert new List<Country__c>{
+                GridTestSetupHelper.createCountry(scFr.Id, 'FR', 'REG', 'ISIN-FR0001'),
+                GridTestSetupHelper.createCountry(scIt.Id, 'IT', 'REG', 'ISIN-IT0001')
+            };
+
+            // Add GridDetail rows on S5+ for both new share classes
+            Grid__c s5Grid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S5_PLUS);
+            GridCriteria__c cmpCriteria = GridTestSetupHelper.createCriteria(s5Grid.Id, 'AND', '1', 'CmpCriteria');
+            insert cmpCriteria;
+            GridRule__c cmpRule = GridTestSetupHelper.createGridRule(s5Grid.Id, cmpCriteria.Id, 'Percentage of Fees', 'EffectiveManagementFees__c', 50, null, null, null);
+            insert cmpRule;
+            insert new List<GridDetail__c>{
+                GridTestSetupHelper.createGridDetail(s5Grid.Id, cmpRule.Id, cmpCriteria.Id, scFr.Id, 0.5, Date.today(), Date.newInstance(2099, 12, 31), GridBuilderHelper.RT_STANDARD_GRID_DETAIL),
+                GridTestSetupHelper.createGridDetail(s5Grid.Id, cmpRule.Id, cmpCriteria.Id, scIt.Id, 0.5, Date.today(), Date.newInstance(2099, 12, 31), GridBuilderHelper.RT_STANDARD_GRID_DETAIL)
+            };
+
+            // AUM for both share classes linked to priorityAgreement (FR agreement)
+            insert new List<AUM__c>{
+                GridTestSetupHelper.createAUM(scFr.Id, priorityAgreement.Id, accounts[0].Id, 100000, Date.today().addDays(-30)),
+                GridTestSetupHelper.createAUM(scIt.Id, priorityAgreement.Id, accounts[0].Id, 75000, Date.today().addDays(-30))
+            };
         }
     }
 
@@ -140,5 +169,29 @@ private with sharing class GridComparisonControllerTest {
         GridComparisonController.getComparisonData(currentGrid.Id, selectedGrid.Id);
 
         Test.stopTest();
+    }
+
+    @IsTest
+    static void testGetComparisonData_withCountryFilter() {
+        Grid__c currentGrid  = [SELECT Id FROM Grid__c WHERE Name = :CURRENT_GRID_WITH_AGR_NAME LIMIT 1];
+        Grid__c selectedGrid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S5_PLUS);
+
+        Test.startTest();
+        GridComparisonController.ComparisonData result = GridComparisonController.getComparisonData(currentGrid.Id, selectedGrid.Id);
+        Test.stopTest();
+
+        Set<String> returnedIsins = new Set<String>();
+        for (GridDetailTableController.GridDetailRow row : result.selected.rows) {
+            returnedIsins.add(row.isin);
+        }
+
+        System.assert(returnedIsins.contains('ISIN-FR0001'), 'ShareClass registered in FR must appear in selected grid rows');
+        System.assert(!returnedIsins.contains('ISIN-IT0001'), 'ShareClass not registered in FR must be filtered out');
+
+        for (GridDetailTableController.GridDetailRow row : result.selected.rows) {
+            if ('ISIN-FR0001'.equals(row.isin)) {
+                System.assertNotEquals('0', row.aum, 'AUM must be populated from current agreement for FR-registered share class');
+            }
+        }
     }
 }
