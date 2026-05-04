@@ -159,6 +159,10 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
         return this.showGridBuilderPage || this.showValidationPage;
     }
 
+    get isGridComboboxDisabled() {
+        return this.gridRequestData?.gridType === 'SINGLE RULE';
+    }
+
     get computedGridOptions() {
         if (this.gridRequestData?.gridType !== 'SINGLE RULE' || !(this.selectedShareClasses || []).length) {
             return this.gridOptions || [];
@@ -280,7 +284,8 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
                             thresholdAmount:         draftData.grid.ThresholdAmount__c,
                             thresholdAmountCurrency: draftData.grid.ThresholdAmountCurrency__c,
                             otherFees:               draftData.grid.OtherFees__c,
-                            comment:                 draftData.grid.Comment__c
+                            comment:                 draftData.grid.Comment__c,
+                            singleRuleGrid:          draftData.grid.Tech_SingleRuleGridSelection__c ? { label: draftData.grid.Tech_SingleRuleGridSelection__c, value: draftData.grid.Tech_SingleRuleGridSelection__c } : null
                         };
                     }
                 } else if (agreementSettings.hasDraftGrid && this.recId) {
@@ -298,7 +303,10 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
                             thresholdAmount:         draftData.grid.ThresholdAmount__c,
                             thresholdAmountCurrency: draftData.grid.ThresholdAmountCurrency__c,
                             otherFees:               draftData.grid.OtherFees__c,
-                            comment:                 draftData.grid.Comment__c
+                            comment:                 draftData.grid.Comment__c,
+                            singleRuleGrid:          draftData.grid.Tech_SingleRuleGridSelection__c
+                                ? { label: draftData.grid.Tech_SingleRuleGridSelection__c, value: draftData.grid.Tech_SingleRuleGridSelection__c }
+                                : null
                         };
                     }
                 }
@@ -918,12 +926,17 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
             thresholdAmountCurrency: event.detail?.thresholdAmountCurrency,
             otherFees:               event.detail?.otherFees,
             comment:                 event.detail?.comment,
-            gridName:                event.detail?.gridName
+            gridName:                event.detail?.gridName,
+            singleRuleGrid:          event.detail?.singleRuleGrid
         };
 
         if((alreadySelectedAgreements != JSON.stringify(this.selectedAgreements)) || (alreadySelectedTeam != this.selectedTeam)) {
             this.resetAll(false);
             await this.loadGrids();
+            if (this.gridRequestData.gridType === 'SINGLE RULE' && this.gridRequestData.singleRuleGrid) {
+                const match = (this.gridOptions || []).find(o => o.label === this.gridRequestData.singleRuleGrid.label);
+                this.selectedGrid = match ? match.value : null;
+            }
             await this.loadGridSettings();
             await this.loadAllProductsForSelection();
         }
