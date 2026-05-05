@@ -270,46 +270,9 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
                 this.hasDraftGrid = agreementSettings.hasDraftGrid || false;
                 this.hasPendingGrid = agreementSettings.hasPendingGrid || false;
 
-                if (gridId) {
-                    // Coming from Grid record: load that grid directly
-                    const draftData = await getDraftGridDataByGridId({ gridId: gridId });
-                    if (draftData) {
-                        this.draftGridId      = draftData.grid.Id;
-                        this.pendingDraftData = draftData;
-                        this.gridRequestData  = {
-                            kind:                    draftData.grid.Kind__c,
-                            gridType:                draftData.grid.Type__c,
-                            isAutoGridUpdate:        draftData.grid.AutomaticGridUpdate__c,
-                            startDate:               draftData.grid.StartDate__c,
-                            endDate:                 draftData.grid.EndDate__c,
-                            thresholdAmount:         draftData.grid.ThresholdAmount__c,
-                            thresholdAmountCurrency: draftData.grid.ThresholdAmountCurrency__c,
-                            otherFees:               draftData.grid.OtherFees__c,
-                            comment:                 draftData.grid.Comment__c,
-                            salesOwnerId:            draftData.grid.SalesOwner__c,
-                            singleRuleGrid:          draftData.grid.Tech_SingleRuleGridSelection__c ? { label: draftData.grid.Tech_SingleRuleGridSelection__c, value: draftData.grid.Tech_SingleRuleGridSelection__c } : null
-                        };
-                    }
-                } else if (agreementSettings.hasDraftGrid && this.recId) {
-                    // Coming from Convention record with an existing draft
-                    const draftData = await getDraftGridData({ agreementId: this.recId });
-                    if (draftData) {
-                        this.draftGridId      = draftData.grid.Id;
-                        this.pendingDraftData = draftData;
-                        this.gridRequestData  = {
-                            kind:                    draftData.grid.Kind__c,
-                            gridType:                draftData.grid.Type__c,
-                            isAutoGridUpdate:        draftData.grid.AutomaticGridUpdate__c,
-                            startDate:               draftData.grid.StartDate__c,
-                            endDate:                 draftData.grid.EndDate__c,
-                            thresholdAmount:         draftData.grid.ThresholdAmount__c,
-                            thresholdAmountCurrency: draftData.grid.ThresholdAmountCurrency__c,
-                            otherFees:               draftData.grid.OtherFees__c,
-                            comment:                 draftData.grid.Comment__c,
-                            salesOwnerId:            draftData.grid.SalesOwner__c,
-                            singleRuleGrid:          draftData.grid.Tech_SingleRuleGridSelection__c ? { label: draftData.grid.Tech_SingleRuleGridSelection__c, value: draftData.grid.Tech_SingleRuleGridSelection__c } : null
-                        };
-                    }
+                const draftData = gridId ? await getDraftGridDataByGridId({ gridId: gridId }) : (agreementSettings.hasDraftGrid && this.recId) ? await getDraftGridData({ agreementId: this.recId }) : null;
+                if (draftData) {
+                    this.applyDraftGridData(draftData);
                 }
 
                 this.isLoading = false;
@@ -342,6 +305,25 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
         finally {
             this.isLoading = false;
         }
+    }
+
+    applyDraftGridData(draftData) {
+        const singleRule = draftData.grid.Tech_SingleRuleGridSelection__c;
+        this.draftGridId      = draftData.grid.Id;
+        this.pendingDraftData = draftData;
+        this.gridRequestData  = {
+            kind:                    draftData.grid.Kind__c,
+            gridType:                draftData.grid.Type__c,
+            isAutoGridUpdate:        draftData.grid.AutomaticGridUpdate__c,
+            startDate:               draftData.grid.StartDate__c,
+            endDate:                 draftData.grid.EndDate__c,
+            thresholdAmount:         draftData.grid.ThresholdAmount__c,
+            thresholdAmountCurrency: draftData.grid.ThresholdAmountCurrency__c,
+            otherFees:               draftData.grid.OtherFees__c,
+            comment:                 draftData.grid.Comment__c,
+            salesOwnerId:            draftData.grid.SalesOwner__c,
+            singleRuleGrid:          singleRule ? { label: singleRule, value: singleRule } : null
+        };
     }
 
     setGridSettings(gridSettings) {
