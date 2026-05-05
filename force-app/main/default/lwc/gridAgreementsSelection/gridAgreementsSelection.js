@@ -2,6 +2,7 @@ import { LightningElement, api, track, wire } from 'lwc';
 import { LABELS } from 'c/gridBuilderUtils';
 import getGridPicklistOptions from '@salesforce/apex/GridBuilderController.getGridPicklistOptions';
 import getAvailableGrids from '@salesforce/apex/GridBuilderController.getAvailableGrids';
+import getCurrentUserProfile from '@salesforce/apex/GridBuilderController.getCurrentUserProfile';
 
 export default class GridAgreementsSelection extends LightningElement {
     @api hasTeamSelection = false;
@@ -10,7 +11,12 @@ export default class GridAgreementsSelection extends LightningElement {
 
     @api availableTeams = [];
     @api primaryTeam;
-    @api selectedTeam;
+    _selectedTeam;
+    @api
+    set selectedTeam(val) {
+        this._selectedTeam = val;
+    }
+    get selectedTeam() { return this._selectedTeam; }
     @api recId;
 
     labels = LABELS;
@@ -30,6 +36,7 @@ export default class GridAgreementsSelection extends LightningElement {
     @track selectedValues = [];
     @track finalOptionsList = [];
     @track pills = [];
+    @track userProfile = null;
 
     @api
     set value(val) {
@@ -44,6 +51,7 @@ export default class GridAgreementsSelection extends LightningElement {
     @track kindOptions = [];
     @track typeOptions = [];
     @track ccyOptions  = [];
+    @track salesOwnerId = null;
 
     // ── AG data fields ──
     @track agKind           = '';    // AG2 — Kind__c
@@ -71,6 +79,7 @@ export default class GridAgreementsSelection extends LightningElement {
         this.agThreshCcy      = val.thresholdAmountCurrency || '';
         this.agOtherFees      = val.otherFees ?? false;
         this.agComment        = val.comment || '';
+        this.salesOwnerId     = val.salesOwnerId || null;
         this.selectedSingleRuleGrid = val.singleRuleGrid || null;
         if (this.agType === 'SINGLE RULE') {
             this.loadSingleRuleGridOptions();
@@ -138,15 +147,13 @@ export default class GridAgreementsSelection extends LightningElement {
         const region      = opt?.regionCode ?? '…';
         const agCode      = opt?.name       ?? '…';
         const kind        = this.agKind || '…';
-        const typeSegment = this.isSingleRule
-            ? (this.selectedSingleRuleGrid?.label || '…')
-            : (this.agType || '…');
+        const typeSegment = this.isSingleRule ? (this.selectedSingleRuleGrid?.label || '…') : (this.agType || '…');
         const update      = this.isAutoGridUpdate ? 'AUTOMATIC' : 'MANUAL';
         const date        = this.agStartDate || '…';
         return kind + ' – ' + region + ' – ' + agCode + ' – ' + typeSegment + ' – ' + update + ' – ' + date;
     }
 
-    get isThreshAboveZero()    { return this.agThreshold != null && parseFloat(this.agThreshold) > 0; }
+    get isThreshAboveZero()    { return this.agThreshold != null && Number.parseFloat(this.agThreshold) > 0; }
     get isAutoUpdateDisabled() { return this.agType === 'MULTI RULE'; }
 
     get isStartDateConflict() {
@@ -176,6 +183,16 @@ export default class GridAgreementsSelection extends LightningElement {
     get isTypeDisabled()         { return this.loadPreviousGrid && !!this.existingGridType; }
     get isAgreementDisabled()   { return !!this.recId; }
     get agreementSectionClass() { return this.isAgreementDisabled ? 'agreement-section agreement-section--disabled' : 'agreement-section'; }
+    get isSalesOwnerDisabled()  { return !((this.selectedValues?.length > 0) || !!this.recId || !!this.selectedTeam); }
+    get salesOwnerFilter() {
+        if (!this.userProfile) return '';
+        if (this.userProfile === 'Carmignac - CRM') {
+            return this.selectedTeam ? `Profile.Name = 'Carmignac - CRM' AND Team__c = '${this.selectedTeam}'` : `Profile.Name = 'Carmignac - CRM'`;
+        } else if (this.userProfile === 'Carmignac - Investment Solutions') {
+            return `Profile.Name = 'Carmignac - Investment Solutions'`;
+        }
+        return '';
+    }
     get isThreshCcyDisabled()   { return !this.isThreshAboveZero; }
     get toggleLabel()           { return this.isAutoGridUpdate ? this.labels.UI_On : this.labels.UI_Off; }
 
@@ -192,6 +209,7 @@ export default class GridAgreementsSelection extends LightningElement {
     }
 
     connectedCallback() {
+        this.loadUserProfile();
         if (this.recId) {
             this.selectedValues = [this.recId];
             this.pills = this.getPills();
@@ -202,6 +220,15 @@ export default class GridAgreementsSelection extends LightningElement {
         // Re-trigger loading here now that selectedValues is populated.
         if (this.isSingleRule && (this.selectedValues || []).length) {
             this.loadSingleRuleGridOptions();
+        }
+    }
+
+    async loadUserProfile() {
+        try {
+            this.userProfile = await getCurrentUserProfile();
+        } catch (error) {
+            console.error('Failed to load user profile', error);
+            this.userProfile = null;
         }
     }
 
@@ -298,6 +325,7 @@ export default class GridAgreementsSelection extends LightningElement {
     }
 
     handleTeamChange(event) {
+        this.salesOwnerId = null;
         this.selectedTeam = event.detail.value;
         this.selectedValues = [];
         this.finalOptionsList = this.getFinalOptionsList();
@@ -363,6 +391,10 @@ export default class GridAgreementsSelection extends LightningElement {
         }
         this.notifyValidity();
     }
+    handleSalesOwnerChange(e) {
+        this.salesOwnerId = e.detail?.recordId || null;
+        this.notifyValidity();
+    }
     handleSingleRuleGridChange(e) {
         const val = e.detail.value;
         const opt = this.singleRuleGridOptions.find(o => o.value === val);
@@ -408,7 +440,8 @@ export default class GridAgreementsSelection extends LightningElement {
                 comment:                 this.agComment,
                 gridName:                this.gridNamePreview,
                 loadPreviousGrid:        this.loadPreviousGrid,
-                singleRuleGrid:          this.selectedSingleRuleGrid
+                singleRuleGrid:          this.selectedSingleRuleGrid,
+                salesOwnerId:            this.salesOwnerId
             }
         }));
     }

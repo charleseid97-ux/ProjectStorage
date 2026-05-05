@@ -84,6 +84,11 @@ public with sharing class GridBuilderController {
         return result;
     }
 
+    @AuraEnabled(cacheable=true)
+    public static String getCurrentUserProfile() {
+        return [SELECT Name FROM Profile WHERE Id = :UserInfo.getProfileId() LIMIT 1].Name;
+    }
+
     private static String buildAgreementWhereClause(String agreementId, String userPrimaryTeam, List<String> userSecondaryTeams, String agreementQueryConditions) {
         String agreementWhere = '';
         // Redirection from Agreement directly
@@ -144,7 +149,7 @@ public with sharing class GridBuilderController {
     }
 
     private static DraftGridData buildGridData(Id gridId) {
-        Grid__c grid = [SELECT Id, Name, Kind__c, Type__c, AutomaticGridUpdate__c, StartDate__c, EndDate__c, ThresholdAmount__c, ThresholdAmountCurrency__c, OtherFees__c, Comment__c, Tech_SingleRuleGridSelection__c
+        Grid__c grid = [SELECT Id, Name, Kind__c, Type__c, AutomaticGridUpdate__c, StartDate__c, EndDate__c, ThresholdAmount__c, ThresholdAmountCurrency__c, OtherFees__c, Comment__c, SalesOwner__c, Tech_SingleRuleGridSelection__c
                         FROM Grid__c
                         WHERE Id = :gridId LIMIT 1];
 

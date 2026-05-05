@@ -153,6 +153,17 @@
                                     placeholder="-- Select --">
                 </lightning-combobox>
 
+                
+                <!-- Sales Owner -->
+                <lightning-record-picker label="Sales Owner"
+                                        object-api-name="User"
+                                        record-id={salesOwnerId}
+                                        filter={salesOwnerFilter}
+                                        onchange={handleSalesOwnerChange}
+                                        placeholder="Search Users..."
+                                        disabled={isSalesOwnerDisabled}>
+                </lightning-record-picker>
+
                 <div class="additional-fields">
                     <!-- AG12: Other Fees -->
                     <lightning-input type="checkbox"
