@@ -15,6 +15,14 @@ public with sharing class GridDetailTableController {
 
     @AuraEnabled(cacheable=true)
     public static GridDetailResult getGridDetails(Id gridId, Boolean activeOnly) {
+        return getGridDetailsInternal(gridId, activeOnly, null, null);
+    }
+
+    public static GridDetailResult getGridDetails(Id gridId, Boolean activeOnly, Set<Id> allowedShareClassIds, Id overrideAgreementId) {
+        return getGridDetailsInternal(gridId, activeOnly, allowedShareClassIds, overrideAgreementId);
+    }
+
+    private static GridDetailResult getGridDetailsInternal(Id gridId, Boolean activeOnly, Set<Id> allowedShareClassIds, Id overrideAgreementId) {
         GridDetailResult result = new GridDetailResult();
         result.rows = new List<GridDetailRow>();
         result.errors = new List<String>();
@@ -27,12 +35,16 @@ public with sharing class GridDetailTableController {
         Grid__c grid = [SELECT Id, RecordType.DeveloperName, Agreement__c FROM Grid__c WHERE Id = :gridId LIMIT 1];
         AgreementSelection agreementSelection = new AgreementSelection();
 
+        // Used for the Grid Comparison page when we want to override the agreement selection with a specific agreement (e.g. from the current grid's agreement or a user input), regardless of the grid's actual scopes
+        if (overrideAgreementId != null) {
+            agreementSelection.agreementIds.add(overrideAgreementId);
+        }
         // Custom Grid: agreements are those where this grid is set as Grid_Request__c or Grid__c
-        if (grid.RecordType.DeveloperName == GridBuilderHelper.RT_CUSTOM_GRID) { 
+        else if (grid.RecordType.DeveloperName == GridBuilderHelper.RT_CUSTOM_GRID) {
             agreementSelection.agreementIds.add(grid.Agreement__c);
         }
         // Standard Grid: use GridScope__c
-        else { 
+        else {
             List<GridScope__c> scopes = [SELECT Agreement__c FROM GridScope__c WHERE Grid__c = :gridId];
             if (scopes.isEmpty()) {
                 result.errors.add('No Grid Scope found for this Grid. AUM will be blank.');
@@ -59,6 +71,18 @@ public with sharing class GridDetailTableController {
                                        WHERE Grid__c = :gridId
                                        AND (EndDate__c = null OR EndDate__c >= :cutoffDate)
                                        ORDER BY ShareClass__r.Fund__r.ProductName__c, ShareClass__r.Name__c, StartDate__c DESC];
+
+        if (allowedShareClassIds != null && !allowedShareClassIds.isEmpty()) {
+            List<GridDetail__c> filtered = new List<GridDetail__c>();
+            for (GridDetail__c detail : details) {
+                Id effectiveScId = detail.StandardGridDetail__c != null ? detail.StandardGridDetail__r.ShareClass__c : detail.ShareClass__c;
+                if (allowedShareClassIds.contains(effectiveScId)) {
+                    filtered.add(detail);
+                }
+            }
+            details = filtered;
+        }
+
         Set<Id> shareClassIds = new Set<Id>();
         for (GridDetail__c detail : details) {
             Id scId = detail.StandardGridDetail__c != null ? detail.StandardGridDetail__r.ShareClass__c : detail.ShareClass__c;
