@@ -185,13 +185,14 @@ export default class GridAgreementsSelection extends LightningElement {
     get agreementSectionClass() { return this.isAgreementDisabled ? 'agreement-section agreement-section--disabled' : 'agreement-section'; }
     get isSalesOwnerDisabled()  { return !((this.selectedValues?.length > 0) || !!this.recId || !!this.selectedTeam); }
     get salesOwnerFilter() {
-        if (!this.userProfile) return '';
-        if (this.userProfile === 'Carmignac - CRM') {
-            return this.selectedTeam ? `Profile.Name = 'Carmignac - CRM' AND Team__c = '${this.selectedTeam}'` : `Profile.Name = 'Carmignac - CRM'`;
-        } else if (this.userProfile === 'Carmignac - Investment Solutions') {
-            return `Profile.Name = 'Carmignac - Investment Solutions'`;
+        const criteria = [{ fieldPath: 'IsActive', operator: 'eq', value: true }];
+        if (this.userProfile && !this.userProfile.includes('Admin')) {
+            criteria.push({ fieldPath: 'Profile.Name', operator: 'eq', value: this.userProfile });
+            if (this.userProfile === 'Carmignac - CRM' && this.selectedTeam) {
+                criteria.push({ fieldPath: 'Team__c', operator: 'eq', value: this.selectedTeam });
+            }
         }
-        return '';
+        return { criteria };
     }
     get isThreshCcyDisabled()   { return !this.isThreshAboveZero; }
     get toggleLabel()           { return this.isAutoGridUpdate ? this.labels.UI_On : this.labels.UI_Off; }
