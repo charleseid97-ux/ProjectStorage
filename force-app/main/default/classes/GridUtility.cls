@@ -237,6 +237,12 @@ public with sharing class GridUtility {
         insert newCustomToInsert;
     }
 
+    public static String getGridAgreementRegion(Id gridId) {
+        if (gridId == null) return null;
+        List<Grid__c> grids = [SELECT Agreement__r.Business_Region__c FROM Grid__c WHERE Id = :gridId LIMIT 1];
+        return grids.isEmpty() ? null : grids[0].Agreement__r.Business_Region__c;
+    }
+
     public static void setGridOnAgreement(Convention__c agr) {
         agr.Grid__c                      = agr.Grid_Request__c;
         agr.Grid_Request__c              = null;

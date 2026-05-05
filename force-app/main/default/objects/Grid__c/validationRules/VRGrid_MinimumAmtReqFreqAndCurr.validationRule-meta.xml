@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VRGrid_MinimumAmtReqFreqAndCurr</fullName>
+    <active>true</active>
+    <description>Ensures that when a Minimum Amount is provided, both the Minimum Amount Frequency and Minimum Amount Currency fields are also completed.</description>
+    <errorConditionFormula>AND(
+    NOT(ISBLANK(MinimumAmount__c)),
+    MinimumAmount__c &gt; 0,
+    OR(
+        ISPICKVAL(MinimumAmountFrequency__c, &quot;&quot;),
+        ISPICKVAL(MinimumAmountCurrency__c, &quot;&quot;)
+    )
+)</errorConditionFormula>
+    <errorMessage>Minimum Amount Frequency and Currency are required when a Minimum Amount is specified.</errorMessage>
+</ValidationRule>

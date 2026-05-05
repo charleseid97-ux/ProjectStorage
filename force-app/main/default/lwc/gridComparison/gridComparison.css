@@ -164,6 +164,19 @@ td.td-diff-red { font-weight: 600; background: #ffcdd2; }
     display: block;
 }
 
+/* ── Column sorting ── */
+.th-default.sortable,
+.th-sub.sortable {
+    cursor: pointer;
+    user-select: none;
+}
+.th-default.sortable:hover { filter: brightness(0.93); }
+.th-sub.sortable:hover     { filter: brightness(0.93); }
+.sort-icon {
+    margin-left: 3px;
+    font-size: 9px;
+}
+
 /* ── Section padding ── */
 .section-class { padding: 0px 10px; }
 .section-padding { padding: 5px 15px; }

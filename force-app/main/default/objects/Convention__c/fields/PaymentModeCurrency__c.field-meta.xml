@@ -9,11 +9,24 @@
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
+        <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
-            <value><fullName>EUR</fullName><default>false</default><label>EUR</label></value>
-            <value><fullName>GBP</fullName><default>false</default><label>GBP</label></value>
-            <value><fullName>CHF</fullName><default>false</default><label>CHF</label></value>
+            <value>
+                <fullName>EUR</fullName>
+                <default>false</default>
+                <label>EUR</label>
+            </value>
+            <value>
+                <fullName>GBP</fullName>
+                <default>false</default>
+                <label>GBP</label>
+            </value>
+            <value>
+                <fullName>CHF</fullName>
+                <default>false</default>
+                <label>CHF</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

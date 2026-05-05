@@ -83,8 +83,33 @@ public with sharing class GridComparisonController {
     @AuraEnabled(cacheable=true)
     public static ComparisonData getComparisonData(Id currentGridId, Id selectedGridId) {
         ComparisonData data = new ComparisonData();
+
+        Id currentAgreementId = null;
+        String countriesOfDistribution = null;
+
+        if (currentGridId != null) {
+            List<Grid__c> cur = [SELECT Agreement__c, Agreement__r.Countries_of_Distribution__c
+                                  FROM Grid__c WHERE Id = :currentGridId LIMIT 1];
+            if (!cur.isEmpty() && cur[0].Agreement__c != null) {
+                currentAgreementId = cur[0].Agreement__c;
+                countriesOfDistribution = cur[0].Agreement__r.Countries_of_Distribution__c;
+            }
+        }
+
+        Set<Id> validShareClassIds = new Set<Id>();
+        if (String.isNotBlank(countriesOfDistribution)) {
+            GridBuilderHelper.GridSettings gridSettings = GridBuilderHelper.getGridSettings('CustomGridBuilderSetting', countriesOfDistribution, false, new List<String>());
+            if (gridSettings != null) {
+                List<String> conditions = GridBuilderHelper.buildDefaultConditions(true, true, countriesOfDistribution, gridSettings.shareTypeWrp, false, new List<String>());
+                String whereClause = String.join(conditions, ' AND ');
+                for (Share_Class__c sc : Database.query('SELECT Id FROM Share_Class__c WHERE ' + whereClause)) {
+                    validShareClassIds.add(sc.Id);
+                }
+            }
+        }
+
         data.current  = GridDetailTableController.getGridDetails(currentGridId, true);
-        data.selected = GridDetailTableController.getGridDetails(selectedGridId, true);
+        data.selected = GridDetailTableController.getGridDetails(selectedGridId, true, validShareClassIds, currentAgreementId);
         return data;
     }
 
