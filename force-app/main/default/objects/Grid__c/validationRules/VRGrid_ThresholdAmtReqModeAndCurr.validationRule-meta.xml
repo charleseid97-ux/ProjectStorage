@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VRGrid_ThresholdAmtReqModeAndCurr</fullName>
+    <active>true</active>
+    <description>Ensures that when a Threshold Amount is provided, both the Threshold Mode and Threshold Currency fields are also completed.</description>
+    <errorConditionFormula>AND(
+    NOT(ISBLANK(ThresholdAmount__c)),
+    ThresholdAmount__c &gt; 0,
+    OR(
+        ISPICKVAL(ThresholdMode__c, &quot;&quot;),
+        ISPICKVAL(ThresholdAmountCurrency__c, &quot;&quot;)
+    )
+)</errorConditionFormula>
+    <errorMessage>Threshold Mode and Threshold Currency are required when a Threshold Amount is specified.</errorMessage>
+</ValidationRule>

@@ -286,6 +286,13 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.ThresholdAmountCurrency__c</fieldItem>
                 <identifier>RecordThresholdAmountCurrency_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.ThresholdAmount__c}</leftValue>
+                        <operator>GT</operator>
+                        <rightValue>0</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-ab01bef8-576f-41eb-9f94-b0687f1cef78</name>
@@ -300,6 +307,13 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.ThresholdMode__c</fieldItem>
                 <identifier>RecordThresholdMode_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.ThresholdAmount__c}</leftValue>
+                        <operator>GT</operator>
+                        <rightValue>0</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-e6a32024-007c-48a2-876e-99435ff4032f</name>
@@ -348,6 +362,13 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.MinimumAmountCurrency__c</fieldItem>
                 <identifier>RecordMinimumAmountCurrency_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.MinimumAmount__c}</leftValue>
+                        <operator>GT</operator>
+                        <rightValue>0</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-263e0711-d0d0-49ae-9f0d-fe07f3bb02ce</name>
@@ -362,6 +383,13 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.MinimumAmountFrequency__c</fieldItem>
                 <identifier>RecordMinimumAmountFrequency_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.MinimumAmount__c}</leftValue>
+                        <operator>GT</operator>
+                        <rightValue>0</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-eec00fb5-2b5d-4c1b-a4bf-1883511d069b</name>
