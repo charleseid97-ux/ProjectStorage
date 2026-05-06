@@ -89,8 +89,11 @@
                                         <tr>
                                             <th class="ov-th-label"></th>
                                             <th class="ov-th">Weighted Avg Mgt Fee</th>
+                                            <th class="ov-th">Mgt Fee (Amt)</th>
                                             <th class="ov-th">Weighted Avg Rebates</th>
+                                            <th class="ov-th">Rebates (Amt)</th>
                                             <th class="ov-th">Avg Net Margin</th>
+                                            <th class="ov-th">Net Margin (Amt)</th>
                                             <th class="ov-th">Avg Profitability</th>
                                         </tr>
                                     </thead>
@@ -99,8 +102,11 @@
                                             <tr key={row.key} class={row.rowClass}>
                                                 <td class="ov-label">{row.label}</td>
                                                 <td class="td-right">{row.fee}</td>
+                                                <td class="td-right">{row.feeAmt}</td>
                                                 <td class="td-right">{row.rr}</td>
+                                                <td class="td-right">{row.rrAmt}</td>
                                                 <td class="td-right">{row.nm}</td>
+                                                <td class="td-right">{row.nmAmt}</td>
                                                 <td class="td-right">{row.pr}</td>
                                             </tr>
                                         </template>
