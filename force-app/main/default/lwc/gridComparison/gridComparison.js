@@ -1,5 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
-import { reduceError } from 'c/gridBuilderUtils';
+import { reduceError, parsePct, parseAum, fmtAmt, fmtDiffAmt, wgtAvgAndAmt } from 'c/gridBuilderUtils';
 import getComparisonData from '@salesforce/apex/GridComparisonController.getComparisonData';
 import searchGrids from '@salesforce/apex/GridComparisonController.searchGrids';
 import searchAgreements from '@salesforce/apex/GridComparisonController.searchAgreements';
@@ -12,34 +12,11 @@ const ROW_TYPE_CSS = {
     SELECTED_ONLY : 'row-gray'
 };
 
-// Parse a formatted percent string like "2.50%" or "2,50%" → 2.50 (or null)
-function parsePct(str) {
-    if (!str) return null;
-    const n = parseFloat(str.replace('%', '').replace(',', '.'));
-    return isNaN(n) ? null : n;
-}
-
 function formatDiff(a, b) {
     if (a == null || b == null) return null;
     const d = (a - b);
     const sign = d > 0 ? '+' : '';
     return sign + d.toFixed(2) + '%';
-}
-
-function fmtAmt(v) {
-    if (v == null || v === 0) return null;
-    const abs = Math.abs(v);
-    if (abs >= 1_000_000) return (v / 1_000_000).toFixed(1) + 'M';
-    if (abs >= 1_000)     return Math.round(v).toLocaleString();
-    return Math.round(v).toString();
-}
-
-function fmtDiffAmt(v) {
-    if (v == null || v === 0) return null;
-    const sign = v > 0 ? '+' : '';
-    const abs = Math.abs(v);
-    if (abs >= 1_000_000) return sign + (v / 1_000_000).toFixed(1) + 'M';
-    return sign + Math.round(v).toLocaleString();
 }
 
 // greenIfNegative=true  → RR  (lower rebate = better)
@@ -222,46 +199,53 @@ export default class GridComparison extends LightningElement {
 
     // ── Overview logic ──
     buildOverview(currentRows, selectedRows) {
-        // AUM is a locale-formatted integer string (e.g. "1,234,567") — strip non-digits for weight
-        const parseAum = s => {
-            if (!s) return 0;
-            const n = parseFloat(s.replace(/[^0-9]/g, ''));
-            return isNaN(n) ? 0 : n;
-        };
-
-        const wgtAvg = (rows, aumFn, valueFn) => {
-            let sumWV = 0, sumAum = 0;
-            for (const r of rows) {
-                const aum = parseAum(aumFn(r));
-                const val = parsePct(valueFn(r));
-                if (aum > 0 && val != null) {
-                    sumWV  += val * aum;
-                    sumAum += aum;
-                }
-            }
-            return sumAum > 0 ? sumWV / sumAum : null;
-        };
-
-        const fmt     = v => v != null ? v.toFixed(2) + '%' : '–';
-        const fmtDiff = (a, b) => {
+        const fmt          = v   => v == null ? '–' : v.toFixed(2) + '%';
+        const fmtOvAmt     = v   => fmtAmt(v) ?? '–';
+        const fmtDiffPct   = (a, b) => {
             if (a == null || b == null) return '–';
             const d = a - b;
             return (d > 0 ? '+' : '') + d.toFixed(2) + '%';
         };
+        const fmtDiffOvAmt = (a, b) => {
+            if (a == null || b == null) return '–';
+            return fmtDiffAmt(a - b) ?? '–';
+        };
 
-        const cFee = wgtAvg(currentRows,  r => r.aum, r => r.effMgtFee);
-        const sFee = wgtAvg(selectedRows, r => r.aum, r => r.effMgtFee);
-        const cRR  = wgtAvg(currentRows,  r => r.aum, r => r.rebateRate);
-        const sRR  = wgtAvg(selectedRows, r => r.aum, r => r.rebateRate);
-        const cNM  = cFee != null && cRR != null ? cFee - cRR : null;
-        const sNM  = sFee != null && sRR != null ? sFee - sRR : null;
-        const cPR  = cFee != null && cFee !== 0 && cNM != null ? (cNM / cFee * 100) : null;
-        const sPR  = sFee != null && sFee !== 0 && sNM != null ? (sNM / sFee * 100) : null;
+        const cFee = wgtAvgAndAmt(currentRows,  r => r.aum, r => r.effMgtFee);
+        const sFee = wgtAvgAndAmt(selectedRows, r => r.aum, r => r.effMgtFee);
+        const cRR  = wgtAvgAndAmt(currentRows,  r => r.aum, r => r.rebateRate);
+        const sRR  = wgtAvgAndAmt(selectedRows, r => r.aum, r => r.rebateRate);
+
+        const cNMpct = cFee.pct != null && cRR.pct != null ? cFee.pct - cRR.pct : null;
+        const sNMpct = sFee.pct != null && sRR.pct != null ? sFee.pct - sRR.pct : null;
+        const cNMamt = cFee.amt != null && cRR.amt != null ? cFee.amt - cRR.amt : null;
+        const sNMamt = sFee.amt != null && sRR.amt != null ? sFee.amt - sRR.amt : null;
+
+        const cPRpct = cFee.pct != null && cFee.pct !== 0 && cNMpct != null ? (cNMpct / cFee.pct * 100) : null;
+        const sPRpct = sFee.pct != null && sFee.pct !== 0 && sNMpct != null ? (sNMpct / sFee.pct * 100) : null;
 
         return [
-            { key: 'current',  label: 'Current',  rowClass: 'ov-current',  fee: fmt(cFee), rr: fmt(cRR), nm: fmt(cNM), pr: fmt(cPR) },
-            { key: 'selected', label: 'Selected', rowClass: 'ov-selected', fee: fmt(sFee), rr: fmt(sRR), nm: fmt(sNM), pr: fmt(sPR) },
-            { key: 'diff',     label: 'Diff',     rowClass: 'ov-diff',     fee: fmtDiff(cFee, sFee), rr: fmtDiff(cRR, sRR), nm: fmtDiff(cNM, sNM), pr: fmtDiff(cPR, sPR) }
+            {
+                key: 'current',  label: 'Current',  rowClass: 'ov-current',
+                fee: fmt(cFee.pct), feeAmt: fmtOvAmt(cFee.amt),
+                rr:  fmt(cRR.pct),  rrAmt:  fmtOvAmt(cRR.amt),
+                nm:  fmt(cNMpct),   nmAmt:  fmtOvAmt(cNMamt),
+                pr:  fmt(cPRpct)
+            },
+            {
+                key: 'selected', label: 'Selected', rowClass: 'ov-selected',
+                fee: fmt(sFee.pct), feeAmt: fmtOvAmt(sFee.amt),
+                rr:  fmt(sRR.pct),  rrAmt:  fmtOvAmt(sRR.amt),
+                nm:  fmt(sNMpct),   nmAmt:  fmtOvAmt(sNMamt),
+                pr:  fmt(sPRpct)
+            },
+            {
+                key: 'diff',     label: 'Diff',     rowClass: 'ov-diff',
+                fee: fmtDiffPct(cFee.pct, sFee.pct), feeAmt: fmtDiffOvAmt(cFee.amt, sFee.amt),
+                rr:  fmtDiffPct(cRR.pct,  sRR.pct),  rrAmt:  fmtDiffOvAmt(cRR.amt,  sRR.amt),
+                nm:  fmtDiffPct(cNMpct,   sNMpct),   nmAmt:  fmtDiffOvAmt(cNMamt,   sNMamt),
+                pr:  fmtDiffPct(cPRpct,   sPRpct)
+            }
         ];
     }
 
@@ -338,7 +322,7 @@ export default class GridComparison extends LightningElement {
             const currPR = parsePct(curr?.profitability);
             const selPR  = parsePct(sel?.profitability);
 
-            const aumNum  = parseFloat((ref.aum || '').replace(/[^0-9]/g, '')) || 0;
+            const aumNum  = parseAum(ref.aum);
             const calcAmt = pct => (pct != null && aumNum) ? pct * aumNum / 100 : null;
             const cRRAmt  = calcAmt(currRR), sRRAmt = calcAmt(selRR);
             const cNMAmt  = calcAmt(currNM), sNMAmt = calcAmt(selNM);
@@ -356,7 +340,7 @@ export default class GridComparison extends LightningElement {
                 portfolio       : ref.portfolio,
                 shareClass      : ref.shareClass,
                 isin            : ref.isin,
-                aum             : ref.aum,
+                aum             : fmtAmt(aumNum) ?? (ref.aum || ''),
                 effMgtFee       : ref.effMgtFee,
                 currentStdGrid  : curr?.stdGridName  ?? '',
                 selectedStdGrid : sel?.stdGridName   ?? '',

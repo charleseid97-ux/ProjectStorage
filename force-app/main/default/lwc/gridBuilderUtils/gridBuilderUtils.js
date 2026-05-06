@@ -195,6 +195,71 @@ export const LABELS = {
     Grid_SimExport_Col_Rebate_EN, Grid_SimExport_Col_Rebate_FR, Grid_SimExport_Col_Rebate_IT
 };
 
+// ── Number formatting ─────────────────────────────────────────────────────────
+
+/** Parse a formatted percent string like "2.50%" or "2,50%" → 2.50 (or null) */
+export function parsePct(str) {
+    if (!str) return null;
+    const n = parseFloat(str.replace('%', '').replace(',', '.'));
+    return isNaN(n) ? null : n;
+}
+
+/** Parse a locale-formatted AUM string (e.g. "1,234,567") → number */
+export function parseAum(s) {
+    if (!s) return 0;
+    const n = parseFloat(s.replace(/[^0-9]/g, ''));
+    return isNaN(n) ? 0 : n;
+}
+
+/** Format a number with 2 decimals and an arbitrary suffix. Returns '—' for null. */
+export function fmtNum(v, suffix = '') {
+    return v == null ? '—' : v.toFixed(2) + suffix;
+}
+
+/**
+ * Format a monetary amount: >= 1B → 0 dec M, >= 1M → 2 dec M, >= 1K → 2 dec K, else 2 dec.
+ * Returns null for null or 0 (use ?? '—' at call site when a dash is needed for display).
+ */
+export function fmtAmt(v) {
+    if (v == null || v === 0) return null;
+    const abs = Math.abs(v);
+    if (abs >= 1_000_000_000) return (v / 1_000_000).toFixed(0) + 'M';
+    if (abs >= 1_000_000)     return (v / 1_000_000).toFixed(2) + 'M';
+    if (abs >= 1_000)         return (v / 1_000).toFixed(2) + 'K';
+    return v.toFixed(2);
+}
+
+/** Like fmtAmt but prefixes positive values with '+'. Returns null for null or 0. */
+export function fmtDiffAmt(v) {
+    if (v == null || v === 0) return null;
+    const sign = v > 0 ? '+' : '';
+    const abs = Math.abs(v);
+    if (abs >= 1_000_000_000) return sign + (v / 1_000_000).toFixed(0) + 'M';
+    if (abs >= 1_000_000)     return sign + (v / 1_000_000).toFixed(2) + 'M';
+    if (abs >= 1_000)         return sign + (v / 1_000).toFixed(2) + 'K';
+    return sign + v.toFixed(2);
+}
+
+/**
+ * Compute weighted-average % and total monetary amount over a set of rows.
+ * Returns { pct, amt, totalAum } — all null/0 when no data.
+ */
+export function wgtAvgAndAmt(rows, aumFn, valueFn) {
+    let sumWV = 0, sumAum = 0;
+    for (const r of rows) {
+        const aum = parseAum(aumFn(r));
+        const val = parsePct(valueFn(r));
+        if (aum > 0 && val != null) {
+            sumWV  += val * aum;
+            sumAum += aum;
+        }
+    }
+    if (sumAum === 0) return { pct: null, amt: null, totalAum: 0 };
+    return { pct: sumWV / sumAum, amt: sumWV / 100, totalAum: sumAum };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+
 export function showToast(component, title, message, variant) {
     component.dispatchEvent(new ShowToastEvent({
         title: title,
