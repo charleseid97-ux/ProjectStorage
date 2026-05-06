@@ -35,6 +35,7 @@ export default class GridDetailTable extends LightningElement {
     rows = [];
     errors = [];
     isLoading = false;
+    showActiveOnly = false;
     _recordId;
     sheetJsLoaded  = false;
     sheetJsReady   = false;
@@ -62,8 +63,12 @@ export default class GridDetailTable extends LightningElement {
         return this.rows && this.rows.length > 0;
     }
 
+    get filteredRows() {
+        return this.showActiveOnly ? (this.rows || []).filter(r => !r.isExpired) : (this.rows || []);
+    }
+
     get rowCountLabel() {
-        const count = this.rows ? this.rows.length : 0;
+        const count = this.filteredRows.length;
         return `${count} item${count === 1 ? '' : 's'}`;
     }
 
@@ -80,7 +85,7 @@ export default class GridDetailTable extends LightningElement {
     }
 
     get processedRows() {
-        return (this.rows || []).map(row => ({
+        return this.filteredRows.map(row => ({
             rowKey: row.id,
             rowClass: row.isExpired ? 'row-expired' : '',
             cells: COLUMNS.map(col => ({
@@ -108,6 +113,10 @@ export default class GridDetailTable extends LightningElement {
         } finally {
             this.isLoading = false;
         }
+    }
+
+    handleActiveOnlyToggle(event) {
+        this.showActiveOnly = event.target.checked;
     }
 
     handleRefresh() {

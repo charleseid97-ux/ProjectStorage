@@ -17,20 +17,9 @@
                 </div>
             </header>
             <div class="slds-no-flex header-actions">
-                <lightning-button
-                    icon-name="utility:download"
-                    icon-position="left"
-                    label="Export Excel"
-                    variant="neutral"
-                    onclick={handleExport}
-                ></lightning-button>
-                <lightning-button-icon
-                    icon-name="utility:refresh"
-                    variant="border"
-                    alternative-text={labels.UI_Refresh}
-                    title={labels.UI_Refresh}
-                    onclick={handleRefresh}
-                ></lightning-button-icon>
+                <lightning-input type="toggle" label="Active only" checked={showActiveOnly} onchange={handleActiveOnlyToggle} class="active-only-toggle"></lightning-input>
+                <lightning-button icon-name="utility:download" icon-position="left" label="Export Excel" variant="neutral" onclick={handleExport}></lightning-button>
+                <lightning-button-icon icon-name="utility:refresh" variant="border" alternative-text={labels.UI_Refresh} title={labels.UI_Refresh} onclick={handleRefresh}></lightning-button-icon>
             </div>
         </div>
         <div class="tableContainer">
