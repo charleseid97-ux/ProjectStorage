@@ -1,25 +1,12 @@
 import { LightningElement, api, track } from 'lwc';
 import { loadScript } from 'lightning/platformResourceLoader';
-import { LABELS, exportGridDetailsExcel } from 'c/gridBuilderUtils';
+import { LABELS, exportGridDetailsExcel, fmtAmt, fmtNum } from 'c/gridBuilderUtils';
 import XlsxJsStyle from '@salesforce/resourceUrl/xlsxjsstyle';
 import ExcelJs     from '@salesforce/resourceUrl/exceljs';
 import getSimulationData         from '@salesforce/apex/GridSimulationController.getSimulationData';
 import getAgreementRegion        from '@salesforce/apex/GridSimulationController.getAgreementRegion';
 import getSimulationInitData     from '@salesforce/apex/GridSimulationController.getSimulationInitData';
 import getActiveGridSimulationData from '@salesforce/apex/GridSimulationController.getActiveGridSimulationData';
-
-const FMT     = new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-const FMT_INT = new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 0 });
-const fmt     = (v, suffix = '') => (v == null ? '—' : FMT.format(v) + suffix);
-const fmtInt  = (v, suffix = '') => {
-    if (v == null) return '—';
-    const n = +v;
-    if (!isFinite(n)) return '—';
-    const abs = Math.abs(n);
-    if (abs >= 1_000_000_000) return FMT_INT.format(Math.trunc(n / 1_000_000)) + ' M';
-    if (abs > 1_000_000)     return FMT.format(n / 1_000_000) + ' M';
-    return FMT_INT.format(Math.trunc(n)) + suffix;
-};
 
 function parseNewMoney(raw) {
     if (raw == null) return 0;
@@ -202,30 +189,30 @@ export default class GridSimulation extends LightningElement {
             productName:       r.productName    || r.name || '',
             type:              r.shareClassType || '—',
             isin:              r.isin           || '',
-            effMgtFeesFmt:     fmt(r.effMgtFees, '%'),
+            effMgtFeesFmt:     fmtNum(r.effMgtFees, '%'),
             rowStatus:         r.rowStatus,
             rowClass:          r.rowStatus === 'current-only'   ? 'row-current-only'
                              : r.rowStatus === 'simulated-only' ? 'row-simulated-only' : '',
             hasCurrentData:    r.hasCurrentData,
             hasSimulatedData:  r.hasSimulatedData,
             // CURRENT
-            curAumFmt:         r.hasCurrentData   ? fmtInt(r.curAum)       : '—',
-            curRebRateFmt:     r.hasCurrentData   ? fmt(r.curRebRate, '%')  : '—',
-            curGrossFmt:       r.hasCurrentData   ? fmtInt(r.curGross)     : '—',
-            curRebatesFmt:     r.hasCurrentData   ? fmtInt(r.curRebates)   : '—',
-            curNetFmt:         r.hasCurrentData   ? fmtInt(r.curNet)       : '—',
+            curAumFmt:         r.hasCurrentData   ? fmtAmt(r.curAum)    ?? '—' : '—',
+            curRebRateFmt:     r.hasCurrentData   ? fmtNum(r.curRebRate, '%')  : '—',
+            curGrossFmt:       r.hasCurrentData   ? fmtAmt(r.curGross)  ?? '—' : '—',
+            curRebatesFmt:     r.hasCurrentData   ? fmtAmt(r.curRebates)?? '—' : '—',
+            curNetFmt:         r.hasCurrentData   ? fmtAmt(r.curNet)    ?? '—' : '—',
             // SIMULATED
             additionalMoney:      r.additionalMoney,
-            additionalMoneyFmt:   r.hasSimulatedData ? fmtInt(r.additionalMoney) : '—',
+            additionalMoneyFmt:   r.hasSimulatedData ? fmtAmt(r.additionalMoney) ?? '—' : '—',
             isEditingNewMoney:    r.hasSimulatedData && this.editingNewMoneyId === r.shareClassId,
             newMoneyCellClass:    r.hasSimulatedData
                                     ? (this.editingNewMoneyId === r.shareClassId ? 'td-sim td-input' : 'td-sim td-right')
                                     : 'td-sim',
-            newAumFmt:            r.hasSimulatedData ? fmtInt(r.newAum)          : '—',
-            simGrossFmt:          r.hasSimulatedData ? fmtInt(r.simGross)        : '—',
-            simRebRateFmt:        r.hasSimulatedData ? fmt(r.simRebRate, '%')    : '—',
-            simRebatesFmt:        r.hasSimulatedData ? fmtInt(r.simRebates)      : '—',
-            simNetFmt:            r.hasSimulatedData ? fmtInt(r.simNet)          : '—'
+            newAumFmt:            r.hasSimulatedData ? fmtAmt(r.newAum)     ?? '—' : '—',
+            simGrossFmt:          r.hasSimulatedData ? fmtAmt(r.simGross)   ?? '—' : '—',
+            simRebRateFmt:        r.hasSimulatedData ? fmtNum(r.simRebRate, '%')   : '—',
+            simRebatesFmt:        r.hasSimulatedData ? fmtAmt(r.simRebates) ?? '—' : '—',
+            simNetFmt:            r.hasSimulatedData ? fmtAmt(r.simNet)     ?? '—' : '—'
         }));
     }
 
@@ -240,13 +227,13 @@ export default class GridSimulation extends LightningElement {
             effMgtFees:           r.effMgtFees || 0,
             rebateRate:           r.simRebRate || 0,
             additionalMoney:      r.additionalMoney || 0,
-            additionalMoneyFmt:   fmtInt(r.additionalMoney || 0),
+            additionalMoneyFmt:   fmtAmt(r.additionalMoney || 0) ?? '—',
             isEditingNewMoney:    this.editingNewMoneyId === r.shareClassId,
             newMoneyCellClass:    this.editingNewMoneyId === r.shareClassId ? 'td-sim td-input' : 'td-sim td-right',
-            newAumFmt:            fmtInt(r.newAum),
-            simGrossFmt:          fmtInt(r.simGross),
-            simRebatesFmt:        fmtInt(r.simRebates),
-            simNetFmt:            fmtInt(r.simNet)
+            newAumFmt:            fmtAmt(r.newAum)     ?? '—',
+            simGrossFmt:          fmtAmt(r.simGross)   ?? '—',
+            simRebatesFmt:        fmtAmt(r.simRebates) ?? '—',
+            simNetFmt:            fmtAmt(r.simNet)     ?? '—'
         }));
     }
 
@@ -268,15 +255,15 @@ export default class GridSimulation extends LightningElement {
         const simNet          = useMerged ? sumIf('simNet',          'hasSimulatedData') : sum('simNet');
         return {
             curAum, curGross, curRebates, curNet, additionalMoney, newAum, simGross, simRebates, simNet,
-            curAumFmt:          fmtInt(curAum),
-            curGrossFmt:        fmtInt(curGross),
-            curRebatesFmt:      fmtInt(curRebates),
-            curNetFmt:          fmtInt(curNet),
-            additionalMoneyFmt: fmtInt(additionalMoney),
-            newAumFmt:          fmtInt(newAum),
-            simGrossFmt:        fmtInt(simGross),
-            simRebatesFmt:      fmtInt(simRebates),
-            simNetFmt:          fmtInt(simNet)
+            curAumFmt:          fmtAmt(curAum)          ?? '—',
+            curGrossFmt:        fmtAmt(curGross)        ?? '—',
+            curRebatesFmt:      fmtAmt(curRebates)      ?? '—',
+            curNetFmt:          fmtAmt(curNet)          ?? '—',
+            additionalMoneyFmt: fmtAmt(additionalMoney) ?? '—',
+            newAumFmt:          fmtAmt(newAum)          ?? '—',
+            simGrossFmt:        fmtAmt(simGross)        ?? '—',
+            simRebatesFmt:      fmtAmt(simRebates)      ?? '—',
+            simNetFmt:          fmtAmt(simNet)          ?? '—'
         };
     }
 
@@ -291,12 +278,12 @@ export default class GridSimulation extends LightningElement {
         const simNetPct     = t.newAum ? t.simNet     / t.newAum : 0;
         return {
             curGrossPct, curRebatesPct, curNetPct, simGrossPct, simRebatesPct, simNetPct,
-            curGrossFmt:   fmt(curGrossPct * 100, '%'),
-            curRebatesFmt: fmt(curRebatesPct * 100, '%'),
-            curNetFmt:     fmt(curNetPct * 100, '%'),
-            simGrossFmt:   fmt(simGrossPct * 100, '%'),
-            simRebatesFmt: fmt(simRebatesPct * 100, '%'),
-            simNetFmt:     fmt(simNetPct * 100, '%')
+            curGrossFmt:   fmtNum(curGrossPct * 100, '%'),
+            curRebatesFmt: fmtNum(curRebatesPct * 100, '%'),
+            curNetFmt:     fmtNum(curNetPct * 100, '%'),
+            simGrossFmt:   fmtNum(simGrossPct * 100, '%'),
+            simRebatesFmt: fmtNum(simRebatesPct * 100, '%'),
+            simNetFmt:     fmtNum(simNetPct * 100, '%')
         };
     }
 
@@ -309,14 +296,14 @@ export default class GridSimulation extends LightningElement {
         const rebatesChgBP = (s.simRebatesPct - s.curRebatesPct) * 100 * 100;
         const netChgBP     = (s.simNetPct     - s.curNetPct)     * 100 * 100;
         return {
-            aumEvoFmt:        fmt(aumEvo, '%'),
-            grossChgFmt:      fmt(grossChgBP, ' bp'),
-            rebatesChgFmt:    fmt(rebatesChgBP, ' bp'),
-            netChgFmt:        fmt(netChgBP, ' bp'),
-            aumChgAbsFmt:     fmtInt(t.newAum     - t.curAum),
-            grossChgAbsFmt:   fmtInt(t.simGross   - t.curGross),
-            rebatesChgAbsFmt: fmtInt(t.simRebates - t.curRebates),
-            netChgAbsFmt:     fmtInt(t.simNet     - t.curNet)
+            aumEvoFmt:        fmtNum(aumEvo, '%'),
+            grossChgFmt:      fmtNum(grossChgBP, ' bp'),
+            rebatesChgFmt:    fmtNum(rebatesChgBP, ' bp'),
+            netChgFmt:        fmtNum(netChgBP, ' bp'),
+            aumChgAbsFmt:     fmtAmt(t.newAum     - t.curAum)     ?? '—',
+            grossChgAbsFmt:   fmtAmt(t.simGross   - t.curGross)   ?? '—',
+            rebatesChgAbsFmt: fmtAmt(t.simRebates - t.curRebates) ?? '—',
+            netChgAbsFmt:     fmtAmt(t.simNet     - t.curNet)     ?? '—'
         };
     }
 
