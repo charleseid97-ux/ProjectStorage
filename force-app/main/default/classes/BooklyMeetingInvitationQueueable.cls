@@ -262,6 +262,8 @@ public without sharing class BooklyMeetingInvitationQueueable
         addSalesTeamParticipants(eventRecord, participantsByEventId, emailsByEventId);
         addNotificationConfigParticipants(eventRecord, META_COMMUNICATION, participantsByEventId, emailsByEventId);
         addNotificationConfigParticipants(eventRecord, META_LOCAL_MARKETING_EVENT_TEAM, participantsByEventId, emailsByEventId);
+        addCRMParticipants(eventRecord, participantsByEventId, emailsByEventId);
+
     }
 
     private static void addMeetingDaysParticipants(
@@ -272,6 +274,7 @@ public without sharing class BooklyMeetingInvitationQueueable
         addSalesTeamParticipants(eventRecord, participantsByEventId, emailsByEventId);
         addOrganizerParticipant(eventRecord, participantsByEventId, emailsByEventId, false);
         addNotificationConfigParticipants(eventRecord, META_COMMUNICATION, participantsByEventId, emailsByEventId);
+        addCRMParticipants(eventRecord, participantsByEventId, emailsByEventId);
     }
 
     private static void addMeetingParticipants(
@@ -281,6 +284,7 @@ public without sharing class BooklyMeetingInvitationQueueable
     ) {
         addSalesOwnerParticipant(eventRecord, participantsByEventId, emailsByEventId, false);
         addOwnerParticipant(eventRecord, participantsByEventId, emailsByEventId, false);
+        addCRMParticipants(eventRecord, participantsByEventId, emailsByEventId);
     }
 
     private static void addSalesTeamParticipants(
@@ -304,6 +308,37 @@ public without sharing class BooklyMeetingInvitationQueueable
         }
 
         for (String email : splitEmails(config.emailAddress__c)) {
+            addParticipant(
+                participantsByEventId.get(eventRecord.Id),
+                emailsByEventId.get(eventRecord.Id),
+                email,
+                email,
+                false
+            );
+        }
+    }
+
+    private static void addCRMParticipants(
+        Event__c eventRecord,
+        Map<Id, List<MicrosoftGraphMeetingService.Participant>> participantsByEventId,
+        Map<Id, Set<String>> emailsByEventId
+    ) {
+        if (eventRecord == null || String.isBlank(eventRecord.SalesTeam__c)) {
+            return;
+        }
+
+        Map<String, BooklySalesTeamNotification__mdt> configByDeveloperName =
+            BooklySalesTeamNotification__mdt.getAll();
+
+        String developerName = toMetadataDeveloperName(eventRecord.SalesTeam__c);
+        BooklySalesTeamNotification__mdt config = configByDeveloperName.get(developerName);
+
+        if (config == null || String.isBlank(config.emailAddressCRM__c)) {
+            System.debug('No SalesTeam metadata found for: ' + eventRecord.SalesTeam__c);
+            return;
+        }
+
+        for (String email : splitEmails(config.emailAddressCRM__c)) {
             addParticipant(
                 participantsByEventId.get(eventRecord.Id),
                 emailsByEventId.get(eventRecord.Id),
