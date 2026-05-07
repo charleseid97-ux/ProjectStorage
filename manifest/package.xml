@@ -1,38 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-	 <!-- Apex Classes -->
+    
+    <!-- Apex Classes -->
     <types>
-        <members>BooklyMeetingInvitationQueueable</members>
-        <members>BooklyMeetingInvitationService</members>
-        <members>MicrosoftGraphMeetingService</members>
-		<members>customEventHandler</members>
-        <members>BooklyMeetingInvitationTest</members>
+        <members>Schedule_MeetingNotesInsights</members>
         <name>ApexClass</name>
     </types>
 
-    <!-- Email Template -->
-    <types>
-        <members>EventRequest/BooklyInvitation_VF</members>
-        <name>EmailTemplate</name>
-    </types>
-
-    <!-- Custom Metadata Records -->
-    <types>
-        <members>BooklyNotificationConfig.Communication</members>
-        <members>BooklyNotificationConfig.LocalMarketing</members>
-        <name>CustomMetadata</name>
-    </types>
-
-    <!-- Custom Metadata Object -->
-    <types>
-        <members>BooklyNotificationConfig__mdt</members>
-        <name>CustomObject</name>
-    </types>
-
-    <!-- Custom Fields -->
-    <types>
-        <members>BooklyNotificationConfig__mdt.EmailAddresses__c</members>
-        <members>BooklySalesTeamNotification__mdt.emailAddressCRM__c</members>
-        <name>CustomField</name>
-    </types>
+    <version>61.0</version>
 </Package>
