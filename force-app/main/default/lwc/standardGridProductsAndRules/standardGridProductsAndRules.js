@@ -61,7 +61,8 @@ export default class StandardGridProductsAndRules extends LightningElement {
         const excluded = new Set(this.composition?.excludedFundShortNames || []);
         return (this.composition?.unrestricted || []).map(group => ({
             ...group,
-            productShortNames: (group.productShortNames || []).filter(p => !excluded.has(p))
+            productShortNames: (group.productShortNames || []).filter(p => !excluded.has(p)),
+            missingShortNames: (group.missingShortNames || []).filter(p => !excluded.has(p))
         }));
     }
 
