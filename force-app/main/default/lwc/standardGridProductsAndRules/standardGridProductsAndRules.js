@@ -57,6 +57,14 @@ export default class StandardGridProductsAndRules extends LightningElement {
         return (this.composition?.excludedFundShortNames || []).length > 0;
     }
 
+    get filteredUnrestricted() {
+        const excluded = new Set(this.composition?.excludedFundShortNames || []);
+        return (this.composition?.unrestricted || []).map(group => ({
+            ...group,
+            productShortNames: (group.productShortNames || []).filter(p => !excluded.has(p))
+        }));
+    }
+
     get restrictedHelpText() {
         return `All unauthorized share types from the Grid Builder or the Grid Validation (is not ${this.composition?.defaultShareTypeInclusion || ''})`;
     }
