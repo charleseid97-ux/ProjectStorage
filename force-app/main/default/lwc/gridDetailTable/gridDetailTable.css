@@ -22,17 +22,28 @@
 }
 
 .active-only-toggle {
-    display: flex;
-    align-items: center;
-    gap: 4px;
+    position: relative;
     padding-right: 1rem;
 }
 
-.active-only-label {
+.active-only-tooltip {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 6px);
+    right: 0;
+    width: 220px;
+    background: #333;
+    color: #fff;
     font-size: 0.75rem;
-    font-weight: 700;
-    color: #3e3e3c;
-    white-space: nowrap;
+    line-height: 1.4;
+    padding: 6px 10px;
+    border-radius: 4px;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.active-only-toggle:hover .active-only-tooltip {
+    display: block;
 }
 
 .headerDot {
