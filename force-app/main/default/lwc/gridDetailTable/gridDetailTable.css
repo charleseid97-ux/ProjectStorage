@@ -22,7 +22,17 @@
 }
 
 .active-only-toggle {
+    display: flex;
+    align-items: center;
+    gap: 4px;
     padding-right: 1rem;
+}
+
+.active-only-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #3e3e3c;
+    white-space: nowrap;
 }
 
 .headerDot {
