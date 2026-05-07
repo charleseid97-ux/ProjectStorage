@@ -79,7 +79,7 @@ public without sharing class customEventHandler implements ITriggerHandler {
         customEventNotificationManager.notifyEventStatusChange( oldEventsToProcess,newEventsToProcess);
         customEventService.notifyProductTeam(newEventsToProcess, oldEventsToProcess);
 
-        BooklyMeetingInvitationService.enqueueInvitationsOnApproval(newEventsToProcess.values(), oldEvents);
+        BooklyMeetingInvitationService.enqueueInvitationsOnApproval(newEventsToProcess.values(), oldEventsToProcess);
     }
 
     public void AfterDelete(Map<Id, SObject> oldItems) {}
