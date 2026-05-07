@@ -1,4 +1,4 @@
-public with sharing class customEventHandler implements ITriggerHandler {
+public without sharing class customEventHandler implements ITriggerHandler {
 
     public static Boolean triggerDisabled = false;
 
@@ -32,7 +32,7 @@ public with sharing class customEventHandler implements ITriggerHandler {
         customEventService.copyCompanyBillingAddressToEvent(newEventsToProcess.values(), oldEventsToProcess);
         customEventSpeakerApprovalService.prepareSpeakerHTMLforNotifications(newEventsToProcess, oldEventsToProcess);    
         customEventSpeakerApprovalService.markEventFullyApprovedIfNoSSP(newEventsToProcess, oldEventsToProcess);
-
+        EventSpeakerApprovalsService.triggerRollupFromEventBeforeUpdate(newEventsToProcess, oldEventsToProcess);
         // We submit on update, not on insert, because speakers are linked after creation.
         // That later update lets us rebuild the final event Name and then move the record
         // from Draft to SubmittedToEventTeam. The actual Approval.process call is done in after update.
@@ -51,6 +51,10 @@ public with sharing class customEventHandler implements ITriggerHandler {
             newEventsToProcess,
             null
         );
+        /*customEventNotificationManager.notifyOneToOneMeetingDaysCreated(
+            new List<Event__c>(newEventsToProcess.values())
+        );*/
+        BooklyMeetingInvitationService.enqueueInvitationsOnApproval(newEventsToProcess.values(), null);
     }
 
     public void AfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
@@ -65,10 +69,17 @@ public with sharing class customEventHandler implements ITriggerHandler {
         customEventSpeakerApprovalService.createOrUpdateSpeakerApprovals(newEventsToProcess, oldEventsToProcess);
         sessionSpeakerProductService.requestRequiredPresentationsForWaitingEvents(newEventsToProcess, oldEventsToProcess);
         // Send approval notification email if status changes to SubmittedToEventTeam
-        customEventNotificationService.manageNotifications(newEventsToProcess, oldEventsToProcess);
+        //customEventNotificationService.manageNotifications(newEventsToProcess, oldEventsToProcess);
+        
         // Create Campaign when Event is fully approved
         customEventService.createCampaign(new List<Event__c>(newEventsToProcess.values()), oldEventsToProcess);
         customEventService.startEventTeamApprovalAfterUpdate(newEventsToProcess.values(), oldEventsToProcess);
+        customEventService.submitOrganizerApproval(newEventsToProcess.values(), oldEventsToProcess);
+        // Send generic event status notification \ it send also the creation email because events are created as draft and updated post creation
+        customEventNotificationManager.notifyEventStatusChange( oldEventsToProcess,newEventsToProcess);
+        customEventService.notifyProductTeam(newEventsToProcess, oldEventsToProcess);
+
+        BooklyMeetingInvitationService.enqueueInvitationsOnApproval(newEventsToProcess.values(), oldEventsToProcess);
     }
 
     public void AfterDelete(Map<Id, SObject> oldItems) {}
