@@ -43,8 +43,13 @@
                     <lightning-button-group class="slds-m-right_small lightning-button-group-class">
                         <lightning-button label="By Grid" variant={byGridVariant} onclick={handleModeByGrid}></lightning-button>
                         <lightning-button label="By Agreement" variant={byAgreementVariant} onclick={handleModeByAgreement}></lightning-button>
-                        <lightning-button label="Active Grid" variant={activeGridVariant} disabled={isActiveGridDisabled} title={activeGridTitle} onclick={handleModeByActiveGrid}></lightning-button>
                     </lightning-button-group>
+                    <div class="active-grid-btn-wrapper">
+                        <lightning-button label="Active Grid" variant={activeGridVariant} disabled={isActiveGridDisabled} onclick={handleModeByActiveGrid}></lightning-button>
+                        <template if:true={activeGridTitle}>
+                            <div class="active-grid-tooltip" role="tooltip">{activeGridTitle}</div>
+                        </template>
+                    </div>
 
                     <div class="lookup-wrapper">
                         <template if:true={isModeGrid}>

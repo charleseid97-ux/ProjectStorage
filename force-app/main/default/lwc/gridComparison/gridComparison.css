@@ -64,6 +64,29 @@ c-multi-select-search-list {
 .lightning-button-group-class {
     padding-bottom: 2px;
 }
+.active-grid-btn-wrapper {
+    position: relative;
+    display: inline-flex;
+    padding-bottom: 2px;
+}
+.active-grid-tooltip {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #3e3e3c;
+    color: #fff;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 200;
+}
+.active-grid-btn-wrapper:hover .active-grid-tooltip {
+    display: block;
+}
 
 /* ── Table base (mirrors gridDetailTable) ── */
 .grid-table {
