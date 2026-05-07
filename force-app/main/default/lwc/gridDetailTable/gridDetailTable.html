@@ -17,7 +17,7 @@
                 </div>
             </header>
             <div class="slds-no-flex header-actions">
-                <lightning-input type="toggle" label="Active only" message-toggle-active="" message-toggle-inactive="" checked={showActiveOnly} onchange={handleActiveOnlyToggle} class="active-only-toggle"></lightning-input>
+                <lightning-input type="toggle" label="Active only" message-toggle-active="" message-toggle-inactive="" field-level-help="When enabled, only shows rows with an active fee agreement (no end date). Rows highlighted in red — where the agreement has ended — will be hidden." checked={showActiveOnly} onchange={handleActiveOnlyToggle} class="active-only-toggle"></lightning-input>
                 <lightning-button icon-name="utility:download" icon-position="left" label="Export Excel" variant="neutral" onclick={handleExport}></lightning-button>
                 <lightning-button-icon icon-name="utility:refresh" variant="border" alternative-text={labels.UI_Refresh} title={labels.UI_Refresh} onclick={handleRefresh}></lightning-button-icon>
             </div>
