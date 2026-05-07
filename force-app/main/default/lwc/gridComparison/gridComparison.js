@@ -1,9 +1,17 @@
 import { LightningElement, api, track } from 'lwc';
 import { reduceError, parsePct, parseAum, fmtAmt, fmtDiffAmt, wgtAvgAndAmt } from 'c/gridBuilderUtils';
-import getComparisonData from '@salesforce/apex/GridComparisonController.getComparisonData';
-import searchGrids from '@salesforce/apex/GridComparisonController.searchGrids';
-import searchAgreements from '@salesforce/apex/GridComparisonController.searchAgreements';
-import getGridFromAgreement from '@salesforce/apex/GridComparisonController.getGridFromAgreement';
+import getComparisonData           from '@salesforce/apex/GridComparisonController.getComparisonData';
+import searchGrids                 from '@salesforce/apex/GridComparisonController.searchGrids';
+import searchAgreements            from '@salesforce/apex/GridComparisonController.searchAgreements';
+import getActiveGridForCurrentGrid from '@salesforce/apex/GridComparisonController.getActiveGridForCurrentGrid';
+
+const MODE_GRID        = 'grid';
+const MODE_AGREEMENT   = 'agreement';
+const MODE_ACTIVE_GRID = 'activeGrid';
+
+const STATUS_IS_CURRENT = 'IS_CURRENT';
+const STATUS_NONE       = 'NONE';
+const STATUS_HAS_ACTIVE = 'HAS_ACTIVE';
 
 const ROW_TYPE_CSS = {
     SAME_EXACT    : 'row-green',
@@ -35,12 +43,13 @@ export default class GridComparison extends LightningElement {
     @api iconName = 'utility:table';
 
     // ── Header state ──
-    @track searchOptions  = [];
-    @track selectedGridId = null;
-    @track selectedLabel  = null;
-    @track mode           = 'grid';   // 'grid' | 'agreement'
-    @track errors         = [];
-    @track isLoading      = false;
+    @track searchOptions   = [];
+    @track selectedGridId  = null;
+    @track selectedLabel   = null;
+    @track mode            = MODE_GRID;
+    @track errors          = [];
+    @track isLoading       = false;
+    @track activeGridInfo  = null;
 
     // ── Overview state ──
     @track overviewRows = [];
@@ -55,17 +64,24 @@ export default class GridComparison extends LightningElement {
 
     // ── Lifecycle ──
     connectedCallback() {
-        this.loadGridOptions();
+        this.loadActiveGridInfo();
     }
 
     // ── Header getters ──
-    get hasErrors()            { return this.errors.length > 0; }
-    get isModeGrid()           { return this.mode === 'grid'; }
-    get isModeAgreement()      { return this.mode === 'agreement'; }
-    get byGridVariant()        { return this.mode === 'grid'      ? 'brand' : 'neutral'; }
-    get byAgreementVariant()   { return this.mode === 'agreement' ? 'brand' : 'neutral'; }
-    get showAllVariant()       { return !this.discrepanciesOnly   ? 'brand' : 'neutral'; }
-    get discrepanciesVariant() { return this.discrepanciesOnly    ? 'brand' : 'neutral'; }
+    get hasErrors()              { return this.errors.length > 0; }
+    get isModeGrid()             { return this.mode === MODE_GRID; }
+    get isModeAgreement()        { return this.mode === MODE_AGREEMENT; }
+    get byGridVariant()          { return this.mode === MODE_GRID        ? 'brand' : 'neutral'; }
+    get byAgreementVariant()     { return this.mode === MODE_AGREEMENT   ? 'brand' : 'neutral'; }
+    get activeGridVariant()      { return this.mode === MODE_ACTIVE_GRID ? 'brand' : 'neutral'; }
+    get isActiveGridDisabled()   { return this.activeGridInfo?.status !== STATUS_HAS_ACTIVE; }
+    get activeGridTitle() {
+        if (this.activeGridInfo?.status === STATUS_IS_CURRENT) return 'Current Grid is the Active Grid';
+        if (this.activeGridInfo?.status === STATUS_NONE)       return 'No Active Grid found';
+        return '';
+    }
+    get showAllVariant()         { return this.discrepanciesOnly ? 'neutral' : 'brand'; }
+    get discrepanciesVariant()   { return this.discrepanciesOnly ? 'brand'   : 'neutral'; }
 
     get rowCountLabel() {
         const total   = this.mergedRows.length;
@@ -75,17 +91,26 @@ export default class GridComparison extends LightningElement {
 
     // ── Header handlers ──
     handleModeByGrid() {
-        if (this.mode === 'grid') return;
-        this.mode = 'grid';
+        if (this.mode === MODE_GRID) return;
+        this.mode = MODE_GRID;
         this.searchOptions = [];
         this.loadGridOptions();
     }
 
     handleModeByAgreement() {
-        if (this.mode === 'agreement') return;
-        this.mode = 'agreement';
+        if (this.mode === MODE_AGREEMENT) return;
+        this.mode = MODE_AGREEMENT;
         this.searchOptions = [];
         this.loadAgreementOptions();
+    }
+
+    handleModeByActiveGrid() {
+        if (this.mode === MODE_ACTIVE_GRID || this.activeGridInfo?.status !== STATUS_HAS_ACTIVE) return;
+        this.mode           = MODE_ACTIVE_GRID;
+        this.searchOptions  = [];
+        this.selectedGridId = this.activeGridInfo.activeGridId;
+        this.selectedLabel  = this.activeGridInfo.activeGridName;
+        this.loadComparison();
     }
 
     handleShowAll()           { this.discrepanciesOnly = false; }
@@ -98,7 +123,7 @@ export default class GridComparison extends LightningElement {
                 label : r.name + (r.subtitle ? ' – ' + r.subtitle : ''),
                 value : r.id
             }));
-            this._refreshSearchList();
+            this.refreshSearchList();
         } catch (e) {
             this.errors = [reduceError(e)];
         }
@@ -108,16 +133,35 @@ export default class GridComparison extends LightningElement {
         try {
             const results = await searchAgreements({ searchTerm });
             this.searchOptions = (results || []).map(r => ({
-                label : r.name + (r.subtitle ? ' – ' + r.subtitle : ''),
-                value : r.id
+                label  : r.name + (r.subtitle ? ' – ' + r.subtitle : ''),
+                value  : r.id,
+                gridId : r.gridId
             }));
-            this._refreshSearchList();
+            this.refreshSearchList();
         } catch (e) {
             this.errors = [reduceError(e)];
         }
     }
 
-    _refreshSearchList() {
+    async loadActiveGridInfo() {
+        try {
+            const info = await getActiveGridForCurrentGrid({ currentGridId: this.recordId });
+            this.activeGridInfo = info;
+            if (info?.status === STATUS_HAS_ACTIVE) {
+                this.mode           = MODE_ACTIVE_GRID;
+                this.selectedGridId = info.activeGridId;
+                this.selectedLabel  = info.activeGridName;
+                this.loadComparison();
+            } else {
+                this.loadGridOptions();
+            }
+        } catch (e) {
+            this.errors = [reduceError(e)];
+            this.loadGridOptions();
+        }
+    }
+
+    refreshSearchList() {
         const list = this.template.querySelector('c-multi-select-search-list');
         if (list) list.refreshOptions(this.searchOptions);
     }
@@ -132,23 +176,17 @@ export default class GridComparison extends LightningElement {
         }
     }
 
-    async handleSelectResult(id) {
+    handleSelectResult(id) {
         const found = this.searchOptions.find(o => o.value === id);
         if (!found) return;
 
-        if (this.mode === 'agreement') {
-            try {
-                const gridId = await getGridFromAgreement({ agreementId: id });
-                if (!gridId) {
-                    this.errors = ['No approved grid found on the selected agreement.'];
-                    return;
-                }
-                this.selectedGridId = gridId;
-                this.selectedLabel  = found.label;
-            } catch (e) {
-                this.errors = [reduceError(e)];
+        if (this.mode === MODE_AGREEMENT) {
+            if (!found.gridId) {
+                this.errors = ['No approved grid found on the selected agreement.'];
                 return;
             }
+            this.selectedGridId = found.gridId;
+            this.selectedLabel  = found.label;
         } else {
             this.selectedGridId = id;
             this.selectedLabel  = found.label;
@@ -164,6 +202,11 @@ export default class GridComparison extends LightningElement {
         this.overviewRows      = [];
         this.mergedRows        = [];
         this.discrepanciesOnly = true;
+        if (this.mode === MODE_ACTIVE_GRID) {
+            this.mode = MODE_GRID;
+            this.searchOptions = [];
+            this.loadGridOptions();
+        }
     }
 
     handleRefresh() {
@@ -176,8 +219,8 @@ export default class GridComparison extends LightningElement {
         this.errors    = [];
         try {
             const data = await getComparisonData({ currentGridId: this.recordId, selectedGridId: this.selectedGridId });
-            const currentRows  = data?.current?.rows   || [];
-            const selectedRows = data?.selected?.rows  || [];
+            const currentRows  = data?.current?.rows  || [];
+            const selectedRows = data?.selected?.rows || [];
             this.errors       = [...(data?.current?.errors  || []), ...(data?.selected?.errors || [])];
             this.overviewRows = this.buildOverview(currentRows, selectedRows);
             this.mergedRows   = this.buildMergedRows(currentRows, selectedRows);
@@ -199,14 +242,14 @@ export default class GridComparison extends LightningElement {
 
     // ── Overview logic ──
     buildOverview(currentRows, selectedRows) {
-        const fmt          = v   => v == null ? '–' : v.toFixed(2) + '%';
-        const fmtOvAmt     = v   => fmtAmt(v) ?? '–';
-        const fmtDiffPct   = (a, b) => {
+        const fmt          = v       => v == null ? '–' : v.toFixed(2) + '%';
+        const fmtOvAmt     = v       => fmtAmt(v) ?? '–';
+        const fmtDiffPct   = (a, b)  => {
             if (a == null || b == null) return '–';
             const d = a - b;
             return (d > 0 ? '+' : '') + d.toFixed(2) + '%';
         };
-        const fmtDiffOvAmt = (a, b) => {
+        const fmtDiffOvAmt = (a, b)  => {
             if (a == null || b == null) return '–';
             return fmtDiffAmt(a - b) ?? '–';
         };
@@ -300,7 +343,6 @@ export default class GridComparison extends LightningElement {
     // ── Detail logic ──
     buildMergedRows(currentRows, selectedRows) {
         const byScId = new Map();
-
         for (const r of currentRows) {
             byScId.set(r.shareClassId, { curr: r });
         }
@@ -309,82 +351,85 @@ export default class GridComparison extends LightningElement {
             entry.sel = r;
             byScId.set(r.shareClassId, entry);
         }
+        return [...byScId.values()].map(({ curr, sel }) => this.buildMergedRow(curr, sel));
+    }
 
-        const rows = [];
-        for (const [, { curr, sel }] of byScId) {
-            let rowType = (curr && sel)? ((curr.standardGridDetailId === sel.standardGridDetailId)? 'SAME_EXACT' : 'SAME_DIFF') : (curr)? 'CURRENT_ONLY' : 'SELECTED_ONLY';
-            const ref    = curr || sel;
-            const currRR = curr ? parsePct(curr.rebateRate) : 0;
-            const selRR  = sel  ? parsePct(sel.rebateRate)  : 0;
-            const isDiscrepancy = (currRR ?? 0) !== (selRR ?? 0);
-            const currNM = parsePct(curr?.netMargin);
-            const selNM  = parsePct(sel?.netMargin);
-            const currPR = parsePct(curr?.profitability);
-            const selPR  = parsePct(sel?.profitability);
-
-            const aumNum  = parseAum(ref.aum);
-            const calcAmt = pct => (pct != null && aumNum) ? pct * aumNum / 100 : null;
-            const cRRAmt  = calcAmt(currRR), sRRAmt = calcAmt(selRR);
-            const cNMAmt  = calcAmt(currNM), sNMAmt = calcAmt(selNM);
-            const cPRAmt  = calcAmt(currPR), sPRAmt = calcAmt(selPR);
-
-            const diffRRAmtVal  = cRRAmt != null && sRRAmt != null ? cRRAmt - sRRAmt : null;
-            const diffNMAmtVal  = cNMAmt != null && sNMAmt != null ? cNMAmt - sNMAmt : null;
-            const diffPRAmtVal  = cPRAmt != null && sPRAmt != null ? cPRAmt - sPRAmt : null;
-
-            rows.push({
-                key             : ref.shareClassId,
-                rowType,
-                rowClass        : ROW_TYPE_CSS[rowType],
-                isDiscrepancy,
-                portfolio       : ref.portfolio,
-                shareClass      : ref.shareClass,
-                isin            : ref.isin,
-                aum             : fmtAmt(aumNum) ?? (ref.aum || ''),
-                effMgtFee       : ref.effMgtFee,
-                currentStdGrid  : curr?.stdGridName  ?? '',
-                selectedStdGrid : sel?.stdGridName   ?? '',
-                currRR          : curr ? (curr.rebateRate ?? '') : '0.00%',
-                currRRAmt       : fmtAmt(cRRAmt),
-                selRR           : sel  ? (sel.rebateRate  ?? '') : '0.00%',
-                selRRAmt        : fmtAmt(sRRAmt),
-                diffRR          : formatDiff(currRR, selRR),
-                diffRRClass     : diffCls(currRR, selRR, true),
-                diffRRAmt       : fmtDiffAmt(diffRRAmtVal),
-                diffRRAmtClass  : diffCls(currRR, selRR, true),
-                currNM          : curr?.netMargin    ?? '',
-                currNMAmt       : fmtAmt(cNMAmt),
-                selNM           : sel?.netMargin     ?? '',
-                selNMAmt        : fmtAmt(sNMAmt),
-                diffNM          : formatDiff(currNM, selNM),
-                diffNMClass     : diffCls(currNM, selNM, false),
-                diffNMAmt       : fmtDiffAmt(diffNMAmtVal),
-                diffNMAmtClass  : diffCls(currNM, selNM, false),
-                currPR          : curr?.profitability ?? '',
-                currPRAmt       : fmtAmt(cPRAmt),
-                selPR           : sel?.profitability  ?? '',
-                selPRAmt        : fmtAmt(sPRAmt),
-                diffPR          : formatDiff(currPR, selPR),
-                diffPRClass     : diffCls(currPR, selPR, false),
-                diffPRAmt       : fmtDiffAmt(diffPRAmtVal),
-                diffPRAmtClass  : diffCls(currPR, selPR, false),
-                // raw numeric values for sorting
-                aumRaw          : aumNum,
-                effMgtFeeRaw    : parsePct(ref.effMgtFee),
-                currRRRaw       : currRR,
-                selRRRaw        : selRR,
-                diffRRRaw       : (currRR ?? 0) - (selRR ?? 0),
-                diffRRAmtRaw    : diffRRAmtVal,
-                currNMRaw       : currNM,
-                selNMRaw        : selNM,
-                diffNMRaw       : currNM != null && selNM != null ? currNM - selNM : null,
-                diffNMAmtRaw    : diffNMAmtVal,
-                currPRRaw       : currPR,
-                selPRRaw        : selPR,
-                diffPRRaw       : currPR != null && selPR != null ? currPR - selPR : null,
-                diffPRAmtRaw    : diffPRAmtVal
-            });
+    getRowType(curr, sel) {
+        if (curr && sel) {
+            return curr.standardGridDetailId === sel.standardGridDetailId ? 'SAME_EXACT' : 'SAME_DIFF';
         }
-        return rows;
+        return curr ? 'CURRENT_ONLY' : 'SELECTED_ONLY';
+    }
+
+    buildMergedRow(curr, sel) {
+        const rowType = this.getRowType(curr, sel);
+        const ref     = curr || sel;
+        const currRR  = curr ? parsePct(curr.rebateRate) : 0;
+        const selRR   = sel  ? parsePct(sel.rebateRate)  : 0;
+        const currNM  = parsePct(curr?.netMargin);
+        const selNM   = parsePct(sel?.netMargin);
+        const currPR  = parsePct(curr?.profitability);
+        const selPR   = parsePct(sel?.profitability);
+        const aumNum  = parseAum(ref.aum);
+
+        const calcAmt     = pct => (pct != null && aumNum) ? pct * aumNum / 100 : null;
+        const cRRAmt      = calcAmt(currRR), sRRAmt = calcAmt(selRR);
+        const cNMAmt      = calcAmt(currNM), sNMAmt = calcAmt(selNM);
+        const cPRAmt      = calcAmt(currPR), sPRAmt = calcAmt(selPR);
+        const diffRRAmtVal = cRRAmt != null && sRRAmt != null ? cRRAmt - sRRAmt : null;
+        const diffNMAmtVal = cNMAmt != null && sNMAmt != null ? cNMAmt - sNMAmt : null;
+        const diffPRAmtVal = cPRAmt != null && sPRAmt != null ? cPRAmt - sPRAmt : null;
+
+        return {
+            key             : ref.shareClassId,
+            rowType,
+            rowClass        : ROW_TYPE_CSS[rowType],
+            isDiscrepancy   : (currRR ?? 0) !== (selRR ?? 0),
+            portfolio       : ref.portfolio,
+            shareClass      : ref.shareClass,
+            isin            : ref.isin,
+            aum             : fmtAmt(aumNum) ?? (ref.aum || ''),
+            effMgtFee       : ref.effMgtFee,
+            currentStdGrid  : curr?.stdGridName  ?? '',
+            selectedStdGrid : sel?.stdGridName   ?? '',
+            currRR          : curr ? (curr.rebateRate ?? '') : '0.00%',
+            currRRAmt       : fmtAmt(cRRAmt),
+            selRR           : sel  ? (sel.rebateRate  ?? '') : '0.00%',
+            selRRAmt        : fmtAmt(sRRAmt),
+            diffRR          : formatDiff(currRR, selRR),
+            diffRRClass     : diffCls(currRR, selRR, true),
+            diffRRAmt       : fmtDiffAmt(diffRRAmtVal),
+            diffRRAmtClass  : diffCls(currRR, selRR, true),
+            currNM          : curr?.netMargin    ?? '',
+            currNMAmt       : fmtAmt(cNMAmt),
+            selNM           : sel?.netMargin     ?? '',
+            selNMAmt        : fmtAmt(sNMAmt),
+            diffNM          : formatDiff(currNM, selNM),
+            diffNMClass     : diffCls(currNM, selNM, false),
+            diffNMAmt       : fmtDiffAmt(diffNMAmtVal),
+            diffNMAmtClass  : diffCls(currNM, selNM, false),
+            currPR          : curr?.profitability ?? '',
+            currPRAmt       : fmtAmt(cPRAmt),
+            selPR           : sel?.profitability  ?? '',
+            selPRAmt        : fmtAmt(sPRAmt),
+            diffPR          : formatDiff(currPR, selPR),
+            diffPRClass     : diffCls(currPR, selPR, false),
+            diffPRAmt       : fmtDiffAmt(diffPRAmtVal),
+            diffPRAmtClass  : diffCls(currPR, selPR, false),
+            aumRaw          : aumNum,
+            effMgtFeeRaw    : parsePct(ref.effMgtFee),
+            currRRRaw       : currRR,
+            selRRRaw        : selRR,
+            diffRRRaw       : (currRR ?? 0) - (selRR ?? 0),
+            diffRRAmtRaw    : diffRRAmtVal,
+            currNMRaw       : currNM,
+            selNMRaw        : selNM,
+            diffNMRaw       : currNM != null && selNM != null ? currNM - selNM : null,
+            diffNMAmtRaw    : diffNMAmtVal,
+            currPRRaw       : currPR,
+            selPRRaw        : selPR,
+            diffPRRaw       : currPR != null && selPR != null ? currPR - selPR : null,
+            diffPRAmtRaw    : diffPRAmtVal
+        };
     }
 }
