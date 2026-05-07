@@ -32,6 +32,7 @@
     <!-- Custom Fields -->
     <types>
         <members>BooklyNotificationConfig__mdt.EmailAddresses__c</members>
+        <members>BooklySalesTeamNotification__mdt.emailAddressCRM__c</members>
         <name>CustomField</name>
     </types>
 </Package>

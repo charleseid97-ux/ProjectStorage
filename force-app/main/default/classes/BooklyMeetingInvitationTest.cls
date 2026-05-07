@@ -3,6 +3,39 @@ private class BooklyMeetingInvitationTest {
 
     private static final String TEMPLATE_DEV_NAME = 'BooklyGenericNotif_VF';
 
+    private static final String RT_EVENT = 'Event';
+    private static final String RT_MEETING_DAYS = 'MeetingDays';
+    private static final String RT_MEETING = 'Meeting';
+
+    private static final String FORMAT_DIGITAL = 'Digital';
+    private static final String FORMAT_PHYSICAL = 'Physical';
+
+    private static final String STATUS_DRAFT = 'Draft';
+    private static final String STATUS_FULLY_APPROVED = 'FullyApproved';
+
+    private static final String CATEGORY_EVENT_CONFERENCE = 'Event conference';
+    private static final String CATEGORY_MEETING_DAYS = 'Meeting day(s)';
+    private static final String CATEGORY_ONE_TO_ONE = 'One to One meeting';
+
+    private static final String TIMEZONE_SINGAPORE = 'Asia/Singapore';
+    private static final String CITY_DIGITAL = 'Digital';
+    private static final String SALES_TEAM_FRANCE = 'France';
+    private static final String CO_HOSTED_NO = 'No';
+    private static final String CLIENT_TYPE_B2B_BUYER = 'B2B Buyer';
+
+    private static final String START_TIME = '11:45';
+    private static final String END_TIME = '12:45';
+
+    private static final String TEMPLATE_NAME = 'Bookly Generic Notif VF Test';
+    private static final String TEMPLATE_TYPE_CUSTOM = 'custom';
+    private static final String TEMPLATE_SUBJECT = '[Bookly] [!subject]';
+    private static final String TEMPLATE_BODY = '<html><body><p>[!subject]</p><p>[!message]</p></body></html>';
+
+    private static final String SPEAKER_LAST_NAME = 'Speaker Test';
+    private static final String SPEAKER_EMAIL = 'speaker.test@example.com';
+    private static final String STRATEGY_NAME = 'Absolute Return Europe';
+    private static final String STRATEGY_CODE = 'CARE';
+
     private class GraphMock implements HttpCalloutMock {
         public HttpResponse respond(HttpRequest request) {
             System.assertEquals('POST', request.getMethod());
@@ -24,16 +57,18 @@ private class BooklyMeetingInvitationTest {
     static void testQueueableForEventMeetingDaysAndMeeting() {
         createEmailTemplate();
 
-        Id eventRtId = getRecordTypeId('Event');
-        Id meetingDaysRtId = getRecordTypeId('MeetingDays');
-        Id meetingRtId = getRecordTypeId('Meeting');
+        Id eventRtId = getRecordTypeId(RT_EVENT);
+        Id meetingDaysRtId = getRecordTypeId(RT_MEETING_DAYS);
+        Id meetingRtId = getRecordTypeId(RT_MEETING);
 
-        Event__c eventRecord = buildEvent(eventRtId, 'Event Title', 'Digital');
-        eventRecord.category__c = 'Event conference';
-        Event__c meetingDays = buildEvent(meetingDaysRtId, 'Meeting Days Title', 'Physical');
-        meetingDays.category__c = 'Meeting day(s)';
-        Event__c meeting = buildEvent(meetingRtId, 'Meeting Title', 'Digital');
-        meeting.category__c = 'One to One meeting';
+        Event__c eventRecord = buildEvent(eventRtId, 'Event Title', FORMAT_DIGITAL);
+        eventRecord.Category__c = CATEGORY_EVENT_CONFERENCE;
+
+        Event__c meetingDays = buildEvent(meetingDaysRtId, 'Meeting Days Title', FORMAT_PHYSICAL);
+        meetingDays.Category__c = CATEGORY_MEETING_DAYS;
+
+        Event__c meeting = buildEvent(meetingRtId, 'Meeting Title', FORMAT_DIGITAL);
+        meeting.Category__c = CATEGORY_ONE_TO_ONE;
 
         insert new List<Event__c>{ eventRecord, meetingDays, meeting };
 
@@ -56,11 +91,11 @@ private class BooklyMeetingInvitationTest {
     static void testServiceEnqueuesOnInsertFullyApproved() {
         createEmailTemplate();
 
-        Id eventRtId = getRecordTypeId('Event');
+        Id eventRtId = getRecordTypeId(RT_EVENT);
 
-        Event__c eventRecord = buildEvent(eventRtId, 'Approved On Insert', 'Digital');
-        eventRecord.Status__c = 'FullyApproved';
-        eventRecord.category__c = 'Event conference';
+        Event__c eventRecord = buildEvent(eventRtId, 'Approved On Insert', FORMAT_DIGITAL);
+        eventRecord.Status__c = STATUS_FULLY_APPROVED;
+        eventRecord.Category__c = CATEGORY_EVENT_CONFERENCE;
         insert eventRecord;
 
         createSpeakerLinks(new Set<Id>{ eventRecord.Id });
@@ -81,17 +116,17 @@ private class BooklyMeetingInvitationTest {
     static void testServiceEnqueuesOnUpdateToFullyApproved() {
         createEmailTemplate();
 
-        Id meetingRtId = getRecordTypeId('Meeting');
+        Id meetingRtId = getRecordTypeId(RT_MEETING);
 
-        Event__c oldEvent = buildEvent(meetingRtId, 'Update Approval', 'Digital');
-        oldEvent.Status__c = 'Draft';
-        oldEvent.category__c = 'One to One meeting';
+        Event__c oldEvent = buildEvent(meetingRtId, 'Update Approval', FORMAT_DIGITAL);
+        oldEvent.Status__c = STATUS_DRAFT;
+        oldEvent.Category__c = CATEGORY_ONE_TO_ONE;
         insert oldEvent;
 
         createSpeakerLinks(new Set<Id>{ oldEvent.Id });
 
         Event__c newEvent = oldEvent.clone(true, true, true, true);
-        newEvent.Status__c = 'FullyApproved';
+        newEvent.Status__c = STATUS_FULLY_APPROVED;
 
         Map<Id, Event__c> oldMap = new Map<Id, Event__c>{
             oldEvent.Id => oldEvent
@@ -113,15 +148,15 @@ private class BooklyMeetingInvitationTest {
     static void testServiceDoesNotEnqueueWhenAlreadyApproved() {
         createEmailTemplate();
 
-        Id eventRtId = getRecordTypeId('Event');
+        Id eventRtId = getRecordTypeId(RT_EVENT);
 
-        Event__c oldEvent = buildEvent(eventRtId, 'Already Approved', 'Digital');
-        oldEvent.Status__c = 'FullyApproved';
-        oldEvent.category__c = 'Event conference';
+        Event__c oldEvent = buildEvent(eventRtId, 'Already Approved', FORMAT_DIGITAL);
+        oldEvent.Status__c = STATUS_FULLY_APPROVED;
+        oldEvent.Category__c = CATEGORY_EVENT_CONFERENCE;
         insert oldEvent;
 
         Event__c newEvent = oldEvent.clone(true, true, true, true);
-        newEvent.Status__c = 'FullyApproved';
+        newEvent.Status__c = STATUS_FULLY_APPROVED;
 
         Test.setMock(HttpCalloutMock.class, new GraphMock());
 
@@ -144,17 +179,17 @@ private class BooklyMeetingInvitationTest {
 
         eventRecord.Title__c = title;
         eventRecord.Format__c = formatValue;
-        eventRecord.Status__c = 'Draft';
+        eventRecord.Status__c = STATUS_DRAFT;
         eventRecord.StartDate__c = Date.today().addDays(10);
-        eventRecord.StartTime__c = '11:45';
+        eventRecord.StartTime__c = START_TIME;
         eventRecord.EndDate__c = Date.today().addDays(10);
-        eventRecord.EndTime__c = '12:45';
-        eventRecord.TimeZone__c = 'Asia/Singapore';
-        eventRecord.City__c = 'Digital';
-        eventRecord.SalesTeam__c = 'France';
-        eventRecord.Co_hosted__c = 'No';
-        eventRecord.clientType__c = 'B2B Buyer';
-        eventRecord.country__c = 'Digital';
+        eventRecord.EndTime__c = END_TIME;
+        eventRecord.TimeZone__c = TIMEZONE_SINGAPORE;
+        eventRecord.City__c = CITY_DIGITAL;
+        eventRecord.SalesTeam__c = SALES_TEAM_FRANCE;
+        eventRecord.Co_hosted__c = CO_HOSTED_NO;
+        eventRecord.ClientType__c = CLIENT_TYPE_B2B_BUYER;
+        eventRecord.Country__c = CITY_DIGITAL;
 
         eventRecord.Organizer__c = UserInfo.getUserId();
         eventRecord.SalesOwner__c = UserInfo.getUserId();
@@ -165,15 +200,15 @@ private class BooklyMeetingInvitationTest {
 
     private static void createSpeakerLinks(Set<Id> eventIds) {
         Contact speaker = new Contact(
-            LastName = 'Speaker Test',
-            Email = 'speaker.test@example.com',
+            LastName = SPEAKER_LAST_NAME,
+            Email = SPEAKER_EMAIL,
             SpeakerAssistant__c = UserInfo.getUserId()
         );
         insert speaker;
 
         Strategy__c strategy = new Strategy__c(
-            Name = 'Absolute Return Europe',
-            Code__c = 'CARE'
+            Name = STRATEGY_NAME,
+            Code__c = STRATEGY_CODE
         );
         insert strategy;
 
@@ -203,12 +238,12 @@ private class BooklyMeetingInvitationTest {
         }
 
         EmailTemplate template = new EmailTemplate();
-        template.Name = 'Bookly Generic Notif VF Test';
+        template.Name = TEMPLATE_NAME;
         template.DeveloperName = TEMPLATE_DEV_NAME;
-        template.TemplateType = 'custom';
+        template.TemplateType = TEMPLATE_TYPE_CUSTOM;
         template.FolderId = UserInfo.getUserId();
-        template.Subject = '[Bookly] [!subject]';
-        template.HtmlValue = '<html><body><p>[!subject]</p><p>[!message]</p></body></html>';
+        template.Subject = TEMPLATE_SUBJECT;
+        template.HtmlValue = TEMPLATE_BODY;
         template.IsActive = true;
 
         insert template;
