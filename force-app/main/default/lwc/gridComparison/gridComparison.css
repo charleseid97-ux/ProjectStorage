@@ -64,17 +64,14 @@ c-multi-select-search-list {
 .lightning-button-group-class {
     padding-bottom: 2px;
 }
-.active-grid-btn-wrapper {
+.btn-group-wrapper {
     position: relative;
     display: inline-flex;
-    padding-bottom: 2px;
 }
 .active-grid-tooltip {
-    display: none;
     position: absolute;
     bottom: calc(100% + 6px);
-    left: 50%;
-    transform: translateX(-50%);
+    right: 0;
     background: #3e3e3c;
     color: #fff;
     padding: 3px 10px;
@@ -83,9 +80,6 @@ c-multi-select-search-list {
     white-space: nowrap;
     pointer-events: none;
     z-index: 200;
-}
-.active-grid-btn-wrapper:hover .active-grid-tooltip {
-    display: block;
 }
 
 /* ── Table base (mirrors gridDetailTable) ── */
@@ -112,7 +106,7 @@ c-multi-select-search-list {
 }
 .th-blue     { background: #0176D3; color: #fff; }   /* SLDS brand blue    – Share Class Info */
 .th-section1 { background: #8A58D4; color: #fff; }   /* SLDS purple        – Rebate Rate */
-.th-section2 { background: #DD7A00; color: #fff; }   /* SLDS warm orange   – Net Margin */
+.th-section2 { background: #A54600; color: #fff; }   /* SLDS warm orange   – Net Margin */
 .th-section3 { background: #2E844A; color: #fff; }   /* SLDS success green – Profitability */
 
 /* ── Section gap column (creates visual separation between the 4 sub-tables) ── */
