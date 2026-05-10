@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Speakers and Products by Event</masterLabel>
+    <description>Shows speakers and products for an Event. Includes a global edit modal that reuses the existing repeater.</description>
+
+    <targets>
+        <target>lightning__RecordPage</target>
+        <target>lightning__AppPage</target>
+        <target>lightning__HomePage</target>
+    </targets>
+
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <objects>
+                <object>Event__c</object>
+            </objects>
+
+            <property
+                name="selectedRecordId"
+                type="String"
+                label="Override Event Id"
+                description="Optional: force an Event Id (otherwise uses the page recordId)."
+            />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

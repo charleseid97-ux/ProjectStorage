@@ -1,0 +1,182 @@
+<template>
+    <div class="slds-p-around_medium">
+        <template for:each={entries} for:item="entry" for:index="index">
+            <div key={entry.key} class="slds-box slds-m-bottom_small slds-theme_default">
+                <div class="slds-grid slds-wrap slds-gutters">
+                    
+                    <!-- Speaker -->
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-6">
+                        <lightning-combobox
+                            label="Speaker"
+                            required
+                            placeholder="Select speaker"
+                            options={allSpeakers}
+                            value={entry.speakerId}
+                            onchange={handleSpeakerChange}
+                            data-index={index}>
+                        </lightning-combobox>
+                    </div>
+
+                    <!-- Products -->
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-6">
+                        <template if:true={allProducts}>
+                            <c-multi-select-search-list
+                                label="* Products"                                
+                                options={allProducts}
+                                value={entry.productIds}
+                                data-index={index}
+                                data-field="Products"
+                                onchange={handleMultiSelection}>
+                            </c-multi-select-search-list>
+                        </template>
+
+                        <div class="slds-m-top_x-small" style="max-height: 3rem;">
+                            <lightning-pill-container
+                                items={entry.productPills}
+                                onitemremove={handleMultiItemRemove}
+                                is-collapsible="true"
+                                is-expanded="false"
+                                data-index={index}
+                                data-field="Products">
+                            </lightning-pill-container>
+                        </div>
+                    </div>
+
+                    <!-- Speaker Language -->
+                    <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-6">
+                        <template if:true={hasLanguagePicklist}>
+                            <lightning-combobox
+                                label="Speaker Language"
+                                required
+                                placeholder="Select speaker language"
+                                options={languageOptions}
+                                value={entry.speakerLanguage}
+                                onchange={handleSpeakerLanguageChange}
+                                data-index={index}>
+                            </lightning-combobox>
+                        </template>
+                        <template if:false={hasLanguagePicklist}>
+                            <lightning-input
+                                type="text"
+                                label="Speaker Language"
+                                value={entry.speakerLanguage}
+                                onchange={handleSpeakerLanguageChange}
+                                data-index={index}>
+                            </lightning-input>
+                        </template>
+                    </div>
+                    <!-- Event Date -->
+                    <template if:true={showTimeSlots}>
+                        <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-6">
+                            <lightning-input
+                                type="date"
+                                required
+                                label="Date"
+                                value={entry.date}
+                                onchange={handleDateChange}
+                                data-index={index}>
+                            </lightning-input>
+                        </div>
+                    </template>
+                    <!-- Start Time -->
+                    <template if:true={showTimeSlots}>
+                        <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-6">
+                            <lightning-combobox
+                                label="Start Time"
+                                value={entry.startTime}
+                                options={timeOptions}
+                                onchange={handleStartTimeChange}
+                                data-index={index}>
+                            </lightning-combobox>
+                        </div>
+
+                        <!-- End Time -->
+                        <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-6">
+                            <lightning-combobox
+                                label="End Time"
+                                value={entry.endTime}
+                                options={timeOptions}
+                                onchange={handleEndTimeChange}
+                                data-index={index}>
+                            </lightning-combobox>
+                        </div>
+                        
+                    </template>
+                    <!-- Language of Slides (conditionnel) -->
+                    <template if:true={entry.showSlidesLanguage}>
+                        <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-6">
+                            <template if:true={hasLanguagePicklist}>
+                                <lightning-combobox
+                                    label="Language of Slides"
+                                    required
+                                    options={languageOptions}
+                                    value={entry.language}
+                                    onchange={handleLanguageChange}
+                                    data-index={index}>
+                                </lightning-combobox>
+                            </template>
+                            <template if:false={hasLanguagePicklist}>
+                                <lightning-input
+                                    type="text"
+                                    required
+                                    label="Language of Slides"
+                                    value={entry.language}
+                                    onchange={handleLanguageChange}
+                                    data-index={index}>
+                                </lightning-input>
+                            </template>
+                        </div>
+                    </template>
+
+                </div>
+
+                <!-- Remove -->
+                <div class="slds-m-top_small slds-grid slds-grid_align-end">
+                    <lightning-button-icon
+                        icon-name="utility:delete"
+                        variant="bare"
+                        alternative-text="Remove"
+                        onclick={removeEntry}
+                        data-index={index}>
+                    </lightning-button-icon>
+                </div>
+            </div>
+        </template>
+
+        <!-- Actions -->
+        <div class="slds-m-top_small slds-grid slds-grid_align-spread">
+            <lightning-button
+                icon-name="utility:add"
+                label="Add Speaker/Product Block"
+                onclick={addEntry}>
+            </lightning-button>
+
+            <template if:true={debugEnabled}>
+                <lightning-button
+                    variant="brand"
+                    label="Rebuild Output (debug)"
+                    onclick={handleRebuildClick}>
+                </lightning-button>
+            </template>
+        </div>
+
+        <!--  Zone erreur (proche du bouton Save du Flow) -->
+        <div class="slds-m-top_medium">
+            <template if:true={hasError}>
+                <div class="slds-text-color_error slds-text-body_regular">
+                    {errorMessage}
+                </div>
+            </template>
+        </div>
+
+        <!-- Debug -->
+        <template if:true={debugEnabled}>
+            <div class="slds-m-top_medium slds-box slds-theme_alert-texture">
+                <h3 class="slds-text-title_bold slds-m-bottom_x-small">
+                    Debug: Records JSON (outputValue)
+                </h3>
+                <pre style="white-space: pre-wrap">{outputValue}</pre>
+            </div>
+        </template>
+    </div>
+</template>

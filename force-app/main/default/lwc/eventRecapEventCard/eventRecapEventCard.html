@@ -1,0 +1,71 @@
+<template>
+    <article class="card slds-box slds-box_x-small">
+        <!-- Primary block: time + title (date removed; grouped in parent when multi-day) -->
+        <div class="banner slds-p-around_small">
+            <div class="titleRow">
+                <span class="title">{event.title}</span>
+            </div>
+
+            <div class="subtitle slds-m-top_xx-small">
+                <template if:true={timeRangeLabel}>
+                    <span class="time">{timeRangeLabel}</span>
+                </template>
+                <template if:true={event.timezone}>
+                    <span class="tz">({event.timezone})</span>
+                </template>
+            </div>
+
+           <!-- Meeting goal ONLY (collapsible) -->
+            <template if:true={event.meetingGoal}>
+                <lightning-accordion class="slds-m-top_small">
+                    <lightning-accordion-section name="goal" label="Meeting goal">
+                        <div class="slds-text-body_regular">
+                            {event.meetingGoal}
+                        </div>
+                    </lightning-accordion-section>
+                </lightning-accordion>
+            </template>
+
+            <!-- Speakers & products (ALWAYS visible, NOT collapsible) -->
+            <template if:true={hasSpeakers}>
+                <div class="slds-m-top_small speakersBlock">
+                    <div class="speakersTitle">Speakers &amp; products</div>
+                    <template for:each={speakersView} for:item="sp">
+                        <div key={sp.key} class="speakerLine">
+                            <span class="speakerName">{sp.speakerName}:</span>
+                            <span class="speakerProducts">{sp.productsLabel}</span>
+                        </div>
+                    </template>
+                </div>
+            </template>
+
+
+            <!-- Fallback: if no meeting goal and no accordion needed, still show speakers/products (non-collapsible) -->
+            <template if:false={showGoalSection}>
+                <template if:true={hasSpeakers}>
+                    <div class="slds-m-top_small speakersBlock">
+                        <div class="speakersTitle">Speakers &amp; products</div>
+                        <template for:each={speakersView} for:item="sp">
+                            <div key={sp.key} class="speakerLine">
+                                <span class="speakerName">{sp.speakerName}:</span>
+                                <span class="speakerProducts">{sp.productsLabel}</span>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </template>
+        </div>
+
+        <!-- Secondary block: attendees (unchanged) -->
+        <template if:true={hasAttendees}>
+            <div class="slds-p-around_small details">
+                <div class="attTitle">Attendees ({attendeeCount})</div>
+                <div class="attList slds-m-top_x-small">
+                    <template for:each={event.attendees} for:item="a">
+                        <span key={a.attendeeId} class="attChip">{a.firstName} {a.lastName}</span>
+                    </template>
+                </div>
+            </div>
+        </template>
+    </article>
+</template>

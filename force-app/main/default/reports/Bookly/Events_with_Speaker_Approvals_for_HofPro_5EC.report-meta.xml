@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Event__c$Name</field>
+    </columns>
+    <columns>
+        <field>Event__c.SpeakerApprovals__r$Name</field>
+    </columns>
+    <columns>
+        <field>Event__c$startDate__c</field>
+    </columns>
+    <columns>
+        <field>Event__c.SpeakerApprovals__r$Speaker__c</field>
+    </columns>
+    <columns>
+        <field>Event__c.SpeakerApprovals__r$ApproverUser__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Event__c.SpeakerApprovals__r$HopApprovalRequired__c</field>
+    </columns>
+    <columns>
+        <field>Event__c$status__c</field>
+    </columns>
+    <columns>
+        <field>Event__c$category__c</field>
+    </columns>
+    <currency>EUR</currency>
+    <description>Events that include at least one speaker approval, used to track validation workflow and assistant workload.
+Visibility with Head Of Product Approval</description>
+    <filter>
+        <criteriaItems>
+            <column>Event__c$status__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>WaitingForSpeakerApprovals</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Event__c.SpeakerApprovals__r$Status__c</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <field>Event__c$CreatedDate</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Events with Speaker Approvals for HofPro</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Events_with_Speaker_Approvals__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <sortColumn>Event__c$status__c</sortColumn>
+    <sortOrder>Asc</sortOrder>
+    <timeFrameFilter>
+        <dateColumn>Event__c$CreatedDate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

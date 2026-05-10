@@ -1,0 +1,100 @@
+.card {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.banner {
+    background: linear-gradient(90deg, rgba(22,160,133,0.10), rgba(46,134,171,0.10));
+    border-bottom: 1px solid #E5E5E5;
+}
+
+.titleRow {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #111827;
+    color: white;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 22px;
+}
+
+.subtitle {
+    color: #4B5563;
+    font-size: 13px;
+}
+
+.time {
+    font-weight: 800;
+    color: #111827;
+    margin-right: 6px;
+}
+
+.tz {
+    color: #6B7280;
+}
+
+.speakersBlock {
+    border-top: 1px solid rgba(0,0,0,0.06);
+    padding-top: 10px;
+}
+
+.speakersTitle {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #6B7280;
+    margin-bottom: 6px;
+    font-weight: 800;
+}
+
+.speakerLine {
+    font-size: 13px;
+    color: #111827;
+    margin-top: 4px;
+}
+
+.speakerName {
+    font-weight: 800;
+    margin-right: 6px;
+}
+
+.speakerProducts {
+    color: #374151;
+}
+
+.details .attTitle {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #6B7280;
+    font-weight: 800;
+}
+
+.attList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.attChip {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: #EEF2FF;
+    color: #111827;
+    font-size: 12px;
+}

@@ -1,0 +1,257 @@
+<apex:page controller="VFC17_PrintEvents"
+           applyHtmlTag="false"
+           showHeader="false"
+           sidebar="false"
+           standardStylesheets="false"
+           renderAs="pdf">
+
+    <html>
+    <head>
+        <style>
+            @page {
+                size: A4;
+                margin: 10mm;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: Arial, sans-serif;
+                font-size: 10pt;
+                color: #181818;
+                background: #ffffff;
+            }
+
+            .page-shell {
+                width: 100%;
+            }
+
+            .card {
+                border: 1px solid #e5e7eb;
+                border-radius: 8px;
+                margin-bottom: 10pt;
+                overflow: hidden;
+            }
+
+            .header {
+                padding: 10pt 12pt;
+                background: #0b5cab;
+                color: #ffffff;
+            }
+
+            .headerTitle {
+                font-size: 15pt;
+                font-weight: bold;
+                margin: 0;
+            }
+
+            .headerSub {
+                margin-top: 3pt;
+                font-size: 9pt;
+            }
+
+            .contentCard {
+                border: 1px solid #e5e7eb;
+                border-radius: 8px;
+                padding: 8pt;
+            }
+
+            .page {
+                page-break-after: always;
+            }
+
+            .page:last-child {
+                page-break-after: auto;
+            }
+
+            .dayGroup {
+                border: 1px solid #e5e7eb;
+                border-radius: 6px;
+                margin-bottom: 8pt;
+                overflow: hidden;
+            }
+
+            .dayHeader {
+                background: #f3f4f6;
+                border-bottom: 1px solid #e5e7eb;
+                padding: 6pt 8pt;
+                font-weight: bold;
+            }
+
+            .dayHeaderLeft {
+                float: left;
+            }
+
+            .dayHeaderRight {
+                float: right;
+                color: #374151;
+            }
+
+            .clear {
+                clear: both;
+            }
+
+            .eventRow {
+                border-bottom: 1px solid #f1f3f5;
+                padding: 6pt 8pt;
+            }
+
+            .eventRow:last-child {
+                border-bottom: none;
+            }
+
+            .eventTable {
+                width: 100%;
+                border-collapse: collapse;
+                table-layout: fixed;
+            }
+
+            .eventTable td {
+                vertical-align: middle;
+            }
+
+            .timeCol {
+                width: 78pt;
+                font-weight: bold;
+                color: #374151;
+                white-space: nowrap;
+            }
+
+            .tzCol {
+                width: 78pt;
+                color: #6b7280;
+                white-space: nowrap;
+                font-size: 8.5pt;
+            }
+
+            .dotCol {
+                width: 14pt;
+                text-align: center;
+            }
+
+            .contentCol {
+                width: auto;
+            }
+
+            .eventDot {
+                display: inline-block;
+                width: 7pt;
+                height: 7pt;
+                border-radius: 50%;
+            }
+
+            .title {
+                font-weight: bold;
+                color: #0b5cab;
+            }
+
+            .speakers {
+                color: #0176d3;
+                font-weight: bold;
+            }
+
+            .strategies {
+                color: #4b5563;
+            }
+
+            .sep {
+                color: #9ca3af;
+            }
+
+            .conflict {
+                display: inline-block;
+                width: 11pt;
+                height: 11pt;
+                line-height: 11pt;
+                text-align: center;
+                border-radius: 50%;
+                border: 1px solid #ef4444;
+                color: #b91c1c;
+                background: #fee2e2;
+                font-size: 7pt;
+                font-weight: bold;
+                margin-left: 4pt;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="page-shell">
+
+            <div class="card">
+                <div class="header">
+                    <div class="headerTitle">Events Schedule</div>
+                    <div class="headerSub">
+                        <apex:outputText value="Events from {0} to {1}">
+                            <apex:param value="{!startDate}" />
+                            <apex:param value="{!endDate}" />
+                        </apex:outputText>
+
+                        <apex:outputPanel rendered="{!selectedSalesTeam = '__ALL__'}" layout="none">
+                            for all sales teams
+                        </apex:outputPanel>
+
+                        <apex:outputPanel rendered="{!selectedSalesTeam != '__ALL__'}" layout="none">
+                            for {!selectedSalesTeam}
+                        </apex:outputPanel>
+                    </div>
+                </div>
+            </div>
+
+            <apex:repeat value="{!pages}" var="p">
+                <div class="page">
+
+                    <div class="contentCard">
+                        <apex:repeat value="{!p.columns}" var="col">
+                            <apex:repeat value="{!col.dayGroups}" var="g">
+
+                                <div class="dayGroup">
+                                    <div class="dayHeader">
+                                        <div class="dayHeaderLeft">{!g.dayLabel}</div>
+                                        <div class="dayHeaderRight">{!g.fullDateLabel}</div>
+                                        <div class="clear"></div>
+                                    </div>
+
+                                    <apex:repeat value="{!g.events}" var="e">
+                                        <div class="eventRow">
+                                            <table class="eventTable">
+                                                <tr>
+                                                    <td class="timeCol">{!e.timeRangeLabel}</td>
+                                                    <td class="tzCol">{!e.displayTimezone}</td>
+                                                    <td class="dotCol">
+                                                        <span class="eventDot" style="background:{!e.eventColor};"></span>
+                                                    </td>
+                                                    <td class="contentCol">
+                                                        <span class="title">{!e.title}</span>
+
+                                                        <apex:outputPanel rendered="{!NOT(ISBLANK(e.speakersLabel))}" layout="none">
+                                                            <span class="sep"> - </span>
+                                                            <span class="speakers">{!e.speakersLabel}</span>
+                                                        </apex:outputPanel>
+
+                                                        <apex:outputPanel rendered="{!NOT(ISBLANK(e.strategiesLabel))}" layout="none">
+                                                            <span class="sep"> | </span>
+                                                            <span class="strategies">{!e.strategiesLabel}</span>
+                                                        </apex:outputPanel>
+
+                                                        <apex:outputPanel rendered="{!e.isSpeakerConflict}" layout="none">
+                                                            <span class="conflict">!</span>
+                                                        </apex:outputPanel>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </apex:repeat>
+                                </div>
+
+                            </apex:repeat>
+                        </apex:repeat>
+                    </div>
+
+                </div>
+            </apex:repeat>
+
+        </div>
+    </body>
+    </html>
+</apex:page>
