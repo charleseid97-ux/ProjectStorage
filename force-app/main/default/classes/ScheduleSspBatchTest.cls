@@ -94,4 +94,33 @@ private class ScheduleSspBatchTest {
             ssp.date__c
         );
     }
+
+    // Test des branches d'erreur batch SSP
+    @IsTest
+    static void testBatchErrors() {
+
+        String csv =
+            'TECH_ID_Speaker_Schedule__c;Schedule_Key_Event__c;Schedule_Key_Session__c;Start_Date_Time__c;End_Date_Time__c;Name;Thematic__c;Is_Valid_Speaker__c\n' +
+            'ERR_1;99999;22160;25/01/2024 11:00;25/01/2024 12:30;missing@test.com;UNKNOWN;1';
+
+        ScheduleSspBatch.testCsvContent = csv;
+
+        Test.startTest();
+
+        Database.executeBatch(
+            new ScheduleSspBatch(0, 1),
+            1
+        );
+
+        Test.stopTest();
+
+        System.assertEquals(
+            0,
+            [
+                SELECT COUNT()
+                FROM sessionSpeakerProduct__c
+                WHERE scheduleId__c = 'ERR_1'
+            ]
+        );
+    }
 }
