@@ -262,7 +262,7 @@ public without sharing class BooklyMeetingInvitationQueueable
         addSalesTeamParticipants(eventRecord, participantsByEventId, emailsByEventId);
         addNotificationConfigParticipants(eventRecord, META_COMMUNICATION, participantsByEventId, emailsByEventId);
         addNotificationConfigParticipants(eventRecord, META_LOCAL_MARKETING_EVENT_TEAM, participantsByEventId, emailsByEventId);
-        addCRMParticipants(eventRecord, participantsByEventId, emailsByEventId);
+        //addCRMParticipants(eventRecord, participantsByEventId, emailsByEventId);
 
     }
 
@@ -274,7 +274,7 @@ public without sharing class BooklyMeetingInvitationQueueable
         addSalesTeamParticipants(eventRecord, participantsByEventId, emailsByEventId);
         addOrganizerParticipant(eventRecord, participantsByEventId, emailsByEventId, false);
         addNotificationConfigParticipants(eventRecord, META_COMMUNICATION, participantsByEventId, emailsByEventId);
-        addCRMParticipants(eventRecord, participantsByEventId, emailsByEventId);
+        //addCRMParticipants(eventRecord, participantsByEventId, emailsByEventId);
     }
 
     private static void addMeetingParticipants(
@@ -284,7 +284,7 @@ public without sharing class BooklyMeetingInvitationQueueable
     ) {
         addSalesOwnerParticipant(eventRecord, participantsByEventId, emailsByEventId, false);
         addOwnerParticipant(eventRecord, participantsByEventId, emailsByEventId, false);
-        addCRMParticipants(eventRecord, participantsByEventId, emailsByEventId);
+        //addCRMParticipants(eventRecord, participantsByEventId, emailsByEventId);
     }
 
     private static void addSalesTeamParticipants(
@@ -318,7 +318,7 @@ public without sharing class BooklyMeetingInvitationQueueable
         }
     }
 
-    private static void addCRMParticipants(
+    /*private static void addCRMParticipants(
         Event__c eventRecord,
         Map<Id, List<MicrosoftGraphMeetingService.Participant>> participantsByEventId,
         Map<Id, Set<String>> emailsByEventId
@@ -347,7 +347,7 @@ public without sharing class BooklyMeetingInvitationQueueable
                 false
             );
         }
-    }
+    }*/
 
     private static void addParticipant(
         List<MicrosoftGraphMeetingService.Participant> participants,
