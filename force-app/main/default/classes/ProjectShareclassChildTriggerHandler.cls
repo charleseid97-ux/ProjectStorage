@@ -11,7 +11,8 @@ public class ProjectShareclassChildTriggerHandler {
             ProjectShareclassChildHandler.lockRecordShareClassChild(m_newProjectShareclassChild , m_oldProjectShareclassChild);
         }
         ProjectShareclassChildHandler.calculNbOfFields(m_newProjectShareclassChild.values());
-
+        ProjectShareclassChildHandler.updateTaxFields(m_newProjectShareclassChild, m_oldProjectShareclassChild);
+        ProjectShareclassChildHandler.validateBelgiumSimulatorOnProject(m_newProjectShareclassChild, m_oldProjectShareclassChild);
     }
 
 
@@ -20,7 +21,6 @@ public class ProjectShareclassChildTriggerHandler {
 
     public static void handleAfterUpdate(Map<Id, ProjectShareclassChild__c> m_newProjectShareclassChild, Map<Id, ProjectShareclassChild__c> m_oldProjectShareclassChild) {
             ProjectShareclassChildHandler.updateShareclassParent(m_newProjectShareclassChild, m_oldProjectShareclassChild);
-
     }
     public static void handleBeforeDelete(Map<Id, ProjectShareclassChild__c> m_oldProjectShareclassChild) {
        
