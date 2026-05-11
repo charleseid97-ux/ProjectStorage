@@ -13,12 +13,6 @@ const STATUS_IS_CURRENT = 'IS_CURRENT';
 const STATUS_NONE       = 'NONE';
 const STATUS_HAS_ACTIVE = 'HAS_ACTIVE';
 
-const ROW_TYPE_CSS = {
-    SAME_EXACT    : 'row-green',
-    SAME_DIFF     : 'row-red',
-    CURRENT_ONLY  : 'row-blue',
-    SELECTED_ONLY : 'row-gray'
-};
 
 function formatDiff(a, b) {
     if (a == null || b == null) return null;
@@ -267,27 +261,55 @@ export default class GridComparison extends LightningElement {
         const cPRpct = cFee.pct != null && cFee.pct !== 0 && cNMpct != null ? (cNMpct / cFee.pct * 100) : null;
         const sPRpct = sFee.pct != null && sFee.pct !== 0 && sNMpct != null ? (sNMpct / sFee.pct * 100) : null;
 
+        // greenIfNeg=true → green when diff<0 (lower selected is better: Fee, RR)
+        // greenIfNeg=false → green when diff>0 (higher selected is better: NM, PR)
+        const ovDiffCls = (d, greenIfNeg) => {
+            if (d == null || d === 0) return 'td-right';
+            const isGreen = greenIfNeg ? d < 0 : d > 0;
+            return 'td-right ' + (isGreen ? 'ov-diff-green' : 'ov-diff-red');
+        };
+        const feeDiff    = cFee.pct != null && sFee.pct != null ? cFee.pct - sFee.pct : null;
+        const feeAmtDiff = cFee.amt != null && sFee.amt != null ? cFee.amt - sFee.amt : null;
+        const rrDiff     = cRR.pct  != null && sRR.pct  != null ? cRR.pct  - sRR.pct  : null;
+        const rrAmtDiff  = cRR.amt  != null && sRR.amt  != null ? cRR.amt  - sRR.amt  : null;
+        const nmDiff     = cNMpct   != null && sNMpct   != null ? cNMpct   - sNMpct   : null;
+        const nmAmtDiff  = cNMamt   != null && sNMamt   != null ? cNMamt   - sNMamt   : null;
+        const prDiff     = cPRpct   != null && sPRpct   != null ? cPRpct   - sPRpct   : null;
+
+        const cellRight = 'td-right';
         return [
             {
                 key: 'current',  label: 'Current',  rowClass: 'ov-current',
                 fee: fmt(cFee.pct), feeAmt: fmtOvAmt(cFee.amt),
                 rr:  fmt(cRR.pct),  rrAmt:  fmtOvAmt(cRR.amt),
                 nm:  fmt(cNMpct),   nmAmt:  fmtOvAmt(cNMamt),
-                pr:  fmt(cPRpct)
+                pr:  fmt(cPRpct),
+                feeCellClass: cellRight, feeAmtCellClass: cellRight,
+                rrCellClass:  cellRight, rrAmtCellClass:  cellRight,
+                nmCellClass:  cellRight, nmAmtCellClass:  cellRight,
+                prCellClass:  cellRight
             },
             {
                 key: 'selected', label: 'Selected', rowClass: 'ov-selected',
                 fee: fmt(sFee.pct), feeAmt: fmtOvAmt(sFee.amt),
                 rr:  fmt(sRR.pct),  rrAmt:  fmtOvAmt(sRR.amt),
                 nm:  fmt(sNMpct),   nmAmt:  fmtOvAmt(sNMamt),
-                pr:  fmt(sPRpct)
+                pr:  fmt(sPRpct),
+                feeCellClass: cellRight, feeAmtCellClass: cellRight,
+                rrCellClass:  cellRight, rrAmtCellClass:  cellRight,
+                nmCellClass:  cellRight, nmAmtCellClass:  cellRight,
+                prCellClass:  cellRight
             },
             {
                 key: 'diff',     label: 'Diff',     rowClass: 'ov-diff',
                 fee: fmtDiffPct(cFee.pct, sFee.pct), feeAmt: fmtDiffOvAmt(cFee.amt, sFee.amt),
                 rr:  fmtDiffPct(cRR.pct,  sRR.pct),  rrAmt:  fmtDiffOvAmt(cRR.amt,  sRR.amt),
                 nm:  fmtDiffPct(cNMpct,   sNMpct),   nmAmt:  fmtDiffOvAmt(cNMamt,   sNMamt),
-                pr:  fmtDiffPct(cPRpct,   sPRpct)
+                pr:  fmtDiffPct(cPRpct,   sPRpct),
+                feeCellClass: ovDiffCls(feeDiff,    true),  feeAmtCellClass: ovDiffCls(feeAmtDiff, true),
+                rrCellClass:  ovDiffCls(rrDiff,     true),  rrAmtCellClass:  ovDiffCls(rrAmtDiff,  true),
+                nmCellClass:  ovDiffCls(nmDiff,     false), nmAmtCellClass:  ovDiffCls(nmAmtDiff,  false),
+                prCellClass:  ovDiffCls(prDiff,     false)
             }
         ];
     }
@@ -354,15 +376,7 @@ export default class GridComparison extends LightningElement {
         return [...byScId.values()].map(({ curr, sel }) => this.buildMergedRow(curr, sel));
     }
 
-    getRowType(curr, sel) {
-        if (curr && sel) {
-            return curr.standardGridDetailId === sel.standardGridDetailId ? 'SAME_EXACT' : 'SAME_DIFF';
-        }
-        return curr ? 'CURRENT_ONLY' : 'SELECTED_ONLY';
-    }
-
     buildMergedRow(curr, sel) {
-        const rowType = this.getRowType(curr, sel);
         const ref     = curr || sel;
         const currRR  = curr ? parsePct(curr.rebateRate) : 0;
         const selRR   = sel  ? parsePct(sel.rebateRate)  : 0;
@@ -382,8 +396,6 @@ export default class GridComparison extends LightningElement {
 
         return {
             key             : ref.shareClassId,
-            rowType,
-            rowClass        : ROW_TYPE_CSS[rowType],
             isDiscrepancy   : (currRR ?? 0) !== (selRR ?? 0),
             portfolio       : ref.portfolio,
             shareClass      : ref.shareClass,

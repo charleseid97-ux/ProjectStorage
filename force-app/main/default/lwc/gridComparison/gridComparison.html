@@ -108,13 +108,13 @@
                                         <template for:each={overviewRows} for:item="row">
                                             <tr key={row.key} class={row.rowClass}>
                                                 <td class="ov-label">{row.label}</td>
-                                                <td class="td-right">{row.fee}</td>
-                                                <td class="td-right">{row.feeAmt}</td>
-                                                <td class="td-right">{row.rr}</td>
-                                                <td class="td-right">{row.rrAmt}</td>
-                                                <td class="td-right">{row.nm}</td>
-                                                <td class="td-right">{row.nmAmt}</td>
-                                                <td class="td-right">{row.pr}</td>
+                                                <td class={row.feeCellClass}>{row.fee}</td>
+                                                <td class={row.feeAmtCellClass}>{row.feeAmt}</td>
+                                                <td class={row.rrCellClass}>{row.rr}</td>
+                                                <td class={row.rrAmtCellClass}>{row.rrAmt}</td>
+                                                <td class={row.nmCellClass}>{row.nm}</td>
+                                                <td class={row.nmAmtCellClass}>{row.nmAmt}</td>
+                                                <td class={row.prCellClass}>{row.pr}</td>
                                             </tr>
                                         </template>
                                     </tbody>
@@ -174,12 +174,12 @@
                                         </thead>
                                         <tbody>
                                             <template for:each={visibleRows} for:item="row">
-                                                <tr key={row.key} class={row.rowClass}>
-                                                    <td>{row.portfolio}</td>
-                                                    <td>{row.shareClass}</td>
-                                                    <td>{row.isin}</td>
-                                                    <td class="td-right">{row.aum}</td>
-                                                    <td class="td-right">{row.effMgtFee}</td>
+                                                <tr key={row.key}>
+                                                    <td class="td-info">{row.portfolio}</td>
+                                                    <td class="td-info">{row.shareClass}</td>
+                                                    <td class="td-info">{row.isin}</td>
+                                                    <td class="td-right td-info">{row.aum}</td>
+                                                    <td class="td-right td-info">{row.effMgtFee}</td>
                                                     <td class="td-current">{row.currentStdGrid}</td>
                                                     <td class="td-selected">{row.selectedStdGrid}</td>
                                                     <td class="section-gap"></td>
