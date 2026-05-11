@@ -31,6 +31,11 @@
 		<members>GridHOCApproverResolver</members>
 		<members>GridTestSetupHelper</members>
 		<members>IApproverResolver</members>
+		<members>CustomAlertScheduler</members>
+		<members>CustomAlertSchedulerTest</members>
+		<members>GridReviewBatch</members>
+		<members>GridReviewBatchTest</members>
+		<members>ICustomAlerter</members>
 		<members>GridValidationController</members>
 		<members>GridLifecycleTest</members>
 		<members>GridTriggerHandler</members>
@@ -229,6 +234,7 @@
 		<members>Queue_Business_Region.Switzerland</members>
 		<members>Queue_Business_Region.Taiwan</members>
 		<members>Queue_Business_Region.United_Kingdom</members>
+		<members>ScheduledAlert.GridReview</members>
 		<members>StandardGridRecapConfig.RecapConfigS1</members>
 		<members>StandardGridRecapConfig.RecapConfigS2</members>
 		<members>StandardGridRecapConfig.RecapConfigS3</members>
@@ -337,6 +343,7 @@
 		<members>GridRule__c</members>
 		<members>GridScope__c</members>
 		<members>Grid__c</members>
+		<members>ScheduledAlert__mdt</members>
 		<members>StandardGridRecapConfig__mdt</members>
 		<members>StandardGridRecapRule__mdt</members>
 		<name>CustomObject</name>
@@ -434,6 +441,10 @@
 	<types>
 		<members>Grid__c</members>
 		<name>Workflow</name>
+	</types>
+	<types>
+		<members>Agreements/GridReviewEmailTemplate</members>
+		<name>EmailTemplate</name>
 	</types>
 	<!-- FLAG OFF -->
 	<version>66.0</version>

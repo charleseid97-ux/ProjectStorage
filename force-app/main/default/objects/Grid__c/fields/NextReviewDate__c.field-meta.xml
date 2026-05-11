@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NextReviewDate__c</fullName>
+    <description>Date on which a review of this grid should be triggered. When this date is reached, the grid will be included in the next scheduled alert email.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Set this date to schedule the next review. The system will automatically include this grid in the review email once the date is reached.</inlineHelpText>
+    <label>Next Review Date</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>
