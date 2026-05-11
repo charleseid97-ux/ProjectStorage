@@ -48,6 +48,8 @@ import Grid_AutoIncludeHelpText from '@salesforce/label/c.Grid_AutoIncludeHelpTe
 import Grid_AutoIncludeLabel from '@salesforce/label/c.Grid_AutoIncludeLabel';
 import Grid_AutomaticUpdate from '@salesforce/label/c.Grid_AutomaticUpdate';
 import Grid_Builder from '@salesforce/label/c.Grid_Builder';
+import Grid_Comparison_ActiveGridIsCurrent from '@salesforce/label/c.Grid_Comparison_ActiveGridIsCurrent';
+import Grid_Comparison_NoActiveGrid from '@salesforce/label/c.Grid_Comparison_NoActiveGrid';
 import Grid_CreatedSuccess from '@salesforce/label/c.Grid_CreatedSuccess';
 import Grid_CriteriaCreated from '@salesforce/label/c.Grid_CriteriaCreated';
 import Grid_CriteriaDetailsCreated from '@salesforce/label/c.Grid_CriteriaDetailsCreated';
@@ -167,7 +169,7 @@ export const LABELS = {
     UI_Off, UI_On, UI_Operator, UI_Refresh, UI_Remove, UI_SelectOption, UI_Success, UI_UnknownField, UI_UnknownObject, UI_Value, UI_Warning,
     Grid_AddFilter, Grid_AddRestrictedShareTypes, Grid_AddToGrid, Grid_AgreementErrorLoadingSettings, Grid_Agreements,
     Grid_AllRowsImported, Grid_AlreadySelected, Grid_ApplyFilters, Grid_AutoIncludeHelpText, Grid_AutoIncludeLabel,
-    Grid_AutomaticUpdate, Grid_Builder, Grid_CreatedSuccess, Grid_CriteriaCreated, Grid_CriteriaDetailsCreated, Grid_CriteriaHistory,
+    Grid_AutomaticUpdate, Grid_Builder, Grid_Comparison_ActiveGridIsCurrent, Grid_Comparison_NoActiveGrid, Grid_CreatedSuccess, Grid_CriteriaCreated, Grid_CriteriaDetailsCreated, Grid_CriteriaHistory,
     Grid_CriteriaLabel, Grid_CriteriaNumber, Grid_AgreementGridTimeline, Grid_AgreementGridRecap, Grid_CurrentGridRecap, Grid_DetailsTitle, Grid_DifferentGridsSelected,
     Grid_ErrorLoadingGrids, Grid_ErrorLoadingProducts, Grid_ErrorLoadingSettings, Grid_ErrorRetrievingProducts,
     Grid_ErrorSavingGrid, Grid_ErrorValidatingProducts, Grid_ExcelImportTitle, Grid_ExcludedProducts,

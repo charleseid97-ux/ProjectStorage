@@ -1,6 +1,6 @@
 /** ──────────────────────────────────────
  * @description Test class for GridComparisonController.
- *              Covers grid/agreement search, grid resolution from agreement,
+ *              Covers grid/agreement search, active-grid resolution,
  *              and comparison data retrieval.
  * @author Charles EID
  * @testCoverage GridComparisonController
@@ -8,12 +8,18 @@
 @IsTest
 private with sharing class GridComparisonControllerTest {
 
-    private static final String APPROVED_CUSTOM_GRID_NAME  = 'ApprovedCustomGrid';
-    private static final String CUSTOM_AGR_NAME            = 'CUSTOM-AGR';
-    private static final String SPECIFIC_STD_GRID_NAME     = 'SpecificStdGrid';
-    private static final String CURRENT_GRID_WITH_AGR_NAME = 'CurrentGridWithAgreement';
-    private static final String SAME_AGR_GRID_NAME         = 'SameAgreementGrid';
-    private static final String PRIORITY_AGR_NAME          = 'PRIORITY-AGR';
+    private static final String APPROVED_CUSTOM_GRID_NAME   = 'ApprovedCustomGrid';
+    private static final String CUSTOM_AGR_NAME             = 'CUSTOM-AGR';
+    private static final String SPECIFIC_STD_GRID_NAME      = 'SpecificStdGrid';
+    private static final String CURRENT_GRID_WITH_AGR_NAME  = 'CurrentGridWithAgreement';
+    private static final String SAME_AGR_GRID_NAME          = 'SameAgreementGrid';
+    private static final String PRIORITY_AGR_NAME           = 'PRIORITY-AGR';
+    private static final String NO_ACTIVE_GRID_NAME         = 'GridWithNoActiveGrid';
+    private static final String NO_ACTIVE_AGR_NAME          = 'NO-ACTIVE-AGR';
+
+    private static final String STATUS_IS_CURRENT = 'IS_CURRENT';
+    private static final String STATUS_NONE       = 'NONE';
+    private static final String STATUS_HAS_ACTIVE = 'HAS_ACTIVE';
 
     @TestSetup
     static void makeData() {
@@ -56,6 +62,18 @@ private with sharing class GridComparisonControllerTest {
             Grid__c sameAgreementGrid = GridTestSetupHelper.createGrid(SAME_AGR_GRID_NAME, '', true, GridBuilderHelper.RT_CUSTOM_GRID);
             sameAgreementGrid.Agreement__c = priorityAgreement.Id;
             insert sameAgreementGrid;
+
+            // A grid linked to an agreement that has no active grid (Grid__c = null on Convention__c)
+            Grid__c noActiveGrid = GridTestSetupHelper.createGrid(NO_ACTIVE_GRID_NAME, '', true, GridBuilderHelper.RT_CUSTOM_GRID);
+            insert noActiveGrid;
+
+            AgreementTriggerHandler.triggerDisabled = true;
+            Convention__c noActiveAgreement = GridTestSetupHelper.createAgreement(NO_ACTIVE_AGR_NAME, 'No Active Grid Agreement', 'NO-ACTIVE-001', accounts[0].Id, null, 'FR', agmRtMap);
+            insert noActiveAgreement;
+            AgreementTriggerHandler.triggerDisabled = false;
+
+            noActiveGrid.Agreement__c = noActiveAgreement.Id;
+            update noActiveGrid;
 
             // Data for testGetComparisonData_withCountryFilter
             // Two new share classes: one registered only in FR, one only in IT
@@ -141,20 +159,33 @@ private with sharing class GridComparisonControllerTest {
     @IsTest
     static void testSearchAgreements() {
         Test.startTest();
-
-        GridComparisonController.searchAgreements('CUSTOM');
-
+        List<GridComparisonController.LookupResult> results = GridComparisonController.searchAgreements('CUSTOM');
         Test.stopTest();
     }
 
     @IsTest
-    static void testGetGridFromAgreement() {
-        Convention__c agr = [SELECT Id FROM Convention__c WHERE Name = :CUSTOM_AGR_NAME LIMIT 1];
+    static void testGetActiveGridForCurrentGrid() {
+        Grid__c currentGrid      = [SELECT Id FROM Grid__c WHERE Name = :CURRENT_GRID_WITH_AGR_NAME LIMIT 1];
+        Grid__c sameAgrGrid      = [SELECT Id FROM Grid__c WHERE Name = :SAME_AGR_GRID_NAME         LIMIT 1];
+        Grid__c noActiveGrid     = [SELECT Id FROM Grid__c WHERE Name = :NO_ACTIVE_GRID_NAME        LIMIT 1];
+        Grid__c unlinkedGrid     = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S1);
 
         Test.startTest();
 
-        GridComparisonController.getGridFromAgreement(agr.Id);
-        GridComparisonController.getGridFromAgreement(null);
+        // null input → NONE
+        GridComparisonController.ActiveGridInfo infoNull = GridComparisonController.getActiveGridForCurrentGrid(null);
+
+        // Grid with no agreement → NONE
+        GridComparisonController.ActiveGridInfo infoUnlinked = GridComparisonController.getActiveGridForCurrentGrid(unlinkedGrid.Id);
+
+        // Grid linked to agreement with no active grid → NONE
+        GridComparisonController.ActiveGridInfo infoNoActive = GridComparisonController.getActiveGridForCurrentGrid(noActiveGrid.Id);
+
+        // Grid IS the active grid of its agreement → IS_CURRENT
+        GridComparisonController.ActiveGridInfo infoIsCurrent = GridComparisonController.getActiveGridForCurrentGrid(currentGrid.Id);
+
+        // Grid belongs to agreement whose active grid is a different grid → HAS_ACTIVE
+        GridComparisonController.ActiveGridInfo infoHasActive = GridComparisonController.getActiveGridForCurrentGrid(sameAgrGrid.Id);
 
         Test.stopTest();
     }

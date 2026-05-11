@@ -8,6 +8,10 @@
 ────────────────────────────────────── */
 public with sharing class GridComparisonController {
 
+    private static final String ACTIVE_GRID_STATUS_IS_CURRENT = 'IS_CURRENT';
+    private static final String ACTIVE_GRID_STATUS_NONE       = 'NONE';
+    private static final String ACTIVE_GRID_STATUS_HAS_ACTIVE = 'HAS_ACTIVE';
+
     @AuraEnabled(cacheable=true)
     public static List<LookupResult> searchGrids(String searchTerm, Id currentGridId) {
         String term = '%' + (String.isBlank(searchTerm) ? '' : String.escapeSingleQuotes(searchTerm.trim())) + '%';
@@ -39,14 +43,14 @@ public with sharing class GridComparisonController {
                           ORDER BY Name LIMIT 600]) {
             if (g.RecordType.DeveloperName == rtStandard) {
                 if (g.ActiveGrid__c && !g.Tech_SpecificStandardGrid__c) {
-                    group1.add(new LookupResult(g.Id, g.Name, null));
+                    group1.add(new LookupResult(g.Id, g.Name, null, null));
                 }
                 // Tech_SpecificStandardGrid__c = true → hidden
             } else {
                 if (currentAgreementId != null && g.Agreement__c == currentAgreementId) {
-                    group2.add(new LookupResult(g.Id, g.Name, currentAgreementName));
+                    group2.add(new LookupResult(g.Id, g.Name, currentAgreementName, null));
                 } else {
-                    group3.add(new LookupResult(g.Id, g.Name, g.RecordType.Name));
+                    group3.add(new LookupResult(g.Id, g.Name, g.RecordType.Name, null));
                 }
             }
         }
@@ -62,22 +66,32 @@ public with sharing class GridComparisonController {
     public static List<LookupResult> searchAgreements(String searchTerm) {
         String term = '%' + (String.isBlank(searchTerm) ? '' : String.escapeSingleQuotes(searchTerm.trim())) + '%';
         List<LookupResult> results = new List<LookupResult>();
-        for (Convention__c agr : [SELECT Id, Name, Grid__r.Name
+        for (Convention__c agr : [SELECT Id, Name, Grid__c, Grid__r.Name
                                   FROM Convention__c
                                   WHERE Name LIKE :term
                                   AND Grid__c != null
                                   AND Grid__r.RecordType.DeveloperName = :GridBuilderHelper.RT_CUSTOM_GRID
                                   ORDER BY Name LIMIT 500]) {
-            results.add(new LookupResult(agr.Id, agr.Name, agr.Grid__r.Name));
+            results.add(new LookupResult(agr.Id, agr.Name, agr.Grid__r.Name, agr.Grid__c));
         }
         return results;
     }
 
     @AuraEnabled(cacheable=true)
-    public static Id getGridFromAgreement(Id agreementId) {
-        if (agreementId == null) return null;
-        Convention__c agr = [SELECT Grid__c FROM Convention__c WHERE Id = :agreementId LIMIT 1];
-        return agr.Grid__c;
+    public static ActiveGridInfo getActiveGridForCurrentGrid(Id currentGridId) {
+        if (currentGridId == null) return new ActiveGridInfo(ACTIVE_GRID_STATUS_NONE, null, null);
+
+        List<Grid__c> cur = [SELECT Agreement__c FROM Grid__c WHERE Id = :currentGridId LIMIT 1];
+        if (cur.isEmpty() || cur[0].Agreement__c == null) return new ActiveGridInfo(ACTIVE_GRID_STATUS_NONE, null, null);
+
+        Id agreementId = cur[0].Agreement__c;
+        List<Convention__c> agr = [SELECT Grid__c, Grid__r.Name FROM Convention__c WHERE Id = :agreementId LIMIT 1];
+        if (agr.isEmpty() || agr[0].Grid__c == null) return new ActiveGridInfo(ACTIVE_GRID_STATUS_NONE, null, null);
+
+        Id activeGridId = agr[0].Grid__c;
+        if (activeGridId == currentGridId) return new ActiveGridInfo(ACTIVE_GRID_STATUS_IS_CURRENT, null, null);
+
+        return new ActiveGridInfo(ACTIVE_GRID_STATUS_HAS_ACTIVE, activeGridId, agr[0].Grid__r.Name);
     }
 
     @AuraEnabled(cacheable=true)
@@ -114,14 +128,27 @@ public with sharing class GridComparisonController {
     }
 
     // ────────────────────────────────────── WRAPPERS ──────────────────────────────────────
+    public class ActiveGridInfo {
+        @AuraEnabled public String status;       // IS_CURRENT | NONE | HAS_ACTIVE
+        @AuraEnabled public Id     activeGridId;
+        @AuraEnabled public String activeGridName;
+        public ActiveGridInfo(String status, Id activeGridId, String activeGridName) {
+            this.status         = status;
+            this.activeGridId   = activeGridId;
+            this.activeGridName = activeGridName;
+        }
+    }
+
     public class LookupResult {
         @AuraEnabled public Id     id;
         @AuraEnabled public String name;
         @AuraEnabled public String subtitle;
-        public LookupResult(Id id, String name, String subtitle) {
+        @AuraEnabled public Id     gridId;
+        public LookupResult(Id id, String name, String subtitle, Id gridId) {
             this.id       = id;
             this.name     = name;
             this.subtitle = subtitle;
+            this.gridId   = gridId;
         }
     }
 
