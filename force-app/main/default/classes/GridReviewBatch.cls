@@ -11,6 +11,8 @@
  ────────────────────────────────────── */
 public with sharing class GridReviewBatch implements Database.Batchable<SObject>, Database.Stateful, ICustomAlerter {
 
+    private final static String DATATABLEELEMENT = '{_Datatable_}';
+
     private Map<Id, Grid__c> cglGrids = new Map<Id, Grid__c>();
     private Map<Id, Grid__c> cgfGrids  = new Map<Id, Grid__c>();
     private ScheduledAlert__mdt alertConfig;
@@ -90,16 +92,16 @@ public with sharing class GridReviewBatch implements Database.Batchable<SObject>
         Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
         mail.setSubject('Agreement Grid Review — ' + entity);
         mail.setToAddresses(new List<String>(toAddresses));
-        mail.setHtmlBody(templateHtml.replace('{_Datatable_}', buildTableHtml(grids, orgBaseUrl)));
+        mail.setHtmlBody(templateHtml.replace(DATATABLEELEMENT, buildTableHtml(grids, orgBaseUrl)));
         return mail;
     }
 
     private String getEmailTemplateHtml(String devName) {
         if (String.isBlank(devName)) {
-            return '{_Datatable_}';
+            return DATATABLEELEMENT;
         }
         List<EmailTemplate> templates = [SELECT HtmlValue FROM EmailTemplate WHERE DeveloperName = :devName LIMIT 1];
-        return (templates.isEmpty() || String.isBlank(templates[0].HtmlValue)) ? '{_Datatable_}' : templates[0].HtmlValue;
+        return (templates.isEmpty() || String.isBlank(templates[0].HtmlValue)) ? DATATABLEELEMENT : templates[0].HtmlValue;
     }
 
     private String buildTableHtml(Map<Id, Grid__c> grids, String orgBaseUrl) {
