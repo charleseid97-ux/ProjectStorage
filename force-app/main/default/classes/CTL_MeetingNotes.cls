@@ -400,7 +400,7 @@ public without sharing class CTL_MeetingNotes {
         return ouput;
     }
     
-    public static List<Meeting_Note_Insight__c> getJSONMeetingNote(List<Meeting_Note__c> recordIds) {
+    /*public static List<Meeting_Note_Insight__c> getJSONMeetingNote(List<Meeting_Note__c> recordIds) {
         List<Meeting_Note_Insight__c> mndllList = new List<Meeting_Note_Insight__c>();
         List<Meeting_Note__c> failedRecords = new List<Meeting_Note__c>();
         Map<Id, String> failedReasons = new Map<Id, String>();
@@ -462,6 +462,110 @@ public without sharing class CTL_MeetingNotes {
         }
     
         return mndllList;
+    }*/
+
+    public static List<Meeting_Note_Insight__c> getJSONMeetingNote(List<Meeting_Note__c> recordIds) {
+    List<Meeting_Note_Insight__c> mndllList = new List<Meeting_Note_Insight__c>();
+    List<Meeting_Note__c> failedRecords = new List<Meeting_Note__c>();
+    Map<Id, String> failedReasons = new Map<Id, String>();
+
+    for (Meeting_Note__c mn : recordIds) {
+        try {
+            Map<String, Object> params = new Map<String, Object>();
+            params.put('MeetingNoteObj', mn);
+
+            Flow.Interview.Get_JSON_insights_from_MeetingNotes jsonFlow =
+                new Flow.Interview.Get_JSON_insights_from_MeetingNotes(params);
+
+            jsonFlow.start();
+
+            String output = (String) jsonFlow.getVariableValue('output');
+
+            System.debug('RAW EINSTEIN OUTPUT: ' + output);
+
+            if (String.isBlank(output) || output == 'null') {
+                System.debug('No output for Meeting Note: ' + mn.Id);
+                continue;
+            }
+
+            List<ProductInsights> productsInsight = parseInsights(output);
+            System.debug('Insights: ' + productsInsight);
+
+            if (productsInsight == null || productsInsight.isEmpty()) {
+                continue;
+            }
+
+            Set<Id> strategyIds = new Set<Id>();
+
+            for (ProductInsights prod : productsInsight) {
+                if (String.isNotBlank(prod.product_Id) && prod.product_Id != 'unknown') {
+                    strategyIds.add((Id) prod.product_Id);
+                }
+            }
+
+            Map<Id, Product__c> productByStrategyId = new Map<Id, Product__c>();
+
+            if (!strategyIds.isEmpty()) {
+                for (Product__c p : [
+                    SELECT Id, FundStrategy__c
+                    FROM Product__c
+                    WHERE FundStrategy__c IN :strategyIds
+                ]) {
+                    productByStrategyId.put(p.FundStrategy__c, p);
+                }
+            }
+
+            for (ProductInsights prod : productsInsight) {
+                if (String.isBlank(prod.product_Id) || prod.product_Id == 'unknown') {
+                    continue;
+                }
+
+                Product__c relatedProduct = productByStrategyId.get((Id) prod.product_Id);
+
+                if (relatedProduct == null) {
+                    System.debug('No Product__c found for Strategy__c: ' + prod.product_Id);
+                    continue;
+                }
+
+                Meeting_Note_Insight__c dmo = new Meeting_Note_Insight__c();
+
+                dmo.Strategy__c = prod.product_Id;
+                dmo.Product__c = relatedProduct.Id;
+                dmo.Sentiment__c = prod.sentiment;
+                dmo.Meeting_Note__c = String.isNotBlank(prod.meetingNote_Id)
+                    ? prod.meetingNote_Id
+                    : mn.Id;
+                dmo.Inisghts__c = prod.key_highlights;
+
+                mndllList.add(dmo);
+            }
+
+        } catch (Exception e) {
+            failedRecords.add(mn);
+            failedReasons.put(mn.Id, e.getMessage());
+            System.debug('Failed to process record: ' + mn.Id + ', Error: ' + e.getMessage());
+        }
+    }
+
+    if (!mndllList.isEmpty()) {
+        Database.SaveResult[] results = Database.insert(mndllList, false);
+
+        for (Integer i = 0; i < results.size(); i++) {
+            if (!results[i].isSuccess()) {
+                System.debug(
+                    'Failed to insert record: ' + mndllList[i] +
+                    ', Error: ' + results[i].getErrors()[0].getMessage()
+                );
+            }
+        }
+    }
+
+    if (!failedRecords.isEmpty()) {
+        System.debug('Failed records: ' + failedRecords);
+        System.debug('Failed reasons: ' + failedReasons);
+    }
+
+    return mndllList;
     }
 
     public class ProductFeedback {
