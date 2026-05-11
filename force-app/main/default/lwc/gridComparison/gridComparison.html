@@ -44,9 +44,10 @@
                         <lightning-button-group class="slds-m-right_small lightning-button-group-class">
                             <lightning-button label="By Grid" variant={byGridVariant} onclick={handleModeByGrid}></lightning-button>
                             <lightning-button label="By Agreement" variant={byAgreementVariant} onclick={handleModeByAgreement}></lightning-button>
-                            <lightning-button label="Active Grid" variant={activeGridVariant} disabled={isActiveGridDisabled} onclick={handleModeByActiveGrid} onmouseenter={handleActiveGridMouseEnter} onmouseleave={handleActiveGridMouseLeave}></lightning-button>
+                            <lightning-button label="Active Grid" variant={activeGridVariant} disabled={isActiveGridDisabled} onclick={handleModeByActiveGrid}></lightning-button>
                         </lightning-button-group>
-                        <template if:true={showActiveGridTooltip}>
+                        <template if:true={activeGridTitle}>
+                            <div class="active-grid-hover-zone"></div>
                             <div class="active-grid-tooltip" role="tooltip">{activeGridTitle}</div>
                         </template>
                     </div>

@@ -48,9 +48,8 @@ export default class GridComparison extends LightningElement {
     @track selectedLabel   = null;
     @track mode            = MODE_GRID;
     @track errors          = [];
-    @track isLoading              = false;
-    @track activeGridInfo         = null;
-    @track showActiveGridTooltip  = false;
+    @track isLoading      = false;
+    @track activeGridInfo = null;
 
     // ── Overview state ──
     @track overviewRows = [];
@@ -104,9 +103,6 @@ export default class GridComparison extends LightningElement {
         this.searchOptions = [];
         this.loadAgreementOptions();
     }
-
-    handleActiveGridMouseEnter() { this.showActiveGridTooltip = !!this.activeGridTitle; }
-    handleActiveGridMouseLeave() { this.showActiveGridTooltip = false; }
 
     handleModeByActiveGrid() {
         if (this.mode === MODE_ACTIVE_GRID || this.activeGridInfo?.status !== STATUS_HAS_ACTIVE) return;

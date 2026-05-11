@@ -42,7 +42,7 @@
     display: flex;
     gap: 10px;
     align-items: flex-end;
-    padding: 0px 20px 15px 20px;
+    padding: 15px 20px;
 }
 .lookup-wrapper {
     display: flex;
@@ -68,7 +68,17 @@ c-multi-select-search-list {
     position: relative;
     display: inline-flex;
 }
+.active-grid-hover-zone {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 7rem;
+    cursor: default;
+    z-index: 1;
+}
 .active-grid-tooltip {
+    display: none;
     position: absolute;
     bottom: calc(100% + 6px);
     right: 0;
@@ -80,6 +90,9 @@ c-multi-select-search-list {
     white-space: nowrap;
     pointer-events: none;
     z-index: 200;
+}
+.active-grid-hover-zone:hover ~ .active-grid-tooltip {
+    display: block;
 }
 
 /* ── Table base (mirrors gridDetailTable) ── */
