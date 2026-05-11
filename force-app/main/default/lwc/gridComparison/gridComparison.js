@@ -1,5 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
-import { reduceError, parsePct, parseAum, fmtAmt, fmtDiffAmt, wgtAvgAndAmt } from 'c/gridBuilderUtils';
+import { LABELS, reduceError, parsePct, parseAum, fmtAmt, fmtDiffAmt, wgtAvgAndAmt } from 'c/gridBuilderUtils';
 import getComparisonData           from '@salesforce/apex/GridComparisonController.getComparisonData';
 import searchGrids                 from '@salesforce/apex/GridComparisonController.searchGrids';
 import searchAgreements            from '@salesforce/apex/GridComparisonController.searchAgreements';
@@ -76,8 +76,8 @@ export default class GridComparison extends LightningElement {
     get activeGridVariant()      { return this.mode === MODE_ACTIVE_GRID ? 'brand' : 'neutral'; }
     get isActiveGridDisabled()   { return this.activeGridInfo?.status !== STATUS_HAS_ACTIVE; }
     get activeGridTitle() {
-        if (this.activeGridInfo?.status === STATUS_IS_CURRENT) return 'Current Grid is the Active Grid of the Agreement';
-        if (this.activeGridInfo?.status === STATUS_NONE)       return 'No Active Grid found on current Agreement';
+        if (this.activeGridInfo?.status === STATUS_IS_CURRENT) return LABELS.Grid_Comparison_ActiveGridIsCurrent;
+        if (this.activeGridInfo?.status === STATUS_NONE)       return LABELS.Grid_Comparison_NoActiveGrid;
         return '';
     }
     get showAllVariant()         { return this.discrepanciesOnly ? 'neutral' : 'brand'; }

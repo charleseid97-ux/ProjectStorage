@@ -333,6 +333,20 @@
         <value>Automatic Update</value>
     </labels>
     <labels>
+        <fullName>Grid_Comparison_ActiveGridIsCurrent</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Comparison - Active Grid Is Current Grid tooltip</shortDescription>
+        <value>Current Grid is the Active Grid of the Agreement</value>
+    </labels>
+    <labels>
+        <fullName>Grid_Comparison_NoActiveGrid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Grid Comparison - No Active Grid tooltip</shortDescription>
+        <value>No Active Grid found on current Agreement</value>
+    </labels>
+    <labels>
         <fullName>Grid_Builder</fullName>
         <language>en_US</language>
         <protected>false</protected>
