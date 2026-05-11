@@ -1,0 +1,94 @@
+<!--
+  @description       :
+  @author            : SILA Nicolas
+  @group             :
+  @last modified on  : 03-12-2024
+  @last modified by  : Khadija EL GDAOUNI
+-->
+ 
+<template>
+ 
+    <template if:true={showSpinner}>
+       
+        <div class="slds-spinner_container" style="position: fixed;">
+            <lightning-spinner variant="brand" alternative-text="Loading" size="medium"></lightning-spinner>
+        </div>
+     </template>
+ 
+   
+    <lightning-record-edit-form record-type-id={recordTypeId} object-api-name="Case">
+       
+        <div class="slds-grid" style="padding-left: 25%;width:75%;">
+           
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-docked-composer__body_form" style="background-color:white;">
+                    <!-- Client Information -->
+                    <div class="form-section">
+                        <h3 class="slds-section-title--divider">Client Information</h3>
+                        <div class="slds-col slds-size_1-of-1">
+                            <lightning-input-field field-name="AccountId" required></lightning-input-field>
+                        </div>
+                    </div>
+                    
+                    <!-- Request Information -->
+                    <div class="form-section">
+                        <h3 class="slds-section-title--divider">Request Information</h3>
+                        <div class="slds-grid slds-wrap slds-gutters">
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-input-field field-name="Request_type__c" value={requestType} onchange={handleRequestType}></lightning-input-field>
+                            </div>
+                            
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-input-field field-name="ESGThemes__c"></lightning-input-field>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-input-field field-name="Due_date__c" required></lightning-input-field>
+                            </div>
+                            <template if:true={showFunds}>
+                                <div class="slds-col slds-size_1-of-2">
+                                                <c-multi-select-search-list  is-translation-component="true" pill-icon="custom:custom5" diplay-pills="true"  data-id="FundId" label="Funds" options={funds} value={selectedFunds} onchange={handleProducts}>
+                                                </c-multi-select-search-list>
+                                            
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning-input-field field-name="AssetClass__c"></lightning-input-field>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+ 
+                        <!-- Description Section -->
+                        <div class="form-section">
+                            <h3 class="slds-section-title--divider">Description</h3>
+                            <div class="slds-grid slds-wrap slds-gutters">
+                                <div class="slds-col slds-size_1-of-1">
+                                    <lightning-input-field field-name="Subject" 
+                                        required></lightning-input-field>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1">
+                                    <lightning-input-field required field-name="DescriptionV2__c"></lightning-input-field>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <c-file-upload-multi-l-w-c class="file-selector-large" multiple-files="false" file-prefix="Description_" is-source="false" not-required = "true"
+                                    ></c-file-upload-multi-l-w-c>
+                            </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="slds-grid slds-grid_align-center slds-var-p-top_small slds-docked-composer__footer">
+                    <div class="slds-col">
+                        <lightning-button icon-name="utility:skip_back" variant="brand" name="cancel" label="Cancel"
+                            class="slds-var-m-left_x-small" onclick={handleCancel}>
+                        </lightning-button>
+                    </div>
+                    <div class="slds-col">
+                        <lightning-button icon-name="utility:save" variant="brand" onclick={handleSubmit}
+                            label="Submit Request" class="slds-var-m-left_x-small" >
+                        </lightning-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </lightning-record-edit-form>
+   
+</template>
