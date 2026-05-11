@@ -21,6 +21,7 @@ export default class FileUploadMultiLWC extends LightningElement {
   @api filePrefix;
   @api isSource;
   @api isPublication;
+  @api notRequired = false;
   
   handleFinishFlow() {
     const navigateNextEvent = new FlowNavigationFinishEvent();
@@ -61,7 +62,7 @@ export default class FileUploadMultiLWC extends LightningElement {
   }
   
   @api uploadFiles(parentRecordId) {
-    if (this.filesData.length === 0) {
+    if (this.filesData.length === 0 && !this.notRequired) {
       this.showToast("Error", "error", "Please select files first");
       return;
     }
