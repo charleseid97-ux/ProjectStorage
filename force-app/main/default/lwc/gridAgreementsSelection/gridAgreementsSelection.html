@@ -157,12 +157,25 @@
                 <!-- Sales Owner -->
                 <lightning-record-picker label="Sales Owner"
                                         object-api-name="User"
-                                        record-id={salesOwnerId}
+                                        value={salesOwnerId}
                                         filter={salesOwnerFilter}
                                         onchange={handleSalesOwnerChange}
                                         placeholder="Search Users..."
                                         disabled={isSalesOwnerDisabled}>
                 </lightning-record-picker>
+
+                <!-- Next Review Date -->
+                <lightning-input type="date"
+                                 label="Next Review Date"
+                                 value={agNextReviewDate}
+                                 onchange={handleAgNextReviewDate}>
+                </lightning-input>
+
+                <!-- Business Background -->
+                <lightning-textarea label="Business Background"
+                                    value={agBusinessBackground}
+                                    onchange={handleAgBusinessBackground}>
+                </lightning-textarea>
 
                 <div class="additional-fields">
                     <!-- AG12: Other Fees -->
