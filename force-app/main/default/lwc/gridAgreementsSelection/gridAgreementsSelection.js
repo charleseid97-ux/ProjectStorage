@@ -176,9 +176,10 @@ export default class GridAgreementsSelection extends LightningElement {
         const hasDate           = this.agStartDate != null;
         const hasTeam           = !this.showTeamPicker || !!this.selectedTeam;
         const hasMeta           = !!this.agKind && !!this.agType;
-        const hasThreshCcy      = !this.isThreshAboveZero || !!this.agThreshCcy;
-        const hasSingleRuleGrid = !this.isSingleRule || !!this.selectedSingleRuleGrid;
-        return !(hasAgreements && hasDate && hasTeam && hasMeta && hasThreshCcy && hasSingleRuleGrid) || this.isEndDateBeforeStartDate;
+        const hasThreshCcy          = !this.isThreshAboveZero || !!this.agThreshCcy;
+        const hasSingleRuleGrid     = !this.isSingleRule || !!this.selectedSingleRuleGrid;
+        const hasBusinessBackground = !this.agNextReviewDate || !!this.agBusinessBackground;
+        return !(hasAgreements && hasDate && hasTeam && hasMeta && hasThreshCcy && hasSingleRuleGrid && hasBusinessBackground) || this.isEndDateBeforeStartDate;
     }
 
     get showLoadPreviousToggle()    { return !this.hasDraftGrid && this.hasExistingGrid; }
@@ -199,7 +200,8 @@ export default class GridAgreementsSelection extends LightningElement {
         }
         return { criteria };
     }
-    get isThreshCcyDisabled()   { return !this.isThreshAboveZero; }
+    get isBusinessBackgroundRequired() { return !!this.agNextReviewDate; }
+    get isThreshCcyDisabled()          { return !this.isThreshAboveZero; }
     get toggleLabel()           { return this.isAutoGridUpdate ? this.labels.UI_On : this.labels.UI_Off; }
 
     @wire(getGridPicklistOptions)
