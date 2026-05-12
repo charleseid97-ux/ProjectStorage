@@ -52,6 +52,7 @@ export default class GridAgreementsSelection extends LightningElement {
     @track typeOptions = [];
     @track ccyOptions  = [];
     @track salesOwnerId = null;
+    _profileLoaded = false;
 
     // ── AG data fields ──
     @track agKind           = '';    // AG2 — Kind__c
@@ -61,8 +62,10 @@ export default class GridAgreementsSelection extends LightningElement {
     @track agEndDate        = '';    // AG6 — EndDate__c
     @track agThreshold      = null;  // AG7 — ThresholdAmount__c
     @track agThreshCcy      = '';    // AG8 — ThresholdAmountCurrency__c
-    @track agOtherFees      = false; // AG9 — OtherFees__c
-    @track agComment        = '';    // AG10 — Comment__c
+    @track agOtherFees          = false; // AG9 — OtherFees__c
+    @track agComment            = '';    // AG10 — Comment__c
+    @track agNextReviewDate     = null;  // NextReviewDate__c
+    @track agBusinessBackground = '';    // BusinessBackground__c
 
     @track singleRuleGridOptions = [];
     @track selectedSingleRuleGrid = null;
@@ -77,9 +80,11 @@ export default class GridAgreementsSelection extends LightningElement {
         this.agEndDate        = val.endDate || '';
         this.agThreshold      = val.thresholdAmount;
         this.agThreshCcy      = val.thresholdAmountCurrency || '';
-        this.agOtherFees      = val.otherFees ?? false;
-        this.agComment        = val.comment || '';
-        this.salesOwnerId     = val.salesOwnerId || null;
+        this.agOtherFees          = val.otherFees ?? false;
+        this.agComment            = val.comment || '';
+        this.salesOwnerId         = val.salesOwnerId || null;
+        this.agNextReviewDate     = val.nextReviewDate || null;
+        this.agBusinessBackground = val.businessBackground || '';
         this.selectedSingleRuleGrid = val.singleRuleGrid || null;
         if (this.agType === 'SINGLE RULE') {
             this.loadSingleRuleGridOptions();
@@ -225,11 +230,19 @@ export default class GridAgreementsSelection extends LightningElement {
     }
 
     async loadUserProfile() {
+        const prevSalesOwnerId = this.salesOwnerId;
         try {
             this.userProfile = await getCurrentUserProfile();
         } catch (error) {
             console.error('Failed to load user profile', error);
             this.userProfile = null;
+        }
+        this._profileLoaded = true;
+        if (prevSalesOwnerId) {
+            // Filter changed — clear then restore so lightning-record-picker re-displays the value with the stable filter
+            this.salesOwnerId = null;
+            // eslint-disable-next-line @lwc/lwc/no-async-operation
+            Promise.resolve().then(() => { this.salesOwnerId = prevSalesOwnerId; });
         }
     }
 
@@ -393,7 +406,10 @@ export default class GridAgreementsSelection extends LightningElement {
         this.notifyValidity();
     }
     handleSalesOwnerChange(e) {
-        this.salesOwnerId = e.detail?.recordId || null;
+        const newId = e.detail?.recordId || null;
+        // Ignore filter-driven null resets that fire before the profile has loaded
+        if (!newId && !this._profileLoaded) return;
+        this.salesOwnerId = newId;
         this.notifyValidity();
     }
     handleSingleRuleGridChange(e) {
@@ -412,8 +428,10 @@ export default class GridAgreementsSelection extends LightningElement {
     handleAgEndDate(e)        { this.agEndDate = e.detail.value; this.notifyValidity(); }
     handleAgThreshold(e)      { this.agThreshold = e.detail.value; if (!this.isThreshAboveZero) { this.agThreshCcy = ''; } this.notifyValidity(); }
     handleAgThreshCcy(e)      { this.agThreshCcy = e.detail.value; this.notifyValidity(); }
-    handleAgOtherFees(e)      { this.agOtherFees = e.target.checked; }
-    handleAgComment(e)        { this.agComment = e.detail.value; }
+    handleAgOtherFees(e)          { this.agOtherFees = e.target.checked; }
+    handleAgComment(e)            { this.agComment = e.detail.value; }
+    handleAgNextReviewDate(e)     { this.agNextReviewDate = e.detail.value || null; }
+    handleAgBusinessBackground(e) { this.agBusinessBackground = e.detail.value; }
 
     handleNext() {
         let derivedTeam = null;
@@ -442,7 +460,9 @@ export default class GridAgreementsSelection extends LightningElement {
                 gridName:                this.gridNamePreview,
                 loadPreviousGrid:        this.loadPreviousGrid,
                 singleRuleGrid:          this.selectedSingleRuleGrid,
-                salesOwnerId:            this.salesOwnerId
+                salesOwnerId:            this.salesOwnerId,
+                nextReviewDate:          this.agNextReviewDate,
+                businessBackground:      this.agBusinessBackground
             }
         }));
     }
