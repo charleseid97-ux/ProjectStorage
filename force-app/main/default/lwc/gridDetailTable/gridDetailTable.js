@@ -35,7 +35,7 @@ export default class GridDetailTable extends LightningElement {
     rows = [];
     errors = [];
     isLoading = false;
-    showActiveOnly = false;
+    showActiveOnly = true;
     _recordId;
     sheetJsLoaded  = false;
     sheetJsReady   = false;
