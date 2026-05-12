@@ -9,7 +9,8 @@
     OR(
         ISPICKVAL(ThresholdMode__c, &quot;&quot;),
         ISPICKVAL(ThresholdAmountCurrency__c, &quot;&quot;)
-    )
+    ),
+				NOT($User.BypassValidationRules__c)
 )</errorConditionFormula>
     <errorMessage>Threshold Mode and Threshold Currency are required when a Threshold Amount is specified.</errorMessage>
 </ValidationRule>

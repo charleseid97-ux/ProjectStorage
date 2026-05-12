@@ -11,8 +11,13 @@ public with sharing class GridTriggerHandler implements ITriggerHandler {
 
     public static Boolean triggerDisabled = false;
 
-    public void BeforeInsert(List<SObject> newItems) { }
-    public void BeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) { }
+    public void BeforeInsert(List<SObject> newItems) {
+        syncReviewedFlag((List<Grid__c>) newItems, null);
+    }
+
+    public void BeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
+        syncReviewedFlag((List<Grid__c>) newItems.values(), (Map<Id, Grid__c>) oldItems);
+    }
     public void BeforeDelete(Map<Id, SObject> oldItems) { }
 
     public void AfterInsert(Map<Id, SObject> newItems) {
@@ -69,5 +74,18 @@ public with sharing class GridTriggerHandler implements ITriggerHandler {
         }
 
         if (!agreementsToUpdate.isEmpty()) update agreementsToUpdate;
+    }
+
+    private static void syncReviewedFlag(List<Grid__c> newGrids, Map<Id, Grid__c> oldGrids) {
+        for (Grid__c grid : newGrids) {
+            Boolean reviewedChanged = oldGrids == null || grid.GridIsReviewed__c != oldGrids.get(grid.Id).GridIsReviewed__c;
+            Boolean dateChanged     = oldGrids == null || grid.NextReviewDate__c != oldGrids.get(grid.Id).NextReviewDate__c;
+
+            if (grid.GridIsReviewed__c && reviewedChanged) {
+                grid.NextReviewDate__c = null;
+            } else if (grid.NextReviewDate__c != null && dateChanged) {
+                grid.GridIsReviewed__c = false;
+            }
+        }
     }
 }

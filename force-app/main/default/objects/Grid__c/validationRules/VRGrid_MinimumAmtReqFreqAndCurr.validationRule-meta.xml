@@ -9,7 +9,8 @@
     OR(
         ISPICKVAL(MinimumAmountFrequency__c, &quot;&quot;),
         ISPICKVAL(MinimumAmountCurrency__c, &quot;&quot;)
-    )
+    ),
+				NOT($User.BypassValidationRules__c)
 )</errorConditionFormula>
     <errorMessage>Minimum Amount Frequency and Currency are required when a Minimum Amount is specified.</errorMessage>
 </ValidationRule>

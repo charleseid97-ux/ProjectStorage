@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VRGrid_NextReviewDateReqBusinessBG</fullName>
+    <active>true</active>
+    <description>Requires BusinessBackground__c to be filled whenever NextReviewDate__c is populated.</description>
+    <errorConditionFormula>AND(
+    NOT(ISBLANK(NextReviewDate__c)),
+    ISBLANK(BusinessBackground__c),
+				NOT($User.BypassValidationRules__c)
+)</errorConditionFormula>
+    <errorMessage>Please fill in the Business Background when a Next Review Date is provided.</errorMessage>
+</ValidationRule>
