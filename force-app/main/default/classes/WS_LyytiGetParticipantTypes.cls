@@ -7,13 +7,7 @@ public class WS_LyytiGetParticipantTypes extends RestCallout {
 
     public Map<String, String> participantTypeNameById = new Map<String, String>();
 
-    private String currentField;
-    private Boolean inResultsObject = false;
-    private Boolean inTypeObj = false;
-    private String currentTypeId;
-    private String currentTypeName;
-
-    public WS_GetParticipantTypes(Campaign recordToTreat) {
+    public WS_LyytiGetParticipantTypes(Campaign recordToTreat) {
         this.recordToTreat = recordToTreat;
         this.timestamp = System.now().getTime() / 1000;
         this.publicKey  = LyytiCredentials__mdt.getInstance('Authentication').PublicKey__c;
@@ -47,6 +41,7 @@ public class WS_LyytiGetParticipantTypes extends RestCallout {
         this.timestamp = System.now().getTime() / 1000;
 
         HttpRequest req = new HttpRequest();
+
         req.setHeader('Accept', 'application/json; charset=utf-8');
         req.setHeader('Content-Type', 'application/json');
         req.setHeader(
@@ -72,61 +67,72 @@ public class WS_LyytiGetParticipantTypes extends RestCallout {
         participantTypeNameById.clear();
 
         if (response.getStatusCode() != 200) {
-            System.debug('WS_GetParticipantTypes status: ' + response.getStatusCode() + ' ' + response.getStatus());
+            System.debug(
+                'WS_LyytiGetParticipantTypes status: ' +
+                response.getStatusCode() + ' ' + response.getStatus()
+            );
             return;
         }
 
-        JSONParser p = JSON.createParser(response.getBody());
+        Map<String, Object> body =
+            (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
 
-        while (p.nextToken() != null) {
-            JSONToken t = p.getCurrentToken();
+        if (body == null || !body.containsKey('results')) {
+            return;
+        }
 
-            if (t == JSONToken.FIELD_NAME) {
-                currentField = p.getText();
-                continue;
-            }
+        Map<String, Object> results =
+            (Map<String, Object>) body.get('results');
 
-            if (!inResultsObject && currentField == 'results' && t == JSONToken.START_OBJECT) {
-                inResultsObject = true;
-                continue;
-            }
+        for (String resultKey : results.keySet()) {
+            Map<String, Object> typeData =
+                (Map<String, Object>) results.get(resultKey);
 
-            if (inResultsObject && !inTypeObj && t == JSONToken.START_OBJECT) {
-                inTypeObj = true;
-                currentTypeId = null;
-                currentTypeName = null;
-                continue;
-            }
+            String typeId = String.valueOf(typeData.get('id'));
+            String typeLabel = getDescriptionLabel(typeData);
 
-            if (inTypeObj && currentField == 'id' && t == JSONToken.VALUE_STRING) {
-                currentTypeId = p.getText();
-                continue;
-            }
-
-            if (inTypeObj && currentField == 'name' && t == JSONToken.VALUE_STRING) {
-                currentTypeName = p.getText();
-                continue;
-            }
-
-            if (inTypeObj && t == JSONToken.END_OBJECT) {
-                if (String.isNotBlank(currentTypeId) && String.isNotBlank(currentTypeName)) {
-                    participantTypeNameById.put(currentTypeId, currentTypeName);
-                }
-                inTypeObj = false;
-                continue;
-            }
-
-            if (inResultsObject && !inTypeObj && t == JSONToken.END_OBJECT) {
-                break;
+            if (String.isNotBlank(typeId) && String.isNotBlank(typeLabel)) {
+                participantTypeNameById.put(typeId, typeLabel);
             }
         }
+
+        System.debug('participantTypeNameById = ' + participantTypeNameById);
+    }
+
+    private static String getDescriptionLabel(Map<String, Object> typeData) {
+        if (typeData == null || !typeData.containsKey('description')) {
+            return null;
+        }
+
+        Map<String, Object> description =
+            (Map<String, Object>) typeData.get('description');
+
+        if (description == null) {
+            return null;
+        }
+
+        if (description.containsKey('fr') && description.get('fr') != null) {
+            return String.valueOf(description.get('fr'));
+        }
+
+        if (description.containsKey('en') && description.get('en') != null) {
+            return String.valueOf(description.get('en'));
+        }
+
+        for (String lang : description.keySet()) {
+            if (description.get(lang) != null) {
+                return String.valueOf(description.get(lang));
+            }
+        }
+
+        return null;
     }
 
     public void sendInDataToExternalService() {
         try {
             callEndPoint(setHeaderAndEndpoint());
         } catch (Exception e) {
-            System.debug('WS_GetParticipantTypes callout error: ' + e.getMessage());
+            System.debug('WS_LyytiGetParticipantTypes callout error: ' + e.getMessage());
         }
     }
 }

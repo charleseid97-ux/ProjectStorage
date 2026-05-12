@@ -272,10 +272,7 @@ public with sharing class SM016_CampaignMemberService {
 
                     for(CampaignMember cm :c.CampaignMembers){
                         String cmEmail = (cm.Email == null) ? null : cm.Email.trim().toLowerCase();
-                        if (cmEmail != null && sender.idEmailMap.containsKey(cmEmail) && cm.LyytiId__c == null) {
-                            cmToUpdate.add(new CampaignMember(Id = cm.Id, LyytiId__c = sender.idEmailMap.get(cmEmail)));
-                        }
-
+                    
                         if (cmEmail != null && sender.idEmailMap.containsKey(cmEmail)) {
                             CampaignMember cmUpdate = new CampaignMember(Id = cm.Id);
 
