@@ -61,8 +61,10 @@ export default class GridAgreementsSelection extends LightningElement {
     @track agEndDate        = '';    // AG6 — EndDate__c
     @track agThreshold      = null;  // AG7 — ThresholdAmount__c
     @track agThreshCcy      = '';    // AG8 — ThresholdAmountCurrency__c
-    @track agOtherFees      = false; // AG9 — OtherFees__c
-    @track agComment        = '';    // AG10 — Comment__c
+    @track agOtherFees          = false; // AG9 — OtherFees__c
+    @track agComment            = '';    // AG10 — Comment__c
+    @track agNextReviewDate     = null;  // NextReviewDate__c
+    @track agBusinessBackground = '';    // BusinessBackground__c
 
     @track singleRuleGridOptions = [];
     @track selectedSingleRuleGrid = null;
@@ -77,9 +79,11 @@ export default class GridAgreementsSelection extends LightningElement {
         this.agEndDate        = val.endDate || '';
         this.agThreshold      = val.thresholdAmount;
         this.agThreshCcy      = val.thresholdAmountCurrency || '';
-        this.agOtherFees      = val.otherFees ?? false;
-        this.agComment        = val.comment || '';
-        this.salesOwnerId     = val.salesOwnerId || null;
+        this.agOtherFees          = val.otherFees ?? false;
+        this.agComment            = val.comment || '';
+        this.salesOwnerId         = val.salesOwnerId || null;
+        this.agNextReviewDate     = val.nextReviewDate || null;
+        this.agBusinessBackground = val.businessBackground || '';
         this.selectedSingleRuleGrid = val.singleRuleGrid || null;
         if (this.agType === 'SINGLE RULE') {
             this.loadSingleRuleGridOptions();
@@ -363,9 +367,7 @@ export default class GridAgreementsSelection extends LightningElement {
             const result = await getAvailableGrids({ countriesOfDistribution, agreementNames });
             this.singleRuleGridOptions = (result?.gridOptions || []).map(o => ({ label: o.label, value: o.label }));
             // Restore previously selected grid if still available; otherwise clear
-            this.selectedSingleRuleGrid = prevLabel
-                ? (this.singleRuleGridOptions.find(o => o.label === prevLabel) || null)
-                : null;
+            this.selectedSingleRuleGrid = prevLabel ? (this.singleRuleGridOptions.find(o => o.label === prevLabel) || null) : null;
         } catch (e) {
             this.singleRuleGridOptions = [];
             this.selectedSingleRuleGrid = null;
@@ -412,8 +414,10 @@ export default class GridAgreementsSelection extends LightningElement {
     handleAgEndDate(e)        { this.agEndDate = e.detail.value; this.notifyValidity(); }
     handleAgThreshold(e)      { this.agThreshold = e.detail.value; if (!this.isThreshAboveZero) { this.agThreshCcy = ''; } this.notifyValidity(); }
     handleAgThreshCcy(e)      { this.agThreshCcy = e.detail.value; this.notifyValidity(); }
-    handleAgOtherFees(e)      { this.agOtherFees = e.target.checked; }
-    handleAgComment(e)        { this.agComment = e.detail.value; }
+    handleAgOtherFees(e)          { this.agOtherFees = e.target.checked; }
+    handleAgComment(e)            { this.agComment = e.detail.value; }
+    handleAgNextReviewDate(e)     { this.agNextReviewDate = e.detail.value || null; }
+    handleAgBusinessBackground(e) { this.agBusinessBackground = e.detail.value; }
 
     handleNext() {
         let derivedTeam = null;
@@ -442,7 +446,9 @@ export default class GridAgreementsSelection extends LightningElement {
                 gridName:                this.gridNamePreview,
                 loadPreviousGrid:        this.loadPreviousGrid,
                 singleRuleGrid:          this.selectedSingleRuleGrid,
-                salesOwnerId:            this.salesOwnerId
+                salesOwnerId:            this.salesOwnerId,
+                nextReviewDate:          this.agNextReviewDate,
+                businessBackground:      this.agBusinessBackground
             }
         }));
     }

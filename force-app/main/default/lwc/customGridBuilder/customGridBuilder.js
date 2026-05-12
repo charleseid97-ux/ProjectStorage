@@ -322,6 +322,8 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
             otherFees:               draftData.grid.OtherFees__c,
             comment:                 draftData.grid.Comment__c,
             salesOwnerId:            draftData.grid.SalesOwner__c,
+            nextReviewDate:          draftData.grid.NextReviewDate__c || null,
+            businessBackground:      draftData.grid.BusinessBackground__c || '',
             singleRuleGrid:          singleRule ? { label: singleRule, value: singleRule } : null
         };
     }
@@ -919,6 +921,8 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
             comment:                 event.detail?.comment,
             gridName:                event.detail?.gridName,
             salesOwnerId:            event.detail?.salesOwnerId,
+            nextReviewDate:          event.detail?.nextReviewDate || null,
+            businessBackground:      event.detail?.businessBackground || '',
             singleRuleGrid:          event.detail?.singleRuleGrid
         };
 

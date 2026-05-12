@@ -149,7 +149,7 @@ public with sharing class GridBuilderController {
     }
 
     private static DraftGridData buildGridData(Id gridId) {
-        Grid__c grid = [SELECT Id, Name, Kind__c, Type__c, AutomaticGridUpdate__c, StartDate__c, EndDate__c, ThresholdAmount__c, ThresholdAmountCurrency__c, OtherFees__c, Comment__c, SalesOwner__c, Tech_SingleRuleGridSelection__c
+        Grid__c grid = [SELECT Id, Name, Kind__c, Type__c, AutomaticGridUpdate__c, StartDate__c, EndDate__c, ThresholdAmount__c, ThresholdAmountCurrency__c, OtherFees__c, Comment__c, SalesOwner__c, NextReviewDate__c, BusinessBackground__c, Tech_SingleRuleGridSelection__c
                         FROM Grid__c
                         WHERE Id = :gridId LIMIT 1];
 

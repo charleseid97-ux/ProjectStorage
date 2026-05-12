@@ -2,11 +2,12 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>BusinessBackground__c</fullName>
     <description>Free-text field to capture the business context or rationale behind this grid. Included in review emails sent to management.</description>
+    <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
     <inlineHelpText>Describe the business context for this grid (e.g. client relationship background, special commercial conditions). This will appear in the review email.</inlineHelpText>
     <label>Business Background</label>
     <length>32768</length>
-    <trackHistory>false</trackHistory>
+    <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>
     <type>LongTextArea</type>
     <visibleLines>3</visibleLines>

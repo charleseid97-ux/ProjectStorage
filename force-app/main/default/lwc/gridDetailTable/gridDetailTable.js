@@ -35,7 +35,7 @@ export default class GridDetailTable extends LightningElement {
     rows = [];
     errors = [];
     isLoading = false;
-    showActiveOnly = false;
+    showActiveOnly = true;
     _recordId;
     sheetJsLoaded  = false;
     sheetJsReady   = false;
@@ -141,7 +141,7 @@ export default class GridDetailTable extends LightningElement {
         await exportGridDetailsExcel({
             component: this,
             agreementRegion: this.agreementRegion,
-            rows: this.rows,
+            rows: (this.rows || []).filter(r => !r.isExpired),
             source: 'detail',
             labels: this.labels
         });

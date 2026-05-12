@@ -104,6 +104,8 @@ export default class GridValidationPage extends LightningElement {
             OtherFees__c:                this.gridRequestData.otherFees               ?? false,
             Comment__c:                  this.gridRequestData.comment                 || null,
             SalesOwner__c:               this.gridRequestData.salesOwnerId            || null,
+            NextReviewDate__c:           this.gridRequestData.nextReviewDate           || null,
+            BusinessBackground__c:       this.gridRequestData.businessBackground       || null,
             Tech_SingleRuleGridSelection__c: this.gridRequestData.singleRuleGrid?.label || null
         };
 

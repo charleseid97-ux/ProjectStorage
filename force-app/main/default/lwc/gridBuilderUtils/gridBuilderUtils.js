@@ -599,8 +599,8 @@ function buildGridDetailsExportColumns(label) {
         { key: 'name',           label: label('Grid_SimExport_Col_FundName') },
         { key: 'shareClassName', label: label('Grid_SimExport_Col_ShareClass') },
         { key: 'isin',           label: label('Grid_SimExport_Col_ISIN') },
-        { key: 'effMgtFee',      label: label('Grid_SimExport_Col_EffMgtFees'), numeric: true, numFormat: '0.000%' },
-        { key: 'rebateRate',     label: label('Grid_SimExport_Col_Rebate'),     numeric: true, numFormat: '0.000%' }
+        { key: 'effMgtFee',      label: label('Grid_SimExport_Col_EffMgtFees'), numeric: true, numFormat: '0.00%' },
+        { key: 'rebateRate',     label: label('Grid_SimExport_Col_Rebate'),     numeric: true, numFormat: '0.00%' }
     ];
 }
 
@@ -694,9 +694,7 @@ export async function exportGridExcel({ rows, columns, sheetName = 'Export', fil
     if (header) {
         header.split('\n').forEach((line, i) => {
             aoa.push([line, ...Array(numCols - 1).fill(null)]);
-            styles[`${i},0`] = i === 0
-                ? { alignment: { wrapText: true, vertical: 'center', horizontal: 'center' }, font: { bold: true, sz: 13 } }
-                : textStyle;
+            styles[`${i},0`] = i === 0 ? { alignment: { wrapText: true, vertical: 'center', horizontal: 'center' }, font: { bold: true, sz: 13 } } : textStyle;
             merges.push({ s: { r: i, c: 0 }, e: { r: i, c: numCols - 1 } });
         });
         aoa.push(Array(numCols).fill(null)); // blank separator
