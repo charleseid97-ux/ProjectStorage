@@ -1,0 +1,54 @@
+.table-container {
+    border-radius: 12px;
+    border: 1px solid #d8dde6;
+    background: white;
+}
+
+.table-header {
+    font-weight: 600;
+    color: #444;
+    border-bottom: 1px solid #e5e5e5;
+    background: #f8f9fb;
+    border-radius: 8px 8px 0 0;
+}
+
+.speaker-row {
+    border: 1px solid #ecebea;
+    border-radius: 10px;
+    background: #fff;
+    transition: background 0.2s ease;
+}
+
+.speaker-row:hover {
+    background: #fafaf9;
+}
+
+.speaker-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #f3f3f3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.speaker-name {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.products-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.product-pill {
+    background: #f4f6f9;
+    border: 1px solid #d8dde6;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 12px;
+    color: #16325c;
+}

@@ -1,0 +1,103 @@
+.parentBox{
+    border-radius: 12px;
+    border: 1px solid #E5E5E5;
+    background: linear-gradient(90deg, rgba(17,24,39,0.06), rgba(46,134,171,0.06));
+}
+
+.parentTitle{
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 24px;
+    color: #111827;
+}
+
+.parentMeta .pill{
+    margin-right: 8px;
+}
+
+.parentDates{
+    margin-top: 10px;
+}
+
+.dateLine{
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    margin-top: 6px;
+}
+
+.dateLabel{
+    min-width: 48px;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #6B7280;
+}
+
+.dateValue{
+    font-size: 14px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.pill{
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #F3F4F6;
+    color: #111827;
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+.dayHeader{
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    color: #111827;
+    text-transform: none;
+    margin: 18px 0 10px 0;
+}
+
+.dayDivider{
+    height: 1px;
+    background: rgba(0,0,0,0.08);
+    margin: 10px 0 14px 0;
+}
+
+.sectionText{
+    color: #111827;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.speakersBlock{
+    border-top: 1px solid rgba(0,0,0,0.06);
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+.speakersTitle{
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #6B7280;
+    margin-bottom: 6px;
+    font-weight: 800;
+}
+
+.speakerLine{
+    font-size: 13px;
+    color: #111827;
+    margin-top: 4px;
+}
+
+.speakerName{
+    font-weight: 800;
+    margin-right: 6px;
+}
+
+.speakerProducts{
+    color: #374151;
+}

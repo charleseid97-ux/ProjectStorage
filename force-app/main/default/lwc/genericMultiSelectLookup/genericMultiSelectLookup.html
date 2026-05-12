@@ -1,0 +1,46 @@
+<template>
+    <!-- If required inputs are missing, show an explicit message (avoid infinite loading). -->
+    <template if:true={inputMissing}>
+        <div class="slds-box slds-theme_alert-texture slds-text-color_error">
+            Missing required inputs: objectApiName / labelFieldApiName / valueFieldApiName
+        </div>
+    </template>
+
+    <template if:false={inputMissing}>
+        <div class="slds-form-element">
+            <div class="slds-form-element__control">
+                <!-- Loading state -->
+                <template if:true={isLoading}>
+                    <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                </template>
+
+                <!-- Multi-select -->
+                <template if:false={isLoading}>
+                    <c-multi-select-search-list
+                        label={picklistLabel}
+                        options={options}
+                        value={selectedIds}
+                        onchange={handleMultiSelection}>
+                    </c-multi-select-search-list>
+                </template>
+            </div>
+
+            <!-- Selected pills -->
+            <div class="slds-m-top_x-small" style="max-height: 3rem;">
+                <lightning-pill-container
+                    items={selectedPills}
+                    onitemremove={handlePillRemove}
+                    is-collapsible="true"
+                    is-expanded="false">
+                </lightning-pill-container>
+            </div>
+
+            <!-- Optional error display -->
+            <template if:true={lastError}>
+                <div class="slds-m-top_small slds-text-color_error slds-text-body_small">
+                    {lastError}
+                </div>
+            </template>
+        </div>
+    </template>
+</template>

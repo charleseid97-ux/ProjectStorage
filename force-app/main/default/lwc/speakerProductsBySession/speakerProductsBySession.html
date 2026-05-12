@@ -1,0 +1,180 @@
+<template>
+    <template if:true={hasEventId}>
+        <lightning-card>
+            <!-- Custom header -->
+            <div class="slds-p-horizontal_small slds-p-top_small slds-grid slds-grid_vertical-align-center">
+                <h2 class="slds-text-heading_small">
+                    Speakers & Products
+                </h2>
+                <template if:true={canEditEvent}>    
+                    <lightning-button
+                        class="slds-m-left_small"
+                        label="Edit"
+                        icon-name="utility:edit"
+                        variant="neutral"
+                        onclick={openEdit}>
+                    </lightning-button>
+                </template>
+
+                <lightning-button-icon
+                    class="slds-m-left_x-small"
+                    icon-name="utility:refresh"
+                    alternative-text="Refresh"
+                    title="Refresh"
+                    onclick={refresh}
+                    variant="bare">
+                </lightning-button-icon>
+            </div>
+
+            <div class="slds-p-around_medium">
+
+                <template if:true={loading}>
+                    <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                </template>
+
+                <!-- Repeater affiché directement dans la page -->
+                <template if:true={isEditOpen}>
+                    <div class="inline-editor slds-m-bottom_medium">
+                        <div class="inline-editor__header slds-m-bottom_small">
+                            <h3 class="slds-text-heading_small">Edit Speakers & Products</h3>
+                        </div>
+
+                        <c-session-speaker-product-repeater
+                            parent-event-id={parentEventId}
+                            default-speaker-date={eventStartDate}
+                            debug="false"
+                            input-value={initialJson}
+                            show-time-slots={showSlots}
+                            onjsonchange={handleRepeaterJsonChange}>
+                        </c-session-speaker-product-repeater>
+
+                        <div class="slds-m-top_medium slds-text-align_right">
+                            <lightning-button
+                                variant="neutral"
+                                label="Cancel"
+                                onclick={closeEdit}>
+                            </lightning-button>
+
+                            <lightning-button
+                                class="slds-m-left_small"
+                                variant="brand"
+                                label="Save"
+                                onclick={saveEdit}>
+                            </lightning-button>
+                        </div>
+                        <template if:true={error}>
+                            <c-inline-error message={errorMessage}></c-inline-error>
+                        </template>
+                    </div>
+                </template>
+
+                <template if:true={hasData}>
+                    <template for:each={groups} for:item="g">
+                        <article
+                            key={g.speakerId}
+                            class="speaker-card slds-m-bottom_small"
+                        >
+                            <!-- LIGNE 1 : Speaker + language + duration + slot -->
+                            <div class="speaker-header slds-grid slds-grid_vertical-align-center slds-wrap">
+                                <!-- Speaker -->
+                                <div class="speaker-name slds-truncate" title={g.speakerName}>
+                                    <lightning-icon
+                                        icon-name="standard:user"
+                                        size="x-small"
+                                        class="slds-m-right_x-small">
+                                    </lightning-icon>
+                                    <span>{g.speakerName}</span>
+                                </div>
+
+                                <!-- Meta inline -->
+                                <div class="speaker-meta-inline">
+                                    <span class="meta-badge language-badge">
+                                        {g.speakerLanguage}
+                                    </span>
+
+                                    <template if:true={g.duration}>
+                                        <span class="meta-badge duration-badge">
+                                            <lightning-icon
+                                                icon-name="utility:hourglass"
+                                                size="xx-small"
+                                                class="meta-badge__icon">
+                                            </lightning-icon>
+                                            <span>{g.duration}</span>
+                                        </span>
+                                    </template>
+
+                                    <span class="meta-badge slot-badge">
+                                        <lightning-icon
+                                            icon-name="utility:clock"
+                                            size="xx-small"
+                                            class="meta-badge__icon">
+                                        </lightning-icon>
+                                        <span>{g.startTime} - {g.endTime} | {g.date}</span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- LIGNE 2 : Products -->
+                            <div class="slds-var-m-top_small slds-wrap">
+                                <template for:each={g.products} for:item="p">
+                                    <span
+                                        key={p.linkId}
+                                        class="slds-m-right_x-small slds-m-bottom_x-small slds-inline-block"
+                                    >
+                                        <lightning-pill label={p.productName}>
+                                            <lightning-icon
+                                                icon-name="standard:product"
+                                                size="x-small">
+                                            </lightning-icon>
+                                        </lightning-pill>
+                                    </span>
+                                </template>
+                            </div>
+
+                        </article>
+                    </template>
+                </template>
+
+                <template if:true={empty}>
+                    <div class="slds-text-color_weak">
+                        No speakers/products found for this event.
+                    </div>
+                </template>            
+
+                <template if:true={impactedCount}>
+                    <div class="slds-m-top_small slds-text-color_success">
+                        Updated {impactedCount} record(s).
+                    </div>
+                </template>
+            </div>
+        </lightning-card>
+    </template>
+
+    <template if:false={hasEventId}>
+        <lightning-card>
+            <div class="slds-p-horizontal_small slds-p-top_small slds-grid slds-grid_vertical-align-center">
+                <h2 class="slds-text-heading_small">Speakers & Products</h2>
+                <lightning-button
+                    class="slds-m-left_small"
+                    label="Edit"
+                    icon-name="utility:edit"
+                    variant="neutral"
+                    onclick={openEdit}
+                    disabled>
+                </lightning-button>
+                <lightning-button-icon
+                    class="slds-m-left_x-small"
+                    icon-name="utility:refresh"
+                    alternative-text="Refresh"
+                    title="Refresh"
+                    onclick={refresh}
+                    variant="bare"
+                    disabled>
+                </lightning-button-icon>
+            </div>
+            <div class="slds-p-around_medium slds-text-color_weak">
+                Provide an Event Id to view related speakers and products.
+            </div>
+        </lightning-card>
+    </template>
+</template>

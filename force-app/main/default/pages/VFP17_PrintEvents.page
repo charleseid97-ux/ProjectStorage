@@ -1,0 +1,373 @@
+<apex:page controller="VFC17_PrintEvents"
+           showHeader="false"
+           sidebar="false"
+           standardStylesheets="false"
+           lightningStylesheets="true"
+           docType="html-5.0">
+
+    <apex:slds />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Salesforce Sans", Arial, sans-serif;
+            background: #f4f6f9;
+            font-size: 12px;
+            color: #181818;
+        }
+
+        .page-shell {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 12px;
+        }
+
+        .header {
+            padding: 14px 18px;
+            background: linear-gradient(135deg, #0176d3, #0b5cab);
+            color: #fff;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            padding: 12px 16px;
+            align-items: end;
+        }
+
+        .filter {
+            flex: 1 1 200px;
+        }
+
+        .filter label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #374151;
+        }
+
+        input,
+        select {
+            width: 100%;
+            height: 34px;
+            border-radius: 8px;
+            border: 1px solid #d8dde6;
+            padding: 0 8px;
+            box-sizing: border-box;
+            background: #fff;
+        }
+
+        .btn {
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary input {
+            background: #0176d3;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 12px;
+        }
+
+        .btn-secondary {
+            background: #eef4ff;
+            color: #0176d3;
+            border: 1px solid #c9ddff;
+        }
+
+        .agenda {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 12px;
+        }
+
+        .dayGroup {
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .dayHeader {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: #f3f4f6;
+            font-weight: 700;
+            color: #111827;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .eventRow {
+            display: grid;
+            grid-template-columns: 120px 130px 18px 1fr;
+            gap: 10px;
+            padding: 7px 12px;
+            border-bottom: 1px solid #f1f3f5;
+            align-items: center;
+        }
+
+        .eventRow:last-child {
+            border-bottom: none;
+        }
+
+        .timeCol {
+            font-weight: 600;
+            color: #374151;
+            white-space: nowrap;
+        }
+
+        .tzCol {
+            color: #6b7280;
+            font-size: 11px;
+            white-space: nowrap;
+        }
+
+        .dotCol {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .eventDot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 0 2px #fff, 0 0 0 3px rgba(0,0,0,0.08);
+        }
+
+        .line {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            min-width: 0;
+            width: 100%;
+        }
+
+        .titleLink {
+            font-weight: 700;
+            color: #0b5cab;
+            text-decoration: none;
+            white-space: normal;
+            flex-shrink: 0;
+        }
+
+        .titleLink:hover {
+            text-decoration: underline;
+            color: #014486;
+        }
+
+        .speakers {
+            color: #0176d3;
+            font-weight: 600;
+            white-space: normal;
+            flex-shrink: 0;
+        }
+
+        .speakers:before {
+            content: " - ";
+            color: #9ca3af;
+            font-weight: 400;
+        }
+
+        .strategies {
+            color: #4b5563;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .strategies:before {
+            content: " | ";
+            color: #c4c9cf;
+            font-weight: 400;
+        }
+
+        .conflict {
+            background: #fee2e2;
+            border: 1px solid #ef4444;
+            color: #b91c1c;
+            border-radius: 50%;
+            width: 14px;
+            height: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .truncate {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            min-width: 0;
+        }
+
+        @media screen and (max-width: 1100px) {
+            .eventRow {
+                grid-template-columns: 110px 110px 18px 1fr;
+            }
+        }
+
+        @media screen and (max-width: 900px) {
+            .eventRow {
+                grid-template-columns: 1fr;
+                gap: 6px;
+                align-items: start;
+            }
+
+            .dotCol {
+                justify-content: flex-start;
+            }
+
+            .line {
+                flex-wrap: nowrap;
+            }
+        }
+    </style>
+
+    <apex:form >
+
+        <apex:actionFunction name="refreshNow"
+                             action="{!applyDates}"
+                             rerender="printArea"/>
+
+        <div class="page-shell">
+
+            <div class="card">
+                <div class="header">
+                    <h1>Events Schedule</h1>
+                </div>
+
+                <div class="filters">
+                    <div class="filter">
+                        <label>Start</label>
+                        <apex:input value="{!startDate}" type="date" onchange="refreshNow();"/>
+                    </div>
+
+                    <div class="filter">
+                        <label>End</label>
+                        <apex:input value="{!endDate}" type="date" onchange="refreshNow();"/>
+                    </div>
+
+                    <div class="filter">
+                        <label>Sales Team</label>
+                        <apex:selectList value="{!selectedSalesTeam}" size="1" onchange="refreshNow();">
+                            <apex:selectOptions value="{!salesTeamOptions}"/>
+                        </apex:selectList>
+                    </div>
+
+                    <div>
+                        <apex:commandButton value="Apply"
+                                            action="{!applyDates}"
+                                            styleClass="btn btn-primary"/>
+                    </div>
+
+                    <div>
+                        <apex:commandLink value="Open PDF"
+                                          action="{!openPdf}"
+                                          target="_blank"
+                                          styleClass="btn btn-secondary"/>
+                    </div>
+                </div>
+            </div>
+
+            <apex:outputPanel id="printArea">
+                <div class="card">
+                    <div class="agenda">
+
+                        <apex:repeat value="{!pages}" var="p">
+                            <apex:repeat value="{!p.columns}" var="col">
+                                <apex:repeat value="{!col.dayGroups}" var="g">
+
+                                    <div class="dayGroup">
+                                        <div class="dayHeader">
+                                            <span>{!g.dayLabel}</span>
+                                            <span>{!g.fullDateLabel}</span>
+                                        </div>
+
+                                        <apex:repeat value="{!g.events}" var="e">
+                                            <div class="eventRow">
+
+                                                <div class="timeCol">
+                                                    {!e.timeRangeLabel}
+                                                </div>
+
+                                                <div class="tzCol">
+                                                    {!e.displayTimezone}
+                                                </div>
+
+                                                <div class="dotCol">
+                                                    <span class="eventDot"
+                                                        style="background:{!e.eventColor};"
+                                                        title="{!e.tooltipLabel}">
+                                                  </span>
+                                                </div>
+
+                                                <div class="line truncate">
+
+                                                    <a href="/{!e.id}" target="_blank" class="titleLink truncate">
+                                                        {!e.title}
+                                                    </a>
+
+                                                    <apex:outputPanel rendered="{!NOT(ISBLANK(e.speakersLabel))}">
+                                                        <span class="speakers truncate">
+                                                            {!e.speakersLabel}
+                                                        </span>
+                                                    </apex:outputPanel>
+
+                                                    <apex:outputPanel rendered="{!NOT(ISBLANK(e.strategiesLabel))}">
+                                                        <span class="strategies truncate">
+                                                            {!e.strategiesLabel}
+                                                        </span>
+                                                    </apex:outputPanel>
+
+                                                    <apex:outputPanel rendered="{!e.isSpeakerConflict}">
+                                                        <span class="conflict">!</span>
+                                                    </apex:outputPanel>
+
+                                                </div>
+
+                                            </div>
+                                        </apex:repeat>
+
+                                    </div>
+
+                                </apex:repeat>
+                            </apex:repeat>
+                        </apex:repeat>
+
+                    </div>
+                </div>
+            </apex:outputPanel>
+
+        </div>
+    </apex:form>
+</apex:page>

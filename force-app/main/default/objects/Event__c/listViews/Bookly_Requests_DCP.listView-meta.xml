@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bookly_Requests_DCP</fullName>
+    <columns>NAME</columns>
+    <columns>StatusDisplay__c</columns>
+    <columns>category__c</columns>
+    <columns>startDate__c</columns>
+    <columns>city__c</columns>
+    <columns>format__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>Organizer__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>salesTeam__c</field>
+        <operation>equals</operation>
+        <value>DCP</value>
+    </filters>
+    <label>Bookly Requests DCP</label>
+</ListView>
