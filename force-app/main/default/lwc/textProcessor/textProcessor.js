@@ -26,6 +26,7 @@ export default class TextProcessor extends LightningElement {
 
     @api typoAssistant = false;
     @api productOverview = false;
+    @api rfpTab = false;
 
     productOverviewResult='';
     selectedProductLabel = '';
@@ -139,11 +140,24 @@ export default class TextProcessor extends LightningElement {
         this.selectedCountry = event.target.value;
     }
 
-    handleProducts(e){
+    /*handleProducts(e){
         //construct Pills part
         this.selectedProduct =e.detail.selectedValues;
         this.selectedProductLabel = e.detail.selectedLabel;
-    }
+    }*/
+
+    //Fix Ted Select Strategy Search
+    handleProducts(e) {
+        this.selectedProduct = e.detail.selectedValues;
+
+        const selectedOption = this.allProducts.find(
+            product => product.value === this.selectedProduct
+    );
+
+        this.selectedProductLabel = selectedOption
+            ? selectedOption.label
+            : e.detail.selectedLabel;
+    }    
 
     handleRemoveSelectedStrat(){
         this.selectedProduct = null;
@@ -157,9 +171,21 @@ export default class TextProcessor extends LightningElement {
             let products =[];
             let mapProducts = {};
             data.forEach(product =>{
-                products.push({label:product.Code__c+" | "+product.Name,value:product.Id,code:product.Code__c});
+                /*products.push({label:product.Code__c+" | "+product.Name,value:product.Id,code:product.Code__c});
+                mapProducts[product.Id] = product;
+            });*/
+            /// fix Ted Select Strategy
+                products.push({
+                    label: product.Name + ' | ' + product.Code__c,
+                    value: product.Id,
+                    code: product.Code__c,
+                    Code__c: product.Code__c,
+                    Name: product.Name
+                });
+                
                 mapProducts[product.Id] = product;
             });
+
             this.allProducts = [...products];
             this.mapProducts = mapProducts;
         }
