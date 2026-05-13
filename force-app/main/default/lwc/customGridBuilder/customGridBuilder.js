@@ -1050,6 +1050,7 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
         }, this.labels);
         this.isLoading = false;
         if (result.success) {
+            this.draftGridId = result.gridId;
             showToast(this, this.labels.UI_Success, this.labels.Grid_Saved_Success.replace('{0}', result.gridName), 'success');
             const agreementId = result.agreementId;
             if (agreementId) {
@@ -1077,6 +1078,7 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
         }, this.labels);
         this.isLoading = false;
         if (result.success) {
+            this.draftGridId = result.gridId;
             showToast(this, this.labels.UI_Success, this.labels.Grid_Saved_Success.replace('{0}', result.gridName), 'success');
         }
     }
