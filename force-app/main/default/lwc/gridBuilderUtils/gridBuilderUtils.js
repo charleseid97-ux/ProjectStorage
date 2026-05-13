@@ -4,6 +4,7 @@
 */
 
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import saveGrid from '@salesforce/apex/GridValidationController.saveGrid';
 
 //Import Labels - UI
 import UI_Add from '@salesforce/label/c.UI_Add';
@@ -137,6 +138,7 @@ import Grid_SystemFilters from '@salesforce/label/c.Grid_SystemFilters';
 import Grid_Team from '@salesforce/label/c.Grid_Team';
 import Grid_Title from '@salesforce/label/c.Grid_Title';
 import Grid_SaveGrid from '@salesforce/label/c.Grid_SaveGrid';
+import Grid_SubmitForApproval from '@salesforce/label/c.Grid_SubmitForApproval';
 import Grid_ValidateGrid from '@salesforce/label/c.Grid_ValidateGrid';
 import Grid_ValidationErrors from '@salesforce/label/c.Grid_ValidationErrors';
 import Grid_ViewExcludedProducts from '@salesforce/label/c.Grid_ViewExcludedProducts';
@@ -186,7 +188,7 @@ export const LABELS = {
     Grid_SelectExcelFile, Grid_SelectGrid, Grid_SelectShareTypes, Grid_Selection, Grid_SettingNotFound,
     Grid_ShareClassesAdded, Grid_ShareClassesAddedTitle, Grid_ShareClassesNotAdded_DifferentGrid, Grid_ShareClassesNotAdded_NotInGrid,
     Grid_ShareTypeFilterIndependentInfo, Grid_ShareTypesLabel, Grid_SomeRowsFailed, Grid_SortedBy,
-    Grid_StandardGridsSelected, Grid_StartDate, Grid_SystemFilters, Grid_Team, Grid_Title, Grid_SaveGrid, Grid_ValidateGrid, Grid_ValidationErrors,
+    Grid_StandardGridsSelected, Grid_StartDate, Grid_SystemFilters, Grid_Team, Grid_Title, Grid_SaveGrid, Grid_SubmitForApproval, Grid_ValidateGrid, Grid_ValidationErrors,
     Grid_ViewExcludedProducts, Grid_ViewRecap,
     Grid_SimExport_Header_EN, Grid_SimExport_Header_FR, Grid_SimExport_Header_IT,
     Grid_SimExport_Footer_EN, Grid_SimExport_Footer_FR, Grid_SimExport_Footer_IT,
@@ -196,6 +198,84 @@ export const LABELS = {
     Grid_SimExport_Col_EffMgtFees_EN, Grid_SimExport_Col_EffMgtFees_FR, Grid_SimExport_Col_EffMgtFees_IT,
     Grid_SimExport_Col_Rebate_EN, Grid_SimExport_Col_Rebate_FR, Grid_SimExport_Col_Rebate_IT
 };
+
+// ── Grid Save ─────────────────────────────────────────────────────────────────
+
+export function buildGridSaveRequest({ selectedShareClasses, criteriaList, gridRequestData, selectedTeam, selectedAgreements }) {
+    const grid = {
+        Name:                            (gridRequestData.gridName || '').slice(0, 80),
+        Team__c:                         selectedTeam,
+        ActiveGrid__c:                   true,
+        AutomaticGridUpdate__c:          gridRequestData.isAutoGridUpdate,
+        Kind__c:                         gridRequestData.kind                    || null,
+        Type__c:                         gridRequestData.gridType                || null,
+        StartDate__c:                    gridRequestData.startDate               || null,
+        EndDate__c:                      gridRequestData.endDate                 || null,
+        ThresholdAmount__c:              gridRequestData.thresholdAmount         || null,
+        ThresholdAmountCurrency__c:      gridRequestData.thresholdAmountCurrency || null,
+        OtherFees__c:                    gridRequestData.otherFees               ?? false,
+        Comment__c:                      gridRequestData.comment                 || null,
+        SalesOwner__c:                   gridRequestData.salesOwnerId            || null,
+        NextReviewDate__c:               gridRequestData.nextReviewDate          || null,
+        BusinessBackground__c:           gridRequestData.businessBackground      || null,
+        Tech_SingleRuleGridSelection__c: gridRequestData.singleRuleGrid?.label   || null
+    };
+
+    const criteriaMap = new Map();
+    (selectedShareClasses || []).forEach(sc => {
+        if (!criteriaMap.has(sc.criteriaRefId)) {
+            const entry = (criteriaList || []).find(c => c.id === sc.criteriaRefId);
+            criteriaMap.set(sc.criteriaRefId, {
+                criteriaRefId: sc.criteriaRefId,
+                criteria: {
+                    StandardGrid__c:          entry?.criteria?.StandardGrid__c,
+                    FilterLogic__c:           entry?.criteria?.FilterLogic__c           || 'AND',
+                    FilterLogicExpression__c: entry?.criteria?.FilterLogicExpression__c || null,
+                    SelectedShareTypes__c:    entry?.criteria?.SelectedShareTypes__c    || null,
+                    StartDate__c:             gridRequestData.startDate                 || null
+                },
+                details: (entry?.criteriaDetails || []).map(d => ({
+                    Object__c:       d.Object__c,
+                    Field__c:        d.Field__c,
+                    Logic__c:        d.Logic__c,
+                    Value__c:        d.Value__c,
+                    FilterNumber__c: d.FilterNumber__c,
+                    TECHOrigin__c:   d.TECHOrigin__c
+                })),
+                shareClassIds: []
+            });
+        }
+        criteriaMap.get(sc.criteriaRefId).shareClassIds.push(sc.id);
+    });
+
+    return {
+        grid,
+        criteriaList: Array.from(criteriaMap.values()),
+        agreementIds: selectedAgreements || []
+    };
+}
+
+export async function executeGridSave(component, { selectedShareClasses, criteriaList, gridRequestData, selectedTeam, selectedAgreements, existingGridId }, labels) {
+    const request = buildGridSaveRequest({ selectedShareClasses, criteriaList, gridRequestData, selectedTeam, selectedAgreements });
+    const shareClassGridIdMap = buildShareClassGridIdMap(selectedShareClasses);
+    try {
+        const result = await saveGrid({
+            requestJson: JSON.stringify(request),
+            shareClassGridIdMap,
+            draftGridId: existingGridId || null
+        });
+        if (result.success) {
+            showToast(component, labels.UI_Success, labels.Grid_CreatedSuccess.replace('{0}', result.gridName), 'success');
+            return { success: true, gridId: result.gridId, gridName: result.gridName, agreementId: selectedAgreements?.[0] || null };
+        }
+        showToast(component, labels.UI_Error, result.errors.join('\n'), 'error');
+        return { success: false };
+    } catch (error) {
+        showToast(component, labels.UI_Error, labels.Grid_ErrorSavingGrid + ', ' + labels.UI_ErrorMessage + ': ' + reduceError(error), 'error');
+        console.error('Error saving grid', error);
+        return { success: false };
+    }
+}
 
 // ── Number formatting ─────────────────────────────────────────────────────────
 

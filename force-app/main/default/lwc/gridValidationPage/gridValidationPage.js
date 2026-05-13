@@ -1,7 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import getProducts from '@salesforce/apex/GridValidationController.getProducts';
-import saveGrid from '@salesforce/apex/GridValidationController.saveGrid';
-import {LABELS, reduceError, showToast, buildShareClassGridIdMap, buildProductGridOptions, buildResultColumnsList, updateCriteriaListWithIsins, 
+import {LABELS, reduceError, showToast, buildShareClassGridIdMap, buildProductGridOptions, buildResultColumnsList, updateCriteriaListWithIsins,
     addIsinExclusionsFromRows} from 'c/gridBuilderUtils';
 
 export default class GridValidationPage extends LightningElement {
@@ -58,91 +57,6 @@ export default class GridValidationPage extends LightningElement {
         this.runValidation();
     }
 
-    async handleValidate() {
-        this.isLoading = true;
-        try {
-            const request = this.buildSaveRequest();
-            const shareClassGridIdMap = buildShareClassGridIdMap(this.selectedShareClasses);
-            const result = await saveGrid({
-                requestJson: JSON.stringify(request),
-                shareClassGridIdMap: shareClassGridIdMap,
-                draftGridId: this.existingGridId || null
-            });
-
-            if (result.success) {
-                showToast(this, this.labels.UI_Success, this.labels.Grid_CreatedSuccess.replace('{0}', result.gridName), 'success');
-                // Dispatch event to parent to handle navigation
-                const firstAgreementId = this.selectedAgreements && this.selectedAgreements.length > 0
-                    ? this.selectedAgreements[0]
-                    : null;
-                this.dispatchEvent(new CustomEvent('gridsaved', {
-                    detail: { gridId: result.gridId, gridName: result.gridName, agreementId: firstAgreementId }
-                }));
-            } else {
-                showToast(this, this.labels.UI_Error, result.errors.join('\n'), 'error');
-            }
-        } catch (error) {
-            showToast(this, this.labels.UI_Error, this.labels.Grid_ErrorSavingGrid + ', ' + this.labels.UI_ErrorMessage + ': ' + reduceError(error), 'error');
-            console.error('Error saving grid', error);
-        } finally {
-            this.isLoading = false;
-        }
-    }
-
-    buildSaveRequest() {
-        const grid = {
-            Name:                        (this.gridRequestData.gridName || '').slice(0, 80),
-            Team__c:                     this.selectedTeam,
-            ActiveGrid__c:               true,
-            AutomaticGridUpdate__c:      this.gridRequestData.isAutoGridUpdate,
-            Kind__c:                     this.gridRequestData.kind                    || null,
-            Type__c:                     this.gridRequestData.gridType                || null,
-            StartDate__c:                this.gridRequestData.startDate               || null,
-            EndDate__c:                  this.gridRequestData.endDate                 || null,
-            ThresholdAmount__c:          this.gridRequestData.thresholdAmount         || null,
-            ThresholdAmountCurrency__c:  this.gridRequestData.thresholdAmountCurrency || null,
-            OtherFees__c:                this.gridRequestData.otherFees               ?? false,
-            Comment__c:                  this.gridRequestData.comment                 || null,
-            SalesOwner__c:               this.gridRequestData.salesOwnerId            || null,
-            NextReviewDate__c:           this.gridRequestData.nextReviewDate           || null,
-            BusinessBackground__c:       this.gridRequestData.businessBackground       || null,
-            Tech_SingleRuleGridSelection__c: this.gridRequestData.singleRuleGrid?.label || null
-        };
-
-        // Group share classes by criteriaRefId
-        const criteriaMap = new Map();
-        (this.selectedShareClasses || []).forEach(sc => {
-            if (!criteriaMap.has(sc.criteriaRefId)) {
-                const entry = (this.criteriaList || []).find(c => c.id === sc.criteriaRefId);
-                criteriaMap.set(sc.criteriaRefId, {
-                    criteriaRefId: sc.criteriaRefId,
-                    criteria: {
-                        StandardGrid__c:          entry?.criteria?.StandardGrid__c,
-                        FilterLogic__c:           entry?.criteria?.FilterLogic__c           || 'AND',
-                        FilterLogicExpression__c: entry?.criteria?.FilterLogicExpression__c || null,
-                        SelectedShareTypes__c:    entry?.criteria?.SelectedShareTypes__c    || null,
-                        StartDate__c:             this.gridRequestData.startDate            || null
-                    },
-                    details: (entry?.criteriaDetails || []).map(d => ({
-                        Object__c: d.Object__c,
-                        Field__c: d.Field__c,
-                        Logic__c: d.Logic__c,
-                        Value__c: d.Value__c,
-                        FilterNumber__c: d.FilterNumber__c,
-                        TECHOrigin__c: d.TECHOrigin__c
-                    })),
-                    shareClassIds: []
-                });
-            }
-            criteriaMap.get(sc.criteriaRefId).shareClassIds.push(sc.id);
-        });
-
-        return {
-            grid: grid,
-            criteriaList: Array.from(criteriaMap.values()),
-            agreementIds: this.selectedAgreements || []
-        };
-    }
 
     async runValidation() {
         const idsKey = (this.selectedShareClasses || []).map(r => `${r.id}:${r.gridId || ''}`).join(',') + '|' + (this.selectedAgreements || []).join(',');

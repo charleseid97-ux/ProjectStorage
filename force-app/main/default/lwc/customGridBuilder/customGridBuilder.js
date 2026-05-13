@@ -10,7 +10,7 @@ import getApprovedGridData from '@salesforce/apex/GridBuilderController.getAppro
 import getAllProductsForSelection from '@salesforce/apex/GridBuilderController.getAllProductsForSelection';
 import getProductsAndShareClasses from '@salesforce/apex/GridBuilderController.getProductsAndShareClasses';
 import {LABELS, reduceError, showToast, buildShareTypesKey, getProductNameFromRows, getQueryParam, getRecordIdFromPageRef, getGridIdFromPageRef, getSystemProductExclusionDetail,
-    applySystemProductExclusion, mergeSystemDetail, addIsinExclusionsFromRows, pruneOrphanedCriteria} from 'c/gridBuilderUtils';
+    applySystemProductExclusion, mergeSystemDetail, addIsinExclusionsFromRows, pruneOrphanedCriteria, executeGridSave} from 'c/gridBuilderUtils';
 
 export default class CustomGridBuilder extends NavigationMixin(LightningElement) {
     @api gridBuilderSettingName = 'CustomGridBuilderSetting';
@@ -1038,20 +1038,46 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
         this.showSimulation = false;
     }
 
-    handleGridSaved(event) {
-        const { gridName, agreementId } = event.detail || {};
-        showToast(this, this.labels.UI_Success, this.labels.Grid_Saved_Success.replace('{0}', gridName), 'success');
+    async handleSaveGrid() {
+        this.isLoading = true;
+        const result = await executeGridSave(this, {
+            selectedShareClasses: this.selectedShareClasses,
+            criteriaList:         this.criteriaList,
+            gridRequestData:      this.gridRequestData,
+            selectedTeam:         this.selectedTeam,
+            selectedAgreements:   this.selectedAgreements,
+            existingGridId:       this.draftGridId
+        }, this.labels);
+        this.isLoading = false;
+        if (result.success) {
+            showToast(this, this.labels.UI_Success, this.labels.Grid_Saved_Success.replace('{0}', result.gridName), 'success');
+            const agreementId = result.agreementId;
+            if (agreementId) {
+                this[NavigationMixin.Navigate]({
+                    type: 'standard__recordPage',
+                    attributes: {
+                        recordId: agreementId,
+                        objectApiName: 'Convention__c',
+                        actionName: 'view'
+                    }
+                });
+            }
+        }
+    }
 
-        // Navigate to the first agreement record
-        if (agreementId) {
-            this[NavigationMixin.Navigate]({
-                type: 'standard__recordPage',
-                attributes: {
-                    recordId: agreementId,
-                    objectApiName: 'Convention__c',
-                    actionName: 'view'
-                }
-            });
+    async handleSubmitForApproval() {
+        this.isLoading = true;
+        const result = await executeGridSave(this, {
+            selectedShareClasses: this.selectedShareClasses,
+            criteriaList:         this.criteriaList,
+            gridRequestData:      this.gridRequestData,
+            selectedTeam:         this.selectedTeam,
+            selectedAgreements:   this.selectedAgreements,
+            existingGridId:       this.draftGridId
+        }, this.labels);
+        this.isLoading = false;
+        if (result.success) {
+            showToast(this, this.labels.UI_Success, this.labels.Grid_Saved_Success.replace('{0}', result.gridName), 'success');
         }
     }
 

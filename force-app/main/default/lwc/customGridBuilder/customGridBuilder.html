@@ -125,7 +125,6 @@
                                                     onremoveproduct={handleRemoveProductFromSelection}
                                                     onviewrecap={handleOpenSelectedPanelFromValidation}
                                                     onback={handleBackToBuilder}
-                                                    ongridsaved={handleGridSaved}
                                                     onsimulationrequested={handleSimulationRequested}>
                             </c-grid-validation-page>
                         </template>
@@ -137,7 +136,9 @@
                             selected-agreements={selectedAgreements}
                             grid-share-class-map={gridShareClassMap}
                             agreement-id={recId}
-                            onback={handleSimulationBack}>
+                            onback={handleSimulationBack}
+                            onsavegrid={handleSaveGrid}
+                            onsubmitforapproval={handleSubmitForApproval}>
                         </c-grid-simulation>
                     </template>
                     <!-- RIGHT COLUMN: Selected products panel -->
