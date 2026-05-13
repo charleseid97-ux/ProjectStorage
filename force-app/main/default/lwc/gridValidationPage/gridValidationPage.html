@@ -12,7 +12,6 @@
             </div>
             <div class="validation-controls-right">
                 <lightning-button label={labels.Grid_ViewExcludedProducts} variant="neutral" onclick={handleViewRecap}></lightning-button>
-                <lightning-button label={labels.UI_Back} variant="brand" onclick={handleBack}></lightning-button>
             </div>
         </div>
         <template if:true={hasValidationResults}>
@@ -96,7 +95,6 @@
 
         <div class="slds-border_top centerButtons">
             <div class="granularColumn">
-                <lightning-button label="Launch Simulation" variant="neutral" onclick={handleLaunchSimulation} disabled={isValidateButtonDisabled}></lightning-button>
                 <lightning-button label={labels.Grid_SaveGrid} variant="brand" onclick={handleValidate} disabled={isValidateButtonDisabled}></lightning-button>
             </div>
         </div>

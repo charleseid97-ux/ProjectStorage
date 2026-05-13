@@ -995,6 +995,35 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
         this.handlePages(false, false, true);
     }
 
+    get isGlobalBackDisabled() {
+        return this.currentStep === '1';
+    }
+
+    get isGlobalNextDisabled() {
+        const step = parseInt(this.currentStep, 10);
+        if (step >= 4) return true;
+        return !this.isStepEnabled(step + 1);
+    }
+
+    handleGlobalBack() {
+        const step = this.currentStep;
+        if (step === '2') this.handleBackToAgreementSelection();
+        else if (step === '3') this.handleBackToBuilder();
+        else if (step === '4') this.handleSimulationBack();
+    }
+
+    handleGlobalNext() {
+        const step = this.currentStep;
+        if (step === '1') {
+            const comp = this.template.querySelector('c-grid-agreements-selection');
+            if (comp) comp.triggerNext();
+        } else if (step === '2') {
+            this.handleGridValidation();
+        } else if (step === '3') {
+            this.handleSimulationRequested();
+        }
+    }
+
     handleBackToBuilder() {
         this.resetResults(true);
         this.handlePages(false, true, false);
