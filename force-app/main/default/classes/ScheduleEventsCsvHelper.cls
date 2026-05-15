@@ -226,12 +226,19 @@ public without sharing class ScheduleEventsCsvHelper {
         return tzMap.get(key);
     }
 
+    // mapCategory()
+
     public static String mapCategory(String sourceType) {
         if (String.isBlank(sourceType)) {
             return 'Client Event';
         }
 
         String v = sourceType.trim();
+
+        // One-To-One Meeting => One to One meeting
+        if (v == 'One-To-One Meeting') {
+            return 'One to One meeting';
+        }
 
         if (v == 'Sales Presentation' || v == 'Partnership') {
             return 'Event conference';
@@ -240,6 +247,8 @@ public without sharing class ScheduleEventsCsvHelper {
         return v;
     }
 
+    // mapStatus()
+
     public static String mapStatus(String sourceStatus) {
         if (String.isBlank(sourceStatus)) {
             return null;
@@ -247,8 +256,19 @@ public without sharing class ScheduleEventsCsvHelper {
 
         String v = sourceStatus.trim();
 
-        if (v == 'Event Validated' || v == 'Outlook Invitation') {
+        if (
+            v == 'Event Validated' ||
+            v == 'Outlook Invitation'
+        ) {
             return 'FullyApproved';
+        }
+
+        // Request Created + Request Validated => Draft
+        if (
+            v == 'Request Created' ||
+            v == 'Request Validated'
+        ) {
+            return 'Draft';
         }
 
         return null;
@@ -275,15 +295,20 @@ public without sharing class ScheduleEventsCsvHelper {
         if (row == null || String.isBlank(row.scheduleId)) {
             return null;
         }
-
         Event__c ev = new Event__c();
 
         ev.ScheduleID__c = row.scheduleId;
         ev.Name = safe80(row.rawName);
         ev.Title__c = safe50(extractTitle(row.rawName));
+
+        // Owner => salesOwner__c
         if (isRealId(row.ownerId)) {
-            ev.OwnerId = row.ownerId;
-            ev.Organizer__c = row.ownerId;
+            ev.salesOwner__c = row.ownerId;
+        }
+
+        // CRM_User__c => Organizer__c
+        if (isRealId(row.crmUserId)) {
+            ev.Organizer__c = row.crmUserId;
         }
 
         ev.startDate__c = row.startDate;
@@ -298,14 +323,22 @@ public without sharing class ScheduleEventsCsvHelper {
         ev.LocationAddress__c = row.address1;
         ev.LocationPostCode__c = row.postCode;
         ev.company__c = row.companyId;
-        ev.meetingBackground__c = row.description;
         ev.speakersHTML__c = row.originalLine;
         ev.targetedAttendees__c = row.participants != null ? row.participants : 0;
         ev.timeZone__c = !String.isBlank(row.originalDigitalCity)
             ? mapDigitalCityToIana(row.originalDigitalCity, row.localZone)
             : mapTimeZoneIdToIana(row.localZone);
         ev.category__c = mapCategory(row.sourceType);
-
+        // Copy description depending on category
+        if (
+            ev.category__c == 'One To One meeting' ||
+            ev.category__c == 'Meeting day(s)'
+        ) {
+            ev.meetingBackground__c = row.description;
+            ev.meetingGoal__c = row.description;
+        } else {
+            ev.description__c = row.description;
+        }
         String mappedStatus = mapStatus(row.sourceStatus);
         ev.status__c = !String.isBlank(mappedStatus) ? mappedStatus : 'Draft';
 
@@ -356,8 +389,8 @@ public without sharing class ScheduleEventsCsvHelper {
                 ssp.Session__c = eventId;
                 ssp.SpeakerContact__c = speaker.Id;
                 ssp.Strategy__c = strategyId;
-                ssp.Language__c = 'English';
-                ssp.SpeakerLanguage__c = 'English';
+                //ssp.Language__c = 'English';
+                //ssp.SpeakerLanguage__c = 'English';
                 ssp.startTime__c = row.startTime;
                 ssp.endTime__c = row.endTime;
 
@@ -559,13 +592,15 @@ public without sharing class ScheduleEventsCsvHelper {
             String ch = csv.substring(i, i + 1);
 
             if (ch == '"') {
+                current += ch;
+
                 if (inQuotes && i + 1 < csv.length() && csv.substring(i + 1, i + 2) == '"') {
                     current += '"';
                     i++;
                 } else {
                     inQuotes = !inQuotes;
                 }
-            } else if ((ch == '\n' || ch == '\r') && !inQuotes) {
+            }else if ((ch == '\n' || ch == '\r') && !inQuotes) {
                 if (!String.isBlank(current.trim())) {
                     records.add(current.trim());
                 }

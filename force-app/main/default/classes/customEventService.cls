@@ -298,6 +298,8 @@ public without sharing class customEventService {
 
     // Create Campaigns when Event.Status__c transitions to 'FullyApproved'
     public static void createCampaign(List<Event__c> newEvents, Map<Id, Event__c> oldMap) {
+        system.debug('====createCampaign====='+ newEvents );
+
         if (newEvents == null || newEvents.isEmpty()) return;
 
         List<Event__c> eligibleEvents = detectBecameFullyApproved(newEvents, oldMap);
@@ -305,20 +307,35 @@ public without sharing class customEventService {
 
         List<Campaign> campaignsToInsert = new List<Campaign>();
         Map<Id, Campaign> eventIdToCampaign = new Map<Id, Campaign>();
-
+        List<Event__c> eventsWithCreatedCampaign = new List<Event__c>();
+        Id eventRecordTypeId = Schema.SObjectType.Event__c
+        .getRecordTypeInfosByDeveloperName()
+        .get('event')
+        .getRecordTypeId();
         for (Event__c e : eligibleEvents) {
+            system.debug('=eventRecordTypeId========'+ eventRecordTypeId );
+            system.debug('=e.RecordTypeId========'+ e.RecordTypeId );
+            if (e.RecordTypeId != eventRecordTypeId) {
+                system.debug('=====pas Event====' );
+
+                continue;
+            }
+            system.debug('===event======' );
+
             Campaign c = buildCampaignFromEvent(e);
             campaignsToInsert.add(c);
             eventIdToCampaign.put(e.Id, c);
+            eventsWithCreatedCampaign.add(e);
         }
         System.debug('[customEventService.createCampaign] Inserting ' + campaignsToInsert );
+        if (campaignsToInsert.isEmpty()) return;
         insert campaignsToInsert;
 
         // Link created campaigns back on events
         linkCampaignsToEvents(eventIdToCampaign, eligibleEvents);
 
          // Notify organizer + sales team after campaign creation
-        customEventNotificationManager.notifyCampaignCreated(eligibleEvents);
+        customEventNotificationManager.notifyCampaignCreated(eventsWithCreatedCampaign);
     }
 
     // Detect transition to FullyApproved and avoid duplicates
@@ -336,7 +353,7 @@ public without sharing class customEventService {
     }
 
     // Build a Campaign record from an Event__c
-    private static Campaign buildCampaignFromEvent(Event__c e) {
+    public static Campaign buildCampaignFromEvent(Event__c e) {
         Campaign c = new Campaign();
 
         // Record Type
@@ -477,7 +494,7 @@ public without sharing class customEventService {
                 }
             } else {
                 Event__c oldEv = oldMap.get(ev.Id);
-
+                if (oldEv == null) continue;
                 Boolean formatChanged = oldEv.Format__c != ev.Format__c;
 
                 if (formatChanged && ev.City__c == 'Digital') {

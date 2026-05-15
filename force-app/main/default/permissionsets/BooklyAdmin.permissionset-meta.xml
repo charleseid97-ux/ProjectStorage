@@ -21,6 +21,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>EventApprovalInboxController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>EventApprovalsPanelController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2189,6 +2193,10 @@
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <pageAccesses>
+        <apexPage>EventApproval</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>VFP17_PrintEvents</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
@@ -2256,6 +2264,10 @@
         <recordType>Product__c.Sub_Asset_Class</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <tabSettings>
+        <tab>BooklyInbox</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
     <tabSettings>
         <tab>Event__c</tab>
         <visibility>Visible</visibility>

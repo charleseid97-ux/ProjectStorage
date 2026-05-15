@@ -1891,7 +1891,7 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
         </fields>
         <fields>
             <name>Copy_1_of_Event_DetailsSection</name>
-            <fieldText>meeting details</fieldText>
+            <fieldText>Meeting details</fieldText>
             <fieldType>RegionContainer</fieldType>
             <fields>
                 <name>Copy_1_of_Event_DetailsSection_Column1</name>
@@ -1981,6 +1981,7 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <name>Meeting_Background1to1</name>
                     <fieldText>Meeting Background</fieldText>
                     <fieldType>LargeTextArea</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -1995,6 +1996,7 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <name>Meeting_Goal</name>
                     <fieldText>Meeting Goal</fieldText>
                     <fieldType>LargeTextArea</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2124,6 +2126,7 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <dataType>String</dataType>
                     <fieldText>Start time</fieldText>
                     <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2188,6 +2191,7 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <dataType>String</dataType>
                     <fieldText>End time</fieldText>
                     <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2337,6 +2341,7 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <defaultSelectedChoiceReference>Attendes_s_address</defaultSelectedChoiceReference>
                     <fieldText>Address</fieldText>
                     <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2421,6 +2426,7 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <dataType>String</dataType>
                     <fieldText>Adresse</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2587,6 +2593,7 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <name>Meeting_Backgroundd</name>
                     <fieldText>Meeting Background</fieldText>
                     <fieldType>LargeTextArea</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2601,6 +2608,7 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <name>Meeting_Goall</name>
                     <fieldText>Meeting Goal</fieldText>
                     <fieldType>LargeTextArea</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2824,6 +2832,7 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     </defaultValue>
                     <fieldText>Start time</fieldText>
                     <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2891,6 +2900,7 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     </defaultValue>
                     <fieldText>End Time</fieldText>
                     <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2949,6 +2959,7 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <defaultSelectedChoiceReference>Attendes_s_address</defaultSelectedChoiceReference>
                     <fieldText>Address</fieldText>
                     <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -3295,6 +3306,7 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <name>Meeting_Background</name>
                     <fieldText>Meeting Background</fieldText>
                     <fieldType>LargeTextArea</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -3309,6 +3321,7 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <name>Meeting_Goals</name>
                     <fieldText>Meeting Goal</fieldText>
                     <fieldType>LargeTextArea</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -3438,6 +3451,7 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <dataType>String</dataType>
                     <fieldText>Start time</fieldText>
                     <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -3502,6 +3516,7 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <dataType>String</dataType>
                     <fieldText>End time</fieldText>
                     <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -3568,6 +3583,7 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <dataType>String</dataType>
                     <fieldText>Address</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -3988,6 +4004,7 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <name>Meeting_Event_Rationale</name>
                     <fieldText>Meeting/Event Rationale</fieldText>
                     <fieldType>LargeTextArea</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -4117,6 +4134,7 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <dataType>String</dataType>
                     <fieldText>Start time</fieldText>
                     <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -4181,6 +4199,7 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <dataType>String</dataType>
                     <fieldText>End time</fieldText>
                     <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -4558,6 +4577,7 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
             <defaultSelectedChoiceReference>Event</defaultSelectedChoiceReference>
             <fieldText>Request Type</fieldText>
             <fieldType>DropdownBox</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <styleProperties>
                 <verticalAlignment>

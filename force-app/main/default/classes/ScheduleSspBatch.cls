@@ -1,21 +1,8 @@
 global without sharing class ScheduleSspBatch
-
 implements Database.Batchable<String>, Database.Stateful {
-private Integer fromLine;
-private Integer toLine;
-    // Constructeur par défaut du batch
-global ScheduleSspBatch() {
 
-}
-// Constructeur batch SSP
-global ScheduleSspBatch(
-    Integer fromLine,
-    Integer toLine
-) {
-
-    this.fromLine = fromLine;
-    this.toLine = toLine;
-}
+    private Integer fromLine;
+    private Integer toLine;
 
     private static final String RESOURCE_NAME =
         'ScheduleEventsToBatch_SSP';
@@ -28,6 +15,23 @@ global ScheduleSspBatch(
     // Conserve les erreurs du batch
     private List<String> collectedErrors =
         new List<String>();
+
+
+    // Constructeur par défaut du batch
+    global ScheduleSspBatch() {
+
+    }
+
+
+    // Constructeur batch SSP
+    global ScheduleSspBatch(
+        Integer fromLine,
+        Integer toLine
+    ) {
+
+        this.fromLine = fromLine;
+        this.toLine = toLine;
+    }
 
 
     // Charge le CSV SSP
@@ -56,33 +60,33 @@ global ScheduleSspBatch(
         headerIndex = parsed.headerIndex;
 
         List<String> allRecords =
-    ScheduleEventsCsvHelper.getDataRecords(
-        parsed
-    );
+            ScheduleEventsCsvHelper.getDataRecords(
+                parsed
+            );
 
-List<String> filtered =
-    new List<String>();
+        List<String> filtered =
+            new List<String>();
 
+        // Applique le filtre de lignes si demandé
+        for (Integer i = 0;
+            i < allRecords.size();
+            i++) {
 
-for (Integer i = 0;
-    i < allRecords.size();
-    i++) {
+            Boolean afterStart =
+                fromLine == null || i >= fromLine;
 
-    Boolean afterStart =
-        (fromLine == null || i >= fromLine);
+            Boolean beforeEnd =
+                toLine == null || i <= toLine;
 
-    Boolean beforeEnd =
-        (toLine == null || i <= toLine);
+            if (afterStart && beforeEnd) {
 
-    if (afterStart && beforeEnd) {
+                filtered.add(
+                    allRecords[i]
+                );
+            }
+        }
 
-        filtered.add(
-            allRecords[i]
-        );
-    }
-}
-
-return filtered;
+        return filtered;
     }
 
 
@@ -105,11 +109,14 @@ return filtered;
         Set<String> speakerEmails =
             new Set<String>();
 
+        Set<String> productNames =
+            new Set<String>();
+
         Set<String> strategyCodes =
             new Set<String>();
 
 
-        // Parse les lignes
+        // Parse les lignes et prépare les clés de recherche
         for (String line : scope) {
 
             try {
@@ -139,9 +146,33 @@ return filtered;
                 }
 
                 if (!String.isBlank(row.strategyCode)) {
-                    strategyCodes.add(
-                        row.strategyCode
-                    );
+
+                    for (String code :
+                        row.strategyCode.split(';')) {
+
+                        String cleanCode =
+                            ScheduleSspCsvHelper.normalizeStrategyCode(
+                                code
+                            );
+
+                        if (String.isBlank(cleanCode)) {
+                            continue;
+                        }
+
+                        // Les codes mappés pointent directement vers Strategy.Code__c
+                        if (ScheduleSspCsvHelper.hasStrategyMapping(code)) {
+
+                            strategyCodes.add(
+                                cleanCode
+                            );
+
+                        } else {
+
+                            productNames.add(
+                                cleanCode
+                            );
+                        }
+                    }
                 }
 
             } catch (Exception e) {
@@ -176,7 +207,7 @@ return filtered;
             new Map<String, Contact>();
 
         for (Contact c : [
-            SELECT Id, Email
+            SELECT Id, Email, isTopSpeaker__c
             FROM Contact
             WHERE Email IN :speakerEmails
         ]) {
@@ -191,21 +222,43 @@ return filtered;
         }
 
 
-        // Charge les Strategies
+        // Charge les Products et leurs Strategies
+        Map<String, Id> strategyByProductName =
+            new Map<String, Id>();
+
+        for (Product__c p : [
+            SELECT Id, Name, FundStrategy__c
+            FROM Product__c
+            WHERE Name IN :productNames
+            AND FundStrategy__c != null
+        ]) {
+
+            strategyByProductName.put(
+                p.Name.trim().toUpperCase(),
+                p.FundStrategy__c
+            );
+        }
+
+
+        // Charge les Strategies directes par code
         Map<String, Id> strategyByCode =
             new Map<String, Id>();
 
-        for (Strategy__c fs : [
+        for (Strategy__c strategy : [
             SELECT Id, Code__c
             FROM Strategy__c
             WHERE Code__c IN :strategyCodes
         ]) {
 
-            strategyByCode.put(
-                fs.Code__c,
-                fs.Id
-            );
+            if (!String.isBlank(strategy.Code__c)) {
+
+                strategyByCode.put(
+                    strategy.Code__c.trim().toUpperCase(),
+                    strategy.Id
+                );
+            }
         }
+
 
         List<sessionSpeakerProduct__c> ssps =
             new List<sessionSpeakerProduct__c>();
@@ -248,7 +301,9 @@ return filtered;
                             : null
                     );
 
-                if (speaker == null) {
+                // Speaker optionnel métier
+                if (row.speakerEmail != null
+                    && speaker == null) {
 
                     collectedErrors.add(
                         'scheduleId : ' +
@@ -259,31 +314,115 @@ return filtered;
                     continue;
                 }
 
-                Id strategyId =
-                    strategyByCode.get(
-                        row.strategyCode
-                    );
+                Map<String, Boolean> rowCodesByMapping =
+                    new Map<String, Boolean>();
 
-                if (strategyId == null) {
 
-                    collectedErrors.add(
-                        'scheduleId : ' +
-                        row.scheduleId +
-                        ' Error : Strategy not found'
-                    );
+                // Prépare les codes de la ligne
+                if (!String.isBlank(row.strategyCode)) {
+
+                    for (String code :
+                        row.strategyCode.split(';')) {
+
+                        String cleanCode =
+                            ScheduleSspCsvHelper.normalizeStrategyCode(
+                                code
+                            );
+
+                        if (String.isBlank(cleanCode)) {
+                            continue;
+                        }
+
+                        rowCodesByMapping.put(
+                            cleanCode,
+                            ScheduleSspCsvHelper.hasStrategyMapping(code)
+                        );
+                    }
+                }
+
+
+                // Aucun produit / code strategy valide métier -> insert sans strategy
+                if (rowCodesByMapping.isEmpty()) {
+
+                    sessionSpeakerProduct__c ssp =
+                        ScheduleSspCsvHelper.buildSsp(
+                            row,
+                            ev.Id,
+                            speaker != null
+                                ? speaker.Id
+                                : null,
+                            null
+                        );
+
+                    // Status obligatoire pour top speaker
+                    if (speaker != null
+                        && speaker.isTopSpeaker__c) {
+
+                        ssp.presentationStatus__c =
+                            'required';
+                    }
+
+                    ssps.add(ssp);
 
                     continue;
                 }
 
-                sessionSpeakerProduct__c ssp =
-                    ScheduleSspCsvHelper.buildSsp(
-                        row,
-                        ev.Id,
-                        speaker.Id,
-                        strategyId
-                    );
+                Set<Id> rowStrategyIds =
+                    new Set<Id>();
 
-                ssps.add(ssp);
+                for (String cleanCode : rowCodesByMapping.keySet()) {
+
+                    Boolean isDirectStrategy =
+                        rowCodesByMapping.get(cleanCode);
+
+                    Id strategyId =
+                        isDirectStrategy
+                            ? strategyByCode.get(cleanCode)
+                            : strategyByProductName.get(cleanCode);
+
+                    if (strategyId == null) {
+
+                        collectedErrors.add(
+                            'scheduleId : ' +
+                            row.scheduleId +
+                            ' Error : Strategy not found for ' +
+                            (
+                                isDirectStrategy
+                                    ? 'strategy code : '
+                                    : 'product : '
+                            ) +
+                            cleanCode
+                        );
+
+                        continue;
+                    }
+
+                    if (rowStrategyIds.contains(strategyId)) {
+                        continue;
+                    }
+
+                    rowStrategyIds.add(strategyId);
+
+                    sessionSpeakerProduct__c ssp =
+                        ScheduleSspCsvHelper.buildSsp(
+                            row,
+                            ev.Id,
+                            speaker != null
+                                ? speaker.Id
+                                : null,
+                            strategyId
+                        );
+
+                    // Status obligatoire pour top speaker
+                    if (speaker != null
+                        && speaker.isTopSpeaker__c) {
+
+                        ssp.presentationStatus__c =
+                            'required';
+                    }
+
+                    ssps.add(ssp);
+                }
 
             } catch (Exception e) {
 

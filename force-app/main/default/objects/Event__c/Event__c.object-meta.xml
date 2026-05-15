@@ -186,6 +186,6 @@
         <searchResultsAdditionalFields>salesTeam__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>StatusDisplay__c</searchResultsAdditionalFields>
     </searchLayouts>
-    <sharingModel>Private</sharingModel>
+    <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

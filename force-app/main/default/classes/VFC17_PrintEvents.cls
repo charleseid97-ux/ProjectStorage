@@ -165,30 +165,28 @@ public with sharing class VFC17_PrintEvents {
 
         return result;
     }
+    // Construit les options de Sales Teams depuis la picklist.
     private void buildSalesTeamOptions() {
         salesTeamOptions = new List<SelectOption>();
         salesTeamOptions.add(new SelectOption(ALL_SALES_TEAMS, 'All sales teams'));
 
-        Set<String> salesTeams = new Set<String>();
-        for (Event__c ev : [
-            SELECT SalesTeam__c
-            FROM Event__c
-            WHERE SalesTeam__c != null
-            ORDER BY SalesTeam__c
-        ]) {
-            if (!String.isBlank(ev.SalesTeam__c)) {
-                salesTeams.add(ev.SalesTeam__c);
+        // Récupère les valeurs de la picklist SalesTeam__c.
+        Schema.DescribeFieldResult fieldDescribe =
+            Event__c.SalesTeam__c.getDescribe();
+
+        List<Schema.PicklistEntry> picklistValues =
+            fieldDescribe.getPicklistValues();
+
+        // Ajoute les valeurs actives dans les options.
+        for (Schema.PicklistEntry entry : picklistValues) {
+            if (entry.isActive()) {
+                salesTeamOptions.add(
+                    new SelectOption(entry.getValue(), entry.getLabel())
+                );
             }
         }
 
-        List<String> ordered = new List<String>();
-        ordered.addAll(salesTeams);
-        ordered.sort();
-
-        for (String salesTeam : ordered) {
-            salesTeamOptions.add(new SelectOption(salesTeam, salesTeam));
-        }
-
+        // Initialise la valeur par défaut.
         if (String.isBlank(selectedSalesTeam)) {
             selectedSalesTeam = ALL_SALES_TEAMS;
         }

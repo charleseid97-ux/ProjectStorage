@@ -11,5 +11,10 @@
     <columns>CREATED_DATE</columns>
     <columns>Organizer__c</columns>
     <filterScope>Everything</filterScope>
-    <label>All Bookly Requests</label>
+    <filters>
+        <field>startDate__c</field>
+        <operation>greaterThan</operation>
+        <value>1/1/2026</value>
+    </filters>
+    <label>All Bookly Requests 2026</label>
 </ListView>

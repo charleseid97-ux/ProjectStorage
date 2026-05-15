@@ -1,126 +1,322 @@
 @IsTest
 private class ScheduleSspBatchTest {
 
-    // Test batch SSP complet
-    @IsTest
-    static void testBatch() {
-
-        Account acc =
-            BooklyDataFactory.createAccount();
+    // Création des données de test communes
+    @TestSetup
+    static void setup() {
 
         User organizer =
             BooklyDataFactory.createOrganizer();
 
-        Contact c =
+        Account acc =
+            BooklyDataFactory.createAccount();
+
+
+        // Speaker top speaker
+        Contact speaker =
             BooklyDataFactory.createSpeakerContact(
                 acc.Id,
                 organizer.Id,
-                false
+                true
             );
 
+        speaker.Email =
+            'speaker@carmignac.com';
 
-        Strategy__c strategy =
-            BooklyDataFactory.createStrategy(
-                'Strategy Test'
-            );
-
-        strategy.Code__c = 'NOTH';
-
-        update strategy;
+        update speaker;
 
 
+        // Event valide
         Event__c ev =
             BooklyDataFactory.createEvent();
 
-        ev.ScheduleID__c = '19525';
-
+        ev.ScheduleID__c = 'E001';
         ev.NoAutomations__c = true;
 
         insert ev;
 
 
+        // Strategy trouvée directement via Code__c pour les codes mappés
+        Strategy__c mappedStrategy =
+            BooklyDataFactory.createStrategy(
+                'GLMACRO'
+            );
+
+        mappedStrategy.Code__c =
+            'GLMACRO';
+
+        update mappedStrategy;
+
+
+        // Strategy utilisée via Product__c pour les codes hors mapping
+        Strategy__c productStrategy =
+            BooklyDataFactory.createStrategy(
+                'MLD'
+            );
+
+        productStrategy.Code__c =
+            'MLD';
+
+        update productStrategy;
+
+
+        // Produit lié à une strategy pour les codes hors mapping
+        Product__c product =
+            new Product__c(
+                Name = 'MLD',
+                FundStrategy__c = productStrategy.Id
+            );
+
+        insert product;
+    }
+
+
+    // Vérifie insertion speaker + strategy via mapping GLMA -> GLMACRO
+    @IsTest
+    static void testInsertWithSpeakerAndMappedStrategy() {
+
         String csv =
-            'TECH_ID_Speaker_Schedule__c;Schedule_Key_Event__c;Schedule_Key_Session__c;Start_Date_Time__c;End_Date_Time__c;Name;Thematic__c;Is_Valid_Speaker__c\n' +
-            c.Email +
-            '_22160_19525;19525;22160;25/01/2024 11:00;25/01/2024 12:30;' +
-            c.Email +
-            ';NOTH;1';
-
-
-        ScheduleSspBatch.testCsvContent = csv;
+            'tech_id_speaker_schedule__c;Schedule_Key_Event__c;Start_Date_Time__c;End_Date_Time__c;Name;Thematic__c\r\n' +
+            'SSP_001;E001;2026/01/01 09:00;2026/01/01 10:00;speaker@carmignac.com;GLMA';
 
         Test.startTest();
 
+        ScheduleSspBatch.testCsvContent =
+            csv;
+
         Database.executeBatch(
-            new ScheduleSspBatch(0, 1),
+            new ScheduleSspBatch(),
             1
         );
 
         Test.stopTest();
 
 
-        sessionSpeakerProduct__c ssp = [
-
+        // Vérifie le SSP créé
+        List<sessionSpeakerProduct__c> ssps = [
             SELECT Id,
                    scheduleId__c,
-                   Session__c,
                    SpeakerContact__c,
                    Strategy__c,
-                   date__c,
-                   startTime__c,
-                   endTime__c
+                   presentationStatus__c
             FROM sessionSpeakerProduct__c
-            LIMIT 1
+            WHERE scheduleId__c LIKE 'SSP_001%'
         ];
 
-
         System.assertEquals(
-            ev.Id,
-            ssp.Session__c
+            1,
+            ssps.size(),
+            'Un SSP doit être inséré'
+        );
+
+        System.assertNotEquals(
+            null,
+            ssps[0].SpeakerContact__c
+        );
+
+        System.assertNotEquals(
+            null,
+            ssps[0].Strategy__c
         );
 
         System.assertEquals(
-            c.Id,
-            ssp.SpeakerContact__c
-        );
-
-        System.assertEquals(
-            strategy.Id,
-            ssp.Strategy__c
-        );
-
-        System.assertEquals(
-            Date.newInstance(2024, 1, 25),
-            ssp.date__c
+            'required',
+            ssps[0].presentationStatus__c
         );
     }
 
-    // Test des branches d'erreur batch SSP
+
+    // Vérifie insertion via Product__c pour un code hors mapping
     @IsTest
-    static void testBatchErrors() {
+    static void testInsertWithProductStrategy() {
 
         String csv =
-            'TECH_ID_Speaker_Schedule__c;Schedule_Key_Event__c;Schedule_Key_Session__c;Start_Date_Time__c;End_Date_Time__c;Name;Thematic__c;Is_Valid_Speaker__c\n' +
-            'ERR_1;99999;22160;25/01/2024 11:00;25/01/2024 12:30;missing@test.com;UNKNOWN;1';
-
-        ScheduleSspBatch.testCsvContent = csv;
+            'tech_id_speaker_schedule__c;Schedule_Key_Event__c;Start_Date_Time__c;End_Date_Time__c;Name;Thematic__c\r\n' +
+            'SSP_002;E001;2026/01/01 09:00;2026/01/01 10:00;speaker@carmignac.com;MLD';
 
         Test.startTest();
 
+        ScheduleSspBatch.testCsvContent =
+            csv;
+
         Database.executeBatch(
-            new ScheduleSspBatch(0, 1),
+            new ScheduleSspBatch(),
             1
         );
 
         Test.stopTest();
 
+
+        // Vérifie le SSP créé via Product__c.FundStrategy__c
+        List<sessionSpeakerProduct__c> ssps = [
+            SELECT Id,
+                   scheduleId__c,
+                   SpeakerContact__c,
+                   Strategy__c,
+                   presentationStatus__c
+            FROM sessionSpeakerProduct__c
+            WHERE scheduleId__c LIKE 'SSP_002%'
+        ];
+
+        System.assertEquals(
+            1,
+            ssps.size(),
+            'Un SSP doit être inséré'
+        );
+
+        System.assertNotEquals(
+            null,
+            ssps[0].SpeakerContact__c
+        );
+
+        System.assertNotEquals(
+            null,
+            ssps[0].Strategy__c
+        );
+
+        System.assertEquals(
+            'required',
+            ssps[0].presentationStatus__c
+        );
+    }
+
+
+    // Vérifie insertion sans strategy métier
+    @IsTest
+    static void testInsertWithoutStrategy() {
+
+        String csv =
+            'tech_id_speaker_schedule__c;Schedule_Key_Event__c;Start_Date_Time__c;End_Date_Time__c;Name;Thematic__c\r\n' +
+            'SSP_003;E001;2026/01/01 09:00;2026/01/01 10:00;speaker@carmignac.com;NOTH';
+
+        Test.startTest();
+
+        ScheduleSspBatch.testCsvContent =
+            csv;
+
+        Database.executeBatch(
+            new ScheduleSspBatch(),
+            1
+        );
+
+        Test.stopTest();
+
+
+        // Vérifie SSP sans strategy
+        List<sessionSpeakerProduct__c> ssps = [
+            SELECT Id,
+                   scheduleId__c,
+                   SpeakerContact__c,
+                   Strategy__c,
+                   presentationStatus__c
+            FROM sessionSpeakerProduct__c
+            WHERE scheduleId__c = 'SSP_003'
+        ];
+
+        System.assertEquals(
+            1,
+            ssps.size(),
+            'Un SSP sans strategy doit être inséré'
+        );
+
+        System.assertNotEquals(
+            null,
+            ssps[0].SpeakerContact__c
+        );
+
+        System.assertEquals(
+            null,
+            ssps[0].Strategy__c
+        );
+
+        System.assertEquals(
+            'required',
+            ssps[0].presentationStatus__c
+        );
+    }
+
+
+    // Vérifie erreur strategy inconnue
+    @IsTest
+    static void testStrategyNotFound() {
+
+        String csv =
+            'tech_id_speaker_schedule__c;Schedule_Key_Event__c;Start_Date_Time__c;End_Date_Time__c;Name;Thematic__c\r\n' +
+            'SSP_004;E001;2026/01/01 09:00;2026/01/01 10:00;speaker@carmignac.com;UNKNOWN_PRODUCT';
+
+        Test.startTest();
+
+        ScheduleSspBatch.testCsvContent =
+            csv;
+
+        Database.executeBatch(
+            new ScheduleSspBatch(),
+            1
+        );
+
+        Test.stopTest();
+
+
+        // Aucun SSP inséré
+        Integer countSsp = [
+            SELECT COUNT()
+            FROM sessionSpeakerProduct__c
+            WHERE scheduleId__c LIKE 'SSP_004%'
+        ];
+
         System.assertEquals(
             0,
-            [
-                SELECT COUNT()
-                FROM sessionSpeakerProduct__c
-                WHERE scheduleId__c = 'ERR_1'
-            ]
+            countSsp
+        );
+    }
+
+
+    // Vérifie insertion sans speaker métier
+    @IsTest
+    static void testInsertWithoutSpeaker() {
+
+        String csv =
+            'tech_id_speaker_schedule__c;Schedule_Key_Event__c;Start_Date_Time__c;End_Date_Time__c;Name;Thematic__c\r\n' +
+            'SSP_005;E001;2026/01/01 09:00;2026/01/01 10:00;nospeaker@carmignac.com;GLMA';
+
+        Test.startTest();
+
+        ScheduleSspBatch.testCsvContent =
+            csv;
+
+        Database.executeBatch(
+            new ScheduleSspBatch(),
+            1
+        );
+
+        Test.stopTest();
+
+
+        // Vérifie SSP sans speaker
+        List<sessionSpeakerProduct__c> ssps = [
+            SELECT Id,
+                   scheduleId__c,
+                   SpeakerContact__c,
+                   Strategy__c,
+                   presentationStatus__c
+            FROM sessionSpeakerProduct__c
+            WHERE scheduleId__c LIKE 'SSP_005%'
+        ];
+
+        System.assertEquals(
+            1,
+            ssps.size(),
+            'Un SSP sans speaker doit être inséré'
+        );
+
+        System.assertEquals(
+            null,
+            ssps[0].SpeakerContact__c
+        );
+
+        System.assertNotEquals(
+            null,
+            ssps[0].Strategy__c
         );
     }
 }
