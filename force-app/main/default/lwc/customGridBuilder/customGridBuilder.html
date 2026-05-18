@@ -8,7 +8,9 @@
             </div>
             <div class="grid-builder-header-center">
                 <template if:false={hasPendingGrid}>
-                    <lightning-button label={labels.UI_Back} variant="neutral" onclick={handleGlobalBack} disabled={isGlobalBackDisabled}></lightning-button>
+                    <button class="nav-btn nav-btn-back" onclick={handleGlobalBack} disabled={isGlobalBackDisabled}>
+                        ← {labels.UI_Back}
+                    </button>
                     <div class="grid-builder-progress-bar">
                         <lightning-progress-indicator current-step={currentStep} type="path" variant="base">
                             <lightning-progress-step label="Agreement" value="1" data-step="1" onclick={handlePathStepClick} class={step1Enabled}></lightning-progress-step>
@@ -17,7 +19,9 @@
                             <lightning-progress-step label="Grid Simulation" value="4" data-step="4" onclick={handlePathStepClick} class={step4Enabled}></lightning-progress-step>
                         </lightning-progress-indicator>
                     </div>
-                    <lightning-button label={labels.UI_Next} variant="brand" onclick={handleGlobalNext} disabled={isGlobalNextDisabled}></lightning-button>
+                    <button class="nav-btn nav-btn-next" onclick={handleGlobalNext} disabled={isGlobalNextDisabled}>
+                        {labels.UI_Next} →
+                    </button>
                 </template>
             </div>
             <div class="grid-builder-header-right"></div>

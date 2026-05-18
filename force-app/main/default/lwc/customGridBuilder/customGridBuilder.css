@@ -87,3 +87,46 @@ lightning-progress-step.false {
     width: 20%;
     height: 15em;
 }
+
+/* ── Navigation arrow buttons (Back / Next) ─────────────────────────────── */
+.nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 1.1rem;
+    border-radius: 2rem;
+    border: 2px solid;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    line-height: 1.5;
+    flex-shrink: 0;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.nav-btn-back {
+    color: #0070d2;
+    background: #ffffff;
+    border-color: #0070d2;
+}
+
+.nav-btn-back:hover:not(:disabled) {
+    background: #e8f4ff;
+}
+
+.nav-btn-next {
+    color: #ffffff;
+    background: #0070d2;
+    border-color: #0070d2;
+}
+
+.nav-btn-next:hover:not(:disabled) {
+    background: #005fb2;
+    border-color: #005fb2;
+}
+
+.nav-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
