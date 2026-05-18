@@ -3,6 +3,7 @@
     <fullName>noAutomations__c</fullName>
     <defaultValue>false</defaultValue>
     <label>No Automations</label>
+    <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

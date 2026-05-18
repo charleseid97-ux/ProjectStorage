@@ -1,4 +1,4 @@
-public with sharing class EventTimezoneUtil {
+public without sharing class EventTimezoneUtil {
 
     public class EventTimezoneUtilException extends Exception {}
 

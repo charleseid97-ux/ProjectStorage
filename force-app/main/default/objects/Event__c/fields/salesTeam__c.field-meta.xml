@@ -3,17 +3,13 @@
     <fullName>salesTeam__c</fullName>
     <label>Sales team</label>
     <required>true</required>
+    <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
         <valueSetDefinition>
-            <sorted>true</sorted>
-            <value>
-                <fullName>All countries</fullName>
-                <default>false</default>
-                <label>All countries</label>
-            </value>
+            <sorted>false</sorted>
             <value>
                 <fullName>All countries</fullName>
                 <default>false</default>

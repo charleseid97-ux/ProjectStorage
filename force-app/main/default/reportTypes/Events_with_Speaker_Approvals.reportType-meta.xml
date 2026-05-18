@@ -305,6 +305,21 @@
             <field>ScheduleID__c</field>
             <table>Event__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>OrganizerApprovalRequired__c</field>
+            <table>Event__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>OrganizerDecision__c</field>
+            <table>Event__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Speakers__c</field>
+            <table>Event__c</table>
+        </columns>
         <masterLabel>Bookly Requests</masterLabel>
     </sections>
     <sections>

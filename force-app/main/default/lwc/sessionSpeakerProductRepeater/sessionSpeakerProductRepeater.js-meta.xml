@@ -29,6 +29,11 @@
                       role="inputOnly"
                       label="Show Start and End Time"/>
 
+            <property name="defaultSpeakerDate"
+                      type="String"
+                      role="inputOnly"                      
+                      label="Default Speaker Date"/>
+
             <property name="defaultStartTime"
                       type="String"
                       role="inputOnly"
@@ -44,5 +49,6 @@
                       role="outputOnly"
                       label="Records JSON (sessionSpeakerProduct__c list)"/>
         </targetConfig>
+        
     </targetConfigs>
 </LightningComponentBundle>

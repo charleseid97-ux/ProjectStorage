@@ -35,7 +35,15 @@
                 </lightning-pill-container>
             </div>
         </div>
-
+        <template if:true={displayAddress}>
+            <div class="slds-m-top_medium">
+                <strong>Address :</strong>
+                <p>{address.name}</p>
+                <p>{address.street}</p>
+                <p>{address.postalCode} {address.city}</p>
+                <p>{address.country}</p>
+            </div>
+        </template>
         <template if:true={lastError}>
             <div class="slds-m-top_small slds-text-color_error slds-text-body_small">
                 {lastError}

@@ -11,6 +11,26 @@
         <reevaluateOnChange>false</reevaluateOnChange>
     </fieldUpdates>
     <fieldUpdates>
+        <fullName>OrganizerApproval</fullName>
+        <field>OrganizerDecision__c</field>
+        <literalValue>Approved</literalValue>
+        <name>Organizer approval</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>OrganizerRejection</fullName>
+        <field>OrganizerDecision__c</field>
+        <literalValue>Rejected</literalValue>
+        <name>Organizer rejection</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
         <fullName>passToSpeakersValidation</fullName>
         <field>status__c</field>
         <literalValue>WaitingForSpeakerApprovals</literalValue>

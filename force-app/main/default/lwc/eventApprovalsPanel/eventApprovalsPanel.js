@@ -228,11 +228,21 @@ export default class EventApprovalsPanel extends LightningElement {
         }).format(date);
     }
 
+    // Ajoute le processName dans la logique du titre
     get pendingWithTitle() {
-        return (this.pending || []).map((row) => ({
-            ...row,
-            displayTitle: row?.speakerName ? row.speakerName : 'Event team approval'
-        }));
+        return (this.pending || []).map((row) => {
+            const isOrganizerApproval =
+                (row?.processName || '').toLowerCase() === 'organizer approval';
+
+            return {
+                ...row,
+                displayTitle: row?.speakerName
+                    ? row.speakerName
+                    : isOrganizerApproval
+                        ? 'Organizer Approval'
+                        : 'Event team approval'
+            };
+        });
     }
 
     get processedWithTitle() {
@@ -254,9 +264,16 @@ export default class EventApprovalsPanel extends LightningElement {
             const resultVariant = isApproved ? 'success' : isRejected ? 'error' : undefined;
             const resultClass = !isApproved && !isRejected ? 'slds-icon-text-brand' : '';
 
+            const isOrganizerApproval =
+                (row?.processName || '').toLowerCase() === 'organizer approval';
+
             return {
                 ...row,
-                displayTitle: row?.speakerName ? row.speakerName : 'Event team approval',
+                displayTitle: row?.speakerName
+                    ? row.speakerName
+                    : isOrganizerApproval
+                        ? 'Organizer Approval'
+                        : 'Event team approval',
                 actionDateFormatted: this.formatDateTime(row?.actionDate),
                 actorNameTrimmed: (row?.actorName || '').trim(),
                 resultTextClass,

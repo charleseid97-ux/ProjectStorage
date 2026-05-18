@@ -1,4 +1,4 @@
-public with sharing class customEventAttendeeHandler implements ITriggerHandler {
+public without sharing class customEventAttendeeHandler implements ITriggerHandler {
 
     public static Boolean triggerDisabled = false;
 

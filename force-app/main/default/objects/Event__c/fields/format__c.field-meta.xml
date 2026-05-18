@@ -3,6 +3,7 @@
     <fullName>format__c</fullName>
     <label>Format</label>
     <required>true</required>
+    <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

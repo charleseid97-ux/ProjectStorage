@@ -155,7 +155,7 @@
                 </groupingSortProperties>
                 <header>Approvals per Assistant</header>
                 <legendPosition>Bottom</legendPosition>
-                <report>Bookly/SpeakerApproval/APR_Approval_for_Top_Speaker_Assist_zOW</report>
+                <report>Bookly/APR_Approval_for_Top_Speaker_Assist_zOW</report>
                 <showPercentage>false</showPercentage>
                 <showPicturesOnCharts>false</showPicturesOnCharts>
                 <showValues>true</showValues>
@@ -196,7 +196,7 @@
                 <indicatorHighColor>#00716B</indicatorHighColor>
                 <indicatorLowColor>#00716B</indicatorLowColor>
                 <indicatorMiddleColor>#00716B</indicatorMiddleColor>
-                <report>Bookly/SpeakerApproval/APR_Speaker_Approval_by_Assist_Ontrack_XYs</report>
+                <report>Bookly/APR_Speaker_Approval_by_Assist_Ontrack_XYs</report>
                 <showRange>false</showRange>
             </dashboardComponent>
             <rowIndex>0</rowIndex>
@@ -232,7 +232,7 @@
                 <indicatorHighColor>#CA8501</indicatorHighColor>
                 <indicatorLowColor>#CA8501</indicatorLowColor>
                 <indicatorMiddleColor>#CA8501</indicatorMiddleColor>
-                <report>Bookly/SpeakerApproval/APR_Speaker_Approval_by_Assist_Soon_hIs</report>
+                <report>Bookly/APR_Speaker_Approval_by_Assist_Soon_hIs</report>
                 <showRange>false</showRange>
             </dashboardComponent>
             <rowIndex>0</rowIndex>
@@ -268,7 +268,7 @@
                 <indicatorHighColor>#C23934</indicatorHighColor>
                 <indicatorLowColor>#C23934</indicatorLowColor>
                 <indicatorMiddleColor>#C23934</indicatorMiddleColor>
-                <report>Bookly/SpeakerApproval/APR_Speaker_Approval_by_Assist_Overdue_erf</report>
+                <report>Bookly/APR_Speaker_Approval_by_Assist_Overdue_erf</report>
                 <showRange>false</showRange>
             </dashboardComponent>
             <rowIndex>0</rowIndex>
@@ -339,7 +339,7 @@
                 </flexComponentProperties>
                 <groupingSortProperties/>
                 <header>Pending Speaker Approvals</header>
-                <report>Bookly/SpeakerApproval/APR_Approval_for_Top_Speaker_Assist_zOW</report>
+                <report>Bookly/APR_Approval_for_Top_Speaker_Assist_zOW</report>
             </dashboardComponent>
             <rowIndex>5</rowIndex>
             <rowSpan>13</rowSpan>
@@ -384,7 +384,7 @@
                 <header>Approvals per Speaker</header>
                 <legendPosition>Bottom</legendPosition>
                 <maxValuesDisplayed>10</maxValuesDisplayed>
-                <report>Bookly/SpeakerApproval/APR_Approval_for_Top_Speaker_Assist_zOW</report>
+                <report>Bookly/APR_Approval_for_Top_Speaker_Assist_zOW</report>
                 <showPercentage>false</showPercentage>
                 <showPicturesOnCharts>false</showPicturesOnCharts>
                 <showValues>true</showValues>
@@ -400,6 +400,7 @@
         <rowHeight>36</rowHeight>
     </dashboardGridLayout>
     <dashboardType>SpecifiedUser</dashboardType>
+    <description>Monitor speaker availability validations and pending actions to ensure smooth scheduling.</description>
     <isGridLayout>true</isGridLayout>
     <owner>coullon.thomas-crm@carmignac.com</owner>
     <runningUser>coullon.thomas-crm@carmignac.com</runningUser>

@@ -5,15 +5,14 @@ import Id from "@salesforce/user/Id";
 import { getObjectInfo, getPicklistValues } from "lightning/uiObjectInfoApi";
 import EVENT_OBJECT from "@salesforce/schema/Event__c";
 import TIMEZONE_FIELD from "@salesforce/schema/Event__c.timezone__c";
-
+import SALES_TEAM_FIELD from "@salesforce/schema/Event__c.salesTeam__c";
 // Apex
 import getEvents from "@salesforce/apex/CustomCalendarHelper.getEvents";
 import getEventPrefix from "@salesforce/apex/CustomCalendarHelper.getEventPrefix";
 import getSpeakerContacts from "@salesforce/apex/CustomCalendarHelper.getSpeakerContacts";
 import getUserUtcOffset from "@salesforce/apex/CustomCalendarHelper.getUserUtcOffset";
 import getEventColors from "@salesforce/apex/CustomCalendarHelper.getEventColors";
-
-// Utils
+import BooklyCanCreateMeetingNotes from "@salesforce/customPermission/BooklyCanCreateMeetingNotes";
 import { formatEvents } from "c/calendarUtils";
 
 export default class CustomCalendar extends NavigationMixin(LightningElement) {
@@ -40,19 +39,7 @@ export default class CustomCalendar extends NavigationMixin(LightningElement) {
     JobTitles: false
   };
 
-  countryOptions = [
-    { label: "France", value: "France" },
-    { label: "Germany", value: "Germany" },
-    { label: "Italy", value: "Italy" },
-    { label: "Spain", value: "Spain" },
-    { label: "United Kingdom", value: "United Kingdom" },
-    { label: "Switzerland", value: "Switzerland" },
-    { label: "Luxembourg", value: "Luxembourg" },
-    { label: "Netherlands", value: "Netherlands" },
-    { label: "Belgium", value: "Belgium" },
-    { label: "Austria", value: "Austria" }
-  ];
-
+ 
   @api recordId;
   @api childObject = "Event__c";
   @api parentFieldName = "parentEvent__c";
@@ -69,7 +56,7 @@ export default class CustomCalendar extends NavigationMixin(LightningElement) {
 
   @api startDate;
   @api endDate;
-
+  selectedEventType;
   userId = Id;
   eventPrefix;
   isEvent = false;
@@ -84,7 +71,21 @@ export default class CustomCalendar extends NavigationMixin(LightningElement) {
       this.fetchEvents();
     }, delay);
   }
-
+  @wire(getPicklistValues, {
+    recordTypeId: "$objectInfo.data.defaultRecordTypeId",
+    fieldApiName: SALES_TEAM_FIELD
+  })
+  wiredSalesTeamPicklist({ data, error }) {
+    if (data) {
+      this.allSalesTeams = (data.values || []).map((item) => ({
+        label: item.label,
+        value: item.value
+      }));
+    } else if (error) {
+      console.error("Error loading sales team picklist", error);
+      this.allSalesTeams = [];
+    }
+  }
   // Récupère les métadonnées de l'objet pour obtenir le record type par défaut.
   @wire(getObjectInfo, { objectApiName: EVENT_OBJECT })
   objectInfo;
@@ -232,7 +233,6 @@ export default class CustomCalendar extends NavigationMixin(LightningElement) {
   }
 
   connectedCallback() {
-    this.allSalesTeams = this.countryOptions;
 
     this.updateContextFlags();
 
@@ -451,11 +451,23 @@ export default class CustomCalendar extends NavigationMixin(LightningElement) {
   }
 
   handleEventClick = (e) => {
-    this.selectedRecordId =
-      e.detail?.value?.event?._def?.extendedProps?.Id ||
-      e.detail?.value?.event?.id;
-  };
+    const clickedEvent = e.detail?.value?.event;
+    const props = clickedEvent?._def?.extendedProps;
 
+    this.selectedRecordId =
+      props?.sObjectId ||
+      clickedEvent?.id;
+
+    this.selectedEventType = props?.category || null;
+
+    console.log("props =", JSON.stringify(props));
+    console.log("selectedEventType =", this.selectedEventType);
+  };
+  get showMeetingNoteButton() {
+  return BooklyCanCreateMeetingNotes
+    && this.childObject === "Event__c"
+    && this.selectedEventType === "One to One meeting";
+}
   openRecord = () => {
     if (!this.selectedRecordId) return;
 
@@ -547,7 +559,7 @@ export default class CustomCalendar extends NavigationMixin(LightningElement) {
     return `display:block;min-height:2rem;border-radius:0.25rem;border:1px solid #d8dde6;background-color:${bg};`;
   }
 
-  openRecap() {
+  openAgendaWindow(showMeetingNotes) {
     const origin = window.location.origin;
     const siteOrigin = origin.replace(
       /\.lightning\.force\.com$/i,
@@ -555,8 +567,30 @@ export default class CustomCalendar extends NavigationMixin(LightningElement) {
     );
 
     const path = "/EventAgenda/apex/VFP18_EventAgenda";
-    const url = `${siteOrigin}${path}?EventId=${this.recordId}&SMN=false`;
+    const url = `${siteOrigin}${path}?EventId=${this.recordId}&SMN=${showMeetingNotes}`;
 
     window.open(url, "_blank");
   }
+
+  openRecap() {
+    this.openAgendaWindow(false);
+  }
+
+  openRecapWithNotes() {
+    this.openAgendaWindow(true);
+  }
+
+  openMeetingNoteQuickAction = () => {
+    if (!this.selectedRecordId) return;
+
+    this[NavigationMixin.Navigate]({
+      type: "standard__quickAction",
+      attributes: {
+        apiName: "Event__c.MeetingNote_meetingDays"
+      },
+      state: {
+        recordId: this.selectedRecordId
+      }
+    });
+  };
 }

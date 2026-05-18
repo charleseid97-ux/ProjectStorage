@@ -3,6 +3,7 @@
     <fullName>city__c</fullName>
     <label>Location City</label>
     <required>true</required>
+    <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
@@ -150,12 +151,7 @@
                 <fullName>Berlin</fullName>
                 <default>false</default>
                 <label>Berlin</label>
-            </value>
-            <value>
-                <fullName>Besançon</fullName>
-                <default>false</default>
-                <label>Besançon</label>
-            </value>
+            </value>        
             <value>
                 <fullName>Biarritz</fullName>
                 <default>false</default>
@@ -327,9 +323,9 @@
                 <label>Como</label>
             </value>
             <value>
-                <fullName>Coruña</fullName>
+                <fullName>Coruna</fullName>
                 <default>false</default>
-                <label>Coruña</label>
+                <label>Coruna</label>
             </value>
             <value>
                 <fullName>Cornwall</fullName>
@@ -367,9 +363,9 @@
                 <label>Dublin</label>
             </value>
             <value>
-                <fullName>Düsseldorf</fullName>
+                <fullName>Dusseldorf</fullName>
                 <default>false</default>
-                <label>Düsseldorf</label>
+                <label>Dusseldorf</label>
             </value>
             <value>
                 <fullName>Edinburgh</fullName>
@@ -417,9 +413,9 @@
                 <label>Ghent</label>
             </value>
             <value>
-                <fullName>Gijón</fullName>
+                <fullName>Gijon</fullName>
                 <default>false</default>
-                <label>Gijón</label>
+                <label>Gijon</label>
             </value>
             <value>
                 <fullName>Glasgow</fullName>
@@ -502,9 +498,9 @@
                 <label>Hong Kong</label>
             </value>
             <value>
-                <fullName>Hyères</fullName>
+                <fullName>Hyeres</fullName>
                 <default>false</default>
-                <label>Hyères</label>
+                <label>Hyeres</label>
             </value>
             <value>
                 <fullName>Innsbruck</fullName>
@@ -552,9 +548,9 @@
                 <label>Konstanz</label>
             </value>
             <value>
-                <fullName>Königstein im Taunus</fullName>
+                <fullName>Konigstein im Taunus</fullName>
                 <default>false</default>
-                <label>Königstein im Taunus</label>
+                <label>Konigstein im Taunus</label>
             </value>
             <value>
                 <fullName>La Hulpe</fullName>
@@ -617,9 +613,9 @@
                 <label>Leuven</label>
             </value>
             <value>
-                <fullName>Liège</fullName>
+                <fullName>Liege</fullName>
                 <default>false</default>
-                <label>Liège</label>
+                <label>Liege</label>
             </value>
             <value>
                 <fullName>Lille</fullName>
@@ -732,9 +728,9 @@
                 <label>Monaco</label>
             </value>
             <value>
-                <fullName>Montréal</fullName>
+                <fullName>Montreal</fullName>
                 <default>false</default>
-                <label>Montréal</label>
+                <label>Montreal</label>
             </value>
             <value>
                 <fullName>Mons</fullName>
@@ -757,9 +753,9 @@
                 <label>Monza</label>
             </value>
             <value>
-                <fullName>Münster</fullName>
+                <fullName>Munster</fullName>
                 <default>false</default>
-                <label>Münster</label>
+                <label>Munster</label>
             </value>
             <value>
                 <fullName>Munich</fullName>
@@ -977,9 +973,9 @@
                 <label>Salzburg</label>
             </value>
             <value>
-                <fullName>San Sebastián</fullName>
+                <fullName>San Sebastian</fullName>
                 <default>false</default>
-                <label>San Sebastián</label>
+                <label>San Sebastian</label>
             </value>
             <value>
                 <fullName>Santander-Torrelavega</fullName>
@@ -1231,250 +1227,163 @@
                 <default>false</default>
                 <label>digital</label>
             </value>
+            <value>
+                <fullName>Treviso</fullName>
+                <default>false</default>
+                <label>Treviso</label>
+            </value>
+            <value>
+                <fullName>Bolderberg</fullName>
+                <default>false</default>
+                <label>Bolderberg</label>
+            </value>
+            <value>
+                <fullName>Braine-l&apos;Alleud</fullName>
+                <default>false</default>
+                <label>Braine-l&apos;Alleud</label>
+            </value>
+            <value>
+                <fullName>Brescia</fullName>
+                <default>false</default>
+                <label>Brescia</label>
+            </value>
+            <value>
+                <fullName>Duffel</fullName>
+                <default>false</default>
+                <label>Duffel</label>
+            </value>
+            <value>
+                <fullName>Flanders</fullName>
+                <default>false</default>
+                <label>Flanders</label>
+            </value>
+            <value>
+                <fullName>Garches</fullName>
+                <default>false</default>
+                <label>Garches</label>
+            </value>
+            <value>
+                <fullName>Hertsberge</fullName>
+                <default>false</default>
+                <label>Hertsberge</label>
+            </value>
+            <value>
+                <fullName>Kasterlee</fullName>
+                <default>false</default>
+                <label>Kasterlee</label>
+            </value>
+            <value>
+                <fullName>Lubeck</fullName>
+                <default>false</default>
+                <label>Lübeck</label>
+            </value>
+            <value>
+                <fullName>Orleans</fullName>
+                <default>false</default>
+                <label>Orléans</label>
+            </value>
+            <value>
+                <fullName>Quevy-le-Grand</fullName>
+                <default>false</default>
+                <label>Quévy-le-Grand</label>
+            </value>
+            <value>
+                <fullName>Tarragona</fullName>
+                <default>false</default>
+                <label>Tarragona</label>
+            </value>
+            <value>
+                <fullName>Torino</fullName>
+                <default>false</default>
+                <label>Torino</label>
+            </value>
+            <value>
+                <fullName>York</fullName>
+                <default>false</default>
+                <label>York</label>
+            </value>
+            <value>
+                <fullName>LondonCanada</fullName>
+                <default>false</default>
+                <label>London (Canada)</label>
+            </value>
+            <value>
+                <fullName>Mulhouse</fullName>
+                <default>false</default>
+                <label>Mulhouse</label>
+            </value>
+            <value>
+                <fullName>Guernsey</fullName>
+                <default>false</default>
+                <label>Guernsey</label>
+            </value>
+            <value>
+                <fullName>Murcia–Orihuela</fullName>
+                <default>false</default>
+                <label>Murcia–Orihuela</label>
+            </value>
+            <value>
+                <fullName>Ruschlikon</fullName>
+                <default>false</default>
+                <label>Ruschlikon</label>
+            </value>
+            <value>
+                <fullName>Castellon de la Plana</fullName>
+                <default>false</default>
+                <label>Castellon de la Plana</label>
+            </value>
+            <value>
+                <fullName>Lasne</fullName>
+                <default>false</default>
+                <label>Lasne</label>
+            </value>
+            <value>
+                <fullName>Leon</fullName>
+                <default>false</default>
+                <label>Leon</label>
+            </value>
+            <value>
+                <fullName>Murcia</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Murcia</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
-            <controllingFieldValue>United Kingdom</controllingFieldValue>
-            <valueName>Aberdeen</valueName>
+            <controllingFieldValue>Sweden</controllingFieldValue>
+            <valueName>Stockholm</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>United Kingdom</controllingFieldValue>
-            <valueName>Belfast</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>United Kingdom</controllingFieldValue>
-            <valueName>Birmingham</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>United Kingdom</controllingFieldValue>
-            <valueName>Bristol</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>United Kingdom</controllingFieldValue>
-            <valueName>Cardiff</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>United Kingdom</controllingFieldValue>
-            <valueName>Edinburgh</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>United Kingdom</controllingFieldValue>
-            <valueName>Exeter</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>United Kingdom</controllingFieldValue>
-            <valueName>Glasgow</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>United Kingdom</controllingFieldValue>
-            <valueName>Guildford</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>United Kingdom</controllingFieldValue>
-            <valueName>Harrogate</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>United Kingdom</controllingFieldValue>
-            <valueName>Leeds</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>United Kingdom</controllingFieldValue>
-            <valueName>Leicester</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>United Kingdom</controllingFieldValue>
-            <valueName>Liverpool</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>United Kingdom</controllingFieldValue>
-            <valueName>London</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>United Kingdom</controllingFieldValue>
-            <valueName>Newcastle</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>United Kingdom</controllingFieldValue>
-            <valueName>Nottingham</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>United Kingdom</controllingFieldValue>
-            <valueName>Norwich</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>United Kingdom</controllingFieldValue>
-            <valueName>Southampton</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>United Kingdom</controllingFieldValue>
-            <valueName>Wakefield</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>United Kingdom</controllingFieldValue>
-            <valueName>Windsor</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>United Kingdom</controllingFieldValue>
-            <valueName>Wolverhampton</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>United Kingdom</controllingFieldValue>
-            <valueName>Manchester</valueName>
+            <controllingFieldValue>United Arab Emirates</controllingFieldValue>
+            <valueName>Dubai</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Uruguay</controllingFieldValue>
             <valueName>Montevideo</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Canada</controllingFieldValue>
-            <valueName>Montréal</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Singapore</controllingFieldValue>
-            <valueName>Singapore</valueName>
-        </valueSettings>
-        <valueSettings>
             <controllingFieldValue>Digital</controllingFieldValue>
             <valueName>Digital</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Japan</controllingFieldValue>
-            <valueName>Tokyo</valueName>
+            <controllingFieldValue>Finland</controllingFieldValue>
+            <valueName>Helsinki</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Latvia</controllingFieldValue>
-            <valueName>Riga</valueName>
+            <controllingFieldValue>Liechtenstein</controllingFieldValue>
+            <valueName>Vaduz</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Lithuania</controllingFieldValue>
-            <valueName>Vilnius</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Luxembourg</controllingFieldValue>
-            <valueName>Luxembourg City</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Monaco</controllingFieldValue>
-            <valueName>Monaco</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Netherlands</controllingFieldValue>
-            <valueName>Amsterdam</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Netherlands</controllingFieldValue>
-            <valueName>Amstelveen</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Norway</controllingFieldValue>
-            <valueName>Oslo</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Portugal</controllingFieldValue>
-            <valueName>Lisbon</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Portugal</controllingFieldValue>
-            <valueName>Porto</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Spain</controllingFieldValue>
-            <valueName>Albacete</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Spain</controllingFieldValue>
-            <valueName>Alicante</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Spain</controllingFieldValue>
-            <valueName>Barcelona</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Spain</controllingFieldValue>
-            <valueName>Bilbao</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Spain</controllingFieldValue>
-            <valueName>Gijón</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Spain</controllingFieldValue>
-            <valueName>Granada</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Spain</controllingFieldValue>
-            <valueName>Las Palmas</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Spain</controllingFieldValue>
-            <valueName>Logroño</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Spain</controllingFieldValue>
-            <valueName>Madrid</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Spain</controllingFieldValue>
-            <valueName>Malaga</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Spain</controllingFieldValue>
-            <valueName>Murcia-Orihuela</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Spain</controllingFieldValue>
-            <valueName>Oviedo</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Spain</controllingFieldValue>
-            <valueName>Palma</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Spain</controllingFieldValue>
-            <valueName>Pamplona</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Spain</controllingFieldValue>
-            <valueName>Salamanca</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Spain</controllingFieldValue>
-            <valueName>San Sebastián</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Spain</controllingFieldValue>
-            <valueName>Santiago</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Spain</controllingFieldValue>
-            <valueName>Valencia</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Spain</controllingFieldValue>
-            <valueName>Valladolid</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Spain</controllingFieldValue>
-            <valueName>Vigo</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Spain</controllingFieldValue>
-            <valueName>Zaragoza</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Spain</controllingFieldValue>
-            <valueName>Seville</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Sweden</controllingFieldValue>
-            <valueName>Stockholm</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Andorra</controllingFieldValue>
-            <valueName>Andorra la Vella</valueName>
+            <controllingFieldValue>Guernsey</controllingFieldValue>
+            <valueName>Guernsey</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Austria</controllingFieldValue>
             <valueName>Bregenz</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Austria</controllingFieldValue>
+            <valueName>Dornbirn</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Austria</controllingFieldValue>
@@ -1501,72 +1410,48 @@
             <valueName>Vienna</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Belgium</controllingFieldValue>
-            <valueName>Aalst</valueName>
+            <controllingFieldValue>Canada</controllingFieldValue>
+            <valueName>Montreal</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Belgium</controllingFieldValue>
-            <valueName>Antwerp</valueName>
+            <controllingFieldValue>Canada</controllingFieldValue>
+            <valueName>LondonCanada</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Belgium</controllingFieldValue>
-            <valueName>Bruges</valueName>
+            <controllingFieldValue>Hungary</controllingFieldValue>
+            <valueName>Budapest</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Belgium</controllingFieldValue>
-            <valueName>Brussels</valueName>
+            <controllingFieldValue>Ireland</controllingFieldValue>
+            <valueName>Dublin</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Belgium</controllingFieldValue>
-            <valueName>Eghezee</valueName>
+            <controllingFieldValue>Japan</controllingFieldValue>
+            <valueName>Tokyo</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Belgium</controllingFieldValue>
-            <valueName>Ghent</valueName>
+            <controllingFieldValue>Latvia</controllingFieldValue>
+            <valueName>Riga</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Belgium</controllingFieldValue>
-            <valueName>Groot-Bijgaarden</valueName>
+            <controllingFieldValue>Lithuania</controllingFieldValue>
+            <valueName>Vilnius</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Belgium</controllingFieldValue>
-            <valueName>Hasselt</valueName>
+            <controllingFieldValue>Monaco</controllingFieldValue>
+            <valueName>Monaco</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Belgium</controllingFieldValue>
-            <valueName>Knokke</valueName>
+            <controllingFieldValue>Netherlands</controllingFieldValue>
+            <valueName>Amsterdam</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Belgium</controllingFieldValue>
-            <valueName>Leuven</valueName>
+            <controllingFieldValue>Netherlands</controllingFieldValue>
+            <valueName>Amstelveen</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Belgium</controllingFieldValue>
-            <valueName>Liège</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Belgium</controllingFieldValue>
-            <valueName>Mechelen</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Belgium</controllingFieldValue>
-            <valueName>Mons</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Belgium</controllingFieldValue>
-            <valueName>Namur</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Belgium</controllingFieldValue>
-            <valueName>Uccle</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Belgium</controllingFieldValue>
-            <valueName>Waterloo</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Belgium</controllingFieldValue>
-            <valueName>Zaventem</valueName>
+            <controllingFieldValue>Norway</controllingFieldValue>
+            <valueName>Oslo</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>France</controllingFieldValue>
@@ -1598,10 +1483,6 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>France</controllingFieldValue>
-            <valueName>Besançon</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>France</controllingFieldValue>
             <valueName>Biarritz</valueName>
         </valueSettings>
         <valueSettings>
@@ -1615,6 +1496,10 @@
         <valueSettings>
             <controllingFieldValue>France</controllingFieldValue>
             <valueName>Brest</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>France</controllingFieldValue>
+            <valueName>Brive-la-Gaillarde</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>France</controllingFieldValue>
@@ -1642,7 +1527,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>France</controllingFieldValue>
-            <valueName>Hyères</valueName>
+            <valueName>Hyeres</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>France</controllingFieldValue>
@@ -1785,8 +1670,224 @@
             <valueName>Versailles</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>France</controllingFieldValue>
+            <valueName>Garches</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>France</controllingFieldValue>
+            <valueName>Orleans</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>France</controllingFieldValue>
+            <valueName>Mulhouse</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>United Kingdom</controllingFieldValue>
+            <valueName>Aberdeen</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>United Kingdom</controllingFieldValue>
+            <valueName>Belfast</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>United Kingdom</controllingFieldValue>
+            <valueName>Birmingham</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>United Kingdom</controllingFieldValue>
+            <valueName>Bristol</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>United Kingdom</controllingFieldValue>
+            <valueName>Cardiff</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>United Kingdom</controllingFieldValue>
+            <valueName>Chepstow</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>United Kingdom</controllingFieldValue>
+            <valueName>Edinburgh</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>United Kingdom</controllingFieldValue>
+            <valueName>Exeter</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>United Kingdom</controllingFieldValue>
+            <valueName>Glasgow</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>United Kingdom</controllingFieldValue>
+            <valueName>Guildford</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>United Kingdom</controllingFieldValue>
+            <valueName>Harrogate</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>United Kingdom</controllingFieldValue>
+            <valueName>Jersey</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>United Kingdom</controllingFieldValue>
+            <valueName>Leeds</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>United Kingdom</controllingFieldValue>
+            <valueName>Leicester</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>United Kingdom</controllingFieldValue>
+            <valueName>Liverpool</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>United Kingdom</controllingFieldValue>
+            <valueName>London</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>United Kingdom</controllingFieldValue>
+            <valueName>Newcastle</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>United Kingdom</controllingFieldValue>
+            <valueName>Nottingham</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>United Kingdom</controllingFieldValue>
+            <valueName>Norwich</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>United Kingdom</controllingFieldValue>
+            <valueName>Southampton</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>United Kingdom</controllingFieldValue>
+            <valueName>Surrey</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>United Kingdom</controllingFieldValue>
+            <valueName>Wakefield</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>United Kingdom</controllingFieldValue>
+            <valueName>Windsor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>United Kingdom</controllingFieldValue>
+            <valueName>Wolverhampton</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>United Kingdom</controllingFieldValue>
+            <valueName>Manchester</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>United Kingdom</controllingFieldValue>
+            <valueName>York</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Spain</controllingFieldValue>
+            <valueName>Albacete</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Spain</controllingFieldValue>
+            <valueName>Alicante</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Spain</controllingFieldValue>
+            <valueName>Barcelona</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Spain</controllingFieldValue>
+            <valueName>Bilbao</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Spain</controllingFieldValue>
+            <valueName>Gijon</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Spain</controllingFieldValue>
+            <valueName>Granada</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Spain</controllingFieldValue>
+            <valueName>Las Palmas</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Spain</controllingFieldValue>
+            <valueName>Logroño</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Spain</controllingFieldValue>
+            <valueName>Madrid</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Spain</controllingFieldValue>
+            <valueName>Malaga</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Spain</controllingFieldValue>
+            <valueName>Murcia-Orihuela</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Spain</controllingFieldValue>
+            <valueName>Oviedo</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Spain</controllingFieldValue>
+            <valueName>Palma</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Spain</controllingFieldValue>
+            <valueName>Pamplona</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Spain</controllingFieldValue>
+            <valueName>Salamanca</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Spain</controllingFieldValue>
+            <valueName>San Sebastian</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Spain</controllingFieldValue>
+            <valueName>Santiago</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Spain</controllingFieldValue>
+            <valueName>Valencia</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Spain</controllingFieldValue>
+            <valueName>Valladolid</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Spain</controllingFieldValue>
+            <valueName>Vigo</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Spain</controllingFieldValue>
+            <valueName>Zaragoza</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Spain</controllingFieldValue>
+            <valueName>Seville</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Spain</controllingFieldValue>
+            <valueName>Tarragona</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Spain</controllingFieldValue>
+            <valueName>Leon</valueName>
+        </valueSettings>
+        <valueSettings>
             <controllingFieldValue>Germany</controllingFieldValue>
             <valueName>Augsburg</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Germany</controllingFieldValue>
+            <valueName>Bergisch Gladbach</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Germany</controllingFieldValue>
@@ -1810,7 +1911,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Germany</controllingFieldValue>
-            <valueName>Düsseldorf</valueName>
+            <valueName>Dusseldorf</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Germany</controllingFieldValue>
@@ -1866,7 +1967,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Germany</controllingFieldValue>
-            <valueName>Münster</valueName>
+            <valueName>Munster</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Germany</controllingFieldValue>
@@ -1889,12 +1990,8 @@
             <valueName>Ulm</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Hungary</controllingFieldValue>
-            <valueName>Budapest</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Ireland</controllingFieldValue>
-            <valueName>Dublin</valueName>
+            <controllingFieldValue>Germany</controllingFieldValue>
+            <valueName>Lubeck</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Italy</controllingFieldValue>
@@ -1911,6 +2008,14 @@
         <valueSettings>
             <controllingFieldValue>Italy</controllingFieldValue>
             <valueName>Bologna</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Italy</controllingFieldValue>
+            <valueName>Cagliari</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Italy</controllingFieldValue>
+            <valueName>Castellón de la Plana</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Italy</controllingFieldValue>
@@ -1966,6 +2071,10 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Italy</controllingFieldValue>
+            <valueName>Rimini</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Italy</controllingFieldValue>
             <valueName>Rome</valueName>
         </valueSettings>
         <valueSettings>
@@ -1978,7 +2087,23 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Italy</controllingFieldValue>
+            <valueName>Udine</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Italy</controllingFieldValue>
             <valueName>Verona</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Italy</controllingFieldValue>
+            <valueName>Treviso</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Italy</controllingFieldValue>
+            <valueName>Brescia</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Italy</controllingFieldValue>
+            <valueName>Torino</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Switzerland</controllingFieldValue>
@@ -2002,11 +2127,147 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Switzerland</controllingFieldValue>
+            <valueName>Rüschlikon</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Switzerland</controllingFieldValue>
             <valueName>Zurich</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>United Arab Emirates</controllingFieldValue>
-            <valueName>Dubai</valueName>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Aalst</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Anderlecht</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Antwerp</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Bruges</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Brussels</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Eghezee</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Ecaussines</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Ghent</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Groot-Bijgaarden</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Hasselt</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Knokke</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Leuven</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Liege</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Mechelen</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Mons</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Namur</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Roeselare</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Sint-Katelijne-Waver</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Temploux</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Uccle</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Waterloo</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Zaventem</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Bolderberg</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Braine-l&apos;Alleud</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Duffel</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Hertsberge</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Kasterlee</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Quevy-le-Grand</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Belgium</controllingFieldValue>
+            <valueName>Lasne</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Luxembourg</controllingFieldValue>
+            <valueName>Luxembourg City</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Andorra</controllingFieldValue>
+            <valueName>Andorra la Vella</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Portugal</controllingFieldValue>
+            <valueName>Lisbon</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Portugal</controllingFieldValue>
+            <valueName>Porto</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Singapore</controllingFieldValue>
+            <valueName>Singapore</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

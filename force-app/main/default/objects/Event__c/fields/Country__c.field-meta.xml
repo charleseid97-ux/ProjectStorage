@@ -3,6 +3,7 @@
     <fullName>country__c</fullName>
     <label>Location Country</label>
     <required>true</required>
+    <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
@@ -139,6 +140,21 @@
                 <fullName>Digital</fullName>
                 <default>false</default>
                 <label>Digital</label>
+            </value>
+            <value>
+                <fullName>Finland</fullName>
+                <default>false</default>
+                <label>Finland</label>
+            </value>
+            <value>
+                <fullName>Liechtenstein</fullName>
+                <default>false</default>
+                <label>Liechtenstein</label>
+            </value>
+            <value>
+                <fullName>Guernsey</fullName>
+                <default>false</default>
+                <label>Guernsey</label>
             </value>
         </valueSetDefinition>
     </valueSet>

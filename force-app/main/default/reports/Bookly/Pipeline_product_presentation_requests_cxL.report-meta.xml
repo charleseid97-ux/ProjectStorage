@@ -43,13 +43,6 @@
     <description>Vue d’ensemble : demandé vs confirmé</description>
     <filter>
         <criteriaItems>
-            <column>Event__c$status__c</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>notEqual</operator>
-            <value>Cancelled,Rejected</value>
-        </criteriaItems>
-        <criteriaItems>
             <column>Event__c.SpeakersProducts__r$presentationStatus__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
@@ -60,8 +53,22 @@
             <column>Event__c$startDate__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
-            <operator>lessOrEqual</operator>
+            <operator>greaterOrEqual</operator>
             <value>TODAY</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Event__c.SpeakersProducts__r$PresentationStatusFormula__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Due,Required</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Event__c.SpeakersProducts__r$speakerContact__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value></value>
         </criteriaItems>
         <language>en_US</language>
     </filter>
@@ -78,7 +85,7 @@
     </groupingsDown>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>Event__c.SpeakersProducts__r$presentationStatus__c</field>
+        <field>Event__c.SpeakersProducts__r$PresentationStatusFormula__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
     <name>PP - Pipeline Presentation Requests</name>

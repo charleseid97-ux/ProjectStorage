@@ -1,12 +1,12 @@
-public with sharing class customEventAttendeeService {
+public without sharing class customEventAttendeeService {
 
     // Guard in case the framework (or other automations) cause indirect re-entry
-    private static Boolean isRunning = false;
+    public static Boolean isRunning = false;
 
     // Log literals (avoid duplication)
-    private static final String LOG_PREFIX = '[EventAttendeeAddress] ';
-    private static final String LOG_SKIP_ATTENDEE_PREFIX = LOG_PREFIX + 'Skip attendee Id=';
-    private static final String LOG_COUNTRY_LABEL = 'Country=';
+    public static final String LOG_PREFIX = '[EventAttendeeAddress] ';
+    public static final String LOG_SKIP_ATTENDEE_PREFIX = LOG_PREFIX + 'Skip attendee Id=';
+    public static final String LOG_COUNTRY_LABEL = 'Country=';
 
     /**
      * When EventAttendee__c is created, if Event__c.CopyAddress__c = true
@@ -79,7 +79,7 @@ public with sharing class customEventAttendeeService {
     // ---------------------------------------------------------------------
     // Helper DTOs (keep logic readable + reduce cognitive complexity)
     // ---------------------------------------------------------------------
-    private class AttendeeInput {
+    public class AttendeeInput {
         Set<Id> eventIds = new Set<Id>();
         Set<Id> contactIds = new Set<Id>();
 
@@ -91,7 +91,7 @@ public with sharing class customEventAttendeeService {
     // ---------------------------------------------------------------------
     // Extraction / Queries
     // ---------------------------------------------------------------------
-    private static AttendeeInput extractInputIds(List<EventAttendee__c> attendees) {
+    public static AttendeeInput extractInputIds(List<EventAttendee__c> attendees) {
         AttendeeInput input = new AttendeeInput();
 
         for (EventAttendee__c ea : attendees) {
@@ -109,7 +109,7 @@ public with sharing class customEventAttendeeService {
         return input;
     }
 
-    private static Map<Id, Event__c> queryEvents(Set<Id> eventIds) {
+    public static Map<Id, Event__c> queryEvents(Set<Id> eventIds) {
         if (eventIds == null || eventIds.isEmpty()) return new Map<Id, Event__c>();
 
         return new Map<Id, Event__c>([
@@ -120,7 +120,7 @@ public with sharing class customEventAttendeeService {
         ]);
     }
 
-    private static Map<Id, Contact> queryContacts(Set<Id> contactIds) {
+    public static Map<Id, Contact> queryContacts(Set<Id> contactIds) {
         if (contactIds == null || contactIds.isEmpty()) return new Map<Id, Contact>();
 
         return new Map<Id, Contact>([
@@ -138,7 +138,7 @@ public with sharing class customEventAttendeeService {
     // ---------------------------------------------------------------------
     // Eligibility / Choice
     // ---------------------------------------------------------------------
-    private static Set<Id> filterEligibleEventIds(Map<Id, Event__c> eventsById) {
+    public static Set<Id> filterEligibleEventIds(Map<Id, Event__c> eventsById) {
         Set<Id> eligibleEventIds = new Set<Id>();
         if (eventsById == null || eventsById.isEmpty()) return eligibleEventIds;
 
@@ -168,7 +168,7 @@ public with sharing class customEventAttendeeService {
    /**
      * Chooses the first valid Account per eligible Event from the attendees list.
      */
-    private static Map<Id, Account> chooseFirstValidAccountPerEvent(
+    public static Map<Id, Account> chooseFirstValidAccountPerEvent(
         List<EventAttendee__c> attendees,
         Set<Id> eligibleEventIds,
         Map<Id, Contact> contactsById
@@ -203,7 +203,7 @@ public with sharing class customEventAttendeeService {
     /**
      * Basic eligibility checks on the attendee and the event, with logging.
      */
-    private static Boolean isAttendeeEligibleForAccountChoice(
+    public static Boolean isAttendeeEligibleForAccountChoice(
         EventAttendee__c ea,
         Set<Id> eligibleEventIds,
         Map<Id, Account> chosenAccountByEventId
@@ -229,7 +229,7 @@ public with sharing class customEventAttendeeService {
     /**
      * Resolves and validates the Account for an attendee's Contact, including billing checks.
      */
-    private static Account findValidAccountForAttendee(
+    public static Account findValidAccountForAttendee(
         EventAttendee__c ea,
         Map<Id, Contact> contactsById
     ) {
@@ -276,7 +276,7 @@ public with sharing class customEventAttendeeService {
     // ---------------------------------------------------------------------
     // Updates
     // ---------------------------------------------------------------------
-    private static List<Event__c> buildEventUpdates(
+    public static List<Event__c> buildEventUpdates(
         Map<Id, Event__c> eventsById,
         Map<Id, Account> chosenAccountByEventId
     ) {
@@ -324,7 +324,7 @@ public with sharing class customEventAttendeeService {
         return toUpdate;
     }
 
-    private static void updateIfNeeded(List<Event__c> toUpdate) {
+    public static void updateIfNeeded(List<Event__c> toUpdate) {
         if (toUpdate == null || toUpdate.isEmpty()) {
             System.debug(LOG_PREFIX + 'No updates to perform');
             return;
@@ -338,7 +338,7 @@ public with sharing class customEventAttendeeService {
     // ---------------------------------------------------------------------
     // Existing helpers
     // ---------------------------------------------------------------------
-    private static Boolean isEventLocationEmpty(Event__c ev) {
+    public static Boolean isEventLocationEmpty(Event__c ev) {
         return String.isBlank(ev.LocationAddress__c)
             && String.isBlank(ev.city__c)
             && String.isBlank(ev.country__c)
@@ -346,7 +346,7 @@ public with sharing class customEventAttendeeService {
             && String.isBlank(ev.LocationName__c);
     }
 
-    private static Boolean isAccountBillingEmpty(Account a) {
+    public static Boolean isAccountBillingEmpty(Account a) {
         return String.isBlank(a.BillingStreet)
             && String.isBlank(a.BillingCity)
             && String.isBlank(a.BillingPostalCode)

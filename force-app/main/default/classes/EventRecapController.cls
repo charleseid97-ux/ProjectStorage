@@ -1,4 +1,4 @@
-public with sharing class EventRecapController {
+public without sharing class EventRecapController {
 
     /**
      * DTOs used by the LWC to keep the payload UI-friendly.
@@ -134,7 +134,7 @@ public with sharing class EventRecapController {
     /**
      * Deduplicates a list of sObjects by Id.
      */
-    private static List<Event__c> dedupeById(List<Event__c> input) {
+    public static List<Event__c> dedupeById(List<Event__c> input) {
         if (input == null || input.isEmpty()) return new List<Event__c>();
         Map<Id, Event__c> uniqueMap = new Map<Id, Event__c>();
         for (Event__c e : input) uniqueMap.put(e.Id, e);
@@ -168,7 +168,7 @@ public with sharing class EventRecapController {
     /**
      * Adds a single link (session/speaker/product) into the index, if valid.
      */
-    private static void addLinkToSpeakerProductsIndex(
+    public static void addLinkToSpeakerProductsIndex(
         Map<Id, Map<String, Set<String>>> spIndex,
         SessionSpeakerProduct__c link
     ) {
@@ -202,14 +202,14 @@ public with sharing class EventRecapController {
     /**
      * Safely extracts the speaker name from the link.
      */
-    private static String extractSpeakerName(SessionSpeakerProduct__c link) {
+    public static String extractSpeakerName(SessionSpeakerProduct__c link) {
         return (link.SpeakerContact__r == null) ? null : link.SpeakerContact__r.Name;
     }
 
     /**
      * Safely extracts the product name from the link and normalizes blanks.
      */
-    private static String extractProductName(SessionSpeakerProduct__c link) {
+    public static String extractProductName(SessionSpeakerProduct__c link) {
         String productName = (link.strategy__r == null) ? null : link.strategy__r.Name;
         if (String.isBlank(productName)) {
             productName = '(No product)';
@@ -289,7 +289,7 @@ public with sharing class EventRecapController {
     /**
      * Adds speakers grouped per event: speaker -> sorted product list.
      */
-    private static void addSpeakers(EventDTO dto, Id eventId, Map<Id, Map<String, Set<String>>> spIndex) {
+    public static void addSpeakers(EventDTO dto, Id eventId, Map<Id, Map<String, Set<String>>> spIndex) {
         if (dto == null || eventId == null || spIndex == null) return;
 
         Map<String, Set<String>> bySpeaker = spIndex.get(eventId);
@@ -313,7 +313,7 @@ public with sharing class EventRecapController {
     /**
      * Adds attendees to the DTO (children only; parent passes null).
      */
-    private static void addAttendees(EventDTO dto, List<AttendeeDTO> attendees) {
+    public static void addAttendees(EventDTO dto, List<AttendeeDTO> attendees) {
         if (dto == null || attendees == null || attendees.isEmpty()) return;
         dto.attendees.addAll(attendees);
     }

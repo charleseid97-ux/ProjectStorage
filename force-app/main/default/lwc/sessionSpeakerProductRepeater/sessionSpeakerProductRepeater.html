@@ -8,6 +8,7 @@
                     <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-6">
                         <lightning-combobox
                             label="Speaker"
+                            required
                             placeholder="Select speaker"
                             options={allSpeakers}
                             value={entry.speakerId}
@@ -20,7 +21,7 @@
                     <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-6">
                         <template if:true={allProducts}>
                             <c-multi-select-search-list
-                                label="Products"
+                                label="* Products"                                
                                 options={allProducts}
                                 value={entry.productIds}
                                 data-index={index}
@@ -46,6 +47,7 @@
                         <template if:true={hasLanguagePicklist}>
                             <lightning-combobox
                                 label="Speaker Language"
+                                required
                                 placeholder="Select speaker language"
                                 options={languageOptions}
                                 value={entry.speakerLanguage}
@@ -63,29 +65,42 @@
                             </lightning-input>
                         </template>
                     </div>
-
-                    <!-- Start Time -->
+                    <!-- Event Date -->
                     <template if:true={showTimeSlots}>
                         <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-6">
                             <lightning-input
-                                type="time"
-                                label="Start Time"
-                                value={entry.startTime}
-                                onchange={handleStartTimeChange}
+                                type="date"
+                                required
+                                label="Date"
+                                value={entry.date}
+                                onchange={handleDateChange}
                                 data-index={index}>
                             </lightning-input>
+                        </div>
+                    </template>
+                    <!-- Start Time -->
+                    <template if:true={showTimeSlots}>
+                        <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-6">
+                            <lightning-combobox
+                                label="Start Time"
+                                value={entry.startTime}
+                                options={timeOptions}
+                                onchange={handleStartTimeChange}
+                                data-index={index}>
+                            </lightning-combobox>
                         </div>
 
                         <!-- End Time -->
                         <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-6">
-                            <lightning-input
-                                type="time"
+                            <lightning-combobox
                                 label="End Time"
                                 value={entry.endTime}
+                                options={timeOptions}
                                 onchange={handleEndTimeChange}
                                 data-index={index}>
-                            </lightning-input>
+                            </lightning-combobox>
                         </div>
+                        
                     </template>
                     <!-- Language of Slides (conditionnel) -->
                     <template if:true={entry.showSlidesLanguage}>
@@ -93,6 +108,7 @@
                             <template if:true={hasLanguagePicklist}>
                                 <lightning-combobox
                                     label="Language of Slides"
+                                    required
                                     options={languageOptions}
                                     value={entry.language}
                                     onchange={handleLanguageChange}
@@ -102,6 +118,7 @@
                             <template if:false={hasLanguagePicklist}>
                                 <lightning-input
                                     type="text"
+                                    required
                                     label="Language of Slides"
                                     value={entry.language}
                                     onchange={handleLanguageChange}

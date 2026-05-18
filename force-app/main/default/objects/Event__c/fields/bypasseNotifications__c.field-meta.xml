@@ -4,6 +4,7 @@
     <defaultValue>false</defaultValue>
     <description>used to bypass Notifications</description>
     <label>Bypasse Notifications</label>
+    <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>66.0</apiVersion>
+    <available>true</available>
+    <description>for Approval Processes</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>OrganizerApproval_VF</name>
+    <style>none</style>
+    <subject>Event Request</subject>
+    <type>visualforce</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,4 +1,4 @@
-public with sharing class sessionSpeakerProductRelatedListCTRL {
+public without sharing class sessionSpeakerProductRelatedListCTRL {
 
     public class SpeakerBlock {
         @AuraEnabled public Id speakerId;
@@ -6,6 +6,7 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         @AuraEnabled public Integer productCount;
         @AuraEnabled public String startTime;
         @AuraEnabled public String endTime;
+        @AuraEnabled public Date recDate;
         @AuraEnabled public String language;
         @AuraEnabled public String speakerLanguage;
 
@@ -40,7 +41,8 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
                    Language__c,
                    speakerLanguage__c,
                    startTime__c,
-                   endTime__c
+                   endTime__c,
+                   Date__c
 
             FROM sessionSpeakerProduct__c
             WHERE Session__c = :eventId
@@ -86,9 +88,10 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
                     : '—';
                 block.language = r.Language__c;
                 block.speakerLanguage = r.speakerLanguage__c;
+                block.speakerLanguage = r.speakerLanguage__c;
                 block.startTime = formatTime(r.startTime__c);
                 block.endTime = formatTime(r.endTime__c);
-
+                block.recDate = r.Date__c;
                 gb.grouped.put(r.speakerContact__c, block);
                 gb.speakerOrder.add(r.speakerContact__c);
             }
@@ -175,7 +178,7 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         if (eventId == null) return '[]';
 
         List<sessionSpeakerProduct__c> rows = [
-            SELECT Id, speakerContact__c, speakerContact__r.Name, strategy__c, strategy__r.Name, Language__c,speakerLanguage__c,startTime__c, endTime__c
+            SELECT Id, speakerContact__c, speakerContact__r.Name, strategy__c, strategy__r.Name, Language__c,speakerLanguage__c,startTime__c, endTime__c,Date__c
             FROM sessionSpeakerProduct__c
             WHERE Session__c = :eventId
             ORDER BY speakerContact__r.Name, strategy__r.Name
@@ -203,6 +206,7 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         o.put('Session__c', eventId);
         o.put('startTime__c', r.startTime__c);
         o.put('endTime__c', r.endTime__c);
+        o.put('Date__c', r.Date__c);
         return o;
     }
 
@@ -253,7 +257,7 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
 
     private static Map<String, sessionSpeakerProduct__c> loadExistingByKey(Id eventId) {
         List<sessionSpeakerProduct__c> existing = [
-            SELECT Id, speakerContact__c, strategy__c, Language__c, speakerLanguage__c, Session__c, startTime__c, endTime__c
+            SELECT Id, speakerContact__c, strategy__c, Language__c, speakerLanguage__c, Session__c, startTime__c, endTime__c,Date__c
             FROM sessionSpeakerProduct__c
             WHERE Session__c = :eventId
             LIMIT 5000
@@ -262,7 +266,7 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         Map<String, sessionSpeakerProduct__c> existingByKey = new Map<String, sessionSpeakerProduct__c>();
         for (sessionSpeakerProduct__c r : existing) {
             existingByKey.put(
-                makeKey(r.speakerContact__c, r.strategy__c, r.Language__c, r.speakerLanguage__c, r.startTime__c, r.endTime__c)  
+                makeKey(r.speakerContact__c, r.strategy__c, r.Language__c, r.speakerLanguage__c, r.startTime__c, r.endTime__c,r.Date__c)  
                 ,r
             );
         }
@@ -282,6 +286,7 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         Integer rowIndex;
         Time startTime;
         Time endTime;
+        Date recDate;
     }
 
     private static IncomingBuild buildIncoming(List<Object> raw) {
@@ -291,8 +296,7 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         for (Object o : raw) {
             rowIndex++;
             LinkParts parts = parseRowToParts(o, rowIndex);
-            String key = makeKey(parts.speakerId, parts.productId, parts.lang, parts.speakerLanguage, parts.startTime, parts.endTime);
-
+            String key = makeKey(parts.speakerId, parts.productId, parts.lang, parts.speakerLanguage, parts.startTime, parts.endTime, parts.recDate);
             if (incoming.incomingKeys.contains(key)) {
                 continue;
             }
@@ -312,6 +316,7 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         String speakerLanguage = (m.get('speakerLanguage__c') != null) ? String.valueOf(m.get('speakerLanguage__c')) : null;
         String startTime = (m.get('startTime__c') != null) ? String.valueOf(m.get('startTime__c')) : null;
         String endTime = (m.get('endTime__c') != null) ? String.valueOf(m.get('endTime__c')) : null;
+        String recDate = (m.get('Date__c') != null) ? String.valueOf(m.get('Date__c')) : null;
         if (speakerId == null) {
             throw new AuraHandledException('Missing speaker at row ' + rowIndex + '.');
         }
@@ -324,6 +329,7 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         parts.rowIndex = rowIndex;
         parts.startTime = parseTimeValue(startTime);
         parts.endTime = parseTimeValue(endTime);
+        parts.recDate = (recDate != null) ? Date.valueOf(recDate) : null;
         return parts;
     }
 
@@ -335,7 +341,7 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         List<sessionSpeakerProduct__c> toInsert = new List<sessionSpeakerProduct__c>();
 
         for (LinkParts parts : incoming.incomingParts) {
-            String key = makeKey(parts.speakerId, parts.productId, parts.lang, parts.speakerLanguage, parts.startTime, parts.endTime);
+            String key = makeKey(parts.speakerId, parts.productId, parts.lang, parts.speakerLanguage, parts.startTime, parts.endTime, parts.recDate);
 
             if (existingByKey.containsKey(key)) continue;
 
@@ -347,6 +353,7 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
             rec.speakerLanguage__c = parts.speakerLanguage;
             rec.startTime__c = parts.startTime;
             rec.endTime__c = parts.endTime;
+            rec.Date__c = parts.recDate;
             toInsert.add(rec);
         }
 
@@ -366,13 +373,14 @@ public with sharing class sessionSpeakerProductRelatedListCTRL {
         return toDelete;
     }
 
-    private static String makeKey(Id speakerId, Id productId, String lang, String speakerLanguage, Time startTime, Time endTime) {
+    private static String makeKey(Id speakerId, Id productId, String lang, String speakerLanguage, Time startTime, Time endTime, Date recDate) {
         return String.valueOf(speakerId)
             + '|' + String.valueOf(productId)
             + '|' + String.valueOf(lang)
             + '|' + String.valueOf(speakerLanguage)
             + '|' + String.valueOf(startTime)
-            + '|' + String.valueOf(endTime);
+            + '|' + String.valueOf(endTime)
+            + '|' + String.valueOf(recDate);
     }
 
     @AuraEnabled(cacheable=false)

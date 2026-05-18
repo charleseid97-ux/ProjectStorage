@@ -2,18 +2,24 @@
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>EventTeam_Event</fullName>
     <columns>NAME</columns>
+    <columns>StatusDisplay__c</columns>
+    <columns>salesOwner__c</columns>
     <columns>category__c</columns>
     <columns>startDate__c</columns>
     <columns>city__c</columns>
-    <columns>StatusDisplay__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>Organizer__c</columns>
+    <columns>Speakers__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>salesTeam__c</field>
         <operation>equals</operation>
         <value>France</value>
     </filters>
+    <filters>
+        <field>startDate__c</field>
+        <operation>greaterOrEqual</operation>
+        <value>5/1/2026</value>
+    </filters>
     <label>Bookly Requests France</label>
-    <sharedTo>
-        <allInternalUsers></allInternalUsers>
-    </sharedTo>
 </ListView>

@@ -1,4 +1,4 @@
-public with sharing class LocationTimezoneResolver {
+public without sharing class LocationTimezoneResolver {
     
     public class Result {
         public String inputCountry;
@@ -163,7 +163,7 @@ repl.put('´','\'');
         m.put(normalize('Montevideo'), 'America/Montevideo');
 
         // Canada
-        m.put(normalize('Montréal'), 'America/Toronto');
+        m.put(normalize('Montreal'), 'America/Toronto');
         m.put(normalize('Montreal'), 'America/Toronto');
 
         // Singapore
@@ -191,9 +191,9 @@ repl.put('´','\'');
 
         // Spain
         for (String c : new List<String>{
-            'Albacete','Alicante','Barcelona','Bilbao','Gijón','Granada','Logroño',
+            'Albacete','Alicante','Barcelona','Bilbao','Gijon','Granada','Logroño',
             'Madrid','Malaga','Murcia-Orihuela','Oviedo','Palma','Pamplona',
-            'Salamanca','San Sebastián','Santiago','Valencia','Valladolid',
+            'Salamanca','San Sebastian','Santiago','Valencia','Valladolid',
             'Vigo','Zaragoza','Seville'
         }) m.put(normalize(c), 'Europe/Madrid');
         m.put(normalize('Las Palmas'), 'Atlantic/Canary');
@@ -209,7 +209,7 @@ repl.put('´','\'');
         // Belgium
         for (String c : new List<String>{
             'Aalst','Antwerp','Bruges','Brussels','Eghezee','Ghent','Hasselt',
-            'Knokke','Leuven','Liège','Mechelen','Mons','Namur','Uccle',
+            'Knokke','Leuven','Liege','Mechelen','Mons','Namur','Uccle',
             'Waterloo','Zaventem'
         }) m.put(normalize(c), 'Europe/Brussels');
 
@@ -217,7 +217,7 @@ repl.put('´','\'');
         for (String c : new List<String>{
             'Aix-en-Provence','Ajaccio','Amiens','Angers','Annecy','Avignon','Bayonne',
             'Besançon','Biarritz','Bordeaux','Bourg-en-Bresse','Brest','Caen','Cannes',
-            'Chambéry','Clermont-Ferrand','Dijon','Grenoble','Hyères',
+            'Chambéry','Clermont-Ferrand','Dijon','Grenoble','Hyeres',
             'Issy-les-Moulineaux','La Rochelle','La Roche-sur-Yon','La Seyne-sur-Mer',
             'Laval','Le Mans','Lille','Limoges','Lorient','Lyon','Marseille','Metz',
             'Montpellier','Nancy','Nantes','Nanterre','Neuilly-sur-Seine','Nice','Nîmes',
@@ -228,10 +228,10 @@ repl.put('´','\'');
 
         // Germany
         for (String c : new List<String>{
-            'Augsburg','Berlin','Bonn','Bremen','Cologne','Dresden','Düsseldorf',
+            'Augsburg','Berlin','Bonn','Bremen','Cologne','Dresden','Dusseldorf',
             'Frankfurt','Halle','Hamburg','Hannover','Karlsruhe','Kassel','Kiel',
             'Konstanz','Leipzig','Ludwigsburg','Magdeburg','Mainz','Mannheim',
-            'Münster','Munich','Nuremberg','Regensburg','Stuttgart','Ulm'
+            'Munster','Munich','Nuremberg','Regensburg','Stuttgart','Ulm'
         }) m.put(normalize(c), 'Europe/Berlin');
 
         // Hungary / Ireland
@@ -263,7 +263,7 @@ repl.put('´','\'');
         m.put(normalize('London'), normalize('United Kingdom'));
         m.put(normalize('Manchester'), normalize('United Kingdom'));
         m.put(normalize('Montevideo'), normalize('Uruguay'));
-        m.put(normalize('Montréal'), normalize('Canada'));
+        m.put(normalize('Montreal'), normalize('Canada'));
         m.put(normalize('Montreal'), normalize('Canada'));
         m.put(normalize('Singapore'), normalize('Singapore'));
         m.put(normalize('Tokyo'), normalize('Japan'));

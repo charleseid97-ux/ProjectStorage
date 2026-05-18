@@ -30,11 +30,37 @@ public with sharing class EventSpeakerApprovalsService {
         applyStatusAudit(newMap.values(), oldMap);
     }
 
+    // After insert: handle rollup, approval submission and sharing
     public static void manageRollupOnInsert(Map<Id, EventSpeakerApprovals__c> newMap) {
         if (newMap == null || newMap.isEmpty()) return;
+
+        // Collect related Event Ids from approvals
+        Set<Id> eventIds = new Set<Id>();
+        for (EventSpeakerApprovals__c rec : newMap.values()) {
+            if (rec.Event__c != null) eventIds.add(rec.Event__c);
+        }
+
+        // Load event flags used to control rollup execution
+        if (!eventIds.isEmpty()) {
+            Map<Id, Event__c> eventMap = new Map<Id, Event__c>(
+                [SELECT Id, OrganizerApprovalRequired__c, OrganizerDecision__c
+                FROM Event__c
+                WHERE Id IN :eventIds]
+            );
+
+            // Stop processing if organizer approval is required but not yet approved
+            for (Event__c evt : eventMap.values()) {
+                if (evt.OrganizerApprovalRequired__c && evt.OrganizerDecision__c != 'Approved') {
+                    return;
+                }
+            }
+        }
+
+        // Execute status rollup on events
         customEventSpeakerApprovalService.updateEventStatusIfAllApproved(newMap.values());
     }
 
+    // Update rollup only if status changed AND organizer condition is respected
     public static void manageRollupOnUpdate(
         Map<Id, EventSpeakerApprovals__c> newMap,
         Map<Id, EventSpeakerApprovals__c> oldMap
@@ -42,19 +68,38 @@ public with sharing class EventSpeakerApprovalsService {
         if (newMap == null || newMap.isEmpty()) return;
 
         List<EventSpeakerApprovals__c> statusChangedRecords = new List<EventSpeakerApprovals__c>();
+        Set<Id> eventIds = new Set<Id>();
 
+        // Collect only records where status changed
         for (Id recordId : newMap.keySet()) {
             EventSpeakerApprovals__c newRec = newMap.get(recordId);
             EventSpeakerApprovals__c oldRec = oldMap.get(recordId);
 
             if (newRec.Status__c != oldRec.Status__c) {
                 statusChangedRecords.add(newRec);
+                if (newRec.Event__c != null) eventIds.add(newRec.Event__c);
             }
         }
 
-        if (!statusChangedRecords.isEmpty()) {
-            customEventSpeakerApprovalService.updateEventStatusIfAllApproved(statusChangedRecords);
+        if (statusChangedRecords.isEmpty()) return;
+
+        // Load event flags
+        Map<Id, Event__c> eventMap = new Map<Id, Event__c>(
+            [SELECT Id, OrganizerApprovalRequired__c, OrganizerDecision__c
+            FROM Event__c
+            WHERE Id IN :eventIds]
+        );
+
+        // Check organizer condition globally
+        for (Event__c evt : eventMap.values()) {
+            if (evt.OrganizerApprovalRequired__c && evt.OrganizerDecision__c != 'Approved') {
+                System.debug('rollout approvals aborted because Event not approved by organizer');
+                return;
+            }
         }
+
+        // Normal behavior
+        customEventSpeakerApprovalService.updateEventStatusIfAllApproved(statusChangedRecords);
     }
 
     /**
@@ -180,9 +225,52 @@ public with sharing class EventSpeakerApprovalsService {
     }
 
     /**
-     * ⚠️ Optionnel: plus nécessaire avec approvalType__c
-     */
+     * 
+     
     public static void requireHOPApproval(List<EventSpeakerApprovals__c> newList) {
         // deprecated logic (can be removed if unused)
+    }*/
+    
+    // Updates Event status from Event before update without DML
+    public static void triggerRollupFromEventBeforeUpdate(
+        Map<Id, Event__c> newMap,
+        Map<Id, Event__c> oldMap
+    ) {
+        system.debug('triggerRollupFromEventBeforeUpdate===============');
+        if (newMap == null || newMap.isEmpty()) return;
+
+        Set<Id> eventIds = new Set<Id>();
+
+        // Detect OrganizerDecision__c becoming Approved
+        for (Id evtId : newMap.keySet()) {
+            Event__c newEvt = newMap.get(evtId);
+            Event__c oldEvt = oldMap.get(evtId);
+            system.debug('triggerRollupFromEventBeforeUpdate==========newEvt.OrganizerApprovalRequired__c====='+newEvt.OrganizerApprovalRequired__c);
+            system.debug('triggerRollupFromEventBeforeUpdate========== newEvt.OrganizerDecision__c====='+ newEvt.OrganizerDecision__c);
+            system.debug('triggerRollupFromEventBeforeUpdate===========oldEvt.OrganizerDecision__c===='+oldEvt.OrganizerDecision__c);
+
+            if (
+                newEvt.OrganizerApprovalRequired__c &&
+                newEvt.OrganizerDecision__c == 'Approved' &&
+                oldEvt.OrganizerDecision__c != 'Approved'
+            ) {
+                eventIds.add(evtId);
+            }
+        }
+
+        if (eventIds.isEmpty()) return;
+
+        Map<Id, String> statusByEventId = customEventSpeakerApprovalService.calculateEventStatusFromApprovals(eventIds);
+        system.debug('triggerRollupFromEventBeforeUpdate===========statusByEventId===='+statusByEventId);
+
+        // Apply status directly on trigger records
+        for (Id evtId : statusByEventId.keySet()) {
+            system.debug('triggerRollupFromEventBeforeUpdate===========newMap.containsKey(evtId)===='+newMap.containsKey(evtId));
+            system.debug('triggerRollupFromEventBeforeUpdate===========newMap.containsKey(evtId)===='+newMap.containsKey(evtId));
+
+            if (newMap.containsKey(evtId) && statusByEventId.get(evtId) != null) {
+                newMap.get(evtId).Status__c = statusByEventId.get(evtId);
+            }
+        }
     }
 }

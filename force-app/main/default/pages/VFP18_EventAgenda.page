@@ -111,7 +111,7 @@
       border: 1px solid #FED7AA;
     }
     .noteLabel { font-weight: 800; color:#9A3412; margin-bottom:4px; font-size:10pt; }
-    .noteBody { white-space: pre-wrap; color:#7C2D12; font-size:10.5pt; line-height:1.45; }
+    .noteBody { white-space: pre-wrap; color:#7C2D12; font-size:10.5pt; line-height:1; }
 
     .speakers { margin-top:10px; display: grid; gap: 6px; }
     .speakerLine {
@@ -164,21 +164,57 @@
       cursor:pointer;
     }
     .showMoreBtn:hover{ background:#F9FAFB; }
+    .companyName {
+      margin-top: 10px;
+      display: inline-block;
+      max-width: 100%;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #EEF2FF;
+      border: 1px solid #C7D2FE;
+      font-size: 10pt;
+      font-weight: 700;
+      color: #1E3A8A;
+      line-height: 1.2;
+      box-sizing: border-box;
+      word-break: break-word;
+    }
+
+    .salesOwner {
+      margin-bottom: 6px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: #F1F5F9;      
+      border: 1px solid #E2E8F0;
+      font-size: 10.5pt;
+      color: #131561;
+    }
+
+    .salesOwnerLabel {
+      font-weight: 700;
+      margin-right: 4px;
+    }
+
+    .salesOwnerName {
+      font-weight: 800;
+    }
   </style>
 
   <div class="container">
     <apex:outputPanel rendered="{!NOT(ISBLANK(errorMessage))}">
       <div class="error">{!errorMessage}</div>
     </apex:outputPanel>
-
-    <apex:outputPanel rendered="{!ISBLANK(errorMessage)}">
-
+    <apex:outputPanel rendered="{!NOT(isAgendaAvailable) && ISBLANK(errorMessage)}">
+      <div class="error">
+        Sorry, this agenda is no longer available.
+      </div>
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!isAgendaAvailable && ISBLANK(errorMessage)}">
       <!-- Parent banner -->
       <div class="banner">
         <h1>{!parent.title}</h1>
 
         <div class="metaGrid">
-          <div class="metaItem"><span class="label">Main company:</span> {!parent.company}</div>
           <div class="metaItem"><span class="label">Timezone:</span> {!parent.timezone}</div>
           <div class="metaItem"><span class="label">SalesTeam:</span> {!parent.salesTeam}</div>
 
@@ -187,7 +223,7 @@
 
           <div class="metaItem"><span class="label">End:</span> {!parent.endLabel}</div>
 
-          <div class="metaItem"><span class="label">roadshow background:</span> {!parent.meetingBackground}</div>
+          <div class="metaItem"><span class="label">Roadshow background:</span> {!parent.meetingBackground}</div>
           <div class="metaItem"><span class="label">Roadshow Goal:</span> {!parent.meetingGoal}</div>
         </div>
       </div>
@@ -204,7 +240,9 @@
                 <!-- Left: Time + Attendees -->
                 <div class="timeBox">
                   <div class="timeRange">{!r.timeRange}</div>
-
+                    <apex:outputPanel rendered="{!NOT(ISBLANK(r.company))}">
+                      <div class="companyName">{!r.company}</div>
+                    </apex:outputPanel>  
                   <apex:outputPanel rendered="{!NOT(ISNULL(r.attendees)) && r.attendees.size > 0}">
                     <div class="attendees">
                       <apex:repeat value="{!r.attendees}" var="aName">
@@ -219,7 +257,12 @@
                   <div class="zoneHeader">{!r.title}</div>
 
                   <div class="zoneBody">
-
+                    <apex:outputPanel rendered="{!NOT(ISBLANK(r.salesOwner))}">
+                      <div class="salesOwner">
+                        <span class="salesOwnerLabel">Sales Owner:</span>
+                        <span class="salesOwnerName">{!r.salesOwner}</span>
+                      </div>
+                    </apex:outputPanel>
                     <!-- Speakers / Products -->
                     <apex:outputPanel rendered="{!NOT(ISNULL(r.speakers)) && r.speakers.size > 0}">
                       <div class="speakers">
@@ -269,9 +312,11 @@
         </div>
       </apex:repeat>
 
+      <div style="margin-top:16px; font-size:10pt; color:#6b7280; text-align:center;">
+        This page is available until {!agendaAvailableUntilLabel}.
+      </div>
     </apex:outputPanel>
-  </div>
-
+    </div>
   <script>
     function toggleBgGoalLines(btn){
       var wrap = btn.closest('.bgGoalWrap');

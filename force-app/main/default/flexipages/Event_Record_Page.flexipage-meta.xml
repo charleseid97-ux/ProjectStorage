@@ -55,6 +55,23 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.status__c</fieldItem>
+                <identifier>Recordstatus_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!$Permission.CustomPermission.Bookly_Admin}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Co_hosted__c</fieldItem>
                 <identifier>RecordCo_hosted__cField</identifier>
             </fieldInstance>
@@ -317,6 +334,13 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.company__c</fieldItem>
                 <identifier>Recordcompany_cField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.AudienceCompany__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>One company</rightValue>
+                    </criteria>
+                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-db4eb1cc-7402-4195-a0bb-62c4869b7cd7</name>
@@ -480,6 +504,12 @@
             <componentInstance>
                 <componentName>eventApprovalsPanel</componentName>
                 <identifier>c_eventApprovalsPanel</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>forceChatter:recordFeedContainer</componentName>
+                <identifier>forceChatter_recordFeedContainer</identifier>
             </componentInstance>
         </itemInstances>
         <itemInstances>

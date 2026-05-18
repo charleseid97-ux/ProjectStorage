@@ -1,4 +1,4 @@
-public with sharing class sessionSpeakerProductRepeaterCTRL {
+public without sharing class sessionSpeakerProductRepeaterCTRL {
 
     public class PickOpt {
         @AuraEnabled public String label;
@@ -23,6 +23,19 @@ public with sharing class sessionSpeakerProductRepeaterCTRL {
 
         if (recs.isEmpty()) return null;
         return (String)recs[0].speakerContact__c;
+    }
+    @AuraEnabled(cacheable=true)
+    public static String getEventCategory(String parentEventId) {
+        if (String.isBlank(parentEventId)) return null;
+
+        Event__c ev = [
+            SELECT Category__c
+            FROM Event__c
+            WHERE Id = :parentEventId
+            LIMIT 1
+        ];
+
+        return ev.Category__c;
     }
 
     @AuraEnabled(cacheable=true)

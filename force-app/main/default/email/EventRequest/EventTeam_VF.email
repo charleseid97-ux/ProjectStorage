@@ -19,11 +19,11 @@
                                         <tr>
                                             <td style="padding:14px 16px;">
                                                 <div style="font-size:12px; line-height:18px; color:#6b7280; margin-bottom:6px;">
-                                                    Carmignac Gestion • Event Team Approval
+                                                    Bookly . Validation request
                                                 </div>
 
                                                 <div style="font-size:30px; line-height:36px; font-weight:bold; color:#111827;">
-                                                    Approval request — {!relatedTo.title__c}
+                                                    Event Approval Request — {!relatedTo.title__c}
                                                 </div>
 
                                                 <div style="padding-top:8px; font-size:13px; line-height:20px; color:#374151;">
@@ -78,15 +78,21 @@
                                                     <tr>
                                                         <td valign="top" style="padding:4px 0; color:#6b7280;">Location</td>
                                                         <td valign="top" style="padding:4px 0; color:#111827;">
-                                                    
+
+                                                        <apex:outputPanel rendered="{!relatedTo.city__c == 'Digital'}" layout="none">
+                                                            <div><b>Digital</b></div>
+                                                        </apex:outputPanel>
+
+                                                        <apex:outputPanel rendered="{!relatedTo.city__c != 'Digital'}" layout="none">
+
                                                             <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.locationName__c))}" layout="none">
                                                                 <div><b>{!relatedTo.locationName__c}</b></div>
                                                             </apex:outputPanel>
-                                                    
+
                                                             <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.locationAddress__c))}" layout="none">
                                                                 <div>{!relatedTo.locationAddress__c}</div>
                                                             </apex:outputPanel>
-                                                    
+
                                                             <apex:outputPanel layout="none"
                                                                 rendered="{!OR(NOT(ISBLANK(relatedTo.locationPostCode__c)), NOT(ISBLANK(relatedTo.city__c)))}">
                                                                 <div>
@@ -97,18 +103,21 @@
                                                                     {!relatedTo.city__c}
                                                                 </div>
                                                             </apex:outputPanel>
-                                                    
+
                                                             <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.country__c))}" layout="none">
                                                                 <div>{!relatedTo.country__c}</div>
                                                             </apex:outputPanel>
-                                                    
-                                                        </td>
-                                                    </tr>
 
-                                                    <tr>
-                                                        <td valign="top" style="padding:4px 0; color:#6b7280;">Company</td>
-                                                        <td valign="top" style="padding:4px 0;">{!relatedTo.Company__r.Name}</td>
+                                                        </apex:outputPanel>
+
+                                                    </td>
                                                     </tr>
+                                                    <apex:outputPanel rendered="{!relatedTo.AudienceCompany__c == 'One company'}" layout="none">
+                                                        <tr>
+                                                            <td valign="top" style="padding:4px 0; color:#6b7280;">Company</td>
+                                                            <td valign="top" style="padding:4px 0;">{!relatedTo.Company__r.Name}</td>
+                                                        </tr>
+                                                    </apex:outputPanel>
                                                 </table>
 
                                                 <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.meetingGoal__c))}">
@@ -198,7 +207,7 @@
                                                     <tr>
                                                         <td style="font-size:13px; line-height:20px;">
                                                             <a href="{!$Label.BaseURL}/{!relatedTo.Id}" style="color:#2563eb; text-decoration:none;">
-                                                                Open Event record
+                                                                Open record
                                                             </a>
                                                         </td>
                                                     </tr>

@@ -19,6 +19,7 @@ public with sharing class CustomCalendarHelper {
         @AuraEnabled public Id parentEventId;
         @AuraEnabled public String timezone;
         @AuraEnabled public Id sObjectId;
+        @AuraEnabled public String category;
     }
 
     private class TraceLog {
@@ -97,7 +98,7 @@ public with sharing class CustomCalendarHelper {
             'Id, RecordTypeId, ' +
             safeTitleField + ', ' +
             safeColorField + ', ' +
-            'SalesTeam__c, ParentEvent__c, timezone__c, ' +
+            'SalesTeam__c, ParentEvent__c, timezone__c, category__c, ' +
             'startDate__c, startTime__c, endDate__c, endTime__c';
 
         String soql =
@@ -275,7 +276,7 @@ public with sharing class CustomCalendarHelper {
         dto.recordTypeId = eventForDto.RecordTypeId;
         dto.salesTeam = eventForDto.SalesTeam__c;
         dto.parentEventId = eventForDto.ParentEvent__c;
-
+        dto.category = eventForDto.category__c;
         Object tVal = eventForDto.get(safeTitleField);
         dto.title = (tVal == null) ? '(no title)' : String.valueOf(tVal);
 
@@ -429,7 +430,7 @@ public with sharing class CustomCalendarHelper {
                 SELECT Id, Name, JobTitle__c
                 FROM Contact
                 WHERE isValidSpeaker__c = true
-                AND SpeakerAssistant__c != null
+                //AND SpeakerAssistant__c != null
                 AND Id IN (
                     SELECT speakerContact__c
                     FROM sessionSpeakerProduct__c

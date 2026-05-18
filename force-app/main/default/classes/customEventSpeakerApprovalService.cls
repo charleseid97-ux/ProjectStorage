@@ -23,7 +23,7 @@ public without sharing class customEventSpeakerApprovalService {
         System.debug(LoggingLevel.INFO, '==+=======prepareSpeakerHTMLforNotifications: start processing 1');
         if (newEvents == null || newEvents.isEmpty()) return;
 
-        Set<Id> eventIds = collectEventIdsToProcess(newEvents, oldEvents);
+        Set<Id> eventIds = collectEventIdsForEmptyHtmlOnUpdate(newEvents, oldEvents);
         if (eventIds.isEmpty()) return;
         System.debug(LoggingLevel.INFO, '==+=======prepareSpeakerHTMLforNotifications: start processing 2');
 
@@ -33,7 +33,7 @@ public without sharing class customEventSpeakerApprovalService {
         List<SessionSpeakerProduct__c> ssp = [
             SELECT Session__c, SpeakerContact__c,
                 SpeakerContact__r.Name, SpeakerContact__r.Account.Name,
-                Language__c, PresentationStatus__c,
+                Language__c, PresentationStatus__c,startTime__c,endTime__c,
                 strategy__c, strategy__r.Name
             FROM SessionSpeakerProduct__c
             WHERE Session__c IN :eventIds
@@ -56,10 +56,8 @@ public without sharing class customEventSpeakerApprovalService {
             Event__c e = newEvents.get(evtId);
             if (e == null) continue;
 
-            e.SpeakersHTML__c = buildSpeakersHtmlSingleSection(
-                'Speakers',
-                eventToSpeakers.get(evtId)
-            );
+            e.SpeakersHTML__c = buildSpeakersHtmlSingleSection('Speakers',eventToSpeakers.get(evtId));
+            e.Speakers__c = buildSpeakersText(eventToSpeakers.get(evtId));
         }
     }
 
@@ -68,7 +66,25 @@ public without sharing class customEventSpeakerApprovalService {
         if (v == null) return '';
         return v.replace('&','&amp;').replace('<','&lt;').replace('>','&gt;').replace('"','&quot;').replace('\'','&#39;');
     }
+    // Construit le format texte des speakers avec leurs produits.
+    private static String buildSpeakersText(List<SessionSpeakerProduct__c> speakers) {
+        List<SpeakerHtmlRow> groupedRows = groupSpeakersForHtml(speakers);
+        List<String> speakerTexts = new List<String>();
 
+        // Une entrée texte par speaker groupé.
+        for (SpeakerHtmlRow row : groupedRows) {
+            List<String> productNames = new List<String>();
+            productNames.addAll(row.products);
+            productNames.sort();
+
+            // Format final : speaker (strategy1,strategy2)
+            speakerTexts.add(
+                row.speakerName + ' (' + String.join(productNames, ',') + ')'
+            );
+        }
+
+        return String.join(speakerTexts, ', ');
+    }
    /**
      * Vérifie les events qui viennent d'entrer en WaitingForSpeakerApprovals.
      * Si aucun SessionSpeakerProduct__c n'est lié à l'event, force le statut
@@ -236,13 +252,13 @@ public without sharing class customEventSpeakerApprovalService {
             SELECT Session__c, SpeakerContact__c,
                     strategy__r.Name, strategy__r.AssetClass__c,
                     Session__r.RecordType.Name,
-                    Language__c,
+                    Language__c,presentationStatus__c,
                     startTime__c, endTime__c
             FROM SessionSpeakerProduct__c
             WHERE Session__c IN :eventIdsToProcess
             AND SpeakerContact__c != null
         ];
-        return (List<SessionSpeakerProduct__c>)Security.stripInaccessible(AccessType.READABLE, lines).getRecords();
+        return  lines;
     }
 
     // Collect distinct speaker contacts
@@ -263,7 +279,6 @@ public without sharing class customEventSpeakerApprovalService {
             FROM Contact
             WHERE Id IN :speakerContactIds
         ];
-        speakers = (List<Contact>)Security.stripInaccessible(AccessType.READABLE, speakers).getRecords();
         return new Map<Id, Contact>(speakers);
     }
 
@@ -471,11 +486,11 @@ public without sharing class customEventSpeakerApprovalService {
         List<EventSpeakerApprovals__c> toDelete = new List<EventSpeakerApprovals__c>();
 
         // Query approvals for these events (only fields needed)
-        for (EventSpeakerApprovals__c ex : (List<EventSpeakerApprovals__c>)Security.stripInaccessible(AccessType.READABLE, [
+        for (EventSpeakerApprovals__c ex :  [
             SELECT Id, Key__c, Speaker__c, Status__c, Event__c
             FROM EventSpeakerApprovals__c
             WHERE Event__c IN :eventIds
-        ]).getRecords()) {
+        ]) {
             Boolean orphan = false;
 
             // If approval's speaker is not part of current speaker set -> orphan
@@ -528,11 +543,11 @@ public without sharing class customEventSpeakerApprovalService {
         // 2) Query existing approvals by Key__c (only what's necessary)
         Map<String, EventSpeakerApprovals__c> existingByKey = new Map<String, EventSpeakerApprovals__c>();
         if (!keys.isEmpty()) {
-            for (EventSpeakerApprovals__c ex : (List<EventSpeakerApprovals__c>)Security.stripInaccessible(AccessType.READABLE, [
+            for (EventSpeakerApprovals__c ex :  [
                 SELECT Id, Key__c, Status__c
                 FROM EventSpeakerApprovals__c
                 WHERE Key__c IN :keys
-            ]).getRecords()) {
+            ]) {
                 existingByKey.put(ex.Key__c, ex);
             }
         }
@@ -575,7 +590,7 @@ public without sharing class customEventSpeakerApprovalService {
         }
 
         try {
-            List<EventSpeakerApprovals__c> sanitizedToUpsert = (List<EventSpeakerApprovals__c>)Security.stripInaccessible(AccessType.CREATABLE, toUpsert).getRecords();
+            List<EventSpeakerApprovals__c> sanitizedToUpsert = toUpsert;
             upsert sanitizedToUpsert Key__c;            
             System.debug(LoggingLevel.INFO, 'ESA: upserted approvals count=' + toUpsert.size());
         } catch (DmlException de) {
@@ -762,24 +777,44 @@ public without sharing class customEventSpeakerApprovalService {
 
 
     /**
- * Construit une section HTML (sans titre) pour une liste de SessionSpeakerProduct__c.
- * Signature conservée (sectionTitle, speakers) pour évolution future.
- */
-private static String buildSpeakersHtmlSingleSection(String sectionTitle, List<SessionSpeakerProduct__c> speakers) {
-    system.debug('======buildSpeakersHtmlSingleSection===========' +speakers  );
-    List<String> parts = new List<String>();
-    parts.add('<div style="margin:0 0 12px 0;">');
+     * Construit une section HTML (sans titre) pour une liste de SessionSpeakerProduct__c.
+     * Signature conservée (sectionTitle, speakers) pour évolution future.
+     */
+    private static String buildSpeakersHtmlSingleSection(String sectionTitle, List<SessionSpeakerProduct__c> speakers) {
+        system.debug('======buildSpeakersHtmlSingleSection===========' +speakers  );
+        List<String> parts = new List<String>();
+        parts.add('<div style="margin:0 0 12px 0;">');
 
-    if (speakers == null || speakers.isEmpty()) {
-        parts.add('<div style="font-size:13px;color:#6b7280;">No speakers selected.</div>');
+        if (speakers == null || speakers.isEmpty()) {
+            parts.add('<div style="font-size:13px;color:#6b7280;">No speakers selected.</div>');
+            parts.add('</div>');
+            return String.join(parts, '');
+        }
+
+        parts.add(buildSpeakersTableHtml(speakers));
         parts.add('</div>');
         return String.join(parts, '');
     }
 
-    parts.add(buildSpeakersTableHtml(speakers));
-    parts.add('</div>');
-    return String.join(parts, '');
-}
+    private static Set<Id> collectEventIdsForEmptyHtmlOnUpdate(
+        Map<Id, Event__c> newEvents,
+        Map<Id, Event__c> oldEvents
+    ) {
+        Set<Id> ids = new Set<Id>();
+
+        if (newEvents == null || oldEvents == null) return ids;
+
+        for (Event__c e : newEvents.values()) {
+            if (e == null || e.Id == null) continue;
+
+            // Update only + SpeakersHTML__c empty
+            if (String.isBlank(e.SpeakersHTML__c)) {
+                ids.add(e.Id);
+            }
+        }
+
+        return ids;
+    }
 
     /**
      * Rend une table HTML groupée par speaker :
@@ -795,7 +830,7 @@ private static String buildSpeakersHtmlSingleSection(String sectionTitle, List<S
         parts.add(
             '<tr>' +
                 '<th align="left" style="padding:6px 0; border-bottom:1px solid #e5e7eb;">Speaker</th>' +
-                '<th align="left" style="padding:6px 0; border-bottom:1px solid #e5e7eb;">Account</th>' +
+                '<th align="left" style="padding:6px 0; border-bottom:1px solid #e5e7eb;">Time Slot</th>' +
                 '<th align="left" style="padding:6px 0; border-bottom:1px solid #e5e7eb;">Language</th>' +
                 '<th align="left" style="padding:6px 0; border-bottom:1px solid #e5e7eb;">Presentation</th>' +
                 '<th align="left" style="padding:6px 0; border-bottom:1px solid #e5e7eb;">Products</th>' +
@@ -813,11 +848,11 @@ private static String buildSpeakersHtmlSingleSection(String sectionTitle, List<S
             String productsText = productNames.isEmpty()
                 ? '—'
                 : esc(String.join(productNames, ', '));
-
+            String timeSlotText = buildTimeSlotText(row.startTime, row.endTime);
             parts.add(
                 '<tr>' +
                 '<td ' + TD_STYLE + '>' + esc(row.speakerName) + '</td>' +
-                '<td ' + TD_STYLE + 'color:#6b7280;">' + esc(row.accountName) + '</td>' +
+                '<td ' + TD_STYLE + '>' + esc(timeSlotText) + '</td>' +
                 '<td ' + TD_STYLE + '>' + esc(row.language) + '</td>' +
                 '<td ' + TD_STYLE + '>' + esc(row.presentationStatus) + '</td>' +
                 '<td ' + TD_STYLE + '>' + productsText + '</td>' +
@@ -828,7 +863,34 @@ private static String buildSpeakersHtmlSingleSection(String sectionTitle, List<S
         parts.add('</table>');
         return String.join(parts, '');
     }
+    private static String buildTimeSlotText(Time startTime, Time endTime) {
+        if (startTime == null || endTime == null) return '—';
 
+        return formatTime(startTime) + ' - ' + formatTime(endTime);
+    }
+
+    private static String formatTime(Time t) {
+        if (t == null) return '';
+
+        String h = String.valueOf(t.hour()).leftPad(2, '0');
+        String m = String.valueOf(t.minute()).leftPad(2, '0');
+
+        return h + ':' + m;
+    }
+    private static Time parseTimeFromJson(Object value) {
+        if (value == null) return null;
+
+        String raw = String.valueOf(value);
+        if (String.isBlank(raw)) return null;
+
+        List<String> parts = raw.split(':');
+        if (parts.size() < 2) return null;
+
+        Integer hour = Integer.valueOf(parts[0]);
+        Integer minute = Integer.valueOf(parts[1]);
+
+        return Time.newInstance(hour, minute, 0, 0);
+    }
     /* =========================================================
     FLOW INVOCABLE - BUILD SPEAKERS HTML (JSON = list of SSP)
     ========================================================= */
@@ -887,14 +949,11 @@ private static String buildSpeakersHtmlSingleSection(String sectionTitle, List<S
                     // 2) Load contacts
                     Map<Id, Contact> contactById = new Map<Id, Contact>();
                     if (!speakerIdsToQuery.isEmpty()) {
-                        for (Contact c : (List<Contact>) Security.stripInaccessible(
-                            AccessType.READABLE,
-                            [
+                        for (Contact c :[
                                 SELECT Id, Name, Account.Name
                                 FROM Contact
                                 WHERE Id IN :speakerIdsToQuery
-                            ]
-                        ).getRecords()) {
+                            ]) {
                             contactById.put(c.Id, c);
                         }
                     }
@@ -902,14 +961,11 @@ private static String buildSpeakersHtmlSingleSection(String sectionTitle, List<S
                     // 3) Load strategies/products
                     Map<Id, strategy__c> strategyById = new Map<Id, strategy__c>();
                     if (!strategyIdsToQuery.isEmpty()) {
-                        for (strategy__c s : (List<strategy__c>) Security.stripInaccessible(
-                            AccessType.READABLE,
-                            [
+                        for (strategy__c s :[
                                 SELECT Id, Name
                                 FROM strategy__c
                                 WHERE Id IN :strategyIdsToQuery
-                            ]
-                        ).getRecords()) {
+                            ]) {
                             strategyById.put(s.Id, s);
                         }
                     }
@@ -927,7 +983,8 @@ private static String buildSpeakersHtmlSingleSection(String sectionTitle, List<S
 
                         fake.Language__c = (String) row.get('Language__c');
                         fake.PresentationStatus__c = (String) row.get('PresentationStatus__c');
-
+                        fake.startTime__c = parseTimeFromJson(row.get('startTime__c'));
+                        fake.endTime__c = parseTimeFromJson(row.get('endTime__c'));
                         String strategyIdStr = (String) row.get('strategy__c');
                         if (String.isNotBlank(strategyIdStr)) {
                             Id strategyId = (Id) strategyIdStr;
@@ -959,6 +1016,8 @@ private static String buildSpeakersHtmlSingleSection(String sectionTitle, List<S
         public String accountName;
         public String language;
         public String presentationStatus;
+        public Time startTime;
+        public Time endTime;
         public Set<String> products = new Set<String>();
     }
 
@@ -982,6 +1041,8 @@ private static String buildSpeakersHtmlSingleSection(String sectionTitle, List<S
 
                 if (row == null) {
                     row = new SpeakerHtmlRow();
+                    row.startTime = s.startTime__c;
+                    row.endTime = s.endTime__c;
                     row.speakerId = s.SpeakerContact__c;
                     row.speakerName = (s.SpeakerContact__r != null && String.isNotBlank(s.SpeakerContact__r.Name))
                         ? s.SpeakerContact__r.Name
@@ -1000,6 +1061,12 @@ private static String buildSpeakersHtmlSingleSection(String sectionTitle, List<S
                 }
                 if (String.isBlank(row.presentationStatus) && String.isNotBlank(s.PresentationStatus__c)) {
                     row.presentationStatus = s.PresentationStatus__c;
+                }
+                if (row.startTime == null && s.startTime__c != null) {
+                    row.startTime = s.startTime__c;
+                }
+                if (row.endTime == null && s.endTime__c != null) {
+                    row.endTime = s.endTime__c;
                 }
                 system.debug('==============groupSpeakersForHtml====s.strategy__r='+s.strategy__r);
                 if (s.strategy__r != null && String.isNotBlank(s.strategy__r.Name)) {
@@ -1110,4 +1177,56 @@ private static String buildSpeakersHtmlSingleSection(String sectionTitle, List<S
 
         upsertApprovals(approvals);
     }
+
+    // Calculates target Event status from speaker approvals
+public static Map<Id, String> calculateEventStatusFromApprovals(Set<Id> eventIds) {
+    Map<Id, String> result = new Map<Id, String>();
+
+    if (eventIds == null || eventIds.isEmpty()) return result;
+
+    Map<Id, Map<String, Integer>> countsByEventAndStatus = queryApprovalCounts(eventIds);
+
+    // Build target status per Event
+    for (Id evtId : countsByEventAndStatus.keySet()) {
+        Map<String, Integer> statusCounts = countsByEventAndStatus.get(evtId);
+
+        Integer total = 0;
+        Integer approved = 0;
+        Integer rejected = 0;
+        Integer recalled = 0;
+
+        for (String status : statusCounts.keySet()) {
+            Integer countValue = statusCounts.get(status);
+            if (countValue == null) continue;
+
+            if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_APPROVED_SPEAKER)) {
+                approved += countValue;
+                total += countValue;
+            } else if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_REJECTED)) {
+                rejected += countValue;
+                total += countValue;
+            } else if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_SUBMITTED)) {
+                total += countValue;
+            } else if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_RECALLED)) {
+                recalled += countValue;
+            } else if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_APPROVED_HOP)) {
+                approved += countValue;
+                total += countValue;
+            } else if (status != null && status.equalsIgnoreCase('AutoApproved')) {
+                approved += countValue;
+                total += countValue;
+            }
+        }
+
+        // Store calculated status
+        result.put(
+            evtId,
+            recalled > 0
+                ? customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS
+                : shouldMarkFullyApproved(total, approved, rejected)
+        );
+    }
+
+    return result;
+}
 }

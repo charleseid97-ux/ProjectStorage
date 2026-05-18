@@ -1,4 +1,4 @@
-public with sharing class AccountContactMultiSelectCtrl {
+public without sharing class AccountContactMultiSelectCtrl {
     public class OptionItem {
         @AuraEnabled public String label;
         @AuraEnabled public String value;
@@ -8,6 +8,21 @@ public with sharing class AccountContactMultiSelectCtrl {
             this.value = value;
         }
     }
+
+
+    // Récupère l'adresse d'un Account
+    @AuraEnabled(cacheable=true)
+    public static Account getAccountAddress(Id accountId) {
+        if (accountId == null) return null;
+
+        return [
+            SELECT Name, BillingStreet, BillingCity, BillingPostalCode, BillingCountry
+            FROM Account
+            WHERE Id = :accountId
+            LIMIT 1
+        ];
+    }
+
 
     @AuraEnabled(cacheable=true)
     public static List<OptionItem> getContactsByAccount(Id accountId, Integer limitSize) {

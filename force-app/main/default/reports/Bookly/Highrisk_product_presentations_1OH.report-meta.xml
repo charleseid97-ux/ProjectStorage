@@ -16,7 +16,7 @@
         <field>Event__c.SpeakersProducts__r$strategy__c.Name</field>
     </columns>
     <columns>
-        <field>Event__c.SpeakersProducts__r$presentationStatus__c</field>
+        <field>Event__c.SpeakersProducts__r$PresentationStatusFormula__c</field>
     </columns>
     <columns>
         <field>Event__c$status__c</field>
@@ -56,18 +56,25 @@
             <value>FullyApproved</value>
         </criteriaItems>
         <criteriaItems>
-            <column>Event__c.SpeakersProducts__r$presentationStatus__c</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>requested</value>
-        </criteriaItems>
-        <criteriaItems>
             <column>Event__c$startDate__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>NEXT_N_DAYS:14</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Event__c.SpeakersProducts__r$PresentationStatusFormula__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Due</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Event__c.SpeakersProducts__r$speakerContact__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value></value>
         </criteriaItems>
         <language>en_US</language>
     </filter>

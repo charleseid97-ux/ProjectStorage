@@ -8,6 +8,8 @@
     <columns>category__c</columns>
     <columns>salesTeam__c</columns>
     <columns>StatusDisplay__c</columns>
+    <columns>city__c</columns>
+    <columns>format__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>DaysToEvent__c</field>
@@ -19,5 +21,5 @@
         <operation>greaterOrEqual</operation>
         <value>0</value>
     </filters>
-    <label>Upcoming Events (next 30 days)</label>
+    <label>Upcoming (next 30 days)</label>
 </ListView>

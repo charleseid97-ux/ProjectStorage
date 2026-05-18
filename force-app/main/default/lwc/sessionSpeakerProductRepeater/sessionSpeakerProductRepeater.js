@@ -4,11 +4,12 @@ import getLanguageOptions from '@salesforce/apex/sessionSpeakerProductRepeaterCT
 import getProducts from '@salesforce/apex/sessionSpeakerProductRepeaterCTRL.getProducts';
 import getSpeakerContacts from '@salesforce/apex/CustomCalendarHelper.getSpeakerContacts';
 import getDefaultSpeakerForEvent from '@salesforce/apex/sessionSpeakerProductRepeaterCTRL.getDefaultSpeakerForEvent';
-
+import getEventCategory from '@salesforce/apex/sessionSpeakerProductRepeaterCTRL.getEventCategory';
 const uniq = () => Math.random().toString(36).slice(2);
 
 export default class SessionSpeakerProductRepeater extends LightningElement {
     // Flow inputs/outputs (do not rename)
+    @api defaultSpeakerDate;
     @api debug = false;
     @api outputValue = '[]';
     @api showTimeSlots = false;
@@ -22,6 +23,7 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
     get parentEventId() {
         return this._parentEventId;
     }
+    
     // Optional JSON input (Lightning pages / parent components).
     // Accepts JSON string OR array of sessionSpeakerProduct__c-like objects.
     @api
@@ -49,6 +51,7 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
             speakerLanguage: null,
             startTime: null,
             endTime: null,
+            date: this.defaultSpeakerDate || null, 
             showSlidesLanguage: false,
             speakerPills: [],
             productPills: []
@@ -70,6 +73,9 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
     }
 
     connectedCallback() {
+        if(this.defaultSpeakerDate){
+            console.log('====connectedCallback==[SSPRepeater] defaultSpeakerDate=', this.defaultSpeakerDate);
+        }else console.log('===[SSPRepeater] defaultSpeakerDate=undefined ');
         if (this._hasExistingInput === undefined) {
             this._hasExistingInput = false;
         }
@@ -82,7 +88,9 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
                     return {
                         ...entry,
                         startTime: entry.startTime || this.defaultStartTime || null,
-                        endTime: entry.endTime || this.defaultEndTime || null
+                        endTime: entry.endTime || this.defaultEndTime || null,
+                        date: entry.date || this.defaultSpeakerDate || null
+
                     };
                 }
                 return entry;
@@ -286,6 +294,7 @@ _applyVisibilityRules() {
                 speakerLanguage,
                 startTime,
                 endTime,
+                date,
                 key
             } = normalized;
 
@@ -296,7 +305,8 @@ _applyVisibilityRules() {
                 lang,
                 speakerLanguage,
                 startTime,
-                endTime
+                endTime,
+                date
             );
 
             if (productId) this._pushUnique(entry.productIds, productId);
@@ -308,7 +318,7 @@ _applyVisibilityRules() {
     _normalizeRow(r) {
         const speakerId = r && r.speakerContact__c ? r.speakerContact__c : null;
         if (!speakerId) return null;
-
+        const date = r && r.Date__c ? r.Date__c : this.defaultSpeakerDate || null;
         const productId = r && r.strategy__c ? r.strategy__c : null;
         const lang = r && r.Language__c ? r.Language__c : null;
         const speakerLanguage = r && r.speakerLanguage__c ? r.speakerLanguage__c : null;
@@ -321,11 +331,12 @@ _applyVisibilityRules() {
             speakerLanguage,
             startTime,
             endTime,
-            key: `${speakerId}|${lang || ''}|${speakerLanguage || ''}|${startTime || ''}|${endTime || ''}`
+            date,
+           key: `${speakerId}|${lang || ''}|${speakerLanguage || ''}|${startTime || ''}|${endTime || ''}|${date || ''}`
         };
     }
 
-    _ensureGroupedEntry(byKey, key, speakerId, lang, speakerLanguage, startTime, endTime) {
+    _ensureGroupedEntry(byKey, key, speakerId, lang, speakerLanguage, startTime, endTime,date) {
         if (!byKey.has(key)) {
             byKey.set(key, {
                 key: uniq(),
@@ -335,6 +346,7 @@ _applyVisibilityRules() {
                 speakerLanguage: speakerLanguage,
                 startTime: startTime,
                 endTime: endTime,
+                date: date,
                 showSlidesLanguage: false,
                 speakerPills: [],
                 productPills: []
@@ -366,6 +378,7 @@ _applyVisibilityRules() {
             speakerLanguage: null,
             startTime: null,
             endTime: null,
+            date: this.defaultSpeakerDate || null,
             showSlidesLanguage: false,
             speakerPills: [],
             productPills: []
@@ -419,6 +432,7 @@ _applyVisibilityRules() {
             speakerLanguage: null,
             startTime: this.defaultStartTime || null,
             endTime: this.defaultEndTime || null,
+            date: this.defaultSpeakerDate || null,
             showSlidesLanguage: false,
             speakerPills: [],
             productPills: []
@@ -526,6 +540,7 @@ _applyVisibilityRules() {
 
         // eslint-disable-next-line no-console
         console.log('===[SSPRepeater] _rebuildRecords - outputValue', this.outputValue);
+        console.log('===[SSPRepeater] defaultSpeakerDate=', this.defaultSpeakerDate);
     }
 
     _entryToRecords(entry) {
@@ -535,7 +550,7 @@ _applyVisibilityRules() {
         const speakerLanguage = entry ? entry.speakerLanguage || null : null;
         const startTime = entry ? entry.startTime || null : null;
         const endTime = entry ? entry.endTime || null : null;
-
+        const date = entry ? entry.date || null : null;
         const hasSpeaker = speakers.length > 0;
         const hasProducts = products.length > 0;
 
@@ -549,7 +564,7 @@ _applyVisibilityRules() {
         }
 
         return this._pairSelections(speakers, products)
-            .map(({ sid, pid }) => this._makeRecord(sid, pid, lang, speakerLanguage, startTime, endTime));
+            .map(({ sid, pid }) => this._makeRecord(sid, pid, lang, speakerLanguage, startTime, endTime,date));
     }
 
     _toArray(value) {
@@ -578,7 +593,7 @@ _applyVisibilityRules() {
         return speakers.flatMap((sid) => products.map((pid) => ({ sid, pid })));
     }
 
-    _makeRecord(contactId, productId, lang, speakerLanguage, startTime, endTime) {
+    _makeRecord(contactId, productId, lang, speakerLanguage, startTime, endTime,date) {
         return {
             attributes: { type: 'sessionSpeakerProduct__c' },
             speakerContact__c: contactId,
@@ -587,6 +602,7 @@ _applyVisibilityRules() {
             speakerLanguage__c: speakerLanguage,
             startTime__c: startTime,
             endTime__c: endTime,
+            Date__c: date,
             Session__c: null
         };
     }
@@ -656,30 +672,69 @@ _applyVisibilityRules() {
         this._rebuildRecords();
     };
 
+    // Met à jour la date d'une ligne
+    handleDateChange = (event) => {
+        const index = parseInt(event.currentTarget.dataset.index, 10);
+        const value = event.detail.value;
+
+        const cloned = JSON.parse(JSON.stringify(this.entries));
+        cloned[index].date = value; // update date
+        this.entries = cloned;
+
+        this._rebuildRecords(); // refresh output JSON
+    };
 
     @api
     validate() {
+        let errorMessage = null;
+
         const hasInvalidRow = (this.entries || []).some((e) => {
             const hasSpeaker = !!e.speakerId;
             const hasProducts = Array.isArray(e.productIds) && e.productIds.length > 0;
-            return hasSpeaker && !hasProducts;
+
+            // Si un speaker est renseigné, au moins un produit est obligatoire
+            if (hasSpeaker && !hasProducts) {
+                errorMessage = 'Any line with a speaker must include at least one product.';
+                return true;
+            }
+
+            // Si les time slots sont affichés, les 3 champs sont obligatoires avec un speaker
+            if (this.showTimeSlots && hasSpeaker && (!e.startTime || !e.endTime || !e.date)) {
+                errorMessage = 'Any line with a speaker must include start time, end time and date.';
+                return true;
+            }
+
+            return false;
         });
 
         if (hasInvalidRow) {
             return {
                 isValid: false,
-                errorMessage: 'Any line with a speaker must include at least one product.'
+                errorMessage: errorMessage
             };
         }
 
         return { isValid: true };
     }
-get hasError() {
-    return false; // ou ta logique
-}
+    get hasError() {
+        return false; // ou ta logique
+    }
 
-get errorMessage() {
-    return 'Any line with a speaker must include at least one product.';
-}
+    get errorMessage() {
+        return 'Any line with a speaker must include at least one product.';
+    }
+
+    // Génère les heures de 08:00 à 20:00 (toutes les 30 min)
+    get timeOptions() {
+        const options = [];
+        for (let h = 8; h <= 20; h++) {
+            for (let m of ['00', '30']) {
+                const hour = String(h).padStart(2, '0');
+                const value = `${hour}:${m}`;
+                options.push({ label: value, value });
+            }
+        }
+        return options;
+    }
 
 }

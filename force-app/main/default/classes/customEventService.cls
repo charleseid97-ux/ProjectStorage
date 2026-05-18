@@ -78,16 +78,7 @@ public without sharing class customEventService {
     // ---------------------------
     // Helpers: format / join / parse
     // ---------------------------
-
-    // Convert format picklist to single-character initial
-    private static String toFormatInitial(String formatRaw) {
-        if (String.isBlank(formatRaw)) return EMPTY;
-        String f = formatRaw.trim().toUpperCase();
-        if (String.isBlank(f)) return EMPTY;
-        if (f.startsWith('D')) return 'D';
-        if (f.startsWith('P')) return 'P';
-        return f.substring(0, 1);
-    }
+    
 
     // Join non-blank parts with separator
     private static String joinNonBlank(List<String> parts, String sep) {
@@ -99,25 +90,7 @@ public without sharing class customEventService {
         return kept.isEmpty() ? EMPTY : String.join(kept, sep);
     }
 
-    /**
-     * Input: "HH:MM" or "HH:MM:SS"
-     * Output: "h:MM AM/PM" (ex: "1:05 PM")
-     */
-    private static String formatTime12hFromText(String timeTxt) {
-        if (String.isBlank(timeTxt)) return null;
-        List<Integer> parts = parseTimeParts(timeTxt);
-        if (parts == null || parts.size() < 2) return null;
-        Integer hh = parts[0];
-        Integer mm = parts[1];
-        if (hh == null || mm == null) return null;
-        if (hh < 0 || hh > 23) return null;
-        if (mm < 0 || mm > 59) return null;
-        String ampm = (hh >= 12) ? 'PM' : 'AM';
-        Integer h12 = Math.mod(hh, 12);
-        if (h12 == 0) h12 = 12;
-        String mmStr = (mm < 10 ? '0' : '') + String.valueOf(mm);
-        return String.valueOf(h12) + ':' + mmStr + ' ' + ampm;
-    }
+    
 
     // Accept "HH:MM" or "HH:MM:SS"
     private static List<Integer> parseTimeParts(String timeTxt) {
@@ -136,23 +109,7 @@ public without sharing class customEventService {
         }
     }
 
-    // Legacy helper: format Datetime -> 12h string (kept for compatibility)
-    private static String formatTime12h(Datetime dt) {
-        if (dt == null) return '';
-        Time t = dt.time();
-        Integer h = t.hour();
-        Integer m = t.minute();
-        String ampm = (h >= 12) ? 'pm' : 'am';
-        Integer h12 = Math.mod(h, 12);
-        if (h12 == 0) h12 = 12;
-        return (m == 0)
-            ? String.valueOf(h12) + ampm
-            : String.valueOf(h12) + ':' + two(m) + ampm;
-    }
-
-    private static String two(Integer v) {
-        return (v < 10) ? '0' + String.valueOf(v) : String.valueOf(v);
-    }
+    
 
     // ---------------------------
     // Country mapping
@@ -243,7 +200,6 @@ public without sharing class customEventService {
             WHERE Id IN :accountIds
             WITH SECURITY_ENFORCED
         ];
-        accounts = (List<Account>)Security.stripInaccessible(AccessType.READABLE, accounts).getRecords();
         return new Map<Id, Account>(accounts);
     }
 
@@ -342,25 +298,44 @@ public without sharing class customEventService {
 
     // Create Campaigns when Event.Status__c transitions to 'FullyApproved'
     public static void createCampaign(List<Event__c> newEvents, Map<Id, Event__c> oldMap) {
+        system.debug('====createCampaign====='+ newEvents );
+
         if (newEvents == null || newEvents.isEmpty()) return;
 
         List<Event__c> eligibleEvents = detectBecameFullyApproved(newEvents, oldMap);
         if (eligibleEvents.isEmpty()) return;
-        eligibleEvents = (List<Event__c>)Security.stripInaccessible(AccessType.READABLE, eligibleEvents).getRecords();
 
         List<Campaign> campaignsToInsert = new List<Campaign>();
         Map<Id, Campaign> eventIdToCampaign = new Map<Id, Campaign>();
-
+        List<Event__c> eventsWithCreatedCampaign = new List<Event__c>();
+        Id eventRecordTypeId = Schema.SObjectType.Event__c
+        .getRecordTypeInfosByDeveloperName()
+        .get('event')
+        .getRecordTypeId();
         for (Event__c e : eligibleEvents) {
+            system.debug('=eventRecordTypeId========'+ eventRecordTypeId );
+            system.debug('=e.RecordTypeId========'+ e.RecordTypeId );
+            if (e.RecordTypeId != eventRecordTypeId) {
+                system.debug('=====pas Event====' );
+
+                continue;
+            }
+            system.debug('===event======' );
+
             Campaign c = buildCampaignFromEvent(e);
             campaignsToInsert.add(c);
             eventIdToCampaign.put(e.Id, c);
+            eventsWithCreatedCampaign.add(e);
         }
         System.debug('[customEventService.createCampaign] Inserting ' + campaignsToInsert );
+        if (campaignsToInsert.isEmpty()) return;
         insert campaignsToInsert;
 
         // Link created campaigns back on events
         linkCampaignsToEvents(eventIdToCampaign, eligibleEvents);
+
+         // Notify organizer + sales team after campaign creation
+        customEventNotificationManager.notifyCampaignCreated(eventsWithCreatedCampaign);
     }
 
     // Detect transition to FullyApproved and avoid duplicates
@@ -378,31 +353,28 @@ public without sharing class customEventService {
     }
 
     // Build a Campaign record from an Event__c
-    private static Campaign buildCampaignFromEvent(Event__c e) {
+    public static Campaign buildCampaignFromEvent(Event__c e) {
         Campaign c = new Campaign();
+
         // Record Type
         c.RecordTypeId = Schema.SObjectType.Campaign
-        .getRecordTypeInfosByDeveloperName()
-        .get('Event_and_Meeting')
-        .getRecordTypeId();
+            .getRecordTypeInfosByDeveloperName()
+            .get('Event_and_Meeting')
+            .getRecordTypeId();
 
-        // Name
-        String timePart    = formatTime12hFromText(e.startTime__c);
+        // Name construction (time + country + title + format)
         String countryPart = countryToInitials(e.SalesTeam__c);
-        c.Name = joinNonBlank(
-            new List<String>{ timePart, countryPart, e.Title__c, toFormatInitial(e.Format__c) },
-            SEP_NAME_PARTS
-        );
+        c.Name = e.name;
 
-        // Dates
+        // Dates mapping
         c.StartDate = e.startDate__c;
         c.EndDate   = (e.endDate__c != null) ? e.endDate__c : e.startDate__c;
 
-        // Defaults
-        c.Type   = 'Nurturing';
-        c.Status = 'Email Sent';
-
-        // Datetime mapping
+        // Type + Status mapping
+        c.Type   = e.category__c;
+        c.Status = 'Event Validated';
+        c.Event__c = e.Id;
+        // Datetime mapping from text time
         Datetime startDt = buildDatetimeFromDateAndTextTime(e.startDate__c, e.startTime__c);
         Datetime endDt   = buildDatetimeFromDateAndTextTime(
             (e.endDate__c != null) ? e.endDate__c : e.startDate__c,
@@ -410,7 +382,16 @@ public without sharing class customEventService {
         );
         if (startDt != null) c.Start_Date_Time__c = startDt;
         if (endDt   != null) c.End_Date_Time__c   = endDt;
+        // Format local datetime into String for Campaign fields
+        if (startDt != null) {
+            c.Event_Local_Start_Time__c =
+            startDt.format('yyyy/MM/dd HH:mm');
+        }
 
+        if (endDt != null) {
+            c.Event_Local_End_Time__c =
+            endDt.format('yyyy/MM/dd HH:mm');
+        }
         // Location mapping
         c.Address_1__c     = e.LocationAddress__c;
         c.City__c          = e.city__c;
@@ -418,22 +399,47 @@ public without sharing class customEventService {
         c.Post_Code__c     = e.LocationPostCode__c;
         c.Location_name__c = e.LocationName__c;
 
-        // Ownership/context
-        c.Company__c    = e.Company__c;
-       // c.Sales_Team__c = resolveCampaignSalesTeam(e.SalesTeam__c);
-        if (!String.isBlank(e.Language__c)) c.Language__c = e.Language__c;
+        // Business mapping
+        c.Company__c       = e.Company__c;
+        // Sales Team mapping (force 2-char country code compatible Campaign picklist)
+        c.Sales_Team__c = countryToInitials(e.SalesTeam__c);
+        c.Participants_number__c = e.targetedAttendees__c;
+        c.Local_zone__c   = e.timezone__c;
 
+        if (!String.isBlank(e.Language__c)) {
+            c.Language__c = e.Language__c;
+        }
+        // CRM User => Organizer
+        c.CRM_User__c = e.Organizer__c;
+
+        // Campaign owner => sales owner (not possible at creation)
+        if (e.SalesOwner__c != null) {
+             c.OwnerId = e.SalesOwner__c;
+        }
         // Description composition
         String descr = '';
-        if (!String.isBlank(e.MeetingGoal__c))       descr += 'Goal:\n' + e.MeetingGoal__c + '\n\n';
-        if (!String.isBlank(e.MeetingBackground__c)) descr += 'Background:\n' + e.MeetingBackground__c + '\n\n';
-        if (!String.isBlank(e.Description__c))       descr += 'Rationale:\n' + e.Description__c + '\n\n';
+        if (!String.isBlank(e.MeetingGoal__c)) {
+            descr += 'Goal:\n' + e.MeetingGoal__c + '\n\n';
+        }
+        if (!String.isBlank(e.MeetingBackground__c)) {
+            descr += 'Background:\n' + e.MeetingBackground__c + '\n\n';
+        }
+        if (!String.isBlank(e.Description__c)) {
+            descr += 'Rationale:\n' + e.Description__c + '\n\n';
+        }
         c.Description = String.isBlank(descr) ? null : descr.trim();
 
-        // Flags from example
+        // Default flags
         c.Product__c            = true;
         c.Professionnal_only__c = true;
+         // Type mapping (Event -> Campaign)
+        if (e.AudienceCompany__c == 'One Company') {
+            c.Event_Type__c = 'OCO';
+        } else if (e.AudienceCompany__c == 'Several Companies') {
+            c.Event_Type__c = 'SCO';
+        } 
 
+        c.Status = 'Event Validated';
         return c;
     }
 
@@ -474,34 +480,8 @@ public without sharing class customEventService {
         return Datetime.newInstance(d, t);
     }
 
-    // ---------------------------
-    // Campaign Sales Team resolution
-    // ---------------------------
+  
 
-    // Get active picklist values for Campaign.Sales_Team__c
-    private static Set<String> getCampaignSalesTeamAllowedValues() {
-        Set<String> allowed = new Set<String>();
-        Schema.DescribeFieldResult d =
-            Campaign.SObjectType.getDescribe()
-                .fields.getMap()
-                .get('Sales_Team__c')
-                .getDescribe();
-        for (Schema.PicklistEntry pe : d.getPicklistValues()) {
-            if (pe.isActive()) allowed.add(pe.getValue());
-        }
-        return allowed;
-    }
-
-    // Resolve Campaign Sales Team ensuring it matches the Campaign picklist
-    private static String resolveCampaignSalesTeam(String eventSalesTeam) {
-        if (String.isBlank(eventSalesTeam)) return null;
-        Set<String> allowed = getCampaignSalesTeamAllowedValues();
-        String value = eventSalesTeam.trim();
-        if (allowed.contains(value)) return value;
-        String initials = countryToInitials(value);
-        if (!String.isBlank(initials) && allowed.contains(initials)) return initials;
-        return null;
-    }
     // set automatic location for digital events, and remove it if format is changed from digital to something else
     public static void setDigitalLocation(List<Event__c> newEvents, Map<Id, Event__c> oldMap) {
         newEvents =  newEvents  ;
@@ -514,7 +494,7 @@ public without sharing class customEventService {
                 }
             } else {
                 Event__c oldEv = oldMap.get(ev.Id);
-
+                if (oldEv == null) continue;
                 Boolean formatChanged = oldEv.Format__c != ev.Format__c;
 
                 if (formatChanged && ev.City__c == 'Digital') {
@@ -549,7 +529,7 @@ public without sharing class customEventService {
         for (Id eid : tmp.keySet()) {
             List<String> vals = new List<String>(tmp.get(eid));
             vals.sort();
-            res.put(eid, String.join(vals, '/'));
+            res.put(eid, String.join(vals, ','));
         }
         return res;
     }
@@ -627,6 +607,68 @@ public without sharing class customEventService {
             if (res != null && !String.isBlank(res.timezoneId)) {
                 ev.TimeZone__c = res.timezoneId;
             }
+        }
+    }
+
+    // Submit organizer approval when required and status transitions correctly
+    public static void submitOrganizerApproval(List<Event__c> newEvents, Map<Id, Event__c> oldMap) {
+        if (newEvents == null || newEvents.isEmpty() || oldMap == null) return;
+
+        for (Event__c ev : newEvents) {
+            if (ev == null || ev.Id == null) continue;
+
+            Event__c oldEv = oldMap.get(ev.Id);
+            if (oldEv == null) continue;
+
+            // Check transition: SubmittedToEventTeam -> WaitingForSpeakerApprovals
+            Boolean correctStatusTransition =
+                oldEv.Status__c == 'SubmittedToEventTeam' &&
+                ev.Status__c == 'WaitingForSpeakerApprovals';
+
+            // Submit only if organizer approval is required
+            if (correctStatusTransition && ev.OrganizerApprovalRequired__c == true) {
+                Approval.ProcessSubmitRequest req = new Approval.ProcessSubmitRequest();
+                req.setObjectId(ev.Id);
+                req.setProcessDefinitionNameOrId('OrganizerApprovalProcess');
+                Approval.process(req);
+            }
+        }
+    }
+
+
+    /**
+     * Send SSP presentation notifications when Event SSP HTML is updated
+     */
+    public static void notifyProductTeam(
+        Map<Id, Event__c> newMap,
+        Map<Id, Event__c> oldMap
+    ) {
+
+        Set<Id> eventIds = new Set<Id>();
+
+        // Keep only Events where SSP HTML changed
+        for (Event__c newEvt : newMap.values()) {
+            Event__c oldEvt = oldMap.get(newEvt.Id);
+
+            if (newEvt.speakersHTML__c != oldEvt.speakersHTML__c) {
+                eventIds.add(newEvt.Id);
+            }
+        }
+
+        if (eventIds.isEmpty()) {
+            return;
+        }
+
+        List<SessionSpeakerProduct__c> ssps = [
+            SELECT Id, session__c, strategy__c, PresentationStatus__c
+            FROM SessionSpeakerProduct__c
+            WHERE session__c IN :eventIds
+            AND PresentationStatus__c = 'required'
+        ];
+
+        // Send notification for all required SSPs linked to updated Events
+        if (!ssps.isEmpty()) {
+            customEventNotificationManager.requestPresentation(ssps);
         }
     }
 }

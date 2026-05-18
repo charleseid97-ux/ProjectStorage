@@ -1,4 +1,4 @@
-public with sharing class ScheduleEventsCsvHelper {
+public without sharing class ScheduleEventsCsvHelper {
 
     public class ParsedCsv {
         public Map<String, Integer> headerIndex = new Map<String, Integer>();
@@ -17,6 +17,7 @@ public with sharing class ScheduleEventsCsvHelper {
         public String locationName;
         public String address1;
         public String postCode;
+        public String originalDigitalCity;
         public String city;
         public String country;
         public Date startDate;
@@ -26,6 +27,10 @@ public with sharing class ScheduleEventsCsvHelper {
         public Time startTime;
         public Time endTime;
         public String originalLine;
+        public String sourceRecordType;
+        public String sourceType;
+        public String sourceStatus;
+        public String localZone;
         public Set<String> speakerEmails = new Set<String>();
         public Set<String> productNames = new Set<String>();
     }
@@ -38,21 +43,7 @@ public with sharing class ScheduleEventsCsvHelper {
             LIMIT 1
         ];
 
-        String csv = sr.Body.toString();
-
-        ParsedCsv out = new ParsedCsv();
-        out.records = splitCsvRecords(csv);
-
-        if (out.records.isEmpty()) {
-            return out;
-        }
-
-        List<String> headers = parseCsvLine(out.records[0]);
-        for (Integer i = 0; i < headers.size(); i++) {
-            out.headerIndex.put(cleanHeader(headers[i]), i);
-        }
-
-        return out;
+        return loadFromCsvString(sr.Body.toString());
     }
 
     public static List<String> getDataRecords(ParsedCsv parsed) {
@@ -82,29 +73,32 @@ public with sharing class ScheduleEventsCsvHelper {
         List<String> cols = parseCsvLine(originalLine);
         RowData row = new RowData();
 
-        row.scheduleId   = getCol(cols, headerIndex, 'tech_id_schedule__c');
-        row.rawName      = getCol(cols, headerIndex, 'name');
-        row.ownerId      = getCol(cols, headerIndex, 'owner');
-        row.crmUserId    = getCol(cols, headerIndex, 'crm_user__c');
-        row.salesTeam    = getCol(cols, headerIndex, 'sales_team__c');
-        row.companyId    = getCol(cols, headerIndex, 'company__c');
-        row.description  = getCol(cols, headerIndex, 'description');
-        row.locationName = normalizeText(getCol(cols, headerIndex, 'location_name__c'));
-        row.address1     = normalizeText(getCol(cols, headerIndex, 'address_1__c'));
-        row.postCode     = getCol(cols, headerIndex, 'post_code__c');
-        row.city         = normalizeText(getCol(cols, headerIndex, 'city__c'));
-        row.country      = normalizeText(getCol(cols, headerIndex, 'country__c'));
-        row.originalLine = originalLine;
-
+        row.scheduleId       = getCol(cols, headerIndex, 'tech_id_schedule__c');
+        row.rawName          = getCol(cols, headerIndex, 'name');
+        row.ownerId          = getCol(cols, headerIndex, 'owner');
+        row.crmUserId        = getCol(cols, headerIndex, 'crm_user__c');
+        row.salesTeam        = getCol(cols, headerIndex, 'sales_team__c');
+        row.companyId        = getCol(cols, headerIndex, 'company__c');
+        row.description      = getCol(cols, headerIndex, 'description');
+        row.locationName     = normalizeText(getCol(cols, headerIndex, 'location_name__c'));
+        row.address1         = normalizeText(getCol(cols, headerIndex, 'address_1__c'));
+        row.postCode         = getCol(cols, headerIndex, 'post_code__c');
+        row.city             = normalizeText(getCol(cols, headerIndex, 'city__c'));
+        row.country          = normalizeText(getCol(cols, headerIndex, 'country__c'));
+        row.sourceRecordType = getCol(cols, headerIndex, 'recordtype');
+        row.sourceType       = getCol(cols, headerIndex, 'type');
+        row.sourceStatus     = getCol(cols, headerIndex, 'status');
+        row.originalLine     = originalLine;
+        row.localZone = getCol(cols, headerIndex, 'local_zone__c');
         String startRaw = getCol(cols, headerIndex, 'start_date_time__c');
         String endRaw   = getCol(cols, headerIndex, 'end_date_time__c');
 
-        row.startDate = parseDateFromIso(startRaw);
-        row.endDate   = parseDateFromIso(endRaw);
+        row.startDate     = parseDateFromIso(startRaw);
+        row.endDate       = parseDateFromIso(endRaw);
         row.startTimeText = parseTimeTextFromIso(startRaw);
         row.endTimeText   = parseTimeTextFromIso(endRaw);
-        row.startTime = parseTime(row.startTimeText);
-        row.endTime   = parseTime(row.endTimeText);
+        row.startTime     = parseTime(row.startTimeText);
+        row.endTime       = parseTime(row.endTimeText);
 
         row.participants = parseInteger(getCol(cols, headerIndex, 'participants_number__c'));
 
@@ -114,11 +108,22 @@ public with sharing class ScheduleEventsCsvHelper {
         }
         row.speakerEmails = splitSpeakerEmails(speakerEmailRaw);
         row.productNames  = splitMultiValues(getCol(cols, headerIndex, 'product_t__c'));
-
+        if (isDigitalLocation(row.city)) {
+            row.originalDigitalCity = row.city;
+            row.city = 'Digital';
+            row.country = 'Digital';
+        }
+        if (String.isBlank(row.city)) {
+            row.city = 'Digital';
+        }
+        if (String.isBlank(row.country)) {
+            row.country = 'Digital';
+        }
         row.salesTeam = normalizeSalesTeam(row.salesTeam, row.country);
 
         return row;
     }
+
     public static Set<String> splitSpeakerEmails(String raw) {
         Set<String> out = new Set<String>();
         if (String.isBlank(raw)) return out;
@@ -133,27 +138,178 @@ public with sharing class ScheduleEventsCsvHelper {
         }
         return out;
     }
+    public static String mapTimeZoneIdToIana(String timeZoneIdRaw) {
+        if (String.isBlank(timeZoneIdRaw)) {
+            return null;
+        }
+
+        String key = timeZoneIdRaw.trim();
+
+        Map<String, String> tzMap = new Map<String, String>{
+            '1'  => 'Etc/GMT+12',
+            '2'  => 'Pacific/Pago_Pago',
+            '3'  => 'Pacific/Honolulu',
+            '4'  => 'America/Anchorage',
+            '5'  => 'America/Los_Angeles',
+            '6'  => 'America/Phoenix',
+            '7'  => 'America/Chihuahua',
+            '8'  => 'America/Denver',
+            '9'  => 'America/Guatemala',
+            '10' => 'America/Chicago',
+            '11' => 'America/Mexico_City',
+            '12' => 'America/Regina',
+            '13' => 'America/Bogota',
+            '14' => 'America/New_York',
+            '15' => 'America/Indiana/Indianapolis',
+            '16' => 'America/Halifax',
+            '17' => 'America/Caracas',
+            '18' => 'America/Santiago',
+            '19' => 'America/St_Johns',
+            '20' => 'America/Sao_Paulo',
+            '21' => 'America/Argentina/Buenos_Aires',
+            '22' => 'America/Nuuk',
+            '23' => 'Atlantic/South_Georgia',
+            '24' => 'Atlantic/Azores',
+            '25' => 'Atlantic/Cape_Verde',
+            '26' => 'UTC',
+            '27' => 'Europe/London',
+            '28' => 'Europe/Berlin',
+            '29' => 'Europe/Budapest',
+            '30' => 'Europe/Paris',
+            '31' => 'Europe/Warsaw',
+            '32' => 'Africa/Lagos',
+            '33' => 'Europe/Istanbul',
+            '34' => 'Europe/Bucharest',
+            '35' => 'Africa/Cairo',
+            '36' => 'Africa/Johannesburg',
+            '37' => 'Europe/Kyiv',
+            '38' => 'Asia/Jerusalem',
+            '39' => 'Asia/Baghdad',
+            '40' => 'Asia/Riyadh',
+            '41' => 'Africa/Nairobi',
+            '42' => 'Asia/Tehran',
+            '43' => 'Europe/Moscow',
+            '44' => 'Asia/Dubai',
+            '45' => 'Asia/Baku',
+            '46' => 'Asia/Kabul',
+            '47' => 'Asia/Yekaterinburg',
+            '48' => 'Asia/Karachi',
+            '49' => 'Asia/Kolkata',
+            '50' => 'Asia/Kathmandu',
+            '51' => 'Asia/Almaty',
+            '52' => 'Asia/Dhaka',
+            '53' => 'Asia/Colombo',
+            '54' => 'Asia/Yangon',
+            '55' => 'Asia/Bangkok',
+            '56' => 'Asia/Krasnoyarsk',
+            '57' => 'Asia/Shanghai',
+            '58' => 'Asia/Ulaanbaatar',
+            '59' => 'Asia/Singapore',
+            '60' => 'Australia/Perth',
+            '61' => 'Asia/Taipei',
+            '62' => 'Asia/Tokyo',
+            '63' => 'Asia/Seoul',
+            '64' => 'Asia/Yakutsk',
+            '65' => 'Australia/Adelaide',
+            '66' => 'Australia/Darwin',
+            '67' => 'Australia/Brisbane',
+            '68' => 'Australia/Sydney',
+            '69' => 'Pacific/Port_Moresby',
+            '70' => 'Australia/Hobart',
+            '71' => 'Asia/Vladivostok',
+            '72' => 'Pacific/Guadalcanal',
+            '73' => 'Pacific/Auckland',
+            '74' => 'Pacific/Fiji',
+            '75' => 'Pacific/Tongatapu'
+        };
+
+        return tzMap.get(key);
+    }
+
+    // mapCategory()
+
+    public static String mapCategory(String sourceType) {
+        if (String.isBlank(sourceType)) {
+            return 'Client Event';
+        }
+
+        String v = sourceType.trim();
+
+        // One-To-One Meeting => One to One meeting
+        if (v == 'One-To-One Meeting') {
+            return 'One to One meeting';
+        }
+
+        if (v == 'Sales Presentation' || v == 'Partnership') {
+            return 'Event conference';
+        }
+
+        return v;
+    }
+
+    // mapStatus()
+
+    public static String mapStatus(String sourceStatus) {
+        if (String.isBlank(sourceStatus)) {
+            return null;
+        }
+
+        String v = sourceStatus.trim();
+
+        if (
+            v == 'Event Validated' ||
+            v == 'Outlook Invitation'
+        ) {
+            return 'FullyApproved';
+        }
+
+        // Request Created + Request Validated => Draft
+        if (
+            v == 'Request Created' ||
+            v == 'Request Validated'
+        ) {
+            return 'Draft';
+        }
+
+        return null;
+    }
+
+    public static Id getEventRecordTypeId(String sourceType) {
+        String developerName = (sourceType == 'One-To-One Meeting')
+            ? 'Meeting'
+            : 'event';
+
+        Map<String, Schema.RecordTypeInfo> rtByDevName =
+            Schema.SObjectType.Event__c.getRecordTypeInfosByDeveloperName();
+
+        Schema.RecordTypeInfo rtInfo = rtByDevName.get(developerName);
+
+        if (rtInfo != null) {
+            return rtInfo.getRecordTypeId();
+        }
+
+        return null;
+    }
+
     public static Event__c buildEvent(RowData row) {
         if (row == null || String.isBlank(row.scheduleId)) {
             return null;
         }
-
         Event__c ev = new Event__c();
 
         ev.ScheduleID__c = row.scheduleId;
         ev.Name = safe80(row.rawName);
         ev.Title__c = safe50(extractTitle(row.rawName));
 
+        // Owner => salesOwner__c
         if (isRealId(row.ownerId)) {
-            ev.OwnerId = row.ownerId;
-            ev.Organizer__c = row.ownerId;
+            ev.salesOwner__c = row.ownerId;
         }
-        /*if (isRealId(row.crmUserId)) {
-            ev.salesOwner__c = row.crmUserId;
-        }*/
-       /* if (isRealId(row.companyId)) {
-            ev.Company__c = row.companyId;
-        }*/
+
+        // CRM_User__c => Organizer__c
+        if (isRealId(row.crmUserId)) {
+            ev.Organizer__c = row.crmUserId;
+        }
 
         ev.startDate__c = row.startDate;
         ev.endDate__c = row.endDate;
@@ -162,24 +318,37 @@ public with sharing class ScheduleEventsCsvHelper {
 
         ev.salesTeam__c = row.salesTeam;
         ev.city__c = row.city;
-        ev.country__c = row.country;
+        ev.country__c = row.country;    
         ev.LocationName__c = row.locationName;
         ev.LocationAddress__c = row.address1;
         ev.LocationPostCode__c = row.postCode;
-
-        ev.meetingBackground__c = row.description;
+        ev.company__c = row.companyId;
         ev.speakersHTML__c = row.originalLine;
         ev.targetedAttendees__c = row.participants != null ? row.participants : 0;
+        ev.timeZone__c = !String.isBlank(row.originalDigitalCity)
+            ? mapDigitalCityToIana(row.originalDigitalCity, row.localZone)
+            : mapTimeZoneIdToIana(row.localZone);
+        ev.category__c = mapCategory(row.sourceType);
+        // Copy description depending on category
+        if (
+            ev.category__c == 'One To One meeting' ||
+            ev.category__c == 'Meeting day(s)'
+        ) {
+            ev.meetingBackground__c = row.description;
+            ev.meetingGoal__c = row.description;
+        } else {
+            ev.description__c = row.description;
+        }
+        String mappedStatus = mapStatus(row.sourceStatus);
+        ev.status__c = !String.isBlank(mappedStatus) ? mappedStatus : 'Draft';
 
-        // Required / migration-safe values
-        ev.category__c = 'Client Event';
         ev.Co_hosted__c = 'No';
         ev.clientType__c = 'Client';
-        ev.format__c = 'Physical';
+        ev.format__c = !String.isBlank(row.originalDigitalCity) ? 'Digital' : 'Physical';
         ev.language__c = 'English';
-        ev.status__c = 'Draft';
 
-        // Bypass
+        ev.RecordTypeId = getEventRecordTypeId(row.sourceType);
+
         ev.noAutomations__c = true;
         ev.bypasseApprovals__c = true;
         ev.bypasseNotifications__c = true;
@@ -199,7 +368,6 @@ public with sharing class ScheduleEventsCsvHelper {
             return out;
         }
 
-        // Build unique strategies (dedup products → strategy)
         Set<Id> uniqueStrategyIds = new Set<Id>();
         for (String productName : row.productNames) {
             Id strategyId = strategyByProductName.get(productName);
@@ -212,7 +380,6 @@ public with sharing class ScheduleEventsCsvHelper {
             return out;
         }
 
-        // Build combinations Speaker x Strategy
         for (String email : row.speakerEmails) {
             Contact speaker = contactsByEmail.get(email);
             if (speaker == null) continue;
@@ -291,14 +458,13 @@ public with sharing class ScheduleEventsCsvHelper {
 
     private static String cleanHeader(String h) {
         if (h == null) return null;
-    
+
         String out = h.trim();
-    
-        // Remove UTF-8 BOM if present
+
         if (!String.isBlank(out) && out.startsWith('\uFEFF')) {
             out = out.substring(1);
         }
-    
+
         return out.toLowerCase();
     }
 
@@ -426,13 +592,15 @@ public with sharing class ScheduleEventsCsvHelper {
             String ch = csv.substring(i, i + 1);
 
             if (ch == '"') {
+                current += ch;
+
                 if (inQuotes && i + 1 < csv.length() && csv.substring(i + 1, i + 2) == '"') {
                     current += '"';
                     i++;
                 } else {
                     inQuotes = !inQuotes;
                 }
-            } else if ((ch == '\n' || ch == '\r') && !inQuotes) {
+            }else if ((ch == '\n' || ch == '\r') && !inQuotes) {
                 if (!String.isBlank(current.trim())) {
                     records.add(current.trim());
                 }
@@ -481,4 +649,82 @@ public with sharing class ScheduleEventsCsvHelper {
         result.add(current);
         return result;
     }
+
+    public static ParsedCsv loadFromCsvString(String csv) {
+        ParsedCsv out = new ParsedCsv();
+        out.records = splitCsvRecords(csv);
+
+        if (out.records.isEmpty()) {
+            return out;
+        }
+
+        List<String> headers = parseCsvLine(out.records[0]);
+        for (Integer i = 0; i < headers.size(); i++) {
+            out.headerIndex.put(cleanHeader(headers[i]), i);
+        }
+
+        return out;
+    }
+
+    private static Boolean isDigitalLocation(String cityRaw) {
+        return !String.isBlank(cityRaw) && cityRaw.startsWith('Digital_');
+    }
+
+    private static String mapDigitalCityToIana(String cityRaw, String fallbackLocalZone) {
+        if (String.isBlank(cityRaw)) {
+            return mapTimeZoneIdToIana(fallbackLocalZone);
+        }
+
+        String v = cityRaw.trim();
+
+        if (v == 'Digital_ParisTime') {
+            return 'Europe/Paris';
+        }
+        if (v == 'Digital_LondonTime') {
+            return 'Europe/London';
+        }
+        if (v == 'Digital_BerlinTime') {
+            return 'Europe/Berlin';
+        }
+        if (v == 'Digital_MadridTime') {
+            return 'Europe/Madrid';
+        }
+        if (v == 'Digital_RomeTime') {
+            return 'Europe/Rome';
+        }
+        if (v == 'Digital_ZurichTime') {
+            return 'Europe/Zurich';
+        }
+        if (v == 'Digital_ViennaTime') {
+            return 'Europe/Vienna';
+        }
+        if (v == 'Digital_BrusselsTime') {
+            return 'Europe/Brussels';
+        }
+        if (v == 'Digital_StockholmTime') {
+            return 'Europe/Stockholm';
+        }
+        if (v == 'Digital_LuxembourgTime') {
+            return 'Europe/Luxembourg';
+        }
+        if (v == 'Digital_CopenhagenTime') {
+            return 'Europe/Copenhagen';
+        }
+        if (v == 'Digital_HelsinkiTime') {
+            return 'Europe/Helsinki';
+        }
+        if (v == 'Digital_LisbonTime') {
+            return 'Europe/Lisbon';
+        }
+        if (v == 'Digital_DublinTime') {
+            return 'Europe/Dublin';
+        }
+
+        return mapTimeZoneIdToIana(fallbackLocalZone);
+    }
+
+    private static String mapFormat(String cityRaw) {
+        return isDigitalLocation(cityRaw) ? 'Digital' : 'Physical';
+    }
+
 }

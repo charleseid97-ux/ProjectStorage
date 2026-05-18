@@ -4,6 +4,7 @@
     <inlineHelpText>The city is indicative. The actual time is defined by GMT.</inlineHelpText>
     <label>Timezone</label>
     <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>

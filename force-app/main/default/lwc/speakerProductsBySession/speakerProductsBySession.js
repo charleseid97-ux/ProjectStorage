@@ -1,20 +1,20 @@
 import { LightningElement, api, track, wire } from 'lwc';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import PARENT_EVENT_FIELD from '@salesforce/schema/Event__c.parentEvent__c';
-import EVENT_OBJECT from '@salesforce/schema/Event__c';
+import START_DATE_FIELD from '@salesforce/schema/Event__c.startDate__c';
 import RECORDTYPEID_FIELD from '@salesforce/schema/Event__c.RecordTypeId';
-import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 
 import getByEvent from '@salesforce/apex/sessionSpeakerProductRelatedListCTRL.getByEvent';
 import getRepeaterInputByEvent from '@salesforce/apex/sessionSpeakerProductRelatedListCTRL.getRepeaterInputByEvent';
 import saveFromRepeaterJson from '@salesforce/apex/sessionSpeakerProductRelatedListCTRL.saveFromRepeaterJson';
 import updateSpeakerSlot from '@salesforce/apex/sessionSpeakerProductRelatedListCTRL.updateSpeakerSlot';
 import canUserEditEvent from '@salesforce/apex/sessionSpeakerProductRelatedListCTRL.canUserEditEvent';
-
+import RECORDTYPE_DEV_NAME from '@salesforce/schema/Event__c.RecordType.DeveloperName';
 export default class SpeakerProductsBySession extends LightningElement {
     @api recordId;
     @api selectedRecordId;
 
+    @track eventStartDate;
     @track parentEventId;
     @track groups = [];
     @track loading = false;
@@ -30,13 +30,14 @@ export default class SpeakerProductsBySession extends LightningElement {
 
     @wire(getRecord, {
         recordId: '$recordId',
-        fields: [PARENT_EVENT_FIELD, RECORDTYPEID_FIELD]
+        fields: [PARENT_EVENT_FIELD, RECORDTYPEID_FIELD, START_DATE_FIELD,RECORDTYPE_DEV_NAME]
     })
     wiredEvent({ error, data }) {
         if (data) {
             this.parentEventId = getFieldValue(data, PARENT_EVENT_FIELD);
             this.recordTypeId = getFieldValue(data, RECORDTYPEID_FIELD);
-
+            this.eventStartDate = getFieldValue(data, START_DATE_FIELD);
+            this.recordTypeDeveloperName = getFieldValue(data, RECORDTYPE_DEV_NAME);
             // eslint-disable-next-line no-console
             console.debug('[speakerProductsBySession] parentEventId loaded', this.parentEventId);
             // eslint-disable-next-line no-console
@@ -46,18 +47,12 @@ export default class SpeakerProductsBySession extends LightningElement {
             console.error('[speakerProductsBySession] error loading parentEventId / recordTypeId', error);
             this.parentEventId = null;
             this.recordTypeId = null;
+            this.eventStartDate = null;
         }
     }
     get showSlots() {
-        const infos = this.objectInfo?.data?.recordTypeInfos;
-        const rtId = this.recordTypeId;
-
-        if (!infos || !rtId || !infos[rtId]) {
-            return true;
-        }
-
-        const developerName = infos[rtId].developerName;
-        return developerName !== 'meetingDays';
+        console.log('========recordTypeDeveloperName==='+this.recordTypeDeveloperName);
+        return this.recordTypeDeveloperName !== 'MeetingDays';
     }
     get effectiveEventId() {
         return this.selectedRecordId || this.recordId;
@@ -122,8 +117,10 @@ export default class SpeakerProductsBySession extends LightningElement {
                     speakerName: s.speakerName,
                     productCount: s.productCount,
                     language: s.language,
+                    speakerLanguage: s.speakerLanguage,
                     startTime: formattedStartTime,
                     endTime: formattedEndTime,
+                    date: s.recDate,
                     duration: this.calculateDuration(formattedStartTime, formattedEndTime),
                     draftStartTime: formattedStartTime,
                     draftEndTime: formattedEndTime,
@@ -396,4 +393,5 @@ export default class SpeakerProductsBySession extends LightningElement {
 
         return (hours * 60) + minutes;
     }
+
 }

@@ -1,4 +1,4 @@
-public with sharing class sessionSpeakerProductService {
+public without sharing class sessionSpeakerProductService {
     private static final String WAITING_STATUS = customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS;
     private static final String SUBMITTED_STATUS = 'Submitted';
     private static final String PRES_REQUESTED_STATUS = 'requested';
@@ -352,9 +352,9 @@ public with sharing class sessionSpeakerProductService {
             Event__c session = sessionsById.get(ssp.Session__c);
 
             Boolean isTopSpeaker = speaker != null && speaker.IsTopSpeaker__c == true;
-            Boolean isMeetingDays = session != null && session.RecordTypeId == meetingDaysRtId;
+            //Boolean isMeetingDays = session != null && session.RecordTypeId == meetingDaysRtId;
 
-            if (isTopSpeaker && !isMeetingDays) {
+            if (isTopSpeaker){// && !isMeetingDays) {
                 ssp.PresentationStatus__c = PRES_REQUIRED_STATUS;
             }
         }
@@ -364,7 +364,7 @@ public with sharing class sessionSpeakerProductService {
         Map<Id, SessionSpeakerProduct__c> newMap,
         Map<Id, SessionSpeakerProduct__c> oldMap
     ) {
-
+        system.debug('==============handleRequestedPresentationNotifications=======');
         if (newMap == null || newMap.isEmpty()) {
             return;
         }
@@ -373,7 +373,7 @@ public with sharing class sessionSpeakerProductService {
 
         for (SessionSpeakerProduct__c newRec : newMap.values()) {
 
-            if (newRec.PresentationStatus__c != PRES_REQUESTED_STATUS) {
+            if (newRec.PresentationStatus__c != PRES_REQUIRED_STATUS) {
                 continue;
             }
 
@@ -385,10 +385,11 @@ public with sharing class sessionSpeakerProductService {
 
             SessionSpeakerProduct__c oldRec = oldMap.get(newRec.Id);
 
-            if (oldRec == null || oldRec.PresentationStatus__c != PRES_REQUESTED_STATUS) {
+            if (oldRec == null || oldRec.PresentationStatus__c != PRES_REQUIRED_STATUS) {
                 toNotify.add(newRec);
             }
         }
+        system.debug('==============handleRequestedPresentationNotifications======toNotify='+toNotify);
 
         if (!toNotify.isEmpty()) {
             customEventNotificationManager.requestPresentation(toNotify);
@@ -487,6 +488,54 @@ public with sharing class sessionSpeakerProductService {
                     ' | Message=' + ex.getMessage() +
                     ' | Stack=' + ex.getStackTraceString()
                 );
+            }
+        }
+    }
+
+    public static void updateStatus(
+        List<SessionSpeakerProduct__c> newSsps,
+        Map<Id, SessionSpeakerProduct__c> oldSsps
+    ) {
+        if (newSsps == null || newSsps.isEmpty()) return;
+
+        Set<Id> sessionIds = new Set<Id>();
+        for (SessionSpeakerProduct__c s : newSsps) {
+            if (s.Session__c != null) {
+                sessionIds.add(s.Session__c);
+            }
+        }
+
+        if (sessionIds.isEmpty()) return;
+
+        Map<Id, Event__c> sessions = new Map<Id, Event__c>([
+            SELECT Id, ParentEvent__r.Status__c
+            FROM Event__c
+            WHERE Id IN :sessionIds
+        ]);
+
+        for (SessionSpeakerProduct__c s : newSsps) {
+            if (s.Session__c == null) continue;
+
+            Event__c session = sessions.get(s.Session__c);
+            if (
+                session == null ||
+                session.ParentEvent__r == null ||
+                session.ParentEvent__r.Status__c != 'FullyApproved'
+            ) {
+                continue;
+            }
+
+            // Évite override inutile en update
+            if (oldSsps != null && oldSsps.containsKey(s.Id)) {
+                SessionSpeakerProduct__c oldRec = oldSsps.get(s.Id);
+                if (oldRec.presentationStatus__c == 'requested') {
+                    continue;
+                }
+            }
+
+            // Set seulement si différent
+            if (s.presentationStatus__c != 'requested') {
+                s.presentationStatus__c = 'requested';
             }
         }
     }

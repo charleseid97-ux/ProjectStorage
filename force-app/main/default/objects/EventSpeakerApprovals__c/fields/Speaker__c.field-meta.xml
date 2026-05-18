@@ -4,7 +4,6 @@
     <deleteConstraint>Restrict</deleteConstraint>
     <label>Speaker</label>
     <referenceTo>Contact</referenceTo>
-    <relationshipLabel>Speaker Approvals</relationshipLabel>
     <relationshipName>SpeakerApprovalsContact</relationshipName>
     <required>true</required>
     <trackTrending>false</trackTrending>

@@ -67,23 +67,24 @@
     <dashboardFilters>
         <dashboardFilterOptions>
             <operator>equals</operator>
-            <values>requested</values>
+            <values>Required</values>
         </dashboardFilterOptions>
         <dashboardFilterOptions>
             <operator>equals</operator>
-            <values>required</values>
+            <values>Due</values>
         </dashboardFilterOptions>
         <name>Presentation Status</name>
     </dashboardFilters>
     <dashboardGridLayout>
         <dashboardGridComponents>
-            <colSpan>3</colSpan>
+            <colSpan>2</colSpan>
             <columnIndex>0</columnIndex>
             <dashboardComponent>
                 <autoselectColumnsFromReport>false</autoselectColumnsFromReport>
                 <chartSummary>
                     <column>RowCount</column>
                 </chartSummary>
+                <componentChartTheme>dark</componentChartTheme>
                 <componentType>Metric</componentType>
                 <dashboardFilterColumns>
                     <column>Event__c$startDate__c</column>
@@ -95,26 +96,27 @@
                     <column>Event__c.SpeakersProducts__r$speakerContact__c.JobTitle__c</column>
                 </dashboardFilterColumns>
                 <dashboardFilterColumns>
-                    <column>Event__c.SpeakersProducts__r$presentationStatus__c</column>
+                    <column>Event__c.SpeakersProducts__r$PresentationStatusFormula__c</column>
                 </dashboardFilterColumns>
                 <decimalPrecision>-1</decimalPrecision>
                 <displayUnits>Auto</displayUnits>
                 <groupingSortProperties/>
-                <header>Presentations Due (Validated Events)</header>
-                <indicatorBreakpoint1>5.0</indicatorBreakpoint1>
-                <indicatorBreakpoint2>10.0</indicatorBreakpoint2>
+                <header>Total Pipeline Presentations</header>
+                <indicatorBreakpoint1>10.0</indicatorBreakpoint1>
+                <indicatorBreakpoint2>25.0</indicatorBreakpoint2>
                 <indicatorHighColor>#C23934</indicatorHighColor>
                 <indicatorLowColor>#00716B</indicatorLowColor>
                 <indicatorMiddleColor>#CA8501</indicatorMiddleColor>
-                <report>Bookly/ProductPresentations/Incoming_Product_Presentation_requests_RB6</report>
+                <metricLabel>(Due+Required)</metricLabel>
+                <report>Bookly/Global_Pipeline_product_presentations_jtb</report>
                 <showRange>false</showRange>
             </dashboardComponent>
             <rowIndex>0</rowIndex>
-            <rowSpan>6</rowSpan>
+            <rowSpan>4</rowSpan>
         </dashboardGridComponents>
         <dashboardGridComponents>
-            <colSpan>9</colSpan>
-            <columnIndex>3</columnIndex>
+            <colSpan>10</colSpan>
+            <columnIndex>2</columnIndex>
             <dashboardComponent>
                 <autoselectColumnsFromReport>false</autoselectColumnsFromReport>
                 <componentType>FlexTable</componentType>
@@ -128,7 +130,7 @@
                     <column>Event__c.SpeakersProducts__r$speakerContact__c.JobTitle__c</column>
                 </dashboardFilterColumns>
                 <dashboardFilterColumns>
-                    <column>Event__c.SpeakersProducts__r$presentationStatus__c</column>
+                    <column>Event__c.SpeakersProducts__r$PresentationStatusFormula__c</column>
                 </dashboardFilterColumns>
                 <flexComponentProperties>
                     <decimalPrecision>-1</decimalPrecision>
@@ -145,7 +147,7 @@
                         <type>detail</type>
                     </flexTableColumn>
                     <flexTableColumn>
-                        <reportColumn>sessionSpeakerProduct__c.presentationStatus__c</reportColumn>
+                        <reportColumn>sessionSpeakerProduct__c.PresentationStatusFormula__c</reportColumn>
                         <showSubTotal>false</showSubTotal>
                         <showTotal>false</showTotal>
                         <type>detail</type>
@@ -189,13 +191,13 @@
                 </flexComponentProperties>
                 <groupingSortProperties/>
                 <header>Presentation Action Tracker</header>
-                <report>Bookly/ProductPresentations/Global_Pipeline_product_presentations_jtb</report>
+                <report>Bookly/Global_Pipeline_product_presentations_jtb</report>
             </dashboardComponent>
             <rowIndex>0</rowIndex>
             <rowSpan>12</rowSpan>
         </dashboardGridComponents>
         <dashboardGridComponents>
-            <colSpan>3</colSpan>
+            <colSpan>2</colSpan>
             <columnIndex>0</columnIndex>
             <dashboardComponent>
                 <autoselectColumnsFromReport>false</autoselectColumnsFromReport>
@@ -213,7 +215,43 @@
                     <column>Event__c.SpeakersProducts__r$speakerContact__c.JobTitle__c</column>
                 </dashboardFilterColumns>
                 <dashboardFilterColumns>
-                    <column>Event__c.SpeakersProducts__r$presentationStatus__c</column>
+                    <column>Event__c.SpeakersProducts__r$PresentationStatusFormula__c</column>
+                </dashboardFilterColumns>
+                <decimalPrecision>-1</decimalPrecision>
+                <displayUnits>Auto</displayUnits>
+                <groupingSortProperties/>
+                <header>Presentations Due (Validated Events)</header>
+                <indicatorBreakpoint1>5.0</indicatorBreakpoint1>
+                <indicatorBreakpoint2>10.0</indicatorBreakpoint2>
+                <indicatorHighColor>#C23934</indicatorHighColor>
+                <indicatorLowColor>#00716B</indicatorLowColor>
+                <indicatorMiddleColor>#CA8501</indicatorMiddleColor>
+                <report>Bookly/Incoming_Product_Presentation_requests_RB6</report>
+                <showRange>false</showRange>
+            </dashboardComponent>
+            <rowIndex>4</rowIndex>
+            <rowSpan>4</rowSpan>
+        </dashboardGridComponents>
+        <dashboardGridComponents>
+            <colSpan>2</colSpan>
+            <columnIndex>0</columnIndex>
+            <dashboardComponent>
+                <autoselectColumnsFromReport>false</autoselectColumnsFromReport>
+                <chartSummary>
+                    <column>RowCount</column>
+                </chartSummary>
+                <componentType>Metric</componentType>
+                <dashboardFilterColumns>
+                    <column>Event__c$startDate__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>Event__c.SpeakersProducts__r$strategy__c.AssetClass__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>Event__c.SpeakersProducts__r$speakerContact__c.JobTitle__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>Event__c.SpeakersProducts__r$PresentationStatusFormula__c</column>
                 </dashboardFilterColumns>
                 <decimalPrecision>-1</decimalPrecision>
                 <displayUnits>Auto</displayUnits>
@@ -224,11 +262,11 @@
                 <indicatorHighColor>#C23934</indicatorHighColor>
                 <indicatorLowColor>#006B71</indicatorLowColor>
                 <indicatorMiddleColor>#CA8501</indicatorMiddleColor>
-                <report>Bookly/ProductPresentations/Incoming_Product_Presentation_required_FUc</report>
+                <report>Bookly/Incoming_Product_Presentation_required_FUc</report>
                 <showRange>false</showRange>
             </dashboardComponent>
-            <rowIndex>6</rowIndex>
-            <rowSpan>6</rowSpan>
+            <rowIndex>8</rowIndex>
+            <rowSpan>4</rowSpan>
         </dashboardGridComponents>
         <dashboardGridComponents>
             <colSpan>4</colSpan>
@@ -251,7 +289,7 @@
                     <column>Event__c.SpeakersProducts__r$speakerContact__c.JobTitle__c</column>
                 </dashboardFilterColumns>
                 <dashboardFilterColumns>
-                    <column>Event__c.SpeakersProducts__r$presentationStatus__c</column>
+                    <column>Event__c.SpeakersProducts__r$PresentationStatusFormula__c</column>
                 </dashboardFilterColumns>
                 <decimalPrecision>-1</decimalPrecision>
                 <displayUnits>Auto</displayUnits>
@@ -260,7 +298,7 @@
                 <enableHover>false</enableHover>
                 <expandOthers>false</expandOthers>
                 <groupingColumn>Event__c.SpeakersProducts__r$speakerContact__c</groupingColumn>
-                <groupingColumn>Event__c.SpeakersProducts__r$presentationStatus__c</groupingColumn>
+                <groupingColumn>Event__c.SpeakersProducts__r$PresentationStatusFormula__c</groupingColumn>
                 <groupingSortProperties>
                     <groupingSorts>
                         <groupingLevel>g1</groupingLevel>
@@ -274,7 +312,7 @@
                 </groupingSortProperties>
                 <header>Workload by Speaker</header>
                 <legendPosition>Right</legendPosition>
-                <report>Bookly/ProductPresentations/Pipeline_product_presentation_requests_2_HcF</report>
+                <report>Bookly/Pipeline_product_presentation_requests_2_HcF</report>
                 <showPercentage>false</showPercentage>
                 <showValues>false</showValues>
                 <sortBy>RowLabelAscending</sortBy>
@@ -294,7 +332,7 @@
                     <axisBinding>y</axisBinding>
                     <column>RowCount</column>
                 </chartSummary>
-                <componentType>BarStacked</componentType>
+                <componentType>Bar</componentType>
                 <dashboardFilterColumns>
                     <column>Event__c$startDate__c</column>
                 </dashboardFilterColumns>
@@ -305,7 +343,7 @@
                     <column>Event__c.SpeakersProducts__r$speakerContact__c.JobTitle__c</column>
                 </dashboardFilterColumns>
                 <dashboardFilterColumns>
-                    <column>Event__c.SpeakersProducts__r$presentationStatus__c</column>
+                    <column>Event__c.SpeakersProducts__r$PresentationStatusFormula__c</column>
                 </dashboardFilterColumns>
                 <decimalPrecision>-1</decimalPrecision>
                 <displayUnits>Auto</displayUnits>
@@ -314,23 +352,19 @@
                 <enableHover>false</enableHover>
                 <expandOthers>false</expandOthers>
                 <groupingColumn>Event__c.SpeakersProducts__r$strategy__c.AssetClass__c</groupingColumn>
-                <groupingColumn>Event__c.SpeakersProducts__r$presentationStatus__c</groupingColumn>
                 <groupingSortProperties>
                     <groupingSorts>
                         <groupingLevel>g1</groupingLevel>
                         <sortColumn>RowCount</sortColumn>
                         <sortOrder>d</sortOrder>
                     </groupingSorts>
-                    <groupingSorts>
-                        <groupingLevel>g2</groupingLevel>
-                        <sortOrder>a</sortOrder>
-                    </groupingSorts>
                 </groupingSortProperties>
-                <header>Workload by Strategy Range</header>
-                <legendPosition>Right</legendPosition>
-                <report>Bookly/ProductPresentations/Global_Pipeline_product_presentations_jtb</report>
+                <header>Workload by Range</header>
+                <legendPosition>Bottom</legendPosition>
+                <report>Bookly/Global_Pipeline_product_presentations_jtb</report>
                 <showPercentage>false</showPercentage>
-                <showValues>false</showValues>
+                <showPicturesOnCharts>false</showPicturesOnCharts>
+                <showValues>true</showValues>
                 <sortBy>RowLabelAscending</sortBy>
                 <sortLegendValues>true</sortLegendValues>
                 <useReportChart>false</useReportChart>
@@ -359,7 +393,7 @@
                     <column>Event__c.SpeakersProducts__r$speakerContact__c.JobTitle__c</column>
                 </dashboardFilterColumns>
                 <dashboardFilterColumns>
-                    <column>Event__c.SpeakersProducts__r$presentationStatus__c</column>
+                    <column>Event__c.SpeakersProducts__r$PresentationStatusFormula__c</column>
                 </dashboardFilterColumns>
                 <decimalPrecision>-1</decimalPrecision>
                 <displayUnits>Auto</displayUnits>
@@ -368,7 +402,7 @@
                 <enableHover>false</enableHover>
                 <expandOthers>false</expandOthers>
                 <groupingColumn>Event__c.SpeakersProducts__r$strategy__c.Name</groupingColumn>
-                <groupingColumn>Event__c.SpeakersProducts__r$presentationStatus__c</groupingColumn>
+                <groupingColumn>Event__c.SpeakersProducts__r$PresentationStatusFormula__c</groupingColumn>
                 <groupingSortProperties>
                     <groupingSorts>
                         <groupingLevel>g1</groupingLevel>
@@ -382,7 +416,7 @@
                 </groupingSortProperties>
                 <header>Workload by Strategy</header>
                 <legendPosition>Right</legendPosition>
-                <report>Bookly/ProductPresentations/PP_Pipeline_Presentation_Requests_3_4Ur</report>
+                <report>Bookly/PP_Pipeline_Presentation_Requests_3_4Ur</report>
                 <showPercentage>false</showPercentage>
                 <showValues>false</showValues>
                 <sortBy>RowLabelAscending</sortBy>

@@ -1,4 +1,4 @@
-public with sharing class EventColorService {
+public without sharing class EventColorService {
 
     /**
      * Internal wrapper storing the three color variations

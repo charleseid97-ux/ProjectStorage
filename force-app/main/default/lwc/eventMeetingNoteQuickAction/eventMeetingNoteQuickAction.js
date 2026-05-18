@@ -1,17 +1,19 @@
 import { LightningElement, api, track } from 'lwc';
 import { CloseActionScreenEvent } from 'lightning/actions';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { NavigationMixin } from 'lightning/navigation';
 
 import getPayload from '@salesforce/apex/EventMeetingNoteQuickActionCTRL.getPayload';
 import saveMeetingNote from '@salesforce/apex/EventMeetingNoteQuickActionCTRL.save';
-
-export default class EventMeetingNoteQuickAction extends LightningElement {
+import LightningAlert from 'lightning/alert';
+export default class EventMeetingNoteQuickAction extends NavigationMixin(LightningElement) {
 
     @track loading = false;
     @track error;
 
     @track hasMeetingNote = false;
     @track meetingNoteId;
+    @track standardEventId;
     @track meetingNoteName;
     @track meetingNoteDate;
     @track meetingType;
@@ -27,17 +29,15 @@ export default class EventMeetingNoteQuickAction extends LightningElement {
     set recordId(value) {
         this._recordId = value;
 
-        // eslint-disable-next-line no-console
-        console.log('===[MeetingNoteQA] recordId set:', value);
-
+        // Charge les données quand le recordId est disponible
         if (value) {
             this.load();
         }
     }
+
     get recordId() {
         return this._recordId;
     }
-    
 
     get title() {
         return this.hasMeetingNote ? 'Meeting Note' : 'Create Meeting Note';
@@ -56,15 +56,42 @@ export default class EventMeetingNoteQuickAction extends LightningElement {
         return !this.hasMeetingNote || this.editMode;
     }
 
+    get showCancel() {
+        return this.editMode;
+    }
+
+    get showClose() {
+        return !this.editMode;
+    }
+
+    get standardEventUrl() {
+        return this.standardEventId ? '/' + this.standardEventId : null;
+    }
+
+    get formattedMeetingNoteDate() {
+        if (!this.meetingNoteDate) return '';
+
+        const d = new Date(this.meetingNoteDate);
+
+        // Formatte la date en dd/mm/yy
+        const day = String(d.getDate()).padStart(2, '0');
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const year = String(d.getFullYear()).slice(-2);
+
+        return `${day}/${month}/${year}`;
+    }
+
+    // Charge le payload depuis Apex
     async load() {
-        console.log('Loading meeting note payload for event', this.recordId);   
         this.loading = true;
         this.error = null;
+
         try {
             const p = await getPayload({ eventId: this.recordId });
 
             this.hasMeetingNote = !!p?.hasMeetingNote;
             this.meetingNoteId = p?.meetingNoteId;
+            this.standardEventId = p?.standardEventId;
             this.meetingNoteName = p?.meetingNoteName;
             this.meetingNoteDate = p?.meetingNoteDate;
             this.meetingType = p?.meetingType;
@@ -72,11 +99,8 @@ export default class EventMeetingNoteQuickAction extends LightningElement {
             this.noteHtml = p?.noteHtml || '';
             this.draftNoteHtml = this.noteHtml;
 
-            if (this.hasMeetingNote) {
-                this.editMode = false;
-            } else {
-                this.editMode = true;
-            }
+            // Ouvre l'éditeur uniquement en création
+            this.editMode = !this.hasMeetingNote;
         } catch (e) {
             this.error = e;
         } finally {
@@ -84,58 +108,66 @@ export default class EventMeetingNoteQuickAction extends LightningElement {
         }
     }
 
+    // Met à jour le brouillon depuis le rich text
     handleNoteChange(event) {
         this.draftNoteHtml = event.detail.value;
     }
 
-   async handlePrimary() {
-    
-        console.log('[QA] handlePrimary', { hasMeetingNote: this.hasMeetingNote, editMode: this.editMode, loading: this.loading });
+    // Navigation vers l'Event standard
+    handleNavigateToEvent() {
+        if (!this.standardEventId) return;
 
+        this[NavigationMixin.Navigate]({
+            type: 'standard__recordPage',
+            attributes: {
+                recordId: this.standardEventId,
+                objectApiName: 'Event',
+                actionName: 'view'
+            }
+        });
+    }
+
+    // Gère le bouton principal
+    async handlePrimary() {
         if (this.loading) return;
 
         if (this.hasMeetingNote && !this.editMode) {
-            console.log('[QA] switching to edit mode');
             this.editMode = true;
             this.draftNoteHtml = this.noteHtml;
             return;
         }
 
-        console.log('[QA] calling save()');
         await this.save();
     }
 
+    // Sauvegarde la note via Apex
     async save() {
-        // Always read the latest value from the rich text input (avoid missing oninput/onchange timing)
         const rte = this.template.querySelector('lightning-input-rich-text');
+
         if (rte) {
             this.draftNoteHtml = rte.value || '';
         }
-
-        console.log('[QA] save start', { recordId: this.recordId, draftLen: (this.draftNoteHtml || '').length });
 
         this.loading = true;
         this.error = null;
 
         try {
-            const res = await saveMeetingNote({
+            saveMeetingNote({
                 eventId: this.recordId,
                 noteHtml: this.draftNoteHtml || ''
             });
 
-            this.dispatchEvent(
-                new ShowToastEvent({
-                    title: res?.created ? 'Meeting note created' : 'Meeting note updated',
-                    message: res?.created ? 'The meeting note was created and linked to the event.' : 'Changes saved.',
-                    variant: 'success'
-                })
-            );
-
-            await this.load();
-            this.editMode = false;
-
+           
+            await LightningAlert.open({
+                message: 'The meeting note is being created. It will be ready in less than 20 seconds.',
+                theme: 'info',
+                label: 'Creation in progress'
+            });
+            // ferme immédiatement la popup
+            this.dispatchEvent(new CloseActionScreenEvent());
         } catch (e) {
             this.error = e;
+
             this.dispatchEvent(
                 new ShowToastEvent({
                     title: 'Error',
@@ -148,7 +180,7 @@ export default class EventMeetingNoteQuickAction extends LightningElement {
         }
     }
 
-
+    // Annule l'édition ou ferme l'action
     handleCancel() {
         if (this.hasMeetingNote) {
             this.editMode = false;
@@ -158,14 +190,8 @@ export default class EventMeetingNoteQuickAction extends LightningElement {
         }
     }
 
+    // Ferme l'action rapide
     handleClose() {
         this.dispatchEvent(new CloseActionScreenEvent());
-    }
-    get showCancel() {
-        return this.editMode;
-    }
-
-    get showClose() {
-        return !this.editMode;
     }
 }

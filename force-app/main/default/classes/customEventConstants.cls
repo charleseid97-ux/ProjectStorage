@@ -1,4 +1,4 @@
-public with sharing class customEventConstants {
+public without sharing class customEventConstants {
 
     /*
      * Public Group names used to send Product Schedule alerts

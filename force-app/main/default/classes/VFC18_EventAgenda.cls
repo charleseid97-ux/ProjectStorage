@@ -2,7 +2,7 @@ public without sharing class VFC18_EventAgenda {
 
     private static final String PARAM_EVENT_ID  = 'EventId';
     private static final String PARAM_SHOW_NOTE = 'SMN';
-
+    
     private static final String TZ_UTC00 = 'UTC+00';
     private static final String DEFAULT_TITLE = '(Sans titre)';
 
@@ -13,9 +13,13 @@ public without sharing class VFC18_EventAgenda {
     public List<DayGroupVM> days { get; private set; }
     public String errorMessage { get; private set; }
 
+    public Boolean isAgendaAvailable { get; private set; }
+    public String agendaAvailableUntilLabel { get; private set; }
+
     public VFC18_EventAgenda() {
         days = new List<DayGroupVM>();
-
+        isAgendaAvailable = true;
+        agendaAvailableUntilLabel = '';
         parentEventId = (Id) ApexPages.currentPage().getParameters().get(PARAM_EVENT_ID);
         showMeetingNote = parseBool(ApexPages.currentPage().getParameters().get(PARAM_SHOW_NOTE), false);
 
@@ -31,8 +35,7 @@ public without sharing class VFC18_EventAgenda {
     // Data loading
     // -----------------------
     private void loadData() {
-        System.debug(LoggingLevel.INFO, '======VFC18_EventAgenda.loadData - parentEventId=' + parentEventId);
-
+        System.debug(LoggingLevel.INFO, '======VFC18_EventAgenda.loadData - parentEventId=' + parentEventId);        
         // 1) Parent
         Event__c p = [
             SELECT Id,
@@ -51,7 +54,11 @@ public without sharing class VFC18_EventAgenda {
             WHERE Id = :parentEventId
             LIMIT 1
         ];
+        checkAgendaAvailability(p);
 
+        if (!isAgendaAvailable) {
+            return;
+        }
         String targetTz = String.isBlank(p.Timezone__c) ? TZ_UTC00 : p.Timezone__c;
 
         parent = buildParentVM(p, targetTz);
@@ -65,10 +72,13 @@ public without sharing class VFC18_EventAgenda {
                    EndDate__c,
                    EndTime__c,
                    Timezone__c,
+                   SalesOwner__r.Name,
                    MeetingBackground__c,
                    MeetingGoal__c,
                    MeetingNote__c,
-                   MeetingNote__r.Note__c
+                   MeetingNote__r.Note__c,
+                   Company__r.Name
+
             FROM Event__c
             WHERE ParentEvent__c = :parentEventId
             ORDER BY StartDate__c ASC, StartTime__c ASC
@@ -95,6 +105,42 @@ public without sharing class VFC18_EventAgenda {
         addDaysToOutput(byDay);
 
         System.debug(LoggingLevel.INFO, '======days.size=' + days.size());
+    }
+
+
+    // Checks agenda expiration using the dynamic Custom Label value.
+    private void checkAgendaAvailability(Event__c p) {
+        Integer expirationDays = parseIntegerSafe(System.Label.BooklyAgendaExpiration, 10);
+
+        Date endDate = p.EndDate__c;
+        if (endDate == null) {
+            isAgendaAvailable = true;
+            return;
+        }
+
+        Date availableUntil = endDate.addDays(expirationDays);
+        agendaAvailableUntilLabel = formatDateLabel(availableUntil);
+
+        isAgendaAvailable = Date.today() <= availableUntil;
+    }
+
+    // Parses an integer safely and keeps a fallback value if the label is invalid.
+    private static Integer parseIntegerSafe(String value, Integer defaultValue) {
+        if (String.isBlank(value)) return defaultValue;
+
+        try {
+            return Integer.valueOf(value.trim());
+        } catch (Exception e) {
+            return defaultValue;
+        }
+    }
+
+    // Formats a date for the availability footer.
+    private static String formatDateLabel(Date d) {
+        if (d == null) return '';
+
+        DateTime dt = DateTime.newInstance(d, Time.newInstance(0, 0, 0, 0));
+        return dt.format('dd/MM/yyyy');
     }
 
     // -----------------------
@@ -216,6 +262,8 @@ public without sharing class VFC18_EventAgenda {
         RowVM r = new RowVM();
         r.startSort = startConv;
         r.timeRange = buildTimeRange(startConv, endConv);
+        r.company = (c.Company__r != null) ? safeStr(c.Company__r.Name) : '';
+        r.salesOwner = (c.SalesOwner__r != null) ? safeStr(c.SalesOwner__r.Name) : '';
         r.title = String.isBlank(c.Title__c) ? DEFAULT_TITLE : c.Title__c;
 
         r.bgGoal = buildBgGoalLabel(safeStr(c.MeetingBackground__c), safeStr(c.MeetingGoal__c));
@@ -640,6 +688,9 @@ public without sharing class VFC18_EventAgenda {
 
     public class RowVM {
         public String timeRange { get; set; }
+        public String company { get; set; }
+        public String salesOwner { get; set; } 
+
         public String title { get; set; }
         public String bgGoal { get; set; }
         public String note { get; set; }

@@ -158,6 +158,38 @@
     @media print {
       .pagePad { padding: 0; }
     }
+
+    .companyName {
+      display: block;
+      margin: 0 0 5px 0;
+      padding: 2px 4px;
+      font-size: 8.4pt;
+      font-weight: 700;
+      color: #111827;
+      background: #F3F4F6;
+      border-left: 2px solid #D1D5DB;
+      line-height: 1.2;
+      word-wrap: break-word;
+    }
+
+    .salesOwner {
+      margin: 0 0 5px 0;
+      padding: 4px 6px;
+      font-size: 8.5pt;
+      font-weight: 700;
+      color: #131561;
+      background: #F1F5F9;
+      border: 1px solid #E2E8F0;
+      line-height: 1.25;
+    }
+
+    .salesOwnerLabel {
+      font-weight: 700;
+    }
+
+    .salesOwnerName {
+      font-weight: 800;
+    }
   </style>
 
   <div class="pagePad">
@@ -166,7 +198,13 @@
       <div class="error">{!errorMessage}</div>
     </apex:outputPanel>
 
-    <apex:outputPanel rendered="{!ISBLANK(errorMessage)}">
+    <apex:outputPanel rendered="{!NOT(isAgendaAvailable) && ISBLANK(errorMessage)}">
+      <div class="error">
+        Sorry, this agenda is no longer available.
+      </div>
+    </apex:outputPanel>
+
+    <apex:outputPanel rendered="{!isAgendaAvailable && ISBLANK(errorMessage)}">
 
       <!-- Parent banner (compact) -->
       <div class="banner">
@@ -174,7 +212,6 @@
 
         <table class="metaTable">
           <tr>
-            <td><span class="label">Main company:</span> {!parent.company}</td>
             <td><span class="label">Timezone:</span> {!parent.timezone}</td>
           </tr>
           <tr>
@@ -203,6 +240,10 @@
                 <td class="colTime">
                   <div class="timeRange">{!r.timeRange}</div>
 
+                  <apex:outputPanel rendered="{!NOT(ISBLANK(r.company))}">
+                    <div class="companyName">{!r.company}</div>
+                  </apex:outputPanel>
+
                   <apex:outputPanel rendered="{!NOT(ISNULL(r.attendees)) && r.attendees.size > 0}">
                     <ul class="attendees">
                       <apex:repeat value="{!r.attendees}" var="aName">
@@ -215,6 +256,13 @@
                 <!-- MIDDLE -->
                 <td class="colMiddle">
                   <div class="title">{!r.title}</div>
+
+                  <apex:outputPanel rendered="{!NOT(ISBLANK(r.salesOwner))}">
+                    <div class="salesOwner">
+                      <span class="salesOwnerLabel">Sales Owner:</span>
+                      <span class="salesOwnerName">{!r.salesOwner}</span>
+                    </div>
+                  </apex:outputPanel>
 
                   <apex:outputPanel rendered="{!NOT(ISNULL(r.speakers)) && r.speakers.size > 0}">
                     <apex:repeat value="{!r.speakers}" var="sp">
@@ -250,7 +298,9 @@
         </apex:repeat>
 
       </apex:repeat>
-
+    <div style="margin-top:16px; font-size:10pt; color:#6b7280; text-align:center;">
+      This page is available until {!agendaAvailableUntilLabel}.
+    </div>
     </apex:outputPanel>
   </div>
 

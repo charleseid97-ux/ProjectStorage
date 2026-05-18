@@ -1,4 +1,4 @@
-public with sharing class EventApprovalsPanelController {
+public without sharing class EventApprovalsPanelController {
 
     public class PendingRow {
         @AuraEnabled public String workItemId;
@@ -184,7 +184,18 @@ public with sharing class EventApprovalsPanelController {
         r.submittedBy = resolveSubmittedByName(w, userNames);
         r.processName = resolveProcessName(w, procDefNames);
 
-        AssignedApproverInfo ai = computeAssignedApprover(w.ActorId, userNames, memberGroupIds, me);
+        // Active le bypass uniquement pour le process SpeakerApproval
+        Boolean hasSpeakerApproverPermission =
+            hasBooklySpeakerApproverPermission()
+            && 'Speaker Approval' == procDefNames.get(w.ProcessInstance.ProcessDefinitionId);
+        AssignedApproverInfo ai = computeAssignedApprover(
+            w.ActorId,
+            r.targetId,
+            userNames,
+            memberGroupIds,
+            me,
+            hasSpeakerApproverPermission
+        );        
         r.assignedApproverName = ai.name;
         r.canAct = ai.canAct;
 
@@ -198,22 +209,52 @@ public with sharing class EventApprovalsPanelController {
     }
 
     private static AssignedApproverInfo computeAssignedApprover(
-        Id actorId,
-        Map<Id, String> userNames,
-        Set<Id> memberGroupIds,
-        Id me
+    Id actorId,
+    Id targetId,
+    Map<Id, String> userNames,
+    Set<Id> memberGroupIds,
+    Id me,
+        Boolean hasSpeakerApproverPermission
     ) {
-        if (actorId == null) return new AssignedApproverInfo(null, false);
+        Boolean isEventSpeakerApproval = isEventSpeakerApprovalTarget(targetId);
+
+        if (actorId == null) {
+            return new AssignedApproverInfo(
+                null,
+                isEventSpeakerApproval && hasSpeakerApproverPermission
+            );
+        }
 
         if (isUserId(actorId)) {
-            return new AssignedApproverInfo(userNames.get(actorId), actorId == me);
+            Boolean canAct = (actorId == me)
+                || (isEventSpeakerApproval && hasSpeakerApproverPermission);
+
+            return new AssignedApproverInfo(userNames.get(actorId), canAct);
         }
+
         if (isGroupId(actorId)) {
-            Boolean canAct = (memberGroupIds != null && memberGroupIds.contains(actorId));
+            Boolean isQueueMember = (memberGroupIds != null && memberGroupIds.contains(actorId));
+
+            Boolean canAct = isQueueMember
+                || (isEventSpeakerApproval && hasSpeakerApproverPermission);
+
             return new AssignedApproverInfo('Queue', canAct);
         }
 
-        return new AssignedApproverInfo(String.valueOf(actorId), false);
+        return new AssignedApproverInfo(
+            String.valueOf(actorId),
+            isEventSpeakerApproval && hasSpeakerApproverPermission
+        );
+    }
+
+    private static Boolean isEventSpeakerApprovalTarget(Id targetId) {
+        if (targetId == null) return false;
+
+        try {
+            return targetId.getSObjectType() == EventSpeakerApprovals__c.SObjectType;
+        } catch (Exception ex) {
+            return false;
+        }
     }
 
     private static String computeTargetType(Id targetId) {
@@ -423,7 +464,7 @@ public with sharing class EventApprovalsPanelController {
         ProcessInstanceWorkitem wi = loadWorkitem(workItemId);
 
         Id me = UserInfo.getUserId();
-        validateActorCanAct(wi.ActorId, me);
+        validateActorCanAct(wi, me);
 
         Approval.ProcessWorkitemRequest req = buildApprovalRequest(workItemId, action, comments, wi.ActorId, me);
         processApprovalRequest(req);
@@ -444,7 +485,9 @@ public with sharing class EventApprovalsPanelController {
     private static ProcessInstanceWorkitem loadWorkitem(Id workItemId) {
         try {
             ProcessInstanceWorkitem wi = [
-                SELECT Id, ActorId
+                SELECT Id,
+                    ActorId,
+                    ProcessInstance.TargetObjectId
                 FROM ProcessInstanceWorkitem
                 WHERE Id = :workItemId
                 LIMIT 1
@@ -463,7 +506,22 @@ public with sharing class EventApprovalsPanelController {
      * - If ActorId is a user, it must be the current user.
      * - If ActorId is a group, the current user must be a member.
      */
-    private static void validateActorCanAct(Id actorId, Id me) {
+    private static void validateActorCanAct(ProcessInstanceWorkitem wi, Id me) {
+        if (wi == null) {
+            throw new AuraHandledException('Approval workitem not found.');
+        }
+
+        Id actorId = wi.ActorId;
+        Id targetId = (wi.ProcessInstance != null) ? wi.ProcessInstance.TargetObjectId : null;
+
+        Boolean isEventSpeakerApproval = isEventSpeakerApprovalTarget(targetId);
+        Boolean hasSpeakerApproverPermission = hasBooklySpeakerApproverPermission();
+
+        // Exception métier : custom permission autorisée seulement pour ESA
+        if (isEventSpeakerApproval && hasSpeakerApproverPermission) {
+            return;
+        }
+
         if (actorId == null) return;
 
         if (isUserId(actorId)) {
@@ -480,16 +538,17 @@ public with sharing class EventApprovalsPanelController {
                     SELECT COUNT()
                     FROM GroupMember
                     WHERE GroupId = :actorId
-                      AND UserOrGroupId = :me
+                    AND UserOrGroupId = :me
                 ];
             } catch (Exception ex) {
                 throw new AuraHandledException('Unable to validate queue membership.');
             }
+
             if (membershipCount == 0) {
                 throw new AuraHandledException('You are not a member of the queue assigned to this approval request.');
             }
         }
-    }
+}
 
     /**
      * Creates an Approval.ProcessWorkitemRequest for Approve/Reject actions.
@@ -671,5 +730,8 @@ public with sharing class EventApprovalsPanelController {
         } catch (Exception ex) {
             throw new AuraHandledException('Recall approval failed: ' + ex.getMessage());
         }
+    }
+    private static Boolean hasBooklySpeakerApproverPermission() {
+        return FeatureManagement.checkPermission('BooklySpeakerApprover');
     }
 }

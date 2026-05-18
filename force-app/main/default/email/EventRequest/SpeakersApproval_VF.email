@@ -1,4 +1,4 @@
-<messaging:emailTemplate subject="[Bookly] Speaker approval request — {!relatedTo.Event__r.title__c}"
+<messaging:emailTemplate subject="[Bookly] approval request — {!relatedTo.Event__r.title__c}"
     recipientType="User"
     relatedToType="EventSpeakerApprovals__c">
 
@@ -87,28 +87,45 @@
                                                     <tr>
                                                         <td valign="top" style="padding:4px 0; color:#6b7280;">Location</td>
                                                         <td valign="top" style="padding:4px 0; color:#111827;">
-                                                            <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.Event__r.locationName__c))}" layout="none">
-                                                                <b>{!relatedTo.Event__r.locationName__c}</b>
+                                                            <apex:outputPanel rendered="{!relatedTo.Event__r.city__c == 'Digital'}" layout="none">
+                                                                <div><b>Digital</b></div>
                                                             </apex:outputPanel>
-                                                    
-                                                            <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.Event__r.locationAddress__c))}" layout="none">
-                                                                , {!relatedTo.Event__r.locationAddress__c}
+
+                                                            <apex:outputPanel rendered="{!relatedTo.Event__r.city__c != 'Digital'}" layout="none">
+
+                                                                <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.Event__r.locationName__c))}" layout="none">
+                                                                    <div><b>{!relatedTo.Event__r.locationName__c}</b></div>
+                                                                </apex:outputPanel>
+
+                                                                <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.Event__r.locationAddress__c))}" layout="none">
+                                                                    <div>{!relatedTo.Event__r.locationAddress__c}</div>
+                                                                </apex:outputPanel>
+
+                                                                <apex:outputPanel layout="none"
+                                                                    rendered="{!OR(NOT(ISBLANK(relatedTo.Event__r.locationPostCode__c)), NOT(ISBLANK(relatedTo.Event__r.city__c)))}">
+                                                                    <div>
+                                                                        {!relatedTo.Event__r.locationPostCode__c}
+                                                                        <apex:outputPanel rendered="{!AND(NOT(ISBLANK(relatedTo.Event__r.locationPostCode__c)), NOT(ISBLANK(relatedTo.Event__r.city__c)))}" layout="none">
+                                                                            &nbsp;
+                                                                        </apex:outputPanel>
+                                                                        {!relatedTo.Event__r.city__c}
+                                                                    </div>
+                                                                </apex:outputPanel>
+
+                                                                <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.Event__r.country__c))}" layout="none">
+                                                                    <div>{!relatedTo.Event__r.country__c}</div>
+                                                                </apex:outputPanel>
+
                                                             </apex:outputPanel>
-                                                    
-                                                            <apex:outputPanel rendered="{!OR(NOT(ISBLANK(relatedTo.Event__r.locationPostCode__c)), NOT(ISBLANK(relatedTo.Event__r.city__c)))}" layout="none">
-                                                                , {!relatedTo.Event__r.locationPostCode__c} {!relatedTo.Event__r.city__c}
-                                                            </apex:outputPanel>
-                                                    
-                                                            <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.Event__r.country__c))}" layout="none">
-                                                                , {!relatedTo.Event__r.country__c}
-                                                            </apex:outputPanel>
+
                                                         </td>
                                                     </tr>
-
-                                                    <tr>
-                                                        <td valign="top" style="padding:4px 0; color:#6b7280;">Company</td>
-                                                        <td valign="top" style="padding:4px 0;">{!relatedTo.Event__r.Company__r.Name}</td>
-                                                    </tr>
+                                                    <apex:outputPanel rendered="{!relatedTo.Event__r.AudienceCompany__c == 'One company'}" layout="none">
+                                                        <tr>
+                                                            <td valign="top" style="padding:4px 0; color:#6b7280;">Company</td>
+                                                            <td valign="top" style="padding:4px 0;">{!relatedTo.Event__r.Company__r.Name}</td>
+                                                        </tr>
+                                                    </apex:outputPanel>
                                                 </table>
 
                                                 <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.Event__r.meetingGoal__c))}">
@@ -194,12 +211,92 @@
                                                     Actions
                                                 </div>
 
+                                                <!-- Availability confirmation -->
+                                                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                                                    <tr>
+                                                        <td style="font-size:13px; line-height:20px; color:#111827; padding-bottom:12px;">
+
+                                                            <div style="margin-bottom:6px;">
+                                                                Please confirm availability for <b>{!relatedTo.Speaker__r.Name}</b>
+                                                            </div>
+
+                                                            <div style="margin-bottom:4px;">
+                                                                <b>Event date:</b>
+                                                                <apex:outputText value="{0,date,dd/MM/yyyy}">
+                                                                    <apex:param value="{!relatedTo.Event__r.startDate__c}" />
+                                                                </apex:outputText>
+                                                                &nbsp;—&nbsp;
+                                                                <apex:outputText value="{0,date,dd/MM/yyyy}">
+                                                                    <apex:param value="{!relatedTo.Event__r.endDate__c}" />
+                                                                </apex:outputText>
+                                                            </div>
+
+                                                            <div style="margin-bottom:4px;">
+                                                                <b>Event time:</b>
+                                                                <apex:outputText value="{0}">
+                                                                    <apex:param value="{!relatedTo.Event__r.startTime__c}" />
+                                                                </apex:outputText>
+                                                                &nbsp;—&nbsp;
+                                                                <apex:outputText value="{0}">
+                                                                    <apex:param value="{!relatedTo.Event__r.endTime__c}" />
+                                                                </apex:outputText>
+                                                                &nbsp;({!relatedTo.Event__r.Timezone__c})
+                                                            </div>
+
+                                                            <!-- Location (hidden if Digital OR empty) -->
+                                                            <apex:outputPanel layout="block"
+                                                                rendered="{!AND(
+                                                                    relatedTo.Event__r.city__c != 'Digital',
+                                                                    OR(
+                                                                        NOT(ISBLANK(relatedTo.Event__r.locationName__c)),
+                                                                        NOT(ISBLANK(relatedTo.Event__r.city__c)),
+                                                                        NOT(ISBLANK(relatedTo.Event__r.country__c))
+                                                                    )
+                                                                )}">
+                                                                <div style="margin-bottom:4px;">
+                                                                    <b>Location:</b>
+                                                                    <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.Event__r.locationName__c))}" layout="none">
+                                                                        {!relatedTo.Event__r.locationName__c}
+                                                                    </apex:outputPanel>
+
+                                                                    <apex:outputPanel rendered="{!AND(
+                                                                        NOT(ISBLANK(relatedTo.Event__r.locationName__c)),
+                                                                        NOT(ISBLANK(relatedTo.Event__r.city__c))
+                                                                    )}" layout="none">, </apex:outputPanel>
+
+                                                                    <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.Event__r.city__c))}" layout="none">
+                                                                        {!relatedTo.Event__r.city__c}
+                                                                    </apex:outputPanel>
+
+                                                                    <apex:outputPanel rendered="{!AND(
+                                                                        OR(
+                                                                            NOT(ISBLANK(relatedTo.Event__r.locationName__c)),
+                                                                            NOT(ISBLANK(relatedTo.Event__r.city__c))
+                                                                        ),
+                                                                        NOT(ISBLANK(relatedTo.Event__r.country__c))
+                                                                    )}" layout="none">, </apex:outputPanel>
+
+                                                                    <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.Event__r.country__c))}" layout="none">
+                                                                        {!relatedTo.Event__r.country__c}
+                                                                    </apex:outputPanel>
+                                                                </div>
+                                                            </apex:outputPanel>
+
+                                                            <div>
+                                                                <b>Format:</b> {!relatedTo.Event__r.Format__c}
+                                                            </div>
+
+                                                        </td>
+                                                    </tr>
+                                                </table>
+
+                                                <!-- Link -->
                                                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                                                     <tr>
                                                         <td style="font-size:13px; line-height:20px;">
                                                             <a href="{!$Label.BaseURL}/{!relatedTo.Event__c}"
-                                                               style="color:#2563eb; text-decoration:none; font-weight:bold;">
-                                                                Open Event record
+                                                            style="color:#2563eb; text-decoration:none; font-weight:bold;">
+                                                                Open record
                                                             </a>
                                                         </td>
                                                     </tr>
@@ -208,18 +305,19 @@
                                                     </tr>
                                                 </table>
 
+                                                <!-- Buttons -->
                                                 <table role="presentation" cellpadding="0" cellspacing="0" border="0">
                                                     <tr>
                                                         <td align="center" bgcolor="#16a34a" style="background-color:#16a34a; padding:10px 16px;">
                                                             <a href="{!relatedTo.approvalURL__c}approve"
-                                                               style="font-size:13px; line-height:16px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; color:#ffffff; text-decoration:none; display:inline-block;">
+                                                            style="font-size:13px; line-height:16px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; color:#ffffff; text-decoration:none; display:inline-block;">
                                                                 Approve
                                                             </a>
                                                         </td>
-                                                        <td width="14" style="font-size:14px; line-height:14px;">&nbsp;</td>
+                                                        <td width="14">&nbsp;</td>
                                                         <td align="center" bgcolor="#dc2626" style="background-color:#dc2626; padding:10px 16px;">
                                                             <a href="{!relatedTo.approvalURL__c}reject"
-                                                               style="font-size:13px; line-height:16px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; color:#ffffff; text-decoration:none; display:inline-block;">
+                                                            style="font-size:13px; line-height:16px; font-weight:bold; font-family:Arial, Helvetica, sans-serif; color:#ffffff; text-decoration:none; display:inline-block;">
                                                                 Reject
                                                             </a>
                                                         </td>
@@ -229,28 +327,29 @@
                                                 <div style="padding-top:10px; font-size:12px; line-height:18px; color:#6b7280;">
                                                     Note: you must be logged in to Salesforce to approve or reject.
                                                 </div>
+
                                             </td>
                                         </tr>
                                     </table>
 
                                     <!-- Footer -->
                                     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-                                        <tr><td height="14" style="font-size:14px; line-height:14px;">&nbsp;</td></tr>
+                                        <tr><td height="14">&nbsp;</td></tr>
                                         <tr>
                                             <td style="font-size:11px; line-height:16px; color:#9ca3af;">
                                                 This email was generated automatically.
                                             </td>
                                         </tr>
                                     </table>
-
                                 </td>
                             </tr>
                         </table>
 
-                    </td>
-                </tr>
-            </table>
-        </body>
+                        </td>
+                    </tr>
+                </table>
+
+            </body>
         </html>
 
     </messaging:htmlEmailBody>

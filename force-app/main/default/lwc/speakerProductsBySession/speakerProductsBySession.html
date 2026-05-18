@@ -41,6 +41,7 @@
 
                         <c-session-speaker-product-repeater
                             parent-event-id={parentEventId}
+                            default-speaker-date={eventStartDate}
                             debug="false"
                             input-value={initialJson}
                             show-time-slots={showSlots}
@@ -88,7 +89,7 @@
                                 <!-- Meta inline -->
                                 <div class="speaker-meta-inline">
                                     <span class="meta-badge language-badge">
-                                        {g.language}
+                                        {g.speakerLanguage}
                                     </span>
 
                                     <template if:true={g.duration}>
@@ -108,7 +109,7 @@
                                             size="xx-small"
                                             class="meta-badge__icon">
                                         </lightning-icon>
-                                        <span>{g.startTime} - {g.endTime}</span>
+                                        <span>{g.startTime} - {g.endTime} | {g.date}</span>
                                     </span>
                                 </div>
                             </div>
@@ -145,7 +146,6 @@
                         Updated {impactedCount} record(s).
                     </div>
                 </template>
-
             </div>
         </lightning-card>
     </template>

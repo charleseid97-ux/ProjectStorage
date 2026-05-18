@@ -23,9 +23,6 @@ public without sharing class SessionSpeakerProduct_InsertFromJson {
     public static List<ResultWrapper> execute(List<InputWrapper> inputs) {
         List<ResultWrapper> results = new List<ResultWrapper>();
         system.debug(LoggingLevel.INFO, 'Received ' + ((inputs == null) ? 0 : inputs.size()) + ' inputs for SessionSpeakerProduct_InsertFromJson');
-        if (!Schema.sObjectType.sessionSpeakerProduct__c.isCreateable()) {
-            return buildNoAccessResults(inputs);
-        }
 
         for (InputWrapper input : safeInputs(inputs)) {
             results.add(processInput(input));
@@ -63,6 +60,7 @@ public without sharing class SessionSpeakerProduct_InsertFromJson {
         try {
             List<sessionSpeakerProduct__c> toInsert = buildRecordsFromJson(input.json, input.sessionId);
             if (toInsert.isEmpty()) {
+                updateEventToTriggerApproval(input.sessionId);
                 return res;
             }
 
@@ -164,7 +162,9 @@ public without sharing class SessionSpeakerProduct_InsertFromJson {
             }
 
             if (firstError == null && sr.getErrors() != null && !sr.getErrors().isEmpty()) {
-                firstError = sr.getErrors()[0].getMessage();
+                firstError = sr.getErrors()[0].getMessage() 
+                    + ' | FIELDS: ' + sr.getErrors()[0].getFields();
+                    system.debug('firstError =============='+firstError);
             }
         }
 
@@ -197,6 +197,19 @@ public without sharing class SessionSpeakerProduct_InsertFromJson {
         Integer ss = (parts.size() > 2) ? Integer.valueOf(parts[2]) : 0;
 
         return Time.newInstance(hh, mm, ss, 0);
+    }
+
+    /**
+     * Updates the Event to trigger the approval logic when no SSP is inserted.
+     * (when SSP are inserted they update Event Name and this starts the event approvals)
+     */
+    private static void updateEventToTriggerApproval(Id sessionId) {
+        if (sessionId == null) return;
+
+        // Minimal update used only to fire Event__c update triggers
+        update new Event__c(
+            Id = sessionId
+        );
     }
 
 }

@@ -1,4 +1,4 @@
-public with sharing class EventApprovalController {
+public without sharing class EventApprovalController {
 
     public String recordId { get; set; }
     public String openRecordId { get; private set; } // Record réellement ouvert par le bouton

@@ -147,7 +147,7 @@
                         </div>
                     </apex:outputPanel>
 
-                    <!-- Technical details -->
+                    <!-- Technical details 
                     <details class="slds-box slds-theme_shade slds-m-top_medium" style="border-radius:.75rem;">
                         <summary class="slds-text-title_bold" style="cursor:pointer;">Technical details</summary>
                         <div class="slds-m-top_small slds-text-body_small">
@@ -160,7 +160,7 @@
                                 <div><strong>Error:</strong> <span class="mono">{!errorMessage}</span></div>
                             </apex:outputPanel>
                         </div>
-                    </details>
+                    </details> -->
 
                 </div>
 

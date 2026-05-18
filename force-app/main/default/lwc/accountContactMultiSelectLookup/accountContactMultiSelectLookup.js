@@ -1,6 +1,8 @@
 import { LightningElement, api, track } from 'lwc';
 import { FlowAttributeChangeEvent } from 'lightning/flowSupport';
 import getContactsByAccount from '@salesforce/apex/AccountContactMultiSelectCtrl.getContactsByAccount';
+import getAccountAddress from '@salesforce/apex/AccountContactMultiSelectCtrl.getAccountAddress';
+
 
 export default class AccountContactMultiSelectLookup extends LightningElement {
     // ===== FLOW INPUTS =====
@@ -16,11 +18,12 @@ export default class AccountContactMultiSelectLookup extends LightningElement {
     @api accountId = '';
     @api selectedIdsJson = '[]';
     @api selectedIdsCsv = '';
-
+    @api showAddress = false; // contrôle affichage adresse
     // ===== UI / STATE =====
     @track options = [];
     @track selectedIds = [];
     @track selectedPills = [];
+    @track address;
 
     isLoading = false;
     lastError = null;
@@ -29,16 +32,35 @@ export default class AccountContactMultiSelectLookup extends LightningElement {
     _initializedContactsFromPreselected = false;
     _lastLoadedAccountId = null;
 
+
     connectedCallback() {
         this._initFromPreselectedIfNeeded();
+        this._restoreSelectedIdsFromFlow();
         this._syncOutputs();
     }
+    // Restore values kept by Flow after screen validation refresh
+    _restoreSelectedIdsFromFlow() {
+        const sourceJson = this.selectedIdsJson || this.preselectedIdsJson;
 
+        if (!sourceJson) return;
+
+        try {
+            const parsed = JSON.parse(sourceJson);
+
+            if (Array.isArray(parsed)) {
+                this.selectedIds = parsed.filter((id) => !!id);
+            }
+        } catch (e) {
+            // ignore invalid JSON
+        }
+    }
     renderedCallback() {
         if (!this._initialized) {
             this._initialized = true;
             if (this.accountId) {
                 this._loadContacts();
+                this._loadAddress();
+
             }
         }
     }
@@ -50,7 +72,9 @@ export default class AccountContactMultiSelectLookup extends LightningElement {
     get accountPickerValue() {
         return this.accountId || null;
     }
-
+    get displayAddress() {
+        return this.showAddress && this.address;
+    }
     handleAccountChange(event) {
         const newAccountId = event?.detail?.recordId || '';
 
@@ -71,8 +95,30 @@ export default class AccountContactMultiSelectLookup extends LightningElement {
         }
 
         this._loadContacts();
+        this._loadAddress();
     }
+    
+    // Charge l'adresse après sélection Account
+    async _loadAddress() {
+        // ne fait rien si désactivé
+        if (!this.accountId || !this.showAddress) return;
 
+        try {
+            const a = await getAccountAddress({ accountId: this.accountId });
+
+            // map des champs Billing vers objet UI
+            this.address = a ? {
+                name: a.Name,
+                street: a.BillingStreet,
+                city: a.BillingCity,
+                postalCode: a.BillingPostalCode,
+                country: a.BillingCountry
+            } : null;
+
+        } catch (e) {
+            this.address = null;
+        }
+    }
     async _loadContacts() {
         if (!this.accountId || this.accountId === this._lastLoadedAccountId) {
             return;
@@ -121,8 +167,10 @@ export default class AccountContactMultiSelectLookup extends LightningElement {
         this._syncOutputs();
     };
 
-    _initFromPreselectedIfNeeded() {
-        if (this.preselectedAccountId && !this.accountId) {
+   _initFromPreselectedIfNeeded() {
+        if (this.accountId) return;
+
+        if (this.preselectedAccountId) {
             this.accountId = this.preselectedAccountId;
         }
     }
@@ -130,13 +178,16 @@ export default class AccountContactMultiSelectLookup extends LightningElement {
     _initContactPreselectionIfNeeded() {
         if (this._initializedContactsFromPreselected) return;
 
-        if (!this.preselectedIdsJson) {
+        const sourceJson = this.selectedIdsJson || this.preselectedIdsJson;
+
+        if (!sourceJson) {
             this._initializedContactsFromPreselected = true;
             return;
         }
 
         try {
-            const parsed = JSON.parse(this.preselectedIdsJson);
+            const parsed = JSON.parse(sourceJson);
+
             if (Array.isArray(parsed)) {
                 const availableValues = new Set((this.options || []).map((opt) => opt.value));
                 this.selectedIds = parsed.filter((id) => !!id && availableValues.has(id));

@@ -36,7 +36,7 @@
         <field>Contact.Subscriber__c</field>
     </columns>
     <currency>EUR</currency>
-    <description>PLZ Düsseldorf: 40/42/41/46/47/45/44
+    <description>PLZ Dusseldorf: 40/42/41/46/47/45/44
 Opt Out</description>
     <filter>
         <booleanFilter>1 AND 2 AND (3 OR 4) AND 5 AND 6 AND 7</booleanFilter>
@@ -97,7 +97,7 @@ Opt Out</description>
         <field>ADDRESS2_CITY</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Ingo Roundtable Düsseldorf</name>
+    <name>Ingo Roundtable Dusseldorf</name>
     <params>
         <name>co</name>
         <value>1</value>

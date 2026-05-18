@@ -1,4 +1,4 @@
-public with sharing class EventAttendee_InsertFromIds {
+public without sharing class EventAttendee_InsertFromIds {
 
     public class InputWrapper {
         @InvocableVariable(required=true)

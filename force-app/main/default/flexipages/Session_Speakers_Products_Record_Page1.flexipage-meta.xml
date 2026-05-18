@@ -5,11 +5,6 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>actionNames</name>
-                    <valueList>
-                        <valueListItems>
-                            <value>Edit</value>
-                        </valueListItems>
-                    </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>collapsed</name>
@@ -56,15 +51,15 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.presentationStatus__c</fieldItem>
-                <identifier>RecordpresentationStatus_cField</identifier>
+                <fieldItem>Record.PresentationStatusFormula__c</fieldItem>
+                <identifier>RecordPresentationStatusFormula_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Language__c</fieldItem>
                 <identifier>RecordLanguage_cField</identifier>
@@ -78,7 +73,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.speakerContact__c</fieldItem>
                 <identifier>RecordspeakerContact_cField</identifier>
@@ -88,7 +83,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.speakerLanguage__c</fieldItem>
                 <identifier>RecordspeakerLanguage_cField</identifier>
@@ -98,7 +93,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.strategy__c</fieldItem>
                 <identifier>Recordstrategy_cField</identifier>

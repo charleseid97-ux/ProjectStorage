@@ -89,31 +89,47 @@
                                                         </td>
                                                     </tr>
 
-                                                    <tr>
+                                                   <tr>
                                                         <td valign="top" style="padding:4px 0; color:#6b7280;">Location</td>
                                                         <td valign="top" style="padding:4px 0; color:#111827;">
-                                                            <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.locationName__c))}" layout="none">
-                                                                <b>{!relatedTo.locationName__c}</b>
+
+                                                            <apex:outputPanel rendered="{!relatedTo.city__c == 'Digital'}" layout="none">
+                                                                <div><b>Digital</b></div>
                                                             </apex:outputPanel>
-                                                    
-                                                            <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.locationAddress__c))}" layout="none">
-                                                                , {!relatedTo.locationAddress__c}
+
+                                                            <apex:outputPanel rendered="{!relatedTo.city__c != 'Digital'}" layout="none">
+                                                                <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.locationName__c))}" layout="none">
+                                                                    <div><b>{!relatedTo.locationName__c}</b></div>
+                                                                </apex:outputPanel>
+
+                                                                <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.locationAddress__c))}" layout="none">
+                                                                    <div>{!relatedTo.locationAddress__c}</div>
+                                                                </apex:outputPanel>
+
+                                                                <apex:outputPanel layout="none"
+                                                                    rendered="{!OR(NOT(ISBLANK(relatedTo.locationPostCode__c)), NOT(ISBLANK(relatedTo.city__c)))}">
+                                                                    <div>
+                                                                        {!relatedTo.locationPostCode__c}
+                                                                        <apex:outputPanel rendered="{!AND(NOT(ISBLANK(relatedTo.locationPostCode__c)), NOT(ISBLANK(relatedTo.city__c)))}" layout="none">
+                                                                            &nbsp;
+                                                                        </apex:outputPanel>
+                                                                        {!relatedTo.city__c}
+                                                                    </div>
+                                                                </apex:outputPanel>
+
+                                                                <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.country__c))}" layout="none">
+                                                                    <div>{!relatedTo.country__c}</div>
+                                                                </apex:outputPanel>
                                                             </apex:outputPanel>
-                                                    
-                                                            <apex:outputPanel rendered="{!OR(NOT(ISBLANK(relatedTo.locationPostCode__c)), NOT(ISBLANK(relatedTo.city__c)))}" layout="none">
-                                                                , {!relatedTo.locationPostCode__c} {!relatedTo.city__c}
-                                                            </apex:outputPanel>
-                                                    
-                                                            <apex:outputPanel rendered="{!NOT(ISBLANK(relatedTo.country__c))}" layout="none">
-                                                                , {!relatedTo.country__c}
-                                                            </apex:outputPanel>
+
                                                         </td>
                                                     </tr>
-
-                                                    <tr>
-                                                        <td valign="top" style="padding:4px 0; color:#6b7280;">Company</td>
-                                                        <td valign="top" style="padding:4px 0;">{!relatedTo.Company__r.Name}</td>
-                                                    </tr>
+                                                    <apex:outputPanel rendered="{!relatedTo.AudienceCompany__c == 'One company'}" layout="none">
+                                                        <tr>
+                                                            <td valign="top" style="padding:4px 0; color:#6b7280;">Company</td>
+                                                            <td valign="top" style="padding:4px 0;">{!relatedTo.Company__r.Name}</td>
+                                                        </tr>
+                                                    </apex:outputPanel>                                                 
 
                                                 </table>
 
@@ -183,7 +199,7 @@
                                             <td style="padding:14px 16px;">
 
                                                 <div style="font-size:16px; font-weight:bold; padding-bottom:10px;">
-                                                    Event access
+                                                    Request access
                                                 </div>
 
                                                 <a href="{!$Label.BaseURL}/{!relatedTo.Id}"

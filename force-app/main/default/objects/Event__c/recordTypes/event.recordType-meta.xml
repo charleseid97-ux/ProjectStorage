@@ -27,6 +27,55 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>OrganizerDecision__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>TechEventTeamApproval__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Submitted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Withdrawn</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>TechHOPApproval__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Submitted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Withdrawn</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>category__c</picklist>
         <values>
             <fullName>Event conference</fullName>
@@ -160,10 +209,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Besançon</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Biarritz</fullName>
             <default>false</default>
         </values>
@@ -248,6 +293,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Castellon de la Plana</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Castellón de la Plana</fullName>
             <default>false</default>
         </values>
@@ -304,7 +353,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Coruña</fullName>
+            <fullName>Coruna</fullName>
             <default>false</default>
         </values>
         <values>
@@ -340,7 +389,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Düsseldorf</fullName>
+            <fullName>Dusseldorf</fullName>
             <default>false</default>
         </values>
         <values>
@@ -380,7 +429,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Gijón</fullName>
+            <fullName>Gijon</fullName>
             <default>false</default>
         </values>
         <values>
@@ -405,6 +454,10 @@
         </values>
         <values>
             <fullName>Gstaad</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Guernsey</fullName>
             <default>false</default>
         </values>
         <values>
@@ -448,7 +501,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Hyères</fullName>
+            <fullName>Hyeres</fullName>
             <default>false</default>
         </values>
         <values>
@@ -484,11 +537,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Konstanz</fullName>
+            <fullName>Konigstein im Taunus</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Königstein im Taunus</fullName>
+            <fullName>Konstanz</fullName>
             <default>false</default>
         </values>
         <values>
@@ -509,6 +562,10 @@
         </values>
         <values>
             <fullName>Las Palmas</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lasne</fullName>
             <default>false</default>
         </values>
         <values>
@@ -536,7 +593,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Leon</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Leuven</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Liege</fullName>
             <default>false</default>
         </values>
         <values>
@@ -560,15 +625,15 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Liège</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Logroño</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>London</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LondonCanada</fullName>
             <default>false</default>
         </values>
         <values>
@@ -652,7 +717,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Montréal</fullName>
+            <fullName>Montreal</fullName>
             <default>false</default>
         </values>
         <values>
@@ -660,15 +725,23 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Mulhouse</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Munich</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Murcia-Orihuela</fullName>
+            <fullName>Munster</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Münster</fullName>
+            <fullName>Murcia%E2%80%93Orihuela</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Murcia-Orihuela</fullName>
             <default>false</default>
         </values>
         <values>
@@ -812,6 +885,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Ruschlikon</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Rüschlikon</fullName>
             <default>false</default>
         </values>
@@ -836,7 +913,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>San Sebastián</fullName>
+            <fullName>San Sebastian</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1074,6 +1151,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Guernsey</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Hungary</fullName>
             <default>false</default>
         </values>
@@ -1264,6 +1345,33 @@
         <values>
             <fullName>WaitingForSpeakerApprovals</fullName>
             <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>timezone__c</picklist>
+        <values>
+            <fullName>America%2FToronto</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Asia%2FDubai</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Asia%2FSingapore</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Europe%2FHelsinki</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Europe%2FLondon</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Europe%2FParis</fullName>
+            <default>true</default>
         </values>
     </picklistValues>
 </RecordType>

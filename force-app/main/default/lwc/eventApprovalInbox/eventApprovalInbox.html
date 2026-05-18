@@ -1,0 +1,77 @@
+<template>
+
+    <lightning-card title="Approval Inbox" icon-name="standard:approval">
+
+        <div class="slds-p-around_medium">
+
+            <template if:true={isLoading}>
+                <lightning-spinner size="medium"></lightning-spinner>
+            </template>
+
+            <div class="filters">
+
+                <lightning-input
+                    type="checkbox"
+                    label="Assigned to me"
+                    name="showAssignedToMe"
+                    checked={showAssignedToMe}
+                    onchange={handleFilterChange}>
+                </lightning-input>
+
+                <lightning-input
+                    type="checkbox"
+                    label="Assigned to queue"
+                    name="showAssignedToQueue"
+                    checked={showAssignedToQueue}
+                    onchange={handleFilterChange}>
+                </lightning-input>
+
+                <lightning-input
+                    type="checkbox"
+                    label="Assigned to other"
+                    name="showAssignedToOther"
+                    checked={showAssignedToOther}
+                    onchange={handleFilterChange}>
+                </lightning-input>
+
+                <lightning-button
+                    label="Approve selected"
+                    variant="brand"
+                    onclick={handleApproveSelected}>
+                </lightning-button>
+
+            </div>
+
+            <div class="section-title">
+                Event approvals
+            </div>
+
+            <lightning-datatable
+                onsort={handleSort}
+                sorted-by={sortedBy}
+                sorted-direction={sortedDirection}
+                key-field="workItemId"
+                data={filteredEventRows}
+                columns={eventColumns}
+                onrowselection={handleRowSelection}>
+            </lightning-datatable>
+
+            <div class="section-title slds-m-top_large">
+                Speaker approvals
+            </div>
+
+            <lightning-datatable
+                onsort={handleSort}
+                sorted-by={sortedBy}
+                sorted-direction={sortedDirection}
+                key-field="workItemId"
+                data={filteredSpeakerRows}
+                columns={speakerColumns}
+                onrowselection={handleRowSelection}>
+            </lightning-datatable>
+
+        </div>
+
+    </lightning-card>
+
+</template>

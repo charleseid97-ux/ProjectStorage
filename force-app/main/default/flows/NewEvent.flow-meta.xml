@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>build_speakersHTML</name>
-        <label>build speakersHTML</label>
+        <name>Build_Speakers_HTML_JSON_List_SSP_Action_1</name>
+        <label>Build Speakers HTML (JSON List SSP) Action</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <actionName>customEventSpeakerApprovalService</actionName>
         <actionType>apex</actionType>
         <connector>
-            <targetReference>populate_speakersHTML</targetReference>
+            <targetReference>mapp_startEndTime_to_event</targetReference>
         </connector>
         <flowTransactionModel>Automatic</flowTransactionModel>
         <inputParameters>
@@ -19,34 +19,7 @@
         </inputParameters>
         <nameSegment>customEventSpeakerApprovalService</nameSegment>
         <offset>0</offset>
-        <outputParameters>
-            <assignToReference>speakersHTML</assignToReference>
-            <name>speakersHtml</name>
-        </outputParameters>
-    </actionCalls>
-    <actionCalls>
-        <name>Copy_1_of_build_speakersHTML</name>
-        <label>build speakersHTML</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <actionName>customEventSpeakerApprovalService</actionName>
-        <actionType>apex</actionType>
-        <connector>
-            <targetReference>Copy_1_of_populate_speakersHTML</targetReference>
-        </connector>
-        <flowTransactionModel>Automatic</flowTransactionModel>
-        <inputParameters>
-            <name>jsonPayload</name>
-            <value>
-                <elementReference>SSPs</elementReference>
-            </value>
-        </inputParameters>
-        <nameSegment>customEventSpeakerApprovalService</nameSegment>
-        <offset>0</offset>
-        <outputParameters>
-            <assignToReference>speakersHTML</assignToReference>
-            <name>speakersHtml</name>
-        </outputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
     <actionCalls>
         <name>Copy_1_of_insert_Event_Attendees</name>
@@ -104,6 +77,33 @@
     </actionCalls>
     <actionCalls>
         <name>Copy_2_of_InsertSpeakers</name>
+        <label>InsertSpeakers</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>SessionSpeakerProduct_InsertFromJson</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Copy_1_of_setupURL</targetReference>
+        </connector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>json</name>
+            <value>
+                <elementReference>SSPs</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sessionId</name>
+            <value>
+                <elementReference>MasterEvent.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>SessionSpeakerProduct_InsertFromJson</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <actionCalls>
+        <name>Copy_3_of_InsertSpeakers</name>
         <label>InsertSpeakers</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
@@ -198,28 +198,29 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>mapp_startEndTime_to_event</targetReference>
+            <targetReference>Build_Speakers_HTML_JSON_List_SSP_Action_1</targetReference>
         </connector>
     </assignments>
     <assignments>
-        <name>Copy_1_of_populate_speakersHTML</name>
-        <label>populate speakersHTML</label>
+        <name>Copy_1_of_Set_Error_MSG</name>
+        <label>Set Error MSG</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <assignmentItems>
-            <assignToReference>MasterEvent.speakersHTML__c</assignToReference>
+            <assignToReference>ErrorMessage</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>speakersHTML</elementReference>
+                <elementReference>ErrorMessageOrganizerSalesOwner</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>createEventRec</targetReference>
+            <isGoTo>true</isGoTo>
+            <targetReference>Event_Details</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Copy_1_of_setStartEndDates</name>
-        <label>setStartEndDates</label>
+        <label>Copy inputs into record</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <assignmentItems>
@@ -244,7 +245,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>SpeakersEvents</targetReference>
+            <targetReference>Decision_7</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -261,6 +262,23 @@
         </assignmentItems>
         <connector>
             <targetReference>setredirectionId</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Copy_2_of_Set_Error_MSG</name>
+        <label>Set Error MSG</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>ErrorMessageOrganizerSalesOwner</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Copy_1_of_Event_Details</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -308,8 +326,90 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Copy_2_of_setStartEndDates</name>
-        <label>Copy 2 of</label>
+        <name>Copy_3_of_Set_Error_MSG</name>
+        <label>Set Error MSG</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>ErrorMessageOrganizerSalesOwner</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Copy_1_of_Meeting_Meeting_days_Details</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>CopyNoneFieldInputs1To1</name>
+        <label>Copy none field Inputs</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>MasterEvent.startTime__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Start1</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterEvent.endTime__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>End1</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterEvent.meetingGoal__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Meeting_Goal</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterEvent.company__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>AttendeesMultiSelect.accountId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterEvent.locationAddress__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Adresse_input</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterEvent.meetingBackground__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Meeting_Background1to1</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>AccountId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>AttendeesMultiSelect.accountId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>contactsJSON</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>AttendeesMultiSelect.selectedIdsJson</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Decision_8</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>CopyNoneFieldInputsDays</name>
+        <label>Copy none field Inputs</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <assignmentItems>
@@ -348,7 +448,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Copy_2_of_Speakers_Products</targetReference>
+            <targetReference>Decision_9</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -519,24 +619,15 @@
                 <elementReference>attendeesContacts.accountId</elementReference>
             </value>
         </assignmentItems>
-        <connector>
-            <targetReference>Copy_2_of_CreateEventRec</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>populate_speakersHTML</name>
-        <label>populate speakersHTML</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
         <assignmentItems>
             <assignToReference>MasterEvent.speakersHTML__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>speakersHTML</elementReference>
+                <elementReference>Build_Speakers_HTML_JSON_List_SSP_Action_1.speakersHtml</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Copy_1_of_CreateEventRec</targetReference>
+            <targetReference>Copy_2_of_CreateEventRec</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -569,6 +660,23 @@
         </assignmentItems>
         <connector>
             <targetReference>Copy_1_of_Speakers_Products</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_Error_MSG</name>
+        <label>Set Error MSG</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>ErrorMessageOrganizerSalesOwner</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Copy_1_of_Meeting_details</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -677,50 +785,6 @@
         </assignmentItems>
         <connector>
             <targetReference>Copy_1_of_Event_Details</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>setStartEndDates</name>
-        <label>setStartEndDates</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <assignmentItems>
-            <assignToReference>MasterEvent.startTime__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Start1</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>MasterEvent.endTime__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>End1</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>MasterEvent.meetingGoal__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Meeting_Goal</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>MasterEvent.company__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>AttendeesMultiSelect.accountId</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>MasterEvent.locationAddress__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Adresse_input</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>copy_attnddee_s_address</targetReference>
         </connector>
     </assignments>
     <choices>
@@ -1163,6 +1227,77 @@
             <stringValue>20:00</stringValue>
         </value>
     </choices>
+    <constants>
+        <name>ErrorMessageOrganizerSalesOwner</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Please set sales owner and organizer fields</stringValue>
+        </value>
+    </constants>
+    <constants>
+        <name>NoAccessMsg</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>You are not authorized to create events. Please contact your administrator if you believe this is an error.</stringValue>
+        </value>
+    </constants>
+    <decisions>
+        <name>Can_Create</name>
+        <label>Can Create ?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Access_Denied</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No</defaultConnectorLabel>
+        <rules>
+            <name>YeshrCan</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Permission.BooklyCreateEvents</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getEventRTs</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Copy_1_of_Mandatory_Users_check</name>
+        <label>Mandatory Users check</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>copyAddressFromContact</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Copy_1_of_back_to_screen</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>MasterEvent.Organizer__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>MasterEvent.salesOwner__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Error_MSG</targetReference>
+            </connector>
+            <label>back to screen</label>
+        </rules>
+    </decisions>
     <decisions>
         <name>copy_attnddee_s_address</name>
         <label>copy attnddee&apos;s address?</label>
@@ -1194,7 +1329,7 @@
         <locationX>0</locationX>
         <locationY>0</locationY>
         <defaultConnector>
-            <targetReference>mapp_startEndTime_to_event</targetReference>
+            <targetReference>Build_Speakers_HTML_JSON_List_SSP_Action_1</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -1211,6 +1346,102 @@
                 <targetReference>checkCopyFromAttendee</targetReference>
             </connector>
             <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Decision_7</name>
+        <label>Mandatory Users check</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>SpeakersEvents</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Outcome_1_of_Decision_7</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>MasterEvent.Organizer__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>MasterEvent.salesOwner__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Copy_1_of_Set_Error_MSG</targetReference>
+            </connector>
+            <label>back to screen</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Decision_8</name>
+        <label>Mandatory Users check</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>copy_attnddee_s_address</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Outcome_1_of_Decision_8</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>MasterEvent.salesOwner__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>MasterEvent.Organizer__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Copy_2_of_Set_Error_MSG</targetReference>
+            </connector>
+            <label>back to screen</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Decision_9</name>
+        <label>Mandatory Users check</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Copy_2_of_Speakers_Products</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Outcome_1_of_Decision_9</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>MasterEvent.Organizer__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>MasterEvent.salesOwner__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Copy_3_of_Set_Error_MSG</targetReference>
+            </connector>
+            <label>back to screen</label>
         </rules>
     </decisions>
     <decisions>
@@ -1367,15 +1598,25 @@
             <label>MeetingDay(s)</label>
         </rules>
     </decisions>
-    <description>dates picklist</description>
+    <description>mandatory Fields + insert HTML speakers for 1to1MD 
+V1</description>
     <environments>Default</environments>
+    <formulas>
+        <name>clickedDateToText</name>
+        <dataType>String</dataType>
+        <expression>TEXT(YEAR({!clickedDate})) &amp;
+&quot;-&quot; &amp;
+LPAD(TEXT(MONTH({!clickedDate})), 2, &quot;0&quot;) &amp;
+&quot;-&quot; &amp;
+LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
+    </formulas>
     <formulas>
         <name>redirectionId</name>
         <dataType>String</dataType>
         <expression>IF(ISNULL({!recordId}), {!MasterEvent.Id}, {!recordId})</expression>
     </formulas>
     <interviewLabel>New Event {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>New Event</label>
+    <label>Speaker Request</label>
     <loops>
         <name>setRtIds</name>
         <label>setRT Ids</label>
@@ -1426,6 +1667,16 @@
         <locationY>0</locationY>
         <connector>
             <targetReference>insert_Event_Attendees</targetReference>
+        </connector>
+        <inputReference>MasterEvent</inputReference>
+    </recordCreates>
+    <recordCreates>
+        <name>Copy_3_of_CreateEventRec</name>
+        <label>CreateEventRec</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Copy_3_of_InsertSpeakers</targetReference>
         </connector>
         <inputReference>MasterEvent</inputReference>
     </recordCreates>
@@ -1567,6 +1818,45 @@
     </recordLookups>
     <runInMode>DefaultMode</runInMode>
     <screens>
+        <name>Access_Denied</name>
+        <label>Access Denied</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>AccessDeniedMsg</name>
+            <extensionName>flowruntime:message</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>messageType</name>
+                <value>
+                    <stringValue>warning</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>messageContent</name>
+                <value>
+                    <elementReference>NoAccessMsg</elementReference>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
         <name>Copy_1_of_Event_Details</name>
         <label>One to One Meeting Details</label>
         <locationX>0</locationX>
@@ -1575,7 +1865,7 @@
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>setStartEndDates</targetReference>
+            <targetReference>CopyNoneFieldInputs1To1</targetReference>
         </connector>
         <fields>
             <name>NewMeetingRequest</name>
@@ -1591,8 +1881,31 @@
             </styleProperties>
         </fields>
         <fields>
+            <name>errmsg2</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt;{!ErrorMessage}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>ErrorMessage</leftValueReference>
+                    <operator>IsNull</operator>
+                    <rightValue>
+                        <booleanValue>false</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
             <name>Copy_1_of_Event_DetailsSection</name>
-            <fieldText>meeting details</fieldText>
+            <fieldText>Meeting details</fieldText>
             <fieldType>RegionContainer</fieldType>
             <fields>
                 <name>Copy_1_of_Event_DetailsSection_Column1</name>
@@ -1679,10 +1992,29 @@
                     </styleProperties>
                 </fields>
                 <fields>
+                    <name>Meeting_Background1to1</name>
+                    <defaultValue>
+                        <stringValue>{!MasterEvent.meetingBackground__c}</stringValue>
+                    </defaultValue>
+                    <fieldText>Meeting Background</fieldText>
+                    <fieldType>LargeTextArea</fieldType>
+                    <isRequired>true</isRequired>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                </fields>
+                <fields>
                     <name>Meeting_Goal</name>
+                    <defaultValue>
+                        <stringValue>{!MasterEvent.meetingGoal__c}</stringValue>
+                    </defaultValue>
                     <fieldText>Meeting Goal</fieldText>
                     <fieldType>LargeTextArea</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -1810,9 +2142,11 @@
                     <choiceReferences>X19_45</choiceReferences>
                     <choiceReferences>X20_00</choiceReferences>
                     <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>MasterEvent.startTime__c</elementReference>
+                    </defaultValue>
                     <fieldText>Start time</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -1875,9 +2209,11 @@
                     <choiceReferences>X19_45</choiceReferences>
                     <choiceReferences>X20_00</choiceReferences>
                     <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>MasterEvent.endTime__c</elementReference>
+                    </defaultValue>
                     <fieldText>End time</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -1914,30 +2250,6 @@
             <fields>
                 <name>Copy_2_of_Audience_details_Column1</name>
                 <fieldType>Region</fieldType>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.targetedAttendees__c</objectFieldReference>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                    <visibilityRule>
-                        <conditionLogic>and</conditionLogic>
-                        <conditions>
-                            <leftValueReference>MasterEvent.category__c</leftValueReference>
-                            <operator>EqualTo</operator>
-                            <rightValue>
-                                <stringValue>One to One meeting</stringValue>
-                            </rightValue>
-                        </conditions>
-                    </visibilityRule>
-                </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -1983,6 +2295,30 @@
                         <name>limitSize</name>
                         <value>
                             <numberValue>500.0</numberValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>showAddress</name>
+                        <value>
+                            <booleanValue>true</booleanValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>preselectedAccountId</name>
+                        <value>
+                            <elementReference>AccountId</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>preselectedIdsJson</name>
+                        <value>
+                            <elementReference>contactsJSON</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>selectedIdsJson</name>
+                        <value>
+                            <elementReference>contactsJSON</elementReference>
                         </value>
                     </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -2039,13 +2375,11 @@
                 </fields>
                 <fields>
                     <name>AddressTypemeetings</name>
-                    <choiceReferences>Attendes_s_address</choiceReferences>
                     <choiceReferences>Other_address</choiceReferences>
                     <dataType>String</dataType>
-                    <defaultSelectedChoiceReference>Attendes_s_address</defaultSelectedChoiceReference>
+                    <defaultSelectedChoiceReference>Other_address</defaultSelectedChoiceReference>
                     <fieldText>Address</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2064,6 +2398,13 @@
                                 <stringValue>Physical</stringValue>
                             </rightValue>
                         </conditions>
+                        <conditions>
+                            <leftValueReference>MasterEvent.format__c</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>noAddressCoppy</stringValue>
+                            </rightValue>
+                        </conditions>
                     </visibilityRule>
                 </fields>
                 <inputParameters>
@@ -2077,32 +2418,6 @@
             <fields>
                 <name>Copy_1_of_Address_Column2</name>
                 <fieldType>Region</fieldType>
-                <fields>
-                    <name>Adresse_input</name>
-                    <dataType>String</dataType>
-                    <fieldText>Adresse</fieldText>
-                    <fieldType>InputField</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>true</isRequired>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                    <visibilityRule>
-                        <conditionLogic>and</conditionLogic>
-                        <conditions>
-                            <leftValueReference>AddressTypemeetings</leftValueReference>
-                            <operator>EqualTo</operator>
-                            <rightValue>
-                                <elementReference>Other_address</elementReference>
-                            </rightValue>
-                        </conditions>
-                    </visibilityRule>
-                </fields>
                 <fields>
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -2119,10 +2434,10 @@
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
-                            <leftValueReference>AddressTypemeetings</leftValueReference>
+                            <leftValueReference>MasterEvent.format__c</leftValueReference>
                             <operator>EqualTo</operator>
                             <rightValue>
-                                <elementReference>Other_address</elementReference>
+                                <stringValue>Physical</stringValue>
                             </rightValue>
                         </conditions>
                     </visibilityRule>
@@ -2143,10 +2458,38 @@
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
-                            <leftValueReference>AddressTypemeetings</leftValueReference>
+                            <leftValueReference>MasterEvent.format__c</leftValueReference>
                             <operator>EqualTo</operator>
                             <rightValue>
-                                <elementReference>Other_address</elementReference>
+                                <stringValue>Physical</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <fields>
+                    <name>Adresse_input</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>MasterEvent.locationAddress__c</elementReference>
+                    </defaultValue>
+                    <fieldText>Addresse</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>true</isRequired>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>MasterEvent.format__c</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>Physical</stringValue>
                             </rightValue>
                         </conditions>
                     </visibilityRule>
@@ -2206,7 +2549,7 @@
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>copyAddressFromContact</targetReference>
+            <targetReference>Copy_1_of_Mandatory_Users_check</targetReference>
         </connector>
         <fields>
             <name>NewOneToOneRequest</name>
@@ -2220,6 +2563,29 @@
                     <stringValue>12</stringValue>
                 </width>
             </styleProperties>
+        </fields>
+        <fields>
+            <name>errMsg4</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;color: rgb(255, 0, 0);&quot;&gt;{!ErrorMessage}&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>ErrorMessage</leftValueReference>
+                    <operator>IsNull</operator>
+                    <rightValue>
+                        <booleanValue>false</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
         </fields>
         <fields>
             <name>Copy_1_of_Copy_1_of_Event_DetailsSection</name>
@@ -2243,26 +2609,10 @@
                     </styleProperties>
                 </fields>
                 <fields>
-                    <name>Meeting_Backgroundd</name>
-                    <fieldText>Meeting Background</fieldText>
-                    <fieldType>LargeTextArea</fieldType>
+                    <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>true</isRequired>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                </fields>
-                <fields>
-                    <name>Meeting_Goall</name>
-                    <fieldText>Meeting Goal</fieldText>
-                    <fieldType>LargeTextArea</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>true</isRequired>
+                    <isRequired>false</isRequired>
+                    <objectFieldReference>MasterEvent.salesTeam__c</objectFieldReference>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -2277,6 +2627,40 @@
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <objectFieldReference>MasterEvent.salesOwner__c</objectFieldReference>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                </fields>
+                <fields>
+                    <name>Meeting_Backgroundd</name>
+                    <defaultValue>
+                        <stringValue>{!MasterEvent.meetingBackground__c}</stringValue>
+                    </defaultValue>
+                    <fieldText>Meeting Background</fieldText>
+                    <fieldType>LargeTextArea</fieldType>
+                    <isRequired>true</isRequired>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                </fields>
+                <fields>
+                    <name>Meeting_Goall</name>
+                    <defaultValue>
+                        <stringValue>{!MasterEvent.meetingGoal__c}</stringValue>
+                    </defaultValue>
+                    <fieldText>Meeting Goal</fieldText>
+                    <fieldType>LargeTextArea</fieldType>
+                    <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
                             <stringValue>top</stringValue>
@@ -2357,6 +2741,12 @@
                         <name>limitSize</name>
                         <value>
                             <numberValue>1000.0</numberValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>showAddress</name>
+                        <value>
+                            <booleanValue>true</booleanValue>
                         </value>
                     </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -2493,7 +2883,6 @@
                     </defaultValue>
                     <fieldText>Start time</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2561,7 +2950,6 @@
                     </defaultValue>
                     <fieldText>End Time</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2615,12 +3003,10 @@
                 <fields>
                     <name>Addresstype</name>
                     <choiceReferences>Other_address</choiceReferences>
-                    <choiceReferences>Attendes_s_address</choiceReferences>
                     <dataType>String</dataType>
-                    <defaultSelectedChoiceReference>Attendes_s_address</defaultSelectedChoiceReference>
+                    <defaultSelectedChoiceReference>Other_address</defaultSelectedChoiceReference>
                     <fieldText>Address</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2637,6 +3023,13 @@
                             <operator>EqualTo</operator>
                             <rightValue>
                                 <stringValue>Physical</stringValue>
+                            </rightValue>
+                        </conditions>
+                        <conditions>
+                            <leftValueReference>MasterEvent.format__c</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>noAddressCoppy</stringValue>
                             </rightValue>
                         </conditions>
                     </visibilityRule>
@@ -2668,10 +3061,10 @@
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
-                            <leftValueReference>Addresstype</leftValueReference>
+                            <leftValueReference>MasterEvent.format__c</leftValueReference>
                             <operator>EqualTo</operator>
                             <rightValue>
-                                <elementReference>Other_address</elementReference>
+                                <stringValue>Physical</stringValue>
                             </rightValue>
                         </conditions>
                     </visibilityRule>
@@ -2692,10 +3085,10 @@
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
-                            <leftValueReference>Addresstype</leftValueReference>
+                            <leftValueReference>MasterEvent.format__c</leftValueReference>
                             <operator>EqualTo</operator>
                             <rightValue>
-                                <elementReference>Other_address</elementReference>
+                                <stringValue>Physical</stringValue>
                             </rightValue>
                         </conditions>
                     </visibilityRule>
@@ -2716,10 +3109,10 @@
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
-                            <leftValueReference>Addresstype</leftValueReference>
+                            <leftValueReference>MasterEvent.format__c</leftValueReference>
                             <operator>EqualTo</operator>
                             <rightValue>
-                                <elementReference>Other_address</elementReference>
+                                <stringValue>Physical</stringValue>
                             </rightValue>
                         </conditions>
                     </visibilityRule>
@@ -2734,56 +3127,6 @@
             </fields>
             <isRequired>false</isRequired>
             <regionContainerType>SectionWithHeader</regionContainerType>
-            <styleProperties>
-                <verticalAlignment>
-                    <stringValue>top</stringValue>
-                </verticalAlignment>
-                <width>
-                    <stringValue>12</stringValue>
-                </width>
-            </styleProperties>
-        </fields>
-        <fields>
-            <name>Copy_1_of_Meeting_details_Section4</name>
-            <fieldType>RegionContainer</fieldType>
-            <fields>
-                <name>Copy_1_of_Meeting_details_Section4_Column1</name>
-                <fieldType>Region</fieldType>
-                <fields>
-                    <fieldType>ObjectProvided</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-                    <isRequired>false</isRequired>
-                    <objectFieldReference>MasterEvent.clientType__c</objectFieldReference>
-                    <styleProperties>
-                        <verticalAlignment>
-                            <stringValue>top</stringValue>
-                        </verticalAlignment>
-                        <width>
-                            <stringValue>12</stringValue>
-                        </width>
-                    </styleProperties>
-                </fields>
-                <inputParameters>
-                    <name>width</name>
-                    <value>
-                        <stringValue>6</stringValue>
-                    </value>
-                </inputParameters>
-                <isRequired>false</isRequired>
-            </fields>
-            <fields>
-                <name>Copy_1_of_Meeting_details_Section4_Column2</name>
-                <fieldType>Region</fieldType>
-                <inputParameters>
-                    <name>width</name>
-                    <value>
-                        <stringValue>6</stringValue>
-                    </value>
-                </inputParameters>
-                <isRequired>false</isRequired>
-            </fields>
-            <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
             <styleProperties>
                 <verticalAlignment>
                     <stringValue>top</stringValue>
@@ -2819,7 +3162,7 @@
                     <inputParameters>
                         <name>showTimeSlots</name>
                         <value>
-                            <booleanValue>false</booleanValue>
+                            <booleanValue>true</booleanValue>
                         </value>
                     </inputParameters>
                     <inputParameters>
@@ -2832,6 +3175,12 @@
                         <name>defaultStartTime</name>
                         <value>
                             <elementReference>clickedStartTime</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>defaultSpeakerDate</name>
+                        <value>
+                            <elementReference>clickedDateToText</elementReference>
                         </value>
                     </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -2881,7 +3230,7 @@
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Copy_2_of_setStartEndDates</targetReference>
+            <targetReference>CopyNoneFieldInputsDays</targetReference>
         </connector>
         <fields>
             <name>NewMDRequest</name>
@@ -2895,6 +3244,29 @@
                     <stringValue>12</stringValue>
                 </width>
             </styleProperties>
+        </fields>
+        <fields>
+            <name>errmsg3</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;color: rgb(255, 0, 0);&quot;&gt;{!ErrorMessage}&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>ErrorMessage</leftValueReference>
+                    <operator>IsNull</operator>
+                    <rightValue>
+                        <booleanValue>false</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
         </fields>
         <fields>
             <name>Copy_2_of_Copy_1_of_Event_DetailsSection</name>
@@ -2986,9 +3358,11 @@
                 </fields>
                 <fields>
                     <name>Meeting_Background</name>
+                    <defaultValue>
+                        <stringValue>{!MasterEvent.meetingBackground__c}</stringValue>
+                    </defaultValue>
                     <fieldText>Meeting Background</fieldText>
                     <fieldType>LargeTextArea</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -3001,9 +3375,11 @@
                 </fields>
                 <fields>
                     <name>Meeting_Goals</name>
+                    <defaultValue>
+                        <stringValue>{!MasterEvent.meetingGoal__c}</stringValue>
+                    </defaultValue>
                     <fieldText>Meeting Goal</fieldText>
                     <fieldType>LargeTextArea</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -3131,9 +3507,11 @@
                     <choiceReferences>X19_45</choiceReferences>
                     <choiceReferences>X20_00</choiceReferences>
                     <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>MasterEvent.startTime__c</elementReference>
+                    </defaultValue>
                     <fieldText>Start time</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -3196,9 +3574,11 @@
                     <choiceReferences>X19_45</choiceReferences>
                     <choiceReferences>X20_00</choiceReferences>
                     <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>MasterEvent.endTime__c</elementReference>
+                    </defaultValue>
                     <fieldText>End time</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -3261,6 +3641,34 @@
                 <name>Copy_2_of_Copy_1_of_Address_Column2</name>
                 <fieldType>Region</fieldType>
                 <fields>
+                    <name>Address</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>MasterEvent.locationAddress__c</elementReference>
+                    </defaultValue>
+                    <fieldText>Address</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>true</isRequired>
+                    <styleProperties>
+                        <verticalAlignment>
+                            <stringValue>top</stringValue>
+                        </verticalAlignment>
+                        <width>
+                            <stringValue>12</stringValue>
+                        </width>
+                    </styleProperties>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>MasterEvent.format__c</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>Physical</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <fields>
                     <fieldType>ObjectProvided</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
@@ -3276,10 +3684,10 @@
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
-                            <leftValueReference>AddressTypeMDAYS</leftValueReference>
+                            <leftValueReference>MasterEvent.format__c</leftValueReference>
                             <operator>EqualTo</operator>
                             <rightValue>
-                                <elementReference>Other_address</elementReference>
+                                <stringValue>Physical</stringValue>
                             </rightValue>
                         </conditions>
                     </visibilityRule>
@@ -3300,10 +3708,10 @@
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
-                            <leftValueReference>AddressTypeMDAYS</leftValueReference>
+                            <leftValueReference>MasterEvent.format__c</leftValueReference>
                             <operator>EqualTo</operator>
                             <rightValue>
-                                <elementReference>Other_address</elementReference>
+                                <stringValue>Physical</stringValue>
                             </rightValue>
                         </conditions>
                     </visibilityRule>
@@ -3414,7 +3822,7 @@
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>build_speakersHTML</targetReference>
+            <targetReference>Copy_1_of_CreateEventRec</targetReference>
         </connector>
         <fields>
             <name>Copy_1_of_SSP_LWC</name>
@@ -3471,8 +3879,7 @@
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <isGoTo>true</isGoTo>
-            <targetReference>build_speakersHTML</targetReference>
+            <targetReference>Copy_3_of_CreateEventRec</targetReference>
         </connector>
         <fields>
             <name>Copy_1_of_Copy_1_of_SSP_LWC</name>
@@ -3531,6 +3938,29 @@
                     <stringValue>12</stringValue>
                 </width>
             </styleProperties>
+        </fields>
+        <fields>
+            <name>errMsg</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;color: rgb(255, 0, 0);&quot;&gt;{!ErrorMessage}&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>ErrorMessage</leftValueReference>
+                    <operator>IsNull</operator>
+                    <rightValue>
+                        <booleanValue>false</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
         </fields>
         <fields>
             <name>Event_DetailsSection</name>
@@ -3636,9 +4066,11 @@
                 </fields>
                 <fields>
                     <name>Meeting_Event_Rationale</name>
+                    <defaultValue>
+                        <stringValue>{!MasterEvent.description__c}</stringValue>
+                    </defaultValue>
                     <fieldText>Meeting/Event Rationale</fieldText>
                     <fieldType>LargeTextArea</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -3766,9 +4198,11 @@
                     <choiceReferences>X19_45</choiceReferences>
                     <choiceReferences>X20_00</choiceReferences>
                     <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>MasterEvent.startTime__c</elementReference>
+                    </defaultValue>
                     <fieldText>Start time</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -3831,9 +4265,11 @@
                     <choiceReferences>X19_45</choiceReferences>
                     <choiceReferences>X20_00</choiceReferences>
                     <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>MasterEvent.endTime__c</elementReference>
+                    </defaultValue>
                     <fieldText>End time</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -4209,9 +4645,8 @@
             <choiceReferences>MeetingdaysChoice</choiceReferences>
             <dataType>String</dataType>
             <defaultSelectedChoiceReference>Event</defaultSelectedChoiceReference>
-            <fieldText>Request type</fieldText>
+            <fieldText>Request Type</fieldText>
             <fieldType>DropdownBox</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <styleProperties>
                 <verticalAlignment>
@@ -4234,7 +4669,7 @@
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Copy_1_of_build_speakersHTML</targetReference>
+            <targetReference>createEventRec</targetReference>
         </connector>
         <fields>
             <name>SSP_LWC</name>
@@ -4304,10 +4739,18 @@
         <locationX>0</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>getEventRTs</targetReference>
+            <targetReference>Can_Create</targetReference>
         </connector>
     </start>
     <status>Active</status>
+    <variables>
+        <description>Select Attendees LWC variables</description>
+        <name>AccountId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
     <variables>
         <name>adresse</name>
         <dataType>String</dataType>
@@ -4345,6 +4788,14 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <description>Select Attendees LWC variables</description>
+        <name>contactsJSON</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>endDate</name>
         <dataType>Date</dataType>
         <isCollection>false</isCollection>
@@ -4354,6 +4805,13 @@
     <variables>
         <name>endTime</name>
         <dataType>Time</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>ErrorMessage</name>
+        <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>

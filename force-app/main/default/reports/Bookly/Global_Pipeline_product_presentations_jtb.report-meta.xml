@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <chart>
+        <backgroundColor1>#FFFFFF</backgroundColor1>
+        <backgroundColor2>#FFFFFF</backgroundColor2>
+        <backgroundFadeDir>Diagonal</backgroundFadeDir>
+        <chartSummaries>
+            <axisBinding>y</axisBinding>
+            <column>RowCount</column>
+        </chartSummaries>
+        <chartType>HorizontalBar</chartType>
+        <enableHoverLabels>false</enableHoverLabels>
+        <expandOthers>true</expandOthers>
+        <groupingColumn>Event__c.SpeakersProducts__r$strategy__c.AssetClass__c</groupingColumn>
+        <location>CHART_BOTTOM</location>
+        <showAxisLabels>true</showAxisLabels>
+        <showPercentage>false</showPercentage>
+        <showTotal>false</showTotal>
+        <showValues>false</showValues>
+        <size>Medium</size>
+        <summaryAxisRange>Auto</summaryAxisRange>
+        <textColor>#000000</textColor>
+        <textSize>12</textSize>
+        <titleColor>#000000</titleColor>
+        <titleSize>18</titleSize>
+    </chart>
     <columns>
         <field>Event__c$CreatedDate</field>
     </columns>
@@ -17,6 +41,9 @@
     </columns>
     <columns>
         <field>Event__c$status__c</field>
+    </columns>
+    <columns>
+        <field>Event__c.SpeakersProducts__r$PresentationStatusFormula__c</field>
     </columns>
     <columns>
         <field>Event__c.SpeakersProducts__r$speakerContact__c</field>
@@ -63,8 +90,22 @@
             <column>Event__c$startDate__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
-            <operator>lessOrEqual</operator>
+            <operator>greaterOrEqual</operator>
             <value>TODAY</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Event__c.SpeakersProducts__r$presentationStatus__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value>,notRequired</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Event__c.SpeakersProducts__r$speakerContact__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value></value>
         </criteriaItems>
         <language>en_US</language>
     </filter>
@@ -72,11 +113,6 @@
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
         <field>Event__c.SpeakersProducts__r$strategy__c.AssetClass__c</field>
-        <sortOrder>Asc</sortOrder>
-    </groupingsDown>
-    <groupingsDown>
-        <dateGranularity>Day</dateGranularity>
-        <field>Event__c.SpeakersProducts__r$presentationStatus__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
     <name>PP - Global Pipeline Presentations</name>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PresentationStatusFormula__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(
+    AND(
+        TEXT(session__r.status__c) = &quot;FullyApproved&quot;,
+        ISPICKVAL(presentationStatus__c, &quot;required&quot;)
+    ),
+    &quot;Due&quot;,
+    &quot;Required&quot;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Presentation Status</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

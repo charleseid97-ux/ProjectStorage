@@ -1,6 +1,6 @@
 // Trigger handler for EventSpeakerApprovals__c.
 // Delegates all logic to the service layer.
-public with sharing class EventSpeakerApprovalsTriggerHandler implements ITriggerHandler {
+public without sharing class EventSpeakerApprovalsTriggerHandler implements ITriggerHandler {
 
     // Allows disabling the handler (tests / maintenance)
     public static Boolean triggerDisabled = false;
@@ -15,7 +15,7 @@ public with sharing class EventSpeakerApprovalsTriggerHandler implements ITrigge
 
         EventSpeakerApprovalsService.trackStatusUpdateOnInsert(approvalsToProcess);
 
-        EventSpeakerApprovalsService.requireHOPApproval(approvalsToProcess);
+       // EventSpeakerApprovalsService.requireHOPApproval(approvalsToProcess);
     }
 
     // Before update: track status changes

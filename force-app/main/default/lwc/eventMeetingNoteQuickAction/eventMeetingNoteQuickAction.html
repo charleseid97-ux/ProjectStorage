@@ -9,9 +9,17 @@
         <template if:false={loading}>
             <div class="slds-p-around_medium">
                 <template if:true={hasMeetingNote}>
-                    <div class="slds-text-title_bold slds-m-bottom_x-small">{meetingNoteName}</div>
+                    <template if:true={standardEventId}>
+                        <div class="slds-text-title_bold slds-m-bottom_x-small">
+                            <a href={standardEventUrl} target="_blank">{meetingNoteName}</a>
+                        </div>
+                    </template>
+
+                    <template if:false={standardEventId}>
+                        <div class="slds-text-title_bold slds-m-bottom_x-small">{meetingNoteName}</div>
+                    </template>
                     <div class="slds-text-color_weak slds-m-bottom_small">
-                        <template if:true={meetingNoteDate}>Date: {meetingNoteDate}</template>
+                        <template if:true={formattedMeetingNoteDate}>Date: {formattedMeetingNoteDate}</template>
                         <template if:true={meetingType}>&nbsp;•&nbsp;Type: {meetingType}</template>
                     </div>
                 </template>

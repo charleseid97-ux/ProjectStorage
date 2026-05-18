@@ -3,6 +3,7 @@
     <fullName>clientType__c</fullName>
     <label>Client type</label>
     <required>true</required>
+    <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>MultiselectPicklist</type>
