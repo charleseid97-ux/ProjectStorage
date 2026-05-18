@@ -12,6 +12,7 @@ public without sharing class BooklyMeetingInvitationQueueable
     private static final String RT_MEETING = 'Meeting';
 
     private static final String FORMAT_DIGITAL = 'Digital';
+    private static final String JOB_TITLE_SALES = 'Sales';
 
     private static final String META_COMMUNICATION = 'Communication';
     private static final String META_LOCAL_MARKETING_EVENT_TEAM = 'LocalMarketing';
@@ -126,9 +127,10 @@ public without sharing class BooklyMeetingInvitationQueueable
             initParticipantMap(eventsById.keySet());
 
         Map<Id, Set<String>> emailsByEventId = initEmailMap(eventsById.keySet());
+        Map<Id, Boolean> hasTopSpeakerByEventId = getHasTopSpeakerByEventId(eventsById.keySet());
 
-        addCommonParticipants(eventsById.keySet(), result, emailsByEventId);
-        addRecordTypeSpecificParticipants(eventsById, result, emailsByEventId);
+        addCommonParticipants(eventsById.keySet(), result, emailsByEventId, hasTopSpeakerByEventId);
+        addRecordTypeSpecificParticipants(eventsById, result, emailsByEventId, hasTopSpeakerByEventId);
 
         return result;
     }
@@ -154,10 +156,41 @@ public without sharing class BooklyMeetingInvitationQueueable
         return result;
     }
 
+    private static Map<Id, Boolean> getHasTopSpeakerByEventId(Set<Id> eventIds) {
+        Map<Id, Boolean> result = new Map<Id, Boolean>();
+
+        for (Id eventId : eventIds) {
+            result.put(eventId, false);
+        }
+
+        for (SessionSpeakerProduct__c speakerLink : [
+            SELECT Session__c,
+                   SpeakerContact__r.JobTitle__c
+            FROM SessionSpeakerProduct__c
+            WHERE Session__c IN :eventIds
+            AND SpeakerContact__c != null
+        ]) {
+            if (isTopSpeaker(speakerLink.SpeakerContact__r.JobTitle__c)) {
+                result.put(speakerLink.Session__c, true);
+            }
+        }
+
+        return result;
+    }
+
+    private static Boolean isTopSpeaker(String jobTitle) {
+        if (String.isBlank(jobTitle)) {
+            return true;
+        }
+
+        return jobTitle.trim().toLowerCase() != JOB_TITLE_SALES.toLowerCase();
+    }
+
     private static void addCommonParticipants(
         Set<Id> eventIds,
         Map<Id, List<MicrosoftGraphMeetingService.Participant>> participantsByEventId,
-        Map<Id, Set<String>> emailsByEventId
+        Map<Id, Set<String>> emailsByEventId,
+        Map<Id, Boolean> hasTopSpeakerByEventId
     ) {
         Map<String, String> strategyToGroupName = loadStrategyToGroupNameMap();
 
@@ -169,6 +202,7 @@ public without sharing class BooklyMeetingInvitationQueueable
                    Strategy__r.Code__c,
                    SpeakerContact__r.Name,
                    SpeakerContact__r.Email,
+                   SpeakerContact__r.JobTitle__c,
                    SpeakerContact__r.SpeakerAssistant__r.Name,
                    SpeakerContact__r.SpeakerAssistant__r.Email
             FROM SessionSpeakerProduct__c
@@ -191,13 +225,19 @@ public without sharing class BooklyMeetingInvitationQueueable
                 false
             );
 
+            if (hasTopSpeakerByEventId.get(speakerLink.Session__c) != true) {
+                continue;
+            }
+
             String strategyName = speakerLink.Strategy__r == null
                 ? null
                 : speakerLink.Strategy__r.Code__c;
-            System.debug('strategyName : '+strategyName);
+
+            System.debug('strategyName : ' + strategyName);
 
             String groupName = strategyToGroupName.get(normalizeKey(strategyName));
-            System.debug('groupName : '+groupName);
+
+            System.debug('groupName : ' + groupName);
 
             if (String.isBlank(groupName)) {
                 continue;
@@ -237,15 +277,16 @@ public without sharing class BooklyMeetingInvitationQueueable
     private static void addRecordTypeSpecificParticipants(
         Map<Id, Event__c> eventsById,
         Map<Id, List<MicrosoftGraphMeetingService.Participant>> participantsByEventId,
-        Map<Id, Set<String>> emailsByEventId
+        Map<Id, Set<String>> emailsByEventId,
+        Map<Id, Boolean> hasTopSpeakerByEventId
     ) {
         for (Event__c eventRecord : eventsById.values()) {
             String recordTypeDeveloperName = eventRecord.RecordType.DeveloperName;
 
             if (recordTypeDeveloperName == RT_EVENT) {
-                addEventParticipants(eventRecord, participantsByEventId, emailsByEventId);
+                addEventParticipants(eventRecord, participantsByEventId, emailsByEventId, hasTopSpeakerByEventId);
             } else if (recordTypeDeveloperName == RT_MEETING_DAYS) {
-                addMeetingDaysParticipants(eventRecord, participantsByEventId, emailsByEventId);
+                addMeetingDaysParticipants(eventRecord, participantsByEventId, emailsByEventId, hasTopSpeakerByEventId);
             } else if (recordTypeDeveloperName == RT_MEETING) {
                 addMeetingParticipants(eventRecord, participantsByEventId, emailsByEventId);
             } else {
@@ -257,24 +298,33 @@ public without sharing class BooklyMeetingInvitationQueueable
     private static void addEventParticipants(
         Event__c eventRecord,
         Map<Id, List<MicrosoftGraphMeetingService.Participant>> participantsByEventId,
-        Map<Id, Set<String>> emailsByEventId
+        Map<Id, Set<String>> emailsByEventId,
+        Map<Id, Boolean> hasTopSpeakerByEventId
     ) {
         addSalesTeamParticipants(eventRecord, participantsByEventId, emailsByEventId);
-        addNotificationConfigParticipants(eventRecord, META_COMMUNICATION, participantsByEventId, emailsByEventId);
-        addNotificationConfigParticipants(eventRecord, META_LOCAL_MARKETING_EVENT_TEAM, participantsByEventId, emailsByEventId);
-        //addCRMParticipants(eventRecord, participantsByEventId, emailsByEventId);
 
+        if (hasTopSpeakerByEventId.get(eventRecord.Id) == true) {
+            addNotificationConfigParticipants(eventRecord, META_COMMUNICATION, participantsByEventId, emailsByEventId);
+            addNotificationConfigParticipants(eventRecord, META_LOCAL_MARKETING_EVENT_TEAM, participantsByEventId, emailsByEventId);
+        }
+
+        // addCRMParticipants(eventRecord, participantsByEventId, emailsByEventId);
     }
 
     private static void addMeetingDaysParticipants(
         Event__c eventRecord,
         Map<Id, List<MicrosoftGraphMeetingService.Participant>> participantsByEventId,
-        Map<Id, Set<String>> emailsByEventId
+        Map<Id, Set<String>> emailsByEventId,
+        Map<Id, Boolean> hasTopSpeakerByEventId
     ) {
         addSalesTeamParticipants(eventRecord, participantsByEventId, emailsByEventId);
         addOrganizerParticipant(eventRecord, participantsByEventId, emailsByEventId, false);
-        addNotificationConfigParticipants(eventRecord, META_COMMUNICATION, participantsByEventId, emailsByEventId);
-        //addCRMParticipants(eventRecord, participantsByEventId, emailsByEventId);
+
+        if (hasTopSpeakerByEventId.get(eventRecord.Id) == true) {
+            addNotificationConfigParticipants(eventRecord, META_COMMUNICATION, participantsByEventId, emailsByEventId);
+        }
+
+        // addCRMParticipants(eventRecord, participantsByEventId, emailsByEventId);
     }
 
     private static void addMeetingParticipants(
@@ -284,7 +334,8 @@ public without sharing class BooklyMeetingInvitationQueueable
     ) {
         addSalesOwnerParticipant(eventRecord, participantsByEventId, emailsByEventId, false);
         addOwnerParticipant(eventRecord, participantsByEventId, emailsByEventId, false);
-        //addCRMParticipants(eventRecord, participantsByEventId, emailsByEventId);
+
+        // addCRMParticipants(eventRecord, participantsByEventId, emailsByEventId);
     }
 
     private static void addSalesTeamParticipants(
@@ -317,7 +368,7 @@ public without sharing class BooklyMeetingInvitationQueueable
             );
         }
     }
-
+    
     /*private static void addCRMParticipants(
         Event__c eventRecord,
         Map<Id, List<MicrosoftGraphMeetingService.Participant>> participantsByEventId,
