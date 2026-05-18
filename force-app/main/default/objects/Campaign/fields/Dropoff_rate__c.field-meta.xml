@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Dropoff_rate__c</fullName>
+    <formula>IF(  Initially_registered__c &gt; 0
+   , ( Cancelled_Count__c +  NoShow_Count__c ) / Initially_registered__c , null)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Share of initially registered participants who did not attend (cancellations or no-shows)</inlineHelpText>
+    <label>Drop Off Rate</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <type>Percent</type>
+</CustomField>

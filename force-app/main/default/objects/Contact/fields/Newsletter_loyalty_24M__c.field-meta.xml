@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Newsletter_loyalty_24M__c</fullName>
+    <formula>IF( N_received_24M__c &gt; 0 ,  N_clicked_24M__c / N_received_24M__c , 0)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Newsletter engagement / loyalty score of the person over the past 24 months</inlineHelpText>
+    <label>Newsletter Loyalty 24M</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <type>Percent</type>
+</CustomField>

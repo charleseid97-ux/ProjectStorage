@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>E_participated_24M__c</fullName>
+    <description>COUNT(DISTINCT event_id) where CM.status = &apos;attended&apos; AND event_date ≥ TODAY - 24 months</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Number of events the person has actually attended over the past 24 months</inlineHelpText>
+    <label>Event Participated 24M</label>
+    <precision>16</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

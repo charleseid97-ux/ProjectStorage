@@ -197,7 +197,8 @@ public class WS_SendCampaignMemberTest {
         cm.Category_Event_lookup__c = category.Id;
         insert cm;
         Test.startTest();
-			Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200,'{"results": {"227032970": {"id": 227032970,"uid": "1704919-227032970","uuid": "1ef911d2-29e6-63a0-8a7b-7239c816d04e","firstname": "first","lastname": "last","email": "first.last@invalid.com"},"227032971": {"id": 227032971,"uid": "1704919-227032971","uuid": "1ef911d2-29e6-63a0-8a7b-7239c816d04d","firstname": "first1","lastname": "last1","email": "first.last123@invalid.com"}}}'));
+        	//Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200, '{"results": {"61909330": {"id": 61909330, "avec": null, "description": {"fr": "Invited"}}, "61909333": {"id": 61909333, "avec": null, "description": {"fr": "Social Media"}}}}'));
+			Test.setMock(HttpCalloutMock.class, new MockHttpCampaign(200,'{"results": {"227032970": {"id": 227032970,"uid": "1704919-227032970","uuid": "1ef911d2-29e6-63a0-8a7b-7239c816d04e","firstname": "first","lastname": "last","email": "first.last@invalid.com", "participant_type_id": 61909330},"227032971": {"id": 227032971,"uid": "1704919-227032971","uuid": "1ef911d2-29e6-63a0-8a7b-7239c816d04d","firstname": "first1","lastname": "last1","email": "first.last123@invalid.com"}}}'));
         	SM016_CampaignMemberService.callWS(new Set<Id>{cm.Id}, true);
         
         Test.stopTest();

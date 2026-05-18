@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Loyalty_Score_24M__c</fullName>
+    <formula>IF(
+    NOT(ISBLANK(ContactId)),
+    Contact.Loyalty_Score_24M__c,
+    Lead.Loyalty_Score_24M__c
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Loyalty Score 24M</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <type>Percent</type>
+</CustomField>
