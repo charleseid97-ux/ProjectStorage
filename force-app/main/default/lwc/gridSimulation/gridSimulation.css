@@ -81,10 +81,10 @@
     letter-spacing: 0.02em;
 }
 
-.th-info     { background: #0176D3; color: #fff; }   /* blue   – info      */
+.th-info     { background: #6b6a97; color: #fff; }   /* purple – info      */
 .th-current  { background: #2E844A; color: #fff; }   /* green  – current   */
 .th-simulated{ background: #8A58D4; color: #fff; }   /* purple – simulated */
-.th-analysis { background: #BA0517; color: #fff; }   /* red    – analysis  */
+.th-analysis { background: #0176D3; color: #fff; }   /* blue   – analysis  */
 
 /* ── Column headers ── */
 .th-col     { background: #F3F2F2; font-weight: 700; }
@@ -180,13 +180,13 @@ tr:nth-child(even) .td-sim { background: #e8dcfc; }
 .td-summary-sim { background: #f3eefe; font-weight: 600; }
 
 /* ── Analysis ── */
-.td-analysis { background: #FDECEA; font-weight: 600; color: #8B0000; }
+.td-analysis { background: #dce9f9; font-weight: 600; color: #014898; }
 
 /* ── Empty/transparent cells (no outline in summary/analysis sections) ── */
 .td-empty { border: none !important; background: transparent !important; }
 
 /* ── Summary title: centered above CURRENT + NEW ── */
-.summary-title { text-align: center; letter-spacing: 0.04em; background: #0176D3; color: #fff; }
+.summary-title { text-align: center; letter-spacing: 0.04em; background: #6b6a97; color: #fff; }
 
 /* ── Custom rows — bold + red ── */
 .custom-row td { font-weight: 700; color: #B00020; }
