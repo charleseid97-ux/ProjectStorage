@@ -15,12 +15,12 @@
 
         <!-- Header actions -->
         <div class="sim-header">
-            <div>
+            <div></div>
+            <div class="sim-buttons">
                 <template if:false={isRecordPage}>
-                    <lightning-button label="← Back to Validation" variant="neutral" onclick={handleBack}></lightning-button>
+                    <lightning-button label={labels.Grid_SaveGrid} variant="brand" onclick={handleSaveGrid}></lightning-button>
+                    <lightning-button label={labels.Grid_SubmitForApproval} variant="brand" onclick={handleSubmitForApproval}></lightning-button>
                 </template>
-            </div>
-            <div>
                 <lightning-button label="Export Excel" icon-name="utility:download" variant="neutral" onclick={handleExport}></lightning-button>
             </div>
         </div>
