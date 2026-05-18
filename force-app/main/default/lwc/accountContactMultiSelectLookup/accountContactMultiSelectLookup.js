@@ -35,14 +35,32 @@ export default class AccountContactMultiSelectLookup extends LightningElement {
 
     connectedCallback() {
         this._initFromPreselectedIfNeeded();
+        this._restoreSelectedIdsFromFlow();
         this._syncOutputs();
     }
+    // Restore values kept by Flow after screen validation refresh
+    _restoreSelectedIdsFromFlow() {
+        const sourceJson = this.selectedIdsJson || this.preselectedIdsJson;
 
+        if (!sourceJson) return;
+
+        try {
+            const parsed = JSON.parse(sourceJson);
+
+            if (Array.isArray(parsed)) {
+                this.selectedIds = parsed.filter((id) => !!id);
+            }
+        } catch (e) {
+            // ignore invalid JSON
+        }
+    }
     renderedCallback() {
         if (!this._initialized) {
             this._initialized = true;
             if (this.accountId) {
                 this._loadContacts();
+                this._loadAddress();
+
             }
         }
     }
@@ -149,8 +167,10 @@ export default class AccountContactMultiSelectLookup extends LightningElement {
         this._syncOutputs();
     };
 
-    _initFromPreselectedIfNeeded() {
-        if (this.preselectedAccountId && !this.accountId) {
+   _initFromPreselectedIfNeeded() {
+        if (this.accountId) return;
+
+        if (this.preselectedAccountId) {
             this.accountId = this.preselectedAccountId;
         }
     }
@@ -158,13 +178,16 @@ export default class AccountContactMultiSelectLookup extends LightningElement {
     _initContactPreselectionIfNeeded() {
         if (this._initializedContactsFromPreselected) return;
 
-        if (!this.preselectedIdsJson) {
+        const sourceJson = this.selectedIdsJson || this.preselectedIdsJson;
+
+        if (!sourceJson) {
             this._initializedContactsFromPreselected = true;
             return;
         }
 
         try {
-            const parsed = JSON.parse(this.preselectedIdsJson);
+            const parsed = JSON.parse(sourceJson);
+
             if (Array.isArray(parsed)) {
                 const availableValues = new Set((this.options || []).map((opt) => opt.value));
                 this.selectedIds = parsed.filter((id) => !!id && availableValues.has(id));

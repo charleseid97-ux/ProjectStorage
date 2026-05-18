@@ -220,7 +220,7 @@
     </assignments>
     <assignments>
         <name>Copy_1_of_setStartEndDates</name>
-        <label>setStartEndDates</label>
+        <label>Copy inputs into record</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <assignmentItems>
@@ -245,7 +245,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>SpeakersEvents</targetReference>
+            <targetReference>Decision_7</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -389,8 +389,22 @@
                 <elementReference>Meeting_Background1to1</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>AccountId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>AttendeesMultiSelect.accountId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>contactsJSON</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>AttendeesMultiSelect.selectedIdsJson</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
-            <targetReference>copy_attnddee_s_address</targetReference>
+            <targetReference>Decision_8</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -434,7 +448,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Copy_2_of_Speakers_Products</targetReference>
+            <targetReference>Decision_9</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -1340,7 +1354,7 @@
         <locationX>0</locationX>
         <locationY>0</locationY>
         <defaultConnector>
-            <targetReference>Copy_1_of_setStartEndDates</targetReference>
+            <targetReference>SpeakersEvents</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -1372,7 +1386,7 @@
         <locationX>0</locationX>
         <locationY>0</locationY>
         <defaultConnector>
-            <targetReference>CopyNoneFieldInputs1To1</targetReference>
+            <targetReference>copy_attnddee_s_address</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -1404,7 +1418,7 @@
         <locationX>0</locationX>
         <locationY>0</locationY>
         <defaultConnector>
-            <targetReference>CopyNoneFieldInputsDays</targetReference>
+            <targetReference>Copy_2_of_Speakers_Products</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -1851,7 +1865,7 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Decision_8</targetReference>
+            <targetReference>CopyNoneFieldInputs1To1</targetReference>
         </connector>
         <fields>
             <name>NewMeetingRequest</name>
@@ -1979,9 +1993,11 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                 </fields>
                 <fields>
                     <name>Meeting_Background1to1</name>
+                    <defaultValue>
+                        <stringValue>{!MasterEvent.meetingBackground__c}</stringValue>
+                    </defaultValue>
                     <fieldText>Meeting Background</fieldText>
                     <fieldType>LargeTextArea</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -1994,9 +2010,11 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                 </fields>
                 <fields>
                     <name>Meeting_Goal</name>
+                    <defaultValue>
+                        <stringValue>{!MasterEvent.meetingGoal__c}</stringValue>
+                    </defaultValue>
                     <fieldText>Meeting Goal</fieldText>
                     <fieldType>LargeTextArea</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2124,9 +2142,11 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <choiceReferences>X19_45</choiceReferences>
                     <choiceReferences>X20_00</choiceReferences>
                     <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>MasterEvent.startTime__c</elementReference>
+                    </defaultValue>
                     <fieldText>Start time</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2189,9 +2209,11 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <choiceReferences>X19_45</choiceReferences>
                     <choiceReferences>X20_00</choiceReferences>
                     <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>MasterEvent.endTime__c</elementReference>
+                    </defaultValue>
                     <fieldText>End time</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2281,6 +2303,24 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                             <booleanValue>true</booleanValue>
                         </value>
                     </inputParameters>
+                    <inputParameters>
+                        <name>preselectedAccountId</name>
+                        <value>
+                            <elementReference>AccountId</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>preselectedIdsJson</name>
+                        <value>
+                            <elementReference>contactsJSON</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>selectedIdsJson</name>
+                        <value>
+                            <elementReference>contactsJSON</elementReference>
+                        </value>
+                    </inputParameters>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -2335,13 +2375,11 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                 </fields>
                 <fields>
                     <name>AddressTypemeetings</name>
-                    <choiceReferences>Attendes_s_address</choiceReferences>
                     <choiceReferences>Other_address</choiceReferences>
                     <dataType>String</dataType>
-                    <defaultSelectedChoiceReference>Attendes_s_address</defaultSelectedChoiceReference>
+                    <defaultSelectedChoiceReference>Other_address</defaultSelectedChoiceReference>
                     <fieldText>Address</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2358,6 +2396,13 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                             <operator>EqualTo</operator>
                             <rightValue>
                                 <stringValue>Physical</stringValue>
+                            </rightValue>
+                        </conditions>
+                        <conditions>
+                            <leftValueReference>MasterEvent.format__c</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>noAddressCoppy</stringValue>
                             </rightValue>
                         </conditions>
                     </visibilityRule>
@@ -2389,10 +2434,10 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
-                            <leftValueReference>AddressTypemeetings</leftValueReference>
+                            <leftValueReference>MasterEvent.format__c</leftValueReference>
                             <operator>EqualTo</operator>
                             <rightValue>
-                                <elementReference>Other_address</elementReference>
+                                <stringValue>Physical</stringValue>
                             </rightValue>
                         </conditions>
                     </visibilityRule>
@@ -2413,10 +2458,10 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
-                            <leftValueReference>AddressTypemeetings</leftValueReference>
+                            <leftValueReference>MasterEvent.format__c</leftValueReference>
                             <operator>EqualTo</operator>
                             <rightValue>
-                                <elementReference>Other_address</elementReference>
+                                <stringValue>Physical</stringValue>
                             </rightValue>
                         </conditions>
                     </visibilityRule>
@@ -2424,9 +2469,11 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                 <fields>
                     <name>Adresse_input</name>
                     <dataType>String</dataType>
-                    <fieldText>Adresse</fieldText>
+                    <defaultValue>
+                        <elementReference>MasterEvent.locationAddress__c</elementReference>
+                    </defaultValue>
+                    <fieldText>Addresse</fieldText>
                     <fieldType>InputField</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2439,10 +2486,10 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
-                            <leftValueReference>AddressTypemeetings</leftValueReference>
+                            <leftValueReference>MasterEvent.format__c</leftValueReference>
                             <operator>EqualTo</operator>
                             <rightValue>
-                                <elementReference>Other_address</elementReference>
+                                <stringValue>Physical</stringValue>
                             </rightValue>
                         </conditions>
                     </visibilityRule>
@@ -2591,9 +2638,11 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                 </fields>
                 <fields>
                     <name>Meeting_Backgroundd</name>
+                    <defaultValue>
+                        <stringValue>{!MasterEvent.meetingBackground__c}</stringValue>
+                    </defaultValue>
                     <fieldText>Meeting Background</fieldText>
                     <fieldType>LargeTextArea</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2606,9 +2655,11 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                 </fields>
                 <fields>
                     <name>Meeting_Goall</name>
+                    <defaultValue>
+                        <stringValue>{!MasterEvent.meetingGoal__c}</stringValue>
+                    </defaultValue>
                     <fieldText>Meeting Goal</fieldText>
                     <fieldType>LargeTextArea</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2832,7 +2883,6 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     </defaultValue>
                     <fieldText>Start time</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2900,7 +2950,6 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     </defaultValue>
                     <fieldText>End Time</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2954,12 +3003,10 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                 <fields>
                     <name>Addresstype</name>
                     <choiceReferences>Other_address</choiceReferences>
-                    <choiceReferences>Attendes_s_address</choiceReferences>
                     <dataType>String</dataType>
-                    <defaultSelectedChoiceReference>Attendes_s_address</defaultSelectedChoiceReference>
+                    <defaultSelectedChoiceReference>Other_address</defaultSelectedChoiceReference>
                     <fieldText>Address</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -2976,6 +3023,13 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                             <operator>EqualTo</operator>
                             <rightValue>
                                 <stringValue>Physical</stringValue>
+                            </rightValue>
+                        </conditions>
+                        <conditions>
+                            <leftValueReference>MasterEvent.format__c</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>noAddressCoppy</stringValue>
                             </rightValue>
                         </conditions>
                     </visibilityRule>
@@ -3007,10 +3061,10 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
-                            <leftValueReference>Addresstype</leftValueReference>
+                            <leftValueReference>MasterEvent.format__c</leftValueReference>
                             <operator>EqualTo</operator>
                             <rightValue>
-                                <elementReference>Other_address</elementReference>
+                                <stringValue>Physical</stringValue>
                             </rightValue>
                         </conditions>
                     </visibilityRule>
@@ -3031,10 +3085,10 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
-                            <leftValueReference>Addresstype</leftValueReference>
+                            <leftValueReference>MasterEvent.format__c</leftValueReference>
                             <operator>EqualTo</operator>
                             <rightValue>
-                                <elementReference>Other_address</elementReference>
+                                <stringValue>Physical</stringValue>
                             </rightValue>
                         </conditions>
                     </visibilityRule>
@@ -3055,10 +3109,10 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
-                            <leftValueReference>Addresstype</leftValueReference>
+                            <leftValueReference>MasterEvent.format__c</leftValueReference>
                             <operator>EqualTo</operator>
                             <rightValue>
-                                <elementReference>Other_address</elementReference>
+                                <stringValue>Physical</stringValue>
                             </rightValue>
                         </conditions>
                     </visibilityRule>
@@ -3176,7 +3230,7 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Decision_9</targetReference>
+            <targetReference>CopyNoneFieldInputsDays</targetReference>
         </connector>
         <fields>
             <name>NewMDRequest</name>
@@ -3304,9 +3358,11 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                 </fields>
                 <fields>
                     <name>Meeting_Background</name>
+                    <defaultValue>
+                        <stringValue>{!MasterEvent.meetingBackground__c}</stringValue>
+                    </defaultValue>
                     <fieldText>Meeting Background</fieldText>
                     <fieldType>LargeTextArea</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -3319,9 +3375,11 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                 </fields>
                 <fields>
                     <name>Meeting_Goals</name>
+                    <defaultValue>
+                        <stringValue>{!MasterEvent.meetingGoal__c}</stringValue>
+                    </defaultValue>
                     <fieldText>Meeting Goal</fieldText>
                     <fieldType>LargeTextArea</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -3449,9 +3507,11 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <choiceReferences>X19_45</choiceReferences>
                     <choiceReferences>X20_00</choiceReferences>
                     <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>MasterEvent.startTime__c</elementReference>
+                    </defaultValue>
                     <fieldText>Start time</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -3514,9 +3574,11 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <choiceReferences>X19_45</choiceReferences>
                     <choiceReferences>X20_00</choiceReferences>
                     <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>MasterEvent.endTime__c</elementReference>
+                    </defaultValue>
                     <fieldText>End time</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -3581,9 +3643,11 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                 <fields>
                     <name>Address</name>
                     <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>MasterEvent.locationAddress__c</elementReference>
+                    </defaultValue>
                     <fieldText>Address</fieldText>
                     <fieldType>InputField</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -3860,7 +3924,7 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Decision_7</targetReference>
+            <targetReference>Copy_1_of_setStartEndDates</targetReference>
         </connector>
         <fields>
             <name>NewRequestEvent</name>
@@ -4002,9 +4066,11 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                 </fields>
                 <fields>
                     <name>Meeting_Event_Rationale</name>
+                    <defaultValue>
+                        <stringValue>{!MasterEvent.description__c}</stringValue>
+                    </defaultValue>
                     <fieldText>Meeting/Event Rationale</fieldText>
                     <fieldType>LargeTextArea</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -4132,9 +4198,11 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <choiceReferences>X19_45</choiceReferences>
                     <choiceReferences>X20_00</choiceReferences>
                     <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>MasterEvent.startTime__c</elementReference>
+                    </defaultValue>
                     <fieldText>Start time</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -4197,9 +4265,11 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
                     <choiceReferences>X19_45</choiceReferences>
                     <choiceReferences>X20_00</choiceReferences>
                     <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>MasterEvent.endTime__c</elementReference>
+                    </defaultValue>
                     <fieldText>End time</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <styleProperties>
                         <verticalAlignment>
@@ -4577,7 +4647,6 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
             <defaultSelectedChoiceReference>Event</defaultSelectedChoiceReference>
             <fieldText>Request Type</fieldText>
             <fieldType>DropdownBox</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <styleProperties>
                 <verticalAlignment>
@@ -4675,6 +4744,14 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
     </start>
     <status>Active</status>
     <variables>
+        <description>Select Attendees LWC variables</description>
+        <name>AccountId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>adresse</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -4708,6 +4785,14 @@ LPAD(TEXT(DAY({!clickedDate})), 2, &quot;0&quot;)</expression>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Select Attendees LWC variables</description>
+        <name>contactsJSON</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
     <variables>

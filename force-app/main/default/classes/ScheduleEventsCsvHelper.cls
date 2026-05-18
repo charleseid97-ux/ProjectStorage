@@ -389,8 +389,8 @@ public without sharing class ScheduleEventsCsvHelper {
                 ssp.Session__c = eventId;
                 ssp.SpeakerContact__c = speaker.Id;
                 ssp.Strategy__c = strategyId;
-                //ssp.Language__c = 'English';
-                //ssp.SpeakerLanguage__c = 'English';
+                ssp.Language__c = 'English';
+                ssp.SpeakerLanguage__c = 'English';
                 ssp.startTime__c = row.startTime;
                 ssp.endTime__c = row.endTime;
 
