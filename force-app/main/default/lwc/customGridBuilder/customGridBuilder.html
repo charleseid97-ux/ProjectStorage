@@ -8,6 +8,7 @@
             </div>
             <div class="grid-builder-header-center">
                 <template if:false={hasPendingGrid}>
+                    <lightning-button label={labels.UI_Back} variant="neutral" onclick={handleGlobalBack} disabled={isGlobalBackDisabled}></lightning-button>
                     <div class="grid-builder-progress-bar">
                         <lightning-progress-indicator current-step={currentStep} type="path" variant="base">
                             <lightning-progress-step label="Agreement" value="1" data-step="1" onclick={handlePathStepClick} class={step1Enabled}></lightning-progress-step>
@@ -16,6 +17,7 @@
                             <lightning-progress-step label="Grid Simulation" value="4" data-step="4" onclick={handlePathStepClick} class={step4Enabled}></lightning-progress-step>
                         </lightning-progress-indicator>
                     </div>
+                    <lightning-button label={labels.UI_Next} variant="brand" onclick={handleGlobalNext} disabled={isGlobalNextDisabled}></lightning-button>
                 </template>
             </div>
             <div class="grid-builder-header-right"></div>
@@ -86,8 +88,6 @@
                                             <lightning-button label={labels.Grid_AddToGrid} variant="brand" onclick={handleAddAllToSelection} disabled={addToGridDisabled}></lightning-button>
                                             <lightning-button label={labels.Grid_ResetAll} variant="destructive" onclick={handleResetAllClick}></lightning-button>
                                             <lightning-button label={labels.Grid_ViewRecap} variant="neutral" onclick={handleOpenSelectedPanel}></lightning-button>
-                                            <lightning-button label={labels.UI_Back} variant="neutral" onclick={handleBackToAgreementSelection}></lightning-button>
-                                            <lightning-button label={labels.UI_Next} variant="brand" onclick={handleGridValidation} disabled={validateGridDisabled}></lightning-button>
                                         </div>
                                     </div>
                                 </div>
@@ -125,7 +125,6 @@
                                                     onremoveproduct={handleRemoveProductFromSelection}
                                                     onviewrecap={handleOpenSelectedPanelFromValidation}
                                                     onback={handleBackToBuilder}
-                                                    ongridsaved={handleGridSaved}
                                                     onsimulationrequested={handleSimulationRequested}>
                             </c-grid-validation-page>
                         </template>
@@ -137,7 +136,9 @@
                             selected-agreements={selectedAgreements}
                             grid-share-class-map={gridShareClassMap}
                             agreement-id={recId}
-                            onback={handleSimulationBack}>
+                            onback={handleSimulationBack}
+                            onsavegrid={handleSaveGrid}
+                            onsubmitforapproval={handleSubmitForApproval}>
                         </c-grid-simulation>
                     </template>
                     <!-- RIGHT COLUMN: Selected products panel -->

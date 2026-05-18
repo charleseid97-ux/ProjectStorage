@@ -26,6 +26,7 @@ lightning-progress-step.false {
     flex: 4;
     display: flex;
     justify-content: center;
+    gap: 10px;
 }
 
 .grid-builder-header-right {

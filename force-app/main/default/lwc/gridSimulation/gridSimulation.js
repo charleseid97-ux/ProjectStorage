@@ -3,9 +3,9 @@ import { loadScript } from 'lightning/platformResourceLoader';
 import { LABELS, exportGridDetailsExcel, fmtAmt, fmtNum } from 'c/gridBuilderUtils';
 import XlsxJsStyle from '@salesforce/resourceUrl/xlsxjsstyle';
 import ExcelJs     from '@salesforce/resourceUrl/exceljs';
-import getSimulationData         from '@salesforce/apex/GridSimulationController.getSimulationData';
-import getAgreementRegion        from '@salesforce/apex/GridSimulationController.getAgreementRegion';
-import getSimulationInitData     from '@salesforce/apex/GridSimulationController.getSimulationInitData';
+import getSimulationData           from '@salesforce/apex/GridSimulationController.getSimulationData';
+import getAgreementRegion          from '@salesforce/apex/GridSimulationController.getAgreementRegion';
+import getSimulationInitData       from '@salesforce/apex/GridSimulationController.getSimulationInitData';
 import getActiveGridSimulationData from '@salesforce/apex/GridSimulationController.getActiveGridSimulationData';
 
 function parseNewMoney(raw) {
@@ -27,7 +27,6 @@ export default class GridSimulation extends LightningElement {
     @api selectedShareClasses = [];
     @api selectedAgreements   = [];
     @api gridShareClassMap    = {};
-
     @track rows                = [];
     @track customRows          = [];
     @track currentGridRows     = [];   // previous active grid data (CURRENT section)
@@ -385,6 +384,15 @@ export default class GridSimulation extends LightningElement {
 
     handleBack() {
         this.dispatchEvent(new CustomEvent('back'));
+    }
+
+    // ── Save Grid / Submit for Approval ───────────────────────────────────────
+    handleSaveGrid() {
+        this.dispatchEvent(new CustomEvent('savegrid'));
+    }
+
+    handleSubmitForApproval() {
+        this.dispatchEvent(new CustomEvent('submitforapproval'));
     }
 
     // ── Column sorting ────────────────────────────────────────────────────────
