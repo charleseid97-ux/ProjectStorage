@@ -5,6 +5,10 @@
 		<members>CustomApprovalHistoryController</members>
 		<members>CustomApprovalHistoryControllerTest</members>
 		<members>CustomApprovalHistoryUtility</members>
+		<members>CustomApprovalHistoryUtilityTest</members>
+		<members>EmailService</members>
+		<members>IApprovalAction</members>
+		<members>QueueMemberService</members>
 		<members>AgreementGridRecapControllerTest</members>
 		<members>AgreementGridTimelineBatch</members>
 		<members>AgreementGridTimelineScheduler</members>
@@ -214,7 +218,14 @@
 		<name>CustomLabel</name>
 	</types>
 	<types>
+		<members>ApprovalActionConfig.GridAmendment_FinalApproval</members>
+		<members>ApprovalActionConfig.GridAmendment_FinalRejection</members>
+		<members>ApprovalActionConfig.GridAmendment_InitialSubmission</members>
+		<members>ApprovalActionConfig.GridAmendment_Recall</members>
 		<members>ApprovalProcessConfig.GridAmendment</members>
+		<members>ApprovalStepApproverConfig.GridAmendment_DCO_KYD</members>
+		<members>ApprovalStepApproverConfig.GridAmendment_DCO_Rebate</members>
+		<members>ApprovalStepApproverConfig.GridAmendment_HOC_Approver</members>
 		<members>ApprovalStepConfig.GridAmendment_DCO</members>
 		<members>ApprovalStepConfig.GridAmendment_HOC</members>
 		<members>GridBuilderSetting.CustomGridBuilderSetting</members>
@@ -331,8 +342,12 @@
 		<name>CustomMetadata</name>
 	</types>
 	<types>
+		<members>ApprovalActionConfig__mdt</members>
 		<members>ApprovalProcessConfig__mdt</members>
+		<members>ApprovalStepApproverConfig__mdt</members>
 		<members>ApprovalStepConfig__mdt</members>
+		<members>CustomApproval__c</members>
+		<members>CustomApprovalStep__c</members>
 		<members>AgreementGridTimeline__c</members>
 		<members>Convention__c</members>
 		<members>GridBuilderSetting__mdt</members>
@@ -377,7 +392,9 @@
 	</types>
 	<types>
 		<members>AgreementGridTimeline__c-Agreement Grid Timeline Item Layout</members>
+		<members>ApprovalActionConfig__mdt-Approval Action Config Layout</members>
 		<members>ApprovalProcessConfig__mdt-Approval Process Config Layout</members>
+		<members>ApprovalStepApproverConfig__mdt-Approval Step Approver Config Layout</members>
 		<members>ApprovalStepConfig__mdt-Approval Step Config Layout</members>
 		<members>Convention__c-Intermediary Agreement Layout</members>
 		<members>Convention__c-Intermediary Agreement Request Full Layout</members>

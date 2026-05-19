@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Comments__c</fullName>
+    <description>Comments entered by the approver at the time of action.</description>
+    <inlineHelpText>Set when an action is taken. Null while pending.</inlineHelpText>
+    <label>Comments</label>
+    <length>32768</length>
+    <required>false</required>
+    <type>LongTextArea</type>
+    <visibleLines>4</visibleLines>
+</CustomField>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SubmittedBy__c</fullName>
+    <description>User who submitted the record for approval.</description>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <inlineHelpText>Set automatically at submission.</inlineHelpText>
+    <label>Submitted By</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>SubmittedApprovals</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

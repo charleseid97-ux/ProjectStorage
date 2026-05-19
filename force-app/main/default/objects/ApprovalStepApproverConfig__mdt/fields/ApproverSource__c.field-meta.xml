@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>NextApproverSource__c</fullName>
-    <description>Determines how the next approver is resolved when this step is approved or rejected. NotRequired = the next step already has a configured approver (no action needed); Dynamic = resolved automatically by a custom Apex class; UserInput = the user must select the next approver in the modal.</description>
+    <fullName>ApproverSource__c</fullName>
+    <description>How the approver identity is resolved at runtime. Configured = resolved from ApproverType__c and ApproverValue__c. Dynamic = resolved by an Apex class implementing IApproverResolver. UserInput = user selects the approver at the time of the action.</description>
     <externalId>false</externalId>
     <fieldManageability>SubscriberControlled</fieldManageability>
-    <inlineHelpText>Choose NotRequired if the next step has a pre-assigned approver. Choose Dynamic if the approver is determined programmatically (set ApproverResolverClass__c). Choose UserInput if the submitting user must manually pick the next approver.</inlineHelpText>
-    <label>Next Approver Source</label>
+    <inlineHelpText>Configured requires ApproverType__c and ApproverValue__c. Dynamic requires ApproverResolverClass__c. UserInput does not require any additional field.</inlineHelpText>
+    <label>Approver Source</label>
     <required>true</required>
     <type>Picklist</type>
     <valueSet>
@@ -13,9 +13,9 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>NotRequired</fullName>
+                <fullName>Configured</fullName>
                 <default>false</default>
-                <label>Not Required</label>
+                <label>Configured</label>
             </value>
             <value>
                 <fullName>Dynamic</fullName>

@@ -95,6 +95,7 @@
 .status-rejected { color: #ba0517; }
 .status-pending  { color: #b37d00; }
 .status-started  { color: #0070d2; }
+.status-recalled { color: #706e6b; }
 
 /* ── Modal header layout ── */
 .modal-header-grid {

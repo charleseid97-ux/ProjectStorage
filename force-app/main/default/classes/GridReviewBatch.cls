@@ -132,46 +132,7 @@ public with sharing class GridReviewBatch implements Database.Batchable<SObject>
     }
 
     private Map<String, Set<String>> getQueueMemberEmails(Set<String> developerNames) {
-        Map<Id, String> queueIdToDevName = new Map<Id, String>();
-		Map<String, Set<String>> result = new Map<String, Set<String>>();
-
-        for (Group q : [SELECT Id, DeveloperName FROM Group WHERE Type = 'Queue' AND DeveloperName IN :developerNames]) {
-            queueIdToDevName.put(q.Id, q.DeveloperName);
-            result.put(q.DeveloperName, new Set<String>());
-        }
-
-        Map<Id, Set<String>> groupIdToQueueDevNames = new Map<Id, Set<String>>();
-        Set<Id> nestedGroupIds = new Set<Id>();
-        
-        for (GroupMember gm : [SELECT GroupId, UserOrGroupId, UserOrGroup.Email
-                               FROM GroupMember
-                               WHERE GroupId IN :queueIdToDevName.keySet()]) {
-            String queueDevName = queueIdToDevName.get(gm.GroupId);
-            
-            if (String.isNotBlank(gm.UserOrGroup.Email)) {
-                result.get(queueDevName).add(gm.UserOrGroup.Email);
-            } 
-            else {
-                nestedGroupIds.add(gm.UserOrGroupId);
-                if (!groupIdToQueueDevNames.containsKey(gm.UserOrGroupId)) {
-                    groupIdToQueueDevNames.put(gm.UserOrGroupId, new Set<String>());
-                }
-                groupIdToQueueDevNames.get(gm.UserOrGroupId).add(queueDevName);
-            }
-        }
-        
-        if (!nestedGroupIds.isEmpty()) {
-            for (GroupMember gm : [SELECT GroupId, UserOrGroupId, UserOrGroup.Email
-                                   FROM GroupMember
-                                   WHERE GroupId IN :nestedGroupIds]) {
-                if (String.isNotBlank(gm.UserOrGroup.Email)) {
-                    for (String queueDevName : groupIdToQueueDevNames.get(gm.GroupId)) {
-                        result.get(queueDevName).add(gm.UserOrGroup.Email);
-                    }
-                }
-            }
-        }
-        return result;
+        return QueueMemberService.getQueueMemberEmails(developerNames);
     }
 
     private void stampLastReviewSentDate() {

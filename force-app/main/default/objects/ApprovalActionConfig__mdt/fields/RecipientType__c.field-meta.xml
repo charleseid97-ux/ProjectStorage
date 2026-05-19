@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RecipientType__c</fullName>
+    <description>Predefined recipient categories for this email alert. Used only when ActionKind__c = EmailAlert. CurrentStepApprovers: approvers assigned to the step being actioned. NextStepApprovers: approvers of the step being advanced to (resolved dynamically). Submitter: the user who submitted the record for approval. RecordOwner: the Owner field on the target record.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Select one or more categories. These are resolved at runtime from the approval context. Use AdditionalQueues__c and AdditionalUsers__c to add specific recipients beyond these categories.</inlineHelpText>
+    <label>Recipient Type</label>
+    <required>false</required>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>CurrentStepApprovers</fullName>
+                <default>false</default>
+                <label>Current Step Approvers</label>
+            </value>
+            <value>
+                <fullName>NextStepApprovers</fullName>
+                <default>false</default>
+                <label>Next Step Approvers</label>
+            </value>
+            <value>
+                <fullName>Submitter</fullName>
+                <default>false</default>
+                <label>Submitter</label>
+            </value>
+            <value>
+                <fullName>RecordOwner</fullName>
+                <default>false</default>
+                <label>Record Owner</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

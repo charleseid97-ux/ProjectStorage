@@ -15,7 +15,8 @@ const STATUS_CLASS_MAP = {
     Rejected  : 'status-rejected',
     Pending   : 'status-pending',
     Started   : 'status-started',
-    Submitted : 'status-started'
+    Submitted : 'status-started',
+    Recalled  : 'status-recalled'
 };
 
 export default class CustomApprovalHistory extends LightningElement {
