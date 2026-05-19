@@ -118,6 +118,8 @@ export default class SpeakerProductsBySession extends LightningElement {
                     productCount: s.productCount,
                     language: s.language,
                     speakerLanguage: s.speakerLanguage,
+                    presentationStatus: s.presentationStatus,
+                    sessionNumber: s.sessionNumber,
                     startTime: formattedStartTime,
                     endTime: formattedEndTime,
                     date: s.recDate,
@@ -218,10 +220,9 @@ export default class SpeakerProductsBySession extends LightningElement {
     }
 
     handleEditSlot(event) {
-        const speakerId = event.currentTarget.dataset.speakerId;
-
+        const sessionNumber = event.currentTarget.dataset.sessionNumber;
         this.groups = this.groups.map((group) => {
-            if (group.speakerId !== speakerId) {
+            if (group.sessionNumber !== sessionNumber) {
                 return group;
             }
 
@@ -235,12 +236,12 @@ export default class SpeakerProductsBySession extends LightningElement {
     }
 
     handleSlotChange(event) {
-        const speakerId = event.target.dataset.speakerId;
+        const sessionNumber = event.target.dataset.sessionNumber;
         const field = event.target.dataset.field;
         const value = event.target.value;
 
         this.groups = this.groups.map((group) => {
-            if (group.speakerId !== speakerId) {
+            if (group.sessionNumber !== sessionNumber) {
                 return group;
             }
 
@@ -252,10 +253,9 @@ export default class SpeakerProductsBySession extends LightningElement {
     }
 
     handleCancelSlot(event) {
-        const speakerId = event.currentTarget.dataset.speakerId;
-
+        const sessionNumber = event.currentTarget.dataset.sessionNumber;
         this.groups = this.groups.map((group) => {
-            if (group.speakerId !== speakerId) {
+            if (group.sessionNumber !== sessionNumber) {
                 return group;
             }
 
@@ -270,8 +270,8 @@ export default class SpeakerProductsBySession extends LightningElement {
     }
 
     async handleSaveSlot(event) {
-        const speakerId = event.currentTarget.dataset.speakerId;
-        const group = this.groups.find((item) => item.speakerId === speakerId);
+        const sessionNumber = event.currentTarget.dataset.sessionNumber;
+        const group = this.groups.find((item) => item.sessionNumber == sessionNumber);
 
         if (!group || !this.effectiveEventId) {
             return;
@@ -289,7 +289,7 @@ export default class SpeakerProductsBySession extends LightningElement {
             });
 
             this.groups = this.groups.map((item) => {
-                if (item.speakerId !== speakerId) {
+                if (item.sessionNumber != sessionNumber) {
                     return item;
                 }
 

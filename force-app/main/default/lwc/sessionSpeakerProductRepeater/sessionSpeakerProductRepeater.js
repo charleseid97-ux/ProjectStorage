@@ -49,6 +49,7 @@ export default class SessionSpeakerProductRepeater extends LightningElement {
             productIds: [],
             language: null,
             speakerLanguage: null,
+            presentationStatus: null,
             startTime: null,
             endTime: null,
             date: this.defaultSpeakerDate || null, 
@@ -275,12 +276,12 @@ _applyVisibilityRules() {
     }
 
     _buildEntriesFromRows(rows) {
-        const byKey = this._groupRowsBySpeakerLang(rows);
+        const byKey = this._groupRowsBySession(rows);
         const entries = Array.from(byKey.values());
-        return this._sortEntriesBySpeakerLabel(entries);
+        return this._sortEntriesBySession(entries);
     }
 
-    _groupRowsBySpeakerLang(rows) {
+    _groupRowsBySession(rows) {
         const byKey = new Map();
 
         for (const r of (rows || [])) {
@@ -292,6 +293,8 @@ _applyVisibilityRules() {
                 productId,
                 lang,
                 speakerLanguage,
+                presentationStatus,
+                sessionNumber,
                 startTime,
                 endTime,
                 date,
@@ -304,6 +307,8 @@ _applyVisibilityRules() {
                 speakerId,
                 lang,
                 speakerLanguage,
+                presentationStatus,
+                sessionNumber,
                 startTime,
                 endTime,
                 date
@@ -322,6 +327,8 @@ _applyVisibilityRules() {
         const productId = r && r.strategy__c ? r.strategy__c : null;
         const lang = r && r.Language__c ? r.Language__c : null;
         const speakerLanguage = r && r.speakerLanguage__c ? r.speakerLanguage__c : null;
+        const presentationStatus = r && r.presentationStatus__c ? r.presentationStatus__c : null;
+        const sessionNumber = r && r.sessionNumber__c ? r.sessionNumber__c : null;
         const startTime = r && r.startTime__c ? r.startTime__c : null;
         const endTime = r && r.endTime__c ? r.endTime__c : null;
         return {
@@ -329,14 +336,18 @@ _applyVisibilityRules() {
             productId,
             lang,
             speakerLanguage,
+            presentationStatus,
+            sessionNumber,
             startTime,
             endTime,
             date,
-           key: `${speakerId}|${lang || ''}|${speakerLanguage || ''}|${startTime || ''}|${endTime || ''}|${date || ''}`
+            key: sessionNumber
+                ? `session|${sessionNumber}`
+                : `${speakerId}|${lang || ''}|${speakerLanguage || ''}|${presentationStatus || ''}|${startTime || ''}|${endTime || ''}|${date || ''}`
         };
     }
 
-    _ensureGroupedEntry(byKey, key, speakerId, lang, speakerLanguage, startTime, endTime,date) {
+    _ensureGroupedEntry(byKey, key, speakerId, lang, speakerLanguage, presentationStatus, sessionNumber, startTime, endTime,date) {        
         if (!byKey.has(key)) {
             byKey.set(key, {
                 key: uniq(),
@@ -344,6 +355,8 @@ _applyVisibilityRules() {
                 productIds: [],
                 language: lang,
                 speakerLanguage: speakerLanguage,
+                presentationStatus: presentationStatus,
+                sessionNumber: sessionNumber,
                 startTime: startTime,
                 endTime: endTime,
                 date: date,
@@ -359,13 +372,19 @@ _applyVisibilityRules() {
         if (!arr.includes(value)) arr.push(value);
     }
 
-    _sortEntriesBySpeakerLabel(entries) {
-        const labelById = new Map((this.allSpeakers || []).map((s) => [s.value, s.label]));
-
+    _sortEntriesBySession(entries) {
         return (entries || []).slice().sort((a, b) => {
-            const la = labelById.get(a.speakerId) || '';
-            const lb = labelById.get(b.speakerId) || '';
-            return la.localeCompare(lb);
+            const da = a.date || '';
+            const db = b.date || '';
+
+            if (da !== db) {
+                return da.localeCompare(db);
+            }
+
+            const ta = a.startTime || '';
+            const tb = b.startTime || '';
+
+            return ta.localeCompare(tb);
         });
     }
 
@@ -376,6 +395,7 @@ _applyVisibilityRules() {
             productIds: [],
             language: null,
             speakerLanguage: null,
+            presentationStatus: null,
             startTime: null,
             endTime: null,
             date: this.defaultSpeakerDate || null,
@@ -430,6 +450,7 @@ _applyVisibilityRules() {
             productIds: [],
             language: lastLanguage,
             speakerLanguage: null,
+            presentationStatus: null,
             startTime: this.defaultStartTime || null,
             endTime: this.defaultEndTime || null,
             date: this.defaultSpeakerDate || null,
@@ -548,6 +569,7 @@ _applyVisibilityRules() {
         const products = this._toArray(entry && entry.productIds ? entry.productIds : []);
         const lang = entry ? entry.language || null : null;
         const speakerLanguage = entry ? entry.speakerLanguage || null : null;
+        const presentationStatus = entry ? entry.presentationStatus || null : null;
         const startTime = entry ? entry.startTime || null : null;
         const endTime = entry ? entry.endTime || null : null;
         const date = entry ? entry.date || null : null;
@@ -564,8 +586,8 @@ _applyVisibilityRules() {
         }
 
         return this._pairSelections(speakers, products)
-            .map(({ sid, pid }) => this._makeRecord(sid, pid, lang, speakerLanguage, startTime, endTime,date));
-    }
+            .map(({ sid, pid }) => this._makeRecord(sid, pid, lang, speakerLanguage, presentationStatus, startTime, endTime,date));
+        }
 
     _toArray(value) {
         if (Array.isArray(value)) return value;
@@ -593,13 +615,14 @@ _applyVisibilityRules() {
         return speakers.flatMap((sid) => products.map((pid) => ({ sid, pid })));
     }
 
-    _makeRecord(contactId, productId, lang, speakerLanguage, startTime, endTime,date) {
+    _makeRecord(contactId, productId, lang, speakerLanguage, presentationStatus, startTime, endTime,date) {
         return {
             attributes: { type: 'sessionSpeakerProduct__c' },
             speakerContact__c: contactId,
             strategy__c: productId,
             Language__c: lang,
             speakerLanguage__c: speakerLanguage,
+            presentationStatus__c: presentationStatus,
             startTime__c: startTime,
             endTime__c: endTime,
             Date__c: date,

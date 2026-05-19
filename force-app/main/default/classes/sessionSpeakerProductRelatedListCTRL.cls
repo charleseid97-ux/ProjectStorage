@@ -9,7 +9,8 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
         @AuraEnabled public Date recDate;
         @AuraEnabled public String language;
         @AuraEnabled public String speakerLanguage;
-
+        @AuraEnabled public String presentationStatus;
+        @AuraEnabled public Decimal sessionNumber;
         @AuraEnabled public List<ProductItem> products = new List<ProductItem>();
     }
 
@@ -40,13 +41,16 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
                    strategy__r.Name,
                    Language__c,
                    speakerLanguage__c,
+                   presentationStatus__c,
+                   sessionNumber__c,
                    startTime__c,
                    endTime__c,
-                   Date__c
+                   Date__c,
+                   Session__c
 
             FROM sessionSpeakerProduct__c
             WHERE Session__c = :eventId
-            ORDER BY speakerContact__r.Name, strategy__r.Name
+            ORDER BY Date__c ASC, startTime__c ASC, sessionNumber__c ASC
             LIMIT 5000
         ];
 
@@ -64,12 +68,12 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
     }
 
     private class GroupBuild {
-        Map<Id, SpeakerBlock> grouped;
-        List<Id> speakerOrder;
+        Map<String, SpeakerBlock> grouped;
+        List<String> speakerOrder;
 
         GroupBuild() {
-            grouped = new Map<Id, SpeakerBlock>();
-            speakerOrder = new List<Id>();
+            grouped = new Map<String, SpeakerBlock>();
+            speakerOrder = new List<String>();
         }
     }
 
@@ -79,7 +83,10 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
         for (sessionSpeakerProduct__c r : rows) {
             if (r.speakerContact__c == null) continue;
 
-            SpeakerBlock block = gb.grouped.get(r.speakerContact__c);
+            String groupKey =
+                String.valueOf(r.Session__c)
+                + '|' + String.valueOf(r.sessionNumber__c);
+            SpeakerBlock block = gb.grouped.get(groupKey);
             if (block == null) {
                 block = new SpeakerBlock();
                 block.speakerId = r.speakerContact__c;
@@ -88,12 +95,14 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
                     : '—';
                 block.language = r.Language__c;
                 block.speakerLanguage = r.speakerLanguage__c;
-                block.speakerLanguage = r.speakerLanguage__c;
+                block.presentationStatus = r.presentationStatus__c;
+                block.sessionNumber = r.sessionNumber__c;
                 block.startTime = formatTime(r.startTime__c);
                 block.endTime = formatTime(r.endTime__c);
                 block.recDate = r.Date__c;
-                gb.grouped.put(r.speakerContact__c, block);
-                gb.speakerOrder.add(r.speakerContact__c);
+
+                gb.grouped.put(groupKey, block);
+                gb.speakerOrder.add(groupKey);
             }
 
             ProductItem p = toProductItem(r);
@@ -118,20 +127,20 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
     }
 
     private static List<SpeakerBlock> finalizeSpeakerBlocks(
-        Map<Id, SpeakerBlock> grouped,
-        List<Id> speakerOrder,
+        Map<String, SpeakerBlock> grouped,
+        List<String> speakerOrder,
         Map<Id, EventSpeakerApprovals__c> approvalsBySpeaker
     ) {
         List<SpeakerBlock> result = new List<SpeakerBlock>();
 
-        for (Id speakerId : speakerOrder) {
-            SpeakerBlock b = grouped.get(speakerId);
+        for (String groupKey : speakerOrder) {
+            SpeakerBlock b = grouped.get(groupKey);
             if (b == null) continue;
 
             b.productCount = b.products.size();
 
             EventSpeakerApprovals__c esa = approvalsBySpeaker != null
-                ? approvalsBySpeaker.get(speakerId)
+                ? approvalsBySpeaker.get(b.speakerId)
                 : null;
 
             
@@ -178,7 +187,18 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
         if (eventId == null) return '[]';
 
         List<sessionSpeakerProduct__c> rows = [
-            SELECT Id, speakerContact__c, speakerContact__r.Name, strategy__c, strategy__r.Name, Language__c,speakerLanguage__c,startTime__c, endTime__c,Date__c
+            SELECT Id,
+                   speakerContact__c,
+                   speakerContact__r.Name,
+                   strategy__c,
+                   strategy__r.Name,
+                   Language__c,
+                   speakerLanguage__c,
+                   presentationStatus__c,
+                   sessionNumber__c,
+                   startTime__c,
+                   endTime__c,
+                   Date__c
             FROM sessionSpeakerProduct__c
             WHERE Session__c = :eventId
             ORDER BY speakerContact__r.Name, strategy__r.Name
@@ -204,8 +224,10 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
         o.put('Language__c', r.Language__c);
         o.put('speakerLanguage__c', r.speakerLanguage__c);
         o.put('Session__c', eventId);
-        o.put('startTime__c', r.startTime__c);
-        o.put('endTime__c', r.endTime__c);
+        o.put('presentationStatus__c', r.presentationStatus__c);
+        o.put('sessionNumber__c', r.sessionNumber__c);
+        o.put('startTime__c', formatTime(r.startTime__c));
+        o.put('endTime__c', formatTime(r.endTime__c));
         o.put('Date__c', r.Date__c);
         return o;
     }
@@ -257,7 +279,7 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
 
     private static Map<String, sessionSpeakerProduct__c> loadExistingByKey(Id eventId) {
         List<sessionSpeakerProduct__c> existing = [
-            SELECT Id, speakerContact__c, strategy__c, Language__c, speakerLanguage__c, Session__c, startTime__c, endTime__c,Date__c
+            SELECT Id, speakerContact__c, strategy__c, Language__c, speakerLanguage__c, presentationStatus__c, sessionNumber__c, Session__c, startTime__c, endTime__c,Date__c            
             FROM sessionSpeakerProduct__c
             WHERE Session__c = :eventId
             LIMIT 5000
@@ -266,8 +288,17 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
         Map<String, sessionSpeakerProduct__c> existingByKey = new Map<String, sessionSpeakerProduct__c>();
         for (sessionSpeakerProduct__c r : existing) {
             existingByKey.put(
-                makeKey(r.speakerContact__c, r.strategy__c, r.Language__c, r.speakerLanguage__c, r.startTime__c, r.endTime__c,r.Date__c)  
-                ,r
+            makeKey(
+                r.speakerContact__c,
+                r.strategy__c,
+                r.Language__c,
+                r.speakerLanguage__c,
+                r.presentationStatus__c,
+                r.sessionNumber__c,
+                r.startTime__c,
+                r.endTime__c,
+                r.Date__c
+            ),r
             );
         }
         return existingByKey;
@@ -283,6 +314,8 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
         Id productId;
         String lang;
         String speakerLanguage;
+        String presentationStatus;
+        Decimal sessionNumber;
         Integer rowIndex;
         Time startTime;
         Time endTime;
@@ -293,13 +326,49 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
         IncomingBuild incoming = new IncomingBuild();
 
         Integer rowIndex = 0;
+
+        Map<String, Integer> sessionNumbersByGroup = new Map<String, Integer>();
+        Integer sessionCounter = 0;
+
         for (Object o : raw) {
             rowIndex++;
+
             LinkParts parts = parseRowToParts(o, rowIndex);
-            String key = makeKey(parts.speakerId, parts.productId, parts.lang, parts.speakerLanguage, parts.startTime, parts.endTime, parts.recDate);
+
+            String sessionGroupKey =
+                String.valueOf(parts.speakerId)
+                + '|' + String.valueOf(parts.lang)
+                + '|' + String.valueOf(parts.speakerLanguage)
+                + '|' + String.valueOf(parts.presentationStatus)
+                + '|' + String.valueOf(parts.startTime)
+                + '|' + String.valueOf(parts.endTime)
+                + '|' + String.valueOf(parts.recDate);
+
+            if (!sessionNumbersByGroup.containsKey(sessionGroupKey)) {
+                sessionCounter++;
+                sessionNumbersByGroup.put(
+                    sessionGroupKey,
+                    Integer.valueOf(sessionCounter)
+                );
+            }
+
+            parts.sessionNumber = Integer.valueOf(sessionNumbersByGroup.get(sessionGroupKey));
+            String key = makeKey(
+                parts.speakerId,
+                parts.productId,
+                parts.lang,
+                parts.speakerLanguage,
+                parts.presentationStatus,
+                parts.sessionNumber,
+                parts.startTime,
+                parts.endTime,
+                parts.recDate
+            );
+
             if (incoming.incomingKeys.contains(key)) {
                 continue;
             }
+
             incoming.incomingKeys.add(key);
             incoming.incomingParts.add(parts);
         }
@@ -314,6 +383,9 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
         Id productId = (m.get('strategy__c') != null) ? (Id) String.valueOf(m.get('strategy__c')) : null;
         String lang = (m.get('Language__c') != null) ? String.valueOf(m.get('Language__c')) : null;
         String speakerLanguage = (m.get('speakerLanguage__c') != null) ? String.valueOf(m.get('speakerLanguage__c')) : null;
+
+        String presentationStatus = (m.get('presentationStatus__c') != null) ? String.valueOf(m.get('presentationStatus__c')) : null;
+
         String startTime = (m.get('startTime__c') != null) ? String.valueOf(m.get('startTime__c')) : null;
         String endTime = (m.get('endTime__c') != null) ? String.valueOf(m.get('endTime__c')) : null;
         String recDate = (m.get('Date__c') != null) ? String.valueOf(m.get('Date__c')) : null;
@@ -326,6 +398,7 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
         parts.productId = productId;
         parts.lang = lang;
         parts.speakerLanguage = speakerLanguage;
+        parts.presentationStatus = presentationStatus;
         parts.rowIndex = rowIndex;
         parts.startTime = parseTimeValue(startTime);
         parts.endTime = parseTimeValue(endTime);
@@ -341,8 +414,17 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
         List<sessionSpeakerProduct__c> toInsert = new List<sessionSpeakerProduct__c>();
 
         for (LinkParts parts : incoming.incomingParts) {
-            String key = makeKey(parts.speakerId, parts.productId, parts.lang, parts.speakerLanguage, parts.startTime, parts.endTime, parts.recDate);
-
+            String key = makeKey(
+                parts.speakerId,
+                parts.productId,
+                parts.lang,
+                parts.speakerLanguage,
+                parts.presentationStatus,
+                parts.sessionNumber,
+                parts.startTime,
+                parts.endTime,
+                parts.recDate
+            );
             if (existingByKey.containsKey(key)) continue;
 
             sessionSpeakerProduct__c rec = new sessionSpeakerProduct__c();
@@ -351,6 +433,8 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
             rec.strategy__c = parts.productId;
             rec.Language__c = parts.lang;
             rec.speakerLanguage__c = parts.speakerLanguage;
+            rec.presentationStatus__c = parts.presentationStatus;
+            rec.sessionNumber__c = parts.sessionNumber;
             rec.startTime__c = parts.startTime;
             rec.endTime__c = parts.endTime;
             rec.Date__c = parts.recDate;
@@ -373,11 +457,23 @@ public without sharing class sessionSpeakerProductRelatedListCTRL {
         return toDelete;
     }
 
-    private static String makeKey(Id speakerId, Id productId, String lang, String speakerLanguage, Time startTime, Time endTime, Date recDate) {
+    private static String makeKey(
+        Id speakerId,
+        Id productId,
+        String lang,
+        String speakerLanguage,
+        String presentationStatus,
+        Decimal sessionNumber,
+        Time startTime,
+        Time endTime,
+        Date recDate
+    ) {
         return String.valueOf(speakerId)
             + '|' + String.valueOf(productId)
             + '|' + String.valueOf(lang)
             + '|' + String.valueOf(speakerLanguage)
+            + '|' + String.valueOf(presentationStatus)
+            + '|' + String.valueOf(sessionNumber)
             + '|' + String.valueOf(startTime)
             + '|' + String.valueOf(endTime)
             + '|' + String.valueOf(recDate);
