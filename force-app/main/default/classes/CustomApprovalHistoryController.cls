@@ -1,7 +1,6 @@
 public with sharing class CustomApprovalHistoryController {
 
     // ─── getApprovalHistory ──────────────────────────────────────────────────────
-
     @AuraEnabled(cacheable=false)
     public static ApprovalHistoryResult getApprovalHistory(Id recordId) {
         ApprovalHistoryResult result = new ApprovalHistoryResult();
@@ -12,32 +11,27 @@ public with sharing class CustomApprovalHistoryController {
 
         if (recordId == null) return result;
 
-        List<CustomApproval__c> approvals = [
-            SELECT Id, Status__c, SubmittedBy__c, ProcessDeveloperName__c, CreatedDate, Comments__c
-            FROM CustomApproval__c
-            WHERE TargetRecordId__c = :String.valueOf(recordId)
-            ORDER BY CreatedDate DESC
-        ];
+        List<CustomApproval__c> approvals = [SELECT Id, Status__c, SubmittedBy__c, ProcessDeveloperName__c, CreatedDate, Comments__c
+                                             FROM CustomApproval__c
+                                             WHERE TargetRecordId__c = :String.valueOf(recordId)
+                                             ORDER BY CreatedDate DESC];
         if (approvals.isEmpty()) return result;
 
         Set<Id> approvalIds = new Map<Id, CustomApproval__c>(approvals).keySet();
         Id currentUserId    = UserInfo.getUserId();
         Boolean isAdmin     = isAdministrator(currentUserId);
 
-        List<CustomApprovalStep__c> steps = [
-            SELECT Id, CustomApproval__c, StepLabel__c, StepDeveloperName__c, Status__c,
-                   AssignedTo__c, AssignedToName__c, OriginalAssignedTo__c, OriginalAssignedToName__c,
-                   ActualApprover__r.Name, Comments__c, ActionDate__c, IsCurrentStep__c,
-                   CustomApproval__r.ProcessDeveloperName__c, CreatedDate
-            FROM CustomApprovalStep__c
-            WHERE CustomApproval__c IN :approvalIds
-            ORDER BY CustomApproval__r.CreatedDate DESC, ActionDate__c ASC NULLS LAST, CreatedDate ASC
-        ];
+        List<CustomApprovalStep__c> steps = [SELECT Id, CustomApproval__c, StepLabel__c, StepDeveloperName__c, Status__c,
+                                                    AssignedTo__c, AssignedToName__c, OriginalAssignedTo__c, OriginalAssignedToName__c,
+                                                    ActualApprover__r.Name, Comments__c, ActionDate__c, IsCurrentStep__c,
+                                                    CustomApproval__r.ProcessDeveloperName__c, CreatedDate
+                                             FROM CustomApprovalStep__c
+                                             WHERE CustomApproval__c IN :approvalIds
+                                             ORDER BY CustomApproval__r.CreatedDate DESC, ActionDate__c ASC NULLS LAST, CreatedDate ASC];
 
         Boolean canApproveOrReject = false;
         Boolean canRecall          = false;
 
-        // Collect queue AssignedTo IDs the current user might be in
         Set<Id> queueIdsToCheck = new Set<Id>();
         for (CustomApprovalStep__c s : steps) {
             if (s.IsCurrentStep__c && String.isNotBlank(s.AssignedTo__c) && s.AssignedTo__c.startsWith('00G')) {
@@ -46,18 +40,14 @@ public with sharing class CustomApprovalHistoryController {
         }
         Set<Id> userQueueIds = resolveUserQueueMembership(queueIdsToCheck, currentUserId);
 
-        // Check UserInput step configs to determine if a user picker modal is needed
         Set<String> processDevNames = new Set<String>();
         for (CustomApproval__c a : approvals) {
             processDevNames.add(a.ProcessDeveloperName__c);
         }
         Map<String, Boolean> stepDevNameHasUserInput = buildStepConfigMap(processDevNames);
 
-        Map<Id, CustomApproval__c> approvalById = new Map<Id, CustomApproval__c>(approvals);
-
         for (CustomApprovalStep__c s : steps) {
-            ApprovalRow row = buildRow(s);
-            result.rows.add(row);
+            result.rows.add(buildRow(s));
 
             if (s.IsCurrentStep__c && !canApproveOrReject) {
                 if (isAdmin) {
@@ -87,29 +77,25 @@ public with sharing class CustomApprovalHistoryController {
     }
 
     // ─── processApproval ────────────────────────────────────────────────────────
-
     @AuraEnabled(cacheable=false)
     public static CustomApprovalHistoryUtility.ProcessResult processApproval(Id workItemId, String action, String comments, List<Id> nextApproverIds) {
         return CustomApprovalHistoryUtility.processApproval(workItemId, action, comments, nextApproverIds);
     }
 
     // ─── submitForApproval ──────────────────────────────────────────────────────
-
     @AuraEnabled(cacheable=false)
     public static CustomApprovalHistoryUtility.ProcessResult submitForApproval(Id recordId, String processName, String comments) {
         return CustomApprovalHistoryUtility.submitForApproval(recordId, processName, comments);
     }
 
     // ─── Permissions ────────────────────────────────────────────────────────────
-
     private static Boolean isAdministrator(Id userId) {
-        for (PermissionSetAssignment psa : [
-            SELECT Id FROM PermissionSetAssignment
-            WHERE AssigneeId = :userId
-              AND PermissionSet.IsOwnedByProfile = true
-              AND PermissionSet.Profile.Name LIKE '%Administrator%'
-            LIMIT 1
-        ]) {
+        for (PermissionSetAssignment psa : [SELECT Id
+                                            FROM PermissionSetAssignment
+                                            WHERE AssigneeId = :userId
+                                              AND PermissionSet.IsOwnedByProfile = true
+                                              AND PermissionSet.Profile.Name LIKE '%Administrator%'
+                                            LIMIT 1]) {
             return true;
         }
         return false;
@@ -118,7 +104,10 @@ public with sharing class CustomApprovalHistoryController {
     private static Set<Id> resolveUserQueueMembership(Set<Id> queueIds, Id currentUserId) {
         Set<Id> memberOf = new Set<Id>();
         if (queueIds.isEmpty()) return memberOf;
-        for (GroupMember gm : [SELECT GroupId FROM GroupMember WHERE GroupId IN :queueIds AND UserOrGroupId = :currentUserId]) {
+        for (GroupMember gm : [SELECT GroupId
+                                FROM GroupMember
+                                WHERE GroupId IN :queueIds
+                                  AND UserOrGroupId = :currentUserId]) {
             memberOf.add(gm.GroupId);
         }
         if (memberOf.size() < queueIds.size()) {
@@ -135,11 +124,9 @@ public with sharing class CustomApprovalHistoryController {
 
     private static Map<String, Boolean> buildStepConfigMap(Set<String> processDevNames) {
         Map<String, Boolean> result = new Map<String, Boolean>();
-        for (ApprovalStepApproverConfig__mdt cfg : [
-            SELECT StepConfig__r.DeveloperName, ApproverSource__c
-            FROM ApprovalStepApproverConfig__mdt
-            WHERE StepConfig__r.ProcessConfig__r.ProcessDeveloperName__c IN :processDevNames
-        ]) {
+        for (ApprovalStepApproverConfig__mdt cfg : [SELECT StepConfig__r.DeveloperName, ApproverSource__c
+                                                    FROM ApprovalStepApproverConfig__mdt
+                                                    WHERE StepConfig__r.ProcessConfig__r.ProcessDeveloperName__c IN :processDevNames]) {
             if (cfg.ApproverSource__c == 'UserInput') {
                 result.put(cfg.StepConfig__r.DeveloperName, true);
             }
@@ -148,20 +135,19 @@ public with sharing class CustomApprovalHistoryController {
     }
 
     // ─── Row builder ────────────────────────────────────────────────────────────
-
     private static ApprovalRow buildRow(CustomApprovalStep__c s) {
-        ApprovalRow row = new ApprovalRow();
-        row.id                 = s.Id;
-        row.workItemId         = s.IsCurrentStep__c ? s.Id : null;
-        row.stepName           = String.isNotBlank(s.StepLabel__c) ? s.StepLabel__c : s.StepDeveloperName__c;
-        row.stepDate           = s.ActionDate__c != null ? s.ActionDate__c : s.CreatedDate;
-        row.stepDateFormatted  = formatDatetime(row.stepDate);
-        row.status             = s.Status__c;
-        row.assignedTo         = String.isNotBlank(s.OriginalAssignedToName__c) ? s.OriginalAssignedToName__c : s.AssignedToName__c;
-        row.actualApprover     = s.ActualApprover__r?.Name;
-        row.comments           = s.Comments__c;
-        row.isPending          = s.IsCurrentStep__c;
-        row.processName        = s.CustomApproval__r?.ProcessDeveloperName__c;
+        ApprovalRow row       = new ApprovalRow();
+        row.id                = s.Id;
+        row.workItemId        = s.IsCurrentStep__c ? s.Id : null;
+        row.stepName          = String.isNotBlank(s.StepLabel__c) ? s.StepLabel__c : s.StepDeveloperName__c;
+        row.stepDate          = s.ActionDate__c != null ? s.ActionDate__c : s.CreatedDate;
+        row.stepDateFormatted = formatDatetime(row.stepDate);
+        row.status            = s.Status__c;
+        row.assignedTo        = String.isNotBlank(s.OriginalAssignedToName__c) ? s.OriginalAssignedToName__c : s.AssignedToName__c;
+        row.actualApprover    = s.ActualApprover__r?.Name;
+        row.comments          = s.Comments__c;
+        row.isPending         = s.IsCurrentStep__c;
+        row.processName       = s.CustomApproval__r?.ProcessDeveloperName__c;
         row.nextApproverSource = null;
         return row;
     }
@@ -172,7 +158,6 @@ public with sharing class CustomApprovalHistoryController {
     }
 
     // ─── Wrapper classes ────────────────────────────────────────────────────────
-
     public class ApprovalRow {
         @AuraEnabled public String   id;
         @AuraEnabled public String   workItemId;

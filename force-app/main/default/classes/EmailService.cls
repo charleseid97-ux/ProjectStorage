@@ -38,14 +38,7 @@ public without sharing class EmailService {
         }
     }
 
-    public static Set<Id> resolveRecipientIds(
-        Set<String> recipientTypeValues,
-        Set<Id> currentApproverIds,
-        Set<Id> nextApproverIds,
-        Id submittedById,
-        Id targetRecordId,
-        String objectApiName
-    ) {
+    public static Set<Id> resolveRecipientIds(Set<String> recipientTypeValues, Set<Id> currentApproverIds, Set<Id> nextApproverIds, Id submittedById, Id targetRecordId, String objectApiName) {
         Set<Id> result = new Set<Id>();
         if (recipientTypeValues == null || recipientTypeValues.isEmpty()) {
             return result;

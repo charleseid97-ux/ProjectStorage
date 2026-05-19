@@ -85,7 +85,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>RecipientType__c</field>
+                <field>NotifyCurrentStepApprovers__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>NotifyNextStepApprovers__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -96,6 +100,14 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>AdditionalUsers__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>NotifySubmitter__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>NotifyRecordOwner__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>

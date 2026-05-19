@@ -52,7 +52,7 @@ public with sharing class GridReviewBatch implements Database.Batchable<SObject>
         String templateDevName = alertConfig != null ? alertConfig.EmailTemplate__c : null;
         String templateHtml = getEmailTemplateHtml(templateDevName);
 
-        Map<String, Set<String>> emailsByQueue = getQueueMemberEmails(new Set<String>{'CGL_Top_Management', 'CGF_Top_Management'});
+        Map<String, Set<String>> emailsByQueue = QueueMemberService.getQueueMemberEmails(new Set<String>{'CGL_Top_Management', 'CGF_Top_Management'});
         System.debug('@@@@@@@@emailsByQueue: '+emailsByQueue);
 
         List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
@@ -129,10 +129,6 @@ public with sharing class GridReviewBatch implements Database.Batchable<SObject>
 
         html += '</tbody></table>';
         return html;
-    }
-
-    private Map<String, Set<String>> getQueueMemberEmails(Set<String> developerNames) {
-        return QueueMemberService.getQueueMemberEmails(developerNames);
     }
 
     private void stampLastReviewSentDate() {

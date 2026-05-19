@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NotifyCurrentStepApprovers__c</fullName>
+    <description>When checked, the email alert is sent to all approvers assigned to the step being actioned (the step that triggered this action). For queue-assigned steps, all queue members receive the email. Used only when ActionKind__c = EmailAlert.</description>
+    <externalId>false</externalId>
+    <defaultValue>false</defaultValue>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Sends to the approvers who acted on (or were assigned to) the current step. For a queue assignment, all queue members are resolved and notified individually.</inlineHelpText>
+    <label>Notify Current Step Approvers</label>
+    <type>Checkbox</type>
+</CustomField>

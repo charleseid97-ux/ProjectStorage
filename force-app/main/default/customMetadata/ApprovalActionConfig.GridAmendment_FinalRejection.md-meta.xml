@@ -31,8 +31,20 @@
         <value xsi:nil="true"/>
     </values>
     <values>
-        <field>RecipientType__c</field>
-        <value xsi:nil="true"/>
+        <field>NotifyCurrentStepApprovers__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>NotifyNextStepApprovers__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>NotifySubmitter__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>NotifyRecordOwner__c</field>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>AdditionalQueues__c</field>
