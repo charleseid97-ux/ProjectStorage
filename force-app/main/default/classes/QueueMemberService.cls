@@ -1,3 +1,13 @@
+/** ──────────────────────────────────────
+ * @description Service class for resolving Salesforce queue membership.
+ *              Supports direct and nested group membership lookups, returning
+ *              member user IDs or email addresses by queue developer name.
+ *              Used by EmailService for recipient resolution and by
+ *              CustomApprovalHistoryController for permission checks.
+ * @author Charles EID
+ * @testClass QueueMemberServiceTest
+ * @coverage 100%   [20-05-26]
+ ────────────────────────────────────── */
 public without sharing class QueueMemberService {
 
     public static Map<String, Set<String>> getQueueMemberEmails(Set<String> developerNames) {

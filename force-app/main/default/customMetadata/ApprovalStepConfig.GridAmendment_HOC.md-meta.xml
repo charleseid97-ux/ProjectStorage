@@ -3,19 +3,19 @@
     <label>Grid Amendment - HOC</label>
     <protected>false</protected>
     <values>
-        <field>ProcessConfig__c</field>
-        <value xsi:type="xsd:string">GridAmendment</value>
+        <field>ApprovalMode__c</field>
+        <value xsi:type="xsd:string">Any</value>
     </values>
     <values>
-        <field>StepOrder__c</field>
-        <value xsi:type="xsd:double">10</value>
+        <field>ProcessConfig__c</field>
+        <value xsi:type="xsd:string">GridAmendment</value>
     </values>
     <values>
         <field>StepLabel__c</field>
         <value xsi:type="xsd:string">HOC Approval</value>
     </values>
     <values>
-        <field>ApprovalMode__c</field>
-        <value xsi:type="xsd:string">Any</value>
+        <field>StepOrder__c</field>
+        <value xsi:type="xsd:double">10.0</value>
     </values>
 </CustomMetadata>

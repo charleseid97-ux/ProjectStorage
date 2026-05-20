@@ -12,13 +12,13 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>StepConfig__c</field>
+                <field>DeveloperName</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>DeveloperName</field>
+                <field>StepConfig__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
@@ -28,7 +28,7 @@
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
     <layoutSections>
-        <customLabel>false</customLabel>
+        <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
         <label>Approver Configuration</label>
@@ -97,7 +97,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>ApprovalStepApproverConfig</masterLabel>
+        <masterLabel>00hdL00000cAFPi</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
