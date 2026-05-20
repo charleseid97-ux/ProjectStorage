@@ -12,11 +12,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>ProcessConfig__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Required</behavior>
-                <field>StepOrder__c</field>
+                <field>StepConfig__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -25,12 +21,35 @@
                 <field>DeveloperName</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Required</behavior>
+                <field>ApproverSource__c</field>
+            </layoutItems>
+        </layoutColumns>
+        <style>TwoColumnsTopToBottom</style>
+    </layoutSections>
+    <layoutSections>
+        <customLabel>false</customLabel>
+        <detailHeading>true</detailHeading>
+        <editHeading>true</editHeading>
+        <label>Approver Configuration</label>
+        <layoutColumns>
+            <layoutItems>
                 <behavior>Edit</behavior>
-                <field>StepLabel__c</field>
+                <field>ApproverType__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>ApprovalMode__c</field>
+                <behavior>Edit</behavior>
+                <field>ApproverValue__c</field>
+            </layoutItems>
+        </layoutColumns>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>ApproverResolverClass__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>ExecutionOrder__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -72,30 +91,13 @@
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
-    <relatedLists>
-        <fields>DeveloperName</fields>
-        <fields>ApproverSource__c</fields>
-        <fields>ApproverType__c</fields>
-        <fields>ApproverValue__c</fields>
-        <fields>ApproverResolverClass__c</fields>
-        <fields>ExecutionOrder__c</fields>
-        <relatedList>ApprovalStepApproverConfig__mdt.StepConfig__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>DeveloperName</fields>
-        <fields>ActionType__c</fields>
-        <fields>ActionKind__c</fields>
-        <fields>IsActive__c</fields>
-        <fields>ExecutionOrder__c</fields>
-        <relatedList>ApprovalActionConfig__mdt.StepConfig__c</relatedList>
-    </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
     <showInteractionLogPanel>false</showInteractionLogPanel>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00hG5000008DQZa</masterLabel>
+        <masterLabel>ApprovalStepApproverConfig</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

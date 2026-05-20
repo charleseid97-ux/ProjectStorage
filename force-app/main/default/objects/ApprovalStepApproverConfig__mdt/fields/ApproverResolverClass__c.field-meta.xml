@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ApproverResolverClass__c</fullName>
+    <description>Apex class name implementing IApproverResolver. Required when ApproverSource__c = Dynamic.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>The class must implement IApproverResolver and be deployed in the org. Example: GridHOCApproverResolver. Used only when ApproverSource__c = Dynamic.</inlineHelpText>
+    <label>Approver Resolver Class</label>
+    <length>80</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

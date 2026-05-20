@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ExecutionOrder__c</fullName>
+    <description>Controls the order in which CustomApprovalStep__c records are inserted when multiple approvers are configured for the same step. Cosmetic only — no impact on approval logic.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Used only for display ordering in the approval history table. Use increments of 10.</inlineHelpText>
+    <label>Execution Order</label>
+    <precision>3</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>
