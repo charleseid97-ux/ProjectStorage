@@ -4,24 +4,9 @@
     <!-- Apex -->
     <types>
         <members>sessionSpeakerProductService</members>
-        <members>customEventHandler</members>
-        <members>customEventSpeakerApprovalService</members>              
+        <members>customEventSpeakerApprovalService</members>
         <name>ApexClass</name>
     </types>
-
-    <!-- LWC -->
-    <types>
-        <members>speakerProductsBySession</members>
-        <members>sessionSpeakerProductRepeater</members>
-        <name>LightningComponentBundle</name>
-    </types>
-
-    <!-- Flow -->
-    <types>
-        <members>NewEvent</members>
-        <name>Flow</name>
-    </types>
-
     <version>65.0</version>
 
 </Package>

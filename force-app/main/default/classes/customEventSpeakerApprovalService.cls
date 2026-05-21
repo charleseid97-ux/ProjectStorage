@@ -67,7 +67,7 @@ public without sharing class customEventSpeakerApprovalService {
         return v.replace('&','&amp;').replace('<','&lt;').replace('>','&gt;').replace('"','&quot;').replace('\'','&#39;');
     }
     // Construit le format texte des speakers avec leurs produits.
-    private static String buildSpeakersText(List<SessionSpeakerProduct__c> speakers) {
+    public static String buildSpeakersText(List<SessionSpeakerProduct__c> speakers) {
         List<SpeakerHtmlRow> groupedRows = groupSpeakersForHtml(speakers);
         List<String> speakerTexts = new List<String>();
 
@@ -795,7 +795,7 @@ public without sharing class customEventSpeakerApprovalService {
      * Construit une section HTML (sans titre) pour une liste de SessionSpeakerProduct__c.
      * Signature conservée (sectionTitle, speakers) pour évolution future.
      */
-    private static String buildSpeakersHtmlSingleSection(String sectionTitle, List<SessionSpeakerProduct__c> speakers) {
+    public static String buildSpeakersHtmlSingleSection(String sectionTitle, List<SessionSpeakerProduct__c> speakers) {
         system.debug('======buildSpeakersHtmlSingleSection===========' +speakers  );
         List<String> parts = new List<String>();
         parts.add('<div style="margin:0 0 12px 0;">');
