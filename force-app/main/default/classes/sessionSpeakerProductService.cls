@@ -281,7 +281,7 @@ public without sharing class sessionSpeakerProductService {
         if (speakerIds == null || speakerIds.isEmpty()) return new Map<Id, Contact>();
 
         return new Map<Id, Contact>([
-            SELECT Id, SpeakerAssistant__c
+            SELECT Id, SpeakerAssistant__c, IsTopSpeaker__c
             FROM Contact
             WHERE Id IN :speakerIds
         ]);
