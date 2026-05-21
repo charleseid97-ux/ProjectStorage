@@ -91,6 +91,29 @@ public without sharing class QueueMemberService {
         return groups.isEmpty() ? null : groups[0].Id;
     }
 
+    public static Set<Id> getQueuesContainingUser(Set<Id> queueIds, Id userId) {
+        Set<Id> memberOf = new Set<Id>();
+        if (queueIds == null || queueIds.isEmpty()) return memberOf;
+
+        Map<Id, Set<Id>> nestedGroupToQueues = new Map<Id, Set<Id>>();
+        for (GroupMember gm : [SELECT GroupId, UserOrGroupId FROM GroupMember WHERE GroupId IN :queueIds]) {
+            if (gm.UserOrGroupId == userId) {
+                memberOf.add(gm.GroupId);
+            } else if (String.valueOf(gm.UserOrGroupId).left(3) != '005') {
+                if (!nestedGroupToQueues.containsKey(gm.UserOrGroupId)) {
+                    nestedGroupToQueues.put(gm.UserOrGroupId, new Set<Id>());
+                }
+                nestedGroupToQueues.get(gm.UserOrGroupId).add(gm.GroupId);
+            }
+        }
+        if (!nestedGroupToQueues.isEmpty()) {
+            for (GroupMember gm : [SELECT GroupId FROM GroupMember WHERE GroupId IN :nestedGroupToQueues.keySet() AND UserOrGroupId = :userId]) {
+                memberOf.addAll(nestedGroupToQueues.get(gm.GroupId));
+            }
+        }
+        return memberOf;
+    }
+
     public static Boolean isUserInQueue(Id userId, Id queueId) {
         List<GroupMember> directMembers = [SELECT Id FROM GroupMember WHERE GroupId = :queueId AND UserOrGroupId = :userId LIMIT 1];
         if (!directMembers.isEmpty()) {

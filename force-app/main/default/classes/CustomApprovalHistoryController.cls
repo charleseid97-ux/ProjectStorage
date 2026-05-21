@@ -47,7 +47,7 @@ public with sharing class CustomApprovalHistoryController {
                 queueIdsToCheck.add((Id) s.AssignedTo__c);
             }
         }
-        Set<Id> userQueueIds = resolveUserQueueMembership(queueIdsToCheck, currentUserId);
+        Set<Id> userQueueIds = QueueMemberService.getQueuesContainingUser(queueIdsToCheck, currentUserId);
 
         Set<String> processDevNames = new Set<String>();
         for (CustomApproval__c a : approvals) {
@@ -56,21 +56,26 @@ public with sharing class CustomApprovalHistoryController {
         Map<String, Boolean> stepDevNameHasUserInput = buildStepConfigMap(processDevNames);
 
         for (CustomApprovalStep__c s : steps) {
-            result.rows.add(buildRow(s));
-
-            if (s.IsCurrentStep__c && !canApproveOrReject) {
+            ApprovalRow row = buildRow(s);
+            if (s.IsCurrentStep__c) {
+                Boolean rowCanApprove = false;
                 if (isAdmin) {
-                    canApproveOrReject = true;
+                    rowCanApprove = true;
                 } else if (String.isNotBlank(s.AssignedTo__c)) {
                     Id assignedId = (Id) s.AssignedTo__c;
                     String prefix = String.valueOf(assignedId).left(3);
                     if (prefix == '005' && assignedId == currentUserId) {
-                        canApproveOrReject = true;
+                        rowCanApprove = true;
                     } else if (prefix == '00G' && userQueueIds.contains(assignedId)) {
-                        canApproveOrReject = true;
+                        rowCanApprove = true;
                     }
                 }
+                row.canApproveOrReject = rowCanApprove;
+                if (rowCanApprove) canApproveOrReject = true;
+            } else {
+                row.canApproveOrReject = false;
             }
+            result.rows.add(row);
         }
 
         for (CustomApproval__c a : approvals) {
@@ -107,27 +112,6 @@ public with sharing class CustomApprovalHistoryController {
             return true;
         }
         return false;
-    }
-
-    private static Set<Id> resolveUserQueueMembership(Set<Id> queueIds, Id currentUserId) {
-        Set<Id> memberOf = new Set<Id>();
-        if (queueIds.isEmpty()) return memberOf;
-        for (GroupMember gm : [SELECT GroupId
-                                FROM GroupMember
-                                WHERE GroupId IN :queueIds
-                                  AND UserOrGroupId = :currentUserId]) {
-            memberOf.add(gm.GroupId);
-        }
-        if (memberOf.size() < queueIds.size()) {
-            Set<Id> remainingQueues = new Set<Id>(queueIds);
-            remainingQueues.removeAll(memberOf);
-            for (Id queueId : remainingQueues) {
-                if (QueueMemberService.isUserInQueue(currentUserId, queueId)) {
-                    memberOf.add(queueId);
-                }
-            }
-        }
-        return memberOf;
     }
 
     private static Map<String, Boolean> buildStepConfigMap(Set<String> processDevNames) {
@@ -177,6 +161,7 @@ public with sharing class CustomApprovalHistoryController {
         @AuraEnabled public String   actualApprover;
         @AuraEnabled public String   comments;
         @AuraEnabled public Boolean  isPending;
+        @AuraEnabled public Boolean  canApproveOrReject;
         @AuraEnabled public String   processName;
         @AuraEnabled public String   nextApproverSource;
     }

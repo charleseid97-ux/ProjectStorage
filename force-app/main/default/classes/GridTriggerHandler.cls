@@ -74,7 +74,7 @@ public with sharing class GridTriggerHandler implements ITriggerHandler {
             if      (pendingGridIds.contains(agr.Grid_Request__c))  agreementsToUpdate.add(new Convention__c(Id = agr.Id, Amendment_Approval_Status__c = GridUtility.AGR_AMDMT_APPROVAL_REQUIRED));
             else if (approvedGridIds.contains(agr.Grid_Request__c)) agreementsToUpdate.add(new Convention__c(Id = agr.Id, Amendment_Approval_Status__c = GridUtility.AGR_AMDMT_APPROVED, Grid_Request_Approved__c = true));
             else if (rejectedGridIds.contains(agr.Grid_Request__c)) agreementsToUpdate.add(new Convention__c(Id = agr.Id, Amendment_Approval_Status__c = GridUtility.AGR_AMDMT_APPROVAL_REJECTED));
-            else if (recalledGridIds.contains(agr.Grid_Request__c)) agreementsToUpdate.add(new Convention__c(Id = agr.Id, Amendment_Approval_Status__c = GridUtility.AGR_AMDMT_APPROVAL_REQUIRED));
+            else if (recalledGridIds.contains(agr.Grid_Request__c)) agreementsToUpdate.add(new Convention__c(Id = agr.Id, Amendment_Approval_Status__c = GridUtility.AGR_AMDMT_NEED_SUBMISSION));
         }
 
         if (!agreementsToUpdate.isEmpty()) update agreementsToUpdate;

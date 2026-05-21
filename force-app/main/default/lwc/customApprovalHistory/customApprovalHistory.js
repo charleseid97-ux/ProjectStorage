@@ -52,7 +52,7 @@ export default class CustomApprovalHistory extends LightningElement {
     get headerTitle()       { return `Approval History (${(this.rows || []).length})`; }
 
     get showModalApproveReject() {
-        return this.selectedRow && this.selectedRow.isPending && this.canApproveOrReject;
+        return this.selectedRow && this.selectedRow.isPending && this.selectedRow.canApproveOrReject;
     }
     get showModalRecall() {
         return this.canRecall;
@@ -151,7 +151,7 @@ export default class CustomApprovalHistory extends LightningElement {
 
     // ── Private Helpers ───────────────────────────────────────────────────────
     _firstPendingRow() {
-        return (this.rows || []).find(r => r.isPending) || null;
+        return (this.rows || []).find(r => r.isPending && r.canApproveOrReject) || null;
     }
 
     _openModal(row) {
