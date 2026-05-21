@@ -95,22 +95,47 @@ public without sharing class QueueMemberService {
         Set<Id> memberOf = new Set<Id>();
         if (queueIds == null || queueIds.isEmpty()) return memberOf;
 
-        Map<Id, Set<Id>> nestedGroupToQueues = new Map<Id, Set<Id>>();
+        // Step 1: collect all members of these queues
+        Map<Id, Id> memberToQueue = new Map<Id, Id>(); // non-user member Id → queue Id
         for (GroupMember gm : [SELECT GroupId, UserOrGroupId FROM GroupMember WHERE GroupId IN :queueIds]) {
             if (gm.UserOrGroupId == userId) {
                 memberOf.add(gm.GroupId);
-            } else if (String.valueOf(gm.UserOrGroupId).left(3) != '005') {
-                if (!nestedGroupToQueues.containsKey(gm.UserOrGroupId)) {
-                    nestedGroupToQueues.put(gm.UserOrGroupId, new Set<Id>());
+            } else {
+                memberToQueue.put(gm.UserOrGroupId, gm.GroupId);
+            }
+        }
+        if (memberToQueue.isEmpty()) return memberOf;
+
+        // Step 2: resolve group types — public groups vs role groups
+        Set<Id> publicGroupIds    = new Set<Id>();
+        Map<Id, Id> roleGrpToRole = new Map<Id, Id>(); // role-group Id → UserRole Id
+        for (Group g : [SELECT Id, Type, RelatedId FROM Group WHERE Id IN :memberToQueue.keySet()]) {
+            if (g.Type == 'Regular') {
+                publicGroupIds.add(g.Id);
+            } else if (g.Type == 'Role' || g.Type == 'RoleAndSubordinates') {
+                roleGrpToRole.put(g.Id, g.RelatedId);
+            }
+        }
+
+        // Step 3: check public group membership via GroupMember
+        if (!publicGroupIds.isEmpty()) {
+            for (GroupMember gm : [SELECT GroupId FROM GroupMember WHERE GroupId IN :publicGroupIds AND UserOrGroupId = :userId]) {
+                memberOf.add(memberToQueue.get(gm.GroupId));
+            }
+        }
+
+        // Step 4: check role membership via User.UserRoleId
+        if (!roleGrpToRole.isEmpty()) {
+            Id userRoleId = [SELECT UserRoleId FROM User WHERE Id = :userId LIMIT 1].UserRoleId;
+            if (userRoleId != null) {
+                for (Id roleGrpId : roleGrpToRole.keySet()) {
+                    if (roleGrpToRole.get(roleGrpId) == userRoleId) {
+                        memberOf.add(memberToQueue.get(roleGrpId));
+                    }
                 }
-                nestedGroupToQueues.get(gm.UserOrGroupId).add(gm.GroupId);
             }
         }
-        if (!nestedGroupToQueues.isEmpty()) {
-            for (GroupMember gm : [SELECT GroupId FROM GroupMember WHERE GroupId IN :nestedGroupToQueues.keySet() AND UserOrGroupId = :userId]) {
-                memberOf.addAll(nestedGroupToQueues.get(gm.GroupId));
-            }
-        }
+
         return memberOf;
     }
 
