@@ -8,9 +8,16 @@
 @IsTest
 public with sharing class CustomApprovalHistoryControllerTest {
 
-    private static final String RESULT_NOT_NULL = 'Result should not be null';
-    private static final String STATUS_PENDING  = 'Pending';
     private static final String PROCESS_NAME    = 'GridAmendment';
+
+    private static final String STATUS_PENDING  = 'Pending';
+    private static final String STATUS_APPROVED  = 'Approved';
+
+    private static final String STEPLABEL_HOCAPPROVAL  = 'HOC Approval';
+    private static final String GRIDAMENDMENT_HOC = 'GridAmendment_HOC';
+
+    private static final String RESULT_NOT_NULL = 'Result should not be null';
+    private static final String ERROR_MSG_SET = 'Error message should be set';
 
     @TestSetup
     static void setupTestData() {
@@ -23,7 +30,7 @@ public with sharing class CustomApprovalHistoryControllerTest {
             Status__c               = status,
             SubmittedBy__c          = UserInfo.getUserId(),
             ProcessDeveloperName__c = PROCESS_NAME,
-            CurrentStepDevName__c   = status == STATUS_PENDING ? 'GridAmendment_HOC' : null
+            CurrentStepDevName__c   = status == STATUS_PENDING ? GRIDAMENDMENT_HOC : null
         );
         insert approval;
         return approval;
@@ -32,8 +39,8 @@ public with sharing class CustomApprovalHistoryControllerTest {
     private static CustomApprovalStep__c insertPendingStep(Id approvalId) {
         CustomApprovalStep__c step = new CustomApprovalStep__c(
             CustomApproval__c     = approvalId,
-            StepDeveloperName__c  = 'GridAmendment_HOC',
-            StepLabel__c          = 'HOC Approval',
+            StepDeveloperName__c  = GRIDAMENDMENT_HOC,
+            StepLabel__c          = STEPLABEL_HOCAPPROVAL,
             Status__c             = STATUS_PENDING,
             IsCurrentStep__c      = true,
             AssignedTo__c         = String.valueOf(UserInfo.getUserId()),
@@ -94,12 +101,12 @@ public with sharing class CustomApprovalHistoryControllerTest {
     @IsTest
     static void testGetApprovalHistory_ApprovedProcess() {
         Grid__c grid = GridTestSetupHelper.getTestGridByName(GridTestSetupHelper.GRID_NAME_S1);
-        CustomApproval__c approval = insertTestApproval(grid.Id, 'Approved');
+        CustomApproval__c approval = insertTestApproval(grid.Id, STATUS_APPROVED);
         CustomApprovalStep__c step = new CustomApprovalStep__c(
             CustomApproval__c      = approval.Id,
-            StepDeveloperName__c   = 'GridAmendment_HOC',
-            StepLabel__c           = 'HOC Approval',
-            Status__c              = 'Approved',
+            StepDeveloperName__c   = GRIDAMENDMENT_HOC,
+            StepLabel__c           = STEPLABEL_HOCAPPROVAL,
+            Status__c              = STATUS_APPROVED,
             IsCurrentStep__c       = false,
             ActualApprover__c      = UserInfo.getUserId(),
             ActionDate__c          = System.now()
@@ -110,7 +117,7 @@ public with sharing class CustomApprovalHistoryControllerTest {
         CustomApprovalHistoryController.ApprovalHistoryResult result = CustomApprovalHistoryController.getApprovalHistory(grid.Id);
         Test.stopTest();
 
-        System.assertEquals('Approved', result.processStatus, 'Process status should be Approved');
+        System.assertEquals(STATUS_APPROVED, result.processStatus, 'Process status should be Approved');
         System.assertEquals(false, result.canApproveOrReject, 'No pending steps — cannot approve');
         System.assertEquals(false, result.canRecall, 'Approved process cannot be recalled');
     }
@@ -129,7 +136,7 @@ public with sharing class CustomApprovalHistoryControllerTest {
         Test.stopTest();
 
         System.assertEquals(false, result.success, 'Should fail for deleted step Id');
-        System.assertNotEquals(null, result.errorMessage, 'Error message should be set');
+        System.assertNotEquals(null, result.errorMessage, ERROR_MSG_SET);
     }
 
     @IsTest
@@ -156,11 +163,11 @@ public with sharing class CustomApprovalHistoryControllerTest {
         delete step;
 
         Test.startTest();
-        CustomApprovalHistoryUtility.ProcessResult result = CustomApprovalHistoryController.processApproval(step.Id, 'Approve', 'Approved', nextApprovers);
+        CustomApprovalHistoryUtility.ProcessResult result = CustomApprovalHistoryController.processApproval(step.Id, 'Approve', STATUS_APPROVED, nextApprovers);
         Test.stopTest();
 
         System.assertEquals(false, result.success, 'Should fail for deleted step Id');
-        System.assertNotEquals(null, result.errorMessage, 'Error message should be set');
+        System.assertNotEquals(null, result.errorMessage, ERROR_MSG_SET);
     }
 
     // ─── submitForApproval ──────────────────────────────────────────────────────
@@ -189,7 +196,7 @@ public with sharing class CustomApprovalHistoryControllerTest {
 
         System.assertNotEquals(null, result, RESULT_NOT_NULL);
         System.assertEquals(false, result.success, 'HOC dynamic resolver returns empty in test environment');
-        System.assertNotEquals(null, result.errorMessage, 'Error message should be set');
+        System.assertNotEquals(null, result.errorMessage, ERROR_MSG_SET);
     }
 
     // ─── getApprovalHistory — queue-assigned step ───────────────────────────────
@@ -208,8 +215,8 @@ public with sharing class CustomApprovalHistoryControllerTest {
         CustomApproval__c approval = insertTestApproval(grid.Id, STATUS_PENDING);
         CustomApprovalStep__c step = new CustomApprovalStep__c(
             CustomApproval__c    = approval.Id,
-            StepDeveloperName__c = 'GridAmendment_HOC',
-            StepLabel__c         = 'HOC Approval',
+            StepDeveloperName__c = GRIDAMENDMENT_HOC,
+            StepLabel__c         = STEPLABEL_HOCAPPROVAL,
             Status__c            = STATUS_PENDING,
             IsCurrentStep__c     = true,
             AssignedTo__c        = String.valueOf(testQueue.Id),

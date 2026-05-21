@@ -22,6 +22,7 @@ public with sharing class GridUtility {
     public static final String AGR_AMDMT_APPROVED            = 'Approved';
 
     // Grid__c ApprovalStatus__c values
+    public static final String GRID_STATUS_DRAFT             = 'Draft';
     public static final String GRID_STATUS_PENDING_APPROVAL  = 'Pending Approval';
     public static final String GRID_STATUS_APPROVED          = 'Approved';
     public static final String GRID_STATUS_REJECTED          = 'Rejected';

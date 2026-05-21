@@ -31,7 +31,7 @@ public with sharing class AgreementGridTimelineUtility {
                                             FROM AgreementGridTimeline__c
                                             WHERE Agreement__c IN :agreementIds]) {
             if(submittedAgrToGridIds.containsKey(agt.Agreement__c)) {
-                timelinesToUpdate.add(setNewTimelineStatus(submittedAgrToGridIds, agt, new List<String>{AGT_DRAFT}, AGT_PENDINGAPPROVAL));
+                timelinesToUpdate.add(setNewTimelineStatus(submittedAgrToGridIds, agt, new List<String>{AGT_DRAFT, AGT_REJECTED}, AGT_PENDINGAPPROVAL));
             }
             else if(rejectedAgrToGridIds.containsKey(agt.Agreement__c)) {
                 timelinesToUpdate.add(setNewTimelineStatus(rejectedAgrToGridIds, agt, new List<String>{AGT_DRAFT, AGT_PENDINGAPPROVAL}, AGT_REJECTED));

@@ -50,27 +50,31 @@ public with sharing class GridTriggerHandler implements ITriggerHandler {
         Set<Id> pendingGridIds  = new Set<Id>();
         Set<Id> approvedGridIds = new Set<Id>();
         Set<Id> rejectedGridIds = new Set<Id>();
+        Set<Id> recalledGridIds = new Set<Id>();
 
         for (Grid__c grid : newGrids) {
             String oldStatus = oldGrids.get(grid.Id).ApprovalStatus__c;
             String newStatus = grid.ApprovalStatus__c;
-            if      (newStatus == 'Pending Approval' && oldStatus != 'Pending Approval') pendingGridIds.add(grid.Id);
-            else if (newStatus == 'Approved'         && oldStatus != 'Approved')         approvedGridIds.add(grid.Id);
-            else if (newStatus == 'Rejected'         && oldStatus != 'Rejected')         rejectedGridIds.add(grid.Id);
+            if      (newStatus == GridUtility.GRID_STATUS_PENDING_APPROVAL && oldStatus != GridUtility.GRID_STATUS_PENDING_APPROVAL)    pendingGridIds.add(grid.Id);
+            else if (newStatus == GridUtility.GRID_STATUS_APPROVED         && oldStatus != GridUtility.GRID_STATUS_APPROVED)            approvedGridIds.add(grid.Id);
+            else if (newStatus == GridUtility.GRID_STATUS_REJECTED         && oldStatus != GridUtility.GRID_STATUS_REJECTED)            rejectedGridIds.add(grid.Id);
+            else if (newStatus == GridUtility.GRID_STATUS_DRAFT            && oldStatus == GridUtility.GRID_STATUS_PENDING_APPROVAL)    recalledGridIds.add(grid.Id); //Approval RECALL
         }
 
-        if (pendingGridIds.isEmpty() && approvedGridIds.isEmpty() && rejectedGridIds.isEmpty()) return;
+        if (pendingGridIds.isEmpty() && approvedGridIds.isEmpty() && rejectedGridIds.isEmpty() && recalledGridIds.isEmpty()) return;
 
         Set<Id> allGridIds = new Set<Id>();
         allGridIds.addAll(pendingGridIds);
         allGridIds.addAll(approvedGridIds);
         allGridIds.addAll(rejectedGridIds);
+        allGridIds.addAll(recalledGridIds);
 
         List<Convention__c> agreementsToUpdate = new List<Convention__c>();
         for (Convention__c agr : [SELECT Id, Grid_Request__c FROM Convention__c WHERE Grid_Request__c IN :allGridIds]) {
             if      (pendingGridIds.contains(agr.Grid_Request__c))  agreementsToUpdate.add(new Convention__c(Id = agr.Id, Amendment_Approval_Status__c = GridUtility.AGR_AMDMT_APPROVAL_REQUIRED));
             else if (approvedGridIds.contains(agr.Grid_Request__c)) agreementsToUpdate.add(new Convention__c(Id = agr.Id, Amendment_Approval_Status__c = GridUtility.AGR_AMDMT_APPROVED, Grid_Request_Approved__c = true));
             else if (rejectedGridIds.contains(agr.Grid_Request__c)) agreementsToUpdate.add(new Convention__c(Id = agr.Id, Amendment_Approval_Status__c = GridUtility.AGR_AMDMT_APPROVAL_REJECTED));
+            else if (recalledGridIds.contains(agr.Grid_Request__c)) agreementsToUpdate.add(new Convention__c(Id = agr.Id, Amendment_Approval_Status__c = GridUtility.AGR_AMDMT_APPROVAL_REQUIRED));
         }
 
         if (!agreementsToUpdate.isEmpty()) update agreementsToUpdate;
