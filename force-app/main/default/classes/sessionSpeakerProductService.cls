@@ -162,12 +162,15 @@ public without sharing class sessionSpeakerProductService {
 
             String summary = buildSummary(data.productsByKey.get(key));
 
+            Contact speaker = speakerById.get(speakerId);
+            Boolean isAutoApproved = speaker != null && speaker.IsTopSpeaker__c == false;
+
             toInsert.add(new EventSpeakerApprovals__c(
                 Key__c          = key,
                 Event__c        = eventId,
                 Speaker__c      = speakerId,
                 ApproverUser__c = approverUserId,
-                Status__c       = SUBMITTED_STATUS,
+                Status__c       = isAutoApproved ? 'AutoApproved' : SUBMITTED_STATUS,
                 Summary__c      = summary
             ));
         }

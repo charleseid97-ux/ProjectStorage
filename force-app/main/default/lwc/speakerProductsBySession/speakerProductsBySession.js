@@ -192,10 +192,12 @@ export default class SpeakerProductsBySession extends LightningElement {
             const repeater = this.template.querySelector('c-session-speaker-product-repeater');
 
             if (repeater) {
-                const validation = repeater.validate();
+                // Recalculate child validation before save
+                repeater.validate();
 
-                if (!validation.isValid) {
-                    this.error = { message: validation.errorMessage };
+                // Stop save when repeater fields are invalid
+                if (!repeater.formValidated) {
+                    this.error = { message: 'Please complete all required fields.' };
                     return;
                 }
             }

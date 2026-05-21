@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-  <!-- Apex -->
-  	<types>   
-    	<members>ProjectProductChildHandler</members>
-        <name>ApexClass</name>
-      </types>
 
-	<types>
-        <members>ProjectShareclass__c.ShareClassNamePreModif__c</members>
-        <name>CustomField</name>
+    <!-- Apex -->
+    <types>
+        <members>sessionSpeakerProductService</members>
+        <name>ApexClass</name>
     </types>
-	
-  <version>65.0</version>
+
+    <!-- LWC -->
+    <types>
+        <members>speakerProductsBySession</members>
+        <members>sessionSpeakerProductRepeater</members>
+        <name>LightningComponentBundle</name>
+    </types>
+
+    <!-- Flow -->
+    <types>
+        <members>newEvent</members>
+        <name>Flow</name>
+    </types>
+
+    <version>65.0</version>
+
 </Package>
