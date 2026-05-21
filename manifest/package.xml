@@ -7,8 +7,10 @@
 		<members>CustomApprovalHistoryUtility</members>
 		<members>CustomApprovalHistoryUtilityTest</members>
 		<members>EmailService</members>
+		<members>EmailServiceTest</members>
 		<members>IApprovalAction</members>
 		<members>QueueMemberService</members>
+		<members>QueueMemberServiceTest</members>
 		<members>AgreementGridRecapControllerTest</members>
 		<members>AgreementGridTimelineBatch</members>
 		<members>AgreementGridTimelineScheduler</members>
@@ -379,6 +381,8 @@
 		<members>AgreementGridTimelineItemRecordPage</members>
 		<members>BuildNewGrid</members>
 		<members>Convention_Record_Page</members>
+		<members>CustomApprovalRecordPage</members>
+		<members>CustomApprovalStepRecordPage</members>
 		<members>CustomGridRecordPage</members>
 		<members>GridCriteriaDetailRecordPage</members>
 		<members>GridCriteriaRecordPage</members>
@@ -399,6 +403,8 @@
 		<members>Convention__c-Intermediary Agreement Layout</members>
 		<members>Convention__c-Intermediary Agreement Request Full Layout</members>
 		<members>Convention__c-Sub-distributor Agreement Layout</members>
+		<members>CustomApproval__c-Custom Approval Layout</members>
+		<members>CustomApprovalStep__c-Custom Approval Step Layout</members>
 		<members>GridBuilderSetting__mdt-Grid Builder Setting Layout</members>
 		<members>GridCriteriaDetail__c-Grid Criteria Detail Layout</members>
 		<members>GridCriteriaSetting__mdt-Grid Criteria Setting Layout</members>

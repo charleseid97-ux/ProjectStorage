@@ -1,3 +1,12 @@
+/** ──────────────────────────────────────
+ * @description Utility service for sending template-based email notifications
+ *              as part of the custom approval process.
+ *              Resolves recipient IDs from approver sets, queue memberships,
+ *              submitted-by references, record owners, and additional addressee lists.
+ * @author Charles EID
+ * @testClass EmailServiceTest
+ * @coverage 74%   [20-05-26]
+ ────────────────────────────────────── */
 public without sharing class EmailService {
 
     public static void sendTemplateEmail(String templateDeveloperName, Id whatId, Set<Id> recipientUserIds) {

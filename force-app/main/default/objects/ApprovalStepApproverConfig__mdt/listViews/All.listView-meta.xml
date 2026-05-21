@@ -3,7 +3,12 @@
     <fullName>All</fullName>
     <columns>MasterLabel</columns>
     <columns>DeveloperName</columns>
-    <columns>ObjectType__c</columns>
+    <columns>StepConfig__c</columns>
+    <columns>ExecutionOrder__c</columns>
+    <columns>ApproverType__c</columns>
+    <columns>ApproverSource__c</columns>
+    <columns>ApproverValue__c</columns>
+    <columns>ApproverResolverClass__c</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
     <language>en_US</language>

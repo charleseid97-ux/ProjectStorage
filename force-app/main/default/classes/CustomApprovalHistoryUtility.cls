@@ -1,3 +1,12 @@
+/** ──────────────────────────────────────
+ * @description Core service class for the custom approval process engine.
+ *              Handles submission, step-by-step approval/rejection/recall flows,
+ *              approver resolution (configured, dynamic, user-input), and
+ *              post-action execution (field updates, email alerts, custom Apex).
+ * @author Charles EID
+ * @testClass CustomApprovalHistoryUtilityTest
+ * @coverage 65%   [20-05-26]
+ ────────────────────────────────────── */
 public without sharing class CustomApprovalHistoryUtility {
 
     // ─── submitForApproval ────────────────────────────────────────────────────────
@@ -9,7 +18,7 @@ public without sharing class CustomApprovalHistoryUtility {
         try {
             List<ApprovalStepConfig__mdt> allSteps = [SELECT Id, DeveloperName, StepOrder__c, StepLabel__c, ApprovalMode__c
                                                       FROM ApprovalStepConfig__mdt
-                                                      WHERE ProcessConfig__r.ProcessDeveloperName__c = :processName
+                                                      WHERE ProcessConfig__r.DeveloperName = :processName
                                                       ORDER BY StepOrder__c ASC];
             if (allSteps.isEmpty()) {
                 result.errorMessage = 'No step configuration found for process: ' + processName;
@@ -154,7 +163,7 @@ public without sharing class CustomApprovalHistoryUtility {
 
         List<ApprovalStepConfig__mdt> nextSteps = [SELECT Id, DeveloperName, StepLabel__c, ApprovalMode__c
                                                    FROM ApprovalStepConfig__mdt
-                                                   WHERE ProcessConfig__r.ProcessDeveloperName__c = :ctx.processName
+                                                   WHERE ProcessConfig__r.DeveloperName = :ctx.processName
                                                      AND StepOrder__c > :stepCfg.StepOrder__c
                                                    ORDER BY StepOrder__c ASC LIMIT 1];
 
@@ -333,7 +342,7 @@ public without sharing class CustomApprovalHistoryUtility {
 
     // ─── executeActions ───────────────────────────────────────────────────────────
     private static void executeActions(String processDevName, String stepDevName, String actionType, Id targetRecordId, Map<String, Object> context) {
-        String filterField = String.isNotBlank(stepDevName) ? 'StepConfig__r.DeveloperName' : 'ProcessConfig__r.ProcessDeveloperName__c';
+        String filterField = String.isNotBlank(stepDevName) ? 'StepConfig__r.DeveloperName' : 'ProcessConfig__r.DeveloperName';
         String filterValue = String.isNotBlank(stepDevName) ? stepDevName : processDevName;
 
         String approvalActionConfigQuery = 'SELECT ActionKind__c, TargetFieldApiName__c, FieldValue__c, ' +

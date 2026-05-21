@@ -1,3 +1,12 @@
+/** ──────────────────────────────────────
+ * @description AuraEnabled controller for the Custom Approval History LWC.
+ *              Exposes approval history retrieval, approval/rejection/recall actions,
+ *              and process submission to the front-end. Resolves user and queue-based
+ *              permissions to determine which actions the current user may take.
+ * @author Charles EID
+ * @testClass CustomApprovalHistoryControllerTest
+ * @coverage 85%   [20-05-26]
+ ────────────────────────────────────── */
 public with sharing class CustomApprovalHistoryController {
 
     // ─── getApprovalHistory ──────────────────────────────────────────────────────
@@ -94,8 +103,7 @@ public with sharing class CustomApprovalHistoryController {
                                             FROM PermissionSetAssignment
                                             WHERE AssigneeId = :userId
                                               AND PermissionSet.IsOwnedByProfile = true
-                                              AND PermissionSet.Profile.Name LIKE '%Administrator%'
-                                            LIMIT 1]) {
+                                              AND PermissionSet.Profile.Name LIKE '%Administrator%' LIMIT 1]) {
             return true;
         }
         return false;
@@ -126,7 +134,7 @@ public with sharing class CustomApprovalHistoryController {
         Map<String, Boolean> result = new Map<String, Boolean>();
         for (ApprovalStepApproverConfig__mdt cfg : [SELECT StepConfig__r.DeveloperName, ApproverSource__c
                                                     FROM ApprovalStepApproverConfig__mdt
-                                                    WHERE StepConfig__r.ProcessConfig__r.ProcessDeveloperName__c IN :processDevNames]) {
+                                                    WHERE StepConfig__r.ProcessConfig__r.DeveloperName IN :processDevNames]) {
             if (cfg.ApproverSource__c == 'UserInput') {
                 result.put(cfg.StepConfig__r.DeveloperName, true);
             }
