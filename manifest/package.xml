@@ -4,6 +4,8 @@
     <!-- Apex -->
     <types>
         <members>sessionSpeakerProductService</members>
+        <members>customEventHandler</members>
+        <members>customEventSpeakerApprovalService</members>              
         <name>ApexClass</name>
     </types>
 

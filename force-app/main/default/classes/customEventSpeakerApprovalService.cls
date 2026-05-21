@@ -102,6 +102,12 @@ public without sharing class customEventSpeakerApprovalService {
 
         // 1) Déterminer les events concernés (entrants en WaitingForSpeakerApprovals)
         Set<Id> eventIds = collectEventIdsToProcess(newEvents, oldEvents);
+
+        for (Event__c newEvt : newEvents.values()) {
+            if (isOrganizerDecisionApproved(newEvt, oldEvents)) {
+                eventIds.add(newEvt.Id);
+            }
+        }
         if (eventIds.isEmpty()) return;
 
         // 2) Recursion guard (évite double traitement dans la même transaction)
@@ -127,10 +133,19 @@ public without sharing class customEventSpeakerApprovalService {
         for (Id evtId : eventIds) {
             if (!eventsWithSSP.contains(evtId)) {
                 Event__c newEvt = newEvents.get(evtId);
-                if (newEvt == null) {
-                    System.debug(LoggingLevel.WARN, 'markEventFullyApprovedIfNoSSP: event not found in newEvents map, event=' + evtId);
+                if (newEvt == null) continue;
+
+                // Do not bypass organizer approval when it is required.
+                if (
+                    newEvt.OrganizerApprovalRequired__c == true &&
+                    newEvt.OrganizerDecision__c != 'Approved'
+                ) {
+                    System.debug(LoggingLevel.INFO,
+                        'markEventFullyApprovedIfNoSSP: organizer approval required, keep WaitingForSpeakerApprovals event=' + evtId
+                    );
                     continue;
                 }
+                
 
                 String currentStatus = newEvt.Status__c;
                 if (currentStatus == null || !currentStatus.equalsIgnoreCase(customEventConstants.STATUS_FULLY_APPROVED)) {
@@ -1179,54 +1194,108 @@ public without sharing class customEventSpeakerApprovalService {
     }
 
     // Calculates target Event status from speaker approvals
-public static Map<Id, String> calculateEventStatusFromApprovals(Set<Id> eventIds) {
-    Map<Id, String> result = new Map<Id, String>();
+    public static Map<Id, String> calculateEventStatusFromApprovals(Set<Id> eventIds) {
+        Map<Id, String> result = new Map<Id, String>();
 
-    if (eventIds == null || eventIds.isEmpty()) return result;
+        if (eventIds == null || eventIds.isEmpty()) return result;
 
-    Map<Id, Map<String, Integer>> countsByEventAndStatus = queryApprovalCounts(eventIds);
+        Map<Id, Map<String, Integer>> countsByEventAndStatus = queryApprovalCounts(eventIds);
 
-    // Build target status per Event
-    for (Id evtId : countsByEventAndStatus.keySet()) {
-        Map<String, Integer> statusCounts = countsByEventAndStatus.get(evtId);
+        // Build target status per Event
+        for (Id evtId : countsByEventAndStatus.keySet()) {
+            Map<String, Integer> statusCounts = countsByEventAndStatus.get(evtId);
 
-        Integer total = 0;
-        Integer approved = 0;
-        Integer rejected = 0;
-        Integer recalled = 0;
+            Integer total = 0;
+            Integer approved = 0;
+            Integer rejected = 0;
+            Integer recalled = 0;
 
-        for (String status : statusCounts.keySet()) {
-            Integer countValue = statusCounts.get(status);
-            if (countValue == null) continue;
+            for (String status : statusCounts.keySet()) {
+                Integer countValue = statusCounts.get(status);
+                if (countValue == null) continue;
 
-            if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_APPROVED_SPEAKER)) {
-                approved += countValue;
-                total += countValue;
-            } else if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_REJECTED)) {
-                rejected += countValue;
-                total += countValue;
-            } else if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_SUBMITTED)) {
-                total += countValue;
-            } else if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_RECALLED)) {
-                recalled += countValue;
-            } else if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_APPROVED_HOP)) {
-                approved += countValue;
-                total += countValue;
-            } else if (status != null && status.equalsIgnoreCase('AutoApproved')) {
-                approved += countValue;
-                total += countValue;
+                if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_APPROVED_SPEAKER)) {
+                    approved += countValue;
+                    total += countValue;
+                } else if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_REJECTED)) {
+                    rejected += countValue;
+                    total += countValue;
+                } else if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_SUBMITTED)) {
+                    total += countValue;
+                } else if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_RECALLED)) {
+                    recalled += countValue;
+                } else if (status != null && status.equalsIgnoreCase(customEventConstants.APPROVAL_STATUS_APPROVED_HOP)) {
+                    approved += countValue;
+                    total += countValue;
+                } else if (status != null && status.equalsIgnoreCase('AutoApproved')) {
+                    approved += countValue;
+                    total += countValue;
+                }
+            }
+
+            // Store calculated status
+            result.put(
+                evtId,
+                recalled > 0
+                    ? customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS
+                    : shouldMarkFullyApproved(total, approved, rejected)
+            );
+        }
+
+        return result;
+    }
+    /*public static void markFullyApprovedAfterOrganizerApprovalIfNoSSP(List<Event__c> newEvents) {
+        if (newEvents == null || newEvents.isEmpty()) return;
+
+        Set<Id> eventIds = new Set<Id>();
+
+        // Events still waiting after organizer approval path.
+        for (Event__c ev : newEvents) {
+            if (
+                ev != null &&
+                ev.Id != null &&
+                ev.Status__c == customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS &&
+                ev.OrganizerApprovalRequired__c == true
+            ) {
+                eventIds.add(ev.Id);
             }
         }
 
-        // Store calculated status
-        result.put(
-            evtId,
-            recalled > 0
-                ? customEventConstants.STATUS_WAITING_FOR_SPEAKER_APPROVALS
-                : shouldMarkFullyApproved(total, approved, rejected)
-        );
-    }
+        if (eventIds.isEmpty()) return;
 
-    return result;
-}
+        Set<Id> eventsWithSSP = new Set<Id>();
+        for (SessionSpeakerProduct__c ssp : [
+            SELECT Session__c
+            FROM SessionSpeakerProduct__c
+            WHERE Session__c IN :eventIds
+            AND SpeakerContact__c != null
+        ]) {
+            eventsWithSSP.add(ssp.Session__c);
+        }
+
+        List<Event__c> toUpdate = new List<Event__c>();
+
+        for (Id eventId : eventIds) {
+            if (!eventsWithSSP.contains(eventId)) {
+                toUpdate.add(new Event__c(
+                    Id = eventId,
+                    Status__c = customEventConstants.STATUS_FULLY_APPROVED
+                ));
+            }
+        }
+
+        if (!toUpdate.isEmpty()) {
+            update toUpdate;
+        }
+    }*/
+
+    private static Boolean isOrganizerDecisionApproved(Event__c newEvt, Map<Id, Event__c> oldEvents) {
+        if (newEvt == null || oldEvents == null) return false;
+
+        Event__c oldEvt = oldEvents.get(newEvt.Id);
+        if (oldEvt == null) return false;
+
+        return oldEvt.OrganizerDecision__c != 'Approved'
+            && newEvt.OrganizerDecision__c == 'Approved';
+    }
 }
