@@ -91,6 +91,54 @@ public without sharing class QueueMemberService {
         return groups.isEmpty() ? null : groups[0].Id;
     }
 
+    public static Set<Id> getQueuesContainingUser(Set<Id> queueIds, Id userId) {
+        Set<Id> memberOf = new Set<Id>();
+        if (queueIds == null || queueIds.isEmpty()) return memberOf;
+
+        // Step 1: collect all members of these queues
+        Map<Id, Id> memberToQueue = new Map<Id, Id>(); // non-user member Id → queue Id
+        for (GroupMember gm : [SELECT GroupId, UserOrGroupId FROM GroupMember WHERE GroupId IN :queueIds]) {
+            if (gm.UserOrGroupId == userId) {
+                memberOf.add(gm.GroupId);
+            } else {
+                memberToQueue.put(gm.UserOrGroupId, gm.GroupId);
+            }
+        }
+        if (memberToQueue.isEmpty()) return memberOf;
+
+        // Step 2: resolve group types — public groups vs role groups
+        Set<Id> publicGroupIds    = new Set<Id>();
+        Map<Id, Id> roleGrpToRole = new Map<Id, Id>(); // role-group Id → UserRole Id
+        for (Group g : [SELECT Id, Type, RelatedId FROM Group WHERE Id IN :memberToQueue.keySet()]) {
+            if (g.Type == 'Regular') {
+                publicGroupIds.add(g.Id);
+            } else if (g.Type == 'Role' || g.Type == 'RoleAndSubordinates') {
+                roleGrpToRole.put(g.Id, g.RelatedId);
+            }
+        }
+
+        // Step 3: check public group membership via GroupMember
+        if (!publicGroupIds.isEmpty()) {
+            for (GroupMember gm : [SELECT GroupId FROM GroupMember WHERE GroupId IN :publicGroupIds AND UserOrGroupId = :userId]) {
+                memberOf.add(memberToQueue.get(gm.GroupId));
+            }
+        }
+
+        // Step 4: check role membership via User.UserRoleId
+        if (!roleGrpToRole.isEmpty()) {
+            Id userRoleId = [SELECT UserRoleId FROM User WHERE Id = :userId LIMIT 1].UserRoleId;
+            if (userRoleId != null) {
+                for (Id roleGrpId : roleGrpToRole.keySet()) {
+                    if (roleGrpToRole.get(roleGrpId) == userRoleId) {
+                        memberOf.add(memberToQueue.get(roleGrpId));
+                    }
+                }
+            }
+        }
+
+        return memberOf;
+    }
+
     public static Boolean isUserInQueue(Id userId, Id queueId) {
         List<GroupMember> directMembers = [SELECT Id FROM GroupMember WHERE GroupId = :queueId AND UserOrGroupId = :userId LIMIT 1];
         if (!directMembers.isEmpty()) {

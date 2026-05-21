@@ -37,12 +37,14 @@ public with sharing class GridUtility {
      *              C) Amendment submitted     → Grid Pending Approval
      *              D) Amendment approved      → field swap + Grid Approved
      *              E) Grid rejected (first or amendment) → Grid Rejected
+     *              F) Grid recalled           → AGT → Draft
      ────────────────────────────────────── */
     public static void handleAgreementGridTransitions(List<Convention__c> newAgreements, Map<Id, Convention__c> oldAgreements) {
         Map<Id, String>   gridApprovalUpdates    = new Map<Id, String>();
         Map<Id, List<Id>> submittedAgrToGridIds  = new Map<Id, List<Id>>();
         Map<Id, List<Id>> approvedAgrToGridIds   = new Map<Id, List<Id>>();
         Map<Id, List<Id>> rejectedAgrToGridIds   = new Map<Id, List<Id>>();
+        Map<Id, List<Id>> recalledAgrToGridIds   = new Map<Id, List<Id>>();
         Map<Id, List<Id>> historicalAgrToGridIds = new Map<Id, List<Id>>(); // Scenario 3: approved but predates active — new AGT → Inactive
         Map<Id, Date>     oldGridEndDates       = new Map<Id, Date>();      // old Grid EndDate set at approval for both Scenario 1 and 2
         Set<Id>           immediateOldGridIds   = new Set<Id>();             // Scenario 2: old Active AGT → Inactive immediately in updateTimelines
@@ -67,7 +69,7 @@ public with sharing class GridUtility {
         }
 
         String oldStatus, newStatus, oldAmdmt, newAmdmt;
-        Boolean isFirstGrid, isA, isB, isC, isD, isE;
+        Boolean isFirstGrid, isA, isB, isC, isD, isE, isF;
 
         for (Convention__c agr : newAgreements) {
             Convention__c oldAgr = oldAgreements.get(agr.Id);
@@ -83,6 +85,7 @@ public with sharing class GridUtility {
             isC = !isFirstGrid && oldAmdmt  != newAmdmt  && String.isNotEmpty(newAmdmt)  && !amendmentNonSubmitStatuses.contains(newAmdmt) && agr.Grid_Request__c != null;  // C: Amendment submitted
             isD = !isFirstGrid && newAmdmt  == AGR_AMDMT_APPROVED && agr.Grid_Request_Approved__c && !oldAgr.Grid_Request_Approved__c;                                      // D: Amendment approved (transition false → true only)
             isE = newAmdmt  == AGR_AMDMT_APPROVAL_REJECTED && oldAmdmt != AGR_AMDMT_APPROVAL_REJECTED && agr.Grid_Request__c != null;                                       // E: Grid rejected (first or amendment)
+            isF = !isFirstGrid && oldAmdmt == AGR_AMDMT_APPROVAL_REQUIRED && newAmdmt == AGR_AMDMT_NEED_SUBMISSION && agr.Grid_Request__c != null;                        // F: Grid recalled
 
             // Pending Approval (A or C) — grid + AGT → Pending Approval
             if (isA || isC) {
@@ -120,10 +123,14 @@ public with sharing class GridUtility {
                 rejectedAgrToGridIds.put(agr.Id, new List<Id>{ agr.Grid_Request__c });
                 gridApprovalUpdates.put(agr.Grid_Request__c, GRID_STATUS_REJECTED);
             }
+            // Recalled (F) — AGT → Draft (Grid is already Draft from the recall action)
+            if (isF) {
+                recalledAgrToGridIds.put(agr.Id, new List<Id>{ agr.Grid_Request__c });
+            }
         }
 
         updateGrids(gridApprovalUpdates, oldGridEndDates);
-        AgreementGridTimelineUtility.updateTimelines(submittedAgrToGridIds, approvedAgrToGridIds, rejectedAgrToGridIds, historicalAgrToGridIds, immediateOldGridIds);
+        AgreementGridTimelineUtility.updateTimelines(submittedAgrToGridIds, approvedAgrToGridIds, rejectedAgrToGridIds, recalledAgrToGridIds, historicalAgrToGridIds, immediateOldGridIds);
     }
 
     private static void updateGrids(Map<Id, String> approvalUpdates, Map<Id, Date> endDateUpdates) {
