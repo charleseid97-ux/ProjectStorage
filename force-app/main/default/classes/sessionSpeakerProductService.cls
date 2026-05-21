@@ -180,6 +180,12 @@ public without sharing class sessionSpeakerProductService {
 
     private static Id getApproverUserId(Map<Id, Contact> speakerById, Id speakerId, String key) {
         Contact c = (speakerById != null) ? speakerById.get(speakerId) : null;
+
+        // Non top speaker => pas besoin d'assistant
+        if (c != null && c.IsTopSpeaker__c == false) {
+            return null;
+        }
+
         Id approverUserId = (c != null) ? c.SpeakerAssistant__c : null;
 
         if (approverUserId == null) {
@@ -191,7 +197,6 @@ public without sharing class sessionSpeakerProductService {
 
         return approverUserId;
     }
-
     private static String buildSummary(Set<String> productNames) {
         if (productNames == null || productNames.isEmpty()) return null;
 
@@ -324,7 +329,7 @@ public without sharing class sessionSpeakerProductService {
         }
 
         Map<Id, Contact> speakersById = new Map<Id, Contact>([
-            SELECT Id, IsTopSpeaker__c
+            SELECT Id, IsTopSpeaker__c,SpeakerAssistant__c
             FROM Contact
             WHERE Id IN :speakerIds
         ]);
