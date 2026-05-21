@@ -186,7 +186,7 @@ public static void blockValidationBeforeSPCValidated(Map<Id, ProjectProductChild
                             DividendPolicy__c = shareClassElt.DividendPolicy__c,
                             Type__c = shareClassElt.Type__c,
                             Tech_ShareClass__c = shareClassElt.Id,
-                            ClonedByReferential__c = shareClassElt.Id,
+                            ShareClassNamePreModif__c = shareClassElt.Name,
                             //TECH_DoNotProcess__c = donotDisplay,
                             projectProduct__c = child
                         ));
