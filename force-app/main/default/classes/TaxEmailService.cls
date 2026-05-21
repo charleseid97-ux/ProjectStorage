@@ -5,6 +5,8 @@ public with sharing class TaxEmailService {
     private static final String COUNTRY_UK = 'UK';
     private static final String COUNTRY_GB = 'GB';
 
+    private static final String SOURCE_PMT = 'PMT';
+
     private static final String SCENARIO_TRANSPARENCY = 'Transparency';
     private static final String SCENARIO_TRANSPARENCY_QUARTERLY = 'TransparencyQuarterly';
     private static final String SCENARIO_MERGER_LIQUIDATION = 'MergerLiquidation';
@@ -58,8 +60,11 @@ public with sharing class TaxEmailService {
                 Type__c,
                 Status__c,
                 ISIN__c,
+                Source__c,
+                ProjectShareclass__c,
+                ProjectShareclass__r.Share_Class_Name__c,
                 ShareClass__c,
-                ShareClass__r.Name__c,
+                ShareClass__r.Name,
                 ShareClass__r.LaunchDate__c,
                 ShareClass__r.Fund__r.ProductName__c,
                 CreatedDate
@@ -69,7 +74,6 @@ public with sharing class TaxEmailService {
             AND Status__c = :STATUS_REQUESTED
             AND CreatedDate >= :quarterStart
             AND CreatedDate < :quarterEndExclusive
-            ORDER BY ShareClass__r.Fund__r.ProductName__c, ShareClass__r.Name__c
         ];
 
         if (recordsToProcess.isEmpty()) {
@@ -229,15 +233,23 @@ public with sharing class TaxEmailService {
     private static List<TaxData__c> fetchTaxData(Set<Id> taxDataIds) {
         return [
             SELECT Id,
-                   Country__c,
-                   Type__c,
-                   Status__c,
-                   ISIN__c,
-                   StartDate__c,
-                   ShareClass__c,
-                   ShareClass__r.LaunchDate__c,
-                   ShareClass__r.Fund__r.ProductName__c,
-                   ShareClass__r.Name__c
+                Country__c,
+                Type__c,
+                Status__c,
+                Source__c,
+                ISIN__c,
+                StartDate__c,
+
+                ShareClass__c,
+                ShareClass__r.LaunchDate__c,
+                ShareClass__r.Fund__r.ProductName__c,
+                ShareClass__r.Name,
+
+                ProjectShareclass__c,
+                ProjectShareclass__r.Share_Class_Name__c,
+                ProjectShareclass__r.ProjectProduct__r.Name,
+                ProjectShareclass__r.ProjectProduct__r.InternalShortName__c
+
             FROM TaxData__c
             WHERE Id IN :taxDataIds
         ];
@@ -254,7 +266,7 @@ public with sharing class TaxEmailService {
                    ShareClass__c,
                    ShareClass__r.LaunchDate__c,
                    ShareClass__r.Fund__r.ProductName__c,
-                   ShareClass__r.Name__c
+                   ShareClass__r.Name
             FROM TaxData__c
             WHERE ShareClass__c IN :shareClassIds
               AND Country__c = :COUNTRY_AT
@@ -438,7 +450,7 @@ public with sharing class TaxEmailService {
 
         html += '<table>';
         html += '<tr>';
-        html += '<th>Fund Name</th>';
+        //html += '<th>Fund Name</th>';
         html += '<th>ISIN</th>';
         html += '<th>Share Class</th>';
         html += '<th>Inception Date</th>';
@@ -450,7 +462,7 @@ public with sharing class TaxEmailService {
             String rowClass = Math.mod(rowIndex, 2) == 0 ? 'row-odd' : 'row-even';
 
             html += '<tr class="' + rowClass + '">';
-            html += '<td>' + htmlEscape(getFundName(td)) + '</td>';
+            //html += '<td>' + htmlEscape(getFundName(td)) + '</td>';
             html += '<td>' + htmlEscape(getIsin(td)) + '</td>';
             html += '<td>' + htmlEscape(getShareClassName(td)) + '</td>';
             html += '<td style="mso-number-format:\'@\';">' + htmlEscape(getInceptionDate(td)) + '</td>';
@@ -496,14 +508,13 @@ public with sharing class TaxEmailService {
         String country,
         Map<Id, Date> shareClassToRegistrationDate
     ) {
-        String fundName = getFundName(td);
+        //String fundName = getFundName(td);
         String shareClassName = getShareClassName(td);
         String isin = getIsin(td);
         String registrationDate = getRegistrationDate(td, country, shareClassToRegistrationDate);
 
         String subject = applyTokens(
             cleanTemplateContent(template.Subject),
-            fundName,
             shareClassName,
             isin,
             registrationDate
@@ -511,7 +522,6 @@ public with sharing class TaxEmailService {
 
         String htmlBody = applyTokens(
             cleanTemplateContent(template.HtmlValue),
-            fundName,
             shareClassName,
             isin,
             registrationDate
@@ -519,7 +529,6 @@ public with sharing class TaxEmailService {
 
         String textBody = applyTokens(
             cleanTemplateContent(template.Body),
-            fundName,
             shareClassName,
             isin,
             registrationDate
@@ -543,14 +552,32 @@ public with sharing class TaxEmailService {
         return email;
     }
 
-    private static String getFundName(TaxData__c td) {
-        return td != null && td.ShareClass__r != null && td.ShareClass__r.Fund__r != null
-            ? td.ShareClass__r.Fund__r.ProductName__c
-            : '';
-    }
+    /*private static String getFundName(TaxData__c td) {
+        if (td == null) {
+            return '';
+        }
+
+        if (td.ShareClass__r != null && td.ShareClass__r.Fund__r != null) {
+            return td.ShareClass__r.Fund__r.ProductName__c;
+        }
+
+        return '';
+    }*/
 
     private static String getShareClassName(TaxData__c td) {
-        return td != null && td.ShareClass__r != null ? td.ShareClass__r.Name__c : '';
+        if (td == null) {
+            return '';
+        }
+
+        if (td.Source__c == SOURCE_PMT && td.ProjectShareclass__r != null) {
+            return td.ProjectShareclass__r.Share_Class_Name__c;
+        }
+
+        if (td.ShareClass__r != null) {
+            return td.ShareClass__r.Name;
+        }
+
+        return '';
     }
 
     private static String getIsin(TaxData__c td) {
@@ -653,33 +680,15 @@ public with sharing class TaxEmailService {
 
     private static String applyTokens(
         String templateContent,
-        String fundName,
         String shareClassName,
         String isin,
         String registrationDate
     ) {
         String output = String.isBlank(templateContent) ? '' : templateContent;
-        output = output.replace('{FundName}', fundName != null ? fundName : '');
+        //output = output.replace('{FundName}', fundName != null ? fundName : '');
         output = output.replace('{ShareClassName}', shareClassName != null ? shareClassName : '');
         output = output.replace('{ISIN}', isin != null ? isin : '');
         output = output.replace('{CHRegistrationDate}', registrationDate != null ? registrationDate : '');
-        return output;
-    }
-
-    private static String applyExtendedTokens(
-        String templateContent,
-        String fundName,
-        String shareClassName,
-        String isin,
-        String inceptionDate,
-        String ukRegistrationDate
-    ) {
-        String output = String.isBlank(templateContent) ? '' : templateContent;
-        output = output.replace('{FundName}', fundName != null ? fundName : '');
-        output = output.replace('{ShareClassName}', shareClassName != null ? shareClassName : '');
-        output = output.replace('{ISIN}', isin != null ? isin : '');
-        output = output.replace('{InceptionDate}', inceptionDate != null ? inceptionDate : '');
-        output = output.replace('{UKRegistrationDate}', ukRegistrationDate != null ? ukRegistrationDate : '');
         return output;
     }
 

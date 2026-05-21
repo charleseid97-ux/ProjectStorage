@@ -11,6 +11,8 @@ public with sharing class TaxTriggerHandler {
     private static final String TYPE_BE_TIS = 'BE TIS';
     private static final String TYPE_BELGIUM_SIMULATOR = 'Belgium Simulator';
 
+    private static final Decimal BE_ASSET_TEST_THRESHOLD = 10;
+
     private static final Set<String> BLOCKING_STATUSES =
         new Set<String>{ STATUS_REQUESTED, STATUS_YES };
 
@@ -320,7 +322,7 @@ public with sharing class TaxTriggerHandler {
         return 'Unknown';
     }
 
-    public static void validateBelgiumSimulator(List<TaxData__c> newList, Map<Id, TaxData__c> oldMap) {
+    /*public static void validateBelgiumSimulator(List<TaxData__c> newList, Map<Id, TaxData__c> oldMap) {
         if (newList == null || newList.isEmpty()) {
             return;
         }
@@ -386,7 +388,7 @@ public with sharing class TaxTriggerHandler {
                 );
             }
         }
-    }
+    }*/
 
     public static void handleDates(List<TaxData__c> newList, Map<Id, TaxData__c> oldMap) {
         if (newList == null || newList.isEmpty() || oldMap == null) {
@@ -681,91 +683,91 @@ public with sharing class TaxTriggerHandler {
         return '';
     }
 
-        /*public static void sendDeletionRequestedNotification(List<TaxData__c> newList, Map<Id, TaxData__c> oldMap) {
-        if (newList == null || newList.isEmpty() || oldMap == null) return;
+    public static void createBeTisWhenAssetTestExceedsThreshold(
+        List<TaxData__c> newList,
+        Map<Id, TaxData__c> oldMap
+    ) {
+        if (newList == null || newList.isEmpty() || oldMap == null) {
+            return;
+        }
 
-        List<TaxData__c> recordsToNotify = new List<TaxData__c>();
         Set<Id> shareClassIds = new Set<Id>();
 
-        for (TaxData__c t : newList) {
-            TaxData__c oldT = oldMap.get(t.Id);
-            if (oldT == null) continue;
+        for (TaxData__c taxData : newList) {
+            TaxData__c oldTaxData = oldMap.get(taxData.Id);
 
-            if (t.Status__c == 'De-Registered Requested'
-                && oldT.Status__c != 'De-Registered Requested') {
-                recordsToNotify.add(t);
-
-                if (t.ShareClass__c != null) {
-                    shareClassIds.add(t.ShareClass__c);
-                }
+            if (shouldCreateBeTis(taxData, oldTaxData)) {
+                shareClassIds.add(taxData.ShareClass__c);
             }
         }
 
-        if (recordsToNotify.isEmpty()) return;
-
-        Map<Id, Share_Class__c> shareClassMap = new Map<Id, Share_Class__c>();
-        if (!shareClassIds.isEmpty()) {
-            shareClassMap = new Map<Id, Share_Class__c>([
-                SELECT Id, Name__c, Fund__r.Name
-                FROM Share_Class__c
-                WHERE Id IN :shareClassIds
-            ]);
+        if (shareClassIds.isEmpty()) {
+            return;
         }
 
-        List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
-        String taxDl = 'khadija.el-gdaouni.external@carmignac.com';
+        Map<Id, TaxData__c> existingBeTisByShareClassId = getExistingBeTisTaxData(shareClassIds);
 
-        String baseUrl = URL.getOrgDomainUrl().toExternalForm();
+        List<TaxData__c> beTisToInsert = new List<TaxData__c>();
 
-        for (TaxData__c t : recordsToNotify) {
-            String shareClassName = '';
-            String fundName = '';
+        for (TaxData__c taxData : newList) {
+            TaxData__c oldTaxData = oldMap.get(taxData.Id);
 
-            if (t.ShareClass__c != null && shareClassMap.containsKey(t.ShareClass__c)) {
-                Share_Class__c sc = shareClassMap.get(t.ShareClass__c);
-                shareClassName = sc.Name__c;
-                fundName = sc.Fund__r != null ? sc.Fund__r.Name : '';
+            if (!shouldCreateBeTis(taxData, oldTaxData)) {
+                continue;
             }
 
-            String recordUrl = baseUrl + '/' + t.Id;
-            String scUrl = t.ShareClass__c != null ? baseUrl + '/' + t.ShareClass__c : '';
+            if (existingBeTisByShareClassId.containsKey(taxData.ShareClass__c)) {
+                continue;
+            }
 
-            String subject = '[Tax Transparency] Deletion request - ' + shareClassName;
-
-            String htmlBody =
-                '<p>Hello Tax Team,</p>' +
-                '<p>A Tax Transparency deletion request has been submitted.</p>' +
-                '<ul>' +
-                '<li><b>Fund:</b> ' + fundName + '</li>' +
-                '<li><b>Share Class:</b> ' + shareClassName + '</li>' +
-                '<li><b>Country:</b> ' + t.Country__c + '</li>' +
-                '<li><b>Type:</b> ' + t.Type__c + '</li>' +
-                '<li><b>Tax Data:</b> <a href="' + recordUrl + '">Open Tax Request</a></li>' +
-                '<li><b>Share Class:</b> <a href="' + scUrl + '">Open Share Class</a></li>' +
-                '</ul>' +
-                '<p>Thanks,</p>';
-
-            Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
-            email.setToAddresses(new List<String>{ taxDl });
-            email.setSubject(subject);
-            email.setHtmlBody(htmlBody);
-
-            emails.add(email);
+            beTisToInsert.add(buildBeTisTaxData(taxData));
         }
 
-        if (!emails.isEmpty()) {
-            system.debug('send email');
-            Messaging.SendEmailResult[] results = Messaging.sendEmail(emails);
+        if (!beTisToInsert.isEmpty()) {
+            insert beTisToInsert;
+        }
+    }
 
-            for (Messaging.SendEmailResult r : results) {
-                if (!r.isSuccess()) {
-                    for (Messaging.SendEmailError err : r.getErrors()) {
-                        System.debug('Email error: ' + err.getMessage());
-                    }
-                } else {
-                    System.debug('Email sent successfully');
-                }
+    private static Boolean shouldCreateBeTis(TaxData__c taxData, TaxData__c oldTaxData) {
+        return taxData != null
+            && oldTaxData != null
+            && taxData.Type__c == TYPE_BE_ASSET_TEST
+            && taxData.Country__c == COUNTRY_BE
+            && taxData.ShareClass__c != null
+            && taxData.Value__c != null
+            && taxData.Value__c > BE_ASSET_TEST_THRESHOLD
+            && taxData.Value__c != oldTaxData.Value__c;
+    }
+
+    private static Map<Id, TaxData__c> getExistingBeTisTaxData(Set<Id> shareClassIds) {
+        Map<Id, TaxData__c> result = new Map<Id, TaxData__c>();
+
+        for (TaxData__c taxData : [
+            SELECT Id, ShareClass__c
+            FROM TaxData__c
+            WHERE ShareClass__c IN :shareClassIds
+            AND Country__c = :COUNTRY_BE
+            AND Type__c = :TYPE_BE_TIS
+            AND Status__c IN :BLOCKING_STATUSES
+        ]) {
+            if (!result.containsKey(taxData.ShareClass__c)) {
+                result.put(taxData.ShareClass__c, taxData);
             }
         }
-    }*/
+
+        return result;
+    }
+
+    private static TaxData__c buildBeTisTaxData(TaxData__c assetTest) {
+        TaxData__c beTis = new TaxData__c();
+        beTis.ShareClass__c = assetTest.ShareClass__c;
+        //beTis.ProjectShareclass__c = assetTest.ProjectShareclass__c;
+        beTis.Product__c = assetTest.Product__c;
+        beTis.Country__c = COUNTRY_BE;
+        beTis.Type__c = TYPE_BE_TIS;
+        beTis.Status__c = STATUS_YES;
+
+        return beTis;
+    }   
+    
 }

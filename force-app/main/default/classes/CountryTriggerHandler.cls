@@ -5,6 +5,7 @@ public with sharing class CountryTriggerHandler {
     }
 
     public static void handleAfterInsert(List<Country__c> newShareClasses) {
+        CountryHandler.createBelgiumSimulatorTaxData(Trigger.new);
     }
 
     public static void handleBeforeUpdate(List<Country__c> newShareClasses , Map<Id,Country__c> oldShareClassesMap){
