@@ -218,7 +218,9 @@
 	<types>
 		<members>ApprovalActionConfig.GridAmendment_FinalApproval</members>
 		<members>ApprovalActionConfig.GridAmendment_FinalRejection</members>
+		<members>ApprovalActionConfig.GridAmendment_HOC_StepApproval_EmailAlert</members>
 		<members>ApprovalActionConfig.GridAmendment_InitialSubmission</members>
+		<members>ApprovalActionConfig.GridAmendment_InitialSubmission_EmailAlert</members>
 		<members>ApprovalActionConfig.GridAmendment_Recall</members>
 		<members>ApprovalProcessConfig.GridAmendment</members>
 		<members>ApprovalStepApproverConfig.GridAmendment_DCO_KYD</members>
@@ -465,6 +467,7 @@
 	</types>
 	<types>
 		<members>Agreements/GridReviewEmailTemplate</members>
+		<members>GridApprovals/GridAmendmentPendingApproval</members>
 		<name>EmailTemplate</name>
 	</types>
 	<!-- FLAG ON -->
