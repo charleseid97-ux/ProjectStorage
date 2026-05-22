@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Loyalty_Score_24M__c</fullName>
+    <formula>(Event_loyalty_24M__c*0.7 + Newsletter_loyalty_24M__c*0.3)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Overall loyalty score of the person combining event engagement (70%) and newsletter engagement (30%)</inlineHelpText>
+    <label>Loyalty Score 24M</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <type>Percent</type>
+</CustomField>

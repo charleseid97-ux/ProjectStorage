@@ -247,7 +247,12 @@ public with sharing class SM016_CampaignMemberService {
                     Integer offset = 0;
                     if (targetEmails == null || targetEmails.isEmpty()) continue;
 
-                    WS_GetEventParticipants sender = new WS_GetEventParticipants(c, targetEmails, LIMIT_SIZE, offset);
+                    WS_LyytiGetParticipantTypes typeSender = new WS_LyytiGetParticipantTypes(c);
+                    typeSender.sendInDataToExternalService();
+
+                    Map<String, String> participantTypeNameById = typeSender.participantTypeNameById;
+
+                    WS_GetEventParticipants sender = new WS_GetEventParticipants(c, targetEmails, LIMIT_SIZE, offset, participantTypeNameById);
 
                     while (true) {
                         sender.offsetSize = offset;           // avancer la page
@@ -267,8 +272,19 @@ public with sharing class SM016_CampaignMemberService {
 
                     for(CampaignMember cm :c.CampaignMembers){
                         String cmEmail = (cm.Email == null) ? null : cm.Email.trim().toLowerCase();
-                        if (cmEmail != null && sender.idEmailMap.containsKey(cmEmail) && cm.LyytiId__c == null) {
-                            cmToUpdate.add(new CampaignMember(Id = cm.Id, LyytiId__c = sender.idEmailMap.get(cmEmail)));
+                    
+                        if (cmEmail != null && sender.idEmailMap.containsKey(cmEmail)) {
+                            CampaignMember cmUpdate = new CampaignMember(Id = cm.Id);
+
+                            if (cm.LyytiId__c == null) {
+                                cmUpdate.LyytiId__c = sender.idEmailMap.get(cmEmail);
+                            }
+
+                            if (sender.sourceEmailMap.containsKey(cmEmail)) {
+                                cmUpdate.Lyyti_Source__c = sender.sourceEmailMap.get(cmEmail);
+                            }
+
+                            cmToUpdate.add(cmUpdate);
                         }
                     }
                 }
