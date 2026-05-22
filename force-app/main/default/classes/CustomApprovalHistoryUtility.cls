@@ -357,14 +357,9 @@ public without sharing class CustomApprovalHistoryUtility {
         String objectApiName = targetRecordId.getSObjectType().getDescribe().getName();
 
         for (ApprovalActionConfig__mdt cfg : (List<ApprovalActionConfig__mdt>)Database.query(approvalActionConfigQuery)) {
-            try {
-                if      (cfg.ActionKind__c == 'FieldUpdate')  executeFieldUpdate(cfg, targetRecordId);
-                else if (cfg.ActionKind__c == 'EmailAlert')   executeEmailAlert(cfg, targetRecordId, objectApiName, context);
-                else if (cfg.ActionKind__c == 'CustomApex')   executeCustomApex(cfg, targetRecordId, context);
-            } 
-            catch (Exception e) {
-                System.debug('executeActions error [' + cfg.ActionKind__c + ']: ' + e.getMessage());
-            }
+            if      (cfg.ActionKind__c == 'FieldUpdate')  executeFieldUpdate(cfg, targetRecordId);
+            else if (cfg.ActionKind__c == 'EmailAlert')   executeEmailAlert(cfg, targetRecordId, objectApiName, context);
+            else if (cfg.ActionKind__c == 'CustomApex')   executeCustomApex(cfg, targetRecordId, context);
         }
     }
 

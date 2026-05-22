@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Grid Amendment Pending Approval</name>
+    <style>none</style>
+    <subject>[Action Required] Grid Amendment Pending Your Approval – {!Grid__c.Name}</subject>
+    <textOnly>Hello,
+
+A Grid Amendment requires your approval.
+
+Grid: {!Grid__c.Name}
+
+Please review and approve or reject the amendment by clicking the link below:
+{!Grid__c.Link}
+
+This is an automated email, please do not reply.</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -218,13 +218,15 @@
 	<types>
 		<members>ApprovalActionConfig.GridAmendment_FinalApproval</members>
 		<members>ApprovalActionConfig.GridAmendment_FinalRejection</members>
-		<members>ApprovalActionConfig.GridAmendment_InitialSubmission</members>
+		<members>ApprovalActionConfig.GridAmendment_HOCApprovalAlert</members>
+		<members>ApprovalActionConfig.GridAmendment_InitialUpdate</members>
+		<members>ApprovalActionConfig.GridAmendment_InitialSubmissionAlert</members>
 		<members>ApprovalActionConfig.GridAmendment_Recall</members>
 		<members>ApprovalProcessConfig.GridAmendment</members>
-		<members>ApprovalStepApproverConfig.GridAmendment_DCO_KYD</members>
-		<members>ApprovalStepApproverConfig.GridAmendment_DCO_Rebate</members>
-		<members>ApprovalStepApproverConfig.GridAmendment_HOC_Approver</members>
-		<members>ApprovalStepConfig.GridAmendment_DCO</members>
+		<members>ApprovalStepApproverConfig.GridAmendment_DOKYD</members>
+		<members>ApprovalStepApproverConfig.GridAmendment_DCORebate</members>
+		<members>ApprovalStepApproverConfig.GridAmendment_HOC</members>
+		<members>ApprovalStepConfig.GridAmendment_DCO_DO</members>
 		<members>ApprovalStepConfig.GridAmendment_HOC</members>
 		<members>GridBuilderSetting.CustomGridBuilderSetting</members>
 		<members>GridCriteriaSetting.Product</members>
@@ -465,6 +467,7 @@
 	</types>
 	<types>
 		<members>Agreements/GridReviewEmailTemplate</members>
+		<members>GridApprovals/GridAmendmentPendingApproval</members>
 		<name>EmailTemplate</name>
 	</types>
 	<!-- FLAG ON -->

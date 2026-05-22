@@ -28,22 +28,25 @@ public without sharing class EmailService {
             }
         }
 
-        List<Messaging.SingleEmailMessage> messages = new List<Messaging.SingleEmailMessage>();
+        List<Messaging.SingleEmailMessage> emailList = new List<Messaging.SingleEmailMessage>();
         for (Id userId : recipientUserIds) {
             String email = userEmails.get(userId);
             if (String.isBlank(email)) {
                 continue;
             }
-            Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
-            msg.setTemplateId(templateId);
-            msg.setWhatId(whatId);
-            msg.setTargetObjectId(userId);
-            msg.setSaveAsActivity(false);
-            messages.add(msg);
+            Messaging.SingleEmailMessage rendered = Messaging.renderStoredEmailTemplate(templateId, userId, whatId);
+            
+            Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+            mail.setTargetObjectId(userId);
+            mail.setSubject(rendered.getSubject());
+            mail.setHtmlBody(rendered.getHtmlBody());
+            mail.setPlainTextBody(rendered.getPlainTextBody());
+            mail.setSaveAsActivity(false);
+            emailList.add(mail);
         }
 
-        if (!messages.isEmpty()) {
-            Messaging.sendEmail(messages, false);
+        if (!emailList.isEmpty()) {
+            Messaging.sendEmail(emailList, false);
         }
     }
 
