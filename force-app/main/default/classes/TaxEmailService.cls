@@ -268,7 +268,15 @@ public with sharing class TaxEmailService {
                    ShareClass__c,
                    ShareClass__r.LaunchDate__c,
                    ShareClass__r.Fund__r.ProductName__c,
-                   ShareClass__r.Name
+                   ShareClass__r.Name,
+
+                   Source__c,
+
+                    ProjectShareclass__c,
+                    ProjectShareclass__r.Share_Class_Name__c,
+                    ProjectShareclass__r.ProjectProduct__r.Name,
+                    ProjectShareclass__r.ProjectProduct__r.InternalShortName__c,
+                    ProjectShareclass__r.ISIN__c
             FROM TaxData__c
             WHERE ShareClass__c IN :shareClassIds
               AND Country__c = :COUNTRY_AT
