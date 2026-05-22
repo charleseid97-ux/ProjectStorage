@@ -9,7 +9,7 @@ import { CloseActionScreenEvent } from 'lightning/actions';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import submitForApproval from '@salesforce/apex/CustomApprovalHistoryUtility.submitForApproval';
 
-const PROCESS_NAME = 'GridAmendmentRequestApproval';
+const PROCESS_NAME = 'GridAmendment';
 
 export default class GridSubmitForApproval extends LightningElement {
 

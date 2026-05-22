@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ProcessConfig__c</fullName>
+    <description>Process-level scope. Required for ActionType__c = InitialSubmission, FinalApproval, FinalRejection, Recall. Mutually exclusive with StepConfig__c.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Leave blank if this is a step-level action. Required for process-level action types: InitialSubmission, FinalApproval, FinalRejection, Recall.</inlineHelpText>
+    <label>Process Config</label>
+    <referenceTo>ApprovalProcessConfig__mdt</referenceTo>
+    <relationshipLabel>Approval Action Configs</relationshipLabel>
+    <relationshipName>ApprovalActionConfigs</relationshipName>
+    <required>false</required>
+    <type>MetadataRelationship</type>
+    <unique>false</unique>
+</CustomField>

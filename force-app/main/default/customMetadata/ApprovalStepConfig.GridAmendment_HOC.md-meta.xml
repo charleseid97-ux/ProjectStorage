@@ -3,23 +3,19 @@
     <label>Grid Amendment - HOC</label>
     <protected>false</protected>
     <values>
-        <field>ApproverResolverClass__c</field>
-        <value xsi:type="xsd:string">GridHOCApproverResolver</value>
-    </values>
-    <values>
-        <field>IsInitialStep__c</field>
-        <value xsi:type="xsd:boolean">true</value>
-    </values>
-    <values>
-        <field>NextApproverSource__c</field>
-        <value xsi:type="xsd:string">Dynamic</value>
+        <field>ApprovalMode__c</field>
+        <value xsi:type="xsd:string">Any</value>
     </values>
     <values>
         <field>ProcessConfig__c</field>
         <value xsi:type="xsd:string">GridAmendment</value>
     </values>
     <values>
-        <field>StepDeveloperName__c</field>
-        <value xsi:type="xsd:string">HOCApproval</value>
+        <field>StepLabel__c</field>
+        <value xsi:type="xsd:string">HOC Approval</value>
+    </values>
+    <values>
+        <field>StepOrder__c</field>
+        <value xsi:type="xsd:double">10.0</value>
     </values>
 </CustomMetadata>

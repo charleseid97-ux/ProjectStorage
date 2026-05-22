@@ -19,11 +19,12 @@ public with sharing class AgreementGridTimelineUtility {
      * @description Applies AGT status transitions for pre-classified agreement sets and commits the update.
      *              Called by GridUtility after it has run its own Agreement/Grid field updates.
      ────────────────────────────────────── */
-    public static void updateTimelines(Map<Id, List<Id>> submittedAgrToGridIds, Map<Id, List<Id>> approvedAgrToGridIds, Map<Id, List<Id>> rejectedAgrToGridIds, Map<Id, List<Id>> historicalAgrToGridIds, Set<Id> immediateOldGridIds) {
+    public static void updateTimelines(Map<Id, List<Id>> submittedAgrToGridIds, Map<Id, List<Id>> approvedAgrToGridIds, Map<Id, List<Id>> rejectedAgrToGridIds, Map<Id, List<Id>> recalledAgrToGridIds, Map<Id, List<Id>> historicalAgrToGridIds, Set<Id> immediateOldGridIds) {
         Set<Id> agreementIds = new Set<Id>();
         agreementIds.addAll(submittedAgrToGridIds.keySet());
         agreementIds.addAll(approvedAgrToGridIds.keySet());
         agreementIds.addAll(rejectedAgrToGridIds.keySet());
+        agreementIds.addAll(recalledAgrToGridIds.keySet());
         agreementIds.addAll(historicalAgrToGridIds.keySet());
 
         List<AgreementGridTimeline__c> timelinesToUpdate = new List<AgreementGridTimeline__c>();
@@ -31,10 +32,13 @@ public with sharing class AgreementGridTimelineUtility {
                                             FROM AgreementGridTimeline__c
                                             WHERE Agreement__c IN :agreementIds]) {
             if(submittedAgrToGridIds.containsKey(agt.Agreement__c)) {
-                timelinesToUpdate.add(setNewTimelineStatus(submittedAgrToGridIds, agt, new List<String>{AGT_DRAFT}, AGT_PENDINGAPPROVAL));
+                timelinesToUpdate.add(setNewTimelineStatus(submittedAgrToGridIds, agt, new List<String>{AGT_DRAFT, AGT_REJECTED}, AGT_PENDINGAPPROVAL));
             }
             else if(rejectedAgrToGridIds.containsKey(agt.Agreement__c)) {
                 timelinesToUpdate.add(setNewTimelineStatus(rejectedAgrToGridIds, agt, new List<String>{AGT_DRAFT, AGT_PENDINGAPPROVAL}, AGT_REJECTED));
+            }
+            else if(recalledAgrToGridIds.containsKey(agt.Agreement__c)) {
+                timelinesToUpdate.add(setNewTimelineStatus(recalledAgrToGridIds, agt, new List<String>{AGT_PENDINGAPPROVAL}, AGT_DRAFT));
             }
             else if(approvedAgrToGridIds.containsKey(agt.Agreement__c)) {
                 AgreementGridTimeline__c updated = SetNewTimelineStatusApproved(approvedAgrToGridIds, agt, immediateOldGridIds);

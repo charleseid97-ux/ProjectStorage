@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ActionDate__c</fullName>
+    <description>Timestamp of the approve, reject, or recall action. Null while pending.</description>
+    <inlineHelpText>Set automatically when an action is taken.</inlineHelpText>
+    <label>Action Date</label>
+    <required>false</required>
+    <type>DateTime</type>
+</CustomField>

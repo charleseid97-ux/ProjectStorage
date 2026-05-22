@@ -8,33 +8,29 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Required</behavior>
+                <field>DeveloperName</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
                 <field>MasterLabel</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
                 <field>ProcessConfig__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Required</behavior>
-                <field>StepDeveloperName__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>IsInitialStep__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>DeveloperName</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Required</behavior>
-                <field>NextApproverSource__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
-                <field>ApproverResolverClass__c</field>
+                <field>StepLabel__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>StepOrder__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>ApprovalMode__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -76,6 +72,25 @@
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
+    <relatedLists>
+        <fields>DeveloperName</fields>
+        <fields>ApproverSource__c</fields>
+        <fields>ApproverType__c</fields>
+        <fields>ApproverValue__c</fields>
+        <fields>ApproverResolverClass__c</fields>
+        <fields>ExecutionOrder__c</fields>
+        <relatedList>ApprovalStepApproverConfig__mdt.StepConfig__c</relatedList>
+        <sortField>ExecutionOrder__c</sortField>
+        <sortOrder>Asc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <fields>DeveloperName</fields>
+        <fields>ActionType__c</fields>
+        <fields>ActionKind__c</fields>
+        <fields>IsActive__c</fields>
+        <fields>ExecutionOrder__c</fields>
+        <relatedList>ApprovalActionConfig__mdt.StepConfig__c</relatedList>
+    </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
     <showInteractionLogPanel>false</showInteractionLogPanel>

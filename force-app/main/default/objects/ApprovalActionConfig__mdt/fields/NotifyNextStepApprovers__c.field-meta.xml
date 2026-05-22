@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NotifyNextStepApprovers__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>When checked, the email alert is sent to the approvers of the next step in the process (resolved dynamically at runtime). Only applicable for StepApproval action type where a next step exists. Used only when ActionKind__c = EmailAlert.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Sends to the approvers who will receive the work item at the next step. Useful for advance notification. Has no effect on FinalApproval, FinalRejection, Recall, or InitialSubmission action types where there is no next step.</inlineHelpText>
+    <label>Notify Next Step Approvers</label>
+    <type>Checkbox</type>
+</CustomField>

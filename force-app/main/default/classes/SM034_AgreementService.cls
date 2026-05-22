@@ -144,7 +144,7 @@ public with sharing class SM034_AgreementService {
             System.debug('//NGO a.Agreement_Type__c : ' + a);
             //commented by Nina 10-01
             if(!(a.RecordTypeId == AgreementUtil.IS_RECTYPE_ID)) {
-                AgreementUtil.validateGRID(a);
+                // AgreementUtil.validateGRID(a); // Commented for Grid project: Grid will be created after agreement creation
                 //Agreement code and increment generation
                 AgreementUtil.agreementCodeGeneration(a, currentCodeTop, currentCodeSub, masterAgreements, thisRecordTypeName);
                 currentCodeTop = Integer.valueOf(a.Code_Top_Level__c);

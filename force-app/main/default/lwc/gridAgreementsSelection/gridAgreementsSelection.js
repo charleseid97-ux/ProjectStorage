@@ -351,7 +351,15 @@ export default class GridAgreementsSelection extends LightningElement {
         this.loadPreviousGrid = e.target.checked;
         if (this.loadPreviousGrid && this.existingGridType) {
             this.agType = this.existingGridType;
-            if (this.agType === 'MULTI RULE') { this.isAutoGridUpdate = false; }
+            if (this.agType === 'MULTI RULE') {
+                this.isAutoGridUpdate = false;
+            } 
+            else if (this.agType === 'SINGLE RULE') {
+                if (this.existingGridSingleRuleSelection) {
+                    this.selectedSingleRuleGrid = { label: this.existingGridSingleRuleSelection, value: this.existingGridSingleRuleSelection };
+                }
+                this.loadSingleRuleGridOptions();
+            }
         }
         this.dispatchEvent(new CustomEvent('loadpreviouschange', { detail: { value: this.loadPreviousGrid } }));
         this.notifyValidity();

@@ -8,21 +8,17 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>MasterLabel</field>
+                <field>DeveloperName</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>ObjectType__c</field>
+                <field>MasterLabel</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>DeveloperName</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Required</behavior>
-                <field>ProcessDeveloperName__c</field>
+                <field>ObjectType__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -66,11 +62,24 @@
     </layoutSections>
     <relatedLists>
         <fields>DeveloperName</fields>
-        <fields>StepDeveloperName__c</fields>
-        <fields>IsInitialStep__c</fields>
-        <fields>NextApproverSource__c</fields>
-        <fields>ApproverResolverClass__c</fields>
+        <fields>MasterLabel</fields>
+        <fields>StepLabel__c</fields>
+        <fields>ApprovalMode__c</fields>
+        <fields>StepOrder__c</fields>
         <relatedList>ApprovalStepConfig__mdt.ProcessConfig__c</relatedList>
+        <sortField>StepOrder__c</sortField>
+        <sortOrder>Asc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <fields>DeveloperName</fields>
+        <fields>MasterLabel</fields>
+        <fields>ActionType__c</fields>
+        <fields>ActionKind__c</fields>
+        <fields>IsActive__c</fields>
+        <fields>ExecutionOrder__c</fields>
+        <relatedList>ApprovalActionConfig__mdt.ProcessConfig__c</relatedList>
+        <sortField>ExecutionOrder__c</sortField>
+        <sortOrder>Asc</sortOrder>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
@@ -78,7 +87,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00hG5000008DQZZ</masterLabel>
+        <masterLabel>00hdL00000bBFfz</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>StepDeveloperName__c</fullName>
+    <description>DeveloperName of the ApprovalStepConfig__mdt record this step belongs to. The special value 'Submitted' is used for the initial submission history entry.</description>
+    <inlineHelpText>Set automatically at creation. Matches the MDT record DeveloperName (e.g. GridAmendment_HOC).</inlineHelpText>
+    <label>Step Developer Name</label>
+    <length>80</length>
+    <required>true</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

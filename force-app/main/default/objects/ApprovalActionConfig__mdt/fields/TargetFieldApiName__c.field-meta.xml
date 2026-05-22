@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TargetFieldApiName__c</fullName>
+    <description>API name of the field to update on the target record. Used only when ActionKind__c = FieldUpdate.</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>Must be a field on the object type configured in ApprovalProcessConfig__mdt.ObjectType__c. Example: ApprovalStatus__c.</inlineHelpText>
+    <label>Target Field API Name</label>
+    <length>80</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

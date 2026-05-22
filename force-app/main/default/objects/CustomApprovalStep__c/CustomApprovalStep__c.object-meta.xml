@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Represents a single assignee's action within a CustomApproval__c workflow step. One record is created per resolved approver per step. For unanimous-approval steps, multiple records exist simultaneously with IsCurrentStep__c = true. Replaces ProcessInstanceStep, ProcessInstanceWorkitem, and ProcessInstanceNode.</description>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>true</enableReports>
+    <enableSearch>false</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <label>Custom Approval Step</label>
+    <nameField>
+        <displayFormat>STEP-{0000}</displayFormat>
+        <label>Custom Approval Step Name</label>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Custom Approval Steps</pluralLabel>
+    <sharingModel>ControlledByParent</sharingModel>
+</CustomObject>

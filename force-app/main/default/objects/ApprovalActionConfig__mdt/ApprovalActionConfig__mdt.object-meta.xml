@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Defines an action to execute at a specific lifecycle event of an approval workflow. Supports field updates and email alerts natively. For advanced scenarios, a custom Apex class implementing IApprovalAction can be invoked. Create one record per action per event.</description>
+    <label>Approval Action Config</label>
+    <pluralLabel>Approval Action Configs</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>
