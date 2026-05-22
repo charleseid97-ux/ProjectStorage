@@ -178,44 +178,42 @@
                                     onchange={handleAgBusinessBackground}>
                 </lightning-textarea>
 
-                <div class="additional-fields">
-                    <!-- AG12: Other Fees -->
-                    <lightning-input type="checkbox"
-                                     label="Other Fees"
-                                     checked={agOtherFees}
-                                     onchange={handleAgOtherFees}
-                                     field-level-help="Check if the agreement includes a fee other than retrocession (e.g. performance fees)">
-                    </lightning-input>
+                <!-- AG12: Other Fees -->
+                <lightning-input type="checkbox"
+                                    label="Other Fees"
+                                    checked={agOtherFees}
+                                    onchange={handleAgOtherFees}
+                                    field-level-help="Check if the agreement includes a fee other than retrocession (e.g. performance fees)">
+                </lightning-input>
 
-                    <!-- AG13: Comment -->
-                    <lightning-textarea label="Comment"
-                                        value={agComment}
-                                        onchange={handleAgComment}>
-                    </lightning-textarea>
+                <!-- AG13: Comment -->
+                <lightning-textarea label="Comment"
+                                    value={agComment}
+                                    onchange={handleAgComment}>
+                </lightning-textarea>
 
-                    <!-- Load previous grid toggle (only when creating new grid and a previous approved grid exists) -->
-                    <template if:true={showLoadPreviousToggle}>
-                        <div class="toggle-grid-update">
-                            <div class="toggle-header">
-                                <span class="toggle-label">Load previous grid details</span>
-                                <lightning-helptext content="Pre-fill the grid builder with the criteria and share classes from the previous approved grid. You can then modify them before saving."></lightning-helptext>
-                            </div>
-                            <div class="toggle-row">
-                                <lightning-input type="toggle"
-                                                variant="label-hidden"
-                                                checked={loadPreviousGrid}
-                                                disabled={isLoadPreviousToggleDisabled}
-                                                onchange={handleLoadPreviousToggle}
-                                                message-toggle-active=""
-                                                message-toggle-inactive="">
-                                </lightning-input>
-                                <span class="message-toggle-label">
-                                    {loadPreviousToggleLabel}
-                                </span>
-                            </div>
+                <!-- Load previous grid toggle (only when creating new grid and a previous approved grid exists) -->
+                <template if:true={showLoadPreviousToggle}>
+                    <div class="toggle-grid-update">
+                        <div class="toggle-header">
+                            <span class="toggle-label">Load previous grid details</span>
+                            <lightning-helptext content="Pre-fill the grid builder with the criteria and share classes from the previous approved grid. You can then modify them before saving."></lightning-helptext>
                         </div>
-                    </template>
-                </div>
+                        <div class="toggle-row">
+                            <lightning-input type="toggle"
+                                            variant="label-hidden"
+                                            checked={loadPreviousGrid}
+                                            disabled={isLoadPreviousToggleDisabled}
+                                            onchange={handleLoadPreviousToggle}
+                                            message-toggle-active=""
+                                            message-toggle-inactive="">
+                            </lightning-input>
+                            <span class="message-toggle-label">
+                                {loadPreviousToggleLabel}
+                            </span>
+                        </div>
+                    </div>
+                </template>
             </div>
         </div>
 
