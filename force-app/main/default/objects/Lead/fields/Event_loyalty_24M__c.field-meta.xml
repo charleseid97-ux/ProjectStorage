@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Event_loyalty_24M__c</fullName>
+    <formula>IF( E_invited_24M__c &gt;0 ,  E_participated_24M__c / E_invited_24M__c , 0)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Event loyalty score of the person over the past 24 months</inlineHelpText>
+    <label>Event Loyalty 24M</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <type>Percent</type>
+</CustomField>
