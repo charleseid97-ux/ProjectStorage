@@ -1,34 +1,79 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-
-  <!-- Apex -->
-  <types>
-        <members>CountryHandler</members>  
-        <members>CountryTriggerHandler</members>  
-        <members>ProjectProductChildHandler</members>  
-        <members>ProjectProductChildTriggerHandler</members>  
-        <members>ProjectShareclassChildHandler</members>        
-        <members>ProjectShareclassChildTriggerHandler</members>  
-        <members>TaxDataTriggerHandler</members>  
-        <members>TaxEmailService</members>  
-        <members>TaxTriggerHandler</members>  
-        <members>Test_CountryTriggerHandler</members>
-        <members>Test_ProjectShareclassTrigger</members>
-        <members>Test_TaxTriggerHandler</members>  
+    
+    <types>
+        <members>BATCH_CloseCampaignMembersLyyti</members>
+        <members>BATCH_FindCampaignsToCloseLyyti</members>
+        <members>BATCH_RecalculateClosedCampaignKPI</members>
+        <members>BATCH_RecalculateClosedCampaignKPITest</members>
+        <members>BATCH_RecalculateContactParticipationKPI</members>
+        <members>BATCH_RecalculateLeadParticipationKPI</members>
+        <members>BatchCampaignMemberKpiTest</members>
+        <members>BatchCloseCampaignLyytiTest</members>
+        <members>CampaignCloseKpiService</members>
+        <members>CampaignMemberKpiService</members>
+        <members>WS_SendCampaignMemberTest</members>
+        <members>WS_GetEventParticipants</members>
+        <members>WS_LyytiGetParticipantTypes</members>
+        <members>SM016_CampaignMemberService</members>
         <name>ApexClass</name>
-      </types>
-      
-      <types>
-            <members>TaxData__c.ISIN__c</members>
-            <members>ProjectShareclass__c.TaxTransparency__c</members>
-            <members>ProjectShareclassChild__c.TaxTransparency__c</members>
-            <name>CustomField</name>
-        </types>
+    </types>
 
-        <types>
-            <members>taxDataAction</members>
-            <name>LightningComponentBundle</name>
-        </types>
-  
-  <version>65.0</version>
+   
+
+    <types>
+        <members>Campaign.Attended_Count__c</members>
+        <members>Campaign.Attendees_Invested_Count__c</members>
+        <members>Campaign.Attendees_Invested_Rate__c</members>
+        <members>Campaign.Attendees_Loyalty_Rate__c</members>
+        <members>Campaign.Attendees_Open_Opportunities_Amount__c</members>
+        <members>Campaign.Budget_spent__c</members>
+        <members>Campaign.Cancelled_Count__c</members>
+        <members>Campaign.Cost_per_attendee__c</members>
+        <members>Campaign.Dropoff_rate__c</members>
+        <members>Campaign.Initially_invited__c</members>
+        <members>Campaign.Initially_registered__c</members>
+        <members>Campaign.New_Person_Attendees_3M__c</members>
+        <members>Campaign.New_Person_Attendees_3M_Rate__c</members>
+        <members>Campaign.NoShow_Count__c</members>
+        <members>Campaign.Noshow_rate__c</members>
+        <members>Campaign.Ultimate_Parents_Attended__c</members>
+
+        <members>CampaignMember.Attended_Count__c</members>
+        <members>CampaignMember.E_invited_24M__c</members>
+        <members>CampaignMember.E_participated_24M__c</members>
+        <members>CampaignMember.Event_loyalty_24M__c</members>
+        <members>CampaignMember.Loyalty_Score_24M__c</members>
+        <members>CampaignMember.Lyyti_Source__c</members>
+        <members>CampaignMember.N_clicked_24M__c</members>
+        <members>CampaignMember.N_received_24M__c</members>
+        <members>CampaignMember.Newsletter_loyalty_24M__c</members>
+        <members>CampaignMember.Registered_Count__c</members>
+        <members>CampaignMember.Attendance_rate__c</members>
+
+        <members>Contact.E_invited_24M__c</members>
+        <members>Contact.E_participated_24M__c</members>
+        <members>Contact.Event_loyalty_24M__c</members>
+        <members>Contact.Loyalty_Score_24M__c</members>
+        <members>Contact.N_clicked_24M__c</members>
+        <members>Contact.N_received_24M__c</members>
+        <members>Contact.Newsletter_loyalty_24M__c</members>
+        <members>Contact.JobTitle__c</members>
+
+        <members>Lead.E_invited_24M__c</members>
+        <members>Lead.E_participated_24M__c</members>
+        <members>Lead.Event_loyalty_24M__c</members>
+        <members>Lead.Loyalty_Score_24M__c</members>
+        <members>Lead.N_clicked_24M__c</members>
+        <members>Lead.N_received_24M__c</members>
+        <members>Lead.Newsletter_loyalty_24M__c</members>
+        <name>CustomField</name>
+    </types>
+
+    <types>
+        <members>Contacts_with_Campaign_Members</members>
+        <name>ReportType</name>
+    </types>
+
+    <version>65.0</version>
 </Package>
