@@ -67,6 +67,7 @@ public with sharing class TaxEmailService {
                 ShareClass__r.Name,
                 ShareClass__r.LaunchDate__c,
                 ShareClass__r.Fund__r.ProductName__c,
+                ProjectShareclass__r.ISIN__c,
                 CreatedDate
             FROM TaxData__c
             WHERE Country__c = :COUNTRY_UK
@@ -248,7 +249,8 @@ public with sharing class TaxEmailService {
                 ProjectShareclass__c,
                 ProjectShareclass__r.Share_Class_Name__c,
                 ProjectShareclass__r.ProjectProduct__r.Name,
-                ProjectShareclass__r.ProjectProduct__r.InternalShortName__c
+                ProjectShareclass__r.ProjectProduct__r.InternalShortName__c,
+                ProjectShareclass__r.ISIN__c
 
             FROM TaxData__c
             WHERE Id IN :taxDataIds
@@ -395,6 +397,12 @@ public with sharing class TaxEmailService {
             email.setHtmlBody(htmlBody);
         } else {
             email.setPlainTextBody(textBody);
+        }
+
+        Id oweaId = getOrgWideEmailAddressId('salesforcesupport@carmignac.com');
+
+        if (oweaId != null) {
+            email.setOrgWideEmailAddressId(oweaId);
         }
 
         Messaging.EmailFileAttachment attachment = new Messaging.EmailFileAttachment();
@@ -549,6 +557,12 @@ public with sharing class TaxEmailService {
             email.setPlainTextBody(textBody);
         }
 
+        Id oweaId = getOrgWideEmailAddressId('salesforcesupport@carmignac.com');
+
+        if (oweaId != null) {
+            email.setOrgWideEmailAddressId(oweaId);
+        }
+
         return email;
     }
 
@@ -581,7 +595,20 @@ public with sharing class TaxEmailService {
     }
 
     private static String getIsin(TaxData__c td) {
-        return td != null && td.ISIN__c != null ? td.ISIN__c : '';
+        
+        if (td == null) {
+            return '';
+        }
+
+        if (td.Source__c == SOURCE_PMT && td.ProjectShareclass__r != null) {
+            return td.ProjectShareclass__r.ISIN__c;
+        }
+
+        if (td.ISIN__c != null) {
+            return td.ISIN__c;
+        }
+
+        return '';
     }
 
     private static String getInceptionDate(TaxData__c td) {
@@ -702,5 +729,16 @@ public with sharing class TaxEmailService {
         cleaned = cleaned.replace(']]>', '');
 
         return cleaned.trim();
+    }
+
+    private static Id getOrgWideEmailAddressId(String address) {
+        List<OrgWideEmailAddress> results = [
+            SELECT Id, Address
+            FROM OrgWideEmailAddress
+            WHERE Address = :address
+            LIMIT 1
+        ];
+
+        return results.isEmpty() ? null : results[0].Id;
     }
 }
