@@ -2,7 +2,7 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     
     <types>
-        <members>BATCH_CloseCampaignMembersLyti</members>
+        <members>BATCH_CloseCampaignMembersLyyti</members>
         <members>BATCH_FindCampaignsToCloseLyyti</members>
         <members>BATCH_RecalculateClosedCampaignKPI</members>
         <members>BATCH_RecalculateClosedCampaignKPITest</members>
@@ -13,14 +13,13 @@
         <members>CampaignCloseKpiService</members>
         <members>CampaignMemberKpiService</members>
         <members>WS_SendCampaignMemberTest</members>
+        <members>WS_GetEventParticipants</members>
+        <members>WS_LyytiGetParticipantTypes</members>
+        <members>SM016_CampaignMemberService</members>
         <name>ApexClass</name>
     </types>
 
-    <types>
-        <members>BooklyAttendees/OAjKHrBNCViHAklBoxYdurqsoqtq</members>
-        <members>BooklyAttendees/McBxarknrJdvEWqqrerAeSSwcVniaP</members>
-        <name>Dashboard</name>
-    </types>
+   
 
     <types>
         <members>Campaign.Attended_Count__c</members>
@@ -36,7 +35,7 @@
         <members>Campaign.Initially_registered__c</members>
         <members>Campaign.New_Person_Attendees_3M__c</members>
         <members>Campaign.New_Person_Attendees_3M_Rate__c</members>
-        <members>Campaign.Noshow_Count__c</members>
+        <members>Campaign.NoShow_Count__c</members>
         <members>Campaign.Noshow_rate__c</members>
         <members>Campaign.Ultimate_Parents_Attended__c</members>
 
@@ -50,6 +49,7 @@
         <members>CampaignMember.N_received_24M__c</members>
         <members>CampaignMember.Newsletter_loyalty_24M__c</members>
         <members>CampaignMember.Registered_Count__c</members>
+        <members>CampaignMember.Attendance_rate__c</members>
 
         <members>Contact.E_invited_24M__c</members>
         <members>Contact.E_participated_24M__c</members>
@@ -58,6 +58,7 @@
         <members>Contact.N_clicked_24M__c</members>
         <members>Contact.N_received_24M__c</members>
         <members>Contact.Newsletter_loyalty_24M__c</members>
+        <members>Contact.JobTitle__c</members>
 
         <members>Lead.E_invited_24M__c</members>
         <members>Lead.E_participated_24M__c</members>
@@ -70,22 +71,9 @@
     </types>
 
     <types>
-        <members>EventAttendees/ATT_Attendance_bucket_Webinar_kvF</members>
-        <members>EventAttendees/ATT_Attendance_Performance_6Nl</members>
-        <members>EventAttendees/ATT_Attendance_Performance_jmI</members>
-        <members>EventAttendees/ATT_Attendance_Performance_KPI_9xL1</members>
-        <members>EventAttendees/ATT_Attendance_Performance_Webinar_k1o</members>
-        <members>EventAttendees/ATT_Attendance_Profile_KPI_OeP</members>
-        <members>EventAttendees/ATT_Attendees_by_Job_Title_Gtf</members>
-        <members>EventAttendees/ATT_Loyalty_KPI_Loyalty_Score_CM</members>
-        <members>EventAttendees/ATT_Loyalty_KPI_Returning_clients_CM</members>
-        <members>EventAttendees/ATT_Loyalty_Score_Top_Account_CM</members>
-        <members>EventAttendees/ATT_Registration_Status</members>
-        <members>EventAttendees/ATT_Top_Attending_Companies</members>
-        <members>EventAttendees/Attendees_by_Client_Type_ivA</members>
-        <members>EventAttendees/Campaign_with_DI_and_DID_Downl_t17</members>
-        <name>Report</name>
+        <members>Contacts_with_Campaign_Members</members>
+        <name>ReportType</name>
     </types>
 
-    <version>61.0</version>
+    <version>65.0</version>
 </Package>
