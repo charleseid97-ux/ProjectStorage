@@ -20,10 +20,10 @@
     </values>
     <values>
         <field>ExecutionOrder__c</field>
-        <value xsi:type="xsd:double">10.0</value>
+        <value xsi:type="xsd:double">1</value>
     </values>
     <values>
         <field>StepConfig__c</field>
-        <value xsi:type="xsd:string">GridAmendment_DCO</value>
+        <value xsi:type="xsd:string">GridAmendment_DCO_DO</value>
     </values>
 </CustomMetadata>
