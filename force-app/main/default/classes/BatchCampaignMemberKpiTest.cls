@@ -64,7 +64,7 @@ private class BatchCampaignMemberKpiTest {
         Campaign c = new Campaign(
             Name = 'Test',
             Status = 'Live',
-            Sales_Team__c = 'FR',
+            //Sales_Team__c = 'FR',
             Event_Local_Start_Time__c = '2024/01/01 10:00',
             Event_Local_End_Time__c = '2024/01/01 23:59',
             Start_Date_Time__c = System.now(),
