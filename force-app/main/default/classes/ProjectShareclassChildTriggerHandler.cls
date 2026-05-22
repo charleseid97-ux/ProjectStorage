@@ -12,7 +12,7 @@ public class ProjectShareclassChildTriggerHandler {
         }
         ProjectShareclassChildHandler.calculNbOfFields(m_newProjectShareclassChild.values());
         ProjectShareclassChildHandler.updateTaxFields(m_newProjectShareclassChild, m_oldProjectShareclassChild);
-        ProjectShareclassChildHandler.validateBelgiumSimulatorOnProject(m_newProjectShareclassChild, m_oldProjectShareclassChild);
+        //ProjectShareclassChildHandler.validateBelgiumSimulatorOnProject(m_newProjectShareclassChild, m_oldProjectShareclassChild);
     }
 
 

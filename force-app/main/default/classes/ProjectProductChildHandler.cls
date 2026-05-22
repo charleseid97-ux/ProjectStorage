@@ -4,6 +4,83 @@ public without sharing class ProjectProductChildHandler {
     static final Id fundModificationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('FundShareClassModification').getRecordTypeId();  
     static final Id shareClassCreationRecordTypeId = Schema.SObjectType.ProjectProduct__c.getRecordTypeInfosByDeveloperName().get('ShareclassCreation').getRecordTypeId();     
     
+    private static final String TECH_LEGAL = 'Legal';
+
+
+    public static void sendTaxNotificationsKPMG(List<ProjectProductChild__c> newProjectProductChild, Map<Id, ProjectProductChild__c> oldProjectProductChild){
+
+        if (newProjectProductChild == null || newProjectProductChild.isEmpty() || oldProjectProductChild == null) {
+            return;
+        }
+
+        Set<Id> projectProductIds = new Set<Id>();
+
+        for (ProjectProductChild__c ppc : newProjectProductChild) {
+            ProjectProductChild__c oldPpc = oldProjectProductChild.get(ppc.Id);
+            if (oldPpc == null) {
+                continue;
+            }
+
+            if (wasMultiPicklistValueAdded(oldPpc.TECH_TeamValidation__c, ppc.TECH_TeamValidation__c, TECH_LEGAL) 
+                && ppc.ProjectProductParent__c != null
+                && ppc.TECH_Childtype__c == 'Filing') {
+                projectProductIds.add(ppc.ProjectProductParent__c);
+            }
+        }
+
+        if (projectProductIds.isEmpty()) {
+            return;
+        }
+
+        List<TaxData__c> taxDataList = [
+            SELECT Id,
+                   Country__c,
+                   Type__c,
+                   Status__c,
+                   Source__c
+            FROM TaxData__c
+            WHERE ProjectProduct__c IN :projectProductIds
+              AND Source__c = 'PMT'
+              AND Country__c IN ('AT', 'CH')
+              AND Type__c = 'Transparency'
+              AND Status__c = 'Requested'
+        ];
+
+        if (taxDataList.isEmpty()) {
+            return;
+        }
+
+        TaxEmailService.sendATTransparencyEmails(taxDataList);
+        TaxEmailService.sendCHTransparencyEmails(taxDataList);
+    }
+
+    private static Boolean wasMultiPicklistValueAdded(
+        String oldValue,
+        String newValue,
+        String targetValue
+    ) {
+        Set<String> oldValues = splitMultiPicklist(oldValue);
+        Set<String> newValues = splitMultiPicklist(newValue);
+
+        return !oldValues.contains(targetValue) && newValues.contains(targetValue);
+    }
+
+    private static Set<String> splitMultiPicklist(String value) {
+        Set<String> result = new Set<String>();
+
+        if (String.isBlank(value)) {
+            return result;
+        }
+
+        for (String item : value.split(';')) {
+            if (!String.isBlank(item)) {
+                result.add(item.trim());
+            }
+        }
+
+        return result;
+    }
+
     public static void updatePhaseStatusWAllTeamValidation(Map<Id, ProjectProductChild__c> newProjectProductChild, Map<Id, ProjectProductChild__c> oldProjectProductChild) {
         List<ProjectProductChild__c> listProjectProductChildToUpdate = new List<ProjectProductChild__c>();
         Set<Id> setProjectProductParentId = new Set<Id>();

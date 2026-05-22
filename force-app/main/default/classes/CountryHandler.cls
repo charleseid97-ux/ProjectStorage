@@ -1,9 +1,14 @@
 public with sharing class CountryHandler {
 
     private static final String COUNTRY_IT = 'IT';
+    private static final String COUNTRY_BE = 'BE';
+
     private static final String TYPE_TRANSPARENCY = 'Transparency';
+    private static final String TYPE_BELGIUM_SIMULATOR = 'Belgium Simulator';
+
     private static final String STATUS_YES = 'Yes';
     private static final String STATUS_NO = 'No';
+
     private static final String SOURCE_MANUAL = 'Manual';
 
     private static final Set<String> VALID_REGISTRATION_STATUSES =
@@ -43,6 +48,79 @@ public with sharing class CountryHandler {
         if (!toUpdate.isEmpty()) {
             update toUpdate;
         }
+    }
+
+    public static void createBelgiumSimulatorTaxData(List<Country__c> newList) {
+        if (newList == null || newList.isEmpty()) {
+            return;
+        }
+
+        Set<Id> belgiumShareClassIds = collectBelgiumShareClassIds(newList);
+
+        if (belgiumShareClassIds.isEmpty()) {
+            return;
+        }
+
+        Map<Id, Share_Class__c> shareClassMap = getBelgiumSimulatorShareClasses(belgiumShareClassIds);
+
+        List<TaxData__c> taxDataToInsert = new List<TaxData__c>();
+
+        for (Share_Class__c sc : shareClassMap.values()) {
+            if (shouldCreateBelgiumSimulator(sc)) {
+                taxDataToInsert.add(buildBelgiumSimulatorTaxData(sc));
+            }
+        }
+
+        if (!taxDataToInsert.isEmpty()) {
+            insert taxDataToInsert;
+        }
+    }
+
+    private static Set<Id> collectBelgiumShareClassIds(List<Country__c> newList) {
+        Set<Id> shareClassIds = new Set<Id>();
+
+        for (Country__c countryRecord : newList) {
+            if (isBelgiumShareClassCountry(countryRecord)) {
+                shareClassIds.add(countryRecord.ShareClass__c);
+            }
+        }
+
+        return shareClassIds;
+    }
+
+    private static Boolean isBelgiumShareClassCountry(Country__c countryRecord) {
+        return countryRecord != null
+            && countryRecord.ShareClass__c != null
+            && countryRecord.Country__c == COUNTRY_BE;
+    }
+
+    private static Map<Id, Share_Class__c> getBelgiumSimulatorShareClasses(Set<Id> shareClassIds) {
+        return new Map<Id, Share_Class__c>([
+            SELECT Id, Fund__c, DividendPolicy__c, Fund__r.LegalForm__c, LaunchDate__c
+            FROM Share_Class__c
+            WHERE Id IN :shareClassIds
+        ]);
+    }
+
+    private static Boolean shouldCreateBelgiumSimulator(Share_Class__c sc) {
+        return sc != null
+            && sc.DividendPolicy__c == 'Accumulating'
+            && sc.Fund__r != null
+            && sc.Fund__r.LegalForm__c == 'FCP';
+    }
+
+    private static TaxData__c buildBelgiumSimulatorTaxData(Share_Class__c sc) {
+        TaxData__c td = new TaxData__c();
+        td.ShareClass__c = sc.Id;
+        td.Product__c = sc.Fund__c;
+        td.Country__c = COUNTRY_BE;
+        td.Type__c = TYPE_BELGIUM_SIMULATOR;
+        td.Status__c = STATUS_YES;
+        td.Source__c = SOURCE_MANUAL;
+        td.StartDate__c = sc.LaunchDate__c;
+        td.EndDate__c = null;
+
+        return td;
     }
 
     private static void collectItalianTaxActions(

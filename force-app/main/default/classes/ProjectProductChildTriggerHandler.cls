@@ -39,5 +39,7 @@ public class ProjectProductChildTriggerHandler {
         isBlankingFields = false;
 
         ProjectProductChildHandler.logPhaseValidation(newProjectProductChild, oldProjectProductChild);
+        ProjectProductChildHandler.sendTaxNotificationsKPMG(newProjectProductChild.values(), oldProjectProductChild);
+
     }
 }
