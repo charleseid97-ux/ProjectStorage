@@ -2,15 +2,33 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 
   <!-- Apex -->
-  	<types>   
-    	<members>ProjectProductChildHandler</members>
+  <types>
+        <members>CountryHandler</members>  
+        <members>CountryTriggerHandler</members>  
+        <members>ProjectProductChildHandler</members>  
+        <members>ProjectProductChildTriggerHandler</members>  
+        <members>ProjectShareclassChildHandler</members>        
+        <members>ProjectShareclassChildTriggerHandler</members>  
+        <members>TaxDataTriggerHandler</members>  
+        <members>TaxEmailService</members>  
+        <members>TaxTriggerHandler</members>  
+        <members>Test_CountryTriggerHandler</members>
+        <members>Test_ProjectShareclassTrigger</members>
+        <members>Test_TaxTriggerHandler</members>  
         <name>ApexClass</name>
       </types>
+      
+      <types>
+            <members>TaxData__c.ISIN__c</members>
+            <members>ProjectShareclass__c.TaxTransparency__c</members>
+            <members>ProjectShareclassChild__c.TaxTransparency__c</members>
+            <name>CustomField</name>
+        </types>
 
-	<types>
-        <members>ProjectShareclass__c.ShareClassNamePreModif__c</members>
-        <name>CustomField</name>
-    </types>
-	
+        <types>
+            <members>taxDataAction</members>
+            <name>LightningComponentBundle</name>
+        </types>
+  
   <version>65.0</version>
 </Package>

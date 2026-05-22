@@ -2,10 +2,16 @@
 private class Test_CountryTriggerHandler {
 
     private static final String COUNTRY_IT = 'IT';
+    private static final String COUNTRY_BE = 'BE';
+
     private static final String TYPE_TRANSPARENCY = 'Transparency';
+    private static final String TYPE_BE_SIMULATOR = 'Belgium Simulator';
+
     private static final String STATUS_YES = 'Yes';
     private static final String STATUS_NO = 'No';
+
     private static final String SOURCE_MANUAL = 'Manual';
+
     private static final String STATUS_REG = 'REG';
     private static final String STATUS_NOT_REGISTERED = 'NOTREG';
 
@@ -21,12 +27,13 @@ private class Test_CountryTriggerHandler {
             'Country Tax Fund',
             true
         );
-
+        
         Share_Class__c sc = new Share_Class__c(
             Name = 'Country Tax SC',
             Fund__c = fund.Id,
             Validity__c = true,
-            ISIN__c = 'LU1234567890'
+            ISIN__c = 'LU1234567890',
+			DividendPolicy__c = 'Accumulating'
         );
         insert sc;
 
@@ -172,5 +179,61 @@ private class Test_CountryTriggerHandler {
         ];
 
         System.assertEquals(0, countTaxData);
+    }
+
+    @IsTest
+    static void test_validateBelgiumSimulator_creation() {
+        Share_Class__c sc = createShareClass();
+        
+        Product__c fund = [SELECT Id From Product__c Limit 1];
+        fund.LegalForm__c = 'FCP';
+        update fund;
+
+        Country__c c = new Country__c(
+            ShareClass__c = sc.Id,
+            Country__c = COUNTRY_BE,
+            RegistrationStatus__c = STATUS_REG,
+            ISINCountryKey__c = 'LU1234567890_BE'
+        );
+
+        Test.startTest();
+        Database.SaveResult sr = Database.insert(c, false);
+        Test.stopTest();
+
+        List<TaxData__c> taxData = [
+            SELECT Id
+            FROM TaxData__c
+            WHERE ShareClass__c = :sc.Id
+            AND Country__c = :COUNTRY_BE
+            AND Type__c = :TYPE_BE_SIMULATOR
+        ];
+
+        System.assertEquals(1, taxData.size());
+    }
+
+    @IsTest
+    static void test_validateBelgiumSimulator_blocked() {
+        Share_Class__c sc = createShareClass();
+
+        Country__c c = new Country__c(
+            ShareClass__c = sc.Id,
+            Country__c = COUNTRY_BE,
+            RegistrationStatus__c = STATUS_REG,
+            ISINCountryKey__c = 'LU1234567890_BE'
+        );
+
+        Test.startTest();
+        Database.SaveResult sr = Database.insert(c, false);
+        Test.stopTest();
+
+        List<TaxData__c> taxData = [
+            SELECT Id
+            FROM TaxData__c
+            WHERE ShareClass__c = :sc.Id
+            AND Country__c = :COUNTRY_BE
+            AND Type__c = :TYPE_BE_SIMULATOR
+        ];
+
+        System.assertEquals(0, taxData.size());
     }
 }
