@@ -9,7 +9,7 @@
 public with sharing class CustomApprovalHistoryUtilityTest {
 
     private static final String STEP_DEV_HOC    = 'GridAmendment_HOC';
-    private static final String STEP_DEV_DCO    = 'GridAmendment_DCO';
+    private static final String STEP_DEV_DCO    = 'GridAmendment_DCO_DO';
     private static final String STEP_LABEL_HOC  = 'HOC Approval';
     private static final String STEP_LABEL_DCO  = 'DCO-DO Approval';
     private static final String TEST_USER_NAME  = 'Test User';
