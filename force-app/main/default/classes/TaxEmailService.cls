@@ -268,7 +268,7 @@ public with sharing class TaxEmailService {
                    ShareClass__c,
                    ShareClass__r.LaunchDate__c,
                    ShareClass__r.Fund__r.ProductName__c,
-                   ShareClass__r.Name
+                   ShareClass__r.Name,
 
                    Source__c,
 
