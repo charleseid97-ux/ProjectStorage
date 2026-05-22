@@ -50,7 +50,7 @@ public class Test_ProjectShareclassTrigger {
         // Ancienne valeur vide -> nouvelle valeur remplie = création TaxData + email
         Test.startTest();
 
-        shareClass.TaxTransparency__c = 'AT;BE TIS;Belgium Simulator';
+        shareClass.TaxTransparency__c = 'AT;BE TIS';
         update shareClass;
 
         List<TaxData__c> createdTaxData = [
@@ -61,7 +61,7 @@ public class Test_ProjectShareclassTrigger {
             AND Source__c = 'PMT'
         ];
 
-        System.assertEquals(3, createdTaxData.size(), '3 TaxData doivent être créés');
+        System.assertEquals(2, createdTaxData.size(), '2 TaxData doivent être créés');
 
         Set<String> keys = new Set<String>();
         for (TaxData__c td : createdTaxData) {
@@ -73,10 +73,9 @@ public class Test_ProjectShareclassTrigger {
 
         System.assert(keys.contains('AT|Transparency|Requested'));
         System.assert(keys.contains('BE|BE TIS|Requested'));
-        System.assert(keys.contains('BE|Belgium Simulator|Requested'));
 
         // Nouvelle valeur retire FR -> le TaxData FR doit passer à Canceled
-        shareClass.TaxTransparency__c = 'BE TIS;Belgium Simulator';
+        shareClass.TaxTransparency__c = 'BE TIS';
         update shareClass;
 
         TaxData__c canceledFr = [

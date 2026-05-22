@@ -20,11 +20,6 @@
                 <label>UK</label>
             </value>
             <value>
-                <fullName>IT</fullName>
-                <default>false</default>
-                <label>IT</label>
-            </value>
-            <value>
                 <fullName>AT</fullName>
                 <default>false</default>
                 <label>AT</label>
@@ -42,7 +37,14 @@
             <value>
                 <fullName>Belgium Simulator</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Belgium Simulator</label>
+            </value>
+            <value>
+                <fullName>IT</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>IT</label>
             </value>
         </valueSetDefinition>
     </valueSet>

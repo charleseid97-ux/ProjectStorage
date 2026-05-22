@@ -203,7 +203,7 @@ public class ProjectShareclassChildHandler {
         }
     
 
-    public static void validateBelgiumSimulatorOnProject(
+    /*public static void validateBelgiumSimulatorOnProject(
         Map<Id, ProjectShareclassChild__c> m_newProjectShareclassChild,
         Map<Id, ProjectShareclassChild__c> m_oldProjectShareclassChild
     ) {
@@ -267,5 +267,5 @@ public class ProjectShareclassChildHandler {
                 );
             }
         }
-    }
+    }*/
 }

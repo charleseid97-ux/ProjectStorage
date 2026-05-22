@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>ISIN__c</fullName>
     <externalId>false</externalId>
-    <formula>ShareClass__r.ISIN__c</formula>
+    <formula>IF(ShareClass__c != null, ShareClass__r.ISIN__c,  ProjectShareclass__r.ISIN__c )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>ISIN</label>
     <required>false</required>
