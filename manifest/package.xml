@@ -2,26 +2,15 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     
     <types>
-        <members>EventAttendees/ATT_Attendance_bucket_Webinar_kvF</members>
-        <members>EventAttendees/ATT_Attendance_Performance_6Nl</members>
-        <members>EventAttendees/ATT_Attendance_Performance_jmI</members>
-        <members>EventAttendees/ATT_Attendance_Performance_KPI_9xL1</members>
-        <members>EventAttendees/ATT_Attendance_Performance_Webinar_k1o</members>
-        <members>EventAttendees/ATT_Attendance_Profile_KPI_OeP</members>
-        <members>EventAttendees/ATT_Attendees_by_Job_Title_Gtf</members>
-        <members>EventAttendees/ATT_Loyalty_KPI_Loyalty_Score_CM</members>
-        <members>EventAttendees/ATT_Loyalty_KPI_Returning_clients_CM</members>
-        <members>EventAttendees/ATT_Loyalty_Score_Top_Account_CM</members>
-        <members>EventAttendees/ATT_Registration_Status</members>
-        <members>EventAttendees/ATT_Top_Attending_Companies</members>
-        <members>EventAttendees/Attendees_by_Client_Type_ivA</members>
-        <members>EventAttendees/Campaign_with_DI_and_DID_Downl_t17</members>
-        <name>Report</name>
+        <members>BooklyAttendees/CAikHIrBNCViHAkIBoxYdurqsogtaq</members>
+        <members>BooklyAttendees/McBxarknrJdvEWqqrerAeSSwcVniaP</members>
+        <name>Dashboard</name>
     </types>
- <types>
-        <members>EventAttendees</members>
-        <name>ReportFolder</name>
+    <types>
+        <members>BooklyAttendees</members>
+        <name>DashboardFolder</name>
     </types>
+ 
 
     <version>65.0</version>
 </Package>
