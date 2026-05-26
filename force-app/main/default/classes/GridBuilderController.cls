@@ -31,7 +31,7 @@ public with sharing class GridBuilderController {
         }
 
         String agreementWhere = buildAgreementWhereClause(agreementId, userPrimaryTeam, userSecondaryTeams, gridSettings?.agreementQueryConditions);
-        String agreementQuery = 'SELECT Id, ConventionName__c, Name, Team__c, Countries_of_Distribution__c, Business_Region__c, Grid__c, Grid__r.Kind__c, Grid__r.Type__c, Grid__r.EndDate__c, Grid__r.Tech_SingleRuleGridSelection__c, Grid_Request__c, Grid_Request__r.ApprovalStatus__c '+
+        String agreementQuery = 'SELECT Id, ConventionName__c, Name, Team__c, Countries_of_Distribution__c, Business_Region__c, Grid__c, Grid__r.Kind__c, Grid__r.Type__c, Grid__r.StartDate__c, Grid__r.EndDate__c, Grid__r.Tech_SingleRuleGridSelection__c, Grid_Request__c, Grid_Request__r.ApprovalStatus__c '+
                                 ' FROM Convention__c ';
         agreementQuery +=       ' WHERE ' + agreementWhere;
         agreementQuery +=       ' ORDER BY ConventionName__c ASC, Name ASC, Team__c ASC LIMIT 5000';
@@ -407,6 +407,7 @@ public with sharing class GridBuilderController {
         @AuraEnabled public Boolean hasExistingGrid { get; set; }
         @AuraEnabled public String existingGridKind { get; set; }
         @AuraEnabled public String existingGridType { get; set; }
+        @AuraEnabled public String existingGridStartDate { get; set; }
         @AuraEnabled public String existingGridEndDate { get; set; }
         @AuraEnabled public String existingGridSingleRuleSelection { get; set; }
         @AuraEnabled public Boolean hasDraftGrid { get; set; }
@@ -421,6 +422,7 @@ public with sharing class GridBuilderController {
             this.hasExistingGrid                 = existingGrid != null;
             this.existingGridKind                = existingGrid?.Kind__c;
             this.existingGridType                = existingGrid?.Type__c;
+            this.existingGridStartDate           = existingGrid?.StartDate__c != null ? String.valueOf(existingGrid.StartDate__c) : null;
             this.existingGridEndDate             = existingGrid?.EndDate__c != null ? String.valueOf(existingGrid.EndDate__c) : null;
             this.existingGridSingleRuleSelection = existingGrid?.Tech_SingleRuleGridSelection__c;
             this.hasDraftGrid                    = hasDraftGrid;

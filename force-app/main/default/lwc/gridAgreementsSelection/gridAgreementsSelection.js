@@ -97,11 +97,11 @@ export default class GridAgreementsSelection extends LightningElement {
     @api
     set initialLoadPreviousGrid(val) { this.loadPreviousGrid = val || false; }
     get initialLoadPreviousGrid()    { return this.loadPreviousGrid; }
-    _existingGridInfo = { hasExistingGrid: false, kind: null, type: null, endDate: null, singleRuleGridSelection: null };
+    _existingGridInfo = { hasExistingGrid: false, kind: null, type: null, startDate: null, endDate: null, singleRuleGridSelection: null };
 
     @api
     set existingGridInfo(val) {
-        this._existingGridInfo = val || { hasExistingGrid: false, kind: null, type: null, endDate: null, singleRuleGridSelection: null };
+        this._existingGridInfo = val || { hasExistingGrid: false, kind: null, type: null, startDate: null, endDate: null, singleRuleGridSelection: null };
         // Auto-set Kind on first load if not yet chosen
         if (this._existingGridInfo.kind && !this.agKind) {
             this.agKind = this._existingGridInfo.kind;
@@ -110,9 +110,40 @@ export default class GridAgreementsSelection extends LightningElement {
     get existingGridInfo() { return this._existingGridInfo; }
 
     get hasExistingGrid()                { return this._existingGridInfo.hasExistingGrid; }
+    get existingGridStartDate()          { return this._existingGridInfo.startDate; }
     get existingGridEndDate()            { return this._existingGridInfo.endDate; }
     get existingGridType()               { return this._existingGridInfo.type; }
     get existingGridSingleRuleSelection(){ return this._existingGridInfo.singleRuleGridSelection; }
+
+    shiftDate(dateStr, days) {
+        const [y, m, d] = dateStr.split('-').map(Number);
+        const dt = new Date(Date.UTC(y, m - 1, d + days));
+        return dt.toISOString().split('T')[0];
+    }
+
+    get minStartDate() {
+        return this.existingGridStartDate ? this.shiftDate(this.existingGridStartDate, 1) : null;
+    }
+
+    get maxStartDate() {
+        return this.existingGridEndDate ? this.shiftDate(this.existingGridEndDate, 1) : null;
+    }
+
+    get showEndDateChangeWarning() {
+        if (!this.hasExistingGrid || !this.existingGridEndDate || !this.agStartDate) return false;
+        return new Date(this.agStartDate) <= new Date(this.existingGridEndDate);
+    }
+
+    get expectedApprovedGridEndDate() {
+        return this.agStartDate ? this.shiftDate(this.agStartDate, -1) : null;
+    }
+
+    get startDateConstraintInfo() {
+        if (!this.hasExistingGrid) return null;
+        const minPart = this.minStartDate ? `Must be after ${this.existingGridStartDate}.` : '';
+        const maxPart = this.maxStartDate ? ` Cannot exceed ${this.existingGridEndDate}.` : '';
+        return minPart + maxPart;
+    }
 
     get isLoadPreviousToggleDisabled() {
         if (!this.isSingleRule) return false;
@@ -159,11 +190,6 @@ export default class GridAgreementsSelection extends LightningElement {
 
     get isThreshAboveZero()    { return this.agThreshold != null && Number.parseFloat(this.agThreshold) > 0; }
     get isAutoUpdateDisabled() { return this.agType === 'MULTI RULE'; }
-
-    get isStartDateConflict() {
-        if (!this.hasExistingGrid || !this.existingGridEndDate || !this.agStartDate) return false;
-        return new Date(this.existingGridEndDate) >= new Date(this.agStartDate);
-    }
 
     get isEndDateBeforeStartDate() {
         if (!this.agEndDate || !this.agStartDate) return false;
