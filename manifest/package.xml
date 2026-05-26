@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-    
-    <types>
-        
 
-        <members>BatchCampaignMemberKpiTest</members>
-        <members>BatchCloseCampaignLyytiTest</members>
+  <!-- Apex -->
+  <types>
+        <members>Test_TaxEmailService</members>  
+        <members>TaxUKQuarterlyEmailJob</members>  
     
-        <members>SCH_CloseLyytiCampaigns</members>
-        <members>SCH_RecalculateCampaignMemberKPI</members>
-     
         <name>ApexClass</name>
-    </types>
- 
-
-    <version>65.0</version>
+      </types>
+  
+  <version>65.0</version>
 </Package>
