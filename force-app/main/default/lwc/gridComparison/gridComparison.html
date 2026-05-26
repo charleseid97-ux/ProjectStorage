@@ -143,8 +143,8 @@
                                                 <th colspan="4" class="th-group th-section1">Rebate Rate</th>
                                                 <th class="section-gap"></th>
                                                 <th colspan="4" class="th-group th-section2">Net Margin</th>
-                                                <th class="section-gap"></th>
-                                                <th colspan="4" class="th-group th-section3">Profitability Rate</th>
+                                                <!-- <th class="section-gap"></th>
+                                                <th colspan="4" class="th-group th-section3">Profitability Rate</th> -->
                                             </tr>
                                             <!-- Column label row -->
                                             <tr>
@@ -165,11 +165,11 @@
                                                 <th class="th-sub th-section2 sortable" onclick={handleSort} data-sort="selNM">Selected<span class="sort-icon">{sortIndicators.selNM}</span></th>
                                                 <th class="th-sub th-section2 sortable" onclick={handleSort} data-sort="diffNMAmt">Diff (Amt)<span class="sort-icon">{sortIndicators.diffNMAmt}</span></th>
                                                 <th class="th-sub th-section2 sortable" onclick={handleSort} data-sort="diffNM">Diff (%)<span class="sort-icon">{sortIndicators.diffNM}</span></th>
-                                                <th class="section-gap"></th>
+                                                <!-- <th class="section-gap"></th>
                                                 <th class="th-sub th-section3 sortable" onclick={handleSort} data-sort="currPR">Current<span class="sort-icon">{sortIndicators.currPR}</span></th>
                                                 <th class="th-sub th-section3 sortable" onclick={handleSort} data-sort="selPR">Selected<span class="sort-icon">{sortIndicators.selPR}</span></th>
                                                 <th class="th-sub th-section3 sortable" onclick={handleSort} data-sort="diffPRAmt">Diff (Amt)<span class="sort-icon">{sortIndicators.diffPRAmt}</span></th>
-                                                <th class="th-sub th-section3 sortable" onclick={handleSort} data-sort="diffPR">Diff (%)<span class="sort-icon">{sortIndicators.diffPR}</span></th>
+                                                <th class="th-sub th-section3 sortable" onclick={handleSort} data-sort="diffPR">Diff (%)<span class="sort-icon">{sortIndicators.diffPR}</span></th> -->
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -192,11 +192,11 @@
                                                     <td class="td-right td-selected has-tooltip">{row.selNM}<template if:true={row.selNMAmt}><span class="cell-tooltip">{row.selNMAmt}</span></template></td>
                                                     <td class={row.diffNMAmtClass}>{row.diffNMAmt}</td>
                                                     <td class={row.diffNMClass}>{row.diffNM}</td>
-                                                    <td class="section-gap"></td>
+                                                    <!-- <td class="section-gap"></td>
                                                     <td class="td-right td-current has-tooltip">{row.currPR}<template if:true={row.currPRAmt}><span class="cell-tooltip">{row.currPRAmt}</span></template></td>
                                                     <td class="td-right td-selected has-tooltip">{row.selPR}<template if:true={row.selPRAmt}><span class="cell-tooltip">{row.selPRAmt}</span></template></td>
                                                     <td class={row.diffPRAmtClass}>{row.diffPRAmt}</td>
-                                                    <td class={row.diffPRClass}>{row.diffPR}</td>
+                                                    <td class={row.diffPRClass}>{row.diffPR}</td> -->
                                                 </tr>
                                             </template>
                                         </tbody>
