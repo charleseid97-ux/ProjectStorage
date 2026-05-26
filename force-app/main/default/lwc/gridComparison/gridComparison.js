@@ -322,7 +322,7 @@ export default class GridComparison extends LightningElement {
     get sortIndicators() {
         const cols = ['portfolio','shareClass','isin','aum','effMgtFee','currentStdGrid','selectedStdGrid',
                       'currRR','selRR','diffRRAmt','diffRR','currNM','selNM','diffNMAmt','diffNM',
-                      'currPR','selPR','diffPRAmt','diffPR'];
+                      /* 'currPR','selPR','diffPRAmt','diffPR' */];
         return Object.fromEntries(
             cols.map(c => [c, this.sortField === c ? (this.sortDir === 'asc' ? '↑' : '↓') : ''])
         );
@@ -382,17 +382,17 @@ export default class GridComparison extends LightningElement {
         const selRR   = sel  ? parsePct(sel.rebateRate)  : 0;
         const currNM  = parsePct(curr?.netMargin);
         const selNM   = parsePct(sel?.netMargin);
-        const currPR  = parsePct(curr?.profitability);
-        const selPR   = parsePct(sel?.profitability);
+        // const currPR  = parsePct(curr?.profitability);
+        // const selPR   = parsePct(sel?.profitability);
         const aumNum  = parseAum(ref.aum);
 
         const calcAmt     = pct => (pct != null && aumNum) ? pct * aumNum / 100 : null;
         const cRRAmt      = calcAmt(currRR), sRRAmt = calcAmt(selRR);
         const cNMAmt      = calcAmt(currNM), sNMAmt = calcAmt(selNM);
-        const cPRAmt      = calcAmt(currPR), sPRAmt = calcAmt(selPR);
+        // const cPRAmt      = calcAmt(currPR), sPRAmt = calcAmt(selPR);
         const diffRRAmtVal = cRRAmt != null && sRRAmt != null ? cRRAmt - sRRAmt : null;
         const diffNMAmtVal = cNMAmt != null && sNMAmt != null ? cNMAmt - sNMAmt : null;
-        const diffPRAmtVal = cPRAmt != null && sPRAmt != null ? cPRAmt - sPRAmt : null;
+        // const diffPRAmtVal = cPRAmt != null && sPRAmt != null ? cPRAmt - sPRAmt : null;
 
         return {
             key             : ref.shareClassId,
@@ -420,14 +420,14 @@ export default class GridComparison extends LightningElement {
             diffNMClass     : diffCls(currNM, selNM, false),
             diffNMAmt       : fmtDiffAmt(diffNMAmtVal),
             diffNMAmtClass  : diffCls(currNM, selNM, false),
-            currPR          : curr?.profitability ?? '',
-            currPRAmt       : fmtAmt(cPRAmt),
-            selPR           : sel?.profitability  ?? '',
-            selPRAmt        : fmtAmt(sPRAmt),
-            diffPR          : formatDiff(currPR, selPR),
-            diffPRClass     : diffCls(currPR, selPR, false),
-            diffPRAmt       : fmtDiffAmt(diffPRAmtVal),
-            diffPRAmtClass  : diffCls(currPR, selPR, false),
+            // currPR          : curr?.profitability ?? '',
+            // currPRAmt       : fmtAmt(cPRAmt),
+            // selPR           : sel?.profitability  ?? '',
+            // selPRAmt        : fmtAmt(sPRAmt),
+            // diffPR          : formatDiff(currPR, selPR),
+            // diffPRClass     : diffCls(currPR, selPR, false),
+            // diffPRAmt       : fmtDiffAmt(diffPRAmtVal),
+            // diffPRAmtClass  : diffCls(currPR, selPR, false),
             aumRaw          : aumNum,
             effMgtFeeRaw    : parsePct(ref.effMgtFee),
             currRRRaw       : currRR,
@@ -438,10 +438,10 @@ export default class GridComparison extends LightningElement {
             selNMRaw        : selNM,
             diffNMRaw       : currNM != null && selNM != null ? currNM - selNM : null,
             diffNMAmtRaw    : diffNMAmtVal,
-            currPRRaw       : currPR,
-            selPRRaw        : selPR,
-            diffPRRaw       : currPR != null && selPR != null ? currPR - selPR : null,
-            diffPRAmtRaw    : diffPRAmtVal
+            // currPRRaw       : currPR,
+            // selPRRaw        : selPR,
+            // diffPRRaw       : currPR != null && selPR != null ? currPR - selPR : null,
+            // diffPRAmtRaw    : diffPRAmtVal
         };
     }
 }
