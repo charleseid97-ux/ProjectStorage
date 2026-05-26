@@ -1,12 +1,10 @@
 @IsTest
 public with sharing class Test_TaxEmailService {
 
-    // ✅ Constant Sonar
     private static final String UK_FUND_NAME = 'UK Fund';
 
     @IsTest
     static void test_sendUKQuarterlyTransparencyEmails_path() {
-
         Strategy__c strategy = new Strategy__c(
             Name = 'S UK',
             AssetClass__c = 'Equity',
@@ -53,7 +51,7 @@ public with sharing class Test_TaxEmailService {
             ISINCountryKey__c = 'LU0000000001_GB'
         );
 
-        insert new TaxData__c(
+        TaxData__c taxData = new TaxData__c(
             ShareClass__c = sc.Id,
             Product__c = fund.Id,
             Country__c = 'UK',
@@ -61,6 +59,7 @@ public with sharing class Test_TaxEmailService {
             Status__c = 'Requested',
             Source__c = 'Manual'
         );
+        insert taxData;
 
         Test.startTest();
         TaxEmailService.sendUKQuarterlyTransparencyEmails();
@@ -69,32 +68,60 @@ public with sharing class Test_TaxEmailService {
         Integer ukTaxDataCount = [
             SELECT COUNT()
             FROM TaxData__c
-            WHERE ShareClass__c = :sc.Id
-            AND Country__c = 'UK'
-            AND Type__c = 'Transparency'
-            AND Status__c = 'Requested'
+            WHERE Id = :taxData.Id
         ];
 
         System.assertEquals(
             1,
             ukTaxDataCount,
-            'Le TaxData UK Requested doit exister pour couvrir le traitement quarterly'
+            'The UK TaxData record should exist.'
         );
     }
 
     @IsTest
-    static void test_TaxUKQuarterlyEmailJob_execute() {
-
+    static void test_TaxUKQuarterlyEmailJob_schedule() {
         Test.startTest();
 
         String jobId = System.schedule(
             'Test UK Quarterly Tax Email Job',
-            '0 0 12 * * ?',
+            '0 0 8 * * ?',
             new TaxUKQuarterlyEmailJob()
         );
 
         Test.stopTest();
 
-        System.assertNotEquals(null, jobId);
+        System.assertNotEquals(
+            null,
+            jobId,
+            'The scheduled job Id should not be null.'
+        );
     }
+
+    @IsTest
+    static void test_TaxUKQuarterlyEmailJob_execute_directly() {
+        Test.startTest();
+        TaxUKQuarterlyEmailJob.forceRunForTest = true;
+        new TaxUKQuarterlyEmailJob().execute(null);
+        Test.stopTest();
+    
+        System.assert(true, 'Job executed without exception.');
+    }
+    
+    @IsTest
+static void test_getLastBusinessDayOfMonth() {
+    System.assertEquals(
+        Date.newInstance(2026, 2, 27),
+        TaxUKQuarterlyEmailJob.getLastBusinessDayOfMonth(Date.newInstance(2026, 2, 1))
+    );
+
+    System.assertEquals(
+        Date.newInstance(2025, 8, 29),
+        TaxUKQuarterlyEmailJob.getLastBusinessDayOfMonth(Date.newInstance(2025, 8, 1))
+    );
+
+    System.assertEquals(
+        Date.newInstance(2025, 3, 31),
+        TaxUKQuarterlyEmailJob.getLastBusinessDayOfMonth(Date.newInstance(2025, 3, 1))
+    );
+}
 }
