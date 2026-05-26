@@ -197,14 +197,15 @@ export default class GridAgreementsSelection extends LightningElement {
     }
 
     get isNextDisabled() {
-        const hasAgreements     = (this.selectedValues || []).length > 0;
-        const hasDate           = this.agStartDate != null;
-        const hasTeam           = !this.showTeamPicker || !!this.selectedTeam;
-        const hasMeta           = !!this.agKind && !!this.agType;
+        const hasAgreements         = (this.selectedValues || []).length > 0;
+        const hasDate               = this.agStartDate != null;
+        const hasTeam               = !this.showTeamPicker || !!this.selectedTeam;
+        const hasMeta               = !!this.agKind && !!this.agType;
         const hasThreshCcy          = !this.isThreshAboveZero || !!this.agThreshCcy;
         const hasSingleRuleGrid     = !this.isSingleRule || !!this.selectedSingleRuleGrid;
         const hasBusinessBackground = !this.agNextReviewDate || !!this.agBusinessBackground;
-        return !(hasAgreements && hasDate && hasTeam && hasMeta && hasThreshCcy && hasSingleRuleGrid && hasBusinessBackground) || this.isEndDateBeforeStartDate;
+        const isStartDateOutOfRange = (this.minStartDate && this.agStartDate < this.minStartDate) || (this.maxStartDate && this.agStartDate > this.maxStartDate);
+        return !(hasAgreements && hasDate && hasTeam && hasMeta && hasThreshCcy && hasSingleRuleGrid && hasBusinessBackground) || this.isEndDateBeforeStartDate || isStartDateOutOfRange;
     }
 
     get showLoadPreviousToggle()    { return !this.hasDraftGrid && this.hasExistingGrid; }
