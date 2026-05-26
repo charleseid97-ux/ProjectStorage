@@ -264,6 +264,7 @@ export default class CustomGridBuilder extends NavigationMixin(LightningElement)
                     hasExistingGrid:        agreementSettings.hasExistingGrid             || false,
                     kind:                   agreementSettings.existingGridKind             || null,
                     type:                   agreementSettings.existingGridType             || null,
+                    startDate:              agreementSettings.existingGridStartDate         || null,
                     endDate:                agreementSettings.existingGridEndDate           || null,
                     singleRuleGridSelection: agreementSettings.existingGridSingleRuleSelection || null
                 };
