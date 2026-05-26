@@ -90,6 +90,21 @@ private class BatchCloseCampaignLyytiTest {
     }
 
     @IsTest
+    static void testScheduler() {
+        Test.startTest();
+
+        String jobId = System.schedule(
+            'Test Close Lyyti Campaigns Scheduler',
+            '0 0 1 * * ?',
+            new SCH_CloseLyytiCampaigns()
+        );
+
+        Test.stopTest();
+
+        System.assertNotEquals(null, jobId);
+    }
+
+    @IsTest
     static void testBatchChain() {
         Test.startTest();
         Database.executeBatch(new BATCH_FindCampaignsToCloseLyyti(), 50);

@@ -2,13 +2,15 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     
     <types>
-        <members>BooklyAttendees/CAikHIrBNCViHAkIBoxYdurqsogtaq</members>
-        <members>BooklyAttendees/McBxarknrJdvEWqqrerAeSSwcVniaP</members>
-        <name>Dashboard</name>
-    </types>
-    <types>
-        <members>BooklyAttendees</members>
-        <name>DashboardFolder</name>
+        
+
+        <members>BatchCampaignMemberKpiTest</members>
+        <members>BatchCloseCampaignLyytiTest</members>
+    
+        <members>SCH_CloseLyytiCampaigns</members>
+        <members>SCH_RecalculateCampaignMemberKPI</members>
+     
+        <name>ApexClass</name>
     </types>
  
 
