@@ -119,7 +119,17 @@
     position: relative;
     display: inline-flex;
     align-items: center;
-    cursor: default;
+    cursor: pointer;
+}
+
+.date-info-icon {
+    border-radius: 50%;
+    padding: 2px;
+    transition: background-color 0.15s;
+}
+
+.date-info-wrapper:hover .date-info-icon {
+    background-color: rgba(3, 45, 96, 0.12);
 }
 
 .date-info-popup {
