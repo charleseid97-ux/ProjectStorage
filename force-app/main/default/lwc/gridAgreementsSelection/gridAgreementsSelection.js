@@ -140,9 +140,9 @@ export default class GridAgreementsSelection extends LightningElement {
 
     get startDateConstraintInfo() {
         if (!this.hasExistingGrid) return null;
-        const minPart = this.minStartDate ? `Earliest allowed date: ${this.minStartDate} (must start after the last approved grid's start date)` : '';
-        const maxPart = this.maxStartDate ? `Latest allowed date: ${this.maxStartDate} (cannot exceed the last approved grid's end date)` : '';
-        return [minPart, maxPart].filter(Boolean).join('\n');
+        const minPart = this.minStartDate ? `Earliest allowed: ${this.minStartDate}\nMust start after the last approved grid's start date` : '';
+        const maxPart = this.maxStartDate ? `Latest allowed: ${this.maxStartDate}\nCannot exceed the last approved grid's end date` : '';
+        return [minPart, maxPart].filter(Boolean).join('\n\n');
     }
 
     get isLoadPreviousToggleDisabled() {

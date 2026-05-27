@@ -107,7 +107,12 @@
                         <div class="date-label-row">
                             <span class="slds-form-element__label">{labels.Grid_StartDate}</span>
                             <template if:true={startDateConstraintInfo}>
-                                <lightning-helptext content={startDateConstraintInfo}></lightning-helptext>
+                                <div class="date-info-wrapper">
+                                    <lightning-icon icon-name="utility:info" size="xx-small" class="date-info-icon"></lightning-icon>
+                                    <div class="date-info-popup" role="tooltip">
+                                        <p class="date-info-content">{startDateConstraintInfo}</p>
+                                    </div>
+                                </div>
                             </template>
                         </div>
                         <lightning-input type="date"

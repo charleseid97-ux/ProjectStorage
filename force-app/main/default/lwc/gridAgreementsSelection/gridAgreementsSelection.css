@@ -114,6 +114,40 @@
     flex-direction: column;
 }
 
+/* ── Start date constraint info popup ── */
+.date-info-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    cursor: default;
+}
+
+.date-info-popup {
+    display: none;
+    position: absolute;
+    z-index: 200;
+    bottom: calc(100% + 6px);
+    left: 0;
+    min-width: 240px;
+    max-width: 340px;
+    background: white;
+    border: 1px solid #dddbda;
+    border-radius: 0.25rem;
+    padding: 8px 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.date-info-wrapper:hover .date-info-popup {
+    display: block;
+}
+
+.date-info-content {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #3e3e3c;
+    white-space: pre-line;
+}
+
 /* ── Additional fields (Other Fees / Comment) separator ── */
 .additional-fields {
     display: flex;
