@@ -258,5 +258,28 @@ public with sharing class GridUtility {
         agr.Grid_Request_Start_Date__c   = null;
         agr.Amendment_Approval_Status__c = '';
         agr.Grid_Request_Approved__c     = false;
-    }   
+    }
+
+    // ── When a Custom Grid's EndDate__c changes, mirror it onto all active custom grid details (non-historical ones) ──
+    public static void syncGridEndDateToDetails(List<Grid__c> newGrids, Map<Id, Grid__c> oldGrids) {
+        Id customGridRtId = Schema.SObjectType.Grid__c.getRecordTypeInfosByDeveloperName().get(GridBuilderHelper.RT_CUSTOM_GRID).getRecordTypeId();
+
+        Map<Id, Date> gridEndDateById = new Map<Id, Date>();
+        for (Grid__c g : newGrids) {
+            if (g.RecordTypeId != customGridRtId) continue;
+            if (g.EndDate__c == oldGrids.get(g.Id).EndDate__c) continue;
+            gridEndDateById.put(g.Id, g.EndDate__c);
+        }
+        if (gridEndDateById.isEmpty()) return;
+
+        List<GridDetail__c> toUpdate = new List<GridDetail__c>();
+        for (GridDetail__c gd : [SELECT Id, Grid__c
+                                  FROM GridDetail__c
+                                  WHERE Grid__c IN :gridEndDateById.keySet()
+                                    AND RecordType.DeveloperName = :GridBuilderHelper.RT_CUSTOM_GRID_DETAIL
+                                    AND StandardGridDetail__r.TECH_EffMgtFeesAuditHistory__c = null]) {
+            toUpdate.add(new GridDetail__c(Id = gd.Id, EndDate__c = gridEndDateById.get(gd.Grid__c)));
+        }
+        if (!toUpdate.isEmpty()) update toUpdate;
+    }
 }

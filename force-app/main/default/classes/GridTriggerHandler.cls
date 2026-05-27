@@ -33,6 +33,7 @@ public with sharing class GridTriggerHandler implements ITriggerHandler {
         if (PAD.canTrigger('GridApprovalTransitions')) {
             syncGridApprovalStatusToAgreement((List<Grid__c>) newItems.values(), (Map<Id, Grid__c>) oldItems);
         }
+        GridUtility.syncGridEndDateToDetails((List<Grid__c>) newItems.values(), (Map<Id, Grid__c>) oldItems);
     }
 
     public void AfterDelete(Map<Id, SObject> oldItems) { }
